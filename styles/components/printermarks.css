@@ -1,0 +1,78 @@
+/** PRINT MARKS **/
+.printmark-bleed {
+  @apply border border-neutral-dark border-dashed;
+}
+
+.printmark-trim-horiz,
+.printmark-trim-vert {
+  @apply bg-neutral-dark;
+}
+.printmark-trim-horiz {
+  @apply w-4 h-0.5;
+}
+.printmark-trim-vert {
+  @apply w-0.5 h-4;
+}
+.printmark-registration {
+  @apply mx-auto pointer-events-none size-6 bg-neutral-dark gap-[.05rem] grid grid-cols-2 mix-blend-multiply;
+}
+
+.printmark-registration li {
+  @apply bg-neutral-light;
+}
+.printmark-margins {
+  @apply outline outline-accent -outline-offset-[4px];
+}
+.printmark-registration-bar {
+  @apply absolute w-full flex flex-row items-center bg-inherit -mt-6 p-1 px-2;
+}
+.printmark-colors,
+.printmark-neutrals {
+  @apply flex flex-row items-center h-full w-36;
+}
+.printmark-colors li,
+.printmark-neutrals li {
+  @apply flex-1 h-4;
+}
+
+ul.printmark-colors {
+  @apply justify-self-start;
+}
+ul.printmark-neutrals {
+  @apply justify-self-end;
+}
+
+/** REGISTRATION MARK CIRCLE **/
+.printmark-registration li:last-child {
+  @apply bg-white rounded-full size-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mix-blend-difference;
+}
+
+/** REGISTRATION COLOR GRADIENTS **/
+.printmark-colors li:nth-child(1) {
+  @apply bg-primary;
+}
+.printmark-colors li:nth-child(2) {
+  @apply bg-semantic-alert;
+}
+.printmark-colors li:nth-child(3) {
+  @apply bg-accent-light;
+}
+.printmark-colors li:nth-child(4) {
+  @apply bg-neutral;
+}
+
+.printmark-neutrals li:nth-child(1) {
+  @apply bg-neutral;
+}
+.printmark-neutrals li:nth-child(2) {
+  @apply bg-neutral brightness-125 opacity-85;
+}
+.printmark-neutrals li:nth-child(3) {
+  @apply bg-neutral brightness-150 opacity-50;
+}
+.printmark-neutrals li:nth-child(4) {
+  @apply bg-neutral brightness-200 opacity-25;
+}
+.faded {
+  @apply opacity-0;
+}

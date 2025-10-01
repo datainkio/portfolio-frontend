@@ -1,0 +1,15 @@
+/** @format */
+/**
+ * @fileoverview Font family declarations generated from Figma data and formatted for Tailwind CSS. See figma/views/tailwind/FontFamilyFile.js
+ * @source dataink.io
+ * @version 2184308586489902272
+ * @figma
+ *   File ID: undefined
+ *   Last Modified: 2/12/2025, 1:40:00 PM
+ * @generated 2/12/2025, 10:26:13 PM
+ */
+@theme {
+  --font-sans: Poppins, sans-serif;
+  --font-serif: Cormorant Garamond, serif;
+  --font-display: Alexandria, display;
+}

@@ -1,0 +1,83 @@
+---
+layout: templates/documentation.njk
+title: Typography
+permalink: about/design/typography/index.html
+navKey: Design
+eleventyNavigation:
+    key: Typography
+    parent: Design
+articleClasses: "grid grid-cols-6"
+sectionClasses: "col-span-5 col-start-2"
+---
+<nav class="sticky top-20">
+    <h2 class="sr-only">Table of Contents</h2>
+    <ul>
+        <li><a href="#font-families">Font Families</a></li>
+        <li><a href="#body-text">Body Text</a></li>
+        <li><a href="#headings">Headings</a></li>
+        <li><a href="#text-sizes">Text Sizes</a></li>
+        <li><a href="#leading">Leading</a></li>
+        <li><a href="#text-format">Text Format</a></li>
+    </ul>
+</nav>
+<section id="font-families" class="{{ sectionClasses }}">
+    <h2>Font Families</h2>
+    <!-- Display numeric values in initial column -->
+    <ul class="flex">
+        <li class="text-right pr-8 w-fit">
+            <h3 class="leading-normal text-sm">values</h3>
+            <ul class="my-4">
+            {% for key, value in styles.fontWeight %}
+                <li>{{ value }}</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% for key, value in styles.fontFamily %}
+        <li class="flex-1">
+            <h3 class="leading-normal text-sm">font-{{ key }}</h3>
+            <ul class="font-{{ key }} my-4">
+            {% for k, v in styles.fontWeight %}
+                <li class="font-{{ k }}">font-{{ k }}</li>
+            {% endfor %}
+            </ul>
+            <p class="text-xs font-sans border-t-2">{{ value | getByIndex(0) }}</p>  
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+<section id="body-text" class="{{ sectionClasses }}">
+    <h2>Body Text</h2>
+    {% loremPars 3 %}
+</section>
+<section id="headings" class="{{ sectionClasses }}">
+<h2>Headings</h2>
+{% set headings = [1,2,3,4] %}
+{% for level in headings %}
+{% set text = "Heading " +  level %}
+{% include "atoms/heading.njk" %}
+{% endfor %}
+</section>
+<section id="text-sizes" class="{{ sectionClasses }}">
+    <h2>Text Sizes</h2>
+<ul>
+{% for key, value in styles.fontSize %}
+  <li class="text-{{ key }}">text-{{ key }} {{ value }}</li>
+{% endfor %}
+</ul>
+</section>
+<section id="leading" class="{{ sectionClasses }}">
+    <h2>Leading</h2>
+<ul>
+{% for key, value in styles.lineHeight %}
+    <li>
+        <h3>leading-{{ key }} ({{ value }})</h3>
+        {% loremPars 1, "text-slate-500 leading-" + key %}
+    </li>
+
+{% endfor %}
+</ul>
+</section>
+<section id="text-format" class="{{ sectionClasses }}">
+    <h2>Text Format</h2>
+    {% include "atoms/textformat.njk" %}
+</section>

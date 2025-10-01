@@ -1,0 +1,239 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','');</script><title>Convert Text to Vector</title><meta name="author" content="Site Author"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/assets/styles.css"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#000000"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a"><meta name="application-name" content="data:ink:io"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="data:ink:io"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-192.png"><script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script><script src="/assets/js/gsap/gsap.min.js"></script><script src="/assets/js/gsap/SplitText.min.js"></script><script src="/assets/js/gsap/MorphSVGPlugin.min.js"></script></head><body class="grid grid-cols-12"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><header class="col-span-full fixed top-0 z-50 transition-transform duration-300 text-neutral-dark flex flex-row items-center w-full py-4 px-8" id="siteHeader"><div class="flex-1"><a class="btn btn-ghost text-xl style-log-screensize text-neutral-100" href="/">data:ink:io</a></div><nav class="justify-end"><ul class="flex flex-row gap-2"><li><a href="" class="text-sm font-light text-neutral-100">Work</a></li><li><a href="" class="text-sm font-light text-neutral-100">Lab</a></li><li><a href="" class="text-sm font-light text-neutral-100">Teaching</a></li><li><a href="" class="text-sm font-light text-neutral-100">Now</a></li><li><a href="" class="text-sm font-light text-neutral-100">Contact</a></li></ul></nav></header><script>let lastScrollY = window.scrollY;
+  const header = document.getElementById('siteHeader');
+  // Initially hide header header.style.transform = 'translateY(-100%)';
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    // Scrolling down
+    if (currentScrollY > lastScrollY) {
+      header.style.transform = 'translateY(-100%)';
+    } else {
+      header.style.transform = 'translateY(0)';
+    };
+    lastScrollY = currentScrollY;
+  });</script><main class="col-span-full"><nav class="breadcrumbs text-sm"><ul><li><a href="/lab/" class="font-semibold">Lab</a></li></ul></nav><article class=""><h1 class="col-span-full">Convert Text to Vector</h1><div class="mb-6 space-x-4 flex flex-col items-center"><div class="space-x-4"><button id="morphButton" class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-hidden">Morph to Next Font</button> <button id="resetButton" class="px-6 py-3 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-hidden">Reset Morph</button></div></div><div id="currentFont" class="mb-6 text-xl font-semibold text-gray-700">Current Font: Big Shoulders Display</div><svg id="textSVG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" class="w-full max-w-3xl h-auto" role="img" aria-label="Animated Text: ink"></svg><script>// Register MorphSVGPlugin
+    gsap.registerPlugin(MorphSVGPlugin);
+    // Define the array of fonts with kerning values
+    const FONTS = [
+        {
+            name: 'Big Shoulders Display',
+            url: '/assets/fonts/Big_Shoulders_Display/static/BigShouldersDisplay-Regular.ttf',
+            kerning: .85
+        }, {
+            name: 'Twinkle Star',
+            url: '/assets/fonts/Twinkle_Star/TwinkleStar-Regular.ttf',
+            kerning: 1
+        }, {
+            name: 'Playwrite',
+            url: '/assets/fonts/Playwrite_AU_SA/static/PlaywriteAUSA-Regular.ttf',
+            kerning: .9
+        },
+        // Add more fonts as desired
+    ];
+    const text = 'ink';
+    const fontSize = 150; // Adjust as needed
+    const svg = document.getElementById('textSVG');
+    const DURATION = .25;
+    const EASE = "back.out(1.7)";
+    const morphButton = document.getElementById('morphButton');
+    const resetButton = document.getElementById('resetButton');
+    const currentFontDisplay = document.getElementById('currentFont');
+    // Store path data for all fonts
+    const fontPaths = []; // Array of arrays: fontPaths[fontIndex][charIndex] = pathData Current font index
+    let currentFontIndex = 0;
+    // Load all fonts and initialize
+    Promise
+        .all(FONTS.map(font => loadFont(font.url)))
+        .then(loadedFonts => {
+            // loadedFonts is an array of font objects in the order of the FONTS array Generate path data for each font with proper
+            // kerning
+            generateAllFontPaths(loadedFonts);
+            // Create initial SVG paths using the first font
+            createInitialSVGPaths();
+            // Animate initial load
+            animateInitialLoad();
+            // Update current font display
+            updateCurrentFontDisplay();
+            // Setup morph button
+            setupMorphButton();
+            // Setup reset button
+            setupResetButton();
+        })
+        .catch(err => {
+            console.error('Error loading fonts:', err);
+        });
+    /**
+     * Load a font using opentype.js and return a Promise.
+     * @param {string} url - URL to the font file.
+     * @returns {Promise<Object>} - Promise resolving to the font object.
+     */
+    function loadFont(url) {
+        return new Promise((resolve, reject) => {
+            opentype.load(url, function (err, font) {
+                if (err) {
+                    reject(`Failed to load font from ${url}: ${err}`);
+                } else {
+                    resolve(font);
+                }
+            });
+        });
+    }
+    /**
+     * Generate SVG path data for all fonts and all characters with proper kerning.
+     * @param {Array} loadedFonts - Array of loaded font objects.
+     */
+    function generateAllFontPaths(loadedFonts) {
+        // Initialize fontPaths array
+        for (let i = 0; i < loadedFonts.length; i++) {
+            fontPaths[i] = [];
+        }
+        // Iterate through each font to generate path data
+        loadedFonts.forEach((font, fontIndex) => {
+            let x = 0; // Starting x position
+            const y = 200; // Baseline position
+            let previousGlyph = null;
+            for (let charIndex = 0; charIndex < text.length; charIndex++) {
+                const char = text[charIndex];
+                const glyph = font.charToGlyph(char);
+                if (! glyph) {
+                    fontPaths[fontIndex][charIndex] = null;
+                    continue;
+                }
+                // Apply kerning if not the first character
+                if (previousGlyph) {
+                    /*
+                    * If a font does not have kerning data, it will return 0
+                    * let kerning = font.getKerningValue(previousGlyph, glyph);
+                    * kerning *= FONTS[fontIndex].kerning; // Apply font-specific kerning modifier
+                    * console.log(FONTS[fontIndex].kerning, kerning);
+                    * x += kerning * (fontSize / font.unitsPerEm);
+                    */
+                }
+                // Get path data with current x, y, and fontSize
+                const pathData = glyph.getPath(x, y, fontSize).toPathData(5);
+                fontPaths[fontIndex][charIndex] = pathData;
+                console.log(glyph.advanceWidth * (fontSize / font.unitsPerEm));
+                // Advance x position based on glyph's advance width
+                x += glyph.advanceWidth * (fontSize / font.unitsPerEm) * FONTS[fontIndex].kerning;
+                // Update previousGlyph
+                previousGlyph = glyph;
+            }
+        });
+    }
+    /**
+     * Create initial SVG paths using the first font in the array.
+     */
+    function createInitialSVGPaths() {
+        const initialFontPaths = fontPaths[0];
+        let x = 50;
+        const y = 200; // Baseline position
+        for (let charIndex = 0; charIndex < text.length; charIndex++) {
+            const pathData = initialFontPaths[charIndex];
+            if (! pathData) 
+                continue;
+            
+            // Create SVG path element
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('fill', '#000000');
+            path.setAttribute('data-char-index', charIndex);
+            path.classList.add('cursor-pointer');
+            // Store original path data
+            path.setAttribute('data-original', pathData);
+            // Append to SVG
+            svg.appendChild(path);
+        }
+    }
+    /**
+     * Animate SVG paths on initial load.
+     */
+    function animateInitialLoad() {
+        const paths = document.querySelectorAll('#textSVG path');
+        gsap.from(paths, {
+            duration: DURATION,
+            opacity: 0,
+            scale: 0.5,
+            transformOrigin: "center center",
+            stagger: 0.05,
+            ease: EASE
+        });
+    }
+    /**
+     * Update the current font display.
+     */
+    function updateCurrentFontDisplay() {
+        currentFontDisplay.textContent = `Current Font: ${
+            FONTS[currentFontIndex].name
+        }`;
+    }
+    /**
+     * Setup the morph button to morph to the next font.
+     */
+    function setupMorphButton() {
+        const paths = document.querySelectorAll('#textSVG path');
+        morphButton.addEventListener('click', () => { // Determine next font index
+            const nextFontIndex = (currentFontIndex + 1) % FONTS.length;
+            // Get target font paths
+            const targetFontPaths = fontPaths[nextFontIndex];
+            // Morph each path to the target font's path
+            paths.forEach((path, charIndex) => {
+                const targetPath = targetFontPaths[charIndex];
+                if (! targetPath) 
+                    return;
+                
+                gsap.to(path, {
+                    duration: DURATION,
+                    morphSVG: targetPath,
+                    fill: '#ef4444', // Tailwind's red-500
+                    ease: EASE,
+                    onStart: () => { // Store current path data if not already stored
+                        if (!path.getAttribute('data-original')) {
+                            path.setAttribute('data-original', path.getAttribute('d'));
+                        }
+                    },
+                    onComplete: () => { // Update data-original to the new path for future morphs
+                        path.setAttribute('data-original', targetPath);
+                    }
+                });
+            });
+            // Update current font index
+            currentFontIndex = nextFontIndex;
+            updateCurrentFontDisplay();
+        });
+    }
+    /**
+     * Setup the reset button to morph back to the original font.
+     */
+    function setupResetButton() {
+        const paths = document.querySelectorAll('#textSVG path');
+        resetButton.addEventListener('click', () => { // Reset to the first font (index 0)
+            const targetFontIndex = 0;
+            const targetFontPaths = fontPaths[targetFontIndex];
+            paths.forEach((path, charIndex) => {
+                const targetPath = targetFontPaths[charIndex];
+                if (! targetPath) 
+                    return;
+                
+                gsap.to(path, {
+                    duration: 2,
+                    morphSVG: targetPath,
+                    fill: '#000000', // Original color
+                    ease: "power2.inOut",
+                    onStart: () => { // Store current path data if not already stored
+                        if (!path.getAttribute('data-original')) {
+                            path.setAttribute('data-original', path.getAttribute('d'));
+                        }
+                    },
+                    onComplete: () => { // Update data-original to the reset path
+                        path.setAttribute('data-original', targetPath);
+                    }
+                });
+            });
+            // Update current font index
+            currentFontIndex = targetFontIndex;
+            updateCurrentFontDisplay();
+        });
+    }</script></article></main></body></html>

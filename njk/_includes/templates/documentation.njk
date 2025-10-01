@@ -1,0 +1,15 @@
+---
+layout: templates/base.njk
+bodyClasses: "pt-20"
+mainClasses: "px-8"
+headerClasses: "text-neutral-dark"
+articleClasses: ""
+---
+
+<nav class="breadcrumbs text-sm">
+  {% include "molecules/input/breadcrumbs.njk" %}
+</nav>
+<article class="{{ articleClasses }}">
+  <h1 class="col-span-full">{{ title }}</h1>
+  {{ content | safe }}
+</article>

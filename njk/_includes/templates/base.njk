@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% block head %}
+    {% include "organisms/head.njk" %}
+  {% endblock %}
+  <body class="grid grid-cols-12 {{ bodyStyles }}">
+    {% include "atoms/gtm-noscript.njk" %}
+    {% include "organisms/header.njk" %}
+    <main class="col-span-full {{ mainStyles }}">
+      {% block content %}
+        {% if content %}
+          {{ content | safe }}
+        {% else %}
+          {% loremPars 3 %}
+        {% endif %}
+      {% endblock %}
+    </main>
+    {% include "organisms/footer.njk" %}
+  </body>
+</html>

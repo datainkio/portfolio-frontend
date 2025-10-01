@@ -1,0 +1,21 @@
+{% set image = collections.images | findRecord(project.thumbnail) %}
+{% if loop.index == 1 %}
+    {% set style = "relative w-full aspect-video overflow-hidden" %}
+{% else %}
+    {% set style = "relative w-full sm:aspect-video overflow-hidden" %}
+{% endif %}
+<div class="project-teaser relative flex flex-col items-start" {% if modal %} onclick="modal_{{ project.id }}.showModal()" {% endif %}>
+    {% picture image[0].file.html, style, "absolute inset-0 object-cover" %}
+    <ul class="flex flex-row gap-2 uppercase text-xs">
+        {% for role in collections.roles | findRecord(project.roles) %}
+            <li>{{ role.title }}</li>
+        {% endfor %}
+    </ul>
+    <h4 class="text-2xl">{{ project.title }}</h4>
+    <p>{{ project.teaser }}</p>
+    {% if modal %}
+        {% include "organisms/modal/project.njk" %}
+    {% else %}
+        <a href="{{ project.url }}" class="btn">View project</a>
+    {% endif %}
+</div>

@@ -1,0 +1,7 @@
+{% set level = level | default(1) %} {# Ensure level has a default value of 1 #}
+{% if level >= 1 and level <= 6 %}
+  <h{{ level }} class="{{ class | default('') }}">{{ text | default('') }}</h{{ level }}>
+{% else %}
+  {# Fallback for invalid levels #}
+  <p class="{{ class | default('') }}">{{ text | default('Invalid heading level') }}</p>
+{% endif %}

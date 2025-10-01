@@ -1,0 +1,15 @@
+---
+layout: templates/documentation.njk
+title: Components
+navKey: Design
+eleventyNavigation:
+    key: Components
+    parent: Design
+---
+{% set sectionStyles = "mb-12" %}
+<section class="sm:grid grid-cols-2">
+    {# {% set project = collections.projects | findRecord("recI8oXFCYJ8QJGaU") %} #}
+    {% for project in collections.projects %}
+    {% include "molecules/card/project.njk" %}
+    {% endfor %}
+</section>

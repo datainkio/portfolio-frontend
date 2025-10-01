@@ -1,0 +1,27 @@
+{# The first visual element on the page. Holds the primary nav. #}
+<header
+  class="col-span-full fixed top-0 z-50 transition-transform duration-300 {{ headerClasses }} flex flex-row items-center
+    w-full py-4 px-8"
+  id="siteHeader">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl style-log-screensize text-neutral-100" href="/">{{ site.siteName }}</a>
+  </div>
+  <nav class="justify-end">
+    {% include "organisms/primary-nav.njk" %}
+  </nav>
+</header>
+<script>
+  let lastScrollY = window.scrollY;
+  const header = document.getElementById('siteHeader');
+  // Initially hide header header.style.transform = 'translateY(-100%)';
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    // Scrolling down
+    if (currentScrollY > lastScrollY) {
+      header.style.transform = 'translateY(-100%)';
+    } else {
+      header.style.transform = 'translateY(0)';
+    };
+    lastScrollY = currentScrollY;
+  });
+</script>

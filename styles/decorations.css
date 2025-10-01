@@ -1,0 +1,22 @@
+@import "./backgrounds/Graphpapers.css";
+@import "./backgrounds/PrintMarks.css";
+@import "./backgrounds/Geometric.css";
+@import "./backgrounds/Overlays.css";
+@import "./backgrounds/Gel.css";
+@import "./backgrounds/Media.css";
+
+@tailwind utilities;
+
+/* Custom Background Gradients */
+@layer components {
+  .bg-modal {
+    color: var(--color-primary-light);
+    background-image: linear-gradient(
+      to top,
+      var(--color-primary-dark),
+      var(--color-primary)
+    );
+    padding: 0;
+    min-height: 100vh;
+  }
+}

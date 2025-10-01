@@ -1,0 +1,18 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <article class="prose lg:prose-xl">
+    <h1>{{ title }}</h1>
+    <p class="text-sm text-gray-500">Published on {{ date | date("MMMM DD, YYYY") }}</p>
+    {{ content | safe }}
+  </article>
+
+  <nav class="mt-8 flex justify-between">
+    {% if previousPost %}
+      <a href="{{ previousPost.url }}" class="text-blue-500 hover:underline">← {{ previousPost.title }}</a>
+    {% endif %}
+    {% if nextPost %}
+      <a href="{{ nextPost.url }}" class="text-blue-500 hover:underline">{{ nextPost.title }} →</a>
+    {% endif %}
+  </nav>
+{% endblock %}

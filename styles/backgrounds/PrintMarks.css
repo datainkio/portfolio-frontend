@@ -1,0 +1,84 @@
+/* Custom Print Marks Components */
+@layer components {
+  .printmarks {
+    @apply absolute inset-2;
+  }
+
+  .printmark-bleed {
+    border-width: 1px;
+    border-style: dashed;
+    border-color: var(
+      --color-neutral-dark,
+      #333333
+    ); /* Replace with your theme value */
+  }
+
+  .printmark-trim-horiz {
+    background-color: var(--color-neutral-800);
+    width: 1rem; /* Corresponds to theme('width.4') assuming 1rem */
+    height: 0.125rem;
+  }
+
+  .printmark-trim-vert {
+    background-color: var(--color-neutral-800);
+    width: 0.125rem;
+    height: 1rem;
+  }
+
+  .printmark-margins {
+    outline: 1px solid var(--color-accent-400);
+    outline-offset: -4px;
+  }
+
+  .printmark-registration-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 1rem; /* Corresponds to theme('spacing.4') if 1rem = 4 x 0.25rem */
+  }
+
+  .printmark-colors,
+  .printmark-neutrals {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 25%;
+  }
+
+  .printmark-colors li,
+  .printmark-neutrals li {
+    flex: 1;
+    height: 1rem; /* Corresponds to theme('spacing.4') if 1rem = 4 x 0.25rem */
+  }
+
+  .printmark-colors {
+    justify-self: end;
+  }
+
+  .printmark-colors li:nth-child(1) {
+    background-color: var(--color-primary-600);
+  }
+  .printmark-colors li:nth-child(2) {
+    background-color: var(--color-secondary-600);
+  }
+  .printmark-colors li:nth-child(3) {
+    background-color: var(--color-tertiary-500);
+  }
+  .printmark-colors li:nth-child(4) {
+    background-color: var(--color-accent-500);
+  }
+
+  .printmark-neutrals li:nth-child(1) {
+    background-color: var(--color-neutral-800);
+  }
+  .printmark-neutrals li:nth-child(2) {
+    background-color: var(--color-neutral-600);
+  }
+  .printmark-neutrals li:nth-child(3) {
+    background-color: var(--color-neutral-400);
+  }
+  .printmark-neutrals li:nth-child(4) {
+    background-color: var(--color-neutral-200);
+  }
+}

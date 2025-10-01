@@ -1,0 +1,117 @@
+{
+  "siteName": "data:ink:io",
+  "author": "Russ Lebo",
+  "gtmID": "GTM-M2CDZDD7",
+  "manifest": {
+    "name": "data:ink:io",
+    "short_name": "data:ink:io",
+    "description": "The online studio for Russ Lebo",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "theme_color_dark": "#1a1a1a",
+    "orientation": "any",
+    "scope": "/",
+    "categories": ["design", "portfolio"],
+    "lang": "en-US",
+    "icons": [
+      {
+        "src": "/assets/icons/icon-192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/assets/icons/icon-192.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ]
+  },
+  "directories": {
+    "nav": "/njk/_pages/"
+  },
+  "featured_projects": {
+    "change": "recQwgxKY1HRlsr8t,recfApOYjAqr88Obf,recwSAfw4ojdC2QBK",
+    "museums": "recQwgxKY1HRlsr8t,recfApOYjAqr88Obf,recwSAfw4ojdC2QBK"
+  },
+  "airtables": [
+    {
+      "tableName": "IA",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Activities",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Organizations",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Awards",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Projects",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Feed",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Galleries",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Insights",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Nuggets",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Outcomes",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Playbook",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Roles",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Social",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Images",
+      "tableView": "Published",
+      "cache": "4w"
+    },
+    {
+      "tableName": "Videos",
+      "tableView": "Published",
+      "cache": "4w"
+    }
+  ]
+}

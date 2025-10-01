@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','');</script><title>Blockframes</title><meta name="author" content="Site Author"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/assets/styles.css"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#000000"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a"><meta name="application-name" content="data:ink:io"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="data:ink:io"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-192.png"><script src="/assets/js/gsap/gsap.js"></script></head><body class="grid grid-cols-12"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><header class="col-span-full fixed top-0 z-50 transition-transform duration-300 text-neutral-dark flex flex-row items-center w-full py-4 px-8" id="siteHeader"><div class="flex-1"><a class="btn btn-ghost text-xl style-log-screensize text-neutral-100" href="/">data:ink:io</a></div><nav class="justify-end"><ul class="flex flex-row gap-2"><li><a href="" class="text-sm font-light text-neutral-100">Work</a></li><li><a href="" class="text-sm font-light text-neutral-100">Lab</a></li><li><a href="" class="text-sm font-light text-neutral-100">Teaching</a></li><li><a href="" class="text-sm font-light text-neutral-100">Now</a></li><li><a href="" class="text-sm font-light text-neutral-100">Contact</a></li></ul></nav></header><script>let lastScrollY = window.scrollY;
+  const header = document.getElementById('siteHeader');
+  // Initially hide header header.style.transform = 'translateY(-100%)';
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    // Scrolling down
+    if (currentScrollY > lastScrollY) {
+      header.style.transform = 'translateY(-100%)';
+    } else {
+      header.style.transform = 'translateY(0)';
+    };
+    lastScrollY = currentScrollY;
+  });</script><main class="col-span-full"><nav class="breadcrumbs text-sm"><ul><li><a href="/lab/" class="font-semibold">Lab</a></li></ul></nav><article class=""><h1 class="col-span-full">Blockframes</h1><div id="bfms-intro" class="bg-graphpaper-dark p-8"><h3 class="text-neutral-light">Introduction</h3><p class="text-neutral-light">A single SVG supplies the elements that make up the blockframe library.</p></div><div id="bfms-decoration" class="grid grid-cols-12"><h3>Decoration</h3><p class="col-span-full">The Painter class styles blocks by applying the numeric values for colors in the current Tailwind theme. This is done to ensure the colors are available at runtime without hard-coding before build.</p></div><div id="bfms-animation"><h3>Animation</h3><p>The Animator class handles (you guessed it) animations. It can be tricky to manage animations of individual elements within an SVG given how elements get rendered based on viewport size and scale. In the example below, if the distance traveled by the block was greater than the SVG's viewport, then the block would begin its motion offscreen. Instead, the distance traveled by the block is determined by the size of its containing SVG. See Animator.wipe for details.</p><p>The approach I use could definitely use some refinement.For example, the origin for the motion does not change with screensize.Also, in terms of the bigger picture(no pun intended)I would love to have the ability to set an element 's dimensions in pixels and have its size remain constant even when the dimensions of the SVG change.</p></div><div id="bfms-grid"><h3>Animating Color</h3><p>Create a grid of blocks. Animate their color using the GSAP grid methods. Connect it to ScrollTrigger.</p></div><script type="module">import Blockframes from "/assets/js/displays/blockframes/Blockframes.js ";
+  import ThemeColors from "/assets/js/utils/tailwind/ThemeColors.js";
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const theme = new ThemeColors();
+    const bfms = new Blockframes("/assets/svg/blockframes.svg");
+    await bfms.load();
+    // bfms.makeResponsive();
+    bfms.paintAll(theme.colors);
+    // bfms.paintType(".Article", theme.colors); bfms.paintType(".Basic", theme.colors); bfms.paintType(".Blog",
+    // theme.colors); bfms.paintType(".Calendar", theme.colors); bfms.paintType(".Cart", theme.colors);
+    // bfms.paintType(".Contact", theme.colors); bfms.paintType(".Features", theme.colors);
+    bfms.svgElement.classList.add("w-full", "h-full");
+    document.getElementById("bfms-intro").appendChild(bfms.svgElement);
+    document.getElementById("bfms-grid").appendChild(bfms.makeGrid(6, 6, theme.colors));
+
+    // Display all types with annotations
+    bfms.inventory.forEach((block) => {
+      const cloned = block.cloneNode(true);
+      const view = document.createElement("div");
+      const title = document.createElement("h3");
+      title.innerText = block.classList;
+      view.appendChild(title);
+      document.getElementById("bfms-decoration").appendChild(view);
+      title.classList.add("w-full", "text-lg", "font-normal");
+      // bfms.sizeBlock(cloned, 500, 500);
+      bfms.paintBlock(cloned, theme.colors);
+      bfms.placeBlock(cloned, view, false);
+    });
+
+    // Demonstrate animation
+    const actor = bfms.getBlock(".Article").cloneNode(true);
+    bfms.paintBlock(actor, theme.colors);
+
+    // actor.classList.add("w-full");
+    bfms.placeBlock(actor, document.getElementById("bfms-animation"), false);
+    // bfms.sizeBlock(actor, 200, 200);
+    bfms.animateBlock(actor);
+    console.log(actor.ownerDocument);
+  });</script></article></main></body></html>

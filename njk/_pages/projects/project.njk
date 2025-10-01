@@ -1,0 +1,58 @@
+---
+layout: templates/base.njk
+pagination:
+  data: collections.projects
+  size: 1
+  alias: project
+permalink: "/{{ project.slug }}/"
+eleventyComputed:
+  title: "{{ project.title | safe }}"
+  eleventyNavigation:
+    parent: "Projects"
+    key: {{ title }}
+bodyClasses: "bg-graphpaper-dark"
+mainClasses: "pt-48"
+headerClasses: "text-neutral-dark"
+scripts: >
+  <script src="/assets/js/gsap/gsap.min.js"></script>
+  <script src="/assets/js/choreography/pages/Project.js"></script>
+---
+
+{% set banner = collections.images | findRecord(project.banner) %}
+{% if banner %}
+  <div id="project-banner" class="absolute inset-0 z-0 h-[66.666vh] bg-pixelator">
+    {% picture banner[0].file.html, "w-full h-full object-cover mix-blend-multiply", "w-full h-full object-cover" %}
+  </div>
+{% endif %}
+<article class="project text-neutral-dark max-w-5xl mx-auto bg-neutral-light p-12 z-10 relative">
+  <header class="flex flex-row flex-wrap mb-8">
+    <nav class="breadcrumbs text-sm z-10 relative w-fit-content pr-6">
+      {% include "molecules/input/breadcrumbs.njk" %}
+    </nav>
+    {% include "molecules/list/project-details.njk" %}
+    <h1 class="basis-full leading-snug">{{ title }}</h1>
+    <!-- PROJECT DESCRIPTION -->
+    {% if project.awards %}
+      <h3 class="sr-only">Recognition</h3>
+      <div id="awards" class="my-8 bg-linear-to-t from-accent to-accent-light to border-2 border-t-accent p-2">
+        {% include "molecules/list/awards.njk" %}
+      </div>
+    {% endif %}
+  </header>
+  <section id="abstract" class="md:flex md:flex-row md:gap-8 my-8">
+    {{ project.description | prettify("prose basis-1/2 lead") | safe }}
+    {# Here goes a summary of the project themes and lessons learned #}
+    {% loremPars 1, "prose basis-1/2" %}
+  </section>
+  <!-- PROJECT VIDEO -->
+  {% if project.videos %}
+    {% for video in collections.videos | findRecord(project.videos) %}
+      {% include "atoms/video/embed.njk" %}
+    {% endfor %}
+  {% endif %}
+  <!-- PROJECT CONTENT -->
+  {% for nugget in collections.nuggets | findRecord(project.nuggets) %}
+    {% include "organisms/nugget.njk" %}
+  {% endfor %}
+</article>
+{% include "molecules/input/project-nav.njk" %}

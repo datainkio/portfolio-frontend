@@ -1,0 +1,52 @@
+---
+layout: templates/documentation.njk
+title: Printer Marks
+
+eleventyNavigation:
+    key: Printer Marks
+    parent: Lab
+---
+<section class="columns-3">
+    <figure class="break-inside-avoid">
+        <figcaption>
+            <h2>Trim Marks</h2>
+            <p>PrinterMarks.addTrim(trim, margin)</p>
+            <p>Trim marks are small lines placed in the corners of a printed document to indicate where the paper should be cut after printing. They serve as guides for the printer to ensure that the final product is trimmed to the correct size, especially when the design includes elements that extend to the edge of the page (a technique known as bleed).</p>
+            <p>The margin parameter supplies the inset for the marks. Since it relies on absolute positioning you'll need to adjust the padding of the container to suit. In this example, margin is set to 16 and the padding for the container is p-8.</p>
+        </figcaption>
+        <div id="trim-marks" class="p-8 text-neutral">
+            {% loremPars 1 %}
+        </div>
+    </figure>
+    <figure class="break-inside-avoid">
+        <figcaption>
+            <h2>Registration Bar</h2>
+            <p>PrinterMarks.addRegistrationBar(registration, 4)</p>
+            <p>Registration marks are specialized indicators used in the printing process to ensure that each color layer aligns correctly. They are essential when multiple colors are printed separately and then combined to produce the final image. These marks help printers achieve precise color registration, avoiding misalignment that can cause blurry or offset images</p>
+        </figcaption>
+        <div id="registration-bar" class="text-neutral w-auto">
+            {% loremPars 1 %}
+        </div>
+    </figure>
+    <figure class="break-inside-avoid">
+        <figcaption>
+            <h2>Bleed Marks</h2>
+            <p>PrinterMarks.addBleed(bleed, 8)</p>
+            <p>Bleed marks refer to the areas of a printed document that extend beyond the final trim size. They ensure that images, colors, or design elements that are intended to reach the edge of the paper do so without leaving unintended white borders. Bleed marks are crucial for achieving a professional, edge-to-edge appearance in printed materials.</p>
+            <p>During the trimming process, slight variations can occur. Bleed ensures that even if the paper shifts slightly, the design still extends to the edge without leaving white margins.</p>
+        </figcaption>
+        <div id="bleed-marks" class="text-neutral">
+            {% loremPars 1 %}
+        </div>
+    </figure>
+</section>
+<script type="module">
+    import * as PrinterMarks from '/assets/js/displays/PrinterMarks.js';
+    const trim = document.getElementById("trim-marks");
+    const registration = document.getElementById("registration-bar");
+    const bleed = document.getElementById("bleed-marks");
+    // Add print registration marks to the main container
+    PrinterMarks.addTrim(trim, 16);
+    PrinterMarks.addRegistrationBar(registration, 4);
+    PrinterMarks.addBleed(bleed, 8);
+</script>

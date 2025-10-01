@@ -1,0 +1,16 @@
+<svg class="registration-mark" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="none" viewBox="0 0 50 50">
+    <g class="outer">
+      <path class="ring fill-none" d="M45.892 25.386c0 11.51-9.326 20.839-20.836 20.839-11.5 0-20.834-9.331-20.834-20.839 0-11.504 9.334-20.829 20.834-20.829 11.509 0 20.835 9.325 20.835 20.83Z"/>
+      <g class="cross">
+        <path d="M0 25h50" class="horiz stroke-neutral-dark"/>
+        <path d="M25 0v50" class="vert stroke-neutral-dark"/>
+      </g>
+    </g>
+    <g class="inner">
+      <path class="ring fill-neutral-dark" d="M37.224 25.058c0 6.91-5.59 12.501-12.5 12.501-6.902 0-12.502-5.59-12.502-12.5 0-6.899 5.6-12.502 12.501-12.502 6.91.002 12.502 5.603 12.502 12.501Z"/>
+      <g class="cross">
+        <path d="M13 25h24" class="horiz stroke-neutral-light"/>
+        <path d="M25 13v24" class="vert stroke-neutral-light"/>
+      </g>
+    </g>
+</svg>

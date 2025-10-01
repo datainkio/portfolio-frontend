@@ -1,0 +1,46 @@
+---
+layout: templates/base.njk
+bodyClasses: "pt-20"
+mainClasses: "px-8"
+headerClasses: "text-neutral-dark"
+articleClasses: ""
+title: Projects
+eleventyNavigation:
+    key: Projects
+---
+
+<nav>
+    <ul class="flex flex-row gap-4">
+        <li>
+            <h3>Project Type</h3>
+            <ul>
+                {# Some records cause a bug in the groupBy filter, which reports that the array is undefined #}
+                {% for type, projects in collections.projects | groupBy("categorytitle") %}
+                    <li class="break-inside-avoid">{{ type }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>
+            <h3>Industry</h3>
+            <ul>
+                {# Some records cause a bug in the groupBy filter, which reports that the array is undefined #}
+                {% for industry, orgs in collections.organizations | groupBy("group") %}
+                    <li class="break-inside-avoid">{{ industry }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>
+            <h3>Role</h3>
+            <ul>
+                {% for role in collections.roles %}
+                    <li class="break-inside-avoid">{{ role.name }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</nav>
+<ul class="projects grid grid-cols-3 gap-4 col-span-full">
+    {% for project in collections.projects %}
+        <li class="break-inside-avoid">{% include "molecules/card/project.njk" %}</li>
+    {% endfor %}
+</ul>

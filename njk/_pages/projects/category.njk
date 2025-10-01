@@ -1,0 +1,23 @@
+---
+layout: templates/base.njk
+pagination:
+  data: collections.ia
+  size: 1
+  alias: category
+permalink: "/{{ category.title | slugify }}/"
+eleventyComputed:
+  title: "{{ category.title | safe }}"
+  eleventyNavigation:
+    parent: "Work"
+    key: {{ title }}
+bodyStyles: "bg-graphpaper-dark"
+mainStyles: "bg-neutral-light p-4 pt-16"
+headerStyles: "text-neutral-dark"
+---
+
+<article>
+  <header>
+    <h1>{{ title }}</h1>
+    <p class="prose-xs">{% loremPars 1 %}</p>
+  </header>
+</article>

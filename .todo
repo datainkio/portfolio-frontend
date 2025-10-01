@@ -1,0 +1,69 @@
+Projects: 
+    ✔ Project Management @done(25-02-06 18:36)
+    ☐ Finish Portfolio
+    ☐ Finish Tests
+    ☐ Push to production
+Tailwind Upgrade:
+    ☐ Re-enable display of config info during init
+    ☐ Update display of tailwind info to confirm upgrade and implementation
+        ☐ Display version number
+        ☐ Display active plugins
+        ☐ Display content paths
+        ☐ Display custom theme settings
+    ✔ Update import strategy for theme values @done(25-02-06 18:35)
+        ✔ typography @done(25-02-06 18:35)
+        ✔ colors @done(25-02-06 18:35)
+    ✔ Complete separation of config files (incl. _tailwind.config.js) @done(25-02-06 18:35)
+    ✔ Address making theme values available for 11ty/NJK and JS @done(25-02-19 08:35)
+        ✔ typography @done(25-02-19 08:35)
+            ✔ Update format of auto-generated style docs to suit Tailwind v4 @done(25-02-12 23:05)
+        ✔ colors @done(25-02-19 08:35)
+            ✔ Update format of auto-generated style docs to suit Tailwind v4 @done(25-02-07 12:53)
+    ✘ Identify why removing "-p" from '"start": "npm-run-all -p dev:*' appears to resolve the breaking build @cancelled(25-02-19 08:35)
+    ✔ Remove instances of theme(). Replace with CSS theme variables. @done(25-02-19 08:35)
+Todos:  
+    ☐ Global footer
+    ☐ Static/Server Files   
+        ✔ Favicon @done(25-02-19 11:28)
+        ☐ Robots.txt @done(25-02-19 08:34)
+        ☐ Humans.txt
+        ☐ Sitemap
+        ☐ 404
+        ✔ Manifest @done(25-02-19 11:28)
+            ✔ icons @done(25-02-19 11:28)
+            ✔ syntax errors @done(25-02-19 11:28)
+    ✔ PrintMarks Tailwind plugin @done(25-02-19 08:34)
+    ✔ Global nav @done(25-02-19 08:36)
+        ✔ Design hamburger equiv. @done(25-02-19 08:34)
+    ☐ Accessibility
+        ☐ ARIA
+        ☐ Keyboard navigation
+        ☐ Screen reader
+        ☐ IMG alt text
+            ✔ avatar req'd @done(25-01-24 12:49)
+            ☐ improve quality of project thumbnails alt text
+    ☐ Homepage
+        ☐ Hero section
+            ✔ Add pixel grid over top of background video (aka bg-pixelator) @done(25-02-19 08:34)
+        ☐ Introduction
+        ☐ Work Sections @today
+            ✔ Add print registration marks @done(25-01-29 11:11)
+        ☐ About the site
+            ☐ Content Strategy
+            ☐ Information Architecture
+            ☐ Airtable Integration
+            ☐ Eleventy
+            ☐ Figma Integration
+            ☐ Tailwind
+            ☐ GitHub Pages
+        ☐ Contact Section
+            ☐ Set up service
+            ☐ Set up form
+Fixme:
+    ☐ Build *sometimes* throws a groupBy error when processing IA data
+    ☐ Hero video does not always play
+    ☐ Global nav paths are relative
+    ☐ Pixelation in low-res background videos in hero section
+    ☐ No nav items in global nav
+    ☐ Background masking not working on Safari iOS
+    ☐ RE

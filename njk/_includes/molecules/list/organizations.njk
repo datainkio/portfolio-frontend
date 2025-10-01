@@ -1,0 +1,10 @@
+{% set orgs = collections.organizations | findRecord(project.organizations) %}
+{% if orgs %}
+    <ul class="flex flex-row list-none p-0 m-0">
+        {% for org in orgs %}
+            <li class="p-0 m-0">{{ org.name }}
+                {% if not loop.last %},&nbsp;{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

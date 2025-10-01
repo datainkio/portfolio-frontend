@@ -1,0 +1,81 @@
+---
+layout: templates/documentation.njk
+title: Figma Design System
+navKey: Design
+eleventyNavigation:
+    key: Figma
+    parent: Design
+---
+{% set designSystem = collections.designSystem %}
+
+<section class="col-span-full">
+  <header class="mb-8">
+    <h1 class="text-4xl font-bold">{{ designSystem.name }}</h1>
+    <p class="text-sm text-base-content/70">Last modified: {{ designSystem.lastModified | postDate }}</p>
+  </header>
+
+  <div class="stats shadow-sm mb-8">
+    <div class="stat">
+      <div class="stat-title">Pages</div>
+      <div class="stat-value">{{ designSystem.document.children.length }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-title">Components</div>
+      <div class="stat-value">{{ designSystem.components | length }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-title">Version</div>
+      <div class="stat-value">{{ designSystem.version }}</div>
+    </div>
+  </div>
+
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold mb-4">Tokens</h2>
+    <div class="grid grid-cols-4 gap-4">
+    {% set tokens = designSystem | findFigmaPage("tokens") %}
+      {% for child in tokens.children %}
+        <div class="card bg-base-200">
+          <div class="card-body">
+            <h3 class="card-title text-sm">{{ child.name }}</h3>
+            {% if token.description %}
+              <p class="text-xs text-base-content/70">{{ child.description }}</p>
+            {% endif %}
+          </div>
+          {% if child.id in designSystem.images %}
+          <figure>
+          <img src="{{ designSystem.images[child.id] }}" 
+              alt="{{ child.name }}"
+              class="w-auto h-auto aspect-auto" />
+          </figure>
+            {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8">
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Pages</h2>
+      <ul class="menu bg-base-200 rounded-box">
+      {% for page in designSystem.document.children %}
+        <li>
+          <h3>{{ page.name }}</h3>
+          <span class="badge">{{ page.children.length }} items</span>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+    
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Components</h2>
+      <ul class="menu bg-base-200 rounded-box">
+      {% for id, component in designSystem.components %}
+        <li>
+          <h3>{{ component.name }}</h3>
+          <span class="badge">{{ component.description }}</span>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

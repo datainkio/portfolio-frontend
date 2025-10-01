@@ -1,0 +1,45 @@
+---
+layout: templates/documentation.njk
+title: Images
+navKey: Design
+eleventyNavigation:
+    key: Images
+    parent: Design
+---
+  <section class="stats shadow-sm grid grid-cols-1 md:grid-cols-4 gap-4 my-8 col-span-full">
+    <div class="stat bg-base-200">
+      <div class="stat-title">Total Images</div>
+      <div class="stat-value">{{ collections.images | length }}</div>
+    </div>
+  
+    <div class="stat bg-base-200">
+      <div class="stat-title">Image Types</div>
+      <div class="stat-desc">
+        <ul class="menu menu-compact">
+        {% for item in collections.images | uniqueTypes %}
+        <li>{{ item.type }}: {{ item.count }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="stat bg-base-200">
+      <div class="stat-title">Total Size</div>
+      {% set totalSize = 0 %}
+      {% for image in collections.images %}
+        {% set totalSize = totalSize + image.size %}
+      {% endfor %}
+      <div class="stat-value">{{ totalSize | filesize }}</div>
+    </div>
+
+    <div class="stat bg-base-200">
+      <div class="stat-title">Cache Status</div>
+      <div class="stat-desc">Last Updated: {{ collections.images | length }} images</div>
+    </div>
+  </section>
+
+  <section class="col-span-full grid grid-cols-4 gap-4">
+  {% for image in collections.images %}
+    {% include "molecules/card/image.njk" %}
+  {% endfor %}
+  </section>

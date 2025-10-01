@@ -1,0 +1,3 @@
+# Ignore dynamically generated static (I know, I know...) files like robots.txt, manifest.json, etc.
+**/*.txt.njk
+**/*.json.njk

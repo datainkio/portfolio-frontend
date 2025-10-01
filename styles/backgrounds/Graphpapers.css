@@ -1,0 +1,41 @@
+/* Custom Background Graphpaper Patterns */
+@layer components {
+  .bg-graphpaper-sm {
+    background-image: linear-gradient(
+        to right,
+        rgba(128, 128, 128, 0.15) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(128, 128, 128, 0.15) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to right, rgba(128, 128, 128, 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(128, 128, 128, 0.15) 1px, transparent 1px);
+    background-size:
+      1rem 1rem,
+      1rem 1rem,
+      4rem 4rem,
+      4rem 4rem;
+    background-repeat: repeat;
+  }
+
+  .bg-graphpaper-lg {
+    background-image: linear-gradient(
+        to right,
+        rgba(128, 128, 128, 1) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(128, 128, 128, 1) 1px, transparent 1px);
+    background-size: 2rem 2rem;
+  }
+
+  .bg-graphpaper-dark {
+    background-color: black;
+  }
+
+  .bg-graphpaper-light {
+    background: blue;
+  }
+}

@@ -1,0 +1,27 @@
+{% set awards = collections.awards | findRecord(project.awards) %}
+{% if awards %}
+    <ul
+        id="awards"
+        class=" sm:columns-2 list-none m-0 space-y-4 px-2 py-8 bg-[url('/assets/icons/award-lg.svg')] bg-[size:2.5rem] bg-repeat">
+        {# Some records cause a bug in the groupBy filter, which reports that the array is undefined #}
+        {% set orgs = awards | groupBy("organization") %}
+        {% for
+      orgName, awards in orgs %}
+            <li
+                class="award-organization grid grid-cols-12 place-content-start">
+                {# Get the logo for the award organization #}
+                {% set image = collections.images | findRecord(awards[0].logo_id) %}
+                {# assume that award logos are always SVG #}
+                {% picture image[0].file.html, "", "row-span-2 my-0" %}
+                <h4 class="col-span-11 ml-2 m-0 p-0">
+                    {{ orgName }}
+                </h4>
+                <ul class="col-start-2 ml-2 col-span-11 list-none p-0 m-0">
+                    {% for award in awards %}
+                        <li class="text-sm p-0 m-0">{{ award.title }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

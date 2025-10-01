@@ -1,0 +1,41 @@
+---
+layout: templates/documentation.njk
+title: Text Party
+description: Demonstrate text effects
+eleventyNavigation:
+    key: Text Party
+    parent: Lab
+scripts: >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
+    <script src="/assets/js/gsap/gsap.min.js"></script>
+    <script src="/assets/js/gsap/SplitText.min.js"></script>
+    <script src="/assets/js/gsap/CustomEase.js"></script>
+    <script src="/assets/js/gsap/CustomWiggle.js"></script>
+    <script src="/assets/js/gsap/MorphSVGPlugin.min.js"></script>
+---
+
+<p id="textMorph">INK</p>
+<script type="module">
+    import * as TextParty from '/assets/js/effects/TextParty.js';
+    // Define the fonts for the morphing text
+    const fonts = [
+        {
+            name: 'Big Shoulders Display',
+            url: '/assets/fonts/Big_Shoulders_Display/static/BigShouldersDisplay-Regular.ttf',
+            kerning: .85,
+            size: 125
+        }, {
+            name: 'Twinkle Star',
+            url: '/assets/fonts/Twinkle_Star/TwinkleStar-Regular.ttf',
+            kerning: 1,
+            size: 110
+        }, {
+            name: 'Playwrite',
+            url: '/assets/fonts/Playwrite_AU_SA/static/PlaywriteAUSA-Regular.ttf',
+            kerning: .9,
+            size: 80
+        },
+        // Add more fonts as desired
+    ];
+    TextParty.morph("textMorph", fonts)
+</script>

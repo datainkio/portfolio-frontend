@@ -1,0 +1,65 @@
+# MEDIA
+# Keep the repo from throwing errors when faced with large files
+*.mp4
+*.wav
+*.mp3
+*.qt
+*.mov
+*.m4v
+*.flv
+*.avi
+*.wmv
+*.mkv
+*.psd
+*.ai
+*.tiff
+*.tif
+*.indd
+*.eps
+*.raw
+
+# ELEVENTY
+# Misc
+*.log
+npm-debug.*
+*.scssc
+*.swp
+.sass-cache
+.env
+.cache
+
+# Node modules and output
+node_modules
+dist
+src/_includes/css
+
+
+# MACOS
+
+# General
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

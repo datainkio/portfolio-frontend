@@ -1,0 +1,71 @@
+/** @format */
+/**
+ * @fileoverview Color palette generated from Figma data and formatted for Tailwind CSS
+ * @source dataink.io
+ * @version 2184308586489902272
+ * @figma
+ *   File ID: dS8gTREDjwWE5xZXTPUfPK
+ *   Last Modified: 2/12/2025, 1:40:00 PM
+ * @generated 2/12/2025, 10:26:13 PM
+ */
+
+@theme {
+    --color-accent-100: #FFFCC6;
+	--color-accent-200: #FFF987;
+	--color-accent-300: #FFEE49;
+	--color-accent-400: #FFE01F;
+	--color-accent-50: #FFFEEA;
+	--color-accent-500: #FBC30B;
+	--color-accent-600: #DE9601;
+	--color-accent-700: #B86B05;
+	--color-accent-800: #95520B;
+	--color-accent-900: #7B430C;
+	--color-accent-950: #472301;
+	--color-neutral-100: #E6E7E7;
+	--color-neutral-200: #CFD2D2;
+	--color-neutral-300: #ADB2B3;
+	--color-neutral-400: #848B8C;
+	--color-neutral-50: #F5F6F6;
+	--color-neutral-500: #697071;
+	--color-neutral-600: #5A5F60;
+	--color-neutral-700: #4C5052;
+	--color-neutral-800: #434647;
+	--color-neutral-900: #393B3C;
+	--color-neutral-950: #252727;
+	--color-primary-100: #E0F2FE;
+	--color-primary-200: #B9E7FE;
+	--color-primary-300: #7CD5FD;
+	--color-primary-400: #36C1FA;
+	--color-primary-50: #F0F9FF;
+	--color-primary-500: #0CAAEB;
+	--color-primary-600: #0088C9;
+	--color-primary-700: #016CA3;
+	--color-primary-800: #06608D;
+	--color-primary-900: #0B4C6F;
+	--color-primary-950: #07304A;
+	--color-secondary-100: #FCE8D8;
+	--color-secondary-200: #F9CDAF;
+	--color-secondary-300: #F4AA7D;
+	--color-secondary-400: #EF7D48;
+	--color-secondary-50: #FEF5EE;
+	--color-secondary-500: #EB5E28;
+	--color-secondary-600: #DC421A;
+	--color-secondary-700: #B73117;
+	--color-secondary-800: #91281B;
+	--color-secondary-900: #752419;
+	--color-secondary-950: #3F0F0B;
+	--color-semantic-change: #697071;
+	--color-semantic-fail: #DC421A;
+	--color-semantic-success: #5B8C5A;
+	--color-tertiary-100: #E3EBE0;
+	--color-tertiary-200: #C6D7C3;
+	--color-tertiary-300: #9DBA9B;
+	--color-tertiary-400: #71986F;
+	--color-tertiary-50: #F2F7F2;
+	--color-tertiary-500: #5B8C5A;
+	--color-tertiary-600: #3B603C;
+	--color-tertiary-700: #2F4D2F;
+	--color-tertiary-800: #273E28;
+	--color-tertiary-900: #213322;
+	--color-tertiary-950: #121C13;
+    }

@@ -1,0 +1,143 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','');</script><title>Text Masking</title><meta name="author" content="Site Author"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/assets/styles.css"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#000000"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a"><meta name="application-name" content="data:ink:io"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="data:ink:io"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-192.png"><script src="/assets/js/gsap/gsap.min.js"></script><script src="/assets/js/gsap/SplitText.min.js"></script></head><body class="grid grid-cols-12"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><header class="col-span-full fixed top-0 z-50 transition-transform duration-300 text-neutral-dark flex flex-row items-center w-full py-4 px-8" id="siteHeader"><div class="flex-1"><a class="btn btn-ghost text-xl style-log-screensize text-neutral-100" href="/">data:ink:io</a></div><nav class="justify-end"><ul class="flex flex-row gap-2"><li><a href="" class="text-sm font-light text-neutral-100">Work</a></li><li><a href="" class="text-sm font-light text-neutral-100">Lab</a></li><li><a href="" class="text-sm font-light text-neutral-100">Teaching</a></li><li><a href="" class="text-sm font-light text-neutral-100">Now</a></li><li><a href="" class="text-sm font-light text-neutral-100">Contact</a></li></ul></nav></header><script>let lastScrollY = window.scrollY;
+  const header = document.getElementById('siteHeader');
+  // Initially hide header header.style.transform = 'translateY(-100%)';
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    // Scrolling down
+    if (currentScrollY > lastScrollY) {
+      header.style.transform = 'translateY(-100%)';
+    } else {
+      header.style.transform = 'translateY(0)';
+    };
+    lastScrollY = currentScrollY;
+  });</script><main class="col-span-full"><nav class="breadcrumbs text-sm"><ul><li><a href="/lab/" class="font-semibold">Lab</a></li></ul></nav><article class=""><h1 class="col-span-full">Text Masking</h1><div><h2>Display a different color behind each character</h2><span id="rainbow" class="text-12xl uppercase font-black tracking-tight leading-none">data:ink:io</span></div><div><h2>Display a different image behind each character</h2><span id="image" class="text-12xl uppercase font-black tracking-tight leading-none">data:ink:io</span></div><div><h2>Display a video as the background for the complete string</h2><svg class="w-full h-48 overflow-visible" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="text-clip"><text class="text-12xl uppercase font-black tracking-tight leading-none" x="0" y="0" alignment-baseline="hanging">data:ink:io</text></clipPath></defs><foreignObject width="100%" height="100%" clip-path="url(#text-clip)"><video width="100%" height="100%" autoplay loop muted><source src="/video/zabiela_bg.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></foreignObject></svg></div><div><h2>Display a different video behind each character</h2><span id="video" class="text-12xl uppercase font-black tracking-tight leading-none">data:ink:io</span></div><script>// Split text into individual divs
+    gsap.registerPlugin(SplitText);
+    document
+        .fonts
+        .ready
+        .then(() => {
+            rainbow();
+            image();
+            video();
+        });
+    function animate(chars) {
+        gsap.to(chars, {
+            duration: 1,
+            backgroundClip: "text",
+            color: "transparent",
+            stagger: 0.01,
+            ease: "power2.inOut"
+        });
+    }
+    function rainbow() {
+        const split = new SplitText("#rainbow", {
+            type: "chars",
+            charsClass: "char"
+        });
+        split.chars.forEach((char, i) => {
+            char.style.background = `hsl(${
+                (i * 10 + gsap.utils.wrap(0, 360, i * 10)) % 360
+            }, 100%, 50%)`;
+        });
+        animate(split.chars);
+    }
+    function image() {
+        const split = new SplitText("#image", {
+            type: "chars",
+            charsClass: "char"
+        });
+        split.chars.forEach((char, i) => {
+            char.style.background = `url(https://picsum.photos/200/300?random=${i})`;
+        });
+        animate(split.chars);
+    }
+    // Just a bunch of videos for demo purposes
+    const videos = [
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"
+    ];
+    function video() {
+        // Split the text into divs with unique class names
+        const split = new SplitText("#video", {
+            type: "chars",
+            charsClass: "char_++"
+        });
+        // Create/append the SVG to the parent of #video
+        const parent = document.getElementById("video").parentElement;
+        let svg;
+        if (parent) {
+            svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            // svg.setAttribute("viewBox", "0 0 1200 150");
+            svg.classList.add("w-full", "h-48", "overflow-visible");
+            // Create a <defs> tag to hold all clipPaths
+            const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            svg.appendChild(defs);
+            parent.appendChild(svg);
+        }
+        // Track horizontal offset so characters align in one line
+        let xOffset = 0;
+        // For each character, add a text clip path and a matching rectangle
+        split.chars.forEach((char, i) => {
+            if (! svg) 
+                return;
+            
+            const defs = svg.querySelector("defs");
+            // Create clipPath
+            const clipPath = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
+            clipPath.setAttribute("id", `clipChar${i}`);
+            // Create text element that matches the display of the original text
+            const textElem = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            textElem.classList.add("text-12xl", "uppercase", "font-black", "tracking-tight", "leading-none");
+            textElem.setAttribute("x", xOffset.toString());
+            textElem.setAttribute("y", "0"); // baseline for all characters
+            textElem.setAttribute("text-anchor", "start");
+            textElem.setAttribute("alignment-baseline", "hanging");
+            textElem.textContent = char.textContent;
+            clipPath.appendChild(textElem);
+            defs.appendChild(clipPath);
+            // Measure the width and height of the character
+            const charRect = char.getBoundingClientRect();
+            const charWidth = charRect.width;
+            const charHeight = charRect.height;
+            // Randomly select a video from the videos array
+            const videoUrl = videos[Math.floor(Math.random() * videos.length)];
+            // Create a foreignObject with a video element, referencing the appropriate clip path
+            const foreignObject = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+            foreignObject.setAttribute("x", xOffset.toString());
+            foreignObject.setAttribute("y", "0");
+            foreignObject.setAttribute("width", 500);
+            foreignObject.setAttribute("height", 500);
+            foreignObject.setAttribute("clip-path", `url(#clipChar${i})`);
+            // Create the video element
+            const videoElem = document.createElement("video");
+            videoElem.setAttribute("width", "500");
+            videoElem.setAttribute("height", "500");
+            videoElem.setAttribute("autoplay", "true");
+            videoElem.setAttribute("loop", "true");
+            videoElem.setAttribute("muted", "true");
+            // Set the source for the video
+            const sourceElem = document.createElement("source");
+            sourceElem.setAttribute("src", videoUrl);
+            sourceElem.setAttribute("type", "video/mp4");
+            videoElem.appendChild(sourceElem);
+            foreignObject.appendChild(videoElem);
+            svg.appendChild(foreignObject);
+            // Update the horizontal offset for the next character
+            xOffset += charWidth;
+        });
+    }</script></article></main></body></html>

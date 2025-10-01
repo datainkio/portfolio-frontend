@@ -1,0 +1,21 @@
+<ul class="sm:carousel {{ galleryStyles }}">
+{% set index = 0 %}
+{% set imgClasses = "absolute inset-0 w-full h-full object-contain" %}
+{% for imageID in gallery.images %}
+    {% set image = collections.images | findRecord(imageID) %}
+    {% if image.published %}
+        <li id="{{ gallery.id }}_{{ index }}" class="sm:carousel-item w-full flex flex-col my-8 sm:m-0">
+            {% picture image[0].file.html,, imgClasses %}
+            {% if image.caption %}
+                <p class="text-left text-sm py-2 sm:hidden">{{ image.caption }}</p>
+            {% endif %}
+        </li>
+        {% set index = index + 1 %}
+    {% endif %}
+{% endfor %}
+</ul>
+<div class="hidden sm:flex mx-auto justify-center gap-2 py-2 place-self-end {{ galleryNavStyles }}">
+{% for i in range(0, index) %}
+  <a href="#{{ gallery.id }}_{{ i }}" class="btn btn-xs">{{ i + 1 }}</a>
+{% endfor %}
+</div>

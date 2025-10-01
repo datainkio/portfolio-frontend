@@ -1,0 +1,20 @@
+{% if item.children.length > 0 %}
+    <li class="collapse collapse-plus md:collapse-open ">
+        <input type="radio" name="{{ accordionName }}"/>
+        <div class="collapse-title text-xl font-medium">{{ item.key }}</div>
+        <ul class="collapse-content">
+            <li class="pb-2 italic">
+                <a href="{{ item.url }}">Introduction</a>
+            </li>
+            {% for child in item.children %}
+                <li>
+                    <a href="{{ child.url }}">{{ child.key }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+{% else %}
+    <li class="collapse-title text-xl">
+        <a href="{{ item.url }}">{{ item.key }}</a>
+    </li>
+{% endif %}
