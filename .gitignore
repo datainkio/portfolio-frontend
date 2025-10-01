@@ -17,6 +17,8 @@
 *.indd
 *.eps
 *.raw
+*.motn
+*.aifc
 
 # ELEVENTY
 # Misc
