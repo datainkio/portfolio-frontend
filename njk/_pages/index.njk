@@ -15,7 +15,7 @@ scripts: >
 
 {% set count = 0 %}
 {# Landing view #}
-<section id="main-header" class="col-span-full w-full h-dvh flex items-center outline -outline-offset-8 outline-primary-100 pt-4 box-border rounded-2xl">
+<section id="main-header" class="col-span-full w-full h-dvh flex items-center">
   {% include "organisms/section/title.njk" %}
 </section> 
 <ol id="biography" class="col-span-full text-neutral-100">
@@ -31,7 +31,7 @@ scripts: >
   </li>
 </ol>
 {# Work organized by category #}
-<ul id="work" class="flex flex-col gap-48 relative max-w-4xl mx-4 sm:mx-6 md:mx-8 lg:mx-auto ">
+<ul id="work" class="printmarks flex flex-col gap-48 relative text-neutral-100 sm:mx-6 md:mx-8 lg:mx-auto ">
   {% for category in collections.ia %}
     <li>{% include "organisms/section/project-category.njk" %}</li>
   {% endfor %}

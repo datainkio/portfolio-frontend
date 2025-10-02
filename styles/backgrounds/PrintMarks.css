@@ -7,20 +7,17 @@
   .printmark-bleed {
     border-width: 1px;
     border-style: dashed;
-    border-color: var(
-      --color-neutral-dark,
-      #333333
-    ); /* Replace with your theme value */
+    border-color: var(--color-neutral-100); /* Replace with your theme value */
   }
 
   .printmark-trim-horiz {
-    background-color: var(--color-neutral-800);
+    background-color: var(--color-neutral-100);
     width: 1rem; /* Corresponds to theme('width.4') assuming 1rem */
     height: 0.125rem;
   }
 
   .printmark-trim-vert {
-    background-color: var(--color-neutral-800);
+    background-color: var(--color-neutral-100);
     width: 0.125rem;
     height: 1rem;
   }

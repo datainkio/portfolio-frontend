@@ -1,5 +1,5 @@
-<section id="{{ category.slug }}" class="project-category relative bg-neutral-50 flex flex-col p-8 py-16 gap-8">
-    <h3 class="wandering-gel text-6xl font-display font-black text-neutral-dark tracking-tight leading-none" data-text="{{ category.title }}">{{ category.title }}</h3>
+<section id="{{ category.slug }}" class="project-category relative flex flex-col p-8 py-16 gap-8">
+    <h3 class="text-6xl font-display font-black tracking-tight leading-none" data-text="{{ category.title }}">{{ category.title }}</h3>
     {% loremPars 1 %}
     {# Get three projects for this category. Sort them by weight, ascending. Assume the first is meant to be featured. #}
     <ul class="projects col-span-full space-y-12 mx-4">

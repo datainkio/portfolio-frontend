@@ -12,7 +12,6 @@ This CSS system is a carefully orchestrated combination of:
 - **Import Cascade**: CRITICAL order dependency that breaks everything if violated
 
 **ABSOLUTE CRITICAL RULE**: The import order in `main.css` is not a suggestion - it's a divine commandment. Violate it and watch your design system collapse into CSS cascade chaos.
-requirements
 
 ## CSS Import Architecture
 
