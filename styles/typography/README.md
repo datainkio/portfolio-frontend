@@ -15,7 +15,7 @@ The typography system is a precisely orchestrated combination of:
 
 ## File Organization (The Sacred Typography Hierarchy)
 
-```
+```text
 styles/typography/
 ├── README.md                    # This file - typography system documentation
 ├── imports.css                  # Font imports (Google Fonts, custom fonts)
@@ -124,7 +124,7 @@ styles/typography/
 
 **CRITICAL FIGMA TEXT STYLE STRUCTURE** (break this and break font generation):
 
-```
+```text
 Typography Frame
 ├── Heading/Large (Text style with font-family: "Inter")
 ├── Heading/Medium (Text style with font-family: "Inter")
@@ -218,26 +218,26 @@ Typography Frame
 
 ### Adding New Fonts
 
-**Step 1: Add Font Import**
+Step 1: Add Font Import
 
 ```css
 /* Add to imports.css */
 @import url("https://fonts.googleapis.com/css2?family=New+Font:wght@400;700&display=swap");
 ```
 
-**Step 2: Create Figma Text Style**
+Step 2: Create Figma Text Style
 
 - Create new text style in Figma Typography frame
 - Set font-family to match imported font name
 - Follow naming convention: `Category/Weight` (e.g., `Accent/Bold`)
 
-**Step 3: Sync Design Tokens**
+Step 3: Sync Design Tokens
 
 ```bash
 npm run build:design  # Regenerates fontFamilies.css with new utilities
 ```
 
-**Step 4: Test Font Loading**
+Step 4: Test Font Loading
 
 - Verify font loads correctly in browser
 - Check fallback font behavior during load
@@ -340,7 +340,7 @@ npm run build:design  # Regenerates fontFamilies.css with new utilities
 - **Never merge manual edits** to auto-generated files
 - **Document font changes** in commit messages for design system tracking
 
-### Performance Monitoring
+### Monitoring Performance
 
 **Regular Audits**:
 

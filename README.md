@@ -72,7 +72,7 @@ Design System Frame
     └── Body/Regular (Text style)
 ```
 
-**BREAK THIS STRUCTURE = BREAK THE BUILD = ANGER THE DESIGN GODS**
+BREAK THIS STRUCTURE = BREAK THE BUILD = ANGER THE DESIGN GODS
 
 The services expect this exact hierarchy. Rename a color from "Primary/Light" to "Primary Light" and watch the system implode.
 
