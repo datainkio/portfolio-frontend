@@ -1,109 +1,94 @@
-<!-- @format -->
-
 # dataink.io Portfolio
 
-A design-first portfolio website with automated Figma design system integration and Airtable CMS. Built with 11ty, Tailwind CSS 4.0, and modern JavaScript for a streamlined design-to-development workflow.
+**DANGER ZONE**: This is not your typical portfolio site. This is a fully automated design-developer workflow with Figma API integration, Airtable CMS, and 11ty static generation. If you're here to "quickly fix something" without understanding the architecture, you're about to experience the digital equivalent of performing surgery with a sledgehammer.
 
-## 🎯 Architecture Overview
+## Architecture Overview (Read This Or Suffer The Consequences)
 
-This project prioritizes **design system automation** and **content flexibility**:
+This site uses a complex but powerful tech stack designed for automated design-to-code workflows. Each piece depends on the others in very specific ways - break one link and watch the entire chain snap:
 
-- **11ty (Eleventy)** - Static site generator with Nunjucks templates
-- **Figma API** - Automated design token synchronization
-- **Airtable** - Headless CMS with smart caching
-- **Tailwind CSS 4.0** - Utility-first CSS with design tokens
-- **Atomic Design** - Component hierarchy (atoms → molecules → organisms → templates)
-- **GSAP** - Advanced animations and interactions
+- **11ty Static Site Generator**: Templates in `njk/` using Nunjucks (NOT Handlebars, NOT Liquid)
+- **Figma API Integration**: Automatically syncs design tokens to CSS files via `figma/services/`
+- **Airtable Headless CMS**: Content management with smart caching and API rate limiting
+- **Tailwind CSS v4**: Utility-first CSS using `@tailwindcss/cli` (NOT the old `tailwindcss` command - ignore this at your peril)
+- **Atomic Design Pattern**: Components organized as atoms/molecules/organisms/templates in `njk/_includes/`
 
-## 🚀 Quick Start
+**ABSOLUTE CRITICAL RULE**: Never run builds without understanding dependencies. Each system relies on the others in very specific ways. Skip steps and join the debugging nightmare club.
+
+## Quick Start (Follow This Exactly Or Face Digital Chaos)
 
 ```bash
-# Install dependencies (REQUIRED - includes npm-run-all)
+# Step 1: ALWAYS run install first - missing npm-run-all will cause cryptic parallel execution failures
 npm install
 
-# Sync Figma design tokens (colors, typography)
+# Step 2: Sync Figma design tokens to CSS files - MUST happen before 11ty build or site will look broken
 npm run build:design
 
-# Build the site
+# Step 3: Generate static site from njk/ templates to _site/
 npm run build:11ty
 
-# Development server (Tailwind watch + 11ty serve)
+# Step 4: Development with parallel Tailwind watching + 11ty serving (requires npm-run-all)
 npm start
 ```
 
-**⚠️ Important**: Always run `npm install` first on a fresh clone. The build process requires `build:design` to run before `build:11ty` to sync the latest design tokens.
+**DO NOT SKIP STEP 2**: The site will compile without design tokens but will look like a 1990s website built by someone who hates design. The `build:design` command fetches colors, typography, and spacing tokens from Figma and writes them to CSS files that 11ty templates depend on.
 
-## 📁 Project Structure
+## Environment Variables (Required For External Integrations Or Everything Breaks)
 
-```
-portfolio/
-├── njk/                    # Nunjucks templates (source)
-│   ├── _data/             # 11ty data files
-│   ├── _includes/         # Reusable components (atomic design)
-│   └── _pages/            # Page templates → site URLs
-├── figma/                 # Figma API integration
-│   ├── api/              # Figma REST API client
-│   ├── services/         # Token sync services
-│   └── models/           # Data models
-├── airtable/             # Airtable CMS integration
-│   └── scripts/          # Content sync and processing
-├── eleventy/             # 11ty configuration
-│   ├── collections/      # Content collections
-│   ├── filters/          # Template filters
-│   └── plugins/          # 11ty plugins
-├── styles/               # CSS (source + generated)
-│   ├── colors.css        # Generated from Figma
-│   └── typography/       # Generated from Figma
-├── js/                   # Client-side JavaScript
-│   ├── effects/          # GSAP animations
-│   └── displays/         # Interactive components
-├── scripts/              # Build automation
-└── _site/                # Build output (ignored by git)
+Create a `.env` file with these tokens or the build will fail silently and leave you wondering why nothing works:
+
+```env
+FIGMA_TOKEN=your_figma_personal_access_token
+AIRTABLE_PERSONAL_ACCESS_TOKEN=your_airtable_token
+AIRTABLE_BASE_TOKEN=your_specific_base_id
 ```
 
-## 📚 Documentation
+**Get Figma Token**: Figma Account Settings → Personal Access Tokens → Generate New Token (give it Files:read scope)
+**Get Airtable Tokens**: Airtable Account → Developer Hub → Personal Access Tokens → Create token with base access
 
-Each major directory has detailed documentation:
+**SECURITY WARNING**: These tokens provide full access to your design files and content. Treat them like nuclear launch codes.
 
-- **[`js/README.md`](js/README.md)** - Client-side JavaScript architecture and animation system
-- **[`eleventy/README.md`](eleventy/README.md)** - Build system, collections, filters, and plugins
-- **[`figma/README.md`](figma/README.md)** - Design token automation and Figma integration
-- **[`styles/README.md`](styles/README.md)** - CSS architecture and Tailwind configuration
-- **[`njk/README.md`](njk/README.md)** - Template structure and atomic design patterns
-- **[`airtable/README.md`](airtable/README.md)** - CMS integration and content caching
-- **[`scripts/README.md`](scripts/README.md)** - Build automation and CLI tools
-- **[`.github/copilot-instructions.md`](.github/copilot-instructions.md)** - AI coding agent guidance
+## Design System Integration (The Most Fragile And Critical Part)
 
-## 🎨 Design System Integration
+The Figma integration is **bidirectional and automated** via services in `figma/`. This means:
 
-### Figma → CSS Workflow
+1. **Design tokens flow FROM Figma TO CSS files** via `scripts/fetchFigma.js`
+2. **Typography settings are auto-generated** by `figma/services/TypographyService.js`
+3. **Color palettes are auto-written** by `figma/services/PaletteService.js` to `styles/colors.css`
+4. **Any manual edits to generated files WILL BE OVERWRITTEN** without mercy or warning
 
-The design system is **bidirectional and automated**:
+### Figma File Structure Requirements (Break This = Break Everything)
 
-1. **Designer** updates colors/typography in Figma
-2. **Build script** runs `npm run build:design`
-3. **Figma API** fetches design tokens
-4. **Services** write CSS files to `styles/`
-5. **Tailwind** compiles with new tokens
-6. **11ty** generates site with updated styles
+Your Figma file MUST follow these exact naming conventions or the sync will fail spectacularly:
 
-### Token Structure
+```text
+Design System Frame
+├── Colors (Frame)
+│   ├── Primary/Light (Color style)
+│   ├── Primary/Dark (Color style)
+│   └── Primary (Color style)
+└── Typography (Frame)
+    ├── Heading/Large (Text style)
+    ├── Heading/Medium (Text style)
+    └── Body/Regular (Text style)
+```
 
-Design tokens in Figma must follow these naming conventions:
+**BREAK THIS STRUCTURE = BREAK THE BUILD = ANGER THE DESIGN GODS**
 
-**Colors:**
-- `palette/[name]/[shade]` → CSS custom properties
+The services expect this exact hierarchy. Rename a color from "Primary/Light" to "Primary Light" and watch the system implode.
 
-**Typography:**
-- Font Family: `display`, `serif`, `sans`
-- Font Size: `9xl`, `8xl`, ..., `base`, `sm`, `xs`
-- Line Height: `none`, `snug`, `normal`, `relaxed`, `loose`
+### Generated Files (ABSOLUTELY DO NOT EDIT MANUALLY)
 
-## 💾 Content Management
+These files are auto-generated and will be overwritten faster than you can say "git commit":
 
-### Airtable CMS
+- `styles/colors.css` - CSS custom properties from Figma color tokens
+- `styles/typography/fontFamilies.css` - Font family utilities from Figma text styles
+- Any file with "Auto-generated" in the header comment
 
-Configuration in `njk/_data/site.json`:
+**Edit these manually and watch your changes vanish** the next time someone runs `npm run build:design`.
+
+## Content Management (Airtable CMS Integration)
+
+Content is managed through Airtable and synced via API with smart caching. Configuration lives in `njk/_data/site.json` and follows strict rules:
 
 ```json
 {
@@ -117,71 +102,151 @@ Configuration in `njk/_data/site.json`:
 }
 ```
 
-Each table becomes an 11ty collection with smart caching to prevent API rate limits.
+**Table Configuration Rules (Violate These At Your Own Risk)**:
 
-## 🛠️ Development
+- `tableName` MUST match your Airtable base exactly (case-sensitive, spaces matter)
+- `tableView` MUST be a valid view name in that table (also case-sensitive)
+- `cache` duration prevents API rate limiting (`1d`, `12h`, `30m`, etc.) - set too low and hit rate limits
+- Each table becomes an 11ty collection accessible in templates with lowercase name
 
-### Available Scripts
+### Accessing Content in Templates
+
+Tables become collections with lowercase names via `eleventy/collections/content.js`:
+
+```html
+<!-- Airtable table "Projects" becomes collection "projects" -->
+{% for project in collections.projects %}
+<h2>{{ project.data.Name }}</h2>
+<p>{{ project.data.Description }}</p>
+{% endfor %}
+```
+
+**CRITICAL**: Collection names are always lowercase regardless of Airtable table casing. "MyTable" becomes "mytable".
+
+## File Organization (Touch The Wrong Thing = Break Everything)
+
+```text
+portfolio/
+├── njk/                          # 11ty source templates (NOT _src, NOT src)
+│   ├── _data/site.json          # Site config + Airtable settings (CRITICAL)
+│   ├── _includes/               # Atomic design components
+│   │   ├── atoms/               # Smallest UI elements (buttons, icons)
+│   │   ├── molecules/           # Component combinations (cards, forms)
+│   │   ├── organisms/           # Complex UI sections (headers, footers)
+│   │   └── templates/           # Page layout templates
+│   └── _pages/                  # Page templates → site URLs
+├── styles/                      # CSS architecture (import order matters)
+│   ├── main.css                # Master CSS file with CRITICAL import order
+│   ├── colors.css              # AUTO-GENERATED from Figma (DO NOT EDIT)
+│   ├── typography/             # Font files + AUTO-GENERATED styles
+│   └── backgrounds/            # Background effect systems
+├── js/                         # Client-side JavaScript modules (ES6)
+│   ├── effects/                # GSAP animations and effects
+│   ├── displays/               # Interactive display components
+│   └── utils/                  # Theme and utility functions
+├── assets/                     # Static files copied to _site/assets/
+├── figma/                      # Figma API integration services
+│   └── services/               # PaletteService.js, TypographyService.js
+├── scripts/                    # Build automation scripts
+├── airtable/                   # Airtable API services
+├── eleventy/                   # 11ty configuration and collections
+└── _site/                      # BUILD OUTPUT - never edit directly
+```
+
+**DO NOT REORGANIZE** this structure without updating all the import paths, build scripts, and 11ty configuration.
+
+## Development Workflow (The Safe Path To Avoid Disaster)
+
+### Making Design Changes
+
+1. **Edit in Figma** (colors, typography, spacing) - ONLY source of truth
+2. **Run `npm run build:design`** to sync changes via API services
+3. **Run `npm run build:11ty`** to regenerate site with new tokens
+4. **Never edit generated CSS files directly** - they will be overwritten
+
+### Making Content Changes
+
+1. **Edit in Airtable** (add/modify content) - ONLY content source
+2. **Wait for cache expiration** OR delete `.cache` folder to force refresh
+3. **Run `npm run build:11ty`** to fetch fresh content via `@11ty/eleventy-fetch`
+
+### Making Template Changes
+
+1. **Edit Nunjucks templates** in `njk/` (NOT Handlebars, NOT Liquid)
+2. **Follow atomic design patterns** (atoms → molecules → organisms → templates)
+3. **Test with `npm start`** for parallel Tailwind watching + 11ty serving
+4. **Use ES modules syntax** for all JavaScript (`import`/`export`)
+
+## Common Failure Points (Learn From Others' Digital Pain)
+
+### "Site looks broken/unstyled"
+
+- **Cause**: Skipped `npm run build:design` step
+- **Fix**: Run design build before 11ty build
+- **Prevention**: Always run full build sequence
+
+### "Colors/fonts not updating"
+
+- **Cause**: Figma token structure changed or API token expired
+- **Fix**: Check Figma file structure, verify token in `.env`
+- **Prevention**: Don't rename Figma color/text styles without updating sync logic
+
+### "Content not showing"
+
+- **Cause**: Airtable table/view names don't match `site.json` config
+- **Fix**: Verify exact spelling and case in Airtable vs config
+- **Prevention**: Copy/paste table names instead of typing
+
+### "Build fails with module errors"
+
+- **Cause**: Missing `npm install` or outdated dependencies
+- **Fix**: Delete `node_modules`, run fresh `npm install`
+- **Prevention**: Always run install on fresh clone
+
+### "CSS not compiling"
+
+- **Cause**: Wrong Tailwind version or import order in `main.css`
+- **Fix**: Verify Tailwind CSS v4 installation and import sequence
+- **Prevention**: Don't rearrange CSS imports without understanding cascade
+
+## Advanced Configuration
+
+### Adding New Airtable Tables
+
+1. Add table config to `njk/_data/site.json`
+2. Collection will auto-generate with lowercase table name
+3. Access in templates via `collections.yourtablename`
+
+### Adding New Background Effects
+
+1. Create CSS file in `styles/backgrounds`
+2. Import in `styles/decorations.css` BEFORE `@tailwind utilities`
+3. Follow existing patterns for CSS custom properties
+
+### Custom JavaScript Modules
+
+1. Create modules in `js/` with ES6 import/export
+2. Import in templates using `/assets/js/` paths (absolute from site root)
+3. Follow existing module patterns in `js/effects/` and `js/displays/`
+
+## Deployment
+
+The build generates a static site in `_site/` that can be deployed anywhere:
 
 ```bash
-npm start              # Parallel: Tailwind watch + 11ty serve
-npm run build         # Full production build (design + 11ty)
-npm run build:design  # Sync Figma design tokens only
-npm run build:11ty    # Build 11ty site only
-npm run dev:css       # Watch Tailwind CSS changes
-npm run dev:11ty      # 11ty development server
+npm run build        # Full production build (design + 11ty)
 ```
 
-### Environment Variables
+Deploy the `_site/` folder to your hosting platform. The site is fully static with no server-side requirements.
 
-Required for external integrations:
+## Getting Help
 
-```env
-FIGMA_TOKEN=                    # Personal access token for Figma
-AIRTABLE_PERSONAL_ACCESS_TOKEN= # API access for content
-AIRTABLE_BASE_TOKEN=            # Specific base identifier
-```
+If something breaks:
 
-## 🎭 Atomic Design Components
+1. **Check the build logs** for specific error messages
+2. **Verify environment variables** are set correctly
+3. **Confirm Figma/Airtable structure** hasn't changed
+4. **Run clean install**: `rm -rf node_modules/ .cache/ && npm install`
+5. **Check this README** again - you probably missed a step
 
-Templates follow **Atomic Design** principles:
-
-- **Atoms** (`njk/_includes/atoms/`) - Basic HTML elements (buttons, icons, inputs)
-- **Molecules** (`njk/_includes/molecules/`) - Simple component groups
-- **Organisms** (`njk/_includes/organisms/`) - Complex UI sections
-- **Templates** (`njk/_includes/templates/`) - Page-level layouts
-- **Pages** (`njk/_pages/`) - Actual content pages
-
-## 🚨 Common Gotchas
-
-1. **Tailwind CSS v4** - Uses `@tailwindcss/cli` instead of legacy `tailwindcss` command
-2. **npm-run-all** - Must be installed before running parallel scripts
-3. **Figma Token Structure** - Breaking changes in Figma file organization will break the build
-4. **Airtable View Names** - Case-sensitive in `site.json` configuration
-5. **Asset Paths** - Use `/assets/` (absolute from site root) in client-side code
-6. **CSS Import Order** - Matters for Tailwind compilation in `styles/main.css`
-7. **Build Order** - Always run `build:design` before `build:11ty` for fresh builds
-
-## 📦 Key Dependencies
-
-- **@11ty/eleventy** `^3.0.0` - Static site generator
-- **@tailwindcss/cli** `^4.0.0-alpha.25` - CSS framework
-- **gsap** `^3.12.5` - Animation library
-- **@11ty/eleventy-fetch** - API response caching
-- **npm-run-all** - Parallel script execution
-
-## 🌐 Deployment
-
-Build output is in `_site/` directory (git-ignored). Deploy this directory to your static host:
-
-```bash
-npm run build  # Generates production-ready _site/
-```
-
-## 📄 License
-
-© 2025 dataink.io - Russell Lebo
-
----
-
-**For detailed technical documentation**, see the README files in each directory listed above.
+Remember: This system is powerful but unforgiving. Each piece depends on the others working exactly as designed. Respect the architecture and it will serve you well. Ignore it and prepare for debugging hell.

@@ -1,9 +1,20 @@
-/* Font imports must come before Tailwind CSS */
+/* Font imports must come before Tailwind CSS - Required for @font-face declarations to be available */
 @import "./typography/imports.css";
-/* Tailwind CSS must come before everything else. I think...? */
+
+/* Tailwind CSS must come before everything else - Base utilities and components need to be defined first */
 @import "tailwindcss";
+
+/* Base styles - Global resets and fundamental styling that builds on Tailwind's preflight */
 @import "./base.css";
+
+/* Design system colors - Auto-generated from Figma via PaletteService.js, contains CSS custom properties */
 @import "./colors.css";
+
+/* Typography families - Auto-generated from Figma via TypographyService.js, defines font-family utilities */
 @import "./typography/fontFamilies.css";
+
+/* Custom decorations - Project-specific styling for visual elements and effects */
 @import "./decorations.css";
+
+/* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
 @import "./plugins/mask.css";

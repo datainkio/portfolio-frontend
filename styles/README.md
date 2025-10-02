@@ -1,24 +1,18 @@
-<!-- @format -->
+# CSS Architecture & Tailwind Configuration
 
-# CSS Architecture & Design System Implementation
+**NUCLEAR WARNING**: This directory contains the CSS architecture that powers your entire visual design system. These files control the Tailwind CSS v4 configuration, Figma design token integration, and visual effects pipeline. One wrong import order or mistaken edit to auto-generated files and you'll transform your carefully designed site into a visual nightmare that looks like it was styled by a colorblind robot having a seizure.
 
-This directory contains the **design system implementation layer** where your
-Figma design tokens become live, interactive styles. The architecture
-prioritizes maintainability, performance, and design-developer workflow
-automation.
+## Architecture Overview (Touch Nothing Without Understanding Everything)
 
-## What This CSS Architecture Enables for UX
+This CSS system is a carefully orchestrated combination of:
 
-The styles system serves as the **design-to-browser translation layer**:
+- **Tailwind CSS v4**: Using `@tailwindcss/cli` (NOT the legacy `tailwindcss` command)
+- **Figma Integration**: Auto-generated design tokens from `figma/services/`
+- **Custom Components**: Hand-crafted visual effects and background systems
+- **Import Cascade**: CRITICAL order dependency that breaks everything if violated
 
-- **Design token consistency** - Your Figma colors and typography automatically
-  become CSS custom properties
-- **Component-based styling** - Reusable patterns that ensure consistent user
-  experiences
-- **Performance optimization** - Organized imports and Tailwind CSS 4.0
-  integration for fast loading
-- **Scalable design systems** - Structured approach that grows with your design
-  requirements
+**ABSOLUTE CRITICAL RULE**: The import order in `main.css` is not a suggestion - it's a divine commandment. Violate it and watch your design system collapse into CSS cascade chaos.
+requirements
 
 ## CSS Import Architecture
 

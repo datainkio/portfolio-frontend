@@ -1,91 +1,28 @@
-<!-- @format -->
+# Airtable CMS Integration Services
 
-# Airtable CMS Integration & Content Pipeline
+**THERMONUCLEAR WARNING**: This directory contains the Airtable headless CMS integration that powers your content management system. These services fetch content via API and transform it into 11ty collections. Misconfigure this system and watch your content vanish into the digital void, leaving you with empty templates and broken builds.
 
-This directory contains the **headless CMS integration layer** that transforms
-your Airtable content into website-ready data. It handles content fetching,
-image optimization, caching, and relationship mapping automatically.
+## Architecture Overview (Ignore This And Weep)
 
-## What This System Enables for UX
+The Airtable integration transforms your Airtable bases into 11ty collections through a carefully orchestrated data pipeline:
 
-The Airtable integration serves as the **content operations engine**:
+- **Configuration**: `njk/_data/site.json` defines which tables to sync and caching rules
+- **Data Fetching**: `@11ty/eleventy-fetch` handles API calls with smart caching and rate limiting
+- **Collection Generation**: `eleventy/collections/content.js` transforms Airtable records into 11ty collections
+- **Template Access**: Collections become available in Nunjucks templates as `collections.tablename`
 
-- **Non-technical content editing** - Content creators work in familiar
-  spreadsheet interface
-- **Automatic optimization** - Images are processed and optimized without manual
-  intervention
-- **Smart caching** - Content updates only when changed, improving build
-  performance
-- **Relationship management** - Content connections (projects → images →
-  organizations) handled automatically
+**CRITICAL DEPENDENCY CHAIN**: Airtable API → Caching Layer → Collection Transformation → Template Rendering. Break any link and your content management system becomes a very expensive digital paperweight.
+
 - **Progressive enhancement** - Content flows through optimized pipeline to
   final user experience
 
 ## Content-to-Website Pipeline
 
-```
-Airtable Spreadsheet → Fetch & Cache → Process Media → Generate Slugs → 11ty Collections → Website
-```
+## Configuration Architecture (Get This Wrong = No Content)
 
-This automated pipeline ensures content creators can focus on storytelling while
-the system handles technical optimization.
+### Site Configuration (`njk/_data/site.json`)
 
-## How Content Flows from Airtable
-
-### 1. **Content Structure in Airtable**
-
-Content editors create and manage content in Airtable bases with tables for:
-
-- **Projects** - Portfolio work with titles, descriptions, images, roles
-- **Organizations** - Clients and partners with logos and info
-- **Images** - Media library with attachments and metadata
-- **Awards** - Recognition and achievements
-- **Activities** - Timeline events and milestones
-- _(and more as configured in `njk/_data/site.json`)_
-
-### 2. **Automatic Fetching**
-
-During build, the system:
-
-- Reads table configuration from `site.json`
-- Fetches only published content using configured views
-- Respects cache duration to minimize API calls
-- Processes records in batches with progress tracking
-
-### 3. **Smart Processing**
-
-Each record goes through enhancement:
-
-- **Field normalization** - Keys converted to lowercase for consistency
-- **Image optimization** - Attachments processed into responsive formats
-- **Slug generation** - URLs created from titles automatically
-- **Relationship linking** - IDs converted to actual content references
-
-### 4. **Collection Creation**
-
-Processed data becomes 11ty collections accessible in templates:
-
-```nunjucks
-{% for project in collections.projects %}
-  {{ project.title }}
-{% endfor %}
-```
-
-## Core System Components
-
-### `fetchAirtableData.js` - Content Retrieval Engine
-
-**What it does**: Fetches and caches content from Airtable tables **UX Impact**:
-Ensures fresh content while maintaining fast build times
-
-**Key Features:**
-
-- **Smart caching** - Configurable duration per table (e.g., "4w" = 4 weeks)
-- **Progress tracking** - Visual feedback during content sync
-- **Batch processing** - Handles large content libraries efficiently
-- **Error recovery** - Continues processing if individual records fail
-
-**Configuration Example** (in `njk/_data/site.json`):
+**The Heart of Content Configuration**:
 
 ```json
 {
@@ -93,227 +30,151 @@ Ensures fresh content while maintaining fast build times
     {
       "tableName": "Projects",
       "tableView": "Published",
-      "cache": "4w"
+      "cache": "1d"
+    },
+    {
+      "tableName": "Blog Posts",
+      "tableView": "Live",
+      "cache": "12h"
     }
   ]
 }
 ```
 
-### `processFile.js` - Media Optimization Pipeline
+**Configuration Rules (Violate These At Your Digital Peril)**:
 
-**What it does**: Transforms uploaded images into optimized, responsive formats
-**UX Impact**: Fast-loading images that look great on all devices
+- **`tableName`**: MUST match your Airtable table name exactly (case-sensitive, spaces matter)
+- **`tableView`**: MUST be a valid view name in that table (also case-sensitive)
+- **`cache`**: Duration string (`1d`, `12h`, `30m`) - too short hits rate limits, too long serves stale content
 
-**Automatic Processing:**
+**LETHAL GOTCHA**: Airtable table names are case-sensitive and space-sensitive. "Projects" ≠ "projects" ≠ "Projects ". Copy/paste table names from Airtable interface to avoid spelling disasters.
 
-- **Multiple formats** - Generates WebP and JPEG versions
-- **Responsive sizes** - Creates multiple widths for different viewports
-- **SVG preservation** - Vector graphics maintain quality
-- **Smart caching** - Processes images once, reuses across builds
-- **Progress visualization** - Real-time progress bar during processing
+### Environment Variables (Required Or Everything Dies)
 
-**Output Structure:**
-
-```
-_site/content/images/
-  ├── svg/        → Vector graphics
-  ├── webp/       → Modern optimized format
-  └── jpeg/       → Universal fallback format
+```env
+AIRTABLE_PERSONAL_ACCESS_TOKEN=your_airtable_personal_access_token
+AIRTABLE_BASE_TOKEN=your_specific_base_id_here
 ```
 
-### `ImageProcessingStatus.js` - Build Visibility
+**Token Requirements**:
 
-**What it does**: Provides visual feedback during image processing **UX
-Impact**: Build transparency helps understand processing time
+- **Personal Access Token**: Generated from Airtable Developer Hub with base access
+- **Base Token**: The specific base ID (starts with "app") from your Airtable base URL
+- **Scopes Required**: `data.records:read` at minimum for the target base
 
-Shows real-time progress:
+**SECURITY APOCALYPSE WARNING**: These tokens provide full read access to your Airtable base. Treat them like the nuclear launch codes they essentially are.
 
-```
-🖼️  Processing Images |████████░░| 80% | 80/100 Images | image/jpeg
-```
+## Data Pipeline Architecture (The Fragile Digital Ecosystem)
 
-### `/scripts/` - Content Management Utilities
+### Caching Layer (`@11ty/eleventy-fetch`)
 
-#### `validateProjects.js` - Content Quality Assurance
+The caching system prevents API rate limiting and improves build performance:
 
-**What it does**: Validates content structure and completeness **UX Impact**:
-Catches content issues before they reach users
-
-#### `updateImageMeta.js` - Batch Metadata Updates
-
-**What it does**: Updates image metadata across multiple records **UX Impact**:
-Enables efficient content management at scale
-
-## Content Creator Workflow
-
-### Adding New Content
-
-#### 1. **Create Record in Airtable**
-
-- Open your Airtable base
-- Add new row to appropriate table
-- Fill in required fields (title, description, etc.)
-- Upload images to attachment fields
-- Set status to "Published" in view
-
-#### 2. **Automatic Processing**
-
-Next build automatically:
-
-- Fetches your new content
-- Processes attached images
-- Generates URL slugs
-- Creates relationships to other content
-
-#### 3. **Live on Website**
-
-Content appears in appropriate templates:
-
-- Project cards show on portfolio page
-- Detail pages generate automatically
-- Images load in optimized formats
-- Navigation updates to include new content
-
-### Updating Existing Content
-
-#### 1. **Edit in Airtable**
-
-- Change text, swap images, update relationships
-- No technical knowledge needed
-
-#### 2. **Cache Management**
-
-- Recent edits: Rebuild immediately to see changes
-- Older content: Wait for cache expiration or clear cache manually
-
-#### 3. **Relationship Updates**
-
-- Change project organizations, add gallery images
-- System automatically resolves new connections
-
-## Content Relationships & Data Modeling
-
-### How Content Connects
-
-Airtable uses record IDs to link content:
-
-**In Airtable:**
-
-```
-Projects table:
-  - Title: "Museum App"
-  - Organizations: [rec123, rec456]  ← IDs
-  - Gallery: [rec789, rec012]        ← IDs
+```javascript
+// Smart caching with configurable duration
+const cachedData = await EleventyFetch(airtableUrl, {
+  duration: config.cache || "1h",
+  type: "json",
+  directory: ".cache",
+});
 ```
 
-**After Processing:**
+**Caching Behavior**:
 
-```nunjucks
-{# In templates, IDs become full records #}
-{% set orgs = collections.organizations | findRecord(project.organizations) %}
-{% for org in orgs %}
-  {{ org.name }}  {# Actual organization data #}
+- **Fresh Data**: First request fetches from Airtable API
+- **Cached Data**: Subsequent requests serve from `.cache/` directory
+- **Cache Expiration**: Based on duration string in configuration
+- **Force Refresh**: Delete `.cache/` directory to bypass cache
+
+**CACHE GOTCHA**: During development, you might be looking at stale content. The cache is doing its job, but you might think your Airtable changes aren't syncing.
+
+### Collection Transformation (`eleventy/collections/content.js`)
+
+Raw Airtable records get transformed into 11ty-compatible collections:
+
+```javascript
+// Transform Airtable record structure
+eleventyConfig.addCollection("projects", async function () {
+  return airtableData.map((record) => ({
+    data: record.fields, // Airtable fields become data object
+    slug: slugify(record.fields.Name), // Auto-generate URL slug
+    id: record.id, // Preserve Airtable record ID
+  }));
+});
+```
+
+**Transformation Rules**:
+
+- **Field Access**: Airtable fields become `record.data.FieldName`
+- **Collection Names**: Always lowercase regardless of table casing ("Projects" → "projects")
+- **Slug Generation**: Auto-generated from Name field using `slugify`
+- **ID Preservation**: Original Airtable record IDs maintained for updates
+
+### Template Integration (Where Content Meets Code)
+
+Collections become accessible in Nunjucks templates:
+
+```html
+<!-- Access Airtable "Projects" table as "projects" collection -->
+{% for project in collections.projects %}
+<article>
+  <h2>{{ project.data.Name }}</h2>
+  <p>{{ project.data.Description }}</p>
+  <img
+    src="{{ project.data.Featured_Image[0].url }}"
+    alt="{{ project.data.Name }}"
+  />
+</article>
 {% endfor %}
 ```
 
-### Common Content Patterns
+**Field Access Patterns**:
 
-#### Projects with Related Content
+- **Text Fields**: `{{ record.data.FieldName }}`
+- **Rich Text**: `{{ record.data.RichTextField | safe }}` (renders HTML)
+- **Attachments**: `{{ record.data.AttachmentField[0].url }}` (first attachment URL)
+- **Linked Records**: `{{ record.data.LinkedField[0] }}` (first linked record)
 
-```nunjucks
-{% set project = collections.projects | findRecord("project-id") %}
-{% set client = collections.organizations | findRecord(project.organizations) %}
-{% set images = collections.images | findRecord(project.gallery) %}
-```
+## Troubleshooting Guide (Digital Emergency Response)
 
-#### Featured Content Collections
+### API Authentication Failures
 
-```nunjucks
-{# site.json defines featured project IDs #}
-{% set featured = collections.projects | findRecord(site.featured_projects.museums) %}
-```
+1. **Check token validity**: Test with Airtable API directly
+2. **Verify base access**: Ensure token has permissions for target base
+3. **Check environment variables**: Confirm `.env` file is loaded correctly
+4. **Update token scopes**: Ensure `data.records:read` permission
 
-## Performance & Optimization
+### Content Not Appearing
 
-### Smart Caching Strategy
+1. **Verify table configuration**: Check exact spelling in `site.json`
+2. **Check view filters**: Ensure records appear in specified view
+3. **Clear cache**: Delete `.cache` directory and rebuild
+4. **Test API directly**: Use curl or Postman to verify API response
 
-**Goal**: Balance fresh content with fast builds
+### Template Rendering Issues
 
-- **Frequently updated**: Short cache (1 day - 1 week)
-- **Stable content**: Long cache (2-4 weeks)
-- **Reference data**: Very long cache (4+ weeks)
+1. **Check field names**: Match Airtable field names exactly (with underscores)
+2. **Handle empty fields**: Use conditional rendering for optional fields
+3. **Debug collection data**: Use `{{ collections.table | log }}` to inspect structure
+4. **Verify collection names**: Collections are lowercase table names
 
-**Configure in `site.json`:**
+### Performance Problems
 
-```json
-{
-  "tableName": "Projects",
-  "cache": "1w" // 1 day (1d), 1 week (1w), 4 weeks (4w)
-}
-```
+1. **Optimize cache duration**: Balance freshness vs. performance
+2. **Limit record sets**: Use Airtable views to reduce data volume
+3. **Check API rate limits**: Monitor for throttling errors
+4. **Profile build times**: Identify slow collection generation
 
-### Image Optimization Benefits
+## Final Warning (The Last Stand Against Digital Chaos)
 
-**Automatic User Experience Improvements:**
+The Airtable integration is your content lifeline. It's the bridge between your content creators and your website. Break this integration and you break the entire content workflow.
 
-- **70-80% smaller file sizes** - WebP format reduces bandwidth
-- **Responsive images** - Right size for each device
-- **Progressive loading** - Images appear gradually
-- **Format fallbacks** - Universal browser support
+This system is designed to be robust and fault-tolerant, but it depends on external APIs, proper configuration, and structured content. Airtable can change their API, your content structure can evolve, and network issues can cause intermittent failures.
 
-## Content Quality & Validation
+The caching system is your friend and your enemy. It provides performance and reliability, but it can also hide problems by serving stale content. The configuration is powerful but unforgiving - one typo in a table name and your content disappears.
 
-### Required Fields
+Respect the system's dependencies, understand the caching behavior, and always test your content changes. The integration will serve you well if you serve it well.
 
-Ensure content completeness by including:
+Remember: Content management is like a garden - it requires constant attention, careful cultivation, and the occasional pruning of digital weeds.
 
-- **Title** - For headlines and navigation
-- **Description/Teaser** - For summaries and SEO
-- **Status** - Use views to control published vs. draft
-- **Images** - At least one for visual interest
-
-### Best Practices for Content Creators
-
-#### Image Guidelines
-
-- **Resolution**: Upload high-quality originals (system will optimize)
-- **Aspect ratio**: Consistent ratios within content types
-- **Alt text**: Descriptive names aid accessibility
-- **File names**: Use descriptive names for better organization
-
-#### Text Content
-
-- **Titles**: Clear, concise, unique
-- **Descriptions**: Complete sentences with proper grammar
-- **Relationships**: Always link to related content when relevant
-
-#### Publishing Workflow
-
-1. Create content in "Draft" status
-2. Review and refine
-3. Change view to "Published"
-4. Rebuild site to make live
-
-## Troubleshooting Content Issues
-
-### Content Not Appearing?
-
-- Check record is in "Published" view in Airtable
-- Verify table name matches `site.json` configuration
-- Clear cache: Delete `.cache/` folder and rebuild
-
-### Images Not Loading?
-
-- Ensure attachment field is named "File"
-- Check image uploaded successfully in Airtable
-- Verify build logs for processing errors
-
-### Relationships Not Working?
-
-- Confirm linked records are published
-- Check field contains valid Airtable record IDs
-- Use `findRecord` filter in templates
-
-This content pipeline enables content creators to work in a familiar spreadsheet
-interface while automatically delivering optimized, connected content that
-creates seamless user experiences across the website.
+May your content always be fresh, your cache always be smart, and your API tokens never expire at 3 AM during a production deploy.
