@@ -12,7 +12,7 @@
     "build:design": "node scripts/fetchFigma.js",
     "build:11ty": "eleventy --quiet",
     "dev:11ty": "eleventy --serve --quiet",
-    "dev:css": "npx tailwindcss -i styles/main.css -o _site/assets/styles.css --watch",
+    "dev:css": "npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css --watch",
     "start": "run-p dev:css dev:11ty"
   },
   "dependencies": {

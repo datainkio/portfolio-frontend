@@ -16,16 +16,17 @@ and content management flexibility.
 - **Atomic Design**: Component structure in `njk/_includes/`
   (atoms/molecules/organisms/templates)
 
-## Key Build Process
+## Quick Start
 
 ```bash
-npm run build:design  # Fetches Figma design tokens → CSS files
-npm run build:11ty    # Generates static site from njk/ → _site/
-npm start            # Parallel: Tailwind watch + 11ty serve
+npm install          # REQUIRED: Install dependencies (including npm-run-all)
+npm run build:design # Fetches Figma design tokens → CSS files
+npm run build:11ty   # Generates static site from njk/ → _site/
+npm start           # Parallel: Tailwind watch + 11ty serve
 ```
 
-The build MUST run `build:design` first to sync latest design tokens before 11ty
-compilation.
+**Critical**: Always run `npm install` first on fresh clone. The build MUST run
+`build:design` first to sync latest design tokens before 11ty compilation.
 
 ## Design System Integration
 
@@ -93,6 +94,9 @@ Required environment variables for external integrations:
 
 ## Common Gotchas
 
+- **Tailwind CSS v4**: Uses `@tailwindcss/cli` instead of `tailwindcss` command
+- **Missing Icon Templates**: Create missing atomic components in
+  `njk/_includes/atoms/icon/` as needed
 - Figma token structure changes break build - check design file organization
 - Airtable view names are case-sensitive in `site.json` configuration
 - 11ty collections are lowercase regardless of Airtable table casing
