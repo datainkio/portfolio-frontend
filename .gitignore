@@ -34,6 +34,7 @@ npm-debug.*
 node_modules
 dist
 src/_includes/css
+_site
 
 
 # MACOS
