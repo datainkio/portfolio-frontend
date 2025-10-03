@@ -16,7 +16,9 @@
         {% if gallery %}
             {% set galleryStyles = "lg:col-start-2 lg:col-span-2" %}
             {% set galleryNavStyles = "lg:col-start-2 lg:col-span-2" %}
-            {% include "organisms/gallery.njk" %}
+                    <section class="gallery">
+            {% include "organisms/content/gallery.njk" %}
+        </section>
         {% endif %}
     </figure>
     <form method="dialog">

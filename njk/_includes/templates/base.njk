@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   {% block head %}
-    {% include "organisms/head.njk" %}
+    {% include "organisms/layout/head.njk" %}
   {% endblock %}
-  <body class="grid grid-cols-12 {{ bodyStyles }}">
+  <body class="grid grid-cols-12 {{ bodyClasses }}">
     {% include "atoms/gtm-noscript.njk" %}
-    {% include "organisms/header.njk" %}
-    <main class="col-span-full {{ mainStyles }}">
+    {% include "organisms/layout/header.njk" %}
+    <main class="col-span-full {{ mainClasses }}">
       {% block content %}
         {% if content %}
           {{ content | safe }}
@@ -15,6 +15,6 @@
         {% endif %}
       {% endblock %}
     </main>
-    {% include "organisms/footer.njk" %}
+    {% include "organisms/layout/footer.njk" %}
   </body>
 </html>

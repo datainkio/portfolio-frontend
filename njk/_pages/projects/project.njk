@@ -52,7 +52,9 @@ scripts: >
   {% endif %}
   <!-- PROJECT CONTENT -->
   {% for nugget in collections.nuggets | findRecord(project.nuggets) %}
-    {% include "organisms/nugget.njk" %}
+      </section>
+    {% include "organisms/content/nugget.njk" %}
+  </article>
   {% endfor %}
 </article>
 {% include "molecules/input/project-nav.njk" %}

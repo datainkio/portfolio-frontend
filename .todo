@@ -21,6 +21,29 @@ Tailwind Upgrade:
             ✔ Update format of auto-generated style docs to suit Tailwind v4 @done(25-02-07 12:53)
     ✘ Identify why removing "-p" from '"start": "npm-run-all -p dev:*' appears to resolve the breaking build @cancelled(25-02-19 08:35)
     ✔ Remove instances of theme(). Replace with CSS theme variables. @done(25-02-19 08:35)
+    
+Atomic Design Reorganization: @done(25-02-19 15:30)
+    ✔ Restructured njk/_includes/organisms/ directory with proper atomic design categorization @done(25-02-19 15:30)
+    ✔ Created categorized subdirectories: layout/, navigation/, content/, modal/, section/, figure/ @done(25-02-19 15:30)
+    ✔ Moved organisms files to appropriate categories: @done(25-02-19 15:30)
+        - header.njk → organisms/layout/header.njk
+        - primary-nav.njk → organisms/navigation/primary-nav.njk
+        - gallery.njk → organisms/content/gallery.njk
+        - modal-default.njk → organisms/modal/modal-default.njk
+        - code-example.njk → organisms/content/code-example.njk
+        - project-image.njk → organisms/figure/project-image.njk
+        - text-content.njk → organisms/content/text-content.njk
+        - work-section.njk → organisms/section/work-section.njk
+        - biography-section.njk → organisms/section/biography-section.njk
+    ✔ Updated all include references across templates and pages @done(25-02-19 15:30)
+        - Updated base.njk, header.njk, modal files, design pages
+        - Maintained GSAP animation dependencies and DOM structure requirements
+        - Verified all references point to new categorized paths
+    ✔ Added defensive documentation with CRITICAL WARNING callouts @done(25-02-19 15:30)
+        - Added "MOVED FROM" annotations for traceability
+        - Documented integration dependencies and breaking change warnings
+        - Followed "sociopathic developer" documentation style
+
 Todos:  
     ☐ Global footer
     ☐ Static/Server Files   
