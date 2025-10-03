@@ -74,13 +74,47 @@ names become collection names (lowercase).
 - **Logging**: Consistent chalk-colored console output for build steps
 - **Caching**: Aggressive caching for external APIs with configurable durations
 
+## Documentation Standards
+
+**CRITICAL**: All code follows defensive "sociopathic developer" documentation style:
+
+- **Extensive Warnings**: "CRITICAL WARNING", "BUG", "DO NOT REMOVE" callouts
+- **Integration Dependencies**: Detailed explanations of what breaks if modified
+- **Architecture Notes**: Complete technical context for safe modifications
+- **Debugging Guides**: Console error checking and troubleshooting steps
+- **Usage Instructions**: Step-by-step setup and customization guidelines
+
+**README Structure**: Each major directory has comprehensive README with:
+
+- Paranoid warnings about breaking changes
+- Complete dependency chains and integration points
+- Performance considerations and browser compatibility notes
+- Enhancement opportunities and technical debt documentation
+
+## Animation Choreography System
+
+**CRITICAL**: Site uses complex GSAP-based animation system with ScrollSmoother integration:
+
+- **Director.js**: Master animation coordinator - initializes all section controllers
+- **StageManager.js**: Scroll coordination, visual effects (video, gels, pixelator)
+- **Section Controllers**: Hero.js, Work.js, Biography.js handle individual section animations
+- **ScrollSmoother**: Site-wide smooth scrolling affects ALL scroll behavior
+- **PrinterMarks**: Dynamic overlay system for project categories
+
+**Animation Dependencies**:
+
+- ScrollTrigger + ScrollSmoother plugins MUST be registered before use
+- DOM elements (main-header, work, biography) MUST exist for controllers
+- Video files and CSS classes required for visual effects system
+
 ## Interactive Features
 
 JavaScript modules in `js/` handle client-side interactions:
 
-- GSAP animations and effects in `js/effects/`
-- Modular display components in `js/displays/`
-- Theme and utility functions in `js/utils/`
+- **Choreography**: `js/choreography/` - GSAP animation coordination system
+- **Effects**: `js/effects/` - Animation utilities and text effects
+- **Displays**: `js/displays/` - Visual components (PrinterMarks, etc.)
+- **Utils**: `js/utils/` - Theme and utility functions
 
 Import paths use `/assets/js/` (absolute from site root) in client-side code.
 
@@ -102,3 +136,13 @@ Required environment variables for external integrations:
 - 11ty collections are lowercase regardless of Airtable table casing
 - CSS import order in `styles/main.css` affects Tailwind compilation
 - Asset paths differ between development (`/assets/`) and source structure
+
+## Animation System Gotchas
+
+- **ScrollSmoother Conflicts**: Can interfere with other scroll libraries
+- **GSAP Plugin Registration**: ScrollTrigger + ScrollSmoother MUST be registered before use
+- **DOM Dependencies**: Section controllers expect specific element IDs (main-header, work, biography)
+- **Video Requirements**: Background video (sizzle.mov) must exist and be web-optimized
+- **Transform Origins**: Animation pivots must be precise or elements jump unexpectedly
+- **Pin Spacing**: ScrollTrigger pinning affects document flow and can cause layout shifts
+- **Timeline Coordination**: Animation IDs used for debugging - don't change without updating references

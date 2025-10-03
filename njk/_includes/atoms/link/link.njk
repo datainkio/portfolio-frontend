@@ -1,0 +1,29 @@
+{#
+Base Link Atom Component
+Provides consistent link styling across the site
+Supports external links, download links, and accessibility features
+#}
+
+{% set linkUrl = url %}
+{% set linkText = text or title %}
+{% set isExternal = linkUrl and (linkUrl.startsWith('http') or linkUrl.startsWith('mailto:') or linkUrl.startsWith('tel:')) %}
+{% set isDownload = download %}
+
+<a href="{{ linkUrl }}" 
+   class="base-link text-primary-600 hover:text-primary-800 underline transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 {{ class }}"
+   {% if isExternal %}target="_blank" rel="noopener noreferrer"{% endif %}
+   {% if isDownload %}download{% endif %}
+   {% if ariaLabel %}aria-label="{{ ariaLabel }}"{% endif %}
+   {% if title %}title="{{ title }}"{% endif %}>
+  
+  {{ linkText }}
+  
+  {# External link indicator #}
+  {% if isExternal and not hideExternalIcon %}
+    <svg class="external-icon inline-block ml-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+      <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+      <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+    </svg>
+    <span class="sr-only">(opens in new window)</span>
+  {% endif %}
+</a>
