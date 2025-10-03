@@ -1,0 +1,31 @@
+{#
+PRIMARY NAVIGATION ORGANISM
+MOVED FROM: organisms/primary-nav.njk -> organisms/navigation/primary-nav.njk (atomic design reorganization)
+
+CRITICAL WARNING: This is a legacy static navigation that should be replaced with 
+molecules/navigation/primary-nav.njk which uses eleventyNavigation for dynamic content.
+
+INTEGRATION DEPENDENCIES:
+- Used by organisms/layout/header.njk 
+- Static links need to be maintained manually
+- Consider migration to eleventyNavigation system
+
+TODO: Replace with eleventyNavigation-based navigation molecule
+#}
+<ul class="flex flex-row gap-2 ">
+    <li>
+        <a href="" class="text-sm font-light text-neutral-100">Work</a>
+    </li>
+    <li>
+        <a href="" class="text-sm font-light text-neutral-100">Lab</a>
+    </li>
+    <li>
+        <a href="" class="text-sm font-light text-neutral-100">Teaching</a>
+    </li>
+    <li>
+        <a href="" class="text-sm font-light text-neutral-100">Now</a>
+    </li>
+    <li>
+        <a href="" class="text-sm font-light text-neutral-100">Contact</a>
+    </li>
+</ul>

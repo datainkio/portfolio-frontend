@@ -1,4 +1,15 @@
-{# The first visual element on the page. Holds the primary nav. #}
+{#
+HEADER LAYOUT ORGANISM
+CRITICAL WARNING: This organism coordinates header layout with GSAP animations
+MOVED FROM: organisms/header.njk -> organisms/layout/header.njk (atomic design reorganization)
+
+INTEGRATION DEPENDENCIES:
+- GSAP animations in js/choreography/sections/Hero.js expect #siteHeader ID
+- ScrollTrigger animations depend on fixed positioning and z-index
+- Navigation organisms in organisms/navigation/ directory
+
+DO NOT MODIFY: Element ID, positioning classes, or DOM structure without testing animations
+#}
 <header
   class="col-span-full fixed top-0 z-50 transition-transform duration-300 {{ headerClasses }} flex flex-row items-center
     w-full py-4 px-8"
@@ -7,7 +18,7 @@
     <a class="btn btn-ghost text-xl style-log-screensize text-neutral-100" href="/">{{ site.siteName }}</a>
   </div>
   <nav class="justify-end">
-    {% include "organisms/primary-nav.njk" %}
+    {% include "organisms/navigation/primary-nav.njk" %}
   </nav>
 </header>
 <script>
