@@ -15,8 +15,8 @@ export function ping() {
 export function morph(id, fonts) {
   console.log("TextParty.morph() called");
   const tl = TextMorph(id, fonts);
-  // tl.eventCallback("onStart", onStart, [tl, fonts]);
-  // tl.eventCallback("onComplete", onComplete, [tl, fonts]);
+  tl.eventCallback("onStart", onStart, [tl, fonts]);
+  tl.eventCallback("onComplete", onComplete, [tl, fonts]);
   return tl;
 }
 
