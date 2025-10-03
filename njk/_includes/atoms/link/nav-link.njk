@@ -5,7 +5,7 @@ WARNING: Link classes are used by GSAP scroll animations - test after modificati
 #}
 
 {% set linkUrl = entry.url or url %}
-{% set linkTitle = entry.title or title %}
+{% set linkTitle = entry.title or entry.key or title %}
 {% set linkClass = (entry.class or class or "") %}
 {% set isCurrent = (linkUrl == page.url) %}
 {% set hasChildren = entry.children and entry.children.length > 0 %}

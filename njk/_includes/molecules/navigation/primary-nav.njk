@@ -9,7 +9,7 @@ Dependencies:
 
 <ul class="primary-nav flex flex-row gap-4" role="list">
   {%- for entry in collections.all | eleventyNavigation %}
-    <li class="nav-item">
+    <li class="nav-item group relative">
       {% include "atoms/link/nav-link.njk" %}
       
       {# Dropdown for child navigation #}
