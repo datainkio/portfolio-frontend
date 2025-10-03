@@ -3,10 +3,10 @@
   {% block head %}
     {% include "organisms/layout/head.njk" %}
   {% endblock %}
-  <body class="grid grid-cols-12 {{ bodyStyles }}">
+  <body class="grid grid-cols-12 {{ bodyClasses }}">
     {% include "atoms/gtm-noscript.njk" %}
     {% include "organisms/layout/header.njk" %}
-    <main class="col-span-full {{ mainStyles }}">
+    <main class="col-span-full {{ mainClasses }}">
       {% block content %}
         {% if content %}
           {{ content | safe }}
