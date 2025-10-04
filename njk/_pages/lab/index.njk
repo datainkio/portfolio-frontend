@@ -4,4 +4,220 @@ title: Lab
 permalink: lab/index.html
 eleventyNavigation:
   key: Lab
+description: Experimental workspace for rapid prototyping and creative coding experiments
 ---
+
+<section class="prose prose-lg max-w-4xl">
+  <header class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Lab: Experimental Workspace</h1>
+    <p class="text-xl text-base-content/80 leading-relaxed">
+      The Lab is your creative playground for rapid prototyping, animation experiments, and design explorations. 
+      This landing page serves as the hub for accessing all experimental projects and provides quick guidance for creating new ones.
+    </p>
+  </header>
+
+  <div class="grid md:grid-cols-2 gap-8 mb-12">
+    <div class="card bg-base-200 shadow-lg">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">🚀 Quick Start</h2>
+        <p>Ready to experiment? Creating a new lab page is simple:</p>
+        <ol class="list-decimal list-inside space-y-2 text-sm">
+          <li>Create a <code>.njk</code> file in <code>njk/_pages/lab/</code></li>
+          <li>Add frontmatter with <code>parent: Lab</code></li>
+          <li>Start experimenting!</li>
+        </ol>
+        <p class="text-sm text-base-content/70 mt-4">
+          ✨ <strong>Navigation automatically updates</strong> - your page appears in the Lab dropdown menu instantly.
+        </p>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow-lg">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">🛠️ Available Tools</h2>
+        <ul class="space-y-2 text-sm">
+          <li><strong>GSAP Animation Suite</strong> - Professional animation library</li>
+          <li><strong>Design System</strong> - Figma-synced tokens & components</li>
+          <li><strong>Tailwind CSS</strong> - Utility-first styling framework</li>
+          <li><strong>External Libraries</strong> - Easy CDN integration</li>
+          <li><strong>Custom Assets</strong> - Page-specific CSS & JavaScript</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <section class="mb-12">
+    <h2 class="text-3xl font-bold mb-6">Current Experiments</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div class="card bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 hover:shadow-lg transition-shadow">
+        <div class="card-body">
+          <h3 class="card-title text-lg">
+            <a href="/lab/text-party/" class="link link-hover">Text Party</a>
+          </h3>
+          <p class="text-sm text-base-content/70">
+            Font morphing animations using OpenType.js and GSAP MorphSVG. Watch text transform between different typefaces with smooth vector interpolation.
+          </p>
+          <div class="card-actions justify-end mt-4">
+            <div class="badge badge-primary badge-sm">Text Effects</div>
+            <div class="badge badge-secondary badge-sm">GSAP</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-gradient-to-br from-accent/10 to-neutral/10 border border-accent/20 hover:shadow-lg transition-shadow">
+        <div class="card-body">
+          <h3 class="card-title text-lg">
+            <a href="/lab/text-radial-stagger/" class="link link-hover">Text Radial Stagger</a>
+          </h3>
+          <p class="text-sm text-base-content/70">
+            Radial text animation patterns with GSAP SplitText. Characters animate in circular formations with staggered timing effects.
+          </p>
+          <div class="card-actions justify-end mt-4">
+            <div class="badge badge-accent badge-sm">Animation</div>
+            <div class="badge badge-neutral badge-sm">SplitText</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-gradient-to-br from-success/10 to-warning/10 border border-success/20 hover:shadow-lg transition-shadow">
+        <div class="card-body">
+          <h3 class="card-title text-lg">
+            <a href="/lab/text-to-vector/" class="link link-hover">Text to Vector</a>
+          </h3>
+          <p class="text-sm text-base-content/70">
+            Converting typography to SVG paths for advanced text manipulation and morphing effects. Explore vector-based text animations.
+          </p>
+          <div class="card-actions justify-end mt-4">
+            <div class="badge badge-success badge-sm">SVG</div>
+            <div class="badge badge-warning badge-sm">Typography</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-gradient-to-br from-info/10 to-primary/10 border border-info/20 hover:shadow-lg transition-shadow">
+        <div class="card-body">
+          <h3 class="card-title text-lg">
+            <a href="/lab/blockframes/" class="link link-hover">Blockframes</a>
+          </h3>
+          <p class="text-sm text-base-content/70">
+            SVG-based frame animations and transitions. Explore geometric patterns and structured animation sequences.
+          </p>
+          <div class="card-actions justify-end mt-4">
+            <div class="badge badge-info badge-sm">SVG</div>
+            <div class="badge badge-primary badge-sm">Frames</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-gradient-to-br from-secondary/10 to-accent/10 border border-secondary/20 hover:shadow-lg transition-shadow">
+        <div class="card-body">
+          <h3 class="card-title text-lg">
+            <a href="/lab/printmarks/" class="link link-hover">Print Marks</a>
+          </h3>
+          <p class="text-sm text-base-content/70">
+            CSS print styling experiments and print-specific design patterns. Explore print media queries and layout techniques.
+          </p>
+          <div class="card-actions justify-end mt-4">
+            <div class="badge badge-secondary badge-sm">CSS</div>
+            <div class="badge badge-accent badge-sm">Print</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-gradient-to-br from-warning/10 to-error/10 border border-warning/20 hover:shadow-lg transition-shadow">
+        <div class="card-body">
+          <h3 class="card-title text-lg">
+            <a href="/lab/text-masking/" class="link link-hover">Text Masking</a>
+          </h3>
+          <p class="text-sm text-base-content/70">
+            Advanced CSS masking techniques applied to typography. Create complex text reveal effects and layered compositions.
+          </p>
+          <div class="card-actions justify-end mt-4">
+            <div class="badge badge-warning badge-sm">CSS</div>
+            <div class="badge badge-error badge-sm">Masking</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-3xl font-bold mb-6">Developer Quick Reference</h2>
+    
+    <div class="collapse collapse-arrow bg-base-200 mb-4">
+      <input type="radio" name="quick-ref-accordion" checked="checked" /> 
+      <div class="collapse-title text-xl font-medium">
+        📝 Frontmatter Template
+      </div>
+      <div class="collapse-content"> 
+        <div class="mockup-code">
+          <pre><code>---
+layout: templates/documentation.njk
+title: Your Experiment Name
+description: Brief description of your experiment
+eleventyNavigation:
+  key: Your Experiment Name
+  parent: Lab  # REQUIRED for navigation
+scripts: >  # Optional: External libraries
+  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js">&lt;/script>
+styles: >  # Optional: Custom CSS
+  &lt;style>
+    .experiment-container { background: #000; }
+  &lt;/style>
+---</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200 mb-4">
+      <input type="radio" name="quick-ref-accordion" /> 
+      <div class="collapse-title text-xl font-medium">
+        🎨 GSAP Integration
+      </div>
+      <div class="collapse-content"> 
+        <div class="mockup-code">
+          <pre><code>&lt;script type="module">
+  import { gsap } from '/assets/js/gsap/all.js';
+  import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+  import { MorphSVGPlugin } from '/assets/js/gsap/MorphSVGPlugin.js';
+  
+  // Your animation code here
+  gsap.from('.element', { duration: 2, y: 100, opacity: 0 });
+&lt;/script></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200 mb-4">
+      <input type="radio" name="quick-ref-accordion" /> 
+      <div class="collapse-title text-xl font-medium">
+        🧩 Component Usage
+      </div>
+      <div class="collapse-content"> 
+        <div class="mockup-code">
+          <pre><code>{%raw%}{% include "atoms/button/button.njk" with {
+  text: "Run Experiment",
+  variant: "primary"
+} %}
+
+{% include "organisms/section/title.njk" with {
+  title: "Experiment Results",
+  subtitle: "Interactive demonstration"
+} %}{%endraw%}</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="alert alert-info mb-8">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <div>
+      <h3 class="font-bold">Need more details?</h3>
+      <p>Check the comprehensive <a href="https://github.com/datainkio/portfolio/blob/text-animations/njk/_pages/lab/README.md" class="link">Lab README</a> for complete documentation, troubleshooting guides, and advanced techniques.</p>
+    </div>
+  </div>
+
+</section>

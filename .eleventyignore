@@ -1,2 +1,4 @@
 # .eleventyignore
+
 .DS_Store
+njk/\_pages/lab/README.md

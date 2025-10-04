@@ -156,10 +156,10 @@ import { MorphSVGPlugin } from '/assets/js/gsap/MorphSVGPlugin.js';
 ### Design System Components
 
 ```nunjucks
-{% include "atoms/button/button.njk" with {
+{%raw%}{% include "atoms/button/button.njk" with {
   text: "Run Experiment",
   variant: "primary"
-} %}
+} %}{%endraw%}
 ```
 
 ### Tailwind CSS Framework
