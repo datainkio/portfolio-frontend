@@ -13,7 +13,10 @@
     "build:11ty": "eleventy --quiet",
     "dev:11ty": "eleventy --serve --quiet",
     "dev:css": "npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css --watch",
-    "start": "run-p dev:css dev:11ty"
+    "start": "run-p dev:css dev:11ty",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "format:njk": "prettier --write \"**/*.njk\""
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
@@ -35,5 +38,8 @@
     "opentype.js": "^1.3.4",
     "slugify": "^1.6.6",
     "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }

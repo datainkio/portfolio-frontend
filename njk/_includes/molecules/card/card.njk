@@ -2,9 +2,9 @@
   <div class="card-body">
     <h2 class="card-title">{{ title }}</h2>
     <p>{{ content }}</p>
-{% if button %}
-  {% set label = button %}
-  {% include "atoms/button.njk" %}
-{% endif %}
+    {% if button %}
+      {% set label = button %}
+      {% include "atoms/button.njk" %}
+    {% endif %}
   </div>
 </div>

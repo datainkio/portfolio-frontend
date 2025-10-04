@@ -3,20 +3,26 @@ layout: templates/documentation.njk
 title: Text Radial Stagger
 
 eleventyNavigation:
-    key: Text-Radial-Stagger
-    parent: Lab
+  key: Text-Radial-Stagger
+  parent: Lab
 scripts: >
   <script src="/assets/js/gsap/gsap.js"></script>
   <script src="/assets/js/gsap/SplitText.js"></script>
 ---
+
 <div class="w-full h-96 flex items-center justify-center border border-neutral">
-    <span id="example" class="font-extrablack font-sans text-6xl uppercase">Turning</span>
-    <div id="origin-marker" class="absolute w-4 h-4 bg-secondary rounded-full"></div>
+  <span id="example" class="font-extrablack font-sans text-6xl uppercase"
+    >Turning</span
+  >
+  <div
+    id="origin-marker"
+    class="absolute w-4 h-4 bg-secondary rounded-full"
+  ></div>
 </div>
 
 <script type="module">
-  document.addEventListener("DOMContentLoaded", async () => {
-    const split = new SplitText("#example", { type: "chars" });
+  document.addEventListener('DOMContentLoaded', async () => {
+    const split = new SplitText('#example', { type: 'chars' });
 
     // Get the x, y coordinates of an element using getBoundingClientRect
     function getElementCoordinates(element) {
@@ -29,46 +35,49 @@ scripts: >
     // Update the origin marker for a given character
     function updateMark(char, mark) {
       const { x, y } = getElementCoordinates(char);
-      mark.style.left = `${x - mark.style.width/2}px`;
-      mark.style.top = `${y - mark.style.height/2}px`;
+      mark.style.left = `${x - mark.style.width / 2}px`;
+      mark.style.top = `${y - mark.style.height / 2}px`;
     }
 
     // Get the transform origin of the container
-    const container = document.getElementById("example");
+    const container = document.getElementById('example');
     const { x: originX, y: originY } = getElementCoordinates(container);
 
     // Get the transform origin of the first character
     // const firstChar = split.chars[0];
     // const { x: originX, y: originY } = getElementCoordinates(firstChar);
 
-    console.log("Origin:", originX, originY);
+    console.log('Origin:', originX, originY);
 
     // Show the location of each element's origin point
     split.chars.forEach((char, index) => {
-      char.classList.add("border", "border-accent");
+      char.classList.add('border', 'border-accent');
       const { x, y } = getElementCoordinates(char);
       console.log(Math.floor(x), Math.floor(y));
       // Set the transform origin for all characters to the origin of the first character
-      char.style.transformOrigin = `${originX - x}px 0px`
+      char.style.transformOrigin = `${originX - x}px 0px`;
 
       const { xB, yB } = getElementCoordinates(char);
       console.log(char.style.transformOrigin);
 
-      const mark = document.createElement("div");
-      mark.classList.add("absolute", "w-2", "h-2", "bg-red-500", "rounded-full");
+      const mark = document.createElement('div');
+      mark.classList.add(
+        'absolute',
+        'w-2',
+        'h-2',
+        'bg-red-500',
+        'rounded-full'
+      );
       document.body.appendChild(mark);
 
       updateMark(char, mark);
 
       gsap.to(char, {
-        duration: Math.abs(originX - x) * .2, // Different duration for each character
+        duration: Math.abs(originX - x) * 0.2, // Different duration for each character
         rotation: 360,
-        ease: "none", // Remove easing for constant speed
+        ease: 'none', // Remove easing for constant speed
         repeat: -1, // Infinite rotation
       });
     });
-
-
-
   });
-  </script>
+</script>

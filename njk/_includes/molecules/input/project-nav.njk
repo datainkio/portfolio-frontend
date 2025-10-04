@@ -8,8 +8,11 @@
 {# Set responsive styles #}
 {% set base = "absolute inset-0 h-dvh w-full items-end" %}
 {% set md = "md:items-center" %}
-  <div
-  id="project-nav" class="grid grid-cols-2 text-primary-light  {{ base }} {{ md }} z-50 "> {# PREVIOUS #}
+<div
+  id="project-nav"
+  class="grid grid-cols-2 text-primary-light  {{ base }} {{ md }} z-50 "
+>
+  {# PREVIOUS #}
   {% if previous %}
     {% set sibling = previous %}
     {% set direction = "previous" %}

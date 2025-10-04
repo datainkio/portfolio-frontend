@@ -1,13 +1,13 @@
 ---
 layout: templates/parallax.njk
 permalink: /
-title: "data:ink:io"
-subtitle: "The online studio for Russ Lebo"
-metaDescription: "no metaDescription defined"
-metaKeywords: "user experience, eleventy, tailwind"
-canonicalUrl: "https://dataink.io"
-bodyStyles: "bg-graphpaper-dark bg-graphpaper-sm"
-headerClasses: "text-neutral-light"
+title: 'data:ink:io'
+subtitle: 'The online studio for Russ Lebo'
+metaDescription: 'no metaDescription defined'
+metaKeywords: 'user experience, eleventy, tailwind'
+canonicalUrl: 'https://dataink.io'
+bodyStyles: 'bg-graphpaper-dark bg-graphpaper-sm'
+headerClasses: 'text-neutral-light'
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
   <script type="module" src="/assets/js/displays/blockframes/Architect.js" defer></script>
@@ -17,27 +17,38 @@ scripts: >
 {# Landing view #}
 <section id="main-header" class="col-span-full w-full h-dvh flex items-center">
   {% include "organisms/section/title.njk" %}
-</section> 
+</section>
 <ol id="biography" class="col-span-full text-neutral-100">
   <li class="h-56 flex items-center justify-center">
     <h2>I did not set out to be a designer</h2>
   </li>
   <li class="h-56 flex items-center justify-center">
     <h2>I was supposed to be an anthropologist</h2>
-    <p>Spending time in the field, studying tool use, and asking people what they call their mother's uncle.</p>
+    <p>
+      Spending time in the field, studying tool use, and asking people what they
+      call their mother's uncle.
+    </p>
   </li>
   <li class="h-56 flex items-center justify-center">
-    <h2>But I realized that I wanted to do more than just record. I wanted to create.</h2>
+    <h2>
+      But I realized that I wanted to do more than just record. I wanted to
+      create.
+    </h2>
   </li>
 </ol>
 {# Work organized by category #}
-<ul id="work" class="printmarks flex flex-col gap-48 relative text-neutral-100 sm:mx-6 md:mx-8 lg:mx-auto ">
+<ul
+  id="work"
+  class="printmarks flex flex-col gap-48 relative text-neutral-100 sm:mx-6 md:mx-8 lg:mx-auto "
+>
   {% for category in collections.ia %}
     <li>{% include "organisms/section/project-category.njk" %}</li>
   {% endfor %}
 </ul>
 <section>
-  <h2>I am passionate about building design culture in teams and organizations</h2>
+  <h2>
+    I am passionate about building design culture in teams and organizations
+  </h2>
 </section>
 <section>
   <h2>I am also a pathological tinkerer</h2>

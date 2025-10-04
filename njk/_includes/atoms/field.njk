@@ -1,21 +1,21 @@
 <strong>{{ field }}</strong>
 <span class="italic text-xs">{{ value | datatype }}</span>
 <span class="block italic text-sm break-words">
-{% if value | datatype == "string" %}
+  {% if value | datatype == "string" %}
     {{ value | truncate(128) }}
-    {% elif value | datatype == "array" %}
+  {% elif value | datatype == "array" %}
     {% if value[0] | datatype == "object" %}
-        <ul>
-            {% for item in value %}
-                {% for key, val in item %}
-                    <li><strong>{{ key }}</strong>: {{ val }}</li>
-                {% endfor %}
-            {% endfor %}
-        </ul>
-        {% else %}
-        [{{ value | join | truncate(128) }}]
-    {% endif %}
+      <ul>
+        {% for item in value %}
+          {% for key, val in item %}
+            <li><strong>{{ key }}</strong>: {{ val }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
     {% else %}
+      [{{ value | join | truncate(128) }}]
+    {% endif %}
+  {% else %}
     {{ value }}
-{% endif %}
+  {% endif %}
 </span>

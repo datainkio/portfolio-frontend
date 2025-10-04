@@ -1,10 +1,11 @@
 {% set activities = collections.activities | findRecord(project.activities) %}
 {% if activities %}
-    <ul class="flex flex-row flex-wrap list-none p-0 m-0">
-        {% for activity in activities %}
-            <li class="p-0 m-0">{{ activity.title }}
-                {% if not loop.last %},&nbsp;{% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+  <ul class="flex flex-row flex-wrap list-none p-0 m-0">
+    {% for activity in activities %}
+      <li class="p-0 m-0">
+        {{ activity.title }}
+        {% if not loop.last %},&nbsp;{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
 {% endif %}

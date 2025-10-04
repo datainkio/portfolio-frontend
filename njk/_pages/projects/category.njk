@@ -1,20 +1,9 @@
-{# UNUSED - No references found in codebase, safe to remove #}
----
-layout: templates/base.njk
-pagination:
-  data: collections.ia
-  size: 1
-  alias: category
-permalink: "/{{ category.title | slugify }}/"
-eleventyComputed:
-  title: "{{ category.title | safe }}"
-  eleventyNavigation:
-    parent: "Work"
-    key: {{ title }}
-bodyStyles: "bg-graphpaper-dark"
-mainStyles: "bg-neutral-light p-4 pt-16"
-headerStyles: "text-neutral-dark"
----
+{# UNUSED - No references found in codebase, safe to remove #} --- layout:
+templates/base.njk pagination: data: collections.ia size: 1 alias: category
+permalink: "/{{ category.title | slugify }}/" eleventyComputed: title:
+"{{ category.title | safe }}" eleventyNavigation: parent: "Work" key:
+{{ title }} bodyStyles: "bg-graphpaper-dark" mainStyles: "bg-neutral-light p-4
+pt-16" headerStyles: "text-neutral-dark" ---
 
 <article>
   <header>

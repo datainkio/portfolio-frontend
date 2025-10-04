@@ -3,18 +3,23 @@ layout: templates/documentation.njk
 title: Colors
 navKey: Design
 eleventyNavigation:
-    key: Colors
-    parent: Design
+  key: Colors
+  parent: Design
 ---
 
-<div class="grid col-span-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 p-4">
+<div
+  class="grid col-span-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 p-4"
+>
   {% for colorName, shades in styles.colors %}
     <div>
       <h3 class="text-lg font-bold">{{ colorName }}</h3>
       <div class="space-y-2 mt-2">
         {% for shade, hex in shades %}
           <div class="flex items-center">
-            <div class="w-8 h-8 rounded-sm" style="background-color: {{ hex }}"></div>
+            <div
+              class="w-8 h-8 rounded-sm"
+              style="background-color: {{ hex }}"
+            ></div>
             <span class="ml-2">{{ shade }}: {{ hex }}</span>
           </div>
         {% endfor %}
@@ -31,7 +36,9 @@ eleventyNavigation:
   Assumes that styles.colors is defined and supplying values from the current theme.
 #}
 
-<div class="grid col-span-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+<div
+  class="grid col-span-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4"
+>
   <div class="col-span-full flex items-center gap-4">
     <h2 class="text-xl font-bold">Color Blend Combinations</h2>
     <select class="select select-bordered w-48 blend-mode-selector">
@@ -62,14 +69,34 @@ eleventyNavigation:
               {% for shade1, hex1 in shades1 %}
                 {% for shade2, hex2 in shades2 %}
                   {% set blendedHex = hex1 | multiplyBlend(hex2) %}
-                  <div class="flex items-center gap-2" data-color1="{{ hex1 }}" data-color2="{{ hex2 }}" data-shade1="{{ shade1 }}" data-shade2="{{ shade2 }}">
-                    <div class="w-8 h-8 rounded-btn" style="background-color: {{ hex1 }}"></div>
-                    <div class="w-8 h-8 rounded-btn" style="background-color: {{ hex2 }}"></div>
+                  <div
+                    class="flex items-center gap-2"
+                    data-color1="{{ hex1 }}"
+                    data-color2="{{ hex2 }}"
+                    data-shade1="{{ shade1 }}"
+                    data-shade2="{{ shade2 }}"
+                  >
+                    <div
+                      class="w-8 h-8 rounded-btn"
+                      style="background-color: {{ hex1 }}"
+                    ></div>
+                    <div
+                      class="w-8 h-8 rounded-btn"
+                      style="background-color: {{ hex2 }}"
+                    ></div>
                     <div class="w-16 h-8 rounded-btn relative blend-preview">
-                      <div class="absolute inset-0" style="background-color: {{ hex1 }}"></div>
-                      <div class="absolute inset-0 blend-layer" style="background-color: {{ hex2 }}"></div>
+                      <div
+                        class="absolute inset-0"
+                        style="background-color: {{ hex1 }}"
+                      ></div>
+                      <div
+                        class="absolute inset-0 blend-layer"
+                        style="background-color: {{ hex2 }}"
+                      ></div>
                     </div>
-                    <span class="ml-2 text-sm blend-result">{{ shade1 }} × {{ shade2 }}: {{ blendedHex }}</span>
+                    <span class="ml-2 text-sm blend-result"
+                      >{{ shade1 }} × {{ shade2 }}: {{ blendedHex }}</span
+                    >
                   </div>
                 {% endfor %}
               {% endfor %}
@@ -97,11 +124,14 @@ eleventyNavigation:
       const shade1 = container.dataset.shade1;
       const shade2 = container.dataset.shade2;
       const blendedHex = calculateBlend(color1, color2, mode);
-      container.querySelector('.blend-result').textContent = `${shade1} × ${shade2}: ${blendedHex}`;
+      container.querySelector('.blend-result').textContent =
+        `${shade1} × ${shade2}: ${blendedHex}`;
     });
   }
 
-  blendModeSelector.addEventListener('change', (e) => updateBlendMode(e.target.value));
+  blendModeSelector.addEventListener('change', e =>
+    updateBlendMode(e.target.value)
+  );
 
   // Initialize with multiply blend mode
   updateBlendMode('multiply');

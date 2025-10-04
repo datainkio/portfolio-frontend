@@ -1,7 +1,5 @@
-    <ul class="menu menu-horizontal px-1 {{ class }}">
-        {% for item in site.navigation %}
-        <li>
-            {% include "molecules/nav-item.njk" %}
-        </li>
-        {% endfor %}
-    </ul>
+<ul class="menu menu-horizontal px-1 {{ class }}">
+  {% for item in site.navigation %}
+    <li>{% include "molecules/nav-item.njk" %}</li>
+  {% endfor %}
+</ul>
