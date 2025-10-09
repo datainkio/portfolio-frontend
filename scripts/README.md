@@ -24,20 +24,20 @@ The build system uses a carefully orchestrated sequence of scripts that must exe
 
 ```javascript
 #!/usr/bin/env node
-import chalk from "chalk";
-import { PaletteService } from "../figma/services/PaletteService.js";
-import { TypographyService } from "../figma/services/TypographyService.js";
+import chalk from 'chalk';
+import { PaletteService } from '../figma/services/PaletteService.js';
+import { TypographyService } from '../figma/services/TypographyService.js';
 
-console.log(chalk.blue("🎨 Syncing design tokens from Figma..."));
+console.log(chalk.blue('🎨 Syncing design tokens from Figma...'));
 
 try {
   // Execute services sequentially to avoid API rate limits
   await PaletteService.sync();
   await TypographyService.sync();
 
-  console.log(chalk.green("✅ Design tokens synchronized successfully"));
+  console.log(chalk.green('✅ Design tokens synchronized successfully'));
 } catch (error) {
-  console.error(chalk.red("❌ Design token sync failed:"), error.message);
+  console.error(chalk.red('❌ Design token sync failed:'), error.message);
   process.exit(1); // Fail build on sync errors
 }
 ```

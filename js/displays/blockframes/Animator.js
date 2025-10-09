@@ -5,7 +5,7 @@
  * All animations use GSAP timelines for fine-grained control.
  *
  * GSAP DEPENDENCY:
- * - Requires GSAP to be loaded globally (imported in Blockframes.js)
+ * - Imports GSAP core library (named export pattern)
  * - Uses gsap.timeline() for animation sequencing
  * - Returns timeline objects for external control (play, pause, reverse, etc.)
  *
@@ -28,6 +28,8 @@
  * // timeline.pause();
  * // timeline.play();
  */
+
+import { gsap } from '/assets/js/gsap/gsap-core.js';
 
 /**
  * Creates a horizontal wipe/marquee animation for a block element

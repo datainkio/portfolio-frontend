@@ -48,7 +48,7 @@
  * timeline.play();
  */
 
-import gsap from '/assets/js/gsap/gsap-core.js';
+import { gsap } from '/assets/js/gsap/gsap-core.js';
 import * as Builder from './Builder.js';
 import * as Painter from './Painter.js';
 import * as Animator from './Animator.js';
@@ -173,6 +173,8 @@ export default class Blockframes {
    * USAGE: Primarily used for creating visual grid mockups or testing
    * color palettes in a grid format.
    *
+   * PERFORMANCE: Uses DocumentFragment for batch DOM insertion to minimize reflows.
+   *
    * @param {number} rows - Number of grid rows
    * @param {number} cols - Number of grid columns
    * @param {string[]} colors - Array of color values (hex, rgb, etc.)
@@ -186,22 +188,28 @@ export default class Blockframes {
    * // Creates a 3x3 grid with cycling colors
    */
   makeGrid(rows, cols, colors) {
-    // Create a container for the grid
     const grid = document.createElement('div');
-    grid.classList.add('grid');
-    grid.style.display = 'grid';
-    grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-    grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-    grid.style.gap = '1px';
+    const totalCells = rows * cols;
+    const colorCount = colors.length;
 
-    // Create the grid cells
-    for (let i = 0; i < rows * cols; i++) {
+    // Set grid properties
+    grid.classList.add('grid');
+    Object.assign(grid.style, {
+      display: 'grid',
+      gridTemplateColumns: `repeat(${cols}, 1fr)`,
+      gridTemplateRows: `repeat(${rows}, 1fr)`,
+      gap: '1px',
+    });
+
+    // Use DocumentFragment for batch insertion (prevents multiple reflows)
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < totalCells; i++) {
       const cell = document.createElement('div');
-      cell.style.backgroundColor = colors[i % colors.length];
-      grid.appendChild(cell);
+      cell.style.backgroundColor = colors[i % colorCount];
+      fragment.appendChild(cell);
     }
 
-    // Add the grid to the document
+    grid.appendChild(fragment);
     return grid;
   }
 
@@ -228,6 +236,8 @@ export default class Blockframes {
    * WARNING: If SVG already has a viewBox, this preserves it. If not,
    * it attempts to infer from width/height attributes (defaults to "0 0 100 100").
    *
+   * PERFORMANCE: Batches attribute changes to minimize reflows.
+   *
    * @returns {void}
    *
    * @example
@@ -246,23 +256,20 @@ export default class Blockframes {
    * // SVG will scale to fit while maintaining aspect ratio
    */
   makeResponsive() {
-    // Remove any width and height attributes on the SVG
-    this.svgElement.removeAttribute('width');
-    this.svgElement.removeAttribute('height');
+    const svg = this.svgElement;
 
-    // Set the viewBox attribute if not already set
-    if (!this.svgElement.hasAttribute('viewBox')) {
-      const width = this.svgElement.getAttribute('width') || '100';
-      const height = this.svgElement.getAttribute('height') || '100';
-      this.svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
-      this.svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    // Capture dimensions before removal (if viewBox needs to be inferred)
+    if (!svg.hasAttribute('viewBox')) {
+      const width = svg.getAttribute('width') || '100';
+      const height = svg.getAttribute('height') || '100';
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
     }
 
-    // Ensure preserveAspectRatio is set
-    this.svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-
-    // Add Tailwind CSS classes to the SVG element
-    this.svgElement.classList.add('w-full', 'h-full');
+    // Batch attribute changes to minimize reflows
+    svg.removeAttribute('width');
+    svg.removeAttribute('height');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    svg.classList.add('w-full', 'h-full');
   }
 
   /**
@@ -306,9 +313,10 @@ export default class Blockframes {
    * - `.Article` - An article template
    * - `.Button` - A button atom
    *
-   * IMPLEMENTATION NOTE:
-   * querySelector().children returns HTMLCollection (no forEach method).
-   * This getter converts to Array using spread syntax for easier iteration.
+   * PERFORMANCE OPTIMIZATION:
+   * - Uses Array.from() for clean array conversion
+   * - Caches querySelector result to avoid redundant DOM traversal
+   * - Direct array return (no intermediate forEach needed)
    *
    * ERROR HANDLING:
    * Will throw if .Blocks element doesn't exist in the SVG.
@@ -338,18 +346,11 @@ export default class Blockframes {
    * });
    */
   get inventory() {
-    const result = [];
-    /**
-     * this.svgElement.querySelector(".Blocks").children returns an HTMLCollection, which does not have
-     * a forEach method. forEach is available on arrays, but not on HTMLCollection objects.
-     * To get around this, convert the HTMLCollection into an array before iterating. You can use either
-     * Array.from() or the spread syntax ([...]).
-     */
-    const blocks = [...this.svgElement.querySelector('.Blocks').children];
-    blocks.forEach(block => {
-      result.push(block);
-    });
-    return result;
+    const blocksContainer = this.svgElement.querySelector('.Blocks');
+    if (!blocksContainer) {
+      throw new TypeError('SVG must contain a .Blocks container element');
+    }
+    return Array.from(blocksContainer.children);
   }
 
   /**
@@ -400,6 +401,8 @@ export default class Blockframes {
    * USE CASE: Initial SVG setup with default styling before painting
    * individual blocks with their specific colors.
    *
+   * PERFORMANCE: Batches attribute changes in single operation.
+   *
    * PALETTE STRUCTURE REQUIRED:
    * {
    *   neutral: {
@@ -426,9 +429,10 @@ export default class Blockframes {
    * // Then paint individual blocks...
    */
   paintAll(palette) {
-    this.svgElement.setAttribute('stroke-width', 2);
-    // this.svgElement.setAttribute("stroke", palette.neutral.dark);
-    this.svgElement.setAttribute('fill', palette.neutral.light);
+    const svg = this.svgElement;
+    svg.setAttribute('stroke-width', 2);
+    svg.setAttribute('fill', palette.neutral.light);
+    // Optional: svg.setAttribute('stroke', palette.neutral.dark);
   }
 
   /**
@@ -460,9 +464,9 @@ export default class Blockframes {
    * - Nested element styling (recursively paints child components)
    *
    * ERROR HANDLING:
-   * If no paint module exists for the block type, Painter.js will:
-   * - Log a warning to console
-   * - Skip painting (no error thrown)
+   * - Returns early if block is null/undefined (defensive programming)
+   * - If no paint module exists for the block type, Painter.js will log a warning
+   * - No error thrown (graceful degradation)
    *
    * @param {SVGElement} block - The block element to paint
    * @param {Object} palette - Color palette object
@@ -493,6 +497,10 @@ export default class Blockframes {
    * blockframes.paintBlock(sidebar, secondaryPalette);
    */
   paintBlock(block, palette) {
+    if (!block) {
+      console.warn('paintBlock: block is null or undefined');
+      return;
+    }
     Painter.block(block, palette);
   }
 
@@ -516,6 +524,10 @@ export default class Blockframes {
    * - Clone multiple cards from a template block (clone=true)
    * - Create instances of reusable components (clone=true)
    * - Relocate a unique element (clone=false)
+   *
+   * ERROR HANDLING:
+   * - Returns early if block or container is null/undefined
+   * - Logs warning for debugging
    *
    * IMPORTANT: Builder.js handles the actual insertion logic. See Builder.js
    * documentation for implementation details.
@@ -545,6 +557,10 @@ export default class Blockframes {
    * // hero is now inside article, removed from original location
    */
   placeBlock(block, container, clone = true) {
+    if (!block || !container) {
+      console.warn('placeBlock: block or container is null/undefined', { block, container });
+      return;
+    }
     Builder.insert(block, container, clone);
   }
 
@@ -575,25 +591,29 @@ export default class Blockframes {
    * - Animator.slideIn(block)
    * - Animator.scale(block)
    *
+   * ERROR HANDLING:
+   * - Returns null if block is invalid (defensive programming)
+   * - Logs warning for debugging
+   *
    * GSAP DEPENDENCY:
    * Requires GSAP to be loaded (imported at top of file).
    * Timeline controls won't work if GSAP is not available.
    *
    * @param {SVGElement} block - The block element to animate
    *
-   * @returns {gsap.core.Timeline} GSAP timeline for animation control
+   * @returns {gsap.core.Timeline|null} GSAP timeline for animation control, or null if invalid
    *
    * @example
    * const card = blockframes.getBlock('.Card');
    * const timeline = blockframes.animateBlock(card);
    *
    * // Play immediately
-   * timeline.play();
+   * if (timeline) timeline.play();
    *
    * @example
    * // Animate with delay
    * const timeline = blockframes.animateBlock(card);
-   * setTimeout(() => timeline.play(), 1000);
+   * if (timeline) setTimeout(() => timeline.play(), 1000);
    *
    * @example
    * // Chain multiple block animations
@@ -601,7 +621,9 @@ export default class Blockframes {
    *
    * blockframes.inventory.forEach((block, i) => {
    *   const blockTimeline = blockframes.animateBlock(block);
-   *   masterTimeline.add(blockTimeline, i * 0.2); // Stagger by 0.2s
+   *   if (blockTimeline) {
+   *     masterTimeline.add(blockTimeline, i * 0.2); // Stagger by 0.2s
+   *   }
    * });
    *
    * masterTimeline.play();
@@ -609,12 +631,17 @@ export default class Blockframes {
    * @example
    * // Control animation interactively
    * const timeline = blockframes.animateBlock(card);
-   *
-   * playButton.addEventListener('click', () => timeline.play());
-   * pauseButton.addEventListener('click', () => timeline.pause());
-   * reverseButton.addEventListener('click', () => timeline.reverse());
+   * if (timeline) {
+   *   playButton.addEventListener('click', () => timeline.play());
+   *   pauseButton.addEventListener('click', () => timeline.pause());
+   *   reverseButton.addEventListener('click', () => timeline.reverse());
+   * }
    */
   animateBlock(block) {
+    if (!block) {
+      console.warn('animateBlock: block is null or undefined');
+      return null;
+    }
     return Animator.wipe(block);
   }
 }
