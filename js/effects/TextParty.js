@@ -1,22 +1,22 @@
 /**
  * The purpose of this class is to consolidate all of the funky methods I've created for messing with text
  */
-import { TextRadar } from "./text/text-radar.js";
-import { TextRoll } from "./text/text-roll.js";
-import { WanderingGel } from "./text/text-wandering-gel.js";
-import { OutlineToFill } from "./text/text-outline-to-fill.js";
-import { SeventiesNewsShow } from "./text/text-seventies.js";
-import { TextMorph } from "./text/text-morph.js";
-import { TextPartyEvent } from "./TextPartyEvent.js";
+import { TextRadar } from './text/TextRadar.js';
+import { TextRoll } from './text/TextRoll.js';
+import { WanderingGel } from './text/TextWanderingGel.js';
+import { OutlineToFill } from './text/TextOutlineToFill.js';
+import { SeventiesNewsShow } from './text/TextSeventies.js';
+import { TextMorph } from './text/TextMorph.js';
+import { TextPartyEvent } from './TextPartyEvent.js';
 
 export function ping() {
-  return "ping!";
+  return 'ping!';
 }
 export function morph(id, fonts) {
-  console.log("TextParty.morph() called");
+  console.log('TextParty.morph() called');
   const tl = TextMorph(id, fonts);
-  tl.eventCallback("onStart", onStart, [tl, fonts]);
-  tl.eventCallback("onComplete", onComplete, [tl, fonts]);
+  tl.eventCallback('onStart', onStart, [tl, fonts]);
+  tl.eventCallback('onComplete', onComplete, [tl, fonts]);
   return tl;
 }
 
@@ -26,8 +26,8 @@ export function radar(elem, settings) {
 
 export function roll(container, settings) {
   let tl = TextRoll(container, settings);
-  tl.eventCallback("onStart", onStart, [tl, settings]);
-  tl.eventCallback("onComplete", onComplete, [tl, settings]);
+  tl.eventCallback('onStart', onStart, [tl, settings]);
+  tl.eventCallback('onComplete', onComplete, [tl, settings]);
   return tl;
 }
 
@@ -39,8 +39,8 @@ export function roll(container, settings) {
  */
 export function gel(container, params) {
   let tl = WanderingGel(container, params);
-  tl.eventCallback("onStart", onStart, [tl, params]);
-  tl.eventCallback("onComplete", onComplete, [tl, params]);
+  tl.eventCallback('onStart', onStart, [tl, params]);
+  tl.eventCallback('onComplete', onComplete, [tl, params]);
   return tl;
 }
 
@@ -53,8 +53,8 @@ export function seventies(container, params) {
 }
 
 export function lines(id) {
-  var pars = document.getElementById(id).querySelectorAll("p");
-  var st = new SplitText(pars, { type: "chars" });
+  var pars = document.getElementById(id).querySelectorAll('p');
+  var st = new SplitText(pars, { type: 'chars' });
   var tl = gsap.timeline({ id: id });
   tl.from(st.lines, {
     duration: 2,
@@ -66,9 +66,9 @@ export function lines(id) {
 }
 
 export function fadeInChars(elem) {
-  var tl = gsap.timeline({ id: "fadeInChars" });
+  var tl = gsap.timeline({ id: 'fadeInChars' });
   var st = new SplitText(elem, {
-    type: "chars",
+    type: 'chars',
   });
   gsap.set(st.chars, { opacity: 0 });
   tl.to(st.chars, {
@@ -85,28 +85,28 @@ export function fadeInChars(elem) {
 
 function onStart(tl, st) {
   switch (tl.id) {
-    case "fadeInChars":
+    case 'fadeInChars':
       gsap.set(st.chars, { opacity: 0 });
       break;
   }
-  document.dispatchEvent(TextPartyEvent("onTextPartyStart", tl));
+  document.dispatchEvent(TextPartyEvent('onTextPartyStart', tl));
 }
 
 function onComplete(tl, params) {
   switch (tl.id) {
-    case "fadeInChars":
+    case 'fadeInChars':
       tl.revert();
       break;
   }
-  document.dispatchEvent(TextPartyEvent("onTextPartyComplete", tl));
+  document.dispatchEvent(TextPartyEvent('onTextPartyComplete', tl));
 }
 
 export function fadeOutChars(id) {
   var elem = document.getElementById(id);
   var tl = gsap.timeline({});
-  tl.id = "fadeOutChars";
+  tl.id = 'fadeOutChars';
   // LETTERS
-  var st = new SplitText(elem, { type: "chars" });
+  var st = new SplitText(elem, { type: 'chars' });
   tl.to(st.chars, {
     duration: 2,
     opacity: 0,
