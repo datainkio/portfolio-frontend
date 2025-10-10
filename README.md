@@ -20,17 +20,88 @@ This site uses a complex but powerful tech stack designed for automated design-t
 # Step 1: ALWAYS run install first - missing npm-run-all will cause cryptic parallel execution failures
 npm install
 
-# Step 2: Sync Figma design tokens to CSS files - MUST happen before 11ty build or site will look broken
-npm run build:design
+# Step 2: Full build (clean → design → 11ty) - recommended for production
+npm run build
 
-# Step 3: Generate static site from njk/ templates to _site/
-npm run build:11ty
-
-# Step 4: Development with parallel Tailwind watching + 11ty serving (requires npm-run-all)
+# Step 3: Development with parallel Tailwind watching + 11ty serving (requires npm-run-all)
 npm start
 ```
 
-**DO NOT SKIP STEP 2**: The site will compile without design tokens but will look like a 1990s website built by someone who hates design. The `build:design` command fetches colors, typography, and spacing tokens from Figma and writes them to CSS files that 11ty templates depend on.
+**BUILD PROCESS DETAILS**:
+
+- `npm run build` sequentially runs: `clean` → `build:design` → `build:11ty`
+- The clean step removes old files BUT preserves the `content/` directory (cached images/videos)
+- Design tokens MUST sync before 11ty build or site will look like a 1990s disaster. Geocities, anyone?
+
+## Available Commands
+
+### Production Build Commands
+
+```bash
+# Full production build (clean + design + 11ty)
+npm run build
+
+# Clean _site folder (preserves content directory with cached images)
+npm run clean
+
+# Sync Figma design tokens to CSS files only
+npm run build:design
+
+# Generate static site from njk/ templates only
+npm run build:11ty
+```
+
+### Development Commands
+
+```bash
+# Start development server (parallel: Tailwind watch + 11ty serve)
+npm start
+
+# Run 11ty dev server only (watch and serve)
+npm run dev:11ty
+
+# Run Tailwind watch only (CSS compilation)
+npm run dev:css
+```
+
+### Utility Commands
+
+```bash
+# Format all files with Prettier
+npm run format
+
+# Check formatting without making changes
+npm run format:check
+
+# Format only Nunjucks template files
+npm run format:njk
+```
+
+### Build Execution Order
+
+When you run `npm run build`, the following happens **sequentially**:
+
+1. **Clean** (`npm run clean`)
+
+   - Deletes all files in `_site/` folder
+   - **Preserves** `_site/content/` directory (images, videos)
+   - Prevents file duplication from previous builds
+
+2. **Design Sync** (`npm run build:design`)
+
+   - Fetches design tokens from Figma API
+   - Writes colors to `styles/colors.css`
+   - Writes typography to `styles/typography/fontFamilies.css`
+
+3. **11ty Build** (`npm run build:11ty`)
+   - Fetches content from Airtable (with smart caching)
+   - Processes images via `@11ty/eleventy-img`
+   - Generates static HTML from Nunjucks templates
+   - Outputs to `_site/` folder
+
+**CRITICAL**: Steps run sequentially via `run-s` (npm-run-all). Each step must complete before the next begins.
+
+**DO NOT SKIP STEP 2**: The site will compile without design tokens but will look broken. The `build:design` command fetches colors, typography, and spacing tokens from Figma and writes them to CSS files that 11ty templates depend on.
 
 ## Environment Variables (Required For External Integrations Or Everything Breaks)
 
@@ -234,10 +305,21 @@ portfolio/
 The build generates a static site in `_site/` that can be deployed anywhere:
 
 ```bash
-npm run build        # Full production build (design + 11ty)
+# Full production build (clean + design + 11ty)
+npm run build
 ```
 
-Deploy the `_site/` folder to your hosting platform. The site is fully static with no server-side requirements.
+**What Gets Deployed**: The entire `_site/` folder contains your static site.
+
+**What's Preserved**: The `content/` directory within `_site/` is preserved during clean operations to avoid re-processing cached images and videos from Airtable.
+
+**Deployment Targets**: Deploy the `_site/` folder to any static hosting platform:
+
+- Netlify, Vercel, GitHub Pages, Cloudflare Pages
+- AWS S3 + CloudFront, Google Cloud Storage
+- Any static file server
+
+The site is fully static with no server-side requirements or runtime dependencies.
 
 ## Getting Help
 
