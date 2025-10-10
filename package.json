@@ -8,7 +8,8 @@
   "keywords": [],
   "license": "ISC",
   "scripts": {
-    "build": "run-s build:*",
+    "clean": "node scripts/clearSiteFolder.js",
+    "build": "run-s clean build:*",
     "build:design": "node scripts/fetchFigma.js",
     "build:11ty": "eleventy --quiet",
     "dev:11ty": "eleventy --serve --quiet",
