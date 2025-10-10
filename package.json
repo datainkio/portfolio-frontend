@@ -14,7 +14,8 @@
     "build:11ty": "eleventy --quiet",
     "dev:11ty": "eleventy --serve --quiet",
     "dev:css": "npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css --watch",
-    "start": "run-p dev:css dev:11ty",
+    "dev": "run-p dev:css dev:11ty",
+    "start": "run-s clean dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "format:njk": "prettier --write \"**/*.njk\""
