@@ -1,6 +1,6 @@
 /** @format */
 
-import logger from '../js/utils/logger/index.js';
+import logger from '../../js/utils/logger/index.js';
 
 // Enable logger
 logger.enabled = true;

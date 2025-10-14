@@ -21,6 +21,13 @@
     "dev:css": "npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css --watch",
     "dev": "run-p dev:css dev:11ty",
     "start": "run-s dev",
+    "test": "node test/logger/index.js",
+    "test:logger": "node test/logger/index.js",
+    "test:logger:styles": "DEBUG=true node test/logger/styles.test.js",
+    "test:logger:errors": "DEBUG=true node test/logger/errors.test.js",
+    "test:logger:optional": "DEBUG=true node test/logger/optional-parameter.test.js",
+    "test:logger:detection": "DEBUG=true node test/logger/error-detection.test.js",
+    "test:logger:realworld": "DEBUG=true node test/logger/real-world.test.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "format:njk": "prettier --write \"**/*.njk\""

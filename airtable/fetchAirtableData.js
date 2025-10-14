@@ -1,5 +1,9 @@
 /** @format */
-import chalk from 'chalk';
+
+// Silence punycode deprecation warning
+process.noDeprecation = true;
+
+import logger from '../js/utils/logger/index.js';
 import { config } from 'dotenv';
 import { AssetCache } from '@11ty/eleventy-fetch';
 import { processFile, completeProcessing } from './processFile.js';
@@ -19,12 +23,12 @@ export default async function fetchAirtableData(table) {
 
   // FORCE REFRESH: Cache check temporarily disabled
   // if (asset.isCacheValid(table.cache)) {
-  //   // console.log(chalk.gray(`  📦 ${table.tableName}: using cached data`));
+  //   // logger.trace('Using cached data:', table.tableName, 'brief', 'standard');
   //   return asset.getCachedValue();
   // }
 
   // Force fetching fresh data from Airtable
-  console.log(chalk.green.bold('  📦 ' + table.tableName + ': FORCE refreshing...'));
+  logger.trace('Force refreshing table:', table.tableName, 'brief', 'headsup');
 
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
@@ -42,8 +46,11 @@ export default async function fetchAirtableData(table) {
         async (records, fetchNextPage) => {
           // Update and display the current count of processed records
           processedRecords += records.length;
-          console.log(
-            chalk.gray(`Processing ${processedRecords} records from ${table.tableName}...`)
+          logger.trace(
+            'Processing records:',
+            { table: table.tableName, count: processedRecords },
+            'brief',
+            'standard'
           );
 
           // Calculate the total number of file fields in the current batch of records so that we can track progress
@@ -69,15 +76,19 @@ export default async function fetchAirtableData(table) {
             );
 
             // Create the slug for the record
-            // console.log(chalk.yellow(table.tableName));
-            // console.log(processedFields);
+            // logger.trace('Building slug for record:', table.tableName, 'brief', 'standard');
             let slug = '';
             if (processedFields.title) {
               slug = `/${slugify(table.tableName.toLowerCase())}/${slugify(
                 processedFields.title.toLowerCase()
               )}`;
             } else {
-              console.log('Could not build the slug for this record: ', record);
+              logger.trace(
+                'Could not build slug:',
+                { recordId: record.id, table: table.tableName },
+                'brief',
+                'error'
+              );
             }
 
             allRecords.push({
@@ -91,9 +102,16 @@ export default async function fetchAirtableData(table) {
         },
         err => {
           if (err) {
+            logger.trace('Airtable fetch error:', err, 'verbose'); // Auto-detects Error, applies error style
             reject(err);
           } else {
             asset.save(allRecords, 'json');
+            logger.trace(
+              'Data cached successfully:',
+              { table: table.tableName, records: allRecords.length },
+              'brief',
+              'success'
+            );
             resolve(allRecords);
           }
         }

@@ -74,6 +74,23 @@ logger.trace(message, obj, mode, style);
 - `mode` (string, optional) - Display mode: 'brief', 'verbose', or 'silent' (default: 'brief')
 - `style` (string, optional) - Color style: 'standard', 'headsup', 'error', 'success' (default: 'standard')
 
+**Error Auto-Detection:**
+
+When the `obj` parameter is an Error object and no explicit style is provided (defaults to 'standard'), Logger automatically applies the 'error' style with red ❌ icon:
+
+```javascript
+// Auto-detection - no style parameter needed
+try {
+  somethingRisky();
+} catch (err) {
+  logger.trace('Operation failed:', err); // Automatically uses 'error' style
+  logger.trace('Details:', err, 'verbose'); // Shows full stack trace with error styling
+}
+
+// Explicit override - bypasses auto-detection
+logger.trace('Custom:', err, 'brief', 'success'); // Uses success style even for Error
+```
+
 **Examples:**
 
 ```javascript
@@ -83,6 +100,10 @@ logger.trace('User data:', { name: 'John' }, 'verbose', 'standard');
 // Message only (no object)
 logger.trace('Processing started...', undefined, 'brief', 'headsup');
 logger.trace('Step completed', null, 'brief', 'success');
+
+// Error auto-detection
+logger.trace('Failed to load:', error); // Auto-applies error style
+logger.trace('Stack trace:', error, 'verbose'); // Verbose error with auto-styling
 ```
 
 ### Indentation Methods

@@ -11,7 +11,7 @@ import LoggerStyles from './LoggerStyles.js';
  * Uses LoggerStyles for semantic color formatting.
  *
  * Features:
- * - Automatic Error detection and formatting
+ * - Automatic Error detection and formatting (auto-applies 'error' style when obj is Error)
  * - Hierarchical indentation with indent/outdent/group methods
  * - Brief and verbose output modes
  * - Semantic styling (standard, headsup, error, success)
@@ -24,7 +24,17 @@ import LoggerStyles from './LoggerStyles.js';
  * // With object parameter
  * logger.trace('User data:', { name: 'John', age: 30 }, 'verbose');
  * logger.trace('Quick check:', someValue); // defaults to 'brief'
- * logger.trace('Error occurred:', error, 'verbose', 'error');
+ *
+ * // Error auto-detection (automatically uses 'error' style)
+ * try {
+ *   somethingRisky();
+ * } catch (err) {
+ *   logger.trace('Operation failed:', err); // auto-detects Error, uses error style
+ *   logger.trace('With verbose:', err, 'verbose'); // shows full stack trace
+ * }
+ *
+ * // Explicit style override (bypasses auto-detection)
+ * logger.trace('Custom styling:', error, 'brief', 'success'); // uses success style even for Error
  *
  * // Message-only (no object)
  * logger.trace('Processing started...', undefined, 'brief', 'headsup');
@@ -186,6 +196,11 @@ class Logger {
     // Silent mode - output nothing
     if (mode === 'silent') {
       return;
+    }
+
+    // Auto-detect Error objects and use 'error' style if style is default 'standard'
+    if (style === 'standard' && obj instanceof Error) {
+      style = 'error';
     }
 
     // Get style object based on style name
