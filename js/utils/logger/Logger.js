@@ -16,13 +16,19 @@ import LoggerStyles from './LoggerStyles.js';
  * - Brief and verbose output modes
  * - Semantic styling (standard, headsup, error, success)
  * - Visual group separators for complex operations
+ * - Optional object parameter for message-only logging
  *
  * @example
  * import logger from './js/utils/logger/index.js';
  *
+ * // With object parameter
  * logger.trace('User data:', { name: 'John', age: 30 }, 'verbose');
  * logger.trace('Quick check:', someValue); // defaults to 'brief'
  * logger.trace('Error occurred:', error, 'verbose', 'error');
+ *
+ * // Message-only (no object)
+ * logger.trace('Processing started...', undefined, 'brief', 'headsup');
+ * logger.trace('Step completed', null, 'brief', 'success');
  *
  * // Hierarchical logging
  * await logger.group(async () => {
@@ -84,11 +90,11 @@ class Logger {
   /**
    * Static trace method for convenience
    * @param {string} message - User-defined message to display
-   * @param {*} obj - Object(s) to trace (any datatype or array of objects)
-   * @param {string} mode - Display mode: 'brief', 'verbose', or 'silent' (default: 'brief')
-   * @param {string} style - Style type: 'standard', 'headsup', 'error', 'success' (default: 'headsup')
+   * @param {*} [obj] - Optional object(s) to trace (any datatype or array of objects)
+   * @param {string} [mode='brief'] - Display mode: 'brief', 'verbose', or 'silent'
+   * @param {string} [style='headsup'] - Style type: 'standard', 'headsup', 'error', 'success'
    */
-  static trace(message, obj, mode = 'brief', style = 'headsup') {
+  static trace(message, obj = null, mode = 'brief', style = 'headsup') {
     const instance = Logger.getInstance();
     return instance.trace(message, obj, mode, style);
   }
@@ -167,11 +173,11 @@ class Logger {
   /**
    * Trace and display object information
    * @param {string} message - User-defined message to display
-   * @param {*} obj - Object(s) to trace (any datatype or array of objects)
-   * @param {string} mode - Display mode: 'brief', 'verbose', or 'silent' (default: 'brief')
-   * @param {string} style - Style type: 'standard', 'headsup', 'error', 'success' (default: 'standard')
+   * @param {*} [obj] - Optional object(s) to trace (any datatype or array of objects)
+   * @param {string} [mode='brief'] - Display mode: 'brief', 'verbose', or 'silent'
+   * @param {string} [style='standard'] - Style type: 'standard', 'headsup', 'error', 'success'
    */
-  trace(message, obj, mode = 'brief', style = 'standard') {
+  trace(message, obj = null, mode = 'brief', style = 'standard') {
     // If logging is disabled, do nothing
     if (!this.enabled) {
       return;
@@ -198,13 +204,16 @@ class Logger {
     }
 
     // Add message prefix with appropriate color
-    output += chalk.hex(styleObj.color).bold(message) + ' ';
+    output += chalk.hex(styleObj.color).bold(message);
 
-    // Process object(s)
-    if (mode === 'brief') {
-      output += this._formatBrief(obj);
-    } else if (mode === 'verbose') {
-      output += this._formatVerbose(obj, indent);
+    // Process object(s) if provided
+    if (obj !== null && obj !== undefined) {
+      output += ' ';
+      if (mode === 'brief') {
+        output += this._formatBrief(obj);
+      } else if (mode === 'verbose') {
+        output += this._formatVerbose(obj, indent);
+      }
     }
 
     // Output to console

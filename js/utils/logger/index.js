@@ -5,7 +5,7 @@ import LoggerStyle from './LoggerStyle.js';
 
 // Export singleton instance as default
 export default {
-  trace: (message, obj, mode = 'brief', style = 'standard') =>
+  trace: (message, obj = null, mode = 'brief', style = 'standard') =>
     Logger.getInstance().trace(message, obj, mode, style),
   indent: () => Logger.getInstance().indent(),
   outdent: () => Logger.getInstance().outdent(),

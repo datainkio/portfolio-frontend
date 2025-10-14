@@ -70,9 +70,20 @@ logger.trace(message, obj, mode, style);
 **Parameters:**
 
 - `message` (string) - User-defined message prefix
-- `obj` (any) - Object(s) to trace (any datatype or array)
+- `obj` (any, **optional**) - Object(s) to trace (any datatype or array). Can be omitted for message-only logging
 - `mode` (string, optional) - Display mode: 'brief', 'verbose', or 'silent' (default: 'brief')
 - `style` (string, optional) - Color style: 'standard', 'headsup', 'error', 'success' (default: 'standard')
+
+**Examples:**
+
+```javascript
+// With object
+logger.trace('User data:', { name: 'John' }, 'verbose', 'standard');
+
+// Message only (no object)
+logger.trace('Processing started...', undefined, 'brief', 'headsup');
+logger.trace('Step completed', null, 'brief', 'success');
+```
 
 ### Indentation Methods
 
