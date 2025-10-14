@@ -24,6 +24,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import chalk from 'chalk';
+import logger from '../js/utils/logger/index.js';
 
 const CACHE_DIR = '.cache';
 const CONTENT_DIR = '_site/content';
@@ -135,6 +136,7 @@ async function syncContent() {
     // Find all buffer files in cache
     const bufferFiles = await findBufferFiles(CACHE_DIR);
     console.log(chalk.gray(`Found ${bufferFiles.length} cached files`));
+    logger.trace('Buffer files found:', bufferFiles.length, 'brief');
 
     let copied = 0;
     let skipped = 0;
@@ -144,6 +146,11 @@ async function syncContent() {
       try {
         // Detect file type
         const fileInfo = await detectFileType(cacheFile);
+        logger.trace(
+          'File type detected:',
+          { file: path.basename(cacheFile), type: fileInfo.type },
+          'verbose'
+        );
         const destPath = getDestinationPath(cacheFile, fileInfo);
 
         // Check if destination exists and is newer

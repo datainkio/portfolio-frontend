@@ -3,14 +3,18 @@
 import { rm, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join } from 'path';
+import logger from '../js/utils/logger/index.js';
 
 const siteFolder = join(process.cwd(), '_site');
 const preserveDirs = ['content']; // Directories to preserve
 
 async function clearSiteFolder() {
+  logger.trace('Starting site cleanup:', 'Analyzing folder structure...', 'brief', 'headsup');
+
   if (existsSync(siteFolder)) {
     try {
       const entries = await readdir(siteFolder);
+      logger.trace('Site folder entries found:', entries, 'verbose', 'standard');
 
       // Delete each entry except preserved directories
       const deletePromises = entries
@@ -19,12 +23,21 @@ async function clearSiteFolder() {
 
       await Promise.all(deletePromises);
 
+      const deletedItems = entries.filter(e => !preserveDirs.includes(e));
+      if (deletedItems.length > 0) {
+        logger.trace('✓ Successfully deleted:', deletedItems, 'brief', 'success');
+      } else {
+        logger.trace('No items to delete', 'All content preserved', 'brief', 'standard');
+      }
+
       console.log('_site folder cleared (preserved: content).');
     } catch (err) {
       console.error(`Error clearing _site folder: ${err.message}`);
+      logger.trace('✗ Clear operation failed:', err, 'verbose', 'error');
     }
   } else {
     console.log('_site folder does not exist, skipping cleanup.');
+    logger.trace('Site folder status:', 'does not exist', 'brief', 'standard');
   }
 }
 

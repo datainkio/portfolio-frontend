@@ -1,0 +1,19 @@
+/** @format */
+
+import { Logger, LoggerStyles } from './Logger.js';
+import LoggerStyle from './LoggerStyle.js';
+
+// Export singleton instance as default
+export default {
+  trace: (message, obj, mode = 'brief', style = 'standard') =>
+    Logger.getInstance().trace(message, obj, mode, style),
+  get enabled() {
+    return Logger.getInstance().enabled;
+  },
+  set enabled(value) {
+    Logger.getInstance().enabled = value;
+  },
+};
+
+// Export classes and styles for advanced usage
+export { Logger, LoggerStyle, LoggerStyles };

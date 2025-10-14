@@ -9,9 +9,13 @@
   "license": "ISC",
   "scripts": {
     "clean": "node scripts/clearSiteFolder.js",
+    "clean:debug": "DEBUG=true node scripts/clearSiteFolder.js",
     "sync:content": "node scripts/syncContent.js",
+    "sync:content:debug": "DEBUG=true node scripts/syncContent.js",
     "build": "run-s clean sync:content build:*",
+    "build:debug": "DEBUG=true run-s clean:debug sync:content:debug build:*",
     "build:design": "node scripts/fetchFigma.js",
+    "build:design:debug": "DEBUG=true node scripts/fetchFigma.js",
     "build:11ty": "eleventy --quiet",
     "dev:11ty": "eleventy --serve --quiet",
     "dev:css": "npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css --watch",
