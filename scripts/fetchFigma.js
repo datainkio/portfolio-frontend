@@ -4,55 +4,75 @@ import logger from '../js/utils/logger/index.js';
 import { fileService, styleService, paletteService, typographyService } from '../figma/index.js';
 
 async function fetchDesignSystem() {
-  try {
-    // INIT MESSAGE
-    console.log(chalk.cyan.bold('\n🎨 FIGMA'));
-    console.log(chalk.gray('─'.repeat(50)));
+  // INIT MESSAGE
+  console.log(chalk.cyan.bold('\n🎨 FIGMA'));
+  console.log(chalk.gray('─'.repeat(50)));
+  logger.trace('Starting Figma design sync:', 'Fetching design file...', 'brief', 'headsup');
 
-    // GET DESIGN FILE DATA FROM FIGMA
-    const designFile = await fileService.getDocument();
-    logger.trace(
-      'Design file loaded:',
-      { name: designFile.name, version: designFile.version },
-      'verbose'
-    );
+  await logger.group(async () => {
+    try {
+      // GET DESIGN FILE DATA FROM FIGMA
+      const designFile = await fileService.getDocument();
+      logger.trace(
+        'Design file loaded:',
+        { name: designFile.name, version: designFile.version },
+        'verbose',
+        'standard'
+      );
 
-    // LOG DESIGN FILE DATA
-    designFile.log();
+      // LOG DESIGN FILE DATA
+      designFile.log();
 
-    // GET STYLE DATA FROM FIGMA
-    const styles = await styleService.getStyles(designFile.styleIDs);
-    logger.trace(
-      'Styles retrieved:',
-      { colors: styles.colors?.length, textFormats: styles.textFormats?.length },
-      'brief'
-    );
+      // GET STYLE DATA FROM FIGMA
+      const styles = await styleService.getStyles(designFile.styleIDs);
+      logger.trace(
+        'Styles retrieved:',
+        { colors: styles.colors?.length, textFormats: styles.textFormats?.length },
+        'brief',
+        'standard'
+      );
 
-    // UPDATE THE LOCAL BASE STYLES FILE
-    // styles.colors
-    // styles.textFormats
-    // console.log(styles.colors);
+      await logger.group(async () => {
+        // UPDATE THE LOCAL BASE STYLES FILE
+        // styles.colors
+        // styles.textFormats
+        // console.log(styles.colors);
 
-    const palette = await paletteService.write(styles.colors, designFile);
+        const palette = await paletteService.write(styles.colors, designFile);
+        logger.trace('Palette written:', 'Color styles synced', 'brief', 'success');
 
-    // TODO: UPDATE THE LOCAL TYPOGRAPHY FILES
-    const fontImports = await typographyService.updateFontImports(styles.textFormats, designFile);
-    const textFormats = await typographyService.updateFontFamilies(styles.textFormats, designFile);
-    // const fontWeights = await typographyService.updateFontWeights(
-    //   styles.textFormats,
-    //   designFile
-    // );
-    // const fontImports = await typographyService.updateFontImports(
-    //   styles.textFormats,
-    //   designFile
-    // );
+        // TODO: UPDATE THE LOCAL TYPOGRAPHY FILES
+        const fontImports = await typographyService.updateFontImports(
+          styles.textFormats,
+          designFile
+        );
+        logger.trace('Font imports updated:', 'Typography imports synced', 'brief', 'success');
 
-    // WE'RE DONE HERE. WRAP IT UP.
-    return; //; { document: designFile, styles };
-  } catch (error) {
-    console.error(chalk.red('\t✗ Error fetching design file:'), error);
-    process.exit(1);
-  }
+        const textFormats = await typographyService.updateFontFamilies(
+          styles.textFormats,
+          designFile
+        );
+        logger.trace('Font families updated:', 'Typography families synced', 'brief', 'success');
+        // const fontWeights = await typographyService.updateFontWeights(
+        //   styles.textFormats,
+        //   designFile
+        // );
+        // const fontImports = await typographyService.updateFontImports(
+        //   styles.textFormats,
+        //   designFile
+        // );
+      });
+
+      logger.trace('Design sync complete:', 'All styles updated', 'brief', 'success');
+
+      // WE'RE DONE HERE. WRAP IT UP.
+      return; //; { document: designFile, styles };
+    } catch (error) {
+      console.error(chalk.red('\t✗ Error fetching design file:'), error);
+      logger.trace('Design sync failed:', error.message, 'verbose', 'error');
+      process.exit(1);
+    }
+  });
 }
 
 export default fetchDesignSystem;

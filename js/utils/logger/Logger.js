@@ -24,6 +24,7 @@ import LoggerStyles from './LoggerStyles.js';
 class Logger {
   static #instance = null;
   static #initialized = false;
+  #indentLevel = 0;
 
   /**
    * Private constructor - use static methods instead
@@ -35,6 +36,7 @@ class Logger {
     }
 
     this.enabled = enabled;
+    this.#indentLevel = 0;
     Logger.#instance = this;
 
     // Display initialization message only once
@@ -87,6 +89,65 @@ class Logger {
   }
 
   /**
+   * Increase indentation level
+   */
+  indent() {
+    this.#indentLevel++;
+  }
+
+  /**
+   * Decrease indentation level
+   */
+  outdent() {
+    if (this.#indentLevel > 0) {
+      this.#indentLevel--;
+    }
+  }
+
+  /**
+   * Reset indentation to zero
+   */
+  resetIndent() {
+    this.#indentLevel = 0;
+  }
+
+  /**
+   * Get current indentation string
+   * @private
+   */
+  _getIndent() {
+    return '  '.repeat(this.#indentLevel);
+  }
+
+  /**
+   * Execute function with increased indentation
+   * Adds separators and newlines before and after the group for visual separation
+   * @param {Function} fn - Function to execute
+   */
+  async group(fn) {
+    const isTopLevel = this.#indentLevel === 0;
+
+    if (this.enabled && isTopLevel) {
+      console.log(''); // Add newline before separator
+      console.log(LoggerStyles.SEPARATOR);
+      console.log(''); // Add newline after separator
+    }
+
+    this.indent();
+    try {
+      await fn();
+    } finally {
+      this.outdent();
+
+      if (this.enabled && isTopLevel) {
+        console.log(''); // Add newline before closing separator
+        console.log(LoggerStyles.SEPARATOR);
+        console.log(''); // Add newline after closing separator
+      }
+    }
+  }
+
+  /**
    * Trace and display object information
    * @param {string} message - User-defined message to display
    * @param {*} obj - Object(s) to trace (any datatype or array of objects)
@@ -110,6 +171,10 @@ class Logger {
     // Build output based on mode
     let output = '';
 
+    // Add indentation
+    const indent = this._getIndent();
+    output += indent;
+
     // Add icon prefix if available
     if (styleObj.icon) {
       output += styleObj.icon.trim() + ' ';
@@ -122,7 +187,7 @@ class Logger {
     if (mode === 'brief') {
       output += this._formatBrief(obj);
     } else if (mode === 'verbose') {
-      output += this._formatVerbose(obj);
+      output += this._formatVerbose(obj, indent);
     }
 
     // Output to console
@@ -161,19 +226,49 @@ class Logger {
   /**
    * Format object in verbose mode (datatype, structure, and properties)
    * @private
+   * @param {*} obj - Object to format
+   * @param {string} baseIndent - Base indentation for this output
    */
-  _formatVerbose(obj) {
+  _formatVerbose(obj, baseIndent = '') {
     const type = this._getType(obj);
     let output = chalk.hex(LoggerStyles.HEADSUP)(`[${type}]`) + '\n';
 
-    if (Array.isArray(obj)) {
-      output += chalk.hex(LoggerStyles.STANDARD)('  Structure: Array\n');
-      output += chalk.hex(LoggerStyles.STANDARD)(`  Length: ${obj.length}\n`);
-      output += chalk.hex(LoggerStyles.STANDARD)('  Values:\n');
+    if (obj instanceof Error) {
+      // Special handling for Error objects - show message, name, and stack
+      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Structure: Error\n');
+      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Properties:\n');
+      output +=
+        baseIndent +
+        chalk.hex(LoggerStyles.STANDARD)(`    name: `) +
+        chalk.hex(LoggerStyles.HEADSUP)(`(string)`) +
+        ' ' +
+        chalk.white(`"${obj.name}"`) +
+        '\n';
+      output +=
+        baseIndent +
+        chalk.hex(LoggerStyles.STANDARD)(`    message: `) +
+        chalk.hex(LoggerStyles.HEADSUP)(`(string)`) +
+        ' ' +
+        chalk.white(`"${obj.message}"`) +
+        '\n';
+      if (obj.stack) {
+        output +=
+          baseIndent +
+          chalk.hex(LoggerStyles.STANDARD)(`    stack: `) +
+          chalk.hex(LoggerStyles.HEADSUP)(`(string)`) +
+          ' ' +
+          chalk.white(`"${obj.stack}"`) +
+          '\n';
+      }
+    } else if (Array.isArray(obj)) {
+      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Structure: Array\n');
+      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)(`  Length: ${obj.length}\n`);
+      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Values:\n');
       obj.forEach((item, index) => {
         const itemType = this._getType(item);
         const itemValue = this._getValue(item);
         output +=
+          baseIndent +
           chalk.hex(LoggerStyles.STANDARD)(`    [${index}] `) +
           chalk.hex(LoggerStyles.HEADSUP)(`(${itemType})`) +
           ' ' +
@@ -181,12 +276,13 @@ class Logger {
           '\n';
       });
     } else if (typeof obj === 'object' && obj !== null) {
-      output += chalk.hex(LoggerStyles.STANDARD)('  Structure: Object\n');
-      output += chalk.hex(LoggerStyles.STANDARD)('  Properties:\n');
+      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Structure: Object\n');
+      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Properties:\n');
       for (const [key, value] of Object.entries(obj)) {
         const valueType = this._getType(value);
         const valueStr = this._getValue(value);
         output +=
+          baseIndent +
           chalk.hex(LoggerStyles.STANDARD)(`    ${key}: `) +
           chalk.hex(LoggerStyles.HEADSUP)(`(${valueType})`) +
           ' ' +
@@ -194,7 +290,10 @@ class Logger {
           '\n';
       }
     } else {
-      output += chalk.hex(LoggerStyles.STANDARD)('  Value: ') + chalk.white(this._getValue(obj));
+      output +=
+        baseIndent +
+        chalk.hex(LoggerStyles.STANDARD)('  Value: ') +
+        chalk.white(this._getValue(obj));
     }
 
     return output;
@@ -207,6 +306,7 @@ class Logger {
   _getType(obj) {
     if (obj === null) return 'null';
     if (obj === undefined) return 'undefined';
+    if (obj instanceof Error) return 'error';
     if (Array.isArray(obj)) return 'array';
     if (obj instanceof Date) return 'date';
     if (obj instanceof RegExp) return 'regexp';
@@ -221,6 +321,7 @@ class Logger {
   _getValue(obj) {
     if (obj === null) return 'null';
     if (obj === undefined) return 'undefined';
+    if (obj instanceof Error) return `"${obj.message}"`;
     if (Array.isArray(obj)) {
       if (obj.length === 0) return '[]';
       if (obj.length <= 3) return `[${obj.map(v => this._getValue(v)).join(', ')}]`;

@@ -53,4 +53,35 @@ const testData = {
 logger.trace('Verbose standard:', testData, 'verbose', 'standard');
 logger.trace('Verbose success:', testData, 'verbose', 'success');
 
+console.log('\n🧪 Testing indentation levels\n');
+
+// Test indentation
+logger.trace('Top level message', 'No indentation', 'brief', 'headsup');
+
+logger.indent();
+logger.trace('Level 1 message', 'One level deep', 'brief', 'standard');
+
+logger.indent();
+logger.trace('Level 2 message', 'Two levels deep', 'brief', 'standard');
+logger.trace('Level 2 verbose:', { nested: 'data', value: 42 }, 'verbose', 'standard');
+
+logger.outdent();
+logger.trace('Back to level 1', 'Outdented once', 'brief', 'standard');
+
+logger.resetIndent();
+logger.trace('Reset to top level', 'No indentation again', 'brief', 'success');
+
+console.log('\n🧪 Testing group method\n');
+
+// Test group method
+logger.trace('Starting grouped operation', 'Using async group', 'brief', 'headsup');
+await logger.group(async () => {
+  logger.trace('Inside group level 1', 'Auto-indented', 'brief', 'standard');
+  await logger.group(async () => {
+    logger.trace('Inside group level 2', 'Nested group', 'brief', 'standard');
+  });
+  logger.trace('Back to level 1', 'After nested group', 'brief', 'standard');
+});
+logger.trace('Group complete', 'Back to top level', 'brief', 'success');
+
 console.log('\n✅ Logger style tests complete\n');

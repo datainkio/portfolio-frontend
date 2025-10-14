@@ -7,6 +7,10 @@ import LoggerStyle from './LoggerStyle.js';
 export default {
   trace: (message, obj, mode = 'brief', style = 'standard') =>
     Logger.getInstance().trace(message, obj, mode, style),
+  indent: () => Logger.getInstance().indent(),
+  outdent: () => Logger.getInstance().outdent(),
+  resetIndent: () => Logger.getInstance().resetIndent(),
+  group: fn => Logger.getInstance().group(fn),
   get enabled() {
     return Logger.getInstance().enabled;
   },

@@ -74,6 +74,32 @@ logger.trace(message, obj, mode, style);
 - `mode` (string, optional) - Display mode: 'brief', 'verbose', or 'silent' (default: 'brief')
 - `style` (string, optional) - Color style: 'standard', 'headsup', 'error', 'success' (default: 'standard')
 
+### Indentation Methods
+
+Control contextual indentation for hierarchical logging:
+
+```javascript
+// Manual indentation control
+logger.indent(); // Increase indent level
+logger.outdent(); // Decrease indent level
+logger.resetIndent(); // Reset to zero
+
+// Automatic indentation with groups
+await logger.group(async () => {
+  logger.trace('Indented automatically', data);
+  await logger.group(async () => {
+    logger.trace('Nested even deeper', moreData);
+  });
+});
+```
+
+**Indentation API:**
+
+- `indent()` - Increase indentation by one level (2 spaces)
+- `outdent()` - Decrease indentation by one level
+- `resetIndent()` - Reset indentation to zero
+- `group(fn)` - Execute function with auto-indent/outdent
+
 **Display Modes:**
 
 - **brief**: Shows datatype and value
@@ -123,23 +149,59 @@ async function processFiles() {
   // Start operation - attention grabbing (outputs: ⚡ Starting...)
   logger.trace('Starting file processing:', 'Analyzing directory...', 'brief', 'headsup');
 
+  logger.indent();
   try {
     const files = await getFiles();
 
-    // Informational - standard reporting (outputs: ● Files found...)
+    // Informational - standard reporting (outputs:   ● Files found...)
     logger.trace('Files found:', files, 'verbose', 'standard');
 
     // Process files
+    logger.indent();
     const result = await process(files);
+    logger.outdent();
 
-    // Success confirmation - positive feedback (outputs: ✅ Processing complete...)
+    // Success confirmation - positive feedback (outputs:   ✅ Processing complete...)
     logger.trace('Processing complete:', result, 'brief', 'success');
   } catch (err) {
-    // Error reporting - critical attention (outputs: ❌ Processing failed...)
+    // Error reporting - critical attention (outputs:   ❌ Processing failed...)
     logger.trace('Processing failed:', err, 'verbose', 'error');
+  } finally {
+    logger.outdent();
   }
 }
 ```
+
+### Using Groups for Automatic Indentation
+
+```javascript
+import logger from '../js/utils/logger/index.js';
+
+async function processFiles() {
+  logger.trace('Starting file processing:', 'Analyzing directory...', 'brief', 'headsup');
+
+  await logger.group(async () => {
+    const files = await getFiles();
+    logger.trace('Files found:', files, 'verbose', 'standard');
+
+    await logger.group(async () => {
+      const result = await process(files);
+      logger.trace('Processing complete:', result, 'brief', 'success');
+    });
+  });
+}
+```
+
+    // Success confirmation - positive feedback (outputs: ✅ Processing complete...)
+    logger.trace('Processing complete:', result, 'brief', 'success');
+
+} catch (err) {
+// Error reporting - critical attention (outputs: ❌ Processing failed...)
+logger.trace('Processing failed:', err, 'verbose', 'error');
+}
+}
+
+````
 
 ### Build Script Integration
 
@@ -161,7 +223,7 @@ async function clearSiteFolder() {
     logger.trace('Cleanup failed:', err, 'verbose', 'error');
   }
 }
-```
+````
 
 ## Build Integration
 

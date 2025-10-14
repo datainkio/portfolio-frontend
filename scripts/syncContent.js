@@ -128,67 +128,81 @@ function getDestinationPath(cacheFile, fileInfo) {
  */
 async function syncContent() {
   console.log(chalk.blue.bold('\n🔄 Starting content sync from .cache to _site/content...'));
+  logger.trace('Starting content sync:', 'Analyzing cache directory...', 'brief', 'headsup');
 
-  try {
-    // Ensure content directory exists
-    await fs.mkdir(CONTENT_DIR, { recursive: true });
+  await logger.group(async () => {
+    try {
+      // Ensure content directory exists
+      await fs.mkdir(CONTENT_DIR, { recursive: true });
 
-    // Find all buffer files in cache
-    const bufferFiles = await findBufferFiles(CACHE_DIR);
-    console.log(chalk.gray(`Found ${bufferFiles.length} cached files`));
-    logger.trace('Buffer files found:', bufferFiles.length, 'brief');
+      // Find all buffer files in cache
+      const bufferFiles = await findBufferFiles(CACHE_DIR);
+      console.log(chalk.gray(`Found ${bufferFiles.length} cached files`));
+      logger.trace('Buffer files found:', bufferFiles.length, 'brief', 'standard');
 
-    let copied = 0;
-    let skipped = 0;
-    let errors = 0;
+      let copied = 0;
+      let skipped = 0;
+      let errors = 0;
 
-    for (const cacheFile of bufferFiles) {
-      try {
-        // Detect file type
-        const fileInfo = await detectFileType(cacheFile);
-        logger.trace(
-          'File type detected:',
-          { file: path.basename(cacheFile), type: fileInfo.type },
-          'verbose'
-        );
-        const destPath = getDestinationPath(cacheFile, fileInfo);
+      await logger.group(async () => {
+        for (const cacheFile of bufferFiles) {
+          try {
+            // Detect file type
+            const fileInfo = await detectFileType(cacheFile);
+            logger.trace(
+              'File type detected:',
+              { file: path.basename(cacheFile), type: fileInfo.type },
+              'verbose',
+              'standard'
+            );
+            const destPath = getDestinationPath(cacheFile, fileInfo);
 
-        // Check if destination exists and is newer
-        const cacheStat = await getStats(cacheFile);
-        const destStat = await getStats(destPath);
+            // Check if destination exists and is newer
+            const cacheStat = await getStats(cacheFile);
+            const destStat = await getStats(destPath);
 
-        if (destStat && destStat.mtime >= cacheStat.mtime) {
-          skipped++;
-          continue;
+            if (destStat && destStat.mtime >= cacheStat.mtime) {
+              skipped++;
+              continue;
+            }
+
+            // Copy file
+            await copyFile(cacheFile, destPath);
+            copied++;
+
+            // Log progress every 10 files
+            if (copied % 10 === 0) {
+              console.log(chalk.gray(`  Copied ${copied} files...`));
+            }
+          } catch (error) {
+            errors++;
+            console.error(chalk.red(`Error processing ${cacheFile}: ${error.message}`));
+            logger.trace('File processing error:', error.message, 'brief', 'error');
+          }
         }
+      });
 
-        // Copy file
-        await copyFile(cacheFile, destPath);
-        copied++;
+      console.log(
+        chalk.green.bold(
+          `\n✅ Content sync complete: ${copied} copied, ${skipped} skipped, ${errors} errors`
+        )
+      );
+      logger.trace(
+        'Sync complete:',
+        { copied, skipped, errors },
+        'brief',
+        errors > 0 ? 'error' : 'success'
+      );
 
-        // Log progress every 10 files
-        if (copied % 10 === 0) {
-          console.log(chalk.gray(`  Copied ${copied} files...`));
-        }
-      } catch (error) {
-        errors++;
-        console.error(chalk.red(`Error processing ${cacheFile}: ${error.message}`));
+      if (errors > 0) {
+        console.log(chalk.yellow(`⚠️  Some files failed to sync. Check error messages above.`));
       }
+    } catch (error) {
+      console.error(chalk.red.bold(`\n❌ Content sync failed: ${error.message}`));
+      logger.trace('Sync failed:', error.message, 'verbose', 'error');
+      throw error;
     }
-
-    console.log(
-      chalk.green.bold(
-        `\n✅ Content sync complete: ${copied} copied, ${skipped} skipped, ${errors} errors`
-      )
-    );
-
-    if (errors > 0) {
-      console.log(chalk.yellow(`⚠️  Some files failed to sync. Check error messages above.`));
-    }
-  } catch (error) {
-    console.error(chalk.red.bold(`\n❌ Content sync failed: ${error.message}`));
-    throw error;
-  }
+  });
 }
 
 // Run if called directly

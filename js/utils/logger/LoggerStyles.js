@@ -10,10 +10,16 @@ import LoggerStyle from './LoggerStyle.js';
  */
 class LoggerStyles {
   /**
+   * Decorative separator line for visual grouping
+   * @type {string}
+   */
+  static SEPARATOR = '::::::::::::::::::';
+
+  /**
    * Standard output - Default informational messages
    * @type {LoggerStyle}
    */
-  static STANDARD = new LoggerStyle('#6B7280', '●'); // Gray-500
+  static STANDARD = new LoggerStyle('#6B7280', ''); // Gray-500 (no icon)
 
   /**
    * Heads up output - Important information that needs attention
