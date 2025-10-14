@@ -1,9 +1,9 @@
 /** @format */
-import chalk from "chalk";
-import { config } from "dotenv";
-import { AssetCache } from "@11ty/eleventy-fetch";
-import { processFile, completeProcessing } from "./processFile.js";
-import Airtable from "airtable";
+import chalk from 'chalk';
+import { config } from 'dotenv';
+import { AssetCache } from '@11ty/eleventy-fetch';
+import { processFile, completeProcessing } from './processFile.js';
+import Airtable from 'airtable';
 
 config();
 
@@ -15,16 +15,16 @@ config();
  * @returns {Promise<Object[]>} A promise that resolves to the data fetched from Airtable.
  */
 export default async function fetchAirtableData(table) {
-  const asset = new AssetCache(table.tableName + "Cached");
+  const asset = new AssetCache(table.tableName + 'Cached');
 
-  // If the cache is valid, then we're done here
-  if (asset.isCacheValid(table.cache)) {
-    // console.log(chalk.gray(`  📦 ${table.tableName}: using cached data`));
-    return asset.getCachedValue();
-  }
+  // FORCE REFRESH: Cache check temporarily disabled
+  // if (asset.isCacheValid(table.cache)) {
+  //   // console.log(chalk.gray(`  📦 ${table.tableName}: using cached data`));
+  //   return asset.getCachedValue();
+  // }
 
-  // Otherwise, we need to fetch the data anew from Airtable
-  console.log(chalk.green.bold("  📦 " + table.tableName + ": refreshing..."));
+  // Force fetching fresh data from Airtable
+  console.log(chalk.green.bold('  📦 ' + table.tableName + ': FORCE refreshing...'));
 
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
@@ -43,9 +43,7 @@ export default async function fetchAirtableData(table) {
           // Update and display the current count of processed records
           processedRecords += records.length;
           console.log(
-            chalk.gray(
-              `Processing ${processedRecords} records from ${table.tableName}...`
-            )
+            chalk.gray(`Processing ${processedRecords} records from ${table.tableName}...`)
           );
 
           // Calculate the total number of file fields in the current batch of records so that we can track progress
@@ -61,12 +59,8 @@ export default async function fetchAirtableData(table) {
                 Object.entries(record.fields).map(async ([key, value]) => {
                   const lowerKey = key.toLowerCase(); // Normalize the key to lowercase to keep ourselves sane
                   // File fields need a little extra processing
-                  if (key === "File") {
-                    const processedValue = await processFile(
-                      value[0],
-                      fileFields,
-                      table.cache
-                    );
+                  if (key === 'File') {
+                    const processedValue = await processFile(value[0], fileFields, table.cache);
                     return [lowerKey, processedValue];
                   }
                   return [lowerKey, value];
@@ -77,13 +71,13 @@ export default async function fetchAirtableData(table) {
             // Create the slug for the record
             // console.log(chalk.yellow(table.tableName));
             // console.log(processedFields);
-            let slug = "";
+            let slug = '';
             if (processedFields.title) {
               slug = `/${slugify(table.tableName.toLowerCase())}/${slugify(
                 processedFields.title.toLowerCase()
               )}`;
             } else {
-              console.log("Could not build the slug for this record: ", record);
+              console.log('Could not build the slug for this record: ', record);
             }
 
             allRecords.push({
@@ -95,11 +89,11 @@ export default async function fetchAirtableData(table) {
           completeProcessing();
           fetchNextPage();
         },
-        (err) => {
+        err => {
           if (err) {
             reject(err);
           } else {
-            asset.save(allRecords, "json");
+            asset.save(allRecords, 'json');
             resolve(allRecords);
           }
         }
@@ -111,7 +105,7 @@ export default async function fetchAirtableData(table) {
 function slugify(str) {
   return str
     .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
 }

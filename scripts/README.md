@@ -56,6 +56,118 @@ try {
 - **File Permissions**: Write errors if CSS directories aren't writable
 - **Figma Structure Changes**: Parsing errors if design file structure doesn't match expectations
 
+### clearSiteFolder.js - Build Output Cleanup
+
+**Purpose**: Cleans the `_site` directory while preserving cached content
+**Dependencies**: Node.js `fs/promises`
+**Output**: Removes all files from `_site/` except `content/` directory
+**Triggers**: `npm run clean`, automatically before builds via `npm run build`
+
+**CRITICAL PRESERVATION**: This script uses selective deletion to preserve the `_site/content/` directory which contains processed images and videos from Airtable. Without this preservation, every build would require re-processing all images, which is time-consuming and hits API rate limits.
+
+```javascript
+const preserveDirs = ['content'];
+const entries = await readdir(siteFolder);
+const deletePromises = entries
+  .filter(entry => !preserveDirs.includes(entry))
+  .map(entry => rm(join(siteFolder, entry), { recursive: true, force: true }));
+await Promise.all(deletePromises);
+```
+
+**EXECUTION REQUIREMENTS**:
+
+- Runs from project root
+- Creates `_site/` directory if it doesn't exist
+- Uses parallel deletion for performance
+- Logs preservation message on completion
+
+**WHY THIS MATTERS**: The `_site/content/` directory contains optimized images processed by `@11ty/eleventy-img`. Re-processing hundreds of images on every build:
+
+- Takes 5-10 minutes instead of seconds
+- Hammers Airtable API rate limits
+- Downloads gigabytes of data unnecessarily
+- Makes development workflow unbearable
+
+### syncContent.js - Content Cache Synchronization
+
+**Purpose**: Syncs processed content from `.cache` to `_site/content` ensuring runtime availability
+**Dependencies**: Node.js `fs/promises`, `chalk`
+**Output**: Copies buffer files from cache to content directory with proper extensions
+**Triggers**: `npm run sync:content`, automatically runs in build sequence
+
+**CRITICAL ARCHITECTURE**: This script bridges two caching layers:
+
+1. `.cache/` - 11ty-fetch raw cache (API responses, downloaded assets as `.buffer` files)
+2. `_site/content/` - Processed content ready for runtime serving
+
+Without this sync, your site will have broken image links pointing to files that don't exist at runtime.
+
+**HOW IT WORKS**:
+
+1. Scans `.cache` directory for all `.buffer` files
+2. Detects file type using magic bytes (file signature detection)
+3. Determines destination based on MIME type:
+   - Images → `_site/content/images/{format}/`
+   - Videos → `_site/content/video/`
+   - PDFs → `_site/content/pdf/`
+   - Other → `_site/content/txt/`
+4. Copies only files that are newer than destination (incremental sync)
+5. Reports sync statistics
+
+**FILE TYPE DETECTION**:
+
+```javascript
+// Reads first 12 bytes to identify file type
+if (hex.startsWith('ffd8ff')) return { type: 'image/jpeg', ext: '.jpeg' };
+if (hex.startsWith('89504e47')) return { type: 'image/png', ext: '.png' };
+if (hex.includes('667479706d703432')) return { type: 'video/mp4', ext: '.mp4' };
+```
+
+**EXECUTION REQUIREMENTS**:
+
+- Runs after `clean` but before `build:*` in build sequence
+- Requires read access to `.cache/` directory
+- Creates content subdirectories as needed
+- Uses timestamp comparison to avoid redundant copies
+
+**PERFORMANCE**: Incremental sync means only new/modified files are copied. First run processes all files; subsequent runs only sync changes. Typical sync: 50-100ms for unchanged content, 2-5 seconds for full sync.
+
+**FAILURE MODES**:
+
+- **Missing .cache Directory**: Script will fail if `.cache` doesn't exist (run build first)
+- **Corrupt Buffer Files**: Magic byte detection may fail on malformed files
+- **Permission Errors**: Requires write access to `_site/content/`
+- **Disk Space**: Large content libraries can fill disk quickly
+- **New File Types**: Unknown MIME types default to `.bin` extension
+
+**BUILD INTEGRATION**: The script is integrated into both `build` and `start` commands:
+
+```json
+"build": "run-s clean sync:content build:*"
+"start": "run-s clean sync:content dev"
+```
+
+## Build Execution Order (The Sacred Sequence)
+
+**CRITICAL**: Scripts must execute in this exact order:
+
+1. **`clean`** - Clear \_site folder (preserve content/)
+2. **`sync:content`** - Sync cache to content directory
+3. **`build:design`** - Fetch Figma design tokens
+4. **`build:11ty`** - Generate static site
+
+**Why This Order Matters**:
+
+- **Clean first**: Removes stale build artifacts while keeping processed images
+- **Sync before 11ty**: Ensures images are available when 11ty generates HTML
+- **Design before 11ty**: CSS must exist before 11ty can reference it
+- **11ty last**: Final compilation step uses all prepared resources
+
+**Parallel vs Sequential**:
+
+- **Build steps** (`build:*`): Run sequentially via `run-s` (must complete in order)
+- **Dev servers** (`dev:*`): Run parallel via `run-p` (watch processes need concurrency)
+
 ## Final Warning (The Last Stand)
 
 These build scripts are the nervous system of your entire development workflow. They coordinate multiple external services, handle complex data transformations, and manage the delicate dance between design, content, and code.

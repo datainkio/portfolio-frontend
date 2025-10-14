@@ -1,11 +1,11 @@
 /** @format */
 
-import { promises as fs } from "fs";
-import path from "path";
-import * as EleventyImg from "@11ty/eleventy-img";
-import { AssetCache } from "@11ty/eleventy-fetch";
-import { ImageProcessingStatus } from "./ImageProcessingStatus.js";
-import chalk from "chalk";
+import { promises as fs } from 'fs';
+import path from 'path';
+import * as EleventyImg from '@11ty/eleventy-img';
+import { AssetCache } from '@11ty/eleventy-fetch';
+import { ImageProcessingStatus } from './ImageProcessingStatus.js';
+import chalk from 'chalk';
 
 const status = new ImageProcessingStatus();
 let isInitialized = false;
@@ -17,10 +17,13 @@ export async function processFile(file, total, cache_dur) {
   }
 
   try {
-    const assetCache = new AssetCache(`image-${file.filename}`);
-    const outputBase = "_site/" + process.env.IMAGE_PATH;
+    // Use Airtable file ID for caching and naming
+    const fileId = file.id || file.filename;
+    const assetCache = new AssetCache(`image-${fileId}`);
+    const outputBase = '_site/' + process.env.IMAGE_PATH;
 
-    // console.log(chalk.blue(`\nProcessing: ${file.filename}`));
+    // console.log(chalk.blue(`\nProcessing file object:`), file);
+    // console.log(chalk.yellow(`File ID: ${fileId}`));
     // console.log(chalk.gray(`Output: ${outputBase}`));
 
     if (assetCache.isCacheValid(cache_dur)) {
@@ -32,9 +35,9 @@ export async function processFile(file, total, cache_dur) {
     // Define directories to create
     const directories = [
       outputBase,
-      path.join(outputBase, "svg"),
-      path.join(outputBase, "webp"),
-      path.join(outputBase, "jpeg")
+      path.join(outputBase, 'svg'),
+      path.join(outputBase, 'webp'),
+      path.join(outputBase, 'jpeg'),
     ];
 
     // Create and verify each directory
@@ -51,11 +54,11 @@ export async function processFile(file, total, cache_dur) {
       }
     }
 
-    if (file.type === "image/svg+xml") {
-      const svgPath = path.join(outputBase, "svg", file.filename);
+    if (file.type === 'image/svg+xml') {
+      const svgFilename = `${fileId}.svg`;
+      const svgPath = path.join(outputBase, 'svg', svgFilename);
       const response = await fetch(file.url);
-      if (!response.ok)
-        throw new Error(`Failed to fetch SVG: ${response.status}`);
+      if (!response.ok) throw new Error(`Failed to fetch SVG: ${response.status}`);
 
       const svgContent = await response.text();
       await fs.writeFile(svgPath, svgContent);
@@ -65,10 +68,13 @@ export async function processFile(file, total, cache_dur) {
       // console.log(chalk.green(`✓ Saved SVG: ${svgPath}`));
 
       const metadata = await EleventyImg.default(file.url, {
-        formats: ["svg"],
+        formats: ['svg'],
         svgShortCircuit: true,
-        outputDir: path.join(outputBase, "svg"),
-        urlPath: process.env.IMAGE_PATH + "/svg"
+        outputDir: path.join(outputBase, 'svg'),
+        urlPath: process.env.IMAGE_PATH + '/svg',
+        filenameFormat: function (id, src, width, format) {
+          return `${fileId}.${format}`;
+        },
       });
 
       const result = {
@@ -76,12 +82,12 @@ export async function processFile(file, total, cache_dur) {
         originalFilename: file.filename,
         html: EleventyImg.generateHTML(metadata, {
           alt: file.filename,
-          loading: "lazy",
-          decoding: "async"
-        })
+          loading: 'lazy',
+          decoding: 'async',
+        }),
       };
 
-      await assetCache.save(result, "json");
+      await assetCache.save(result, 'json');
       status.updateProgress(file.type);
       return result;
     }
@@ -89,9 +95,13 @@ export async function processFile(file, total, cache_dur) {
     // Non-SVG image processing
     const metadata = await EleventyImg.default(file.url, {
       widths: [400, 800, 1200],
-      formats: ["webp", "jpeg"],
+      formats: ['webp', 'jpeg'],
       outputDir: outputBase,
-      urlPath: process.env.IMAGE_PATH
+      urlPath: process.env.IMAGE_PATH,
+      filenameFormat: function (id, src, width, format) {
+        // Generate filename like: RNm1spSLQJ-640.webp
+        return `${fileId}-${width}.${format}`;
+      },
     });
 
     // Verify files were written
@@ -110,13 +120,13 @@ export async function processFile(file, total, cache_dur) {
       originalFilename: file.filename,
       html: EleventyImg.generateHTML(metadata, {
         alt: file.filename,
-        sizes: "(min-width: 1024px) 1024px, 100vw",
-        loading: "lazy",
-        decoding: "async"
-      })
+        sizes: '(min-width: 1024px) 1024px, 100vw',
+        loading: 'lazy',
+        decoding: 'async',
+      }),
     };
 
-    await assetCache.save(result, "json");
+    await assetCache.save(result, 'json');
     status.updateProgress(file.type);
     return result;
   } catch (error) {

@@ -9,13 +9,14 @@
   "license": "ISC",
   "scripts": {
     "clean": "node scripts/clearSiteFolder.js",
-    "build": "run-s clean build:*",
+    "sync:content": "node scripts/syncContent.js",
+    "build": "run-s clean sync:content build:*",
     "build:design": "node scripts/fetchFigma.js",
     "build:11ty": "eleventy --quiet",
     "dev:11ty": "eleventy --serve --quiet",
     "dev:css": "npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css --watch",
     "dev": "run-p dev:css dev:11ty",
-    "start": "run-s clean dev",
+    "start": "run-s dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "format:njk": "prettier --write \"**/*.njk\""

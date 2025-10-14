@@ -1,5 +1,5 @@
 ---
-layout: templates/parallax.njk
+layout: templates/base.njk
 permalink: /
 title: 'data:ink:io'
 subtitle: 'The online studio for Russ Lebo'
@@ -39,7 +39,7 @@ scripts: >
 {# Work organized by category #}
 <ul
   id="work"
-  class="printmarks flex flex-col gap-48 relative text-neutral-100 sm:mx-6 md:mx-8 lg:mx-auto "
+  class="printmarks flex flex-col gap-48 relative text-neutral-100 bg-neutral- sm:mx-6 md:mx-8 lg:mx-auto "
 >
   {% for category in collections.ia %}
     <li>{% include "organisms/section/project-category.njk" %}</li>
