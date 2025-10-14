@@ -10,21 +10,37 @@ import LoggerStyles from './LoggerStyles.js';
  * Implemented as a singleton to ensure consistent logging state across the application.
  * Uses LoggerStyles for semantic color formatting.
  *
+ * Features:
+ * - Automatic Error detection and formatting
+ * - Hierarchical indentation with indent/outdent/group methods
+ * - Brief and verbose output modes
+ * - Semantic styling (standard, headsup, error, success)
+ * - Visual group separators for complex operations
+ *
  * @example
  * import logger from './js/utils/logger/index.js';
  *
  * logger.trace('User data:', { name: 'John', age: 30 }, 'verbose');
  * logger.trace('Quick check:', someValue); // defaults to 'brief'
- * logger.trace('Hidden:', secretData, 'silent');
+ * logger.trace('Error occurred:', error, 'verbose', 'error');
  *
- * // Toggle logging
- * logger.enabled = false; // Disable all logging
- * logger.enabled = true;  // Re-enable logging
+ * // Hierarchical logging
+ * await logger.group(async () => {
+ *   logger.trace('Processing...', 'Step 1', 'brief', 'headsup');
+ *   // nested operations...
+ * });
  */
 class Logger {
   static #instance = null;
   static #initialized = false;
+
+  // Private instance fields
   #indentLevel = 0;
+
+  // Constants for formatting
+  static #INDENT_SIZE = 2;
+  static #MAX_ARRAY_PREVIEW = 3;
+  static #MAX_OBJECT_PREVIEW = 3;
 
   /**
    * Private constructor - use static methods instead
@@ -114,9 +130,10 @@ class Logger {
   /**
    * Get current indentation string
    * @private
+   * @returns {string} Space characters for current indentation level
    */
   _getIndent() {
-    return '  '.repeat(this.#indentLevel);
+    return ' '.repeat(this.#indentLevel * Logger.#INDENT_SIZE);
   }
 
   /**
@@ -197,30 +214,23 @@ class Logger {
   /**
    * Get LoggerStyle object based on style name
    * @private
+   * @param {string} style - Style name
+   * @returns {LoggerStyle} The requested style
    */
   _getStyle(style) {
-    switch (style.toLowerCase()) {
-      case 'standard':
-        return LoggerStyles.STANDARD;
-      case 'headsup':
-        return LoggerStyles.HEADSUP;
-      case 'error':
-        return LoggerStyles.ERROR;
-      case 'success':
-        return LoggerStyles.SUCCESS;
-      default:
-        return LoggerStyles.STANDARD;
-    }
+    return LoggerStyles.getStyle(style);
   }
 
   /**
    * Format object in brief mode (datatype and value)
    * @private
+   * @param {*} obj - Object to format
+   * @returns {string} Formatted string with type and value
    */
   _formatBrief(obj) {
     const type = this._getType(obj);
     const value = this._getValue(obj);
-    return chalk.hex(LoggerStyles.HEADSUP)(`[${type}]`) + ' ' + chalk.white(value);
+    return chalk.hex(LoggerStyles.HEADSUP.color)(`[${type}]`) + ' ' + chalk.white(value);
   }
 
   /**
@@ -228,72 +238,73 @@ class Logger {
    * @private
    * @param {*} obj - Object to format
    * @param {string} baseIndent - Base indentation for this output
+   * @returns {string} Formatted multi-line string with full object details
    */
   _formatVerbose(obj, baseIndent = '') {
     const type = this._getType(obj);
-    let output = chalk.hex(LoggerStyles.HEADSUP)(`[${type}]`) + '\n';
+    const typeColor = chalk.hex(LoggerStyles.HEADSUP.color);
+    const standardColor = chalk.hex(LoggerStyles.STANDARD.color);
+
+    let output = typeColor(`[${type}]`) + '\n';
 
     if (obj instanceof Error) {
       // Special handling for Error objects - show message, name, and stack
-      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Structure: Error\n');
-      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Properties:\n');
+      output += baseIndent + standardColor('  Structure: Error\n');
+      output += baseIndent + standardColor('  Properties:\n');
       output +=
         baseIndent +
-        chalk.hex(LoggerStyles.STANDARD)(`    name: `) +
-        chalk.hex(LoggerStyles.HEADSUP)(`(string)`) +
+        standardColor(`    name: `) +
+        typeColor(`(string)`) +
         ' ' +
         chalk.white(`"${obj.name}"`) +
         '\n';
       output +=
         baseIndent +
-        chalk.hex(LoggerStyles.STANDARD)(`    message: `) +
-        chalk.hex(LoggerStyles.HEADSUP)(`(string)`) +
+        standardColor(`    message: `) +
+        typeColor(`(string)`) +
         ' ' +
         chalk.white(`"${obj.message}"`) +
         '\n';
       if (obj.stack) {
         output +=
           baseIndent +
-          chalk.hex(LoggerStyles.STANDARD)(`    stack: `) +
-          chalk.hex(LoggerStyles.HEADSUP)(`(string)`) +
+          standardColor(`    stack: `) +
+          typeColor(`(string)`) +
           ' ' +
           chalk.white(`"${obj.stack}"`) +
           '\n';
       }
     } else if (Array.isArray(obj)) {
-      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Structure: Array\n');
-      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)(`  Length: ${obj.length}\n`);
-      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Values:\n');
+      output += baseIndent + standardColor('  Structure: Array\n');
+      output += baseIndent + standardColor(`  Length: ${obj.length}\n`);
+      output += baseIndent + standardColor('  Values:\n');
       obj.forEach((item, index) => {
         const itemType = this._getType(item);
         const itemValue = this._getValue(item);
         output +=
           baseIndent +
-          chalk.hex(LoggerStyles.STANDARD)(`    [${index}] `) +
-          chalk.hex(LoggerStyles.HEADSUP)(`(${itemType})`) +
+          standardColor(`    [${index}] `) +
+          typeColor(`(${itemType})`) +
           ' ' +
           chalk.white(itemValue) +
           '\n';
       });
     } else if (typeof obj === 'object' && obj !== null) {
-      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Structure: Object\n');
-      output += baseIndent + chalk.hex(LoggerStyles.STANDARD)('  Properties:\n');
+      output += baseIndent + standardColor('  Structure: Object\n');
+      output += baseIndent + standardColor('  Properties:\n');
       for (const [key, value] of Object.entries(obj)) {
         const valueType = this._getType(value);
         const valueStr = this._getValue(value);
         output +=
           baseIndent +
-          chalk.hex(LoggerStyles.STANDARD)(`    ${key}: `) +
-          chalk.hex(LoggerStyles.HEADSUP)(`(${valueType})`) +
+          standardColor(`    ${key}: `) +
+          typeColor(`(${valueType})`) +
           ' ' +
           chalk.white(valueStr) +
           '\n';
       }
     } else {
-      output +=
-        baseIndent +
-        chalk.hex(LoggerStyles.STANDARD)('  Value: ') +
-        chalk.white(this._getValue(obj));
+      output += baseIndent + standardColor('  Value: ') + chalk.white(this._getValue(obj));
     }
 
     return output;
@@ -302,6 +313,8 @@ class Logger {
   /**
    * Get the datatype of an object
    * @private
+   * @param {*} obj - Object to analyze
+   * @returns {string} Datatype name ('null', 'undefined', 'error', 'array', 'date', 'regexp', 'object', or primitive type)
    */
   _getType(obj) {
     if (obj === null) return 'null';
@@ -317,27 +330,36 @@ class Logger {
   /**
    * Get string representation of value
    * @private
+   * @param {*} obj - Value to convert to string
+   * @returns {string} String representation
    */
   _getValue(obj) {
     if (obj === null) return 'null';
     if (obj === undefined) return 'undefined';
     if (obj instanceof Error) return `"${obj.message}"`;
+
     if (Array.isArray(obj)) {
       if (obj.length === 0) return '[]';
-      if (obj.length <= 3) return `[${obj.map(v => this._getValue(v)).join(', ')}]`;
+      if (obj.length <= Logger.#MAX_ARRAY_PREVIEW) {
+        return `[${obj.map(v => this._getValue(v)).join(', ')}]`;
+      }
       return `[${obj.length} items]`;
     }
+
     if (obj instanceof Date) return obj.toISOString();
+
     if (typeof obj === 'object') {
       const keys = Object.keys(obj);
       if (keys.length === 0) return '{}';
-      if (keys.length <= 3) {
+      if (keys.length <= Logger.#MAX_OBJECT_PREVIEW) {
         return `{ ${keys.map(k => `${k}: ${this._getValue(obj[k])}`).join(', ')} }`;
       }
       return `{ ${keys.length} properties }`;
     }
+
     if (typeof obj === 'string') return `"${obj}"`;
     if (typeof obj === 'function') return `[Function: ${obj.name || 'anonymous'}]`;
+
     return String(obj);
   }
 }
