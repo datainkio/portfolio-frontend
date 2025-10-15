@@ -15,11 +15,13 @@ import LoggerStyles from './LoggerStyles.js';
  * - Hierarchical indentation with indent/outdent/group methods
  * - Brief and verbose output modes
  * - Semantic styling (standard, headsup, error, success)
+ * - Custom styles with LoggerStyle instances
  * - Visual group separators for complex operations
  * - Optional object parameter for message-only logging
  *
  * @example
  * import logger from './js/utils/logger/index.js';
+ * import { LoggerStyle } from './js/utils/logger/index.js';
  *
  * // With object parameter
  * logger.trace('User data:', { name: 'John', age: 30 }, 'verbose');
@@ -35,6 +37,10 @@ import LoggerStyles from './LoggerStyles.js';
  *
  * // Explicit style override (bypasses auto-detection)
  * logger.trace('Custom styling:', error, 'brief', 'success'); // uses success style even for Error
+ *
+ * // Custom styles with LoggerStyle
+ * const customStyle = new LoggerStyle('#9333EA', '🎨'); // Purple with art palette icon
+ * logger.trace('Custom message:', data, 'brief', customStyle);
  *
  * // Message-only (no object)
  * logger.trace('Processing started...', undefined, 'brief', 'headsup');
@@ -102,7 +108,7 @@ class Logger {
    * @param {string} message - User-defined message to display
    * @param {*} [obj] - Optional object(s) to trace (any datatype or array of objects)
    * @param {string} [mode='brief'] - Display mode: 'brief', 'verbose', or 'silent'
-   * @param {string} [style='headsup'] - Style type: 'standard', 'headsup', 'error', 'success'
+   * @param {string|LoggerStyle} [style='headsup'] - Style type: 'standard', 'headsup', 'error', 'success', or a custom LoggerStyle instance
    */
   static trace(message, obj = null, mode = 'brief', style = 'headsup') {
     const instance = Logger.getInstance();
@@ -185,7 +191,7 @@ class Logger {
    * @param {string} message - User-defined message to display
    * @param {*} [obj] - Optional object(s) to trace (any datatype or array of objects)
    * @param {string} [mode='brief'] - Display mode: 'brief', 'verbose', or 'silent'
-   * @param {string} [style='standard'] - Style type: 'standard', 'headsup', 'error', 'success'
+   * @param {string|LoggerStyle} [style='standard'] - Style type: 'standard', 'headsup', 'error', 'success', or a custom LoggerStyle instance
    */
   trace(message, obj = null, mode = 'brief', style = 'standard') {
     // If logging is disabled, do nothing
@@ -203,7 +209,7 @@ class Logger {
       style = 'error';
     }
 
-    // Get style object based on style name
+    // Get style object (handles both string names and LoggerStyle instances)
     const styleObj = this._getStyle(style);
 
     // Build output based on mode
@@ -236,12 +242,18 @@ class Logger {
   }
 
   /**
-   * Get LoggerStyle object based on style name
+   * Get LoggerStyle object based on style name or return custom LoggerStyle
    * @private
-   * @param {string} style - Style name
+   * @param {string|LoggerStyle} style - Style name or LoggerStyle instance
    * @returns {LoggerStyle} The requested style
    */
   _getStyle(style) {
+    // If it's already a LoggerStyle instance, return it
+    if (style && typeof style === 'object' && style.color && style.icon !== undefined) {
+      return style;
+    }
+
+    // Otherwise, look up by name
     return LoggerStyles.getStyle(style);
   }
 

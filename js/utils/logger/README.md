@@ -72,7 +72,32 @@ logger.trace(message, obj, mode, style);
 - `message` (string) - User-defined message prefix
 - `obj` (any, **optional**) - Object(s) to trace (any datatype or array). Can be omitted for message-only logging
 - `mode` (string, optional) - Display mode: 'brief', 'verbose', or 'silent' (default: 'brief')
-- `style` (string, optional) - Color style: 'standard', 'headsup', 'error', 'success' (default: 'standard')
+- `style` (string|LoggerStyle, optional) - Color style: 'standard', 'headsup', 'error', 'success', or a custom LoggerStyle instance (default: 'standard')
+
+**Custom Styles:**
+
+Create your own styles with custom colors and icons:
+
+```javascript
+import logger, { LoggerStyle } from '../js/utils/logger/index.js';
+
+// Create custom style with color and icon
+const purpleStyle = new LoggerStyle('#9333EA', '🎨');
+logger.trace('Creative mode:', data, 'brief', purpleStyle);
+
+// Custom style without icon
+const cyanStyle = new LoggerStyle('#06B6D4');
+logger.trace('Info:', data, 'brief', cyanStyle);
+
+// Multiple custom styles for different purposes
+const debugStyle = new LoggerStyle('#6366F1', '🐛');
+const warningStyle = new LoggerStyle('#EAB308', '⚠️');
+const celebrateStyle = new LoggerStyle('#10B981', '🎉');
+
+logger.trace('Debug info:', debugData, 'verbose', debugStyle);
+logger.trace('Warning:', warningMsg, 'brief', warningStyle);
+logger.trace('Success!:', result, 'brief', celebrateStyle);
+```
 
 **Error Auto-Detection:**
 

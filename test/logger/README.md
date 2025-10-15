@@ -103,6 +103,17 @@ Tests practical usage patterns:
 - Custom error classes with properties
 - Grouped operations with errors
 
+### 6. Custom Styles (`custom-styles.test.js`)
+
+Tests custom style functionality:
+
+- Creating custom LoggerStyle instances with colors and icons
+- Custom styles in brief and verbose modes
+- Custom styles without icons
+- Mixing custom and built-in styles
+- Custom styles in hierarchical logging contexts
+- Custom styles with complex data objects
+
 ## Best Practices Demonstrated
 
 ### Test File Naming

@@ -20,6 +20,7 @@ const tests = [
   { name: 'Optional Parameters', file: 'optional-parameter.test.js' },
   { name: 'Error Auto-Detection', file: 'error-detection.test.js' },
   { name: 'Real-World Scenarios', file: 'real-world.test.js' },
+  { name: 'Custom Styles', file: 'custom-styles.test.js' },
 ];
 
 console.log('\n╔════════════════════════════════════════╗');
