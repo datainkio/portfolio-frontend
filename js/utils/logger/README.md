@@ -2,11 +2,11 @@
 
 # Logger Package
 
-Debug logging system with singleton pattern, semantic color styling, and emoji icons.
+Debug logging system with singleton pattern, semantic color styling, and emoji prefixes.
 
 ## Overview
 
-The Logger package provides consistent, configurable debug output for build scripts and development workflows. It features a singleton pattern for easy integration, semantic styling with color-coded output, and emoji icons for quick visual scanning.
+The Logger package provides consistent, configurable debug output for build scripts and development workflows. It features a singleton pattern for easy integration, semantic styling with color-coded output, and emoji prefixes for quick visual scanning.
 
 ## Package Structure
 
@@ -14,7 +14,7 @@ The Logger package provides consistent, configurable debug output for build scri
 js/utils/logger/
 ├── index.js          # Package entry point with exports
 ├── Logger.js         # Main Logger singleton class
-├── LoggerStyle.js    # Individual style class (color + icon)
+├── LoggerStyle.js    # Individual style class (color + prefix)
 └── LoggerStyles.js   # Semantic style constants
 ```
 
@@ -53,9 +53,9 @@ import { Logger, LoggerStyle, LoggerStyles } from '../js/utils/logger/index.js';
 // Access singleton instance
 const instance = Logger.getInstance();
 
-// Access style objects (color + icon)
+// Access style objects (color + prefix)
 console.log(LoggerStyles.SUCCESS.color); // '#10B981'
-console.log(LoggerStyles.SUCCESS.icon); // '✅'
+console.log(LoggerStyles.SUCCESS.prefix); // '✅'
 
 // Create custom style
 const customStyle = new LoggerStyle('#FF00FF', '🔮');
@@ -76,16 +76,16 @@ logger.trace(message, obj, mode, style);
 
 **Custom Styles:**
 
-Create your own styles with custom colors and icons:
+Create your own styles with custom colors and prefixes:
 
 ```javascript
 import logger, { LoggerStyle } from '../js/utils/logger/index.js';
 
-// Create custom style with color and icon
+// Create custom style with color and prefix
 const purpleStyle = new LoggerStyle('#9333EA', '🎨');
 logger.trace('Creative mode:', data, 'brief', purpleStyle);
 
-// Custom style without icon
+// Custom style without prefix
 const cyanStyle = new LoggerStyle('#06B6D4');
 logger.trace('Info:', data, 'brief', cyanStyle);
 
@@ -101,7 +101,7 @@ logger.trace('Success!:', result, 'brief', celebrateStyle);
 
 **Error Auto-Detection:**
 
-When the `obj` parameter is an Error object and no explicit style is provided (defaults to 'standard'), Logger automatically applies the 'error' style with red ❌ icon:
+When the `obj` parameter is an Error object and no explicit style is provided (defaults to 'standard'), Logger automatically applies the 'error' style with red ❌ prefix:
 
 ```javascript
 // Auto-detection - no style parameter needed

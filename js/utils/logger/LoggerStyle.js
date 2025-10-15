@@ -3,25 +3,25 @@
 /**
  * LoggerStyle Class
  *
- * Represents a logger output style with color and optional icon.
+ * Represents a logger output style with color and optional prefix.
  * Immutable once created for consistent styling across the application.
  */
 class LoggerStyle {
   #color;
-  #icon;
+  #prefix;
 
   /**
    * Create a logger style
    * @param {string} color - Hex color value for terminal output (e.g., '#6B7280')
-   * @param {string} [icon=''] - Optional emoji icon to prefix output
+   * @param {string} [prefix=''] - Optional prefix string (emoji, symbol, etc.) to prepend to output
    */
-  constructor(color, icon = '') {
+  constructor(color, prefix = '') {
     if (!color || typeof color !== 'string' || !color.startsWith('#')) {
       throw new Error('LoggerStyle requires a valid hex color (e.g., "#6B7280")');
     }
 
     this.#color = color;
-    this.#icon = icon;
+    this.#prefix = prefix;
 
     // Freeze to prevent modification after creation
     Object.freeze(this);
@@ -36,11 +36,11 @@ class LoggerStyle {
   }
 
   /**
-   * Get the icon value
-   * @returns {string} Emoji icon or empty string
+   * Get the prefix value
+   * @returns {string} Prefix string (emoji, symbol, etc.) or empty string
    */
-  get icon() {
-    return this.#icon;
+  get prefix() {
+    return this.#prefix;
   }
 }
 

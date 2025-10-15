@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const tests = [
-  { name: 'Styles & Icons', file: 'styles.test.js' },
+  { name: 'Styles & Prefixes', file: 'styles.test.js' },
   { name: 'Error Handling', file: 'errors.test.js' },
   { name: 'Optional Parameters', file: 'optional-parameter.test.js' },
   { name: 'Error Auto-Detection', file: 'error-detection.test.js' },

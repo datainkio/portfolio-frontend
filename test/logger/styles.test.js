@@ -5,7 +5,7 @@ import logger from '../../js/utils/logger/index.js';
 // Enable logger
 logger.enabled = true;
 
-console.log('\n🧪 Testing Logger Styles with Icons\n');
+console.log('\n🧪 Testing Logger Styles with Prefixes\n');
 
 // Test all four styles
 logger.trace(

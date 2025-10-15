@@ -2,31 +2,33 @@
 // Silence punycode warning
 process.noDeprecation = true;
 
-import logger from './js/utils/logger/index.js';
+import logger, { LoggerStyle } from './js/utils/logger/index.js';
 
 import collections from './eleventy/collections/index.js';
 import plugins from './eleventy/plugins/plugins.js';
 import filters from './eleventy/filters/filters.js';
 import shortcodes from './eleventy/shortcodes/shortcodes.js';
 
+/**
+ * Custom Logger Styles for 11ty Operations
+ */
+const titleStyle = new LoggerStyle('#EE9B00', '🚀');
+const msgStyle = new LoggerStyle('#CA6702', '•');
+const successStyle = new LoggerStyle('#EE9B00', '\n👍');
+
 export default async function (eleventyConfig) {
   console.log('\n');
 
   await logger.group(async () => {
+    logger.trace('11ty Initialization', null, 'brief', titleStyle);
     logger.trace(
-      '11ty Configuration:',
-      'Initializing Eleventy static site generator...',
-      'brief',
-      'headsup'
-    );
-
-    // Passthrough copy for static assets
-    logger.trace(
-      'Configuring passthrough copy:',
-      'Setting up static asset routing...',
+      'Initialization begins by configuring passthrough copy for static assets, including JavaScript and CSS files. It then loads and registers 11ty objects: plugins, filters, shortcodes, and collections. The collections are populated by pulling data from the CMS.\n',
+      null,
       'brief',
       'standard'
     );
+    // Passthrough copy for static assets
+    logger.trace('Configuring passthrough copy', null, 'brief', msgStyle);
     eleventyConfig.addPassthroughCopy({ 'static/robots.txt': 'robots.txt' });
     eleventyConfig.addPassthroughCopy('assets');
     // Copy JavaScript files to _site/assets/
@@ -39,25 +41,25 @@ export default async function (eleventyConfig) {
     // eleventyConfig.addPassthroughCopy("src/js");
 
     // Plugins
-    logger.trace('Loading plugins:', 'Registering 11ty plugins...', 'brief', 'standard');
+    logger.trace('Registering 11ty plugins', null, 'brief', msgStyle);
     plugins(eleventyConfig);
 
     // Filters
-    logger.trace('Loading filters:', 'Registering template filters...', 'brief', 'standard');
+    logger.trace('Registering template filters', null, 'brief', msgStyle);
     filters(eleventyConfig);
 
     // Shortcodes
-    logger.trace('Loading shortcodes:', 'Registering template shortcodes...', 'brief', 'standard');
+    logger.trace('Registering template shortcodes', null, 'brief', msgStyle);
     shortcodes(eleventyConfig);
 
     // Collections
-    logger.trace('Loading collections:', 'Registering data collections...', 'brief', 'standard');
+    logger.trace('Registering data collections', null, 'brief', msgStyle);
     collections(eleventyConfig);
 
     // Make Tailwind theme data available globally
     // eleventyConfig.addGlobalData("styles", tailwindConfig.theme.extend);
 
-    logger.trace('11ty configuration complete:', 'Ready to build site', 'brief', 'success');
+    logger.trace('11ty configuration complete. Ready for build.', null, 'brief', successStyle);
   });
 
   console.log('\n');

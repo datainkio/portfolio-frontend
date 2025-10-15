@@ -6,7 +6,7 @@ import LoggerStyle from './LoggerStyle.js';
  * LoggerStyles - Semantic Style Constants
  *
  * Provides predefined, immutable style constants for consistent Logger output formatting.
- * Each style combines a Tailwind-inspired color with an optional semantic icon.
+ * Each style combines a Tailwind-inspired color with an optional semantic prefix.
  *
  * Color Palette:
  * - Gray-500 (#6B7280): Neutral informational messages
@@ -23,28 +23,28 @@ class LoggerStyles {
 
   /**
    * Standard output style - Default informational messages
-   * No icon for minimal clutter, gray color for subtle emphasis
+   * No prefix for minimal clutter, gray color for subtle emphasis
    * @type {LoggerStyle}
    */
   static STANDARD = new LoggerStyle('#6B7280');
 
   /**
    * Heads-up output style - Important information requiring attention
-   * Lightning bolt icon for urgency, amber color for visibility
+   * Lightning bolt prefix for urgency, amber color for visibility
    * @type {LoggerStyle}
    */
   static HEADSUP = new LoggerStyle('#F59E0B', '⚡');
 
   /**
    * Error output style - Error messages and operation failures
-   * X mark icon for clear error indication, red color for severity
+   * X mark prefix for clear error indication, red color for severity
    * @type {LoggerStyle}
    */
   static ERROR = new LoggerStyle('#EF4444', '❌');
 
   /**
    * Success output style - Successful operations and confirmations
-   * Check mark icon for positive feedback, green color for success
+   * Check mark prefix for positive feedback, green color for success
    * @type {LoggerStyle}
    */
   static SUCCESS = new LoggerStyle('#10B981', '✅');

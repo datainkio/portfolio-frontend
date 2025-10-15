@@ -3,13 +3,25 @@
 // Silence punycode deprecation warning
 process.noDeprecation = true;
 
-import logger from '../js/utils/logger/index.js';
+import logger, { LoggerStyle } from '../js/utils/logger/index.js';
 import { config } from 'dotenv';
 import { AssetCache } from '@11ty/eleventy-fetch';
 import { processFile, completeProcessing } from './processFile.js';
 import Airtable from 'airtable';
 
 config();
+
+/**
+ * Custom Logger Styles for Airtable Operations
+ *
+ * These styles provide visual distinction for different Airtable operations:
+ * - airtableStyle (Orange 🗄️): Database operations, fetching, refreshing
+ * - cachingStyle (Purple 💾): Cache-related operations (using/saving cache)
+ * - processingStyle (Cyan ⚙️): Record processing operations
+ */
+const msgStyle = new LoggerStyle('#0A9396', '🗄️');
+const cachedStyle = new LoggerStyle('#005F73', '•');
+const refreshStyle = new LoggerStyle('#94D2BD', '↻');
 
 /**
  * Fetch data from an Airtable table and cache it.
@@ -40,18 +52,15 @@ export default async function fetchAirtableData(table) {
 
   // Use cached data if valid and not forcing refresh
   if (!shouldForceRefresh && asset.isCacheValid(table.cache)) {
-    logger.trace('Using cached data:', { table: table.tableName }, 'brief', 'standard');
+    logger.trace(table.tableName + ': ', 'cached', 'brief', cachedStyle);
     return asset.getCachedValue();
   }
 
   // Log reason for refresh
   if (shouldForceRefresh) {
-    const reason = forceRefreshAll
-      ? 'FORCE_REFRESH=true'
-      : `FORCE_REFRESH_TABLE=${table.tableName}`;
-    logger.trace('Force refreshing table:', { table: table.tableName, reason }, 'brief', 'headsup');
+    logger.trace(table.tableName + ': ', 'forced refresh', 'brief', refreshStyle);
   } else {
-    logger.trace('Cache expired, refreshing:', { table: table.tableName }, 'brief', 'headsup');
+    logger.trace(table.tableName + ': ', 'expired', 'brief', refreshStyle);
   }
 
   const base = new Airtable({
@@ -74,7 +83,7 @@ export default async function fetchAirtableData(table) {
             'Processing records:',
             { table: table.tableName, count: processedRecords },
             'brief',
-            'standard'
+            msgStyle
           );
 
           // Calculate the total number of file fields in the current batch of records so that we can track progress
@@ -134,7 +143,7 @@ export default async function fetchAirtableData(table) {
               'Data cached successfully:',
               { table: table.tableName, records: allRecords.length },
               'brief',
-              'success'
+              cachedStyle
             );
             resolve(allRecords);
           }

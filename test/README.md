@@ -30,7 +30,7 @@ npm run test:logger
 ### Individual Test Suites
 
 ```bash
-# Logger styles and icons
+# Logger styles and prefixes
 DEBUG=true node test/logger/styles.test.js
 
 # Logger error handling
@@ -114,7 +114,7 @@ console.log('\n=== Tests Complete ===\n');
 
 Comprehensive tests for the Logger utility:
 
-- **Styles**: Icon and color rendering
+- **Styles**: Prefix and color rendering
 - **Errors**: Error object handling and formatting
 - **Optional Parameters**: API flexibility tests
 - **Auto-Detection**: Error detection without explicit styling

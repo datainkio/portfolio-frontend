@@ -9,7 +9,7 @@ Comprehensive test suite for the Logger utility package.
 ```
 test/logger/
 ├── index.js                    # Test suite runner
-├── styles.test.js              # Style and icon rendering tests
+├── styles.test.js              # Style and prefix rendering tests
 ├── errors.test.js              # Error object handling tests
 ├── optional-parameter.test.js  # Optional parameter functionality
 ├── error-detection.test.js     # Automatic error detection tests
@@ -33,7 +33,7 @@ DEBUG=true node test/logger/index.js
 ### Run Individual Tests
 
 ```bash
-# Styles and icons
+# Styles and prefixes
 DEBUG=true node test/logger/styles.test.js
 
 # Error handling
@@ -51,9 +51,9 @@ DEBUG=true node test/logger/real-world.test.js
 
 ## Test Coverage
 
-### 1. Styles & Icons (`styles.test.js`)
+### 1. Styles & Prefixes (`styles.test.js`)
 
-Tests all semantic styles with their corresponding icons:
+Tests all semantic styles with their corresponding prefixes:
 
 - ● Standard style (gray) - informational messages
 - ⚡ Headsup style (amber) - attention-grabbing messages
@@ -107,9 +107,9 @@ Tests practical usage patterns:
 
 Tests custom style functionality:
 
-- Creating custom LoggerStyle instances with colors and icons
-- Custom styles in brief and verbose modes
-- Custom styles without icons
+- Creating custom LoggerStyle instances with colors and prefixes
+- Using custom styles with brief and verbose modes
+- Custom styles without prefixes
 - Mixing custom and built-in styles
 - Custom styles in hierarchical logging contexts
 - Custom styles with complex data objects

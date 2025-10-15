@@ -69,6 +69,37 @@ Edit `njk/_data/site.json` to set cache durations per table:
 
 **Valid cache durations:** `30m`, `1h`, `12h`, `1d`, `7d`
 
+## Logger Styles (Visual Debugging)
+
+The Airtable integration uses custom Logger styles for visual distinction of different operations:
+
+**Custom Styles:**
+
+- 🗄️ **Orange** (#F97316) - `airtableStyle` - Database operations, fetching, refreshing tables
+- 💾 **Purple** (#8B5CF6) - `cachingStyle` - Cache operations (using/saving cached data)
+- ⚙️ **Cyan** (#06B6D4) - `processingStyle` - Record processing operations
+- ❌ **Red** (built-in) - Error messages (auto-detected from Error objects)
+
+**Example Output:**
+
+```bash
+DEBUG=true npm run build
+
+💾 Using cached data: { table: "Projects" }
+🗄️ Cache expired, refreshing: { table: "BlogPosts" }
+  ⚙️ Processing records: { table: "BlogPosts", count: 10 }
+  ⚙️ Processing records: { table: "BlogPosts", count: 20 }
+💾 Data cached successfully: { table: "BlogPosts", records: 20 }
+```
+
+**Visual Preview:**
+
+Run the preview script to see all styles in action:
+
+```bash
+DEBUG=true node test/airtable-styles-preview.js
+```
+
 ## Configuration Architecture (Get This Wrong = No Content)
 
 ### Site Configuration (`njk/_data/site.json`)

@@ -39,7 +39,7 @@ import LoggerStyles from './LoggerStyles.js';
  * logger.trace('Custom styling:', error, 'brief', 'success'); // uses success style even for Error
  *
  * // Custom styles with LoggerStyle
- * const customStyle = new LoggerStyle('#9333EA', '🎨'); // Purple with art palette icon
+ * const customStyle = new LoggerStyle('#9333EA', '🎨'); // Purple with art palette prefix
  * logger.trace('Custom message:', data, 'brief', customStyle);
  *
  * // Message-only (no object)
@@ -219,9 +219,15 @@ class Logger {
     const indent = this._getIndent();
     output += indent;
 
-    // Add icon prefix if available
-    if (styleObj.icon) {
-      output += styleObj.icon.trim() + ' ';
+    // Add prefix if available (check for non-empty string, allow whitespace-only)
+    if (styleObj.prefix !== '' && styleObj.prefix !== undefined && styleObj.prefix !== null) {
+      // Replace newlines in prefix with newline + indent to maintain indentation
+      const indentedPrefix = styleObj.prefix.replace(/\n/g, '\n' + indent);
+      output += indentedPrefix;
+      // Only add space if prefix doesn't end with whitespace
+      if (!styleObj.prefix.match(/\s$/)) {
+        output += ' ';
+      }
     }
 
     // Add message prefix with appropriate color
@@ -231,9 +237,9 @@ class Logger {
     if (obj !== null && obj !== undefined) {
       output += ' ';
       if (mode === 'brief') {
-        output += this._formatBrief(obj);
+        output += this._formatBrief(obj, styleObj.color);
       } else if (mode === 'verbose') {
-        output += this._formatVerbose(obj, indent);
+        output += this._formatVerbose(obj, indent, styleObj.color);
       }
     }
 
@@ -249,7 +255,7 @@ class Logger {
    */
   _getStyle(style) {
     // If it's already a LoggerStyle instance, return it
-    if (style && typeof style === 'object' && style.color && style.icon !== undefined) {
+    if (style && typeof style === 'object' && style.color && style.prefix !== undefined) {
       return style;
     }
 
@@ -258,15 +264,15 @@ class Logger {
   }
 
   /**
-   * Format object in brief mode (datatype and value)
+   * Format object in brief mode (value only)
    * @private
    * @param {*} obj - Object to format
-   * @returns {string} Formatted string with type and value
+   * @param {string} color - Hex color to use for formatting
+   * @returns {string} Formatted string with value only
    */
-  _formatBrief(obj) {
-    const type = this._getType(obj);
+  _formatBrief(obj, color) {
     const value = this._getValue(obj);
-    return chalk.hex(LoggerStyles.HEADSUP.color)(`[${type}]`) + ' ' + chalk.white(value);
+    return chalk.hex(color)(value);
   }
 
   /**
@@ -274,73 +280,73 @@ class Logger {
    * @private
    * @param {*} obj - Object to format
    * @param {string} baseIndent - Base indentation for this output
+   * @param {string} color - Hex color to use for formatting
    * @returns {string} Formatted multi-line string with full object details
    */
-  _formatVerbose(obj, baseIndent = '') {
+  _formatVerbose(obj, baseIndent = '', color) {
     const type = this._getType(obj);
-    const typeColor = chalk.hex(LoggerStyles.HEADSUP.color);
-    const standardColor = chalk.hex(LoggerStyles.STANDARD.color);
+    const styleColor = chalk.hex(color);
 
-    let output = typeColor(`[${type}]`) + '\n';
+    let output = styleColor(`[${type}]`) + '\n';
 
     if (obj instanceof Error) {
       // Special handling for Error objects - show message, name, and stack
-      output += baseIndent + standardColor('  Structure: Error\n');
-      output += baseIndent + standardColor('  Properties:\n');
+      output += baseIndent + styleColor('  Structure: Error\n');
+      output += baseIndent + styleColor('  Properties:\n');
       output +=
         baseIndent +
-        standardColor(`    name: `) +
-        typeColor(`(string)`) +
+        styleColor(`    name: `) +
+        styleColor(`(string)`) +
         ' ' +
-        chalk.white(`"${obj.name}"`) +
+        styleColor(`"${obj.name}"`) +
         '\n';
       output +=
         baseIndent +
-        standardColor(`    message: `) +
-        typeColor(`(string)`) +
+        styleColor(`    message: `) +
+        styleColor(`(string)`) +
         ' ' +
-        chalk.white(`"${obj.message}"`) +
+        styleColor(`"${obj.message}"`) +
         '\n';
       if (obj.stack) {
         output +=
           baseIndent +
-          standardColor(`    stack: `) +
-          typeColor(`(string)`) +
+          styleColor(`    stack: `) +
+          styleColor(`(string)`) +
           ' ' +
-          chalk.white(`"${obj.stack}"`) +
+          styleColor(`"${obj.stack}"`) +
           '\n';
       }
     } else if (Array.isArray(obj)) {
-      output += baseIndent + standardColor('  Structure: Array\n');
-      output += baseIndent + standardColor(`  Length: ${obj.length}\n`);
-      output += baseIndent + standardColor('  Values:\n');
+      output += baseIndent + styleColor('  Structure: Array\n');
+      output += baseIndent + styleColor(`  Length: ${obj.length}\n`);
+      output += baseIndent + styleColor('  Values:\n');
       obj.forEach((item, index) => {
         const itemType = this._getType(item);
         const itemValue = this._getValue(item);
         output +=
           baseIndent +
-          standardColor(`    [${index}] `) +
-          typeColor(`(${itemType})`) +
+          styleColor(`    [${index}] `) +
+          styleColor(`(${itemType})`) +
           ' ' +
-          chalk.white(itemValue) +
+          styleColor(itemValue) +
           '\n';
       });
     } else if (typeof obj === 'object' && obj !== null) {
-      output += baseIndent + standardColor('  Structure: Object\n');
-      output += baseIndent + standardColor('  Properties:\n');
+      output += baseIndent + styleColor('  Structure: Object\n');
+      output += baseIndent + styleColor('  Properties:\n');
       for (const [key, value] of Object.entries(obj)) {
         const valueType = this._getType(value);
         const valueStr = this._getValue(value);
         output +=
           baseIndent +
-          standardColor(`    ${key}: `) +
-          typeColor(`(${valueType})`) +
+          styleColor(`    ${key}: `) +
+          styleColor(`(${valueType})`) +
           ' ' +
-          chalk.white(valueStr) +
+          styleColor(valueStr) +
           '\n';
       }
     } else {
-      output += baseIndent + standardColor('  Value: ') + chalk.white(this._getValue(obj));
+      output += baseIndent + styleColor('  Value: ') + styleColor(this._getValue(obj));
     }
 
     return output;

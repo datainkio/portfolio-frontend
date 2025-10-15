@@ -1,13 +1,23 @@
-import logger from '../../js/utils/logger/index.js';
+import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
 import fetchAirtableData from '../../airtable/fetchAirtableData.js';
+/**
+ * Custom Logger Styles for 11ty Operations
+ */
+const titleStyle = new LoggerStyle('#EE9B00', '\n☎️  ');
+const msgStyle = new LoggerStyle('#CA6702', '•');
+const successStyle = new LoggerStyle('#EE9B00', '\n👍');
 /**
  * Airtable builds a collection for each table in the site.airtables array
  */
 export async function init(eleventyConfig, site) {
   // Output init message
-  logger.trace('Airtable Data Sync', undefined, 'brief', 'headsup');
-  logger.indent();
-  logger.trace('API info and cache curation managed by site.json', undefined, 'brief', 'standard');
+  logger.trace('Syncing with CMS (Airtable)', null, 'brief', titleStyle);
+  logger.trace(
+    'The registration of data collections starts by checking the freshness of local content. If the cache has expired, then it hits up the remote CMS for fresh content. CMS API info and cache curation are managed by site.json.\n',
+    undefined,
+    'brief',
+    'standard'
+  );
 
   // If the site object or site.airtables config is missing, exit.
   if (!site || !site.airtables) {
@@ -20,7 +30,6 @@ export async function init(eleventyConfig, site) {
       'verbose',
       'error'
     );
-    logger.outdent();
     return;
   }
 
@@ -42,6 +51,4 @@ export async function init(eleventyConfig, site) {
   results.forEach(({ tableName, data }) => {
     eleventyConfig.addCollection(tableName, () => data);
   });
-
-  logger.outdent();
 }
