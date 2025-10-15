@@ -13,22 +13,46 @@ config();
 
 /**
  * Fetch data from an Airtable table and cache it.
- * @param {string} tableName - The name of the Airtable table.
- * @param {string} tableView - The name of the Airtable view.
- * @param {string} cache - The cache duration
- * @returns {Promise<Object[]>} A promise that resolves to the data fetched from Airtable.
+ *
+ * CACHE REFRESH OPTIONS:
+ * 1. Force refresh all tables: Set FORCE_REFRESH=true environment variable
+ *    Example: FORCE_REFRESH=true npm run build
+ *
+ * 2. Force refresh specific table: Set FORCE_REFRESH_TABLE=TableName
+ *    Example: FORCE_REFRESH_TABLE=Projects npm run build
+ *
+ * 3. Normal cache behavior: Don't set any FORCE_REFRESH variables
+ *    Cache duration controlled by table.cache in site.json
+ *
+ * @param {Object} table - Table configuration object
+ * @param {string} table.tableName - The name of the Airtable table
+ * @param {string} table.tableView - The name of the Airtable view
+ * @param {string} table.cache - The cache duration (e.g., '1d', '1h')
+ * @returns {Promise<Object[]>} A promise that resolves to the data fetched from Airtable
  */
 export default async function fetchAirtableData(table) {
   const asset = new AssetCache(table.tableName + 'Cached');
 
-  // FORCE REFRESH: Cache check temporarily disabled
-  // if (asset.isCacheValid(table.cache)) {
-  //   // logger.trace('Using cached data:', table.tableName, 'brief', 'standard');
-  //   return asset.getCachedValue();
-  // }
+  // Check for force refresh flags
+  const forceRefreshAll = process.env.FORCE_REFRESH === 'true';
+  const forceRefreshTable = process.env.FORCE_REFRESH_TABLE === table.tableName;
+  const shouldForceRefresh = forceRefreshAll || forceRefreshTable;
 
-  // Force fetching fresh data from Airtable
-  logger.trace('Force refreshing table:', table.tableName, 'brief', 'headsup');
+  // Use cached data if valid and not forcing refresh
+  if (!shouldForceRefresh && asset.isCacheValid(table.cache)) {
+    logger.trace('Using cached data:', { table: table.tableName }, 'brief', 'standard');
+    return asset.getCachedValue();
+  }
+
+  // Log reason for refresh
+  if (shouldForceRefresh) {
+    const reason = forceRefreshAll
+      ? 'FORCE_REFRESH=true'
+      : `FORCE_REFRESH_TABLE=${table.tableName}`;
+    logger.trace('Force refreshing table:', { table: table.tableName, reason }, 'brief', 'headsup');
+  } else {
+    logger.trace('Cache expired, refreshing:', { table: table.tableName }, 'brief', 'headsup');
+  }
 
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN,

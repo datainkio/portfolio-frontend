@@ -13,10 +13,61 @@ The Airtable integration transforms your Airtable bases into 11ty collections th
 
 **CRITICAL DEPENDENCY CHAIN**: Airtable API → Caching Layer → Collection Transformation → Template Rendering. Break any link and your content management system becomes a very expensive digital paperweight.
 
-- **Progressive enhancement** - Content flows through optimized pipeline to
-  final user experience
+## Cache Management (Developer Quick Reference)
 
-## Content-to-Website Pipeline
+### Force Refresh Cache
+
+Sometimes you need fresh data from Airtable immediately, bypassing the cache:
+
+**Option 1 - Refresh ALL tables:**
+
+```bash
+npm run build:force
+# or manually:
+FORCE_REFRESH=true npm run build
+```
+
+**Option 2 - Refresh SPECIFIC table:**
+
+```bash
+FORCE_REFRESH_TABLE=Projects npm run build
+# Replace "Projects" with your table name (case-sensitive!)
+```
+
+**Option 3 - Normal cache behavior:**
+
+```bash
+npm run build
+# Uses cache duration from site.json
+```
+
+**With Debug Logging:**
+
+```bash
+DEBUG=true FORCE_REFRESH=true npm run build
+# See exactly what's being cached/refreshed
+```
+
+### Cache Duration Control
+
+Edit `njk/_data/site.json` to set cache durations per table:
+
+```json
+{
+  "airtables": [
+    {
+      "tableName": "Projects",
+      "cache": "1d" // 1 day - for stable content
+    },
+    {
+      "tableName": "News",
+      "cache": "1h" // 1 hour - for frequently updated content
+    }
+  ]
+}
+```
+
+**Valid cache durations:** `30m`, `1h`, `12h`, `1d`, `7d`
 
 ## Configuration Architecture (Get This Wrong = No Content)
 
@@ -73,9 +124,9 @@ The caching system prevents API rate limiting and improves build performance:
 ```javascript
 // Smart caching with configurable duration
 const cachedData = await EleventyFetch(airtableUrl, {
-  duration: config.cache || "1h",
-  type: "json",
-  directory: ".cache",
+  duration: config.cache || '1h',
+  type: 'json',
+  directory: '.cache',
 });
 ```
 
@@ -94,8 +145,8 @@ Raw Airtable records get transformed into 11ty-compatible collections:
 
 ```javascript
 // Transform Airtable record structure
-eleventyConfig.addCollection("projects", async function () {
-  return airtableData.map((record) => ({
+eleventyConfig.addCollection('projects', async function () {
+  return airtableData.map(record => ({
     data: record.fields, // Airtable fields become data object
     slug: slugify(record.fields.Name), // Auto-generate URL slug
     id: record.id, // Preserve Airtable record ID
@@ -120,10 +171,7 @@ Collections become accessible in Nunjucks templates:
 <article>
   <h2>{{ project.data.Name }}</h2>
   <p>{{ project.data.Description }}</p>
-  <img
-    src="{{ project.data.Featured_Image[0].url }}"
-    alt="{{ project.data.Name }}"
-  />
+  <img src="{{ project.data.Featured_Image[0].url }}" alt="{{ project.data.Name }}" />
 </article>
 {% endfor %}
 ```
