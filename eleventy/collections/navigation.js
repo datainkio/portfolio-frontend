@@ -36,7 +36,7 @@ import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
 /**
  * Custom Logger Styles for Navigation Operations
  */
-const titleStyle = new LoggerStyle('#EE9B00', '\n☎️  ');
+const titleStyle = new LoggerStyle('#EE9B00', '\n🧭');
 const msgStyle = new LoggerStyle('#CA6702', '•');
 const successStyle = new LoggerStyle('#EE9B00', '\n👍');
 
@@ -59,13 +59,7 @@ export async function init(eleventyConfig, site) {
   // logger.trace('top-level: ' + site.directories.nav, null, 'brief', msgStyle);
   logger.trace(
     '',
-    'The navigation scheme merges three different sources to build a single, navigable structure.\n',
-    'brief',
-    'standard'
-  );
-  logger.trace(
-    '',
-    'First, it gets the top-level nav items. These are manually defined and are found in site.json...',
+    'The navigation scheme merges three different sources to build a single, navigable structure. First, it gets the top-level nav items. These are manually defined and are found in site.json...\n',
     'brief',
     'standard'
   );
@@ -145,7 +139,12 @@ export async function init(eleventyConfig, site) {
  * @param {Object} site - Site config with directories.nav path
  */
 function addTopLevelNav(eleventyConfig, site) {
-  logger.trace('Building top-level navigation', null, 'brief', msgStyle);
+  logger.trace(
+    'Building top-level nav by determining which files become part of the navigation scheme.',
+    null,
+    'brief',
+    msgStyle
+  );
   eleventyConfig.addCollection('nav_dirs', function (collectionApi) {
     // Get existing nav items
     const navTop = collectionApi
@@ -258,15 +257,11 @@ function formatDirectoriesForEleventyNav(items) {
  * @param {Object} eleventyConfig - 11ty config for addCollection
  */
 function addProjectsNav(eleventyConfig) {
+  logger.trace('', 'Building project navigation...', 'brief', msgStyle);
   eleventyConfig.addCollection('nav_projects', function (collectionApi) {
     // CRITICAL WARNING: Return empty array for now to prevent build failures
     // TODO: Implement proper projects navigation after Airtable collections are stable
-    logger.trace(
-      'nav_projects collection returning empty array (projects navigation disabled)',
-      null,
-      'brief',
-      msgStyle
-    );
+    logger.trace(null, 'nav_projects collection returning empty array', 'brief', msgStyle);
     return [];
   });
 }
@@ -405,6 +400,7 @@ function getParentFromSlug(slug) {
  * @returns {Array} Hierarchical navigation structure with nested children
  */
 function buildNestedStructure(items) {
+  logger.trace('Building nested navigation structure...', null, 'brief', msgStyle);
   const itemMap = new Map();
   const result = [];
 
