@@ -1,5 +1,5 @@
 /**
- * CRITICAL WARNING: 11ty Navigation Collection Builder
+ * 11ty Navigation Collection Builder
  *
  * This file manages the complex navigation system for the 11ty static site.
  * DO NOT MODIFY without understanding the complete dependency chain.
@@ -7,7 +7,7 @@
  * ARCHITECTURE OVERVIEW:
  * - Creates three navigation collections: nav_dirs, nav_projects, nav_primary
  * - nav_dirs: Built from _pages directory structure and frontmatter titles
- * - nav_projects: Built from Airtable projects data (currently disabled)
+ * - nav_projects: Built from Airtable projects data
  * - nav_primary: Merges both collections into hierarchical navigation structure
  *
  * CRITICAL DEPENDENCIES:
@@ -19,9 +19,8 @@
  *
  * BUG PREVENTION:
  * - Defensive null checks prevent toLowerCase() TypeError crashes
- * - Collection access timing issues handled with try-catch blocks
  * - Missing frontmatter titles filtered out to prevent null keys
- * - Empty fallback arrays prevent template rendering failures
+ * - Proper collection access through 11ty Collection API (this.ctx.collections)
  *
  * PERFORMANCE NOTES:
  * - Collections rebuild on every 11ty change during development
@@ -56,16 +55,22 @@ const successStyle = new LoggerStyle('#EE9B00', '\n👍');
  */
 export async function init(eleventyConfig, site) {
   logger.trace('Registering primary navigation callbacks', null, 'brief', titleStyle);
-  // logger.trace('top-level: ' + site.directories.nav, null, 'brief', msgStyle);
   logger.trace(
     '',
     'The navigation scheme merges three different sources to create a single, navigable structure. First, it gets the top-level nav items. These are manually defined and are found in site.json...\n',
     'brief',
     'standard'
   );
+
+  // CRITICAL: Register collections in dependency order
+  // 1. nav_dirs (no dependencies)
+  // 2. nav_projects (depends on 'projects' from Airtable)
+  // 3. nav_primary (depends on nav_dirs and nav_projects)
+
   addTopLevelNav(eleventyConfig, site);
   addProjectsNav(eleventyConfig);
 
+  // Register nav_primary LAST as it depends on the other two
   eleventyConfig.addCollection('nav_primary', function (collectionApi) {
     logger.trace('Building primary navigation structure...', null, 'brief', msgStyle);
 
@@ -108,10 +113,11 @@ export async function init(eleventyConfig, site) {
 }
 
 /**
- * CRITICAL WARNING: Top-level navigation collection builder
+ * Top-level navigation collection builder
  *
  * Creates nav_dirs collection from _pages directory structure.
- * DO NOT MODIFY without understanding template dependencies.
+ *
+ * DEPENDENCIES: None - uses only 11ty file system data
  *
  * HOW IT WORKS:
  * 1. Scans all files in site.directories.nav (typically /njk/_pages/)
@@ -119,15 +125,10 @@ export async function init(eleventyConfig, site) {
  * 3. Extracts frontmatter titles to create navigation keys
  * 4. Builds parent-child relationships from URL slug structure
  *
- * CRITICAL REQUIREMENTS:
+ * REQUIREMENTS:
  * - Every _pages/*.njk file MUST have a title in frontmatter
- * - Files without titles are filtered out with console warnings
+ * - Files without titles are filtered out with warnings
  * - site.directories.nav MUST be properly configured in site.json
- *
- * BREAKING CHANGES TO AVOID:
- * - Changing filter logic will break navigation display
- * - Missing frontmatter titles cause null key errors
- * - URL structure changes affect parent-child relationships
  *
  * TEMPLATE INTEGRATION:
  * - Results used by organisms/navigation/primary-nav.njk
@@ -227,22 +228,21 @@ function formatDirectoriesForEleventyNav(items) {
 }
 
 /**
- * CRITICAL WARNING: Projects navigation collection
+ * Projects navigation collection builder
  *
  * Creates nav_projects collection from Airtable projects data.
- * Integrates with Airtable collections system via content.js.
  *
- * INTEGRATION POINTS:
- * - Depends on Airtable collections being initialized first (via content.js)
- * - Uses defensive access pattern to handle collection timing issues
- * - Filters projects based on published status and valid data
+ * DEPENDENCIES:
+ * - Requires 'projects' collection from Airtable (registered in content.js)
+ * - Must be registered AFTER initAirtable() completes
  *
- * DATA STRUCTURE:
- * - Reads from collections.projects (Airtable Projects table)
- * - Maps to navigation format with key, url, parent, order
- * - Uses weight field for navigation ordering
+ * HOW IT WORKS:
+ * - Accesses 'projects' collection via this.ctx.collections
+ * - Maps project data to navigation format with key, url, parent, order
+ * - Filters out projects missing required fields (title, slug)
+ * - Uses weight field for navigation ordering (defaults to 0)
  *
- * WHEN WORKING, CREATES:
+ * OUTPUT STRUCTURE:
  * ```javascript
  * {
  *   key: "project-title",
@@ -258,20 +258,30 @@ function addProjectsNav(eleventyConfig) {
   logger.trace('Registering project navigation based on CMS data...', '', 'brief', msgStyle);
 
   eleventyConfig.addCollection('nav_projects', function (collectionApi) {
-    logger.trace('Building projects navigation from Airtable data...', null, 'brief', msgStyle);
+    logger.trace(
+      'Building individual projects navigation from Airtable data...',
+      null,
+      'brief',
+      msgStyle
+    );
 
     // Use proper 11ty Collection API to access the projects collection
     const allCollections = this.ctx?.collections || {};
     const projects = allCollections.projects || [];
 
     if (!projects || projects.length === 0) {
-      logger.trace('No projects found in Airtable collection', null, 'brief', msgStyle);
+      logger.trace(
+        'No individual projects navigation items created (projects accessed via /projects/ page)',
+        null,
+        'brief',
+        msgStyle
+      );
       return [];
     }
 
     const formattedProjects = formatAirtableForEleventyNav(projects);
     logger.trace(
-      'Projects navigation data built (' + formattedProjects.length + ' items)',
+      'Individual projects navigation built (' + formattedProjects.length + ' items)',
       null,
       'brief',
       successStyle
@@ -339,7 +349,7 @@ function formatAirtableForEleventyNav(items) {
 }
 
 /**
- * CRITICAL WARNING: Parent slug extractor for navigation hierarchy
+ * Parent slug extractor for navigation hierarchy
  *
  * Extracts parent navigation key from URL slug for building nested navigation.
  * ESSENTIAL for multi-level navigation structure in primary-nav.njk.
@@ -359,23 +369,13 @@ function formatAirtableForEleventyNav(items) {
  * - buildNestedStructure() uses this to create parent-child relationships
  * - Wrong parent extraction breaks navigation tree structure
  *
- * ERROR HANDLING:
- * - Try-catch prevents crashes on malformed URLs
- * - Returns null for single-level paths or errors
- * - Logs "oops" on catch (should be improved for debugging)
- *
  * @param {string} slug - URL slug like "/parent/child/" or "/top-level/"
  * @returns {string|null} Parent slug or null for top-level items
  */
 function getParentFromSlug(slug) {
-  try {
-    // Trim any leading or ending slashes, then split into an array
-    const parts = slug.replace(/^\/|\/$/g, '').split('/');
-    return parts.length > 1 ? parts[parts.length - 2] : null;
-  } catch (error) {
-    logger.trace('Error parsing parent from slug:', error, 'verbose');
-    return null;
-  }
+  // Trim any leading or ending slashes, then split into an array
+  const parts = slug.replace(/^\/|\/$/g, '').split('/');
+  return parts.length > 1 ? parts[parts.length - 2] : null;
 }
 
 /**

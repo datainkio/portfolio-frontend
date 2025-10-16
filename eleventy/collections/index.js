@@ -68,21 +68,30 @@ const site = JSON.parse(readFileSync(join(__dirname, '../../njk/_data/site.json'
 /**
  * Initialize all Eleventy collections
  *
- * Orchestrates collection initialization in the correct order:
- * 1. Airtable data collections (external CMS content)
- * 2. Navigation collections (file structure-based)
+ * CRITICAL: Collections must be registered in dependency order.
+ * 11ty builds collections in the order they're registered, so dependencies
+ * must be registered before collections that depend on them.
+ *
+ * DEPENDENCY CHAIN:
+ * 1. Airtable collections (no dependencies)
+ *    - projects, work, activities, etc.
+ * 2. Navigation collections (depends on Airtable)
+ *    - nav_dirs (no dependencies)
+ *    - nav_projects (depends on 'projects' collection)
+ *    - nav_primary (depends on nav_dirs and nav_projects)
  *
  * @param {Object} eleventyConfig - Eleventy configuration object
  * @returns {Promise<void>}
  */
 export default async function (eleventyConfig) {
   try {
-    // Initialize Airtable data collections
-    // Creates collections for each table in site.airtables array
+    // STEP 1: Initialize Airtable data collections FIRST
+    // These have no dependencies and are required by navigation
     await initAirtable(eleventyConfig, site);
 
-    // Initialize navigation collections
-    // Builds nav_primary and nav_projects from njk/_pages/
+    // STEP 2: Initialize navigation collections AFTER Airtable
+    // nav_projects depends on 'projects' collection from Airtable
+    // nav_primary depends on nav_dirs and nav_projects
     await initNavigation(eleventyConfig, site);
   } catch (error) {
     // Log collection initialization errors without breaking build
