@@ -80,10 +80,10 @@ export default async function fetchAirtableData(table) {
           // Update and display the current count of processed records
           processedRecords += records.length;
           logger.trace(
-            'Processing records:',
-            { table: table.tableName, count: processedRecords },
+            '',
+            'Processing ' + processedRecords + ' records from ' + table.tableName,
             'brief',
-            msgStyle
+            refreshStyle
           );
 
           // Calculate the total number of file fields in the current batch of records so that we can track progress
@@ -139,12 +139,7 @@ export default async function fetchAirtableData(table) {
             reject(err);
           } else {
             asset.save(allRecords, 'json');
-            logger.trace(
-              'Data cached successfully:',
-              { table: table.tableName, records: allRecords.length },
-              'brief',
-              cachedStyle
-            );
+            logger.trace('', table.tableName + ' data cached', 'brief', refreshStyle);
             resolve(allRecords);
           }
         }

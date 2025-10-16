@@ -22,13 +22,13 @@ export default async function (eleventyConfig) {
   await logger.group(async () => {
     logger.trace('11ty Initialization', null, 'brief', titleStyle);
     logger.trace(
-      'Initialization begins by configuring passthrough copy for static assets, including JavaScript and CSS files. It then loads and registers 11ty objects: plugins, filters, shortcodes, and collections. The collections are populated by pulling data from the CMS.\n',
       null,
+      'Initialization begins by configuring passthrough copy for static assets, including JavaScript and CSS files. It then loads and registers 11ty objects: plugins, filters, shortcodes, and collections. The collections are populated by pulling data from the CMS.\n',
       'brief',
       'standard'
     );
     // Passthrough copy for static assets
-    logger.trace('Configuring passthrough copy', null, 'brief', msgStyle);
+    logger.trace(null, 'Configuring passthrough copy', 'brief', msgStyle);
     eleventyConfig.addPassthroughCopy({ 'static/robots.txt': 'robots.txt' });
     eleventyConfig.addPassthroughCopy('assets');
     // Copy JavaScript files to _site/assets/
@@ -41,20 +41,21 @@ export default async function (eleventyConfig) {
     // eleventyConfig.addPassthroughCopy("src/js");
 
     // Plugins
-    logger.trace('Registering 11ty plugins', null, 'brief', msgStyle);
+    logger.trace('Registering 11ty plugins...', null, 'brief', msgStyle);
     plugins(eleventyConfig);
 
     // Filters
-    logger.trace('Registering template filters', null, 'brief', msgStyle);
+    logger.trace('Registering template filters...', null, 'brief', msgStyle);
     filters(eleventyConfig);
 
     // Shortcodes
-    logger.trace('Registering template shortcodes', null, 'brief', msgStyle);
+    logger.trace('Registering template shortcodes...', null, 'brief', msgStyle);
     shortcodes(eleventyConfig);
 
     // Collections
-    logger.trace('Registering data collections', null, 'brief', msgStyle);
-    collections(eleventyConfig);
+    logger.trace('Registering data collections...', null, 'brief', msgStyle);
+    // Wait for all Airtable data to be fetched (either in parallel or sequential mode) before continuing with the buil
+    await collections(eleventyConfig);
 
     // Make Tailwind theme data available globally
     // eleventyConfig.addGlobalData("styles", tailwindConfig.theme.extend);

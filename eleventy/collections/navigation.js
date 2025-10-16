@@ -20,18 +20,25 @@
  * BUG PREVENTION:
  * - Defensive null checks prevent toLowerCase() TypeError crashes
  * - Collection access timing issues handled with try-catch blocks
- * - Missing frontmatter titles filtered out to prevent undefined keys
+ * - Missing frontmatter titles filtered out to prevent null keys
  * - Empty fallback arrays prevent template rendering failures
  *
  * PERFORMANCE NOTES:
  * - Collections rebuild on every 11ty change during development
  * - Nested structure algorithm is O(n²) - optimize if nav grows large
- * - Console logging can be disabled by removing chalk.* calls
+ * - Console logging controlled by DEBUG environment variable
  *
  * @param {Object} eleventyConfig - 11ty configuration object
  * @param {Object} site - Site configuration from site.json
  */
-import chalk from "chalk";
+import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+
+/**
+ * Custom Logger Styles for Navigation Operations
+ */
+const titleStyle = new LoggerStyle('#EE9B00', '\n☎️  ');
+const msgStyle = new LoggerStyle('#CA6702', '•');
+const successStyle = new LoggerStyle('#EE9B00', '\n👍');
 
 /**
  * CRITICAL WARNING: Main navigation initialization function
@@ -48,13 +55,35 @@ import chalk from "chalk";
  * @param {Object} site - Site configuration containing directories.nav path
  */
 export async function init(eleventyConfig, site) {
-  console.log(chalk.magenta.bold("\n🗺️  Building primary navigation "));
-  console.log(chalk.magenta("\t  top-level: " + site.directories.nav));
-
+  logger.trace('Building primary navigation', null, 'brief', titleStyle);
+  // logger.trace('top-level: ' + site.directories.nav, null, 'brief', msgStyle);
+  logger.trace(
+    '',
+    'The navigation scheme merges three different sources to build a single, navigable structure.\n',
+    'brief',
+    'standard'
+  );
+  logger.trace(
+    '',
+    'First, it gets the top-level nav items. These are manually defined and are found in site.json...',
+    'brief',
+    'standard'
+  );
   addTopLevelNav(eleventyConfig, site);
+  logger.trace(
+    '',
+    'Next, it uses CMS content to build the project navigation...',
+    'brief',
+    'standard'
+  );
   addProjectsNav(eleventyConfig);
-
-  eleventyConfig.addCollection("nav_primary", function (collectionApi) {
+  logger.trace(
+    '',
+    'And finally, it merges them together and adds them as a collection called nav_primary.',
+    'brief',
+    'standard'
+  );
+  eleventyConfig.addCollection('nav_primary', function (collectionApi) {
     try {
       // CRITICAL WARNING: Defensive access to navigation collections
       // These collections may not exist during initial build phases
@@ -62,10 +91,11 @@ export async function init(eleventyConfig, site) {
       const firstItem = allItems[0];
 
       if (!firstItem || !firstItem.data || !firstItem.data.collections) {
-        console.log(
-          chalk.magenta(
-            "⚠️  Navigation collections not ready yet, returning empty nav_primary"
-          )
+        logger.trace(
+          'Navigation collections not ready yet, returning empty nav_primary',
+          null,
+          'brief',
+          warnStyle
         );
         return [];
       }
@@ -76,10 +106,12 @@ export async function init(eleventyConfig, site) {
 
       return buildNestedStructure(merged);
     } catch (error) {
-      console.log(chalk.red("💥 Error building nav_primary:", error.message));
+      logger.trace('Error building nav_primary:', error, 'verbose'); // Auto-detects error style
       return [];
     }
   });
+
+  logger.trace('Navigation collection definitions registered', null, 'brief', successStyle);
 }
 
 /**
@@ -101,7 +133,7 @@ export async function init(eleventyConfig, site) {
  *
  * BREAKING CHANGES TO AVOID:
  * - Changing filter logic will break navigation display
- * - Missing frontmatter titles cause undefined key errors
+ * - Missing frontmatter titles cause null key errors
  * - URL structure changes affect parent-child relationships
  *
  * TEMPLATE INTEGRATION:
@@ -113,15 +145,14 @@ export async function init(eleventyConfig, site) {
  * @param {Object} site - Site config with directories.nav path
  */
 function addTopLevelNav(eleventyConfig, site) {
-  eleventyConfig.addCollection("nav_dirs", function (collectionApi) {
+  logger.trace('Building top-level navigation', null, 'brief', msgStyle);
+  eleventyConfig.addCollection('nav_dirs', function (collectionApi) {
     // Get existing nav items
     const navTop = collectionApi
       .getAll()
-      .filter((item) => {
+      .filter(item => {
         // Exclude drafts or unwanted files
-        return (
-          !item.data.draft && item.inputPath.includes(site.directories.nav)
-        );
+        return !item.data.draft && item.inputPath.includes(site.directories.nav);
       })
       .sort((a, b) => a.inputPath.localeCompare(b.inputPath));
 
@@ -136,8 +167,8 @@ function addTopLevelNav(eleventyConfig, site) {
  * DO NOT MODIFY the returned object structure - templates depend on it.
  *
  * BUG PREVENTION (FIXED 2025-10-03):
- * - Filters out items without frontmatter titles to prevent undefined keys
- * - Prevents TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+ * - Filters out items without frontmatter titles to prevent null keys
+ * - Prevents TypeError: Cannot read properties of null (reading 'toLowerCase')
  * - Logs filtered items for debugging missing titles
  *
  * REQUIRED FRONTMATTER STRUCTURE:
@@ -166,26 +197,31 @@ function addTopLevelNav(eleventyConfig, site) {
  * @returns {Array} Array of formatted navigation objects with key, url, parent
  */
 function formatDirectoriesForEleventyNav(items) {
-  console.log(chalk.magenta("\t  formatting directories nav data..."));
-  return items
-    .filter((item) => {
-      // CRITICAL WARNING: Filter out items without valid title/key data
-      if (!item.data || !item.data.title) {
-        console.log(
-          chalk.magenta(
-            `⚠️  Filtering out navigation item without title. Path: ${item.inputPath}`
-          )
+  logger.trace('Formatting directory navigation data...', null, 'brief', msgStyle);
+  const result = items
+    .filter(item => {
+      // CRITICAL: Filter out items without titles to prevent null keys
+      // Missing titles would break navigation template rendering
+      if (!item.data.title) {
+        logger.trace(
+          'Filtering out navigation item without title. Path: ' + item.inputPath,
+          null,
+          'brief',
+          msgStyle
         );
         return false;
       }
       return true;
     })
-    .map((item) => ({
+    .map(item => ({
       key: item.data.title,
       url: item.url,
       // Optional extras:
       parent: getParentFromSlug(item.url),
     }));
+
+  logger.trace('Directory navigation formatting complete', null, 'brief', successStyle);
+  return result;
 }
 
 /**
@@ -222,13 +258,14 @@ function formatDirectoriesForEleventyNav(items) {
  * @param {Object} eleventyConfig - 11ty config for addCollection
  */
 function addProjectsNav(eleventyConfig) {
-  eleventyConfig.addCollection("nav_projects", function (collectionApi) {
+  eleventyConfig.addCollection('nav_projects', function (collectionApi) {
     // CRITICAL WARNING: Return empty array for now to prevent build failures
     // TODO: Implement proper projects navigation after Airtable collections are stable
-    console.log(
-      chalk.magenta(
-        "📝 nav_projects collection returning empty array (projects navigation disabled)"
-      )
+    logger.trace(
+      'nav_projects collection returning empty array (projects navigation disabled)',
+      null,
+      'brief',
+      msgStyle
     );
     return [];
   });
@@ -250,7 +287,7 @@ function addProjectsNav(eleventyConfig) {
  * ```
  *
  * BUG RISKS:
- * - item.title could be undefined - needs defensive checks
+ * - item.title could be null - needs defensive checks
  * - item.slug might not follow expected URL format
  * - item.weight could be non-numeric
  *
@@ -264,8 +301,8 @@ function addProjectsNav(eleventyConfig) {
  * @returns {Array} Array of navigation objects for projects
  */
 function formatAirtableForEleventyNav(items) {
-  console.log(chalk.magenta("\t  formatting projects nav data..."));
-  return items.map((item) => ({
+  logger.trace('formatting projects nav data...', null, 'brief', msgStyle);
+  return items.map(item => ({
     key: item.title.toLowerCase(),
     url: item.slug,
     // Optional extras:
@@ -306,10 +343,10 @@ function formatAirtableForEleventyNav(items) {
 function getParentFromSlug(slug) {
   try {
     // Trim any leading or ending slashes, then split into an array
-    const parts = slug.replace(/^\/|\/$/g, "").split("/");
+    const parts = slug.replace(/^\/|\/$/g, '').split('/');
     return parts.length > 1 ? parts[parts.length - 2] : null;
   } catch (error) {
-    console.log("oops");
+    logger.trace('Error parsing parent from slug:', error, 'verbose');
     return null;
   }
 }
@@ -350,7 +387,7 @@ function getParentFromSlug(slug) {
  * ```
  *
  * BUG PREVENTION (FIXED 2025-10-03):
- * - Defensive key validation prevents TypeError on undefined.toLowerCase()
+ * - Defensive key validation prevents TypeError on null.toLowerCase()
  * - Skips items with invalid keys rather than crashing build
  * - Double validation in both forEach loops for safety
  *
@@ -372,14 +409,18 @@ function buildNestedStructure(items) {
   const result = [];
 
   // Initialize the map with all items
-  items.forEach((item) => {
+  items.forEach(item => {
     // CRITICAL WARNING: Defensive check for missing or empty key property
-    // Some navigation items may have null/undefined/empty key values
-    if (!item || !item.key || item.key === "" || typeof item.key !== "string") {
-      console.log(
-        chalk.magenta(
-          `⚠️  Skipping navigation item with invalid key. Key value: "${item?.key}", type: ${typeof item?.key}`
-        )
+    // Some navigation items may have null/null/empty key values
+    if (!item || !item.key || item.key === '' || typeof item.key !== 'string') {
+      logger.trace(
+        'Skipping navigation item with invalid key. Key value: "' +
+          item?.key +
+          '", type: ' +
+          typeof item?.key,
+        null,
+        'brief',
+        warnStyle
       );
       return;
     }
@@ -387,9 +428,9 @@ function buildNestedStructure(items) {
   });
 
   // Attach children to their respective parents
-  items.forEach((item) => {
+  items.forEach(item => {
     // CRITICAL WARNING: Skip items without valid key to prevent build failures
-    if (!item || !item.key || item.key === "" || typeof item.key !== "string") {
+    if (!item || !item.key || item.key === '' || typeof item.key !== 'string') {
       return;
     }
 
@@ -406,5 +447,5 @@ function buildNestedStructure(items) {
       result.push(item);
     }
   });
-  return Array.from(itemMap.values()).filter((item) => !item.parent);
+  return Array.from(itemMap.values()).filter(item => !item.parent);
 }

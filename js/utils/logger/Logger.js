@@ -271,7 +271,7 @@ class Logger {
    * @returns {string} Formatted string with value only
    */
   _formatBrief(obj, color) {
-    const value = this._getValue(obj);
+    const value = this._getValue(obj, false); // Don't quote strings in brief mode
     return chalk.hex(color)(value);
   }
 
@@ -373,17 +373,18 @@ class Logger {
    * Get string representation of value
    * @private
    * @param {*} obj - Value to convert to string
+   * @param {boolean} [quoteStrings=true] - Whether to wrap strings in quotes
    * @returns {string} String representation
    */
-  _getValue(obj) {
+  _getValue(obj, quoteStrings = true) {
     if (obj === null) return 'null';
     if (obj === undefined) return 'undefined';
-    if (obj instanceof Error) return `"${obj.message}"`;
+    if (obj instanceof Error) return quoteStrings ? `"${obj.message}"` : obj.message;
 
     if (Array.isArray(obj)) {
       if (obj.length === 0) return '[]';
       if (obj.length <= Logger.#MAX_ARRAY_PREVIEW) {
-        return `[${obj.map(v => this._getValue(v)).join(', ')}]`;
+        return `[${obj.map(v => this._getValue(v, quoteStrings)).join(', ')}]`;
       }
       return `[${obj.length} items]`;
     }
@@ -394,12 +395,12 @@ class Logger {
       const keys = Object.keys(obj);
       if (keys.length === 0) return '{}';
       if (keys.length <= Logger.#MAX_OBJECT_PREVIEW) {
-        return `{ ${keys.map(k => `${k}: ${this._getValue(obj[k])}`).join(', ')} }`;
+        return `{ ${keys.map(k => `${k}: ${this._getValue(obj[k], quoteStrings)}`).join(', ')} }`;
       }
       return `{ ${keys.length} properties }`;
     }
 
-    if (typeof obj === 'string') return `"${obj}"`;
+    if (typeof obj === 'string') return quoteStrings ? `"${obj}"` : obj;
     if (typeof obj === 'function') return `[Function: ${obj.name || 'anonymous'}]`;
 
     return String(obj);

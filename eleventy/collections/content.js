@@ -8,13 +8,21 @@ const msgStyle = new LoggerStyle('#CA6702', '•');
 const successStyle = new LoggerStyle('#EE9B00', '\n👍');
 /**
  * Airtable builds a collection for each table in the site.airtables array
+ *
+ * Fetching Strategy:
+ * - Set AIRTABLE_PARALLEL=true for parallel fetching (faster, default)
+ * - Set AIRTABLE_PARALLEL=false for sequential fetching (easier debugging)
  */
 export async function init(eleventyConfig, site) {
+  // Check if parallel fetching is enabled (default: true)
+  const useParallel = process.env.AIRTABLE_PARALLEL !== 'false';
+
   // Output init message
-  logger.trace('Syncing with CMS (Airtable)', null, 'brief', titleStyle);
+  const mode = useParallel ? 'parallel' : 'sequential';
+  logger.trace('Syncing with CMS (' + mode + ')', null, 'brief', titleStyle);
   logger.trace(
-    'The registration of data collections starts by checking the freshness of local content. If the cache has expired, then it hits up the remote CMS for fresh content. CMS API info and cache curation are managed by site.json.\n',
-    undefined,
+    null,
+    'The registration of data collections starts by checking the freshness of local content. If the cache has expired, then it hits up the remote CMS for fresh content. CMS API info and cache curation are managed by site.json. Tables can be fetched in either parallel or sequential mode (set in dotenv).\n',
     'brief',
     'standard'
   );
@@ -33,22 +41,41 @@ export async function init(eleventyConfig, site) {
     return;
   }
 
-  // Fetch all table data in parallel
-  const results = await Promise.all(
-    site.airtables.map(async table => {
+  let results;
+
+  if (useParallel) {
+    // Fetch all table data in parallel (faster)
+    results = await Promise.all(
+      site.airtables.map(async table => {
+        try {
+          const data = await fetchAirtableData(table);
+          // logger.trace('Fetched:', { table: table.tableName }, 'brief', 'success');
+          return { tableName: table.tableName.toLowerCase(), data };
+        } catch (error) {
+          logger.trace('Fetch error:', error, 'verbose'); // Auto-detects error style
+          return { tableName: table.tableName.toLowerCase(), data: [] };
+        }
+      })
+    );
+  } else {
+    // Fetch table data sequentially (easier to debug)
+    results = [];
+    for (const table of site.airtables) {
       try {
         const data = await fetchAirtableData(table);
-        logger.trace('Fetched:', { table: table.tableName }, 'brief', 'success');
-        return { tableName: table.tableName.toLowerCase(), data };
+        // logger.trace('Fetched:', { table: table.tableName }, 'brief', 'success');
+        results.push({ tableName: table.tableName.toLowerCase(), data });
       } catch (error) {
         logger.trace('Fetch error:', error, 'verbose'); // Auto-detects error style
-        return { tableName: table.tableName.toLowerCase(), data: [] };
+        results.push({ tableName: table.tableName.toLowerCase(), data: [] });
       }
-    })
-  );
+    }
+  }
 
   // Register Eleventy collections after all fetches complete
   results.forEach(({ tableName, data }) => {
     eleventyConfig.addCollection(tableName, () => data);
   });
+
+  logger.trace('CMS sync complete', null, 'brief', successStyle);
 }
