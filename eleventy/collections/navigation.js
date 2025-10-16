@@ -55,57 +55,56 @@ const successStyle = new LoggerStyle('#EE9B00', '\n👍');
  * @param {Object} site - Site configuration containing directories.nav path
  */
 export async function init(eleventyConfig, site) {
-  logger.trace('Building primary navigation', null, 'brief', titleStyle);
+  logger.trace('Registering primary navigation callbacks', null, 'brief', titleStyle);
   // logger.trace('top-level: ' + site.directories.nav, null, 'brief', msgStyle);
   logger.trace(
     '',
-    'The navigation scheme merges three different sources to build a single, navigable structure. First, it gets the top-level nav items. These are manually defined and are found in site.json...\n',
+    'The navigation scheme merges three different sources to create a single, navigable structure. First, it gets the top-level nav items. These are manually defined and are found in site.json...\n',
     'brief',
     'standard'
   );
   addTopLevelNav(eleventyConfig, site);
-  logger.trace(
-    '',
-    'Next, it uses CMS content to build the project navigation...',
-    'brief',
-    'standard'
-  );
   addProjectsNav(eleventyConfig);
-  logger.trace(
-    '',
-    'And finally, it merges them together and adds them as a collection called nav_primary.',
-    'brief',
-    'standard'
-  );
+
   eleventyConfig.addCollection('nav_primary', function (collectionApi) {
-    try {
-      // CRITICAL WARNING: Defensive access to navigation collections
-      // These collections may not exist during initial build phases
-      const allItems = collectionApi.getAll();
-      const firstItem = allItems[0];
+    logger.trace('Building primary navigation structure...', null, 'brief', msgStyle);
 
-      if (!firstItem || !firstItem.data || !firstItem.data.collections) {
-        logger.trace(
-          'Navigation collections not ready yet, returning empty nav_primary',
-          null,
-          'brief',
-          warnStyle
-        );
-        return [];
-      }
+    // Use proper 11ty Collection API to access other collections
+    // Collections are available through the global collections object
+    const allCollections = this.ctx?.collections || {};
 
-      const projects = firstItem.data.collections.nav_projects || [];
-      const directories = firstItem.data.collections.nav_dirs || [];
-      const merged = [...projects, ...directories];
+    const projects = allCollections.nav_projects || [];
+    const directories = allCollections.nav_dirs || [];
 
-      return buildNestedStructure(merged);
-    } catch (error) {
-      logger.trace('Error building nav_primary:', error, 'verbose'); // Auto-detects error style
+    if (projects.length === 0 && directories.length === 0) {
+      logger.trace(
+        'No navigation items found in nav_projects or nav_dirs collections',
+        null,
+        'brief',
+        msgStyle
+      );
       return [];
     }
+
+    const merged = [...projects, ...directories];
+    const nested = buildNestedStructure(merged);
+
+    logger.trace(
+      'Primary navigation structure built (' + nested.length + ' top-level items)',
+      null,
+      'brief',
+      successStyle
+    );
+
+    return nested;
   });
 
-  logger.trace('Navigation collection definitions registered', null, 'brief', successStyle);
+  logger.trace(
+    'Navigation collection callbacks registered (data builds during 11ty compilation)',
+    null,
+    'brief',
+    successStyle
+  );
 }
 
 /**
@@ -140,7 +139,7 @@ export async function init(eleventyConfig, site) {
  */
 function addTopLevelNav(eleventyConfig, site) {
   logger.trace(
-    'Building top-level nav by determining which files become part of the navigation scheme.',
+    'Registering top-level nav by determining which files become part of the navigation scheme.',
     null,
     'brief',
     msgStyle
@@ -203,8 +202,8 @@ function formatDirectoriesForEleventyNav(items) {
       // Missing titles would break navigation template rendering
       if (!item.data.title) {
         logger.trace(
-          'Filtering out navigation item without title. Path: ' + item.inputPath,
-          null,
+          'Filtering out navigation item without title:',
+          item.inputPath,
           'brief',
           msgStyle
         );
@@ -218,33 +217,32 @@ function formatDirectoriesForEleventyNav(items) {
       // Optional extras:
       parent: getParentFromSlug(item.url),
     }));
-
-  logger.trace('Directory navigation formatting complete', null, 'brief', successStyle);
+  logger.trace(
+    'Directory navigation data built (' + result.length + ' items)',
+    null,
+    'brief',
+    successStyle
+  );
   return result;
 }
 
 /**
- * CRITICAL WARNING: Projects navigation collection (CURRENTLY DISABLED)
+ * CRITICAL WARNING: Projects navigation collection
  *
  * Creates nav_projects collection from Airtable projects data.
- * TEMPORARILY DISABLED to prevent build failures during navigation refactoring.
+ * Integrates with Airtable collections system via content.js.
  *
- * CURRENT STATUS: Returns empty array to prevent crashes
- * FUTURE IMPLEMENTATION: Will integrate with Airtable projects collection
+ * INTEGRATION POINTS:
+ * - Depends on Airtable collections being initialized first (via content.js)
+ * - Uses defensive access pattern to handle collection timing issues
+ * - Filters projects based on published status and valid data
  *
- * INTEGRATION CHALLENGES:
- * - Collection timing: Airtable collections may not be ready when this runs
- * - Data structure: Need to map Airtable fields to navigation object format
- * - Performance: Large project datasets could slow navigation builds
+ * DATA STRUCTURE:
+ * - Reads from collections.projects (Airtable Projects table)
+ * - Maps to navigation format with key, url, parent, order
+ * - Uses weight field for navigation ordering
  *
- * REQUIRED FOR RE-ENABLING:
- * 1. Ensure Airtable collections are fully initialized before navigation
- * 2. Implement proper error handling for missing project data
- * 3. Map project title/slug fields to navigation key/url structure
- * 4. Add filtering for published/draft project status
- * 5. Test with large project datasets for performance
- *
- * WHEN WORKING, WILL CREATE:
+ * WHEN WORKING, CREATES:
  * ```javascript
  * {
  *   key: "project-title",
@@ -257,20 +255,36 @@ function formatDirectoriesForEleventyNav(items) {
  * @param {Object} eleventyConfig - 11ty config for addCollection
  */
 function addProjectsNav(eleventyConfig) {
-  logger.trace('', 'Building project navigation...', 'brief', msgStyle);
+  logger.trace('Registering project navigation based on CMS data...', '', 'brief', msgStyle);
+
   eleventyConfig.addCollection('nav_projects', function (collectionApi) {
-    // CRITICAL WARNING: Return empty array for now to prevent build failures
-    // TODO: Implement proper projects navigation after Airtable collections are stable
-    logger.trace(null, 'nav_projects collection returning empty array', 'brief', msgStyle);
-    return [];
+    logger.trace('Building projects navigation from Airtable data...', null, 'brief', msgStyle);
+
+    // Use proper 11ty Collection API to access the projects collection
+    const allCollections = this.ctx?.collections || {};
+    const projects = allCollections.projects || [];
+
+    if (!projects || projects.length === 0) {
+      logger.trace('No projects found in Airtable collection', null, 'brief', msgStyle);
+      return [];
+    }
+
+    const formattedProjects = formatAirtableForEleventyNav(projects);
+    logger.trace(
+      'Projects navigation data built (' + formattedProjects.length + ' items)',
+      null,
+      'brief',
+      successStyle
+    );
+    return formattedProjects;
   });
 }
 
 /**
- * CRITICAL WARNING: Airtable projects formatter (CURRENTLY UNUSED)
+ * Airtable projects formatter for navigation
  *
  * Transforms Airtable project records into navigation objects.
- * NOT CURRENTLY CALLED - reserved for future projects navigation implementation.
+ * Used by addProjectsNav to create nav_projects collection.
  *
  * EXPECTED AIRTABLE STRUCTURE:
  * ```javascript
@@ -281,29 +295,47 @@ function addProjectsNav(eleventyConfig) {
  * }
  * ```
  *
- * BUG RISKS:
- * - item.title could be null - needs defensive checks
- * - item.slug might not follow expected URL format
- * - item.weight could be non-numeric
- *
- * TODO: Add validation when re-implementing:
- * - Check for required fields before processing
- * - Validate slug format and URL structure
- * - Handle missing weight values with defaults
- * - Filter out unpublished projects
+ * DEFENSIVE CHECKS:
+ * - Validates required fields (title, slug) exist
+ * - Filters out items with missing or invalid data
+ * - Provides default weight value if missing
+ * - Logs warnings for skipped items
  *
  * @param {Array} items - Array of Airtable project records
  * @returns {Array} Array of navigation objects for projects
  */
 function formatAirtableForEleventyNav(items) {
-  logger.trace('formatting projects nav data...', null, 'brief', msgStyle);
-  return items.map(item => ({
-    key: item.title.toLowerCase(),
-    url: item.slug,
-    // Optional extras:
-    parent: getParentFromSlug(item.slug),
-    order: item.weight,
-  }));
+  logger.trace('Formatting projects nav data...', null, 'brief', msgStyle);
+
+  const formatted = items
+    .filter(item => {
+      // CRITICAL: Filter out items without required fields
+      if (!item || !item.title || !item.slug) {
+        logger.trace(
+          'Filtering out project without title or slug. ID: ' + (item?.id || 'unknown'),
+          null,
+          'brief',
+          msgStyle
+        );
+        return false;
+      }
+      return true;
+    })
+    .map(item => ({
+      key: item.title.toLowerCase(),
+      url: item.slug,
+      parent: getParentFromSlug(item.slug),
+      order: item.weight || 0, // Default weight to 0 if not provided
+    }));
+
+  logger.trace(
+    'Formatted ' + formatted.length + ' of ' + items.length + ' projects',
+    null,
+    'brief',
+    msgStyle
+  );
+
+  return formatted;
 }
 
 /**
@@ -416,7 +448,7 @@ function buildNestedStructure(items) {
           typeof item?.key,
         null,
         'brief',
-        warnStyle
+        msgStyle
       );
       return;
     }

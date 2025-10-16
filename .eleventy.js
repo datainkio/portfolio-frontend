@@ -59,8 +59,8 @@ export default async function (eleventyConfig) {
 
     // Make Tailwind theme data available globally
     // eleventyConfig.addGlobalData("styles", tailwindConfig.theme.extend);
-
-    logger.trace('11ty configuration complete. Ready for build.', null, 'brief', successStyle);
+    logger.outdent();
+    logger.trace('11ty configuration complete. Ready to build.', null, 'brief', successStyle);
   });
 
   console.log('\n');
