@@ -35,9 +35,13 @@ import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
 /**
  * Custom Logger Styles for Navigation Operations
  */
-const titleStyle = new LoggerStyle('#EE9B00', '\n🧭');
-const msgStyle = new LoggerStyle('#CA6702', '•');
-const successStyle = new LoggerStyle('#EE9B00', '\n👍');
+const titleInitStyle = new LoggerStyle('#EE9B00', '\n🧭');
+const msgInitStyle = new LoggerStyle('#CA6702', '•');
+const successInitStyle = new LoggerStyle('#EE9B00', '\n👍');
+
+const titleBuildStyle = new LoggerStyle('#EE9B00', '\n👷🏼‍♀️');
+const msgBuildStyle = new LoggerStyle('#CA6702', '•');
+const successBuildStyle = new LoggerStyle('#EE9B00', '\n👍');
 
 /**
  * CRITICAL WARNING: Main navigation initialization function
@@ -54,7 +58,7 @@ const successStyle = new LoggerStyle('#EE9B00', '\n👍');
  * @param {Object} site - Site configuration containing directories.nav path
  */
 export async function init(eleventyConfig, site) {
-  logger.trace('Registering primary navigation callbacks', null, 'brief', titleStyle);
+  logger.trace('Registering primary navigation callbacks', null, 'brief', titleInitStyle);
   logger.trace(
     '',
     'The navigation scheme merges three different sources to create a single, navigable structure. First, it gets the top-level nav items. These are manually defined and are found in site.json...\n',
@@ -72,7 +76,7 @@ export async function init(eleventyConfig, site) {
 
   // Register nav_primary LAST as it depends on the other two
   eleventyConfig.addCollection('nav_primary', function (collectionApi) {
-    logger.trace('Building primary navigation structure...', null, 'brief', msgStyle);
+    logger.trace('Building primary navigation structure...', null, 'brief', msgInitStyle);
 
     // Use proper 11ty Collection API to access other collections
     // Collections are available through the global collections object
@@ -86,7 +90,7 @@ export async function init(eleventyConfig, site) {
         'No navigation items found in nav_projects or nav_dirs collections',
         null,
         'brief',
-        msgStyle
+        msgInitStyle
       );
       return [];
     }
@@ -98,7 +102,7 @@ export async function init(eleventyConfig, site) {
       'Primary navigation structure built (' + nested.length + ' top-level items)',
       null,
       'brief',
-      successStyle
+      successInitStyle
     );
 
     return nested;
@@ -108,7 +112,7 @@ export async function init(eleventyConfig, site) {
     'Navigation collection callbacks registered (data builds during 11ty compilation)',
     null,
     'brief',
-    successStyle
+    successInitStyle
   );
 }
 
@@ -143,7 +147,7 @@ function addTopLevelNav(eleventyConfig, site) {
     'Registering top-level nav by determining which files become part of the navigation scheme.',
     null,
     'brief',
-    msgStyle
+    msgInitStyle
   );
   eleventyConfig.addCollection('nav_dirs', function (collectionApi) {
     // Get existing nav items
@@ -196,7 +200,7 @@ function addTopLevelNav(eleventyConfig, site) {
  * @returns {Array} Array of formatted navigation objects with key, url, parent
  */
 function formatDirectoriesForEleventyNav(items) {
-  logger.trace('Formatting directory navigation data...', null, 'brief', msgStyle);
+  logger.trace('Formatting directory navigation data...', null, 'brief', msgInitStyle);
   const result = items
     .filter(item => {
       // CRITICAL: Filter out items without titles to prevent null keys
@@ -206,7 +210,7 @@ function formatDirectoriesForEleventyNav(items) {
           'Filtering out navigation item without title:',
           item.inputPath,
           'brief',
-          msgStyle
+          msgInitStyle
         );
         return false;
       }
@@ -222,7 +226,7 @@ function formatDirectoriesForEleventyNav(items) {
     'Directory navigation data built (' + result.length + ' items)',
     null,
     'brief',
-    successStyle
+    successInitStyle
   );
   return result;
 }
@@ -255,14 +259,14 @@ function formatDirectoriesForEleventyNav(items) {
  * @param {Object} eleventyConfig - 11ty config for addCollection
  */
 function addProjectsNav(eleventyConfig) {
-  logger.trace('Registering project navigation based on CMS data...', '', 'brief', msgStyle);
+  logger.trace('Registering project navigation based on CMS data...', '', 'brief', msgInitStyle);
 
   eleventyConfig.addCollection('nav_projects', function (collectionApi) {
     logger.trace(
       'Building individual projects navigation from Airtable data...',
       null,
       'brief',
-      msgStyle
+      msgInitStyle
     );
 
     // Use proper 11ty Collection API to access the projects collection
@@ -274,7 +278,7 @@ function addProjectsNav(eleventyConfig) {
         'No individual projects navigation items created (projects accessed via /projects/ page)',
         null,
         'brief',
-        msgStyle
+        msgInitStyle
       );
       return [];
     }
@@ -284,7 +288,7 @@ function addProjectsNav(eleventyConfig) {
       'Individual projects navigation built (' + formattedProjects.length + ' items)',
       null,
       'brief',
-      successStyle
+      successInitStyle
     );
     return formattedProjects;
   });
@@ -315,7 +319,7 @@ function addProjectsNav(eleventyConfig) {
  * @returns {Array} Array of navigation objects for projects
  */
 function formatAirtableForEleventyNav(items) {
-  logger.trace('Formatting projects nav data...', null, 'brief', msgStyle);
+  logger.trace('Formatting projects nav data...', null, 'brief', msgInitStyle);
 
   const formatted = items
     .filter(item => {
@@ -325,7 +329,7 @@ function formatAirtableForEleventyNav(items) {
           'Filtering out project without title or slug. ID: ' + (item?.id || 'unknown'),
           null,
           'brief',
-          msgStyle
+          msgInitStyle
         );
         return false;
       }
@@ -342,7 +346,7 @@ function formatAirtableForEleventyNav(items) {
     'Formatted ' + formatted.length + ' of ' + items.length + ' projects',
     null,
     'brief',
-    msgStyle
+    msgInitStyle
   );
 
   return formatted;
@@ -432,7 +436,7 @@ function getParentFromSlug(slug) {
  * @returns {Array} Hierarchical navigation structure with nested children
  */
 function buildNestedStructure(items) {
-  logger.trace('Building nested navigation structure...', null, 'brief', msgStyle);
+  logger.trace('Building nested navigation structure...', null, 'brief', msgInitStyle);
   const itemMap = new Map();
   const result = [];
 
@@ -448,7 +452,7 @@ function buildNestedStructure(items) {
           typeof item?.key,
         null,
         'brief',
-        msgStyle
+        msgInitStyle
       );
       return;
     }

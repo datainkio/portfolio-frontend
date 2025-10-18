@@ -17,8 +17,6 @@ const msgStyle = new LoggerStyle('#CA6702', '•');
 const successStyle = new LoggerStyle('#EE9B00', '\n👍');
 
 export default async function (eleventyConfig) {
-  console.log('\n');
-
   await logger.group(async () => {
     logger.trace('11ty Initialization', null, 'brief', titleStyle);
     logger.trace(

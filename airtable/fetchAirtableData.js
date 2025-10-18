@@ -20,8 +20,8 @@ config();
  * - processingStyle (Cyan ⚙️): Record processing operations
  */
 const msgStyle = new LoggerStyle('#0A9396', '🗄️');
-const cachedStyle = new LoggerStyle('#005F73', '•');
-const refreshStyle = new LoggerStyle('#94D2BD', '↻');
+const cachedStyle = new LoggerStyle('#CA6702', '•');
+const refreshStyle = new LoggerStyle('#CA6702', '↻');
 
 /**
  * Fetch data from an Airtable table and cache it.
