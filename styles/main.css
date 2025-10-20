@@ -1,20 +1,26 @@
-/* Font imports must come before Tailwind CSS - Required for @font-face declarations to be available */
-@import "./typography/imports.css";
+/* Font imports MUST come first and outside of layers for CSS 4.0 compatibility */
+@import './typography/imports.css';
+
+/* CRITICAL: Define CSS cascade layers for optimal performance and specificity control */
+@layer reset, theme, base, utilities, components;
 
 /* Tailwind CSS must come before everything else - Base utilities and components need to be defined first */
-@import "tailwindcss";
+@import 'tailwindcss' layer(base);
 
 /* Base styles - Global resets and fundamental styling that builds on Tailwind's preflight */
-@import "./base.css";
+@import './base.css' layer(base);
 
 /* Design system colors - Auto-generated from Figma via PaletteService.js, contains CSS custom properties */
-@import "./colors.css";
+@import './colors.css' layer(theme);
 
 /* Typography families - Auto-generated from Figma via TypographyService.js, defines font-family utilities */
-@import "./typography/fontFamilies.css";
+@import './typography/fontFamilies.css' layer(theme);
 
 /* Custom decorations - Project-specific styling for visual elements and effects */
-@import "./decorations.css";
+@import './decorations.css' layer(components);
 
 /* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
-@import "./plugins/mask.css";
+@import './plugins/mask.css' layer(utilities);
+
+/* Animation optimizations for GSAP and ScrollSmoother integration */
+@import './animations.css' layer(components);

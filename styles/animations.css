@@ -1,0 +1,172 @@
+/**
+ * Animation Optimizations for GSAP ScrollSmoother Integration
+ *
+ * This file contains CSS optimizations specifically for the GSAP animation system
+ * and ScrollSmoother functionality used throughout the portfolio site.
+ *
+ * CRITICAL INTEGRATION POINTS:
+ * - js/choreography/Director.js uses these classes for animation setup
+ * - js/choreography/StageManager.js depends on ScrollSmoother compatibility
+ * - Individual section controllers (Hero.js, Work.js, Biography.js) rely on transforms
+ *
+ * PERFORMANCE OPTIMIZATIONS:
+ * - Hardware acceleration enabled for transform elements
+ * - will-change declarations for elements that will be animated
+ * - ScrollSmoother-specific container setup
+ * - Z-index management for layered animations
+ */
+
+@layer components {
+  /* GSAP Animation Base Classes */
+  .gsap-element {
+    /* Force hardware acceleration for smooth animations */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .gsap-fade {
+    /* Elements that will fade in/out */
+    will-change: opacity, transform;
+  }
+
+  .gsap-scale {
+    /* Elements that will scale */
+    will-change: transform;
+    transform-origin: center center;
+  }
+
+  .gsap-rotate {
+    /* Elements that will rotate */
+    will-change: transform;
+    transform-origin: center center;
+  }
+
+  /* ScrollSmoother Container Setup */
+  #smooth-wrapper {
+    /* Main wrapper for ScrollSmoother */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  #smooth-content {
+    /* Content container that gets smoothly scrolled */
+    overflow: visible;
+    width: 100%;
+  }
+
+  /* Performance Optimizations for Video Elements */
+  .video-background {
+    /* Hardware-accelerated video backgrounds */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  /* Animation State Classes */
+  .animation-paused {
+    animation-play-state: paused;
+  }
+
+  .animation-running {
+    animation-play-state: running;
+  }
+
+  /* PrinterMarks Dynamic Overlay System */
+  .printer-marks {
+    /* Dynamic category overlay positioning */
+    position: fixed;
+    pointer-events: none;
+    z-index: var(--z-printer-marks, 50);
+    will-change: transform, opacity;
+  }
+
+  .printer-marks.interactive {
+    pointer-events: auto;
+  }
+
+  /* Timeline Scrubbing Optimization */
+  .scrub-element {
+    /* Elements controlled by scroll position */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  /* Pin Spacing Prevention */
+  .pin-spacer {
+    /* Prevent layout shifts during ScrollTrigger pinning */
+    contain: layout style paint;
+  }
+
+  /* Mobile Animation Optimizations */
+  @media (hover: none) and (pointer: coarse) {
+    .gsap-element,
+    .gsap-fade,
+    .gsap-scale,
+    .gsap-rotate {
+      /* Reduce will-change on mobile for battery optimization */
+      will-change: auto;
+    }
+
+    .gsap-element.animating,
+    .gsap-fade.animating,
+    .gsap-scale.animating,
+    .gsap-rotate.animating {
+      /* Re-enable during active animation */
+      will-change: transform;
+    }
+  }
+
+  /* Reduced Motion Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .gsap-element,
+    .gsap-fade,
+    .gsap-scale,
+    .gsap-rotate {
+      /* Disable hardware acceleration for reduced motion */
+      will-change: auto;
+      transform: none !important;
+    }
+
+    #smooth-wrapper {
+      /* Disable smooth scrolling for reduced motion */
+      position: static;
+      overflow: visible;
+    }
+
+    #smooth-content {
+      /* Standard scrolling fallback */
+      overflow: auto;
+    }
+  }
+}
+
+/* CSS Custom Properties for Animation Timing */
+@layer theme {
+  :root {
+    /* GSAP Animation Timing Variables */
+    --duration-instant: 0.1s;
+    --duration-fast: 0.25s;
+    --duration-normal: 0.4s;
+    --duration-slow: 0.6s;
+    --duration-slower: 1s;
+
+    /* Easing Functions for GSAP Integration */
+    --ease-in-out-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-back: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Z-Index Scale for Animation Layers */
+    --z-base: 1;
+    --z-content: 10;
+    --z-header: 100;
+    --z-navigation: 200;
+    --z-printer-marks: 50;
+    --z-modal: 300;
+    --z-tooltip: 400;
+  }
+}

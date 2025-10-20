@@ -10,7 +10,7 @@
  */
 
 @theme {
-    --color-accent-100: #FFFCC6;
+  --color-accent-100: #FFFCC6;
 	--color-accent-200: #FFF987;
 	--color-accent-300: #FFEE49;
 	--color-accent-400: #FFE01F;
@@ -68,4 +68,4 @@
 	--color-tertiary-800: #273E28;
 	--color-tertiary-900: #213322;
 	--color-tertiary-950: #121C13;
-    }
+}
