@@ -65,6 +65,20 @@ class Logger {
   static #MAX_OBJECT_PREVIEW = 3;
 
   /**
+   * Static method to clear console before any Logger operations
+   * This ensures the console is cleared as the very first step
+   */
+  static #clearConsoleStatic() {
+    // Clear terminal using ANSI escape sequence
+    process.stdout.write('\x1Bc');
+
+    // Clear browser console if available (for browser environments)
+    if (typeof console !== 'undefined' && console.clear) {
+      console.clear();
+    }
+  }
+
+  /**
    * Private constructor - use static methods instead
    * @param {boolean} enabled - Whether logging is enabled (default: true)
    */
@@ -79,9 +93,6 @@ class Logger {
 
     // Display initialization message only once
     if (!Logger.#initialized) {
-      // Clear console before any logging output
-      this.clearConsole();
-
       const status = this.enabled
         ? chalk.hex(LoggerStyles.SUCCESS)('enabled')
         : chalk.hex(LoggerStyles.ERROR)('disabled');
@@ -99,6 +110,11 @@ class Logger {
    */
   static getInstance(enabled) {
     if (!Logger.#instance) {
+      // Clear console FIRST before any Logger operations
+      if (!Logger.#initialized) {
+        Logger.#clearConsoleStatic();
+      }
+
       // Use provided value, or check environment, or default to true
       const isEnabled = enabled !== undefined ? enabled : process.env.DEBUG === 'true';
       Logger.#instance = new Logger(isEnabled);
