@@ -150,6 +150,88 @@ class Logger {
   }
 
   /**
+   * Display a script execution outline showing the planned script sequence
+   * Provides transparency about what scripts will be called and in what order
+   *
+   * @param {string} operationName - Name of the overall operation (e.g., "Full Build Process")
+   * @param {Array<Object>} scriptSequence - Array of script objects with name, description, dependencies
+   * @param {string} [mode='brief'] - Display mode: 'brief' or 'verbose'
+   * @param {string|LoggerStyle} [style='headsup'] - Style for the outline headers
+   *
+   * @example
+   * logger.showScriptOutline('Full Build Process', [
+   *   { name: 'clean', description: 'Clear build directory', script: 'clearSiteFolder.js' },
+   *   { name: 'build:design', description: 'Sync Figma design tokens', script: 'fetchFigma.js', triggers: ['buildCSS.js'] },
+   *   { name: 'build:11ty', description: 'Generate static site', script: 'eleventy --quiet' }
+   * ]);
+   */
+  showScriptOutline(operationName, scriptSequence, mode = 'brief', style = 'headsup') {
+    if (!this.enabled) return;
+
+    const styleObj = this._getStyle(style);
+    const headerColor = styleObj.color;
+    const prefixIcon = styleObj.prefix || '📋';
+
+    // Header section
+    console.log(chalk.hex(headerColor).bold(`\n${prefixIcon} ${operationName.toUpperCase()}`));
+    console.log(chalk.gray('─'.repeat(50)));
+
+    this.trace(
+      'Script Execution Plan:',
+      `${scriptSequence.length} scripts will be executed in sequence`,
+      'brief',
+      'headsup'
+    );
+
+    // Script sequence outline
+    this.group(() => {
+      scriptSequence.forEach((script, index) => {
+        const stepNumber = `${index + 1}.`;
+
+        if (mode === 'verbose') {
+          // Detailed view with script files and descriptions
+          this.trace(
+            `${stepNumber} ${script.name}`,
+            script.description || 'No description provided',
+            'brief',
+            'standard'
+          );
+
+          if (script.script) {
+            this.indent();
+            this.trace('Executes:', script.script, 'brief', 'standard');
+            this.outdent();
+          }
+
+          if (script.triggers && script.triggers.length > 0) {
+            this.indent();
+            this.trace('Triggers:', script.triggers.join(', '), 'brief', 'standard');
+            this.outdent();
+          }
+
+          if (script.dependencies && script.dependencies.length > 0) {
+            this.indent();
+            this.trace('Requires:', script.dependencies.join(', '), 'brief', 'standard');
+            this.outdent();
+          }
+        } else {
+          // Brief view with just step names and descriptions
+          const description = script.description ? ` - ${script.description}` : '';
+          this.trace(`${stepNumber} ${script.name}${description}`, null, 'brief', 'standard');
+        }
+      });
+    });
+
+    // Footer with execution note
+    this.trace(
+      'Execution will begin:',
+      'Scripts will run in the order shown above',
+      'brief',
+      'headsup'
+    );
+  }
+
+  /**
    * Get current indentation string
    * @private
    * @returns {string} Space characters for current indentation level

@@ -11,6 +11,8 @@ export default {
   outdent: () => Logger.getInstance().outdent(),
   resetIndent: () => Logger.getInstance().resetIndent(),
   group: fn => Logger.getInstance().group(fn),
+  showScriptOutline: (operationName, scriptSequence, mode = 'brief', style = 'headsup') =>
+    Logger.getInstance().showScriptOutline(operationName, scriptSequence, mode, style),
   get enabled() {
     return Logger.getInstance().enabled;
   },

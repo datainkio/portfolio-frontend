@@ -92,6 +92,39 @@ async function buildCSS(options = {}) {
   const configFile = resolve(projectRoot, 'tailwind.config.js');
 
   try {
+    // Show script execution outline
+    const buildWorkflow = [
+      {
+        name: 'config-analysis',
+        description: 'Analyze Tailwind configuration and content paths',
+        script: 'TailwindLogger.logConfigAnalysis()',
+      },
+      {
+        name: 'input-analysis',
+        description: 'Parse CSS imports, layers, and custom properties',
+        script: 'TailwindLogger.logFileAnalysis()',
+      },
+      {
+        name: 'css-compilation',
+        description: `Compile CSS with Tailwind CLI${minify ? ' (minified)' : ''}${watch ? ' (watch mode)' : ''}`,
+        script: '@tailwindcss/cli',
+        dependencies: ['tailwind.config.js', 'styles/main.css'],
+      },
+      {
+        name: 'output-analysis',
+        description: 'Analyze generated CSS for size and performance metrics',
+        script: 'TailwindLogger.logOutputAnalysis()',
+      },
+      {
+        name: 'performance-review',
+        description: 'Provide optimization suggestions and build metrics',
+        script: 'TailwindLogger.completeBuild()',
+      },
+    ];
+
+    const operationName = watch ? 'Tailwind CSS Watch Mode' : 'Tailwind CSS Build';
+    logger.showScriptOutline(operationName, buildWorkflow, 'brief');
+
     // Initialize build logging
     tailwindLogger.startBuild(inputFile, outputFile, { watch, minify });
 

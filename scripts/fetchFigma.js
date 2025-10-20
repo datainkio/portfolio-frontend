@@ -10,6 +10,40 @@ async function fetchDesignSystem() {
   console.log(chalk.gray('─'.repeat(50)));
   logger.trace('Starting Figma design sync:', 'Fetching design file...', 'brief', 'headsup');
 
+  // Show script execution outline
+  const figmaWorkflow = [
+    {
+      name: 'fetch-design-file',
+      description: 'Download design file data from Figma API',
+      script: 'figma/services/FileService.js',
+    },
+    {
+      name: 'extract-styles',
+      description: 'Extract color and typography style definitions',
+      script: 'figma/services/StyleService.js',
+    },
+    {
+      name: 'process-colors',
+      description: 'Generate CSS custom properties from color tokens',
+      script: 'figma/services/PaletteService.js',
+      triggers: ['styles/colors.css update'],
+    },
+    {
+      name: 'process-typography',
+      description: 'Generate font family utilities from text styles',
+      script: 'figma/services/TypographyService.js',
+      triggers: ['styles/typography/fontFamilies.css update'],
+    },
+    {
+      name: 'rebuild-css',
+      description: 'Compile CSS with updated design tokens',
+      script: 'scripts/buildCSS.js',
+      triggers: ['_site/assets/styles.css regeneration'],
+    },
+  ];
+
+  logger.showScriptOutline('Figma Design Token Sync', figmaWorkflow, 'brief');
+
   await logger.group(async () => {
     try {
       // GET DESIGN FILE DATA FROM FIGMA
