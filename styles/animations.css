@@ -4,6 +4,8 @@
  * This file contains CSS optimizations specifically for the GSAP animation system
  * and ScrollSmoother functionality used throughout the portfolio site.
  *
+ Integrating GSAP with Tailwind involves using Tailwind for styling and layout, and GSAP for handling the animation logic. This approach allows for a clean separation of concerns, where Tailwind manages the static appearance of elements and GSAP brings them to life with dynamic animations.
+ *
  * CRITICAL INTEGRATION POINTS:
  * - js/choreography/Director.js uses these classes for animation setup
  * - js/choreography/StageManager.js depends on ScrollSmoother compatibility
