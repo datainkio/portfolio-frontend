@@ -36,6 +36,7 @@
     "test:logger:detection": "DEBUG=true node test/logger/error-detection.test.js",
     "test:logger:realworld": "DEBUG=true node test/logger/real-world.test.js",
     "test:logger:custom": "DEBUG=true node test/logger/custom-styles.test.js",
+    "test:logger:enhancements": "node test/logger/simple-enhancements.test.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "format:njk": "prettier --write \"**/*.njk\""

@@ -29,9 +29,12 @@
  *
  * @class TailwindLogger
  */
-import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import Logger, { LoggerStyle } from '../../js/utils/logger/index.js';
 import { readFileSync, existsSync, statSync } from 'fs';
 import { resolve } from 'path';
+
+// Create scoped logger for Tailwind operations with custom prefix
+const logger = Logger.createScoped('TailwindCSS', { prefix: '🎨' });
 
 /**
  * Custom Logger Styles for Tailwind CSS Operations

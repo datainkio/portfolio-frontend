@@ -58,6 +58,7 @@ class Logger {
 
   // Private instance fields
   #indentLevel = 0;
+  #config = {};
 
   // Constants for formatting
   static #INDENT_SIZE = 2;
@@ -65,29 +66,34 @@ class Logger {
   static #MAX_OBJECT_PREVIEW = 3;
 
   /**
-   * Static method to clear console before any Logger operations
-   * This ensures the console is cleared as the very first step
-   */
-  static #clearConsoleStatic() {
-    // Clear terminal using ANSI escape sequence
-    process.stdout.write('\x1Bc');
-
-    // Clear browser console if available (for browser environments)
-    if (typeof console !== 'undefined' && console.clear) {
-      console.clear();
-    }
-  }
-
-  /**
    * Private constructor - use static methods instead
-   * @param {boolean} enabled - Whether logging is enabled (default: true)
+   * @param {boolean|Object} enabled - Whether logging is enabled, or config object
    */
   constructor(enabled = true) {
     if (Logger.#instance) {
       return Logger.#instance;
     }
 
-    this.enabled = enabled;
+    // Handle both boolean and config object parameters
+    if (typeof enabled === 'object') {
+      this.#config = {
+        enabled: enabled.enabled ?? true,
+        prefix: enabled.prefix ?? '',
+        styles: enabled.styles ?? {},
+        scope: enabled.scope ?? null,
+        ...enabled,
+      };
+      this.enabled = this.#config.enabled;
+    } else {
+      this.enabled = enabled;
+      this.#config = {
+        enabled: enabled,
+        prefix: '',
+        styles: {},
+        scope: null,
+      };
+    }
+
     this.#indentLevel = 0;
     Logger.#instance = this;
 
@@ -110,16 +116,100 @@ class Logger {
    */
   static getInstance(enabled) {
     if (!Logger.#instance) {
-      // Clear console FIRST before any Logger operations
-      if (!Logger.#initialized) {
-        Logger.#clearConsoleStatic();
-      }
-
       // Use provided value, or check environment, or default to true
       const isEnabled = enabled !== undefined ? enabled : process.env.DEBUG === 'true';
       Logger.#instance = new Logger(isEnabled);
     }
     return Logger.#instance;
+  }
+
+  /**
+   * Configure the Logger instance with new options
+   * Allows runtime configuration changes while maintaining singleton benefits
+   *
+   * @param {Object} options - Configuration options
+   * @param {boolean} [options.enabled] - Enable/disable logging
+   * @param {string} [options.prefix] - Default prefix for all messages
+   * @param {Object} [options.styles] - Custom style overrides
+   * @param {string} [options.scope] - Default scope for logging
+   * @returns {Logger} The configured Logger instance
+   *
+   * @example
+   * Logger.configure({
+   *   enabled: true,
+   *   prefix: '[BUILD]',
+   *   scope: 'TailwindCSS'
+   * });
+   */
+  static configure(options = {}) {
+    const instance = Logger.getInstance();
+    Object.assign(instance.#config, options);
+
+    // Update enabled state if provided
+    if (options.enabled !== undefined) {
+      instance.enabled = options.enabled;
+    }
+
+    return instance;
+  }
+
+  /**
+   * Create a scoped logger that prefixes all messages with scope information
+   * Maintains singleton benefits while allowing service-specific customization
+   *
+   * @param {string} scope - The scope name (e.g., 'Tailwind', 'Figma', 'NavigationBuilder')
+   * @param {Object} [options] - Additional configuration for the scoped logger
+   * @returns {Object} Scoped logger interface with all Logger methods
+   *
+   * @example
+   * const tailwindLogger = Logger.createScoped('Tailwind');
+   * const figmaLogger = Logger.createScoped('Figma', { prefix: '🎨' });
+   *
+   * tailwindLogger.trace('CSS compilation started'); // "[Tailwind] CSS compilation started"
+   * figmaLogger.trace('Design tokens fetched');      // "🎨 [Figma] Design tokens fetched"
+   */
+  static createScoped(scope, options = {}) {
+    const instance = Logger.getInstance();
+    const scopePrefix = options.prefix ? `${options.prefix} [${scope}]` : `[${scope}]`;
+
+    return {
+      // Core logging method with scope prefix
+      trace: (message, obj = null, mode = 'brief', style = 'standard') => {
+        const scopedMessage = `${scopePrefix} ${message}`;
+        return instance.trace(scopedMessage, obj, mode, style);
+      },
+
+      // Indentation methods
+      indent: () => instance.indent(),
+      outdent: () => instance.outdent(),
+      resetIndent: () => instance.resetIndent(),
+
+      // Group operations with scope awareness
+      group: async fn => {
+        instance.trace(`${scopePrefix} Starting grouped operation`, null, 'brief', 'headsup');
+        const result = await instance.group(fn);
+        instance.trace(`${scopePrefix} Completed grouped operation`, null, 'brief', 'success');
+        return result;
+      },
+
+      // Script outline with scope prefix
+      showScriptOutline: (operationName, outline) => {
+        const scopedOperationName = `${scope}: ${operationName}`;
+        return instance.showScriptOutline(scopedOperationName, outline);
+      },
+
+      // Configuration access
+      get enabled() {
+        return instance.enabled;
+      },
+      set enabled(value) {
+        instance.enabled = value;
+      },
+
+      // Expose scope information
+      scope,
+      config: { ...instance.#config, scope },
+    };
   }
 
   /**
@@ -166,20 +256,6 @@ class Logger {
    */
   resetIndent() {
     this.#indentLevel = 0;
-  }
-
-  /**
-   * Clear the console for a clean logging environment
-   * Uses ANSI escape sequences for terminal clearing and browser console.clear()
-   */
-  clearConsole() {
-    // Clear terminal using ANSI escape sequence
-    process.stdout.write('\x1Bc');
-
-    // Clear browser console if available (for browser environments)
-    if (typeof console !== 'undefined' && console.clear) {
-      console.clear();
-    }
   }
 
   /**
@@ -334,7 +410,12 @@ class Logger {
     const indent = this._getIndent();
     output += indent;
 
-    // Add prefix if available (check for non-empty string, allow whitespace-only)
+    // Add configured prefix first (from Logger configuration)
+    if (this.#config.prefix && this.#config.prefix.trim() !== '') {
+      output += `${this.#config.prefix.trim()} `;
+    }
+
+    // Add style prefix if available (check for non-empty string, allow whitespace-only)
     if (styleObj.prefix !== '' && styleObj.prefix !== undefined && styleObj.prefix !== null) {
       // Replace newlines in prefix with newline + indent to maintain indentation
       const indentedPrefix = styleObj.prefix.replace(/\n/g, '\n' + indent);
