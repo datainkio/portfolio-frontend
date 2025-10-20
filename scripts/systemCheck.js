@@ -23,6 +23,7 @@
 import { existsSync, statSync, accessSync, constants } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 import chalk from 'chalk';
 import dotenv from 'dotenv';
 
@@ -88,7 +89,6 @@ function checkNodeEnvironment() {
 
   healthCheck('npm Version', () => {
     try {
-      const { execSync } = require('child_process');
       const npmVersion = execSync('npm --version', { encoding: 'utf8' }).trim();
       return { status: 'pass', details: `v${npmVersion}` };
     } catch (error) {
@@ -103,7 +103,11 @@ function checkNodeEnvironment() {
 function checkEnvironmentVariables() {
   console.log(chalk.blue('\n🔐 Environment Variables'));
 
-  const criticalVars = ['FIGMA_TOKEN', 'AIRTABLE_PERSONAL_ACCESS_TOKEN', 'AIRTABLE_BASE_TOKEN'];
+  const criticalVars = [
+    'FIGMA_ACCESS_TOKEN',
+    'AIRTABLE_PERSONAL_ACCESS_TOKEN',
+    'AIRTABLE_BASE_TOKEN',
+  ];
 
   criticalVars.forEach(varName => {
     healthCheck(
@@ -220,8 +224,7 @@ function checkBuildTools() {
 
   healthCheck('Tailwind CLI', () => {
     try {
-      const { execSync } = require('child_process');
-      execSync('npx @tailwindcss/cli --help', { stdio: 'ignore' });
+      execSync('npx @tailwindcss/cli -h', { stdio: 'ignore' });
       return { status: 'pass', details: 'Available' };
     } catch (error) {
       return { status: 'fail', message: 'Tailwind CLI not working' };
@@ -230,8 +233,7 @@ function checkBuildTools() {
 
   healthCheck('11ty CLI', () => {
     try {
-      const { execSync } = require('child_process');
-      execSync('npx @11ty/eleventy --version', { stdio: 'ignore' });
+      execSync('npx eleventy --version', { stdio: 'ignore' });
       return { status: 'pass', details: 'Available' };
     } catch (error) {
       return { status: 'fail', message: '11ty CLI not working' };
