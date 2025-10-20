@@ -7,11 +7,43 @@
 This CSS system is a carefully orchestrated combination of:
 
 - **Tailwind CSS v4**: Using `@tailwindcss/cli` (NOT the legacy `tailwindcss` command)
+- **Enhanced Build System**: Comprehensive logging via `TailwindLogger` service
 - **Figma Integration**: Auto-generated design tokens from `figma/services/`
 - **Custom Components**: Hand-crafted visual effects and background systems
 - **Import Cascade**: CRITICAL order dependency that breaks everything if violated
 
 **ABSOLUTE CRITICAL RULE**: The import order in `main.css` is not a suggestion - it's a divine commandment. Violate it and watch your design system collapse into CSS cascade chaos.
+
+## Enhanced CSS Build System
+
+The CSS compilation process includes comprehensive logging and analysis via the `TailwindLogger` service:
+
+### Build Transparency Features
+
+- **Performance Metrics**: Build timing, file size analysis, and optimization recommendations
+- **Configuration Analysis**: Tailwind setup validation and plugin detection
+- **CSS Structure Analysis**: Import parsing, layer detection, and custom property inventory
+- **Output Analysis**: Generated utility count, media query analysis, and performance warnings
+- **Error Handling**: Detailed failure logging with actionable resolution steps
+
+### Build Commands
+
+```bash
+# Production build with optimization analysis
+npm run build:css
+
+# Development build with detailed debugging
+npm run build:css:dev
+
+# Watch mode with continuous monitoring
+npm run watch:css
+```
+
+### Integration Points
+
+- **Figma Sync**: Automatically triggers CSS rebuild after design token updates
+- **Development Server**: Integrated with hot reloading for instant preview
+- **Performance Monitoring**: Tracks build performance and suggests optimizations
 
 ## CSS Import Architecture
 
@@ -55,8 +87,7 @@ classes
 **UX Impact**: Ensures brand consistency and enables theme flexibility
 
 ```css
---color-primary-500: #0caaeb /* Your exact Figma color */
-  --color-accent-400: #ffe01f /* Automatically synchronized */;
+--color-primary-500: #0caaeb /* Your exact Figma color */ --color-accent-400: #ffe01f /* Automatically synchronized */;
 ```
 
 #### `decorations.css` - Visual Enhancement System
@@ -79,8 +110,7 @@ perceived performance
 Impact**: Enables consistent typography application across all content
 
 ```css
---font-serif: Cormorant Garamond,
-  serif /* Your Figma heading font */ --font-sans: Poppins,
+--font-serif: Cormorant Garamond, serif /* Your Figma heading font */ --font-sans: Poppins,
   sans-serif /* Your Figma body font */;
 ```
 

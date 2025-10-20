@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import { fileURLToPath } from 'url';
 import logger from '../js/utils/logger/index.js';
 import { fileService, styleService, paletteService, typographyService } from '../figma/index.js';
+import { buildCSS } from './buildCSS.js';
 
 async function fetchDesignSystem() {
   // INIT MESSAGE
@@ -64,6 +65,12 @@ async function fetchDesignSystem() {
       });
 
       logger.trace('Design sync complete:', 'All styles updated', 'brief', 'success');
+
+      // CRITICAL: Rebuild CSS with design token changes
+      // Design tokens have been updated, now rebuild CSS to integrate changes
+      console.log(chalk.cyan('\n🎯 REBUILDING CSS'));
+      console.log(chalk.gray('─'.repeat(50)));
+      await buildCSS();
 
       // WE'RE DONE HERE. WRAP IT UP.
       return; //; { document: designFile, styles };

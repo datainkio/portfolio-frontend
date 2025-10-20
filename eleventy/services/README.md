@@ -30,6 +30,67 @@ A **service** in this architecture is a specialized class that:
 
 ## Current Services
 
+### TailwindLogger.js
+
+**CRITICAL WARNING**: This service provides comprehensive transparency into the Tailwind CSS build process, matching the same level of detail used throughout the project for 11ty collections and Figma services. **DO NOT bypass this service** - the detailed logging is essential for debugging CSS generation issues and performance optimization.
+
+**Purpose**: Provides detailed build transparency for Tailwind CSS compilation with comprehensive analysis and logging.
+
+**Responsibilities**:
+
+- Tracks build performance metrics (timing, file sizes, memory usage)
+- Analyzes Tailwind configuration for optimization opportunities
+- Parses input CSS structure (imports, layers, custom properties)
+- Examines generated CSS output for performance insights
+- Provides actionable optimization recommendations
+- Integrates with existing Logger utility for consistent output styling
+- Captures and formats build errors with resolution guidance
+
+**Used By**: `scripts/buildCSS.js` for wrapping Tailwind CLI execution
+
+**Key Methods**:
+
+- `startBuild(buildId, mode, inputFile, outputFile)` - Initializes build logging
+- `logConfigAnalysis(config)` - Analyzes Tailwind configuration
+- `logFileAnalysis(filePath)` - Examines input CSS structure
+- `logOutputAnalysis(outputPath, buildOutput)` - Analyzes generated CSS
+- `completeBuild(startTime)` - Finalizes build with performance metrics
+- `logError(error, context)` - Handles build failures with debugging info
+
+**Architecture Integration**:
+
+```javascript
+// Example usage in build script
+const logger = new TailwindLogger();
+const buildId = logger.startBuild('production', 'styles/main.css', '_site/assets/styles.css');
+
+await logger.group(async () => {
+  await logger.logConfigAnalysis(tailwindConfig);
+  await logger.logFileAnalysis('styles/main.css');
+
+  // Execute Tailwind CLI
+  const result = await execTailwindCLI();
+
+  await logger.logOutputAnalysis('_site/assets/styles.css', result);
+  logger.completeBuild(startTime);
+});
+```
+
+**Logging Output Standards**:
+
+- **Build Transparency**: Same detail level as 11ty collections
+- **Performance Metrics**: Build timing, file sizes, optimization flags
+- **Visual Consistency**: Uses project's Logger utility and LoggerStyle classes
+- **Error Context**: Actionable debugging information for build failures
+- **Integration Points**: Automatic triggering via Figma design token sync
+
+**Critical Dependencies**:
+
+- Logger utility for consistent output styling
+- LoggerStyle classes for visual formatting
+- Node.js fs/promises for file analysis
+- Tailwind CLI output parsing for metrics
+
 ### NavigationBuilder.js
 
 **Purpose**: Handles all navigation processing logic for the site's complex navigation system.

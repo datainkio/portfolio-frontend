@@ -62,6 +62,15 @@ npm run dev:11ty
 
 # Run Tailwind watch only (CSS compilation)
 npm run dev:css
+
+# Build CSS with comprehensive logging (production mode)
+npm run build:css
+
+# Build CSS with detailed development logging
+npm run build:css:dev
+
+# Watch CSS with continuous logging
+npm run watch:css
 ```
 
 ### Utility Commands
@@ -92,8 +101,16 @@ When you run `npm run build`, the following happens **sequentially**:
    - Fetches design tokens from Figma API
    - Writes colors to `styles/colors.css`
    - Writes typography to `styles/typography/fontFamilies.css`
+   - **Automatically triggers CSS rebuild** with updated design tokens
 
-3. **11ty Build** (`npm run build:11ty`)
+3. **CSS Build** (`npm run build:css`)
+
+   - Compiles Tailwind CSS with comprehensive logging
+   - Analyzes input CSS structure and imports
+   - Provides build metrics and optimization suggestions
+   - Generates optimized CSS to `_site/assets/styles.css`
+
+4. **11ty Build** (`npm run build:11ty`)
    - Fetches content from Airtable (with smart caching)
    - Processes images via `@11ty/eleventy-img`
    - Generates static HTML from Nunjucks templates
@@ -194,6 +211,56 @@ Tables become collections with lowercase names via `eleventy/collections/content
 
 **CRITICAL**: Collection names are always lowercase regardless of Airtable table casing. "MyTable" becomes "mytable".
 
+## Tailwind CSS Logging System (Comprehensive Build Transparency)
+
+This project includes a comprehensive logging system for Tailwind CSS builds that provides the same level of transparency as the 11ty collections and Figma services. **DO NOT bypass this system** - the detailed logging is essential for debugging CSS generation issues and performance optimization.
+
+### TailwindLogger Service
+
+The `eleventy/services/TailwindLogger.js` service provides:
+
+- **Build Metrics**: File sizes, build time analysis, performance recommendations
+- **CSS Analysis**: Import structure, layer organization, custom property detection
+- **Optimization Insights**: Complex selector detection, performance warnings
+- **Error Tracking**: Comprehensive error capture with actionable resolution steps
+
+### Enhanced Build Scripts
+
+The `scripts/buildCSS.js` script wraps the Tailwind CLI with detailed logging:
+
+```bash
+# Production build with optimization analysis
+npm run build:css
+
+# Development build with detailed debugging
+npm run build:css:dev
+
+# Watch mode with continuous file monitoring
+npm run watch:css
+```
+
+### Build Output Example
+
+```
+🎨 Starting Tailwind CSS 4.0 build process...
+• Build ID: abc123 | Mode: production
+• Input: styles/main.css
+• Output: _site/assets/styles.css
+• Analyzing Tailwind configuration...
+   • Content paths: 3
+   • Custom plugins: 1
+   • Layer structure: reset, theme, base, utilities, components
+• Generated CSS size: 61.39 KB
+• Build performance: 1234ms
+✅ Tailwind CSS build completed
+```
+
+**INTEGRATION POINTS**:
+
+- Automatically triggered by Figma design token sync (`npm run build:design`)
+- Integrated with development watch modes for hot reloading
+- Provides same logging standards as other project services
+
 ## File Organization (Touch The Wrong Thing = Break Everything)
 
 ```text
@@ -219,8 +286,14 @@ portfolio/
 ├── figma/                      # Figma API integration services
 │   └── services/               # PaletteService.js, TypographyService.js
 ├── scripts/                    # Build automation scripts
+│   ├── buildCSS.js            # Enhanced Tailwind CSS build with logging
+│   └── fetchFigma.js          # Design token sync (triggers CSS rebuild)
+├── eleventy/                   # 11ty configuration and collections
+│   └── services/               # TailwindLogger.js for build transparency
+├── airtable/                   # Airtable API services
 ├── airtable/                   # Airtable API services
 ├── eleventy/                   # 11ty configuration and collections
+│   └── services/               # TailwindLogger.js for build transparency
 └── _site/                      # BUILD OUTPUT - never edit directly
 ```
 

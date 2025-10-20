@@ -7,11 +7,12 @@
 The build system uses a carefully orchestrated sequence of scripts that must execute in specific order:
 
 - **`fetchFigma.js`** - Syncs design tokens from Figma API to CSS files
+- **`buildCSS.js`** - Enhanced Tailwind CSS compilation with comprehensive logging
 - **`fetchAirtable.js`** - Syncs content from Airtable API for 11ty collections
 - **`buildAssets.js`** - Processes and copies static assets to build directory
 - **`deployPrep.js`** - Prepares production build with optimizations
 
-**CRITICAL EXECUTION ORDER**: Design tokens → Content sync → Static generation → Asset processing. Skip steps or change order and experience build system chaos that will haunt your debugging nightmares.
+**CRITICAL EXECUTION ORDER**: Design tokens → CSS compilation → Content sync → Static generation → Asset processing. Skip steps or change order and experience build system chaos that will haunt your debugging nightmares.
 
 ## Core Scripts (The Digital Orchestration)
 
@@ -48,6 +49,7 @@ try {
 - Requires `FIGMA_TOKEN` environment variable
 - Must complete before 11ty build to provide fresh design tokens
 - Writes directly to CSS files (overwrites existing content)
+- **Automatically triggers CSS rebuild** via `buildCSS.js` after design token sync
 
 **FAILURE MODES**:
 
@@ -55,6 +57,85 @@ try {
 - **Network Issues**: Timeout errors cause partial sync failures
 - **File Permissions**: Write errors if CSS directories aren't writable
 - **Figma Structure Changes**: Parsing errors if design file structure doesn't match expectations
+
+### buildCSS.js - Enhanced Tailwind CSS Compilation
+
+**DANGER ZONE**: This script provides comprehensive transparency into the Tailwind CSS build process with the same level of detail as 11ty collections and Figma services. **DO NOT bypass this script** for production builds - the logging data is essential for debugging CSS generation issues and performance optimization.
+
+**Purpose**: Wraps Tailwind CLI with TailwindLogger service for build transparency  
+**Dependencies**: `TailwindLogger`, Tailwind CSS 4.0 CLI, Logger utility  
+**Output**: Generates `_site/assets/styles.css` with comprehensive build analysis  
+**Triggers**: `npm run build:css`, `npm run build:css:dev`, `npm run watch:css`, automatically after Figma sync
+
+**ARCHITECTURE OVERVIEW**:
+
+- Wraps `@tailwindcss/cli` with detailed logging and analysis
+- Provides same transparency standards as other project services
+- Tracks build performance, file sizes, and optimization opportunities
+- Integrates with existing logger infrastructure for consistent output
+
+**BUILD MODES**:
+
+```bash
+# Production build (optimized, minified)
+node scripts/buildCSS.js
+
+# Development build (detailed analysis, no minification)
+node scripts/buildCSS.js --dev
+
+# Watch mode (continuous building with file monitoring)
+node scripts/buildCSS.js --watch
+```
+
+**COMPREHENSIVE LOGGING OUTPUT**:
+
+```
+🎨 Starting Tailwind CSS 4.0 build process...
+• Build ID: abc123 | Mode: production
+• Input: styles/main.css
+• Output: _site/assets/styles.css
+• Analyzing Tailwind configuration...
+   • Content paths: 3
+   • Custom plugins: 1
+   • Experimental features: 1
+   • Layer structure: reset, theme, base, utilities, components
+• Analyzing input CSS structure...
+   • Found 8 @import statements
+   • Found 1 @layer definitions
+   • Layer structure: reset, theme, base, utilities, components
+⚙️ Executing: npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css
+• Analyzing generated CSS output...
+   📊 Generated CSS size: 61.39 KB
+   📊 Generated utility classes: 1,234
+   📊 Generated media queries: 87
+   📊 Preserved custom properties: 223
+⚠️ Found 35 complex selectors - may impact performance
+✅ Tailwind CSS build completed in 1234ms
+   📊 Final CSS size: 61.39 KB
+   📊 Build performance: Slow (>1s) - Consider optimizing imports
+```
+
+**CRITICAL INTEGRATION POINTS**:
+
+- **Figma Workflow**: Automatically triggered by design token sync
+- **Development Server**: Integrated with watch modes for hot reloading
+- **Error Handling**: Captures and logs build failures with actionable solutions
+- **Performance Monitoring**: Tracks build times and provides optimization suggestions
+
+**FAILURE MODES**:
+
+- **Invalid CSS Syntax**: Malformed @layer directives or import statements
+- **Missing Dependencies**: @tailwindcss/cli not installed or wrong version
+- **Configuration Errors**: Invalid tailwind.config.js causing CLI failures
+- **File Permissions**: Unable to write to output directory
+- **Memory Issues**: Large CSS files causing Node.js heap overflow
+
+**OPTIMIZATION INSIGHTS**:
+
+- **Complex Selectors**: Identifies performance-impacting CSS patterns
+- **Import Analysis**: Detects inefficient CSS import strategies
+- **Build Performance**: Flags slow builds with specific improvement suggestions
+- **Size Analysis**: Tracks CSS bloat and unused code opportunities
 
 ### clearSiteFolder.js - Build Output Cleanup
 
