@@ -120,9 +120,5 @@ export default fetchDesignSystem;
 
 // Execute if run directly
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  // Clear terminal
-  process.stdout.write('\x1Bc');
-  // Clear browser console
-  console.clear();
   fetchDesignSystem();
 }

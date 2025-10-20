@@ -79,6 +79,9 @@ class Logger {
 
     // Display initialization message only once
     if (!Logger.#initialized) {
+      // Clear console before any logging output
+      this.clearConsole();
+
       const status = this.enabled
         ? chalk.hex(LoggerStyles.SUCCESS)('enabled')
         : chalk.hex(LoggerStyles.ERROR)('disabled');
@@ -147,6 +150,20 @@ class Logger {
    */
   resetIndent() {
     this.#indentLevel = 0;
+  }
+
+  /**
+   * Clear the console for a clean logging environment
+   * Uses ANSI escape sequences for terminal clearing and browser console.clear()
+   */
+  clearConsole() {
+    // Clear terminal using ANSI escape sequence
+    process.stdout.write('\x1Bc');
+
+    // Clear browser console if available (for browser environments)
+    if (typeof console !== 'undefined' && console.clear) {
+      console.clear();
+    }
   }
 
   /**

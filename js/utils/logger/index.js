@@ -10,6 +10,7 @@ export default {
   indent: () => Logger.getInstance().indent(),
   outdent: () => Logger.getInstance().outdent(),
   resetIndent: () => Logger.getInstance().resetIndent(),
+  clearConsole: () => Logger.getInstance().clearConsole(),
   group: fn => Logger.getInstance().group(fn),
   showScriptOutline: (operationName, scriptSequence, mode = 'brief', style = 'headsup') =>
     Logger.getInstance().showScriptOutline(operationName, scriptSequence, mode, style),
