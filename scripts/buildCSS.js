@@ -160,11 +160,22 @@ async function runSingleBuild(command, tailwindLogger, outputFile) {
   } catch (error) {
     // Parse error output for specific issues
     const errorOutput = error.stderr || error.stdout || error.message;
-    tailwindLogger.logError(new Error(errorOutput), 'Tailwind CLI');
+
+    // Filter out normal Tailwind messages that might appear in error streams
+    const isActualError =
+      errorOutput &&
+      !errorOutput.includes('tailwindcss v') &&
+      !errorOutput.includes('Done in') &&
+      !errorOutput.includes('Build finished') &&
+      errorOutput.trim().length > 0;
+
+    if (isActualError) {
+      tailwindLogger.logError(new Error(errorOutput), 'Tailwind CLI');
+    }
 
     return {
       success: false,
-      error: errorOutput,
+      error: isActualError ? errorOutput : 'Build failed - check logs for details',
       summary: tailwindLogger.getBuildSummary(),
     };
   }
@@ -211,8 +222,26 @@ async function runWatchMode(command, tailwindLogger, outputFile) {
     });
 
     childProcess.stderr.on('data', data => {
-      const error = data.toString();
-      tailwindLogger.logError(new Error(error), 'watch mode');
+      const output = data.toString().trim();
+
+      // Filter out normal Tailwind status messages that go to stderr
+      const isNormalMessage =
+        output.includes('tailwindcss v') || // Version info
+        output.includes('Done in') || // Build completion
+        output.includes('Build finished') || // Build status
+        output.includes('Watching for changes') || // Watch status
+        output.match(/^\s*$/) || // Empty lines
+        output.includes('Ready in'); // Ready status
+
+      if (isNormalMessage) {
+        // Log as normal output, not error
+        if (output.trim()) {
+          logger.trace(output, null, 'brief');
+        }
+      } else {
+        // Only log actual errors
+        tailwindLogger.logError(new Error(output), 'watch mode');
+      }
     });
 
     childProcess.on('close', code => {
