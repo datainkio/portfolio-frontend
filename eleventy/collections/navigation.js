@@ -1,47 +1,38 @@
 /**
- * 11ty Navigation Collection Builder
+ * 11ty Navigation Collection Registration
  *
- * This file manages the complex navigation system for the 11ty static site.
- * DO NOT MODIFY without understanding the complete dependency chain.
+ * This file registers navigation collections with 11ty but delegates all processing
+ * logic to the NavigationBuilder service for better separation of concerns.
  *
  * ARCHITECTURE OVERVIEW:
- * - Creates three navigation collections: nav_dirs, nav_projects, nav_primary
+ * - Registers three navigation collections: nav_dirs, nav_projects, nav_primary
  * - nav_dirs: Built from _pages directory structure and frontmatter titles
  * - nav_projects: Built from Airtable projects data
  * - nav_primary: Merges both collections into hierarchical navigation structure
  *
  * CRITICAL DEPENDENCIES:
  * - Requires site.directories.nav configuration in site.json
- * - Depends on proper frontmatter titles in all _pages/*.njk files
+ * - Depends on NavigationBuilder service for all processing logic
  * - Integration with Airtable collections system via content.js
  * - Used by navigation templates in organisms/navigation/
  * - GSAP animations depend on specific DOM structure this generates
  *
- * BUG PREVENTION:
- * - Defensive null checks prevent toLowerCase() TypeError crashes
- * - Missing frontmatter titles filtered out to prevent null keys
- * - Proper collection access through 11ty Collection API (this.ctx.collections)
- *
- * PERFORMANCE NOTES:
- * - Collections rebuild on every 11ty change during development
- * - Nested structure algorithm is O(n²) - optimize if nav grows large
- * - Console logging controlled by DEBUG environment variable
+ * DESIGN PATTERN:
+ * - Follows Single Responsibility Principle
+ * - Collection registration separated from business logic
+ * - NavigationBuilder handles all data processing and transformation
  *
  * @param {Object} eleventyConfig - 11ty configuration object
  * @param {Object} site - Site configuration from site.json
  */
 import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import { NavigationBuilder } from '../services/NavigationBuilder.js';
 
 /**
  * Custom Logger Styles for Navigation Operations
  */
 const titleInitStyle = new LoggerStyle('#EE9B00', '\n🧭');
-const msgInitStyle = new LoggerStyle('#CA6702', '•');
 const successInitStyle = new LoggerStyle('#EE9B00', '\n👍');
-
-const titleBuildStyle = new LoggerStyle('#EE9B00', '\n👷🏼‍♀️');
-const msgBuildStyle = new LoggerStyle('#CA6702', '•');
-const successBuildStyle = new LoggerStyle('#EE9B00', '\n👍');
 
 /**
  * CRITICAL WARNING: Main navigation initialization function
@@ -66,46 +57,30 @@ export async function init(eleventyConfig, site) {
     'standard'
   );
 
+  // Initialize NavigationBuilder service
+  const navigationBuilder = new NavigationBuilder(site);
+
   // CRITICAL: Register collections in dependency order
   // 1. nav_dirs (no dependencies)
   // 2. nav_projects (depends on 'projects' from Airtable)
   // 3. nav_primary (depends on nav_dirs and nav_projects)
 
-  addTopLevelNav(eleventyConfig, site);
-  addProjectsNav(eleventyConfig);
+  eleventyConfig.addCollection('nav_dirs', function (collectionApi) {
+    return navigationBuilder.buildDirectoryNavigation(collectionApi);
+  });
+
+  eleventyConfig.addCollection('nav_projects', function (collectionApi) {
+    return navigationBuilder.buildProjectNavigation(collectionApi);
+  });
 
   // Register nav_primary LAST as it depends on the other two
   eleventyConfig.addCollection('nav_primary', function (collectionApi) {
-    logger.trace('Building primary navigation structure...', null, 'brief', msgInitStyle);
-
-    // Use proper 11ty Collection API to access other collections
-    // Collections are available through the global collections object
+    // Access other collections through the 11ty context
     const allCollections = this.ctx?.collections || {};
-
     const projects = allCollections.nav_projects || [];
     const directories = allCollections.nav_dirs || [];
 
-    if (projects.length === 0 && directories.length === 0) {
-      logger.trace(
-        'No navigation items found in nav_projects or nav_dirs collections',
-        null,
-        'brief',
-        msgInitStyle
-      );
-      return [];
-    }
-
-    const merged = [...projects, ...directories];
-    const nested = buildNestedStructure(merged);
-
-    logger.trace(
-      'Primary navigation structure built (' + nested.length + ' top-level items)',
-      null,
-      'brief',
-      successInitStyle
-    );
-
-    return nested;
+    return navigationBuilder.buildPrimaryNavigationFromData(directories, projects);
   });
 
   logger.trace(
@@ -116,32 +91,6 @@ export async function init(eleventyConfig, site) {
   );
 }
 
-/**
- * Top-level navigation collection builder
- *
- * Creates nav_dirs collection from _pages directory structure.
- *
- * DEPENDENCIES: None - uses only 11ty file system data
- *
- * HOW IT WORKS:
- * 1. Scans all files in site.directories.nav (typically /njk/_pages/)
- * 2. Filters out drafts and files outside nav directory
- * 3. Extracts frontmatter titles to create navigation keys
- * 4. Builds parent-child relationships from URL slug structure
- *
- * REQUIREMENTS:
- * - Every _pages/*.njk file MUST have a title in frontmatter
- * - Files without titles are filtered out with warnings
- * - site.directories.nav MUST be properly configured in site.json
- *
- * TEMPLATE INTEGRATION:
- * - Results used by organisms/navigation/primary-nav.njk
- * - Keys become navigation item text in rendered HTML
- * - URLs become href attributes in navigation links
- *
- * @param {Object} eleventyConfig - 11ty config for addCollection
- * @param {Object} site - Site config with directories.nav path
- */
 function addTopLevelNav(eleventyConfig, site) {
   logger.trace(
     'Registering top-level nav by determining which files become part of the navigation scheme.',

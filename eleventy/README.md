@@ -26,12 +26,20 @@ templates
 
 - **`content.js`** - Connects Airtable tables to 11ty collections (projects →
   pages)
-- **`navigation.js`** - Builds primary navigation from page structure and
-  project data
+- **`navigation.js`** - Registers navigation collections with 11ty (delegates processing to services)
 - **`index.js`** - Orchestrates all collection building
 
 **UX Impact**: Determines information architecture and how users navigate
 between content
+
+### `/services/` - Business Logic Processing
+
+**What it does**: Encapsulates complex data processing logic in reusable, testable classes
+
+- **`NavigationBuilder.js`** - Handles all navigation processing (directory scanning, hierarchy building, data transformation)
+- **Service Pattern** - Separates business logic from 11ty configuration for better maintainability
+
+**UX Impact**: Ensures consistent navigation behavior and enables complex content relationships
 
 ### `/filters/` - Content Processing
 
@@ -72,15 +80,17 @@ load
 
 ## Key UX Patterns Enabled
 
-### 1. **Adaptive Navigation**
+### 1. **Adaptive Navigation with Service Architecture**
 
 ```javascript
-// Auto-generates navigation from content structure
-nav_primary: [...projects, ...directories];
+// Service-based navigation processing
+const navigationBuilder = new NavigationBuilder(site);
+eleventyConfig.addCollection('nav_primary', function (collectionApi) {
+  return navigationBuilder.buildPrimaryNavigationFromData(directories, projects);
+});
 ```
 
-Navigation automatically updates when content changes, reducing maintenance
-overhead and preventing broken user journeys.
+Navigation automatically updates when content changes through a clean service layer that separates business logic from 11ty configuration, improving maintainability and testability.
 
 ### 2. **Smart Image Handling**
 
@@ -116,6 +126,22 @@ HTML structure.
 - **Automatic optimization** - Images and HTML are optimized without manual
   intervention
 - **Preview-friendly** - Changes are immediately visible in development mode
+- **Service-driven reliability** - Complex operations handled by tested service classes
+
+## Architecture Benefits
+
+### Service Layer Pattern
+
+- **Separation of Concerns** - Business logic separated from 11ty configuration
+- **Testability** - Services can be unit tested independently
+- **Reusability** - Logic can be used across multiple contexts
+- **Maintainability** - Changes to complex operations isolated in service classes
+
+### Collection Architecture
+
+- **Clean Registration** - Collections focus only on 11ty integration
+- **Dependency Management** - Services handle complex data dependencies
+- **Error Isolation** - Service errors don't break entire build process
 
 ## Performance Features
 
@@ -133,4 +159,6 @@ HTML structure.
 
 This configuration ensures that design decisions translate into inclusive,
 performant user experiences without requiring technical expertise from content
-creators.
+creators. The service architecture provides a robust foundation for complex
+content operations while maintaining clean separation between data processing
+and presentation logic.
