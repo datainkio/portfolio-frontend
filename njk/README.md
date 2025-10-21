@@ -1,28 +1,103 @@
 <!-- @format -->
 
-# Template Architecture & Content Composition
+# Template Architecture & Component System
 
-This directory contains the **content presentation layer** using Nunjucks
-templates following Atomic Design principles. This is where your content from
-Airtable and design tokens from Figma come together to create accessible,
-maintainable user experiences.
+**CRITICAL WARNING:** This directory contains the enhanced content presentation layer using Nunjucks templates with Atomic Design principles and advanced developer ergonomics. The system has been significantly improved with component registry, scaffolding tools, and comprehensive documentation.
 
-## What Nunjucks Templates Enable for UX
+## 🚀 **Recent Enhancements - Developer Ergonomics**
 
-The template system serves as the **content-to-HTML transformation engine**:
+### **Component Registry System** ✅
 
-- **Component reusability** - Build once, use everywhere with consistent
-  behavior
-- **Content separation** - UX structure independent of actual content
-- **Dynamic generation** - Pages automatically adapt to content changes
-- **Accessibility by default** - Semantic HTML structure enforced through
-  templates
-- **Design system enforcement** - Components ensure brand consistency
+- **Unified component loading**: `_registry.njk` provides centralized component discovery
+- **Error handling**: Missing components show helpful error messages instead of breaking builds
+- **Shorthand macros**: `icon()` and `button()` helpers for common components
+- **Auto-documentation**: Component metadata extracted from frontmatter
 
-## Atomic Design Architecture
+### **Scaffolding System** ✅
 
-Templates follow Brad Frost's Atomic Design methodology, creating a hierarchy
-from smallest to largest:
+- **Rapid component creation**: `npm run scaffold:component atoms button-group`
+- **Standardized templates**: Consistent frontmatter and documentation structure
+- **GSAP integration**: Animation-aware organism templates
+- **Airtable compatibility**: Built-in support for dynamic content
+
+### **Consolidated Icon System** ✅
+
+- **Single icon component**: Replaced fragmented icon files with unified `atoms/icon.njk`
+- **Flexible sizing**: xs, sm, md, lg, xl, 2xl size options
+- **Error indicators**: Missing icons show helpful debug information
+- **Design token integration**: Uses currentColor for flexible theming
+
+### **Component Testing Page** ✅
+
+- **Live component showcase**: `/dev/components/` displays all components with test data
+- **Design token validation**: Tests Figma integration in real-time
+- **Development utilities**: Component usage examples and scaffolding help
+
+## 🎯 **What This Template System Enables**
+
+The enhanced template system serves as the **content-to-HTML transformation engine** with:
+
+- **🔄 Component reusability** - Build once, use everywhere with registry system
+- **📊 Content separation** - UX structure independent of actual content
+- **⚡ Dynamic generation** - Pages automatically adapt to Airtable content changes
+- **♿ Accessibility by default** - Semantic HTML structure enforced through templates
+- **🎨 Design system enforcement** - Figma tokens ensure brand consistency
+- **🎬 Animation integration** - GSAP compatibility built into component structure
+- **🛠️ Developer experience** - Scaffolding, testing, and documentation automation
+
+## 🚀 **Quick Start - Enhanced Workflow**
+
+### **Using the Component Registry**
+
+```njk
+{# Import the registry system #}
+{% from "_includes/_registry.njk" import component, icon, button %}
+
+{# Use shorthand helpers #}
+{{ icon("chevron-down", "md", "text-primary-500") }}
+{{ button("Click Me", "primary", "px-6 py-3") }}
+
+{# Or use the full component() macro #}
+{{ component("atoms", "avatar", { src: "image.jpg", alt: "User" }) }}
+{{ component("molecules", "project-card", { title: "Project", content: "..." }) }}
+```
+
+### **Creating New Components**
+
+```bash
+# Create new atomic component
+npm run scaffold:component atoms progress-bar
+
+# Create new molecular component
+npm run scaffold:component molecules project-card
+
+# Create new organism with GSAP integration
+npm run scaffold:component organisms hero-section
+
+# Create new page template
+npm run scaffold:page portfolio
+
+# List all available components
+npm run scaffold:list
+```
+
+### **Testing Components**
+
+```bash
+# Visit the component testing page
+npm start
+# Then navigate to: http://localhost:8080/dev/components/
+
+# Components are tested with:
+# - Live design token integration
+# - Sample data from development environment
+# - GSAP animation compatibility checks
+# - Accessibility validation
+```
+
+## 🏗️ **Atomic Design Architecture**
+
+Templates follow Brad Frost's Atomic Design methodology with enhanced developer ergonomics:
 
 ```
 Atoms → Molecules → Organisms → Templates → Pages

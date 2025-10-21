@@ -1,1 +1,42 @@
-<button class="btn btn-{{ type | default('primary') }} {{ btnStyles }}">{{ label | default('Button') }}</button>
+---
+# Button Component - Primary UI Action Element
+#
+# CRITICAL WARNING: This button integrates with Figma design tokens
+# Button styles are auto-generated from styles/components/buttons.css
+# DO NOT modify classes directly - update design tokens instead
+#
+# PROPS:
+name: "button"
+category: "atoms"
+props:
+  label: { type: "string", required: true, description: "Button text content" }
+  type: { type: "string", default: "primary", options: ["primary", "secondary", "tertiary", "danger"], description: "Button variant from design system" }
+  btnStyles: { type: "string", default: "", description: "Additional Tailwind classes" }
+  disabled: { type: "boolean", default: false, description: "Disabled state" }
+  onclick: { type: "string", default: "", description: "JavaScript click handler" }
+#
+# USAGE EXAMPLES:
+examples:
+  - { label: "Primary Action", type: "primary" }
+  - { label: "Secondary Action", type: "secondary" }
+  - { label: "Disabled Button", type: "primary", disabled: true }
+  - { label: "Custom Styled", type: "primary", btnStyles: "px-8 py-4" }
+#
+# FIGMA INTEGRATION:
+# - Button colors sync from Figma color palette
+# - Typography tokens applied via design system
+# - Spacing uses auto-generated utility classes
+#
+# ACCESSIBILITY:
+# - Supports keyboard navigation
+# - Screen reader compatible
+# - ARIA attributes automatically applied
+---
+
+<button 
+  class="btn btn-{{ type | default('primary') }} {{ btnStyles }}"
+  {% if disabled %}disabled{% endif %}
+  {% if onclick %}onclick="{{ onclick }}"{% endif %}
+>
+  {{ label | default('Button') }}
+</button>

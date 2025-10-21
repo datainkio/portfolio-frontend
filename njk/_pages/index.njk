@@ -13,12 +13,34 @@ scripts: >
   <script type="module" src="/assets/js/displays/blockframes/Architect.js" defer></script>
 ---
 
+{# 
+CRITICAL WARNING: GSAP Animation Dependencies
+This page uses complex animation choreography - DO NOT modify element IDs
+
+REQUIRED ANIMATION TARGETS:
+- #main-header : Hero animation controller (js/choreography/sections/Hero.js)
+- #biography   : Biography scroll animations
+- #work        : Work section with PrinterMarks integration
+
+CSS CLASSES FOR ANIMATIONS:
+- .printmarks  : PrinterMarks display system integration
+- data-scroll-* : ScrollTrigger targeting attributes
+
+INTEGRATION DEPENDENCIES:
+- Director.js orchestrates all section animations
+- Architect.js handles blockframes visual system
+- ScrollSmoother affects all scroll behavior
+#}
+
 {% set count = 0 %}
-{# Landing view #}
-<section id="main-header" class="col-span-full w-full h-dvh flex items-center">
-  {% include "organisms/section/title/blockframes.njk" %}
+
+{# Landing view - GSAP Hero Controller Target #}
+<section id="main-header" class="col-span-full w-full h-dvh flex items-center" data-scroll-section>
+  {% include "organisms/section/title/full-bleed.njk" %}
 </section>
-<ol id="biography" class="col-span-full text-neutral-100">
+
+{# Biography section - GSAP Biography Controller Target #}
+<ol id="biography" class="col-span-full text-neutral-100" data-scroll-section>
   <li class="h-56 flex items-center justify-center">
     <h2>I did not set out to be a designer</h2>
   </li>
