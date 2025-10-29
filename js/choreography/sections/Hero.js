@@ -37,9 +37,9 @@
  * @requires ScrollTrigger.js - Scroll-based animation triggers and pinning
  */
 
-import { gsap } from "/assets/js/gsap/all.js";
-import { ScrollSmoother } from "/assets/js/gsap/ScrollSmoother.js";
-import { ScrollTrigger } from "/assets/js/gsap/ScrollTrigger.js";
+import { gsap } from '/assets/js/gsap/all.js';
+import { ScrollSmoother } from '/assets/js/gsap/ScrollSmoother.js';
+import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 
 // CRITICAL: Must register plugins before any timeline or animation creation
 // ScrollSmoother affects entire site scroll behavior - coordinate with other systems
@@ -71,18 +71,18 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
  */
 
 // ScrollTrigger timing configuration
-const START = "top top"; // Animation start point - hero top hits viewport top
-const END = "bottom 75%"; // Animation end point - hero bottom hits 75% down viewport
+const START = 'top top'; // Animation start point - hero top hits viewport top
+const END = 'bottom 75%'; // Animation end point - hero bottom hits 75% down viewport
 const SCRUB = 1; // Animation tied 1:1 to scroll position (no lag/delay)
 
 // Parallax and motion settings
 const SCROLL = 5; // Parallax speed multiplier (reserved for future parallax effects)
 
 // Title blowaway animation parameters
-const TRANSFORM_ORIGIN = "bottom 25%"; // Rotation pivot point - prevents center rotation
+const TRANSFORM_ORIGIN = 'bottom 25%'; // Rotation pivot point - prevents center rotation
 const ROTATION = -35; // Counter-clockwise rotation in degrees for dramatic exit
 const DESTINATION = -96; // Final X position - negative moves title leftward off-screen
-const EASE = "sine.in"; // Smooth acceleration curve for natural motion feel
+const EASE = 'sine.in'; // Smooth acceleration curve for natural motion feel
 
 /**
  * Hero Section Animation Controller
@@ -163,14 +163,14 @@ export default class Hero {
    */
   blowaway() {
     // Create timeline with ID for debugging and external coordination
-    this.TL = gsap.timeline({ id: "hero" });
+    this.TL = gsap.timeline({ id: 'hero' });
 
     // CRITICAL BUG: this.TITLE is undefined! Will throw error when called.
     // Initialize title element in constructor: this.TITLE = elem.querySelector('.hero-title');
 
     // Animate title from natural state to dramatically rotated/translated final state
     this.TL.to(this.TITLE, {
-      id: "heroOutro", // Animation ID for debugging and control
+      id: 'heroOutro', // Animation ID for debugging and control
       scrollTrigger: this.trigger, // Scroll trigger configuration (includes video pinning)
       transformOrigin: TRANSFORM_ORIGIN, // "bottom 25%" - rotation pivot point
       rotation: ROTATION, // -35° counter-clockwise rotation

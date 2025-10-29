@@ -44,10 +44,10 @@
  * @requires Biography.js - Biography section animation controller with slideshow
  */
 
-import StageManager from "/assets/js/choreography/StageManager.js";
-import Hero from "/assets/js/choreography/sections/Hero.js";
-import Work from "/assets/js/choreography/sections/Work.js";
-import Biography from "/assets/js/choreography/sections/Biography.js";
+import StageManager from '/assets/js/choreography/StageManager.js';
+import Hero from '/assets/js/choreography/sections/Hero.js';
+import Work from '/assets/js/choreography/sections/Work.js';
+import Biography from '/assets/js/choreography/sections/Biography.js';
 
 /**
  * MASTER ANIMATION INITIALIZATION
@@ -77,16 +77,16 @@ import Biography from "/assets/js/choreography/sections/Biography.js";
  */
 window.onload = function () {
   // Debug marker - "Que?" indicates animation system initialization
-  console.log("Que?");
+  console.log('Que?');
 
-  // CRITICAL: Initialize section controllers with specific DOM elements
+  // Initialize section controllers with the expected DOM elements
   // These IDs must match the HTML structure exactly or controllers will fail
 
-  const HERO = new Hero(document.getElementById("main-header")); // Hero landing page animations
-  const WORK = new Work(document.getElementById("work")); // Project section animations
-  const BIOGRAPHY = new Biography(document.getElementById("biography")); // Biography slideshow animations
+  const HERO = new Hero(document.getElementById('main-header')); // Hero landing page animations
+  const WORK = new Work(document.getElementById('work')); // Project section animations
+  const BIOGRAPHY = new Biography(document.getElementById('biography')); // Biography slideshow animations
 
-  // CRITICAL: StageManager MUST be instantiated last to coordinate all section animations
+  // StageManager must be instantiated last to coordinate all section animations
   // Manages scroll event optimization and prevents animation timeline conflicts
   const SM = new StageManager(); // Master scroll coordination system
 
@@ -123,7 +123,7 @@ window.onload = function () {
  * USAGE: Add onStart: () => onStart("timelineId") to GSAP timeline configs
  */
 function onStart(id) {
-  console.log(id + ".onStart");
+  console.log(id + '.onStart');
 
   // TODO: Add animation start analytics or state management
   // TODO: Implement animation conflict detection
@@ -141,7 +141,7 @@ function onStart(id) {
  * to avoid performance impact on animation smoothness.
  */
 function onUpdate(obj) {
-  console.log(obj + ".onUpdate");
+  console.log(obj + '.onUpdate');
 
   // TODO: Add animation progress monitoring
   // TODO: Implement performance tracking for animation optimization
@@ -159,10 +159,10 @@ function onUpdate(obj) {
  * (currently commented out - likely for debugging or missing dependencies)
  */
 function onComplete(id) {
-  console.log(id + ".onComplete");
+  console.log(id + '.onComplete');
 
   // Special handling for character fade-in animation completion
-  if (id == "fadeInChars") {
+  if (id == 'fadeInChars') {
     // FUTURE ENHANCEMENT: TextParty gel animation on main title
     // Commented out - may require Config.WGParams and TextParty.gel() implementation
     // addTimeline(TextParty.gel("main-title", Config.WGParams));

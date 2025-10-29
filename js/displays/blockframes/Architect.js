@@ -126,4 +126,4 @@ function generateGrid() {
 }
 
 // Generate and print the grid
-console.table(generateGrid());
+// console.table(generateGrid());
