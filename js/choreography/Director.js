@@ -115,6 +115,14 @@ export default class Director {
 
     /**
      * ScrollSmoother instance (null if not available)
+     *
+     * Passed to section controllers for optional smooth scroll integration:
+     * - Hero: Can use smoother.scrollTo() for programmatic scroll navigation
+     * - Work: Can check smoother state before scroll-based reveals
+     * - Biography: Can sync list item reveals with smooth scroll progress
+     *
+     * Sections work with or without ScrollSmoother - they check for null before using.
+     *
      * @type {ScrollSmoother|null}
      */
     this.smoother = this.stage.getSmoother();
@@ -131,6 +139,15 @@ export default class Director {
 
     /**
      * Landing page animation sequence coordinator
+     *
+     * LandingSequence needs:
+     * - this.bus: To listen for section events (intro:complete, scroll:exit, etc.)
+     *   and emit custom sequence events (printermarks:show, overlay:fade)
+     * - this.sections: To trigger section animations (playIntro/playOutro) when
+     *   events fire, creating coordinated multi-section choreography
+     *
+     * Defines animation flow: Hero completes → Work starts → Biography reveals
+     *
      * @type {LandingSequence}
      */
     this.sequence = new LandingSequence(this.bus, this.sections);
