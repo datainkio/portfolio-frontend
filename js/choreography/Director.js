@@ -4,7 +4,7 @@
  * Animation Director - Master Choreography Controller
  *
  * CRITICAL WARNING: This is the MASTER ORCHESTRATOR for the entire site's animation system.
- * If you modify this file without understanding the complete choreography pipeline, you WILL break:
+ * Stuff that can break:
  * - Event-driven animation coordination across Hero, Work, Biography sections
  * - AnimationBus event emission and sequence choreography
  * - StageManager scroll event coordination and visual effects
