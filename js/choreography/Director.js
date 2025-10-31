@@ -3,7 +3,7 @@
 /**
  * Animation Director - Master Choreography Controller
  *
- * CRITICAL WARNING: This is the MASTER ORCHESTRATOR for the entire site's animation system.
+ * This is the MASTER ORCHESTRATOR for the entire site's animation system.
  * Stuff that can break:
  * - Event-driven animation coordination across Hero, Work, Biography sections
  * - AnimationBus event emission and sequence choreography
