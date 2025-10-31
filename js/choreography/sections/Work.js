@@ -3,205 +3,224 @@
  *
  * CRITICAL WARNING: This class orchestrates complex animations and visual effects for project category sections.
  * If you modify this without understanding the complete animation pipeline, you WILL break:
- * - Scroll-triggered section animations
+ * - Work section intro fade-in animations
+ * - Scroll-triggered project category entrance animations
  * - Printer mark overlays on project categories
- * - GSAP timeline synchronization
- * - Visual hierarchy and entrance effects
+ * - Event-driven choreography coordination with other sections
  *
  * INTEGRATION DEPENDENCIES (modify at your own peril):
- * - HTML: .project-category sections in njk/_includes/organisms/section/project-category.njk
+ * - HTML: #work section with .project-category children
  * - CSS: PrintMarks styles in styles/backgrounds/PrintMarks.css
- * - Animation: GSAP ScrollTrigger plugin (gsap-core.js + ScrollTrigger.js)
- * - Effects: PrinterMarks.js display system and TextParty.js animation library
+ * - Animation: GSAP ScrollTrigger plugin for scroll-based animations
+ * - Effects: PrinterMarks.js display system
+ * - AnimationBus: Event emission for section coordination
  *
  * ARCHITECTURE NOTES:
- * - Uses ES6 modules with /assets/js/ absolute paths (client-side routing)
- * - Registers ScrollTrigger plugin globally for timeline coordination
- * - Applies decorative printer marks to each .project-category section
- * - Implements scroll-based entrance animations with transform origins
+ * - Extends BaseSection for standard animation lifecycle
+ * - Emits events at animation milestones for sequence coordination
+ * - Intro animation: Fade in work section
+ * - Scroll-based animations: Individual project category entrances
+ * - PrinterMarks: Decorative overlays on project categories
+ *
+ * ANIMATION LIFECYCLE:
+ * 1. Constructor initializes section with BaseSection
+ * 2. createIntro() builds fade-in timeline
+ * 3. createScrollTriggers() sets up project category animations
+ * 4. playIntro() triggered by sequence coordinator
+ * 5. Project categories animate in as user scrolls
  *
  * DEBUGGING GOTCHAS:
- * - ScrollTrigger start/end points are viewport-relative ("top 65%", "top bottom")
+ * - ScrollTrigger start/end points are viewport-relative ("top 65%")
  * - Transform origins MUST be set before animations or elements will jump
  * - PrinterMarks.add() modifies DOM structure by inserting overlay divs
- * - Animation timelines are paused by default and triggered by scroll
- * - GSAP registration MUST happen before class instantiation
+ * - Event emission timing critical for sequence coordination
  *
- * DO NOT REMOVE: gsap.registerPlugin(ScrollTrigger) - required for all scroll animations
+ * DO NOT REMOVE: Event emission in animations - required for choreography coordination
  *
- * @fileoverview Choreographs work section animations with printer mark overlays and scroll triggers
- * @requires gsap-core.js - Core GSAP animation library
- * @requires ScrollTrigger.js - Scroll-based animation triggers
- * @requires PrinterMarks.js - Print industry registration mark overlays
- * @requires TextParty.js - Text animation effects library (currently commented)
+ * @fileoverview Work section intro/outro animations with event-driven coordination
+ * @requires BaseSection - Foundation class for section controllers
+ * @requires ScrollTrigger - Scroll-based animation triggers
+ * @requires PrinterMarks - Print industry registration mark overlays
  */
 
-import gsap from "/assets/js/gsap/gsap-core.js";
-import ScrollTrigger from "/assets/js/gsap/ScrollTrigger.js";
-import * as PrinterMarks from "/assets/js/displays/PrinterMarks.js";
-import * as TextParty from "/assets/js/effects/TextParty.js";
+import { BaseSection } from './BaseSection.js';
+import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+import { gsap } from '/assets/js/gsap/all.js';
+import * as PrinterMarks from '/assets/js/displays/PrinterMarks.js';
 
-// CRITICAL: Must register ScrollTrigger before any timeline creation
-gsap.registerPlugin(ScrollTrigger);
+/**
+ * WORK ANIMATION CONSTANTS
+ *
+ * CRITICAL: These values are precisely tuned for work section visual flow.
+ * Modify with extreme caution - small changes can break entrance experience.
+ *
+ * INTRO ANIMATION:
+ * - INTRO_DURATION: 1.0s = Duration of work section fade-in
+ * - INTRO_Y: 50 = Pixels of upward movement during intro
+ * - INTRO_EASE: "power2.out" = Smooth deceleration curve
+ *
+ * PROJECT CATEGORY ANIMATIONS:
+ * - CATEGORY_START: "top 65%" = Category entrance when top hits 65% down viewport
+ * - CATEGORY_ROTATION: -10 = Degrees of counter-clockwise rotation for entrance
+ * - CATEGORY_X: 10 = Pixels of horizontal offset for entrance
+ * - CATEGORY_ORIGIN: "top 80%" = Rotation pivot point
+ * - CATEGORY_EASE: "sine.in" = Smooth acceleration curve
+ */
+
+// Work section intro settings
+const INTRO_DURATION = 1.0;
+const INTRO_Y = 50;
+const INTRO_EASE = 'power2.out';
+
+// Project category entrance settings
+const CATEGORY_START = 'top 65%';
+const CATEGORY_ROTATION = -10;
+const CATEGORY_X = 10;
+const CATEGORY_ORIGIN = 'top 80%';
+const CATEGORY_EASE = 'sine.in';
+
 /**
  * Work Section Animation Controller
  *
- * Orchestrates visual effects for project category sections including:
- * - Dynamic printer mark overlays on each .project-category section
- * - Scroll-triggered entrance animations with rotation and translation
- * - GSAP timeline coordination for smooth visual flow
+ * Orchestrates work section intro and project category entrance animations.
+ * Applies printer marks to project categories for visual branding.
  *
- * CRITICAL: Constructor currently has setTitles() and initAnimation() commented out.
- * Uncomment these to enable full animation suite. They're disabled for debugging.
+ * ANIMATION LIFECYCLE:
+ * 1. Constructor initializes via BaseSection
+ * 2. createIntro() builds fade-in timeline
+ * 3. createScrollTriggers() sets up category animations
+ * 4. playIntro() executed by sequence coordinator
+ * 5. Categories animate in as user scrolls
+ *
+ * CRITICAL: This class expects #work element with .project-category children in DOM
  */
-export default class Work {
+export default class Work extends BaseSection {
   /**
-   * Initialize Work section choreographer
+   * Initialize Work section controller
    *
-   * @param {HTMLElement} elem - Container element (currently unused but reserved for future expansion)
-   * @returns {HTMLElement} Returns the input element (pass-through pattern)
+   * CRITICAL INITIALIZATION: Sets up work section with standard animation lifecycle.
+   * Calls BaseSection constructor then builds intro and scroll trigger animations.
    *
-   * WARNING: Animation methods are currently commented out in constructor.
-   * To enable full animation suite, uncomment:
-   * - this.setTitles() - Applies printer marks and scroll triggers to project categories
-   * - this.initAnimation() - Sets up main work section entrance animation
+   * INITIALIZATION SEQUENCE:
+   * 1. Call super() to initialize BaseSection with 'work' ID
+   * 2. Apply printer marks to work section element
+   * 3. Build intro animation timeline
+   * 4. Build scroll-triggered category animations
+   *
+   * @param {AnimationBus} bus - Event bus for animation coordination
+   * @param {ScrollSmoother|null} smoother - ScrollSmoother instance or null
+   *
+   * DEFENSIVE: Warns if element not found but doesn't crash
    */
-  constructor(elem) {
-    // DEBUGGING: Animation calls commented out - uncomment to enable full effect suite
-    // this.setTitles();
-    // CRITICAL: Apply printer marks overlay - modifies DOM by inserting .printmarks container
-    PrinterMarks.add(elem);
-    // this.initAnimation();
-    return elem;
+  constructor(bus, smoother) {
+    // Initialize BaseSection with work section ID
+    super('work', bus, smoother);
+
+    if (!this.element) {
+      console.warn('[Work] #work element not found - animations disabled');
+      return;
+    }
+
+    // Apply printer marks overlay to work section
+    PrinterMarks.add(this.element);
+
+    // Build animation sequences
+    this.createIntro();
+    this.createScrollTriggers();
   }
 
   /**
-   * Apply printer marks and scroll animations to project category sections
+   * Create work section intro animation
    *
-   * CRITICAL FUNCTION: This method transforms static .project-category sections into
-   * animated elements with print industry registration marks.
-   *
-   * WHAT IT DOES:
-   * 1. Finds all .project-category sections in the DOM
-   * 2. Applies PrinterMarks.add() to each - creates overlay divs with printer registration marks
-   * 3. Creates ScrollTrigger instances for entrance animations on each section
-   *
-   * DEPENDENCY CHAIN (break at your peril):
-   * - HTML: .project-category sections must exist in DOM (from project-category.njk template)
-   * - CSS: PrintMarks.css styles must be loaded for visual registration marks
-   * - JS: ScrollTrigger must be registered before this runs
-   *
-   * ANIMATION DETAILS:
-   * - Trigger point: "top 65%" (when section top hits 65% down viewport)
-   * - Animation: this.sectionIntro() creates rotation + translation entrance effect
-   * - TextParty.gel() is commented out - uncomment for wandering gel text effects
-   *
-   * DEBUGGING NOTES:
-   * - If printer marks don't appear: check PrintMarks.css is loaded and styles/main.css imports it
-   * - If animations don't trigger: verify ScrollTrigger registration and viewport calculations
-   * - If sections not found: ensure .project-category class exists in generated HTML
-   *
-   * @method setTitles
-   * @memberof Work
-   */
-  setTitles() {
-    // Find all project category sections - these come from project-category.njk template
-    const sections = document.querySelectorAll(".project-category");
-
-    sections.forEach((section) => {
-      // Create scroll-triggered entrance animation for this specific section
-      ScrollTrigger.create({
-        trigger: section, // Element that triggers the animation
-        animation: this.sectionIntro(section), // Animation timeline from sectionIntro()
-        start: "top 65%", // Trigger when section top hits 65% down viewport
-
-        // FUTURE ENHANCEMENT: Uncomment for wandering gel text effects on headings
-        // animation: TextParty.gel(section.querySelector(".wandering-gel"), ["text-secondary/90","text-primary/90",]),
-      });
-    });
-  }
-
-  /**
-   * Create entrance animation timeline for individual project sections
-   *
-   * Generates a subtle entrance effect with rotation and horizontal translation.
-   * Used by setTitles() to create per-section ScrollTrigger animations.
+   * INTRO SEQUENCE: Fades in work section with upward motion for entrance.
+   * Uses BaseSection timeline for coordinated playback via playIntro().
    *
    * ANIMATION MECHANICS:
-   * - gsap.from() animates FROM these values TO their natural state (0, 0, 0°)
-   * - Transform origin "top 80%" ensures rotation pivots near section top
-   * - x: 10 creates slight rightward offset that animates to natural position
-   * - rotation: -10 creates counter-clockwise tilt that straightens on entry
-   * - ease: "sine.in" provides smooth acceleration into natural state
+   * - Starts with section invisible (opacity: 0) and below natural position (y: 50)
+   * - Animates to visible (opacity: 1) and natural position (y: 0)
+   * - Power2.out easing creates smooth deceleration
    *
-   * CRITICAL: Transform origin MUST be set or elements will rotate around center,
-   * causing visual jumps and awkward motion paths.
+   * TIMELINE COORDINATION:
+   * - Built on this.timeline from BaseSection
+   * - playIntro() method controls playback
+   * - Events emitted automatically by BaseSection
    *
-   * @param {HTMLElement} section - The .project-category section to animate
-   * @returns {gsap.core.Timeline} GSAP animation timeline ready for ScrollTrigger
-   *
-   * WARNING: Modifying these values affects visual flow of entire work section.
-   * Test thoroughly across different viewport sizes and scroll speeds.
+   * @override BaseSection.createIntro()
    */
-  sectionIntro(section) {
-    return gsap.from(section, {
-      transformOrigin: "top 80%", // Rotation pivot point - prevents center rotation jumps
-      x: 10, // Horizontal offset - animates from 10px right to natural position
-      rotation: -10, // Rotation offset - animates from -10° tilt to straight
-      ease: "sine.in", // Smooth acceleration curve for natural entrance feel
+  createIntro() {
+    if (!this.element) return;
+
+    // Fade in work section with upward motion
+    this.timeline.from(this.element, {
+      opacity: 0,
+      y: INTRO_Y,
+      duration: INTRO_DURATION,
+      ease: INTRO_EASE,
     });
   }
 
   /**
-   * Initialize main work section entrance animation with scroll pinning
+   * Create scroll-triggered project category animations
    *
-   * COMPLEX ANIMATION SETUP: Creates a pinned scroll animation for the main #work section.
-   * This is separate from individual project category animations in setTitles().
+   * SCROLL INTEGRATION: Sets up entrance animations for each .project-category
+   * that trigger as user scrolls them into view.
    *
-   * SCROLL TRIGGER CONFIGURATION:
-   * - trigger: "#work" - Element that activates the animation
-   * - pin: this._view - Pins the trigger element during animation (NOTE: this._view undefined!)
-   * - pinSpacing: true - Maintains document flow spacing while pinned
-   * - start: "top bottom" - Begins when #work top hits viewport bottom
-   * - end: "top 25%" - Ends when #work top hits 25% down viewport
-   * - scrub: 1 - Animation progress tied directly to scroll position
+   * ANIMATION MECHANICS:
+   * - Each category gets individual ScrollTrigger
+   * - Entrance effect: slight rotation + horizontal translation
+   * - Transform origin prevents center rotation jumps
+   * - Triggers when category top hits 65% down viewport
    *
-   * CRITICAL BUG: this._view is undefined! This will cause errors if uncommented.
-   * Should probably be `this.elem` or remove pinning entirely.
+   * EVENT COORDINATION:
+   * - Emits section:work:scroll:enter when work section enters viewport
+   * - Emits section:work:scroll:exit when work section exits viewport
    *
-   * ANIMATION DETAILS:
-   * - Uses same entrance effect as sectionIntro() (rotation + translation)
-   * - Timeline is paused by default, controlled by ScrollTrigger
-   * - ID "workIntro" allows for timeline debugging and control
-   *
-   * @method initAnimation
-   * @memberof Work
-   *
-   * WARNING: Contains undefined variable this._view in pin configuration!
-   * Fix before enabling or remove pin/pinSpacing properties.
+   * @override BaseSection.createScrollTriggers()
    */
-  initAnimation() {
-    // ScrollTrigger configuration for main work section entrance
-    // CRITICAL BUG: this._view is undefined - will throw error if pin is used
-    const work_trigger = {
-      trigger: "#work", // Main work section element
-      pin: this._view, // BUG: this._view undefined! Fix before enabling
-      pinSpacing: true, // Maintain spacing during pin animation
-      start: "top bottom", // Start when #work top hits viewport bottom
-      end: "top 25%", // End when #work top hits 25% down viewport
-      scrub: 1, // Animation progress tied to scroll position
-    };
+  createScrollTriggers() {
+    if (!this.element) return;
 
-    // Create paused timeline for work section entrance
-    // Animation mirrors sectionIntro() but applies to entire #work container
-    const work_intro = gsap.timeline({ paused: true });
-    work_intro.from("#work", {
-      id: "workIntro", // Timeline identifier for debugging
-      scrollTrigger: work_trigger, // Attach scroll trigger configuration
-      transformOrigin: "top 80%", // Rotation pivot - prevents center rotation
-      x: 10, // Horizontal offset for entrance effect
-      rotation: -10, // Rotation offset for subtle tilt entrance
-      ease: "sine.in", // Smooth acceleration curve
+    // Find all project category sections
+    const categories = this.element.querySelectorAll('.project-category');
+
+    if (categories.length === 0) {
+      console.warn('[Work] No .project-category elements found');
+      return;
+    }
+
+    // Create scroll-triggered entrance animation for each category
+    categories.forEach(category => {
+      ScrollTrigger.create({
+        trigger: category,
+        start: CATEGORY_START,
+        animation: gsap.from(category, {
+          transformOrigin: CATEGORY_ORIGIN,
+          x: CATEGORY_X,
+          rotation: CATEGORY_ROTATION,
+          ease: CATEGORY_EASE,
+        }),
+      });
+    });
+
+    // Create scroll trigger for work section itself to emit events
+    ScrollTrigger.create({
+      trigger: this.element,
+      start: 'top center',
+      end: 'bottom center',
+      onEnter: () => {
+        this.isScrollActive = true;
+        this.bus.emit(`section:${this.id}:scroll:enter`, {
+          sectionId: this.id,
+          element: this.element,
+        });
+      },
+      onLeave: () => {
+        this.isScrollActive = false;
+        this.bus.emit(`section:${this.id}:scroll:exit`, {
+          sectionId: this.id,
+          element: this.element,
+        });
+      },
     });
   }
 }
@@ -209,29 +228,46 @@ export default class Work {
 /**
  * USAGE INSTRUCTIONS FOR FUTURE DEVELOPERS:
  *
- * To enable full Work section animation suite:
- * 1. Uncomment this.setTitles() and this.initAnimation() in constructor
- * 2. Fix this._view undefined bug in initAnimation() (use this.elem or remove pin)
- * 3. Ensure PrintMarks.css is imported in styles/main.css
- * 4. Verify .project-category sections exist in generated HTML
+ * To use Work section in choreography:
+ * ```javascript
+ * import Work from './sections/Work.js';
+ * import { AnimationBus } from './AnimationBus.js';
  *
- * To customize animations:
- * - Modify sectionIntro() values for different entrance effects
- * - Adjust ScrollTrigger start/end points for timing changes
- * - Uncomment TextParty.gel() for additional text effects
+ * const bus = new AnimationBus();
+ * const smoother = ScrollSmoother.create({ ... });
+ * const work = new Work(bus, smoother);
+ *
+ * // Play intro animation
+ * await work.playIntro();
+ *
+ * // Listen for events
+ * bus.on('section:work:intro:complete', () => {
+ *   console.log('Work intro done!');
+ * });
+ * ```
+ *
+ * To customize animation timing:
+ * - Modify constants at top of file (INTRO_DURATION, CATEGORY_ROTATION, etc.)
+ * - Adjust CATEGORY_START for different scroll trigger points
+ * - Change easing functions for different motion feel
  *
  * To debug animation issues:
- * - Check browser console for ScrollTrigger errors
- * - Use GSAP timeline IDs ("workIntro") for debugging
- * - Verify transform origins are appropriate for your design
+ * 1. Enable AnimationBus debug mode: bus.enableDebug(true)
+ * 2. Check console for event emission
+ * 3. Verify #work and .project-category elements exist in DOM
+ * 4. Use ScrollTrigger.defaults({ markers: true }) to visualize triggers
+ *
+ * PERFORMANCE CONSIDERATIONS:
+ * - Each .project-category creates individual ScrollTrigger - test with many categories
+ * - Printer marks add DOM elements - monitor performance with many sections
+ * - Intro animation runs once when triggered by sequence
  *
  * INTEGRATION WITH OTHER SYSTEMS:
- * - Called by main choreography system (likely from main.js or similar)
- * - Coordinates with PrinterMarks display system
- * - May integrate with other section animators (Intro.js, etc.)
+ * - Extends BaseSection for standard lifecycle
+ * - Emits events via AnimationBus for sequence coordination
+ * - Works with or without ScrollSmoother
+ * - Coordinates with other section controllers via events
+ * - PrinterMarks.add() modifies DOM structure - ensure CSS loaded
  *
- * @fileend Work.js - Work section animation choreographer
+ * @fileend Work.js - Work section intro/outro animation controller
  */
-
-// TODO: Initialize the view by setting up the container and adding static elements
-// This comment suggests additional setup code was planned but not implemented
