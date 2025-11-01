@@ -44,6 +44,9 @@ import { BaseSection } from './BaseSection.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 import { gsap } from '/assets/js/gsap/all.js';
 
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
 /**
  * BIOGRAPHY ANIMATION CONSTANTS
  *

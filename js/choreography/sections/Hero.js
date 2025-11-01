@@ -49,6 +49,9 @@ import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 import { gsap } from '/assets/js/gsap/all.js';
 import * as TextParty from '/assets/js/effects/TextParty.js';
 
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
 /**
  * HERO ANIMATION CONSTANTS
  *
@@ -131,6 +134,9 @@ export default class Hero extends BaseSection {
     // Store reference to h1 title element for animations
     this.titleElement = this.element ? this.element.querySelector('h1') : null;
 
+    // Store reference to intro timeline for reversing on scroll exit
+    this.rollTimeline = null;
+
     if (!this.titleElement) {
       console.warn('[Hero] h1 element not found - animations disabled');
       return;
@@ -179,16 +185,17 @@ export default class Hero extends BaseSection {
     };
 
     // Create TextParty roll animation timeline
-    const rollTimeline = TextParty.roll(this.titleElement, rollSettings);
+    // Store reference for reversing on scroll exit
+    this.rollTimeline = TextParty.roll(this.titleElement, rollSettings);
 
     // Add TextParty timeline to BaseSection timeline
-    this.timeline.add(rollTimeline, 0);
+    this.timeline.add(this.rollTimeline, 0);
 
     // Listen for TextParty completion event
     // This coordinates TextParty's event system with BaseSection lifecycle
     document.addEventListener('onTextPartyComplete', event => {
       // Verify this is our timeline completing
-      if (event.detail && event.detail.id === rollTimeline.vars.id) {
+      if (event.detail && event.detail.id === this.rollTimeline.vars.id) {
         console.log('[Hero] TextParty roll animation complete');
         // BaseSection will emit intro:complete automatically when timeline finishes
       }
@@ -198,8 +205,8 @@ export default class Hero extends BaseSection {
   /**
    * Create scroll-triggered outro animation
    *
-   * OUTRO SEQUENCE: Creates dramatic "blowaway" effect where hero title rotates
-   * and slides off-screen as user scrolls past. Tied directly to scroll position.
+   * OUTRO SEQUENCE: Reverses the TextParty.roll intro animation as user scrolls past.
+   * Creates symmetrical entrance/exit where text rolls in on intro and rolls back out on scroll.
    *
    * SCROLL INTEGRATION:
    * - Trigger: h1 element (title) activates scroll detection
@@ -208,10 +215,10 @@ export default class Hero extends BaseSection {
    * - Scrub: 1 = Animation progress tied 1:1 with scroll position
    *
    * ANIMATION MECHANICS:
-   * - Rotation: -15° counter-clockwise for dynamic motion
-   * - Translation: -200px leftward off-screen
-   * - Opacity: Fades to 0 for clean exit
-   * - Ease: Sine.out for smooth deceleration
+   * - Tweens from current (rolled-in) state back to pre-intro state
+   * - Characters rotate and skew back to their original positions
+   * - Creates mirror effect of the entrance animation
+   * - Tied directly to scroll progress for smooth interactive feel
    *
    * EVENT COORDINATION:
    * - Emits section:main-header:scroll:exit when animation starts
@@ -221,7 +228,36 @@ export default class Hero extends BaseSection {
    * @override BaseSection.createScrollTriggers()
    */
   createScrollTriggers() {
-    if (!this.titleElement) return;
+    if (!this.titleElement || !this.rollTimeline) return;
+
+    // Get the final values from intro animation to animate back from
+    // We'll create the reverse by tweening from current state back to start
+    const rollSettings = {
+      id: 'hero-title-roll-reverse',
+      duration: INTRO_DURATION,
+      stagger: 0.05,
+      ease: INTRO_EASE,
+      rotation: 15,
+      y_delta: INTRO_Y,
+    };
+
+    // Create reverse animation: animate from rolled-in state back to pre-roll state
+    const reverseTimeline = gsap.timeline();
+    const chars = this.titleElement.querySelectorAll('.text-roll-char');
+
+    if (chars.length > 0) {
+      reverseTimeline.to(chars, {
+        duration: rollSettings.duration,
+        rotation: 0 - rollSettings.rotation,
+        skewY: '1.2rad',
+        y: rollSettings.y_delta,
+        stagger: {
+          each: 0.1,
+          ease: 'power1.inOut',
+        },
+        ease: rollSettings.ease,
+      });
+    }
 
     // Create scroll-triggered outro animation
     ScrollTrigger.create({
@@ -247,13 +283,8 @@ export default class Hero extends BaseSection {
           element: this.element,
         });
       },
-      // Outro animation tied to scroll progress
-      animation: gsap.to(this.element, {
-        opacity: 0, // Fade out
-        rotation: ROTATION, // -15° rotation
-        x: DESTINATION_X, // -200px leftward
-        ease: EASE, // Smooth deceleration
-      }),
+      // Outro animation: reverse of intro roll effect
+      animation: reverseTimeline,
     });
   }
 }

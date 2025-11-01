@@ -48,6 +48,9 @@ import { gsap } from '/assets/js/gsap/all.js';
 import { ScrollSmoother } from '/assets/js/gsap/ScrollSmoother.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 
+// Register GSAP plugins
+gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
+
 // CRITICAL: Must register plugins before any ScrollSmoother or animation creation
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 

@@ -48,6 +48,9 @@ import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 import { gsap } from '/assets/js/gsap/all.js';
 import * as PrinterMarks from '/assets/js/displays/PrinterMarks.js';
 
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
 /**
  * WORK ANIMATION CONSTANTS
  *
