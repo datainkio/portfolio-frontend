@@ -4,14 +4,19 @@
  * @returns GSAP timeline
  *
  */
-import { gsap } from "/assets/js/gsap/gsap-core.js";
+import { gsap } from '/assets/js/gsap/gsap-core.js';
+import { SplitText } from '/assets/js/gsap/SplitText.js';
+
+// Register SplitText plugin with GSAP
+gsap.registerPlugin(SplitText);
+
 const TL = gsap.timeline();
 
 export function OutlineToFill(params) {
   TL.id = params.id;
   var container = document.getElementById(params.container);
 
-  var st = new SplitText(container, { type: "words,chars" });
+  var st = new SplitText(container, { type: 'words,chars' });
   var chars = st.chars; // an array of all the divs that wrap each character
   TL.to({}, { duration: 0.0001 });
   TL.add(
@@ -36,7 +41,7 @@ export function OutlineToFill(params) {
 }
 
 function onStart(params) {
-  console.log("Outline-to-Fill local onStart");
+  console.log('Outline-to-Fill local onStart');
   var container = document.getElementById(params.container);
-  container.classList.add("text-outline");
+  container.classList.add('text-outline');
 }

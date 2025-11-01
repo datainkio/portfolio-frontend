@@ -47,6 +47,7 @@
 import { BaseSection } from './BaseSection.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 import { gsap } from '/assets/js/gsap/all.js';
+import * as TextParty from '/assets/js/effects/TextParty.js';
 
 /**
  * HERO ANIMATION CONSTANTS
@@ -143,30 +144,54 @@ export default class Hero extends BaseSection {
   /**
    * Create hero intro animation
    *
-   * INTRO SEQUENCE: Fades in hero title with upward motion for dramatic entrance.
-   * Uses BaseSection timeline for coordinated playback via playIntro().
+   * INTRO SEQUENCE: Uses TextParty.roll() for dramatic title entrance with rolling text effect.
+   * Integrates with TextParty event system to coordinate with BaseSection lifecycle.
    *
    * ANIMATION MECHANICS:
-   * - Starts with title invisible (opacity: 0) and below natural position (y: 100)
-   * - Animates to visible (opacity: 1) and natural position (y: 0)
-   * - Power3.out easing creates smooth deceleration for polished feel
+   * - TextParty.roll() creates rolling text entrance animation
+   * - Settings define animation behavior (duration, stagger, etc.)
+   * - TextParty events (onTextPartyComplete) trigger BaseSection intro:complete
+   * - Timeline added to BaseSection timeline for unified control
+   *
+   * EVENT COORDINATION:
+   * - Listens for 'onTextPartyComplete' custom event
+   * - Emits section:main-header:intro:complete via BaseSection
+   * - Allows LandingSequence to react to TextParty animation completion
    *
    * TIMELINE COORDINATION:
-   * - Built on this.timeline from BaseSection
-   * - playIntro() method controls playback
-   * - Events emitted automatically by BaseSection
+   * - TextParty.roll() returns GSAP timeline
+   * - Added to this.timeline from BaseSection for playIntro() control
+   * - Events emitted automatically by BaseSection + TextParty system
    *
    * @override BaseSection.createIntro()
    */
   createIntro() {
     if (!this.titleElement) return;
 
-    // Fade in title with upward motion
-    this.timeline.from(this.titleElement, {
-      opacity: 0, // Start invisible
-      y: INTRO_Y, // Start below natural position
-      duration: INTRO_DURATION, // 1.2 second animation
-      ease: INTRO_EASE, // Smooth deceleration
+    // TextParty.roll settings for hero title animation
+    const rollSettings = {
+      id: 'hero-title-roll', // Required for event system
+      duration: INTRO_DURATION,
+      stagger: 0.05,
+      ease: INTRO_EASE,
+      rotation: 15, // Initial rotation in degrees
+      y_delta: INTRO_Y, // Vertical offset distance
+    };
+
+    // Create TextParty roll animation timeline
+    const rollTimeline = TextParty.roll(this.titleElement, rollSettings);
+
+    // Add TextParty timeline to BaseSection timeline
+    this.timeline.add(rollTimeline, 0);
+
+    // Listen for TextParty completion event
+    // This coordinates TextParty's event system with BaseSection lifecycle
+    document.addEventListener('onTextPartyComplete', event => {
+      // Verify this is our timeline completing
+      if (event.detail && event.detail.id === rollTimeline.vars.id) {
+        console.log('[Hero] TextParty roll animation complete');
+        // BaseSection will emit intro:complete automatically when timeline finishes
+      }
     });
   }
 

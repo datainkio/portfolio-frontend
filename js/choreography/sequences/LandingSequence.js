@@ -70,6 +70,12 @@ export class LandingSequence {
    * sequence.start();
    */
   constructor(bus, sections) {
+    console.log('[LandingSequence] ========================================');
+    console.log('[LandingSequence] Constructor called');
+    console.log('[LandingSequence] bus:', bus);
+    console.log('[LandingSequence] sections:', sections);
+    console.log('[LandingSequence] ========================================');
+
     /**
      * AnimationBus instance for event coordination
      * @type {AnimationBus}
@@ -98,7 +104,10 @@ export class LandingSequence {
     this._unsubscribers = [];
 
     // Setup event listeners that define animation sequence
+    console.log('[LandingSequence] About to call setupSequence()...');
     this.setupSequence();
+    console.log('[LandingSequence] ✅ Constructor complete');
+    console.log('[LandingSequence] ========================================');
   }
 
   /**
@@ -125,8 +134,13 @@ export class LandingSequence {
    * - Wraps actions in try/catch to prevent cascade failures
    */
   setupSequence() {
+    console.log('[LandingSequence] ========================================');
+    console.log('[LandingSequence] setupSequence() called');
+    console.log('[LandingSequence] Setting up event listeners...');
+    console.log('[LandingSequence] ========================================');
     // SEQUENCE 1: Hero intro complete → triggers Work intro
     // Creates staggered entrance where work fades in after hero
+    console.log('[LandingSequence] Setting up animation sequence');
     this._unsubscribers.push(
       this.bus.on('section:main-header:intro:complete', () => {
         console.log('[LandingSequence] Hero intro complete → triggering Work intro');

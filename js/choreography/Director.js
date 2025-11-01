@@ -1,16 +1,18 @@
 /** @format */
 
+console.log('[Director.js] Module loading...');
+
 /**
  * Animation Director - Master Choreography Controller
  *
  * This is the MASTER ORCHESTRATOR for the entire site's animation system.
- * Stuff that can break:
+ * Stuff that this file can break:
  * - Event-driven animation coordination across Hero, Work, Biography sections
  * - AnimationBus event emission and sequence choreography
  * - StageManager scroll event coordination and visual effects
  * - Landing page animation sequence timing and flow
  *
- * INTEGRATION DEPENDENCIES (modify at your own peril):
+ * INTEGRATION DEPENDENCIES:
  * - HTML: Specific element IDs (main-header, work, biography) MUST exist in DOM
  * - AnimationBus: Central event system for section coordination
  * - Section Controllers: Hero, Work, Biography MUST extend BaseSection
@@ -30,7 +32,7 @@
  * 2. AnimationBus created for event coordination
  * 3. StageManager initialized for scroll and visual effects
  * 4. Section controllers instantiated (Hero, Work, Biography)
- * 5. LandingSequence coordin created to define animation flow
+ * 5. LandingSequence created to define animation flow
  * 6. Sequence starts, kicking off entire choreography
  *
  * DEBUGGING GOTCHAS:
@@ -99,19 +101,25 @@ export default class Director {
    * @constructor
    */
   constructor() {
-    console.log('[Director] Initializing animation system');
+    console.log('[Director] ========================================');
+    console.log('[Director] Constructor started');
+    console.log('[Director] ========================================');
 
     /**
      * Central event bus for animation coordination
      * @type {AnimationBus}
      */
+    console.log('[Director] Creating AnimationBus...');
     this.bus = new AnimationBus();
+    console.log('[Director] ✅ AnimationBus created:', this.bus);
 
     /**
      * Stage manager for scroll and visual effects
      * @type {StageManager}
      */
+    console.log('[Director] Creating StageManager...');
     this.stage = new StageManager();
+    console.log('[Director] ✅ StageManager created:', this.stage);
 
     /**
      * ScrollSmoother instance (null if not available)
@@ -126,16 +134,19 @@ export default class Director {
      * @type {ScrollSmoother|null}
      */
     this.smoother = this.stage.getSmoother();
+    console.log('[Director] ScrollSmoother available:', !!this.smoother);
 
     /**
      * Section controller instances
      * @type {Object}
      */
+    console.log('[Director] Creating section controllers...');
     this.sections = {
       hero: new Hero(this.bus, this.smoother),
       work: new Work(this.bus, this.smoother),
       biography: new Biography(this.bus, this.smoother),
     };
+    console.log('[Director] ✅ Sections created:', Object.keys(this.sections));
 
     /**
      * Landing page animation sequence coordinator
@@ -150,11 +161,15 @@ export default class Director {
      *
      * @type {LandingSequence}
      */
+    console.log('[Director] Creating LandingSequence...');
     this.sequence = new LandingSequence(this.bus, this.sections);
+    console.log('[Director] ✅ LandingSequence created:', this.sequence);
 
     // Start the show!
-    console.log('[Director] Starting landing page sequence');
+    console.log('[Director] Starting landing page sequence...');
     this.sequence.start();
+    console.log('[Director] ✅ Constructor complete');
+    console.log('[Director] ========================================');
   }
 
   /**
@@ -281,14 +296,37 @@ export default class Director {
  * - Use for debugging: window.director.enableDebug(true)
  * - Use for control: window.director.restart()
  */
+console.log('[Director.js] Setting up DOMContentLoaded listener...');
 document.addEventListener('DOMContentLoaded', () => {
-  // Create global Director instance
-  window.director = new Director();
+  console.log('[Director] ========================================');
+  console.log('[Director] DOMContentLoaded event fired');
+  console.log('[Director] Creating Director instance...');
+  console.log('[Director] ========================================');
+
+  try {
+    // Create global Director instance
+    window.director = new Director();
+
+    console.log('[Director] ========================================');
+    console.log('[Director] ✅ Director initialized successfully');
+    console.log('[Director] Available at: window.director');
+    console.log('[Director] Available sections:', Object.keys(window.director.sections));
+    console.log('[Director] Sequence:', window.director.sequence);
+    console.log('[Director] ========================================');
+  } catch (error) {
+    console.error('[Director] ========================================');
+    console.error('[Director] ❌ Failed to initialize Director');
+    console.error('[Director] Error:', error);
+    console.error('[Director] Stack trace:', error.stack);
+    console.error('[Director] ========================================');
+  }
 
   // Optional: Enable debug mode during development
   // Uncomment to see all animation events in console
   // window.director.enableDebug(true);
 });
+
+console.log('[Director.js] ✅ Module loaded, waiting for DOMContentLoaded...');
 
 /**
  * USAGE INSTRUCTIONS FOR FUTURE DEVELOPERS:
