@@ -196,7 +196,7 @@ export default class Hero extends BaseSection {
     document.addEventListener('onTextPartyComplete', event => {
       // Verify this is our timeline completing
       if (event.detail && event.detail.id === this.rollTimeline.vars.id) {
-        console.log('[Hero] TextParty roll animation complete');
+        console.log('[Hero] TextParty rol  animation complete');
         // BaseSection will emit intro:complete automatically when timeline finishes
       }
     });
