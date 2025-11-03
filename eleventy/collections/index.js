@@ -58,6 +58,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { init as initNavigation } from './navigation.js';
 import { init as initAirtable } from './content.js';
+import { init as initDocumentation } from './documentation.js';
 
 // ESM __dirname equivalent
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -79,6 +80,8 @@ const site = JSON.parse(readFileSync(join(__dirname, '../../njk/_data/site.json'
  *    - nav_dirs (no dependencies)
  *    - nav_projects (depends on 'projects' collection)
  *    - nav_primary (depends on nav_dirs and nav_projects)
+ * 3. Documentation collection (no dependencies)
+ *    - documentation (auto-discovered from README.md files)
  *
  * @param {Object} eleventyConfig - Eleventy configuration object
  * @returns {Promise<void>}
@@ -93,6 +96,10 @@ export default async function (eleventyConfig) {
     // nav_projects depends on 'projects' collection from Airtable
     // nav_primary depends on nav_dirs and nav_projects
     await initNavigation(eleventyConfig, site);
+
+    // STEP 3: Initialize documentation collection
+    // Auto-discovers README.md files and creates documentation pages
+    await initDocumentation(eleventyConfig);
   } catch (error) {
     // Log collection initialization errors without breaking build
     console.error(chalk.red('💥 Error loading data:'), error);
