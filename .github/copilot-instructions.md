@@ -76,36 +76,39 @@ names become collection names (lowercase).
 
 ## Documentation Standards
 
-**CRITICAL**: All code follows defensive "sociopathic developer" documentation style:
+**Code Documentation**: Use concise, clear commenting that focuses on the "why" rather than the "how":
 
-- **Extensive Warnings**: "CRITICAL WARNING", "BUG", "DO NOT REMOVE" callouts
-- **Integration Dependencies**: Detailed explanations of what breaks if modified
-- **Architecture Notes**: Complete technical context for safe modifications
-- **Debugging Guides**: Console error checking and troubleshooting steps
-- **Usage Instructions**: Step-by-step setup and customization guidelines
+- **File/Module Headers**: Brief purpose, key responsibilities, dependencies (10-15 lines max)
+- **Function Comments**: JSDoc with params/returns, brief description of purpose
+- **Inline Comments**: Only for complex logic or non-obvious implementation details
+- **Section Comments**: Group related functionality with 1-2 line headers
+- **Warnings**: Use "CRITICAL:", "WARNING:", "NOTE:" sparingly for actual gotchas
 
-**README Structure**: Each major directory has comprehensive README with:
+**README Structure**: Each major directory has focused README with:
 
-- Paranoid warnings about breaking changes
-- Complete dependency chains and integration points
-- Performance considerations and browser compatibility notes
-- Enhancement opportunities and technical debt documentation
+- Quick overview and purpose
+- Key files and their roles
+- Usage examples
+- Common patterns and conventions
+- Troubleshooting guide (actual issues, not hypotheticals)
 
 ## Animation Choreography System
 
-**CRITICAL**: Site uses complex GSAP-based animation system with ScrollSmoother integration:
+**Architecture**: GSAP-based animation system with scroll integration:
 
-- **Director.js**: Master animation coordinator - initializes all section controllers
-- **StageManager.js**: Scroll coordination, visual effects (video, gels, pixelator)
-- **Section Controllers**: Hero.js, Work.js, Biography.js handle individual section animations
-- **ScrollSmoother**: Site-wide smooth scrolling affects ALL scroll behavior
-- **PrinterMarks**: Dynamic overlay system for project categories
+- **Director.js**: Master coordinator - initializes section controllers on DOMContentLoaded
+- **StageManager.js**: Scroll smoothing (ScrollSmoother), background video, overlay effects
+- **Section Controllers**: Hero.js, Work.js, Biography.js - individual section animations
+- **AnimationBus**: Event-driven pub/sub for cross-section coordination
+- **LandingSequence**: Defines animation flow via event listeners
+- **BaseSection**: Foundation class for section controllers with lifecycle methods
 
-**Animation Dependencies**:
+**Key Dependencies**:
 
-- ScrollTrigger + ScrollSmoother plugins MUST be registered before use
-- DOM elements (main-header, work, biography) MUST exist for controllers
-- Video files and CSS classes required for visual effects system
+- GSAP plugins MUST be registered: `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)`
+- Required DOM elements: `#main-header`, `#work`, `#biography`, `#smooth-wrapper`, `#smooth-content`
+- Video file: `/assets/video/sizzle.mp4` (web-optimized MP4)
+- CSS classes: `.bg-video`, `.bg-gel-*`, `.bg-pixelator`
 
 ## Interactive Features
 
@@ -139,10 +142,9 @@ Required environment variables for external integrations:
 
 ## Animation System Gotchas
 
-- **ScrollSmoother Conflicts**: Can interfere with other scroll libraries
-- **GSAP Plugin Registration**: ScrollTrigger + ScrollSmoother MUST be registered before use
-- **DOM Dependencies**: Section controllers expect specific element IDs (main-header, work, biography)
-- **Video Requirements**: Background video (sizzle.mov) must exist and be web-optimized
-- **Transform Origins**: Animation pivots must be precise or elements jump unexpectedly
-- **Pin Spacing**: ScrollTrigger pinning affects document flow and can cause layout shifts
-- **Timeline Coordination**: Animation IDs used for debugging - don't change without updating references
+- **GSAP Plugin Registration**: Must call `gsap.registerPlugin()` before using ScrollTrigger/ScrollSmoother
+- **ScrollSmoother Auto-Detection**: Only enables if BOTH `#smooth-wrapper` and `#smooth-content` exist
+- **Video Format**: Use web-optimized MP4 (not MOV) - Safari compatibility issues with Motion exports
+- **Background Video**: Applied to `#overlay-view` with `.bg-video` class for grid pattern overlay
+- **Pin Spacing**: ScrollTrigger pinning affects layout - test on mobile devices
+- **Animation Timing**: Section controllers coordinate via AnimationBus events (not direct calls)

@@ -1,0 +1,151 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#dbeafe',
+    'primaryTextColor': '#1e293b',
+    'primaryBorderColor': '#2563eb',
+    'lineColor': '#475569',
+    'secondaryColor': '#fef3c7',
+    'tertiaryColor': '#eff6ff',
+    'actorBkg': '#dbeafe',
+    'actorBorder': '#2563eb',
+    'actorTextColor': '#1e293b',
+    'actorLineColor': '#cbd5e1',
+    'signalColor': '#475569',
+    'signalTextColor': '#1e293b',
+    'labelBoxBkgColor': '#eff6ff',
+    'labelBoxBorderColor': '#2563eb',
+    'labelTextColor': '#1e40af',
+    'loopTextColor': '#1e40af',
+    'noteBkgColor': '#fef3c7',
+    'noteBorderColor': '#f59e0b',
+    'noteTextColor': '#92400e',
+    'activationBkgColor': '#dbeafe',
+    'activationBorderColor': '#2563eb',
+    'sequenceNumberColor': '#ffffff'
+  }
+}}%%
+sequenceDiagram
+    autonumber
+    participant Director as Director
+    participant Stage as StageManager
+    participant DOM as DOM
+    participant GSAP as GSAP
+    participant Smoother as ScrollSmoother
+    participant ST as ScrollTrigger
+
+    Note over Director,ST: Initialization Phase
+
+    Director->>+Stage: new StageManager()
+    Stage->>Stage: Initialize properties
+    Note right of Stage: _container = null<br/>_view = null<br/>_video = null<br/>_smoother = null
+
+    rect rgb(230, 240, 255)
+    Note over Stage,DOM: View Initialization (initView)
+    Stage->>+DOM: getElementById('smooth-content')
+    
+    alt smooth-content exists
+        DOM-->>Stage: element reference
+        Stage->>Stage: Store as _container
+        
+        Stage->>+DOM: createElement('div')
+        DOM-->>-Stage: overlay-view element
+        Stage->>Stage: Configure overlay-view
+        Note right of Stage: id: 'overlay-view'<br/>classes: absolute, inset-0,<br/>w-full, h-dvh, -z-10, bg-video
+        
+        Stage->>DOM: prepend overlay-view to smooth-content
+        
+        Stage->>Stage: addVideo(view, VIDEO_URL)
+        activate Stage
+        Stage->>+DOM: createElement('video')
+        DOM-->>-Stage: video element
+        Stage->>+DOM: createElement('source')
+        DOM-->>-Stage: source element
+        Stage->>Stage: Configure video
+        Note right of Stage: autoplay, loop, muted,<br/>playsinline, aria-hidden<br/>src: /assets/video/sizzle.mp4<br/>type: video/mp4
+        Stage->>DOM: Append source to video
+        Stage->>DOM: Append video to overlay-view
+        Stage->>Stage: Store as _video
+        deactivate Stage
+        
+    else smooth-content missing
+        DOM-->>Stage: null
+        Stage->>Stage: Log warning, skip overlay system
+    end
+    deactivate DOM
+    end
+
+    rect rgb(255, 240, 230)
+    Note over Stage,ST: Triggers Initialization (initTriggers)
+    Stage->>+DOM: getElementById('smooth-wrapper')
+    DOM-->>-Stage: wrapper element or null
+    Stage->>+DOM: getElementById('smooth-content')
+    DOM-->>-Stage: content element or null
+    
+    alt Both wrapper and content exist
+        Stage->>Stage: canEnableSmoothScroll = true
+        Stage->>+Smoother: ScrollSmoother.create()
+        Note right of Smoother: wrapper: #smooth-wrapper<br/>content: #smooth-content<br/>effects: false
+        Smoother->>Smoother: Initialize smooth scrolling
+        Smoother-->>-Stage: smoother instance
+        Stage->>Stage: Store as _smoother
+        Stage->>Stage: Log 'ScrollSmoother enabled'
+    else Missing wrapper or content
+        Stage->>Stage: _smoother remains null
+        Stage->>Stage: Log 'Using native scroll'
+    end
+    
+    alt overlay-view exists
+        Stage->>+ST: ScrollTrigger.create()
+        Note right of ST: trigger: #biography<br/>pin: overlay-view<br/>start: 'top bottom'<br/>end: 'bottom bottom'<br/>scrub: 1
+        ST->>ST: Configure pin trigger
+        ST-->>-Stage: trigger instance
+        Note right of Stage: Pins overlay during<br/>biography section
+    end
+    
+    Stage->>+GSAP: timeline().to('#main-header')
+    Note right of GSAP: Hero title fade-out<br/>trigger: #main-header h1<br/>start: 'center center'<br/>end: 'bottom center'<br/>scrub: 1<br/>opacity: 0
+    GSAP->>+ST: Configure ScrollTrigger
+    ST-->>-GSAP: trigger registered
+    GSAP-->>-Stage: timeline created
+    
+    Stage->>+DOM: querySelectorAll('#biography li')
+    DOM-->>-Stage: biography list items
+    
+    loop For each biography list item
+        Stage->>GSAP: gsap.set(item, opacity: 0)
+        Stage->>+ST: ScrollTrigger.create()
+        Note right of ST: trigger: item<br/>start: 'center center'<br/>onEnter: fade to opacity 1
+        ST->>ST: Register item trigger
+        ST-->>-Stage: trigger instance
+    end
+    end
+    
+    Stage-->>-Director: StageManager ready
+    Note right of Director: getSmoother() available
+
+    Note over Director,ST: Runtime Scroll Behavior
+
+    alt User scrolls to biography section
+        activate ST
+        ST->>Stage: Pin overlay-view
+        Note right of Stage: Fixed background effect<br/>during biography scroll
+        ST->>ST: Trigger list item reveals
+        ST->>GSAP: Fade items to opacity 1
+        activate GSAP
+        GSAP->>DOM: Update item styles
+        deactivate GSAP
+        deactivate ST
+    end
+
+    alt User scrolls past hero
+        activate ST
+        ST->>GSAP: Trigger hero fade-out
+        activate GSAP
+        GSAP->>DOM: Animate #main-header opacity
+        Note right of DOM: Fades from 1 → 0<br/>tied to scroll position
+        deactivate GSAP
+        deactivate ST
+    end
+
+    Note over Director,ST: StageManager Active

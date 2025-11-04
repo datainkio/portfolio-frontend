@@ -1,0 +1,126 @@
+sequenceDiagram
+    autonumber
+    actor Dev as Developer
+    participant NPM as NPM Scripts
+    participant Design as Figma Sync
+    participant Content as Airtable Sync
+    participant CSS as Tailwind CSS
+    participant SSG as Eleventy
+    participant Site as Output
+
+    Note over Dev,Site: Development Workflow
+    Dev->>+NPM: npm start
+    NPM->>+NPM: run-s dev
+    NPM->>NPM: run parallel css and eleventy
+
+    par Parallel Development
+        NPM->>+CSS: buildCSS with watch
+        CSS->>CSS: Watch mode active
+        CSS->>Site: Generate styles.css
+    and
+        NPM->>+SSG: eleventy serve
+        SSG->>SSG: Watch and serve active
+        SSG->>Site: Generate HTML files
+    end
+
+    Note over CSS,Site: Auto-rebuild on changes
+
+    rect rgb(230, 240, 255)
+    Note over Dev,Site: Full Build Workflow
+    Dev->>+NPM: npm run build
+    NPM->>NPM: Run clean then sync then build
+
+    NPM->>Site: Clear output folder
+    activate Site
+    Site->>NPM: Folder cleared
+    deactivate Site
+
+    NPM->>+Content: syncContent.js
+    Content->>Content: Fetch from Airtable
+    Content->>NPM: Content synced
+    deactivate Content
+
+    NPM->>+CSS: buildCSS minify
+    CSS->>CSS: Process Tailwind
+    CSS->>Site: Generate minified CSS
+    deactivate CSS
+
+    NPM->>+SSG: eleventy quiet
+    SSG->>SSG: Process Nunjucks templates
+    SSG->>SSG: Apply collections and filters
+    SSG->>Site: Generate static HTML
+    deactivate SSG
+
+    NPM->>-Dev: Build complete
+    end
+
+    rect rgb(255, 240, 230)
+    Note over Dev,Site: Design Sync Workflow
+    Dev->>+NPM: npm run design
+    NPM->>NPM: Run design and css builds
+
+    NPM->>+Design: fetchFigma.js
+    Design->>Design: Fetch design tokens
+    Design->>Design: Generate colors.css
+    Design->>Design: Generate typography files
+    Design->>NPM: Design tokens synced
+    deactivate Design
+
+    NPM->>+CSS: buildCSS minify
+    CSS->>CSS: Process with new tokens
+    CSS->>Site: Generate updated CSS
+    deactivate CSS
+
+    NPM->>-Dev: Design system updated
+    end
+
+    rect rgb(240, 255, 240)
+    Note over Dev,Site: Fresh Build Workflow
+    Dev->>+NPM: npm run fresh
+    NPM->>NPM: Run clean then sync then build
+
+    NPM->>Site: Clear output folder
+    activate Site
+    Site->>NPM: Cleared
+    deactivate Site
+
+    NPM->>+Content: syncContent.js
+    Content->>Content: Force refresh Airtable
+    Content->>NPM: Fresh content loaded
+    deactivate Content
+
+    NPM->>CSS: Build CSS
+    NPM->>SSG: Build Eleventy
+    CSS->>Site: Fresh CSS
+    SSG->>Site: Fresh HTML
+
+    NPM->>-Dev: Complete fresh build
+    end
+```
+
+## Workflow Descriptions
+
+### Development Workflow (`npm start`)
+
+- Runs CSS and 11ty builds in **parallel** with watch mode
+- Auto-rebuilds on file changes
+- Serves site locally for development
+
+### Full Build Workflow (`npm run build`)
+
+1. **Clean**: Removes all files from output directory
+2. **Sync Content**: Fetches latest data from Airtable CMS
+3. **Build CSS**: Processes Tailwind CSS and minifies output
+4. **Build 11ty**: Generates static HTML from Nunjucks templates
+
+### Design Sync Workflow (`npm run design`)
+
+1. **Fetch Figma**: Downloads design tokens (colors, typography)
+2. **Build CSS**: Regenerates CSS with updated design tokens
+
+### Fresh Build Workflow (`npm run fresh`)
+
+- Complete rebuild from scratch
+- Forces content refresh from Airtable
+- Ensures all caches are cleared
+- Useful for resolving inconsistencies

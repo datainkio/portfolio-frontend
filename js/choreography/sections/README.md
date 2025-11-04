@@ -1,16 +1,27 @@
 # Section Controllers
 
-**Individual animation controllers for specific page sections.** Each extends `BaseSection` and defines intro/outro/scroll animations.
+Individual page section animation controllers. Each extends BaseSection and defines intro/outro/scroll animations.
 
-## Files
+## Key Files
 
-- **BaseSection.js**: Foundation class providing standard lifecycle (`createIntro`, `createOutro`, `createScrollTriggers`) and automatic event emission
-- **Hero.js**: Landing hero section - fade-in intro, scroll-based rotation outro
-- **Work.js**: Work section - fade-in intro, project category scroll reveals, printer marks integration
-- **Biography.js**: Biography section - fade-in intro, progressive list item reveals on scroll
+- **BaseSection.js**: Foundation class with lifecycle methods (createIntro/Outro/ScrollTriggers), auto-emits standard events
+- **Hero.js**: Landing hero - TextParty.roll intro, reversed roll on scroll exit
+- **Work.js**: Work section - fade intro, printer marks integration, scroll-triggered category reveals
+- **Biography.js**: Biography section - fade intro, progressive list reveals on scroll
 
 ## Usage
 
-All section controllers are automatically instantiated by Director and coordinated via LandingSequence. Emit events at animation milestones for sequence choreography.
+Director auto-instantiates all sections. LandingSequence coordinates via event listeners.
 
-See parent [Choreography README](../README.md) for complete documentation.
+```javascript
+// Sections emit standard events
+this.bus.emit('section:hero:intro:complete');
+this.bus.emit('section:work:scroll:enter');
+
+// Sequences react
+this.bus.on('section:hero:intro:complete', () => {
+  this.sections.work.playIntro();
+});
+```
+
+See parent [README](../README.md) for complete architecture.

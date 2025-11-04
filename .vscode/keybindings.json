@@ -1,0 +1,16 @@
+[
+  {
+    "key": "cmd+shift+m",
+    "command": "-workbench.actions.view.problems"
+  },
+  {
+    "key": "cmd+shift+m",
+    "command": "markdown.showPreviewToSide",
+    "when": "editorLangId == markdown"
+  },
+  {
+    "key": "cmd+shift+v",
+    "command": "markdown.showPreview",
+    "when": "editorLangId == markdown"
+  }
+]

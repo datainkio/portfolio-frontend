@@ -1,8 +1,36 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": ".",
+    },
+  ],
+  "settings": {
+    "swark.outputDirectory": "onboarding",
+    "editor.lineNumbers": "on",
+    "editor.renderLineHighlight": "all",
+    "markdown.preview.breaks": true,
+    "markdown.preview.fontSize": 14,
+    "markdown.preview.lineHeight": 1.6,
+    "markdown.preview.openMarkdownLinks": "inPreview",
+    "markdown.editor.pasteUrlAsFormattedLink.enabled": "smart",
+    "workbench.editorAssociations": {
+      "*.md": "default",
+      "*.mmd": "default",
+    },
+    "[markdown]": {
+      "editor.wordWrap": "on",
+      "editor.quickSuggestions": {
+        "comments": "on",
+        "strings": "on",
+        "other": "on",
+      },
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+    },
+    "files.associations": {
+      "*.mmd": "markdown",
+    },
+    "mermaid-preview.theme": "default",
+    "mermaid-preview.backgroundColor": "white",
+  },
 }

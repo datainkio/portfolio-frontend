@@ -5,52 +5,34 @@ console.log('[Director.js] Module loading...');
 /**
  * Animation Director - Master Choreography Controller
  *
- * This is the MASTER ORCHESTRATOR for the entire site's animation system.
- * Stuff that this file can break:
- * - Event-driven animation coordination across Hero, Work, Biography sections
- * - AnimationBus event emission and sequence choreography
- * - StageManager scroll event coordination and visual effects
- * - Landing page animation sequence timing and flow
+ * Orchestrates the complete animation system: event bus, section controllers,
+ * stage manager, and animation sequences. Automatically initializes on DOMContentLoaded.
  *
- * INTEGRATION DEPENDENCIES:
- * - HTML: Specific element IDs (main-header, work, biography) MUST exist in DOM
- * - AnimationBus: Central event system for section coordination
- * - Section Controllers: Hero, Work, Biography MUST extend BaseSection
+ * ARCHITECTURE:
+ * - AnimationBus: Event-driven coordination between sections
+ * - StageManager: Scroll smoothing and visual effects
+ * - Section Controllers: Hero, Work, Biography (extend BaseSection)
  * - LandingSequence: Defines animation flow via event listeners
- * - StageManager: Handles scroll optimization and visual effects
- *
- * ARCHITECTURE NOTES:
- * - Uses DOMContentLoaded for fast initialization (DOM-ready, assets may still load)
- * - AnimationBus provides event-driven coordination between all systems
- * - Section controllers emit events at animation milestones
- * - LandingSequence listens to events and triggers next animations
- * - StageManager handles scroll smoothing and background visual effects
- * - Debug mode available via AnimationBus.enableDebug()
  *
  * INITIALIZATION SEQUENCE:
- * 1. DOMContentLoaded triggers initAnimation()
- * 2. AnimationBus created for event coordination
- * 3. StageManager initialized for scroll and visual effects
- * 4. Section controllers instantiated (Hero, Work, Biography)
- * 5. LandingSequence created to define animation flow
- * 6. Sequence starts, kicking off entire choreography
+ * 1. AnimationBus created for event coordination
+ * 2. StageManager initialized for scroll and visuals
+ * 3. Section controllers instantiated (Hero, Work, Biography)
+ * 4. LandingSequence choreographs the animation flow
+ * 5. Sequence starts, triggering entire choreography
  *
- * DEBUGGING GOTCHAS:
- * - Enable debug mode to see all event emission: director.enableDebug(true)
- * - Section controllers may not initialize if DOM elements missing
- * - Event timing critical - check console for event flow
- * - ScrollSmoother optional - works with or without smooth scrolling
+ * REQUIREMENTS:
+ * - DOM elements: #main-header, #work, #biography
+ * - ScrollSmoother optional (gracefully degrades to native scroll)
  *
- * DO NOT CHANGE: Element IDs without updating corresponding HTML structure
- * DO NOT REMOVE: AnimationBus instantiation - required for all coordination
+ * DEBUGGING:
+ * - Enable debug mode: window.director.enableDebug(true)
+ * - Access globally: window.director
  *
- * @fileoverview Master animation director with event-driven choreography system
- * @requires AnimationBus - Central event coordination system
- * @requires StageManager - Scroll coordination and visual effects
- * @requires Hero - Hero section animation controller
- * @requires Work - Work section animation controller
- * @requires Biography - Biography section animation controller
- * @requires LandingSequence - Landing page choreography coordinator
+ * @requires AnimationBus - Event coordination system
+ * @requires StageManager - Scroll and visual effects
+ * @requires Hero, Work, Biography - Section controllers
+ * @requires LandingSequence - Animation choreography
  */
 
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
@@ -64,82 +46,48 @@ import { LandingSequence } from '/assets/js/choreography/sequences/LandingSequen
  * Director - Master Animation Coordinator
  *
  * Orchestrates the complete animation system including event bus, section controllers,
- * stage manager, and sequence choreography. Provides centralized access to all systems.
+ * stage manager, and sequence choreography.
  *
- * INITIALIZATION:
- * - Automatically initializes on DOMContentLoaded
- * - Creates all animation systems and coordinates their setup
- * - Starts landing page animation sequence
- *
- * PUBLIC API:
- * - enableDebug(true/false) - Toggle AnimationBus debug logging
- * - getSections() - Get all section controller instances
+ * Public API:
+ * - enableDebug(enabled) - Toggle AnimationBus debug logging
+ * - getSections() - Get section controller instances
  * - getSequence() - Get LandingSequence instance
  * - getStage() - Get StageManager instance
  * - restart() - Reset and replay landing sequence
+ * - destroy() - Cleanup and remove all event listeners
  */
 export default class Director {
   /**
    * Initialize complete animation system
    *
-   * CRITICAL INITIALIZATION: Sets up entire animation choreography pipeline.
-   * Creates all systems in proper order and coordinates their interactions.
-   *
-   * INITIALIZATION SEQUENCE:
-   * 1. Create AnimationBus for event coordination
-   * 2. Create StageManager for scroll and visual effects
-   * 3. Get ScrollSmoother instance (if available)
-   * 4. Create section controllers (Hero, Work, Biography)
-   * 5. Create LandingSequence choreography coordinator
-   * 6. Start animation sequence
-   *
-   * DEFENSIVE:
-   * - Warns if DOM elements missing but continues initialization
-   * - Section controllers handle missing elements gracefully
-   * - ScrollSmoother optional - works with native scroll if unavailable
-   *
-   * @constructor
+   * Creates all systems in proper order:
+   * 1. AnimationBus for event coordination
+   * 2. StageManager for scroll and visual effects
+   * 3. Section controllers (Hero, Work, Biography)
+   * 4. LandingSequence choreography coordinator
+   * 5. Start animation sequence
    */
   constructor() {
     console.log('[Director] ========================================');
     console.log('[Director] Constructor started');
     console.log('[Director] ========================================');
 
-    /**
-     * Central event bus for animation coordination
-     * @type {AnimationBus}
-     */
+    // Central event bus for animation coordination
     console.log('[Director] Creating AnimationBus...');
     this.bus = new AnimationBus();
     console.log('[Director] ✅ AnimationBus created:', this.bus);
 
-    /**
-     * Stage manager for scroll and visual effects
-     * @type {StageManager}
-     */
+    // Stage manager for scroll and visual effects
     console.log('[Director] Creating StageManager...');
     this.stage = new StageManager();
     console.log('[Director] ✅ StageManager created:', this.stage);
 
-    /**
-     * ScrollSmoother instance (null if not available)
-     *
-     * Passed to section controllers for optional smooth scroll integration:
-     * - Hero: Can use smoother.scrollTo() for programmatic scroll navigation
-     * - Work: Can check smoother state before scroll-based reveals
-     * - Biography: Can sync list item reveals with smooth scroll progress
-     *
-     * Sections work with or without ScrollSmoother - they check for null before using.
-     *
-     * @type {ScrollSmoother|null}
-     */
+    // ScrollSmoother instance (null if not available)
+    // Passed to section controllers for optional smooth scroll integration
     this.smoother = this.stage.getSmoother();
     console.log('[Director] ScrollSmoother available:', !!this.smoother);
 
-    /**
-     * Section controller instances
-     * @type {Object}
-     */
+    // Section controller instances
     console.log('[Director] Creating section controllers...');
     this.sections = {
       hero: new Hero(this.bus, this.smoother),
@@ -148,19 +96,8 @@ export default class Director {
     };
     console.log('[Director] ✅ Sections created:', Object.keys(this.sections));
 
-    /**
-     * Landing page animation sequence coordinator
-     *
-     * LandingSequence needs:
-     * - this.bus: To listen for section events (intro:complete, scroll:exit, etc.)
-     *   and emit custom sequence events (printermarks:show, overlay:fade)
-     * - this.sections: To trigger section animations (playIntro/playOutro) when
-     *   events fire, creating coordinated multi-section choreography
-     *
-     * Defines animation flow: Hero completes → Work starts → Biography reveals
-     *
-     * @type {LandingSequence}
-     */
+    // Landing page animation sequence coordinator
+    // Needs bus for events and sections for triggering animations
     console.log('[Director] Creating LandingSequence...');
     this.sequence = new LandingSequence(this.bus, this.sections);
     console.log('[Director] ✅ LandingSequence created:', this.sequence);
@@ -174,14 +111,7 @@ export default class Director {
 
   /**
    * Enable or disable debug logging
-   *
-   * Toggles AnimationBus debug mode which logs all event emissions.
-   * Useful for debugging animation sequence issues.
-   *
-   * @param {boolean} enabled - True to enable debug logging, false to disable
-   *
-   * @example
-   * director.enableDebug(true); // See all animation events in console
+   * @param {boolean} enabled - True to enable, false to disable
    */
   enableDebug(enabled = true) {
     this.bus.enableDebug(enabled);
@@ -189,15 +119,7 @@ export default class Director {
 
   /**
    * Get all section controller instances
-   *
-   * Provides access to Hero, Work, Biography section controllers
-   * for external control or debugging.
-   *
-   * @returns {Object} Section controller instances
-   *
-   * @example
-   * const { hero, work, biography } = director.getSections();
-   * hero.playIntro(); // Manually trigger hero intro
+   * @returns {Object} Section controllers (hero, work, biography)
    */
   getSections() {
     return this.sections;
@@ -205,14 +127,7 @@ export default class Director {
 
   /**
    * Get LandingSequence instance
-   *
-   * Provides access to sequence coordinator for external control.
-   *
-   * @returns {LandingSequence} Sequence coordinator instance
-   *
-   * @example
-   * const sequence = director.getSequence();
-   * sequence.reset(); // Reset sequence to beginning
+   * @returns {LandingSequence} Sequence coordinator
    */
   getSequence() {
     return this.sequence;
@@ -220,14 +135,7 @@ export default class Director {
 
   /**
    * Get StageManager instance
-   *
-   * Provides access to stage manager for scroll and visual effects control.
-   *
-   * @returns {StageManager} Stage manager instance
-   *
-   * @example
-   * const stage = director.getStage();
-   * const smoother = stage.getSmoother(); // Get ScrollSmoother instance
+   * @returns {StageManager} Stage manager
    */
   getStage() {
     return this.stage;
@@ -235,12 +143,7 @@ export default class Director {
 
   /**
    * Restart landing page animation sequence
-   *
-   * Resets all section controllers and replays landing sequence.
-   * Useful for testing or allowing user to replay animations.
-   *
-   * @example
-   * director.restart(); // Reset and replay entire landing sequence
+   * Resets all section controllers and replays sequence
    */
   restart() {
     console.log('[Director] Restarting landing sequence');
@@ -250,11 +153,8 @@ export default class Director {
 
   /**
    * Cleanup and destroy all animation systems
-   *
-   * Removes all event listeners and cleans up resources.
-   * Call when leaving page or no longer need animation system.
-   *
-   * WARNING: Director cannot be reused after destroy() called
+   * Removes event listeners and clears references
+   * WARNING: Director cannot be reused after destroy()
    */
   destroy() {
     console.log('[Director] Destroying animation system');

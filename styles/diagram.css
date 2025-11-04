@@ -1,0 +1,239 @@
+/** @format */
+
+/**
+ * Mermaid Diagram Preview Stylesheet
+ * 
+ * Custom styling for .mmd file previews in VS Code
+ * Optimizes readability and aligns with portfolio design system
+ */
+
+/* Base diagram container */
+.mermaid {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  background: #ffffff;
+  padding: 2rem;
+}
+
+/* Sequence Diagram Styling */
+.actor {
+  stroke: #2563eb;
+  fill: #dbeafe;
+  stroke-width: 2px;
+}
+
+.actor-line {
+  stroke: #000000;
+  stroke-width: 1px;
+  stroke-dasharray: 3, 3;
+}
+
+.messageLine0,
+.messageLine1 {
+  stroke: #000000;
+  stroke-width: 1.5px;
+}
+
+.messageText {
+  fill: #1e293b;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.labelBox {
+  stroke: #2563eb;
+  fill: #eff6ff;
+  stroke-width: 1.5px;
+}
+
+.labelText {
+  fill: #1e40af;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* Activation boxes */
+.activation0,
+.activation1,
+.activation2 {
+  fill: #dbeafe;
+  stroke: #2563eb;
+  stroke-width: 1.5px;
+}
+
+/* Notes */
+.note {
+  fill: #fef3c7;
+  stroke: #f59e0b;
+  stroke-width: 1.5px;
+}
+
+.noteText {
+  fill: #92400e;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+}
+
+/* Sequence numbers (autonumber) */
+.sequenceNumber {
+  fill: #ffffff;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* Loop/Alt/Opt boxes */
+.loopText,
+.loopLine {
+  stroke: #6366f1;
+  fill: #eef2ff;
+  stroke-width: 1.5px;
+}
+
+/* Background rectangles (rect blocks) */
+rect[style*='rgb(230, 240, 255)'] {
+  fill: #dbeafe;
+  stroke: #2563eb;
+  stroke-width: 1px;
+  opacity: 0.3;
+}
+
+rect[style*='rgb(255, 240, 230)'] {
+  fill: #fed7aa;
+  stroke: #f59e0b;
+  stroke-width: 1px;
+  opacity: 0.3;
+}
+
+rect[style*='rgb(240, 255, 240)'] {
+  fill: #d1fae5;
+  stroke: #10b981;
+  stroke-width: 1px;
+  opacity: 0.3;
+}
+
+/* Class Diagram Styling */
+.classGroup rect {
+  fill: #eff6ff;
+  stroke: #2563eb;
+  stroke-width: 2px;
+}
+
+.classGroup text {
+  fill: #1e293b;
+  font-size: 13px;
+}
+
+.classGroup .title {
+  font-weight: 700;
+  fill: #1e40af;
+}
+
+.relation {
+  stroke: #475569;
+  stroke-width: 1.5px;
+}
+
+/* Composition/Aggregation markers */
+.compositionStart,
+.compositionEnd,
+.aggregationStart,
+.aggregationEnd {
+  fill: #475569;
+  stroke: #475569;
+}
+
+/* Notes in class diagrams */
+.note-rect {
+  fill: #fef3c7;
+  stroke: #f59e0b;
+  stroke-width: 1.5px;
+}
+
+.note-text {
+  fill: #92400e;
+  font-size: 12px;
+}
+
+/* Grid and markers */
+.grid .tick line {
+  stroke: #000000;
+  stroke-width: 1px;
+}
+
+.grid .tick text {
+  fill: #64748b;
+  font-size: 11px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .mermaid {
+    background: #0f172a;
+  }
+
+  .actor {
+    stroke: #60a5fa;
+    fill: #1e3a8a;
+  }
+
+  .messageLine0,
+  .messageLine1 {
+    stroke: #000000;
+  }
+
+  .messageText {
+    fill: #e2e8f0;
+  }
+
+  .labelBox {
+    stroke: #60a5fa;
+    fill: #1e3a8a;
+  }
+
+  .labelText {
+    fill: #93c5fd;
+  }
+
+  .activation0,
+  .activation1,
+  .activation2 {
+    fill: #1e3a8a;
+    stroke: #60a5fa;
+  }
+
+  .note {
+    fill: #78350f;
+    stroke: #fbbf24;
+  }
+
+  .noteText {
+    fill: #fde68a;
+  }
+
+  .classGroup rect {
+    fill: #1e3a8a;
+    stroke: #60a5fa;
+  }
+
+  .classGroup text {
+    fill: #e2e8f0;
+  }
+
+  .classGroup .title {
+    fill: #93c5fd;
+  }
+}
+
+/* Responsive sizing for large diagrams */
+@media (max-width: 1200px) {
+  .mermaid {
+    font-size: 12px;
+    padding: 1rem;
+  }
+
+  .messageText,
+  .labelText {
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,123 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#dbeafe',
+    'primaryTextColor': '#1e293b',
+    'primaryBorderColor': '#2563eb',
+    'lineColor': '#475569',
+    'secondaryColor': '#fef3c7',
+    'tertiaryColor': '#eff6ff',
+    'actorBkg': '#dbeafe',
+    'actorBorder': '#2563eb',
+    'actorTextColor': '#1e293b',
+    'actorLineColor': '#cbd5e1',
+    'signalColor': '#475569',
+    'signalTextColor': '#1e293b',
+    'labelBoxBkgColor': '#eff6ff',
+    'labelBoxBorderColor': '#2563eb',
+    'labelTextColor': '#1e40af',
+    'loopTextColor': '#1e40af',
+    'noteBkgColor': '#fef3c7',
+    'noteBorderColor': '#f59e0b',
+    'noteTextColor': '#92400e',
+    'activationBkgColor': '#dbeafe',
+    'activationBorderColor': '#2563eb',
+    'sequenceNumberColor': '#ffffff'
+  }
+}}%%
+sequenceDiagram
+    autonumber
+    participant Director as Director
+    participant Hero as Hero Section
+    participant Base as BaseSection
+    participant Bus as AnimationBus
+    participant TextParty as TextParty.roll
+    participant ST as ScrollTrigger
+    participant User as User Scroll
+
+    Note over Director,User: Initialization Phase
+
+    Director->>+Hero: new Hero(bus, smoother)
+    Hero->>Base: super('main-header', bus, smoother)
+    Base->>Base: Initialize element, timeline
+    Base-->>Hero: Base initialized
+    
+    Hero->>Hero: Store h1 titleElement reference
+    Hero->>Hero: createIntro()
+    activate Hero
+    
+    rect rgb(230, 240, 255)
+    Note over Hero,TextParty: Intro Animation Setup
+    Hero->>+TextParty: roll(titleElement, settings)
+    Note right of TextParty: duration: 1.2s<br/>stagger: 0.05<br/>rotation: 15°<br/>y_delta: 100px
+    TextParty->>TextParty: Split text into characters
+    TextParty->>TextParty: Create GSAP timeline
+    TextParty-->>-Hero: rollTimeline
+    Hero->>Hero: Store rollTimeline reference
+    Hero->>Base: timeline.add(rollTimeline, 0)
+    end
+    
+    Hero->>Hero: createScrollTriggers()
+    activate Hero
+    
+    rect rgb(255, 240, 230)
+    Note over Hero,ST: Scroll Trigger Setup
+    Hero->>Hero: Query .text-roll-char elements
+    Hero->>Hero: Create reverse timeline
+    Note right of Hero: Animates from rolled-in<br/>back to pre-roll state
+    Hero->>+ST: ScrollTrigger.create()
+    Note right of ST: trigger: h1<br/>start: 'center center'<br/>end: 'bottom center'<br/>scrub: 1
+    ST-->>-Hero: ScrollTrigger instance
+    end
+    
+    deactivate Hero
+    deactivate Hero
+    Hero-->>-Director: Hero section ready
+
+    Note over Director,User: Animation Execution Phase
+
+    Director->>+Hero: playIntro()
+    Hero->>+Base: timeline.play()
+    Base->>Bus: emit('section:main-header:intro:start')
+    activate TextParty
+    Base->>TextParty: Execute roll timeline
+    
+    rect rgb(240, 255, 240)
+    Note over TextParty: TextParty Roll Animation
+    TextParty->>TextParty: Animate each character
+    Note right of TextParty: rotation: 0 → 15°<br/>skewY: 0 → 1.2rad<br/>y: 100 → 0<br/>opacity: 0 → 1
+    TextParty->>TextParty: Stagger animation
+    TextParty->>document: dispatch('onTextPartyComplete')
+    end
+    
+    deactivate TextParty
+    document->>Hero: onTextPartyComplete event
+    Hero->>Bus: emit('section:main-header:intro:complete')
+    Bus-->>Director: Event received
+    Base-->>-Hero: Timeline complete
+    deactivate Hero
+    
+    Note over User,ST: User Scrolls Down
+
+    User->>ST: Scroll past hero section
+    activate ST
+    ST->>ST: Detect scroll position
+    
+    alt Scroll enters trigger range
+        ST->>Bus: emit('section:main-header:scroll:enter')
+        Bus-->>Director: Event received
+    end
+    
+    alt Scroll exits trigger range
+        ST->>ST: Play reverse timeline
+        activate ST
+        Note right of ST: Characters animate back:<br/>rotation: 15° → 0°<br/>skewY: 1.2rad → 0<br/>y: 0 → 100px
+        ST->>Bus: emit('section:main-header:scroll:exit')
+        ST->>Bus: emit('section:main-header:outro:start')
+        Bus-->>Director: Events received
+        deactivate ST
+    end
+    
+    deactivate ST
+
+    Note over Director,User: Hero Animation Complete

@@ -1,0 +1,117 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#dbeafe',
+    'primaryTextColor': '#1e293b',
+    'primaryBorderColor': '#2563eb',
+    'lineColor': '#475569',
+    'secondaryColor': '#fef3c7',
+    'tertiaryColor': '#eff6ff',
+    'actorBkg': '#dbeafe',
+    'actorBorder': '#2563eb',
+    'actorTextColor': '#1e293b',
+    'actorLineColor': '#cbd5e1',
+    'signalColor': '#475569',
+    'signalTextColor': '#1e293b',
+    'labelBoxBkgColor': '#eff6ff',
+    'labelBoxBorderColor': '#2563eb',
+    'labelTextColor': '#1e40af',
+    'loopTextColor': '#1e40af',
+    'noteBkgColor': '#fef3c7',
+    'noteBorderColor': '#f59e0b',
+    'noteTextColor': '#92400e',
+    'activationBkgColor': '#dbeafe',
+    'activationBorderColor': '#2563eb',
+    'sequenceNumberColor': '#ffffff'
+  }
+}}%%
+
+sequenceDiagram
+    autonumber
+    participant Main as Main Thread
+    participant Dir as Director
+    participant Bus as AnimationBus
+    participant Stage as StageManager
+    participant Hero as Hero Section
+    participant Work as Work Section
+    participant Bio as Biography Section
+    participant Seq as LandingSequence
+
+    Note over Main: DOMContentLoaded fires
+    Main->>+Dir: new Director()
+
+    rect rgb(255, 235, 205)
+    Note over Dir: Phase 1 Event Bus Creation
+    Dir->>+Bus: new AnimationBus()
+    Bus-->>-Dir: bus instance
+    Note right of Dir: Central event coordinator<br/>for all animations
+    end
+
+    rect rgb(230, 255, 230)
+    Note over Dir: Phase 2 Stage Setup
+    Dir->>+Stage: new StageManager()
+    Stage->>Stage: Initialize ScrollSmoother
+    Stage->>Stage: Add background video
+    Stage->>Stage: Setup visual effects
+    Stage-->>-Dir: stage instance
+    Dir->>Stage: getSmoother()
+    Stage-->>Dir: smoother or null
+    Note right of Dir: Scroll smoothing and<br/>visual effects controller
+    end
+
+    rect rgb(230, 240, 255)
+    Note over Dir: Phase 3 Section Controllers
+    Dir->>+Hero: new Hero(bus, smoother)
+    Hero->>Hero: super('main-header', bus, smoother)
+    Hero->>Hero: createIntro() - TextParty.roll
+    Hero->>Hero: createScrollTriggers() - reversed roll
+    Hero-->>-Dir: hero instance
+
+    Dir->>+Work: new Work(bus, smoother)
+    Work->>Work: super('work', bus, smoother)
+    Work->>Work: createIntro() - fade animation
+    Work->>Work: createScrollTriggers() - printer marks
+    Work-->>-Dir: work instance
+
+    Dir->>+Bio: new Biography(bus, smoother)
+    Bio->>Bio: super('biography', bus, smoother)
+    Bio->>Bio: createIntro() - fade animation
+    Bio->>Bio: createScrollTriggers() - list reveals
+    Bio-->>-Dir: biography instance
+    Note right of Dir: All section controllers<br/>ready with paused timelines
+    end
+
+    rect rgb(255, 240, 255)
+    Note over Dir: Phase 4 Choreography Setup
+    Dir->>+Seq: new LandingSequence(bus, sections)
+    Seq->>Seq: setupSequence()
+    Seq->>Bus: on('section:hero:intro:complete', ...)
+    Seq->>Bus: on('section:hero:scroll:exit', ...)
+    Seq->>Bus: on('section:work:intro:complete', ...)
+    Note over Seq: Event listeners define<br/>animation flow
+    Seq-->>-Dir: sequence instance
+    Note right of Dir: Choreography coordinator<br/>configured
+    end
+
+    rect rgb(255, 255, 230)
+    Note over Dir: Phase 5 Start Sequence
+    Dir->>+Seq: start()
+    Seq->>Hero: playIntro()
+    activate Hero
+    Note over Hero: TextParty.roll begins
+    Hero->>Bus: emit('section:hero:intro:start')
+    Bus-->>Seq: event received
+    Hero->>Hero: timeline.play()
+    Note over Hero: Animation plays
+    Hero->>Bus: emit('section:hero:intro:complete')
+    Bus-->>Seq: event received
+    Seq->>Work: playIntro() (via event handler)
+    activate Work
+    Note over Work: Work section fade begins
+    deactivate Hero
+    deactivate Work
+    deactivate Seq
+    end
+
+    Dir-->>-Main: Constructor complete
+    Note over Main,Dir: window.director available<br/>Animation sequence running
