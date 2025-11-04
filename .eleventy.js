@@ -31,6 +31,8 @@ export default async function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy('assets');
     // Copy JavaScript files to _site/assets/
     eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
+    // Copy video files for background video in StageManager
+    eleventyConfig.addPassthroughCopy({ 'assets/video': 'assets/video' });
     eleventyConfig.setServerOptions({
       watch: ['_site/**/*.css'],
     });
