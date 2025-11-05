@@ -32,5 +32,8 @@
     },
     "mermaid-preview.theme": "default",
     "mermaid-preview.backgroundColor": "white",
+    "svg.preview.mode": "img",
+    "svg.preview.backgroundCustom": "#ffffff",
+    "svg.preview.background": "white",
   },
 }

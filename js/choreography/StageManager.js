@@ -76,19 +76,30 @@ export default class StageManager {
 
     this._container = document.getElementById('smooth-content');
     if (!this._container) {
-      console.warn('smooth-content element not found - overlay system disabled');
-      return;
+      console.warn('smooth-content element not found - falling back to main element');
+      this._container = document.querySelector('main');
+      if (!this._container) {
+        console.warn('main element not found - overlay system disabled');
+        return;
+      }
     }
 
     // Create overlay container with grid pattern (bg-video class)
     this._view = document.createElement('div');
     this._view.id = 'overlay-view';
-    this._view.classList.add('absolute', 'inset-0', 'w-full', 'h-dvh', '-z-10', 'bg-video');
+    this._view.classList.add('absolute', 'inset-0', 'w-full', 'h-dvh', '-z-10');
     this._container.prepend(this._view);
 
     // Add background video
     this._video = this.addVideo(this._view, VIDEO_URL);
-
+    this._video.classList.add(
+      'bg-video',
+      'absolute',
+      'inset-0',
+      'w-full',
+      'h-full',
+      'object-cover'
+    );
     // Additional overlays (currently disabled)
     // this.addPixelator(this._view);
     // this.addOverlay(this._view, 'bg-gel-primary', 'primary');

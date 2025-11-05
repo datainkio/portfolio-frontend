@@ -1,0 +1,90 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#dbeafe',
+    'primaryTextColor': '#1e293b',
+    'primaryBorderColor': '#2563eb',
+    'lineColor': '#475569',
+    'secondaryColor': '#fef3c7',
+    'tertiaryColor': '#eff6ff',
+    'actorBkg': '#dbeafe',
+    'actorBorder': '#2563eb',
+    'actorTextColor': '#1e293b',
+    'actorLineColor': '#cbd5e1',
+    'signalColor': '#475569',
+    'signalTextColor': '#1e293b',
+    'labelBoxBkgColor': '#eff6ff',
+    'labelBoxBorderColor': '#2563eb',
+    'labelTextColor': '#1e40af',
+    'loopTextColor': '#1e40af',
+    'noteBkgColor': '#fef3c7',
+    'noteBorderColor': '#f59e0b',
+    'noteTextColor': '#92400e',
+    'activationBkgColor': '#dbeafe',
+    'activationBorderColor': '#2563eb',
+    'sequenceNumberColor': '#ffffff'
+  }
+}}%%
+
+classDiagram
+    %% Abstract base class
+    class BaseSection {
+        <<abstract>>
+        #string id
+        #AnimationBus bus
+        #ScrollSmoother smoother
+        #HTMLElement element
+        #Timeline timeline
+        #boolean hasIntroPlayed
+        #boolean hasOutroPlayed
+        +constructor(id, bus, smoother)
+        +createIntro()* void
+        +createOutro()* void
+        +createScrollTriggers()* void
+        +playIntro() void
+        +playOutro() void
+        +reset() void
+        +destroy() void
+    }
+
+    %% Hero extends BaseSection
+    class Hero {
+        -HTMLElement titleElement
+        -Timeline rollTimeline
+        +constructor(bus, smoother)
+        +createIntro() void
+        +createScrollTriggers() void
+    }
+
+    %% Dependencies
+    class AnimationBus {
+        +emit(event, data)
+        +on(event, callback)
+    }
+
+    class ScrollTrigger {
+        <<external>>
+        +create(config)
+    }
+
+    class TextParty {
+        <<external>>
+        +roll(element, settings) Timeline
+    }
+
+    class Timeline {
+        <<external>>
+        -string id
+        +add(child, position)
+    }
+
+    %% Relationships
+    BaseSection <|-- Hero : extends
+    Hero o-- AnimationBus : uses
+    Hero o-- ScrollTrigger : uses
+    Hero ..> TextParty : calls
+    Hero *-- Timeline : owns rollTimeline
+
+    %% Notes
+    note for Hero "Manages hero title animations:\n- TextParty.roll intro\n- Scroll-triggered reverse outro"
+    note for BaseSection "Abstract foundation for section controllers\nProvides lifecycle methods and event coordination"

@@ -16,5 +16,8 @@
   },
   "emmet.includeLanguages": {
     "nunjucks": "html"
-  }
+  },
+  "svg.preview.background": "white",
+  "svgviewer.transparencygrid": false,
+  "svg.preview.backgroundCustom": "#ffffff"
 }

@@ -1,0 +1,157 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#dbeafe',
+    'primaryTextColor': '#1e293b',
+    'primaryBorderColor': '#2563eb',
+    'lineColor': '#475569',
+    'secondaryColor': '#fef3c7',
+    'tertiaryColor': '#eff6ff',
+    'actorBkg': '#dbeafe',
+    'actorBorder': '#2563eb',
+    'actorTextColor': '#1e293b',
+    'actorLineColor': '#cbd5e1',
+    'signalColor': '#475569',
+    'signalTextColor': '#1e293b',
+    'labelBoxBkgColor': '#eff6ff',
+    'labelBoxBorderColor': '#2563eb',
+    'labelTextColor': '#1e40af',
+    'loopTextColor': '#1e40af',
+    'noteBkgColor': '#fef3c7',
+    'noteBorderColor': '#f59e0b',
+    'noteTextColor': '#92400e',
+    'activationBkgColor': '#dbeafe',
+    'activationBorderColor': '#2563eb',
+    'sequenceNumberColor': '#ffffff'
+  }
+}}%%
+sequenceDiagram
+    autonumber
+    participant Director as Director
+    participant Sequence as LandingSequence
+    participant Bus as AnimationBus
+    participant Hero as Hero
+    participant Work as Work
+    participant Bio as Biography
+    participant DOM as DOM
+
+    Note over Director,DOM: Initialization Phase
+
+    Director->>+Sequence: new LandingSequence(bus, sections)
+    Sequence->>Sequence: Store bus reference
+    Sequence->>Sequence: Store sections (hero, work, biography)
+    Sequence->>Sequence: Initialize state (isStarted: false)
+    
+    rect rgb(240, 248, 255)
+    Note over Sequence,Bus: Setup Event Listeners (setupSequence)
+    
+    Sequence->>+Bus: on('section:main-header:intro:complete')
+    Note right of Bus: Listener 1: Hero complete → Work intro
+    Bus-->>-Sequence: unsubscribe function
+    
+    Sequence->>+Bus: on('section:main-header:scroll:exit')
+    Note right of Bus: Listener 2: Hero exit → Biography intro
+    Bus-->>-Sequence: unsubscribe function
+    
+    Sequence->>+Bus: on('section:work:scroll:enter')
+    Note right of Bus: Listener 3: Work enters viewport
+    Bus-->>-Sequence: unsubscribe function
+    
+    Sequence->>+Bus: on('section:biography:scroll:enter')
+    Note right of Bus: Listener 4: Biography enters → fade overlay
+    Bus-->>-Sequence: unsubscribe function
+    
+    Sequence->>+Bus: on('section:biography:intro:complete')
+    Note right of Bus: Listener 5: Mark sequence complete
+    Bus-->>-Sequence: unsubscribe function
+    end
+    
+    Sequence-->>-Director: LandingSequence ready
+    Note right of Sequence: Event listeners active,<br/>waiting for events
+
+    Note over Director,DOM: Sequence Execution
+
+    Director->>+Sequence: start()
+    Sequence->>Sequence: Set isStarted = true
+    Sequence->>+Hero: playIntro()
+    Note right of Hero: TextParty.roll animation begins
+    Hero->>Hero: Animate title entrance
+    
+    rect rgb(255, 250, 240)
+    Note over Hero,Work: Step 1: Hero Intro → Work Intro
+    Hero->>+Bus: emit('section:main-header:intro:complete')
+    Bus->>Bus: Trigger registered listeners
+    Bus->>-Sequence: Event: intro:complete
+    activate Sequence
+    Note right of Sequence: Listener 1 triggered
+    Sequence->>+Work: playIntro()
+    Work->>Work: Fade in work section
+    Work->>Work: Show printer marks
+    Work->>+Bus: emit('section:work:intro:complete')
+    Bus-->>-Work: Event dispatched
+    deactivate Work
+    deactivate Sequence
+    end
+    
+    Note over Hero,DOM: User Scrolls Down
+    
+    rect rgb(240, 255, 240)
+    Note over Hero,Bio: Step 2: Hero Scroll Exit → Biography Intro
+    Hero->>Hero: Scroll trigger activated
+    Hero->>+Bus: emit('section:main-header:scroll:exit')
+    Bus->>-Sequence: Event: scroll:exit
+    activate Sequence
+    Note right of Sequence: Listener 2 triggered
+    Sequence->>+Bio: playIntro()
+    Bio->>Bio: Fade in biography section
+    Bio->>Bio: Prepare list items
+    Bio->>+Bus: emit('section:biography:intro:complete')
+    Bus->>-Sequence: Event: intro:complete
+    activate Sequence
+    Note right of Sequence: Listener 5 triggered
+    Sequence->>Sequence: Set isComplete = true
+    deactivate Sequence
+    deactivate Bio
+    deactivate Sequence
+    end
+    
+    Note over Work,DOM: User Continues Scrolling
+    
+    rect rgb(255, 248, 240)
+    Note over Work,Bio: Step 3: Work Scroll Enter
+    Work->>Work: ScrollTrigger onEnter
+    Work->>+Bus: emit('section:work:scroll:enter')
+    Bus->>-Sequence: Event: scroll:enter
+    activate Sequence
+    Note right of Sequence: Listener 3 triggered<br/>(printer marks already visible)
+    deactivate Sequence
+    end
+    
+    rect rgb(248, 240, 255)
+    Note over Bio,DOM: Step 4: Biography Scroll Enter
+    Bio->>Bio: ScrollTrigger onEnter
+    Bio->>+Bus: emit('section:biography:scroll:enter')
+    Bus->>-Sequence: Event: scroll:enter
+    activate Sequence
+    Note right of Sequence: Listener 4 triggered
+    Sequence->>+DOM: getElementById('overlay-primary')
+    DOM-->>-Sequence: overlay element
+    Sequence->>DOM: gsap.to(overlay, opacity: 0.5)
+    Note right of DOM: Fade overlay for<br/>reading experience
+    deactivate Sequence
+    end
+    
+    deactivate Hero
+    deactivate Sequence
+    
+    Note over Director,DOM: Sequence Complete
+
+    alt Cleanup Required
+        Director->>+Sequence: destroy()
+        Sequence->>Sequence: Call all unsubscribe functions
+        Sequence->>Bus: Remove all event listeners
+        Sequence->>Sequence: Clear references (bus, sections)
+        Sequence-->>-Director: Cleanup complete
+    end
+
+    Note over Director,DOM: LandingSequence Active

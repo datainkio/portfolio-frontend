@@ -37,10 +37,10 @@ console.log('[Director.js] Module loading...');
 
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import StageManager from '/assets/js/choreography/StageManager.js';
-import Hero from '/assets/js/choreography/sections/Hero.js';
-import Work from '/assets/js/choreography/sections/Work.js';
-import Biography from '/assets/js/choreography/sections/Biography.js';
-import { LandingSequence } from '/assets/js/choreography/sequences/LandingSequence.js';
+import Hero from '/assets/js/choreography/sections/hero/Hero.js';
+import Work from '/assets/js/choreography/sections/work/Work.js';
+import Biography from '/assets/js/choreography/sections/biography/Biography.js';
+import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
 
 /**
  * Director - Master Animation Coordinator

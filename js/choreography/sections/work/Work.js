@@ -43,7 +43,7 @@
  * @requires PrinterMarks - Print industry registration mark overlays
  */
 
-import { BaseSection } from './BaseSection.js';
+import { BaseSection } from '../base-section/BaseSection.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 import { gsap } from '/assets/js/gsap/all.js';
 import * as PrinterMarks from '/assets/js/displays/PrinterMarks.js';

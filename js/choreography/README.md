@@ -42,7 +42,7 @@ window.director.restart(); // Restart entire sequence
 **Create new section:**
 
 ```javascript
-import { BaseSection } from './BaseSection.js';
+import { BaseSection } from './sections/base-section/BaseSection.js';
 
 export class MySection extends BaseSection {
   constructor(bus, smoother) {
