@@ -1,0 +1,9 @@
+
+
+{% macro render(params = {}) %}
+    {%- set color = params.color | default('bg-gel-primary') -%}
+    {%- set id = params.id | default('gel-' + color) -%}
+
+    <div id="{{ id }}" class="{{ color }}" aria-hidden="true"></div>
+
+{% endmacro %}

@@ -21,12 +21,13 @@
 #}
 
 {% import "atoms/video/video.njk" as videoAtom %}
+{% import "atoms/gel/gel.njk" as gelAtom %}
 
 {% macro render(params = {}) %}
-  {%- set overlayId = params.id | default('overlay-view') -%}
+  {%- set bgID = params.id | default('sizzle') -%}
   
   <div 
-    id="{{ overlayId }}" 
+    id="{{ bgID }}" 
     class="absolute bg-pixelator inset-0 w-full h-dvh -z-10"
     aria-hidden="true">
     {{ videoAtom.render({
@@ -37,5 +38,6 @@
       playsInline: true,
       className: "bg-video"
     }) }}
+    {{ gelAtom.render({ color: 'bg-gel-primary'}) }}
   </div>
 {% endmacro %}

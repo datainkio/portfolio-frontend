@@ -162,16 +162,6 @@ export default class StageManager {
   }
 
   /**
-   * Add pixelator background effect
-   * @param {HTMLElement} elem - Element to apply effect to
-   * @returns {HTMLElement} Modified element
-   */
-  addPixelator(elem) {
-    elem.classList.add('bg-pixelator', 'absolute', 'inset-0');
-    return elem;
-  }
-
-  /**
    * Create gel overlay element
    * @param {HTMLElement} elem - Parent element
    * @param {string} color - CSS class (bg-gel-primary, bg-gel-secondary)
