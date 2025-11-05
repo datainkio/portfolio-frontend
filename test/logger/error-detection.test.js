@@ -7,7 +7,7 @@
  * even when the style parameter is not explicitly provided.
  */
 
-import logger from '../../js/utils/logger/index.js';
+import logger from '../../js/utils/lumberjack/index.js';
 
 console.log('\n=== Testing Logger Error Auto-Detection ===\n'); // Test 1: Error with default style (should auto-detect and use error style)
 console.log('Test 1: Error with default parameters');

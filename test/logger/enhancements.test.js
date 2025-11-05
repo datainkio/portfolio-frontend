@@ -8,7 +8,7 @@
  * while maintaining singleton benefits.
  */
 
-import Logger from '../../js/utils/logger/index.js';
+import lumberjack from '../../js/utils/lumberjack/index.js';
 
 console.log('=== Testing Logger Enhancements ===\n');
 

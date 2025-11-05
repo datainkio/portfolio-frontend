@@ -17,7 +17,7 @@
  * - Provides actionable error messages and optimization suggestions
  *
  * INTEGRATION DEPENDENCIES:
- * - Requires Logger.js utility for consistent styling
+ * - Requires Lumberjack.js utility for consistent styling
  * - Must be imported before Tailwind CLI execution
  * - Coordinates with existing build process logging
  * - Used by scripts/buildCSS.js for enhanced build transparency
@@ -29,22 +29,22 @@
  *
  * @class TailwindLogger
  */
-import Logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import lumberjack, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 import { readFileSync, existsSync, statSync } from 'fs';
 import { resolve } from 'path';
 
 // Create scoped logger for Tailwind operations with custom prefix
-const logger = Logger.createScoped('TailwindCSS', { prefix: '🎨' });
+const logger = lumberjack.createScoped('TailwindCSS', { prefix: '🎨' });
 
 /**
  * Custom Logger Styles for Tailwind CSS Operations
  */
-const titleStyle = new LoggerStyle('#06B6D4', '\n🎨');
-const processStyle = new LoggerStyle('#0EA5E9', '   •');
-const successStyle = new LoggerStyle('#10B981', '\n✅ ');
-const warningStyle = new LoggerStyle('#F59E0B', '\n⚠️ ');
-const errorStyle = new LoggerStyle('#EF4444', '\n🚨 ');
-const metricStyle = new LoggerStyle('#8B5CF6', '   📊');
+const titleStyle = new LumberjackStyle('#06B6D4', '\n🎨');
+const processStyle = new LumberjackStyle('#0EA5E9', '   •');
+const successStyle = new LumberjackStyle('#10B981', '\n✅ ');
+const warningStyle = new LumberjackStyle('#F59E0B', '\n⚠️ ');
+const errorStyle = new LumberjackStyle('#EF4444', '\n🚨 ');
+const metricStyle = new LumberjackStyle('#8B5CF6', '   📊');
 
 export class TailwindLogger {
   /**

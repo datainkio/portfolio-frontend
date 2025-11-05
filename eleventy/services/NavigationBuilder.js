@@ -29,13 +29,13 @@
  *
  * @class NavigationBuilder
  */
-import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 
 /**
  * Custom Logger Styles for Navigation Operations
  */
-const msgInitStyle = new LoggerStyle('#CA6702', '•');
-const successInitStyle = new LoggerStyle('#EE9B00', '\n👍');
+const msgInitStyle = new LumberjackStyle('#CA6702', '•');
+const successInitStyle = new LumberjackStyle('#EE9B00', '\n👍');
 
 export class NavigationBuilder {
   /**

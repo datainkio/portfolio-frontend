@@ -6,12 +6,12 @@
  * Simulates the visual output you'll see during Airtable data fetching
  */
 
-import logger, { LoggerStyle } from '../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '../js/utils/lumberjack/index.js';
 
 // Recreate the custom styles from fetchAirtableData.js
-const airtableStyle = new LoggerStyle('#F97316', '🗄️');
-const cachingStyle = new LoggerStyle('#8B5CF6', '💾');
-const processingStyle = new LoggerStyle('#06B6D4', '⚙️');
+const airtableStyle = new LumberjackStyle('#F97316', '🗄️');
+const cachingStyle = new LumberjackStyle('#8B5CF6', '💾');
+const processingStyle = new LumberjackStyle('#06B6D4', '⚙️');
 
 console.log('\n=== Airtable Logger Styles Preview ===\n');
 

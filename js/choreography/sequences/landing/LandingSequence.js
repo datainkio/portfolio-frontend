@@ -15,6 +15,9 @@
  */
 
 import { gsap } from '/assets/js/gsap/all.js';
+import { Lumberjack } from '/assets/js/utils/lumberjack/index.js';
+
+const logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
 export class LandingSequence {
   /**
@@ -23,11 +26,7 @@ export class LandingSequence {
    * @param {Object} sections - Section controllers (hero, work, biography)
    */
   constructor(bus, sections) {
-    console.log('[LandingSequence] ========================================');
-    console.log('[LandingSequence] Constructor called');
-    console.log('[LandingSequence] bus:', bus);
-    console.log('[LandingSequence] sections:', sections);
-    console.log('[LandingSequence] ========================================');
+    logger.trace('Constructor called', { bus, sections }, 'verbose', 'standard');
 
     this.bus = bus;
     this.sections = sections;
@@ -37,10 +36,8 @@ export class LandingSequence {
     };
     this._unsubscribers = [];
 
-    console.log('[LandingSequence] About to call setupSequence()...');
     this.setupSequence();
-    console.log('[LandingSequence] ✅ Constructor complete');
-    console.log('[LandingSequence] ========================================');
+    logger.trace('Constructor complete', null, 'brief', 'success');
   }
 
   /**
@@ -50,22 +47,17 @@ export class LandingSequence {
    * Modify here to change sequence timing, order, or add new steps.
    */
   setupSequence() {
-    console.log('[LandingSequence] ========================================');
-    console.log('[LandingSequence] setupSequence() called');
-    console.log('[LandingSequence] Setting up event listeners...');
-    console.log('[LandingSequence] ========================================');
-
-    console.log('[LandingSequence] Setting up animation sequence');
+    logger.trace('Setting up event listeners', null, 'brief', 'headsup');
 
     // Step 1: Hero intro complete → Work intro
     this._unsubscribers.push(
       this.bus.on('section:main-header:intro:complete', () => {
-        console.log('[LandingSequence] Hero intro complete → triggering Work intro');
+        logger.trace('Hero intro complete → triggering Work intro', null, 'brief', 'standard');
         if (this.sections.work) {
           try {
             this.sections.work.playIntro();
           } catch (error) {
-            console.error('[LandingSequence] Error playing Work intro:', error);
+            logger.trace('Error playing Work intro', error, 'verbose', 'error');
           }
         }
       })
@@ -74,12 +66,12 @@ export class LandingSequence {
     // Step 2: Hero scroll exit → Biography intro
     this._unsubscribers.push(
       this.bus.on('section:main-header:scroll:exit', () => {
-        console.log('[LandingSequence] Hero scroll exit → triggering Biography intro');
+        logger.trace('Hero scroll exit → triggering Biography intro', null, 'brief', 'standard');
         if (this.sections.biography) {
           try {
             this.sections.biography.playIntro();
           } catch (error) {
-            console.error('[LandingSequence] Error playing Biography intro:', error);
+            logger.trace('Error playing Biography intro', error, 'verbose', 'error');
           }
         }
       })
@@ -88,14 +80,14 @@ export class LandingSequence {
     // Step 3: Work scroll enter → printer marks visible
     this._unsubscribers.push(
       this.bus.on('section:work:scroll:enter', () => {
-        console.log('[LandingSequence] Work section entered viewport');
+        logger.trace('Work section entered viewport', null, 'brief', 'standard');
       })
     );
 
     // Step 4: Biography scroll enter → fade overlay
     this._unsubscribers.push(
       this.bus.on('section:biography:scroll:enter', () => {
-        console.log('[LandingSequence] Biography section entered → fading overlay');
+        logger.trace('Biography section entered → fading overlay', null, 'brief', 'standard');
 
         const overlayPrimary = document.getElementById('overlay-primary');
         if (overlayPrimary) {
@@ -111,7 +103,7 @@ export class LandingSequence {
     // Step 5: Mark sequence complete
     this._unsubscribers.push(
       this.bus.on('section:biography:intro:complete', () => {
-        console.log('[LandingSequence] All intro sequences complete');
+        logger.trace('All intro sequences complete', null, 'brief', 'success');
         this.state.isComplete = true;
       })
     );
@@ -125,22 +117,22 @@ export class LandingSequence {
    */
   start() {
     if (this.state.isStarted) {
-      console.warn('[LandingSequence] Sequence already started');
+      logger.trace('Sequence already started', null, 'brief', 'headsup');
       return;
     }
 
     if (!this.sections.hero) {
-      console.error('[LandingSequence] Cannot start - hero section missing');
+      logger.trace('Cannot start - hero section missing', null, 'brief', 'error');
       return;
     }
 
-    console.log('[LandingSequence] Starting landing page animation sequence');
+    logger.trace('Starting landing page animation sequence', null, 'brief', 'headsup');
     this.state.isStarted = true;
 
     try {
       this.sections.hero.playIntro();
     } catch (error) {
-      console.error('[LandingSequence] Error starting hero intro:', error);
+      logger.trace('Error starting hero intro', error, 'verbose', 'error');
       this.state.isStarted = false;
     }
   }
@@ -152,7 +144,7 @@ export class LandingSequence {
    * Does not remove event listeners - use destroy() for full cleanup.
    */
   reset() {
-    console.log('[LandingSequence] Resetting sequence');
+    logger.trace('Resetting sequence', null, 'brief', 'standard');
 
     Object.values(this.sections).forEach(section => {
       if (section && typeof section.reset === 'function') {
@@ -171,7 +163,7 @@ export class LandingSequence {
    * Sequence cannot be reused after destroy().
    */
   destroy() {
-    console.log('[LandingSequence] Destroying sequence and cleaning up');
+    logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');
 
     this._unsubscribers.forEach(unsubscribe => unsubscribe());
     this._unsubscribers = [];

@@ -7,7 +7,7 @@
  * Tests the Figma script outline without making actual API calls
  */
 
-import logger from '../js/utils/logger/index.js';
+import logger from '../js/utils/lumberjack/index.js';
 
 // Enable logger
 logger.enabled = true;

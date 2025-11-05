@@ -3,7 +3,7 @@
 import { rm, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join } from 'path';
-import logger from '../js/utils/logger/index.js';
+import logger from '../js/utils/lumberjack/index.js';
 
 const siteFolder = join(process.cwd(), '_site');
 const preserveDirs = ['content']; // Directories to preserve

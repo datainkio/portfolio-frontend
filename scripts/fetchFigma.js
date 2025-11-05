@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { fileURLToPath } from 'url';
-import logger from '../js/utils/logger/index.js';
+import logger from '../js/utils/lumberjack/index.js';
 import { fileService, styleService, paletteService, typographyService } from '../figma/index.js';
 import { buildCSS } from './buildCSS.js';
 

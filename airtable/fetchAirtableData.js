@@ -3,7 +3,7 @@
 // Silence punycode deprecation warning
 process.noDeprecation = true;
 
-import logger, { LoggerStyle } from '../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '../js/utils/lumberjack/index.js';
 import { config } from 'dotenv';
 import { AssetCache } from '@11ty/eleventy-fetch';
 import { processFile, completeProcessing } from './processFile.js';
@@ -19,9 +19,9 @@ config();
  * - cachingStyle (Purple 💾): Cache-related operations (using/saving cache)
  * - processingStyle (Cyan ⚙️): Record processing operations
  */
-const msgStyle = new LoggerStyle('#0A9396', '🗄️');
-const cachedStyle = new LoggerStyle('#CA6702', '•');
-const refreshStyle = new LoggerStyle('#CA6702', '↻');
+const msgStyle = new LumberjackStyle('#0A9396', '🗄️');
+const cachedStyle = new LumberjackStyle('#CA6702', '•');
+const refreshStyle = new LumberjackStyle('#CA6702', '↻');
 
 /**
  * Fetch data from an Airtable table and cache it.

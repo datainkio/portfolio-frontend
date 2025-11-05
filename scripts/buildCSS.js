@@ -39,7 +39,7 @@ import { TailwindLogger } from '../eleventy/services/TailwindLogger.js';
 import { execSync, spawn } from 'child_process';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import logger, { LoggerStyle } from '../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '../js/utils/lumberjack/index.js';
 
 // Enable logger for build transparency
 logger.enabled = true;
@@ -52,8 +52,8 @@ const projectRoot = resolve(__dirname, '..');
 /**
  * Custom Logger Styles for Build Script
  */
-const scriptStyle = new LoggerStyle('#7C3AED', '\n⚙️ ');
-const errorStyle = new LoggerStyle('#EF4444', '\n🚨 ');
+const scriptStyle = new LumberjackStyle('#7C3AED', '\n⚙️ ');
+const errorStyle = new LumberjackStyle('#EF4444', '\n🚨 ');
 
 /**
  * CRITICAL WARNING: Main CSS build function with comprehensive logging

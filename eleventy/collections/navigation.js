@@ -25,14 +25,14 @@
  * @param {Object} eleventyConfig - 11ty configuration object
  * @param {Object} site - Site configuration from site.json
  */
-import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 import { NavigationBuilder } from '../services/NavigationBuilder.js';
 
 /**
  * Custom Logger Styles for Navigation Operations
  */
-const titleInitStyle = new LoggerStyle('#EE9B00', '\n🧭');
-const successInitStyle = new LoggerStyle('#EE9B00', '\n👍');
+const titleInitStyle = new LumberjackStyle('#EE9B00', '\n🧭');
+const successInitStyle = new LumberjackStyle('#EE9B00', '\n👍');
 
 /**
  * CRITICAL WARNING: Main navigation initialization function

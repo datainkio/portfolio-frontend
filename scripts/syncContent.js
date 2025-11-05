@@ -24,7 +24,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import logger from '../js/utils/logger/index.js';
+import logger from '../js/utils/lumberjack/index.js';
 
 const CACHE_DIR = '.cache';
 const CONTENT_DIR = '_site/content';

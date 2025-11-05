@@ -7,7 +7,7 @@
  * for transparency in build processes.
  */
 
-import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 
 // Enable logger for testing
 logger.enabled = true;
@@ -88,7 +88,7 @@ const designSyncSequence = [
   },
 ];
 
-const customStyle = new LoggerStyle('#9333EA', '🎨');
+const customStyle = new LumberjackStyle('#9333EA', '🎨');
 logger.showScriptOutline('Design System Sync', designSyncSequence, 'verbose', customStyle);
 
 // Test 4: Error handling - empty sequence

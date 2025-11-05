@@ -1,6 +1,6 @@
 /** @format */
 
-import logger from '../../js/utils/logger/index.js';
+import logger from '../../js/utils/lumberjack/index.js';
 
 console.log('🧪 Testing Logger with Optional obj Parameter\n');
 

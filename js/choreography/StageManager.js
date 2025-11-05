@@ -24,6 +24,7 @@
 import { gsap } from '/assets/js/gsap/all.js';
 import { ScrollSmoother } from '/assets/js/gsap/ScrollSmoother.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
@@ -72,23 +73,31 @@ export default class StageManager {
    * - site content: Above overlay
    */
   initView() {
-    console.log('StageManager: Initializing background effects system');
+    lumberjack.trace('Initializing background effects system', null, 'brief', 'headsup');
 
     this._container = document.getElementById('smooth-content');
     if (!this._container) {
-      console.warn('StageManager: smooth-content element not found - overlay system disabled');
+      lumberjack.trace(
+        'smooth-content element not found - overlay system disabled',
+        null,
+        'brief',
+        'error'
+      );
       return;
     }
 
     this._view = document.getElementById('overlay-view');
     if (!this._view) {
-      console.warn(
-        'StageManager: overlay-view element not found - ensure overlay-view.njk is included'
+      lumberjack.trace(
+        'overlay-view element not found - ensure overlay-view.njk is included',
+        null,
+        'brief',
+        'error'
       );
       return;
     }
 
-    console.log('StageManager: Background effects system initialized');
+    lumberjack.trace('Background effects system initialized', null, 'brief', 'success');
   }
 
   /**
@@ -111,9 +120,9 @@ export default class StageManager {
         content: '#smooth-content',
         effects: false, // Disable parallax, only smooth scrolling
       });
-      console.log('ScrollSmoother enabled');
+      lumberjack.trace('ScrollSmoother enabled', null, 'brief', 'success');
     } else {
-      console.log('ScrollSmoother disabled - using native scroll');
+      lumberjack.trace('ScrollSmoother disabled - using native scroll', null, 'brief', 'standard');
     }
   }
 

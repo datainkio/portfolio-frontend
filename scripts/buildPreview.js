@@ -21,7 +21,7 @@
 
 import { fileURLToPath } from 'url';
 import { resolve, dirname } from 'path';
-import logger from '../js/utils/logger/index.js';
+import logger from '../js/utils/lumberjack/index.js';
 
 // Enable logger for preview
 logger.enabled = true;

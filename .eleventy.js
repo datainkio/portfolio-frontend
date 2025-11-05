@@ -2,7 +2,7 @@
 // Silence punycode warning
 process.noDeprecation = true;
 
-import logger, { LoggerStyle } from './js/utils/logger/index.js';
+import logger, { LumberjackStyle } from './js/utils/lumberjack/index.js';
 
 import collections from './eleventy/collections/index.js';
 import plugins from './eleventy/plugins/plugins.js';
@@ -12,9 +12,9 @@ import shortcodes from './eleventy/shortcodes/shortcodes.js';
 /**
  * Custom Logger Styles for 11ty Operations
  */
-const titleStyle = new LoggerStyle('#EE9B00', '🚀');
-const msgStyle = new LoggerStyle('#CA6702', '•');
-const successStyle = new LoggerStyle('#EE9B00', '\n👍');
+const titleStyle = new LumberjackStyle('#EE9B00', '🚀');
+const msgStyle = new LumberjackStyle('#CA6702', '•');
+const successStyle = new LumberjackStyle('#EE9B00', '\n👍');
 
 export default async function (eleventyConfig) {
   await logger.group(async () => {

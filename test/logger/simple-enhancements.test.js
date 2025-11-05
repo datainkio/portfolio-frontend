@@ -7,7 +7,7 @@
  * Tests Logger enhancements without triggering console clearing issues
  */
 
-import Logger from '../../js/utils/logger/index.js';
+import lumberjack from '../../js/utils/lumberjack/index.js';
 
 // Force Logger to be enabled
 const instance = Logger;

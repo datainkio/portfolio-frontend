@@ -1,6 +1,11 @@
 /** @format */
 
-console.log('[Director.js] Module loading...');
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
+
+// Create scoped logger for Director operations
+const logger = lumberjack.createScoped('Director', { prefix: '🎬', color: '#10B981' });
+
+logger.trace('Module loading...', null, 'brief', 'standard');
 
 /**
  * Animation Director - Master Choreography Controller
@@ -68,45 +73,42 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    console.log('[Director] ========================================');
-    console.log('[Director] Constructor started');
-    console.log('[Director] ========================================');
+    logger.trace('Constructor started', null, 'brief', 'headsup');
 
     // Central event bus for animation coordination
-    console.log('[Director] Creating AnimationBus...');
+    logger.trace('Creating AnimationBus...', null, 'brief', 'standard');
     this.bus = new AnimationBus();
-    console.log('[Director] ✅ AnimationBus created:', this.bus);
+    logger.trace('AnimationBus created', this.bus, 'brief', 'success');
 
     // Stage manager for scroll and visual effects
-    console.log('[Director] Creating StageManager...');
+    logger.trace('Creating StageManager...', null, 'brief', 'standard');
     this.stage = new StageManager();
-    console.log('[Director] ✅ StageManager created:', this.stage);
+    logger.trace('StageManager created', this.stage, 'brief', 'success');
 
     // ScrollSmoother instance (null if not available)
     // Passed to section controllers for optional smooth scroll integration
     this.smoother = this.stage.getSmoother();
-    console.log('[Director] ScrollSmoother available:', !!this.smoother);
+    logger.trace('ScrollSmoother available', { available: !!this.smoother }, 'brief', 'standard');
 
     // Section controller instances
-    console.log('[Director] Creating section controllers...');
+    logger.trace('Creating section controllers...', null, 'brief', 'standard');
     this.sections = {
       hero: new Hero(this.bus, this.smoother),
       work: new Work(this.bus, this.smoother),
       biography: new Biography(this.bus, this.smoother),
     };
-    console.log('[Director] ✅ Sections created:', Object.keys(this.sections));
+    logger.trace('Sections created', Object.keys(this.sections), 'brief', 'success');
 
     // Landing page animation sequence coordinator
     // Needs bus for events and sections for triggering animations
-    console.log('[Director] Creating LandingSequence...');
+    logger.trace('Creating LandingSequence...', null, 'brief', 'standard');
     this.sequence = new LandingSequence(this.bus, this.sections);
-    console.log('[Director] ✅ LandingSequence created:', this.sequence);
+    logger.trace('LandingSequence created', this.sequence, 'brief', 'success');
 
     // Start the show!
-    console.log('[Director] Starting landing page sequence...');
+    logger.trace('Starting landing page sequence...', null, 'brief', 'headsup');
     this.sequence.start();
-    console.log('[Director] ✅ Constructor complete');
-    console.log('[Director] ========================================');
+    logger.trace('Constructor complete', null, 'brief', 'success');
   }
 
   /**
@@ -146,7 +148,7 @@ export default class Director {
    * Resets all section controllers and replays sequence
    */
   restart() {
-    console.log('[Director] Restarting landing sequence');
+    logger.trace('Restarting landing sequence', null, 'brief', 'headsup');
     this.sequence.reset();
     this.sequence.start();
   }
@@ -157,7 +159,7 @@ export default class Director {
    * WARNING: Director cannot be reused after destroy()
    */
   destroy() {
-    console.log('[Director] Destroying animation system');
+    logger.trace('Destroying animation system', null, 'brief', 'headsup');
 
     // Destroy sequence and remove event listeners
     if (this.sequence) {
@@ -196,29 +198,28 @@ export default class Director {
  * - Use for debugging: window.director.enableDebug(true)
  * - Use for control: window.director.restart()
  */
-console.log('[Director.js] Setting up DOMContentLoaded listener...');
+logger.trace('Setting up DOMContentLoaded listener...', null, 'brief', 'standard');
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('[Director] ========================================');
-  console.log('[Director] DOMContentLoaded event fired');
-  console.log('[Director] Creating Director instance...');
-  console.log('[Director] ========================================');
+  logger.trace('DOMContentLoaded event fired', null, 'brief', 'headsup');
+  logger.trace('Creating Director instance...', null, 'brief', 'standard');
 
   try {
     // Create global Director instance
     window.director = new Director();
 
-    console.log('[Director] ========================================');
-    console.log('[Director] ✅ Director initialized successfully');
-    console.log('[Director] Available at: window.director');
-    console.log('[Director] Available sections:', Object.keys(window.director.sections));
-    console.log('[Director] Sequence:', window.director.sequence);
-    console.log('[Director] ========================================');
+    logger.trace(
+      'Director initialized successfully',
+      {
+        sections: Object.keys(window.director.sections),
+        sequence: !!window.director.sequence,
+        stage: !!window.director.stage,
+      },
+      'brief',
+      'success'
+    );
+    logger.trace('Available at: window.director', null, 'brief', 'standard');
   } catch (error) {
-    console.error('[Director] ========================================');
-    console.error('[Director] ❌ Failed to initialize Director');
-    console.error('[Director] Error:', error);
-    console.error('[Director] Stack trace:', error.stack);
-    console.error('[Director] ========================================');
+    logger.trace('Failed to initialize Director', error, 'verbose', 'error');
   }
 
   // Optional: Enable debug mode during development
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // window.director.enableDebug(true);
 });
 
-console.log('[Director.js] ✅ Module loaded, waiting for DOMContentLoaded...');
+logger.trace('Module loaded, waiting for DOMContentLoaded...', null, 'brief', 'success');
 
 /**
  * USAGE INSTRUCTIONS FOR FUTURE DEVELOPERS:

@@ -224,3 +224,25 @@ Required environment variables for external integrations:
 - **Parameter Passing**: Macros accept object params: `{{ macro.render({ key: "value" }) }}`
 - **Import Paths**: Always relative to `njk/_includes/` directory
 - **Default Values**: Use Nunjucks filters for fallbacks: `params.value | default('fallback')`
+
+## Lumberjack Logging System
+
+**Dual-Mode Logger**: Automatically detects environment and uses appropriate styling:
+
+- **Terminal Mode (Node.js)**: Uses `chalk` package for ANSI color codes in build scripts
+- **Browser Mode**: Uses CSS `%c` directive for styled console output at runtime
+- **Auto-Detection**: Checks `window` and `document` objects to determine environment
+- **Graceful Fallback**: If chalk import fails, returns plain text
+
+**Usage Pattern**:
+
+```javascript
+import lumberjack from './js/utils/lumberjack/index.js';
+
+// Works in both terminal and browser
+lumberjack.trace('Processing files:', fileArray, 'brief', 'standard');
+lumberjack.trace('Build complete:', result, 'brief', 'success');
+```
+
+**Semantic Styles**: `'standard'`, `'headsup'`, `'error'`, `'success'` with color + emoji prefix
+**Display Modes**: `'brief'` (default), `'verbose'`, `'silent'`

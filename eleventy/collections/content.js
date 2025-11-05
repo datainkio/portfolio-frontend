@@ -1,11 +1,11 @@
-import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 import fetchAirtableData from '../../airtable/fetchAirtableData.js';
 /**
  * Custom Logger Styles for 11ty Operations
  */
-const titleStyle = new LoggerStyle('#EE9B00', '\n☎️  ');
-const msgStyle = new LoggerStyle('#CA6702', '•');
-const successStyle = new LoggerStyle('#EE9B00', '\n👍');
+const titleStyle = new LumberjackStyle('#EE9B00', '\n☎️  ');
+const msgStyle = new LumberjackStyle('#CA6702', '•');
+const successStyle = new LumberjackStyle('#EE9B00', '\n👍');
 /**
  * Airtable builds a collection for each table in the site.airtables array
  *
