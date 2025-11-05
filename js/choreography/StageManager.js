@@ -125,37 +125,41 @@ export default class StageManager {
       lumberjack.trace('ScrollSmoother disabled - using native scroll', null, 'brief', 'standard');
     }
 
-    // Pin background video in place
-    this.pinBackground();
+    // Slide gel offscreen on scroll
+    this.animateGel();
   }
 
   /**
-   * Pin background video permanently during scroll
+   * Animate gel element offscreen on scroll
    *
-   * Keeps #sizzle-background fixed in place throughout the entire page scroll.
-   * Uses ScrollTrigger.pin to maintain fixed positioning.
+   * Slides the gel element out of view as the user scrolls down.
+   * Animation is scrubbed to scroll position for smooth interaction.
    */
-  pinBackground() {
-    const background = document.getElementById('sizzle-background');
+  animateGel() {
+    const gel = document.querySelector('.bg-gel-radial, .bg-gel-vertical, [class*="bg-gel"]');
 
-    if (!background) {
-      lumberjack.trace(
-        'Cannot pin background - #sizzle-background not found',
-        null,
-        'brief',
-        'error'
-      );
+    if (!gel) {
+      lumberjack.trace('Cannot animate gel - gel element not found', null, 'brief', 'error');
       return;
     }
 
-    ScrollTrigger.create({
-      trigger: 'body',
-      start: 'top top',
-      pin: background,
-      pinSpacing: false,
+    const headerElement = document.getElementById('main-header');
+    if (!headerElement) {
+      lumberjack.trace('Cannot animate gel - #main-header not found', null, 'brief', 'error');
+      return;
+    }
+
+    gsap.to(gel, {
+      x: '-100%',
+      scrollTrigger: {
+        trigger: headerElement,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1,
+      },
     });
 
-    lumberjack.trace('Background video pinned', null, 'brief', 'success');
+    lumberjack.trace('Gel slide animation configured', null, 'brief', 'success');
   }
 
   /**

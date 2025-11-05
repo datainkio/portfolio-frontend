@@ -60,6 +60,9 @@
     /* Content container that gets smoothly scrolled */
     overflow: visible;
     width: 100%;
+    background: transparent;
+    position: relative;
+    z-index: 10;
   }
 
   /* Performance Optimizations for Video Elements */
