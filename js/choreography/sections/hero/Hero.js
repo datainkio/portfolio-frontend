@@ -95,6 +95,43 @@ export default class Hero extends BaseSection {
   }
 
   /**
+   * Create outro animation
+   *
+   * Reverses the TextParty.roll intro animation.
+   * Characters roll out in reverse with skew and translation.
+   *
+   * @override BaseSection.createOutro()
+   */
+  createOutro() {
+    if (!this.titleElement || !this.rollTimeline) return;
+
+    const rollSettings = {
+      duration: INTRO_DURATION,
+      stagger: 0.05,
+      ease: INTRO_EASE,
+      rotation: 15,
+      y_delta: INTRO_Y,
+    };
+
+    // Build reverse animation timeline
+    const chars = this.titleElement.querySelectorAll('.text-roll-char');
+
+    if (chars.length > 0) {
+      this.timeline.to(chars, {
+        duration: rollSettings.duration,
+        rotation: 0 - rollSettings.rotation,
+        skewY: '1.2rad',
+        y: rollSettings.y_delta,
+        stagger: {
+          each: 0.1,
+          ease: 'power1.inOut',
+        },
+        ease: rollSettings.ease,
+      });
+    }
+  }
+
+  /**
    * Create scroll-triggered outro animation
    *
    * Reverses the TextParty.roll intro as user scrolls past hero.

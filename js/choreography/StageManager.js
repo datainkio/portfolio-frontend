@@ -124,6 +124,38 @@ export default class StageManager {
     } else {
       lumberjack.trace('ScrollSmoother disabled - using native scroll', null, 'brief', 'standard');
     }
+
+    // Pin background video in place
+    this.pinBackground();
+  }
+
+  /**
+   * Pin background video permanently during scroll
+   *
+   * Keeps #sizzle-background fixed in place throughout the entire page scroll.
+   * Uses ScrollTrigger.pin to maintain fixed positioning.
+   */
+  pinBackground() {
+    const background = document.getElementById('sizzle-background');
+
+    if (!background) {
+      lumberjack.trace(
+        'Cannot pin background - #sizzle-background not found',
+        null,
+        'brief',
+        'error'
+      );
+      return;
+    }
+
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      pin: background,
+      pinSpacing: false,
+    });
+
+    lumberjack.trace('Background video pinned', null, 'brief', 'success');
   }
 
   /**
