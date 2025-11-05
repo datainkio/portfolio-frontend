@@ -2,28 +2,19 @@
 
 /* Custom Background Graphpaper Patterns */
 @layer components {
+  /* Just a simple grid pattern. Particularly useful for hiding the jaggies in low-res video */
   .bg-pixelator {
-    background-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.3) 1px,
-        transparent 1px
-      ),
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.3) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 1px, transparent 1px);
     background-size: 0.5rem 0.5rem;
   }
+  /* Quadrant split background using primary, secondary, accent, and success colors */
   .bg-quadrants {
     background:
-      linear-gradient(
-          to right,
-          var(--color-primary-800) 50%,
-          var(--color-accent-400) 50%
-        )
-        top / 100% 50% no-repeat,
-      linear-gradient(
-          to right,
-          var(--color-secondary-800) 50%,
-          var(--color-semantic-success) 50%
-        )
+      linear-gradient(to right, var(--color-primary-800) 50%, var(--color-accent-400) 50%) top /
+        100% 50% no-repeat,
+      linear-gradient(to right, var(--color-secondary-800) 50%, var(--color-semantic-success) 50%)
         bottom / 100% 50% no-repeat;
   }
 }

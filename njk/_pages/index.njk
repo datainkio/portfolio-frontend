@@ -31,7 +31,7 @@ INTEGRATION DEPENDENCIES:
 - ScrollSmoother affects all scroll behavior
 #}
 
-{% import "molecules/overlay-view/overlay-view.njk" as overlayView %}
+{% import "molecules/background/video.njk" as background %}
 
 {% set count = 0 %}
-{{ overlayView.render({ videoSrc: "/assets/video/sizzle.mp4"}) }}
+{{ background.render({ videoSrc: "/assets/video/sizzle.mp4"}) }}
