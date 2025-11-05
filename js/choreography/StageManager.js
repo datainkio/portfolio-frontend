@@ -61,10 +61,10 @@ export default class StageManager {
   }
 
   /**
-   * Create DOM structure and visual effects system
+   * Initialize background effects system
    *
-   * Builds overlay-view container with background video and grid pattern.
-   * Requires #smooth-content element. Gracefully fails if missing.
+   * Finds overlay-view element (created by NJK template) and stores references.
+   * Requires #overlay-view and #smooth-content elements. Gracefully fails if missing.
    *
    * Visual stack (z-index order):
    * - overlay-view: Grid pattern background (-z-10)
@@ -76,34 +76,20 @@ export default class StageManager {
 
     this._container = document.getElementById('smooth-content');
     if (!this._container) {
-      console.warn('smooth-content element not found - falling back to main element');
-      this._container = document.querySelector('main');
-      if (!this._container) {
-        console.warn('main element not found - overlay system disabled');
-        return;
-      }
+      console.warn('StageManager: smooth-content element not found - overlay system disabled');
+      return;
     }
 
-    // Create overlay container with grid pattern (bg-video class)
-    this._view = document.createElement('div');
-    this._view.id = 'overlay-view';
-    this._view.classList.add('absolute', 'inset-0', 'w-full', 'h-dvh', '-z-10');
-    this._container.prepend(this._view);
+    // Find overlay-view element (created by overlay-view.njk template)
+    this._view = document.getElementById('overlay-view');
+    if (!this._view) {
+      console.warn(
+        'StageManager: overlay-view element not found - ensure overlay-view.njk is included'
+      );
+      return;
+    }
 
-    // Add background video
-    this._video = this.addVideo(this._view, VIDEO_URL);
-    this._video.classList.add(
-      'bg-video',
-      'absolute',
-      'inset-0',
-      'w-full',
-      'h-full',
-      'object-cover'
-    );
-    // Additional overlays (currently disabled)
-    // this.addPixelator(this._view);
-    // this.addOverlay(this._view, 'bg-gel-primary', 'primary');
-    // this.addOverlay(this._view, 'bg-gel-secondary', 'secondary');
+    console.log('StageManager: Background effects system initialized');
   }
 
   /**

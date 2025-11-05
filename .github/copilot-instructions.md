@@ -74,6 +74,54 @@ names become collection names (lowercase).
 - **Logging**: Consistent chalk-colored console output for build steps
 - **Caching**: Aggressive caching for external APIs with configurable durations
 
+## Nunjucks Template Patterns
+
+**Macro Pattern**: Preferred for reusable components with parameters:
+
+```njk
+{# Component definition (atoms/molecules) #}
+{% macro render(params = {}) %}
+  {%- set value = params.key | default('fallback') -%}
+  <element>{{ value }}</element>
+{% endmacro %}
+
+{# Component usage (pages/organisms) #}
+{% import "atoms/component.njk" as component %}
+{{ component.render({ key: "value" }) }}
+```
+
+**Include Pattern**: Use only for static content without parameters:
+
+```njk
+{% include "organisms/static-section.njk" %}
+```
+
+**Critical**: Do NOT use `with` keyword in include statements - causes Nunjucks parse errors. Use macro pattern for parameterized components.
+
+**Atomic Design Component Structure**:
+
+- **Atoms**: Single-purpose elements (video, icon, button) - export as macros
+- **Molecules**: Combinations of atoms (overlay-view = container + video) - export as macros
+- **Organisms**: Complex sections combining molecules (hero, biography) - can use includes or macros
+- **Templates**: Page layouts (parallax.njk) - use includes for content blocks
+
+**Example: Overlay-View Molecule**
+
+```njk
+{# njk/_includes/molecules/overlay-view/overlay-view.njk #}
+{% import "atoms/video/video.njk" as videoAtom %}
+
+{% macro render(params = {}) %}
+  <div id="{{ params.id | default('overlay-view') }}">
+    {{ videoAtom.render({ src: params.videoSrc, autoplay: true }) }}
+  </div>
+{% endmacro %}
+
+{# Usage in pages #}
+{% import "molecules/overlay-view/overlay-view.njk" as overlayView %}
+{{ overlayView.render({ videoSrc: "/assets/video/sizzle.mp4" }) }}
+```
+
 ## Documentation Standards
 
 **Code Documentation**: Use concise, clear commenting that focuses on the "why" rather than the "how":
@@ -107,8 +155,27 @@ names become collection names (lowercase).
 
 - GSAP plugins MUST be registered: `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)`
 - Required DOM elements: `#main-header`, `#work`, `#biography`, `#smooth-wrapper`, `#smooth-content`
+- Background overlay: `#overlay-view` (created by overlay-view.njk molecule)
 - Video file: `/assets/video/sizzle.mp4` (web-optimized MP4)
 - CSS classes: `.bg-video`, `.bg-gel-*`, `.bg-pixelator`
+
+**StageManager Integration**:
+
+StageManager finds existing `#overlay-view` element (created by Nunjucks template) instead of creating DOM:
+
+```javascript
+// StageManager.initView() - finds existing elements
+this._view = document.querySelector('#overlay-view');
+this._video = this._view.querySelector('video');
+```
+
+Templates must include overlay-view molecule before StageManager initializes:
+
+```njk
+{# In page template #}
+{% import "molecules/overlay-view/overlay-view.njk" as overlayView %}
+{{ overlayView.render({ videoSrc: "/assets/video/sizzle.mp4" }) }}
+```
 
 ## Interactive Features
 
@@ -145,6 +212,15 @@ Required environment variables for external integrations:
 - **GSAP Plugin Registration**: Must call `gsap.registerPlugin()` before using ScrollTrigger/ScrollSmoother
 - **ScrollSmoother Auto-Detection**: Only enables if BOTH `#smooth-wrapper` and `#smooth-content` exist
 - **Video Format**: Use web-optimized MP4 (not MOV) - Safari compatibility issues with Motion exports
-- **Background Video**: Applied to `#overlay-view` with `.bg-video` class for grid pattern overlay
+- **Background Video**: Rendered via overlay-view.njk molecule, not created by StageManager
+- **Overlay-View Placement**: Must be included in page template before Director.js initializes
 - **Pin Spacing**: ScrollTrigger pinning affects layout - test on mobile devices
 - **Animation Timing**: Section controllers coordinate via AnimationBus events (not direct calls)
+
+## Nunjucks Gotchas
+
+- **Macro vs Include**: Use macros for parameterized components, includes for static content only
+- **`with` Keyword**: Avoid in include statements - causes parse errors. Use macro pattern instead
+- **Parameter Passing**: Macros accept object params: `{{ macro.render({ key: "value" }) }}`
+- **Import Paths**: Always relative to `njk/_includes/` directory
+- **Default Values**: Use Nunjucks filters for fallbacks: `params.value | default('fallback')`

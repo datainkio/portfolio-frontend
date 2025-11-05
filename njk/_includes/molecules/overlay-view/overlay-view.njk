@@ -1,0 +1,40 @@
+{#
+/**
+ * Overlay View Molecule
+ * 
+ * Container for background visual effects system used by StageManager.
+ * Provides grid pattern overlay with background video that gets pinned during scroll.
+ * 
+ * @param {string} id - Element ID (default: 'overlay-view')
+ * @param {string} videoSrc - Video source path (optional, overrides video atom default)
+ * 
+ * USAGE:
+ * {% import "molecules/overlay-view/overlay-view.njk" as overlayView %}
+ * {{ overlayView.render() }}
+ * {{ overlayView.render({ videoSrc: "/assets/video/custom.mp4" }) }}
+ * 
+ * DEPENDENCIES:
+ * - atoms/video/video.njk - Background video element (defaults to imgur sizzle.mp4)
+ * - StageManager.js applies .bg-video class and overlay effects
+ * - ScrollTrigger pins this element during biography section scroll
+ */
+#}
+
+{% import "atoms/video/video.njk" as videoAtom %}
+
+{% macro render(params = {}) %}
+  {%- set overlayId = params.id | default('overlay-view') -%}
+  
+  <div 
+    id="{{ overlayId }}" 
+    class="absolute inset-0 w-full h-dvh -z-10"
+    aria-hidden="true">
+    {{ videoAtom.render({
+      src: params.videoSrc,
+      autoplay: true,
+      loop: true,
+      muted: true,
+      playsInline: true
+    }) }}
+  </div>
+{% endmacro %}
