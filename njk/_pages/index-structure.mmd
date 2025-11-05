@@ -1,0 +1,73 @@
+classDiagram
+    class IndexPage {
+        <<page>>
+        +layout: parallax.njk
+        +permalink: /
+        +bodyClasses: string
+        +scripts: Director.js
+        -render()
+    }
+    
+    class ParallaxTemplate {
+        <<template>>
+        +smoothWrapper: div
+        +smoothContent: div
+        -extends: base.njk
+        -render()
+    }
+    
+    class OverlayViewMolecule {
+        <<molecule>>
+        +id: overlay-view
+        +videoSrc: string
+        +render(params)
+        -contains: VideoAtom
+    }
+    
+    class VideoAtom {
+        <<atom>>
+        +src: string
+        +autoplay: boolean
+        +loop: boolean
+        +muted: boolean
+        +playsInline: boolean
+        +className: bg-video
+        +render(params)
+    }
+    
+    class FullBleedOrganism {
+        <<organism>>
+        +sectionId: main-header
+        -render()
+    }
+    
+    class Director {
+        <<JavaScript>>
+        +bus: AnimationBus
+        +smoother: ScrollSmoother
+        +initialize()
+        -initSections()
+    }
+    
+    class StageManager {
+        <<JavaScript>>
+        +view: HTMLElement
+        +video: HTMLVideoElement
+        +initView()
+        +addPixelator()
+        -findOverlayView()
+    }
+    
+    IndexPage ..> ParallaxTemplate : extends
+    IndexPage --> OverlayViewMolecule : imports & renders
+    IndexPage --> FullBleedOrganism : includes
+    OverlayViewMolecule *-- VideoAtom : composes
+    ParallaxTemplate --> IndexPage : wraps content
+    Director ..> StageManager : initializes
+    StageManager ..> OverlayViewMolecule : finds #overlay-view
+    StageManager ..> VideoAtom : finds video element
+    
+    note for IndexPage "Entry point for landing page<br/>Defines metadata & scripts<br/>Renders overlay-view + sections"
+    note for OverlayViewMolecule "Background effects container<br/>Macro pattern with params<br/>Creates #overlay-view div"
+    note for VideoAtom "Reusable video element<br/>Defaults to imgur sizzle.mp4<br/>Applies bg-video class"
+    note for StageManager "Finds existing DOM elements<br/>No longer creates overlay-view<br/>Applies animation effects"
