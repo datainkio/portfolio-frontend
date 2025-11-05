@@ -36,9 +36,11 @@ dist
 src/_includes/css
 _site
 
-# Copilot generated schema files (keep README.md)
+# Generated schema files
 .copilot/*.json
 .copilot/AIRTABLE_SCHEMA.md
+njk/_data/dbSchema.json
+njk/_data/dbSchema.mmd
 
 
 # MACOS

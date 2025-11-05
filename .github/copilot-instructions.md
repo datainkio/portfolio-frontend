@@ -51,11 +51,13 @@ design files.
 - Each table becomes an 11ty collection accessible in templates
 - Smart caching via `@11ty/eleventy-fetch` prevents API rate limits
 
-**Schema Reference**: Complete Airtable schema available in `.copilot/airtable-schema.json`:
+**Schema Reference**: Complete Airtable schema available at multiple locations:
+
+- **Primary**: `njk/_data/airtableSchema.json` - Available in templates as `{{ airtableSchema }}`
+- **Copilot**: `.copilot/airtable-schema.json` - Copy for Copilot context
+- **Documentation**: `.copilot/AIRTABLE_SCHEMA.md` - Human-readable reference
 - Auto-generated during build process (`npm run schema:generate`)
-- Contains all table structures, field types, and relationships
-- Includes sample values and field usage statistics
-- Human-readable version in `.copilot/AIRTABLE_SCHEMA.md`
+- Contains all table structures, field types, relationships, and sample values
 
 Collections are auto-generated in `eleventy/collections/content.js` - table
 names become collection names (lowercase).

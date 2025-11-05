@@ -8,6 +8,7 @@ The build system uses a carefully orchestrated sequence of scripts that must exe
 
 - **`fetchFigma.js`** - Syncs design tokens from Figma API to CSS files
 - **`buildCSS.js`** - Enhanced Tailwind CSS compilation with comprehensive logging
+- **`generateAirtableSchema.js`** - Generates Copilot-optimized Airtable schema documentation
 - **`fetchAirtable.js`** - Syncs content from Airtable API for 11ty collections
 - **`buildAssets.js`** - Processes and copies static assets to build directory
 - **`deployPrep.js`** - Prepares production build with optimizations
@@ -136,6 +137,84 @@ node scripts/buildCSS.js --watch
 - **Import Analysis**: Detects inefficient CSS import strategies
 - **Build Performance**: Flags slow builds with specific improvement suggestions
 - **Size Analysis**: Tracks CSS bloat and unused code opportunities
+
+### generateAirtableSchema.js - Copilot Schema Generation
+
+**Purpose**: Generates comprehensive Airtable schema documentation optimized for Copilot context  
+**Dependencies**: `fetchAirtableData`, Logger utility, Node.js `fs`  
+**Output**: Creates `.copilot/airtable-schema.json`, `.copilot/airtable-schema.compact.json`, `.copilot/AIRTABLE_SCHEMA.md`  
+**Triggers**: `npm run schema:generate`, automatically runs in build sequence via `build:schema`
+
+**ARCHITECTURE OVERVIEW**:
+
+This script analyzes your entire Airtable base and generates three complementary schema files:
+
+1. **airtable-schema.json** - Pretty-printed JSON with complete field analysis
+2. **airtable-schema.compact.json** - Minified version for faster loading
+3. **AIRTABLE_SCHEMA.md** - Human-readable markdown documentation
+
+**WHAT IT ANALYZES**:
+
+- **Field Types**: Infers types from actual data (string, integer, date, recordId, etc.)
+- **Fill Rates**: Calculates what percentage of records have non-null values
+- **Sample Values**: Captures representative data for each field
+- **Relationships**: Detects record references and inter-table links
+- **Unique Counts**: Tracks data cardinality for each field
+
+**SCHEMA STRUCTURE**:
+
+```json
+{
+  "_meta": {
+    "description": "Airtable base schema for dataink.io portfolio",
+    "generated": "2025-11-05T22:30:54.412Z",
+    "purpose": "Copilot context - provides complete structure of CMS tables"
+  },
+  "summary": {
+    "tableCount": 15,
+    "tables": {
+      "Projects": {
+        "recordCount": 30,
+        "fieldCount": 40,
+        "relationships": 17,
+        "view": "Published"
+      }
+    }
+  },
+  "tables": {
+    "Projects": {
+      "fields": {
+        "title": {
+          "types": ["string"],
+          "nullable": false,
+          "fillRate": "100.0%",
+          "samples": ["Live, Hope, Love", "Smart Decisions"]
+        }
+      }
+    }
+  }
+}
+```
+
+**WHY THIS MATTERS FOR COPILOT**:
+
+- **Accurate Completions**: Copilot knows exact field names and types
+- **Better Suggestions**: Understands relationships between tables
+- **Type Safety**: Prevents errors by showing actual data patterns
+- **Context Awareness**: Sees real sample values for better code generation
+
+**EXECUTION REQUIREMENTS**:
+
+- Requires all Airtable tables to be cached (runs after content sync)
+- Uses same Airtable configuration from `njk/_data/site.json`
+- Auto-generates on every build to stay in sync
+- Generated files are git-ignored (except README.md)
+
+**FAILURE MODES**:
+
+- **Missing Cache**: If Airtable data not fetched, generates empty schemas
+- **Type Inference Errors**: Handles null values and edge cases gracefully
+- **Write Permissions**: Requires write access to `.copilot/` directory
 
 ### clearSiteFolder.js - Build Output Cleanup
 
