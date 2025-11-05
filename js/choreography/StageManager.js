@@ -80,7 +80,6 @@ export default class StageManager {
       return;
     }
 
-    // Find overlay-view element (created by overlay-view.njk template)
     this._view = document.getElementById('overlay-view');
     if (!this._view) {
       console.warn(
@@ -116,41 +115,6 @@ export default class StageManager {
     } else {
       console.log('ScrollSmoother disabled - using native scroll');
     }
-
-    // Pin overlay-view during biography section for fixed background effect
-    if (this._view) {
-      ScrollTrigger.create({
-        trigger: '#biography',
-        pin: this._view,
-        start: 'top bottom',
-        end: 'bottom bottom',
-        scrub: 1,
-      });
-    }
-
-    // Hero title fade-out animation
-    gsap.timeline({ paused: true }).to('#main-header', {
-      id: 'heroOutro',
-      scrollTrigger: {
-        trigger: '#main-header h1',
-        start: 'center center',
-        end: 'bottom center',
-        scrub: 1,
-      },
-      opacity: 0,
-      ease: 'sine.out',
-    });
-
-    // Biography list item staggered reveals
-    document.querySelectorAll('#biography li').forEach(item => {
-      gsap.set(item, { opacity: 0 });
-      ScrollTrigger.create({
-        trigger: item,
-        start: 'center center',
-        onEnter: () => gsap.to(item, { opacity: 1, duration: 0.5 }),
-        // onLeaveBack: () => gsap.to(item, { opacity: 0, duration: 0.5 })
-      });
-    });
   }
 
   /**
@@ -160,92 +124,4 @@ export default class StageManager {
   getSmoother() {
     return this._smoother;
   }
-
-  /**
-   * Create gel overlay element
-   * @param {HTMLElement} elem - Parent element
-   * @param {string} color - CSS class (bg-gel-primary, bg-gel-secondary)
-   * @param {string} id - Unique identifier (primary, secondary)
-   * @returns {HTMLElement} Created overlay
-   */
-  addOverlay(elem, color, id) {
-    let overlay = elem.appendChild(this.addGel(document.createElement('div'), color));
-    overlay.id = 'overlay-' + id;
-    return overlay;
-  }
-
-  /**
-   * Apply gel styling to element
-   * @param {HTMLElement} elem - Element to style
-   * @param {string} family - CSS class name
-   * @returns {HTMLElement} Modified element
-   */
-  addGel(elem, family) {
-    elem.classList.add(family);
-    return elem;
-  }
-
-  /**
-   * Create background video element
-   *
-   * Configured for autoplay with muted, loop, and playsinline attributes.
-   * Sets MIME type based on file extension (.mov → video/quicktime, .mp4 → video/mp4).
-   *
-   * @param {HTMLElement} elem - Parent element
-   * @param {string} url - Video file path (web-optimized MP4 recommended)
-   * @returns {HTMLVideoElement} Created video element
-   */
-  addVideo(elem, url) {
-    console.log('Adding background video from URL:', url);
-
-    const video = document.createElement('video');
-    video.setAttribute('autoplay', '');
-    video.setAttribute('loop', '');
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '');
-    video.setAttribute('aria-hidden', 'true');
-
-    const source = document.createElement('source');
-    source.src = url;
-
-    // Set MIME type based on file extension
-    if (url.endsWith('.mov')) {
-      source.type = 'video/quicktime';
-    } else if (url.endsWith('.mp4')) {
-      source.type = 'video/mp4';
-    } else {
-      source.type = 'video/mp4';
-    }
-
-    video.appendChild(source);
-    elem.appendChild(video);
-
-    return video;
-  }
 }
-
-/**
- * USAGE GUIDE
- *
- * ScrollSmoother Control:
- * - Auto-enabled when BOTH #smooth-wrapper and #smooth-content exist in HTML
- * - Omit these elements to use native browser scroll
- * - Check availability: stageManager.getSmoother() (returns null if disabled)
- *
- * Requirements:
- * - #smooth-content element (for overlay system)
- * - Video file at /assets/video/sizzle.mp4 (web-optimized MP4)
- * - CSS classes: .bg-video, .bg-pixelator, .bg-gel-primary, .bg-gel-secondary
- * - Section elements: #main-header, #biography (for scroll triggers)
- *
- * Debugging:
- * - Check console for ScrollSmoother status messages
- * - Verify video loads in network tab
- * - Confirm smooth-wrapper/smooth-content exist for smooth scroll
- *
- * Customization:
- * - Replace video: Update VIDEO_URL constant
- * - Modify gel overlays: Update CSS classes
- * - Adjust timing: Modify ScrollTrigger start/end points
- * - Toggle ScrollSmoother: Add/remove wrapper/content elements in HTML
- */

@@ -12,26 +12,9 @@ scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
 
-{# 
-CRITICAL WARNING: GSAP Animation Dependencies
-This page uses complex animation choreography - DO NOT modify element IDs
-
-REQUIRED ANIMATION TARGETS:
-- #main-header : Hero animation controller (js/choreography/sections/Hero.js)
-- #biography   : Biography scroll animations
-- #work        : Work section with PrinterMarks integration
-
-CSS CLASSES FOR ANIMATIONS:
-- .printmarks  : PrinterMarks display system integration
-- data-scroll-* : ScrollTrigger targeting attributes
-
-INTEGRATION DEPENDENCIES:
-- Director.js orchestrates all section animations
-- Architect.js handles blockframes visual system
-- ScrollSmoother affects all scroll behavior
-#}
-
 {% import "molecules/background/video.njk" as background %}
 
 {% set count = 0 %}
-{{ background.render({ videoSrc: "/assets/video/sizzle.mp4"}) }}
+{% set bgID = "sizzle-background" %}
+{% set videoSrc = "/assets/video/sizzle.mp4" %}
+{{ background.render({ id:bgID, videoSrc: videoSrc }) }}
