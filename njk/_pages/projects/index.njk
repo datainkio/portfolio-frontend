@@ -9,6 +9,8 @@ eleventyNavigation:
   key: Projects
 ---
 
+{% import "molecules/card/project.njk" as projectCard %}
+
 <nav>
   <ul class="flex flex-row gap-4">
     <li>
@@ -42,7 +44,10 @@ eleventyNavigation:
 <ul class="projects grid grid-cols-3 gap-4 col-span-full">
   {% for project in collections.projects %}
     <li class="break-inside-avoid">
-      {% include "molecules/card/project.njk" %}
+      {{ projectCard.render({ 
+        project: project,
+        featured: loop.index == 1
+      }) }}
     </li>
   {% endfor %}
 </ul>

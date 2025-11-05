@@ -7,10 +7,12 @@ eleventyNavigation:
   parent: Design
 ---
 
+{% import "molecules/card/project.njk" as projectCard %}
+
 {% set sectionStyles = "mb-12" %}
 <section class="sm:grid grid-cols-2">
   {# {% set project = collections.projects | findRecord("recI8oXFCYJ8QJGaU") %} #}
   {% for project in collections.projects %}
-    {% include "molecules/card/project.njk" %}
+    {{ projectCard.render({ project: project }) }}
   {% endfor %}
 </section>

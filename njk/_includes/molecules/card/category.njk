@@ -1,0 +1,65 @@
+---
+# Category Card Component - Molecular UI Pattern
+#
+# CRITICAL WARNING: This molecule displays project categories
+# Requires collections.projects to be passed as parameter
+#
+# PROPS:
+name: "category-card"
+category: "molecules"
+props:
+  category: { type: "object", required: true, description: "Category object with slug, title, and projects array" }
+  collections: { type: "object", required: true, description: "Eleventy collections object for data lookup" }
+  maxProjects: { type: "number", default: 3, description: "Maximum number of projects to display" }
+  showRecognition: { type: "boolean", default: true, description: "Display recognition section" }
+  showOutcomes: { type: "boolean", default: true, description: "Display outcomes section" }
+#
+# ATOMIC DEPENDENCIES:
+# - Project card molecule for project rendering
+#
+# AIRTABLE INTEGRATION:
+# - Expects category object from collections.ia
+# - Projects referenced by ID array in category.projects
+---
+
+{% macro render(params = {}) %}
+  {%- set category = params.category -%}
+  {%- set collections = params.collections -%}
+  {%- set maxProjects = params.maxProjects | default(3) -%}
+  {%- set showRecognition = params.showRecognition | default(true) -%}
+  {%- set showOutcomes = params.showOutcomes | default(true) -%}
+  
+  <article
+    id="{{ category.slug }}"
+    class="category-card relative flex flex-col p-8 py-16 gap-8"
+  >
+    <h3
+      class="text-6xl font-display font-black tracking-tight leading-none"
+      data-text="{{ category.title }}"
+    >
+      {{ category.title }}
+    </h3>
+    
+    {# Lookup projects from collections #}
+    {%- set categoryProjects = collections.projects | findRecord(category.projects) -%}
+    
+    <ul class="projects col-span-full space-y-12 mx-4">
+      {% for project in categoryProjects | sortByKey("weight") | getByIndexRange(0, maxProjects - 1) %}
+        <li class="break-inside-avoid">
+          <h4 class="text-2xl font-bold">{{ project.title }}</h4>
+          {% if project.teaser %}
+            <p class="text-sm">{{ project.teaser }}</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    
+    {% if showRecognition %}
+      <h4>Recognition</h4>
+    {% endif %}
+    
+    {% if showOutcomes %}
+      <h4>Outcomes</h4>
+    {% endif %}
+  </article>
+{% endmacro %}

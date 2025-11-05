@@ -148,8 +148,10 @@ contexts
 **Example: Project Card**
 
 ```nunjucks
+{% import "molecules/card/project.njk" as projectCard %}
+
 {# Automatically handles images, roles, titles, and CTAs #}
-{% include "molecules/card/project.njk" with { project: project, modal: true } %}
+{{ projectCard.render({ project: project, modal: true }) }}
 ```
 
 #### `/organisms/` - Complex Component Systems
@@ -265,8 +267,10 @@ Build process transforms Airtable data into queryable collections:
 Components dynamically render with actual content:
 
 ```nunjucks
+{% import "molecules/card/project.njk" as projectCard %}
+
 {% for project in projects %}
-  {% include "molecules/card/project.njk" with { project: project } %}
+  {{ projectCard.render({ project: project }) }}
 {% endfor %}
 ```
 
