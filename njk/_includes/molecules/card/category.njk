@@ -40,22 +40,45 @@ props:
       {{ category.title }}
     </h3>
     
-    {# Lookup projects from collections #}
-    {%- set categoryProjects = collections.projects | findRecord(category.projects) -%}
+    {# Lookup projects from collections - handle null/missing projects array #}
+    {%- set categoryProjects = [] -%}
+    {%- if category.projects and category.projects.length > 0 -%}
+      {%- set categoryProjects = collections.projects | findRecord(category.projects) -%}
+    {%- endif -%}
     
     <ul class="projects col-span-full space-y-12 mx-4">
       {% for project in categoryProjects | sortByKey("weight") | getByIndexRange(0, maxProjects - 1) %}
         <li class="break-inside-avoid">
           <h4 class="text-2xl font-bold">{{ project.title }}</h4>
-          {% if project.teaser %}
-            <p class="text-sm">{{ project.teaser }}</p>
-          {% endif %}
         </li>
       {% endfor %}
     </ul>
     
-    {% if showRecognition %}
+    {# Collect all unique awards from projects in this category #}
+    {%- set categoryAwardIds = [] -%}
+    {%- for project in categoryProjects -%}
+      {%- if project.awards and project.awards.length > 0 -%}
+        {%- for awardId in project.awards -%}
+          {%- if awardId and categoryAwardIds.indexOf(awardId) === -1 -%}
+            {%- set categoryAwardIds = (categoryAwardIds.push(awardId), categoryAwardIds) -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+    
+    {# Lookup award records from collected IDs #}
+    {%- set categoryAwards = [] -%}
+    {%- if categoryAwardIds.length > 0 -%}
+      {%- set categoryAwards = collections.awards | findRecord(categoryAwardIds) -%}
+    {%- endif -%}
+
+    {% if showRecognition and categoryAwards.length > 0 %}
       <h4>Recognition</h4>
+      <ul class="awards-list list-disc list-inside">
+        {% for award in categoryAwards %}
+          <li>{{ award.title }}{% if award.organization %} / {{ award.organization }}{% endif %}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
     
     {% if showOutcomes %}
