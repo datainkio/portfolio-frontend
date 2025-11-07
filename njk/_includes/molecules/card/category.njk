@@ -76,7 +76,7 @@ props:
       <h4>Recognition</h4>
       <ul class="awards-list list-disc list-inside">
         {% for award in categoryAwards %}
-          <li>{{ award.title }}{% if award.organization %} / {{ award.organization }}{% endif %}</li>
+          <li>{{ award.organization }} / {{ award.title }}</li>
         {% endfor %}
       </ul>
     {% endif %}
