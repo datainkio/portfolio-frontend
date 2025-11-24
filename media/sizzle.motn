@@ -2,7 +2,7 @@
 <!DOCTYPE ozxmlscene>
 <ozml version="5.14">
 
-<displayversion>5.9</displayversion>
+<displayversion>5.11</displayversion>
 
 <factory id="1" uuid="46c844a813d311d8a438000a95af9f7e">
 	<description>Channel</description>
@@ -73,32 +73,7 @@
 	<cameraType>0</cameraType>
 	<cameraName>Active Camera</cameraName>
 	<mirrorHMD>0</mirrorHMD>
-	<panZoom camera="0" zoom="0.48888888955116272" panX="690" panY="5" mode="2" centered="1"/>
-</viewer>
-<viewer subview="1">
-	<resolutionMode>0</resolutionMode>
-	<dynamicResolution>0</dynamicResolution>
-	<viewmode>0</viewmode>
-	<overlayOptions>125708</overlayOptions>
-	<oscOptions>30</oscOptions>
-	<compensateAspectRatio>1</compensateAspectRatio>
-	<renderFields>0</renderFields>
-	<showMotionBlur>0</showMotionBlur>
-	<showFrameBlending>1</showFrameBlending>
-	<showLighting>1</showLighting>
-	<showShadows>1</showShadows>
-	<showReflection>1</showReflection>
-	<showDepthOfField>0</showDepthOfField>
-	<renderFullView>0</renderFullView>
-	<renderQuality>2</renderQuality>
-	<textRenderQuality>2</textRenderQuality>
-	<showHighQualityResampling>0</showHighQualityResampling>
-	<showShapeAntialiasing>1</showShapeAntialiasing>
-	<show3DIntersectionAntialiasing>0</show3DIntersectionAntialiasing>
-	<cameraType>0</cameraType>
-	<cameraName>Active Camera</cameraName>
-	<mirrorHMD>0</mirrorHMD>
-	<panZoom camera="0" zoom="0.23981481790542603" panX="60" panY="5" mode="2" centered="1"/>
+	<panZoom camera="0" zoom="0.48333331942558289" panX="116" panY="5" mode="2" centered="1"/>
 </viewer>
 
 <projectPanel>
@@ -135,7 +110,7 @@
 	<displayEffects>1</displayEffects>
 	<videoVerticalZoom>2.2222222222222223</videoVerticalZoom>
 	<audioVerticalZoom>2.2222222222222223</audioVerticalZoom>
-	<displayRange in="12095222424 1000000000 3 0" out="19769555757 1000000000 3 0"/>
+	<displayRange in="-8118519970 1234375000 3 0" out="186757028836 1000000000 3 0"/>
 </timeline>
 
 <curveeditor>
@@ -143,8 +118,8 @@
 	<snapping>0</snapping>
 	<displayAudioWaveform>0</displayAudioWaveform>
 	<lockKeyframesInTime>0</lockKeyframesInTime>
-	<displayRange in="12095222424 1000000000 3 0" out="19769555757 1000000000 3 0"/>
-	<currentviewvolume originx="12.095222423999999" originy="-62.5" width="7.6743333333333332" height="125"/>
+	<displayRange in="-8118519970 1234375000 3 0" out="186757028836 1000000000 3 0"/>
+	<currentviewvolume originx="-6.5770288364556961" originy="-62.5" width="193.334057672" height="125"/>
 	<snapshotChannels>0</snapshotChannels>
 </curveeditor>
 
@@ -212,16 +187,16 @@
 	<publishSettings>
 		<version>2</version>
 	</publishSettings>
-	<currentFrame>5853848 120000 1 0</currentFrame>
-	<currentObject>1825757940</currentObject>
-	<activeLayer>1825757940</activeLayer>
+	<currentFrame>640640 120000 1 0</currentFrame>
+	<currentObject>1825758326</currentObject>
+	<activeLayer>1825758326</activeLayer>
 	<timeRange offset="0 1 1 0" duration="21621600 120000 1 0"/>
 	<playRange offset="5545540 120000 1 0" duration="920920 120000 1 0"/>
 	<flags>1</flags>
 	<audioTracks>1</audioTracks>
 	<timemarkerset>
 		<timemarker>
-			<inpoint>920920 120000 1 0</inpoint>
+			<inpoint>912912 120000 1 0</inpoint>
 			<color>1</color>
 			<type>0</type>
 		</timemarker>
@@ -1061,7 +1036,7 @@
 			<flags>0</flags>
 			<timing in="1749748 120000 1 0" out="2238236 120000 1 0" offset="1749748 120000 1 0"/>
 			<foldFlags>1</foldFlags>
-			<baseFlags>268959761</baseFlags>
+			<baseFlags>524304</baseFlags>
 			<locked>1</locked>
 			<parameter name="Properties" id="1" flags="8589938704">
 				<parameter name="Transform" id="100" flags="8589938704">
@@ -2803,8 +2778,8 @@
 		<aspectRatio>1</aspectRatio>
 		<flags>0</flags>
 		<timing in="-16016 120000 1 0" out="8608600 120000 1 0" offset="-1557556 120000 1 0"/>
-		<foldFlags>0</foldFlags>
-		<baseFlags>524304</baseFlags>
+		<foldFlags>1</foldFlags>
+		<baseFlags>268959761</baseFlags>
 		<parameter name="Properties" id="1" flags="8589938704">
 			<parameter name="Transform" id="100" flags="8589938704">
 				<parameter name="Position" id="101" flags="8589938704">
@@ -7150,7 +7125,7 @@
 
 	<footage name="Media Layer" id="10007">
 		<clip name="Live Hope Love" id="1825758405">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Live%20Hope%20Love.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Live%20Hope%20Love.mov</pathURL>
 			<relativeURL>Live%20Hope%20Love.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7179,7 +7154,7 @@
 			</parameter>
 		</clip>
 		<clip name="City Forward Introduction" id="1825758302">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/City%20Forward%20Introduction.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/City%20Forward%20Introduction.mov</pathURL>
 			<relativeURL>City%20Forward%20Introduction.mov</relativeURL>
 			<missingWidth>1920</missingWidth>
 			<missingHeight>1080</missingHeight>
@@ -7208,7 +7183,7 @@
 			</parameter>
 		</clip>
 		<clip name="Raise a Mootopian" id="1825758145">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Raise%20a%20Mootopian.mp4</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Raise%20a%20Mootopian.mp4</pathURL>
 			<relativeURL>Raise%20a%20Mootopian.mp4</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7237,7 +7212,7 @@
 			</parameter>
 		</clip>
 		<clip name="KawtherElmi" id="1825758133">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/KawtherElmi.mp4</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/KawtherElmi.mp4</pathURL>
 			<relativeURL>KawtherElmi.mp4</relativeURL>
 			<missingWidth>640</missingWidth>
 			<missingHeight>360</missingHeight>
@@ -7266,7 +7241,7 @@
 			</parameter>
 		</clip>
 		<clip name="Little Guy 01" id="1825758105">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Little%20Guy%2001.mp4</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Little%20Guy%2001.mp4</pathURL>
 			<relativeURL>Little%20Guy%2001.mp4</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7295,7 +7270,7 @@
 			</parameter>
 		</clip>
 		<clip name="Banjo Beat" id="1825758089">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Banjo%20Beat.aifc</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Banjo%20Beat.aifc</pathURL>
 			<relativeURL>Banjo%20Beat.aifc</relativeURL>
 			<missingWidth>0</missingWidth>
 			<missingHeight>0</missingHeight>
@@ -7338,7 +7313,7 @@
 			</parameter>
 		</clip>
 		<clip name="American Revolution Center" id="1825758033">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/American%20Revolution%20Center.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/American%20Revolution%20Center.mov</pathURL>
 			<relativeURL>American%20Revolution%20Center.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7367,8 +7342,7 @@
 			</parameter>
 		</clip>
 		<clip name="zabiela_bg" id="10039">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/_site/video/zabiela_bg.mp4</pathURL>
-			<relativeURL>../_site/video/zabiela_bg.mp4</relativeURL>
+			<pathURL>file:///Volumes/Homer/Workspaces/2025/_site/video/zabiela_bg.mp4</pathURL>
 			<missingWidth>960</missingWidth>
 			<missingHeight>540</missingHeight>
 			<missingDuration>256.58966666666669</missingDuration>
@@ -7396,7 +7370,7 @@
 			</parameter>
 		</clip>
 		<clip name="At Seasons Peak" id="10031">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/At%20Seasons%20Peak.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/At%20Seasons%20Peak.mov</pathURL>
 			<relativeURL>At%20Seasons%20Peak.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7425,7 +7399,7 @@
 			</parameter>
 		</clip>
 		<clip name="Galileo, the Medici and the Age of Astronomy" id="10030">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Galileo,%20the%20Medici%20and%20the%20Age%20of%20Astronomy.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Galileo,%20the%20Medici%20and%20the%20Age%20of%20Astronomy.mov</pathURL>
 			<relativeURL>Galileo,%20the%20Medici%20and%20the%20Age%20of%20Astronomy.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7454,7 +7428,7 @@
 			</parameter>
 		</clip>
 		<clip name="Howard + Revis" id="10029">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Howard%20+%20Revis.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Howard%20+%20Revis.mov</pathURL>
 			<relativeURL>Howard%20+%20Revis.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7483,7 +7457,7 @@
 			</parameter>
 		</clip>
 		<clip name="ICA Mediatheque trimmed" id="10028">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/ICA%20Mediatheque%20trimmed.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/ICA%20Mediatheque%20trimmed.mov</pathURL>
 			<relativeURL>ICA%20Mediatheque%20trimmed.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7512,7 +7486,7 @@
 			</parameter>
 		</clip>
 		<clip name="James Zabiela" id="10027">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/James%20Zabiela.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/James%20Zabiela.mov</pathURL>
 			<relativeURL>James%20Zabiela.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7541,7 +7515,7 @@
 			</parameter>
 		</clip>
 		<clip name="Lincoln Memorial Interactive" id="10026">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Lincoln%20Memorial%20Interactive.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Lincoln%20Memorial%20Interactive.mov</pathURL>
 			<relativeURL>Lincoln%20Memorial%20Interactive.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7570,7 +7544,7 @@
 			</parameter>
 		</clip>
 		<clip name="Lucian Perkins" id="10024">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Lucian%20Perkins.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Lucian%20Perkins.mov</pathURL>
 			<relativeURL>Lucian%20Perkins.mov</relativeURL>
 			<missingWidth>960</missingWidth>
 			<missingHeight>540</missingHeight>
@@ -7599,7 +7573,7 @@
 			</parameter>
 		</clip>
 		<clip name="the Medici Archive Project" id="10023">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/the%20Medici%20Archive%20Project.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/the%20Medici%20Archive%20Project.mov</pathURL>
 			<relativeURL>the%20Medici%20Archive%20Project.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7628,7 +7602,7 @@
 			</parameter>
 		</clip>
 		<clip name="They killed Sister Dorothy Demo" id="10022">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/They%20killed%20Sister%20Dorothy%20Demo.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/They%20killed%20Sister%20Dorothy%20Demo.mov</pathURL>
 			<relativeURL>They%20killed%20Sister%20Dorothy%20Demo.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>
@@ -7657,7 +7631,7 @@
 			</parameter>
 		</clip>
 		<clip name="Robert Lougheed" id="10010">
-			<pathURL>file:///Users/russelllebo/Workspaces.nosync/2025/media/Robert%20Lougheed.mov</pathURL>
+			<pathURL>file:///Users/russelllebo/Projects/Portfolio/workspaces/portfolio/media/Robert%20Lougheed.mov</pathURL>
 			<relativeURL>Robert%20Lougheed.mov</relativeURL>
 			<missingWidth>1280</missingWidth>
 			<missingHeight>720</missingHeight>

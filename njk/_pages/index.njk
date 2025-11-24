@@ -14,10 +14,4 @@ scripts: >
 
 {% import "molecules/background/video.njk" as background %}
 
-{% set count = 0 %}
-{% set bgID = "sizzle-background" %}
-{% set videoSrc = "/assets/video/sizzle.mp4" %}
-{{ background.render({ id:bgID, videoSrc: videoSrc }) }}
-
-{% include "organisms/section/title/full-bleed.njk" %}
-{% include "organisms/section/work/featured.njk" %}
+{{ background.render({ id:"sizzle-background" , videoSrc: "/assets/video/sizzle.mp4"  }) }}

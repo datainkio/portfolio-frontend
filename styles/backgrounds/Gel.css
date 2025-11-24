@@ -12,26 +12,10 @@
 
 /* .bg-gel-primary applies a gradient from primary-900 to primary-400 */
 .bg-gel-primary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-primary-900),
-    var(--color-primary-400)
-  );
+  background-image: linear-gradient(to top, var(--color-primary-900), var(--color-primary-400));
 }
 
 /* .bg-gel-secondary applies a gradient from secondary-900 to secondary-400 */
 .bg-gel-secondary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-secondary-900),
-    var(--color-secondary-400)
-  );
-}
-/* .bg-gel-secondary applies a gradient from secondary-900 to secondary-400 */
-.bg-gel-secondary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-secondary-900),
-    var(--color-secondary-400)
-  );
+  background-image: linear-gradient(to top, var(--color-secondary-900), var(--color-secondary-400));
 }
