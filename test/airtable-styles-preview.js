@@ -8,6 +8,8 @@
 
 import logger, { LumberjackStyle } from '../js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 // Recreate the custom styles from fetchAirtableData.js
 const airtableStyle = new LumberjackStyle('#F97316', '🗄️');
 const cachingStyle = new LumberjackStyle('#8B5CF6', '💾');

@@ -9,6 +9,8 @@
 
 import logger from '../../js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 console.log('\n=== Testing Logger Error Auto-Detection ===\n'); // Test 1: Error with default style (should auto-detect and use error style)
 console.log('Test 1: Error with default parameters');
 const error1 = new Error('Something went wrong');

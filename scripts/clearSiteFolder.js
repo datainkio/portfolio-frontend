@@ -5,6 +5,8 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import logger from '../js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 const siteFolder = join(process.cwd(), '_site');
 const preserveDirs = ['content']; // Directories to preserve
 

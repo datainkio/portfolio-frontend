@@ -9,6 +9,8 @@ import { AssetCache } from '@11ty/eleventy-fetch';
 import { processFile, completeProcessing } from './processFile.js';
 import Airtable from 'airtable';
 
+logger.enabled = true;
+
 config();
 
 /**

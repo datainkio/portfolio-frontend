@@ -23,6 +23,8 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { config } from 'dotenv';
 
+logger.enabled = true;
+
 // Load environment variables
 config();
 

@@ -28,6 +28,8 @@
 import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 import { NavigationBuilder } from '../services/NavigationBuilder.js';
 
+logger.enabled = true;
+
 /**
  * Custom Logger Styles for Navigation Operations
  */

@@ -8,6 +8,8 @@
 
 import logger from '../../js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 console.log('\n=== Real-World Error Auto-Detection Tests ===\n'); // Scenario 1: Try-catch without explicit style
 console.log('Scenario 1: File operation error (no explicit style)\n');
 try {

@@ -8,6 +8,8 @@
 
 import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 console.log('\n=== Testing Logger Custom Styles ===\n');
 
 // Test 1: Custom purple style with art palette prefix

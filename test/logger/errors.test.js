@@ -2,7 +2,9 @@
 
 import logger from '../../js/utils/lumberjack/index.js';
 
-console.log('🧪 Testing Logger Error Handling\n');
+logger.enabled = true;
+
+console.log('\n=== Testing Logger Error Handling ===\n');
 
 // Create test errors
 const simpleError = new Error('Something went wrong');

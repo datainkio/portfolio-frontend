@@ -74,13 +74,13 @@ class Lumberjack {
    * Private constructor - use static methods instead
    * @param {boolean|Object} enabled - Whether logging is enabled, or config object
    */
-  constructor(enabled = true) {
+  constructor(enabled = false) {
     if (Lumberjack.#instance) return Lumberjack.#instance;
 
     // Handle both boolean and config object parameters
     this.#config =
       typeof enabled === 'object'
-        ? { enabled: enabled.enabled ?? true, prefix: '', styles: {}, scope: null, ...enabled }
+        ? { enabled: enabled.enabled ?? false, prefix: '', styles: {}, scope: null, ...enabled }
         : { enabled, prefix: '', styles: {}, scope: null };
 
     this.enabled = this.#config.enabled;
@@ -133,7 +133,7 @@ class Lumberjack {
     if (!Lumberjack.#instance) {
       const isEnabled =
         enabled ??
-        (typeof process !== 'undefined' && process.env ? process.env.DEBUG === 'true' : true);
+        (typeof process !== 'undefined' && process.env ? process.env.DEBUG === 'true' : false);
       Lumberjack.#instance = new Lumberjack(isEnabled);
     }
     return Lumberjack.#instance;

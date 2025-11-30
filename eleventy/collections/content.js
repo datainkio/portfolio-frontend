@@ -1,5 +1,8 @@
 import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
 import fetchAirtableData from '../../airtable/fetchAirtableData.js';
+
+logger.enabled = true;
+
 /**
  * Custom Logger Styles for 11ty Operations
  */

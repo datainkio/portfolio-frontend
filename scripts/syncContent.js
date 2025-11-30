@@ -26,6 +26,8 @@ import path from 'path';
 import chalk from 'chalk';
 import logger from '../js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 const CACHE_DIR = '.cache';
 const CONTENT_DIR = '_site/content';
 

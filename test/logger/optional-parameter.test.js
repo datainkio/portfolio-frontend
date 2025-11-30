@@ -2,6 +2,8 @@
 
 import logger from '../../js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 console.log('🧪 Testing Logger with Optional obj Parameter\n');
 
 // Test 1: Message only (no object)

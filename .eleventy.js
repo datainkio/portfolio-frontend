@@ -4,6 +4,8 @@ process.noDeprecation = true;
 
 import logger, { LumberjackStyle } from './js/utils/lumberjack/index.js';
 
+logger.enabled = true;
+
 import collections from './eleventy/collections/index.js';
 import plugins from './eleventy/plugins/plugins.js';
 import filters from './eleventy/filters/filters.js';

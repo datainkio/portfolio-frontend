@@ -3,7 +3,6 @@
 
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle') -%}
-  
   <div 
     id="{{ bgID }}" 
     class="absolute bg-pixelator inset-0 w-full h-dvh -z-10"
@@ -19,3 +18,4 @@
     {{ gelAtom.render({ color: 'bg-gel-primary'}) }}
   </div>
 {% endmacro %}
+

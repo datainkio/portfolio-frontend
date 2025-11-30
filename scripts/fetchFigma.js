@@ -4,6 +4,8 @@ import logger from '../js/utils/lumberjack/index.js';
 import { fileService, styleService, paletteService, typographyService } from '../figma/index.js';
 import { buildCSS } from './buildCSS.js';
 
+logger.enabled = true;
+
 async function fetchDesignSystem() {
   // INIT MESSAGE
   console.log(chalk.cyan.bold('\n🎨 FIGMA'));

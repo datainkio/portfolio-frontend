@@ -33,6 +33,8 @@ import lumberjack, { LumberjackStyle } from '../../js/utils/lumberjack/index.js'
 import { readFileSync, existsSync, statSync } from 'fs';
 import { resolve } from 'path';
 
+lumberjack.enabled = true;
+
 // Create scoped logger for Tailwind operations with custom prefix
 const logger = lumberjack.createScoped('TailwindCSS', { prefix: '🎨' });
 
