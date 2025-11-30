@@ -24,6 +24,11 @@
     @apply font-sans text-5xl font-extrabold hover:no-underline 
     tracking-tight;
   }
+  /* Hero title: one word per line for GSAP SplitText animation */
+  #main-title {
+    @apply leading-none;
+  }
+
   h2 {
     @apply text-4xl font-sans font-bold hover:no-underline;
   }

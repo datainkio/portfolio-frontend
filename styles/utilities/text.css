@@ -1,0 +1,6 @@
+@layer utilities {
+  .word-per-line {
+    word-spacing: 100vw;
+    line-height: 0;
+  }
+}
