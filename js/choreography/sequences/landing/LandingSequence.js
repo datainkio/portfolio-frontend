@@ -11,10 +11,8 @@
  * 4. Biography scroll enter → overlay fade
  *
  * @requires AnimationBus
- * @requires gsap
  */
 
-import { gsap } from '/assets/js/gsap/all.js';
 import { Lumberjack } from '/assets/js/utils/lumberjack/index.js';
 
 const logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
@@ -37,7 +35,7 @@ export class LandingSequence {
     this._unsubscribers = [];
 
     this.setupSequence();
-    logger.trace('Constructor complete', null, 'brief', 'success');
+    // logger.trace('Constructor complete', null, 'brief', 'success');
   }
 
   /**
@@ -52,51 +50,7 @@ export class LandingSequence {
     // Step 1: Hero intro complete → Work intro
     this._unsubscribers.push(
       this.bus.on('section:main-header:intro:complete', () => {
-        logger.trace('Hero intro complete → triggering Work intro', null, 'brief', 'standard');
-        if (this.sections.work) {
-          try {
-            this.sections.work.playIntro();
-          } catch (error) {
-            logger.trace('Error playing Work intro', error, 'verbose', 'error');
-          }
-        }
-      })
-    );
-
-    // Step 2: Hero scroll exit → Biography intro
-    this._unsubscribers.push(
-      this.bus.on('section:main-header:scroll:exit', () => {
-        logger.trace('Hero scroll exit → triggering Biography intro', null, 'brief', 'standard');
-        if (this.sections.biography) {
-          try {
-            this.sections.biography.playIntro();
-          } catch (error) {
-            logger.trace('Error playing Biography intro', error, 'verbose', 'error');
-          }
-        }
-      })
-    );
-
-    // Step 3: Work scroll enter → printer marks visible
-    this._unsubscribers.push(
-      this.bus.on('section:work:scroll:enter', () => {
-        logger.trace('Work section entered viewport', null, 'brief', 'standard');
-      })
-    );
-
-    // Step 4: Biography scroll enter → fade overlay
-    this._unsubscribers.push(
-      this.bus.on('section:biography:scroll:enter', () => {
-        logger.trace('Biography section entered → fading overlay', null, 'brief', 'standard');
-
-        const overlayPrimary = document.getElementById('overlay-primary');
-        if (overlayPrimary) {
-          gsap.to(overlayPrimary, {
-            opacity: 0.5,
-            duration: 1,
-            ease: 'power2.out',
-          });
-        }
+        console.log('Hero intro complete → triggering Work intro', null, 'brief', 'standard');
       })
     );
 
@@ -130,7 +84,8 @@ export class LandingSequence {
     this.state.isStarted = true;
 
     try {
-      this.sections.hero.playIntro();
+      this.sections.hero.intro();
+      logger.trace('Hero intro started', null, 'brief', 'standard');
     } catch (error) {
       logger.trace('Error starting hero intro', error, 'verbose', 'error');
       this.state.isStarted = false;

@@ -1,5 +1,17 @@
 {# Landing view - GSAP Hero Controller Target #}
 <section id="main-header" class="col-span-full w-full h-dvh flex items-center" data-scroll-section>
+  {# 
+    Styles:
+    - font-display: styles/typography/display.css (Figma-generated)
+    - text-neutral-100: styles/colors.css (Figma-generated)
+    - mask-*: styles/main.css (custom mask utilities)
+    - text-*, tracking-*, etc: Tailwind utilities
+    
+    Animation:
+    - js/choreography/Director.js: Initializes Hero controller on DOMContentLoaded
+    - js/choreography/sections/Hero.js: GSAP animations for #main-title element
+    - js/choreography/AnimationBus.js: Event coordination with other sections
+  #}
   <h1
     id="main-title"
     class="mask-grunge mask-luminance mask-cover mask-center mask-no-repeat mask-border mask-add z-10 text-6xl

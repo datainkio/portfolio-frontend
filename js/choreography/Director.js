@@ -94,8 +94,8 @@ export default class Director {
     logger.trace('Creating section controllers...', null, 'brief', 'standard');
     this.sections = {
       hero: new Hero(this.bus, this.smoother),
-      work: new Work(this.bus, this.smoother),
-      biography: new Biography(this.bus, this.smoother),
+      // work: new Work(this.bus, this.smoother),
+      // biography: new Biography(this.bus, this.smoother),
     };
     logger.trace('Sections created', Object.keys(this.sections), 'brief', 'success');
 

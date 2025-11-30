@@ -17,13 +17,11 @@
  *
  * Dependencies:
  * - AnimationBus for event coordination
- * - GSAP for timeline management
- * - ScrollSmoother optional for smooth scroll integration
- *
- * @requires gsap
  */
 
-import { gsap } from '/assets/js/gsap/all.js';
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
+import BaseAnimations from './BaseAnimations.js';
+import BaseTriggers from './BaseTriggers.js';
 
 export class BaseSection {
   /**
@@ -34,58 +32,62 @@ export class BaseSection {
    *
    * @param {string} sectionId - DOM element ID (e.g., 'main-header')
    * @param {AnimationBus} bus - Event bus for coordination
-   * @param {ScrollSmoother|null} smoother - ScrollSmoother instance
    */
-  constructor(sectionId, bus, smoother = null) {
-    this.id = sectionId;
-    this.bus = bus;
-    this.smoother = smoother;
-    this.element = document.getElementById(sectionId);
-    this.timeline = gsap.timeline({ paused: true });
-    this.isIntroComplete = false;
-    this.isOutroComplete = false;
-    this.isScrollActive = false;
-
+  constructor(sectionId, bus) {
+    this.id = sectionId; // the section identifier
+    this.bus = bus; // the AnimationBus instance
+    this.element = document.getElementById(sectionId); // the target DOM element
     if (!this.element) {
       console.warn(`[BaseSection] Element #${sectionId} not found - section disabled`);
+      return;
     }
+    // Initialize animation and trigger modules
+    this.animations = new BaseAnimations(this.element, this.id);
+    this.triggers = new BaseTriggers(this.element, this.id);
+
+    // Listen for timeline events
+    this.animations.timeline.eventCallback('onStart', () => {
+      this.onIntroStart();
+    });
+
+    this.animations.timeline.eventCallback('onComplete', () => {
+      this.onIntroComplete();
+    });
+
+    this.animations.timeline.eventCallback('onReverseComplete', () => {
+      this.onOutroComplete();
+    });
+
+    // NOTE: onReverseStart is not available in GSAP timelines
+
+    // State flags
+    // this.isIntroComplete = false;
+    // this.isOutroComplete = false;
+    //  this.isScrollActive = false;
   }
 
-  /**
-   * Create intro animation timeline
-   *
-   * Override in subclass to build intro animation using this.timeline.
-   * Do not call timeline.play() - playIntro() handles execution.
-   *
-   * @abstract
-   */
-  createIntro() {
-    console.warn(`[BaseSection] ${this.id}: createIntro() not implemented`);
+  onEnterScroll() {
+    console.log(`[BaseSection] ${this.id}: Entered scroll trigger`);
   }
 
-  /**
-   * Create outro animation timeline
-   *
-   * Override in subclass to build outro animation.
-   * Can use timeline or ScrollTrigger for scroll-based outros.
-   *
-   * @abstract
-   */
-  createOutro() {
-    console.warn(`[BaseSection] ${this.id}: createOutro() not implemented`);
+  onExitScroll() {
+    console.log(`[BaseSection] ${this.id}: Exited scroll trigger`);
   }
 
-  /**
-   * Create ScrollTrigger animations
-   *
-   * Override in subclass to define scroll-based behavior.
-   * Common patterns: scroll-based outro, pinning, parallax.
-   * Emit scroll:enter/exit events for coordination.
-   *
-   * @abstract
-   */
-  createScrollTriggers() {
-    // Optional override - not all sections need scroll triggers
+  onIntroStart() {
+    console.log(`[BaseSection] ${this.id}: Intro started`);
+  }
+
+  onIntroComplete() {
+    console.log(`[BaseSection] ${this.id}: Intro complete`);
+  }
+
+  onOutroStart() {
+    console.log(`[BaseSection] ${this.id}: Outro started`);
+  }
+
+  onOutroComplete() {
+    console.log(`[BaseSection] ${this.id}: Outro complete`);
   }
 
   /**
@@ -97,8 +99,14 @@ export class BaseSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playIntro() {
+    lumberjack.trace(`[BaseSection] ${this.id}: Playing intro animation`, null, 'brief', 'headsup');
     if (!this.element) {
-      console.warn(`[BaseSection] ${this.id}: Cannot play intro - element not found`);
+      lumberjack.trace(
+        `[BaseSection] ${this.id}: Cannot play intro - element not found`,
+        null,
+        'brief',
+        'headsup'
+      );
       return;
     }
 
@@ -127,6 +135,7 @@ export class BaseSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
+    lumberjack.trace(`[BaseSection] ${this.id}: Playing outro animation`, null, 'brief', 'headsup');
     if (!this.element) {
       console.warn(`[BaseSection] ${this.id}: Cannot play outro - element not found`);
       return;

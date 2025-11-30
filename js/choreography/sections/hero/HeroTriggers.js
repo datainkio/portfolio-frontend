@@ -1,0 +1,54 @@
+/** @format */
+
+/**
+ * Hero Section Animation Functions
+ *
+ * Reusable animation builders for hero title effects.
+ *
+ * @module Hero/HeroTriggers
+ */
+
+import BaseTriggers from '../base-section/BaseTriggers.js';
+import { gsap } from '/assets/js/gsap/all.js';
+import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
+const START = 'center center';
+const END = 'bottom center';
+const SCRUB = 1;
+/**
+ * HeroTriggers - ScrollTrigger setup for Hero section
+ * Extends BaseTriggers to inherit registration and cleanup.
+ */
+export default class HeroTriggers extends BaseTriggers {
+  /**
+   * Create standard scroll triggers for hero title.
+   * @param {object} options - { start, end, scrub, animation, bus }
+   */
+  build(options = {}) {
+    if (!this.element) return;
+    const { start = START, end = END, scrub = SCRUB, animation = null, bus = null } = options;
+
+    this.register({
+      trigger: this.element,
+      start,
+      end,
+      scrub,
+      animation,
+      onEnter: () => {
+        if (bus)
+          bus.emit(`section:${this.id}:scroll:enter`, {
+            sectionId: this.id,
+            element: this.element,
+          });
+      },
+      onLeave: () => {
+        if (bus) {
+          bus.emit(`section:${this.id}:scroll:exit`, { sectionId: this.id, element: this.element });
+          bus.emit(`section:${this.id}:outro:start`, { sectionId: this.id, element: this.element });
+        }
+      },
+    });
+  }
+}
