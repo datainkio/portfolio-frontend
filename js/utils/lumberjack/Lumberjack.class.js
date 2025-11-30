@@ -100,7 +100,7 @@ class Lumberjack {
         );
       } else {
         console.log(
-          '%cLumberjack %cinitialized: %c' + statusText,
+          '%cLumberjack %cinitialized %c',
           `color: ${LumberjackStyles.HEADSUP.color}; font-weight: normal`,
           'color: inherit; font-weight: normal',
           `color: ${statusColor}; font-weight: normal`
