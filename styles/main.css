@@ -20,7 +20,8 @@
 @import './decorations.css' layer(components);
 
 /* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
-@import './plugins/mask.css' layer(utilities);
+@import './utilities/mask.css' layer(utilities);
 @import './utilities/text.css' layer(utilities);
+
 /* Animation optimizations for GSAP and ScrollSmoother integration */
 @import './animations.css' layer(components);

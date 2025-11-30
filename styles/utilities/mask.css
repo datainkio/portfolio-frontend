@@ -1,0 +1,45 @@
+/* Tailwind CSS mask utilities using @theme and @utility directives */
+
+@theme {
+  /* Mask Image Tokens */
+  --mask-grunge: url('/assets/images/grunge-luminance-mask.png');
+  --mask-gradient-vertical: linear-gradient(to bottom, #fff, #000);
+  --mask-gradient-horizontal: linear-gradient(to right, #fff, #000);
+  --mask-radial: radial-gradient(circle, #fff 50%, #000 100%);
+}
+
+/* Base mask utilities with vendor prefixes */
+@utility mask-image {
+  -webkit-mask-image: var(--value);
+  mask-image: var(--value);
+}
+
+@utility mask-mode {
+  -webkit-mask-mode: var(--value);
+  mask-mode: var(--value);
+}
+
+@utility mask-size {
+  -webkit-mask-size: var(--value);
+  mask-size: var(--value);
+}
+
+@utility mask-position {
+  -webkit-mask-position: var(--value);
+  mask-position: var(--value);
+}
+
+@utility mask-repeat {
+  -webkit-mask-repeat: var(--value);
+  mask-repeat: var(--value);
+}
+
+@utility mask-clip {
+  -webkit-mask-clip: var(--value);
+  mask-clip: var(--value);
+}
+
+@utility mask-composite {
+  -webkit-mask-composite: var(--value);
+  mask-composite: var(--value);
+}

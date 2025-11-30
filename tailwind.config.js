@@ -30,21 +30,55 @@ export default {
         modal: '300',
         tooltip: '400',
       },
+
+      // Mask utilities (defined in styles/plugins/mask.css with @utility)
+      maskImage: {
+        grunge: 'var(--mask-grunge)',
+        'gradient-vertical': 'var(--mask-gradient-vertical)',
+        'gradient-horizontal': 'var(--mask-gradient-horizontal)',
+        radial: 'var(--mask-radial)',
+      },
+      maskMode: {
+        luminance: 'luminance',
+        alpha: 'alpha',
+      },
+      maskSize: {
+        auto: 'auto',
+        cover: 'cover',
+        contain: 'contain',
+      },
+      maskPosition: {
+        center: 'center',
+        top: 'top',
+        bottom: 'bottom',
+        left: 'left',
+        right: 'right',
+        'top-left': 'top left',
+        'top-right': 'top right',
+        'bottom-left': 'bottom left',
+        'bottom-right': 'bottom right',
+      },
+      maskRepeat: {
+        repeat: 'repeat',
+        'no-repeat': 'no-repeat',
+        'repeat-x': 'repeat-x',
+        'repeat-y': 'repeat-y',
+      },
+      maskClip: {
+        border: 'border-box',
+        padding: 'padding-box',
+        content: 'content-box',
+        text: 'text',
+      },
+      maskComposite: {
+        add: 'add',
+        subtract: 'subtract',
+        intersect: 'intersect',
+        exclude: 'exclude',
+      },
     },
   },
-  plugins: [
-    // Custom mask utilities plugin
-    function ({ addUtilities }) {
-      addUtilities({
-        '.mask-radial': {
-          'mask-image': 'radial-gradient(circle, black 50%, transparent 50%)',
-        },
-        '.mask-linear': {
-          'mask-image': 'linear-gradient(to right, black 0%, transparent 100%)',
-        },
-      });
-    },
-  ],
+  plugins: [],
 
   // CSS 4.0 optimizations
   experimental: {

@@ -11,6 +11,6 @@ headerClasses: 'text-neutral-light'
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
-  {% include "organisms/section/title/text.njk" %}
   {% import "molecules/background/video.njk" as background %}
   {{ background.render({ id:"sizzle-background" , videoSrc: "/assets/video/sizzle.mp4"  }) }}
+  {% include "organisms/section/title/text.njk" %}
