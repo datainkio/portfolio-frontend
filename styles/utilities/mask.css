@@ -1,45 +1,98 @@
-/* Tailwind CSS mask utilities using @theme and @utility directives */
+/* Tailwind CSS v4 mask utilities - Direct utility declarations */
 
-@theme {
-  /* Mask Image Tokens */
-  --mask-grunge: url('/assets/images/grunge-luminance-mask.png');
-  --mask-gradient-vertical: linear-gradient(to bottom, #fff, #000);
-  --mask-gradient-horizontal: linear-gradient(to right, #fff, #000);
-  --mask-radial: radial-gradient(circle, #fff 50%, #000 100%);
-}
+@layer utilities {
+  .mask-image-grunge {
+    -webkit-mask-image: var(--mask-image-grunge);
+    mask-image: var(--mask-image-grunge);
+  }
 
-/* Base mask utilities with vendor prefixes */
-@utility mask-image {
-  -webkit-mask-image: var(--value);
-  mask-image: var(--value);
-}
+  .mask-mode-luminance {
+    -webkit-mask-mode: var(--mask-mode-luminance);
+    mask-mode: var(--mask-mode-luminance);
+  }
 
-@utility mask-mode {
-  -webkit-mask-mode: var(--value);
-  mask-mode: var(--value);
-}
+  .mask-mode-alpha {
+    -webkit-mask-mode: var(--mask-mode-alpha);
+    mask-mode: var(--mask-mode-alpha);
+  }
 
-@utility mask-size {
-  -webkit-mask-size: var(--value);
-  mask-size: var(--value);
-}
+  .mask-size-cover {
+    -webkit-mask-size: var(--mask-size-cover);
+    mask-size: var(--mask-size-cover);
+  }
 
-@utility mask-position {
-  -webkit-mask-position: var(--value);
-  mask-position: var(--value);
-}
+  .mask-size-contain {
+    -webkit-mask-size: var(--mask-size-contain);
+    mask-size: var(--mask-size-contain);
+  }
 
-@utility mask-repeat {
-  -webkit-mask-repeat: var(--value);
-  mask-repeat: var(--value);
-}
+  .mask-size-auto {
+    -webkit-mask-size: var(--mask-size-auto);
+    mask-size: var(--mask-size-auto);
+  }
 
-@utility mask-clip {
-  -webkit-mask-clip: var(--value);
-  mask-clip: var(--value);
-}
+  .mask-position-center {
+    -webkit-mask-position: var(--mask-position-center);
+    mask-position: var(--mask-position-center);
+  }
 
-@utility mask-composite {
-  -webkit-mask-composite: var(--value);
-  mask-composite: var(--value);
+  .mask-position-top {
+    -webkit-mask-position: var(--mask-position-top);
+    mask-position: var(--mask-position-top);
+  }
+
+  .mask-position-bottom {
+    -webkit-mask-position: var(--mask-position-bottom);
+    mask-position: var(--mask-position-bottom);
+  }
+
+  .mask-repeat-no-repeat {
+    -webkit-mask-repeat: var(--mask-repeat-no-repeat);
+    mask-repeat: var(--mask-repeat-no-repeat);
+  }
+
+  .mask-repeat-repeat {
+    -webkit-mask-repeat: var(--mask-repeat-repeat);
+    mask-repeat: var(--mask-repeat-repeat);
+  }
+
+  .mask-clip-border {
+    -webkit-mask-clip: var(--mask-clip-border);
+    mask-clip: var(--mask-clip-border);
+  }
+
+  .mask-clip-padding {
+    -webkit-mask-clip: var(--mask-clip-padding);
+    mask-clip: var(--mask-clip-padding);
+  }
+
+  .mask-clip-content {
+    -webkit-mask-clip: var(--mask-clip-content);
+    mask-clip: var(--mask-clip-content);
+  }
+
+  .mask-clip-text {
+    -webkit-mask-clip: var(--mask-clip-text);
+    mask-clip: var(--mask-clip-text);
+  }
+
+  .mask-composite-add {
+    -webkit-mask-composite: var(--mask-composite-add);
+    mask-composite: var(--mask-composite-add);
+  }
+
+  .mask-composite-subtract {
+    -webkit-mask-composite: var(--mask-composite-subtract);
+    mask-composite: var(--mask-composite-subtract);
+  }
+
+  .mask-composite-intersect {
+    -webkit-mask-composite: var(--mask-composite-intersect);
+    mask-composite: var(--mask-composite-intersect);
+  }
+
+  .mask-composite-exclude {
+    -webkit-mask-composite: var(--mask-composite-exclude);
+    mask-composite: var(--mask-composite-exclude);
+  }
 }
