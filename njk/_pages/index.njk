@@ -7,7 +7,7 @@ metaDescription: 'no metaDescription defined'
 metaKeywords: 'user experience, eleventy, tailwind'
 canonicalUrl: 'https://dataink.io'
 bodyClasses: 'bg-transparent bg-graphpaper-dark bg-graphpaper-sm'
-headerClasses: 'text-neutral-light'
+headerClasses: 'text-neutral-100'
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
@@ -22,6 +22,7 @@ scripts: >
   <div id="smooth-wrapper">
     <div id="smooth-content" class="grid grid-cols-12">
       {% include "organisms/section/title/text.njk" %}
+      {% include "organisms/section/bio/bio.njk" %}
       {% include "organisms/section/work/featured.njk" %}
     </div>
   </div>
