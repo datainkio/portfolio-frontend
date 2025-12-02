@@ -44,9 +44,11 @@ export default class Hero extends BaseSection {
     this.triggers = this.titleElement ? new HeroTriggers(this.titleElement, this.id) : null;
 
     this.intro = this.anim.lines();
-    // this.outro = this.anim.animRollReverse;
-    // this.createIntro();
-    // this.createOutro();
-    // this.createScrollTriggers();
+    this.outro = this.anim ? this.anim.fadeOut() : null;
+
+    // Setup pinned outro on scroll
+    if (this.triggers && this.outro) {
+      this.triggers.buildOutro({ animation: this.outro, end: '+=100%' });
+    }
   }
 }

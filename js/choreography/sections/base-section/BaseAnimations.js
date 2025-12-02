@@ -19,4 +19,22 @@ export default class BaseAnimations {
     this.id = sectionId;
     this.timeline = gsap.timeline({ paused: true });
   }
+
+  /**
+   * Intro animation sequence. Descendants should override for custom behavior.
+   * @returns {Promise<void>} Resolves when intro animation completes.
+   */
+  async intro() {
+    // Default: no-op. Override in subclass.
+    return Promise.resolve();
+  }
+
+  /**
+   * Outro animation sequence. Descendants should override for custom behavior.
+   * @returns {Promise<void>} Resolves when outro animation completes.
+   */
+  async outro() {
+    // Default: no-op. Override in subclass.
+    return Promise.resolve();
+  }
 }

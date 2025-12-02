@@ -51,4 +51,31 @@ export default class HeroTriggers extends BaseTriggers {
       },
     });
   }
+
+  /**
+   * Create pinned outro trigger with animation
+   * Pins parent section at top and animates element out during scroll
+   * Uses pinSpacing to maintain section height throughout animation
+   * @param {object} options - { animation, end }
+   */
+  buildOutro(options = {}) {
+    if (!this.element) return;
+
+    const { animation = null, end = '+=100%' } = options;
+
+    // Pin the parent section to maintain height
+    const section = this.element.closest('section');
+    if (!section) return;
+
+    this.register({
+      trigger: section,
+      start: 'top top',
+      end,
+      pin: section,
+      pinSpacing: true,
+      scrub: true,
+      animation,
+      markers: false,
+    });
+  }
 }

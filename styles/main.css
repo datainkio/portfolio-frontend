@@ -22,6 +22,7 @@
 /* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
 @import './utilities/mask.css';
 @import './utilities/text.css' layer(utilities);
+@import './utilities/reduced-motion.css' layer(utilities);
 
 /* Animation optimizations for GSAP and ScrollSmoother integration */
 @import './animations.css' layer(components);
@@ -66,4 +67,18 @@
   --mask-composite-subtract: subtract;
   --mask-composite-intersect: intersect;
   --mask-composite-exclude: exclude;
+}
+
+/* Respect user motion preferences: disable CSS animations/transitions */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }

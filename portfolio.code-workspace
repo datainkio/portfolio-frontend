@@ -3,6 +3,9 @@
     {
       "path": ".",
     },
+    {
+      "path": "../sanity",
+    },
   ],
   "settings": {
     "swark.outputDirectory": "onboarding",

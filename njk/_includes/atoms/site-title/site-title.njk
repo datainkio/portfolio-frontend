@@ -1,0 +1,17 @@
+{# 
+  Site Title Atom
+  Displays the site name as a linked button, typically used in navigation headers
+  @param {string} params.siteName - Site name to display (defaults to site.siteName)
+  @param {string} params.href - Link destination (defaults to "/")
+  @param {string} params.classes - Additional CSS classes
+#}
+{% macro render(params = {}) %}
+  {%- set siteName = params.siteName -%}
+  {%- set href = params.href | default('/') -%}
+  {%- set classes = params.classes | default('text-xl') -%}
+  <a
+    class="btn btn-ghost style-log-screensize text-neutral-100 {{ classes }}"
+    href="{{ href }}"
+    >{{ siteName }}</a
+  >
+{% endmacro %}

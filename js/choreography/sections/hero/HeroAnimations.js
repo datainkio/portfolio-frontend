@@ -51,4 +51,22 @@ export default class HeroAnimations extends BaseAnimations {
     );
     return tl;
   }
+
+  /**
+   * Pinned fade-out outro animation
+   * Keeps title fixed at top while fading to transparent
+   * @returns {gsap.core.Timeline} Animation timeline
+   */
+  fadeOut() {
+    if (!this.element) return null;
+
+    const tl = gsap.timeline();
+    tl.to(this.element, {
+      opacity: 0,
+      duration: 1,
+      ease: 'power2.inOut',
+    });
+
+    return tl;
+  }
 }

@@ -1,0 +1,8 @@
+@layer utilities {
+  /* Hide decorative motion-only elements when users prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .prm-hidden {
+      display: none !important;
+    }
+  }
+}
