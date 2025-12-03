@@ -1,49 +1,45 @@
 /**
- * GelAnimationManager - Gel Background Animation Controller
+ * GelAnimationManager - Coordinates scroll-driven gel animations
  *
- * Manages multiple Gel instances and coordinates their scroll-driven animations.
- * Handles initialization, configuration, and staggered animation on scroll.
+ * Manages Gel instances with staggered scroll animations. Delegates positioning
+ * and configuration parsing to utility modules (GelPositioner, GelConfigParser).
  *
- * ARCHITECTURE:
- * - Finds gel elements by ID from configuration
- * - Initializes Gel controllers with target widths
- * - Creates ScrollTrigger for coordinated animation
- * - Staggers gel animations based on scroll progress
+ * CONFIG: { target, axis, targetElement, position }
+ * - target: viewport fraction (0-1) or auto-calculated from targetElement
+ * - axis: 'x' (width/xScale) or 'y' (height/yScale)
+ * - targetElement: CSS selector or element to match dimensions/position
+ * - position: alignment - 'top'/'center'/'bottom' (y) or 'left'/'center'/'right' (x)
  *
- * GEL CONFIGURATION:
- * - Each gel ID maps to target width (as fraction of viewport)
- * - Aligned to Tailwind's 12-column grid system
- * - Default: bgGel_0 (2 cols), bgGel_1 (7 cols), bgGel_2 (9 cols)
+ * ANIMATION: Gels scale from 1 to target dimension with staggered timing
  *
- * ANIMATION LOGIC:
- * - Gels start at full width (xScale: 1)
- * - Scale down to target width as user scrolls
- * - Staggered timing creates cascading effect
- * - Scrubbed to scroll position for smooth interaction
- *
- * USAGE:
- * const manager = new GelAnimationManager(gelConfig, reducedMotionHandler);
- * manager.initialize(); // Find and setup gels
- * manager.animate(scrollerElement); // Start scroll animation
+ * @example
+ * const config = {
+ *   bgGel_0: { target: 1/6, axis: 'x' },
+ *   bgGel_1: { axis: 'y', targetElement: '#hero', position: 'center' }
+ * };
+ * const manager = new GelAnimationManager(config, reducedMotionHandler);
+ * manager.initialize();
+ * manager.animate('#smooth-wrapper');
  */
 
 import { gsap } from '/assets/js/gsap/all.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 import Gel from '/assets/js/effects/Gel.js';
+import GelPositioner from '/assets/js/choreography/utils/GelPositioner.js';
+import GelConfigParser from '/assets/js/choreography/utils/GelConfigParser.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Default gel configuration: ID mapped to target width (fraction of viewport)
-// Aligned to Tailwind's 12-column grid system
+// Default gel configuration (Tailwind 12-column grid)
 const DEFAULT_GEL_CONFIG = {
-  bgGel_0: 1 / 6, // 2 columns
-  bgGel_1: 7 / 12, // 7 columns
-  bgGel_2: 3 / 4, // 9 columns
+  bgGel_0: { target: 1 / 6, axis: 'x' }, // 2 columns
+  bgGel_1: { target: 7 / 12, axis: 'x' }, // 7 columns
+  bgGel_2: { target: 3 / 4, axis: 'x' }, // 9 columns
 };
 
 export default class GelAnimationManager {
   /**
-   * @param {Object} gelConfig - Map of gel IDs to target widths
+   * @param {Object} gelConfig - Map of gel IDs to config objects
    * @param {ReducedMotionHandler} reducedMotionHandler - Reduced motion coordinator
    */
   constructor(gelConfig = DEFAULT_GEL_CONFIG, reducedMotionHandler = null) {
@@ -52,7 +48,6 @@ export default class GelAnimationManager {
     this._gels = [];
     this._trigger = null;
 
-    // Subscribe to reduced motion changes
     if (reducedMotionHandler) {
       this._unsubscribe = reducedMotionHandler.onChange(enabled => {
         if (enabled) {
@@ -63,52 +58,74 @@ export default class GelAnimationManager {
   }
 
   /**
-   * Find and initialize all gel elements from configuration
-   * Sets up Gel controllers with initial state
+   * Initialize gel controllers from configuration
    */
   initialize() {
     this._gels = Object.keys(this._config)
-      .map(gelId => {
-        const el = document.getElementById(gelId);
-        if (!el) return null;
-
-        const gel = new Gel(el, {
-          defaultScaleX: 0,
-          transformOrigin: 'left center',
-        });
-
-        // Store target width for this gel instance
-        gel.targetWidth = this._config[gelId];
-
-        // Initialize to full width (will scale down to target on scroll)
-        gel.setImmediate('initial', { xScale: 1 });
-
-        return gel;
-      })
+      .map(gelId => this._initializeGel(gelId))
       .filter(gel => gel !== null);
   }
 
   /**
-   * Create scroll-driven animation for all gels
-   * Uses staggered timing for cascading effect
-   *
-   * @param {string|undefined} scroller - Scroller element selector (undefined for window)
-   * @param {string} trigger - Trigger element selector (default: 'body')
+   * Initialize single gel instance
+   * @private
+   */
+  _initializeGel(gelId) {
+    const el = document.getElementById(gelId);
+    if (!el) return null;
+
+    const parsed = GelConfigParser.parse(this._config[gelId]);
+    const { target: configTarget, axis, refEl, position } = parsed;
+
+    // Calculate target as viewport fraction
+    let target = configTarget || (refEl ? GelPositioner.calculateTarget(refEl, axis) : 1);
+
+    // Apply CSS positioning
+    GelPositioner.apply(el, { axis, refEl, position });
+
+    // Determine transform origin
+    const transformOrigin = refEl
+      ? GelPositioner.getOriginFromElement(refEl, axis)
+      : GelPositioner.getOriginFromPosition(axis, position);
+
+    // Create and configure gel
+    const gel = new Gel(el, {
+      defaultScaleX: axis === 'x' ? 0 : 1,
+      defaultScaleY: axis === 'y' ? 0 : 1,
+      transformOrigin,
+    });
+
+    gel.target = target;
+    gel.axis = axis;
+    gel.setImmediate('initial', axis === 'y' ? { yScale: 1 } : { xScale: 1 });
+
+    return gel;
+  }
+
+  /**
+   * Create scroll-driven animation with staggered timing
+   * @param {string|undefined} scroller - Scroller selector (undefined for window)
+   * @param {string} trigger - Trigger selector
    */
   animate(scroller = undefined, trigger = 'body') {
-    // Skip if reduced motion enabled or no gels
     if (this._reducedMotionHandler?.isReducedMotion()) return;
     if (this._gels.length === 0) return;
 
-    // Kill existing trigger if present
+    this._killExistingTrigger();
+    this._createScrollTrigger(scroller, trigger);
+  }
+
+  /** @private */
+  _killExistingTrigger() {
     if (this._trigger) {
       this._trigger.kill();
       this._trigger = null;
     }
+  }
 
-    const gels = this._gels;
-    const gelCount = gels.length;
-    const stagger = 0.15; // Fraction of scroll progress per gel
+  /** @private */
+  _createScrollTrigger(scroller, trigger) {
+    const stagger = 0.15;
 
     this._trigger = ScrollTrigger.create({
       trigger,
@@ -116,45 +133,40 @@ export default class GelAnimationManager {
       end: '+=200vh',
       scrub: true,
       scroller,
-      onUpdate: self => {
-        const progress = self.progress; // 0 → 1
-
-        gels.forEach((gel, i) => {
-          // Each gel starts animating after its staggered offset
-          const gelStart = i * stagger;
-          const gelEnd = 1 - (gelCount - i - 1) * stagger;
-
-          // Map scroll progress to [0,1] for each gel
-          let gelProgress = (progress - gelStart) / (gelEnd - gelStart);
-          gelProgress = Math.max(0, Math.min(1, gelProgress));
-
-          // Scale from 1 (full width) to gel's individual target width
-          const xScale = 1 - gelProgress * (1 - gel.targetWidth);
-          gel.setState('scroll-scale', { xScale });
-        });
-      },
+      onUpdate: self => this._updateGels(self.progress, stagger),
     });
   }
 
-  /**
-   * Get all gel controller instances
-   * @returns {Gel[]} Array of Gel controllers
-   */
+  /** @private */
+  _updateGels(progress, stagger) {
+    this._gels.forEach((gel, i) => {
+      const gelProgress = this._calculateGelProgress(progress, i, stagger);
+      const scale = 1 - gelProgress * (1 - gel.target);
+      const scaleState = gel.axis === 'y' ? { yScale: scale } : { xScale: scale };
+      gel.setState('scroll-scale', scaleState);
+    });
+  }
+
+  /** @private */
+  _calculateGelProgress(totalProgress, gelIndex, stagger) {
+    const gelCount = this._gels.length;
+    const gelStart = gelIndex * stagger;
+    const gelEnd = 1 - (gelCount - gelIndex - 1) * stagger;
+    const progress = (totalProgress - gelStart) / (gelEnd - gelStart);
+    return Math.max(0, Math.min(1, progress));
+  }
+
+  /** @returns {Gel[]} */
   getGels() {
     return this._gels;
   }
 
-  /**
-   * Get ScrollTrigger instance
-   * @returns {ScrollTrigger|null} Trigger or null if not created
-   */
+  /** @returns {ScrollTrigger|null} */
   getTrigger() {
     return this._trigger;
   }
 
-  /**
-   * Cleanup animations and references
-   */
+  /** Cleanup animations and references */
   destroy() {
     if (this._trigger) {
       this._trigger.kill();

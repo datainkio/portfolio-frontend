@@ -40,6 +40,9 @@ import GelAnimationManager from '/assets/js/choreography/managers/GelAnimationMa
  * Public API:
  * - getSmoother() - Get ScrollSmoother instance
  * - getGels() - Get Gel controller instances
+ * - getVideo() - Get background video element
+ * - showVideo() - Show background video
+ * - hideVideo() - Hide background video
  * - destroy() - Cleanup all managers
  */
 export default class StageManager {
@@ -48,10 +51,19 @@ export default class StageManager {
     this.reducedMotion = new ReducedMotionHandler();
     this.backgroundLayers = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
-    this.gelAnimation = new GelAnimationManager(undefined, this.reducedMotion);
 
-    // Cache video reference for external access
-    this._video = document.querySelector('#overlay-view video');
+    // Configure gel animations with custom target for bgGel_1
+    const gelConfig = {
+      bgGel_0: { target: 1 / 6, axis: 'x', position: 'left' },
+      bgGel_1: { axis: 'y', targetElement: '#main-title', position: 'center' }, // Height matches H1
+      bgGel_2: { target: 3 / 4, axis: 'x', position: 'left' },
+    };
+    this.gelAnimation = new GelAnimationManager(gelConfig, this.reducedMotion);
+
+    // Cache video and container references for external access
+    this._videoContainer = document.querySelector('#overlay-view');
+    this._video = this._videoContainer?.querySelector('video');
+    this._videoVisible = true;
 
     this.initialize();
   }
@@ -99,6 +111,49 @@ export default class StageManager {
   }
 
   /**
+   * Show background video
+   * Maintains video playback state and all other functionality
+   */
+  showVideo() {
+    if (this._videoContainer) {
+      this._videoContainer.style.display = '';
+      this._videoVisible = true;
+    }
+  }
+
+  /**
+   * Hide background video
+   * Maintains video playback state and all other functionality
+   */
+  hideVideo() {
+    if (this._videoContainer) {
+      this._videoContainer.style.display = 'none';
+      this._videoVisible = false;
+    }
+  }
+
+  /**
+   * Check if video is currently visible
+   * @returns {boolean} True if video is visible
+   */
+  isVideoVisible() {
+    return this._videoVisible;
+  }
+
+  /**
+   * Toggle video visibility
+   * @returns {boolean} New visibility state
+   */
+  toggleVideo() {
+    if (this._videoVisible) {
+      this.hideVideo();
+    } else {
+      this.showVideo();
+    }
+    return this._videoVisible;
+  }
+
+  /**
    * Cleanup all managers
    */
   destroy() {
@@ -106,5 +161,6 @@ export default class StageManager {
     this.scrollSmoother.destroy();
     this.reducedMotion.destroy();
     this._video = null;
+    this._videoContainer = null;
   }
 }

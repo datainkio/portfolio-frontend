@@ -73,42 +73,16 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    logger.trace('Constructor started', null, 'brief', 'headsup');
-
-    // Central event bus for animation coordination
-    logger.trace('Creating AnimationBus...', null, 'brief', 'standard');
     this.bus = new AnimationBus();
-    logger.trace('AnimationBus created', this.bus, 'brief', 'success');
-
-    // Stage manager for scroll and visual effects
-    logger.trace('Creating StageManager...', null, 'brief', 'standard');
     this.stage = new StageManager();
-    logger.trace('StageManager created', this.stage, 'brief', 'success');
-
-    // ScrollSmoother instance (null if not available)
-    // Passed to section controllers for optional smooth scroll integration
     this.smoother = this.stage.getSmoother();
-    logger.trace('ScrollSmoother available', { available: !!this.smoother }, 'brief', 'standard');
-
-    // Section controller instances
-    logger.trace('Creating section controllers...', null, 'brief', 'standard');
     this.sections = {
       hero: new Hero(this.bus, this.smoother),
       // work: new Work(this.bus, this.smoother),
       // biography: new Biography(this.bus, this.smoother),
     };
-    logger.trace('Sections created', Object.keys(this.sections), 'brief', 'success');
-
-    // Landing page animation sequence coordinator
-    // Needs bus for events and sections for triggering animations
-    logger.trace('Creating LandingSequence...', null, 'brief', 'standard');
     this.sequence = new LandingSequence(this.bus, this.sections);
-    logger.trace('LandingSequence created', this.sequence, 'brief', 'success');
-
-    // Start the show!
-    logger.trace('Starting landing page sequence...', null, 'brief', 'headsup');
     this.sequence.start();
-    logger.trace('Constructor complete', null, 'brief', 'success');
   }
 
   /**

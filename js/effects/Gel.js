@@ -13,6 +13,7 @@ export default class Gel {
    * @param {Object} options
    * @param {string[]} [options.colorClasses]
    * @param {number} [options.defaultScaleX]
+   * @param {number} [options.defaultScaleY]
    * @param {string} [options.transformOrigin]
    */
   constructor(view, options = {}) {
@@ -33,6 +34,7 @@ export default class Gel {
     gsap.set(this.maskRect, {
       transformOrigin: this.transformOrigin,
       scaleX: options.defaultScaleX ?? 1,
+      scaleY: options.defaultScaleY ?? 1,
       skewX: options.defaultSkewX ?? 0,
     });
   }
@@ -88,10 +90,10 @@ export default class Gel {
   /**
    * Set gel state (animated)
    * @param {string} name
-   * @param {{ colorClass?: string, xScale?: number, skewX?: number }} config
+   * @param {{ colorClass?: string, xScale?: number, yScale?: number, skewX?: number }} config
    */
   setState(name, config = {}) {
-    const { colorClass, xScale, skewX } = config;
+    const { colorClass, xScale, yScale, skewX } = config;
 
     if (colorClass) {
       this.view.classList.remove(...this.colorClasses);
@@ -100,6 +102,7 @@ export default class Gel {
 
     const tween = {};
     if (typeof xScale === 'number') tween.scaleX = xScale;
+    if (typeof yScale === 'number') tween.scaleY = yScale;
     if (typeof skewX === 'number') tween.skewX = skewX;
     if (Object.keys(tween).length) {
       gsap.to(this.maskRect, {
@@ -116,10 +119,10 @@ export default class Gel {
   /**
    * Set gel state instantly (no animation)
    * @param {string} name
-   * @param {{ colorClass?: string, xScale?: number, skewX?: number }} config
+   * @param {{ colorClass?: string, xScale?: number, yScale?: number, skewX?: number }} config
    */
   setImmediate(name, config = {}) {
-    const { colorClass, xScale, skewX } = config;
+    const { colorClass, xScale, yScale, skewX } = config;
 
     if (colorClass) {
       this.view.classList.remove(...this.colorClasses);
@@ -128,6 +131,7 @@ export default class Gel {
 
     const setVals = { transformOrigin: this.transformOrigin };
     if (typeof xScale === 'number') setVals.scaleX = xScale;
+    if (typeof yScale === 'number') setVals.scaleY = yScale;
     if (typeof skewX === 'number') setVals.skewX = skewX;
     if (Object.keys(setVals).length > 1) {
       gsap.set(this.maskRect, setVals);
