@@ -81,7 +81,7 @@ export default class GelAnimationManager {
         gel.targetWidth = this._config[gelId];
 
         // Initialize to full width (will scale down to target on scroll)
-        gel.setImmediate('initial', { colorClass: 'bg-gel-primary', xScale: 1 });
+        gel.setImmediate('initial', { xScale: 1 });
 
         return gel;
       })

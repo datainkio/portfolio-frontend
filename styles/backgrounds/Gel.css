@@ -1,7 +1,5 @@
 /* .bg-gel provides the blend mode and full positioning */
-.bg-gel-primary,
-.bg-gel-secondary,
-.bg-gel-accent {
+.bg-gel {
   mix-blend-mode: multiply;
   position: absolute;
   top: 0;
@@ -18,4 +16,14 @@
 /* .bg-gel-secondary applies a gradient from secondary-900 to secondary-400 */
 .bg-gel-secondary {
   background-image: linear-gradient(to top, var(--color-secondary-900), var(--color-secondary-400));
+}
+
+/* .bg-gel-accent applies a gradient from accent-900 to accent-400 */
+.bg-gel-accent {
+  background-image: linear-gradient(to top, var(--color-accent-900), var(--color-accent-400));
+}
+
+/* .bg-gel-success applies a gradient from success-900 to success-400 */
+.bg-gel-success {
+  background-image: linear-gradient(to top, var(--color-success-900), var(--color-success-400));
 }

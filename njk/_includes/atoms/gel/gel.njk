@@ -1,10 +1,22 @@
 {# 
-    Creates a gel overlay element with customizable color and ID.
+    Gel Overlay Component - Creates animated gel background elements
+    
+    ARCHITECTURE:
+    - gel.njk: Creates DOM structure with ID and color classes
+    - gel.css: Defines visual styles (.bg-gel, .bg-gel-primary, etc.)
+    - Gel.js: Controls animations via SVG mask transforms (scale, skew)
+    
+    WORKFLOW:
+    1. Template renders <div> with ID (e.g., "bgGel_0") and color class
+    2. Gel.js finds element by ID, creates/manipulates SVG mask
+    3. GelAnimationManager coordinates multiple Gel instances on scroll
+    
+    IDs must match GelAnimationManager config (default: bgGel_0, bgGel_1, bgGel_2)
 #}
 {% macro render(params = {}) %}
     {%- set color = params.color | default('bg-gel-primary') -%}
     {%- set id = params.id | default('gel-' + color) -%}
 
-    <div id="{{ id }}" class="{{ color }}" aria-hidden="true"></div>
+    <div id="{{ id }}" class="bg-gel {{ color }}" aria-hidden="true"></div>
 
 {% endmacro %}
