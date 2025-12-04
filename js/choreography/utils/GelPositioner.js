@@ -76,23 +76,28 @@ export default class GelPositioner {
     el.style.left = '0';
     el.style.right = '0';
     el.style.width = '100%';
-    el.style.height = '100dvh';
 
     switch (position) {
       case 'top':
+        el.style.height = '100dvh';
         el.style.top = '0';
         el.style.bottom = 'auto';
         el.style.transform = 'none';
         break;
       case 'bottom':
+        el.style.height = '100dvh';
         el.style.top = 'auto';
         el.style.bottom = '0';
         el.style.transform = 'none';
         break;
       case 'center':
-        el.style.top = '50%';
-        el.style.bottom = 'auto';
-        el.style.transform = 'translateY(-50%)';
+        // For center positioning, use margin auto to avoid transform conflicts
+        el.style.height = '100dvh';
+        el.style.top = '0';
+        el.style.bottom = '0';
+        el.style.marginTop = 'auto';
+        el.style.marginBottom = 'auto';
+        el.style.transform = 'none';
         break;
     }
   }
@@ -104,24 +109,29 @@ export default class GelPositioner {
   static _applyHorizontalPosition(el, position) {
     el.style.top = '0';
     el.style.bottom = '0';
-    el.style.width = '100dvw';
     el.style.height = '100%';
 
     switch (position) {
       case 'left':
+        el.style.width = '100dvw';
         el.style.left = '0';
         el.style.right = 'auto';
         el.style.transform = 'none';
         break;
       case 'right':
+        el.style.width = '100dvw';
         el.style.left = 'auto';
         el.style.right = '0';
         el.style.transform = 'none';
         break;
       case 'center':
-        el.style.left = '50%';
-        el.style.right = 'auto';
-        el.style.transform = 'translateX(-50%)';
+        // For center positioning, use margin auto to avoid transform conflicts
+        el.style.width = '100dvw';
+        el.style.left = '0';
+        el.style.right = '0';
+        el.style.marginLeft = 'auto';
+        el.style.marginRight = 'auto';
+        el.style.transform = 'none';
         break;
     }
   }

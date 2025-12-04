@@ -8,7 +8,7 @@
  */
 
 import { gsap } from '/assets/js/gsap/all.js';
-
+const DURATION = 1.0; // Default duration for animations
 export default class BaseAnimations {
   /**
    * @param {HTMLElement|null} element - Target element for animations
@@ -18,6 +18,15 @@ export default class BaseAnimations {
     this.element = element;
     this.id = sectionId;
     this.timeline = gsap.timeline({ paused: true });
+    this.DURATION = DURATION; // Default duration for animations
+  }
+
+  /**
+   * Set the default styles for the element
+   * Descendants should override for custom behavior.
+   */
+  async setDefault(props = {}) {
+    gsap.set(this.element, props);
   }
 
   /**

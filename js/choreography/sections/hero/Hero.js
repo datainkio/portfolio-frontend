@@ -20,6 +20,7 @@
 import { BaseSection } from '../base-section/BaseSection.js';
 import HeroAnimations from './HeroAnimations.js';
 import HeroTriggers from './HeroTriggers.js';
+import { add as addPrinterMarks } from '/assets/js/displays/PrinterMarks.js';
 
 const ID = 'main-header';
 
@@ -43,8 +44,10 @@ export default class Hero extends BaseSection {
     this.anim = this.titleElement ? new HeroAnimations(this.titleElement, this.id) : null;
     this.triggers = this.titleElement ? new HeroTriggers(this.titleElement, this.id) : null;
 
-    this.intro = this.anim.lines();
-    this.outro = this.anim ? this.anim.fadeOut() : null;
+    // Explicitly set default state before creating animations
+    this.anim.setDefault();
+    this.intro = this.anim.lines('in');
+    this.outro = this.anim ? this.anim.lines('out') : null;
 
     // Setup pinned outro on scroll
     if (this.triggers && this.outro) {

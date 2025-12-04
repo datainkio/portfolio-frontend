@@ -5,17 +5,42 @@
  * and configuration parsing to utility modules (GelPositioner, GelConfigParser).
  *
  * CONFIG: { target, axis, targetElement, position }
+ *
  * - target: viewport fraction (0-1) or auto-calculated from targetElement
- * - axis: 'x' (width/xScale) or 'y' (height/yScale)
+ * - axis: 'x' (horizontal/width/xScale) or 'y' (vertical/height/yScale)
  * - targetElement: CSS selector or element to match dimensions/position
- * - position: alignment - 'top'/'center'/'bottom' (y) or 'left'/'center'/'right' (x)
+ * - position: animation origin/alignment:
+ *     - For axis: 'x' (horizontal): 'left', 'center', or 'right' (relative to viewport)
+ *     - For axis: 'y' (vertical): 'top', 'center', or 'bottom' (relative to viewport)
+ *
+ *   Example usage for specifying animation origin:
+ *
+ *   // Horizontal gel animating from the left edge
+ *   { axis: 'x', position: 'left' }
+ *
+ *   // Horizontal gel animating from the right edge
+ *   { axis: 'x', position: 'right' }
+ *
+ *   // Horizontal gel animating from the horizontal center
+ *   { axis: 'x', position: 'center' }
+ *
+ *   // Vertical gel animating from the top
+ *   { axis: 'y', position: 'top' }
+ *
+ *   // Vertical gel animating from the bottom
+ *   { axis: 'y', position: 'bottom' }
+ *
+ *   // Vertical gel animating from the vertical center
+ *   { axis: 'y', position: 'center' }
  *
  * ANIMATION: Gels scale from 1 to target dimension with staggered timing
  *
  * @example
  * const config = {
- *   bgGel_0: { target: 1/6, axis: 'x' },
- *   bgGel_1: { axis: 'y', targetElement: '#hero', position: 'center' }
+ *   bgGel_0: { target: 1/6, axis: 'x', position: 'left' },
+ *   bgGel_1: { axis: 'y', targetElement: '#hero', position: 'center' },
+ *   bgGel_2: { axis: 'x', position: 'right' },
+ *   bgGel_3: { axis: 'y', position: 'bottom' }
  * };
  * const manager = new GelAnimationManager(config, reducedMotionHandler);
  * manager.initialize();
@@ -87,6 +112,13 @@ export default class GelAnimationManager {
     const transformOrigin = refEl
       ? GelPositioner.getOriginFromElement(refEl, axis)
       : GelPositioner.getOriginFromPosition(axis, position);
+
+    console.log(`[GelAnimationManager] ${gelId}:`, {
+      axis,
+      position,
+      transformOrigin,
+      refEl: refEl?.id || 'none',
+    });
 
     // Create and configure gel
     const gel = new Gel(el, {

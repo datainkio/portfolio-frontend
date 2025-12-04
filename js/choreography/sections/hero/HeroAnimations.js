@@ -12,33 +12,78 @@ gsap.registerPlugin(SplitText);
  * Extends BaseAnimations to inherit shared timeline structure.
  */
 export default class HeroAnimations extends BaseAnimations {
-  lines() {
-    console.log('HeroAnimations.lines() called');
+  setDefault() {
+    super.setDefault({
+      scaleY: 0,
+      transformOrigin: '0% 0%',
+    });
+  }
+
+  borderReveal(tl) {
+    // Animate parent container opacity + position to reveal split words
+    tl.fromTo(
+      this.element,
+      { scaleY: 0, transformOrigin: '0% 0%' },
+      { scaleY: 1, duration: this.DURATION, ease: 'power3.out' },
+      0 // Start at timeline position 0
+    );
+  }
+
+  /**
+   * Directional word animation with SplitText
+   * @param {string} direction - "in" to reveal words, "out" to hide words
+   * @returns {gsap.core.Timeline} Animation timeline
+   */
+  lines(direction = 'in') {
     if (!this.element) return null;
 
     // Split h1 text into words using GSAP SplitText
     const split = new SplitText(this.element, { type: 'words' });
-
     const tl = gsap.timeline();
 
-    // Animate words with stagger
-    tl.fromTo(
-      split.words,
-      {
-        opacity: 0,
-        y: 50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        stagger: 0.1,
-      }
-    );
+    if (direction === 'in') {
+      // Reveal border and container first
+      this.borderReveal(tl);
+
+      // Animate words with stagger
+      tl.fromTo(
+        split.words,
+        {
+          opacity: 0,
+          y: 50,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: this.DURATION,
+          ease: 'power3.out',
+          stagger: 0.1,
+        }
+      );
+    } else if (direction === 'out') {
+      // Animate words in reverse order (last to first) fading out and moving up
+      tl.fromTo(
+        split.words,
+        {
+          opacity: 1,
+          y: 0,
+        },
+        {
+          opacity: 0,
+          y: -30,
+          duration: this.DURATION,
+          ease: 'power3.in',
+          stagger: {
+            amount: 0.1 * split.words.length,
+            from: 'end', // Start animation from last word
+          },
+        }
+      );
+    }
 
     return tl;
   }
+
   roll() {
     if (!this.element) return null;
     // Placeholder: create a minimal tween to ensure timeline exists.
@@ -47,7 +92,7 @@ export default class HeroAnimations extends BaseAnimations {
     tl.fromTo(
       this.element,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+      { opacity: 1, y: 0, duration: this.DURATION, ease: 'power2.out' }
     );
     return tl;
   }
@@ -63,7 +108,7 @@ export default class HeroAnimations extends BaseAnimations {
     const tl = gsap.timeline();
     tl.to(this.element, {
       opacity: 0,
-      duration: 1,
+      duration: this.DURATION,
       ease: 'power2.inOut',
     });
 

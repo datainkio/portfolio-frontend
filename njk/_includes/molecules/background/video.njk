@@ -7,6 +7,7 @@
     id="{{ bgID }}" 
     class="absolute bg-pixelator inset-0 w-full h-dvh -z-10"
     aria-hidden="true">
+      {#
     {{ videoAtom.render({
       src: params.videoSrc,
       autoplay: true,
@@ -15,9 +16,10 @@
       playsInline: true,
       className: "bg-video"
     }) }}
-    {{ gelAtom.render({ color: 'bg-gel-primary', id: 'bgGel_0'}) }}
-    {{ gelAtom.render({ color: 'bg-gel-secondary', id: 'bgGel_1'}) }}
-    {{ gelAtom.render({ color: 'bg-gel-accent', id: 'bgGel_2'}) }}
+    #}
+    {{ gelAtom.render({ color: 'bg-gel-secondary', id: 'bgGel_0'}) }}
+    {{ gelAtom.render({ color: 'bg-gel-primary', id: 'bgGel_1'}) }}
+
   </div>
 {% endmacro %}
 

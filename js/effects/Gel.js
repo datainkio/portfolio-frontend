@@ -31,8 +31,11 @@ export default class Gel {
     // Create SVG mask if it doesn't exist
     this._ensureMask();
 
+    // Convert transform-origin to percentage format for SVG compatibility
+    const svgOrigin = this._convertOriginToPercentage(this.transformOrigin);
+
     gsap.set(this.maskRect, {
-      transformOrigin: this.transformOrigin,
+      transformOrigin: svgOrigin,
       scaleX: options.defaultScaleX ?? 1,
       scaleY: options.defaultScaleY ?? 1,
       skewX: options.defaultSkewX ?? 0,
@@ -100,6 +103,7 @@ export default class Gel {
       this.view.classList.add(colorClass);
     }
 
+    const svgOrigin = this._convertOriginToPercentage(this.transformOrigin);
     const tween = {};
     if (typeof xScale === 'number') tween.scaleX = xScale;
     if (typeof yScale === 'number') tween.scaleY = yScale;
@@ -107,7 +111,7 @@ export default class Gel {
     if (Object.keys(tween).length) {
       gsap.to(this.maskRect, {
         ...tween,
-        transformOrigin: this.transformOrigin,
+        transformOrigin: svgOrigin,
         duration: 0.35,
         ease: 'power2.out',
       });
@@ -129,7 +133,8 @@ export default class Gel {
       this.view.classList.add(colorClass);
     }
 
-    const setVals = { transformOrigin: this.transformOrigin };
+    const svgOrigin = this._convertOriginToPercentage(this.transformOrigin);
+    const setVals = { transformOrigin: svgOrigin };
     if (typeof xScale === 'number') setVals.scaleX = xScale;
     if (typeof yScale === 'number') setVals.scaleY = yScale;
     if (typeof skewX === 'number') setVals.skewX = skewX;
@@ -138,5 +143,33 @@ export default class Gel {
     }
 
     this.currentState = name;
+  }
+
+  /**
+   * Convert CSS transform-origin keywords to percentage values for SVG
+   * @private
+   * @param {string} origin - Transform origin string (e.g., 'center center', 'left top')
+   * @returns {string} Percentage-based origin (e.g., '50% 50%', '0% 0%')
+   */
+  _convertOriginToPercentage(origin) {
+    const keywordMap = {
+      left: '0%',
+      center: '50%',
+      right: '100%',
+      top: '0%',
+      bottom: '100%',
+    };
+
+    const parts = origin.split(' ');
+    const converted = parts.map(part => {
+      // If already a percentage or pixel value, keep it
+      if (part.includes('%') || part.includes('px')) {
+        return part;
+      }
+      // Convert keyword to percentage
+      return keywordMap[part.toLowerCase()] || part;
+    });
+
+    return converted.join(' ');
   }
 }
