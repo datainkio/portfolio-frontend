@@ -1,22 +1,30 @@
-{# 
-    Gel Overlay Component - Creates animated gel background elements
-    
-    ARCHITECTURE:
-    - gel.njk: Creates DOM structure with ID and color classes
-    - gel.css: Defines visual styles (.bg-gel, .bg-gel-primary, etc.)
-    - Gel.js: Controls animations via SVG mask transforms (scale, skew)
-    
-    WORKFLOW:
-    1. Template renders <div> with ID (e.g., "bgGel_0") and color class
-    2. Gel.js finds element by ID, creates/manipulates SVG mask
-    3. GelAnimationManager coordinates multiple Gel instances on scroll
-    
-    IDs must match GelAnimationManager config (default: bgGel_0, bgGel_1, bgGel_2)
+{#
+  Gel Overlay Atom - SVG-masked background element with corner manipulation
+
+  ARCHITECTURE:
+  - gel.njk: Renders DOM element with ID and color class
+  - Gel.js: Controls SVG polygon mask and corner animation
+  - GelAnimationManager: Initializes and coordinates multiple gels on scroll
+  - GelManipulator: Positions gel relative to viewport or reference element
+
+  ELEMENT IDS AND CONFIGURATION:
+  - Element ID must match GEL_CONFIG key (e.g., id="bg-gel-0" → config['bg-gel-0'])
+  - IDs use kebab-case format: bg-gel-0, bg-gel-1, bg-gel-2
+  - .bg-gel class triggers automatic discovery during initialization
+  - Color classes (bg-gel-primary, etc.) are optional styling
+
+  USAGE:
+  {% import "atoms/gel/gel.njk" as gelAtom %}
+  {{ gelAtom.render({ color: 'bg-gel-primary', id: 'bg-gel-0' }) }}
+
+  PARAMETERS:
+  - color: CSS class for color state (default: 'bg-gel-primary')
+  - id: Element ID matching GEL_CONFIG entry (required for animation)
 #}
 {% macro render(params = {}) %}
-    {%- set color = params.color | default('bg-gel-primary') -%}
-    {%- set id = params.id | default('gel-' + color) -%}
+  {%- set color = params.color | default('bg-gel-primary') -%}
+  {%- set id = params.id | default('gel-default') -%}
 
-    <div id="{{ id }}" class="bg-gel {{ color }}" aria-hidden="true"></div>
+  <div id="{{ id }}" class="bg-gel {{ color }}" aria-hidden="true"></div>
 
 {% endmacro %}

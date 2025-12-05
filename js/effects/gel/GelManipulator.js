@@ -1,16 +1,21 @@
+/** @format */
+
 /**
- * GelPositioner - Utility for positioning and sizing gel elements
+ * GelManipulator - Utility for positioning and manipulating gel elements
  *
- * Handles CSS positioning logic for gel elements based on configuration.
+ * Pure positioning and sizing logic for overlay elements.
+ * No choreography dependencies—can be used in any context requiring
+ * element alignment and viewport-relative positioning.
+ *
  * Supports two positioning modes:
  * 1. Element matching - matches another element's position and dimensions
  * 2. Viewport-relative - positions relative to viewport with alignment
  */
 
-export default class GelPositioner {
+export default class GelManipulator {
   /**
-   * Position gel element based on configuration
-   * @param {HTMLElement} el - Gel element to position
+   * Position element based on configuration
+   * @param {HTMLElement} el - Element to position
    * @param {Object} config - Position configuration
    * @param {string} config.axis - 'x' or 'y'
    * @param {HTMLElement|null} config.refEl - Reference element to match
@@ -27,7 +32,7 @@ export default class GelPositioner {
   }
 
   /**
-   * Match gel element's position and size to reference element
+   * Match element's position and size to reference element
    * @private
    */
   static _matchElement(el, refEl, axis) {
@@ -91,7 +96,6 @@ export default class GelPositioner {
         el.style.transform = 'none';
         break;
       case 'center':
-        // For center positioning, use margin auto to avoid transform conflicts
         el.style.height = '100dvh';
         el.style.top = '0';
         el.style.bottom = '0';
@@ -125,7 +129,6 @@ export default class GelPositioner {
         el.style.transform = 'none';
         break;
       case 'center':
-        // For center positioning, use margin auto to avoid transform conflicts
         el.style.width = '100dvw';
         el.style.left = '0';
         el.style.right = '0';
@@ -140,7 +143,7 @@ export default class GelPositioner {
    * Get transform origin based on reference element
    * @param {HTMLElement} refEl - Reference element
    * @param {string} axis - 'x' or 'y'
-   * @returns {string} Transform origin
+   * @returns {string} Transform origin value
    */
   static getOriginFromElement(refEl, axis) {
     return axis === 'y' ? 'center top' : 'left center';
@@ -149,8 +152,8 @@ export default class GelPositioner {
   /**
    * Get transform origin based on axis and position
    * @param {string} axis - 'x' or 'y'
-   * @param {string|null} position - Alignment
-   * @returns {string} Transform origin
+   * @param {string|null} position - Alignment value
+   * @returns {string} Transform origin value
    */
   static getOriginFromPosition(axis, position) {
     if (axis === 'y') {
@@ -166,7 +169,7 @@ export default class GelPositioner {
    * Calculate target dimension as fraction of viewport
    * @param {HTMLElement} refEl - Reference element
    * @param {string} axis - 'x' or 'y'
-   * @returns {number} Target as fraction of viewport
+   * @returns {number} Target as fraction of viewport (0-1)
    */
   static calculateTarget(refEl, axis) {
     if (axis === 'y') {

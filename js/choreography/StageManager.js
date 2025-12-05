@@ -1,41 +1,55 @@
+/** @format */
+
 /**
  * StageManager - Master Scroll & Visual Effects Coordinator
  *
  * Orchestrates site-wide scroll smoothing, background layers, and gel animations
- * via specialized manager modules. Simplified coordinator that delegates to:
+ * via specialized manager modules. Coordinates with AnimationBus to sequence
+ * visual effects based on section animation events.
  *
+ * Delegates to specialized managers:
  * - ReducedMotionHandler: Accessibility and motion preferences
  * - BackgroundLayerManager: Fixed background positioning
  * - ScrollSmootherManager: GSAP smooth scrolling
  * - GelAnimationManager: Gel background animations
  *
+ * EVENT COORDINATION:
+ * - Listens for 'hero:outro:complete' event from AnimationBus
+ * - Delays gel animation start until Hero section outro finishes
+ * - Maintains temporal coordination between section transitions and background effects
+ *
  * ARCHITECTURE:
  * - Modular design with single-responsibility managers
  * - Each manager handles specific concern independently
- * - StageManager coordinates initialization order
+ * - StageManager coordinates initialization order and event-driven timing
  * - Clean separation of concerns for maintainability
  *
  * CRITICAL DEPENDENCIES:
  * - HTML: #overlay-view, #sizzle-background (background layers)
  * - HTML: #smooth-wrapper, #smooth-content (optional for smooth scroll)
  * - CSS: .bg-gel-* classes for gel styling
+ * - AnimationBus: Event system for section coordination
  *
  * @requires ReducedMotionHandler - Motion preference detection
  * @requires BackgroundLayerManager - Background layer positioning
  * @requires ScrollSmootherManager - Smooth scroll coordination
  * @requires GelAnimationManager - Gel animation system
+ * @requires AnimationBus - Event-driven section coordination
  */
 
 import ReducedMotionHandler from '/assets/js/choreography/managers/ReducedMotionHandler.js';
 import BackgroundLayerManager from '/assets/js/choreography/managers/BackgroundLayerManager.js';
 import ScrollSmootherManager from '/assets/js/choreography/managers/ScrollSmootherManager.js';
 import GelAnimationManager from '/assets/js/choreography/managers/GelAnimationManager.js';
+import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
+import { GEL_CONFIG } from '/assets/js/choreography/config.js';
+import { EVENTS } from './constants.js';
 
 /**
  * StageManager - Master Animation Coordinator
  *
  * Simplified orchestrator that delegates to specialized manager modules.
- * Handles initialization order and provides unified API for external access.
+ * Handles initialization order and event-driven timing coordination.
  *
  * Public API:
  * - getSmoother() - Get ScrollSmoother instance
@@ -51,19 +65,15 @@ export default class StageManager {
     this.reducedMotion = new ReducedMotionHandler();
     this.backgroundLayers = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
-
-    // Configure gel animations with custom target for bgGel_1
-    const gelConfig = {
-      bgGel_0: { target: 1 / 6, axis: 'x', position: 'left' },
-      bgGel_1: { axis: 'y', targetElement: '#main-title', position: 'center' }, // Height matches H1
-      bgGel_2: { target: 3 / 4, axis: 'x', position: 'left' },
-    };
-    this.gelAnimation = new GelAnimationManager(gelConfig, this.reducedMotion);
+    // Configure gel animations with config from choreography config
+    this.gelAnimation = new GelAnimationManager(GEL_CONFIG, this.reducedMotion);
 
     // Cache video and container references for external access
     this._videoContainer = document.querySelector('#overlay-view');
     this._video = this._videoContainer?.querySelector('video');
-    this._videoVisible = true;
+
+    // Track gel animation state
+    this._gelsAnimated = false;
 
     this.initialize();
   }
@@ -71,19 +81,32 @@ export default class StageManager {
   /**
    * Initialize all manager modules
    *
-   * Sets up background layers, scroll smoothing, and gel animations
-   * in proper dependency order.
+   * Sets up background layers, scroll smoothing, and gel animations.
+   * Gel animations are held until Hero outro completes.
    */
   initialize() {
     // Fix background layer positioning
     this.backgroundLayers.fix();
 
-    // Initialize gel controllers
+    // Initialize gel controllers (but don't animate yet)
     this.gelAnimation.initialize();
+
+    // Listen for Hero outro completion to start gel animations
+    AnimationBus.on(EVENTS.hero.outroComplete, this._startGelAnimations.bind(this));
+  }
+
+  /**
+   * Start gel animations after Hero outro completes
+   * @private
+   */
+  _startGelAnimations() {
+    if (this._gelsAnimated) return; // Prevent multiple calls
 
     // Start gel animation (uses smoother scroller if available)
     const scroller = this.scrollSmoother.isActive() ? '#smooth-wrapper' : undefined;
     this.gelAnimation.animate(scroller);
+
+    this._gelsAnimated = true;
   }
 
   /**
@@ -111,52 +134,10 @@ export default class StageManager {
   }
 
   /**
-   * Show background video
-   * Maintains video playback state and all other functionality
-   */
-  showVideo() {
-    if (this._videoContainer) {
-      this._videoContainer.style.display = '';
-      this._videoVisible = true;
-    }
-  }
-
-  /**
-   * Hide background video
-   * Maintains video playback state and all other functionality
-   */
-  hideVideo() {
-    if (this._videoContainer) {
-      this._videoContainer.style.display = 'none';
-      this._videoVisible = false;
-    }
-  }
-
-  /**
-   * Check if video is currently visible
-   * @returns {boolean} True if video is visible
-   */
-  isVideoVisible() {
-    return this._videoVisible;
-  }
-
-  /**
-   * Toggle video visibility
-   * @returns {boolean} New visibility state
-   */
-  toggleVideo() {
-    if (this._videoVisible) {
-      this.hideVideo();
-    } else {
-      this.showVideo();
-    }
-    return this._videoVisible;
-  }
-
-  /**
-   * Cleanup all managers
+   * Cleanup all managers and event listeners
    */
   destroy() {
+    AnimationBus.off('hero:outro:complete', this._startGelAnimations.bind(this));
     this.gelAnimation.destroy();
     this.scrollSmoother.destroy();
     this.reducedMotion.destroy();

@@ -57,7 +57,7 @@ export default class HeroAnimations extends BaseAnimations {
           y: 0,
           duration: this.DURATION,
           ease: 'power3.out',
-          stagger: 0.1,
+          stagger: this.STAGGER,
         }
       );
     } else if (direction === 'out') {
@@ -74,7 +74,7 @@ export default class HeroAnimations extends BaseAnimations {
           duration: this.DURATION,
           ease: 'power3.in',
           stagger: {
-            amount: 0.1 * split.words.length,
+            amount: this.STAGGER * split.words.length,
             from: 'end', // Start animation from last word
           },
         }

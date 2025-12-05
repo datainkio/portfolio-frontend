@@ -9,7 +9,9 @@
   {%- set siteName = params.siteName -%}
   {%- set href = params.href | default('/') -%}
   {%- set classes = params.classes | default('text-xl') -%}
+  {%- set id = params.id | default('site-title') -%}
   <a
+    id="{{ id }}"
     class="btn btn-ghost style-log-screensize text-neutral-100 {{ classes }}"
     href="{{ href }}"
     >{{ siteName }}</a

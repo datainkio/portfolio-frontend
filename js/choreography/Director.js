@@ -76,8 +76,9 @@ export default class Director {
     this.bus = new AnimationBus();
     this.stage = new StageManager();
     this.smoother = this.stage.getSmoother();
+
     this.sections = {
-      hero: new Hero(this.bus, this.smoother),
+      hero: new Hero(this.bus),
       // work: new Work(this.bus, this.smoother),
       // biography: new Biography(this.bus, this.smoother),
     };

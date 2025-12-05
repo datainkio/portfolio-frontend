@@ -9,6 +9,7 @@
 
 import { gsap } from '/assets/js/gsap/all.js';
 const DURATION = 1.0; // Default duration for animations
+const STAGGER = 0.2; // Default stagger duration for animations
 export default class BaseAnimations {
   /**
    * @param {HTMLElement|null} element - Target element for animations
@@ -19,6 +20,7 @@ export default class BaseAnimations {
     this.id = sectionId;
     this.timeline = gsap.timeline({ paused: true });
     this.DURATION = DURATION; // Default duration for animations
+    this.STAGGER = STAGGER; // Default stagger duration for animations
   }
 
   /**

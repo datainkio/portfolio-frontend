@@ -7,7 +7,6 @@
     id="{{ bgID }}" 
     class="absolute bg-pixelator inset-0 w-full h-dvh -z-10"
     aria-hidden="true">
-      {#
     {{ videoAtom.render({
       src: params.videoSrc,
       autoplay: true,
@@ -16,9 +15,14 @@
       playsInline: true,
       className: "bg-video"
     }) }}
+    {#
+      1. id specifies which gel layer a given GelManipulator instance will control
+      2. Gel layers are positioned and animated via JS (GelManipulator)
+      3. Multiple gel layers can be stacked for more complex visual effects
+      4. Gel can be associated with a given DOM element to sync movement (see config.js)
     #}
-    {{ gelAtom.render({ color: 'bg-gel-secondary', id: 'bgGel_0'}) }}
-    {{ gelAtom.render({ color: 'bg-gel-primary', id: 'bgGel_1'}) }}
+    {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
+    {{ gelAtom.render({ id: 'bg-gel-1', color: 'bg-gel-secondary' }) }}
 
   </div>
 {% endmacro %}

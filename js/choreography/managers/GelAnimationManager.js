@@ -1,65 +1,54 @@
 /**
- * GelAnimationManager - Coordinates scroll-driven gel animations
+ * GelAnimationManager - Scroll-driven gel animation coordinator
  *
- * Manages Gel instances with staggered scroll animations. Delegates positioning
- * and configuration parsing to utility modules (GelPositioner, GelConfigParser).
+ * Initializes Gel instances from DOM elements and creates scroll-triggered
+ * animations. Delegates positioning logic to GelManipulator and config parsing
+ * to GelConfigParser.
  *
- * CONFIG: { target, axis, targetElement, position }
+ * INITIALIZATION:
+ * - Scans DOM for elements with class .bg-gel
+ * - Matches each element's ID with config entry (e.g., id="bg-gel-0" → config['bg-gel-0'])
+ * - Creates Gel instance per element with positioning and animation setup
  *
- * - target: viewport fraction (0-1) or auto-calculated from targetElement
- * - axis: 'x' (horizontal/width/xScale) or 'y' (vertical/height/yScale)
- * - targetElement: CSS selector or element to match dimensions/position
- * - position: animation origin/alignment:
- *     - For axis: 'x' (horizontal): 'left', 'center', or 'right' (relative to viewport)
- *     - For axis: 'y' (vertical): 'top', 'center', or 'bottom' (relative to viewport)
+ * CONFIGURATION FORMAT:
+ * ```javascript
+ * {
+ *   'bg-gel-0': { target: 1/6, axis: 'x', position: 'left' },
+ *   'bg-gel-1': { axis: 'y', targetElement: '#main-title', position: 'center' }
+ * }
+ * ```
  *
- *   Example usage for specifying animation origin:
+ * CONFIG PROPERTIES:
+ * - target: Viewport fraction (0-1) for animation scale endpoint
+ * - axis: 'x' (horizontal) or 'y' (vertical) animation direction
+ * - targetElement: CSS selector to match element dimensions (overrides target)
+ * - position: Alignment origin ('left'/'center'/'right' or 'top'/'center'/'bottom')
  *
- *   // Horizontal gel animating from the left edge
- *   { axis: 'x', position: 'left' }
+ * USAGE:
+ * ```javascript
+ * import GelAnimationManager from './GelAnimationManager.js';
+ * import { GEL_CONFIG } from '../config.js';
  *
- *   // Horizontal gel animating from the right edge
- *   { axis: 'x', position: 'right' }
- *
- *   // Horizontal gel animating from the horizontal center
- *   { axis: 'x', position: 'center' }
- *
- *   // Vertical gel animating from the top
- *   { axis: 'y', position: 'top' }
- *
- *   // Vertical gel animating from the bottom
- *   { axis: 'y', position: 'bottom' }
- *
- *   // Vertical gel animating from the vertical center
- *   { axis: 'y', position: 'center' }
- *
- * ANIMATION: Gels scale from 1 to target dimension with staggered timing
- *
- * @example
- * const config = {
- *   bgGel_0: { target: 1/6, axis: 'x', position: 'left' },
- *   bgGel_1: { axis: 'y', targetElement: '#hero', position: 'center' },
- *   bgGel_2: { axis: 'x', position: 'right' },
- *   bgGel_3: { axis: 'y', position: 'bottom' }
- * };
- * const manager = new GelAnimationManager(config, reducedMotionHandler);
+ * const manager = new GelAnimationManager(GEL_CONFIG);
  * manager.initialize();
- * manager.animate('#smooth-wrapper');
+ * manager.animate('#smooth-wrapper'); // Enable scroll animations
+ * ```
+ *
+ * @fileoverview Gel animation orchestrator for background visual effects
  */
 
 import { gsap } from '/assets/js/gsap/all.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
-import Gel from '/assets/js/effects/Gel.js';
-import GelPositioner from '/assets/js/choreography/utils/GelPositioner.js';
+import { Gel, GelManipulator } from '/assets/js/effects/gel/index.js';
 import GelConfigParser from '/assets/js/choreography/utils/GelConfigParser.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
 // Default gel configuration (Tailwind 12-column grid)
 const DEFAULT_GEL_CONFIG = {
-  bgGel_0: { target: 1 / 6, axis: 'x' }, // 2 columns
-  bgGel_1: { target: 7 / 12, axis: 'x' }, // 7 columns
-  bgGel_2: { target: 3 / 4, axis: 'x' }, // 9 columns
+  'bg-gel-0': { target: 1 / 6, axis: 'x' }, // 2 columns
+  'bg-gel-1': { target: 7 / 12, axis: 'x' }, // 7 columns
+  'bg-gel-2': { target: 3 / 4, axis: 'x' }, // 9 columns
 };
 
 export default class GelAnimationManager {
@@ -83,53 +72,45 @@ export default class GelAnimationManager {
   }
 
   /**
-   * Initialize gel controllers from configuration
+   * Initialize gel controllers from DOM elements with bg-gel class
    */
   initialize() {
-    this._gels = Object.keys(this._config)
-      .map(gelId => this._initializeGel(gelId))
+    const gelElements = document.querySelectorAll('.bg-gel');
+    this._gels = Array.from(gelElements)
+      .map(el => this._initializeGelFromElement(el))
       .filter(gel => gel !== null);
   }
 
   /**
-   * Initialize single gel instance
+   * Initialize single gel instance from a DOM element
    * @private
+   * @param {HTMLElement} el - Gel DOM element
+   * @returns {Gel|null}
    */
-  _initializeGel(gelId) {
-    const el = document.getElementById(gelId);
-    if (!el) return null;
+  _initializeGelFromElement(el) {
+    const gelId = el.id;
+    if (!gelId || !this._config[gelId]) {
+      console.warn('[GelAnimationManager] Missing config for gel element', gelId);
+      return null;
+    }
 
     const parsed = GelConfigParser.parse(this._config[gelId]);
     const { target: configTarget, axis, refEl, position } = parsed;
 
-    // Calculate target as viewport fraction
-    let target = configTarget || (refEl ? GelPositioner.calculateTarget(refEl, axis) : 1);
+    const target = configTarget ?? (refEl ? GelManipulator.calculateTarget(refEl, axis) : 1);
 
-    // Apply CSS positioning
-    GelPositioner.apply(el, { axis, refEl, position });
+    GelManipulator.apply(el, { axis, refEl, position });
 
-    // Determine transform origin
     const transformOrigin = refEl
-      ? GelPositioner.getOriginFromElement(refEl, axis)
-      : GelPositioner.getOriginFromPosition(axis, position);
+      ? GelManipulator.getOriginFromElement(refEl, axis)
+      : GelManipulator.getOriginFromPosition(axis, position);
 
-    console.log(`[GelAnimationManager] ${gelId}:`, {
-      axis,
-      position,
-      transformOrigin,
-      refEl: refEl?.id || 'none',
-    });
-
-    // Create and configure gel
-    const gel = new Gel(el, {
-      defaultScaleX: axis === 'x' ? 0 : 1,
-      defaultScaleY: axis === 'y' ? 0 : 1,
-      transformOrigin,
-    });
-
+    const gel = new Gel(el, { transformOrigin });
     gel.target = target;
     gel.axis = axis;
-    gel.setImmediate('initial', axis === 'y' ? { yScale: 1 } : { xScale: 1 });
+
+    // Refresh viewBox and polygon after positioning
+    gel.refresh();
 
     return gel;
   }

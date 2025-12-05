@@ -1,86 +1,156 @@
-export const BlockLineParams = {
-    type: "background", // "element" or "background" depending on purpose
-    id: "BlockframeLibrary",
-    colCount: 24,  // Number of buildings * 2
-    rowCount: 8,
-    size: 100, // WTF is this for now other than not being 0?
-    angle: 12,
-    brightness: 0.25,
-    opacity: 1,
-    types: ["Article","Calendar","Cart","Contact","Landing","Map","Timeline"]
-}
+/** @format */
 
-export const RevealParams = {
-    origin: {
-        y: 25,
-        opacity: 0
-    },
-    destination: {
-        y: 0,
-        opacity: 1
-    },
-    ease: "none",
-    duration: .75 
-}
+/**
+ * Site-Specific Choreography Configuration
+ *
+ * DOM selectors, asset paths, animation timing, and visual settings that are
+ * UNIQUE to this project. Change these values when adapting the choreography
+ * system to a different site.
+ *
+ * For system-level constants (event names, API contracts), see constants.js
+ *
+ * USAGE PATTERN:
+ * import { SELECTORS, ANIMATION_DEFAULTS } from './config.js';
+ *
+ * // Find DOM elements
+ * this.element = document.querySelector(SELECTORS.hero);
+ *
+ * // Use consistent animation settings
+ * gsap.to(target, { duration: ANIMATION_DEFAULTS.duration });
+ *
+ * @fileoverview Project-specific configuration values
+ */
 
-export const WGParams = {
-    id: "wg",
-    paused: true,
-    w: -6,
-    h: -6,
-    range: 1,
-    envelope: 0,
-    duration: 2, 
-    colors: ["bravo", "alpha"], 
-    wiggles: 50,
+/**
+ * DOM Selectors
+ *
+ * Element IDs and classes specific to this site's template structure.
+ * These map to elements created in Nunjucks templates (njk/_includes/).
+ *
+ * Update these when:
+ * - Changing element IDs in templates
+ * - Adapting choreography system to new project
+ * - Refactoring page structure
+ */
+export const SELECTORS = {
+  // Section elements
+  hero: '#main-header',
+  work: '#work',
+  biography: '#biography',
+
+  // Scroll smoothing container (optional - enables ScrollSmoother)
+  smoothWrapper: '#smooth-wrapper',
+  smoothContent: '#smooth-content',
+
+  // Background layers (fixed positioning)
+  overlayView: '#overlay-view',
+  sizzleBackground: '#sizzle-background',
+
+  // Hero section elements
+  heroTitle: '#main-title',
 };
 
-export const RadarParams = {
-    id: "main-title",
-    duration: .15,
-    steps: 10,
-    alpha_start: .85,
-    alpha_end: .25,
-    amount: 60,
-    base: -61,
-    settings: true
-}
-
-export const OFParams = {
-    id: "fill",
-    container: "main-title",
-    duration: 1,
-    stagger: 0.1,
-    overlap: "<15%",
-    color: "#1A171C00",
+/**
+ * Asset Paths
+ *
+ * File paths for video, images, and media assets used by choreography system.
+ * Paths are relative to site root (assets/ directory).
+ */
+export const ASSET_PATHS = {
+  video: {
+    sizzle: '/assets/video/sizzle.mp4',
+  },
 };
 
-export const TRollParams = {
-    id: "troll",
-    paused: true,
-    container: "#main-header",
-    duration: .25,
-    stagger: .5,
-    overlap: "<25%",
-    ease: "power1.inOut",
-    rotation: -90,
+/**
+ * Animation Default Settings
+ *
+ * Base timing and easing values used across all sections.
+ * Provides consistent animation feel throughout the site.
+ *
+ * TIMING:
+ * - duration: Base animation length in seconds
+ * - stagger: Delay between sequential animations (e.g., word reveals)
+ *
+ * EASING:
+ * - in: Accelerating animations (elements exiting)
+ * - out: Decelerating animations (elements entering)
+ * - inOut: Smooth start and end (continuous motion)
+ */
+export const ANIMATION_DEFAULTS = {
+  duration: 0.6,
+  stagger: 0.1,
+  ease: {
+    in: 'power3.in',
+    out: 'power3.out',
+    inOut: 'power3.inOut',
+  },
 };
 
-export const HalftoneParams = {
-    container: "avatar",
-    dotSize: 10,
-    gridSize: 8,
-    color: true,
+/**
+ * ScrollTrigger Default Configuration
+ *
+ * Base settings for GSAP ScrollTrigger instances.
+ * Individual sections can override these values for specific behaviors.
+ *
+ * SETTINGS:
+ * - markers: Show debug markers (start/end points) - set true for development
+ * - toggleActions: Behavior format: "onEnter onLeave onEnterBack onLeaveBack"
+ * - start: Animation trigger point (e.g., "top center" = element top hits viewport center)
+ * - end: Animation end point (e.g., "bottom center" = element bottom hits viewport center)
+ */
+export const SCROLL_DEFAULTS = {
+  markers: false,
+  toggleActions: 'play none none reverse',
+  start: 'top center',
+  end: 'bottom center',
 };
 
-export const ARCParams = {
-    scrollTrigger: {
-        trigger: '#arc-animation',
-        // pin: true, // pin the trigger element while active
-        start: 'center center', // when the top of the trigger hits the top of the viewport
-        // end: '+=500', // end after scrolling 500px beyond the start
-        //. scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-    },
-    duration: .75,
-    overlap: "<10%"
-}
+/**
+ * Gel Configuration
+ *
+ * Visual positioning and behavior for background gel layers.
+ * Controls how gel elements animate in response to scroll and section events.
+ *
+ * CONFIG FORMAT:
+ * - target: Scroll position trigger (0-1 range, percentage of viewport height)
+ * - targetElement: CSS selector for element height matching
+ * - axis: Animation direction ('x' for horizontal, 'y' for vertical)
+ * - position: Alignment ('left', 'center', 'right' for x / 'top', 'center', 'bottom' for y)
+ */
+export const GEL_CONFIG = {
+  'bg-gel-0': {
+    targetElement: '#main-title', // Height and width match hero title
+    axis: 'y',
+    position: 'left',
+  },
+  'bg-gel-1': {
+    targetElement: '#site-title', // Height match site title element
+    axis: 'x',
+    position: 'top',
+  },
+  'bg-gel-2': {
+    target: 3 / 4, // Trigger at 75% viewport height
+    axis: 'x',
+    position: 'left',
+  },
+};
+
+/**
+ * Color Classes
+ *
+ * CSS classes for gel color states.
+ * These map to design tokens generated from Figma (styles/colors.css).
+ *
+ * Update these when:
+ * - Design system colors change
+ * - Adding new gel color variations
+ * - Syncing with Figma design tokens
+ */
+export const COLOR_CLASSES = {
+  gel: {
+    primary: 'bg-gel-primary',
+    secondary: 'bg-gel-secondary',
+    accent: 'bg-gel-accent',
+  },
+};
