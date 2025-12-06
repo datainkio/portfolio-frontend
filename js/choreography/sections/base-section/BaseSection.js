@@ -32,7 +32,7 @@ export class BaseSection {
     this.bus = bus; // the AnimationBus instance
     this.element = document.getElementById(sectionId); // the target DOM element
     if (!this.element) {
-      console.warn(`[BaseSection] Element #${sectionId} not found - section disabled`);
+      console.warn(`[BaseSection] Element ${sectionId} not found - section disabled`);
       return;
     }
     // Initialize animation and trigger modules

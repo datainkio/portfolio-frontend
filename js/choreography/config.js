@@ -47,7 +47,7 @@ export const SELECTORS = {
   sizzleBackground: '#sizzle-background',
 
   // Hero section elements
-  heroTitle: '#main-title',
+  heroTitle: 'main-title',
 };
 
 /**

@@ -10,6 +10,7 @@
 import { BaseSection } from '../base-section/BaseSection.js';
 import { gsap } from '/assets/js/gsap/all.js';
 import { EVENTS } from '../../constants.js';
+import { SELECTORS } from '../../config.js';
 
 // Intro animation settings
 const INTRO_DURATION = 0.8;
@@ -21,7 +22,7 @@ export default class Hero extends BaseSection {
    */
   constructor(bus) {
     // Initialize BaseSection with hero section ID
-    super('hero', bus);
+    super(SELECTORS.heroTitle, bus);
 
     if (!this.element) {
       console.warn('[Hero] #hero element not found - animations disabled');
