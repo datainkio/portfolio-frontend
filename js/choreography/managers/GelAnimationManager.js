@@ -2,8 +2,8 @@
  * GelAnimationManager - Scroll-driven gel animation coordinator
  *
  * Initializes Gel instances from DOM elements and creates scroll-triggered
- * animations. Delegates positioning logic to GelManipulator and config parsing
- * to GelConfigParser.
+ * animations. Delegates positioning logic to GelManipulator and uses the
+ * imported GEL_CONFIG for per-element settings.
  *
  * INITIALIZATION:
  * - Scans DOM for elements with class .bg-gel
@@ -40,23 +40,16 @@
 import { gsap } from '/assets/js/gsap/all.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 import { Gel, GelManipulator } from '/assets/js/effects/gel/index.js';
-import GelConfigParser from '/assets/js/choreography/utils/GelConfigParser.js';
+import { GEL_CONFIG } from '/assets/js/choreography/config.js';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// Default gel configuration (Tailwind 12-column grid)
-const DEFAULT_GEL_CONFIG = {
-  'bg-gel-0': { target: 1 / 6, axis: 'x' }, // 2 columns
-  'bg-gel-1': { target: 7 / 12, axis: 'x' }, // 7 columns
-  'bg-gel-2': { target: 3 / 4, axis: 'x' }, // 9 columns
-};
 
 export default class GelAnimationManager {
   /**
    * @param {Object} gelConfig - Map of gel IDs to config objects
    * @param {ReducedMotionHandler} reducedMotionHandler - Reduced motion coordinator
    */
-  constructor(gelConfig = DEFAULT_GEL_CONFIG, reducedMotionHandler = null) {
+  constructor(gelConfig = GEL_CONFIG, reducedMotionHandler = null) {
     this._config = gelConfig;
     this._reducedMotionHandler = reducedMotionHandler;
     this._gels = [];
@@ -94,9 +87,9 @@ export default class GelAnimationManager {
       return null;
     }
 
-    const parsed = GelConfigParser.parse(this._config[gelId]);
-    const { target: configTarget, axis, refEl, position } = parsed;
-
+    const configEntry = this._config[gelId];
+    const { axis, position, target: configTarget, targetElement } = configEntry;
+    const refEl = targetElement ? document.querySelector(targetElement) : null;
     const target = configTarget ?? (refEl ? GelManipulator.calculateTarget(refEl, axis) : 1);
 
     GelManipulator.apply(el, { axis, refEl, position });
@@ -191,5 +184,3 @@ export default class GelAnimationManager {
     }
   }
 }
-
-export { DEFAULT_GEL_CONFIG };

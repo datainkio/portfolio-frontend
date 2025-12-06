@@ -24,7 +24,7 @@ import {
   BackgroundLayerManager,
   ScrollSmootherManager,
   GelAnimationManager,
-  DEFAULT_GEL_CONFIG,
+  GEL_CONFIG,
 } from '/assets/js/choreography/managers/index.js';
 
 // === USAGE EXAMPLES ===
@@ -50,7 +50,7 @@ if (scrollMgr.isActive()) {
 }
 
 // 4. Gel Animation
-const gelMgr = new GelAnimationManager(DEFAULT_GEL_CONFIG, reducedMotion);
+const gelMgr = new GelAnimationManager(GEL_CONFIG, reducedMotion);
 gelMgr.initialize();
 gelMgr.animate('#smooth-wrapper'); // or undefined for window
 

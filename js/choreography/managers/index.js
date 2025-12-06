@@ -10,4 +10,5 @@
 export { default as ReducedMotionHandler } from './ReducedMotionHandler.js';
 export { default as BackgroundLayerManager } from './BackgroundLayerManager.js';
 export { default as ScrollSmootherManager } from './ScrollSmootherManager.js';
-export { default as GelAnimationManager, DEFAULT_GEL_CONFIG } from './GelAnimationManager.js';
+export { default as GelAnimationManager } from './GelAnimationManager.js';
+export { GEL_CONFIG } from '../config.js';
