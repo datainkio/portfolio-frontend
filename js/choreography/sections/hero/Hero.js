@@ -47,11 +47,17 @@ export default class Hero extends BaseSection {
     // Explicitly set default state before creating animations
     this.anim.setDefault();
     this.intro = this.anim.lines('in');
-    this.outro = this.anim ? this.anim.lines('out') : null;
+    this.outro = this.anim.lines('out');
 
-    // Setup pinned outro on scroll
+    // Setup scroll trigger with outro animation (no pinning)
     if (this.triggers && this.outro) {
-      this.triggers.buildOutro({ animation: this.outro, end: '+=100%' });
+      this.triggers.build({
+        bus: bus,
+        animation: this.outro,
+        start: 'center center',
+        end: 'center top',
+        scrub: 1,
+      });
     }
   }
 }

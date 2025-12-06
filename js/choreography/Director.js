@@ -73,17 +73,22 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
+    // Initialize core systems
     this.bus = new AnimationBus();
-    this.stage = new StageManager();
-    this.smoother = this.stage.getSmoother();
+    this.stage = new StageManager(this.bus); // Pass bus to StageManager
 
+    // Initialize section controllers
     this.sections = {
       hero: new Hero(this.bus),
-      // work: new Work(this.bus, this.smoother),
-      // biography: new Biography(this.bus, this.smoother),
+      // work: new Work(this.bus),
+      // biography: new Biography(this.bus),
     };
+
+    // Initialize choreography sequence
     this.sequence = new LandingSequence(this.bus, this.sections);
     this.sequence.start();
+
+    logger.trace('Director initialized', this, 'brief', 'success');
   }
 
   /**

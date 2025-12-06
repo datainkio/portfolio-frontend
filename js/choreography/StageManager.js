@@ -28,7 +28,7 @@
  * - HTML: #overlay-view, #sizzle-background (background layers)
  * - HTML: #smooth-wrapper, #smooth-content (optional for smooth scroll)
  * - CSS: .bg-gel-* classes for gel styling
- * - AnimationBus: Event system for section coordination
+ * - AnimationBus: Event system for section coordination (passed from Director)
  *
  * @requires ReducedMotionHandler - Motion preference detection
  * @requires BackgroundLayerManager - Background layer positioning
@@ -41,7 +41,6 @@ import ReducedMotionHandler from '/assets/js/choreography/managers/ReducedMotion
 import BackgroundLayerManager from '/assets/js/choreography/managers/BackgroundLayerManager.js';
 import ScrollSmootherManager from '/assets/js/choreography/managers/ScrollSmootherManager.js';
 import GelAnimationManager from '/assets/js/choreography/managers/GelAnimationManager.js';
-import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import { GEL_CONFIG } from '/assets/js/choreography/config.js';
 import { EVENTS } from './constants.js';
 
@@ -55,17 +54,21 @@ import { EVENTS } from './constants.js';
  * - getSmoother() - Get ScrollSmoother instance
  * - getGels() - Get Gel controller instances
  * - getVideo() - Get background video element
- * - showVideo() - Show background video
- * - hideVideo() - Hide background video
  * - destroy() - Cleanup all managers
  */
 export default class StageManager {
-  constructor() {
+  /**
+   * Initialize StageManager with AnimationBus instance
+   * @param {AnimationBus} bus - Event bus for coordination (from Director)
+   */
+  constructor(bus) {
+    // Store bus reference for event coordination
+    this.bus = bus;
+
     // Initialize managers in dependency order
     this.reducedMotion = new ReducedMotionHandler();
     this.backgroundLayers = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
-    // Configure gel animations with config from choreography config
     this.gelAnimation = new GelAnimationManager(GEL_CONFIG, this.reducedMotion);
 
     // Cache video and container references for external access
@@ -92,7 +95,7 @@ export default class StageManager {
     this.gelAnimation.initialize();
 
     // Listen for Hero outro completion to start gel animations
-    AnimationBus.on(EVENTS.hero.outroComplete, this._startGelAnimations.bind(this));
+    this.bus.on(EVENTS.hero.outroComplete, this._startGelAnimations.bind(this));
   }
 
   /**
@@ -137,7 +140,7 @@ export default class StageManager {
    * Cleanup all managers and event listeners
    */
   destroy() {
-    AnimationBus.off('hero:outro:complete', this._startGelAnimations.bind(this));
+    this.bus.off(EVENTS.hero.outroComplete, this._startGelAnimations.bind(this));
     this.gelAnimation.destroy();
     this.scrollSmoother.destroy();
     this.reducedMotion.destroy();

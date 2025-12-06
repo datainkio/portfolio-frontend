@@ -11,6 +11,8 @@
 import BaseTriggers from '../base-section/BaseTriggers.js';
 import { gsap } from '/assets/js/gsap/all.js';
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+import { EVENTS } from '../../constants.js';
+
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,15 +40,15 @@ export default class HeroTriggers extends BaseTriggers {
       animation,
       onEnter: () => {
         if (bus)
-          bus.emit(`section:${this.id}:scroll:enter`, {
+          bus.emit(EVENTS.hero.scrollEnter, {
             sectionId: this.id,
             element: this.element,
           });
       },
       onLeave: () => {
         if (bus) {
-          bus.emit(`section:${this.id}:scroll:exit`, { sectionId: this.id, element: this.element });
-          bus.emit(`section:${this.id}:outro:start`, { sectionId: this.id, element: this.element });
+          bus.emit(EVENTS.hero.scrollExit, { sectionId: this.id, element: this.element });
+          bus.emit(EVENTS.hero.outroStart, { sectionId: this.id, element: this.element });
         }
       },
     });
