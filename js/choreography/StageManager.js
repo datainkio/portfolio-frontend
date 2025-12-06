@@ -76,7 +76,7 @@ export default class StageManager {
     this._video = this._videoContainer?.querySelector('video');
 
     // Track gel animation state
-    this._gelsAnimated = false;
+    // this._gelsAnimated = false;
 
     this.initialize();
   }
@@ -94,8 +94,11 @@ export default class StageManager {
     // Initialize gel controllers (but don't animate yet)
     this.gelAnimation.initialize();
 
-    // Listen for Hero outro completion to start gel animations
-    this.bus.on(EVENTS.hero.outroComplete, this._startGelAnimations.bind(this));
+    // Listen for hero intro completion to confirm readiness
+    this._onHeroIntroComplete = () => {
+      console.log('[StageManager] Detected hero intro complete');
+    };
+    this.bus.on(EVENTS.hero.introComplete, this._onHeroIntroComplete);
   }
 
   /**
@@ -103,6 +106,7 @@ export default class StageManager {
    * @private
    */
   _startGelAnimations() {
+    // console.log('[StageManager] Starting gel animations after Hero outro');
     if (this._gelsAnimated) return; // Prevent multiple calls
 
     // Start gel animation (uses smoother scroller if available)
@@ -140,7 +144,7 @@ export default class StageManager {
    * Cleanup all managers and event listeners
    */
   destroy() {
-    this.bus.off(EVENTS.hero.outroComplete, this._startGelAnimations.bind(this));
+    // Remove listeners using the same bound function references
     this.gelAnimation.destroy();
     this.scrollSmoother.destroy();
     this.reducedMotion.destroy();

@@ -9,12 +9,6 @@
  * 2. createIntro/Outro/ScrollTriggers define animations (override in subclass)
  * 3. playIntro/playOutro execute animations and emit events
  *
- * Events emitted:
- * - section:[id]:intro:start/complete
- * - section:[id]:outro:start/complete
- * - section:[id]:scroll:enter/exit (via subclass ScrollTriggers)
- * - section:[id]:reset/destroy
- *
  * Dependencies:
  * - AnimationBus for event coordination
  */
@@ -44,6 +38,9 @@ export class BaseSection {
     // Initialize animation and trigger modules
     this.animations = new BaseAnimations(this.element, this.id);
     this.triggers = new BaseTriggers(this.element, this.id);
+
+    // Expose primary timeline for playIntro/playOutro controls
+    this.timeline = this.animations.timeline;
 
     // Listen for timeline events
     this.animations.timeline.eventCallback('onStart', () => {
@@ -110,19 +107,25 @@ export class BaseSection {
       return;
     }
 
-    this.bus.emit(`section:${this.id}:intro:start`, {
-      sectionId: this.id,
-      element: this.element,
-    });
+    // Broadcast standardized event for intro start (subclass-provided)
+    if (this.events?.introStart) {
+      this.bus.emit(this.events.introStart, {
+        sectionId: this.id,
+        element: this.element,
+      });
+    }
 
     this.timeline.restart();
 
     return this.timeline.then(() => {
       this.isIntroComplete = true;
-      this.bus.emit(`section:${this.id}:intro:complete`, {
-        sectionId: this.id,
-        element: this.element,
-      });
+      // Broadcast standardized event for intro complete (subclass-provided)
+      if (this.events?.introComplete) {
+        this.bus.emit(this.events.introComplete, {
+          sectionId: this.id,
+          element: this.element,
+        });
+      }
     });
   }
 
@@ -141,19 +144,25 @@ export class BaseSection {
       return;
     }
 
-    this.bus.emit(`section:${this.id}:outro:start`, {
-      sectionId: this.id,
-      element: this.element,
-    });
+    // Broadcast standardized event for outro start (subclass-provided)
+    if (this.events?.outroStart) {
+      this.bus.emit(this.events.outroStart, {
+        sectionId: this.id,
+        element: this.element,
+      });
+    }
 
     this.timeline.reverse();
 
     return this.timeline.then(() => {
       this.isOutroComplete = true;
-      this.bus.emit(`section:${this.id}:outro:complete`, {
-        sectionId: this.id,
-        element: this.element,
-      });
+      // Broadcast standardized event for outro complete (subclass-provided)
+      if (this.events?.outroComplete) {
+        this.bus.emit(this.events.outroComplete, {
+          sectionId: this.id,
+          element: this.element,
+        });
+      }
     });
   }
 

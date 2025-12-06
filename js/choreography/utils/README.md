@@ -1,33 +1,33 @@
 # Choreography Utilities
 
-Shared utility modules for animation management and gel positioning.
+Utilities for animation management and gel positioning.
 
 ## GelPositioner
 
-Handles CSS positioning and sizing for gel elements.
+CSS positioning and sizing for gel elements.
 
-**Methods:**
+Methods:
 
 - `apply(el, config)` - Apply positioning to element
 - `calculateTarget(refEl, axis)` - Calculate target as viewport fraction
 - `getOriginFromElement(refEl, axis)` - Get transform origin from element
 - `getOriginFromPosition(axis, position)` - Get transform origin from position
 
-**Positioning Modes:**
+Positioning modes:
 
 1. **Element Matching** - Match another element's position and dimensions
 2. **Viewport-relative** - Position relative to viewport with alignment
 
 ## GelConfigParser
 
-Parses and normalizes gel configuration objects.
+Parses and normalizes gel configuration.
 
-**Methods:**
+Methods:
 
 - `parse(config)` - Parse raw config into normalized format
 - `validate(parsed, gelId)` - Validate parsed configuration
 
-**Supported Formats:**
+Supported formats:
 
 ```javascript
 // Legacy: number only

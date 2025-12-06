@@ -1,17 +1,17 @@
 # Approach Section
 
-Section controller for the approach/methodology visualization.
+Approach/methodology visualization section controller.
 
 ## Purpose
 
-Displays Blockframes SVG visualization with theme-based coloring to illustrate the design approach.
+Displays Blockframes SVG with theme-based coloring to illustrate the design approach.
 
 ## Key Features
 
-- **Blockframes Integration**: Loads and renders `/assets/svg/blockframes.svg`
+- **Blockframes**: Loads `/assets/svg/blockframes.svg`
 - **Theme Colors**: Applies Tailwind theme colors to SVG elements
-- **Responsive SVG**: Auto-scales SVG for different viewport sizes
-- **GSAP Animations**: Scroll-based animations for section transitions
+- **Responsive SVG**: Auto-scales for viewport
+- **GSAP**: Scroll-based transitions
 
 ## Files
 
@@ -39,4 +39,4 @@ const approach = new Approach('main-header');
 
 ## Status
 
-⚠️ **In Development** - Not yet integrated with BaseSection architecture
+Status: ⚠️ In development — not yet integrated with BaseSection.
