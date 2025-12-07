@@ -73,7 +73,6 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    console.log('Initializing Director...');
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new StageManager(this.bus); // Pass bus to StageManager
@@ -88,8 +87,6 @@ export default class Director {
     // Initialize choreography sequence
     this.sequence = new LandingSequence(this.bus, this.sections);
     this.sequence.start();
-
-    console.log('Director initialized');
   }
 
   /**

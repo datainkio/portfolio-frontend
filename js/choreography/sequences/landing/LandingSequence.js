@@ -32,16 +32,16 @@ export class LandingSequence {
 
     const HERO_EVENT_HANDLERS = {
       introStart: () => {
-        logger.trace('Hero intro starting', null, 'brief', 'standard');
+        // console.log('Hero intro start');
       },
       introComplete: () => {
-        console.log('Hero intro complete → triggering Work intro');
+        // console.log('Hero intro complete');
       },
       outroStart: () => {
-        console.log('Hero outro starting');
+        // console.log('Hero outro starting');
       },
       outroComplete: () => {
-        console.log('Hero outro complete');
+        // console.log('Hero outro complete');
       },
     };
 

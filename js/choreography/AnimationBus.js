@@ -30,7 +30,6 @@
 
 export class AnimationBus {
   constructor() {
-    console.log('[AnimationBus] Initialized');
     this._listeners = new Map(); // event name -> [callbacks]
     this._debug = true;
   }
@@ -62,7 +61,6 @@ export class AnimationBus {
    * @param {Object} [data={}] - Optional data to pass to listeners
    */
   emit(event, data = {}) {
-    console.log(`[AnimationBus] Emitting event: ${event}`, data);
     if (this._listeners.has(event)) {
       this._listeners.get(event).forEach(callback => {
         try {
@@ -80,7 +78,6 @@ export class AnimationBus {
    * @param {Function} callback - Handler to remove
    */
   off(event, callback) {
-    console.log(`[AnimationBus] Unsubscribing from event: ${event}`);
     if (this._listeners.has(event)) {
       const callbacks = this._listeners.get(event);
       const index = callbacks.indexOf(callback);
@@ -99,7 +96,6 @@ export class AnimationBus {
    */
   enableDebug(enabled = true) {
     this._debug = enabled;
-    console.log(`[AnimationBus] Debug logging ${enabled ? 'enabled' : 'disabled'}`);
   }
 
   /**

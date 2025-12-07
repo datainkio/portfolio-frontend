@@ -94,7 +94,6 @@ export default class Hero extends BaseSection {
     const existing = timeline.eventCallback(callbackName);
 
     timeline.eventCallback(callbackName, (...args) => {
-      console.log(`[Hero] Timeline event: ${eventKey}`);
       if (typeof existing === 'function') {
         existing.apply(timeline, args);
       }

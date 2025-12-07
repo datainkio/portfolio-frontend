@@ -47,27 +47,27 @@ export class BaseSection {
   }
 
   onEnterScroll() {
-    console.log(`[BaseSection] ${this.id}: Entered scroll trigger`);
+    // console.log(`[BaseSection] ${this.id}: Entered scroll trigger`);
   }
 
   onExitScroll() {
-    console.log(`[BaseSection] ${this.id}: Exited scroll trigger`);
+    // console.log(`[BaseSection] ${this.id}: Exited scroll trigger`);
   }
 
   onIntroStart() {
-    console.log(`[BaseSection] ${this.id}: Intro started`);
+    // console.log(`[BaseSection] ${this.id}: Intro started`);
   }
 
   onIntroComplete() {
-    console.log(`[BaseSection] ${this.id}: Intro complete`);
+    // console.log(`[BaseSection] ${this.id}: Intro complete`);
   }
 
   onOutroStart() {
-    console.log(`[BaseSection] ${this.id}: Outro started`);
+    // console.log(`[BaseSection] ${this.id}: Outro started`);
   }
 
   onOutroComplete() {
-    console.log(`[BaseSection] ${this.id}: Outro complete`);
+    // console.log(`[BaseSection] ${this.id}: Outro complete`);
   }
 
   /**
