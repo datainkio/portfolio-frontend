@@ -5,7 +5,7 @@ import lumberjack from '/assets/js/utils/lumberjack/index.js';
 // Create scoped logger for Director operations
 const logger = lumberjack.createScoped('Director', { prefix: '🎬', color: '#10B981' });
 
-logger.trace('Module loading...', null, 'brief', 'standard');
+// logger.trace('Module loading...', null, 'brief', 'standard');
 
 /**
  * Animation Director - Master Choreography Controller
@@ -43,8 +43,7 @@ logger.trace('Module loading...', null, 'brief', 'standard');
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import StageManager from '/assets/js/choreography/StageManager.js';
 import Hero from '/assets/js/choreography/sections/hero/Hero.js';
-import Work from '/assets/js/choreography/sections/work/Work.js';
-import Biography from '/assets/js/choreography/sections/biography/Biography.js';
+// import Biography from '/assets/js/choreography/sections/biography/Biography.js';
 import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
 
 /**
@@ -73,20 +72,20 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
+    console.log('[Director] Initializing animation system...');
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new StageManager(this.bus); // Pass bus to StageManager
 
     // Initialize section controllers
     this.sections = {
-      hero: new Hero(this.bus),
-      // work: new Work(this.bus),
+      // hero: new Hero(this.bus),
       // biography: new Biography(this.bus),
     };
 
     // Initialize choreography sequence
-    this.sequence = new LandingSequence(this.bus, this.sections);
-    this.sequence.start();
+    // this.sequence = new LandingSequence(this.bus, this.sections);
+    // this.sequence.start();
   }
 
   /**
@@ -176,11 +175,13 @@ export default class Director {
  * - Use for debugging: window.director.enableDebug(true)
  * - Use for control: window.director.restart()
  */
-document.addEventListener('DOMContentLoaded', () => {
-  // Create global Director instance
+const initDirector = () => {
+  if (window.director instanceof Director) return;
   window.director = new Director();
+};
 
-  // Optional: Enable debug mode during development
-  // Uncomment to see all animation events in console
-  // window.director.enableDebug(true);
-});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDirector);
+} else {
+  initDirector();
+}
