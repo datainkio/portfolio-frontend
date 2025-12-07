@@ -98,6 +98,14 @@ export default class StageManager {
 
     // Initialize gel controllers (but don't animate yet)
     this.gelAnimation.initialize();
+
+    // Attempt to initialize ScrollSmoother immediately so the wrapper does not lock scrolling
+    const smoother = this.scrollSmoother.getSmoother();
+
+    // If ScrollSmoother cannot start (e.g., markup missing), fall back to native scroll by relaxing wrapper styles
+    if (!smoother) {
+      this._fallbackToNativeScroll();
+    }
   }
 
   /**
@@ -148,5 +156,24 @@ export default class StageManager {
     this.reducedMotion.destroy();
     this._video = null;
     this._videoContainer = null;
+  }
+
+  /**
+   * Restore native scrolling if ScrollSmoother cannot be initialized
+   * @private
+   */
+  _fallbackToNativeScroll() {
+    const wrapper = document.querySelector('#smooth-wrapper');
+    const content = document.querySelector('#smooth-content');
+
+    if (wrapper) {
+      wrapper.style.position = 'static';
+      wrapper.style.height = 'auto';
+      wrapper.style.overflow = 'visible';
+    }
+
+    if (content) {
+      content.style.overflow = 'visible';
+    }
   }
 }

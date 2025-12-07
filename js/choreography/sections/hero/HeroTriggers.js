@@ -14,13 +14,24 @@ export default class HeroTriggers extends BaseTriggers {
   watchScrollLifecycle() {
     if (!this.element) return;
 
+    // Ensure we only have a single ScrollTrigger watching the hero lifecycle
+    this.kill();
+
     this.register({
       trigger: this.element,
       start: 'top top',
-      end: 'bottom top',
+      // Keep the trigger active for a single pixel past the start line so leaving means the hero top is above the viewport
+      end: '+=1',
       scrub: false,
-      onLeave: () => this.section?.playOutro(),
-      onEnterBack: () => this.section?.playIntro(),
+      onLeave: self => {
+        // Direction 1 indicates scrolling down past the trigger point
+        if (self.direction === 1) {
+          this.section?.playOutro();
+        }
+      },
+      onEnterBack: () => {
+        this.section?.playIntro();
+      },
     });
   }
 

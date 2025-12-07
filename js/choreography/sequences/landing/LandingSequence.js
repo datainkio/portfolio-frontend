@@ -4,12 +4,6 @@
  * Event-driven sequence that coordinates Hero, Work, and Biography section animations.
  * Listens to AnimationBus events and triggers next animations based on completion.
  *
- * Sequence flow:
- * 1. Hero intro → Work intro
- * 2. Hero scroll exit → Biography intro
- * 3. Work scroll enter → printer marks visible
- * 4. Biography scroll enter → overlay fade
- *
  * @requires AnimationBus
  */
 
