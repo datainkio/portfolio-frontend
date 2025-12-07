@@ -2,6 +2,7 @@
 
 /**
  * StageManager - Master Scroll & Visual Effects Coordinator
+ * Maintains temporal coordination between section transitions and background effects. It does not handle coordination between sections; that is the role of the Director class.
  *
  * Orchestrates site-wide scroll smoothing, background layers, and gel animations
  * via specialized manager modules. Coordinates with AnimationBus to sequence
@@ -12,11 +13,6 @@
  * - BackgroundLayerManager: Fixed background positioning
  * - ScrollSmootherManager: GSAP smooth scrolling
  * - GelAnimationManager: Gel background animations
- *
- * EVENT COORDINATION:
- * - Listens for 'hero:outro:complete' event from AnimationBus
- * - Delays gel animation start until Hero section outro finishes
- * - Maintains temporal coordination between section transitions and background effects
  *
  * ARCHITECTURE:
  * - Modular design with single-responsibility managers
@@ -42,7 +38,6 @@ import BackgroundLayerManager from '/assets/js/choreography/managers/BackgroundL
 import ScrollSmootherManager from '/assets/js/choreography/managers/ScrollSmootherManager.js';
 import GelAnimationManager from '/assets/js/choreography/managers/GelAnimationManager.js';
 import { GEL_CONFIG } from '/assets/js/choreography/config.js';
-import { EVENTS } from './constants.js';
 
 /**
  * StageManager - Master Animation Coordinator
@@ -76,7 +71,17 @@ export default class StageManager {
     this._video = this._videoContainer?.querySelector('video');
 
     // Track gel animation state
-    // this._gelsAnimated = false;
+    this._gelsAnimated = false;
+
+    // // Event handlers for hero lifecycle
+    // this._heroIntroStartHandler = this._handleHeroIntroStart.bind(this);
+    // this._heroIntroCompleteHandler = this._handleHeroIntroComplete.bind(this);
+    // this._heroOutroStartHandler = this._handleHeroOutroStart.bind(this);
+    // this._heroOutroCompleteHandler = this._handleHeroOutroComplete.bind(this);
+    // this._heroIntroStartUnsub = null;
+    // this._heroIntroCompleteUnsub = null;
+    // this._heroOutroStartUnsub = null;
+    // this._heroOutroCompleteUnsub = null;
 
     this.initialize();
   }
@@ -93,12 +98,6 @@ export default class StageManager {
 
     // Initialize gel controllers (but don't animate yet)
     this.gelAnimation.initialize();
-
-    // Listen for hero intro completion to confirm readiness
-    this._onHeroIntroComplete = () => {
-      console.log('[StageManager] Detected hero intro complete');
-    };
-    this.bus.on(EVENTS.hero.introComplete, this._onHeroIntroComplete);
   }
 
   /**
@@ -144,7 +143,6 @@ export default class StageManager {
    * Cleanup all managers and event listeners
    */
   destroy() {
-    // Remove listeners using the same bound function references
     this.gelAnimation.destroy();
     this.scrollSmoother.destroy();
     this.reducedMotion.destroy();

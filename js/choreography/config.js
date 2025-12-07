@@ -34,7 +34,7 @@
  */
 export const SELECTORS = {
   // Section elements
-  hero: '#main-header',
+  hero: 'main-header',
   work: '#work',
   biography: '#biography',
 
@@ -85,6 +85,7 @@ export const ANIMATION_DEFAULTS = {
     out: 'power3.out',
     inOut: 'power3.inOut',
   },
+  translateY: -30,
 };
 
 /**

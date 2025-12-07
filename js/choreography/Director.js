@@ -73,6 +73,7 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
+    console.log('Initializing Director...');
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new StageManager(this.bus); // Pass bus to StageManager
@@ -88,7 +89,7 @@ export default class Director {
     this.sequence = new LandingSequence(this.bus, this.sections);
     this.sequence.start();
 
-    logger.trace('Director initialized', this, 'brief', 'success');
+    console.log('Director initialized');
   }
 
   /**
@@ -178,98 +179,11 @@ export default class Director {
  * - Use for debugging: window.director.enableDebug(true)
  * - Use for control: window.director.restart()
  */
-logger.trace('Setting up DOMContentLoaded listener...', null, 'brief', 'standard');
 document.addEventListener('DOMContentLoaded', () => {
-  logger.trace('DOMContentLoaded event fired', null, 'brief', 'headsup');
-  logger.trace('Creating Director instance...', null, 'brief', 'standard');
-
-  try {
-    // Create global Director instance
-    window.director = new Director();
-
-    logger.trace(
-      'Director initialized successfully',
-      {
-        sections: Object.keys(window.director.sections),
-        sequence: !!window.director.sequence,
-        stage: !!window.director.stage,
-      },
-      'brief',
-      'success'
-    );
-    logger.trace('Available at: window.director', null, 'brief', 'standard');
-  } catch (error) {
-    logger.trace('Failed to initialize Director', error, 'verbose', 'error');
-  }
+  // Create global Director instance
+  window.director = new Director();
 
   // Optional: Enable debug mode during development
   // Uncomment to see all animation events in console
   // window.director.enableDebug(true);
 });
-
-logger.trace('Module loaded, waiting for DOMContentLoaded...', null, 'brief', 'success');
-
-/**
- * USAGE INSTRUCTIONS FOR FUTURE DEVELOPERS:
- *
- * Director is automatically initialized on DOMContentLoaded.
- * Access via global: window.director
- *
- * Common operations:
- * ```javascript
- * // Enable debug logging
- * window.director.enableDebug(true);
- *
- * // Get section controllers
- * const { hero, work, biography } = window.director.getSections();
- *
- * // Manually trigger animations
- * hero.playIntro();
- * work.playIntro();
- *
- * // Restart entire sequence
- * window.director.restart();
- *
- * // Access stage manager
- * const stage = window.director.getStage();
- * const smoother = stage.getSmoother();
- * ```
- *
- * To modify animation sequence:
- * - Edit LandingSequence.js setupSequence() method
- * - Add/remove/reorder event listeners
- * - Change which events trigger which animations
- *
- * To add new sections:
- * 1. Create new section controller extending BaseSection
- * 2. Add to this.sections object in constructor
- * 3. Update LandingSequence to coordinate new section
- *
- * To create different page sequences:
- * - Create new sequence file (e.g., ProjectSequence.js)
- * - Instantiate appropriate sequence based on page type
- * - Use same AnimationBus for coordination
- *
- * To debug animation issues:
- * 1. Enable debug mode: window.director.enableDebug(true)
- * 2. Check console for "[AnimationBus]" event logs
- * 3. Verify DOM elements exist: main-header, work, biography
- * 4. Use ScrollTrigger markers: ScrollTrigger.defaults({ markers: true })
- * 5. Check event names match exactly in emitters and listeners
- *
- * PERFORMANCE CONSIDERATIONS:
- * - DOMContentLoaded for fast initialization
- * - Event-driven coordination adds minimal overhead
- * - GSAP animations hardware-accelerated
- * - ScrollSmoother optional - gracefully degrades
- * - Cleanup with destroy() prevents memory leaks
- *
- * INTEGRATION WITH OTHER SYSTEMS:
- * - Global window.director for external access
- * - AnimationBus coordinates all animation events
- * - Works with or without ScrollSmoother
- * - Section controllers independent and reusable
- * - Sequence coordinators define page-specific flows
- *
- * @fileend Director.js - Master animation choreography controller
- */

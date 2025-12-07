@@ -35,17 +35,30 @@ export default class BaseAnimations {
    * Intro animation sequence. Descendants should override for custom behavior.
    * @returns {Promise<void>} Resolves when intro animation completes.
    */
-  async intro() {
-    // Default: no-op. Override in subclass.
-    return Promise.resolve();
+  intro() {
+    if (!this.element) {
+      return this.timeline;
+    }
+
+    this.timeline.clear();
+    this.timeline.fromTo(
+      this.element,
+      { opacity: 0 },
+      { opacity: 1, duration: this.DURATION, ease: 'power1.out' }
+    );
+    return this.timeline.play(0);
   }
 
   /**
    * Outro animation sequence. Descendants should override for custom behavior.
    * @returns {Promise<void>} Resolves when outro animation completes.
    */
-  async outro() {
-    // Default: no-op. Override in subclass.
-    return Promise.resolve();
+  outro() {
+    if (!this.element) {
+      return this.timeline;
+    }
+
+    this.timeline.time(this.timeline.duration());
+    return this.timeline.reverse();
   }
 }

@@ -28,7 +28,7 @@ export class BaseSection {
    * @param {AnimationBus} bus - Event bus for coordination
    */
   constructor(sectionId, bus) {
-    this.id = sectionId; // the section identifier
+    this.id = sectionId; // the section element identifier
     this.bus = bus; // the AnimationBus instance
     this.element = document.getElementById(sectionId); // the target DOM element
     if (!this.element) {
@@ -41,26 +41,9 @@ export class BaseSection {
 
     // Expose primary timeline for playIntro/playOutro controls
     this.timeline = this.animations.timeline;
-
-    // Listen for timeline events
-    this.animations.timeline.eventCallback('onStart', () => {
-      this.onIntroStart();
-    });
-
-    this.animations.timeline.eventCallback('onComplete', () => {
-      this.onIntroComplete();
-    });
-
-    this.animations.timeline.eventCallback('onReverseComplete', () => {
-      this.onOutroComplete();
-    });
+    this._bindTimelineCallbacks();
 
     // NOTE: onReverseStart is not available in GSAP timelines
-
-    // State flags
-    // this.isIntroComplete = false;
-    // this.isOutroComplete = false;
-    //  this.isScrollActive = false;
   }
 
   onEnterScroll() {
@@ -113,11 +96,19 @@ export class BaseSection {
         sectionId: this.id,
         element: this.element,
       });
+    } else {
+      console.warn(`[BaseSection] ${this.id}: No introStart event defined`);
     }
 
-    this.timeline.restart();
+    const introRunner =
+      typeof this.animations?.intro === 'function'
+        ? this.animations.intro()
+        : this.timeline.restart();
 
-    return this.timeline.then(() => {
+    const waitable =
+      introRunner && typeof introRunner.then === 'function' ? introRunner : this.timeline;
+
+    return waitable.then(() => {
       this.isIntroComplete = true;
       // Broadcast standardized event for intro complete (subclass-provided)
       if (this.events?.introComplete) {
@@ -125,6 +116,8 @@ export class BaseSection {
           sectionId: this.id,
           element: this.element,
         });
+      } else {
+        console.warn(`[BaseSection] ${this.id}: No introComplete event defined`);
       }
     });
   }
@@ -152,9 +145,20 @@ export class BaseSection {
       });
     }
 
-    this.timeline.reverse();
+    let outroRunner = null;
+    if (typeof this.animations?.outro === 'function') {
+      outroRunner = this.animations.outro();
+    } else if (this.animations?.outroTimeline) {
+      outroRunner = this.animations.outroTimeline.restart();
+    } else {
+      outroRunner = this.timeline.reverse();
+    }
 
-    return this.timeline.then(() => {
+    const activeTimeline = this.animations?.outroTimeline ?? this.timeline;
+    const waitable =
+      outroRunner && typeof outroRunner.then === 'function' ? outroRunner : activeTimeline;
+
+    return waitable.then(() => {
       this.isOutroComplete = true;
       // Broadcast standardized event for outro complete (subclass-provided)
       if (this.events?.outroComplete) {
@@ -207,5 +211,33 @@ export class BaseSection {
 
     this.element = null;
     this.timeline = null;
+  }
+
+  setAnimations(animations) {
+    if (!animations) return;
+
+    if (this.animations && this.animations !== animations) {
+      this.animations.timeline?.kill();
+    }
+
+    this.animations = animations;
+    this.timeline = animations.timeline;
+    this._bindTimelineCallbacks();
+  }
+
+  _bindTimelineCallbacks() {
+    if (!this.timeline) return;
+
+    this.timeline.eventCallback('onStart', () => {
+      this.onIntroStart();
+    });
+
+    this.timeline.eventCallback('onComplete', () => {
+      this.onIntroComplete();
+    });
+
+    this.timeline.eventCallback('onReverseComplete', () => {
+      this.onOutroComplete();
+    });
   }
 }

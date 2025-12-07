@@ -74,6 +74,7 @@
     "_comment_testing": "=== TESTING & VALIDATION ===",
     "test": "node test/logger/index.js",
     "test:logger": "node test/logger/index.js",
+    "test:choreography": "node test/choreography/hero-events.test.js",
     "test:logger:custom": "DEBUG=true node test/logger/custom-styles.test.js",
     "test:logger:detection": "DEBUG=true node test/logger/error-detection.test.js",
     "test:logger:enhancements": "node test/logger/simple-enhancements.test.js",

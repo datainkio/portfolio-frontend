@@ -14,7 +14,7 @@
  */
 
 import { Lumberjack } from '/assets/js/utils/lumberjack/index.js';
-
+import { EVENTS } from '../../constants.js';
 const logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
 export class LandingSequence {
@@ -32,35 +32,33 @@ export class LandingSequence {
       isStarted: false,
       isComplete: false,
     };
-    this._unsubscribers = [];
+    this._listeners = [];
 
-    this.setupSequence();
-    // logger.trace('Constructor complete', null, 'brief', 'success');
-  }
-
-  /**
-   * Setup event-driven animation sequence
-   *
-   * Registers event listeners that define the landing page animation flow.
-   * Modify here to change sequence timing, order, or add new steps.
-   */
-  setupSequence() {
     logger.trace('Setting up event listeners', null, 'brief', 'headsup');
 
-    // Step 1: Hero intro complete → Work intro
-    this._unsubscribers.push(
-      this.bus.on('section:main-header:intro:complete', () => {
-        console.log('Hero intro complete → triggering Work intro', null, 'brief', 'standard');
-      })
-    );
+    const HERO_EVENT_HANDLERS = {
+      introStart: () => {
+        logger.trace('Hero intro starting', null, 'brief', 'standard');
+      },
+      introComplete: () => {
+        console.log('Hero intro complete → triggering Work intro');
+      },
+      outroStart: () => {
+        console.log('Hero outro starting');
+      },
+      outroComplete: () => {
+        console.log('Hero outro complete');
+      },
+    };
 
-    // Step 5: Mark sequence complete
-    this._unsubscribers.push(
-      this.bus.on('section:biography:intro:complete', () => {
-        logger.trace('All intro sequences complete', null, 'brief', 'success');
-        this.state.isComplete = true;
-      })
-    );
+    Object.entries(EVENTS.hero).forEach(([key, eventName]) => {
+      this._listeners.push(
+        this.bus.on(eventName, () => {
+          console.log(`[LandingSequence] Hero event: ${key} (${eventName})`);
+          HERO_EVENT_HANDLERS[key]?.();
+        })
+      );
+    });
   }
 
   /**
@@ -70,24 +68,13 @@ export class LandingSequence {
    * Event listeners handle subsequent animations automatically.
    */
   start() {
-    if (this.state.isStarted) {
-      logger.trace('Sequence already started', null, 'brief', 'headsup');
-      return;
-    }
-
-    if (!this.sections.hero) {
-      logger.trace('Cannot start - hero section missing', null, 'brief', 'error');
-      return;
-    }
-
-    logger.trace('Starting landing page animation sequence', null, 'brief', 'headsup');
     this.state.isStarted = true;
 
     try {
-      this.sections.hero.intro();
-      logger.trace('Hero intro started', null, 'brief', 'standard');
+      this.sections.hero.playIntro();
+      // logger.trace('Hero intro started', null, 'brief', 'standard');
     } catch (error) {
-      logger.trace('Error starting hero intro', error, 'verbose', 'error');
+      // logger.trace('Error starting hero intro', error, 'verbose', 'error');
       this.state.isStarted = false;
     }
   }
@@ -120,8 +107,8 @@ export class LandingSequence {
   destroy() {
     logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');
 
-    this._unsubscribers.forEach(unsubscribe => unsubscribe());
-    this._unsubscribers = [];
+    this._listeners.forEach(unsubscribe => unsubscribe());
+    this._listeners = [];
     this.sections = null;
     this.bus = null;
   }
