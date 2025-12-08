@@ -43,7 +43,7 @@ const logger = lumberjack.createScoped('Director', { prefix: '🎬', color: '#10
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import StageManager from '/assets/js/choreography/StageManager.js';
 import Hero from '/assets/js/choreography/sections/hero/Hero.js';
-// import Biography from '/assets/js/choreography/sections/biography/Biography.js';
+import Biography from '/assets/js/choreography/sections/biography/Biography.js';
 import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
 
 /**

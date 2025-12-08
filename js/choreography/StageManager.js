@@ -68,20 +68,10 @@ export default class StageManager {
 
     // Cache video and container references for external access
     this._videoContainer = document.querySelector('#overlay-view');
-    this._video = this._videoContainer?.querySelector('video');
+    // this._video = this._videoContainer?.querySelector('video');
 
     // Track gel animation state
     this._gelsAnimated = false;
-
-    // // Event handlers for hero lifecycle
-    // this._heroIntroStartHandler = this._handleHeroIntroStart.bind(this);
-    // this._heroIntroCompleteHandler = this._handleHeroIntroComplete.bind(this);
-    // this._heroOutroStartHandler = this._handleHeroOutroStart.bind(this);
-    // this._heroOutroCompleteHandler = this._handleHeroOutroComplete.bind(this);
-    // this._heroIntroStartUnsub = null;
-    // this._heroIntroCompleteUnsub = null;
-    // this._heroOutroStartUnsub = null;
-    // this._heroOutroCompleteUnsub = null;
 
     this.initialize();
   }

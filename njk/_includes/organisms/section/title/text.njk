@@ -6,6 +6,9 @@
     - text-neutral-100: styles/colors.css (Figma-generated)
     - mask-*: styles/utilities/mask.css (custom mask utilities)
     - text-*, tracking-*, etc: Tailwind utilities
+
+    Text element masking via CSS mask-image with a grunge texture to create a distressed text effect:
+      mask-image-grunge mask-mode-luminance mask-size-cover mask-position-center mask-repeat-no-repeat mask-clip-border mask-composite-add
     
     Animation:
     - js/choreography/Director.js: Initializes Hero controller on DOMContentLoaded
@@ -14,8 +17,8 @@
   #}
   <h1
     id="main-title"
-    class="border-l-2 border-l-primary-100 mask-image-grunge mask-mode-luminance mask-size-cover mask-position-center mask-repeat-no-repeat mask-clip-border mask-composite-add z-10 text-6xl
-          sm:text-7xl md:text-8xl lg:text-9xl tracking-tighter uppercase font-display p-12 text-primary-100 mx-auto leading-26"
+    class="border-l-2 border-l-primary-100  z-10 text-6xl
+          sm:text-7xl md:text-8xl lg:text-9xl tracking-tighter uppercase font-display p-12 text-primary-100 mx-auto leading-12 sm:leading-14 md:leading-16 lg:leading-18"
   >
     {{ title }}
   </h1>
