@@ -1,6 +1,9 @@
 # General Project TODO Items
 
-For each item, describe the action to take and the benefits it is meant to bring. Keep it tight and concise.
+Purpose: This file provides triage for todo items.
+Why: It keeps me away from the rabbithole of writing and organizing tasks.
+How: All new todo items get created here and distributed when convenient and appropriate.
+Instructions: For each item, describe the action to take and the benefits it is meant to bring. Keep it tight and concise.
 
 ## Developer experience and AI agent performance
 
