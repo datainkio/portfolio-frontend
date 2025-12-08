@@ -3,7 +3,7 @@
 import { gsap } from '/assets/js/gsap/all.js';
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
-export default class HeroAnimations extends AbstractSectionAnimations {
+export default class BiographyAnimations extends AbstractSectionAnimations {
   /**
    * @param {HTMLElement} element
    * @param {string} sectionId
@@ -15,13 +15,12 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   playIntro() {
-    console.log('[HeroAnimations] Playing intro animation');
-
+    console.log('[BiographyAnimations] Playing intro animation');
     super.intro();
   }
 
   playOutro() {
-    console.log('[HeroAnimations] Playing outro animation');
+    console.log('[BiographyAnimations] Playing outro animation');
     super.outro();
   }
 }

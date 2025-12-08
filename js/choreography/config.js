@@ -35,8 +35,8 @@
 export const SELECTORS = {
   // Section elements
   hero: 'main-header',
-  work: '#work',
-  biography: '#biography',
+  biography: 'biography',
+  work: 'work',
 
   // Scroll smoothing container (optional - enables ScrollSmoother)
   smoothWrapper: '#smooth-wrapper',

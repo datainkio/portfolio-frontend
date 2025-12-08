@@ -2,7 +2,7 @@
 
 import AbstractSectionTriggers from '../abstract-section/AbstractSectionTriggers.js';
 
-export default class HeroTriggers extends AbstractSectionTriggers {
+export default class BiographyTriggers extends AbstractSectionTriggers {
   constructor(element, sectionId, section) {
     super(element, sectionId);
     this.section = section;

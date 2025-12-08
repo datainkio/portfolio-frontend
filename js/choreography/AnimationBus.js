@@ -32,6 +32,7 @@ export class AnimationBus {
   constructor() {
     this._listeners = new Map(); // event name -> [callbacks]
     this._debug = true;
+    console.log('[AnimationBus] Initialized');
   }
 
   /**

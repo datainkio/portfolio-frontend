@@ -8,7 +8,7 @@
 
 import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
 
-export default class BaseTriggers {
+export default class AbstractSectionTriggers {
   /**
    * @param {HTMLElement|null} element - Target element for triggers
    * @param {string} sectionId - Section identifier

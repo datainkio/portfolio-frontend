@@ -10,7 +10,7 @@
 import { gsap } from '/assets/js/gsap/all.js';
 const DURATION = 1.0; // Default duration for animations
 const STAGGER = 0.2; // Default stagger duration for animations
-export default class BaseAnimations {
+export default class AbstractSectionAnimations {
   /**
    * @param {HTMLElement|null} element - Target element for animations
    * @param {string} sectionId - Section identifier (e.g., 'main-header')

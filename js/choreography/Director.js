@@ -79,8 +79,8 @@ export default class Director {
 
     // Initialize section controllers
     this.sections = {
-      // hero: new Hero(this.bus),
-      // biography: new Biography(this.bus),
+      hero: new Hero(this.bus),
+      biography: new Biography(this.bus),
     };
 
     // Initialize choreography sequence

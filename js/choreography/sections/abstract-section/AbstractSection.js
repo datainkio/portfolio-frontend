@@ -1,5 +1,5 @@
 /**
- * BaseSection - Foundation class for section animation controllers
+ * AbstractSection - Foundation class for section animation controllers
  *
  * Provides standard lifecycle and event coordination for all section controllers.
  * Subclasses override createIntro(), createOutro(), and createScrollTriggers().
@@ -14,10 +14,10 @@
  */
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
-import BaseAnimations from './BaseAnimations.js';
-import BaseTriggers from './BaseTriggers.js';
+import AbstractSectionAnimations from './AbstractSectionAnimations.js';
+import AbstractSectionTriggers from './AbstractSectionTriggers.js';
 
-export class BaseSection {
+export class AbstractSection {
   /**
    * Initialize section controller
    *
@@ -36,8 +36,8 @@ export class BaseSection {
       return;
     }
     // Initialize animation and trigger modules
-    this.animations = new BaseAnimations(this.element, this.id);
-    this.triggers = new BaseTriggers(this.element, this.id);
+    this.animations = new AbstractSectionAnimations(this.element, this.id);
+    this.triggers = new AbstractSectionTriggers(this.element, this.id);
 
     // Expose primary timeline for playIntro/playOutro controls
     this.timeline = this.animations.timeline;
@@ -79,7 +79,6 @@ export class BaseSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playIntro() {
-    lumberjack.trace(`[BaseSection] ${this.id}: Playing intro animation`, null, 'brief', 'headsup');
     if (!this.element) {
       lumberjack.trace(
         `[BaseSection] ${this.id}: Cannot play intro - element not found`,

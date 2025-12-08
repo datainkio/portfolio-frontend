@@ -106,6 +106,7 @@ export default class StageManager {
     if (!smoother) {
       this._fallbackToNativeScroll();
     }
+    console.log('[StageManager] Initialized all managers');
   }
 
   /**

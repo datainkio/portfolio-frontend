@@ -4,16 +4,16 @@
  * Hero Section Controller
  *
  * Simple intro fade-in that emits standardized events from constants.js.
- * Extends BaseSection to use shared lifecycle and AnimationBus coordination.
+ * Extends AbstractSection to use shared lifecycle and AnimationBus coordination.
  */
 
-import { BaseSection } from '../base-section/BaseSection.js';
+import { AbstractSection } from '../abstract-section/AbstractSection.js';
 import { EVENTS } from '../../constants.js';
 import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
 import HeroAnimations from './HeroAnimations.js';
 import HeroTriggers from './HeroTriggers.js';
 
-export default class Hero extends BaseSection {
+export default class Hero extends AbstractSection {
   /**
    * @param {AnimationBus} bus - Event bus for coordination
    */
