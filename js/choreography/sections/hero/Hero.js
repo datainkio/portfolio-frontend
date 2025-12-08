@@ -7,18 +7,19 @@
  * Extends AbstractSection to use shared lifecycle and AnimationBus coordination.
  */
 
-import { AbstractSection } from '../abstract-section/AbstractSection.js';
+import AbstractSection from '../abstract-section/AbstractSection.js';
 import { EVENTS } from '../../constants.js';
 import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
 import HeroAnimations from './HeroAnimations.js';
 import HeroTriggers from './HeroTriggers.js';
 
 export default class Hero extends AbstractSection {
-  /**
-   * @param {AnimationBus} bus - Event bus for coordination
-   */
-  constructor(bus) {
+  constructor({ bus = null, reducedMotionHandler } = {}) {
+    // AbstractSection expects a root element selector and optional bus
     super(SELECTORS.heroTitle, bus);
+
+    this._reducedMotionHandler = reducedMotionHandler;
+    this._introTl = null;
 
     if (!this.element) {
       console.warn('[Hero] #main-title element not found - animations disabled');
@@ -44,6 +45,39 @@ export default class Hero extends AbstractSection {
       this.heroTriggers = new HeroTriggers(this.container, SELECTORS.hero, this);
       this.heroTriggers.watchScrollLifecycle();
     }
+  }
+
+  initialize() {
+    // Delegate reduced motion and sessionStorage “play once” to AbstractSection.
+
+    // AbstractSection.initialize will:
+    // - Check sessionStorage key
+    // - Call _createIntroTimeline() if not yet played
+    // - Mark as played on complete
+    // - Otherwise apply post-intro state
+    super.initialize();
+
+    this._setupScrollAnimations();
+  }
+
+  /**
+   * AbstractSection calls this to build the intro timeline.
+   * Return a GSAP timeline or null if no intro.
+   */
+  _createIntroTimeline() {
+    // ...existing code...
+    // Example:
+    // const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+    // tl.from('#hero-title', { autoAlpha: 0, y: 40, duration: 0.8 })
+    //   .from('#hero-subtitle', { autoAlpha: 0, y: 20, duration: 0.6 }, '-=0.3');
+    // return tl;
+    return this.heroAnimations?.timeline ?? null;
+  }
+
+  _applyPostIntroState() {
+    gsap.set('#hero-title', { autoAlpha: 1, y: 0 });
+    gsap.set('#hero-subtitle', { autoAlpha: 1, y: 0 });
+    // ...set any other end-state properties...
   }
 
   /**
@@ -98,5 +132,9 @@ export default class Hero extends AbstractSection {
         existing.apply(timeline, args);
       }
     });
+  }
+
+  _setupScrollAnimations() {
+    // ...existing code...
   }
 }

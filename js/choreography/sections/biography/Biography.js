@@ -7,7 +7,7 @@
  * Extends AbstractSection to use shared lifecycle and AnimationBus coordination.
  */
 
-import { AbstractSection } from '../abstract-section/AbstractSection.js';
+import AbstractSection from '../abstract-section/AbstractSection.js';
 import { EVENTS } from '../../constants.js';
 import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
 import BiographyAnimations from './BiographyAnimations.js';

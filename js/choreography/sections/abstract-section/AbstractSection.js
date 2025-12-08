@@ -17,7 +17,7 @@ import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import AbstractSectionAnimations from './AbstractSectionAnimations.js';
 import AbstractSectionTriggers from './AbstractSectionTriggers.js';
 
-export class AbstractSection {
+export default class AbstractSection {
   /**
    * Initialize section controller
    *
@@ -27,10 +27,14 @@ export class AbstractSection {
    * @param {string} sectionId - DOM element ID (e.g., 'main-header')
    * @param {AnimationBus} bus - Event bus for coordination
    */
-  constructor(sectionId, bus) {
+  constructor(sectionId, bus, { reducedMotionHandler } = {}) {
     this.id = sectionId; // the section element identifier
     this.bus = bus; // the AnimationBus instance
     this.element = document.getElementById(sectionId); // the target DOM element
+    this._reducedMotionHandler = reducedMotionHandler;
+    this._introPlayedKey = `${this.constructor.name.toLowerCase()}:introPlayed`;
+    this._introTl = null;
+
     if (!this.element) {
       console.warn(`[BaseSection] Element ${sectionId} not found - section disabled`);
       return;
@@ -42,8 +46,6 @@ export class AbstractSection {
     // Expose primary timeline for playIntro/playOutro controls
     this.timeline = this.animations.timeline;
     this._bindTimelineCallbacks();
-
-    // NOTE: onReverseStart is not available in GSAP timelines
   }
 
   onEnterScroll() {
@@ -91,7 +93,7 @@ export class AbstractSection {
 
     // Broadcast standardized event for intro start (subclass-provided)
     if (this.events?.introStart) {
-      this.bus.emit(this.events.introStart, {
+      this._emit(this.events.introStart, {
         sectionId: this.id,
         element: this.element,
       });
@@ -111,7 +113,7 @@ export class AbstractSection {
       this.isIntroComplete = true;
       // Broadcast standardized event for intro complete (subclass-provided)
       if (this.events?.introComplete) {
-        this.bus.emit(this.events.introComplete, {
+        this._emit(this.events.introComplete, {
           sectionId: this.id,
           element: this.element,
         });
@@ -138,7 +140,7 @@ export class AbstractSection {
 
     // Broadcast standardized event for outro start (subclass-provided)
     if (this.events?.outroStart) {
-      this.bus.emit(this.events.outroStart, {
+      this._emit(this.events.outroStart, {
         sectionId: this.id,
         element: this.element,
       });
@@ -161,7 +163,7 @@ export class AbstractSection {
       this.isOutroComplete = true;
       // Broadcast standardized event for outro complete (subclass-provided)
       if (this.events?.outroComplete) {
-        this.bus.emit(this.events.outroComplete, {
+        this._emit(this.events.outroComplete, {
           sectionId: this.id,
           element: this.element,
         });
@@ -180,7 +182,7 @@ export class AbstractSection {
     this.isOutroComplete = false;
     this.isScrollActive = false;
 
-    this.bus.emit(`section:${this.id}:reset`, {
+    this._emit(`section:${this.id}:reset`, {
       sectionId: this.id,
       element: this.element,
     });
@@ -204,7 +206,7 @@ export class AbstractSection {
       }
     });
 
-    this.bus.emit(`section:${this.id}:destroy`, {
+    this._emit(`section:${this.id}:destroy`, {
       sectionId: this.id,
     });
 
@@ -238,5 +240,81 @@ export class AbstractSection {
     this.timeline.eventCallback('onReverseComplete', () => {
       this.onOutroComplete();
     });
+  }
+
+  initialize() {
+    // 1) Respect reduced motion: skip intro and apply end state immediately.
+    if (this._reducedMotionHandler?.isReducedMotion()) {
+      this._applyPostIntroState();
+      this._setupScrollAnimations();
+      return;
+    }
+
+    // 2) Gate intro by sessionStorage (play once per session).
+    const hasPlayed = this._hasIntroPlayed();
+
+    if (!hasPlayed) {
+      this._introTl = this._createIntroTimeline();
+      if (this._introTl) {
+        this._introTl.eventCallback('onComplete', () => this._markIntroPlayed());
+        this._introTl.play(0);
+      } else {
+        // No intro timeline defined; mark as played to avoid re-running
+        this._markIntroPlayed();
+      }
+    } else {
+      // Apply end state instantly if intro has already played.
+      this._applyPostIntroState();
+    }
+
+    // 3) Initialize any scroll-based animations/triggers.
+    this._setupScrollAnimations();
+  }
+
+  _hasIntroPlayed() {
+    try {
+      return window.sessionStorage.getItem(this._introPlayedKey) === '1';
+    } catch {
+      return false;
+    }
+  }
+
+  _markIntroPlayed() {
+    try {
+      window.sessionStorage.setItem(this._introPlayedKey, '1');
+    } catch {
+      // ignore
+    }
+  }
+
+  _createIntroTimeline() {
+    // ...existing code...
+    // Expected to be implemented in subclasses:
+    // return gsap.timeline(...);
+  }
+
+  _applyPostIntroState() {
+    // ...existing code...
+    // Subclasses should set the end state of intro instantly (e.g., gsap.set(...))
+  }
+
+  _setupScrollAnimations() {
+    // ...existing code...
+  }
+
+  // Safe bus emitter
+  _emit(eventName, payload) {
+    if (!eventName) return;
+    if (this.bus && typeof this.bus.emit === 'function') {
+      this.bus.emit(eventName, payload);
+    } else {
+      // Soft warn once per event to avoid noisy logs
+      lumberjack.trace(
+        `[BaseSection] ${this.id}: bus.emit unavailable for "${eventName}"`,
+        { payload },
+        'brief',
+        'headsup'
+      );
+    }
   }
 }
