@@ -16,21 +16,14 @@ import HeroTriggers from './HeroTriggers.js';
 export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     // AbstractSection expects a root element selector and optional bus
-    super(SELECTORS.heroTitle, bus);
+    super(SELECTORS.heroTitle, bus, { reducedMotionHandler });
 
-    this._reducedMotionHandler = reducedMotionHandler;
-    this._introTl = null;
+    // Abstract Section initilization:
+    // - Sets this.id, this.bus, this.element
+    // - Warns and returns early if element not found
+    // - Initializes _this.reducedMotionHandler, _introPlayedKey, _introTl
 
-    if (!this.element) {
-      console.warn('[Hero] #main-title element not found - animations disabled');
-      return;
-    }
-
-    this.container = document.getElementById(SELECTORS.hero);
-    if (!this.container) {
-      console.warn('[Hero] #main-header container missing - scroll triggers disabled');
-    }
-
+    // Standardized event keys for Hero section lifecycle lets us delegate to AbstractSection
     this.events = {
       introStart: EVENTS.hero.introStart,
       introComplete: EVENTS.hero.introComplete,
@@ -80,21 +73,6 @@ export default class Hero extends AbstractSection {
     // ...set any other end-state properties...
   }
 
-  /**
-   * Play the hero intro animation via BaseSection helper.
-   * Ensures standardized events fire through AnimationBus.
-   */
-  async playIntro() {
-    return super.playIntro();
-  }
-
-  /**
-   * Play the hero outro animation in parallel with the base timeline reverse.
-   */
-  async playOutro() {
-    return super.playOutro();
-  }
-
   destroy() {
     this.heroTriggers?.destroy();
     this.heroAnimations?.outroTimeline?.kill();
@@ -112,6 +90,7 @@ export default class Hero extends AbstractSection {
     const timeline = this.animations?.timeline;
     if (!timeline) return;
 
+    // Map timeline callbacks to standardized GSAP timeline event keys
     const hookMap = {
       onStart: EVENTS.hero.introStart,
       onComplete: EVENTS.hero.introComplete,
@@ -119,6 +98,7 @@ export default class Hero extends AbstractSection {
       onReverseComplete: EVENTS.hero.outroComplete,
     };
 
+    // Automagically attach all callbacks in hookMap to the timeline
     Object.entries(hookMap).forEach(([callback, eventKey]) => {
       this._wrapTimelineCallback(timeline, callback, eventKey);
     });

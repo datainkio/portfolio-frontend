@@ -3,7 +3,7 @@
 // Silence punycode deprecation warning
 process.noDeprecation = true;
 
-import logger, { LumberjackStyle } from '../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 import { config } from 'dotenv';
 import { AssetCache } from '@11ty/eleventy-fetch';
 import { processFile, completeProcessing } from './processFile.js';

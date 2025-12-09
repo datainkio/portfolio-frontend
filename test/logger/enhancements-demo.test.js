@@ -8,7 +8,7 @@
  * Shows best practices for using scoped loggers in your architecture
  */
 
-import lumberjack from '../../js/utils/lumberjack/index.js';
+import lumberjack from '@datainkio/lumberjack';
 
 console.log('\n🚀 LOGGER ENHANCEMENTS DEMO');
 console.log('─'.repeat(60));

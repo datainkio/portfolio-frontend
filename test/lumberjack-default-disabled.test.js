@@ -7,7 +7,7 @@
  * when explicitly enabled.
  */
 
-import lumberjack from '../js/utils/lumberjack/index.js';
+import lumberjack from '@datainkio/lumberjack';
 
 console.log('\n=== Testing Lumberjack Default Disabled State ===\n');
 

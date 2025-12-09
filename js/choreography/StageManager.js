@@ -97,6 +97,7 @@ export default class StageManager {
       this._fallbackToNativeScroll();
     }
     console.log('[StageManager] Initialized all managers');
+    this._startGelAnimations();
   }
 
   /**

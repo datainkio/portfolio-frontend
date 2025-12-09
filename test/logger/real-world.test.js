@@ -6,7 +6,7 @@
  * Simulates common error patterns to verify auto-detection works correctly
  */
 
-import logger from '../../js/utils/lumberjack/index.js';
+import logger from '@datainkio/lumberjack';
 
 logger.enabled = true;
 

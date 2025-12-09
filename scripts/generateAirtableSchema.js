@@ -16,7 +16,7 @@
  * - Relational links documented
  */
 
-import logger, { LumberjackStyle } from '../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 import fetchAirtableData from '../airtable/fetchAirtableData.js';
 import { writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';

@@ -107,6 +107,7 @@
     "setup": "run-s validate:env doctor"
   },
   "dependencies": {
+    "@datainkio/lumberjack": "file:../../../lumberjack/lumberjack",
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-fetch": "^5.0.1",
     "@11ty/eleventy-img": "^5.0.0",

@@ -29,14 +29,14 @@
  *
  * @class TailwindLogger
  */
-import lumberjack, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 import { readFileSync, existsSync, statSync } from 'fs';
 import { resolve } from 'path';
 
-lumberjack.enabled = true;
+logger.enabled = true;
 
 // Create scoped logger for Tailwind operations with custom prefix
-const logger = lumberjack.createScoped('TailwindCSS', { prefix: '🎨' });
+const tailwindLogger = logger.createScoped('TailwindCSS', { prefix: '🎨' });
 
 /**
  * Custom Logger Styles for Tailwind CSS Operations
@@ -74,19 +74,18 @@ export class TailwindLogger {
     this.startTime = Date.now();
     const mode = options.watch ? 'watch' : options.minify ? 'production' : 'development';
 
-    logger.trace('Starting Tailwind CSS 4.0 build process...', null, 'brief', titleStyle);
-    logger.trace(
+    tailwindLogger.trace('Starting Tailwind CSS 4.0 build process...', null, 'brief', titleStyle);
+    tailwindLogger.trace(
       null,
       `Build ID: ${this.buildId} | Mode: ${mode} | Tailwind CSS provides utility-first styling with design tokens from Figma integration. This build process transforms your design system into optimized CSS.`,
       'brief',
       'standard'
     );
-
-    logger.trace(`Input: ${inputFile}`, null, 'brief', processStyle);
-    logger.trace(`Output: ${outputFile}`, null, 'brief', processStyle);
+    tailwindLogger.trace(`Input: ${inputFile}`, null, 'brief', processStyle);
+    tailwindLogger.trace(`Output: ${outputFile}`, null, 'brief', processStyle);
 
     if (options.watch) {
-      logger.trace(
+      tailwindLogger.trace(
         'Watch mode enabled - CSS will rebuild on file changes',
         null,
         'brief',
@@ -95,7 +94,7 @@ export class TailwindLogger {
     }
 
     if (options.minify) {
-      logger.trace(
+      tailwindLogger.trace(
         'Minification enabled - CSS will be optimized for production',
         null,
         'brief',
@@ -111,7 +110,7 @@ export class TailwindLogger {
    */
   logFileAnalysis(inputPath) {
     try {
-      logger.trace('Analyzing input CSS structure...', null, 'brief', processStyle);
+      tailwindLogger.trace('Analyzing input CSS structure...', null, 'brief', processStyle);
 
       const inputContent = readFileSync(inputPath, 'utf-8');
       const imports = inputContent.match(/@import[^;]+;/g) || [];
@@ -119,10 +118,25 @@ export class TailwindLogger {
       const customProps = inputContent.match(/--[\w-]+\s*:/g) || [];
       const fontImports = imports.filter(imp => imp.includes('fonts.googleapis.com'));
 
-      logger.trace(`Found ${imports.length} @import statements`, null, 'brief', processStyle);
-      logger.trace(`Found ${fontImports.length} Google Fonts imports`, null, 'brief', processStyle);
-      logger.trace(`Found ${layers.length} @layer definitions`, null, 'brief', processStyle);
-      logger.trace(
+      tailwindLogger.trace(
+        `Found ${imports.length} @import statements`,
+        null,
+        'brief',
+        processStyle
+      );
+      tailwindLogger.trace(
+        `Found ${fontImports.length} Google Fonts imports`,
+        null,
+        'brief',
+        processStyle
+      );
+      tailwindLogger.trace(
+        `Found ${layers.length} @layer definitions`,
+        null,
+        'brief',
+        processStyle
+      );
+      tailwindLogger.trace(
         `Found ${customProps.length} CSS custom properties`,
         null,
         'brief',
@@ -136,12 +150,17 @@ export class TailwindLogger {
         const layerNames = layers
           .map(layer => layer.match(/@layer\s+([^;{]+)/)?.[1]?.trim())
           .filter(Boolean);
-        logger.trace(`Layer structure: ${layerNames.join(', ')}`, null, 'brief', processStyle);
+        tailwindLogger.trace(
+          `Layer structure: ${layerNames.join(', ')}`,
+          null,
+          'brief',
+          processStyle
+        );
       }
 
       // Check for potential performance issues
       if (imports.length > 10) {
-        logger.trace(
+        tailwindLogger.trace(
           'Many imports detected - consider consolidating for better performance',
           null,
           'brief',
@@ -149,7 +168,12 @@ export class TailwindLogger {
         );
       }
     } catch (error) {
-      logger.trace(`Could not analyze input file: ${error.message}`, null, 'brief', warningStyle);
+      tailwindLogger.trace(
+        `Could not analyze input file: ${error.message}`,
+        null,
+        'brief',
+        warningStyle
+      );
     }
   }
 
@@ -160,10 +184,15 @@ export class TailwindLogger {
    */
   logOutputAnalysis(outputPath) {
     try {
-      logger.trace('Analyzing generated CSS output...', null, 'brief', processStyle);
+      tailwindLogger.trace('Analyzing generated CSS output...', null, 'brief', processStyle);
 
       if (!existsSync(outputPath)) {
-        logger.trace('Output file not found - build may have failed', null, 'brief', warningStyle);
+        tailwindLogger.trace(
+          'Output file not found - build may have failed',
+          null,
+          'brief',
+          warningStyle
+        );
         return;
       }
 
@@ -182,15 +211,25 @@ export class TailwindLogger {
       const lines = content.split('\n').length;
       const isMinified = lines < 10; // Heuristic for minified CSS
 
-      logger.trace(
+      tailwindLogger.trace(
         `Generated CSS size: ${this.formatBytes(this.cssSize)}`,
         null,
         'brief',
         metricStyle
       );
-      logger.trace(`Generated ${utilities.length} utility classes`, null, 'brief', metricStyle);
-      logger.trace(`Generated ${mediaQueries.length} media queries`, null, 'brief', metricStyle);
-      logger.trace(
+      tailwindLogger.trace(
+        `Generated ${utilities.length} utility classes`,
+        null,
+        'brief',
+        metricStyle
+      );
+      tailwindLogger.trace(
+        `Generated ${mediaQueries.length} media queries`,
+        null,
+        'brief',
+        metricStyle
+      );
+      tailwindLogger.trace(
         `Preserved ${customPropsInOutput.length} custom properties`,
         null,
         'brief',
@@ -198,7 +237,7 @@ export class TailwindLogger {
       );
 
       if (keyframes.length > 0) {
-        logger.trace(
+        tailwindLogger.trace(
           `Generated ${keyframes.length} animation keyframes`,
           null,
           'brief',
@@ -207,13 +246,23 @@ export class TailwindLogger {
       }
 
       if (isMinified) {
-        logger.trace('CSS successfully minified for production', null, 'brief', metricStyle);
+        tailwindLogger.trace(
+          'CSS successfully minified for production',
+          null,
+          'brief',
+          metricStyle
+        );
       }
 
       // Performance analysis
       this.analyzePerformance(content);
     } catch (error) {
-      logger.trace(`Could not analyze output file: ${error.message}`, null, 'brief', warningStyle);
+      tailwindLogger.trace(
+        `Could not analyze output file: ${error.message}`,
+        null,
+        'brief',
+        warningStyle
+      );
     }
   }
 
@@ -227,7 +276,7 @@ export class TailwindLogger {
     const complexSelectors = selectorComplexity.filter(sel => sel.split(/[\s>+~]/).length > 4);
 
     if (complexSelectors.length > 0) {
-      logger.trace(
+      tailwindLogger.trace(
         `Found ${complexSelectors.length} complex selectors - may impact performance`,
         null,
         'brief',
@@ -238,12 +287,17 @@ export class TailwindLogger {
     // Check for unused layer content
     const hasEmptyLayers = cssContent.includes('@layer') && cssContent.includes('@layer{}');
     if (hasEmptyLayers) {
-      logger.trace('Empty CSS layers detected - consider cleanup', null, 'brief', warningStyle);
+      tailwindLogger.trace(
+        'Empty CSS layers detected - consider cleanup',
+        null,
+        'brief',
+        warningStyle
+      );
     }
 
     // Font loading optimization check
     if (cssContent.includes('@import') && cssContent.includes('fonts.googleapis.com')) {
-      logger.trace(
+      tailwindLogger.trace(
         'Google Fonts loaded via @import - consider preload for performance',
         null,
         'brief',
@@ -259,7 +313,7 @@ export class TailwindLogger {
    */
   async logConfigAnalysis(configPath) {
     try {
-      logger.trace('Analyzing Tailwind configuration...', null, 'brief', processStyle);
+      tailwindLogger.trace('Analyzing Tailwind configuration...', null, 'brief', processStyle);
 
       // Dynamic import to avoid bundling issues
       const configModule = await import(resolve(configPath));
@@ -270,14 +324,14 @@ export class TailwindLogger {
       const experimental = Object.keys(config.experimental || {}).length;
       const corePlugins = config.corePlugins ? Object.keys(config.corePlugins).length : 'default';
 
-      logger.trace(`Content paths: ${contentPaths}`, null, 'brief', processStyle);
-      logger.trace(`Custom plugins: ${plugins}`, null, 'brief', processStyle);
-      logger.trace(`Experimental features: ${experimental}`, null, 'brief', processStyle);
-      logger.trace(`Core plugins config: ${corePlugins}`, null, 'brief', processStyle);
+      tailwindLogger.trace(`Content paths: ${contentPaths}`, null, 'brief', processStyle);
+      tailwindLogger.trace(`Custom plugins: ${plugins}`, null, 'brief', processStyle);
+      tailwindLogger.trace(`Experimental features: ${experimental}`, null, 'brief', processStyle);
+      tailwindLogger.trace(`Core plugins config: ${corePlugins}`, null, 'brief', processStyle);
 
       // Check for optimization opportunities
       if (contentPaths === 0) {
-        logger.trace(
+        tailwindLogger.trace(
           'No content paths configured - CSS may not be purged properly',
           null,
           'brief',
@@ -286,7 +340,7 @@ export class TailwindLogger {
       }
 
       if (config.corePlugins === false) {
-        logger.trace(
+        tailwindLogger.trace(
           'All core plugins disabled - ensure required utilities are available',
           null,
           'brief',
@@ -294,7 +348,12 @@ export class TailwindLogger {
         );
       }
     } catch (error) {
-      logger.trace(`Could not analyze config: ${error.message}`, null, 'brief', warningStyle);
+      tailwindLogger.trace(
+        `Could not analyze config: ${error.message}`,
+        null,
+        'brief',
+        warningStyle
+      );
     }
   }
 
@@ -308,9 +367,19 @@ export class TailwindLogger {
     const duration = Date.now() - this.startTime;
 
     if (success) {
-      logger.trace(`Tailwind CSS build completed in ${duration}ms`, null, 'brief', successStyle);
-      logger.trace(`Final CSS size: ${this.formatBytes(this.cssSize)}`, null, 'brief', metricStyle);
-      logger.trace(
+      tailwindLogger.trace(
+        `Tailwind CSS build completed in ${duration}ms`,
+        null,
+        'brief',
+        successStyle
+      );
+      tailwindLogger.trace(
+        `Final CSS size: ${this.formatBytes(this.cssSize)}`,
+        null,
+        'brief',
+        metricStyle
+      );
+      tailwindLogger.trace(
         `Build performance: ${this.getPerformanceRating(duration)}`,
         null,
         'brief',
@@ -319,11 +388,11 @@ export class TailwindLogger {
 
       // Additional metrics if provided
       if (metrics.warnings) {
-        logger.trace(`Build warnings: ${metrics.warnings}`, null, 'brief', metricStyle);
+        tailwindLogger.trace(`Build warnings: ${metrics.warnings}`, null, 'brief', metricStyle);
       }
 
       if (metrics.purgedKB) {
-        logger.trace(
+        tailwindLogger.trace(
           `CSS size reduced by: ${metrics.purgedKB}KB through purging`,
           null,
           'brief',
@@ -333,7 +402,7 @@ export class TailwindLogger {
 
       // Integration success indicators
       if (this.customProperties > 0) {
-        logger.trace(
+        tailwindLogger.trace(
           `Successfully integrated ${this.customProperties} design tokens from Figma`,
           null,
           'brief',
@@ -341,8 +410,8 @@ export class TailwindLogger {
         );
       }
     } else {
-      logger.trace('Tailwind CSS build failed', null, 'brief', errorStyle);
-      logger.trace(
+      tailwindLogger.trace('Tailwind CSS build failed', null, 'brief', errorStyle);
+      tailwindLogger.trace(
         null,
         'Build failure can be caused by: invalid CSS syntax, missing imports, malformed @layer directives, or configuration errors. Check the error output above for specific details.',
         'brief',
@@ -361,7 +430,7 @@ export class TailwindLogger {
    * @param {string} context - Additional context about where error occurred
    */
   logError(error, context = '') {
-    logger.trace(
+    tailwindLogger.trace(
       `Build error${context ? ` in ${context}` : ''}: ${error.message}`,
       null,
       'brief',
@@ -372,7 +441,7 @@ export class TailwindLogger {
     const errorMessage = error.message.toLowerCase();
 
     if (errorMessage.includes('cannot resolve')) {
-      logger.trace(
+      tailwindLogger.trace(
         'Resolution error - check file paths and import statements',
         null,
         'brief',
@@ -381,7 +450,7 @@ export class TailwindLogger {
     }
 
     if (errorMessage.includes('@layer') || errorMessage.includes('unknown at rule')) {
-      logger.trace(
+      tailwindLogger.trace(
         'CSS layer error - ensure CSS 4.0 compatible syntax',
         null,
         'brief',
@@ -390,7 +459,7 @@ export class TailwindLogger {
     }
 
     if (errorMessage.includes('config') || errorMessage.includes('configuration')) {
-      logger.trace(
+      tailwindLogger.trace(
         'Configuration error - verify tailwind.config.js syntax',
         null,
         'brief',
@@ -399,7 +468,7 @@ export class TailwindLogger {
     }
 
     if (this.verbose && error.stack) {
-      logger.trace('Full error stack:', error.stack, 'verbose', errorStyle);
+      tailwindLogger.trace('Full error stack:', error.stack, 'verbose', errorStyle);
     }
   }
 
@@ -411,9 +480,13 @@ export class TailwindLogger {
    */
   formatBytes(bytes) {
     if (bytes === 0) return '0 Bytes';
+    if (bytes === Infinity) return 'Infinity Bytes';
+    if (isNaN(bytes)) return 'NaN Bytes';
+
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB'];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
+
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
@@ -421,28 +494,11 @@ export class TailwindLogger {
    * Utility: Get performance rating based on build duration
    *
    * @param {number} duration - Build duration in milliseconds
-   * @returns {string} Performance rating with context
+   * @returns {string} Performance rating
    */
   getPerformanceRating(duration) {
-    if (duration < 100) return 'Excellent (< 100ms) - Optimal for development workflow';
-    if (duration < 500) return 'Good (< 500ms) - Acceptable for most use cases';
-    if (duration < 1000) return 'Acceptable (< 1s) - Monitor for optimization opportunities';
-    if (duration < 3000) return 'Slow (< 3s) - Consider optimizing imports and plugins';
-    return 'Very Slow (> 3s) - Requires immediate optimization';
-  }
-
-  /**
-   * Get build summary for integration with other logging systems
-   *
-   * @returns {Object} Build summary object
-   */
-  getBuildSummary() {
-    return {
-      buildId: this.buildId,
-      duration: this.startTime ? Date.now() - this.startTime : 0,
-      cssSize: this.cssSize,
-      customProperties: this.customProperties,
-      timestamp: new Date().toISOString(),
-    };
+    if (duration < 100) return '⚡️ Fast';
+    if (duration < 500) return '⚙️ Moderate';
+    return '🐢 Slow';
   }
 }

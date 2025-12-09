@@ -28,24 +28,41 @@ export default class AbstractSection {
    * @param {AnimationBus} bus - Event bus for coordination
    */
   constructor(sectionId, bus, { reducedMotionHandler } = {}) {
-    this.id = sectionId; // the section element identifier
-    this.bus = bus; // the AnimationBus instance
-    this.element = document.getElementById(sectionId); // the target DOM element
-    this._reducedMotionHandler = reducedMotionHandler;
-    this._introPlayedKey = `${this.constructor.name.toLowerCase()}:introPlayed`;
-    this._introTl = null;
+    this.logger = lumberjack.createScoped(this.constructor.name, {
+      prefix: '📁',
+      color: '#CCCCCC',
+    });
+    try {
+      this.id = sectionId; // the section element identifier
+      // Provide a null-safe bus fallback
+      this.bus = bus ?? { emit: () => {} }; // prevents TypeError when bus is missing
+      this.element = document.getElementById(sectionId); // the target DOM element
+      this._reducedMotionHandler = reducedMotionHandler;
+      this._introPlayedKey = `${this.constructor.name.toLowerCase()}:introPlayed`;
+      this._introTl = null;
 
-    if (!this.element) {
-      console.warn(`[BaseSection] Element ${sectionId} not found - section disabled`);
-      return;
+      if (!this.element) {
+        console.warn(
+          `[${this.constructor.name.toLowerCase()}] ${sectionId} not found - section disabled`
+        );
+        return;
+      }
+      // Initialize animation and trigger modules
+      this.animations = new AbstractSectionAnimations(this.element, this.id);
+      this.triggers = new AbstractSectionTriggers(this.element, this.id);
+
+      // Expose primary timeline for playIntro/playOutro controls
+      this.timeline = this.animations.timeline;
+      this._bindTimelineCallbacks();
+      this.logger.trace(
+        `${this.constructor.name.toLowerCase()}: initialized`,
+        null,
+        'brief',
+        'standard'
+      );
+    } catch (error) {
+      this.logger.error(`Error initializing ${this.constructor.name.toLowerCase()}:`, error);
     }
-    // Initialize animation and trigger modules
-    this.animations = new AbstractSectionAnimations(this.element, this.id);
-    this.triggers = new AbstractSectionTriggers(this.element, this.id);
-
-    // Expose primary timeline for playIntro/playOutro controls
-    this.timeline = this.animations.timeline;
-    this._bindTimelineCallbacks();
   }
 
   onEnterScroll() {

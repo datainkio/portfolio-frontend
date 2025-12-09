@@ -1,6 +1,6 @@
 /** @format */
 
-import logger from '../../js/utils/lumberjack/index.js';
+import logger from '@datainkio/lumberjack';
 
 // Enable logger
 logger.enabled = true;

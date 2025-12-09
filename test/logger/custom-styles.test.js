@@ -6,7 +6,7 @@
  * Demonstrates how to create and use custom styles with Logger
  */
 
-import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
 logger.enabled = true;
 
