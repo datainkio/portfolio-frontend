@@ -3,8 +3,12 @@
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
 // Create scoped logger for Director operations
-const logger = lumberjack.createScoped('Director', { prefix: '🎬', color: '#10B981' });
-
+const logger = lumberjack.createScoped('Director', {
+  prefix: '🎬',
+  color: '#10B981',
+});
+// logger.enabled(true);
+logger.enabled = true;
 // logger.trace('Module loading...', null, 'brief', 'standard');
 
 /**
@@ -72,7 +76,7 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    console.log('[Director] Initializing animation system...');
+    logger.trace('Initialize', null, 'brief', 'headsup');
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new StageManager(this.bus); // Pass bus to StageManager
@@ -86,14 +90,7 @@ export default class Director {
     // Initialize choreography sequence
     // this.sequence = new LandingSequence(this.bus, this.sections);
     // this.sequence.start();
-  }
-
-  /**
-   * Enable or disable debug logging
-   * @param {boolean} enabled - True to enable, false to disable
-   */
-  enableDebug(enabled = true) {
-    this.bus.enableDebug(enabled);
+    logger.trace('Initialized!', null, 'brief', 'headsup');
   }
 
   /**

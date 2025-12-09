@@ -13,9 +13,9 @@
  * - AnimationBus for event coordination
  */
 
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import AbstractSectionAnimations from './AbstractSectionAnimations.js';
 import AbstractSectionTriggers from './AbstractSectionTriggers.js';
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
 export default class AbstractSection {
   /**
@@ -31,6 +31,7 @@ export default class AbstractSection {
     this.logger = lumberjack.createScoped(this.constructor.name, {
       prefix: '📁',
       color: '#CCCCCC',
+      enabled: true,
     });
     try {
       this.id = sectionId; // the section element identifier
@@ -54,12 +55,7 @@ export default class AbstractSection {
       // Expose primary timeline for playIntro/playOutro controls
       this.timeline = this.animations.timeline;
       this._bindTimelineCallbacks();
-      this.logger.trace(
-        `${this.constructor.name.toLowerCase()}: initialized`,
-        null,
-        'brief',
-        'standard'
-      );
+      this.logger.trace(`section initialized`);
     } catch (error) {
       this.logger.error(`Error initializing ${this.constructor.name.toLowerCase()}:`, error);
     }

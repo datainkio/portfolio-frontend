@@ -96,7 +96,7 @@ export default class StageManager {
     if (!smoother) {
       this._fallbackToNativeScroll();
     }
-    console.log('[StageManager] Initialized all managers');
+    // console.log('[StageManager] Initialized all managers');
     this._startGelAnimations();
   }
 
