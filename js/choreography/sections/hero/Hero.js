@@ -16,6 +16,10 @@ export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     // AbstractSection expects a root element selector and optional bus
     super(SELECTORS.heroTitle, bus, { reducedMotionHandler });
+    this.container = document.getElementById(SELECTORS.heroTitle);
+    if (!this.container) {
+      this.logger.warn('[Hero] #hero-title container missing - scroll triggers disabled');
+    }
     // Abstract Section initilization:
     // - Sets this.id, this.bus, this.element
     // - Warns and returns early if element not found
@@ -38,19 +42,6 @@ export default class Hero extends AbstractSection {
     }
   }
 
-  initialize() {
-    // Delegate reduced motion and sessionStorage “play once” to AbstractSection.
-
-    // AbstractSection.initialize will:
-    // - Check sessionStorage key
-    // - Call _createIntroTimeline() if not yet played
-    // - Mark as played on complete
-    // - Otherwise apply post-intro state
-    super.initialize();
-
-    this._setupScrollAnimations();
-  }
-
   /**
    * AbstractSection calls this to build the intro timeline.
    * Return a GSAP timeline or null if no intro.
@@ -58,11 +49,14 @@ export default class Hero extends AbstractSection {
   _createIntroTimeline() {
     // ...existing code...
     // Example:
-    // const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-    // tl.from('#hero-title', { autoAlpha: 0, y: 40, duration: 0.8 })
-    //   .from('#hero-subtitle', { autoAlpha: 0, y: 20, duration: 0.6 }, '-=0.3');
-    // return tl;
-    return this.heroAnimations?.timeline ?? null;
+    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+    tl.from('#hero-title', { autoAlpha: 0, y: 40, duration: 0.8 }).from(
+      '#hero-subtitle',
+      { autoAlpha: 0, y: 20, duration: 0.6 },
+      '-=0.3'
+    );
+    return tl;
+    // return this.heroAnimations?.timeline ?? null;
   }
 
   _applyPostIntroState() {

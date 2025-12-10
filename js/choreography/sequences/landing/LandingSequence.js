@@ -18,7 +18,7 @@ export class LandingSequence {
    * @param {Object} sections - Section controllers (hero, work, biography)
    */
   constructor(bus, sections) {
-    logger.trace('Constructor called', { bus, sections }, 'verbose', 'standard');
+    // logger.trace('Constructor called', { bus, sections }, 'verbose', 'standard');
 
     this.bus = bus;
     this.sections = sections;
@@ -28,7 +28,7 @@ export class LandingSequence {
     };
     this._listeners = [];
 
-    logger.trace('Setting up event listeners', null, 'brief', 'headsup');
+    logger.trace('Setting up event listeners');
 
     const HERO_EVENT_HANDLERS = {
       introStart: () => {

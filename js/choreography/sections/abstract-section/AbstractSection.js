@@ -29,8 +29,7 @@ export default class AbstractSection {
    */
   constructor(sectionId, bus, { reducedMotionHandler } = {}) {
     this.logger = lumberjack.createScoped(this.constructor.name, {
-      prefix: '📁',
-      color: '#CCCCCC',
+      color: '#007bff',
       enabled: true,
     });
     try {
@@ -95,8 +94,10 @@ export default class AbstractSection {
    */
   async playIntro() {
     if (!this.element) {
-      this.logger.trace(`Cannot play intro - element not found`, null, 'brief', 'headsup');
+      this.logger.trace(`Cannot play intro - element not found`);
       return;
+    } else {
+      this.logger.trace(`I was told to play my intro animation`);
     }
 
     // Broadcast standardized event for intro start (subclass-provided)
@@ -106,7 +107,7 @@ export default class AbstractSection {
         element: this.element,
       });
     } else {
-      this.logger.trace(`No introStart event defined`, null, 'brief', 'headsup');
+      this.logger.trace(`No introStart event defined`);
     }
 
     const introRunner =
@@ -126,7 +127,7 @@ export default class AbstractSection {
           element: this.element,
         });
       } else {
-        this.logger.trace(`No introComplete event defined`, null, 'brief', 'headsup');
+        this.logger.trace(`No introComplete event defined`);
       }
     });
   }
@@ -140,7 +141,7 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
-    this.logger.trace(`Playing outro animation`, null, 'brief', 'headsup');
+    this.logger.trace(`Playing outro animation`);
     if (!this.element) {
       this.logger.warn(`Cannot play outro - element not found`);
       return;

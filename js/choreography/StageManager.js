@@ -68,7 +68,7 @@ export default class StageManager {
 
     // Initialize managers in dependency order
     this.reducedMotion = new ReducedMotionHandler();
-    // this.backgroundLayers = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
+    this.backgroundLayers = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
     this.gelAnimation = new GelAnimationManager(GEL_CONFIG, this.reducedMotion);
 
@@ -99,7 +99,7 @@ export default class StageManager {
     const smoother = this.scrollSmoother.getSmoother();
 
     // console.log('[StageManager] Initialized all managers');
-    // this._startGelAnimations();
+    this._startGelAnimations();
     this.logger.trace('initialized');
   }
 
