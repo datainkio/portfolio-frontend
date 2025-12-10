@@ -5,6 +5,12 @@ import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimat
 
 export default class HeroAnimations extends AbstractSectionAnimations {
   /**
+   * Extends AbstractSectionAnimations, which:
+   * - Stores the section root element and ID
+   * - Sets up shared GSAP timeline primitives and intro/outro hooks
+   * - Provides common utilities (pause/resume/reset) used by sections
+   */
+  /**
    * @param {HTMLElement} element
    * @param {string} sectionId
    * @param {Object} options
@@ -15,13 +21,14 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   playIntro() {
-    console.log('[HeroAnimations] Playing intro animation');
-
-    super.intro();
+    this.logger.trace('playing my intro', this.timeline);
+    // Delegates base intro behavior (e.g., timeline setup, shared sequencing) to the abstract class
+    return super.intro();
   }
 
   playOutro() {
-    console.log('[HeroAnimations] Playing outro animation');
-    super.outro();
+    this.logger.trace('playing my outro', this.timeline);
+    // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
+    return super.outro();
   }
 }

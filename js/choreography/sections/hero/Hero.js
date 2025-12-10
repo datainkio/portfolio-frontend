@@ -16,7 +16,6 @@ export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     // AbstractSection expects a root element selector and optional bus
     super(SELECTORS.heroTitle, bus, { reducedMotionHandler });
-    this.logger.trace('Hero is here to save the dayyyy!');
     // Abstract Section initilization:
     // - Sets this.id, this.bus, this.element
     // - Warns and returns early if element not found

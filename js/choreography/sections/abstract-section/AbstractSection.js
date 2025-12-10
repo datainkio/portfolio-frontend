@@ -95,12 +95,7 @@ export default class AbstractSection {
    */
   async playIntro() {
     if (!this.element) {
-      lumberjack.trace(
-        `[BaseSection] ${this.id}: Cannot play intro - element not found`,
-        null,
-        'brief',
-        'headsup'
-      );
+      this.logger.trace(`Cannot play intro - element not found`, null, 'brief', 'headsup');
       return;
     }
 
@@ -111,7 +106,7 @@ export default class AbstractSection {
         element: this.element,
       });
     } else {
-      console.warn(`[BaseSection] ${this.id}: No introStart event defined`);
+      this.logger.trace(`No introStart event defined`, null, 'brief', 'headsup');
     }
 
     const introRunner =
@@ -131,7 +126,7 @@ export default class AbstractSection {
           element: this.element,
         });
       } else {
-        console.warn(`[BaseSection] ${this.id}: No introComplete event defined`);
+        this.logger.trace(`No introComplete event defined`, null, 'brief', 'headsup');
       }
     });
   }
@@ -145,9 +140,9 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
-    lumberjack.trace(`[BaseSection] ${this.id}: Playing outro animation`, null, 'brief', 'headsup');
+    this.logger.trace(`Playing outro animation`, null, 'brief', 'headsup');
     if (!this.element) {
-      console.warn(`[BaseSection] ${this.id}: Cannot play outro - element not found`);
+      this.logger.warn(`Cannot play outro - element not found`);
       return;
     }
 
@@ -322,12 +317,7 @@ export default class AbstractSection {
       this.bus.emit(eventName, payload);
     } else {
       // Soft warn once per event to avoid noisy logs
-      lumberjack.trace(
-        `[BaseSection] ${this.id}: bus.emit unavailable for "${eventName}"`,
-        { payload },
-        'brief',
-        'headsup'
-      );
+      this.logger.trace(`bus.emit unavailable for "${eventName}"`, { payload }, 'brief', 'headsup');
     }
   }
 }

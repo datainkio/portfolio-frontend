@@ -28,21 +28,34 @@
   
   <body class="grid grid-cols-12 {{ bodyClasses }}">
     {% include "atoms/gtm-noscript.njk" %}
-    {# {% include "organisms/layout/header.njk" %} #}
-    
+    {% include "organisms/layout/header.njk" %}
+    {% import "molecules/background/video.njk" as background %}
+
+  {{ background.render({ 
+    id:"sizzle-background", 
+    videoSrc: "/assets/video/sizzle.mp4", 
+    classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
+     
     {# Main content wrapper - GSAP ScrollSmoother target #}
-    <main class="col-span-full {{ mainClasses }}" data-scroll-container>
-      {% block content %}
-        {% if content %}
-          {{ content | safe }}
-        {% else %}
-          {% loremPars 3 %}
-        {% endif %}
-      {% endblock %}
+    <main id="smooth-wrapper" class="col-span-full {{ mainClasses }}" data-scroll-container>
+        <div id="smooth-content" class="col-span-full {{ contentClasses }}">
+        {% block content %}
+            {% if content %}
+            {{ content | safe }}
+            {% else %}
+            {% loremPars 3 %}
+            {% endif %}
+        {% endblock %}
+        </div>
     </main>
     
     {% include "organisms/layout/footer.njk" %}
-
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollSmoother.min.js"></script>
+    <script>
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+    </script>
     {# Import blocked-scroll utility (module) #}
     {##}
     <script type="module" defer>

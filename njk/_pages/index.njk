@@ -1,5 +1,5 @@
 ---
-layout: templates/base.njk
+layout: templates/gsap-scroll.njk
 permalink: /
 title: 'Build What Matters'
 subtitle: 'The online studio for Russ Lebo'
@@ -11,19 +11,6 @@ headerClasses: 'text-neutral-100'
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
-  {% import "atoms/site-title/site-title.njk" as siteTitle %}
-  {% import "molecules/background/video.njk" as background %}
-  {{ siteTitle.render({ siteName: site.siteName, classes: "h-dvh fixed flex items-center justify-center w-1/6 text-3xl" }) }}
-  
-  {{ background.render({ 
-    id:"sizzle-background", 
-    videoSrc: "/assets/video/sizzle.mp4", 
-    classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
-  
-  <div id="smooth-wrapper">
-    <div id="smooth-content" class="grid grid-cols-12">
-      {% include "organisms/section/title/text.njk" %}
-      {% include "organisms/section/bio/bio.njk" %}
-      {% include "organisms/section/work/featured.njk" %}
-    </div>
-  </div>
+  {% include "organisms/section/title/text.njk" %}
+  {% include "organisms/section/bio/bio.njk" %}
+  {% include "organisms/section/work/featured.njk" %}

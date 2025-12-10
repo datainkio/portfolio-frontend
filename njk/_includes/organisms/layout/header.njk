@@ -16,28 +16,12 @@ DO NOT MODIFY: Element ID, positioning classes, or DOM structure without testing
   id="siteHeader"
 >
   <div class="flex-1">
-    <a
-      class="btn btn-ghost text-xl style-log-screensize text-neutral-100"
-      href="/"
-      >{{ site.siteName }}</a
-    >
+    {% import "atoms/site-title/site-title.njk" as siteTitle %}
+    {{ siteTitle.render({classes: "pointer-events-none"}) }}
   </div>
   <nav class="justify-end">
     {% include "molecules/navigation/primary-nav.njk" %}
   </nav>
 </header>
-<script>
-  let lastScrollY = window.scrollY;
-  const header = document.getElementById('siteHeader');
-  // Initially hide header header.style.transform = 'translateY(-100%)';
-  window.addEventListener('scroll', () => {
-    const currentScrollY = window.scrollY;
-    // Scrolling down
-    if (currentScrollY > lastScrollY) {
-      header.style.transform = 'translateY(-100%)';
-    } else {
-      header.style.transform = 'translateY(0)';
-    }
-    lastScrollY = currentScrollY;
-  });
-</script>
+
+

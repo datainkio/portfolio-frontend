@@ -1,0 +1,50 @@
+```Mermaid
+classDiagram
+class AbstractSection {
+-id: string
+-element: HTMLElement
+-timeline: gsap.core.Timeline
+-animations: AbstractSectionAnimations
+-triggers: AbstractSectionTriggers
+-bus: AnimationBus
+-\_reducedMotionHandler
++constructor(sectionId, bus, options)
++initialize()
++playIntro()
++playOutro()
++reset()
++destroy()
++setAnimations(animations)
+}
+
+class AbstractSectionAnimations {
++constructor(element, sectionId)
++timeline: gsap.core.Timeline
++intro()
++outro()
+}
+
+class AbstractSectionTriggers {
++constructor(element, sectionId)
++createScrollTriggers()
+}
+
+class AnimationBus {
++emit(eventName, payload)
+}
+
+class ScrollTrigger {
++getAll()
++kill()
+}
+
+class ReducedMotionHandler {
++isReducedMotion()
+}
+
+AbstractSection --> AbstractSectionAnimations : creates/uses
+AbstractSection --> AbstractSectionTriggers : creates/uses
+AbstractSection --> AnimationBus : emits events to
+AbstractSection --> ScrollTrigger : cleans up via
+AbstractSection --> ReducedMotionHandler : respects for intro skipping
+```

@@ -27,12 +27,20 @@
  *
  * @fileoverview Central event bus for animation coordination
  */
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
 export class AnimationBus {
   constructor() {
+    // Create scoped logger for Director operations
+    this.logger = lumberjack.createScoped('AnimationBus', {
+      color: '#10B981',
+    });
+    // logger.enabled(true);
+    this.logger.enabled = true;
+
     this._listeners = new Map(); // event name -> [callbacks]
     this._debug = true;
-    // console.log('[AnimationBus] Initialized');
+    this.logger.trace('initialized');
   }
 
   /**
@@ -62,12 +70,13 @@ export class AnimationBus {
    * @param {Object} [data={}] - Optional data to pass to listeners
    */
   emit(event, data = {}) {
+    this.logger.trace(`Emitting event: ${event}`, data);
     if (this._listeners.has(event)) {
       this._listeners.get(event).forEach(callback => {
         try {
           callback(data);
         } catch (error) {
-          console.error(`[AnimationBus] Error in listener for ${event}:`, error);
+          this.logger.trace(`Error in listener for ${event}:`, error);
         }
       });
     }

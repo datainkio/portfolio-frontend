@@ -15,19 +15,23 @@ import BiographyTriggers from './BiographyTriggers.js';
 
 export default class Biography extends AbstractSection {
   /**
+   * Extends AbstractSectionAnimations, which:
+   * - Stores the section root element and ID
+   * - Sets up shared GSAP timeline primitives and intro/outro hooks
+   * - Provides common utilities (pause/resume/reset) used by sections
+   *
    * @param {AnimationBus} bus - Event bus for coordination
    */
   constructor(bus) {
     super(SELECTORS.biography, bus);
-
     if (!this.element) {
-      console.warn('[Biography] #main-title element not found - animations disabled');
+      this.logger.warn('[Biography] #main-title element not found - animations disabled');
       return;
     }
 
     this.container = document.getElementById(SELECTORS.biography);
     if (!this.container) {
-      console.warn('[Biography] #main-header container missing - scroll triggers disabled');
+      this.logger.warn('[Biography] #main-header container missing - scroll triggers disabled');
     }
 
     this.events = {

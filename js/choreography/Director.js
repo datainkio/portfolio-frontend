@@ -88,8 +88,8 @@ export default class Director {
     };
 
     // Initialize choreography sequence
-    // this.sequence = new LandingSequence(this.bus, this.sections);
-    // this.sequence.start();
+    this.sequence = new LandingSequence(this.bus, this.sections);
+    this.sequence.start();
     logger.trace('Initialized!', null, 'brief', 'headsup');
   }
 

@@ -68,7 +68,7 @@ export default class ScrollSmootherManager {
   enable() {
     if (!this._isAvailable) return false;
     if (this._reducedMotionHandler?.isReducedMotion()) return false;
-    if (this._smoother) return true; // Already enabled
+    if (this._smoother) return true;
 
     try {
       this._smoother = ScrollSmoother.create({
@@ -76,6 +76,9 @@ export default class ScrollSmootherManager {
         content: '#smooth-content',
         smooth: 1.2,
         effects: SMOOTHER_EFFECTS,
+        normalizeScroll: true, // ← Add this
+        ignoreMobileResize: true, // ← Add this
+        preventDefault: false, // ← Ensure this is false
       });
       return true;
     } catch (e) {
