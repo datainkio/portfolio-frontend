@@ -53,7 +53,9 @@ export default class GelAnimationManager {
     this._config = gelConfig;
     this._reducedMotionHandler = reducedMotionHandler;
     this._gels = [];
+    this._gelConfigs = new Map();
     this._trigger = null;
+    this._onResize = this._handleResize.bind(this);
 
     if (reducedMotionHandler) {
       this._unsubscribe = reducedMotionHandler.onChange(enabled => {
@@ -72,6 +74,9 @@ export default class GelAnimationManager {
     this._gels = Array.from(gelElements)
       .map(el => this._initializeGelFromElement(el))
       .filter(gel => gel !== null);
+
+    // Reapply sizing/positioning on resize so viewport-filling gels stay in sync
+    window.addEventListener('resize', this._onResize, { passive: true });
   }
 
   /**
@@ -104,6 +109,7 @@ export default class GelAnimationManager {
 
     // Refresh viewBox and polygon after positioning
     gel.refresh();
+    this._gelConfigs.set(gel, { el, axis, refEl, position });
 
     return gel;
   }
@@ -149,7 +155,7 @@ export default class GelAnimationManager {
       const gelProgress = this._calculateGelProgress(progress, i, stagger);
       const scale = 1 - gelProgress * (1 - gel.target);
       const scaleState = gel.axis === 'y' ? { yScale: scale } : { xScale: scale };
-      gel.setState('scroll-scale', scaleState);
+      gel.setScrollScale(scaleState);
     });
   }
 
@@ -174,13 +180,25 @@ export default class GelAnimationManager {
 
   /** Cleanup animations and references */
   destroy() {
+    window.removeEventListener('resize', this._onResize);
     if (this._trigger) {
       this._trigger.kill();
       this._trigger = null;
     }
     this._gels = [];
+    this._gelConfigs.clear();
     if (this._unsubscribe) {
       this._unsubscribe();
     }
+  }
+
+  /** @private */
+  _handleResize() {
+    if (this._gels.length === 0) return;
+
+    this._gelConfigs.forEach(({ el, axis, refEl, position }, gel) => {
+      GelManipulator.apply(el, { axis, refEl, position });
+      gel.refresh();
+    });
   }
 }

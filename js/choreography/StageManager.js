@@ -62,7 +62,7 @@ export default class StageManager {
       color: '#10B981',
     });
     // logger.enabled(true);
-    this.logger.enabled = false;
+    // this.logger.enabled = false;
     // Store bus reference for event coordination
     this.bus = bus;
 
@@ -100,6 +100,7 @@ export default class StageManager {
 
     // console.log('[StageManager] Initialized all managers');
     this._startGelAnimations();
+
     this.logger.trace('initialized');
   }
 

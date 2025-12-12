@@ -36,7 +36,7 @@ export class AnimationBus {
       color: '#10B981',
     });
     // logger.enabled(true);
-    this.logger.enabled = false;
+    // this.logger.enabled = false;
 
     this._listeners = new Map(); // event name -> [callbacks]
     this._debug = false;

@@ -17,7 +17,7 @@ DO NOT MODIFY: Element ID, positioning classes, or DOM structure without testing
 >
   <div class="flex-1">
     {% import "atoms/site-title/site-title.njk" as siteTitle %}
-    {{ siteTitle.render({classes: "pointer-events-none"}) }}
+    {{ siteTitle.render() }}
   </div>
   <nav class="justify-end">
     {% include "molecules/navigation/primary-nav.njk" %}

@@ -2,13 +2,8 @@
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
-// Create scoped logger for Director operations
-const logger = lumberjack.createScoped('Director', {
-  prefix: '🎬',
-  color: '#10B981',
-});
 // logger.enabled(true);
-logger.enabled = true;
+// logger.enabled = true;
 // logger.trace('Module loading...', null, 'brief', 'standard');
 
 /**
@@ -53,7 +48,7 @@ import { LandingSequence } from '/assets/js/choreography/sequences/landing/Landi
 const LOGS = {
   description:
     'The Director is the master controller for the entire animation system. It initializes the AnimationBus, StageManager, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The Director also provides methods to control and debug the animation flow.',
-  completion: "Director initialization complete. All systems go. Let's light this candle.",
+  completion: "All systems go. Let's light this candle.",
   methods:
     'enableDebug(enabled) - Toggle AnimationBus debug logging\n' +
     'getSections() - Get section controller instances\n' +
@@ -88,8 +83,13 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    // logger.enabled = false;
-    //logger.trace(LOGS.description);
+    // Create scoped logger for Director operations
+    this.logger = lumberjack.createScoped('Director', {
+      prefix: '🎬',
+      color: '#10B981',
+    });
+    this.logger.enabled = true;
+    this.logger.trace(LOGS.description);
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new StageManager(this.bus); // Pass bus to StageManager
@@ -103,7 +103,7 @@ export default class Director {
     // Initialize choreography sequence
     this.sequence = new LandingSequence(this.bus, this.sections);
     this.sequence.start();
-    // logger.trace(LOGS.completion);
+    this.logger.trace(LOGS.completion);
   }
 
   /**
