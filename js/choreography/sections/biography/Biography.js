@@ -48,13 +48,14 @@ export default class Biography extends AbstractSection {
   constructor(bus, { reducedMotionHandler } = {}) {
     super(SELECTORS.biography, bus, { reducedMotionHandler });
     if (!this.element) {
-      this.logger.warn('[Biography] element not found - animations disabled');
+      this.logger.warn('element not found - animations disabled');
       return;
     }
 
     this.container = document.getElementById(SELECTORS.biography);
+
     if (!this.container) {
-      this.logger.warn('[Biography] #main-header container missing - scroll triggers disabled');
+      this.logger.warn('container missing - scroll triggers disabled');
     }
 
     this.events = {
@@ -64,12 +65,8 @@ export default class Biography extends AbstractSection {
       outroComplete: EVENTS.biography.outroComplete,
     };
 
-    this.bioAnimations = new BiographyAnimations(
-      this.element,
-      this.id,
-      ANIMATION_DEFAULTS.biography
-    );
-    this._replaceAnimations(this.bioAnimations);
+    this.animations = new BiographyAnimations(this.element, this.id, ANIMATION_DEFAULTS.biography);
+    this._replaceAnimations(this.animations);
 
     if (this.container) {
       this.bioTriggers = new BiographyTriggers(this.container, SELECTORS.biography, this);

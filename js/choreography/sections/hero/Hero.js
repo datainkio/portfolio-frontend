@@ -37,19 +37,18 @@ export default class Hero extends AbstractSection {
    * - _createIntroTimeline(): Hook for subclasses to provide intro timeline
    */
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    // AbstractSection expects a root element selector and optional bus
     super(SELECTORS.heroTitle, bus, { reducedMotionHandler });
-    this.container = document.getElementById(SELECTORS.heroTitle);
-    this.logger.enabled = true;
-    if (!this.container) {
-      this.logger.warn('[Hero] #hero-title container missing - scroll triggers disabled');
+    if (!this.element) {
+      this.logger.warn('element not found - animations disabled');
+      return;
     }
-    // Abstract Section initilization:
-    // - Sets this.id, this.bus, this.element
-    // - Warns and returns early if element not found
-    // - Initializes _this.reducedMotionHandler, _introPlayedKey, _introTl
 
-    // Standardized event keys for Hero section lifecycle lets us delegate to AbstractSection
+    this.container = document.getElementById(SELECTORS.heroTitle);
+
+    if (!this.container) {
+      this.logger.warn('scroll triggers disabled');
+    }
+
     this.events = {
       introStart: EVENTS.hero.introStart,
       introComplete: EVENTS.hero.introComplete,
@@ -64,15 +63,6 @@ export default class Hero extends AbstractSection {
       this.heroTriggers = new HeroTriggers(this.container, SELECTORS.hero, this);
       this.heroTriggers.watchScrollLifecycle();
     }
-  }
-
-  /**
-   * AbstractSection calls this to build the intro timeline.
-   * Return a GSAP timeline or null if no intro.
-   */
-  _createIntroTimeline() {
-    // ...existing code...
-    return this.heroAnimations?.timeline ?? null;
   }
 
   _applyPostIntroState() {

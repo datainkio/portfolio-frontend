@@ -88,8 +88,8 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    logger.enabled = false;
-    logger.trace(LOGS.description);
+    // logger.enabled = false;
+    //logger.trace(LOGS.description);
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new StageManager(this.bus); // Pass bus to StageManager
@@ -103,7 +103,7 @@ export default class Director {
     // Initialize choreography sequence
     this.sequence = new LandingSequence(this.bus, this.sections);
     this.sequence.start();
-    logger.trace(LOGS.completion);
+    // logger.trace(LOGS.completion);
   }
 
   /**
