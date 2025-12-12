@@ -62,7 +62,7 @@ export default class StageManager {
       color: '#10B981',
     });
     // logger.enabled(true);
-    this.logger.enabled = true;
+    this.logger.enabled = false;
     // Store bus reference for event coordination
     this.bus = bus;
 

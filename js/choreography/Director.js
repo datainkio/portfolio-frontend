@@ -88,6 +88,7 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
+    logger.enabled = false;
     logger.trace(LOGS.description);
     // Initialize core systems
     this.bus = new AnimationBus();

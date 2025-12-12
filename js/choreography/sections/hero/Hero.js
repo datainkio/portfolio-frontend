@@ -13,10 +13,34 @@ import HeroAnimations from './HeroAnimations.js';
 import HeroTriggers from './HeroTriggers.js';
 
 export default class Hero extends AbstractSection {
+  /**
+   * Inherited from AbstractSection
+   *
+   * Properties:
+   * - id: Unique section identifier derived from selector
+   * - element: Root DOM element for the section
+   * - bus: AnimationBus instance for cross-section coordination
+   * - logger: Lumberjack logger with section-scoped tagging
+   * - animations: Section animation bundle with `timeline` and `outroTimeline`
+   * - reducedMotionHandler: Helper to respect user motion preferences
+   * - _introPlayedKey: Storage key to track whether intro has played
+   * - _introTl: GSAP Timeline for the intro sequence
+   *
+   * Methods:
+   * - setAnimations(bundle): Register animation timelines for the section
+   * - playIntro(): Plays intro timeline and emits standardized events
+   * - playOutro(): Reverses timeline or plays outro, emitting events
+   * - pause(): Pauses active timelines
+   * - resume(): Resumes paused timelines
+   * - reset(): Resets timelines/state to initial configuration
+   * - destroy(): Cleans up triggers/timelines and listeners
+   * - _createIntroTimeline(): Hook for subclasses to provide intro timeline
+   */
   constructor({ bus = null, reducedMotionHandler } = {}) {
     // AbstractSection expects a root element selector and optional bus
     super(SELECTORS.heroTitle, bus, { reducedMotionHandler });
     this.container = document.getElementById(SELECTORS.heroTitle);
+    this.logger.enabled = true;
     if (!this.container) {
       this.logger.warn('[Hero] #hero-title container missing - scroll triggers disabled');
     }
@@ -33,8 +57,8 @@ export default class Hero extends AbstractSection {
       outroComplete: EVENTS.hero.outroComplete,
     };
 
-    this.heroAnimations = new HeroAnimations(this.element, this.id, ANIMATION_DEFAULTS.hero);
-    this._replaceAnimations(this.heroAnimations);
+    this.animations = new HeroAnimations(this.element, this.id, ANIMATION_DEFAULTS.hero);
+    this._replaceAnimations(this.animations);
 
     if (this.container) {
       this.heroTriggers = new HeroTriggers(this.container, SELECTORS.hero, this);
@@ -48,15 +72,7 @@ export default class Hero extends AbstractSection {
    */
   _createIntroTimeline() {
     // ...existing code...
-    // Example:
-    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-    tl.from('#hero-title', { autoAlpha: 0, y: 40, duration: 0.8 }).from(
-      '#hero-subtitle',
-      { autoAlpha: 0, y: 20, duration: 0.6 },
-      '-=0.3'
-    );
-    return tl;
-    // return this.heroAnimations?.timeline ?? null;
+    return this.heroAnimations?.timeline ?? null;
   }
 
   _applyPostIntroState() {
@@ -74,15 +90,16 @@ export default class Hero extends AbstractSection {
   _replaceAnimations(heroAnimations) {
     if (!heroAnimations) return;
 
-    this.setAnimations(heroAnimations);
+    super.setAnimations(heroAnimations);
     this._instrumentHeroTimeline();
   }
 
+  // Map GSAP timeline callbacks to standardized AnimationBus events
+  // Automagically attaches to the current this.animations.timeline
   _instrumentHeroTimeline() {
     const timeline = this.animations?.timeline;
     if (!timeline) return;
 
-    // Map timeline callbacks to standardized GSAP timeline event keys
     const hookMap = {
       onStart: EVENTS.hero.introStart,
       onComplete: EVENTS.hero.introComplete,

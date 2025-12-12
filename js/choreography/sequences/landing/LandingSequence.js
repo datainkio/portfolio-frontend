@@ -32,24 +32,24 @@ export class LandingSequence {
     const HERO_EVENT_HANDLERS = {
       introStart: () => {
         // console.log('Hero intro start');
-        this.logger.trace('Hero intro started');
+        // this.logger.trace('Hero intro started');
       },
       introComplete: () => {
         // console.log('Hero intro complete');
-        this.logger.trace('Hero intro completed');
+        // this.logger.trace('Hero intro completed');
       },
       outroStart: () => {
-        this.logger.trace('Hero outro started');
+        // this.logger.trace('Hero outro started');
       },
       outroComplete: () => {
-        this.logger.trace('Hero outro completed');
+        // this.logger.trace('Hero outro completed');
       },
     };
 
     Object.entries(EVENTS.hero).forEach(([key, eventName]) => {
       this._listeners.push(
         this.bus.on(eventName, () => {
-          this.logger.trace(`${key} (${eventName})`);
+          // this.logger.trace(`${key} (${eventName})`);
           HERO_EVENT_HANDLERS[key]?.();
         })
       );

@@ -36,10 +36,10 @@ export class AnimationBus {
       color: '#10B981',
     });
     // logger.enabled(true);
-    this.logger.enabled = true;
+    this.logger.enabled = false;
 
     this._listeners = new Map(); // event name -> [callbacks]
-    this._debug = true;
+    this._debug = false;
     this.logger.trace('initialized');
   }
 
@@ -70,13 +70,13 @@ export class AnimationBus {
    * @param {Object} [data={}] - Optional data to pass to listeners
    */
   emit(event, data = {}) {
-    this.logger.trace(`Emitting event: ${event}`, data);
+    // this.logger.trace(`Emitting event: ${event}`, data);
     if (this._listeners.has(event)) {
       this._listeners.get(event).forEach(callback => {
         try {
           callback(data);
         } catch (error) {
-          this.logger.trace(`Error in listener for ${event}:`, error);
+          // this.logger.trace(`Error in listener for ${event}:`, error);
         }
       });
     }

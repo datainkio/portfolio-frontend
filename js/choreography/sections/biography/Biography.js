@@ -15,6 +15,29 @@ import BiographyTriggers from './BiographyTriggers.js';
 
 export default class Biography extends AbstractSection {
   /**
+   * Inherited from AbstractSection
+   *
+   * Properties:
+   * - id: Unique section identifier derived from selector
+   * - element: Root DOM element for the section
+   * - bus: AnimationBus instance for cross-section coordination
+   * - logger: Lumberjack logger with section-scoped tagging
+   * - animations: Section animation bundle with `timeline` and `outroTimeline`
+   * - reducedMotionHandler: Helper to respect user motion preferences
+   * - _introPlayedKey: Storage key to track whether intro has played
+   * - _introTl: GSAP Timeline for the intro sequence
+   *
+   * Methods:
+   * - setAnimations(bundle): Register animation timelines for the section
+   * - playIntro(): Plays intro timeline and emits standardized events
+   * - playOutro(): Reverses timeline or plays outro, emitting events
+   * - pause(): Pauses active timelines
+   * - resume(): Resumes paused timelines
+   * - reset(): Resets timelines/state to initial configuration
+   * - destroy(): Cleans up triggers/timelines and listeners
+   * - _createIntroTimeline(): Hook for subclasses to provide intro timeline
+   */
+  /**
    * Extends AbstractSectionAnimations, which:
    * - Stores the section root element and ID
    * - Sets up shared GSAP timeline primitives and intro/outro hooks
@@ -22,10 +45,10 @@ export default class Biography extends AbstractSection {
    *
    * @param {AnimationBus} bus - Event bus for coordination
    */
-  constructor(bus) {
-    super(SELECTORS.biography, bus);
+  constructor(bus, { reducedMotionHandler } = {}) {
+    super(SELECTORS.biography, bus, { reducedMotionHandler });
     if (!this.element) {
-      this.logger.warn('[Biography] #main-title element not found - animations disabled');
+      this.logger.warn('[Biography] element not found - animations disabled');
       return;
     }
 

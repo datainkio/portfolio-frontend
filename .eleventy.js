@@ -4,7 +4,7 @@ process.noDeprecation = true;
 
 import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
-logger.enabled = true;
+logger.enabled = false;
 
 import collections from './eleventy/collections/index.js';
 import plugins from './eleventy/plugins/plugins.js';

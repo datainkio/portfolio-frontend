@@ -62,26 +62,32 @@ export default class AbstractSection {
 
   onEnterScroll() {
     // console.log(`[BaseSection] ${this.id}: Entered scroll trigger`);
+    this.logger.trace('Entered scroll trigger');
   }
 
   onExitScroll() {
     // console.log(`[BaseSection] ${this.id}: Exited scroll trigger`);
+    this.logger.trace('Exited scroll trigger');
   }
 
   onIntroStart() {
     // console.log(`[BaseSection] ${this.id}: Intro started`);
+    this.logger.trace('My intro has started');
   }
 
   onIntroComplete() {
     // console.log(`[BaseSection] ${this.id}: Intro complete`);
+    this.logger.trace('My intro is complete');
   }
 
   onOutroStart() {
     // console.log(`[BaseSection] ${this.id}: Outro started`);
+    this.logger.trace('My outro has started');
   }
 
   onOutroComplete() {
     // console.log(`[BaseSection] ${this.id}: Outro complete`);
+    this.logger.trace('My outro is complete');
   }
 
   /**
@@ -97,7 +103,7 @@ export default class AbstractSection {
       this.logger.trace(`Cannot play intro - element not found`);
       return;
     } else {
-      this.logger.trace(`I was told to play my intro animation`);
+      // this.logger.trace(`I was told to play my intro animation`);
     }
 
     // Broadcast standardized event for intro start (subclass-provided)
@@ -141,10 +147,11 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
-    this.logger.trace(`Playing outro animation`);
     if (!this.element) {
       this.logger.warn(`Cannot play outro - element not found`);
       return;
+    } else {
+      // this.logger.trace(`I was told to play my outro animation`);
     }
 
     // Broadcast standardized event for outro start (subclass-provided)
@@ -153,7 +160,12 @@ export default class AbstractSection {
         sectionId: this.id,
         element: this.element,
       });
+    } else {
+      this.logger.trace(`No outroStart event defined`);
     }
+
+    // GSAP lacks an onReverseStart hook, so fire our callback manually when starting the outro
+    this.onOutroStart();
 
     let outroRunner = null;
     if (typeof this.animations?.outro === 'function') {
@@ -176,6 +188,8 @@ export default class AbstractSection {
           sectionId: this.id,
           element: this.element,
         });
+      } else {
+        this.logger.trace(`No outroComplete event defined`);
       }
     });
   }
@@ -235,6 +249,8 @@ export default class AbstractSection {
     this._bindTimelineCallbacks();
   }
 
+  // Map GSAP timeline callbacks to standardized AnimationBus events.
+  // Note that this assumes a single timeline supplies both intro and outro animations by reversal.
   _bindTimelineCallbacks() {
     if (!this.timeline) return;
 
