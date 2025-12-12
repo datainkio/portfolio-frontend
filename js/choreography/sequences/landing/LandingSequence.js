@@ -9,7 +9,6 @@
 
 import { Lumberjack } from '/assets/js/utils/lumberjack/index.js';
 import { EVENTS } from '../../constants.js';
-const logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
 export class LandingSequence {
   /**
@@ -18,7 +17,7 @@ export class LandingSequence {
    * @param {Object} sections - Section controllers (hero, work, biography)
    */
   constructor(bus, sections) {
-    // logger.trace('Constructor called', { bus, sections }, 'verbose', 'standard');
+    this.logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
     this.bus = bus;
     this.sections = sections;
@@ -28,27 +27,29 @@ export class LandingSequence {
     };
     this._listeners = [];
 
-    logger.trace('Setting up event listeners');
+    this.logger.trace('Setting up event listeners');
 
     const HERO_EVENT_HANDLERS = {
       introStart: () => {
         // console.log('Hero intro start');
+        this.logger.trace('Hero intro started');
       },
       introComplete: () => {
         // console.log('Hero intro complete');
+        this.logger.trace('Hero intro completed');
       },
       outroStart: () => {
-        // console.log('Hero outro starting');
+        this.logger.trace('Hero outro started');
       },
       outroComplete: () => {
-        // console.log('Hero outro complete');
+        this.logger.trace('Hero outro completed');
       },
     };
 
     Object.entries(EVENTS.hero).forEach(([key, eventName]) => {
       this._listeners.push(
         this.bus.on(eventName, () => {
-          console.log(`[LandingSequence] Hero event: ${key} (${eventName})`);
+          this.logger.trace(`${key} (${eventName})`);
           HERO_EVENT_HANDLERS[key]?.();
         })
       );
@@ -80,7 +81,7 @@ export class LandingSequence {
    * Does not remove event listeners - use destroy() for full cleanup.
    */
   reset() {
-    logger.trace('Resetting sequence', null, 'brief', 'standard');
+    this.logger.trace('Resetting sequence', null, 'brief', 'standard');
 
     Object.values(this.sections).forEach(section => {
       if (section && typeof section.reset === 'function') {
@@ -99,7 +100,7 @@ export class LandingSequence {
    * Sequence cannot be reused after destroy().
    */
   destroy() {
-    logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');
+    this.logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');
 
     this._listeners.forEach(unsubscribe => unsubscribe());
     this._listeners = [];
