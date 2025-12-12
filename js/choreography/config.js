@@ -118,12 +118,14 @@ export const SCROLL_DEFAULTS = {
  * - targetElement: CSS selector for element height matching
  * - axis: Animation direction ('x' for horizontal, 'y' for vertical)
  * - position: Alignment ('left', 'center', 'right' for x / 'top', 'center', 'bottom' for y)
+ * - masked: Boolean to apply mask effect
  */
 export const GEL_CONFIG = {
   'bg-gel-0': {
     targetElement: '#main-title', // Height and width match hero title
     axis: 'y',
     position: 'left',
+    masked: true,
   },
   'bg-gel-1': {
     targetElement: '#site-title', // Height match site title element
@@ -131,7 +133,7 @@ export const GEL_CONFIG = {
     position: 'top',
   },
   'bg-gel-2': {
-    target: 3 / 4, // Trigger at 75% viewport height
+    target: 1 / 2, // Trigger at 50% viewport height
     axis: 'x',
     position: 'left',
   },

@@ -37,7 +37,7 @@ export default class Gel {
     if (!view) throw new Error('Gel requires a DOM element as its view');
 
     this.view = view;
-    this.masked = options.masked || false;
+    this.masked = options.masked !== undefined ? options.masked : true;
     this.colorClasses = options.colorClasses || DEFAULT_COLOR_CLASSES;
     this.transformOrigin = options.transformOrigin || DEFAULT_TRANSFORM_ORIGIN;
     this.targetElement = options.targetElement || null;
@@ -138,6 +138,7 @@ export default class Gel {
    */
   refresh() {
     this.geometry.refresh();
+    this.mask.updateMaskDimensions();
   }
 
   /**

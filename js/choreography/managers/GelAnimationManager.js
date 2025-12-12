@@ -75,6 +75,12 @@ export default class GelAnimationManager {
       .map(el => this._initializeGelFromElement(el))
       .filter(gel => gel !== null);
 
+    this._gels[2].setCorner('topLeft', 50, 0, 0.6, 'power3.out');
+    this._gels[2].setCorner('topRight', 50, 0, 0.6, 'power3.out');
+    this._gels[2].setCorner('bottomRight', 100, 100, 0.6, 'power3.out');
+    this._gels[2].setCorner('bottomLeft', 0, 100, 0.6, 'power3.out');
+    // this._gels[2].invertMask(true);
+
     // Reapply sizing/positioning on resize so viewport-filling gels stay in sync
     window.addEventListener('resize', this._onResize, { passive: true });
   }
@@ -93,7 +99,7 @@ export default class GelAnimationManager {
     }
 
     const configEntry = this._config[gelId];
-    const { axis, position, target: configTarget, targetElement } = configEntry;
+    const { axis, position, target: configTarget, targetElement, masked } = configEntry;
     const refEl = targetElement ? document.querySelector(targetElement) : null;
     const target = configTarget ?? (refEl ? GelManipulator.calculateTarget(refEl, axis) : 1);
 
@@ -103,7 +109,7 @@ export default class GelAnimationManager {
       ? GelManipulator.getOriginFromElement(refEl, axis)
       : GelManipulator.getOriginFromPosition(axis, position);
 
-    const gel = new Gel(el, { transformOrigin });
+    const gel = new Gel(el, { transformOrigin, masked });
     gel.target = target;
     gel.axis = axis;
 
