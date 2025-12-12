@@ -9,6 +9,7 @@
  * - Visual state (GelVisualState)
  */
 
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import { gsap } from '/assets/js/gsap/all.js';
 import GelMask from './GelMask.js';
 import GelGeometry from './GelGeometry.js';
@@ -30,15 +31,19 @@ export default class Gel {
    * @param {string[]} [options.colorClasses] - Available color classes
    * @param {string} [options.transformOrigin] - SVG transform origin point
    * @param {HTMLElement} [options.targetElement] - Element to match with matchTarget()
+   * @param {boolean} [options.masked=true] - Whether to apply the polygon mask on init
    */
   constructor(view, options = {}) {
     if (!view) throw new Error('Gel requires a DOM element as its view');
 
     this.view = view;
+    this.masked = options.masked || false;
     this.colorClasses = options.colorClasses || DEFAULT_COLOR_CLASSES;
     this.transformOrigin = options.transformOrigin || DEFAULT_TRANSFORM_ORIGIN;
     this.targetElement = options.targetElement || null;
     this.currentState = null;
+
+    this.logger = lumberjack.createScoped(view.id || 'Gel', { color: '#8B5CF6' });
 
     this.geometry = new GelGeometry(this.view);
     this.mask = new GelMask(this.view, this.geometry, MASK_STYLE);
@@ -59,10 +64,15 @@ export default class Gel {
    * @param {boolean} [options.applyMask=true] - Apply CSS mask on init
    * @param {boolean} [options.autoRefresh=false] - Attach ResizeObserver to auto-refresh polygon
    */
-  initialize({ applyMask = true, autoRefresh = false } = {}) {
+  initialize({ applyMask = this.masked, autoRefresh = false } = {}) {
+    this.logger.trace('initializing gel');
     this.mask.ensure();
     if (applyMask) {
       this.mask.apply();
+      this.masked = true;
+    } else {
+      this.mask.remove();
+      this.masked = false;
     }
     if (autoRefresh) {
       this.enableAutoRefresh();
@@ -70,11 +80,23 @@ export default class Gel {
   }
 
   applyMask() {
+    this.logger.trace('applying mask');
     this.mask.apply();
+    this.masked = true;
   }
 
   removeMask() {
+    this.logger.trace('removing mask');
     this.mask.remove();
+    this.masked = false;
+  }
+
+  /**
+   * Invert the mask so the polygon punches a hole instead of revealing inside.
+   * @param {boolean} [enabled=true]
+   */
+  invertMask(enabled = true) {
+    this.mask.invert(enabled);
   }
 
   /**
