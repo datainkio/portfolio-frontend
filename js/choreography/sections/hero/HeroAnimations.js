@@ -1,13 +1,14 @@
 /** @format */
 
 import { gsap, ScrambleTextPlugin } from '/assets/js/gsap/all.js';
-gsap.registerPlugin(ScrambleTextPlugin);
+import { SplitText } from '/assets/js/gsap/SplitText.js';
+gsap.registerPlugin(ScrambleTextPlugin, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
-const DURATION = 5; // Default duration for animations
-const STAGGER = 5; // Default stagger duration for animations
+const DURATION = 0.75; // Default duration for animations
+const STAGGER = 0.5; // Default stagger duration for animations
 const REVEAL_DELAY = 0; // Delay before starting reveal animations
-const SPEED = 0.1; // Speed of the scramble text effect
+const SPEED = 0.2; // Speed of the scramble text effect
 const EASE = 'power1.out';
 
 export default class HeroAnimations extends AbstractSectionAnimations {
@@ -33,8 +34,6 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   async setDefault(props = {}) {
-    this.element.textContent = '';
-    console.log(this.element.textContent);
     super.setDefault(props);
   }
 
@@ -48,13 +47,28 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _scramble() {
-    return gsap.to(this.element, {
-      duration: DURATION,
-      scrambleText: {
-        text: this.originalText,
-        revealDelay: REVEAL_DELAY,
-        speed: SPEED,
-      },
+    const tl = gsap.timeline();
+    const split = new SplitText(this.element, { type: 'words' });
+    // For each word...
+    split.words.forEach(word => {
+      // make it take the full width to prevent layout shift
+      word.classList.add('w-full');
+      // set the initial text to blanks
+      let finalText = word.textContent;
+      word.textContent = '';
+      // and give it a scramble animation
+      tl.to(word, {
+        duration: DURATION,
+        scrambleText: {
+          text: finalText,
+          revealDelay: REVEAL_DELAY,
+          speed: SPEED,
+        },
+        stagger: STAGGER,
+        ease: EASE,
+      });
+
+      return tl;
     });
   }
 }
