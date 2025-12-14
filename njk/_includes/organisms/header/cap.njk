@@ -11,17 +11,14 @@ INTEGRATION DEPENDENCIES:
 DO NOT MODIFY: Element ID, positioning classes, or DOM structure without testing animations
 #}
 <header
-  class="col-span-full fixed top-0 z-50 transition-transform duration-300 {{ headerClasses }} flex flex-row items-center
-    w-full py-4 px-8"
-  id="siteHeader"
->
-  <div class="flex-1">
+  class="col-span-2 fixed top-0 left-0 z-20 p-4 md:p-8 lg:p-12"
+  id="siteHeader">
     {% import "atoms/site-title/site-title.njk" as siteTitle %}
-    {{ siteTitle.render() }}
-  </div>
-  <nav class="justify-end">
-    {% include "molecules/navigation/primary-nav.njk" %}
+    {{ siteTitle.render({siteName: "data:ink:io"}) }}
+  <nav class="menu menu-horizontal px-1 {{ class }}">
+    {% for item in site.navigation %}
+      {% include "molecules/nav-item.njk" %}
+    {% endfor %}
   </nav>
 </header>
-
 

@@ -43,6 +43,12 @@
  * });
  */
 export const EVENTS = {
+  splash: {
+    introStart: 'splash:intro:start',
+    introComplete: 'splash:intro:complete',
+    outroStart: 'splash:outro:start',
+    outroComplete: 'splash:outro:complete',
+  },
   hero: {
     introStart: 'hero:intro:start',
     introComplete: 'hero:intro:complete',

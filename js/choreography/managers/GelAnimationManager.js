@@ -75,11 +75,11 @@ export default class GelAnimationManager {
       .map(el => this._initializeGelFromElement(el))
       .filter(gel => gel !== null);
 
-    this._gels[2].setCorner('topLeft', 50, 0, 0.6, 'power3.out');
-    this._gels[2].setCorner('topRight', 50, 0, 0.6, 'power3.out');
-    this._gels[2].setCorner('bottomRight', 100, 100, 0.6, 'power3.out');
-    this._gels[2].setCorner('bottomLeft', 0, 100, 0.6, 'power3.out');
-    // this._gels[2].invertMask(true);
+    // Draw a triangle mask on the third gel because why the hell not
+    // this._gels[2].setCorner('topLeft', 50, 0, 0.6, 'power3.out');
+    // this._gels[2].setCorner('topRight', 50, 0, 0.6, 'power3.out');
+    // this._gels[2].setCorner('bottomRight', 100, 100, 0.6, 'power3.out');
+    // this._gels[2].setCorner('bottomLeft', 0, 100, 0.6, 'power3.out');
 
     // Reapply sizing/positioning on resize so viewport-filling gels stay in sync
     window.addEventListener('resize', this._onResize, { passive: true });

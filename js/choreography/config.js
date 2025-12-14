@@ -33,7 +33,7 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
-  // Section elements
+  splash: 'splash-loader',
   hero: 'main-header',
   biography: 'biography',
   work: 'work',
@@ -123,9 +123,8 @@ export const SCROLL_DEFAULTS = {
 export const GEL_CONFIG = {
   'bg-gel-0': {
     targetElement: '#main-title', // Height and width match hero title
-    axis: 'y',
+    axis: 'x',
     position: 'left',
-    masked: true,
   },
   'bg-gel-1': {
     targetElement: '#site-title', // Height match site title element

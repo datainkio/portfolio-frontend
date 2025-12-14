@@ -35,12 +35,13 @@ import lumberjack from '/assets/js/utils/lumberjack/index.js';
  *
  * @requires AnimationBus - Event coordination system
  * @requires StageManager - Scroll and visual effects
- * @requires Hero, Work, Biography - Section controllers
+ * @requires Splash, Hero, Work, Biography - Section controllers
  * @requires LandingSequence - Animation choreography
  */
 
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import StageManager from '/assets/js/choreography/StageManager.js';
+import Splash from '/assets/js/choreography/sections/splash/Splash.js';
 import Hero from '/assets/js/choreography/sections/hero/Hero.js';
 import Biography from '/assets/js/choreography/sections/biography/Biography.js';
 import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
@@ -85,7 +86,7 @@ export default class Director {
   constructor() {
     // Create scoped logger for Director operations
     this.logger = lumberjack.createScoped('Director', {
-      prefix: '🎬',
+      prefix: '',
       color: '#10B981',
     });
     this.logger.enabled = true;
@@ -96,6 +97,7 @@ export default class Director {
 
     // Initialize section controllers
     this.sections = {
+      splash: new Splash({ bus: this.bus, reducedMotionHandler: this.stage?.reducedMotion }),
       hero: new Hero({ bus: this.bus, reducedMotionHandler: this.stage?.reducedMotion }),
       biography: new Biography(this.bus),
     };

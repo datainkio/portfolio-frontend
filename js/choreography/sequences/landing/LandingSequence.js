@@ -28,32 +28,6 @@ export class LandingSequence {
     this._listeners = [];
 
     this.logger.trace('Setting up event listeners');
-
-    const HERO_EVENT_HANDLERS = {
-      introStart: () => {
-        // console.log('Hero intro start');
-        // this.logger.trace('Hero intro started');
-      },
-      introComplete: () => {
-        // console.log('Hero intro complete');
-        // this.logger.trace('Hero intro completed');
-      },
-      outroStart: () => {
-        // this.logger.trace('Hero outro started');
-      },
-      outroComplete: () => {
-        // this.logger.trace('Hero outro completed');
-      },
-    };
-
-    Object.entries(EVENTS.hero).forEach(([key, eventName]) => {
-      this._listeners.push(
-        this.bus.on(eventName, () => {
-          // this.logger.trace(`${key} (${eventName})`);
-          HERO_EVENT_HANDLERS[key]?.();
-        })
-      );
-    });
   }
 
   /**
@@ -66,7 +40,7 @@ export class LandingSequence {
     this.state.isStarted = true;
 
     try {
-      this.sections.hero.playIntro();
+      this.sections.splash.playIntro();
       // logger.trace('Hero intro started', null, 'brief', 'standard');
     } catch (error) {
       // logger.trace('Error starting hero intro', error, 'verbose', 'error');
