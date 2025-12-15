@@ -6,37 +6,52 @@ import { SplitText } from '/assets/js/gsap/SplitText.js';
 gsap.registerPlugin(SplitText);
 
 var CONTAINER, SETTINGS, SRC;
+
+/**
+ *
+ * @param {*} elem The element containing the text we will manipulate.
+ * @param {*} params Values for optional settings
+ * @returns
+ */
 export function TextRoll(elem, params) {
   CONTAINER = elem;
   SETTINGS = params;
   SRC = CONTAINER.innerText;
-
-  let tl = gsap.timeline({
-    id: params.id,
-  });
-  tl.add(moveRoll());
-  return tl;
+  _applyMask();
+  return _assembleTimeline();
+}
+/**
+ * _applyMask creates a clipping mask on the text to hide overflow during the roll effect
+ * */
+function _applyMask() {
+  // TODO: Figure out how to create a knockout mask to layer over the text during the roll effect. The goal is for the rolling text to be visible only within the bounds of each character, creating a cleaner effect.
 }
 
-function moveRoll() {
+function _assembleTimeline() {
   let st = new SplitText(CONTAINER, {
     type: 'chars, lines',
     charsClass: 'text-roll-char',
     linesClass: 'text-roll-line',
   });
-  gsap.set(st.chars, { rotation: 0 - SETTINGS.rotation, skewY: '1.2rad', y: SETTINGS.y_delta });
+
+  gsap.set(st.chars, {
+    rotation: 0 - SETTINGS.rotation || 0,
+    skewY: '.8rad',
+    y: SETTINGS.y_delta || 50,
+  });
+
   return gsap.to(st.chars, {
-    duration: SETTINGS.duration,
+    duration: SETTINGS.duration || 0.1,
     rotation: 0,
     // scaleY: .5,
     // scaleX: 1.2,
     skewY: 0,
     y: 0,
-    stagger: {
-      // wrap advanced options in an object
-      each: 0.1,
-      ease: 'power1.inOut',
-    },
+    stagger: SETTINGS.stagger || 0.5, // {
+    // wrap advanced options in an object
+    // each: 0.15,
+    // ease: 'power1.inOut',
+    //},
     ease: SETTINGS.ease,
     onStart: onStart,
     onStartParams: [st],
