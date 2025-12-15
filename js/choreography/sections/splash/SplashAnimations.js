@@ -18,8 +18,36 @@ export default class SplashAnimations extends AbstractSectionAnimations {
   constructor(element, sectionId, options = {}) {
     super(element, sectionId);
     this.options = options;
-    //console.log(this._threedee());
-    this.timeline.add(this._threedee());
+
+    // this.timeline.add(gel.play(), 0);
+    this.timeline.add(this._roll(), 0);
+  }
+
+  _fill() {
+    return TextParty.fill(this.element.querySelector('.brand'), {
+      duration: 2,
+      stagger: 0.1,
+      repeat: -1,
+      yoyo: true,
+    }).pause();
+  }
+
+  _gel() {
+    return TextParty.gel(this.element.querySelector('.brand'), {
+      duration: 2,
+      stagger: 0.1,
+      repeat: -1,
+      yoyo: true,
+    }).pause();
+  }
+
+  _roll() {
+    return TextParty.roll(this.element.querySelector('.brand'), {
+      duration: 2,
+      stagger: 0.25,
+      repeat: -1,
+      yoyo: true,
+    });
   }
 
   intro() {
@@ -29,12 +57,5 @@ export default class SplashAnimations extends AbstractSectionAnimations {
   outro() {
     // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
     return super.outro();
-  }
-
-  _threedee() {
-    const element = this.element.querySelector('.brand');
-    const tl = TextParty.gel(element, ['text-primary-500', 'text-secondary-600']);
-    // Add animation steps to the timeline here
-    return tl;
   }
 }

@@ -5,10 +5,15 @@ gsap.registerPlugin(CustomEase, CustomWiggle);
 
 const DISTANCE = 2;
 var CONTAINER, DUPES, SRC;
+/**
+ *  Wandering Gel effect: creates multiple colored duplicates of the text that wander apart and together
+ * @param {*} elem The element containing the text we will manipulate
+ * @param {*} colors An array of CSS class names. The length of the array determines the number of gels
+ * @returns
+ */
 export function WanderingGel(elem, colors) {
   CONTAINER = elem;
   SRC = elem.innerText; // CONTAINER.getAttribute('data-text');
-  console.log(elem);
   DUPES = [];
 
   buildView(colors);

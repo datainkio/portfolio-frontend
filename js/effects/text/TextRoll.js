@@ -5,7 +5,7 @@ import { SplitText } from '/assets/js/gsap/SplitText.js';
 // Register SplitText plugin with GSAP
 gsap.registerPlugin(SplitText);
 
-var CONTAINER, SETTINGS, SRC;
+var CONTAINER, SETTINGS, SRC, SPLIT, SVG;
 
 /**
  *
@@ -17,36 +17,83 @@ export function TextRoll(elem, params) {
   CONTAINER = elem;
   SETTINGS = params;
   SRC = CONTAINER.innerText;
+  SPLIT = _split();
   _applyMask();
   return _assembleTimeline();
 }
 /**
- * _applyMask creates a clipping mask on the text to hide overflow during the roll effect
+ * _applyMask creates a knockout mask for the text roll effect
  * */
 function _applyMask() {
-  // TODO: Figure out how to create a knockout mask to layer over the text during the roll effect. The goal is for the rolling text to be visible only within the bounds of each character, creating a cleaner effect.
+  // Create the SVG element that will hold the mask
+  SVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  SVG.setAttribute('width', '0');
+  SVG.setAttribute('height', '0');
+  SVG.style.position = 'absolute';
+
+  // Create the mask element
+  const mask = document.createElementNS('http://www.w3.org/2000/svg', 'mask');
+  const maskId = `text-roll-mask-${Math.floor(Math.random() * 1000000)}`;
+  mask.setAttribute('id', maskId);
+
+  // Create a rectangle that covers the entire area
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', '0');
+  rect.setAttribute('y', '0');
+  rect.setAttribute('width', '100%');
+  rect.setAttribute('height', '100%');
+  rect.setAttribute('fill', 'black');
+
+  // Create text elements for each character
+  SPLIT.chars.forEach((char, index) => {
+    const textElem = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    textElem.setAttribute('x', char.offsetLeft + char.offsetWidth / 2);
+    textElem.setAttribute('y', char.offsetHeight + char.offsetTop);
+    textElem.setAttribute('text-anchor', 'middle');
+    textElem.setAttribute('font-size', window.getComputedStyle(char).fontSize);
+    textElem.setAttribute('font-family', window.getComputedStyle(char).fontFamily);
+    textElem.setAttribute('font-weight', window.getComputedStyle(char).fontWeight);
+    textElem.setAttribute('fill', 'white');
+    textElem.setAttribute('stroke', 'black');
+    textElem.setAttribute('stroke-width', '1');
+    textElem.textContent = char.innerText;
+    mask.appendChild(textElem);
+  });
+
+  // Append the rectangle to the mask
+  mask.appendChild(rect);
+
+  // Append the mask to the SVG
+  SVG.appendChild(mask);
+
+  // Append the SVG to the document body
+  document.body.appendChild(SVG);
+
+  // Apply the mask to the container
+  CONTAINER.style.maskImage = `url(#${maskId})`;
+  CONTAINER.style.webkitMaskImage = `url(#${maskId})`;
 }
 
-function _assembleTimeline() {
-  let st = new SplitText(CONTAINER, {
+function _split() {
+  return new SplitText(CONTAINER, {
     type: 'chars, lines',
     charsClass: 'text-roll-char',
     linesClass: 'text-roll-line',
   });
+}
 
-  gsap.set(st.chars, {
-    rotation: 0 - SETTINGS.rotation || 0,
+function _assembleTimeline() {
+  gsap.set(SPLIT.chars, {
+    rotation: 0 - SETTINGS.rotation || 20,
     skewY: '.8rad',
-    y: SETTINGS.y_delta || 50,
+    y: SETTINGS.y_delta || 200,
   });
 
-  return gsap.to(st.chars, {
+  return gsap.to(SPLIT.chars, {
     duration: SETTINGS.duration || 0.1,
     rotation: 0,
-    // scaleY: .5,
-    // scaleX: 1.2,
     skewY: 0,
-    y: 0,
+    y: finishY(),
     stagger: SETTINGS.stagger || 0.5, // {
     // wrap advanced options in an object
     // each: 0.15,
@@ -54,9 +101,9 @@ function _assembleTimeline() {
     //},
     ease: SETTINGS.ease,
     onStart: onStart,
-    onStartParams: [st],
+    onStartParams: [SPLIT],
     onComplete: onComplete,
-    onCompleteParams: [st],
+    onCompleteParams: [SPLIT],
   });
 }
 
@@ -74,7 +121,8 @@ function startY() {
 }
 
 function finishY() {
-  return 0 - SETTINGS.y_delta;
+  console.log('SETTINGS.y_delta', SETTINGS.y_delta);
+  return 10;
 }
 
 function settings() {

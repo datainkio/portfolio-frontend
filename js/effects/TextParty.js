@@ -24,10 +24,16 @@ export function radar(elem, settings) {
   return TextRadar(elem, settings);
 }
 
-export function roll(container, settings) {
-  let tl = TextRoll(container, settings);
-  tl.eventCallback('onStart', onStart, [tl, settings]);
-  tl.eventCallback('onComplete', onComplete, [tl, settings]);
+/**
+ * Roll effect: given a container, animate its inner text to roll vertically
+ * @param {*} container
+ * @param {*} settings
+ * @returns
+ */
+export function roll(container, options) {
+  let tl = TextRoll(container, options);
+  tl.eventCallback('onStart', onStart, [tl, options]);
+  tl.eventCallback('onComplete', onComplete, [tl, options]);
   return tl;
 }
 
@@ -37,19 +43,19 @@ export function roll(container, settings) {
  * @param {*} params
  * @returns
  */
-export function gel(container, params) {
-  let tl = WanderingGel(container, params);
-  tl.eventCallback('onStart', onStart, [tl, params]);
-  tl.eventCallback('onComplete', onComplete, [tl, params]);
+export function gel(container, options) {
+  let tl = WanderingGel(container, options);
+  tl.eventCallback('onStart', onStart, [tl, options]);
+  tl.eventCallback('onComplete', onComplete, [tl, options]);
   return tl;
 }
 
-export function fill(params) {
-  return OutlineToFill(params);
+export function fill(options) {
+  return OutlineToFill(options);
 }
 
-export function seventies(container, params) {
-  return SeventiesNewsShow(container, params);
+export function seventies(container, options) {
+  return SeventiesNewsShow(container, options);
 }
 
 export function lines(id) {
