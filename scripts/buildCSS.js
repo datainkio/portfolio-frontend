@@ -39,7 +39,7 @@ import { TailwindLogger } from '../eleventy/services/TailwindLogger.js';
 import { execSync, spawn } from 'child_process';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import logger, { LumberjackStyle } from '/assets/js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
 // Enable logger for build transparency
 logger.enabled = true;
