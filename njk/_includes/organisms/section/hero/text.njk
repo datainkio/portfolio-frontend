@@ -1,5 +1,8 @@
 {# Landing view - GSAP Hero Controller Target #}
-<section id="main-header" class="col-span-4 h-dvh flex items-center justify-items-start" data-scroll-section>
+{% set size = "col-span-full h-dvh " %}
+{% set layout = "grid grid-cols-subgrid"%}
+{% set positioning = "flex items-center justify-items-start" %}
+<section id="main-header" class="bg-primary-800 {{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
   {# 
     Styles:
     - font-display: styles/typography/display.css (Figma-generated)
@@ -33,5 +36,10 @@
   >
     {{ title }}
   </h1>
-  
+{% import "atoms/ruler.njk" as ruler %}
+{{ ruler.render({ 
+  intervals: 12,
+  subticksPerInterval: 16,
+  id:"hero-ruler",
+  classes:"text-primary-200 col-span-full w-full px-12" }) }}
 </section>

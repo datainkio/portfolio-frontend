@@ -1,0 +1,15 @@
+{% macro render(params = {}) %}
+  {%- set items = params.items | default(collections.all) -%}
+  {%- set classes = params.classes | default("flex gap-6 items-center") -%}
+
+  <ul class="{{ classes }}" role="list">
+    {%- for entry in items | eleventyNavigation -%}
+      <li>
+        {% include "atoms/link/nav-link.njk" %}
+        {% if entry.children and entry.children.length > 0 %}
+          {% include "atoms/link/nav-link.njk" %}
+        {% endif %}
+      </li>
+    {%- endfor -%}
+  </ul>
+{% endmacro %}

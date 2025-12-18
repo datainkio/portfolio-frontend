@@ -20,7 +20,7 @@ export default class SplashAnimations extends AbstractSectionAnimations {
     this.options = options;
 
     // this.timeline.add(gel.play(), 0);
-    this.timeline.add(this._roll(), 0);
+    this.timeline.add(this._fill(), 0);
   }
 
   _fill() {

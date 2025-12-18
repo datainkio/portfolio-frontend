@@ -105,11 +105,10 @@ export default class StageManager {
   }
 
   /**
-   * Start gel animations after Hero outro completes
+   * Start gel
    * @private
    */
   _startGelAnimations() {
-    this.logger.trace('Starting gel animations...');
     if (this._gelsAnimated) return; // Prevent multiple calls
 
     // Start gel animation (uses smoother scroller if available)

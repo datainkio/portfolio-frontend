@@ -7,11 +7,13 @@ metaDescription: 'no metaDescription defined'
 metaKeywords: 'user experience, eleventy, tailwind'
 canonicalUrl: 'https://dataink.io'
 bodyClasses: 'bg-transparent bg-graphpaper-dark bg-graphpaper-sm'
-headerClasses: 'text-neutral-100'
+skipLinks:
+  - hero
+  - bio
+  - featured-work
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
-  {% include "organisms/header/splash-loader.njk" %}
   {% include "organisms/section/hero/text.njk" %}
   {% include "organisms/section/bio/bio.njk" %}
   {% include "organisms/section/work/featured.njk" %}

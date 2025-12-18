@@ -2,7 +2,7 @@
 {% import "atoms/gel/gel.njk" as gelAtom %}
 
 {% macro render(params = {}) %}
-  {%- set bgID = params.id | default('sizzle') -%}
+  {%- set bgID = params.id | default('sizzle-background') -%}
   <div 
     id="{{ bgID }}" 
     class="absolute bg-pixelator inset-0 w-full h-dvh -z-10"

@@ -26,18 +26,19 @@
   - Maintain --animation-* custom properties in styles/
   #}
   
-  <body class="grid grid-cols-12 {{ bodyClasses }}">
+  <body class="{{ bodyClasses }}">
     {% include "atoms/gtm-noscript.njk" %}
-    {% include "organisms/header/cap.njk" %}
+    {% include "organisms/header/global.njk" %}
     {% import "molecules/background/video.njk" as background %}
 
   {{ background.render({ 
     id:"sizzle-background", 
     videoSrc: "/assets/video/sizzle.mp4", 
     classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
+
     {# Main content wrapper - GSAP ScrollSmoother target #}
     <main id="smooth-wrapper" class="col-span-full {{ mainClasses }}" data-scroll-container>
-        <div id="smooth-content" class="grid grid-cols-12 {{ contentClasses }}">
+        <div id="smooth-content" class="grid grid-cols-12">
         {% block content %}
             {% if content %}
             {{ content | safe }}

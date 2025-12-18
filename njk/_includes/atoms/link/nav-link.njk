@@ -1,9 +1,4 @@
-{#
-Navigation Link Atom Component
-CRITICAL: aria-current attribute is essential for screen reader navigation
-WARNING: Link classes are used by GSAP scroll animations - test after modifications
-#}
-
+{% set entry = entry or {} %}
 {% set linkUrl = entry.url or url %}
 {% set linkTitle = entry.title or entry.key or title %}
 {% set linkClass = (entry.class or class or "") %}
@@ -20,16 +15,6 @@ WARNING: Link classes are used by GSAP scroll animations - test after modificati
 
   {# Child navigation indicator #}
   {% if hasChildren %}
-    <svg
-      class="dropdown-indicator inline-block ml-1 w-4 h-4"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-        clip-rule="evenodd"
-      />
-    </svg>
+  {% include "atoms/icon/caret.njk" %}
   {% endif %}
 </a>

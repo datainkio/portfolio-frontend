@@ -1,0 +1,8 @@
+    <ul
+      class=""
+      role="list"
+    >
+      {% for child in entry.children %}
+      <li>{% set entry = child %} {% include "atoms/link/nav-link.njk" %}</li>
+      {% endfor %}
+    </ul>

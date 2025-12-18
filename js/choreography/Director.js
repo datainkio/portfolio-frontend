@@ -43,13 +43,13 @@ import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import StageManager from '/assets/js/choreography/StageManager.js';
 import Splash from '/assets/js/choreography/sections/splash/Splash.js';
 import Hero from '/assets/js/choreography/sections/hero/Hero.js';
-import Biography from '/assets/js/choreography/sections/biography/Biography.js';
+import BackgroundVideo from '/assets/js/choreography/sections/background/BackgroundVideo.js';
 import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
 
 const LOGS = {
   description:
     'The Director is the master controller for the entire animation system. It initializes the AnimationBus, StageManager, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The Director also provides methods to control and debug the animation flow.',
-  completion: "All systems go. Let's light this candle.",
+  completion: "Initialized. All systems go. Let's light this candle.",
   methods:
     'enableDebug(enabled) - Toggle AnimationBus debug logging\n' +
     'getSections() - Get section controller instances\n' +
@@ -97,15 +97,19 @@ export default class Director {
 
     // Initialize section controllers
     this.sections = {
-      splash: new Splash({ bus: this.bus, reducedMotionHandler: this.stage?.reducedMotion }),
+      video: new BackgroundVideo({
+        bus: this.bus,
+        reducedMotionHandler: this.stage?.reducedMotion,
+      }),
       hero: new Hero({ bus: this.bus, reducedMotionHandler: this.stage?.reducedMotion }),
-      biography: new Biography(this.bus),
+      // biography: new Biography(this.bus),
     };
 
     // Initialize choreography sequence
-    this.sequence = new LandingSequence(this.bus, this.sections);
-    this.sequence.start();
+    this.sequence = new LandingSequence(this.bus, this.sections, this.stage?.gelAnimation);
     this.logger.trace(LOGS.completion);
+
+    this.sequence.start();
   }
 
   /**

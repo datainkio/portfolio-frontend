@@ -13,11 +13,12 @@ export default class GelVisualState {
     this.currentColorState = null;
   }
 
-  setScale({ x = 1, y = 1 } = {}) {
+  setScale({ x = 1, y = 1, origin = this.transformOrigin } = {}) {
+    // console.log('Setting gel scale:', { x, y, origin });
     gsap.set(this.view, {
       scaleX: x,
       scaleY: y,
-      transformOrigin: this.transformOrigin,
+      transformOrigin: origin,
     });
   }
 

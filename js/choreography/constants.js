@@ -43,6 +43,12 @@
  * });
  */
 export const EVENTS = {
+  video: {
+    introStart: 'video:intro:start',
+    introComplete: 'video:intro:complete',
+    outroStart: 'video:outro:start',
+    outroComplete: 'video:outro:complete',
+  },
   splash: {
     introStart: 'splash:intro:start',
     introComplete: 'splash:intro:complete',

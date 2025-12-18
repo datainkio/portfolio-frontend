@@ -33,6 +33,7 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
+  video: 'sizzle-background',
   splash: 'splash-loader',
   hero: 'main-header',
   biography: 'biography',
@@ -121,11 +122,7 @@ export const SCROLL_DEFAULTS = {
  * - masked: Boolean to apply mask effect
  */
 export const GEL_CONFIG = {
-  'bg-gel-0': {
-    targetElement: '#main-title', // Height and width match hero title
-    axis: 'x',
-    position: 'left',
-  },
+  'bg-gel-0': {},
   'bg-gel-1': {
     targetElement: '#site-title', // Height match site title element
     axis: 'x',

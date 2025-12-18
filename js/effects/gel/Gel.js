@@ -16,7 +16,7 @@ import GelGeometry from './GelGeometry.js';
 import GelVisualState from './GelVisualState.js';
 
 const DEFAULT_COLOR_CLASSES = ['bg-gel-primary', 'bg-gel-secondary', 'bg-gel-accent'];
-const DEFAULT_TRANSFORM_ORIGIN = 'right center';
+const DEFAULT_TRANSFORM_ORIGIN = 'top center';
 const MASK_STYLE = {
   maskRepeat: 'no-repeat',
   WebkitMaskRepeat: 'no-repeat',
@@ -144,8 +144,8 @@ export default class Gel {
   /**
    * Dedicated scale setter (preferred over setState).
    */
-  setScale({ x = 1, y = 1 } = {}) {
-    this.visual.setScale({ x, y });
+  setScale({ x = 1, y = 1, origin = 'left center' } = {}) {
+    this.visual.setScale({ x, y, origin });
   }
 
   /**

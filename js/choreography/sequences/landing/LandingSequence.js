@@ -1,7 +1,7 @@
 /**
  * LandingSequence - Landing page animation choreography coordinator
  *
- * Event-driven sequence that coordinates Hero, Work, and Biography section animations.
+ * Manages the flow of intro and outro animations for the landing page
  * Listens to AnimationBus events and triggers next animations based on completion.
  *
  * @requires AnimationBus
@@ -16,18 +16,19 @@ export class LandingSequence {
    * @param {AnimationBus} bus - Event bus for coordination
    * @param {Object} sections - Section controllers (hero, work, biography)
    */
-  constructor(bus, sections) {
+  constructor(bus, sections, gelManager = null) {
     this.logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
     this.bus = bus;
     this.sections = sections;
+    this.gelManager = gelManager;
     this.state = {
       isStarted: false,
       isComplete: false,
     };
     this._listeners = [];
 
-    this.logger.trace('Setting up event listeners');
+    this._registerListeners();
   }
 
   /**
@@ -37,6 +38,7 @@ export class LandingSequence {
    * Event listeners handle subsequent animations automatically.
    */
   start() {
+    if (this.state.isStarted) return;
     this.state.isStarted = true;
 
     try {
@@ -80,5 +82,40 @@ export class LandingSequence {
     this._listeners = [];
     this.sections = null;
     this.bus = null;
+  }
+
+  /**
+   * Wire AnimationBus listeners to drive the sequence
+   * @private
+   */
+  _registerListeners() {
+    if (!this.bus) return;
+
+    const on = (event, handler) => {
+      const off = this.bus.on(event, handler);
+      this._listeners.push(off);
+    };
+
+    // Splash intro finished → start hero intro
+    on(EVENTS.splash.introStart, () => {
+      this.logger.trace('Splash intro started');
+    });
+
+    // Splash intro finished → start hero intro
+    on(EVENTS.splash.introComplete, () => {
+      this.logger.trace('Splash intro complete');
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      this.sections?.video?.playIntro?.();
+    });
+
+    // Hero outro finished → start work intro
+    on(EVENTS.hero.outroComplete, () => {
+      this.sections?.work?.playIntro?.();
+    });
+
+    // Work intro finished → mark sequence complete
+    on(EVENTS.work.introComplete, () => {
+      this.state.isComplete = true;
+    });
   }
 }

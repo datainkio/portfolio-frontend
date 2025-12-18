@@ -148,6 +148,28 @@
       overflow: auto;
     }
   }
+
+  /* Background Video Animation */
+  .bg-video--offscreen {
+    transform: translate3d(12vw, 0, 0);
+    opacity: 0;
+  }
+
+  .bg-video--enter {
+    animation: bgVideoEnter 900ms ease-out forwards;
+    will-change: transform, opacity;
+  }
+
+  @keyframes bgVideoEnter {
+    from {
+      transform: translate3d(12vw, 0, 0);
+      opacity: 0;
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
 }
 
 /* CSS Custom Properties for Animation Timing */

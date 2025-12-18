@@ -207,4 +207,15 @@ export default class GelAnimationManager {
       gel.refresh();
     });
   }
+
+  /** Reduce a gel to a viewport fraction (immediate, not scroll-driven) */
+  shrinkGelToViewportFraction(gelIndex = 0, { x = 1, y = 1, origin = 'center' } = {}) {
+    if (this._reducedMotionHandler?.isReducedMotion()) return;
+    const gel = this._gels[gelIndex];
+    console.log('Shrinking gel', gelIndex, 'to width', x, 'and height', y, 'from the', origin);
+    if (!gel) return;
+
+    const scaleState = { x: x, y: y, origin: origin };
+    gel.setScale(scaleState);
+  }
 }
