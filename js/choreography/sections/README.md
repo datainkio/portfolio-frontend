@@ -1,194 +1,196 @@
+<!-- @format -->
+
 # Section Controllers - Standardized Animation Lifecycle
 
-All section controllers extend `AbstractSection` and follow a unified lifecycle pattern for intro, scroll, and outro animations.
+Last updated: 2025-12-19 15:00 EST
 
-## Abstract Section Base Class
+Sections are animation controllers that attach GSAP timelines to DOM elements, emit standardized AnimationBus events from `constants.js`, and respect reduced-motion preferences. **Active today:** Hero and BackgroundVideo. Legacy controllers (Work, Biography, Splash, Approach) exist but are not initialized by Director.
 
-Every section implements this lifecycle:
+## AbstractSection (current base class)
 
-```javascript
-export class AbstractSection {
-  // 1. Intro Phase - plays on page load
-  createIntro()
-
-  // 2. Scroll Phase - plays during scrolling
-  createScrollTriggers()
-
-  // 3. Outro Phase - plays when leaving section
-  createOutro()
-
-  // 4. State Management
-  getState()        // Current section state
-  reset()          // Reset animations for replay
-  destroy()        // Cleanup GSAP timelines
-}
-```
-
-## Lifecycle Flow
-
-```
-Page Load
-  ↓
-section:${id}:intro:start (event emitted)
-  ↓
-createIntro() executes
-  ↓
-[animations play]
-  ↓
-section:${id}:intro:complete (event emitted)
-  ↓
-Section becomes visible on page
-  ↓
-createScrollTriggers() sets up ScrollTrigger instances
-  ↓
-User scrolls through section
-  ↓
-section:${id}:scroll:enter / section:${id}:scroll:exit
-  ↓
-createOutro() animates section out
-  ↓
-section:${id}:outro:complete
-```
-
-## Creating a Custom Section
-
-### 1. Create Controller File
+`AbstractSection` connects a section element to an animation bundle (animations + triggers) and an `events` map from `EVENTS`.
 
 ```javascript
-// js/choreography/sections/custom/Custom.js
-import { AbstractSection } from '../abstract-section/AbstractSection.js';
+constructor(elem, animations, triggers, events, bus, ({ reducedMotionHandler } = {}));
 
-export class Custom extends AbstractSection {
-  constructor({ bus, dom, reducedMotionHandler, smoother, config }) {
-    super('custom', bus, reducedMotionHandler, { config });
-
-    this.dom = dom; // DOM elements for this section
-    this.smoother = smoother; // GSAP ScrollSmoother instance
-    this.config = config; // Animation config from choreography/config.js
-  }
-
-  // Required: Intro animation on page load
-  createIntro() {
-    const timeline = gsap.timeline();
-
-    timeline.fromTo(this.dom.title, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 });
-
-    timeline.on('complete', () => {
-      this.bus.emit(`${this.id}:intro:complete`);
-    });
-
-    return timeline;
-  }
-
-  // Optional: Scroll-triggered animations
-  createScrollTriggers() {
-    ScrollTrigger.create({
-      trigger: this.dom.container,
-      start: 'top center',
-      end: 'bottom center',
-      onEnter: () => this.bus.emit(`${this.id}:scroll:enter`),
-      onLeave: () => this.bus.emit(`${this.id}:scroll:exit`),
-      markers: window.DEBUG, // Dev helper
-    });
-  }
-
-  // Optional: Outro animation when leaving
-  createOutro() {
-    const timeline = gsap.timeline();
-
-    timeline.to(this.dom.title, {
-      opacity: 0,
-      y: -20,
-      duration: 0.6,
-    });
-
-    timeline.on('complete', () => {
-      this.bus.emit(`${this.id}:outro:complete`);
-    });
-
-    return timeline;
-  }
-}
+setAnimations(bundle); // Register animations and bind callbacks
+initialize(); // Apply reduced-motion state, set up scroll triggers
+playIntro(); // Run intro timeline; emit events.introStart/introComplete
+playOutro(); // Run outro or outroTimeline; emit events.outroStart/outroComplete
+reset(); // Reset timelines/state flags; emit section:{id}:reset
+destroy(); // Kill timelines and ScrollTriggers; emit section:{id}:destroy
 ```
 
-### 2. Register in Director
+### Lifecycle Flow
+
+```
+DOMContentLoaded
+  ↓
+Director constructs section with element + animations + triggers + EVENTS map
+  ↓
+section.initialize()
+  ├─ If prefers-reduced-motion → apply end state, then set up scroll
+  └─ Otherwise set up scroll triggers immediately
+  ↓
+sequence.start() → section.playIntro()
+  ├─ Emits events.introStart
+  ├─ Runs animations.intro() or animations.timeline
+  └─ Emits events.introComplete
+  ↓
+Scroll triggers fire (enter/exit logic lives in triggers class)
+  ↓
+Optional playOutro()
+  ├─ Emits events.outroStart
+  └─ Emits events.outroComplete when outro/reverse finishes
+```
+
+## Event Naming (use constants)
+
+Always use `EVENTS` from [../constants.js](../constants.js):
 
 ```javascript
-// js/choreography/Director.js
-import { Custom } from './sections/custom/Custom.js';
+import { EVENTS } from '../constants.js';
 
-export class Director {
-  initialize() {
-    // ... existing setup
+bus.emit(EVENTS.hero.introComplete);
+bus.on(EVENTS.video.introStart, handler);
 
-    // Get DOM elements for custom section
-    const customDom = {
-      container: document.querySelector('[data-choreography="custom"]'),
-      title: document.querySelector('.custom-title'),
-      content: document.querySelector('.custom-content'),
-    };
-
-    // Create section instance
-    const custom = new Custom({
-      bus: this.animationBus,
-      dom: customDom,
-      reducedMotionHandler: this.reducedMotionHandler,
-      smoother: this.stageManager.getSmoother(),
-      config: CONFIG,
-    });
-
-    this.sections.custom = custom;
-  }
-}
+// Adding a new section (in constants.js)
+EVENTS.custom = {
+  introStart: 'custom:intro:start',
+  introComplete: 'custom:intro:complete',
+  outroStart: 'custom:outro:start',
+  outroComplete: 'custom:outro:complete',
+};
 ```
-
-### 3. Connect in Sequence
-
-```javascript
-// js/choreography/sequences/landing/LandingSequence.js
-export class LandingSequence {
-  start() {
-    // Wait for previous section
-    this.bus.on(`${previousSection}:intro:complete`, () => {
-      // Play custom section intro
-      this.bus.emit(`custom:intro:start`);
-    });
-
-    // Custom section listens to this
-    this.bus.on(`custom:intro:start`, () => {
-      this.sections.custom.createIntro();
-    });
-  }
-}
-```
-
-## Event Naming Conventions
-
-All sections use consistent event names:
-
-```javascript
-// Lifecycle events
-`${sectionId}:intro:start` // Orchestrator signals start
-`${sectionId}:intro:complete` // Section finished intro
-`${sectionId}:scroll:enter` // User scrolled into section
-`${sectionId}:scroll:exit` // User scrolled out of section
-`${sectionId}:outro:complete`; // Section finished outro
-
-// Example: hero section
-('hero:intro:start'); // Start hero animation
-('hero:intro:complete'); // Hero animation finished
-('hero:scroll:enter'); // User scrolled into hero
-('hero:scroll:exit'); // User scrolled out of hero
-('hero:outro:complete'); // Hero outro finished
-```
-
-See [constants.js](../constants.js) for all defined event names.
 
 ## Current Sections
 
-### Hero (`sections/hero/Hero.js`)
+### Active in Director
 
-- **Purpose**: Landing hero with introductory animations
+- **Hero** (`sections/hero/Hero.js`)
+  - Uses `AbstractSection` with `HeroAnimations` and `HeroTriggers`
+  - Events: `EVENTS.hero.*`
+  - DOM: `#hero` (from `SELECTORS.hero`)
+- **BackgroundVideo** (`sections/background/BackgroundVideo.js`)
+  - Uses `AbstractSection` with `BackgroundVideoAnimations` and `BackgroundVideoTriggers`
+  - Events: `EVENTS.video.*`
+  - DOM: `#overlay-view` / `SELECTORS.video`
+
+### Present but not initialized
+
+- **Work** (`sections/work/Work.js`) — legacy, references `BaseSection` (file not present); not wired
+- **Biography** (`sections/biography/`) — inactive
+- **Splash** (`sections/splash/`) — inactive
+- **Approach** (`sections/approach/`) — inactive
+
+To activate an inactive section: add to `EVENTS`, import into `Director.js`, instantiate with `bus` and `reducedMotionHandler`, and hook it in `LandingSequence`.
+
+## Creating a Custom Section (current pattern)
+
+```javascript
+// js/choreography/sections/custom/Custom.js
+import AbstractSection from '../abstract-section/AbstractSection.js';
+import { EVENTS } from '../../constants.js';
+import CustomAnimations from './CustomAnimations.js';
+import CustomTriggers from './CustomTriggers.js';
+import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
+
+export default class Custom extends AbstractSection {
+  constructor({ bus = null, reducedMotionHandler } = {}) {
+    const elem = document.getElementById(SELECTORS.custom);
+    const anim = new CustomAnimations(elem, ANIMATION_DEFAULTS);
+    const triggers = new CustomTriggers(elem);
+    const events = EVENTS.custom;
+
+    super(elem, anim, triggers, events, bus, { reducedMotionHandler });
+
+    if (!elem) {
+      this.logger.trace('element not found; skipping initialization.');
+    }
+  }
+}
+```
+
+Hook into the sequence:
+
+```javascript
+// LandingSequence.js
+on(EVENTS.hero.introComplete, () => {
+  this.sections?.custom?.playIntro?.();
+});
+```
+
+## Reduced Motion
+
+`AbstractSection.initialize()` respects `prefers-reduced-motion` by applying the post-intro state and then setting up scroll triggers without playing the intro timeline. Ensure your animations define sensible end states so reduced-motion users still see content.
+
+## State & Reset
+
+- `playIntro()` / `playOutro()` emit events from the provided `events` map.
+- `reset()` pauses timelines, clears flags (`isIntroComplete`, `isOutroComplete`, `isScrollActive`), and emits `section:{id}:reset`.
+- `destroy()` kills timelines and related ScrollTriggers and emits `section:{id}:destroy`.
+
+## Testing & Debugging
+
+- Access controllers via `window.director.getSections()` once Director initializes.
+- Enable bus debugging: `window.director.enableDebug(true)`.
+- Add `markers: true` in trigger classes for ScrollTrigger visualization.
+
+## Performance & Cleanup
+
+1. Always call `destroy()` when removing a section to kill timelines and triggers.
+2. Use `setAnimations()` to swap animation bundles safely (kills previous timeline).
+3. Keep triggers lightweight—only create them when the section element exists.
+
+## StageManager Integration
+
+When needed, pass `reducedMotionHandler` from `StageManager` into the section constructor (as done for Hero and BackgroundVideo) so reduced-motion preferences are honored.
+
+## Event Naming Conventions
+
+Events come from `EVENTS` in [constants.js](../constants.js) and are passed into `AbstractSection` via the `events` argument. Use the constants instead of string interpolation.
+import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
+
+      export default class Custom extends AbstractSection {
+        constructor({ bus = null, reducedMotionHandler } = {}) {
+          const elem = document.getElementById(SELECTORS.custom);
+          const anim = new CustomAnimations(elem, ANIMATION_DEFAULTS);
+          const triggers = new CustomTriggers(elem);
+          const events = EVENTS.custom; // add to constants.js first
+
+          super(elem, anim, triggers, events, bus, { reducedMotionHandler });
+
+          if (!elem) {
+            this.logger.trace('element not found; skipping initialization.');
+            return;
+          }
+        }
+      }
+      ```
+
+      ### 2) Wire in Director
+
+      ```javascript
+      // Director.js
+      import Custom from './sections/custom/Custom.js';
+
+      this.sections = {
+        ...this.sections,
+        custom: new Custom({ bus: this.bus, reducedMotionHandler: this.stage?.reducedMotion }),
+      };
+      ```
+
+      ### 3) Sequence Hook
+
+      ```javascript
+      // LandingSequence.js
+      import { EVENTS } from '../constants.js';
+
+      on(EVENTS.hero.introComplete, () => {
+        this.sections?.custom?.playIntro?.();
+      });
+      ```
+
 - **Lifecycle**: Full intro → scroll triggers → outro
 - **Elements**: Title, subtitle, call-to-action
 - **Events**: Emits `hero:intro:complete` when ready
