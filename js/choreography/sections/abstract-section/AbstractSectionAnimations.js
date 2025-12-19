@@ -12,13 +12,12 @@ const DURATION = 1.0; // Default duration for animations
 const STAGGER = 0.2; // Default stagger duration for animations
 export default class AbstractSectionAnimations {
   /**
-   * @param {HTMLElement|null} element - Target element for animations
+   * @param {HTMLElement|null} elem - Target element for animations
    * @param {string} sectionId - Section identifier (e.g., 'main-header')
    */
-  constructor(element, sectionId) {
-    this.element = element;
-    this.id = sectionId;
-    this.timeline = gsap.timeline({ paused: true });
+  constructor(elem) {
+    this.elem = elem;
+    this.timeline = gsap.timeline({ paused: true }); // init timeline instance
     this.DURATION = DURATION; // Default duration for animations
     this.STAGGER = STAGGER; // Default stagger duration for animations
   }
@@ -28,7 +27,7 @@ export default class AbstractSectionAnimations {
    * Descendants should override for custom behavior.
    */
   async setDefault(props = {}) {
-    gsap.set(this.element, props);
+    gsap.set(this.elem, props);
   }
 
   /**
@@ -36,13 +35,13 @@ export default class AbstractSectionAnimations {
    * @returns {Promise<void>} Resolves when intro animation completes.
    */
   intro() {
-    if (!this.element) {
+    if (!this.elem) {
       return this.timeline;
     }
 
     this.timeline.clear();
     this.timeline.fromTo(
-      this.element,
+      this.elem,
       { opacity: 0 },
       { opacity: 1, duration: this.DURATION, ease: 'power1.out' }
     );
@@ -54,7 +53,7 @@ export default class AbstractSectionAnimations {
    * @returns {Promise<void>} Resolves when outro animation completes.
    */
   outro() {
-    if (!this.element) {
+    if (!this.elem) {
       return this.timeline;
     }
 

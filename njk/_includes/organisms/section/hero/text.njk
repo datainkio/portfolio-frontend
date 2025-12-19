@@ -1,45 +1,38 @@
-{# Landing view - GSAP Hero Controller Target #}
-{% set size = "col-span-full h-dvh " %}
-{% set layout = "grid grid-cols-subgrid"%}
-{% set positioning = "flex items-center justify-items-start" %}
-<section id="main-header" class="bg-primary-800 {{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
-  {# 
-    Styles:
-    - font-display: styles/typography/display.css (Figma-generated)
-    - text-neutral-100: styles/colors.css (Figma-generated)
-    - mask-*: styles/utilities/mask.css (custom mask utilities)
-    - text-*, tracking-*, etc: Tailwind utilities
-
-    Text element masking via CSS mask-image with a grunge texture to create a distressed text effect:
-      mask-image-grunge mask-mode-luminance mask-size-cover mask-position-center mask-repeat-no-repeat mask-clip-border mask-composite-add
-    
-    Animation:
-    - js/choreography/Director.js: Initializes Hero controller on DOMContentLoaded
-    - js/choreography/sections/Hero.js: GSAP animations for #main-title element
-    - js/choreography/AnimationBus.js: Event coordination with other sections
-  #}
-  <h1
-    id="main-title"
-    class="z-10 text-6xl
-          sm:text-7xl 
-          md:text-8xl 
-          lg:text-9xl 
-          leading-12 
-          sm:leading-14 
-          md:leading-16 
-          lg:leading-28
-          tracking-tighter 
-          uppercase 
-          font-display 
-          p-12 
-          text-primary-100"
-  >
-    {{ title }}
-  </h1>
 {% import "atoms/ruler.njk" as ruler %}
-{{ ruler.render({ 
-  intervals: 12,
-  subticksPerInterval: 16,
-  id:"hero-ruler",
-  classes:"text-primary-200 col-span-full w-full px-12" }) }}
-</section>
+
+{% macro render(params = {}) %}
+  {%- set sectionId = params.id | default("hero") -%}
+  {%- set size = params.size | default("col-span-full h-dvh ") -%}
+  {%- set layout = params.layout | default("grid grid-cols-subgrid") -%}
+  {%- set positioning = params.positioning | default("flex items-center justify-items-start") -%}
+  {%- set titleText = params.title | default(title) -%}
+  {%- set rulerOptions = params.ruler | default({}) -%}
+
+  {# Landing view - GSAP Hero Controller Target #}
+  <section id="{{ sectionId }}" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
+    <h1
+      id="hero-title"
+      class="col-span-full z-10 text-6xl
+            sm:text-7xl 
+            md:text-8xl 
+            lg:text-9xl 
+            leading-12 
+            sm:leading-14 
+            md:leading-16 
+            lg:leading-28
+            tracking-tighter 
+            uppercase 
+            font-display 
+            p-12 
+            text-primary-100"
+    >
+      {{ titleText }}
+    </h1>
+    {{ ruler.render({ 
+      intervals: rulerOptions.intervals | default(12),
+      subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
+      id: rulerOptions.id | default("hero-ruler"),
+      classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12")
+    }) }}
+  </section>
+{% endmacro %}

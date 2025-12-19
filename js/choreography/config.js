@@ -35,7 +35,6 @@
 export const SELECTORS = {
   video: 'sizzle-background',
   splash: 'splash-loader',
-  hero: 'main-header',
   biography: 'biography',
   work: 'work',
 
@@ -48,7 +47,8 @@ export const SELECTORS = {
   sizzleBackground: '#sizzle-background',
 
   // Hero section elements
-  heroTitle: 'main-title',
+  hero: 'hero',
+  heroTitle: '#hero h1',
 };
 
 /**

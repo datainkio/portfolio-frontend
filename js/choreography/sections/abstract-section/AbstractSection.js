@@ -24,40 +24,28 @@ export default class AbstractSection {
    * Subclasses must call super(id, bus, smoother) in constructor,
    * then call createIntro(), createOutro(), and createScrollTriggers().
    *
-   * @param {string} sectionId - DOM element ID (e.g., 'main-header')
+   * @param {DOMElement} elem - DOM element for the section
    * @param {AnimationBus} bus - Event bus for coordination
    */
-  constructor(sectionId, bus, { reducedMotionHandler } = {}) {
+  constructor(elem, anim, triggers, events, bus, { reducedMotionHandler } = {}) {
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: '#007bff',
       enabled: true,
     });
-    try {
-      this.id = sectionId; // the section element identifier
-      // Provide a null-safe bus fallback
-      this.bus = bus ?? { emit: () => {} }; // prevents TypeError when bus is missing
-      this.element = document.getElementById(sectionId); // the target DOM element
-      this._reducedMotionHandler = reducedMotionHandler;
-      this._introPlayedKey = `${this.constructor.name.toLowerCase()}:introPlayed`;
-      this._introTl = null;
 
-      if (!this.element) {
-        console.warn(
-          `[${this.constructor.name.toLowerCase()}] ${sectionId} not found - section disabled`
-        );
-        return;
-      }
-      // Initialize animation and trigger modules
-      this.animations = new AbstractSectionAnimations(this.element, this.id);
-      this.triggers = new AbstractSectionTriggers(this.element, this.id);
+    this.elem = elem;
+    this.bus = bus ?? { emit: () => {}, on: () => () => {} };
+    this._reducedMotionHandler = reducedMotionHandler;
 
-      // Expose primary timeline for playIntro/playOutro controls
-      this.timeline = this.animations.timeline;
-      this._bindTimelineCallbacks();
-      this.logger.trace(`section initialized`);
-    } catch (error) {
-      this.logger.error(`Error initializing ${this.constructor.name.toLowerCase()}:`, error);
+    if (!this.elem) {
+      console.warn(`[${this.constructor.name.toLowerCase()}] element not found - section disabled`);
+      return;
     }
+
+    this.events = events || {};
+    // Use provided modules; fall back to defaults
+    this.triggers = triggers ?? new AbstractSectionTriggers(this.elem);
+    this.setAnimations(anim ?? new AbstractSectionAnimations(this.elem));
   }
 
   onEnterScroll() {
@@ -99,41 +87,26 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playIntro() {
-    if (!this.element) {
+    if (!this.elem) {
       this.logger.trace(`Cannot play intro - element not found`);
       return;
-    } else {
-      // this.logger.trace(`I was told to play my intro animation`);
     }
 
-    // Broadcast standardized event for intro start (subclass-provided)
-    if (this.events?.introStart) {
-      this._emit(this.events.introStart, {
-        sectionId: this.id,
-        element: this.element,
-      });
-    } else {
-      this.logger.trace(`No introStart event defined`);
+    if (this.events.introStart) {
+      this._emit(this.events.introStart, { element: this.elem });
     }
-
     const introRunner =
       typeof this.animations?.intro === 'function'
         ? this.animations.intro()
-        : this.timeline.restart();
+        : this.timeline?.play(0);
 
     const waitable =
       introRunner && typeof introRunner.then === 'function' ? introRunner : this.timeline;
 
-    return waitable.then(() => {
+    return waitable?.then?.(() => {
       this.isIntroComplete = true;
-      // Broadcast standardized event for intro complete (subclass-provided)
-      if (this.events?.introComplete) {
-        this._emit(this.events.introComplete, {
-          sectionId: this.id,
-          element: this.element,
-        });
-      } else {
-        this.logger.trace(`No introComplete event defined`);
+      if (this.events.introComplete) {
+        this._emit(this.events.introComplete, { sectionId: this.id, element: this.elem });
       }
     });
   }
@@ -147,7 +120,7 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
-    if (!this.element) {
+    if (!this.elem) {
       this.logger.warn(`Cannot play outro - element not found`);
       return;
     } else {
@@ -276,21 +249,21 @@ export default class AbstractSection {
     }
 
     // 2) Gate intro by sessionStorage (play once per session).
-    const hasPlayed = this._hasIntroPlayed();
+    // const hasPlayed = this._hasIntroPlayed();
 
-    if (!hasPlayed) {
-      this._introTl = this._createIntroTimeline();
-      if (this._introTl) {
-        this._introTl.eventCallback('onComplete', () => this._markIntroPlayed());
-        this._introTl.play(0);
-      } else {
-        // No intro timeline defined; mark as played to avoid re-running
-        this._markIntroPlayed();
-      }
-    } else {
-      // Apply end state instantly if intro has already played.
-      this._applyPostIntroState();
-    }
+    // if (!hasPlayed) {
+    //   this._introTl = this._createIntroTimeline();
+    //   if (this._introTl) {
+    //     this._introTl.eventCallback('onComplete', () => this._markIntroPlayed());
+    //     this._introTl.play(0);
+    //   } else {
+    //     // No intro timeline defined; mark as played to avoid re-running
+    //     this._markIntroPlayed();
+    //   }
+    // } else {
+    //   // Apply end state instantly if intro has already played.
+    //   this._applyPostIntroState();
+    // }
 
     // 3) Initialize any scroll-based animations/triggers.
     this._setupScrollAnimations();
@@ -329,6 +302,7 @@ export default class AbstractSection {
 
   // Safe bus emitter
   _emit(eventName, payload) {
+    this.logger.trace(`Emitting event: ${eventName}`);
     if (!eventName) return;
     if (this.bus && typeof this.bus.emit === 'function') {
       this.bus.emit(eventName, payload);

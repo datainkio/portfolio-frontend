@@ -23,21 +23,19 @@ export default class HeroAnimations extends AbstractSectionAnimations {
    * @param {string} sectionId
    * @param {Object} options
    */
-  constructor(element, sectionId, options = {}) {
-    super(element, sectionId);
+  constructor(element, options = {}) {
+    super(element);
     this.options = options;
     this.originalText = this.element?.textContent || '';
 
-    // Here's where we tell the timeline what to do
-    this.timeline.add(this._scramble());
-    this.setDefault({});
+    // Build animations directly on this.timeline instead of nesting
+    this._buildScrambleAnimation();
+    super.setDefault(options);
   }
 
-  async setDefault(props = {}) {
-    super.setDefault(props);
-  }
-
+  // Override AbstractSectionAnimations
   intro() {
+    // Return the play promise so AbstractSection can await completion
     return this.timeline.play(0);
   }
 
@@ -46,29 +44,27 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     return super.outro();
   }
 
-  _scramble() {
-    const tl = gsap.timeline();
-    const split = new SplitText(this.element, { type: 'words' });
-    // For each word...
-    split.words.forEach(word => {
-      // make it take the full width to prevent layout shift
-      word.classList.add('w-full');
-      // set the initial text to blanks
-      let finalText = word.textContent;
-      word.textContent = '';
-      // and give it a scramble animation
-      tl.to(word, {
-        duration: DURATION,
-        scrambleText: {
-          text: finalText,
-          revealDelay: REVEAL_DELAY,
-          speed: SPEED,
-        },
-        stagger: STAGGER,
-        ease: EASE,
-      });
+  _buildScrambleAnimation() {
+    const split = new SplitText(this.elem, { type: 'words' });
 
-      return tl;
+    split.words.forEach((word, index) => {
+      word.classList.add('w-full');
+      const finalText = word.textContent;
+      word.textContent = '';
+
+      this.timeline.to(
+        word,
+        {
+          duration: DURATION,
+          scrambleText: {
+            text: finalText,
+            revealDelay: REVEAL_DELAY,
+            speed: SPEED,
+          },
+          ease: EASE,
+        },
+        index * STAGGER
+      );
     });
   }
 }

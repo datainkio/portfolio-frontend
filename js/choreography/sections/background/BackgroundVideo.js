@@ -28,49 +28,18 @@ export default class BackgroundVideo extends AbstractSection {
    * - _createIntroTimeline(): Hook for subclasses to provide intro timeline
    */
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    super(SELECTORS.video, bus, { reducedMotionHandler });
-    if (!this.element) {
-      this.logger.warn('element not found - animations disabled');
+    var elem = document.getElementById(SELECTORS.video);
+    var anim = new BackgroundVideoAnimations(elem, ANIMATION_DEFAULTS);
+    var triggers = new BackgroundVideoTriggers(elem);
+    var events = EVENTS.video;
+
+    super(elem, anim, triggers, events, bus, { reducedMotionHandler });
+
+    if (!elem) {
+      this.logger.trace('element not found; skipping initialization.', elem);
       return;
     }
-
-    this.container = document.getElementById(SELECTORS.video);
-    this.videoEl = this.element.querySelector('video');
-    if (this.videoEl) {
-      this.videoEl.pause(); // Ensure video is paused initially
-    }
-
-    if (!this.container) {
-      this.logger.warn('scroll triggers disabled');
-    }
-
-    // Set initial state
-    gsap.set(this.element, {
-      yPercent: 100,
-      rotation: 20,
-      transformOrigin: 'center center',
-    });
-
-    // Map standardized events for this section
-    this.events = {
-      introStart: EVENTS.video.introStart,
-      introComplete: EVENTS.video.introComplete,
-      outroStart: EVENTS.video.outroStart,
-      outroComplete: EVENTS.video.outroComplete,
-    };
-
-    // Initialize animations
-    this.animations = new BackgroundVideoAnimations(
-      this.element,
-      this.id,
-      ANIMATION_DEFAULTS.video
-    );
-    this._replaceAnimations(this.animations);
-
-    if (this.container) {
-      this.videoTriggers = new BackgroundVideoTriggers(this.container, SELECTORS.video, this);
-      // this.videoTriggers.watchScrollLifecycle();
-    }
+    // this._instrumentVideoTimeline();
   }
 
   _replaceAnimations(videoAnimations) {

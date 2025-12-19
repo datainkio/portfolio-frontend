@@ -6,7 +6,8 @@ subtitle: 'The online studio for Russ Lebo'
 metaDescription: 'no metaDescription defined'
 metaKeywords: 'user experience, eleventy, tailwind'
 canonicalUrl: 'https://dataink.io'
-bodyClasses: 'bg-transparent bg-graphpaper-dark bg-graphpaper-sm'
+bodyClasses: ''
+contentClasses: 'bg-neutral-900'
 skipLinks:
   - hero
   - bio
@@ -14,6 +15,18 @@ skipLinks:
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
-  {% include "organisms/section/hero/text.njk" %}
-  {% include "organisms/section/bio/bio.njk" %}
-  {% include "organisms/section/work/featured.njk" %}
+  {% import "atoms/gel/gel.njk" as gelAtom %}
+  {% import "organisms/section/hero/text.njk" as heroSection %}
+  {% import "organisms/section/bio/bio.njk" as bioSection %}
+  {% import "organisms/section/work/featured.njk" as featuredWork %}
+  {% import "molecules/background/video.njk" as background %}
+
+  {{ background.render({ 
+    id:"sizzle-background", 
+    videoSrc: "/assets/video/sizzle.mp4", 
+    classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
+
+  {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
+  {{ heroSection.render( { id: "hero", title: title }) }}
+  {{ bioSection.render() }}
+  {{ featuredWork.render() }}

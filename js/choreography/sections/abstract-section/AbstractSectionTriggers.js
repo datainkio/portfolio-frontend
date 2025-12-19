@@ -13,9 +13,8 @@ export default class AbstractSectionTriggers {
    * @param {HTMLElement|null} element - Target element for triggers
    * @param {string} sectionId - Section identifier
    */
-  constructor(element, sectionId) {
+  constructor(element) {
     this.element = element;
-    this.id = sectionId;
     this._triggers = [];
   }
 

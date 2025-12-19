@@ -42,10 +42,10 @@ export class LandingSequence {
     this.state.isStarted = true;
 
     try {
-      this.sections.splash.playIntro();
+      this.sections.hero.playIntro();
       // logger.trace('Hero intro started', null, 'brief', 'standard');
     } catch (error) {
-      // logger.trace('Error starting hero intro', error, 'verbose', 'error');
+      this.logger.trace('Error starting hero intro', error, 'verbose', 'error');
       this.state.isStarted = false;
     }
   }
@@ -97,25 +97,16 @@ export class LandingSequence {
     };
 
     // Splash intro finished → start hero intro
-    on(EVENTS.splash.introStart, () => {
-      this.logger.trace('Splash intro started');
+    on(EVENTS.hero.introStart, () => {
+      this.logger.trace('Hero intro started');
     });
 
     // Splash intro finished → start hero intro
-    on(EVENTS.splash.introComplete, () => {
-      this.logger.trace('Splash intro complete');
+    on(EVENTS.hero.introComplete, () => {
+      this.logger.trace('Hero intro complete');
+      // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
-      this.sections?.video?.playIntro?.();
-    });
-
-    // Hero outro finished → start work intro
-    on(EVENTS.hero.outroComplete, () => {
-      this.sections?.work?.playIntro?.();
-    });
-
-    // Work intro finished → mark sequence complete
-    on(EVENTS.work.introComplete, () => {
-      this.state.isComplete = true;
+      //  this.sections?.video?.playIntro?.();
     });
   }
 }

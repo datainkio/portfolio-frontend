@@ -129,8 +129,8 @@ export default class GelAnimationManager {
     if (this._reducedMotionHandler?.isReducedMotion()) return;
     if (this._gels.length === 0) return;
 
-    this._killExistingTrigger();
-    this._createScrollTrigger(scroller, trigger);
+    // this._killExistingTrigger();
+    // this._createScrollTrigger(scroller, trigger);
   }
 
   /** @private */
@@ -212,7 +212,7 @@ export default class GelAnimationManager {
   shrinkGelToViewportFraction(gelIndex = 0, { x = 1, y = 1, origin = 'center' } = {}) {
     if (this._reducedMotionHandler?.isReducedMotion()) return;
     const gel = this._gels[gelIndex];
-    console.log('Shrinking gel', gelIndex, 'to width', x, 'and height', y, 'from the', origin);
+    // console.log('Shrinking gel', gelIndex, 'to width', x, 'and height', y, 'from the', origin);
     if (!gel) return;
 
     const scaleState = { x: x, y: y, origin: origin };

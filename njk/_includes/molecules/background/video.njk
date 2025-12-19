@@ -1,5 +1,4 @@
 {% import "atoms/video/video.njk" as videoAtom %}
-{% import "atoms/gel/gel.njk" as gelAtom %}
 
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
@@ -15,14 +14,6 @@
       playsInline: true,
       className: "bg-video"
     }) }}
-    {#
-      1. id specifies which gel layer GelManipulator will control
-      2. Gel layers are positioned and animated via JS (GelManipulator)
-      3. Multiple gel layers can be stacked for more complex visual effects
-      4. Gel layers can be linked with DOM elements to sync movement (see config.js)
-    #}
-    {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
-
   </div>
 {% endmacro %}
 

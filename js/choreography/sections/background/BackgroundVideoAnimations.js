@@ -23,33 +23,37 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
    * @param {string} sectionId
    * @param {Object} options
    */
-  constructor(element, sectionId, options = {}) {
-    super(element, sectionId);
+  constructor(element, options = {}) {
+    super(element);
     this.options = options;
     this.originalText = this.element?.textContent || '';
 
     // Here's where we tell the timeline what to do
-    // this.timeline.add(this._scramble());
-    this.setDefault({});
+    this.timeline.add(this.intro());
+    this.setDefault();
   }
 
   async setDefault(props = {}) {
-    super.setDefault(props);
+    super.setDefault({
+      yPercent: 110,
+      rotation: 20,
+      transformOrigin: 'center center',
+    });
   }
 
   intro() {
-    this.videoEl = this.element.querySelector('video');
+    this.videoEl = this.elem.querySelector('video');
     if (this.videoEl) {
       this.videoEl.play();
     }
     var tl = gsap.timeline();
-    tl.to(this.element, {
+    tl.to(this.elem, {
       yPercent: 0,
       rotation: 0,
       duration: 1.5,
       ease: 'power2.out',
     });
-    return tl.play(0);
+    return tl;
   }
 
   outro() {
