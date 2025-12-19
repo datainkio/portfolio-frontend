@@ -1,5 +1,5 @@
 ---
-layout: templates/gsap-scroll.njk
+layout: templates/long-scroll.njk
 permalink: /
 title: 'Build What Matters'
 subtitle: 'The online studio for Russ Lebo'
@@ -15,18 +15,11 @@ skipLinks:
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
-  {% import "atoms/gel/gel.njk" as gelAtom %}
+
   {% import "organisms/section/hero/text.njk" as heroSection %}
   {% import "organisms/section/bio/bio.njk" as bioSection %}
   {% import "organisms/section/work/featured.njk" as featuredWork %}
-  {% import "molecules/background/video.njk" as background %}
 
-  {{ background.render({ 
-    id:"sizzle-background", 
-    videoSrc: "/assets/video/sizzle.mp4", 
-    classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
-
-  {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
   {{ heroSection.render( { id: "hero", title: title }) }}
   {{ bioSection.render() }}
   {{ featuredWork.render() }}

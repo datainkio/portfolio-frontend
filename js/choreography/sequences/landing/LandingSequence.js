@@ -106,7 +106,7 @@ export class LandingSequence {
       this.logger.trace('Hero intro complete');
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
-      //  this.sections?.video?.playIntro?.();
+      this.sections?.video?.playIntro?.();
     });
   }
 }

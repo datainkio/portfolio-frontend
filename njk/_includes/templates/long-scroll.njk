@@ -29,7 +29,15 @@
   <body class="{{ bodyClasses }}">
     {% include "atoms/gtm-noscript.njk" %}
     {% include "organisms/header/global.njk" %}
+  {% import "atoms/gel/gel.njk" as gelAtom %}
+  {% import "molecules/background/video.njk" as background %}
 
+  {{ background.render({ 
+    id:"sizzle-background", 
+    videoSrc: "/assets/video/sizzle.mp4", 
+    classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
+
+  {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
     {# Main content wrapper - GSAP ScrollSmoother target #}
     <main id="smooth-wrapper" class="{{ mainClasses }}" data-scroll-container>
         <div id="smooth-content" class="{{ contentClasses }}">
