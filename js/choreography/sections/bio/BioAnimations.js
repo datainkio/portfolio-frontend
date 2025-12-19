@@ -11,7 +11,7 @@ const REVEAL_DELAY = 0; // Delay before starting reveal animations
 const SPEED = 0.2; // Speed of the scramble text effect
 const EASE = 'power1.out';
 
-export default class BackgroundVideoAnimations extends AbstractSectionAnimations {
+export default class BioAnimations extends AbstractSectionAnimations {
   /**
    * Extends AbstractSectionAnimations, which:
    * - Stores the section root element and ID
@@ -25,43 +25,5 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   constructor(view, options = {}) {
     super(view);
     this.options = options;
-
-    // Here's where we tell the timeline what to do
-    this._rotateIn();
-    this.setDefault();
-  }
-
-  async setDefault(props = {}) {
-    super.setDefault({
-      yPercent: 110,
-      rotation: 20,
-      transformOrigin: 'center center',
-    });
-  }
-
-  // Override AbstractSectionAnimations
-  intro() {
-    // Return the play promise so AbstractSection can await completion
-    return this.timeline.play(0);
-  }
-
-  _rotateIn() {
-    this.videoEl = this.view.querySelector('video');
-
-    if (this.videoEl) {
-      this.videoEl.play();
-    }
-
-    this.timeline.to(this.view, {
-      yPercent: 0,
-      rotation: 0,
-      duration: 1.5,
-      ease: 'power2.out',
-    });
-  }
-
-  outro() {
-    // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
-    return super.outro();
   }
 }

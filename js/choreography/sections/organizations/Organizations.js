@@ -1,6 +1,6 @@
 /** @format */
 /**
- * Hero Section Controller
+ * Organizations Section Controller
  *
  * Extends AbstractSection to use shared lifecycle and AnimationBus coordination.
  */
@@ -8,15 +8,15 @@
 import AbstractSection from '../abstract-section/AbstractSection.js';
 import { EVENTS } from '../../constants.js';
 import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
-import HeroAnimations from './HeroAnimations.js';
-import HeroTriggers from './HeroTriggers.js';
+import OrganizationsAnimations from './OrganizationsAnimations.js';
+import OrganizationsTriggers from './OrganizationsTriggers.js';
 
-export default class Hero extends AbstractSection {
+export default class Organizations extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    const view = document.getElementById(SELECTORS.hero);
-    const anim = new HeroAnimations(view, ANIMATION_DEFAULTS);
-    const triggers = new HeroTriggers(view);
-    const events = EVENTS.hero;
+    const view = document.getElementById(SELECTORS.organizations);
+    const anim = new OrganizationsAnimations(view, ANIMATION_DEFAULTS);
+    const triggers = new OrganizationsTriggers(view);
+    const events = EVENTS.organizations;
 
     super(view, anim, triggers, events, bus, { reducedMotionHandler });
 

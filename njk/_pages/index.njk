@@ -18,8 +18,10 @@ scripts: >
 
   {% import "organisms/section/hero/text.njk" as heroSection %}
   {% import "organisms/section/bio/bio.njk" as bioSection %}
+  {% import "organisms/section/organizations/organizations.njk" as organizationsSection %}
   {% import "organisms/section/work/featured.njk" as featuredWork %}
 
   {{ heroSection.render( { id: "hero", title: title }) }}
-  {{ bioSection.render() }}
+  {{ bioSection.render({id: "bio"}) }}
+  {{ organizationsSection.render( { id: "organizations", heading: "Organizations" }) }}
   {{ featuredWork.render() }}

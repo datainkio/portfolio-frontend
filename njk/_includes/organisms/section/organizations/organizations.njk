@@ -1,0 +1,16 @@
+{% macro render(params = {}) %}
+  {%- set sectionId = params.id | default("organizations") -%}
+  {%- set size = params.size | default("col-span-full") -%}
+  {%- set layout = params.layout | default("grid grid-cols-subgrid") -%}
+  {%- set positioning = params.positioning | default("flex items-center justify-items-start") -%}
+  {%- set heading = params.heading | default(heading) -%}
+  {%- set rulerOptions = params.ruler | default({}) -%}
+
+  {# Landing view - GSAP Organizations Controller Target #}
+  <section id="{{ sectionId }}" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
+    <h2
+      id="organizations-title">
+      {{ heading }}
+    </h2>
+  </section>
+{% endmacro %}

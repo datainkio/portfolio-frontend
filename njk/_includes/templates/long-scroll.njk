@@ -48,21 +48,17 @@
             {% loremPars 3 %}
             {% endif %}
         {% endblock %}
+        
+        {% import "organisms/footer/global.njk" as footer %}
+        {{ footer.render() }}
         </div>
     </main>
-    
-    {% include "organisms/layout/footer.njk" %}
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollSmoother.min.js"></script>
     <script>
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
     </script>
-    {# Import blocked-scroll utility (module) #}
-    {#
-    <script type="module" defer>
-      import '/assets/js/utils/diagnostics/scroll-blocked.js';
-    </script>
   </body>
-  #}
 </html>

@@ -19,14 +19,13 @@ export default class HeroAnimations extends AbstractSectionAnimations {
    * - Provides common utilities (pause/resume/reset) used by sections
    */
   /**
-   * @param {HTMLElement} element
-   * @param {string} sectionId
+   * @param {HTMLElement} view
    * @param {Object} options
    */
-  constructor(element, options = {}) {
-    super(element);
+  constructor(view, options = {}) {
+    super(view);
     this.options = options;
-    this.originalText = this.element?.textContent || '';
+    this.originalText = this.view?.textContent || '';
 
     // Build animations directly on this.timeline instead of nesting
     this._buildScrambleAnimation();
@@ -40,12 +39,13 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   outro() {
+    this.logger?.trace('outro started');
     // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
-    return super.outro();
+    return this.timeline.reverse();
   }
 
   _buildScrambleAnimation() {
-    const split = new SplitText(this.elem, { type: 'words' });
+    const split = new SplitText(this.view, { type: 'words' });
 
     split.words.forEach((word, index) => {
       word.classList.add('w-full');

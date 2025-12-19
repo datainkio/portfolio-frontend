@@ -2,7 +2,7 @@
 
 import AbstractSectionTriggers from '../abstract-section/AbstractSectionTriggers.js';
 
-export default class BackgroundVideoTriggers extends AbstractSectionTriggers {
+export default class BioTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
   }

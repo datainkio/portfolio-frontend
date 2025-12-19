@@ -37,6 +37,7 @@ export class LandingSequence {
    * Kicks off choreography by playing hero intro.
    * Event listeners handle subsequent animations automatically.
    */
+
   start() {
     if (this.state.isStarted) return;
     this.state.isStarted = true;
@@ -96,17 +97,142 @@ export class LandingSequence {
       this._listeners.push(off);
     };
 
-    // Splash intro finished → start hero intro
-    on(EVENTS.hero.introStart, () => {
-      this.logger.trace('Hero intro started');
+    /**
+     * HERO EVENTS
+     */
+
+    // Respond to hero intro start
+    on(EVENTS.hero.enter, () => {
+      this.logger.trace('Hero entered');
     });
 
-    // Splash intro finished → start hero intro
+    on(EVENTS.hero.exit, () => {
+      this.logger.trace('Hero exited');
+    });
+
+    // Respond to hero intro start
+    on(EVENTS.hero.introStart, () => {
+      // this.logger.trace('Hero intro started');
+    });
+
+    // Respond to hero intro complete
     on(EVENTS.hero.introComplete, () => {
-      this.logger.trace('Hero intro complete');
+      // this.logger.trace('Hero intro complete');
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to hero outro start
+    on(EVENTS.hero.outroStart, () => {
+      // this.logger.trace('Hero outro started');
+    });
+
+    // Respond to hero outro complete
+    on(EVENTS.hero.outroComplete, () => {
+      // this.logger.trace('Hero outro complete');
+      this.sections?.work?.playIntro?.();
+    });
+
+    /**
+     * BACKGROUNDVIDEO ANIMATION EVENTS
+     */
+    // Respond to hero intro start
+    on(EVENTS.video.introStart, () => {
+      // this.logger.trace('BG Video intro started');
+    });
+
+    // Respond to hero intro complete
+    on(EVENTS.video.introComplete, () => {
+      // this.logger.trace('BG Video intro complete');
+      // this.gelManager?
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      // this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to hero outro start
+    on(EVENTS.video.outroStart, () => {
+      this.logger.trace('BG Video outro started');
+    });
+
+    // Respond to hero outro complete
+    on(EVENTS.video.outroComplete, () => {
+      this.logger.trace('BG Video outro complete');
+      this.sections?.work?.playIntro?.();
+    });
+
+    /**
+     * ORGANIZATIONS EVENTS
+     */
+
+    // Respond to organizations intro start
+    on(EVENTS.organizations.enter, () => {
+      this.logger.trace('Organizations entered');
+    });
+
+    on(EVENTS.organizations.exit, () => {
+      this.logger.trace('Organizations exited');
+    });
+
+    // Respond to organizations intro start
+    on(EVENTS.organizations.introStart, () => {
+      // this.logger.trace('Organizations intro started');
+    });
+
+    // Respond to organizations intro complete
+    on(EVENTS.organizations.introComplete, () => {
+      // this.logger.trace('Organizations intro complete');
+      // this.gelManager?
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to organizations outro start
+    on(EVENTS.organizations.outroStart, () => {
+      // this.logger.trace('Organizations outro started');
+    });
+
+    // Respond to organizations outro complete
+    on(EVENTS.organizations.outroComplete, () => {
+      // this.logger.trace('Organizations outro complete');
+      this.sections?.work?.playIntro?.();
+    });
+
+    /**
+     * BIO EVENTS
+     */
+
+    // Respond to bio intro start
+    on(EVENTS.bio.enter, () => {
+      this.logger.trace('Bio entered');
+    });
+
+    on(EVENTS.bio.exit, () => {
+      this.logger.trace('Bio exited');
+    });
+
+    // Respond to bio intro start
+    on(EVENTS.bio.introStart, () => {
+      // this.logger.trace('Bio intro started');
+    });
+
+    // Respond to bio intro complete
+    on(EVENTS.bio.introComplete, () => {
+      // this.logger.trace('Bio intro complete');
+      // this.gelManager?
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      // this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to bio outro start
+    on(EVENTS.bio.outroStart, () => {
+      // this.logger.trace('Bio outro started');
+    });
+
+    // Respond to bio outro complete
+    on(EVENTS.bio.outroComplete, () => {
+      // this.logger.trace('Bio outro complete');
+      // this.sections?.work?.playIntro?.();
     });
   }
 }

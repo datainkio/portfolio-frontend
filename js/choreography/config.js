@@ -34,8 +34,8 @@
  */
 export const SELECTORS = {
   video: 'sizzle-background',
-  splash: 'splash-loader',
-  biography: 'biography',
+  organizations: 'organizations',
+  bio: 'bio',
   work: 'work',
 
   // Scroll smoothing container (optional - enables ScrollSmoother)
