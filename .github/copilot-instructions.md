@@ -6,32 +6,167 @@ These instructions make AI coding agents immediately productive in this repo by 
 
 ## Big Picture
 
-- **11ty static site**: Nunjucks templates in `njk/` generate `_site/`. Atomic design components live under `njk/_includes/`.
-- **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*`.
-- **Content via Airtable**: Data fetched at build time and exposed as 11ty collections. Config in `njk/_data/site.json`; schema in `njk/_data/airtableSchema.json`.
-- **Tailwind v4**: Uses `@tailwindcss/cli`. CSS import order matters for correct token application.
-- **Animation system**: GSAP-based choreography under `js/choreography/` with managers, sections, and event bus.
+- **11ty static site**: Nunjucks templates in `njk/` generate `_site/`. Atomic design components live under `njk/_includes/` following atomic design principles.
+- **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
+- **Content via Airtable**: Data fetched at build time and exposed as 11ty collections. Config in `njk/_data/site.json`; schema in `njk/_data/dbSchema.json` (not airtableSchema.json).
+- **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
+- **Animation system**: GSAP-based choreography under `js/choreography/` with Director, StageManager, AnimationBus, section controllers, and specialized managers.
+- **Logging**: Unified `@datainkio/lumberjack` logger across Node and browser environments for consistent output.
 
 ## Core Workflows
 
 ```bash
+# Setup
 npm install                  # Required on fresh clone
-npm run build:design         # Sync Figma tokens → CSS
-npm run build:11ty           # Compile Nunjucks → _site/
-npm start                    # Tailwind watch + 11ty serve
+
+# Development (most common)
+npm start                    # Runs dev:css + dev:11ty in parallel (Tailwind watch + 11ty serve)
+npm run dev                  # Same as npm start
+
+# Building
+npm run build                # Full build: clean → sync:content → build:design → build:css → build:11ty
+npm run fresh                # Same as build (full clean build)
+npm run quick                # Fast build: css + 11ty only (skips Figma/Airtable sync)
+
+# Design System
+npm run build:design         # Sync Figma tokens → CSS (fetchFigma.js → services → CSS files)
+npm run design               # build:design + build:css (design tokens + CSS compilation)
+
+# Content Management
+npm run sync:content         # Fetch Airtable data and generate collections
+npm run sync:content:force   # Force refresh ignoring cache
+npm run sync:content:quick   # Clear cache + rebuild without full sync
+
+# Schema Generation
+npm run schema:generate      # Generate njk/_data/dbSchema.json from Airtable base
+
+# CSS Building
+npm run build:css            # Production build (minified) via buildCSS.js wrapper
+npm run build:css:dev        # Development build (unminified, detailed analysis)
+npm run dev:css              # Watch mode (continuous building)
+
+# Testing
+npm run test                 # Run logger tests
+npm run test:choreography    # Test animation event system
+npm run validate             # Full validation: format check + test + preview build
+
+# Maintenance
+npm run clean                # Clear _site/ folder
+npm run clean:debug          # Clear _site/ with debug logging
+npm run format               # Format all files with Prettier
+npm run format:check         # Check formatting without changing files
+npm run format:njk           # Format only Nunjucks templates
+
+# Scaffolding
+npm run scaffold:component   # Generate new atomic design component
+npm run scaffold:page        # Generate new page template
+npm run scaffold:list        # List available scaffolds
+
+# Utilities
+npm run doctor               # Run system health checks
+npm run help                 # Show available workflows
+npm run ref                  # Quick reference guide
+npm run setup                # Validate environment and run system check
+
+# Diagrams
+npm run diagrams:export      # Export all Mermaid diagrams to SVG
+npm run diagrams:export:onboarding          # Export onboarding diagrams
+npm run diagrams:export:choreography        # Export choreography diagrams
 ```
 
-- Always run `build:design` before `build:11ty` to ensure CSS tokens are up to date.
-- Env vars required: `FIGMA_TOKEN`, `AIRTABLE_PERSONAL_ACCESS_TOKEN`, `AIRTABLE_BASE_TOKEN`.
+**Critical Environment Variables:**
+
+- `FIGMA_TOKEN` - Required for design token sync
+- `AIRTABLE_PERSONAL_ACCESS_TOKEN` - Required for CMS data fetch
+- `AIRTABLE_BASE_TOKEN` - Base ID for Airtable connection
+
+**Build Order Dependencies:**
+
+1. `build:design` must run before `build:css` to ensure tokens exist
+2. `sync:content` fetches Airtable data needed for 11ty collections
+3. CSS must be built for correct styling in `_site/`
 
 ## Key Directories & Files
 
-- Templates: `njk/_pages/` (routes), `njk/_includes/` (atoms/molecules/organisms/templates)
-- Data: `njk/_data/site.json` (Airtable config), `njk/_data/airtableSchema.json` (schema)
-- Collections: `eleventy/collections/content.js` (auto-collection mapping)
-- Design sync: `scripts/fetchFigma.js`, `figma/services/PaletteService.js`, `figma/services/TypographyService.js`
-- Styles: `styles/main.css`, `styles/colors.css`, `styles/typography/*`
-- JS runtime: `js/main.js`, `js/choreography/*`, `js/utils/lumberjack/*`
+**Templates & Structure**
+
+- `njk/_pages/` - Routes and page templates (generates \_site/ structure)
+- `njk/_includes/` - Atomic design components (atoms/molecules/organisms/templates)
+- `.eleventy.js` - 11ty config (plugins, collections, filters, shortcodes)
+- `eleventy/` - Modular 11ty configuration
+  - `collections/` - Collection definitions (auto-generated from Airtable)
+  - `filters/` - Nunjucks filters
+  - `shortcodes/` - Reusable template functions
+  - `plugins/` - 11ty plugins
+  - `services/` - Build-time services
+
+**Data & Schema**
+
+- `njk/_data/site.json` - Global site config + Airtable table definitions
+- `njk/_data/dbSchema.json` - **Primary schema file** (generated from Airtable)
+- `njk/_data/introduction.json` - Site introduction content
+- `.copilot/` - Context files for AI (copies of schema for reference)
+
+**Design System**
+
+- `scripts/fetchFigma.js` - Main Figma sync orchestrator
+- `figma/index.js` - Service exports
+- `figma/services/` - Design token processors
+  - `FileService.js` - Fetch Figma file data
+  - `StyleService.js` - Extract style definitions
+  - `PaletteService.js` - Generate color CSS custom properties → `styles/colors.css`
+  - `TypographyService.js` - Generate font families → `styles/typography/fontFamilies.css`
+- `figma/api/` - Figma REST API client
+- `figma/models/` - Data models for design tokens
+- `figma/utils/` - Color conversion and formatting utilities
+
+**Styles**
+
+- `styles/main.css` - **Critical import order**: fonts → Tailwind → base → theme → components
+- `styles/colors.css` - Auto-generated color tokens from Figma
+- `styles/typography/` - Font imports and utilities
+  - `imports.css` - Font @import statements (must be first in main.css)
+  - `fontFamilies.css` - Auto-generated from Figma
+- `styles/base.css` - Global resets and base styles
+- `styles/animations.css` - GSAP integration styles
+- `styles/utilities/` - Custom Tailwind utilities (mask, text, reduced-motion)
+- `styles/components/` - Component-specific styles
+- `tailwind.config.js` - Tailwind configuration (v4)
+- `postcss.config.js` - PostCSS configuration
+
+**JavaScript Runtime**
+
+- `js/main.js` - Browser entry point (imports Director)
+- `js/choreography/` - Animation system
+  - `Director.js` - Master coordinator (initializes everything)
+  - `StageManager.js` - Scroll smoothing & background effects coordinator
+  - `AnimationBus.js` - Event system for section coordination
+  - `sections/` - Section-specific controllers (Hero, Work, Biography, etc.)
+  - `sequences/` - Animation choreography (LandingSequence)
+  - `managers/` - Specialized managers (ReducedMotion, BackgroundLayer, ScrollSmoother, GelAnimation)
+  - `config.js` - Animation configuration constants
+- `js/utils/lumberjack/` - **Note**: Uses `@datainkio/lumberjack` npm package, not local files
+
+**Content Management**
+
+- `airtable/` - Airtable integration
+  - `fetchAirtableData.js` - Data fetching service
+  - `ImageProcessingStatus.js` - Image processing utilities
+- `scripts/syncContent.js` - Content sync orchestrator
+- `scripts/generateAirtableSchema.js` - Schema generator
+
+**Build System**
+
+- `scripts/buildCSS.js` - Tailwind CLI wrapper with logging
+- `scripts/clearCache.js` - Cache management
+- `scripts/clearSiteFolder.js` - Clean \_site/ directory
+- `scripts/scaffold.js` - Component/page generator
+- `package.json` - All npm scripts and dependencies
+
+**Assets**
+
+- `assets/` - Source assets (fonts, images, icons, svg, video)
+- `_site/assets/` - Built assets (copied + generated)
 
 ## Nunjucks Conventions
 
@@ -53,32 +188,127 @@ Example macro:
 
 ## GSAP Choreography
 
-- Register plugins: `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)` before use.
-- Controllers: `js/choreography/sections/*` (e.g., `Hero.js`, `Work.js`), coordinated by `Director.js` and `AnimationBus`.
-- `StageManager` expects existing DOM `#overlay-view` with a child `video`; template must render it first via overlay-view molecule.
+**Architecture Overview**
 
-Overlay-View usage:
+- `Director.js` - Master coordinator that initializes all animation systems
+- `AnimationBus.js` - Event-driven coordination between sections (pub/sub pattern)
+- `StageManager.js` - Scroll smoothing, background effects, and specialized managers
+- `LandingSequence.js` - Choreographs animation flow by listening to events
 
-```njk
-{% import "molecules/overlay-view/overlay-view.njk" as overlayView %}
-{{ overlayView.render({ videoSrc: "/assets/video/sizzle.mp4" }) }}
+**Section Controllers** (in `js/choreography/sections/`)
+
+- Each section follows pattern: `<Section>.js`, `<Section>Animations.js`, `<Section>Triggers.js`
+- Currently active: `Hero`, `BackgroundVideo` (initialized in Director)
+- Available but unused: `Biography`, `Work`, `Splash`, `Approach`
+- All sections extend `AbstractSection` base class
+- Sections communicate via AnimationBus events (e.g., `hero:intro:start`, `hero:intro:complete`)
+
+**Specialized Managers** (in `js/choreography/managers/`)
+
+- `ReducedMotionHandler` - Accessibility and motion preferences
+- `BackgroundLayerManager` - Fixed background positioning
+- `ScrollSmootherManager` - GSAP smooth scrolling (optional, graceful degradation)
+- `GelAnimationManager` - Gel background animations
+
+**GSAP Setup**
+
+- Plugins registered globally: `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)`
+- ScrollSmoother requires: `#smooth-wrapper` and `#smooth-content` DOM elements
+- Background effects require: `#overlay-view`, `#sizzle-background` elements
+
+**Event Flow Example**
+
+```javascript
+// Section emits event when animation completes
+this.bus.emit('hero:intro:complete');
+
+// LandingSequence listens and triggers next section
+this.bus.on('hero:intro:complete', () => {
+  this.bus.emit('work:intro:start');
+});
 ```
 
 ## Airtable Data Flow
 
-- Configure tables and caching in `njk/_data/site.json`.
-- Collections are generated (lowercase names) and accessible in Nunjucks.
-- Reference schema via `{{ airtableSchema }}` for template safety.
+**Configuration**
+
+- Tables are configured in `njk/_data/site.json` under `airtables` array
+- Each table specifies: `tableName`, `tableView` (Airtable view name), and `cache` duration
+- Views are **case-sensitive** in Airtable - must match exactly
+
+**Schema Generation**
+
+- Run `npm run schema:generate` to create `njk/_data/dbSchema.json`
+- Schema includes: table structure, field types, sample values, relationships
+- Generated during full build process automatically
+- Copy stored in `.copilot/` for AI context
+
+**11ty Collections**
+
+- Collections auto-generated from tables defined in `site.json`
+- Collection names are **lowercase** versions of table names (e.g., `Projects` → `projects`)
+- Access in templates: `{{ collections.projects }}`, `{{ collections.activities }}`, etc.
+- Schema available globally: `{{ dbSchema }}` (not `airtableSchema`)
+
+**Caching**
+
+- Cache duration set per table (e.g., `"cache": "4w"` = 4 weeks)
+- Force refresh: `npm run sync:content:force`
+- Clear cache only: `npm run sync:content:quick`
 
 ## Tailwind & Styles
 
-- CSS import order in `styles/main.css`: fonts → Tailwind → base → generated design files.
-- Tailwind v4 uses `@tailwindcss/cli` (not `tailwindcss` binary).
+**Critical Import Order** (in `styles/main.css`):
+
+1. `typography/imports.css` - Font @import statements (must be outside layers)
+2. `@import 'tailwindcss' layer(base)` - Tailwind base utilities
+3. `base.css` - Global resets building on Tailwind preflight
+4. `colors.css` - Auto-generated Figma color tokens (theme layer)
+5. `typography/fontFamilies.css` - Auto-generated font families (theme layer)
+6. Component and utility styles
+
+**Build Process**
+
+- Tailwind v4 uses `@tailwindcss/cli` package (not `tailwindcss` binary)
+- Wrapped by `scripts/buildCSS.js` for enhanced logging and analysis
+- Never call Tailwind CLI directly - always use npm scripts
+- Watch mode: `npm run dev:css` (continuous building)
+- Production: `npm run build:css` (minified with optimization analysis)
+
+**CSS Layers**
+
+- Uses `@layer` directive for cascade control: `reset`, `theme`, `base`, `utilities`, `components`
+- Provides optimal specificity hierarchy and performance
+
+**Design Token Integration**
+
+- Colors and typography auto-generated from Figma via `build:design`
+- Tokens exposed as CSS custom properties (e.g., `--color-primary-500`)
+- Must rebuild CSS after Figma sync: `npm run design` does both
 
 ## Logging
 
-- Use `js/utils/lumberjack` for unified logging in Node/browser.
-- Pattern: `lumberjack.trace(..., 'brief' | 'verbose', 'standard' | 'success' | 'error')`.
+**Unified Logger System**
+
+- Uses `@datainkio/lumberjack` npm package for Node.js and browser
+- Consistent styling and output across all build scripts and runtime
+- Import: `import logger from '@datainkio/lumberjack';` (Node) or `import lumberjack from '/assets/js/utils/lumberjack/index.js';` (browser)
+
+**Usage Pattern**
+
+```javascript
+logger.trace(title, message, verbosity, style);
+// verbosity: 'brief' | 'verbose'
+// style: 'standard' | 'success' | 'error' | 'headsup' | LumberjackStyle instance
+```
+
+**Features**
+
+- Colored output with emoji indicators
+- Grouping for related operations: `logger.group(async () => { ... })`
+- Script outlines: `logger.showScriptOutline(title, steps, verbosity)`
+- Enable/disable: `logger.enabled = true/false`
+- Custom styles: `new LumberjackStyle(color, emoji)`
 
 ## Common Gotchas
 
