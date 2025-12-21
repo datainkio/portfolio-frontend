@@ -23,11 +23,7 @@ scripts: >
   {% import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection %}
 
   {# TODO: Replace site.airtables with (for example) collections.organizations once Airtable data is fully migrated #}
-  {%- set organizationsTable = site.airtables
-  | selectattr("tableName", "equalto", "Organizations")
-  | first
-  | default({})
--%}
+  {%- set organizationsTable = site.airtables["Organizations"] -%}
   {{ heroSection.render( { id: "hero", title: title }) }}
   {{ bioSection.render({id: "bio"}) }}
   {{ organizationsSection.render( { id: "organizations", heading: "Organizations", data: organizationsTable }) }}
