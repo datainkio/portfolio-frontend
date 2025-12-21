@@ -22,7 +22,13 @@ scripts: >
   {% import "organisms/section/work/featured.njk" as featuredWork %}
   {% import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection %}
 
+  {# TODO: Replace site.airtables with (for example) collections.organizations once Airtable data is fully migrated #}
+  {%- set organizationsTable = site.airtables
+  | selectattr("tableName", "equalto", "Organizations")
+  | first
+  | default({})
+-%}
   {{ heroSection.render( { id: "hero", title: title }) }}
   {{ bioSection.render({id: "bio"}) }}
-  {{ organizationsSection.render( { id: "organizations", heading: "Organizations" }) }}
+  {{ organizationsSection.render( { id: "organizations", heading: "Organizations", data: organizationsTable }) }}
   {{ airtableDebugSection.render({ site: site, collections: collections, schema: dbSchema }) }}
