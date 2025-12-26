@@ -31,7 +31,7 @@
     {# {% include "organisms/layout/header.njk" %} #}
     
     {# Main content wrapper - GSAP ScrollSmoother target #}
-    <main class="col-span-full {{ mainClasses }}" data-scroll-container>
+    <main class="{{ mainClasses }}" data-scroll-container>
       {% block content %}
         {% if content %}
           {{ content | safe }}
