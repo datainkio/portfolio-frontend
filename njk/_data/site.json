@@ -34,6 +34,13 @@
   "directories": {
     "nav": "/njk/_pages/"
   },
+  "sanity": {
+    "projectId": "ofshczbc",
+    "dataset": "production",
+    "apiVersion": "2025-12-26",
+    "useCdn": true,
+    "cache": "1d"
+  },
   "featured_projects": {
     "change": "recQwgxKY1HRlsr8t,recfApOYjAqr88Obf,recwSAfw4ojdC2QBK",
     "museums": "recQwgxKY1HRlsr8t,recfApOYjAqr88Obf,recwSAfw4ojdC2QBK"

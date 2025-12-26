@@ -18,13 +18,9 @@ scripts: >
 
   {% import "organisms/section/hero/text.njk" as heroSection %}
   {% import "organisms/section/bio/bio.njk" as bioSection %}
-  {% import "organisms/section/organizations/logos.njk" as organizationsSection %}
   {% import "organisms/section/work/featured.njk" as featuredWork %}
   {% import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection %}
 
-  {# TODO: Replace site.airtables with (for example) collections.organizations once Airtable data is fully migrated #}
-  {%- set organizationsTable = site.airtables["Organizations"] -%}
   {{ heroSection.render( { id: "hero", title: title }) }}
   {{ bioSection.render({id: "bio"}) }}
-  {{ organizationsSection.render( { id: "organizations", heading: "Organizations", data: organizationsTable }) }}
   {{ airtableDebugSection.render({ site: site, collections: collections, schema: dbSchema }) }}

@@ -20,7 +20,12 @@
  *    - Creates collections based on site.airtables configuration
  *    - Each table becomes a collection (e.g., 'projects', 'work')
  *
- * 2. Navigation (navigation.js):
+ * 2. Sanity CMS (sanity.js):
+ *    - Fetches data from Sanity via GROQ and @sanity/client
+ *    - Creates collections defined in eleventy/sanity/queries.js
+ *    - Uses site.sanity for defaults and caching behavior
+ *
+ * 3. Navigation (navigation.js):
  *    - Builds navigation structure from njk/_pages/ directory
  *    - Creates nav_primary and nav_projects collections
  *    - Respects eleventyNavigation frontmatter
@@ -28,7 +33,8 @@
  * EXECUTION ORDER:
  * 1. site.json loaded (synchronously)
  * 2. initAirtable() - Fetches external data (async)
- * 3. initNavigation() - Builds navigation tree (async)
+ * 3. initSanity() - Fetches Sanity data (async)
+ * 4. initNavigation() - Builds navigation tree (async)
  *
  * ERROR HANDLING:
  * - Catches and logs errors from collection initializers
@@ -58,6 +64,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { init as initNavigation } from './navigation.js';
 import { init as initAirtable } from './content.js';
+import { init as initSanity } from './sanity.js';
 import { init as initDocumentation } from './documentation.js';
 
 // ESM __dirname equivalent
@@ -92,12 +99,15 @@ export default async function (eleventyConfig) {
     // These have no dependencies and are required by navigation
     await initAirtable(eleventyConfig, site);
 
-    // STEP 2: Initialize navigation collections AFTER Airtable
+    // STEP 2: Initialize Sanity collections
+    await initSanity(eleventyConfig, site);
+
+    // STEP 3: Initialize navigation collections AFTER Airtable
     // nav_projects depends on 'projects' collection from Airtable
     // nav_primary depends on nav_dirs and nav_projects
     await initNavigation(eleventyConfig, site);
 
-    // STEP 3: Initialize documentation collection
+    // STEP 4: Initialize documentation collection
     // Auto-discovers README.md files and creates documentation pages
     await initDocumentation(eleventyConfig);
   } catch (error) {

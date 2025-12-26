@@ -19,5 +19,7 @@
   },
   "svg.preview.background": "white",
   "svgviewer.transparencygrid": false,
-  "svg.preview.backgroundCustom": "#ffffff"
+  "svg.preview.backgroundCustom": "#ffffff",
+  "editor.fontFamily": "JetBrainsMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font"
 }
