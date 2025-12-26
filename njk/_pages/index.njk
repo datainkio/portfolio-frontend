@@ -1,29 +1,30 @@
 ---
-layout: templates/base.njk
+layout: templates/long-scroll.njk
 permalink: /
 title: 'Build What Matters'
 subtitle: 'The online studio for Russ Lebo'
 metaDescription: 'no metaDescription defined'
 metaKeywords: 'user experience, eleventy, tailwind'
 canonicalUrl: 'https://dataink.io'
-bodyClasses: 'bg-transparent bg-graphpaper-dark bg-graphpaper-sm'
-headerClasses: 'text-neutral-100'
+bodyClasses: ''
+contentClasses: 'bg-neutral-900'
+skipLinks:
+  - hero
+  - bio
+  - featured-work
 scripts: >
   <script type="module" src="/assets/js/choreography/Director.js" defer></script>
 ---
-  {% import "atoms/site-title/site-title.njk" as siteTitle %}
-  {% import "molecules/background/video.njk" as background %}
-  {{ siteTitle.render({ siteName: site.siteName, classes: "h-dvh fixed flex items-center justify-center w-1/6 text-3xl" }) }}
-  
-  {{ background.render({ 
-    id:"sizzle-background", 
-    videoSrc: "/assets/video/sizzle.mp4", 
-    classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
-  
-  <div id="smooth-wrapper">
-    <div id="smooth-content" class="grid grid-cols-12">
-      {% include "organisms/section/title/text.njk" %}
-      {% include "organisms/section/bio/bio.njk" %}
-      {% include "organisms/section/work/featured.njk" %}
-    </div>
-  </div>
+
+  {% import "organisms/section/hero/text.njk" as heroSection %}
+  {% import "organisms/section/bio/bio.njk" as bioSection %}
+  {% import "organisms/section/organizations/logos.njk" as organizationsSection %}
+  {% import "organisms/section/work/featured.njk" as featuredWork %}
+  {% import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection %}
+
+  {# TODO: Replace site.airtables with (for example) collections.organizations once Airtable data is fully migrated #}
+  {%- set organizationsTable = site.airtables["Organizations"] -%}
+  {{ heroSection.render( { id: "hero", title: title }) }}
+  {{ bioSection.render({id: "bio"}) }}
+  {{ organizationsSection.render( { id: "organizations", heading: "Organizations", data: organizationsTable }) }}
+  {{ airtableDebugSection.render({ site: site, collections: collections, schema: dbSchema }) }}

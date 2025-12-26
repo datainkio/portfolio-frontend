@@ -3,13 +3,26 @@
 /**
  * Gel - Visual controller for gel overlay elements
  *
- * Manages SVG polygon masking, corner manipulation, color states,
- * and GSAP animations for background gel layers.
- *
- * @requires GSAP - Animation library
+ * Composes focused helpers for:
+ * - Mask lifecycle (GelMask)
+ * - Geometry (GelGeometry)
+ * - Visual state (GelVisualState)
  */
 
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import { gsap } from '/assets/js/gsap/all.js';
+import GelMask from './GelMask.js';
+import GelGeometry from './GelGeometry.js';
+import GelVisualState from './GelVisualState.js';
+
+const DEFAULT_COLOR_CLASSES = ['bg-gel-primary', 'bg-gel-secondary', 'bg-gel-accent'];
+const DEFAULT_TRANSFORM_ORIGIN = 'top center';
+const MASK_STYLE = {
+  maskRepeat: 'no-repeat',
+  WebkitMaskRepeat: 'no-repeat',
+  maskSize: '100% 100%',
+  WebkitMaskSize: '100% 100%',
+};
 
 export default class Gel {
   /**
@@ -17,196 +30,156 @@ export default class Gel {
    * @param {Object} options
    * @param {string[]} [options.colorClasses] - Available color classes
    * @param {string} [options.transformOrigin] - SVG transform origin point
+   * @param {HTMLElement} [options.targetElement] - Element to match with matchTarget()
+   * @param {boolean} [options.masked=true] - Whether to apply the polygon mask on init
    */
   constructor(view, options = {}) {
     if (!view) throw new Error('Gel requires a DOM element as its view');
 
     this.view = view;
-    this.colorClasses = options.colorClasses || [
-      'bg-gel-primary',
-      'bg-gel-secondary',
-      'bg-gel-accent',
-    ];
-    this.transformOrigin = options.transformOrigin || 'right center';
-    this.currentState = null;
+    this.masked = options.masked !== undefined ? options.masked : true;
+    this.colorClasses = options.colorClasses || DEFAULT_COLOR_CLASSES;
+    this.transformOrigin = options.transformOrigin || DEFAULT_TRANSFORM_ORIGIN;
     this.targetElement = options.targetElement || null;
+    this.currentState = null;
 
-    // Track polygon corner positions (percentages 0-100)
-    this.corners = {
-      topLeft: { x: 0, y: 0 },
-      topRight: { x: 100, y: 0 },
-      bottomRight: { x: 100, y: 100 },
-      bottomLeft: { x: 0, y: 100 },
-    };
+    this.logger = lumberjack.createScoped(view.id || 'Gel', { color: '#8B5CF6' });
 
-    // Animation properties
+    this.geometry = new GelGeometry(this.view);
+    this.mask = new GelMask(this.view, this.geometry, MASK_STYLE);
+    this.visual = new GelVisualState(this.view, {
+      colorClasses: this.colorClasses,
+      transformOrigin: this.transformOrigin,
+    });
 
-    this._ensureMask();
+    this._resizeObserver = null;
+
+    // Keep behavior consistent with previous versions: init and apply mask immediately.
+    this.initialize();
   }
 
   /**
-   * Create or find SVG mask for the gel element
-   * @private
+   * Initialize the gel. Safe to call multiple times.
+   * @param {Object} options
+   * @param {boolean} [options.applyMask=true] - Apply CSS mask on init
+   * @param {boolean} [options.autoRefresh=false] - Attach ResizeObserver to auto-refresh polygon
    */
-  _ensureMask() {
-    let svg = this.view.querySelector('svg');
-    if (!svg) {
-      const ns = 'http://www.w3.org/2000/svg';
-      svg = document.createElementNS(ns, 'svg');
-      svg.classList.add('gel-mask');
-      Object.assign(svg.style, {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-      });
-      const defs = document.createElementNS(ns, 'defs');
-      const mask = document.createElementNS(ns, 'mask');
-      mask.id = `mask-${this.view.id || Math.random()}`;
-      const polygon = document.createElementNS(ns, 'polygon');
-      polygon.setAttribute('fill', 'white');
-      this._updatePolygonPoints(polygon);
-      mask.appendChild(polygon);
-      defs.appendChild(mask);
-      svg.appendChild(defs);
-      this.view.appendChild(svg);
-      this.maskPolygon = polygon;
-      this.maskId = mask.id;
-      this.svg = svg;
+  initialize({ applyMask = this.masked, autoRefresh = false } = {}) {
+    this.logger.trace('initializing gel');
+    this.mask.ensure();
+    if (applyMask) {
+      this.mask.apply();
+      this.masked = true;
     } else {
-      this.maskPolygon = svg.querySelector('polygon');
-      const maskId = svg.querySelector('mask')?.id;
-      if (maskId) this.maskId = maskId;
-      this.svg = svg;
+      this.mask.remove();
+      this.masked = false;
     }
-    this._updateViewBox();
-    if (this.maskId) {
-      this.view.style.maskImage = `url(#${this.maskId})`;
-      this.view.style.webkitMaskImage = `url(#${this.maskId})`;
+    if (autoRefresh) {
+      this.enableAutoRefresh();
     }
   }
 
-  /**
-   * Update SVG viewBox to match element dimensions
-   * @private
-   */
-  _updateViewBox() {
-    if (!this.svg) return;
+  applyMask() {
+    this.logger.trace('applying mask');
+    this.mask.apply();
+    this.masked = true;
+  }
 
-    const width = this.view.offsetWidth || 100;
-    const height = this.view.offsetHeight || 100;
-
-    this.svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-    this.svg.setAttribute('preserveAspectRatio', 'none');
+  removeMask() {
+    this.logger.trace('removing mask');
+    this.mask.remove();
+    this.masked = false;
   }
 
   /**
-   * Update polygon points based on corners object
-   * Converts percentage-based corners to pixel coordinates based on element size
-   * @private
-   * @param {SVGPolygonElement} polygon - Polygon element to update
+   * Invert the mask so the polygon punches a hole instead of revealing inside.
+   * @param {boolean} [enabled=true]
    */
-  _updatePolygonPoints(polygon = this.maskPolygon) {
-    if (!polygon) return;
-
-    const width = this.view.offsetWidth || 100;
-    const height = this.view.offsetHeight || 100;
-    const pts = [
-      this.corners.topLeft,
-      this.corners.topRight,
-      this.corners.bottomRight,
-      this.corners.bottomLeft,
-    ].map(({ x, y }) => `${(x / 100) * width},${(y / 100) * height}`);
-    polygon.setAttribute('points', pts.join(' '));
+  invertMask(enabled = true) {
+    this.mask.invert(enabled);
   }
 
   /**
-   * Animate a corner to new position
-   * @param {string} corner - Corner name: 'topLeft', 'topRight', 'bottomRight', 'bottomLeft'
-   * @param {number} x - X coordinate (0-100, percentage)
-   * @param {number} y - Y coordinate (0-100, percentage)
-   * @param {number} [duration=0.6] - Animation duration in seconds
-   * @param {string} [ease='power3.out'] - GSAP easing function
+   * Animate a corner to new position.
+   * @param {string} corner - 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft'
    */
   setCorner(corner, x, y, duration = 0.6, ease = 'power3.out') {
-    if (!this.corners[corner]) {
+    if (!this.geometry.corners[corner]) {
       console.warn(`Gel: Invalid corner name "${corner}"`);
       return;
     }
 
-    gsap.to(this.corners[corner], {
+    const update = () => this.geometry.updatePolygonPoints();
+    gsap.to(this.geometry.corners[corner], {
       x,
       y,
       duration,
       ease,
-      onUpdate: () => this._updatePolygonPoints(),
+      onUpdate: update,
       overwrite: 'auto',
     });
   }
 
-  /**
-   * Set corner position immediately without animation
-   * @param {string} corner - Corner name
-   * @param {number} x - X coordinate (0-100)
-   * @param {number} y - Y coordinate (0-100)
-   */
   setCornerImmediate(corner, x, y) {
-    if (!this.corners[corner]) {
+    if (!this.geometry.corners[corner]) {
       console.warn(`Gel: Invalid corner name "${corner}"`);
       return;
     }
-
-    Object.assign(this.corners[corner], { x, y });
-    this._updatePolygonPoints();
+    Object.assign(this.geometry.corners[corner], { x, y });
+    this.geometry.updatePolygonPoints();
   }
 
-  /**
-   * Reset all corners to rectangle shape
-   */
   resetCorners() {
-    Object.assign(this.corners, {
-      topLeft: { x: 0, y: 0 },
-      topRight: { x: 100, y: 0 },
-      bottomRight: { x: 100, y: 100 },
-      bottomLeft: { x: 0, y: 100 },
-    });
-    this._updatePolygonPoints();
+    this.geometry.resetCorners();
   }
 
   /**
-   * Refresh viewBox and polygon after element positioning changes
-   * Call this after using GelManipulator to position the gel element
+   * Refresh viewBox and polygon after element positioning changes.
    */
   refresh() {
-    this._updateViewBox();
-    this._updatePolygonPoints();
+    this.geometry.refresh();
+    this.mask.updateMaskDimensions();
   }
 
   /**
-   * Change visual state via color classes
-   * @param {string} stateName - State identifier
-   * @param {Object} stateConfig - Configuration (unused, for future extensibility)
+   * Dedicated scale setter (preferred over setState).
+   */
+  setScale({ x = 1, y = 1, origin = 'left center' } = {}) {
+    this.visual.setScale({ x, y, origin });
+  }
+
+  /**
+   * Scroll-scale convenience wrapper for callers.
+   */
+  setScrollScale({ xScale = 1, yScale = 1 } = {}) {
+    this.setScale({ x: xScale, y: yScale });
+  }
+
+  /**
+   * Change visual state via color classes or named states.
+   * For scroll scaling, use setScrollScale().
    */
   setState(stateName, stateConfig = {}) {
-    if (this.currentState === stateName) return;
+    if (!stateName) return;
 
-    // Remove previous state classes
-    this.colorClasses.forEach(cls => this.view.classList.remove(cls));
+    if (stateName === 'scroll-scale') {
+      this.setScrollScale(stateConfig);
+      return;
+    }
 
-    // Apply new state class if it exists in colorClasses
     if (this.colorClasses.includes(stateName)) {
-      this.view.classList.add(stateName);
+      this.setColorState(stateName);
+      return;
     }
 
     this.currentState = stateName;
   }
 
-  /**
-   * Change the target element for this gel
-   * @param {HTMLElement} element - New target element to track
-   */
+  setColorState(colorState) {
+    this.visual.setColorState(colorState);
+    this.currentState = colorState;
+  }
+
   setTarget(element) {
     if (!element || !(element instanceof HTMLElement)) {
       console.warn('Gel: Invalid target element provided');
@@ -215,11 +188,6 @@ export default class Gel {
     this.targetElement = element;
   }
 
-  /**
-   * Update gel's position and size to match its target element
-   * @param {number} [duration=0] - Animation duration (0 for immediate)
-   * @param {string} [ease='power2.out'] - GSAP easing function
-   */
   matchTarget(duration = 0, ease = 'power2.out') {
     if (!this.targetElement) {
       console.warn('Gel: No target element set. Use setTarget() first.');
@@ -246,5 +214,22 @@ export default class Gel {
       Object.assign(this.view.style, props);
       this.refresh();
     }
+  }
+
+  /**
+   * Attach a ResizeObserver to keep polygon sizing in sync with the element.
+   */
+  enableAutoRefresh() {
+    if (this._resizeObserver || typeof ResizeObserver === 'undefined') return;
+    this._resizeObserver = new ResizeObserver(() => this.refresh());
+    this._resizeObserver.observe(this.view);
+  }
+
+  destroy() {
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = null;
+    }
+    this.mask.destroy();
   }
 }

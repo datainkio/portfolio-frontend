@@ -91,20 +91,17 @@ npm run format:njk
 When you run `npm run build`, the following happens **sequentially**:
 
 1. **Clean** (`npm run clean`)
-
    - Deletes all files in `_site/` folder
    - **Preserves** `_site/content/` directory (images, videos)
    - Prevents file duplication from previous builds
 
 2. **Design Sync** (`npm run build:design`)
-
    - Fetches design tokens from Figma API
    - Writes colors to `styles/colors.css`
    - Writes typography to `styles/typography/fontFamilies.css`
    - **Automatically triggers CSS rebuild** with updated design tokens
 
 3. **CSS Build** (`npm run build:css`)
-
    - Compiles Tailwind CSS with comprehensive logging
    - Analyzes input CSS structure and imports
    - Provides build metrics and optimization suggestions

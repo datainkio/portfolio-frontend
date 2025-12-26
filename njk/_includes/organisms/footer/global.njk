@@ -1,0 +1,13 @@
+{#
+FOOTER LAYOUT ORGANISM
+Reusable footer macro for consistent site-wide footer rendering.
+Part of layout organism category for consistent page structure.
+#}
+
+{% macro render(params = {}) %}
+  <footer>
+    <div class="col-span-full py-8 px-4 md:px-8 lg:px-12 bg-gray-900 text-gray-400 text-center text-sm">
+      &copy; {{ params.year or site.year }} data:ink:io. All rights reserved.
+    </div>
+  </footer>
+{% endmacro %}

@@ -25,7 +25,7 @@
  * @param {Object} eleventyConfig - 11ty configuration object
  * @param {Object} site - Site configuration from site.json
  */
-import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 import { NavigationBuilder } from '../services/NavigationBuilder.js';
 
 logger.enabled = true;

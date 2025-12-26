@@ -4,6 +4,7 @@
       "path": ".",
     },
   ],
+<<<<<<< HEAD
   "settings": {
     "swark.outputDirectory": "onboarding",
     "editor.lineNumbers": "on",
@@ -36,4 +37,6 @@
     "svg.preview.backgroundCustom": "#ffffff",
     "svg.preview.background": "white",
   },
+=======
+>>>>>>> landing-xd
 }

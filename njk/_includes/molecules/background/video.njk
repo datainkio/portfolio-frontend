@@ -1,29 +1,17 @@
 {% import "atoms/video/video.njk" as videoAtom %}
-{% import "atoms/gel/gel.njk" as gelAtom %}
 
 {% macro render(params = {}) %}
-  {%- set bgID = params.id | default('sizzle') -%}
-  <div 
-    id="{{ bgID }}" 
-    class="absolute bg-pixelator inset-0 w-full h-dvh -z-10"
-    aria-hidden="true">
-    {# {{ videoAtom.render({
+  {%- set bgID = params.id | default('sizzle-background') -%}
+  {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none') -%}
+  <div id="{{ bgID }}" class="{{ containerClasses }}" aria-hidden="true">
+    {{ videoAtom.render({
       src: params.videoSrc,
       autoplay: true,
       loop: true,
       muted: true,
       playsInline: true,
-      className: "bg-video"
-    }) }} #}
-    {#
-      1. id specifies which gel layer a given GelManipulator instance will control
-      2. Gel layers are positioned and animated via JS (GelManipulator)
-      3. Multiple gel layers can be stacked for more complex visual effects
-      4. Gel can be associated with a given DOM element to sync movement (see config.js)
-    #}
-    {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
-    {{ gelAtom.render({ id: 'bg-gel-1', color: 'bg-gel-secondary' }) }}
-
+      className: "w-full h-dvh md:h-full object-cover z-0"
+    }) }}
+    <div class="absolute inset-0 bg-pixelator opacity-60 pointer-events-none z-10"></div>
   </div>
 {% endmacro %}
-

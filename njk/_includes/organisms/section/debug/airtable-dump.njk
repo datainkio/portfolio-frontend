@@ -1,0 +1,97 @@
+{% macro render(params = {}) %}
+  {%- set sectionId = params.id | default("airtable-debug") -%}
+  {%- set sectionClasses = params.sectionClasses | default("relative z-10 col-span-full p-6 text-neutral-100") -%}
+  {%- set heading = params.heading | default("Airtable Collections Debug") -%}
+  {%- set siteConfig = params.site | default({}) -%}
+  {%- set tables = params.airtables | default(siteConfig.airtables | default([])) -%}
+  {%- set collectionData = params.collections | default({}) -%}
+  {%- set schemaData = params.schema | default(dbSchema | default({})) -%}
+  {%- set schemaTables = schemaData.tables | default({}) -%}
+  {%- set detailsOpen = params.open | default(false) -%}
+
+  {% if tables and tables | length %}
+    <section id="{{ sectionId }}" class="{{ sectionClasses }}" data-debug="airtable">
+      <h2 class="mb-4 text-2xl">{{ heading }}</h2>
+      <ul class="flex flex-col gap-6">
+        {% for table in tables %}
+          <li>
+          {%- set key = table.tableName | lower -%}
+          {%- set records = collectionData[key] | default([]) -%}
+          {%- set recordCount = records | length -%}
+          {%- set tableSchema = schemaTables[table.tableName] | default(schemaTables[key] | default({})) -%}
+          {%- set fields = tableSchema.fields | default({}) -%}
+          {%- set sampleRecord = records | first -%}
+          <details class="border border-neutral-700 rounded-md bg-neutral-900/80 p-4"{% if detailsOpen %} open{% endif %}>
+            <summary class="cursor-pointer text-lg font-semibold">{{ table.tableName }} <span class="text-neutral-400 text-base">({{ recordCount }} records)</span></summary>
+            <div class="mt-4 space-y-4 text-sm">
+              <div>
+                <div class="font-semibold text-neutral-200">Record count</div>
+                <div class="text-neutral-300">{{ recordCount }}</div>
+              </div>
+
+              <div class="overflow-x-auto">
+                <div class="font-semibold text-neutral-200 mb-2">Schema fields</div>
+                {% if fields | length %}
+                  <table class="w-full text-left border-collapse">
+                    <thead>
+                      <tr class="border-b border-neutral-700">
+                        <th class="py-1 pr-4">Field</th>
+                        <th class="py-1 pr-4">Type</th>
+                        <th class="py-1">Fill rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for fieldName, field in fields %}
+                        <tr class="border-b border-neutral-800">
+                          <td class="py-1 pr-4 whitespace-nowrap">{{ fieldName }}</td>
+                          <td class="py-1 pr-4 whitespace-nowrap">{{ field.types | join(', ') }}</td>
+                          <td class="py-1">{{ field.fillRate | default('n/a') }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                {% elseif sampleRecord %}
+                  <p class="text-neutral-400 mb-2">Schema missing; showing fields derived from the first record. Run <code>npm run schema:generate</code> for full schema.</p>
+                  <table class="w-full text-left border-collapse">
+                    <thead>
+                      <tr class="border-b border-neutral-700">
+                        <th class="py-1 pr-4">Field</th>
+                        <th class="py-1">Sample value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for fieldName, value in sampleRecord %}
+                        <tr class="border-b border-neutral-800">
+                          <td class="py-1 pr-4 whitespace-nowrap">{{ fieldName }}</td>
+                          <td class="py-1 text-neutral-300">{{ value | dump | truncate(140, true, '…') | escape }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                {% else %}
+                  <p class="text-neutral-400">No schema available.</p>
+                {% endif %}
+              </div>
+
+              <div class="overflow-x-auto">
+                <div class="font-semibold text-neutral-200 mb-2">Sample record</div>
+                {% if sampleRecord %}
+                  {# Pretty-print the sample record for readability #}
+                  <pre class="bg-neutral-950/70 border border-neutral-800 rounded p-3 text-sm font-sans leading-snug whitespace-pre">{{ sampleRecord | dump | replace('{', '{\n  ') | replace('}', '\n}') | replace(', ', ',\n  ') | escape }}</pre>
+                {% else %}
+                  <p class="text-neutral-400">No records found.</p>
+                {% endif %}
+              </div>
+            </div>
+          </details>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% else %}
+    <section id="{{ sectionId }}" class="{{ sectionClasses }}" data-debug="airtable">
+      <h2 class="mb-4 text-2xl">{{ heading }}</h2>
+      <p>No Airtable tables configured.</p>
+    </section>
+  {% endif %}
+{% endmacro %}

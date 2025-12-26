@@ -13,61 +13,83 @@
  * - AnimationBus for event coordination
  */
 
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import AbstractSectionAnimations from './AbstractSectionAnimations.js';
 import AbstractSectionTriggers from './AbstractSectionTriggers.js';
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
-export class AbstractSection {
+export default class AbstractSection {
   /**
    * Initialize section controller
    *
    * Subclasses must call super(id, bus, smoother) in constructor,
    * then call createIntro(), createOutro(), and createScrollTriggers().
    *
-   * @param {string} sectionId - DOM element ID (e.g., 'main-header')
+   * @param {DOMElement} view - DOM element for the section
    * @param {AnimationBus} bus - Event bus for coordination
    */
-  constructor(sectionId, bus) {
-    this.id = sectionId; // the section element identifier
-    this.bus = bus; // the AnimationBus instance
-    this.element = document.getElementById(sectionId); // the target DOM element
-    if (!this.element) {
-      console.warn(`[BaseSection] Element ${sectionId} not found - section disabled`);
+  constructor(view, anim, triggers, events, bus, { reducedMotionHandler } = {}) {
+    this.logger = lumberjack.createScoped(this.constructor.name, {
+      color: '#007bff',
+      enabled: true,
+    });
+
+    this.view = view;
+    this.bus = bus ?? { emit: () => {}, on: () => () => {} };
+    this._reducedMotionHandler = reducedMotionHandler;
+
+    if (!this.view) {
+      console.warn(`[${this.constructor.name.toLowerCase()}] element not found - section disabled`);
       return;
     }
-    // Initialize animation and trigger modules
-    this.animations = new AbstractSectionAnimations(this.element, this.id);
-    this.triggers = new AbstractSectionTriggers(this.element, this.id);
 
-    // Expose primary timeline for playIntro/playOutro controls
-    this.timeline = this.animations.timeline;
-    this._bindTimelineCallbacks();
+    this.events = events || {};
+    // Use provided modules; fall back to defaults
+    this.triggers = triggers ?? new AbstractSectionTriggers(this.view);
+    this.animations = anim ?? new AbstractSectionAnimations(this.view);
 
-    // NOTE: onReverseStart is not available in GSAP timelines
+    // Respect reduced motion: skip intro and apply end state immediately.
+    if (this._reducedMotionHandler?.isReducedMotion()) {
+      this._applyPostIntroState();
+      return;
+    }
+    this._bindCallbacks();
   }
 
-  onEnterScroll() {
-    // console.log(`[BaseSection] ${this.id}: Entered scroll trigger`);
+  // Generic enter/exit hooks used by ScrollTrigger bindings
+  _onEnter() {
+    this._emit(this.events.enter, { element: this.view });
   }
 
-  onExitScroll() {
-    // console.log(`[BaseSection] ${this.id}: Exited scroll trigger`);
+  _onLeave() {
+    this._emit(this.events.exit, { element: this.view });
   }
 
-  onIntroStart() {
-    // console.log(`[BaseSection] ${this.id}: Intro started`);
+  _onEnterBack() {
+    this._emit(this.events.enter, { element: this.view });
   }
 
-  onIntroComplete() {
-    // console.log(`[BaseSection] ${this.id}: Intro complete`);
+  _onLeaveBack() {
+    this._emit(this.events.exit, { element: this.view });
   }
 
-  onOutroStart() {
-    // console.log(`[BaseSection] ${this.id}: Outro started`);
+  _onIntroStart() {
+    this.isIntroComplete = true;
+    this._emit(this.events.introStart, { element: this.view });
   }
 
-  onOutroComplete() {
-    // console.log(`[BaseSection] ${this.id}: Outro complete`);
+  _onIntroComplete() {
+    this.isIntroComplete = true;
+    this._emit(this.events.introComplete, { element: this.view });
+  }
+
+  _onOutroStart() {
+    this.isOutroComplete = false;
+    this._emit(this.events.outroStart, { element: this.view });
+  }
+
+  _onOutroComplete() {
+    this.isOutroComplete = true;
+    this._emit(this.events.outroComplete, { element: this.view });
   }
 
   /**
@@ -79,46 +101,7 @@ export class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playIntro() {
-    if (!this.element) {
-      lumberjack.trace(
-        `[BaseSection] ${this.id}: Cannot play intro - element not found`,
-        null,
-        'brief',
-        'headsup'
-      );
-      return;
-    }
-
-    // Broadcast standardized event for intro start (subclass-provided)
-    if (this.events?.introStart) {
-      this.bus.emit(this.events.introStart, {
-        sectionId: this.id,
-        element: this.element,
-      });
-    } else {
-      console.warn(`[BaseSection] ${this.id}: No introStart event defined`);
-    }
-
-    const introRunner =
-      typeof this.animations?.intro === 'function'
-        ? this.animations.intro()
-        : this.timeline.restart();
-
-    const waitable =
-      introRunner && typeof introRunner.then === 'function' ? introRunner : this.timeline;
-
-    return waitable.then(() => {
-      this.isIntroComplete = true;
-      // Broadcast standardized event for intro complete (subclass-provided)
-      if (this.events?.introComplete) {
-        this.bus.emit(this.events.introComplete, {
-          sectionId: this.id,
-          element: this.element,
-        });
-      } else {
-        console.warn(`[BaseSection] ${this.id}: No introComplete event defined`);
-      }
-    });
+    this.animations.intro();
   }
 
   /**
@@ -130,43 +113,44 @@ export class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
-    lumberjack.trace(`[BaseSection] ${this.id}: Playing outro animation`, null, 'brief', 'headsup');
-    if (!this.element) {
-      console.warn(`[BaseSection] ${this.id}: Cannot play outro - element not found`);
-      return;
-    }
+    this.animations.outro();
+  }
 
-    // Broadcast standardized event for outro start (subclass-provided)
-    if (this.events?.outroStart) {
-      this.bus.emit(this.events.outroStart, {
-        sectionId: this.id,
-        element: this.element,
-      });
-    }
+  // Map GSAP timeline callbacks to standardized AnimationBus events.
+  _bindCallbacks() {
+    if (!this.animations.timeline) return;
 
-    let outroRunner = null;
-    if (typeof this.animations?.outro === 'function') {
-      outroRunner = this.animations.outro();
-    } else if (this.animations?.outroTimeline) {
-      outroRunner = this.animations.outroTimeline.restart();
-    } else {
-      outroRunner = this.timeline.reverse();
-    }
-
-    const activeTimeline = this.animations?.outroTimeline ?? this.timeline;
-    const waitable =
-      outroRunner && typeof outroRunner.then === 'function' ? outroRunner : activeTimeline;
-
-    return waitable.then(() => {
-      this.isOutroComplete = true;
-      // Broadcast standardized event for outro complete (subclass-provided)
-      if (this.events?.outroComplete) {
-        this.bus.emit(this.events.outroComplete, {
-          sectionId: this.id,
-          element: this.element,
-        });
-      }
+    this.animations.timeline.eventCallback('onStart', () => {
+      this._onIntroStart();
     });
+
+    this.animations.timeline.eventCallback('onComplete', () => {
+      this._onIntroComplete();
+    });
+
+    this.animations.timeline.eventCallback('onReverseComplete', () => {
+      this._onOutroComplete();
+    });
+
+    if (!this.triggers) return;
+
+    this.triggers.bind({
+      onEnter: () => this._onEnter(),
+      onLeave: () => this._onLeave(),
+      onEnterBack: () => this._onEnterBack(),
+      onLeaveBack: () => this._onLeaveBack(),
+    });
+  }
+
+  // Safe bus emitter
+  _emit(eventName, payload) {
+    if (!eventName) return;
+    if (this.bus && typeof this.bus.emit === 'function') {
+      this.bus.emit(eventName, payload);
+    } else {
+      // Soft warn once per event to avoid noisy logs
+      this.logger.trace(`bus.emit unavailable for "${eventName}"`, { payload }, 'brief', 'headsup');
+    }
   }
 
   /**
@@ -175,14 +159,14 @@ export class AbstractSection {
    * Resets timeline and state flags for replay or testing.
    */
   reset() {
-    this.timeline.pause(0);
+    this.animations.timeline.pause(0);
     this.isIntroComplete = false;
     this.isOutroComplete = false;
     this.isScrollActive = false;
 
-    this.bus.emit(`section:${this.id}:reset`, {
+    this._emit(`section:${this.id}:reset`, {
       sectionId: this.id,
-      element: this.element,
+      element: this.view,
     });
   }
 
@@ -196,47 +180,14 @@ export class AbstractSection {
       this.timeline.kill();
     }
 
-    // Remove ScrollTriggers for this section
-    const triggers = ScrollTrigger.getAll();
-    triggers.forEach(trigger => {
-      if (trigger.vars.trigger === this.element || trigger.vars.trigger === `#${this.id}`) {
-        trigger.kill();
-      }
-    });
+    // Remove ScrollTriggers registered via AbstractSectionTriggers
+    this.triggers?.kill?.();
 
-    this.bus.emit(`section:${this.id}:destroy`, {
+    this._emit(`section:${this.id}:destroy`, {
       sectionId: this.id,
     });
 
-    this.element = null;
+    this.view = null;
     this.timeline = null;
-  }
-
-  setAnimations(animations) {
-    if (!animations) return;
-
-    if (this.animations && this.animations !== animations) {
-      this.animations.timeline?.kill();
-    }
-
-    this.animations = animations;
-    this.timeline = animations.timeline;
-    this._bindTimelineCallbacks();
-  }
-
-  _bindTimelineCallbacks() {
-    if (!this.timeline) return;
-
-    this.timeline.eventCallback('onStart', () => {
-      this.onIntroStart();
-    });
-
-    this.timeline.eventCallback('onComplete', () => {
-      this.onIntroComplete();
-    });
-
-    this.timeline.eventCallback('onReverseComplete', () => {
-      this.onOutroComplete();
-    });
   }
 }

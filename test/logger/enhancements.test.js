@@ -8,7 +8,7 @@
  * while maintaining singleton benefits.
  */
 
-import lumberjack from '../../js/utils/lumberjack/index.js';
+import lumberjack from '@datainkio/lumberjack';
 
 console.log('=== Testing Logger Enhancements ===\n');
 

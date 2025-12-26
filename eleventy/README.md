@@ -12,10 +12,13 @@ accessible, performant web experiences.
 11ty serves as the **content-to-experience pipeline**, automatically:
 
 - **Transforms content** from Airtable into web pages
-- **Generates navigation** based on content relationships
-- **Optimizes images** for fast loading and accessibility
-- **Creates interactive components** like lightboxes and collapsible content
-- **Ensures consistency** across all pages through templates
+- **Generates navigation** based on file structure and content metadata
+- **Creates collections** that make content queryable in templates
+- **Optimizes images** for responsive display and accessibility
+- **Manages filters and shortcodes** for consistent content presentation
+- **Ensures consistency** across all pages through template inheritance
+
+Think of it as the automation layer between your content management system (Airtable) and your design system (Figma tokens), handled through reusable template patterns.
 
 ## Directory Structure
 
@@ -45,28 +48,47 @@ between content
 
 **What it does**: Transforms raw content into user-friendly formats
 
-- **`string.js`** - Text processing (truncate, markdown conversion, formatting)
+**Available Filters** (in `filters/` subdirectory):
+
+- **`string.js`** - Text processing (truncate, markdown conversion, slug generation)
 - **`date.js`** - Date formatting for human readability
-- **`array.js`** - List manipulation for content organization
+- **`array.js`** - List manipulation and filtering (findRecord, unique, groupBy)
 - **`image.js`** - Image optimization and responsive sizing
-- **`color.js`** - Color manipulation for theming
-- **`dom.js`** - HTML element manipulation
+- **`color.js`** - Color manipulation for theming and contrast checking
+- **`dom.js`** - HTML element queries and selections
 - **`file.js`** - File handling utilities
 
-**UX Impact**: Ensures content displays consistently and accessibly across all
-contexts
+**Common Usage**:
+
+```nunjucks
+{{ description | markdownify }}     {# Markdown to HTML #}
+{{ title | truncate(50) }}          {# Shorten with ellipsis #}
+{{ publishDate | dateFormat }}      {# Human-readable date #}
+{{ collection | findRecord(ids) }}  {# Match records by ID array #}
+```
+
+**UX Impact**: Ensures content displays consistently and accessibly across all contexts
 
 ### `/shortcodes/` - Reusable Components
 
-**What it does**: Creates reusable UI patterns that content editors can easily
-use
+**What it does**: Creates reusable UI patterns that templates can easily invoke
 
-- **`image.js`** - Smart image handling with automatic lightbox functionality
-- **`loremipsatron.js`** - Placeholder text generation for prototyping
-- **`collapsible.js`** - Expandable content sections
+**Available Shortcodes** (see README.md in directory):
 
-**UX Impact**: Provides consistent interaction patterns and reduces cognitive
-load
+- **`picture`** - Responsive image with CSS class application
+- **`lightbox`** - Image display with modal dialog overlay
+- **`loremChars`** - Placeholder text generation (character-level)
+- **`loremPars`** - Placeholder text generation (paragraph-level)
+
+**Usage in Templates**:
+
+```nunjucks
+{% picture imageHTML, "w-full shadow-lg", "object-cover" %}
+{% lightbox imageHTML, "Image Title", "Optional caption text" %}
+{% loremPars 3 %}   {# Generate 3 paragraphs of placeholder text #}
+```
+
+**UX Impact**: Provides consistent interaction patterns and reduces template complexity
 
 ### `/plugins/` - Core Functionality
 

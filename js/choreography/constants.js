@@ -43,22 +43,36 @@
  * });
  */
 export const EVENTS = {
+  video: {
+    enter: 'video:enter',
+    exit: 'video:exit',
+    introStart: 'video:intro:start',
+    introComplete: 'video:intro:complete',
+    outroStart: 'video:outro:start',
+    outroComplete: 'video:outro:complete',
+  },
   hero: {
+    enter: 'hero:enter',
+    exit: 'hero:exit',
     introStart: 'hero:intro:start',
     introComplete: 'hero:intro:complete',
     outroStart: 'hero:outro:start',
     outroComplete: 'hero:outro:complete',
   },
-  work: {
-    introStart: 'work:intro:start',
-    introComplete: 'work:intro:complete',
-    outroStart: 'work:outro:start',
-    outroComplete: 'work:outro:complete',
+  organizations: {
+    enter: 'organizations:enter',
+    exit: 'organizations:exit',
+    introStart: 'organizations:intro:start',
+    introComplete: 'organizations:intro:complete',
+    outroStart: 'organizations:outro:start',
+    outroComplete: 'organizations:outro:complete',
   },
-  biography: {
-    introStart: 'biography:intro:start',
-    introComplete: 'biography:intro:complete',
-    outroStart: 'biography:outro:start',
-    outroComplete: 'biography:outro:complete',
+  bio: {
+    enter: 'bio:enter',
+    exit: 'bio:exit',
+    introStart: 'bio:intro:start',
+    introComplete: 'bio:intro:complete',
+    outroStart: 'bio:outro:start',
+    outroComplete: 'bio:outro:complete',
   },
 };

@@ -1,4 +1,4 @@
-import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 import fetchAirtableData from '../../airtable/fetchAirtableData.js';
 
 logger.enabled = true;

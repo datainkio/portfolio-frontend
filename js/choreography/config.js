@@ -33,9 +33,9 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
-  // Section elements
-  hero: 'main-header',
-  biography: 'biography',
+  video: 'sizzle-background',
+  organizations: 'organizations',
+  bio: 'bio',
   work: 'work',
 
   // Scroll smoothing container (optional - enables ScrollSmoother)
@@ -47,7 +47,8 @@ export const SELECTORS = {
   sizzleBackground: '#sizzle-background',
 
   // Hero section elements
-  heroTitle: 'main-title',
+  hero: 'hero',
+  heroTitle: '#hero h1',
 };
 
 /**
@@ -118,20 +119,17 @@ export const SCROLL_DEFAULTS = {
  * - targetElement: CSS selector for element height matching
  * - axis: Animation direction ('x' for horizontal, 'y' for vertical)
  * - position: Alignment ('left', 'center', 'right' for x / 'top', 'center', 'bottom' for y)
+ * - masked: Boolean to apply mask effect
  */
 export const GEL_CONFIG = {
-  'bg-gel-0': {
-    targetElement: '#main-title', // Height and width match hero title
-    axis: 'y',
-    position: 'left',
-  },
+  'bg-gel-0': {},
   'bg-gel-1': {
     targetElement: '#site-title', // Height match site title element
     axis: 'x',
     position: 'top',
   },
   'bg-gel-2': {
-    target: 3 / 4, // Trigger at 75% viewport height
+    target: 1 / 2, // Trigger at 50% viewport height
     axis: 'x',
     position: 'left',
   },

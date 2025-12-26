@@ -221,7 +221,7 @@ Collections use the **Lumberjack** dual-mode logger:
 **Custom Logger Styles**:
 
 ```javascript
-import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
 const titleStyle = new LumberjackStyle('#EE9B00', '\n☎️  ');
 const msgStyle = new LumberjackStyle('#CA6702', '•');

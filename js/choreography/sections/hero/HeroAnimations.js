@@ -1,27 +1,70 @@
 /** @format */
 
-import { gsap } from '/assets/js/gsap/all.js';
+import { gsap, ScrambleTextPlugin } from '/assets/js/gsap/all.js';
+import { SplitText } from '/assets/js/gsap/SplitText.js';
+gsap.registerPlugin(ScrambleTextPlugin, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
+
+const DURATION = 0.75; // Default duration for animations
+const STAGGER = 0.5; // Default stagger duration for animations
+const REVEAL_DELAY = 0; // Delay before starting reveal animations
+const SPEED = 0.2; // Speed of the scramble text effect
+const EASE = 'power1.out';
 
 export default class HeroAnimations extends AbstractSectionAnimations {
   /**
-   * @param {HTMLElement} element
-   * @param {string} sectionId
+   * Extends AbstractSectionAnimations, which:
+   * - Stores the section root element and ID
+   * - Sets up shared GSAP timeline primitives and intro/outro hooks
+   * - Provides common utilities (pause/resume/reset) used by sections
+   */
+  /**
+   * @param {HTMLElement} view
    * @param {Object} options
    */
-  constructor(element, sectionId, options = {}) {
-    super(element, sectionId);
+  constructor(view, options = {}) {
+    super(view);
     this.options = options;
+    this.originalText = this.view?.textContent || '';
+
+    // Build animations directly on this.timeline instead of nesting
+    this._buildScrambleAnimation();
+    super.setDefault(options);
   }
 
-  playIntro() {
-    console.log('[HeroAnimations] Playing intro animation');
-
-    super.intro();
+  // Override AbstractSectionAnimations
+  intro() {
+    // Return the play promise so AbstractSection can await completion
+    return this.timeline.play(0);
   }
 
-  playOutro() {
-    console.log('[HeroAnimations] Playing outro animation');
-    super.outro();
+  outro() {
+    this.logger?.trace('outro started');
+    // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
+    return this.timeline.reverse();
+  }
+
+  _buildScrambleAnimation() {
+    const split = new SplitText(this.view, { type: 'words' });
+
+    split.words.forEach((word, index) => {
+      word.classList.add('w-full');
+      const finalText = word.textContent;
+      word.textContent = '';
+
+      this.timeline.to(
+        word,
+        {
+          duration: DURATION,
+          scrambleText: {
+            text: finalText,
+            revealDelay: REVEAL_DELAY,
+            speed: SPEED,
+          },
+          ease: EASE,
+        },
+        index * STAGGER
+      );
+    });
   }
 }

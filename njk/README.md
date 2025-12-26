@@ -4,34 +4,34 @@
 
 **CRITICAL WARNING:** This directory contains the enhanced content presentation layer using Nunjucks templates with Atomic Design principles and advanced developer ergonomics. The system has been significantly improved with component registry, scaffolding tools, and comprehensive documentation.
 
-## 🚀 **Recent Enhancements - Developer Ergonomics**
+## 🚀 **Developer Experience Features**
 
 ### **Component Registry System** ✅
 
-- **Unified component loading**: `_registry.njk` provides centralized component discovery
-- **Error handling**: Missing components show helpful error messages instead of breaking builds
-- **Shorthand macros**: `icon()` and `button()` helpers for common components
-- **Auto-documentation**: Component metadata extracted from frontmatter
+- **Centralized import**: `_registry.njk` provides unified component access
+- **Helper macros**: Quick-access `icon()` and `button()` macros for common components
+- **Direct includes recommended**: For production templates, use direct includes (`{% include "atoms/button.njk" %}`) rather than registry macros
+- **Documentation focus**: Registry designed to aid development and documentation, not replace direct includes
 
 ### **Scaffolding System** ✅
 
-- **Rapid component creation**: `npm run scaffold:component atoms button-group`
-- **Standardized templates**: Consistent frontmatter and documentation structure
-- **GSAP integration**: Animation-aware organism templates
-- **Airtable compatibility**: Built-in support for dynamic content
+- **Rapid component creation**: `npm run scaffold:component atoms heading`
+- **Consistent structure**: Standardized Nunjucks patterns across all components
+- **Organized by level**: Atoms → Molecules → Organisms follow atomic design hierarchy
+- **Airtable ready**: All components designed to work with CMS data
 
-### **Consolidated Icon System** ✅
+### **Icon System** ✅
 
-- **Single icon component**: Replaced fragmented icon files with unified `atoms/icon.njk`
-- **Flexible sizing**: xs, sm, md, lg, xl, 2xl size options
-- **Error indicators**: Missing icons show helpful debug information
-- **Design token integration**: Uses currentColor for flexible theming
+- **Unified icon component**: `atoms/icon.njk` handles all SVG icons
+- **Flexible sizing**: Size variants (sm, md, lg) with Tailwind classes
+- **Design token compatible**: Integrates with color system via `currentColor`
+- **Icon variants**: Available in `atoms/icon/` subdirectory
 
-### **Component Testing Page** ✅
+### **Component Testing & Documentation**
 
-- **Live component showcase**: `/dev/components/` displays all components with test data
-- **Design token validation**: Tests Figma integration in real-time
-- **Development utilities**: Component usage examples and scaffolding help
+- **Live component showcase**: `/dev/components/` page during development (`npm start`)
+- **Design system validation**: View components with actual Figma design tokens
+- **Development utilities**: Component examples and scaffolding documentation
 
 ## 🎯 **What This Template System Enables**
 
@@ -45,22 +45,20 @@ The enhanced template system serves as the **content-to-HTML transformation engi
 - **🎬 Animation integration** - GSAP compatibility built into component structure
 - **🛠️ Developer experience** - Scaffolding, testing, and documentation automation
 
-## 🚀 **Quick Start - Enhanced Workflow**
+## 🚀 **Quick Start - Production Workflow**
 
-### **Using the Component Registry**
+### **Using Components in Templates**
+
+Always use direct includes for production templates - this is the recommended pattern:
 
 ```njk
-{# Import the registry system #}
-{% from "_includes/_registry.njk" import component, icon, button %}
-
-{# Use shorthand helpers #}
-{{ icon("chevron-down", "md", "text-primary-500") }}
-{{ button("Click Me", "primary", "px-6 py-3") }}
-
-{# Or use the full component() macro #}
-{{ component("atoms", "avatar", { src: "image.jpg", alt: "User" }) }}
-{{ component("molecules", "project-card", { title: "Project", content: "..." }) }}
+{# Direct include - recommended for production #}
+{% include "atoms/button.njk" with { label: "Click Me", type: "primary" } %}
+{% include "atoms/icon.njk" with { name: "chevron-down", size: "md" } %}
+{% include "molecules/card/project.njk" with { project: projectData } %}
 ```
+
+The registry system and helper macros are available in `_registry.njk` for documentation and development purposes.
 
 ### **Creating New Components**
 
@@ -71,28 +69,25 @@ npm run scaffold:component atoms progress-bar
 # Create new molecular component
 npm run scaffold:component molecules project-card
 
-# Create new organism with GSAP integration
+# Create new organism
 npm run scaffold:component organisms hero-section
 
-# Create new page template
-npm run scaffold:page portfolio
-
-# List all available components
+# List all scaffolding options
 npm run scaffold:list
 ```
 
-### **Testing Components**
+### **Testing Components During Development**
 
 ```bash
-# Visit the component testing page
+# Start dev server
 npm start
-# Then navigate to: http://localhost:8080/dev/components/
 
-# Components are tested with:
+# Navigate to http://localhost:8080/dev/components/ to see all components
+# This page shows:
 # - Live design token integration
-# - Sample data from development environment
-# - GSAP animation compatibility checks
-# - Accessibility validation
+# - Sample data for testing
+# - Component structure and usage
+# - Airtable content relationships
 ```
 
 ## 🏗️ **Atomic Design Architecture**

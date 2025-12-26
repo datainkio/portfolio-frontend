@@ -2,9 +2,9 @@
 // Silence punycode warning
 process.noDeprecation = true;
 
-import logger, { LumberjackStyle } from './js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
-logger.enabled = true;
+logger.enabled = false;
 
 import collections from './eleventy/collections/index.js';
 import plugins from './eleventy/plugins/plugins.js';
@@ -31,10 +31,14 @@ export default async function (eleventyConfig) {
     logger.trace(null, 'Configuring passthrough copy', 'brief', msgStyle);
     eleventyConfig.addPassthroughCopy({ 'static/robots.txt': 'robots.txt' });
     eleventyConfig.addPassthroughCopy('assets');
-    // Copy JavaScript files to _site/assets/
     eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
+    eleventyConfig.addPassthroughCopy({
+      '../../../lumberjack/lumberjack/dist': 'assets/js/utils/lumberjack',
+    });
+    // Copy JavaScript files to _site/assets/
+    // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
     // Copy video files for background video in StageManager
-    eleventyConfig.addPassthroughCopy({ 'assets/video': 'assets/video' });
+    // eleventyConfig.addPassthroughCopy({ 'assets/video': 'assets/video' });
     eleventyConfig.setServerOptions({
       watch: ['_site/**/*.css'],
     });

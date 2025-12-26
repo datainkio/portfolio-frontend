@@ -1,0 +1,38 @@
+{% import "atoms/ruler.njk" as ruler %}
+
+{% macro render(params = {}) %}
+  {%- set sectionId = params.id | default("hero") -%}
+  {%- set size = params.size | default("col-span-full h-dvh ") -%}
+  {%- set layout = params.layout | default("grid grid-cols-subgrid") -%}
+  {%- set positioning = params.positioning | default("flex items-center justify-items-start") -%}
+  {%- set titleText = params.title | default(title) -%}
+  {%- set rulerOptions = params.ruler | default({}) -%}
+
+  {# Landing view - GSAP Hero Controller Target #}
+  <section id="{{ sectionId }}" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
+    <h1
+      id="hero-title"
+      class="col-span-full z-10 text-6xl
+            sm:text-7xl 
+            md:text-8xl 
+            lg:text-9xl 
+            leading-12 
+            sm:leading-14 
+            md:leading-16 
+            lg:leading-28
+            tracking-tighter 
+            uppercase 
+            font-display 
+            p-12 
+            text-primary-100"
+    >
+      {{ titleText }}
+    </h1>
+    {{ ruler.render({ 
+      intervals: rulerOptions.intervals | default(12),
+      subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
+      id: rulerOptions.id | default("hero-ruler"),
+      classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12")
+    }) }}
+  </section>
+{% endmacro %}

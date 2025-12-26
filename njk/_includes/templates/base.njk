@@ -41,6 +41,13 @@
       {% endblock %}
     </main>
     
-    {% include "organisms/layout/footer.njk" %}
+    {% import "organisms/footer/global.njk" as footer %}
+    {{ footer.render() }}
+
+    {# Import blocked-scroll utility (module) #}
+    {##}
+    <script type="module" defer>
+      import '/assets/js/utils/diagnostics/scroll-blocked.js';
+    </script>
   </body>
 </html>

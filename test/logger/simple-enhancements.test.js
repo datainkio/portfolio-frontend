@@ -7,7 +7,7 @@
  * Tests Logger enhancements without triggering console clearing issues
  */
 
-import lumberjack from '../../js/utils/lumberjack/index.js';
+import lumberjack from '@datainkio/lumberjack';
 
 // Force Logger to be enabled
 const instance = Logger;

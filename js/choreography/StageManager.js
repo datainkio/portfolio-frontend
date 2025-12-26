@@ -32,7 +32,7 @@
  * @requires GelAnimationManager - Gel animation system
  * @requires AnimationBus - Event-driven section coordination
  */
-
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import ReducedMotionHandler from '/assets/js/choreography/managers/ReducedMotionHandler.js';
 import BackgroundLayerManager from '/assets/js/choreography/managers/BackgroundLayerManager.js';
 import ScrollSmootherManager from '/assets/js/choreography/managers/ScrollSmootherManager.js';
@@ -57,6 +57,12 @@ export default class StageManager {
    * @param {AnimationBus} bus - Event bus for coordination (from Director)
    */
   constructor(bus) {
+    // Create scoped logger for Director operations
+    this.logger = lumberjack.createScoped('StageManager', {
+      color: '#10B981',
+    });
+    // logger.enabled(true);
+    // this.logger.enabled = false;
     // Store bus reference for event coordination
     this.bus = bus;
 
@@ -84,7 +90,7 @@ export default class StageManager {
    */
   initialize() {
     // Fix background layer positioning
-    this.backgroundLayers.fix();
+    // this.backgroundLayers.fix();
 
     // Initialize gel controllers (but don't animate yet)
     this.gelAnimation.initialize();
@@ -92,25 +98,22 @@ export default class StageManager {
     // Attempt to initialize ScrollSmoother immediately so the wrapper does not lock scrolling
     const smoother = this.scrollSmoother.getSmoother();
 
-    // If ScrollSmoother cannot start (e.g., markup missing), fall back to native scroll by relaxing wrapper styles
-    if (!smoother) {
-      this._fallbackToNativeScroll();
-    }
-    console.log('[StageManager] Initialized all managers');
+    // console.log('[StageManager] Initialized all managers');
+    this._startGelAnimations();
+
+    this.logger.trace('initialized');
   }
 
   /**
-   * Start gel animations after Hero outro completes
+   * Start gel
    * @private
    */
   _startGelAnimations() {
-    // console.log('[StageManager] Starting gel animations after Hero outro');
     if (this._gelsAnimated) return; // Prevent multiple calls
 
     // Start gel animation (uses smoother scroller if available)
     const scroller = this.scrollSmoother.isActive() ? '#smooth-wrapper' : undefined;
     this.gelAnimation.animate(scroller);
-
     this._gelsAnimated = true;
   }
 
@@ -154,6 +157,7 @@ export default class StageManager {
    * @private
    */
   _fallbackToNativeScroll() {
+    this.logger.trace('Falling back to native scroll (ScrollSmoother not initialized)');
     const wrapper = document.querySelector('#smooth-wrapper');
     const content = document.querySelector('#smooth-content');
 

@@ -53,7 +53,9 @@ export default class GelAnimationManager {
     this._config = gelConfig;
     this._reducedMotionHandler = reducedMotionHandler;
     this._gels = [];
+    this._gelConfigs = new Map();
     this._trigger = null;
+    this._onResize = this._handleResize.bind(this);
 
     if (reducedMotionHandler) {
       this._unsubscribe = reducedMotionHandler.onChange(enabled => {
@@ -72,6 +74,15 @@ export default class GelAnimationManager {
     this._gels = Array.from(gelElements)
       .map(el => this._initializeGelFromElement(el))
       .filter(gel => gel !== null);
+
+    // Draw a triangle mask on the third gel because why the hell not
+    // this._gels[2].setCorner('topLeft', 50, 0, 0.6, 'power3.out');
+    // this._gels[2].setCorner('topRight', 50, 0, 0.6, 'power3.out');
+    // this._gels[2].setCorner('bottomRight', 100, 100, 0.6, 'power3.out');
+    // this._gels[2].setCorner('bottomLeft', 0, 100, 0.6, 'power3.out');
+
+    // Reapply sizing/positioning on resize so viewport-filling gels stay in sync
+    window.addEventListener('resize', this._onResize, { passive: true });
   }
 
   /**
@@ -88,7 +99,7 @@ export default class GelAnimationManager {
     }
 
     const configEntry = this._config[gelId];
-    const { axis, position, target: configTarget, targetElement } = configEntry;
+    const { axis, position, target: configTarget, targetElement, masked } = configEntry;
     const refEl = targetElement ? document.querySelector(targetElement) : null;
     const target = configTarget ?? (refEl ? GelManipulator.calculateTarget(refEl, axis) : 1);
 
@@ -98,12 +109,13 @@ export default class GelAnimationManager {
       ? GelManipulator.getOriginFromElement(refEl, axis)
       : GelManipulator.getOriginFromPosition(axis, position);
 
-    const gel = new Gel(el, { transformOrigin });
+    const gel = new Gel(el, { transformOrigin, masked });
     gel.target = target;
     gel.axis = axis;
 
     // Refresh viewBox and polygon after positioning
     gel.refresh();
+    this._gelConfigs.set(gel, { el, axis, refEl, position });
 
     return gel;
   }
@@ -117,8 +129,8 @@ export default class GelAnimationManager {
     if (this._reducedMotionHandler?.isReducedMotion()) return;
     if (this._gels.length === 0) return;
 
-    this._killExistingTrigger();
-    this._createScrollTrigger(scroller, trigger);
+    // this._killExistingTrigger();
+    // this._createScrollTrigger(scroller, trigger);
   }
 
   /** @private */
@@ -149,7 +161,7 @@ export default class GelAnimationManager {
       const gelProgress = this._calculateGelProgress(progress, i, stagger);
       const scale = 1 - gelProgress * (1 - gel.target);
       const scaleState = gel.axis === 'y' ? { yScale: scale } : { xScale: scale };
-      gel.setState('scroll-scale', scaleState);
+      gel.setScrollScale(scaleState);
     });
   }
 
@@ -174,13 +186,36 @@ export default class GelAnimationManager {
 
   /** Cleanup animations and references */
   destroy() {
+    window.removeEventListener('resize', this._onResize);
     if (this._trigger) {
       this._trigger.kill();
       this._trigger = null;
     }
     this._gels = [];
+    this._gelConfigs.clear();
     if (this._unsubscribe) {
       this._unsubscribe();
     }
+  }
+
+  /** @private */
+  _handleResize() {
+    if (this._gels.length === 0) return;
+
+    this._gelConfigs.forEach(({ el, axis, refEl, position }, gel) => {
+      GelManipulator.apply(el, { axis, refEl, position });
+      gel.refresh();
+    });
+  }
+
+  /** Reduce a gel to a viewport fraction (immediate, not scroll-driven) */
+  shrinkGelToViewportFraction(gelIndex = 0, { x = 1, y = 1, origin = 'center' } = {}) {
+    if (this._reducedMotionHandler?.isReducedMotion()) return;
+    const gel = this._gels[gelIndex];
+    // console.log('Shrinking gel', gelIndex, 'to width', x, 'and height', y, 'from the', origin);
+    if (!gel) return;
+
+    const scaleState = { x: x, y: y, origin: origin };
+    gel.setScale(scaleState);
   }
 }

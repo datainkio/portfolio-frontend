@@ -3,7 +3,7 @@
  * Tests both terminal (Node.js) and browser environments
  */
 
-import lumberjack, { Lumberjack } from '../js/utils/lumberjack/index.js';
+import lumberjack, { Lumberjack } from '@datainkio/lumberjack';
 
 // Enable logging for tests
 Lumberjack.configure({ enabled: true });

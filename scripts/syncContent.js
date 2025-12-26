@@ -24,7 +24,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import logger from '../js/utils/lumberjack/index.js';
+import logger from '@datainkio/lumberjack';
 
 logger.enabled = true;
 

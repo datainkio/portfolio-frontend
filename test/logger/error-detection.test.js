@@ -7,7 +7,7 @@
  * even when the style parameter is not explicitly provided.
  */
 
-import logger from '../../js/utils/lumberjack/index.js';
+import logger from '@datainkio/lumberjack';
 
 logger.enabled = true;
 

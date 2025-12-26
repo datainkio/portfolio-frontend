@@ -7,7 +7,7 @@
  * for transparency in build processes.
  */
 
-import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
 // Enable logger for testing
 logger.enabled = true;

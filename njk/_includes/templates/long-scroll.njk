@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% block head %}
+    {% include "organisms/layout/head.njk" %}
+  {% endblock %}
+  
+  {# 
+  CRITICAL WARNING: GSAP Animation System Integration
+  
+  REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
+  - id="main-header" : Required by js/choreography/sections/Hero.js
+  - id="work"        : Required by js/choreography/sections/Work.js  
+  - id="biography"   : Required by js/choreography/sections/Biography.js
+  
+  DO NOT MODIFY these IDs without updating corresponding animation controllers
+  Animation system depends on specific DOM structure and element targeting
+  
+  SCROLLSMOOTHER INTEGRATION:
+  - Main content wrapper must maintain scroll context
+  - Section elements require data-scroll attributes for ScrollTrigger
+  - CSS transforms may interfere with animation timelines
+  
+  DESIGN TOKEN DEPENDENCIES:
+  - Animation values sync from Figma design tokens
+  - CSS custom properties used for timing and easing
+  - Maintain --animation-* custom properties in styles/
+  #}
+  
+  <body class="{{ bodyClasses }}">
+    {% include "atoms/gtm-noscript.njk" %}
+    {% include "organisms/header/global.njk" %}
+  {% import "atoms/gel/gel.njk" as gelAtom %}
+  {% import "molecules/background/video.njk" as background %}
+
+  {{ background.render({ 
+    id:"sizzle-background", 
+    videoSrc: "/assets/video/sizzle.mp4", 
+    classes: "fixed inset-0 -z-10 pointer-events-none" }) }}
+
+  {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
+    {# Main content wrapper - GSAP ScrollSmoother target #}
+    <main id="smooth-wrapper" class="{{ mainClasses }}" data-scroll-container>
+        <div id="smooth-content" class="{{ contentClasses }}">
+        {% block content %}
+            {% if content %}
+            {{ content | safe }}
+            {% else %}
+            {% loremPars 3 %}
+            {% endif %}
+        {% endblock %}
+        
+        {% import "organisms/footer/global.njk" as footer %}
+        {{ footer.render() }}
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollSmoother.min.js"></script>
+    <script>
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+    </script>
+  </body>
+</html>

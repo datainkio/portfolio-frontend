@@ -2,9 +2,8 @@
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
-// Create scoped logger for Director operations
-const logger = lumberjack.createScoped('Director', { prefix: '🎬', color: '#10B981' });
-
+// logger.enabled(true);
+// logger.enabled = true;
 // logger.trace('Module loading...', null, 'brief', 'standard');
 
 /**
@@ -36,16 +35,30 @@ const logger = lumberjack.createScoped('Director', { prefix: '🎬', color: '#10
  *
  * @requires AnimationBus - Event coordination system
  * @requires StageManager - Scroll and visual effects
- * @requires Hero, Work, Biography - Section controllers
+ * @requires Splash, Hero, Work, Biography - Section controllers
  * @requires LandingSequence - Animation choreography
  */
 
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import StageManager from '/assets/js/choreography/StageManager.js';
 import Hero from '/assets/js/choreography/sections/hero/Hero.js';
-import Biography from '/assets/js/choreography/sections/biography/Biography.js';
+import Organizations from '/assets/js/choreography/sections/organizations/Organizations.js';
+import Bio from '/assets/js/choreography/sections/bio/Bio.js';
+import BackgroundVideo from '/assets/js/choreography/sections/background/BackgroundVideo.js';
 import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
 
+const LOGS = {
+  description:
+    'The Director is the master controller for the entire animation system. It initializes the AnimationBus, StageManager, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The Director also provides methods to control and debug the animation flow.',
+  completion: "Initialized. All systems go. Let's light this candle.",
+  methods:
+    'enableDebug(enabled) - Toggle AnimationBus debug logging\n' +
+    'getSections() - Get section controller instances\n' +
+    'getSequence() - Get LandingSequence instance\n' +
+    'getStage() - Get StageManager instance\n' +
+    'restart() - Reset and replay landing sequence\n' +
+    'destroy() - Cleanup and remove all event listeners',
+};
 /**
  * Director - Master Animation Coordinator
  *
@@ -72,28 +85,42 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    console.log('[Director] Initializing animation system...');
+    // Create scoped logger for Director operations
+    this.logger = lumberjack.createScoped('Director', {
+      prefix: '',
+      color: '#10B981',
+    });
+    this.logger.enabled = true;
+    this.logger.trace(LOGS.description);
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new StageManager(this.bus); // Pass bus to StageManager
 
     // Initialize section controllers
     this.sections = {
-      hero: new Hero(this.bus),
-      biography: new Biography(this.bus),
+      video: new BackgroundVideo({
+        bus: this.bus,
+        reducedMotionHandler: this.stage?.reducedMotion,
+      }),
+      hero: new Hero({
+        bus: this.bus,
+        reducedMotionHandler: this.stage?.reducedMotion,
+      }),
+      organizations: new Organizations({
+        bus: this.bus,
+        reducedMotionHandler: this.stage?.reducedMotion,
+      }),
+      bio: new Bio({
+        bus: this.bus,
+        reducedMotionHandler: this.stage?.reducedMotion,
+      }),
     };
 
     // Initialize choreography sequence
-    // this.sequence = new LandingSequence(this.bus, this.sections);
-    // this.sequence.start();
-  }
+    this.sequence = new LandingSequence(this.bus, this.sections, this.stage?.gelAnimation);
+    this.logger.trace(LOGS.completion);
 
-  /**
-   * Enable or disable debug logging
-   * @param {boolean} enabled - True to enable, false to disable
-   */
-  enableDebug(enabled = true) {
-    this.bus.enableDebug(enabled);
+    this.sequence.start();
   }
 
   /**

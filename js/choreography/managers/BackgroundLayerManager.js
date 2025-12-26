@@ -85,6 +85,18 @@ export default class BackgroundLayerManager {
 
     this._detachFromScroller();
     this._applyFixedStyles();
+
+    this._elements.forEach(layer => {
+      if (layer) {
+        layer.style.position = 'fixed';
+        layer.style.top = '0';
+        layer.style.left = '0';
+        layer.style.width = '100%';
+        layer.style.height = '100%';
+        layer.style.pointerEvents = 'none';
+        layer.style.zIndex = '-1';
+      }
+    });
   }
 
   /**

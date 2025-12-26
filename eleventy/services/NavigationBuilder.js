@@ -29,7 +29,7 @@
  *
  * @class NavigationBuilder
  */
-import logger, { LumberjackStyle } from '../../js/utils/lumberjack/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
 logger.enabled = true;
 

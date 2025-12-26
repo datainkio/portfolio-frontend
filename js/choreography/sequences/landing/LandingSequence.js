@@ -1,7 +1,7 @@
 /**
  * LandingSequence - Landing page animation choreography coordinator
  *
- * Event-driven sequence that coordinates Hero, Work, and Biography section animations.
+ * Manages the flow of intro and outro animations for the landing page
  * Listens to AnimationBus events and triggers next animations based on completion.
  *
  * @requires AnimationBus
@@ -9,7 +9,6 @@
 
 import { Lumberjack } from '/assets/js/utils/lumberjack/index.js';
 import { EVENTS } from '../../constants.js';
-const logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
 export class LandingSequence {
   /**
@@ -17,42 +16,19 @@ export class LandingSequence {
    * @param {AnimationBus} bus - Event bus for coordination
    * @param {Object} sections - Section controllers (hero, work, biography)
    */
-  constructor(bus, sections) {
-    logger.trace('Constructor called', { bus, sections }, 'verbose', 'standard');
+  constructor(bus, sections, gelManager = null) {
+    this.logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
     this.bus = bus;
     this.sections = sections;
+    this.gelManager = gelManager;
     this.state = {
       isStarted: false,
       isComplete: false,
     };
     this._listeners = [];
 
-    logger.trace('Setting up event listeners', null, 'brief', 'headsup');
-
-    const HERO_EVENT_HANDLERS = {
-      introStart: () => {
-        // console.log('Hero intro start');
-      },
-      introComplete: () => {
-        // console.log('Hero intro complete');
-      },
-      outroStart: () => {
-        // console.log('Hero outro starting');
-      },
-      outroComplete: () => {
-        // console.log('Hero outro complete');
-      },
-    };
-
-    Object.entries(EVENTS.hero).forEach(([key, eventName]) => {
-      this._listeners.push(
-        this.bus.on(eventName, () => {
-          console.log(`[LandingSequence] Hero event: ${key} (${eventName})`);
-          HERO_EVENT_HANDLERS[key]?.();
-        })
-      );
-    });
+    this._registerListeners();
   }
 
   /**
@@ -61,14 +37,16 @@ export class LandingSequence {
    * Kicks off choreography by playing hero intro.
    * Event listeners handle subsequent animations automatically.
    */
+
   start() {
+    if (this.state.isStarted) return;
     this.state.isStarted = true;
 
     try {
       this.sections.hero.playIntro();
       // logger.trace('Hero intro started', null, 'brief', 'standard');
     } catch (error) {
-      // logger.trace('Error starting hero intro', error, 'verbose', 'error');
+      this.logger.trace('Error starting hero intro', error, 'verbose', 'error');
       this.state.isStarted = false;
     }
   }
@@ -80,7 +58,7 @@ export class LandingSequence {
    * Does not remove event listeners - use destroy() for full cleanup.
    */
   reset() {
-    logger.trace('Resetting sequence', null, 'brief', 'standard');
+    this.logger.trace('Resetting sequence', null, 'brief', 'standard');
 
     Object.values(this.sections).forEach(section => {
       if (section && typeof section.reset === 'function') {
@@ -99,11 +77,162 @@ export class LandingSequence {
    * Sequence cannot be reused after destroy().
    */
   destroy() {
-    logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');
+    this.logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');
 
     this._listeners.forEach(unsubscribe => unsubscribe());
     this._listeners = [];
     this.sections = null;
     this.bus = null;
+  }
+
+  /**
+   * Wire AnimationBus listeners to drive the sequence
+   * @private
+   */
+  _registerListeners() {
+    if (!this.bus) return;
+
+    const on = (event, handler) => {
+      const off = this.bus.on(event, handler);
+      this._listeners.push(off);
+    };
+
+    /**
+     * HERO EVENTS
+     */
+
+    // Respond to hero intro start
+    on(EVENTS.hero.enter, () => {
+      this.logger.trace('Hero entered');
+    });
+
+    on(EVENTS.hero.exit, () => {
+      this.logger.trace('Hero exited');
+    });
+
+    // Respond to hero intro start
+    on(EVENTS.hero.introStart, () => {
+      // this.logger.trace('Hero intro started');
+    });
+
+    // Respond to hero intro complete
+    on(EVENTS.hero.introComplete, () => {
+      // this.logger.trace('Hero intro complete');
+      // this.gelManager?
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to hero outro start
+    on(EVENTS.hero.outroStart, () => {
+      // this.logger.trace('Hero outro started');
+    });
+
+    // Respond to hero outro complete
+    on(EVENTS.hero.outroComplete, () => {
+      // this.logger.trace('Hero outro complete');
+      this.sections?.work?.playIntro?.();
+    });
+
+    /**
+     * BACKGROUNDVIDEO ANIMATION EVENTS
+     */
+    // Respond to hero intro start
+    on(EVENTS.video.introStart, () => {
+      // this.logger.trace('BG Video intro started');
+    });
+
+    // Respond to hero intro complete
+    on(EVENTS.video.introComplete, () => {
+      // this.logger.trace('BG Video intro complete');
+      // this.gelManager?
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      // this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to hero outro start
+    on(EVENTS.video.outroStart, () => {
+      this.logger.trace('BG Video outro started');
+    });
+
+    // Respond to hero outro complete
+    on(EVENTS.video.outroComplete, () => {
+      this.logger.trace('BG Video outro complete');
+      this.sections?.work?.playIntro?.();
+    });
+
+    /**
+     * ORGANIZATIONS EVENTS
+     */
+
+    // Respond to organizations intro start
+    on(EVENTS.organizations.enter, () => {
+      this.logger.trace('Organizations entered');
+    });
+
+    on(EVENTS.organizations.exit, () => {
+      this.logger.trace('Organizations exited');
+    });
+
+    // Respond to organizations intro start
+    on(EVENTS.organizations.introStart, () => {
+      // this.logger.trace('Organizations intro started');
+    });
+
+    // Respond to organizations intro complete
+    on(EVENTS.organizations.introComplete, () => {
+      // this.logger.trace('Organizations intro complete');
+      // this.gelManager?
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to organizations outro start
+    on(EVENTS.organizations.outroStart, () => {
+      // this.logger.trace('Organizations outro started');
+    });
+
+    // Respond to organizations outro complete
+    on(EVENTS.organizations.outroComplete, () => {
+      // this.logger.trace('Organizations outro complete');
+      this.sections?.work?.playIntro?.();
+    });
+
+    /**
+     * BIO EVENTS
+     */
+
+    // Respond to bio intro start
+    on(EVENTS.bio.enter, () => {
+      this.logger.trace('Bio entered');
+    });
+
+    on(EVENTS.bio.exit, () => {
+      this.logger.trace('Bio exited');
+    });
+
+    // Respond to bio intro start
+    on(EVENTS.bio.introStart, () => {
+      // this.logger.trace('Bio intro started');
+    });
+
+    // Respond to bio intro complete
+    on(EVENTS.bio.introComplete, () => {
+      // this.logger.trace('Bio intro complete');
+      // this.gelManager?
+      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
+      // this.sections?.video?.playIntro?.();
+    });
+
+    // Respond to bio outro start
+    on(EVENTS.bio.outroStart, () => {
+      // this.logger.trace('Bio outro started');
+    });
+
+    // Respond to bio outro complete
+    on(EVENTS.bio.outroComplete, () => {
+      // this.logger.trace('Bio outro complete');
+      // this.sections?.work?.playIntro?.();
+    });
   }
 }
