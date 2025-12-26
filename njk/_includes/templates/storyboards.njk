@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{ title or page.title or "Storyboards" }}</title>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; padding: 2rem; max-width: 76rem; margin: 0 auto; }
+      pre code.language-mermaid { display: block; background: #0b1020; color: #cbd5e1; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
+      .storyboard-header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
+      .storyboard-header h1 { margin: 0; font-size: 1.5rem; }
+      .storyboard-meta { color: #64748b; font-size: .875rem; }
+      .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1rem; }
+      .col-12 { grid-column: span 12 / span 12; }
+      .prose { line-height: 1.65; }
+      .prose h2 { margin-top: 2rem; }
+      .prose h3 { margin-top: 1.25rem; }
+    </style>
+  </head>
+  <body>
+    <header class="storyboard-header">
+      <h1>{{ title or page.fileSlug | title }}</h1>
+      <div class="storyboard-meta">
+        <span>Last updated: {{ page.date | postDate }}</span>
+      </div>
+    </header>
+
+    <main class="grid">
+      <article class="col-12 prose">
+        {{ content | safe }}
+      </article>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" integrity="" crossorigin="anonymous"></script>
+    <script>
+      // Render code fences ```mermaid
+      (function () {
+        if (!window.mermaid) return;
+        mermaid.initialize({ startOnLoad: false, securityLevel: "loose", theme: "neutral" });
+        // Convert <pre><code class="language-mermaid">...</code></pre> blocks
+        const blocks = Array.from(document.querySelectorAll('pre > code.language-mermaid'));
+        blocks.forEach((code, i) => {
+          const container = document.createElement('div');
+          container.className = 'mermaid';
+          container.textContent = code.textContent;
+          const pre = code.parentElement;
+          pre.replaceWith(container);
+        });
+        mermaid.run({ querySelector: '.mermaid' });
+      }());
+    </script>
+  </body>
+</html>

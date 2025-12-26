@@ -7,10 +7,12 @@
 {% set placement = "items-end justify-self-end flex-row" %}
 {% set textAlign = "text-right" %}
 {% set reveal = "md:translate-x-full md:group-hover:translate-x-0" %}
+{% set iconName = "direction-right" %}
 {% if direction == "previous" %}
   {% set placement = "items-start justify-self-start flex-row-reverse" %}
   {% set textAlign = "text-left" %}
   {% set reveal = "md:-translate-x-full md:group-hover:translate-x-0" %}
+  {% set iconName = "direction-left" %}
 {% endif %}
 {# Set responsive styles for the container #}
 {% set base = "group flex p-0 w-full" %}
@@ -52,10 +54,9 @@
       </ul>
     {% endif %}
   </div>
-  {% set iconStyles = "hidden md:block my-auto mx-auto bg-primary-dark h-full w-8 p-2" %}
-  {% if direction == "next" %}
-    {% include "atoms/icon/direction-right.njk" %}
-  {% else %}
-    {% include "atoms/icon/direction-left.njk" %}
-  {% endif %}
+  {# Unified icon system - set variables before include #}
+  {% set name = iconName %}
+  {% set size = "lg" %}
+  {% set className = "hidden md:block my-auto mx-auto bg-primary-dark h-full w-8 p-2" %}
+  {% include "atoms/icon.njk" %}
 </a>
