@@ -8,7 +8,7 @@ These instructions make AI coding agents immediately productive in this repo by 
 
 - **11ty static site**: Nunjucks templates in `njk/` generate `_site/`. Atomic design components live under `njk/_includes/` following atomic design principles.
 - **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
-- **Content via Airtable**: Data fetched at build time and exposed as 11ty collections. Config in `njk/_data/site.json`; schema in `njk/_data/dbSchema.json` (not airtableSchema.json).
+- **Content via Airtable**: Data fetched at build time and exposed as 11ty collections. Config in `njk/_data/site.json`; schema in `njk/_data/dbSchema.json`.
 - **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
 - **Animation system**: GSAP-based choreography under `js/choreography/` with Director, StageManager, AnimationBus, section controllers, and specialized managers.
 - **Logging**: Unified `@datainkio/lumberjack` logger across Node and browser environments for consistent output.
@@ -141,7 +141,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
   - `Director.js` - Master coordinator (initializes everything)
   - `StageManager.js` - Scroll smoothing & background effects coordinator
   - `AnimationBus.js` - Event system for section coordination
-  - `sections/` - Section-specific controllers (Hero, Work, Biography, etc.)
+  - `sections/` - Section-specific controllers (Hero, BackgroundVideo, Bio, Organizations)
   - `sequences/` - Animation choreography (LandingSequence)
   - `managers/` - Specialized managers (ReducedMotion, BackgroundLayer, ScrollSmoother, GelAnimation)
   - `config.js` - Animation configuration constants
@@ -198,8 +198,7 @@ Example macro:
 **Section Controllers** (in `js/choreography/sections/`)
 
 - Each section follows pattern: `<Section>.js`, `<Section>Animations.js`, `<Section>Triggers.js`
-- Currently active: `Hero`, `BackgroundVideo` (initialized in Director)
-- Available but unused: `Biography`, `Work`, `Splash`, `Approach`
+- Active sections: `Hero`, `BackgroundVideo`, `Bio`, `Organizations`
 - All sections extend `AbstractSection` base class
 - Sections communicate via AnimationBus events (e.g., `hero:intro:start`, `hero:intro:complete`)
 
@@ -248,7 +247,7 @@ this.bus.on('hero:intro:complete', () => {
 - Collections auto-generated from tables defined in `site.json`
 - Collection names are **lowercase** versions of table names (e.g., `Projects` → `projects`)
 - Access in templates: `{{ collections.projects }}`, `{{ collections.activities }}`, etc.
-- Schema available globally: `{{ dbSchema }}` (not `airtableSchema`)
+- Schema available globally: `{{ dbSchema }}`
 
 **Caching**
 
@@ -309,6 +308,69 @@ logger.trace(title, message, verbosity, style);
 - Script outlines: `logger.showScriptOutline(title, steps, verbosity)`
 - Enable/disable: `logger.enabled = true/false`
 - Custom styles: `new LumberjackStyle(color, emoji)`
+
+## Common Code Patterns
+
+**Accessing Airtable Data in Templates:**
+
+```njk
+{# Access schema structure #}
+{{ dbSchema.tables.Projects.fields }}
+
+{# Loop through collection #}
+{% for project in collections.projects %}
+  <h2>{{ project.fields.title }}</h2>
+  <p>{{ project.fields.description }}</p>
+{% endfor %}
+
+{# Access specific field types from schema #}
+{% set projectSchema = dbSchema.tables.Projects %}
+{% for field in projectSchema.fields %}
+  {{ field.name }}: {{ field.type }}
+{% endfor %}
+```
+
+**Creating Section Controllers:**
+
+```javascript
+// 1. Add events to constants.js
+export const EVENTS = {
+  custom: {
+    introStart: 'custom:intro:start',
+    introComplete: 'custom:intro:complete',
+  },
+};
+
+// 2. Create section extending AbstractSection
+import AbstractSection from '../abstract-section/AbstractSection.js';
+import { EVENTS } from '../../constants.js';
+
+export default class Custom extends AbstractSection {
+  constructor({ bus = null, reducedMotionHandler } = {}) {
+    const elem = document.getElementById('custom');
+    // ... initialize animations and triggers
+    super(elem, animations, triggers, EVENTS.custom, bus, { reducedMotionHandler });
+  }
+}
+
+// 3. Wire into Director.js
+this.sections.custom = new Custom({
+  bus: this.bus,
+  reducedMotionHandler: this.stage?.reducedMotion,
+});
+```
+
+## Don't Do This
+
+**Common mistakes that will cause errors:**
+
+- ❌ Don't use `{{ airtableSchema }}` - Use `{{ dbSchema }}` instead
+- ❌ Don't reference Work, Splash, or Approach sections - They don't exist in current codebase
+- ❌ Don't edit auto-generated files: `styles/colors.css`, `styles/typography/fontFamilies.css` - They're overwritten by `build:design`
+- ❌ Don't call Tailwind CLI directly - Always use npm scripts (`npm run build:css` or `npm run dev:css`)
+- ❌ Don't name sections "Biography" - The actual implementation is "Bio"
+- ❌ Don't skip `build:design` before CSS builds - Tokens must exist first
+- ❌ Don't use `npm run build:schema` - Script doesn't exist; use `npm run schema:generate`
 
 ## Common Gotchas
 

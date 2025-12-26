@@ -209,12 +209,19 @@ All components must meet WCAG 2.1 AA compliance:
 
 ## Documentation Standards
 
-All component directories include comprehensive README.md files following the "sociopathic developer" documentation approach:
+All component directories include comprehensive README.md files with clear documentation:
 
-- **Extensive warnings** about breaking changes and integration risks
+- **Integration warnings** about potential breaking changes and dependencies
 - **Complete dependency documentation** for safe modification
 - **Architecture context** for understanding component relationships
 - **Debugging guides** for troubleshooting common issues
 - **Performance considerations** for optimization strategies
 
-**REMEMBER**: The atomic design system is the architectural foundation of the entire site. Changes at any level can have cascading effects throughout the hierarchy. Always understand the full dependency chain before making modifications, test comprehensively across all atomic levels, and maintain the strict hierarchical relationships that make the system predictable and maintainable.
+**REMEMBER**: The atomic design system is the architectural foundation of the entire site. Components follow a strict hierarchical dependency model:
+
+- **Atoms**: Zero dependencies
+- **Molecules**: Depend only on atoms
+- **Organisms**: Depend on molecules and atoms
+- **Templates**: Depend on organisms, molecules, and atoms
+
+This hierarchy must be maintained. Before modifying any component, understand its full dependency chain and test comprehensively across all levels that depend on it.

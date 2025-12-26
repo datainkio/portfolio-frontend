@@ -200,7 +200,7 @@ eleventyConfig.addCollection('custom', function (collectionApi) {
 
 Complete Airtable schema available at:
 
-- **Primary**: `njk/_data/airtableSchema.json` - Available in templates as `{{ airtableSchema }}`
+- **Primary**: `njk/_data/dbSchema.json` - Available in templates as `{{ dbSchema }}`
 - **Copilot**: `.copilot/airtable-schema.json` - Copy for Copilot context
 - **Documentation**: `.copilot/AIRTABLE_SCHEMA.md` - Human-readable reference
 

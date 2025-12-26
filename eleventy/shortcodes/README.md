@@ -241,6 +241,7 @@ Shortcodes work seamlessly with Airtable-sourced content:
 
 **See Also**:
 
-- [Filters documentation](./filters/README.md) - Text and data transformations
-- [Plugins documentation](./plugins/) - 11ty plugins and extensions
-- [Nunjucks templates](../njk/README.md) - Template architecture
+- [Filters documentation](../filters/README.md) - Complete filter reference (23+ filters) with usage examples
+- [Shortcodes detailed reference](./README.md) - This comprehensive guide
+- [Eleventy configuration](../README.md) - 11ty system overview
+- [Nunjucks templates](../../njk/README.md) - Template architecture

@@ -2,9 +2,7 @@
 
 # Section Controllers - Standardized Animation Lifecycle
 
-Last updated: 2025-12-19 15:00 EST
-
-Sections are animation controllers that attach GSAP timelines to DOM elements, emit standardized AnimationBus events from `constants.js`, and respect reduced-motion preferences. **Active today:** Hero and BackgroundVideo. Legacy controllers (Work, Biography, Splash, Approach) exist but are not initialized by Director.
+Sections are animation controllers that attach GSAP timelines to DOM elements, emit standardized AnimationBus events from `constants.js`, and respect reduced-motion preferences. **Active sections:** Hero, BackgroundVideo, Bio, and Organizations.
 
 ## AbstractSection (current base class)
 
@@ -75,15 +73,16 @@ EVENTS.custom = {
   - Uses `AbstractSection` with `BackgroundVideoAnimations` and `BackgroundVideoTriggers`
   - Events: `EVENTS.video.*`
   - DOM: `#overlay-view` / `SELECTORS.video`
+- **Bio** (`sections/bio/Bio.js`)
+  - Uses `AbstractSection` with `BioAnimations` and `BioTriggers`
+  - Events: `EVENTS.bio.*`
+  - DOM: `#bio` / `SELECTORS.bio`
+- **Organizations** (`sections/organizations/Organizations.js`)
+  - Uses `AbstractSection` with `OrganizationsAnimations` and `OrganizationsTriggers`
+  - Events: `EVENTS.organizations.*`
+  - DOM: `#organizations` / `SELECTORS.organizations`
 
-### Present but not initialized
-
-- **Work** (`sections/work/Work.js`) — legacy, references `BaseSection` (file not present); not wired
-- **Biography** (`sections/biography/`) — inactive
-- **Splash** (`sections/splash/`) — inactive
-- **Approach** (`sections/approach/`) — inactive
-
-To activate an inactive section: add to `EVENTS`, import into `Director.js`, instantiate with `bus` and `reducedMotionHandler`, and hook it in `LandingSequence`.
+To activate additional sections: add event definitions to `constants.js`, import into `Director.js`, instantiate with `bus` and `reducedMotionHandler`, and hook into animation sequence.
 
 ## Creating a Custom Section (current pattern)
 
@@ -204,17 +203,22 @@ import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
 - **Events**: Syncs scroll position to video time
 - **Dom Structure**: `<div id="overlay-view" data-choreography="background-video">`
 
-### Biography (`sections/biography/Biography.js`) - Inactive
+### Bio (`sections/bio/Bio.js`)
 
-- **Purpose**: Biography section animations
-- **Use**: Activate in Director to enable
-- **Pattern**: Standard AbstractSection lifecycle
+- **Purpose**: Biography section with text and image animations
+- **Lifecycle**: Standard intro → scroll triggers → outro
+- **Elements**: Biography text content and images
+- **Events**: Emits `bio:intro:complete` when ready
+- **Dom Structure**: `<section id="bio" data-choreography="bio">`
 
-### Work (`sections/work/Work.js`) - Inactive
+### Organizations (`sections/organizations/Organizations.js`)
 
-- **Purpose**: Work/portfolio section with printer marks
-- **Use**: Activate in Director to enable
-- **Pattern**: Standard AbstractSection lifecycle
+- **Purpose**: Organizations showcase section with animations
+- **Lifecycle**: Standard intro → scroll triggers → outro
+- **Elements**: Organization logos, descriptions, links
+- **Events**: Emits `organizations:intro:complete` when ready, `organizations:enter/exit` on scroll
+- **Dom Structure**: `<section id="organizations" data-choreography="organizations">`
+- **Animations**: Uses ScrambleTextPlugin and SplitText for text effects
 
 ## Recommended Structure for Sections
 

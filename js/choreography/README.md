@@ -112,10 +112,8 @@ section:${id}:outro:complete
 
 - `Hero` - Landing hero with introductory animations
 - `BackgroundVideo` - Background video playback and synchronization
-- `Biography` - Biography section (inactive by default)
-- `Work` - Work/portfolio section (available but inactive)
-- `Splash` - Splash screen (available but inactive)
-- `Approach` - Approach/methodology section (available but inactive)
+- `Bio` - Biography section with animations
+- `Organizations` - Organizations showcase section
 
 **Creating New Sections:**
 

@@ -138,8 +138,8 @@ Before editing existing organisms:
 
 All organisms must support:
 
-- **Modern browsers**: Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
-- **Mobile devices**: iOS Safari 14+, Android Chrome 88+, responsive design from 320px to 2560px
+- **Modern browsers**: Chrome 120+, Firefox 121+, Safari 17+, Edge 120+
+- **Mobile devices**: iOS Safari 17+, Android Chrome 120+, responsive design from 320px to 4K displays
 - **Accessibility tools**: Screen readers, keyboard navigation, voice control, high contrast mode
 - **Performance constraints**: 60fps animations, <2.5s LCP, <100ms FID
 

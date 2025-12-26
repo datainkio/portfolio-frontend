@@ -19,6 +19,7 @@
 - **Consistent structure**: Standardized Nunjucks patterns across all components
 - **Organized by level**: Atoms → Molecules → Organisms follow atomic design hierarchy
 - **Airtable ready**: All components designed to work with CMS data
+- **Available scaffolds**: Run `npm run scaffold:list` to see all options. See [scripts/README.md](../scripts/README.md) for full scaffolding documentation.
 
 ### **Icon System** ✅
 
@@ -275,14 +276,14 @@ Final accessible, performant HTML pages in `_site/` directory
 
 ## Template Filters & Utilities
 
-Templates have access to powerful content processing filters:
+Templates have access to powerful content processing filters. See [eleventy/filters/README.md](../eleventy/filters/README.md) for complete documentation of 23+ filters including:
 
 ### Content Transformation
 
 ```nunjucks
 {{ description | markdownify }}     {# Convert markdown to HTML #}
 {{ longText | truncate(150) }}       {# Shorten text with ellipsis #}
-{{ publishDate | dateFormat }}       {# Human-readable dates #}
+{{ publishDate | postDate }}         {# Human-readable dates like "Jan 1, 2024" #}
 ```
 
 ### Content Relationships

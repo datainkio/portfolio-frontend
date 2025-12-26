@@ -64,16 +64,16 @@ try {
 **DANGER ZONE**: This script provides comprehensive transparency into the Tailwind CSS build process with the same level of detail as 11ty collections and Figma services. **DO NOT bypass this script** for production builds - the logging data is essential for debugging CSS generation issues and performance optimization.
 
 **Purpose**: Wraps Tailwind CLI with TailwindLogger service for build transparency  
-**Dependencies**: `TailwindLogger`, Tailwind CSS 4.0 CLI, Logger utility  
+**Dependencies**: `TailwindLogger`, Tailwind CSS 4.0 CLI, `@datainkio/lumberjack`  
 **Output**: Generates `_site/assets/styles.css` with comprehensive build analysis  
 **Triggers**: `npm run build:css`, `npm run build:css:dev`, `npm run watch:css`, automatically after Figma sync
 
 **ARCHITECTURE OVERVIEW**:
 
-- Wraps `@tailwindcss/cli` with detailed logging and analysis
+- Wraps `@tailwindcss/cli` with detailed logging and analysis via `TailwindLogger` service
 - Provides same transparency standards as other project services
 - Tracks build performance, file sizes, and optimization opportunities
-- Integrates with existing logger infrastructure for consistent output
+- Integrates with `@datainkio/lumberjack` for consistent output across build scripts
 
 **BUILD MODES**:
 
@@ -141,7 +141,7 @@ node scripts/buildCSS.js --watch
 ### generateAirtableSchema.js - Copilot Schema Generation
 
 **Purpose**: Generates comprehensive Airtable schema documentation optimized for Copilot context  
-**Dependencies**: `fetchAirtableData`, Logger utility, Node.js `fs`  
+**Dependencies**: `fetchAirtableData`, `@datainkio/lumberjack`, Node.js `fs`  
 **Output**: Creates `.copilot/airtable-schema.json`, `.copilot/airtable-schema.compact.json`, `.copilot/AIRTABLE_SCHEMA.md`  
 **Triggers**: `npm run schema:generate`, automatically runs in build sequence via `build:schema`
 

@@ -201,15 +201,12 @@ Tables become collections with lowercase names via `eleventy/collections/content
 ```html
 <!-- Airtable table "Projects" becomes collection "projects" -->
 {% for project in collections.projects %}
-<h2>{{ project.data.Name }}</h2>
-<p>{{ project.data.Description }}</p>
+<h2>{{ project.fields.title }}</h2>
+<p>{{ project.fields.description }}</p>
 {% endfor %}
 ```
 
-**CRITICAL**: Collection names are always lowercase regardless of Airtable table casing. "MyTable" becomes "mytable".
-
-## Tailwind CSS Logging System (Comprehensive Build Transparency)
-
+**CRITICAL**: Collection names are always lowercase regardless of Airtable table casing. "MyTable" becomes "mytable". Access fields via `project.fields.fieldName` (matching your Airtable field names).
 This project includes a comprehensive logging system for Tailwind CSS builds that provides the same level of transparency as the 11ty collections and Figma services. **DO NOT bypass this system** - the detailed logging is essential for debugging CSS generation issues and performance optimization.
 
 ### TailwindLogger Service
@@ -286,11 +283,12 @@ portfolio/
 │   ├── buildCSS.js            # Enhanced Tailwind CSS build with logging
 │   └── fetchFigma.js          # Design token sync (triggers CSS rebuild)
 ├── eleventy/                   # 11ty configuration and collections
-│   └── services/               # TailwindLogger.js for build transparency
-├── airtable/                   # Airtable API services
-├── airtable/                   # Airtable API services
-├── eleventy/                   # 11ty configuration and collections
-│   └── services/               # TailwindLogger.js for build transparency
+│   ├── filters/               # Nunjucks filters (string, array, date, etc.)
+│   ├── shortcodes/            # Reusable template functions
+│   ├── collections/           # Content collection definitions
+│   └── services/              # Build-time services (NavigationBuilder, etc.)
+├── airtable/                   # Airtable API integration
+│   └── fetchAirtableData.js   # CMS data fetching service
 └── _site/                      # BUILD OUTPUT - never edit directly
 ```
 
@@ -391,14 +389,24 @@ npm run build
 
 The site is fully static with no server-side requirements or runtime dependencies.
 
-## Getting Help
+## Documentation & Resources
 
-If something breaks:
+Comprehensive documentation is available in the `docs/` and individual README files:
 
-1. **Check the build logs** for specific error messages
-2. **Verify environment variables** are set correctly
-3. **Confirm Figma/Airtable structure** hasn't changed
-4. **Run clean install**: `rm -rf node_modules/ .cache/ && npm install`
-5. **Check this README** again - you probably missed a step
+- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Complete AI agent context (50+ workflows, patterns, gotchas)
+- **[docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)** - Documentation navigation hub
+- **[njk/README.md](njk/README.md)** - Nunjucks/11ty templates and atomic design
+- **[eleventy/README.md](eleventy/README.md)** - 11ty configuration overview
+- **[eleventy/filters/README.md](eleventy/filters/README.md)** - Complete filter reference (23+ filters)
+- **[eleventy/shortcodes/README.md](eleventy/shortcodes/README.md)** - Shortcode API
+- **[js/choreography/README.md](js/choreography/README.md)** - Animation system architecture
+- **[js/choreography/sections/README.md](js/choreography/sections/README.md)** - Section controllers (Hero, BackgroundVideo, Bio, Organizations)
+- **[js/effects/README.md](js/effects/README.md)** - GSAP effects library
+- **[figma/README.md](figma/README.md)** - Figma API integration
+- **[airtable/README.md](airtable/README.md)** - Airtable CMS integration
 
-Remember: This system is powerful but unforgiving. Each piece depends on the others working exactly as designed. Respect the architecture and it will serve you well. Ignore it and prepare for debugging hell.
+For quick reference, see:
+
+- **Common mistakes to avoid**: [.github/copilot-instructions.md#dont-do-this](.github/copilot-instructions.md#dont-do-this)
+- **Build troubleshooting**: [.github/copilot-instructions.md#troubleshooting](.github/copilot-instructions.md#troubleshooting)
+- **All npm scripts explained**: [.github/copilot-instructions.md#core-workflows](.github/copilot-instructions.md#core-workflows)

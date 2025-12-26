@@ -117,8 +117,8 @@ Before editing existing templates:
 
 All templates must support:
 
-- **Modern browsers**: Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
-- **Mobile devices**: iOS Safari 14+, Android Chrome 88+, responsive from 320px to 4K displays
+- **Modern browsers**: Chrome 120+, Firefox 121+, Safari 17+, Edge 120+
+- **Mobile devices**: iOS Safari 17+, Android Chrome 120+, responsive from 320px to 4K displays
 - **Accessibility standards**: WCAG 2.1 AA compliance with screen reader optimization
 - **Performance targets**: Lighthouse scores >90 across all categories
 - **SEO requirements**: Core Web Vitals thresholds for search ranking

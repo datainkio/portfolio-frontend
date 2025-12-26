@@ -23,7 +23,7 @@ User Interaction (scroll, page load)
          ↓
    Director (master coordinator)
          ↓
-   ├─ Section Controllers (Hero, Work, Biography)
+   ├─ Section Controllers (Hero, BackgroundVideo, Bio, Organizations)
    ├─ Stage Manager (scroll smoothing, background effects)
    └─ Animation Sequences (landing page choreography)
          ↓
@@ -83,9 +83,10 @@ Master coordination system for all page animations using event-driven architectu
   - `ScrollSmootherManager.js` - GSAP smooth scrolling initialization and configuration
   - `GelAnimationManager.js` - Gel background animation system
   - `SessionManager.js` - User interaction history and session state
-- **`sections/`** - Section controllers (Hero, BackgroundVideo, Biography, Work, Splash, Approach)
+- **`sections/`** - Section controllers (Hero, BackgroundVideo, Bio, Organizations)
   - Follow AbstractSection pattern with intro/outro/scroll lifecycle
   - Communicate via AnimationBus events
+  - Reference: [js/choreography/sections/README.md](js/choreography/sections/README.md) for detailed controller patterns
 - **`sequences/`** - Multi-section choreography coordinators (e.g., LandingSequence)
 - **`config.js`** - Animation configuration constants (timings, easing, etc.)
 - **`constants.js`** - Event names and other constants
@@ -94,10 +95,11 @@ Master coordination system for all page animations using event-driven architectu
 
 Shared utilities used across JavaScript modules:
 
-- **`lumberjack/`** - Unified logging system (imported from npm package `@datainkio/lumberjack`)
+- **`lumberjack/`** - Unified logging system (wrapper around npm package `@datainkio/lumberjack`)
   - Consistent output across build scripts and browser runtime
   - Semantic color styling and emoji indicators
   - Environment-controlled verbosity
+  - Reference: [.github/copilot-instructions.md#logging](.github/copilot-instructions.md) for logging patterns
 - **`math.js`** - Mathematical utilities and calculations
 - **`color.js`** - Color manipulation functions (conversions, transformations)
 - **`diagnostics/`** - Diagnostic utilities for debugging

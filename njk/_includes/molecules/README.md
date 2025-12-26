@@ -115,8 +115,8 @@ Before editing existing molecules:
 
 All molecules must support:
 
-- **Modern browsers**: Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
-- **Mobile devices**: iOS Safari 14+, Android Chrome 88+
+- **Modern browsers**: Chrome 120+, Firefox 121+, Safari 17+, Edge 120+
+- **Mobile devices**: iOS Safari 17+, Android Chrome 120+
 - **Accessibility standards**: WCAG 2.1 AA compliance minimum
 - **Performance targets**: Lighthouse score >90 for mobile devices
 

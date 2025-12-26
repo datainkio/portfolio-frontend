@@ -61,6 +61,8 @@ A **service** in this architecture is a specialized class that:
 
 ```javascript
 // Example usage in build script
+import { TailwindLogger } from '../services/TailwindLogger.js';
+
 const logger = new TailwindLogger();
 const buildId = logger.startBuild('production', 'styles/main.css', '_site/assets/styles.css');
 
@@ -86,8 +88,8 @@ await logger.group(async () => {
 
 **Critical Dependencies**:
 
-- Logger utility for consistent output styling
-- LoggerStyle classes for visual formatting
+- Logger utility (`@datainkio/lumberjack`) for consistent output styling
+- LumberjackStyle classes for visual formatting
 - Node.js fs/promises for file analysis
 - Tailwind CLI output parsing for metrics
 
@@ -169,7 +171,7 @@ All services implement defensive programming:
  *
  * @class [ServiceName]
  */
-import logger, { LoggerStyle } from '../../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
 export class [ServiceName] {
   constructor(config) {

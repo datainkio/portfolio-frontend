@@ -124,8 +124,8 @@ Before editing existing atoms:
 
 All atoms must support:
 
-- **Modern browsers**: Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
-- **Mobile browsers**: iOS Safari 14+, Chrome Mobile 88+
+- **Modern browsers**: Chrome 120+, Firefox 121+, Safari 17+, Edge 120+
+- **Mobile browsers**: iOS Safari 17+, Chrome Mobile 120+
 - **Accessibility tools**: Screen readers, keyboard navigation, high contrast mode
 - **Performance budgets**: Minimal CSS/JS footprint per component
 

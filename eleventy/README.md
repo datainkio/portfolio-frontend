@@ -37,10 +37,14 @@ between content
 
 ### `/services/` - Business Logic Processing
 
-**What it does**: Encapsulates complex data processing logic in reusable, testable classes
+**What it does**: Encapsulates complex data processing logic in reusable, testable classes. Full documentation in [services/README.md](./services/README.md).
+
+**Current Services**:
 
 - **`NavigationBuilder.js`** - Handles all navigation processing (directory scanning, hierarchy building, data transformation)
-- **Service Pattern** - Separates business logic from 11ty configuration for better maintainability
+- **`TailwindLogger.js`** - Provides comprehensive Tailwind CSS build transparency with metrics and optimization insights
+
+**Service Pattern**: Separates business logic from 11ty configuration for better maintainability and testability.
 
 **UX Impact**: Ensures consistent navigation behavior and enables complex content relationships
 
@@ -48,32 +52,32 @@ between content
 
 **What it does**: Transforms raw content into user-friendly formats
 
-**Available Filters** (in `filters/` subdirectory):
+**Available Filters**: Comprehensive documentation in [filters/README.md](./filters/README.md) (23+ filters):
 
-- **`string.js`** - Text processing (truncate, markdown conversion, slug generation)
-- **`date.js`** - Date formatting for human readability
-- **`array.js`** - List manipulation and filtering (findRecord, unique, groupBy)
-- **`image.js`** - Image optimization and responsive sizing
-- **`color.js`** - Color manipulation for theming and contrast checking
-- **`dom.js`** - HTML element queries and selections
-- **`file.js`** - File handling utilities
+- **`string.js`** - Text processing (truncate, markdown conversion, uppercase)
+- **`date.js`** - Date formatting with Luxon (`postDate` filter for human-readable dates)
+- **`array.js`** - List manipulation (findRecord, unique, groupBy, sum, sortByKey)
+- **`image.js`** - Image record lookup
+- **`color.js`** - Color manipulation and theming
+- **`dom.js`** - HTML element queries
+- **`file.js`** - File metadata and size formatting
 
 **Common Usage**:
 
 ```nunjucks
 {{ description | markdownify }}     {# Markdown to HTML #}
 {{ title | truncate(50) }}          {# Shorten with ellipsis #}
-{{ publishDate | dateFormat }}      {# Human-readable date #}
-{{ collection | findRecord(ids) }}  {# Match records by ID array #}
+{{ publishDate | postDate }}        {# Human-readable date like "Jan 1, 2024" #}
+{{ collection | findRecord(ids) }}  {# Critical: Resolve Airtable record relationships #}
 ```
 
 **UX Impact**: Ensures content displays consistently and accessibly across all contexts
 
 ### `/shortcodes/` - Reusable Components
 
-**What it does**: Creates reusable UI patterns that templates can easily invoke
+**What it does**: Creates reusable UI patterns that templates can easily invoke. Full documentation in [shortcodes/README.md](./shortcodes/README.md).
 
-**Available Shortcodes** (see README.md in directory):
+**Available Shortcodes**:
 
 - **`picture`** - Responsive image with CSS class application
 - **`lightbox`** - Image display with modal dialog overlay
@@ -84,7 +88,7 @@ between content
 
 ```nunjucks
 {% picture imageHTML, "w-full shadow-lg", "object-cover" %}
-{% lightbox imageHTML, "Image Title", "Optional caption text" %}
+{% lightbox imageHTML, "Image Title", "Optional caption" %}
 {% loremPars 3 %}   {# Generate 3 paragraphs of placeholder text #}
 ```
 
