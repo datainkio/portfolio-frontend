@@ -5,3 +5,5 @@ eleventyNavigation:
   key: Award
   parent: Documents
 ---
+{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
+{{ sanitySchema.render({ title: "Sanity Award Schema", collection: collections.sanityAwards }) }}

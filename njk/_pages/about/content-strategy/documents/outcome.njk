@@ -5,3 +5,7 @@ eleventyNavigation:
   key: Outcome
   parent: Documents
 ---
+{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
+{% set sanityOutcomes = collections.sanityOutcomes | default([]) %}
+
+{{ sanitySchema.render({ title: "Sanity Outcome Schema", collection: sanityOutcomes }) }}

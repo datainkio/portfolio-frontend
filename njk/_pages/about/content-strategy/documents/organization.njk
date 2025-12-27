@@ -5,3 +5,7 @@ eleventyNavigation:
   key: Organization
   parent: Documents
 ---
+{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
+{% set sanityOrganizations = collections.sanityOrganizations | default([]) %}
+
+{{ sanitySchema.render({ title: "Sanity Organization Schema", collection: sanityOrganizations }) }}
