@@ -36,6 +36,66 @@ export const SANITY_QUERIES = [
     } | order(featured desc, weight desc, title asc)`,
   },
   {
+    id: 'sanityIndustries',
+    description: 'Industry taxonomy for organizations and projects',
+    cacheDuration: '1d',
+    query: groq`*[_type == "industry"]{
+      _id,
+      _updatedAt,
+      title,
+      "slug": slug.current,
+      description,
+      icon,
+      color,
+      weight
+    } | order(weight desc, title asc)`,
+  },
+  {
+    id: 'sanityActivities',
+    description: 'Activities taxonomy for project classification',
+    cacheDuration: '1d',
+    query: groq`*[_type == "activity"]{
+      _id,
+      _updatedAt,
+      title,
+      "slug": slug.current,
+      description,
+      icon,
+      color,
+      weight,
+      featured
+    } | order(featured desc, weight desc, title asc)`,
+  },
+  {
+    id: 'sanityRoles',
+    description: 'Roles taxonomy for project metadata',
+    cacheDuration: '1d',
+    query: groq`*[_type == "role"]{
+      _id,
+      _updatedAt,
+      title,
+      "slug": slug.current,
+      description,
+      category,
+      weight
+    } | order(weight desc, title asc)`,
+  },
+  {
+    id: 'sanityOutcomes',
+    description: 'Outcomes taxonomy for deliverables',
+    cacheDuration: '1d',
+    query: groq`*[_type == "outcome"]{
+      _id,
+      _updatedAt,
+      title,
+      "slug": slug.current,
+      description,
+      category,
+      icon,
+      weight
+    } | order(weight desc, title asc)`,
+  },
+  {
     id: 'sanityAwards',
     description: 'Awards with organization and project context',
     cacheDuration: '1d',
@@ -98,5 +158,69 @@ export const SANITY_QUERIES = [
       externalLink,
       caseStudyUrl
     } | order(featured desc, weight desc, title asc)`,
+  },
+  {
+    id: 'sanityImageAssets',
+    description: 'Published image assets with metadata',
+    cacheDuration: '1d',
+    query: groq`*[_type == "imageAsset" && published != false]{
+      _id,
+      _updatedAt,
+      title,
+      "slug": slug.current,
+      description,
+      credit,
+      tags,
+      sourceUrl,
+      published,
+      image{
+        alt,
+        caption,
+        asset->{url, metadata{dimensions, lqip}}
+      }
+    } | order(_updatedAt desc, title asc)`,
+  },
+  {
+    id: 'sanityPosts',
+    description: 'Published posts with relationships and metadata',
+    cacheDuration: '1d',
+    query: groq`*[_type == "post" && status == "published"]{
+      _id,
+      _updatedAt,
+      "title": page.title,
+      "slug": page.slug.current,
+      "abstract": page.abstract,
+      "weight": page.weight,
+      seo,
+      publishDate,
+      updateDate,
+      author,
+      postType,
+      categories,
+      tags,
+      status,
+      featured,
+      featuredImage{
+        alt,
+        caption,
+        asset->{url, metadata{dimensions, lqip}}
+      },
+      excerpt,
+      relatedProjects[]->{
+        _id,
+        "title": page.title,
+        "slug": page.slug.current,
+        "status": meta.status,
+        "featured": meta.featured
+      },
+      relatedPosts[]->{
+        _id,
+        "title": page.title,
+        "slug": page.slug.current,
+        "status": status,
+        "featured": featured
+      },
+      readingTime
+    } | order(featured desc, publishDate desc, title asc)`,
   },
 ];

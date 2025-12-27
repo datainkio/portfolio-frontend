@@ -5,8 +5,14 @@ This repo now fetches Sanity content with the official client + GROQ during the 
 ## Collections
 
 - `sanityOrganizations` – organizations with industry + logo metadata
+- `sanityIndustries` – industry taxonomy for organizations and projects
+- `sanityActivities` – activities taxonomy used for project classification
+- `sanityRoles` – roles taxonomy for project metadata
+- `sanityOutcomes` – outcomes/deliverables taxonomy for projects
 - `sanityAwards` – awards with grantor + project context
 - `sanityProjects` – published projects with relationships, hero image, and links
+- `sanityPosts` – published posts with relationships and metadata
+- `sanityImageAssets` – published image assets with metadata
 
 ## Configuration
 
