@@ -33,33 +33,45 @@
 
 {% set sizes = {
   "xs": "w-3 h-3",
-  "sm": "w-4 h-4", 
+  "sm": "w-4 h-4",
   "md": "w-5 h-5",
   "lg": "w-6 h-6",
   "xl": "w-8 h-8",
   "2xl": "w-10 h-10"
 } %}
 
-{% set iconName = name | default("direction-left") %}
-{% set iconSize = size | default("md") %}
-{% set iconClasses = className | default("") %}
-{% set sizeClasses = sizes[iconSize] | default(sizes.md) %}
+{% macro render(params = {}) %}
+  {% set iconName = params.name | default("direction-left") %}
+  {% set iconSize = params.size | default("md") %}
+  {% set iconClasses = params.className | default(params.class | default("")) %}
+  {% set sizeClasses = sizes[iconSize] | default(sizes.md) %}
 
-{% if icons[iconName] %}
-<svg 
-  class="{{ sizeClasses }} {{ iconClasses }}" 
-  viewBox="0 0 24 24" 
-  fill="currentColor" 
-  xmlns="http://www.w3.org/2000/svg"
-  role="img"
-  aria-hidden="true"
->
-  {{ icons[iconName] | safe }}
-</svg>
-{% else %}
-<!-- CRITICAL ERROR: Icon "{{ iconName }}" not found in icon registry -->
-<!-- Available icons: direction-left, direction-right, chevron-up, chevron-down, chevron-left, chevron-right, external-link, close, menu -->
-<span class="inline-block {{ sizeClasses }} bg-red-500 text-white text-xs flex items-center justify-center">
-  ?
-</span>
+  {% if icons[iconName] %}
+  <svg
+    class="{{ sizeClasses }} {{ iconClasses }}"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-hidden="true"
+  >
+    {{ icons[iconName] | safe }}
+  </svg>
+  {% else %}
+  <!-- CRITICAL ERROR: Icon "{{ iconName }}" not found in icon registry -->
+  <!-- Available icons: direction-left, direction-right, chevron-up, chevron-down, chevron-left, chevron-right, external-link, close, menu -->
+  <span class="inline-block {{ sizeClasses }} bg-red-500 text-white text-xs flex items-center justify-center">
+    ?
+  </span>
+  {% endif %}
+{% endmacro %}
+
+{# Backward compatibility: render immediately when included directly #}
+{% if renderImmediately | default(true) %}
+  {{ render({
+    name: name,
+    size: size,
+    className: className,
+    class: class
+  }) }}
 {% endif %}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   {% block head %}
-    {% include "organisms/layout/head.njk" %}
+    {% include "templates/partials/head.njk" %}
   {% endblock %}
   
   {# 
@@ -27,7 +27,7 @@
   #}
   
   <body class="{{ bodyClasses }}">
-    {% include "atoms/gtm-noscript.njk" %}
+    {% include "templates/partials/gtm-noscript.njk" %}
     {% include "organisms/header/global.njk" %}
   {% import "atoms/gel/gel.njk" as gelAtom %}
   {% import "molecules/background/video.njk" as background %}

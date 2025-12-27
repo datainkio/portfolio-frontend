@@ -1,20 +1,31 @@
-{% set entry = entry or {} %}
-{% set linkUrl = entry.url or url %}
-{% set linkTitle = entry.title or entry.key or title %}
-{% set linkClass = (entry.class or class or "") %}
-{% set isCurrent = (linkUrl == page.url) %}
-{% set hasChildren = entry.children and entry.children.length > 0 %}
+{% import "atoms/icon.njk" as icon %}
 
-<a
-  href="{{ linkUrl }}"
-  class="nav-link block py-2 px-3 text-neutral-100 hover:text-primary-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 {{ linkClass }}"
-  {% if isCurrent %}aria-current="page"{% endif %}
-  {% if description %}title="{{ description }}"{% endif %}
->
-  {{ linkTitle }}
+{% macro render(params = {}) %}
+  {% set entry = params.entry or {} %}
+  {% set linkUrl = entry.url or params.url %}
+  {% set linkTitle = entry.title or entry.key or params.title %}
+  {% set linkClasses = (entry.class or params.class or "") %}
+  {% set isCurrent = (linkUrl == page.url) %}
+  {% set hasChildren = entry.children and entry.children.length > 0 %}
+  {% set linkDescription = entry.description or params.description %}
 
-  {# Child navigation indicator #}
-  {% if hasChildren %}
-  {% include "atoms/icon/caret.njk" %}
-  {% endif %}
-</a>
+  <a
+    href="{{ linkUrl }}"
+    class="nav-link {{ linkClasses }}"
+    {% if isCurrent %}aria-current="page"{% endif %}
+    {% if linkDescription %}title="{{ linkDescription }}"{% endif %}
+  >
+    {{ linkTitle }}
+  </a>
+{% endmacro %}
+
+{# Backward compatibility: render immediately when included directly #}
+{% if renderImmediately | default(true) %}
+  {{ render({
+    entry: entry,
+    url: url,
+    title: title,
+    class: class,
+    description: description
+  }) }}
+{% endif %}

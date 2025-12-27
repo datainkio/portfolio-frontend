@@ -1,0 +1,51 @@
+{#
+  Generic tree navigation renderer for eleventyNavigation-style data.
+  Provide a nav array via params.nav; optionally pass params.fallback to use when nav is empty.
+#}
+
+{% import "atoms/link/nav-link.njk" as navLink %}
+
+{% macro render(params = {}) %}
+  {%- set nav = params.nav | default([]) -%}
+  {%- if (not nav | length) and params.fallback is defined and params.fallback | length -%}
+    {%- set nav = params.fallback -%}
+  {%- endif -%}
+
+  {%- if nav | length -%}
+    {%- set currentUrl = params.currentUrl | default(page.url) -%}
+    {%- set ariaLabel = params.ariaLabel | default("Section navigation") -%}
+
+    <nav class="space-y-3" aria-label="{{ ariaLabel }}">
+      {{ renderItems(nav, currentUrl) }}
+    </nav>
+  {%- endif -%}
+{% endmacro %}
+
+{% macro renderItems(items, currentUrl) %}
+  <ul class="space-y-1" role="list">
+    {% for item in items %}
+      {%- set isActive = item.url == currentUrl -%}
+      {%- set linkClassBase = "" -%}
+      {%- if isActive -%}
+        {%- set linkClass = linkClassBase ~ "" -%}
+      {%- else -%}
+        {%- set linkClass = linkClassBase ~ "" -%}
+      {%- endif -%}
+      <li>
+        {%- set linkProps = {
+          entry: item,
+          "class": linkClass,
+          description: item.description,
+          renderImmediately: false
+        } -%}
+        {{ navLink.render(linkProps) }}
+
+        {% if item.children and item.children | length %}
+          <div class="ml-3 pl-3">
+            {{ renderItems(item.children, currentUrl) }}
+          </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

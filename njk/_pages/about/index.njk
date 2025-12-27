@@ -1,12 +1,29 @@
 ---
-layout: templates/base.njk
 title: About
 eleventyNavigation:
   key: About
+bodyClasses: "text-neutral-900 grid grid-cols-12 gap-8 lg:gap-12 bg-white"
+sidebarBeforeClasses: "col-span-3"
+mainClasses: "col-span-6 mx-auto px-4 py-8"
+sidebarAfterClasses: "col-span-3 lg:w-1/4 lg:pr-8 mb-8 lg:mb-0"
+contentClasses: "prose prose-neutral max-w-none"
 ---
+{% extends "templates/documentation.njk" %}
+{% import "organisms/navigation/tree-nav.njk" as treeNav %}
 
-<h2>About Our Project</h2>
-<p>
-  This project demonstrates Atomic Design principles with Eleventy, TailwindCSS,
-  and DaisyUI.
-</p>
+{% if collections is defined and collections.all is defined %}
+  {% set aboutNav = collections.all | eleventyNavigation("About") %}
+{% else %}
+  {% set aboutNav = [] %}
+{% endif %}
+
+{% block sidebar_before %}
+  <aside class="sidebar {{ sidebarBeforeClasses }}">
+    {{ treeNav.render({ nav: aboutNav, currentUrl: page.url, ariaLabel: "About navigation" }) }}
+  </aside>
+{% endblock %}
+
+{% block content %}
+<h1>About Me</h1>
+<p>Welcome to the about page. Here you can learn more about my background, skills,
+{% endblock %}

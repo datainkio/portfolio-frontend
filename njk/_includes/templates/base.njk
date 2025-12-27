@@ -1,53 +1,37 @@
+{% import "organisms/header/global.njk" as header %}
+{% import "organisms/footer/global.njk" as footer %}
+{% import "organisms/navigation/skip-links.njk" as skip_links %}
+{% import "organisms/navigation/breadcrumbs.njk" as breadcrumbs %}
+
 <!DOCTYPE html>
 <html lang="en">
-  {% block head %}
-    {% include "organisms/layout/head.njk" %}
-  {% endblock %}
-  
-  {# 
-  CRITICAL WARNING: GSAP Animation System Integration
-  
-  REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
-  - id="main-header" : Required by js/choreography/sections/Hero.js
-  - id="work"        : Required by js/choreography/sections/Work.js  
-  - id="biography"   : Required by js/choreography/sections/Biography.js
-  
-  DO NOT MODIFY these IDs without updating corresponding animation controllers
-  Animation system depends on specific DOM structure and element targeting
-  
-  SCROLLSMOOTHER INTEGRATION:
-  - Main content wrapper must maintain scroll context
-  - Section elements require data-scroll attributes for ScrollTrigger
-  - CSS transforms may interfere with animation timelines
-  
-  DESIGN TOKEN DEPENDENCIES:
-  - Animation values sync from Figma design tokens
-  - CSS custom properties used for timing and easing
-  - Maintain --animation-* custom properties in styles/
-  #}
-  
+  {% include "templates/partials/head.njk" %}
+  {% block head %}{% endblock %}
   <body class="{{ bodyClasses }}">
-    {% include "atoms/gtm-noscript.njk" %}
-    {# {% include "organisms/layout/header.njk" %} #}
-    
-    {# Main content wrapper - GSAP ScrollSmoother target #}
+    {# GTM #}
+    {% include "templates/partials/gtm-noscript.njk" %}
+    {# SKIP LINKS #}
+    {{ skip_links.render() }}
+    {# GLOBAL PAGE HEADER #}
+    {{ header.render({classes: 'col-span-full w-full bg-gray-900 text-gray-400'}) }}
+    {# BREADCRUMBS #}
+    {{ breadcrumbs.render({classes: 'col-span-full w-full'}) }}
+    {# SIDEBAR #}
+    {% block sidebar_before %}{% endblock %}
+    {# MAIN CONTENT AREA #}
     <main class="{{ mainClasses }}" data-scroll-container>
-      {% block content %}
-        {% if content %}
+      <h1>{{ title }}</h1>
+      {% block content %}      
+        {% if content %}  
           {{ content | safe }}
         {% else %}
           {% loremPars 3 %}
         {% endif %}
       {% endblock %}
     </main>
-    
-    {% import "organisms/footer/global.njk" as footer %}
-    {{ footer.render() }}
-
-    {# Import blocked-scroll utility (module) #}
-    {##}
-    <script type="module" defer>
-      import '/assets/js/utils/diagnostics/scroll-blocked.js';
-    </script>
+    {# SIDEBAR #}
+    {% block sidebar_after %}{% endblock %}
+    {# GLOBAL PAGE FOOTER #}
+    {{ footer.render({classes: 'col-span-full w-full py-8 px-4 md:px-8 lg:px-12 bg-gray-900 text-gray-400 text-center text-sm'}) }}
   </body>
 </html>
