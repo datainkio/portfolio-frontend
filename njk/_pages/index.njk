@@ -18,9 +18,13 @@ scripts: >
 
   {% import "organisms/section/hero/text.njk" as heroSection %}
   {% import "organisms/section/bio/bio.njk" as bioSection %}
+  {% import "organisms/section/awards.njk" as awards %}
   {% import "organisms/section/work/featured.njk" as featuredWork %}
-  {% import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection %}
+  {# import "organisms/section/organizations/featured.njk" as featuredOrganizations with context #}
+  {# import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection #}
 
   {{ heroSection.render( { id: "hero", title: title }) }}
   {{ bioSection.render({id: "bio"}) }}
-  {{ airtableDebugSection.render({ site: site, collections: collections, schema: dbSchema }) }}
+  {{ awards.render({ id: "awards", awards: collections.sanityAwards }) }}
+  {# {{ featuredOrganizations.render({ id: "featured-organizations", organizations: collections.sanityOrganizations }) }} #}
+  

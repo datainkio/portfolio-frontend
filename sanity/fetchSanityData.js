@@ -30,8 +30,16 @@ export default async function fetchSanityData({
     process.env.SANITY_FORCE_REFRESH_QUERY === id;
 
   if (!forceRefresh && asset.isCacheValid(cacheDuration)) {
-    logger.trace(`${id}: using cache`, null, 'brief', cacheStyle);
-    return asset.getCachedValue();
+    const cached = await asset.getCachedValue();
+
+    // If we cached an empty response (e.g., first fetch failed or data arrived later),
+    // proactively refresh so the build doesn't get stuck showing nothing.
+    if (Array.isArray(cached) && cached.length === 0) {
+      logger.trace(`${id}: cache empty, refreshing`, null, 'brief', fetchStyle);
+    } else {
+      logger.trace(`${id}: using cache`, null, 'brief', cacheStyle);
+      return cached;
+    }
   }
 
   logger.trace(`${id}: fetching from Sanity`, null, 'brief', fetchStyle);

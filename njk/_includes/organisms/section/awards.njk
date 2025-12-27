@@ -1,0 +1,17 @@
+{% macro render(params = {}) %}
+  {%- set awards = params.awards
+    | default([]) -%}
+<section id="{{ params.id | default('awards') }}" class="">
+  {% if awards | length %}
+    <ul class="awards-list">
+      {% for award in awards %}
+        <li>
+          {{ award.title | default(award.name) | default('Untitled award') }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="awards-list__empty">No awards found.</p>
+  {% endif %}
+</section>
+{% endmacro %}
