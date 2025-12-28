@@ -26,16 +26,18 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     super(view);
     this.options = options;
 
-    // Here's where we tell the timeline what to do
-    this._rotateIn();
     this.setDefault();
+    // Here's where we tell the timeline what to do
+    this._reveal();
   }
 
   async setDefault(props = {}) {
+    const collapsedClip = 'inset(50% 0 50% 0)'; // zero-height strip
+
     super.setDefault({
-      yPercent: 110,
-      rotation: 20,
-      transformOrigin: 'center center',
+      clipPath: collapsedClip,
+      webkitClipPath: collapsedClip,
+      ...props,
     });
   }
 
@@ -45,19 +47,29 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     return this.timeline.play(0);
   }
 
-  _rotateIn() {
+  _reveal() {
     this.videoEl = this.view.querySelector('video');
 
     if (this.videoEl) {
       this.videoEl.play();
     }
 
-    this.timeline.to(this.view, {
-      yPercent: 0,
-      rotation: 0,
-      duration: 1.5,
-      ease: 'power2.out',
-    });
+    const collapsedClip = 'inset(50% 0 50% 0)';
+    const targetClip = 'inset(0% 0% 0% 0%)'; // full element width/height
+
+    this.timeline.fromTo(
+      this.view,
+      {
+        clipPath: collapsedClip,
+        webkitClipPath: collapsedClip,
+      },
+      {
+        clipPath: targetClip,
+        webkitClipPath: targetClip,
+        duration: 1.5,
+        ease: EASE,
+      }
+    );
   }
 
   outro() {

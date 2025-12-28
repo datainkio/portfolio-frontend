@@ -43,7 +43,7 @@ export class LandingSequence {
     this.state.isStarted = true;
 
     try {
-      this.sections.hero.playIntro();
+      this.sections?.video?.playIntro?.();
       // logger.trace('Hero intro started', null, 'brief', 'standard');
     } catch (error) {
       this.logger.trace('Error starting hero intro', error, 'verbose', 'error');
@@ -120,7 +120,7 @@ export class LandingSequence {
       // this.logger.trace('Hero intro complete');
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
-      this.sections?.video?.playIntro?.();
+      // this.sections?.video?.playIntro?.();
     });
 
     // Respond to hero outro start
@@ -148,6 +148,7 @@ export class LandingSequence {
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();
+      this.sections.hero.playIntro();
     });
 
     // Respond to hero outro start
@@ -158,7 +159,7 @@ export class LandingSequence {
     // Respond to hero outro complete
     on(EVENTS.video.outroComplete, () => {
       this.logger.trace('BG Video outro complete');
-      this.sections?.work?.playIntro?.();
+      // this.sections?.work?.playIntro?.();
     });
 
     /**

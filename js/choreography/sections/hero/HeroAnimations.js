@@ -29,7 +29,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
 
     // Build animations directly on this.timeline instead of nesting
     this._buildScrambleAnimation();
-    super.setDefault(options);
+    super.setDefault(this.options);
   }
 
   // Override AbstractSectionAnimations

@@ -2,7 +2,7 @@
 
 {% macro render(params = {}) %}
   {%- set sectionId = params.id | default("hero") -%}
-  {%- set size = params.size | default("col-span-full h-dvh ") -%}
+  {%- set size = params.size | default("col-span-full w-full h-dvh ") -%}
   {%- set layout = params.layout | default("grid grid-cols-subgrid") -%}
   {%- set positioning = params.positioning | default("flex items-center justify-items-start") -%}
   {%- set titleText = params.title | default(title) -%}
@@ -32,7 +32,7 @@
       intervals: rulerOptions.intervals | default(12),
       subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
       id: rulerOptions.id | default("hero-ruler"),
-      classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12")
+      classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute")
     }) }}
   </section>
 {% endmacro %}

@@ -106,10 +106,10 @@ export default class Director {
         bus: this.bus,
         reducedMotionHandler: this.stage?.reducedMotion,
       }),
-      organizations: new Organizations({
-        bus: this.bus,
-        reducedMotionHandler: this.stage?.reducedMotion,
-      }),
+      // organizations: new Organizations({
+      //   bus: this.bus,
+      //   reducedMotionHandler: this.stage?.reducedMotion,
+      // }),
       bio: new Bio({
         bus: this.bus,
         reducedMotionHandler: this.stage?.reducedMotion,

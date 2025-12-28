@@ -2,8 +2,12 @@
 
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
-  {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none') -%}
-  <div id="{{ bgID }}" class="{{ containerClasses }}" aria-hidden="true">
+  {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
+  <div
+    id="{{ bgID }}"
+    class="{{ containerClasses }}"
+    aria-hidden="true"
+  >
     {{ videoAtom.render({
       src: params.videoSrc,
       autoplay: true,
