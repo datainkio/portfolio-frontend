@@ -6,6 +6,7 @@ Part of layout organism category for consistent page structure.
 
 {% macro render(params = {}) %}
   <footer class="{{ params.classes }}">
+  
       &copy; {{ params.year or site.year }} data:ink:io. All rights reserved.
   </footer>
 {% endmacro %}

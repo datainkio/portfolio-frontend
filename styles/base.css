@@ -14,11 +14,12 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
+
   body {
     @apply overflow-x-hidden;
   }
   main {
-    @apply relative;
+    /* @apply relative; */ /* Disabled to support GSAP ScrollSmoother */
   }
   h1 {
     @apply font-sans text-5xl font-extrabold hover:no-underline 
