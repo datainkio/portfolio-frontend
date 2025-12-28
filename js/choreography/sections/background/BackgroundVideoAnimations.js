@@ -5,12 +5,6 @@ import { SplitText } from '/assets/js/gsap/SplitText.js';
 gsap.registerPlugin(ScrambleTextPlugin, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
-const DURATION = 0.75; // Default duration for animations
-const STAGGER = 0.5; // Default stagger duration for animations
-const REVEAL_DELAY = 0; // Delay before starting reveal animations
-const SPEED = 0.2; // Speed of the scramble text effect
-const EASE = 'power1.out';
-
 export default class BackgroundVideoAnimations extends AbstractSectionAnimations {
   /**
    * Extends AbstractSectionAnimations, which:
@@ -25,6 +19,10 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   constructor(view, options = {}) {
     super(view);
     this.options = options;
+
+    // Prefer site-wide defaults from config with sensible fallbacks
+    this.duration = options.duration ?? 1.5;
+    this.easeOut = options.ease?.out ?? options.ease ?? 'power1.out';
 
     this.setDefault();
     // Here's where we tell the timeline what to do
@@ -66,8 +64,8 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
       {
         clipPath: targetClip,
         webkitClipPath: targetClip,
-        duration: 1.5,
-        ease: EASE,
+        duration: this.duration,
+        ease: this.easeOut,
       }
     );
   }

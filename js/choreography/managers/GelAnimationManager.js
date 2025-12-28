@@ -142,18 +142,18 @@ export default class GelAnimationManager {
   }
 
   /** @private */
-  _createScrollTrigger(scroller, trigger) {
-    const stagger = 0.15;
+  // _createScrollTrigger(scroller, trigger) {
+  //   const stagger = 0.15;
 
-    this._trigger = ScrollTrigger.create({
-      trigger,
-      start: 'top top',
-      end: '+=200vh',
-      scrub: true,
-      scroller,
-      onUpdate: self => this._updateGels(self.progress, stagger),
-    });
-  }
+  //   this._trigger = ScrollTrigger.create({
+  //     trigger,
+  //     start: 'top top',
+  //     end: '+=200vh',
+  //     scrub: true,
+  //     scroller,
+  //     onUpdate: self => this._updateGels(self.progress, stagger),
+  //   });
+  // }
 
   /** @private */
   _updateGels(progress, stagger) {
@@ -180,9 +180,9 @@ export default class GelAnimationManager {
   }
 
   /** @returns {ScrollTrigger|null} */
-  getTrigger() {
-    return this._trigger;
-  }
+  // getTrigger() {
+  //   return this._trigger;
+  // }
 
   /** Cleanup animations and references */
   destroy() {

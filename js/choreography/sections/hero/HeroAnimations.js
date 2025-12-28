@@ -30,8 +30,8 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.gelEl = document.querySelector(this.gelSelector);
 
     // Build animations directly on this.timeline instead of nesting
-    this._buildScrambleAnimation();
-    this._buildOutroThrow();
+    this._buildScrambleAnimation('intro');
+    // this._buildOutroThrow('outro');
     super.setDefault(this.options);
   }
 
@@ -52,9 +52,9 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     return this.timeline.reverse('outro:end');
   }
 
-  _buildScrambleAnimation() {
-    const introLabel = 'intro';
-    const introEndLabel = 'intro:end';
+  _buildScrambleAnimation(label) {
+    const introLabel = label;
+    const introEndLabel = `${label}:end`;
 
     this.timeline.addLabel(introLabel, 0);
     const split = new SplitText(this.view, { type: 'words' });
@@ -84,9 +84,9 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.timeline.addPause(introEndLabel);
   }
 
-  _buildOutroThrow() {
-    const outroLabel = 'outro';
-    const outroEndLabel = 'outro:end';
+  _buildOutroThrow(label) {
+    const outroLabel = label;
+    const outroEndLabel = `${label}:end`;
     const outroTargets = [this.view, this.gelEl].filter(Boolean);
 
     // Position outro at the end of existing intro animations / pause

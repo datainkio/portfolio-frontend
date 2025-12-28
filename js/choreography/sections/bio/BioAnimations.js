@@ -5,12 +5,6 @@ import { SplitText } from '/assets/js/gsap/SplitText.js';
 gsap.registerPlugin(ScrambleTextPlugin, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
-const DURATION = 0.75; // Default duration for animations
-const STAGGER = 0.5; // Default stagger duration for animations
-const REVEAL_DELAY = 0; // Delay before starting reveal animations
-const SPEED = 0.2; // Speed of the scramble text effect
-const EASE = 'power1.out';
-
 export default class BioAnimations extends AbstractSectionAnimations {
   /**
    * Extends AbstractSectionAnimations, which:
