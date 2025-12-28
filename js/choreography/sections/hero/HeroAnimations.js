@@ -26,25 +26,37 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     super(view);
     this.options = options;
     this.originalText = this.view?.textContent || '';
+    this.gelSelector = options.gelSelector || '#bg-gel-0';
+    this.gelEl = document.querySelector(this.gelSelector);
 
     // Build animations directly on this.timeline instead of nesting
     this._buildScrambleAnimation();
+    this._buildOutroThrow();
     super.setDefault(this.options);
   }
 
   // Override AbstractSectionAnimations
   intro() {
     // Return the play promise so AbstractSection can await completion
-    return this.timeline.play(0);
+    return this.timeline.play('intro');
   }
 
   outro() {
     this.logger?.trace('outro started');
     // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
-    return this.timeline.reverse();
+    return this.timeline.play('outro');
+  }
+
+  outroReverse() {
+    this.logger?.trace('outro reverse');
+    return this.timeline.reverse('outro:end');
   }
 
   _buildScrambleAnimation() {
+    const introLabel = 'intro';
+    const introEndLabel = 'intro:end';
+
+    this.timeline.addLabel(introLabel, 0);
     const split = new SplitText(this.view, { type: 'words' });
 
     split.words.forEach((word, index) => {
@@ -63,8 +75,40 @@ export default class HeroAnimations extends AbstractSectionAnimations {
           },
           ease: EASE,
         },
-        index * STAGGER
+        `${introLabel}+=${index * STAGGER}`
       );
     });
+
+    // Pause after intro completes to prevent running into outro automatically
+    this.timeline.addLabel(introEndLabel, this.timeline.duration());
+    this.timeline.addPause(introEndLabel);
+  }
+
+  _buildOutroThrow() {
+    const outroLabel = 'outro';
+    const outroEndLabel = 'outro:end';
+    const outroTargets = [this.view, this.gelEl].filter(Boolean);
+
+    // Position outro at the end of existing intro animations / pause
+    this.timeline.addLabel(outroLabel, this.timeline.duration());
+
+    if (outroTargets.length) {
+      this.timeline.to(
+        outroTargets,
+        {
+          duration: 0.6,
+          xPercent: -30,
+          yPercent: -30,
+          rotationZ: -10,
+          transformOrigin: '50% 50%',
+          ease: 'power2.in',
+        },
+        outroLabel
+      );
+    }
+
+    // Pause after outro completes
+    this.timeline.addLabel(outroEndLabel, this.timeline.duration());
+    this.timeline.addPause(outroEndLabel);
   }
 }
