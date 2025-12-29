@@ -1,0 +1,15 @@
+{% import "atoms/loader/LoaderMark.njk" as Mark %}
+{% import "atoms/loader/LoaderIndicator.njk" as Indicator %}
+{% import "atoms/loader/LoaderText.njk" as LoaderText %}
+
+{% macro render(params = {}) -%}
+  {%- set message = params.message | default("Loading…") -%}
+  {%- set kind = params.kind | default("spinner") -%}
+  <div class="flex flex-col items-center text-center gap-1">
+    {{ Mark.render(params.markText or "dataink.io") }}
+    {{ Indicator.render(kind) }}
+    {% if params.showText | default(true) %}
+      {{ LoaderText.render(message) }}
+    {% endif %}
+  </div>
+{%- endmacro %}

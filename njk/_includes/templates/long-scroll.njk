@@ -1,9 +1,13 @@
+{% import "organisms/SitePreloader.njk" as Preloader %}
 <!DOCTYPE html>
 <html lang="en">
 {% include "templates/partials/head.njk" %}
   
   {# 
-  CRITICAL WARNING: GSAP Animation System Integration
+  TODO: Confirm that setting aria-busy="true" on main is appropriate for
+  indicating loading state during preloader sequence.
+
+  GSAP Animation System Integration
   
   REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
   - id="main-header" : Required by js/choreography/sections/Hero.js
@@ -24,8 +28,9 @@
   - Maintain --animation-* custom properties in styles/
   #}
   
-  <body class="{{ bodyClasses }}">
+  <body class="bg-primary-950">
     {% include "templates/partials/gtm-noscript.njk" %}
+    {{ Preloader.render({ kind: "spinner", message: "Preparing the experience…", gsapSrc: "/assets/js/vendor/gsap.min.js" }) }}
     {% import "organisms/header/global-header.njk" as header %}
     {% import "organisms/footer/global-footer.njk" as footer %}
     {% import "atoms/gel.njk" as gelAtom %}
@@ -39,7 +44,7 @@
     {# Wrapping content with the smooth-wrapper and smooth-content divs for ScrollSmoother #}
     <div id="smooth-wrapper" class="{{ mainClasses }}">
       <div id="smooth-content" class="{{ contentClasses }}">
-        <main id="page-main">
+        <main id="page-main" aria-busy="true">
           {% block content %}
             {% if content %}
               {{ content | safe }}
@@ -51,6 +56,7 @@
         {{ footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-gray-500" }) }}
       </div>
     </div>
+    <script type="module" src="/assets/js/preloader.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollSmoother.min.js"></script>

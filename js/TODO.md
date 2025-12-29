@@ -5,6 +5,17 @@ Why: It keeps me away from the rabbithole of writing and organizing tasks.
 How: All new todo items get created here and distributed when convenient and appropriate.
 Instructions: For each item, describe the action to take and the benefits it is meant to bring. Keep it tight and concise.
 
+## Preload experience
+
+- TODO: Define background color for body element.
+  Addresses flash of unstyled background while loading preloader. Oh the irony.
+- TODO: Define display/application of assets when they become available.
+  No sense waiting for video files to finish loading before rendering anything. Consider the following sequence:
+  -- background color
+  -- pixelator background
+  -- text
+  -- video
+
 ## Developer experience and AI agent performance
 
 - TODO: Add a deterministic CI pipeline (GitHub Actions) that runs npm run validate with cached fixtures/no network.
