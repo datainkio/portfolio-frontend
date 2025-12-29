@@ -1,6 +1,17 @@
 @layer utilities {
   /* Hide decorative motion-only elements when users prefer reduced motion */
+  /* Respect user motion preferences: disable CSS animations/transitions */
   @media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+      scroll-behavior: auto !important;
+    }
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
     .prm-hidden {
       display: none !important;
     }

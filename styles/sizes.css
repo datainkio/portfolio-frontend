@@ -1,0 +1,31 @@
+@layer theme {
+  :root {
+    /* Screen size tokens */
+    --screen-default: 0px;
+    --screen-xs: 480px;
+    --screen-sm: 640px;
+    --screen-md: 768px;
+    --screen-lg: 1024px;
+    --screen-xl: 1280px;
+  }
+}
+@layer utilities {
+  .screen-default {
+    @apply min-w-[var(--screen-default)];
+  }
+  .screen-xs {
+    @apply min-w-[var(--screen-xs)];
+  }
+  .screen-sm {
+    @apply min-w-[var(--screen-sm)];
+  }
+  .screen-md {
+    @apply min-w-[var(--screen-md)];
+  }
+  .screen-lg {
+    @apply min-w-[var(--screen-lg)];
+  }
+  .screen-xl {
+    @apply min-w-[var(--screen-xl)];
+  }
+}
