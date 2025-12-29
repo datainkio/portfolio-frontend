@@ -9,6 +9,7 @@
 
 /* Base styles - Global resets and fundamental styling that builds on Tailwind's preflight */
 @import './base.css' layer(base);
+@import './sizes.css' layer(theme);
 
 /* Design system colors - Auto-generated from Figma via PaletteService.js, contains CSS custom properties */
 @import './colors.css' layer(theme);
