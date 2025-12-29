@@ -20,12 +20,12 @@
  * manager.enable(); // Force initialization if not already active
  */
 
-import { gsap } from '/assets/js/gsap/all.js';
-import { ScrollSmoother } from '/assets/js/gsap/ScrollSmoother.js';
-import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+// ESM-friendly GSAP core + plugins (skypack)
+import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
+import ScrollSmoother from 'https://cdn.skypack.dev/gsap/ScrollSmoother';
 
 // Register GSAP plugins
-gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
+gsap.registerPlugin(ScrollSmoother);
 
 const SMOOTHER_EFFECTS = true; // Enable parallax effects
 

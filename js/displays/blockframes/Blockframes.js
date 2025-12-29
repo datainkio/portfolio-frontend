@@ -48,7 +48,7 @@
  * timeline.play();
  */
 
-import { gsap } from '/assets/js/gsap/gsap-core.js';
+import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
 import * as Builder from './Builder.js';
 import * as Painter from './Painter.js';
 import * as Animator from './Animator.js';

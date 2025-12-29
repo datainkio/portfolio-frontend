@@ -56,7 +56,7 @@ Lab pages support full HTML, Nunjucks templating, and component inclusion:
 
   <script type="module">
     // Your experimental JavaScript
-    import { gsap } from '/assets/js/gsap/all.js';
+    import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
 
     // Experiment code here
   </script>
@@ -124,7 +124,7 @@ scripts: >
 
 ```nunjucks
 <script type="module">
-  import { gsap } from '/assets/js/gsap/all.js';
+  import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
   import { TextMorph } from '/assets/js/effects/text/text-morph.js';
 </script>
 ```
@@ -148,9 +148,9 @@ Lab pages have full access to the site's design system and animation framework:
 ### GSAP Animation System
 
 ```javascript
-import { gsap } from '/assets/js/gsap/all.js';
-import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
-import { MorphSVGPlugin } from '/assets/js/gsap/MorphSVGPlugin.js';
+import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
+import { ScrollTrigger } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js';
+import { MorphSVGPlugin } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MorphSVGPlugin.min.js';
 ```
 
 ### Design System Components
@@ -257,7 +257,7 @@ eleventyNavigation:
   </div>
 
   <script type="module">
-    import { gsap } from '/assets/js/gsap/all.js';
+    import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
 
     gsap.from('.box', {
       duration: 2,

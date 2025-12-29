@@ -189,13 +189,8 @@ export default class Director {
 /**
  * MASTER ANIMATION INITIALIZATION
  *
- * CRITICAL: Initializes complete animation system on DOMContentLoaded.
- * Creates global Director instance for external access and debugging.
- *
- * TIMING:
- * - Uses DOMContentLoaded for fast initialization (DOM-ready)
- * - Assets may still be loading - animations handle async gracefully
- * - Faster than window.onload which waits for all assets
+ * PERFORMANCE: Initialization is deferred to idle (requestIdleCallback with timeout fallback)
+ * to keep first paint CSS-only; falls back to DOMContentLoaded + setTimeout when needed.
  *
  * GLOBAL ACCESS:
  * - window.director provides access to Director instance
@@ -207,8 +202,16 @@ const initDirector = () => {
   window.director = new Director();
 };
 
+const scheduleInit = () => {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initDirector, { timeout: 150 });
+  } else {
+    setTimeout(initDirector, 0);
+  }
+};
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initDirector);
+  document.addEventListener('DOMContentLoaded', scheduleInit, { once: true });
 } else {
-  initDirector();
+  scheduleInit();
 }

@@ -16,6 +16,7 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   {# TODO: GTM integration breaks page refresh on localhost #}
   {# {% include "atoms/gtm-script.njk" %} #}
+
   <title>{{ title | default("Default Title") }}</title>
   {% if metaDescription %}
     <meta name="description" content="{{ metaDescription }}" />
@@ -27,6 +28,7 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
   {% if canonicalUrl %}
     <link rel="canonical" href="{{ canonicalUrl }}" />
   {% endif %}
+
   {% if ogTitle %}
     <meta property="og:title" content="{{ ogTitle }}" />
   {% endif %}
@@ -39,8 +41,10 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
   {% if ogUrl %}
     <meta property="og:url" content="{{ ogUrl }}" />
   {% endif %}
+
   <meta name="twitter:card" content="summary_large_image" />
   {# {% include "molecules/fonts.njk" %} #}
+  <link rel="preload" as="style" href="{{ '/assets/styles.css' | url }}">
   <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="{{ site.manifest.theme_color }}" />
@@ -69,7 +73,19 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
       href="{{ icon.src }}"
     />
   {% endfor %}
+
+  <!-- Preconnects for performance optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Alexandria:wght@900&display=swap"
+    crossorigin
+  >
+  <link rel="preload" as="fetch" href="/assets/video/sizzle.mp4" type="video/mp4" fetchpriority="high">
+  {# External scripts and styles from frontmatter #}
   {{ scripts | safe }}
-  {% block extraHeadContent %}
-  {% endblock %}
+  {% block extraHeadContent %}{% endblock %}
 </head>

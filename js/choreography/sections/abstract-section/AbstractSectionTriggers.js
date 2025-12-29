@@ -6,7 +6,7 @@
  * Manages a collection of triggers and provides lifecycle helpers.
  */
 
-import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+import ScrollTrigger from 'https://cdn.skypack.dev/gsap/ScrollTrigger';
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
 export default class AbstractSectionTriggers {

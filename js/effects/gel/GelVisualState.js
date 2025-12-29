@@ -1,6 +1,6 @@
 /** @format */
 
-import { gsap } from '/assets/js/gsap/all.js';
+import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
 
 /**
  * GelVisualState - Handles color classes and transform-based scaling.

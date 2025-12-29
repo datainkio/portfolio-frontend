@@ -29,7 +29,7 @@
  * // timeline.play();
  */
 
-import { gsap } from '/assets/js/gsap/gsap-core.js';
+import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
 
 /**
  * Creates a horizontal wipe/marquee animation for a block element

@@ -6,14 +6,16 @@ subtitle: 'The online studio for Russ Lebo'
 metaDescription: 'no metaDescription defined'
 metaKeywords: 'user experience, eleventy, sanity, tailwind'
 canonicalUrl: 'https://dataink.io'
-bodyClasses: ''
-contentClasses: 'bg-neutral-900'
+bodyClasses: 'bg-neutral-900'
+contentClasses: ''
 skipLinks:
   - hero
   - bio
   - featured-work
 scripts: >
-  <script type="module" src="/assets/js/choreography/Director.js" defer></script>
+  <script type="module">
+    import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/Director.js'));
+  </script>
 ---
 
   {% import "organisms/section/hero.njk" as heroSection %}

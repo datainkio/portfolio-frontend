@@ -1,8 +1,9 @@
 /** @format */
 
-import { gsap, ScrambleTextPlugin } from '/assets/js/gsap/all.js';
-import { SplitText } from '/assets/js/gsap/SplitText.js';
-gsap.registerPlugin(ScrambleTextPlugin, SplitText);
+import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
+import SplitText from 'https://cdn.skypack.dev/gsap/SplitText';
+import ScrambleText from 'https://cdn.skypack.dev/gsap/ScrambleTextPlugin/';
+gsap.registerPlugin(ScrambleText, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
 const DURATION = 0.75; // Default duration for animations

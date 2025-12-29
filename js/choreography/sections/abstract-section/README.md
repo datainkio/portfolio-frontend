@@ -40,12 +40,12 @@ An abstract class is never instantiated on its own, only its descendents. You im
 
 1. Build a class extending AbstractSectionAnimations to define intro/outro timelines. Required imports:
 
-- - import { gsap } from '/assets/js/gsap/all.js';
+- - import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
 - - import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
 2. Optionally build a class extending AbstractSectionTrigggers for ScrollTrigger setup.
 
-- - import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+- - import { ScrollTrigger } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js';
 
 3. Build the main entrypoint class extending AbstractSection, wire the animations/triggers, and register lifecycle handlers.
 

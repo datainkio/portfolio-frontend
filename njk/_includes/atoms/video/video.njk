@@ -21,19 +21,22 @@
 
 {% macro render(params = {}) %}
   {%- set videoSrc = params.src | default('https://imgur.com/2cSaKIt.mp4') -%}
+  {%- set videoPreload = params.preload | default('none') -%}
   {%- set videoAutoplay = params.autoplay | default(false) -%}
   {%- set videoLoop = params.loop | default(false) -%}
   {%- set videoMuted = params.muted | default(false) -%}
   {%- set videoPlaysInline = params.playsInline | default(false) -%}
+  {%- set deferVideo = params.defer | default(true) -%}
 
   <video
-    src="{{ videoSrc }}"
+    {%- if deferVideo %} data-defer-video data-src="{{ videoSrc }}"{% else %} src="{{ videoSrc }}"{% endif %}
+    preload="{{ videoPreload }}"
     {%- if videoAutoplay %} autoplay{% endif %}
     {%- if videoLoop %} loop{% endif %}
     {%- if videoMuted %} muted{% endif %}
     {%- if videoPlaysInline %} playsinline{% endif %}
     {%- if params.poster %} poster="{{ params.poster }}"{% endif %}
     {%- if params.className %} class="{{ params.className }}"{% endif %}>
-    Your browser does not support the video tag.
+    Uh-oh. It appears that your browser does not support the latest video standards. No worries, though — you can still <a href="{{ videoSrc }}">click here to download the video file</a> and view it locally.
   </video>
 {% endmacro %}

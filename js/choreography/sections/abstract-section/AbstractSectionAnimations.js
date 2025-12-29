@@ -7,7 +7,7 @@
  * associated with a specific DOM element and section id.
  */
 
-import { gsap } from '/assets/js/gsap/all.js';
+import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
 const DURATION = 1.0; // Default duration for animations
 const STAGGER = 0.2; // Default stagger duration for animations
 export default class AbstractSectionAnimations {

@@ -10,10 +10,11 @@
   >
     {{ videoAtom.render({
       src: params.videoSrc,
-      autoplay: true,
-      loop: true,
-      muted: true,
-      playsInline: true,
+      autoplay: params.autoplay | default(true),
+      loop: params.loop | default(true),
+      muted: params.muted | default(true),
+      playsInline: params.playsInline | default(true),
+      preload: params.preload | default("metadata"),
       className: "w-full h-dvh md:h-full object-cover z-0"
     }) }}
     <div class="absolute inset-0 bg-pixelator opacity-60 pointer-events-none z-10"></div>

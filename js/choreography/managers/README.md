@@ -310,7 +310,7 @@ test('StageManager coordinates managers', () => {
 **Enable ScrollTrigger markers**:
 
 ```javascript
-import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+import { ScrollTrigger } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js';
 ScrollTrigger.defaults({ markers: true });
 ```
 

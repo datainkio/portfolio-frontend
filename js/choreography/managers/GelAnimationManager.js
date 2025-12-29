@@ -37,8 +37,8 @@
  * @fileoverview Gel animation orchestrator for background visual effects
  */
 
-import { gsap } from '/assets/js/gsap/all.js';
-import { ScrollTrigger } from '/assets/js/gsap/ScrollTrigger.js';
+import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
+import ScrollTrigger from 'https://cdn.skypack.dev/gsap/ScrollTrigger';
 import { Gel, GelManipulator } from '/assets/js/effects/gel/index.js';
 import { GEL_CONFIG } from '/assets/js/choreography/config.js';
 

@@ -1,6 +1,7 @@
 const preloader = document.querySelector('[data-preloader]');
 if (preloader) {
   const stack = preloader.querySelector('[data-preloader-stack]');
+  const textEl = preloader.querySelector('[data-preloader-text]');
   const main = document.querySelector('main');
   const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const restoreState = (() => {
@@ -23,6 +24,61 @@ if (preloader) {
       });
     };
   })();
+
+  const updateFiletypeMessage = (() => {
+    let rafId = null;
+    let nextLabel = null;
+    return ext => {
+      if (!textEl || !ext) return;
+      nextLabel = `Loading ${ext.toUpperCase()}…`;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        textEl.textContent = nextLabel;
+        rafId = null;
+      });
+    };
+  })();
+
+  const startResourceObserver = () => {
+    if (!('PerformanceObserver' in window) || !('getEntriesByType' in performance)) return () => {};
+    const seen = new Set();
+    const processEntries = entries => {
+      for (const entry of entries) {
+        const url = entry.name;
+        if (!url || seen.has(url)) continue;
+        seen.add(url);
+        const ext = extractExt(url);
+        if (ext) updateFiletypeMessage(ext);
+      }
+    };
+    // Process already buffered entries
+    processEntries(performance.getEntriesByType('resource'));
+
+    const observer = new PerformanceObserver(list => processEntries(list.getEntries()));
+    try {
+      observer.observe({ type: 'resource', buffered: true });
+    } catch (_) {
+      try {
+        observer.observe({ entryTypes: ['resource'] });
+      } catch (_) {
+        return () => {};
+      }
+    }
+    return () => observer.disconnect();
+  };
+
+  const extractExt = url => {
+    try {
+      const path = new URL(url, window.location.href).pathname;
+      const part = path.split('.').pop();
+      if (!part || part.includes('/')) return null;
+      return part.toLowerCase();
+    } catch (_) {
+      return null;
+    }
+  };
+
+  const stopObserver = startResourceObserver();
 
   const animateIntro = () => {
     if (!stack) return;
@@ -75,20 +131,40 @@ if (preloader) {
     });
 
   const fontsReady = 'fonts' in document ? document.fonts.ready : Promise.resolve();
-  const windowLoaded =
-    document.readyState === 'complete'
+  const domReady =
+    document.readyState !== 'loading'
       ? Promise.resolve()
-      : new Promise(res => window.addEventListener('load', res, { once: true }));
+      : new Promise(res => document.addEventListener('DOMContentLoaded', res, { once: true }));
   const timeout = new Promise(res => setTimeout(res, 1800));
+
+  const hydrateDeferredVideos = () => {
+    const videos = document.querySelectorAll('video[data-defer-video][data-src]');
+    videos.forEach(video => {
+      if (video.src) return;
+      const src = video.getAttribute('data-src');
+      if (!src) return;
+      try {
+        video.setAttribute('preload', 'metadata');
+        video.src = src;
+        video.removeAttribute('data-src');
+        video.removeAttribute('data-defer-video');
+        // Do not call load() to avoid interrupting autoplay/play promises.
+      } catch (err) {
+        console.warn('Deferred video hydrate failed', err);
+      }
+    });
+  };
 
   const ready = async () => {
     animateIntro();
     await fontsReady;
-    await Promise.race([windowLoaded, timeout]);
+    await Promise.race([domReady, timeout]);
     await animateExit();
+    stopObserver();
     preloader.remove();
     restoreState();
     if (main) main.setAttribute('aria-busy', 'false');
+    hydrateDeferredVideos();
     initializeScrollSmoother(preloader.dataset.gsapSrc);
   };
 

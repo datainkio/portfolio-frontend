@@ -12,11 +12,11 @@ scripts: >
 <!-- CRITICAL: GSAP Setup - Import once at page level for all sections -->
 <script type="module">
   // Import and configure GSAP
-  import {gsap} from '/assets/js/gsap/all.js';
-  import {SplitText} from '/assets/js/gsap/SplitText.js';
-  import {CustomEase} from '/assets/js/gsap/CustomEase.js';
-  import {CustomWiggle} from '/assets/js/gsap/CustomWiggle.js';
-  import {MorphSVGPlugin} from '/assets/js/gsap/MorphSVGPlugin.js';
+  import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
+  import { SplitText } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js';
+  import { CustomEase } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js';
+  import { CustomWiggle } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomWiggle.min.js';
+  import { MorphSVGPlugin } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MorphSVGPlugin.min.js';
   import * as TextParty from '/assets/js/effects/TextParty.js';
 
   gsap.registerPlugin(SplitText, CustomEase, CustomWiggle, MorphSVGPlugin);

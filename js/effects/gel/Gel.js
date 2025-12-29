@@ -10,7 +10,7 @@
  */
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
-import { gsap } from '/assets/js/gsap/all.js';
+import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
 import GelMask from './GelMask.js';
 import GelGeometry from './GelGeometry.js';
 import GelVisualState from './GelVisualState.js';

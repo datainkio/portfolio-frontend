@@ -1,8 +1,5 @@
 /** @format */
 
-import { gsap, ScrambleTextPlugin } from '/assets/js/gsap/all.js';
-import { SplitText } from '/assets/js/gsap/SplitText.js';
-gsap.registerPlugin(ScrambleTextPlugin, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
 const DURATION = 0.75; // Default duration for animations
