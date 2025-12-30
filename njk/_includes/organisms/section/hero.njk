@@ -1,4 +1,3 @@
-{% import "atoms/ruler.njk" as ruler %}
 
 {% macro render(params = {}) %}
   {%- set sectionId = params.id | default("hero") -%}
@@ -9,7 +8,7 @@
   {%- set rulerOptions = params.ruler | default({}) -%}
 
   {# DEV #}
-  {%- set twStyles = "col-span-full z-10 text-6xl
+  {%- set hStyles = "col-span-full z-10 text-6xl
             sm:text-7xl 
             md:text-8xl 
             lg:text-9xl 
@@ -27,15 +26,10 @@
   <section id="{{ sectionId }}" style="" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
     <h1
       id="hero-title"
-      class="{{ twStyles }}"
+      style="opacity: 0;"
+      class="{{ hStyles }} gsap-element gsap-fade"
     >
       {{ titleText }}
     </h1>
-    {{ ruler.render({ 
-      intervals: rulerOptions.intervals | default(12),
-      subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
-      id: rulerOptions.id | default("hero-ruler"),
-      classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute")
-    }) }}
   </section>
 {% endmacro %}

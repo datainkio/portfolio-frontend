@@ -2,9 +2,11 @@
 
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
-  {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
+  {%- set containerClasses = params.classes | default('gsap-element fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
+  {%- set containerStyles = params.styles | default('') -%}
   <div
     id="{{ bgID }}"
+    style="{{ containerStyles }}"
     class="{{ containerClasses }}"
     aria-hidden="true"
   >
@@ -15,7 +17,8 @@
       muted: params.muted | default(true),
       playsInline: params.playsInline | default(true),
       preload: params.preload | default("metadata"),
-      className: "w-full h-dvh md:h-full object-cover z-0"
+      classes: "w-full h-dvh md:h-full object-cover z-0 gsap-element gsap-fade",
+      styles: ""
     }) }}
     <div class="absolute inset-0 bg-pixelator opacity-60 pointer-events-none z-10"></div>
   </div>

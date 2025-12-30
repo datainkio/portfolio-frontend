@@ -18,21 +18,21 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     this.options = options;
 
     // Prefer site-wide defaults from config with sensible fallbacks
-    this.duration = options.duration ?? 1.5;
+    this.duration = 5; // options.duration ?? 1.5;
     this.easeOut = options.ease?.out ?? options.ease ?? 'power1.out';
 
-    this.setDefault();
+    this.setDefault(options);
     // Here's where we tell the timeline what to do
     this._reveal();
   }
 
-  async setDefault(props = {}) {
+  async setDefault(options = {}) {
     const collapsedClip = 'inset(50% 0 50% 0)'; // zero-height strip
 
     super.setDefault({
       clipPath: collapsedClip,
       webkitClipPath: collapsedClip,
-      ...props,
+      ...options,
     });
   }
 
@@ -52,19 +52,26 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     const collapsedClip = 'inset(50% 0 50% 0)';
     const targetClip = 'inset(0% 0% 0% 0%)'; // full element width/height
 
-    this.timeline.fromTo(
-      this.view,
-      {
-        clipPath: collapsedClip,
-        webkitClipPath: collapsedClip,
-      },
-      {
-        clipPath: targetClip,
-        webkitClipPath: targetClip,
-        duration: this.duration,
-        ease: this.easeOut,
-      }
-    );
+    this.timeline
+      .fromTo(
+        this.view,
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: this.duration * 0.5, ease: 'power1.out' }
+      )
+      .fromTo(
+        this.view,
+        {
+          clipPath: collapsedClip,
+          webkitClipPath: collapsedClip,
+        },
+        {
+          clipPath: targetClip,
+          webkitClipPath: targetClip,
+          ease: this.easeOut,
+          duration: this.duration,
+        }
+        // 0 // start at same time
+      );
   }
 
   outro() {

@@ -42,7 +42,6 @@ import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
 import StageManager from '/assets/js/choreography/StageManager.js';
 import Hero from '/assets/js/choreography/sections/hero/Hero.js';
-import Organizations from '/assets/js/choreography/sections/organizations/Organizations.js';
 import Bio from '/assets/js/choreography/sections/bio/Bio.js';
 import BackgroundVideo from '/assets/js/choreography/sections/background/BackgroundVideo.js';
 import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';

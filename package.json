@@ -43,7 +43,7 @@
   ],
   "scripts": {
     "_comment_development": "=== DEVELOPMENT WORKFLOWS ===",
-    "start": "run-s dev",
+    "start": "run-s build:js dev",
     "dev": "run-p dev:css dev:11ty",
     "dev:css": "node scripts/buildCSS.js --watch",
     "dev:11ty": "eleventy --serve --quiet",

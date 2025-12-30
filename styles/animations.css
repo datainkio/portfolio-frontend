@@ -20,7 +20,8 @@
 
 @layer components {
   /* GSAP Animation Base Classes */
-  .gsap-element {
+  .gsap-element,
+  .video-background {
     /* Force hardware acceleration for smooth animations */
     will-change: transform;
     transform: translateZ(0);
@@ -63,13 +64,6 @@
     background: transparent;
     position: relative;
     z-index: 10;
-  }
-
-  /* Performance Optimizations for Video Elements */
-  .video-background {
-    /* Hardware-accelerated video backgrounds */
-    will-change: transform, opacity;
-    transform: translateZ(0);
   }
 
   /* Animation State Classes */

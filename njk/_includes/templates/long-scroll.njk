@@ -1,4 +1,13 @@
 {% import "organisms/SitePreloader.njk" as Preloader %}
+{% import "organisms/header/global-header.njk" as Header %}
+{% import "organisms/footer/global-footer.njk" as Footer %}
+{% import "atoms/gel.njk" as Gel %}
+{% import "molecules/background/video-background.njk" as Background %}
+{% import "atoms/ruler.njk" as ruler %}
+
+{%- set rulerOptions = params.rulerOptions | default({}) -%}
+{%- set contentClasses = params.contentClasses | default('min-h-screen pb-16 px-4 md:px-8 lg:px-12') -%}
+
 <!DOCTYPE html>
 <html lang="en">
 {% include "templates/partials/head.njk" %}
@@ -31,25 +40,29 @@
   <body class="{{ bodyClasses | default('') }}">
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ Preloader.render({ kind: "spinner", message: "Preparing the experience…" }) }}
-    {% import "organisms/header/global-header.njk" as header %}
-    {% import "organisms/footer/global-footer.njk" as footer %}
-    {% import "atoms/gel.njk" as gelAtom %}
-    {% import "molecules/background/video.njk" as background %}
-    {{ header.render({ classes: "global-header fixed top-0 left-0 w-full z-20" }) }}
+    {{ Header.render({ classes: "global-header fixed top-0 left-0 w-full z-20" }) }}
 
-    {{ background.render({
+    {{ Background.render({
       id:"sizzle-background",
       videoSrc: "/assets/video/sizzle.mp4",
-      classes: "fixed inset-0 -z-10 pointer-events-none",
+      styles: "visibility: hidden;",
+      classes: "fixed inset-0 -z-10 pointer-events-none overflow-hidden gsap-element gsap-fade",
       defer: false,
       preload: "metadata"
     }) }}
       
-    {{ gelAtom.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
+    {{ Gel.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
+
     {# Wrapping content with the smooth-wrapper and smooth-content divs for ScrollSmoother #}
     <div id="smooth-wrapper" class="{{ mainClasses }}">
       <div id="smooth-content" class="{{ contentClasses }}">
         <main id="page-main" aria-busy="true">
+            {{ ruler.render({ 
+      intervals: rulerOptions.intervals | default(12),
+      subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
+      id: rulerOptions.id | default("hero-ruler"),
+      classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute gsap-element")
+    }) }}
           {% block content %}
             {% if content %}
               {{ content | safe }}
@@ -58,7 +71,7 @@
             {% endif %}
           {% endblock %}
         </main>
-        {{ footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-gray-500" }) }}
+        {{ Footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-gray-500" }) }}
       </div>
     </div>
     <script type="module" src="/assets/js/preloader.js" defer></script>

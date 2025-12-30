@@ -1,13 +1,14 @@
 /** @format */
-
+import lumberjack from '@datainkio/lumberjack';
 import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
 import SplitText from 'https://cdn.skypack.dev/gsap/SplitText';
 import ScrambleText from 'https://cdn.skypack.dev/gsap/ScrambleTextPlugin/';
 gsap.registerPlugin(ScrambleText, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
-const DURATION = 0.75; // Default duration for animations
-const STAGGER = 0.5; // Default stagger duration for animations
+const Y_OFFSET = 35; // Default Y offset for animations
+const DURATION = 0.5; // Default duration for animations
+const STAGGER = 0.25; // Default stagger duration for animations
 const REVEAL_DELAY = 0; // Delay before starting reveal animations
 const SPEED = 0.2; // Speed of the scramble text effect
 const EASE = 'power1.out';
@@ -30,15 +31,22 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.gelSelector = options.gelSelector || '#bg-gel-0';
     this.gelEl = document.querySelector(this.gelSelector);
 
+    this.logger = lumberjack.createScoped(this.constructor.name, {
+      color: '#007bff',
+      enabled: true,
+    });
+
     // Build animations directly on this.timeline instead of nesting
-    this._buildScrambleAnimation('intro');
-    // this._buildOutroThrow('outro');
+    //  this._buildScrambleAnimation('intro');
+    this._buildWordByWordAnimation('intro');
+    this._buildOutroThrow('outro');
     super.setDefault(this.options);
   }
 
   // Override AbstractSectionAnimations
   intro() {
-    // Return the play promise so AbstractSection can await completion
+    // Return the play promise so AbstractSection can await completion'
+    this.logger?.trace('intro started');
     return this.timeline.play('intro');
   }
 
@@ -51,6 +59,30 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   outroReverse() {
     this.logger?.trace('outro reverse');
     return this.timeline.reverse('outro:end');
+  }
+
+  _buildWordByWordAnimation(label) {
+    const introLabel = label;
+    const introEndLabel = `${label}:end`;
+
+    this.timeline.addLabel(introLabel, 0);
+    this.timeline.set(this.view, { autoAlpha: 1 }, introLabel);
+    const split = new SplitText(this.view, { type: 'words' });
+
+    split.words.forEach((word, index) => {
+      word.classList.add('w-full');
+      this.timeline.fromTo(
+        word,
+        { autoAlpha: 0, yPercent: Y_OFFSET },
+        {
+          autoAlpha: 1,
+          yPercent: 0,
+          duration: DURATION,
+          ease: EASE,
+        },
+        `${introLabel}+=${index * STAGGER}`
+      );
+    });
   }
 
   _buildScrambleAnimation(label) {
