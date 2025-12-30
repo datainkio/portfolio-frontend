@@ -2,7 +2,7 @@
  * Bundle and minify choreography runtime into a single ESM file.
  * Output: assets/js/choreography/bundle.js
  */
-import { build } from 'esbuild';
+import { build, context } from 'esbuild';
 import { existsSync, mkdirSync, rmSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
@@ -50,7 +50,7 @@ if (!shouldBundle) {
 
 mkdirSync(outDir, { recursive: true });
 
-await build({
+const buildOptions = {
   entryPoints: [entryPoint],
   bundle: true,
   format: 'esm',
@@ -60,17 +60,6 @@ await build({
   sourcemap: false,
   outfile: outFile,
   absWorkingDir: projectRoot,
-  watch: watch
-    ? {
-        onRebuild(error) {
-          if (error) {
-            console.error('[choreography] bundle rebuild failed', error);
-          } else {
-            console.log(`[choreography] bundle rebuilt -> ${outFile}`);
-          }
-        },
-      }
-    : false,
   plugins: [
     {
       name: 'alias-absolute-assets',
@@ -87,6 +76,13 @@ await build({
     },
   ],
   logLevel: 'info',
-});
+};
 
-console.log(`[choreography] bundle ${watch ? 'watching' : 'built'} -> ${outFile}`);
+if (watch) {
+  const ctx = await context(buildOptions);
+  await ctx.watch();
+  console.log(`[choreography] bundle watching -> ${outFile}`);
+} else {
+  await build(buildOptions);
+  console.log(`[choreography] bundle built -> ${outFile}`);
+}

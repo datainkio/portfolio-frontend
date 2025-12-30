@@ -85,6 +85,16 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
     crossorigin
   >
   <link rel="preload" as="fetch" href="/assets/video/sizzle.mp4" type="video/mp4" fetchpriority="high">
+  {# Provide import map so raw ESM (no bundle) can resolve scoped packages in the browser #}
+  {% if runtime.bundleJs == false %}
+    <script type="importmap">
+      {
+        "imports": {
+          "@datainkio/lumberjack": "/assets/js/utils/lumberjack/index.js"
+        }
+      }
+    </script>
+  {% endif %}
   {# External scripts and styles from frontmatter #}
   {% if enableChoreography %}
     {% if runtime.bundleJs %}

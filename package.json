@@ -3,6 +3,8 @@
   "version": "2.0.0",
   "description": "Personal portfolio website built with 11ty, Tailwind CSS 4.0, automated Figma design system integration, and Airtable headless CMS",
   "type": "module",
+  "private": true,
+  "packageManager": "npm@10",
   "author": {
     "name": "Russell Lebo",
     "email": "russell@dataink.io",
@@ -37,11 +39,6 @@
     "defaults",
     "not IE 11"
   ],
-  "files": [
-    "_site/**/*",
-    "!_site/assets/js/dev/**",
-    "!**/*.map"
-  ],
   "scripts": {
     "_comment_development": "=== DEVELOPMENT WORKFLOWS ===",
     "start": "run-s build:js dev",
@@ -66,20 +63,17 @@
     "build:preview": "node scripts/buildPreview.js",
     "build:preview:dev": "node scripts/buildPreview.js --dev",
     "build:preview:verbose": "node scripts/buildPreview.js --verbose",
-    "build:schema": "node scripts/generateAirtableSchema.js",
     "_comment_content": "=== CONTENT & DESIGN SYNC ===",
     "sync:content": "node scripts/syncContent.js",
     "sync:content:debug": "DEBUG=true node scripts/syncContent.js",
     "sync:content:force": "FORCE_REFRESH=true run-s build:11ty sync:content",
-    "sync:content:quick": "run-s clean:cache build:11ty",
-    "_comment_schema": "=== SCHEMA GENERATION ===",
     "schema:generate": "node scripts/generateAirtableSchema.js",
     "_comment_workflows": "=== WORKFLOW SHORTCUTS ===",
     "fresh": "run-s clean sync:content build",
     "quick": "run-s build:css build:js build:11ty",
     "design": "run-s build:design build:css",
     "_comment_testing": "=== TESTING & VALIDATION ===",
-    "test": "node test/logger/index.js",
+    "test": "run-p test:logger test:choreography",
     "test:logger": "node test/logger/index.js",
     "test:choreography": "node test/choreography/hero-events.test.js",
     "test:logger:custom": "DEBUG=true node test/logger/custom-styles.test.js",
@@ -136,7 +130,6 @@
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^11.12.0",
-    "@tailwindcss/upgrade": "^4.0.2",
     "ansi-colors": "^4.1.3",
     "chalk": "^5.4.1",
     "cli-progress": "^3.12.0",
