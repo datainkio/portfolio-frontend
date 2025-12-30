@@ -8,7 +8,7 @@
   {%- set rulerOptions = params.ruler | default({}) -%}
 
   {# DEV #}
-  {%- set hStyles = "col-span-full z-10 text-6xl
+  {%- set hClasses = "col-span-full z-10 text-6xl
             sm:text-7xl 
             md:text-8xl 
             lg:text-9xl 
@@ -23,11 +23,10 @@
             text-primary-100" %}
 
   {# Landing view - GSAP Hero Controller Target #}
-  <section id="{{ sectionId }}" style="" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
+  <section id="{{ sectionId }}" style="opacity:0;" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
     <h1
       id="hero-title"
-      style="opacity: 0;"
-      class="{{ hStyles }} gsap-element gsap-fade"
+      class="{{ hClasses }}"
     >
       {{ titleText }}
     </h1>

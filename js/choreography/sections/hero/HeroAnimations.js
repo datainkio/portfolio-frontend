@@ -39,8 +39,8 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     // Build animations directly on this.timeline instead of nesting
     //  this._buildScrambleAnimation('intro');
     this._buildWordByWordAnimation('intro');
-    this._buildOutroThrow('outro');
-    super.setDefault(this.options);
+    // this._buildOutroThrow('outro');
+    // super.setDefault(this.options);
   }
 
   // Override AbstractSectionAnimations
@@ -64,6 +64,8 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   _buildWordByWordAnimation(label) {
     const introLabel = label;
     const introEndLabel = `${label}:end`;
+
+    this.logger.trace(this.view.classList);
 
     this.timeline.addLabel(introLabel, 0);
     this.timeline.set(this.view, { autoAlpha: 1 }, introLabel);
