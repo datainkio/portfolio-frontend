@@ -57,6 +57,9 @@ npm run build:11ty
 # Start development server (parallel: Tailwind watch + 11ty serve)
 npm start
 
+# Start dev server without JS bundling (uses raw ESM modules)
+npm run start:nobundle
+
 # Run 11ty dev server only (watch and serve)
 npm run dev:11ty
 
@@ -69,9 +72,20 @@ npm run build:css
 # Build CSS with detailed development logging
 npm run build:css:dev
 
+# Skip the choreography bundle and use raw modules during dev
+npm run dev:nobundle
+
 # Watch CSS with continuous logging
 npm run watch:css
 ```
+
+### JS Bundling Toggle (DX helper)
+
+- Default builds generate a single choreography bundle at [assets/js/choreography/bundle.js](assets/js/choreography/bundle.js) via [scripts/buildChoreography.js](scripts/buildChoreography.js).
+- Set `BUNDLE_JS=false` (or run the shortcuts above) to skip bundling and serve the raw ESM modules from [js/choreography](js/choreography) that Eleventy passthrough-copies into [assets/js/choreography](assets/js/choreography).
+- When bundling is disabled the build script deletes any stale [bundle.js](assets/js/choreography/bundle.js) so the site falls back to loading [Director.js](js/choreography/Director.js) directly; re-enable by removing the env var or passing `--bundle` to the script.
+- Use `npm run build:nobundle` if you want a production build that deliberately avoids bundling for debugging or source-mapping in the browser.
+- Direct invocation switches: `--no-bundle` / `--skip-bundle` to force raw modules, `--bundle` to override and force bundling even when `BUNDLE_JS` is false.
 
 ### Utility Commands
 

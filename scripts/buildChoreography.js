@@ -3,7 +3,7 @@
  * Output: assets/js/choreography/bundle.js
  */
 import { build } from 'esbuild';
-import { mkdirSync } from 'fs';
+import { existsSync, mkdirSync, rmSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -13,6 +13,40 @@ const projectRoot = resolve(__dirname, '..');
 const entryPoint = resolve(projectRoot, 'js/choreography/Director.js');
 const outDir = resolve(projectRoot, 'assets/js/choreography');
 const outFile = resolve(outDir, 'bundle.js');
+
+const args = new Set(process.argv.slice(2));
+const watch = args.has('--watch');
+
+const normalizeBoolean = value => {
+  if (value === undefined) return undefined;
+  const normalized = value.toLowerCase();
+  if (['1', 'true', 'yes', 'on'].includes(normalized)) return true;
+  if (['0', 'false', 'no', 'off'].includes(normalized)) return false;
+  return undefined;
+};
+
+const envBundlePreference = normalizeBoolean(process.env.BUNDLE_JS);
+const cliForcesBundle = args.has('--bundle');
+const cliSkipsBundle = args.has('--no-bundle') || args.has('--skip-bundle');
+
+let shouldBundle = envBundlePreference ?? true;
+if (cliForcesBundle) shouldBundle = true;
+if (cliSkipsBundle) shouldBundle = false;
+
+if (!shouldBundle) {
+  if (existsSync(outFile)) {
+    rmSync(outFile);
+    console.log(`[choreography] bundling disabled → removed existing bundle ${outFile}`);
+  } else {
+    console.log(
+      '[choreography] bundling disabled → no bundle emitted (using raw ESM via Eleventy passthrough)'
+    );
+  }
+  if (watch) {
+    console.log('[choreography] --watch ignored because bundling is disabled.');
+  }
+  process.exit(0);
+}
 
 mkdirSync(outDir, { recursive: true });
 
@@ -26,6 +60,17 @@ await build({
   sourcemap: false,
   outfile: outFile,
   absWorkingDir: projectRoot,
+  watch: watch
+    ? {
+        onRebuild(error) {
+          if (error) {
+            console.error('[choreography] bundle rebuild failed', error);
+          } else {
+            console.log(`[choreography] bundle rebuilt -> ${outFile}`);
+          }
+        },
+      }
+    : false,
   plugins: [
     {
       name: 'alias-absolute-assets',
@@ -44,4 +89,4 @@ await build({
   logLevel: 'info',
 });
 
-console.log(`[choreography] bundle built -> ${outFile}`);
+console.log(`[choreography] bundle ${watch ? 'watching' : 'built'} -> ${outFile}`);

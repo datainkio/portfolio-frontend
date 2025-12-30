@@ -26,7 +26,8 @@
     "airtable-cms",
     "design-system",
     "static-site-generator",
-    "jamstack"
+    "jamstack",
+    "sanity"
   ],
   "engines": {
     "node": ">=18.0.0",
@@ -44,11 +45,16 @@
   "scripts": {
     "_comment_development": "=== DEVELOPMENT WORKFLOWS ===",
     "start": "run-s build:js dev",
-    "dev": "run-p dev:css dev:11ty",
+    "start:nobundle": "run-s dev:nobundle",
+    "dev": "run-p dev:css dev:11ty dev:js",
+    "dev:nobundle": "BUNDLE_JS=false run-s build:js dev:nobundle:serve",
+    "dev:nobundle:serve": "run-p dev:css dev:11ty",
     "dev:css": "node scripts/buildCSS.js --watch",
     "dev:11ty": "eleventy --serve --quiet",
+    "dev:js": "node scripts/buildChoreography.js --watch",
     "_comment_build": "=== BUILD PROCESSES ===",
     "build": "run-s clean sync:content build:design build:css build:js build:11ty",
+    "build:nobundle": "BUNDLE_JS=false run-s clean sync:content build:design build:css build:js build:11ty",
     "build:debug": "DEBUG=true run-s clean:debug sync:content:debug build:design build:css build:js build:11ty",
     "build:force": "FORCE_REFRESH=true run-s clean sync:content:force build:design build:css build:js build:11ty",
     "build:11ty": "eleventy --quiet",

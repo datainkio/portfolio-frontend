@@ -6,18 +6,14 @@ subtitle: 'The online studio for Russ Lebo'
 metaDescription: 'no metaDescription defined'
 metaKeywords: 'user experience, eleventy, sanity, tailwind'
 canonicalUrl: 'https://dataink.io'
-bodyClasses: 'bg-neutral-900'
+bodyClasses: 'bg-neutral-950'
 contentClasses: ''
 skipLinks:
   - hero
   - bio
   - featured-work
-scripts: >
-  <script type="module">
-    import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/Director.js'));
-  </script>
+enableChoreography: true
 ---
-
   {% import "organisms/section/hero.njk" as heroSection %}
   {% import "organisms/section/bio/bio.njk" as bioSection %}
   {% import "organisms/section/awards.njk" as awards %}
@@ -27,7 +23,7 @@ scripts: >
   {# import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection #}
 
   {{ heroSection.render( { id: "hero", title: title }) }}
-  {{ bioSection.render({id: "bio"}) }}
+  {{ bioSection.render({id: "bio", classes: "relative z-10 col-start-3 col-end-9 p-4 mb-48 bg-primary-100 text-primary-950"}) }}
   {{ awards.render({ id: "awards", awards: collections.sanityAwards }) }}
   {{ projects.render({ id: "projects", projects: collections.sanityProjects }) }}
   {# {{ featuredOrganizations.render({ id: "featured-organizations", organizations: collections.sanityOrganizations }) }} #}

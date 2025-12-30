@@ -12,8 +12,7 @@
 <html lang="en">
 {% include "templates/partials/head.njk" %}
   
-  {# 
-  TODO: Confirm that setting aria-busy="true" on main is appropriate for
+  {# TODO: Confirm that setting aria-busy="true" on main is appropriate for
   indicating loading state during preloader sequence.
 
   GSAP Animation System Integration
@@ -57,12 +56,12 @@
     <div id="smooth-wrapper" class="{{ mainClasses }}">
       <div id="smooth-content" class="{{ contentClasses }}">
         <main id="page-main" aria-busy="true">
-            {{ ruler.render({ 
+            {# {{ ruler.render({ 
       intervals: rulerOptions.intervals | default(12),
       subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
       id: rulerOptions.id | default("hero-ruler"),
       classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute gsap-element")
-    }) }}
+    }) }} #}
           {% block content %}
             {% if content %}
               {{ content | safe }}

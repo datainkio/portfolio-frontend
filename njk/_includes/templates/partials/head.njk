@@ -86,6 +86,13 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
   >
   <link rel="preload" as="fetch" href="/assets/video/sizzle.mp4" type="video/mp4" fetchpriority="high">
   {# External scripts and styles from frontmatter #}
+  {% if enableChoreography %}
+    {% if runtime.bundleJs %}
+      <script type="module">import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/Director.js'));</script>
+    {% else %}
+      <script type="module">import('/assets/js/choreography/Director.js');</script>
+    {% endif %}
+  {% endif %}
   {{ scripts | safe }}
   {% block extraHeadContent %}{% endblock %}
 </head>
