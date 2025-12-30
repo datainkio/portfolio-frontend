@@ -39,25 +39,25 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     // Build animations directly on this.timeline instead of nesting
     //  this._buildScrambleAnimation('intro');
     this._buildWordByWordAnimation('intro');
-    // this._buildOutroThrow('outro');
+    this._buildOutroThrow('outro');
     // super.setDefault(this.options);
   }
 
   // Override AbstractSectionAnimations
   intro() {
     // Return the play promise so AbstractSection can await completion'
-    this.logger?.trace('intro started');
+    // this.logger?.trace('intro started');
     return this.timeline.play('intro');
   }
 
   outro() {
-    this.logger?.trace('outro started');
+    // this.logger?.trace('outro started');
     // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
     return this.timeline.play('outro');
   }
 
   outroReverse() {
-    this.logger?.trace('outro reverse');
+    // this.logger?.trace('outro reverse');
     return this.timeline.reverse('outro:end');
   }
 
@@ -65,7 +65,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     const introLabel = label;
     const introEndLabel = `${label}:end`;
 
-    this.logger.trace(this.view.classList);
+    // this.logger.trace('hi random stranger!');
 
     this.timeline.addLabel(introLabel, 0);
     this.timeline.set(this.view, { autoAlpha: 1 }, introLabel);
@@ -85,6 +85,9 @@ export default class HeroAnimations extends AbstractSectionAnimations {
         `${introLabel}+=${index * STAGGER}`
       );
     });
+    // Pause after intro completes to prevent running into outro automatically
+    this.timeline.addLabel(introEndLabel, this.timeline.duration());
+    this.timeline.addPause(introEndLabel);
   }
 
   _buildScrambleAnimation(label) {
