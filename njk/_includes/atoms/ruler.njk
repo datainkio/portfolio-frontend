@@ -2,18 +2,17 @@
   {%- set id = params.id | default("ruler-wrap") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set intervals = params.intervals | default(12) -%}
-{%- set subticksPerInterval = params.subticksPerInterval | default(16) -%}
-
+  {%- set subticksPerInterval = params.subticksPerInterval | default(16) -%}
   <div id="{{ id }}" class="{{ classes }}"></div>
-
   <script type="module">
-    import { createRuler } from "/assets/js/displays/Ruler.js";
-
-    const el = document.querySelector("#{{ id }}");
+    import {createRuler} from "/assets/js/displays/Ruler.js";
+    const el = document.querySelector("# {{ id }}");
     if (el) {
-      const ruler = createRuler(el, { intervals: {{ intervals }}, subticksPerInterval: {{ subticksPerInterval }} });
-      // ruler.setOptions({ intervals: 24 });
-      // ruler.destroy();
+      const ruler = createRuler(el, {
+        intervals: {{ intervals }},
+        subticksPerInterval: {{ subticksPerInterval }}
+      });
+      // ruler.setOptions({ intervals: 24 }); ruler.destroy();
     }
   </script>
 {% endmacro %}

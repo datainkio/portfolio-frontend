@@ -4,16 +4,12 @@
 {% import "atoms/gel.njk" as Gel %}
 {% import "molecules/background/video-background.njk" as Background %}
 {% import "atoms/ruler.njk" as ruler %}
-
 {%- set rulerOptions = params.rulerOptions | default({}) -%}
 {%- set contentClasses = params.contentClasses | default('min-h-screen') -%}
-
 <!DOCTYPE html>
 <html lang="en">
-{% include "templates/partials/head.njk" %}
-  
+  {% include "templates/partials/head.njk" %}
   {# TODO: Confirm that setting aria-busy="true" on main is appropriate for indicating loading state during preloader sequence.
-
   GSAP Animation System Integration
   
   REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
@@ -34,33 +30,30 @@
   - CSS custom properties used for timing and easing
   - Maintain --animation-* custom properties in styles/
   #}
-  
   <body class="{{ bodyClasses | default('') }}">
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ Preloader.render({ kind: "spinner", message: "Preparing the experience…" }) }}
     {{ Header.render({ classes: "global-header fixed top-0 left-0 w-full z-20" }) }}
-
     {{ Background.render({
       id:"sizzle-background",
       videoSrc: "/assets/video/sizzle.mp4",
-      styles: "visibility: hidden;",
       classes: "fixed inset-0 -z-10 pointer-events-none overflow-hidden gsap-element gsap-fade",
       defer: false,
-      preload: "metadata"
+      preload: "metadata",
+      autoPlay: false
     }) }}
-      
     {{ Gel.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
-
     {# Wrapping content with the smooth-wrapper and smooth-content divs for ScrollSmoother #}
     <div id="smooth-wrapper" class="{{ mainClasses }}">
       <div id="smooth-content" class="{{ contentClasses }}">
-        <main id="page-main" aria-busy="true">
-            {# {{ ruler.render({ 
-      intervals: rulerOptions.intervals | default(12),
-      subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
-      id: rulerOptions.id | default("hero-ruler"),
-      classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute gsap-element")
-    }) }} #}
+        <main
+          id="page-main" aria-busy="true">
+          {# {{ ruler.render({ 
+            intervals: rulerOptions.intervals | default(12),
+            subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
+            id: rulerOptions.id | default("hero-ruler"),
+            classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute gsap-element")
+          }) }} #}
           {% block content %}
             {% if content %}
               {{ content | safe }}
@@ -72,6 +65,24 @@
         {{ Footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-primary-200 bg-primary-950" }) }}
       </div>
     </div>
-    <script type="module" src="/assets/js/preloader.js" defer></script>
+  {# Provide import map so raw ESM (no bundle) can resolve scoped packages in the browser #}
+  {% if runtime.bundleJs == false %}
+    <script type="importmap">
+      {
+        "imports": {
+          "@datainkio/lumberjack": "/assets/js/utils/lumberjack/index.js"
+        }
+      }
+    </script>
+  {% endif %}
+  {# External scripts and styles from frontmatter #}
+  {% if enableChoreography %}
+    {% if runtime.bundleJs %}
+      <script type="module">import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/Director.js'));</script>
+    {% else %}
+      <script type="module">import('/assets/js/choreography/Director.js');</script>
+    {% endif %}
+  {% endif %}
+    <script type="module" src="/assets/js/preloader.js"></script>
   </body>
 </html>

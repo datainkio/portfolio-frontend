@@ -165,6 +165,7 @@ if (preloader) {
 
   const animateExit = () =>
     new Promise(resolve => {
+      console.log('Preloader exit animation started');
       const finish = () => resolve();
       if (typeof window.gsap !== 'undefined') {
         window.gsap
@@ -217,18 +218,26 @@ if (preloader) {
     });
   };
 
-  const waitForDirector = () =>
-    new Promise(resolve => {
-      const timer = setTimeout(resolve, 4000); // safety timeout
-      window.addEventListener(
-        'director:ready',
-        () => {
-          clearTimeout(timer);
-          resolve();
-        },
-        { once: true }
-      );
-    });
+  // Wait for Director to complete initialization before exiting preloader
+  // Handles both cases: Director already initialized or event dispatched later
+  const directorReady = new Promise(resolve => {
+    if (window.director) {
+      console.log('Director already initialized, resolving immediately');
+      resolve();
+      return;
+    }
+
+    window.addEventListener(
+      'director:ready',
+      () => {
+        console.log('Director ready event received');
+        resolve();
+      },
+      { once: true }
+    );
+  });
+
+  const waitForDirector = () => directorReady;
 
   const ready = async () => {
     animateIntro();

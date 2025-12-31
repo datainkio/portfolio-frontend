@@ -46,7 +46,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     this.videoEl = this.view.querySelector('video');
 
     if (this.videoEl) {
-      this.videoEl.play();
+      // this.videoEl.play();
     }
 
     const collapsedClip = 'inset(50% 0 50% 0)';

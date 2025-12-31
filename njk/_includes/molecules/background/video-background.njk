@@ -1,18 +1,13 @@
 {% import "atoms/video/video.njk" as videoAtom %}
-
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
   {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
   {%- set containerStyles = params.styles | default('') -%}
-  <div
-    id="{{ bgID }}"
-    style="{{ containerStyles }}"
-    class="{{ containerClasses }}"
-    aria-hidden="true"
-  >
+  <div id="{{ bgID }}" style="{{ containerStyles }}" class="{{ containerClasses }}" aria-hidden="true">
     {{ videoAtom.render({
       src: params.videoSrc,
-      autoplay: params.autoplay | default(true),
+      poster: params.poster | default(''),
+      autoplay: params.autoplay | default(false),
       loop: params.loop | default(true),
       muted: params.muted | default(true),
       playsInline: params.playsInline | default(true),

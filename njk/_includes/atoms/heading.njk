@@ -1,4 +1,5 @@
-{% set level = level | default(1) %} {# Ensure level has a default value of 1 #}
+{% set level = level | default(1) %}
+{# Ensure level has a default value of 1 #}
 {% if level >= 1 and level <= 6 %}
   <h{{ level }} class="{{ class | default('') }}">{{ text | default('') }}</h{{ level }}>
 {% else %}
