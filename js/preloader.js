@@ -169,14 +169,14 @@ if (preloader) {
       const finish = () => resolve();
       if (typeof window.gsap !== 'undefined') {
         window.gsap
-          .timeline({ defaults: { duration: 0.3, ease: 'power2.inOut' } })
+          .timeline({ defaults: { duration: 1, ease: 'power2.inOut' } })
           .to(stack, { autoAlpha: 0.9, y: -6 }, 0)
           .to(preloader, { autoAlpha: 0 }, 0)
           .add(finish);
         return;
       }
       if (prefersReduce) {
-        preloader.style.transition = 'opacity 180ms ease';
+        preloader.style.transition = 'opacity 500ms ease';
         preloader.style.opacity = '0';
         preloader.addEventListener('transitionend', finish, { once: true });
         setTimeout(finish, 220);
