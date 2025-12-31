@@ -24,7 +24,7 @@ enableChoreography: true
 
   {{ heroSection.render( { id: "hero", title: title }) }}
   {{ bioSection.render({id: "bio", classes: "relative z-10 col-start-3 col-end-9 p-4 mb-48 bg-primary-100 text-primary-950"}) }}
-  {{ awards.render({ id: "awards", awards: collections.sanityAwards }) }}
-  {{ projects.render({ id: "projects", projects: collections.sanityProjects }) }}
+  {{ awards.render({ id: "awards", awards: collections.sanityAwards, classes: "bg-white p-4 mb-48" }) }}
+  {{ projects.render({ id: "projects", projects: collections.sanityProjects, classes: "bg-white p-4 mb-48" }) }}
   {# {{ featuredOrganizations.render({ id: "featured-organizations", organizations: collections.sanityOrganizations }) }} #}
   

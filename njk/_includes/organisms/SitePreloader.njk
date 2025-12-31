@@ -8,6 +8,7 @@
     data-preloader-kind="{{ params.kind | default('spinner') }}"
     data-preloader-message="{{ params.message | default('Loading…') }}"
     data-gsap-src="{{ params.gsapSrc | default('') }}"
+    data-scroll-smoother="{{ params.scrollSmoother | default('off') }}"
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950 text-white pointer-events-auto"
     role="status"
     aria-live="polite"

@@ -2,7 +2,7 @@
 
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
-  {%- set containerClasses = params.classes | default('gsap-element fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
+  {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
   {%- set containerStyles = params.styles | default('') -%}
   <div
     id="{{ bgID }}"

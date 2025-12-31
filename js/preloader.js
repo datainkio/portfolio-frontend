@@ -4,6 +4,8 @@ if (preloader) {
   const textEl = preloader.querySelector('[data-preloader-text]');
   const main = document.querySelector('main');
   const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SCROLL_SMOOTHER_STORAGE_KEY = 'scrollSmoother';
+
   const restoreState = (() => {
     const html = document.documentElement;
     const body = document.body;
@@ -24,6 +26,66 @@ if (preloader) {
       });
     };
   })();
+
+  const normalizeBooleanFlag = value => {
+    if (typeof value !== 'string') return false;
+    const normalized = value.trim().toLowerCase();
+    return (
+      normalized === 'on' || normalized === 'true' || normalized === '1' || normalized === 'enabled'
+    );
+  };
+
+  const readScrollSmootherPreference = el => {
+    const fromDataset = el && el.dataset ? el.dataset.scrollSmoother : null;
+    const fromQuery = (() => {
+      try {
+        return new URLSearchParams(window.location.search).get('scrollSmoother');
+      } catch (_) {
+        return null;
+      }
+    })();
+    const fromStorage = (() => {
+      try {
+        return window.localStorage.getItem(SCROLL_SMOOTHER_STORAGE_KEY);
+      } catch (_) {
+        return null;
+      }
+    })();
+    return normalizeBooleanFlag(fromQuery ?? fromStorage ?? fromDataset);
+  };
+
+  const persistScrollSmootherPreference = value => {
+    try {
+      window.localStorage.setItem(SCROLL_SMOOTHER_STORAGE_KEY, value ? 'on' : 'off');
+    } catch (_) {
+      /* no-op */
+    }
+  };
+
+  const exposeScrollSmootherDXHooks = enabled => {
+    if (typeof window === 'undefined') return;
+    window.__scrollSmoother = {
+      enable() {
+        persistScrollSmootherPreference(true);
+        console.info('ScrollSmoother enabled. Reload to apply.');
+      },
+      disable() {
+        persistScrollSmootherPreference(false);
+        console.info('ScrollSmoother disabled. Reload to apply.');
+      },
+      clear() {
+        try {
+          window.localStorage.removeItem(SCROLL_SMOOTHER_STORAGE_KEY);
+        } catch (_) {
+          /* no-op */
+        }
+      },
+      status: () => enabled,
+    };
+  };
+
+  const scrollSmootherEnabled = readScrollSmootherPreference(preloader);
+  exposeScrollSmootherDXHooks(scrollSmootherEnabled);
 
   const updateFiletypeMessage = (() => {
     let rafId = null;
@@ -125,7 +187,7 @@ if (preloader) {
             { opacity: 1, transform: 'translateY(0)' },
             { opacity: 0, transform: 'translateY(-8px)' },
           ],
-          { duration: 260, easing: 'cubic-bezier(0.4,0.0,0.2,1)', fill: 'forwards' }
+          { duration: 500, easing: 'cubic-bezier(0.4,0.0,0.2,1)', fill: 'forwards' }
         )
         .addEventListener('finish', finish);
     });
@@ -155,17 +217,33 @@ if (preloader) {
     });
   };
 
+  const waitForDirector = () =>
+    new Promise(resolve => {
+      const timer = setTimeout(resolve, 4000); // safety timeout
+      window.addEventListener(
+        'director:ready',
+        () => {
+          clearTimeout(timer);
+          resolve();
+        },
+        { once: true }
+      );
+    });
+
   const ready = async () => {
     animateIntro();
     await fontsReady;
     await Promise.race([domReady, timeout]);
-    await animateExit();
+    await waitForDirector(); // wait for Director init to finish
+    await animateExit(); // re-enable exit animation
     stopObserver();
     preloader.remove();
     restoreState();
     if (main) main.setAttribute('aria-busy', 'false');
     hydrateDeferredVideos();
-    initializeScrollSmoother(preloader.dataset.gsapSrc);
+    if (scrollSmootherEnabled) {
+      initializeScrollSmoother(preloader.dataset.gsapSrc);
+    }
   };
 
   const initializeScrollSmoother = async src => {

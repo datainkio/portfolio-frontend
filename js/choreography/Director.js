@@ -119,7 +119,8 @@ export default class Director {
     this.sequence = new LandingSequence(this.bus, this.sections, this.stage?.gelAnimation);
     this.logger.trace(LOGS.completion);
 
-    this.sequence.start();
+    // Signal that Director has finished initializing
+    window.dispatchEvent(new Event('director:ready'));
   }
 
   /**

@@ -6,14 +6,13 @@
 {% import "atoms/ruler.njk" as ruler %}
 
 {%- set rulerOptions = params.rulerOptions | default({}) -%}
-{%- set contentClasses = params.contentClasses | default('min-h-screen pb-16 px-4 md:px-8 lg:px-12') -%}
+{%- set contentClasses = params.contentClasses | default('min-h-screen') -%}
 
 <!DOCTYPE html>
 <html lang="en">
 {% include "templates/partials/head.njk" %}
   
-  {# TODO: Confirm that setting aria-busy="true" on main is appropriate for
-  indicating loading state during preloader sequence.
+  {# TODO: Confirm that setting aria-busy="true" on main is appropriate for indicating loading state during preloader sequence.
 
   GSAP Animation System Integration
   
@@ -70,7 +69,7 @@
             {% endif %}
           {% endblock %}
         </main>
-        {{ Footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-gray-500" }) }}
+        {{ Footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-primary-200 bg-primary-950" }) }}
       </div>
     </div>
     <script type="module" src="/assets/js/preloader.js" defer></script>

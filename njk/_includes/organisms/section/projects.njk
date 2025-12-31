@@ -1,7 +1,7 @@
 {% macro render(params = {}) %}
   {%- set projects = params.projects
     | default([]) -%}
-<section id="{{ params.id | default('projects') }}" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<section id="{{ params.id | default('projects') }}" class="{{ params.classes | default('') }} projects-section">
   {% if projects | length %}
     <ul class="projects-list grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-6">
       {% for project in projects %}

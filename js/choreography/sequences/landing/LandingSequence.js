@@ -16,17 +16,20 @@ export class LandingSequence {
    * @param {AnimationBus} bus - Event bus for coordination
    * @param {Object} sections - Section controllers (hero, work, biography)
    */
-  constructor(bus, sections, gelManager = null) {
+  constructor(bus, sections, gelAnimation) {
     this.logger = Lumberjack.createScoped('LandingSequence', { prefix: '', color: '#8B5CF6' });
 
     this.bus = bus;
     this.sections = sections;
-    this.gelManager = gelManager;
+    this.gelManager = gelAnimation;
     this.state = {
       isStarted: false,
       isComplete: false,
     };
     this._listeners = [];
+
+    this.handleDirectorReady = () => this.start();
+    window.addEventListener('director:ready', this.handleDirectorReady, { once: true });
 
     this._registerListeners();
   }
@@ -39,6 +42,7 @@ export class LandingSequence {
    */
 
   start() {
+    this.logger.trace('Starting landing sequence');
     if (this.state.isStarted) return;
     this.state.isStarted = true;
 
@@ -77,6 +81,10 @@ export class LandingSequence {
    * Sequence cannot be reused after destroy().
    */
   destroy() {
+    if (this.handleDirectorReady) {
+      window.removeEventListener('director:ready', this.handleDirectorReady);
+    }
+
     this.logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');
 
     this._listeners.forEach(unsubscribe => unsubscribe());
