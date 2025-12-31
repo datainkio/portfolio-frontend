@@ -21,5 +21,8 @@
   "svgviewer.transparencygrid": false,
   "svg.preview.backgroundCustom": "#ffffff",
   "editor.fontFamily": "JetBrainsMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
-  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font"
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "[njk]": {
+    "editor.defaultFormatter": "eseom.nunjucks-template"
+  }
 }
