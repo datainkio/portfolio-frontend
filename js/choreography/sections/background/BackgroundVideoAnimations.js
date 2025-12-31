@@ -36,19 +36,51 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     });
   }
 
+  /**
+   * Load video src from data-defer-video attribute
+   * Called before intro animation starts
+   */
+  async _loadVideo() {
+    this.videoEl = this.view.querySelector('video');
+
+    if (!this.videoEl) return;
+
+    // If video has data-src (deferred loading), set src and load
+    if (this.videoEl.dataset.deferVideo && this.videoEl.dataset.src) {
+      this.videoEl.src = this.videoEl.dataset.src;
+      this.videoEl.load();
+    }
+
+    // Return promise that resolves when video can play
+    return new Promise(resolve => {
+      if (this.videoEl.readyState >= 2) {
+        // Video already has enough data to play
+        resolve();
+      } else {
+        // Wait for canplay event
+        const handleCanPlay = () => {
+          this.videoEl.removeEventListener('canplay', handleCanPlay);
+          resolve();
+        };
+        this.videoEl.addEventListener('canplay', handleCanPlay);
+      }
+    });
+  }
+
   // Override AbstractSectionAnimations
-  intro() {
-    // Return the play promise so AbstractSection can await completion
+  async intro() {
+    // Load video before animation starts
+    await this._loadVideo();
+
+    // Play video and return the timeline play promise
+    if (this.videoEl) {
+      this.videoEl.play();
+    }
+
     return this.timeline.play(0);
   }
 
   _reveal() {
-    this.videoEl = this.view.querySelector('video');
-
-    if (this.videoEl) {
-      // this.videoEl.play();
-    }
-
     const collapsedClip = 'inset(50% 0 50% 0)';
     const targetClip = 'inset(0% 0% 0% 0%)'; // full element width/height
 
@@ -70,11 +102,15 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
           ease: this.easeOut,
           duration: this.duration,
         }
-        // 0 // start at same time
       );
   }
 
   outro() {
+    // Pause video on outro
+    if (this.videoEl) {
+      this.videoEl.pause();
+    }
+
     // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
     return super.outro();
   }

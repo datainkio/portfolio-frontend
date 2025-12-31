@@ -37,9 +37,10 @@
     {{ Background.render({
       id:"sizzle-background",
       videoSrc: "/assets/video/sizzle.mp4",
+      poster: "/assets/video/sizzle-poster.png",
       classes: "fixed inset-0 -z-10 pointer-events-none overflow-hidden gsap-element gsap-fade",
       defer: false,
-      preload: "metadata",
+      preload: "none",
       autoPlay: false
     }) }}
     {{ Gel.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
@@ -65,24 +66,6 @@
         {{ Footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-primary-200 bg-primary-950" }) }}
       </div>
     </div>
-  {# Provide import map so raw ESM (no bundle) can resolve scoped packages in the browser #}
-  {% if runtime.bundleJs == false %}
-    <script type="importmap">
-      {
-        "imports": {
-          "@datainkio/lumberjack": "/assets/js/utils/lumberjack/index.js"
-        }
-      }
-    </script>
-  {% endif %}
-  {# External scripts and styles from frontmatter #}
-  {% if enableChoreography %}
-    {% if runtime.bundleJs %}
-      <script type="module">import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/Director.js'));</script>
-    {% else %}
-      <script type="module">import('/assets/js/choreography/Director.js');</script>
-    {% endif %}
-  {% endif %}
-    <script type="module" src="/assets/js/preloader.js"></script>
+  {% include "templates/partials/choreography-script.njk" %}
   </body>
 </html>

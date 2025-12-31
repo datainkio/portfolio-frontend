@@ -1,0 +1,21 @@
+  {# Provide import map so raw ESM (no bundle) can resolve scoped packages in the browser #}
+  {% if runtime.bundleJs == false %}
+    <script type="importmap">
+      {
+        "imports": {
+          "@datainkio/lumberjack": "/assets/js/utils/lumberjack/index.js"
+        }
+      }
+    </script>
+  {% endif %}
+  {# BUNDLE OR NO BUNDLE #}
+  {% if enableChoreography %}
+    {% if runtime.bundleJs %}
+      <script type="module">import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/Director.js'));</script>
+    {% else %}
+      <script type="module">import('/assets/js/choreography/Director.js');</script>
+    {% endif %}
+  {% endif %}
+
+    {# PRELOADER SCRIPT #}
+    <script type="module" src="/assets/js/preloader.js"></script>
