@@ -63,7 +63,7 @@ import { readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { init as initNavigation } from './navigation.js';
-import { init as initAirtable } from './content.js';
+// import { init as initAirtable } from './content.js';
 import { init as initSanity } from './sanity.js';
 import { init as initDocumentation } from './documentation.js';
 
@@ -97,7 +97,7 @@ export default async function (eleventyConfig) {
   try {
     // STEP 1: Initialize Airtable data collections FIRST
     // These have no dependencies and are required by navigation
-    await initAirtable(eleventyConfig, site);
+    // await initAirtable(eleventyConfig, site);
 
     // STEP 2: Initialize Sanity collections
     await initSanity(eleventyConfig, site);
