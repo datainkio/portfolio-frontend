@@ -125,7 +125,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   _buildOutroThrow(label) {
     const outroLabel = label;
     const outroEndLabel = `${label}:end`;
-    const outroTargets = [this.view, this.gelEl].filter(Boolean);
+    const outroTargets = [this.view];
 
     // Position outro at the end of existing intro animations / pause
     this.timeline.addLabel(outroLabel, this.timeline.duration());
