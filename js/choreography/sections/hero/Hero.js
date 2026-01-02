@@ -14,11 +14,18 @@ import HeroTriggers from './HeroTriggers.js';
 export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     const view = document.getElementById(SELECTORS.hero);
-    const anim = new HeroAnimations(view, ANIMATION_DEFAULTS);
+    const animations = new HeroAnimations(view, ANIMATION_DEFAULTS);
     const triggers = new HeroTriggers(view);
     const events = EVENTS.hero;
 
-    super(view, anim, triggers, events, bus, { reducedMotionHandler });
+    super({
+      view,
+      animations,
+      triggers,
+      events,
+      bus,
+      reducedMotionHandler,
+    });
 
     // Link triggers back to this section for playIntro/playOutro calls
     if (this.triggers) {

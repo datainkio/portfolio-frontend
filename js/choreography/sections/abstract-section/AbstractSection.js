@@ -15,37 +15,44 @@
 
 import AbstractSectionAnimations from './AbstractSectionAnimations.js';
 import AbstractSectionTriggers from './AbstractSectionTriggers.js';
+import NullAnimationBus from '../../NullAnimationBus.js';
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
 export default class AbstractSection {
   /**
    * Initialize section controller
    *
-   * Subclasses must call super(id, bus, smoother) in constructor,
-   * then call createIntro(), createOutro(), and createScrollTriggers().
+   * Accepts configuration object with all initialization parameters.
+   * Subclasses override createIntro(), createOutro(), and createScrollTriggers().
    *
-   * @param {DOMElement} view - DOM element for the section
-   * @param {AnimationBus} bus - Event bus for coordination
+   * @param {Object} options - Configuration object
+   * @param {HTMLElement} options.view - DOM element for the section
+   * @param {AbstractSectionAnimations} options.animations - Animation module instance
+   * @param {AbstractSectionTriggers} options.triggers - Triggers module instance
+   * @param {Object} options.events - Event name mapping (e.g., EVENTS.hero)
+   * @param {AnimationBus} options.bus - Event bus for coordination (optional)
+   * @param {ReducedMotionHandler} options.reducedMotionHandler - Motion preference handler (optional)
    */
-  constructor(view, anim, triggers, events, bus, { reducedMotionHandler } = {}) {
+  constructor({ view, animations, triggers, events, bus, reducedMotionHandler } = {}) {
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: '#007bff',
       enabled: true,
     });
 
     this.view = view;
-    this.bus = bus ?? { emit: () => {}, on: () => () => {} };
+    this.isDisabled = !view;
+    this.bus = bus ?? new NullAnimationBus();
     this._reducedMotionHandler = reducedMotionHandler;
 
-    if (!this.view) {
-      console.warn(`[${this.constructor.name.toLowerCase()}] element not found - section disabled`);
+    if (this.isDisabled) {
+      this.logger.trace('element not found; section disabled');
       return;
     }
 
     this.events = events || {};
     // Use provided modules; fall back to defaults
     this.triggers = triggers ?? new AbstractSectionTriggers(this.view);
-    this.animations = anim ?? new AbstractSectionAnimations(this.view);
+    this.animations = animations ?? new AbstractSectionAnimations(this.view);
 
     // Respect reduced motion: skip intro and apply end state immediately.
     if (this._reducedMotionHandler?.isReducedMotion()) {
@@ -101,6 +108,7 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playIntro() {
+    if (this.isDisabled) return Promise.resolve();
     this.animations.intro();
   }
 
@@ -113,6 +121,7 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
+    if (this.isDisabled) return Promise.resolve();
     this.animations.outro();
   }
 
@@ -145,12 +154,24 @@ export default class AbstractSection {
   // Safe bus emitter
   _emit(eventName, payload) {
     if (!eventName) return;
-    if (this.bus && typeof this.bus.emit === 'function') {
-      this.bus.emit(eventName, payload);
-    } else {
-      // Soft warn once per event to avoid noisy logs
-      this.logger.trace(`bus.emit unavailable for "${eventName}"`, { payload }, 'brief', 'headsup');
-    }
+    this.bus.emit(eventName, payload);
+  }
+
+  /**
+   * Apply post-intro state without animation
+   *
+   * Used when reduced motion is enabled to skip animations and immediately
+   * apply the final state. Respects user accessibility preferences.
+   */
+  _applyPostIntroState() {
+    if (!this.animations?.timeline) return;
+
+    // Jump to end of timeline without playing
+    this.animations.timeline.progress(1, false);
+    this.isIntroComplete = true;
+
+    // Emit completion event so other systems know section is ready
+    this._emit(this.events.introComplete, { element: this.view });
   }
 
   /**

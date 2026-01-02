@@ -24,7 +24,7 @@
  * - HTML: #overlay-view, #sizzle-background (background layers)
  * - HTML: #smooth-wrapper, #smooth-content (optional for smooth scroll)
  * - CSS: .bg-gel-* classes for gel styling
- * - AnimationBus: Event system for section coordination (passed from Director)
+ * - AnimationBus: Event system for section coordination (passed from AnimationDirector)
  *
  * @requires ReducedMotionHandler - Motion preference detection
  * @requires BackgroundLayerManager - Background layer positioning
@@ -40,10 +40,11 @@ import GelAnimationManager from '/assets/js/choreography/managers/GelAnimationMa
 import { GEL_CONFIG } from '/assets/js/choreography/config.js';
 
 /**
- * StageManager - Master Animation Coordinator
+ * ScrollEffectsCoordinator - Master Animation Coordinator
  *
  * Simplified orchestrator that delegates to specialized manager modules.
- * Handles initialization order and event-driven timing coordination.
+ * Handles initialization order and event-driven timing coordination for
+ * scroll effects, background layers, and visual animations.
  *
  * Public API:
  * - getSmoother() - Get ScrollSmoother instance
@@ -51,14 +52,14 @@ import { GEL_CONFIG } from '/assets/js/choreography/config.js';
  * - getVideo() - Get background video element
  * - destroy() - Cleanup all managers
  */
-export default class StageManager {
+export default class ScrollEffectsCoordinator {
   /**
-   * Initialize StageManager with AnimationBus instance
-   * @param {AnimationBus} bus - Event bus for coordination (from Director)
+   * Initialize ScrollEffectsCoordinator with AnimationBus instance
+   * @param {AnimationBus} bus - Event bus for coordination (from AnimationDirector)
    */
   constructor(bus) {
-    // Create scoped logger for Director operations
-    this.logger = lumberjack.createScoped('StageManager', {
+    // Create scoped logger for ScrollEffectsCoordinator operations
+    this.logger = lumberjack.createScoped('ScrollEffectsCoordinator', {
       color: '#10B981',
     });
     // logger.enabled(true);

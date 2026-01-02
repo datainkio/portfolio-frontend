@@ -21,11 +21,7 @@
  */
 
 // ESM-friendly GSAP core + plugins (skypack)
-import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
-import ScrollSmoother from 'https://cdn.skypack.dev/gsap/ScrollSmoother';
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollSmoother);
+import { gsap, ScrollSmoother } from '/assets/js/choreography/vendor/gsap.js';
 
 const SMOOTHER_EFFECTS = true; // Enable parallax effects
 

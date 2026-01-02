@@ -2,12 +2,8 @@
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
-// logger.enabled(true);
-// logger.enabled = true;
-// logger.trace('Module loading...', null, 'brief', 'standard');
-
 /**
- * Animation Director - Master Choreography Controller
+ * AnimationDirector - Master Choreography Controller
  *
  * Orchestrates the complete animation system: event bus, section controllers,
  * stage manager, and animation sequences. Automatically initializes on DOMContentLoaded.
@@ -40,15 +36,13 @@ import lumberjack from '/assets/js/utils/lumberjack/index.js';
  */
 
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
-import StageManager from '/assets/js/choreography/StageManager.js';
-import Hero from '/assets/js/choreography/sections/hero/Hero.js';
-import Bio from '/assets/js/choreography/sections/bio/Bio.js';
-import BackgroundVideo from '/assets/js/choreography/sections/background/BackgroundVideo.js';
+import ScrollEffectsCoordinator from '/assets/js/choreography/ScrollEffectsCoordinator.js';
 import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
+import { SECTION_REGISTRY } from '/assets/js/choreography/sections/registry.js';
 
 const LOGS = {
   description:
-    'The Director is the master controller for the entire animation system. It initializes the AnimationBus, StageManager, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The Director also provides methods to control and debug the animation flow.',
+    'The AnimationDirector is the master controller for the entire animation system. It initializes the AnimationBus, ScrollEffectsCoordinator, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The AnimationDirector also provides methods to control and debug the animation flow.',
   completion: "Initialized. All systems go. Let's light this candle.",
   methods:
     'enableDebug(enabled) - Toggle AnimationBus debug logging\n' +
@@ -59,7 +53,7 @@ const LOGS = {
     'destroy() - Cleanup and remove all event listeners',
 };
 /**
- * Director - Master Animation Coordinator
+ * AnimationDirector - Master Animation Coordinator
  *
  * Orchestrates the complete animation system including event bus, section controllers,
  * stage manager, and sequence choreography.
@@ -72,7 +66,7 @@ const LOGS = {
  * - restart() - Reset and replay landing sequence
  * - destroy() - Cleanup and remove all event listeners
  */
-export default class Director {
+export default class AnimationDirector {
   /**
    * Initialize complete animation system
    *
@@ -84,8 +78,8 @@ export default class Director {
    * 5. Start animation sequence
    */
   constructor() {
-    // Create scoped logger for Director operations
-    this.logger = lumberjack.createScoped('Director', {
+    // Create scoped logger for AnimationDirector operations
+    this.logger = lumberjack.createScoped('AnimationDirector', {
       prefix: '',
       color: '#10B981',
     });
@@ -93,27 +87,16 @@ export default class Director {
     this.logger.trace(LOGS.description);
     // Initialize core systems
     this.bus = new AnimationBus();
-    this.stage = new StageManager(this.bus); // Pass bus to StageManager
+    this.stage = new ScrollEffectsCoordinator(this.bus); // Pass bus to ScrollEffectsCoordinator
 
-    // Initialize section controllers
-    this.sections = {
-      video: new BackgroundVideo({
+    // Initialize section controllers from registry
+    this.sections = {};
+    Object.entries(SECTION_REGISTRY).forEach(([sectionId, SectionClass]) => {
+      this.sections[sectionId] = new SectionClass({
         bus: this.bus,
         reducedMotionHandler: this.stage?.reducedMotion,
-      }),
-      hero: new Hero({
-        bus: this.bus,
-        reducedMotionHandler: this.stage?.reducedMotion,
-      }),
-      // organizations: new Organizations({
-      //   bus: this.bus,
-      //   reducedMotionHandler: this.stage?.reducedMotion,
-      // }),
-      bio: new Bio({
-        bus: this.bus,
-        reducedMotionHandler: this.stage?.reducedMotion,
-      }),
-    };
+      });
+    });
 
     // Initialize choreography sequence
     this.sequence = new LandingSequence(this.bus, this.sections, this.stage?.gelAnimation);
@@ -193,13 +176,13 @@ export default class Director {
  * to keep first paint CSS-only; falls back to DOMContentLoaded + setTimeout when needed.
  *
  * GLOBAL ACCESS:
- * - window.director provides access to Director instance
+ * - window.director provides access to AnimationDirector instance
  * - Use for debugging: window.director.enableDebug(true)
  * - Use for control: window.director.restart()
  */
 const initDirector = () => {
-  if (window.director instanceof Director) return;
-  window.director = new Director();
+  if (window.director instanceof AnimationDirector) return;
+  window.director = new AnimationDirector();
 };
 
 const scheduleInit = () => {

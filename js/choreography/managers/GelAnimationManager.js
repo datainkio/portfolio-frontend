@@ -28,6 +28,7 @@
  * ```javascript
  * import GelAnimationManager from './GelAnimationManager.js';
  * import { GEL_CONFIG } from '../config.js';
+ * import { gsap, ScrollTrigger } from '../vendor/gsap.js';
  *
  * const manager = new GelAnimationManager(GEL_CONFIG);
  * manager.initialize();
@@ -37,8 +38,7 @@
  * @fileoverview Gel animation orchestrator for background visual effects
  */
 
-import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
-import ScrollTrigger from 'https://cdn.skypack.dev/gsap/ScrollTrigger';
+import { gsap, ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';
 import { Gel, GelManipulator } from '/assets/js/effects/gel/index.js';
 import { GEL_CONFIG } from '/assets/js/choreography/config.js';
 

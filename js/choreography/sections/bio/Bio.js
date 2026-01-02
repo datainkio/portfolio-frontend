@@ -14,11 +14,18 @@ import BioTriggers from './BioTriggers.js';
 export default class Bio extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     const view = document.getElementById(SELECTORS.bio);
-    const anim = new BioAnimations(view, ANIMATION_DEFAULTS);
+    const animations = new BioAnimations(view, ANIMATION_DEFAULTS);
     const triggers = new BioTriggers(view);
     const events = EVENTS.bio;
 
-    super(view, anim, triggers, events, bus, { reducedMotionHandler });
+    super({
+      view,
+      animations,
+      triggers,
+      events,
+      bus,
+      reducedMotionHandler,
+    });
 
     // Link triggers back to this section for playIntro/playOutro calls
     if (this.triggers) {

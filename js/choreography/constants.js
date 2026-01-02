@@ -43,6 +43,10 @@
  * });
  */
 export const EVENTS = {
+  system: {
+    preloaderOut: 'preloader:out',
+    directorReady: 'director:ready',
+  },
   video: {
     enter: 'video:enter',
     exit: 'video:exit',

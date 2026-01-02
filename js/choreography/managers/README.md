@@ -388,4 +388,4 @@ export default class CustomManager {
 ---
 
 **Last Updated**: December 2025  
-**Related**: `StageManager.js`, `Director.js`, `choreography/README.md`
+**Related**: `ScrollEffectsCoordinator.js`, `Director.js`, `choreography/README.md`

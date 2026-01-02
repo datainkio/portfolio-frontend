@@ -1,6 +1,6 @@
 /** @format */
 
-import ScrollTrigger from 'https://cdn.skypack.dev/gsap/ScrollTrigger';
+import { ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';
 import AbstractSectionTriggers from '../abstract-section/AbstractSectionTriggers.js';
 
 export default class HeroTriggers extends AbstractSectionTriggers {

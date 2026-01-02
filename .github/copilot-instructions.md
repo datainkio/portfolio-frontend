@@ -136,10 +136,10 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **JavaScript Runtime**
 
-- `js/main.js` - Browser entry point (imports Director)
+- `js/main.js` - Browser entry point (imports AnimationDirector)
 - `js/choreography/` - Animation system
   - `Director.js` - Master coordinator (initializes everything)
-  - `StageManager.js` - Scroll smoothing & background effects coordinator
+  - `ScrollEffectsCoordinator.js` - Scroll smoothing & background effects coordinator
   - `AnimationBus.js` - Event system for section coordination
   - `sections/` - Section-specific controllers (Hero, BackgroundVideo, Bio, Organizations)
   - `sequences/` - Animation choreography (LandingSequence)
@@ -192,7 +192,7 @@ Example macro:
 
 - `Director.js` - Master coordinator that initializes all animation systems
 - `AnimationBus.js` - Event-driven coordination between sections (pub/sub pattern)
-- `StageManager.js` - Scroll smoothing, background effects, and specialized managers
+- `ScrollEffectsCoordinator.js` - Scroll smoothing, background effects, and specialized managers
 - `LandingSequence.js` - Choreographs animation flow by listening to events
 
 **Section Controllers** (in `js/choreography/sections/`)

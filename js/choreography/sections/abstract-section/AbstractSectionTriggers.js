@@ -6,7 +6,7 @@
  * Manages a collection of triggers and provides lifecycle helpers.
  */
 
-import ScrollTrigger from 'https://cdn.skypack.dev/gsap/ScrollTrigger';
+import { ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 
 export default class AbstractSectionTriggers {
@@ -28,6 +28,31 @@ export default class AbstractSectionTriggers {
    *
    * Stores callbacks internally and recreates the trigger with them
    * included in the vars object for proper GSAP ScrollTrigger integration.
+   *
+   * **Rebind Behavior:**
+   * Calling bind() multiple times is safe and efficient:
+   * - Automatically kills the previous trigger before creating a new one
+   * - Stores callbacks for potential re-binding (see _callbacks)
+   * - Useful for updating trigger behavior without memory leaks
+   *
+   * @example
+   * // First bind
+   * triggers.bind({
+   *   onEnter: () => console.log('entered'),
+   *   onLeave: () => console.log('left')
+   * });
+   *
+   * // Later, rebind with different callbacks
+   * triggers.bind({
+   *   onEnter: () => { ...new behavior... }
+   * });
+   * // Previous trigger is automatically cleaned up
+   *
+   * @param {Object} callbacks - Viewport trigger callbacks
+   * @param {Function} callbacks.onEnter - Fired when viewport enters trigger
+   * @param {Function} callbacks.onLeave - Fired when viewport leaves trigger
+   * @param {Function} callbacks.onEnterBack - Fired when scrolling back into viewport
+   * @param {Function} callbacks.onLeaveBack - Fired when scrolling back out of viewport
    */
   bind({ onEnter = null, onLeave = null, onEnterBack = null, onLeaveBack = null } = {}) {
     if (!this.view) {

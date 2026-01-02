@@ -6,12 +6,19 @@ import BackgroundVideoTriggers from './BackgroundVideoTriggers.js';
 
 export default class BackgroundVideo extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    var view = document.getElementById(SELECTORS.video);
-    var anim = new BackgroundVideoAnimations(view, ANIMATION_DEFAULTS);
-    var triggers = new BackgroundVideoTriggers(view);
-    var events = EVENTS.video;
+    const view = document.getElementById(SELECTORS.video);
+    const animations = new BackgroundVideoAnimations(view, ANIMATION_DEFAULTS);
+    const triggers = new BackgroundVideoTriggers(view);
+    const events = EVENTS.video;
 
-    super(view, anim, triggers, events, bus, { reducedMotionHandler });
+    super({
+      view,
+      animations,
+      triggers,
+      events,
+      bus,
+      reducedMotionHandler,
+    });
 
     if (!view) {
       this.logger.trace('element not found; skipping initialization.');

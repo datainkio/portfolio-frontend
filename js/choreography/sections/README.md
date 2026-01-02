@@ -82,7 +82,7 @@ EVENTS.custom = {
   - Events: `EVENTS.organizations.*`
   - DOM: `#organizations` / `SELECTORS.organizations`
 
-To activate additional sections: add event definitions to `constants.js`, import into `Director.js`, instantiate with `bus` and `reducedMotionHandler`, and hook into animation sequence.
+To activate additional sections: add event definitions to `constants.js`, import into `AnimationDirector.js`, instantiate with `bus` and `reducedMotionHandler`, and hook into animation sequence.
 
 ## Creating a Custom Section (current pattern)
 

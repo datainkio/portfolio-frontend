@@ -11,9 +11,9 @@
   {# BUNDLE OR NO BUNDLE #}
   {% if enableChoreography %}
     {% if runtime.bundleJs %}
-      <script type="module">import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/Director.js'));</script>
+      <script type="module">import('/assets/js/choreography/bundle.js').catch(() => import('/assets/js/choreography/AnimationDirector.js'));</script>
     {% else %}
-      <script type="module">import('/assets/js/choreography/Director.js');</script>
+      <script type="module">import('/assets/js/choreography/AnimationDirector.js');</script>
     {% endif %}
   {% endif %}
 

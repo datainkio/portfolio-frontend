@@ -1,10 +1,9 @@
 /** @format */
 import lumberjack from '@datainkio/lumberjack';
 import { ANIMATION_DEFAULTS } from '../../config.js';
-import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
-import SplitText from 'https://cdn.skypack.dev/gsap/SplitText';
-import ScrambleText from 'https://cdn.skypack.dev/gsap/ScrambleTextPlugin/';
-gsap.registerPlugin(ScrambleText, SplitText);
+import { gsap, SplitText } from '/assets/js/choreography/vendor/gsap.js';
+import ScrambleText from 'https://cdn.skypack.dev/gsap@3.13.0/ScrambleTextPlugin';
+gsap.registerPlugin(ScrambleText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
 // const Y_OFFSET = 35; // Default Y offset for animations
@@ -47,27 +46,22 @@ export default class HeroAnimations extends AbstractSectionAnimations {
 
   // Override AbstractSectionAnimations
   intro() {
-    // Return the play promise so AbstractSection can await completion'
-    // this.logger?.trace('intro started');
+    // Return the play promise so AbstractSection can await completion
     return this.timeline.play('intro');
   }
 
   outro() {
-    // this.logger?.trace('outro started');
     // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
     return this.timeline.play('outro');
   }
 
   outroReverse() {
-    // this.logger?.trace('outro reverse');
     return this.timeline.reverse('outro:end');
   }
 
   _buildWordByWordAnimation(label) {
     const introLabel = label;
     const introEndLabel = `${label}:end`;
-
-    // this.logger.trace('hi random stranger!');
 
     this.timeline.addLabel(introLabel, 0);
     this.timeline.set(this.view, { autoAlpha: 1 }, introLabel);

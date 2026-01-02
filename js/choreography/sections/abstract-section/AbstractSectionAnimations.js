@@ -7,7 +7,7 @@
  * associated with a specific DOM element and section id.
  */
 import { ANIMATION_DEFAULTS } from '../../config.js';
-import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
+import { gsap } from '/assets/js/choreography/vendor/gsap.js';
 const DURATION = ANIMATION_DEFAULTS.duration; // Default duration for animations
 const STAGGER = ANIMATION_DEFAULTS.stagger; // Default stagger duration for animations
 const EASE = ANIMATION_DEFAULTS.ease.inOut; // Default easing for animations

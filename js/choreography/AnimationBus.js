@@ -76,7 +76,7 @@ export class AnimationBus {
         try {
           callback(data);
         } catch (error) {
-          // this.logger.trace(`Error in listener for ${event}:`, error);
+          this.logger.trace(`Error in listener for ${event}:`, error);
         }
       });
     }

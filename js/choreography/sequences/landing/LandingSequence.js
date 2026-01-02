@@ -33,8 +33,8 @@ export class LandingSequence {
      * @returns
      */
     this.handlePreloaderOut = () => this.start();
-    // window.addEventListener('director:ready', this.handleDirectorReady, { once: true });
-    window.addEventListener('preloader:out', this.handlePreloaderOut, { once: true });
+    // window.addEventListener(EVENTS.system.directorReady, this.handleDirectorReady, { once: true });
+    window.addEventListener(EVENTS.system.preloaderOut, this.handlePreloaderOut, { once: true });
     this._registerListeners();
   }
 
@@ -86,8 +86,8 @@ export class LandingSequence {
    * Sequence cannot be reused after destroy().
    */
   destroy() {
-    if (this.handleDirectorReady) {
-      window.removeEventListener('director:ready', this.handleDirectorReady);
+    if (this.handlePreloaderOut) {
+      window.removeEventListener(EVENTS.system.preloaderOut, this.handlePreloaderOut);
     }
 
     this.logger.trace('Destroying sequence and cleaning up', null, 'brief', 'standard');

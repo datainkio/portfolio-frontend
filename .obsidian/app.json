@@ -1,0 +1,6 @@
+{
+  "userIgnoreFilters": [
+    "_site/",
+    "node_modules/"
+  ]
+}

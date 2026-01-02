@@ -34,7 +34,7 @@ User Interaction (scroll, page load)
 
 ### Entry Points
 
-- **`main.js`** - Browser entry point; imports Director to initialize animation system
+- **`main.js`** - Browser entry point; imports AnimationDirector to initialize animation system
 - **`user-guide.js`** - Interactive user experience guidance system
 - **Utility scripts** - `circle-packing.js`, `fibonacci.js`, `gen-grid.js`, `gsap-test.js` (experimental utilities)
 
@@ -76,7 +76,7 @@ Master coordination system for all page animations using event-driven architectu
 
 - **`Director.js`** - Master coordinator; initializes AnimationBus, StageManager, sections, sequences
 - **`AnimationBus.js`** - Publish/subscribe event system enabling loose coupling between sections
-- **`StageManager.js`** - Coordinates scroll smoothing, background effects, gel animations via specialized managers
+- **`ScrollEffectsCoordinator.js`** - Coordinates scroll smoothing, background effects, gel animations via specialized managers
 - **`managers/`** - Single-responsibility animation managers:
   - `ReducedMotionHandler.js` - Accessibility-first motion preference detection
   - `BackgroundLayerManager.js` - Fixed background positioning outside ScrollSmoother transforms
