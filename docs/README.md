@@ -22,6 +22,8 @@ Comprehensive documentation for the dataink.io portfolio (11ty + Figma + Airtabl
 ### AI Prompts & AIX
 
 - **[ai/](./ai/)** - Scoped AI prompts/briefs for Copilot or assistants (keep concise and transient)
+- **[ai/AIX_Maintenance_Checklist.md](./ai/AIX_Maintenance_Checklist.md)** - Monthly Copilot-quality hygiene checklist
+- **[.copilot/README.md](../.copilot/README.md)** - Prompt authority/scope for language-specific AI constraints
 
 ### Template System (NJK/Eleventy)
 

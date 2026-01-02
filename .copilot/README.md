@@ -1,60 +1,91 @@
-# Copilot Context Files
+# Copilot Prompt Scoping & Authority
 
-This directory contains generated schema and context files optimized for GitHub Copilot to better understand the project structure.
+This directory defines **authoritative, operational guidance for AI-assisted development**
+within this repository.
 
-## Scope & Cautions
+Prompts in this folder are treated as **constraints**, not suggestions.
 
-- Not a source of truth. Always read from `njk/_data/` in production code.
-- No secrets or tokens belong here.
-- Keep files minimal and generated; remove stale copies quickly.
-- Only for AI context and offline reference—never import these files at runtime.
-
-## Files
-
-- **`dbSchema.json`** - Complete Airtable base schema with field types, samples, and relationships (copy for Copilot)
-- **`dbSchema.mmd`** - Mermaid diagram of database relationships
-
-**Note**: The primary schema file is generated at `njk/_data/dbSchema.json` for 11ty global data access. This directory contains a copy for Copilot context.
-
-## Generation
-
-Schema files are automatically generated during the build process:
-
-```bash
-npm run build              # Generates schema as part of full build
-npm run schema:generate    # Generate schema only
-```
-
-## Output Locations
-
-The schema generation creates files in two locations:
-
-1. **`njk/_data/airtableSchema.json`** - Primary location, accessible in templates as `{{ airtableSchema }}`
-2. **`.copilot/airtable-schema.json`** - Copy for Copilot context (this directory)
-3. **`.copilot/airtable-schema.compact.json`** - Minified version
-4. **`.copilot/AIRTABLE_SCHEMA.md`** - Human-readable documentation
+---
 
 ## Purpose
 
-These files provide Copilot with:
+- Improve Copilot accuracy and restraint
+- Prevent pattern drift and hallucination
+- Make developer intent legible to AI systems
+- Maintain long-term AIX (AI Experience) quality
 
-- Complete table structure and field definitions
-- Type information inferred from actual data
-- Sample values showing data patterns
-- Relationship mappings between tables
-- Usage examples for templates
+---
 
-This enables Copilot to:
+## Prompt Authority Model
 
-- Suggest accurate field names when working with collections
-- Understand data relationships
-- Provide better code completions for Nunjucks templates
-- Reference actual field types and values
+Prompts are scoped by **language and responsibility**.
 
-## Maintenance
+They apply only within their declared scope and must not be blended unless explicitly stated.
 
-Files are regenerated on each build to stay in sync with the Airtable base structure. No manual editing required.
+---
 
-## Maintenance
+## Prompt Index
 
-Files are regenerated on each build to stay in sync with the Airtable base structure. No manual editing required.
+### `js.prompt.md`
+**Scope**
+- Browser-first JavaScript used for progressive enhancement
+- Initialization, DOM interaction, UI behavior
+
+**Does NOT apply to**
+- Build output
+- Config files
+- Server-side JS
+
+---
+
+### `html.prompt.md`
+**Scope**
+- Nunjucks / HTML templates rendered by 11ty
+- Layouts, includes, macros
+
+**Does NOT apply to**
+- Generated HTML (`_site/`)
+- JavaScript logic
+- CSS authoring rules
+
+---
+
+## Precedence Rules
+
+1. File-type prompt beats general guidance
+2. Explicit constraints beat implied conventions
+3. Repository conventions beat generic best practices
+4. When in doubt, ask one clarifying question
+
+---
+
+## Editing Rules
+
+- Prompts must be:
+  - concise
+  - prescriptive
+  - low-noise
+- Remove obsolete rules immediately
+- Avoid narrative or speculative language
+- Prefer "must / must not" over "should"
+
+---
+
+## What Does NOT Belong Here
+
+- AI philosophy
+- Tutorials
+- Experiments
+- Rationale or retrospectives
+
+Those belong in `docs/ai/`.
+
+---
+
+## Success Criteria
+
+This system is working when:
+- Copilot suggestions align with repo conventions
+- AI-generated code requires minimal correction
+- Patterns remain consistent over time
+- New contributors understand constraints quickly
