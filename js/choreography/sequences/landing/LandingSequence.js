@@ -28,9 +28,13 @@ export class LandingSequence {
     };
     this._listeners = [];
 
-    this.handleDirectorReady = () => this.start();
-    window.addEventListener('director:ready', this.handleDirectorReady, { once: true });
-
+    /**
+     * Wait for preloader to announce its exit before starting
+     * @returns
+     */
+    this.handlePreloaderOut = () => this.start();
+    // window.addEventListener('director:ready', this.handleDirectorReady, { once: true });
+    window.addEventListener('preloader:out', this.handlePreloaderOut, { once: true });
     this._registerListeners();
   }
 
@@ -43,8 +47,9 @@ export class LandingSequence {
 
   start() {
     this.logger.trace('Starting landing sequence');
-    if (this.state.isStarted) return;
-    this.state.isStarted = true;
+    window.removeEventListener('preloader:out', this.handlePreloaderOut);
+    // if (this.state.isStarted) return;
+    // this.state.isStarted = true;
 
     try {
       this.sections?.video?.playIntro?.();
@@ -152,7 +157,7 @@ export class LandingSequence {
 
     // Respond to hero intro complete
     on(EVENTS.video.introComplete, () => {
-      // this.logger.trace('BG Video intro complete');
+      this.logger.trace('BG Video intro complete');
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();

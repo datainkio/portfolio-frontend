@@ -165,8 +165,13 @@ if (preloader) {
 
   const animateExit = () =>
     new Promise(resolve => {
-      console.log('Preloader exit animation started');
-      const finish = () => resolve();
+      console.log('[Preloader]', 'exit animation started');
+      const finish = () => {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new Event('preloader:out'));
+        }
+        resolve();
+      };
       if (typeof window.gsap !== 'undefined') {
         window.gsap
           .timeline({ defaults: { duration: 1, ease: 'power2.inOut' } })
@@ -213,7 +218,7 @@ if (preloader) {
         video.removeAttribute('data-defer-video');
         // Do not call load() to avoid interrupting autoplay/play promises.
       } catch (err) {
-        console.warn('Deferred video hydrate failed', err);
+        console.warn('[Preloader]', 'Deferred video hydrate failed', err);
       }
     });
   };
@@ -222,7 +227,7 @@ if (preloader) {
   // Handles both cases: Director already initialized or event dispatched later
   const directorReady = new Promise(resolve => {
     if (window.director) {
-      console.log('Director already initialized, resolving immediately');
+      console.log('[Preloader]', 'Director already initialized, resolving immediately');
       resolve();
       return;
     }
@@ -230,7 +235,7 @@ if (preloader) {
     window.addEventListener(
       'director:ready',
       () => {
-        console.log('Director ready event received');
+        console.log('[Preloader]', 'Director ready event received');
         resolve();
       },
       { once: true }
