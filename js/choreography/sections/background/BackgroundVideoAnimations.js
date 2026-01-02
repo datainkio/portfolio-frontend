@@ -63,6 +63,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
       } else {
         this.logger.trace('Wait for background video to load, then play');
         const handleCanPlay = () => {
+          this.logger.trace('Sounds like it can play now');
           this.videoEl.removeEventListener('canplay', handleCanPlay);
           resolve();
         };

@@ -12,7 +12,6 @@ export default class HeroTriggers extends AbstractSectionTriggers {
   bind(callbacks = {}) {
     // Preserve the base trigger bindings for enter/leave events
     super.bind(callbacks);
-
     if (!this.view) return;
 
     // Kill existing custom trigger before re-creating
