@@ -1,17 +1,18 @@
 /** @format */
 import lumberjack from '@datainkio/lumberjack';
+import { ANIMATION_DEFAULTS } from '../../config.js';
 import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
 import SplitText from 'https://cdn.skypack.dev/gsap/SplitText';
 import ScrambleText from 'https://cdn.skypack.dev/gsap/ScrambleTextPlugin/';
 gsap.registerPlugin(ScrambleText, SplitText);
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
 
-const Y_OFFSET = 35; // Default Y offset for animations
-const DURATION = 0.5; // Default duration for animations
-const STAGGER = 0.25; // Default stagger duration for animations
-const REVEAL_DELAY = 0; // Delay before starting reveal animations
-const SPEED = 0.2; // Speed of the scramble text effect
-const EASE = 'power1.out';
+// const Y_OFFSET = 35; // Default Y offset for animations
+// const DURATION = 0.5; // Default duration for animations
+// const STAGGER = 0.25; // Default stagger duration for animations
+// const REVEAL_DELAY = 0; // Delay before starting reveal animations
+// const SPEED = 0.2; // Speed of the scramble text effect
+// const EASE = 'power1.out';
 
 export default class HeroAnimations extends AbstractSectionAnimations {
   /**
@@ -28,14 +29,15 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     super(view);
     this.options = options;
     this.originalText = this.view?.textContent || '';
-    this.gelSelector = options.gelSelector || '#bg-gel-0';
-    this.gelEl = document.querySelector(this.gelSelector);
+    // this.gelSelector = options.gelSelector || '#bg-gel-0';
+    // this.gelEl = document.querySelector(this.gelSelector);
 
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: '#007bff',
       enabled: true,
     });
 
+    this.Y_OFFSET = ANIMATION_DEFAULTS.translateY;
     // Build animations directly on this.timeline instead of nesting
     //  this._buildScrambleAnimation('intro');
     this._buildWordByWordAnimation('intro');
@@ -75,14 +77,14 @@ export default class HeroAnimations extends AbstractSectionAnimations {
       word.classList.add('w-full');
       this.timeline.fromTo(
         word,
-        { autoAlpha: 0, yPercent: Y_OFFSET },
+        { autoAlpha: 0, yPercent: this.Y_OFFSET },
         {
           autoAlpha: 1,
           yPercent: 0,
-          duration: DURATION,
-          ease: EASE,
+          duration: this.DURATION,
+          ease: this.EASE,
         },
-        `${introLabel}+=${index * STAGGER}`
+        `${introLabel}+=${index * this.STAGGER}`
       );
     });
     // Pause after intro completes to prevent running into outro automatically
@@ -105,15 +107,15 @@ export default class HeroAnimations extends AbstractSectionAnimations {
       this.timeline.to(
         word,
         {
-          duration: DURATION,
+          duration: this.DURATION,
           scrambleText: {
             text: finalText,
-            revealDelay: REVEAL_DELAY,
-            speed: SPEED,
+            revealDelay: 0,
+            speed: 1,
           },
-          ease: EASE,
+          ease: this.EASE,
         },
-        `${introLabel}+=${index * STAGGER}`
+        `${introLabel}+=${index * this.STAGGER}`
       );
     });
 

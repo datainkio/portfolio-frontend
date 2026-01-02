@@ -20,10 +20,12 @@ export default class HeroTriggers extends AbstractSectionTriggers {
 
     this._outroTrigger = ScrollTrigger.create({
       trigger: this.view,
-      start: 'bottom bottom-=50',
-      end: 'bottom center',
-      onL: () => this.section?.playOutro?.(),
-      onLeaveBack: () => this.section?.animations?.outroReverse?.(),
+      start: 'center center',
+      end: 'center center',
+      scrub: true,
+      onLeave: () => this.section?.playOutro?.(),
+      onEnter: () => this.section?.animations?.outroReverse?.(),
+      onEnterBack: () => this.section?.animations?.outroReverse?.(),
     });
   }
 

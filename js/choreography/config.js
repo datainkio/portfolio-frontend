@@ -80,6 +80,7 @@ export const ASSET_PATHS = {
  */
 export const ANIMATION_DEFAULTS = {
   duration: 0.6,
+  // speed: 0.2,
   stagger: 0.1,
   ease: {
     in: 'power3.in',

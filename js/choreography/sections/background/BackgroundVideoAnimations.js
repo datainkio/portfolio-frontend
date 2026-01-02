@@ -21,8 +21,8 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
       color: '#10B981',
     });
     // Prefer site-wide defaults from config with sensible fallbacks
-    this.duration = 5; // options.duration ?? 1.5;
-    this.easeOut = options.ease?.out ?? options.ease ?? 'power1.out';
+    // this.duration = 5; // options.duration ?? 1.5;
+    // this.easeOut = options.ease?.out ?? options.ease ?? 'power1.out';
 
     this.setDefault(options);
     // Here's where we tell the timeline what to do
@@ -87,7 +87,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     const targetClip = 'inset(0% 0% 0% 0%)'; // full element width/height
 
     this.timeline
-      .fromTo(this.view, { autoAlpha: 0 }, { autoAlpha: 1, duration: this.duration * 0.25 })
+      .fromTo(this.view, { autoAlpha: 0 }, { autoAlpha: 1, duration: this.DURATION * 0.25 })
       .fromTo(
         this.view,
         {
@@ -98,7 +98,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
           clipPath: targetClip,
           webkitClipPath: targetClip,
           // ease: this.easeOut,
-          duration: this.duration,
+          duration: this.DURATION,
         }
       );
   }

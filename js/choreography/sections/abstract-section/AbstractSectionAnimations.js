@@ -6,10 +6,11 @@
  * Provides a minimal structure and helpers for building GSAP timelines
  * associated with a specific DOM element and section id.
  */
-
+import { ANIMATION_DEFAULTS } from '../../config.js';
 import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
-const DURATION = 1.0; // Default duration for animations
-const STAGGER = 0.2; // Default stagger duration for animations
+const DURATION = ANIMATION_DEFAULTS.duration; // Default duration for animations
+const STAGGER = ANIMATION_DEFAULTS.stagger; // Default stagger duration for animations
+const EASE = ANIMATION_DEFAULTS.ease.inOut; // Default easing for animations
 export default class AbstractSectionAnimations {
   /**
    * @param {HTMLElement|null} view - Target element for animations
@@ -20,6 +21,7 @@ export default class AbstractSectionAnimations {
     this.timeline = gsap.timeline({ paused: true }); // init timeline instance
     this.DURATION = DURATION; // Default duration for animations
     this.STAGGER = STAGGER; // Default stagger duration for animations
+    this.EASE = EASE; // Default easing for animations
   }
 
   /**
@@ -43,7 +45,7 @@ export default class AbstractSectionAnimations {
     this.timeline.fromTo(
       this.view,
       { opacity: 0 },
-      { opacity: 1, duration: this.DURATION, ease: 'power1.out' }
+      { opacity: 1, duration: this.DURATION, ease: this.EASE }
     );
     return this.timeline.play(0);
   }
