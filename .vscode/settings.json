@@ -24,5 +24,17 @@
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
   "[njk]": {
     "editor.defaultFormatter": "eseom.nunjucks-template"
+  },
+  "search.exclude": {
+    "_site": true,
+    "logs": true,
+    ".cache": true,
+    "node_modules": true
+  },
+  "files.watcherExclude": {
+    "_site/**": true,
+    "logs/**": true,
+    ".cache/**": true,
+    "node_modules/**": true
   }
 }

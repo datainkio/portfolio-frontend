@@ -27,6 +27,12 @@ npm run build
 npm start
 ```
 
+**Repo layout + build truth**
+
+- Frontend and backend live as sibling repos; keep their code separate. Sanity studio sits in `sanity/` but is isolated from the 11ty build.
+- `_site/` is untracked output; every environment (local/CI/deploy) must build from source.
+- For structure/placement rules see [docs/architecture.md](docs/architecture.md).
+
 **BUILD PROCESS DETAILS**:
 
 - `npm run build` sequentially runs: `clean` → `build:design` → `build:11ty`
