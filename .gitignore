@@ -28,13 +28,14 @@ npm-debug.*
 *.swp
 .sass-cache
 .env
-.cache
+.cache/
 
 # Node modules and output
-node_modules
-dist
+node_modules/
+dist/
 src/_includes/css
-_site
+_site/
+logs/
 
 # Generated schema files
 .copilot/*.json

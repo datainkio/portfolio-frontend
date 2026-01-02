@@ -19,6 +19,10 @@ Comprehensive documentation for the dataink.io portfolio (11ty + Figma + Airtabl
 - **[PROMPT_TEMPLATE.md](./PROMPT_TEMPLATE.md)** - Template for development prompts
 - **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** - Build commands, environment setup, architecture overview
 
+### AI Prompts & AIX
+
+- **[ai/](./ai/)** - Scoped AI prompts/briefs for Copilot or assistants (keep concise and transient)
+
 ### Template System (NJK/Eleventy)
 
 See: `njk/README.md` and `eleventy/README.md` in project root directories
@@ -85,6 +89,7 @@ For a complete table of contents with links and descriptions, see:
 ```
 docs/
 ├── README.md (this file)                    ← Start here
+├── ai/                                      ← AI prompts and experiment briefs
 ├── DOCUMENTATION_INDEX.md                   ← Quick reference navigation
 ├── DOCUMENTATION_PROJECT_COMPLETE.md        ← Complete overview
 ├── DOCUMENTATION_UPDATES.md                 ← Phase 2 summary

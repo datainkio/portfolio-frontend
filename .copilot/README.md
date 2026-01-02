@@ -2,6 +2,13 @@
 
 This directory contains generated schema and context files optimized for GitHub Copilot to better understand the project structure.
 
+## Scope & Cautions
+
+- Not a source of truth. Always read from `njk/_data/` in production code.
+- No secrets or tokens belong here.
+- Keep files minimal and generated; remove stale copies quickly.
+- Only for AI context and offline reference—never import these files at runtime.
+
 ## Files
 
 - **`dbSchema.json`** - Complete Airtable base schema with field types, samples, and relationships (copy for Copilot)
