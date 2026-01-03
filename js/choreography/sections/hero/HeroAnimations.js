@@ -39,8 +39,8 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.Y_OFFSET = ANIMATION_DEFAULTS.translateY;
     // Build animations directly on this.timeline instead of nesting
     //  this._buildScrambleAnimation('intro');
-    this._buildWordByWordAnimation('intro');
-    this._buildOutroThrow('outro');
+    // this._buildWordByWordAnimation('intro');
+    // this._buildOutroThrow('outro');
     // super.setDefault(this.options);
   }
 

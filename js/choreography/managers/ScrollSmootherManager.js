@@ -21,9 +21,10 @@
  */
 
 // ESM-friendly GSAP core + plugins (skypack)
-import { gsap, ScrollSmoother } from '/assets/js/choreography/vendor/gsap.js';
+import { ScrollSmoother } from '/assets/js/choreography/vendor/gsap.js';
 
 const SMOOTHER_EFFECTS = true; // Enable parallax effects
+const SMOOTHER_ENABLED = true; // Global disable flag for debugging/UX testing
 
 export default class ScrollSmootherManager {
   /**
@@ -62,6 +63,7 @@ export default class ScrollSmootherManager {
    * @returns {boolean} True if initialization succeeded
    */
   enable() {
+    if (!SMOOTHER_ENABLED) return false; // Global disable override
     if (!this._isAvailable) return false;
     if (this._reducedMotionHandler?.isReducedMotion()) return false;
     if (this._smoother) return true;
