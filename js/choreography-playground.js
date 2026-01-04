@@ -32,7 +32,9 @@ const ui = {
   clearLogBtn: null,
   autoScroll: null,
   sectionSelect: null,
-  eventGroups: null,
+  startIntroBtn: null,
+  startOutroBtn: null,
+  lifecycleStatus: null,
   logList: null,
   logSummary: null,
   wiredSections: null,
@@ -44,11 +46,27 @@ const ui = {
 const flattenedEvents = flattenEvents(EVENTS);
 const sectionIdsFromEvents = deriveSectionIds(flattenedEvents);
 
+// Explicit adapter layer for section lifecycle triggers
+const SECTION_API = {
+  hero: {
+    intro: section => section?.playIntro?.(),
+    outro: section => section?.playOutro?.(),
+  },
+  video: {
+    intro: section => section?.playIntro?.(),
+    outro: section => section?.playOutro?.(),
+  },
+  bio: {
+    intro: section => section?.playIntro?.(),
+    outro: section => section?.playOutro?.(),
+  },
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   cacheUi();
   renderSectionOptions();
-  renderEventButtons();
   bindUi();
+  updateLifecycleControls();
   updateStatusTexts();
   logSystem('Playground ready', 'system.ready');
 });
@@ -62,7 +80,9 @@ function cacheUi() {
   ui.clearLogBtn = document.querySelector('#clear-log-btn');
   ui.autoScroll = document.querySelector('#auto-scroll');
   ui.sectionSelect = document.querySelector('#section-select');
-  ui.eventGroups = document.querySelector('#event-groups');
+  ui.startIntroBtn = document.querySelector('#start-intro');
+  ui.startOutroBtn = document.querySelector('#start-outro');
+  ui.lifecycleStatus = document.querySelector('#lifecycle-status');
   ui.logList = document.querySelector('#event-log');
   ui.logSummary = document.querySelector('#log-summary');
   ui.wiredSections = document.querySelector('#wired-sections');
@@ -81,6 +101,9 @@ function bindUi() {
   });
   ui.modeDirector?.addEventListener('change', updateModeFromUi);
   ui.modeManual?.addEventListener('change', updateModeFromUi);
+  ui.startIntroBtn?.addEventListener('click', () => triggerLifecycle('intro'));
+  ui.startOutroBtn?.addEventListener('click', () => triggerLifecycle('outro'));
+  ui.sectionSelect?.addEventListener('change', updateLifecycleControls);
 }
 
 function updateModeFromUi() {
@@ -123,11 +146,6 @@ function renderSectionOptions() {
   if (!ui.sectionSelect) return;
   ui.sectionSelect.innerHTML = '';
 
-  const defaultOption = document.createElement('option');
-  defaultOption.value = '';
-  defaultOption.textContent = 'No section (bus only)';
-  ui.sectionSelect.appendChild(defaultOption);
-
   sectionIdsFromEvents.forEach(id => {
     const option = document.createElement('option');
     const inRegistry = Boolean(SECTION_REGISTRY[id]);
@@ -136,47 +154,10 @@ function renderSectionOptions() {
     if (!inRegistry) option.disabled = true;
     ui.sectionSelect.appendChild(option);
   });
-}
 
-function renderEventButtons() {
-  if (!ui.eventGroups) return;
-  ui.eventGroups.innerHTML = '';
-  const grouped = groupEvents(flattenedEvents);
-
-  Object.entries(grouped).forEach(([group, events]) => {
-    const card = document.createElement('div');
-    card.className = 'rounded border border-neutral-800 bg-neutral-900 p-3 space-y-2';
-
-    const heading = document.createElement('div');
-    heading.className = 'text-[11px] uppercase tracking-[0.16em] text-neutral-400 flex items-center justify-between';
-    heading.textContent = group;
-    card.appendChild(heading);
-
-    const buttons = document.createElement('div');
-    buttons.className = 'flex flex-wrap gap-2';
-    events.forEach(evt => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.dataset.event = evt.event;
-      btn.dataset.path = evt.path;
-      btn.className = 'rounded border border-neutral-700 bg-neutral-800 px-2 py-1 text-[11px] text-neutral-100 hover:border-primary-500';
-      btn.textContent = evt.path;
-      btn.addEventListener('click', () => emitEvent(evt));
-      buttons.appendChild(btn);
-    });
-
-    card.appendChild(buttons);
-    ui.eventGroups.appendChild(card);
-  });
-}
-
-function groupEvents(events) {
-  return events.reduce((acc, evt) => {
-    const key = evt.group || 'misc';
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(evt);
-    return acc;
-  }, {});
+  if (ui.sectionSelect.options.length) {
+    ui.sectionSelect.selectedIndex = 0;
+  }
 }
 
 async function handleInit() {
@@ -210,6 +191,7 @@ async function initDirectorMode() {
     subscribeAll();
     state.initialized = true;
     logSystem('Director mode initialized', 'director.ready');
+    updateLifecycleControls();
   } catch (error) {
     logger.trace('Director mode failed; falling back to manual bus', error);
     logSystem('Director init failed; using manual bus', 'director.error');
@@ -217,12 +199,13 @@ async function initDirectorMode() {
     state.activeSections = [];
     subscribeAll();
     state.initialized = true;
+    updateLifecycleControls();
   }
 }
 
 function initManualMode() {
   state.bus = new AnimationBus();
-  const sectionId = ui.sectionSelect?.value;
+  const sectionId = getSelectedSectionId();
   state.activeSections = [];
 
   if (sectionId && SECTION_REGISTRY[sectionId]) {
@@ -239,6 +222,7 @@ function initManualMode() {
   subscribeAll();
   state.initialized = true;
   logSystem('Manual mode initialized', 'manual.ready');
+  updateLifecycleControls();
 }
 
 function subscribeAll() {
@@ -255,15 +239,6 @@ function subscribeAll() {
   const onDirectorReady = () => logEvent('system', 'director:ready', 'system.directorReady');
   window.addEventListener('director:ready', onDirectorReady);
   state.windowSubscriptions.push(() => window.removeEventListener('director:ready', onDirectorReady));
-}
-
-function emitEvent(evt) {
-  if (!state.bus) {
-    logSystem('Bus not initialized; click Init first', 'bus.missing');
-    return;
-  }
-  state.bus.emit(evt.event);
-  logEvent('emitted', evt.event, evt.path);
 }
 
 function logSystem(message, path) {
@@ -309,9 +284,9 @@ function logEvent(kind, eventName, path, payload = null) {
 function getLogClass(kind) {
   const base = 'rounded border px-3 py-2 space-y-1';
   const variants = {
-    emitted: `${base} border-primary-700 bg-primary-900/60`,
     received: `${base} border-emerald-700 bg-emerald-900/50`,
     system: `${base} border-neutral-700 bg-neutral-900`,
+    action: `${base} border-primary-700 bg-primary-900/60`,
   };
   return variants[kind] || base;
 }
@@ -376,6 +351,7 @@ async function destroy(reason = 'manual') {
   if (reason !== 'reinit') {
     logSystem('Destroyed playground state', 'destroy');
   }
+  updateLifecycleControls();
   updateStatusTexts();
 }
 
@@ -397,6 +373,80 @@ function clearSubscriptions() {
     }
   });
   state.windowSubscriptions = [];
+}
+
+function getSelectedSectionId() {
+  return ui.sectionSelect?.value || null;
+}
+
+function getActiveSectionInstance() {
+  if (state.mode === 'director' && state.director) {
+    const id = getSelectedSectionId();
+    return state.director.sections?.[id] || null;
+  }
+  return state.sectionInstance;
+}
+
+function getSectionAdapter(sectionId) {
+  return SECTION_API[sectionId] || null;
+}
+
+function triggerLifecycle(kind) {
+  const sectionId = getSelectedSectionId();
+  const adapter = getSectionAdapter(sectionId);
+  const instance = getActiveSectionInstance();
+
+  if (!sectionId || !adapter || !instance) {
+    setLifecycleStatus('No section ready', true);
+    return;
+  }
+
+  const action = adapter[kind];
+  if (typeof action !== 'function') {
+    setLifecycleStatus(`${sectionId} has no ${kind}`, true);
+    return;
+  }
+
+  try {
+    action(instance);
+    logEvent('action', `${sectionId}:${kind}`, `${sectionId}.${kind}`);
+    setLifecycleStatus(`Triggered ${kind} on ${sectionId}`);
+  } catch (error) {
+    logger.trace('Lifecycle trigger failed', { sectionId, kind, error });
+    setLifecycleStatus(`Failed ${kind} on ${sectionId}`, true);
+  }
+}
+
+function setLifecycleStatus(message, isError = false) {
+  if (!ui.lifecycleStatus) return;
+  ui.lifecycleStatus.textContent = message;
+  ui.lifecycleStatus.className = `text-xs ${isError ? 'text-rose-300' : 'text-neutral-400'}`;
+}
+
+function updateLifecycleControls() {
+  const sectionId = getSelectedSectionId();
+  const adapter = getSectionAdapter(sectionId) || {};
+  const instance = getActiveSectionInstance();
+  const hasIntro = typeof adapter.intro === 'function';
+  const hasOutro = typeof adapter.outro === 'function';
+
+  const disabledIntro = !hasIntro || !instance;
+  const disabledOutro = !hasOutro || !instance;
+
+  if (ui.startIntroBtn) ui.startIntroBtn.disabled = disabledIntro;
+  if (ui.startOutroBtn) ui.startOutroBtn.disabled = disabledOutro;
+
+  if (!sectionId) {
+    setLifecycleStatus('Select a section');
+    return;
+  }
+
+  if (!instance) {
+    setLifecycleStatus(`Init to load ${sectionId}`, true);
+    return;
+  }
+
+  setLifecycleStatus(`Ready: ${sectionId}`);
 }
 
 function updateStatusTexts(lastEvent, kind = '') {

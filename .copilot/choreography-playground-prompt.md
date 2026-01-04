@@ -1,35 +1,32 @@
 
-# Choreography Playground Prompt (11ty + Event System)
+# Choreography Playground Prompt (11ty + Section Lifecycle Focus)
 
 ## Purpose
 
-This prompt is intended for use with a coding model to generate an **event‑driven choreography playground** inside an **11ty (Eleventy) + Nunjucks** site.
+This prompt is intended for use with a coding model to generate a **section-focused choreography playground** inside an **11ty (Eleventy) + Nunjucks** site.
 
 The playground enables a **UX designer/developer** to:
-- Test each choreography component independently
-- Emit lifecycle events manually
-- Observe event‑driven behavior in real time
-- Iterate rapidly on design, timing, and configuration
+- Test each choreography *section* independently
+- Trigger intro and outro behavior directly
+- Observe event-driven side effects in real time
+- Rapidly iterate on design, timing, and configuration
 
 This is a **design and debugging harness**, not production UI.
 
 ---
 
-## Ground Truth: Event System
+## Ground Truth: Architecture
 
-You MUST use the real event constants from `constants.js` as the single source of truth.
+You are working with a choreography system where:
 
-- Import `EVENTS` from `js/choreography/constants.js`
-- Do NOT hardcode event strings
-- Build UI controls dynamically from the `EVENTS` object shape
+- Sections extend a common abstract base (e.g. `AbstractSection`)
+- Each section exposes explicit lifecycle methods, including:
+  - a method that **initiates the intro sequence**
+  - a method that **initiates the outro sequence**
+- Internally, sections may emit lifecycle events via an `AnimationBus`
+- A `Director` may exist to orchestrate sequences across sections, but **this playground bypasses sequencing logic** in favor of direct section control
 
-The event system is pub/sub based via an `AnimationBus`:
-
-- `bus.on(eventName, callback)` → returns `unsubscribe()`
-- `bus.emit(eventName, payload?)`
-
-Sections extend a common abstract base and react to lifecycle events (intro / scroll / outro / etc.).  
-Sequences and the Director chain events together.
+The event system still exists and should be respected internally, but **the playground UI does NOT emit events directly**.
 
 ---
 
@@ -37,12 +34,15 @@ Sequences and the Director chain events together.
 
 Create an **11ty playground page** that:
 
-1. Enumerates **all available events from `EVENTS`**
-2. Groups them logically in the UI (system / section / sequence / misc)
-3. Allows emitting *any event* via buttons
-4. Shows which sections are currently wired/listening
-5. Logs all emitted and received events in real time
-6. Supports **Director mode** and **Manual mode**
+1. Presents each section/component in isolation
+2. Allows directly invoking:
+   - the section’s *intro-starting method*
+   - the section’s *outro-starting method*
+3. Makes event flow *observable* (log events, but do not emit them from UI)
+4. Supports **Director mode** and **Manual mode**
+5. Enables safe, repeated init → test → destroy cycles
+
+Success is the ability to *tune section behavior like an instrument* without running full page choreography.
 
 ---
 
@@ -53,29 +53,45 @@ Create an **11ty playground page** that:
 An Eleventy template that renders:
 
 #### A) Control Panel (sticky)
-- Mode toggle:
-  - Director mode (initialize `Director`)
-  - Manual mode (instantiate `AnimationBus` only)
-- Section selector:
-  - Dropdown populated from section IDs inferred from `EVENTS`
-- Event Controls:
-  - Buttons generated automatically from `EVENTS`
-  - Grouped by namespace
-- System controls:
+
+- **Mode toggle**
+  - Director mode (initialize `Director`, but allow section-level triggering)
+  - Manual mode (instantiate a single section directly)
+- **Section selector**
+  - Dropdown listing all available section classes
+- **Lifecycle Controls**
+  - `Start Intro` button
+    - Calls the method on the selected section that initiates its intro sequence
+  - `Start Outro` button
+    - Calls the method on the selected section that initiates its outro sequence
+- **System controls**
   - Init
   - Destroy
-  - Restart
+  - Restart section (destroy + re-init)
   - Clear log
 
+⚠️ The UI must **not** emit events directly.  
+All choreography must originate from section methods.
+
+---
+
 #### B) Stage / Preview Area
-- Neutral container where section DOM can live
-- Survives repeated init/destroy cycles
+
+- Neutral container where section DOM is mounted
+- May contain placeholder markup if real markup is unavailable
+- Must survive repeated init/destroy cycles without leaks
+
+---
 
 #### C) Event Log
+
 - Reverse chronological
 - Timestamped
-- Color‑coded (emitted / received / system)
-- Auto‑scroll toggle
+- Shows:
+  - emitted events
+  - received events
+- Read-only (observational)
+- Auto-scroll toggle
 
 Use semantic HTML. Minimal wrapper divs.
 
@@ -83,7 +99,9 @@ Use semantic HTML. Minimal wrapper divs.
 
 ### 2. `choreography-playground.js`
 
-Client‑side ES module loaded **only** on the playground page.
+Client-side ES module loaded **only** on the playground page.
+
+---
 
 #### Import paths (editable at top)
 
@@ -91,113 +109,120 @@ Client‑side ES module loaded **only** on the playground page.
 import { EVENTS } from '../js/choreography/constants.js'
 import { AnimationBus } from '../js/choreography/AnimationBus.js'
 import { Director } from '../js/choreography/Director.js'
+// import section classes as available
 ```
 
-Fail gracefully if Director or sections are unavailable.
+Fail gracefully if Director or a section class is unavailable.
 
 ---
 
-#### Event introspection (important)
+## Section Invocation Contract (important)
 
-You MUST:
+Because section method names may vary, the playground must:
 
-- Traverse `EVENTS` recursively
-- Produce a flat list of `{ name, path }`
-- Example:
-  - `system.pageReady`
-  - `hero.intro.start`
-  - `hero.scroll.enter`
-  - `sequence.landing.start`
+- Define a **clear adapter layer** that maps:
+  - `startIntro()` → calls the section’s intro-entry method
+  - `startOutro()` → calls the section’s outro-entry method
+- This mapping should be:
+  - centralized
+  - easy to adjust
+  - explicit (no reflection magic)
 
-Use this derived list to:
-- Build UI buttons
-- Subscribe to events for logging
-- Infer available sections
-
----
-
-#### UI generation
-
-- Buttons generated programmatically
-- Clicking a button calls:
+Example:
 
 ```js
-bus.emit(eventName)
+const SECTION_API = {
+  hero: {
+    intro: section => section.startIntro(),
+    outro: section => section.startOutro()
+  }
+}
 ```
 
-Do NOT call section methods directly.
+If a section does not support one of these actions, the UI must:
+- disable the button
+- display a clear status message
 
 ---
 
-#### Logging
+## Event Observability (still required)
 
-- Subscribe to *all known events*
+Even though the UI does not emit events:
+
+- Subscribe to all known events from `EVENTS`
 - Log:
   - event name
   - timestamp
-  - source (emitted / received / system)
 - Store unsubscribe callbacks
-- Clean up everything on destroy
+- Clean up all listeners on destroy
+
+Events are **observed**, not commanded.
 
 ---
 
-#### Modes
+## Modes
 
-##### Director Mode
+### Manual Mode (primary)
+
+- Instantiate:
+  - `AnimationBus`
+  - selected section only
+- Mount section DOM into the stage
+- Buttons directly invoke section intro/outro methods
+- No sequencing, no scroll simulation
+
+This is the default UX design mode.
+
+---
+
+### Director Mode (secondary)
+
 - Instantiate `Director`
+- Allow triggering intro/outro on the selected section only
+- Director may respond to emitted events naturally
 - Call `enableDebug(true)` if available
-- Let Director wire sections + sequences normally
-- Event buttons still emit through the bus
 
-##### Manual Mode
-- Create `AnimationBus` only
-- Optionally instantiate a single selected section
-- No sequencing — purely event‑reaction testing
+Director mode exists to validate *integration*, not design iteration.
 
 ---
 
-#### Cleanup discipline (non‑negotiable)
+## Cleanup Discipline (non-negotiable)
 
-- Track all:
-  - bus subscriptions
-  - Director instance
+The playground will be used for long, iterative sessions.
+
+You MUST:
+
+- Track:
   - section instances
-- `destroy()` must:
+  - Director instance
+  - bus subscriptions
+- On destroy:
   - unsubscribe all listeners
+  - call `section.destroy()` if present
   - call `director.destroy()` if present
   - remove DOM artifacts
-  - reset internal state
+  - reset all references
 
 Memory leaks are unacceptable.
 
 ---
 
-## Event Grouping Logic (UI)
-
-Group events using their path in `EVENTS`, for example:
-
-- `EVENTS.system.*` → System
-- `EVENTS.sequence.*` → Sequences
-- `EVENTS.hero.*`, `EVENTS.bio.*`, etc. → Sections
-  - subgroup by phase (`intro`, `scroll`, `outro`)
-
-UI must adapt automatically to new events.
-
----
-
 ## UX Expectations
 
-This tool is for **design iteration**:
+This tool is for **rapid section-level iteration**:
 
-- Fast feedback
-- No rebuilds
-- No real scrolling required
-- Buttons feel like a MIDI controller for choreography
-- Always show:
-  - active mode
-  - selected section
-  - last event
-  - director status
+- Two primary buttons only:
+  - Intro
+  - Outro
+- Immediate feedback
+- No scrolling required
+- Clear visibility into:
+  - active section
+  - last lifecycle action
+  - recent events
+  - current mode
+
+Buttons should feel like *play / reverse* controls for choreography.
 
 ---
 
@@ -214,17 +239,18 @@ Return:
 
 ---
 
-## Non‑Goals
+## Non-Goals
 
-- No CSS polish beyond clarity
+- No UI for emitting arbitrary events
+- No full sequence simulation
+- No production styling
 - No GSAP authoring
-- No production logic
-- No mocks unless required to prevent crashes
 
 ---
 
 ## Rationale
 
-This playground exists so choreography can be **designed**, not debugged after the fact.
+Events are the **internal protocol**.  
+Sections are the **design surface**.
 
-Treat events as the product.
+This playground prioritizes *authorial control* over orchestration.
