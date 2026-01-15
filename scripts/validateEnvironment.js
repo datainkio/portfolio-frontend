@@ -9,7 +9,8 @@
  * will cause silent failures in Figma design sync and Airtable content integration.
  *
  * REQUIREMENTS:
- * - FIGMA_TOKEN: Personal access token for design system sync
+ * - FIGMA_TOKEN: Personal access token for design system sync (legacy: FIGMA_ACCESS_TOKEN)
+ * - FIGMA_FILE_ID: Figma file ID for design system sync
  * - AIRTABLE_PERSONAL_ACCESS_TOKEN: API access for content management
  * - AIRTABLE_BASE_TOKEN: Specific base identifier for portfolio content
  * - Node.js 18+ for ES modules support
@@ -40,10 +41,13 @@ const warnings = [];
 function validateEnvironmentVariables() {
   console.log(chalk.blue('\n📋 Environment Variables'));
 
+  const figmaToken = process.env.FIGMA_TOKEN ?? process.env.FIGMA_ACCESS_TOKEN;
+  const figmaTokenName = process.env.FIGMA_TOKEN ? 'FIGMA_TOKEN' : 'FIGMA_ACCESS_TOKEN';
+
   const requiredVars = [
     {
-      name: 'FIGMA_TOKEN',
-      description: 'Personal access token for Figma API',
+      name: 'FIGMA_FILE_ID',
+      description: 'Figma file ID for design system sync',
       critical: true,
     },
     {
@@ -57,6 +61,24 @@ function validateEnvironmentVariables() {
       critical: true,
     },
   ];
+
+  if (!figmaToken) {
+    console.log(chalk.red('  ❌ FIGMA_TOKEN: MISSING (CRITICAL)'));
+    console.log(
+      chalk.gray('     Personal access token for Figma API (legacy: FIGMA_ACCESS_TOKEN)')
+    );
+    hasErrors = true;
+  } else {
+    const maskedValue =
+      figmaToken.length > 8
+        ? `${figmaToken.substring(0, 4)}...${figmaToken.substring(figmaToken.length - 4)}`
+        : '*'.repeat(figmaToken.length);
+    console.log(chalk.green(`  ✅ ${figmaTokenName}: ${maskedValue}`));
+
+    if (!process.env.FIGMA_TOKEN && process.env.FIGMA_ACCESS_TOKEN) {
+      warnings.push('FIGMA_ACCESS_TOKEN is supported but deprecated; prefer FIGMA_TOKEN');
+    }
+  }
 
   requiredVars.forEach(variable => {
     const value = process.env[variable.name];

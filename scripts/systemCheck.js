@@ -103,11 +103,26 @@ function checkNodeEnvironment() {
 function checkEnvironmentVariables() {
   console.log(chalk.blue('\n🔐 Environment Variables'));
 
-  const criticalVars = [
-    'FIGMA_ACCESS_TOKEN',
-    'AIRTABLE_PERSONAL_ACCESS_TOKEN',
-    'AIRTABLE_BASE_TOKEN',
-  ];
+  healthCheck(
+    'FIGMA_TOKEN',
+    () => {
+      const value = process.env.FIGMA_TOKEN ?? process.env.FIGMA_ACCESS_TOKEN;
+      if (!value) {
+        return {
+          status: 'fail',
+          message: 'Missing - set FIGMA_TOKEN (or legacy FIGMA_ACCESS_TOKEN) in .env file',
+        };
+      }
+      const masked =
+        value.length > 8
+          ? `${value.substring(0, 4)}...${value.substring(value.length - 4)}`
+          : '*'.repeat(value.length);
+      return { status: 'pass', details: masked };
+    },
+    2
+  );
+
+  const criticalVars = ['FIGMA_FILE_ID', 'AIRTABLE_PERSONAL_ACCESS_TOKEN', 'AIRTABLE_BASE_TOKEN'];
 
   criticalVars.forEach(varName => {
     healthCheck(

@@ -143,11 +143,13 @@ Create a `.env` file with these tokens or the build will fail silently and leave
 
 ```env
 FIGMA_TOKEN=your_figma_personal_access_token
+FIGMA_FILE_ID=your_figma_file_id
 AIRTABLE_PERSONAL_ACCESS_TOKEN=your_airtable_token
 AIRTABLE_BASE_TOKEN=your_specific_base_id
 ```
 
 **Get Figma Token**: Figma Account Settings → Personal Access Tokens → Generate New Token (give it Files:read scope)
+**Get Figma File ID**: Figma file URL → the segment after `/file/` (e.g. `https://www.figma.com/file/<FIGMA_FILE_ID>/...`)
 **Get Airtable Tokens**: Airtable Account → Developer Hub → Personal Access Tokens → Create token with base access
 
 **SECURITY WARNING**: These tokens provide full access to your design files and content. Treat them like nuclear launch codes.

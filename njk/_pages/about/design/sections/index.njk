@@ -1,6 +1,27 @@
 ---
+layout: templates/documentation.njk
 title: Sections
 eleventyNavigation:
-  key: Sections
+  key: Section Design
   parent: Design
 ---
+
+{% import "organisms/section/hero.njk" as heroSection %}
+{% import "molecules/section-playback.njk" as playback %}
+
+<script type="module" src="/assets/js/section-playback.js"></script>
+
+{% set playbackOptions = {
+  sectionId: "hero",
+  label: "Hero playback",
+  note: "Manually trigger hero intro/outro animations for review.",
+  fixed: true
+} %}
+
+{{ playback.render(playbackOptions) }}
+
+<div class="h-24"></div>
+
+{{ heroSection.render({ id: "hero", title: title }) }}
+
+

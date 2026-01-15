@@ -187,7 +187,10 @@ async function runSingleBuild(command, tailwindLogger, outputFile) {
 
     return {
       success: true,
-      summary: tailwindLogger.getBuildSummary(),
+      summary:
+        typeof tailwindLogger.getBuildSummary === 'function'
+          ? tailwindLogger.getBuildSummary()
+          : null,
       output: result,
     };
   } catch (error) {
@@ -209,7 +212,10 @@ async function runSingleBuild(command, tailwindLogger, outputFile) {
     return {
       success: false,
       error: isActualError ? errorOutput : 'Build failed - check logs for details',
-      summary: tailwindLogger.getBuildSummary(),
+      summary:
+        typeof tailwindLogger.getBuildSummary === 'function'
+          ? tailwindLogger.getBuildSummary()
+          : null,
     };
   }
 }

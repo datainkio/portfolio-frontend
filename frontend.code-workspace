@@ -1,10 +1,5 @@
 {
-  "folders": [
-    {
-      "path": ".",
-    },
-  ],
-<<<<<<< HEAD
+  "folders": [{ "path": "." }],
   "settings": {
     "swark.outputDirectory": "onboarding",
     "editor.lineNumbers": "on",
@@ -36,7 +31,19 @@
     "svg.preview.mode": "img",
     "svg.preview.backgroundCustom": "#ffffff",
     "svg.preview.background": "white",
+    "search.exclude": {
+      "**/_site": true,
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.cache": true,
+      "**/logs": true,
+    },
+    "files.watcherExclude": {
+      "**/_site/**": true,
+      "**/node_modules/**": true,
+      "**/dist/**": true,
+      "**/.cache/**": true,
+      "**/logs/**": true,
+    },
   },
-=======
->>>>>>> landing-xd
 }

@@ -109,7 +109,20 @@ export default class AbstractSection {
    */
   async playIntro() {
     if (this.isDisabled) return Promise.resolve();
-    this.animations.intro();
+
+    return new Promise(resolve => {
+      const tl = this.animations.timeline;
+      if (!tl) return resolve();
+
+      tl.eventCallback('onStart', () => this._onIntroStart());
+      tl.eventCallback('onComplete', () => {
+        this._onIntroComplete();
+        resolve();
+      });
+      tl.eventCallback('onReverseComplete', null);
+
+      this.animations.intro();
+    });
   }
 
   /**
@@ -122,25 +135,24 @@ export default class AbstractSection {
    */
   async playOutro() {
     if (this.isDisabled) return Promise.resolve();
-    this.animations.outro();
+
+    return new Promise(resolve => {
+      const tl = this.animations.timeline;
+      if (!tl) return resolve();
+
+      tl.eventCallback('onStart', () => this._onOutroStart());
+      tl.eventCallback('onComplete', () => {
+        this._onOutroComplete();
+        resolve();
+      });
+      tl.eventCallback('onReverseComplete', null);
+
+      this.animations.outro();
+    });
   }
 
   // Map GSAP timeline callbacks to standardized AnimationBus events.
   _bindCallbacks() {
-    if (!this.animations.timeline) return;
-
-    this.animations.timeline.eventCallback('onStart', () => {
-      this._onIntroStart();
-    });
-
-    this.animations.timeline.eventCallback('onComplete', () => {
-      this._onIntroComplete();
-    });
-
-    this.animations.timeline.eventCallback('onReverseComplete', () => {
-      this._onOutroComplete();
-    });
-
     if (!this.triggers) return;
 
     this.triggers.bind({

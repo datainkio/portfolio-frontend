@@ -76,7 +76,8 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Critical Environment Variables:**
 
-- `FIGMA_TOKEN` - Required for design token sync
+- `FIGMA_TOKEN` - Required for design token sync (legacy: `FIGMA_ACCESS_TOKEN`)
+- `FIGMA_FILE_ID` - Required Figma file ID
 - `AIRTABLE_PERSONAL_ACCESS_TOKEN` - Required for CMS data fetch
 - `AIRTABLE_BASE_TOKEN` - Base ID for Airtable connection
 

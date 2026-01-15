@@ -1,5 +1,5 @@
 /** @format */
-import lumberjack from '@datainkio/lumberjack';
+import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import { ANIMATION_DEFAULTS } from '../../config.js';
 import { gsap, SplitText } from '/assets/js/choreography/vendor/gsap.js';
 import ScrambleText from 'https://cdn.skypack.dev/gsap@3.13.0/ScrambleTextPlugin';
@@ -26,22 +26,25 @@ export default class HeroAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.options = options;
+    this.options = {
+      duration: options.duration ?? ANIMATION_DEFAULTS.duration,
+      translateY: options.translateY ?? ANIMATION_DEFAULTS.translateY,
+      ease: {
+        in: options.ease?.in ?? ANIMATION_DEFAULTS.ease.in,
+        out: options.ease?.out ?? ANIMATION_DEFAULTS.ease.out,
+      },
+    };
+    this.view = view;
+    this.title = this.view?.querySelector('h1') || this.view;
     this.originalText = this.view?.textContent || '';
-    // this.gelSelector = options.gelSelector || '#bg-gel-0';
-    // this.gelEl = document.querySelector(this.gelSelector);
 
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: '#007bff',
       enabled: true,
     });
 
-    this.Y_OFFSET = ANIMATION_DEFAULTS.translateY;
-    // Build animations directly on this.timeline instead of nesting
-    //  this._buildScrambleAnimation('intro');
-    // this._buildWordByWordAnimation('intro');
-    // this._buildOutroThrow('outro');
-    // super.setDefault(this.options);
+    this.Y_OFFSET = this.options.translateY;
+    this._buildTimelines();
   }
 
   // Override AbstractSectionAnimations
@@ -51,12 +54,51 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   outro() {
-    // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
+    // Play the dedicated outro segment forward
     return this.timeline.play('outro');
   }
 
   outroReverse() {
     return this.timeline.reverse('outro:end');
+  }
+
+  _buildTimelines() {
+    if (!this.view || !this.title) return;
+
+    const targets = this.title;
+    this.timeline.clear();
+
+    // Intro
+    this.timeline.addLabel('intro', 0);
+    this.timeline.set(this.view, { autoAlpha: 1 }, 'intro');
+    this.timeline.fromTo(
+      targets,
+      { autoAlpha: 0, y: this.options.translateY },
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: this.options.duration,
+        ease: this.options.ease.out,
+      },
+      'intro'
+    );
+    this.timeline.addLabel('intro:end', this.timeline.duration());
+    this.timeline.addPause('intro:end');
+
+    // Outro
+    this.timeline.addLabel('outro', this.timeline.duration());
+    this.timeline.to(
+      targets,
+      {
+        autoAlpha: 0,
+        y: this.options.translateY * 0.5,
+        duration: this.options.duration * 0.8,
+        ease: this.options.ease.in,
+      },
+      'outro'
+    );
+    this.timeline.addLabel('outro:end', this.timeline.duration());
+    this.timeline.addPause('outro:end');
   }
 
   _buildWordByWordAnimation(label) {
