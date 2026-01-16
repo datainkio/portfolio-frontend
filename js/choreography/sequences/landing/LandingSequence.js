@@ -125,12 +125,12 @@ export class LandingSequence {
 
     // Respond to hero intro start
     on(EVENTS.hero.introStart, () => {
-      // this.logger.trace('Hero intro started');
+      this.logger.trace('Hero intro started');
     });
 
     // Respond to hero intro complete
     on(EVENTS.hero.introComplete, () => {
-      // this.logger.trace('Hero intro complete');
+      this.logger.trace('Hero intro complete');
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();

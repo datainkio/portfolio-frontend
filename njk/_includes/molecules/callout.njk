@@ -1,0 +1,45 @@
+{#
+  Molecule: Callout
+  - Purpose: highlight a short note, warning, or info block
+  - Dependencies: none required (may be styled with Tailwind utilities)
+
+  Usage:
+    {% import "molecules/callout.njk" as callout %}
+    {{ callout.render({ title: "Note", tone: "info", text: "Hello" }) }}
+
+    {% call callout.render({ title: "Tip", tone: "success" }) %}
+      <p>Rich content <a href="#">with links</a>.</p>
+    {% endcall %}
+#}
+
+{% macro render(params = {}) %}
+  {%- set title = params.title | default("") -%}
+  {%- set tone = params.tone | default("info") -%}
+  {%- set ariaLabel = params.ariaLabel | default("Callout") -%}
+  {%- set classes = params.classes | default("") -%}
+
+  {%- set toneClasses = {
+    info: "border-blue-200 bg-blue-50 text-blue-950",
+    success: "border-green-200 bg-green-50 text-green-950",
+    warning: "border-yellow-200 bg-yellow-50 text-yellow-950",
+    danger: "border-red-200 bg-red-50 text-red-950"
+  } -%}
+
+  {%- set toneClass = toneClasses[tone] | default(toneClasses.info) -%}
+
+  <aside class="rounded-lg border p-4 {{ toneClass }} {{ classes }}" role="note" aria-label="{{ ariaLabel }}">
+    {% if title %}
+      <h3 class="font-semibold mb-1">{{ title }}</h3>
+    {% endif %}
+
+    <div class="text-sm leading-relaxed">
+      {%- if caller is defined -%}
+        {{ caller() }}
+      {%- elseif params.html is defined -%}
+        {{ params.html | safe }}
+      {%- elseif params.text is defined -%}
+        <p class="m-0">{{ params.text }}</p>
+      {%- endif -%}
+    </div>
+  </aside>
+{% endmacro %}

@@ -35,4 +35,37 @@ export default function (eleventyConfig) {
     const d = new Date(dateObj);
     return DateTime.fromJSDate(d).toLocaleString(DateTime.DATE_MED);
   });
+
+  /**
+   * Format a date with a consistent, reusable API.
+   *
+   * Default output matches `postDate` (DATE_MED), but supports:
+   * - Luxon format strings (e.g., "DDD", "yyyy-LL-dd")
+   * - Luxon presets via DateTime constants (e.g., DateTime.DATE_MED)
+   *
+   * USAGE:
+   * {{ page.date | formatDate }}
+   * {{ page.date | formatDate('DDD') }}
+   * {{ activity.fields.date | formatDate('yyyy LLL dd') }}
+   */
+  eleventyConfig.addFilter('formatDate', (dateObj, format = 'DATE_MED') => {
+    if (!dateObj) return '';
+
+    const jsDate = dateObj instanceof Date ? dateObj : new Date(dateObj);
+    const dt = DateTime.fromJSDate(jsDate);
+    if (!dt.isValid) return '';
+
+    // Allow passing a Luxon preset key, e.g. "DATE_MED".
+    if (typeof format === 'string' && format in DateTime) {
+      return dt.toLocaleString(DateTime[format]);
+    }
+
+    // Treat any other string as a Luxon format string.
+    if (typeof format === 'string') {
+      return dt.toFormat(format);
+    }
+
+    // Allow direct passing of a Luxon preset object.
+    return dt.toLocaleString(format);
+  });
 }

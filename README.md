@@ -24,7 +24,8 @@ npm install
 npm run build
 
 # Step 3: Development with parallel Tailwind watching + 11ty serving (requires npm-run-all)
-npm start
+# Step 3: Development with parallel Tailwind watching + 11ty serving (NO JS bundling)
+npm run start:nobundle
 ```
 
 **Repo layout + build truth**
@@ -60,7 +61,10 @@ npm run build:11ty
 ### Development Commands
 
 ```bash
-# Start development server (parallel: Tailwind watch + 11ty serve)
+# Start development server (recommended: NO JS bundling; uses raw ESM modules)
+npm run start:nobundle
+
+# Start development server WITH JS bundling (generates assets/js/choreography/bundle.js)
 npm start
 
 # Start dev server without JS bundling (uses raw ESM modules)

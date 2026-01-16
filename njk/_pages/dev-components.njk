@@ -11,6 +11,8 @@ headerClasses: 'text-neutral-dark'
 eleventyExcludeFromCollections: true
 ---
 
+{% import "molecules/callout.njk" as callout %}
+
 {# Component Library Testing Page #}
 {# 
 CRITICAL WARNING: This page is for DEVELOPMENT ONLY
@@ -123,6 +125,48 @@ TESTING SCOPE:
         <li>• Figma design token compatibility</li>
         <li>• Airtable content binding support</li>
       </ul>
+    </div>
+  </section>
+
+  <!-- MOLECULE TESTING -->
+  <section class="component-showcase">
+    <h2 class="text-2xl font-bold mb-4">🧩 Molecule Component (Macro): Callout</h2>
+
+    <div class="component-example">
+      <h3 class="font-semibold mb-2">Basic Usage</h3>
+      {{ callout.render({
+        title: "Reusable macro molecule",
+        tone: "info",
+        text: "This callout is rendered via a Nunjucks macro imported from molecules/callout.njk."
+      }) }}
+    </div>
+
+    <div class="component-example">
+      <h3 class="font-semibold mb-2">Rich Content (call/endcall)</h3>
+      {% call callout.render({ title: "Tip", tone: "success" }) %}
+        <p class="m-0">Use <code class="px-1 rounded bg-white/60">{% raw %}{% call %}{% endraw %}</code> when you want links, lists, or multiple paragraphs.</p>
+      {% endcall %}
+    </div>
+  </section>
+
+  <!-- FILTER TESTING -->
+  <section class="component-showcase">
+    <h2 class="text-2xl font-bold mb-4">🧪 Eleventy Filters: formatDate</h2>
+
+    <div class="component-example">
+      <h3 class="font-semibold mb-2">Default (DATE_MED)</h3>
+      <p class="text-sm text-neutral-700 m-0">{{ page.date | formatDate }}</p>
+      <div class="component-code">
+        {{ '{' }}{ page.date | formatDate }{{ '}' }}
+      </div>
+    </div>
+
+    <div class="component-example">
+      <h3 class="font-semibold mb-2">Custom format string</h3>
+      <p class="text-sm text-neutral-700 m-0">{{ page.date | formatDate('DDD') }}</p>
+      <div class="component-code">
+        {{ '{' }}{ page.date | formatDate('DDD') }{{ '}' }}
+      </div>
     </div>
   </section>
 

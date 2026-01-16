@@ -37,4 +37,31 @@ export default class Hero extends AbstractSection {
       return;
     }
   }
+
+  /**
+   * Play hero intro and emit intro completion reliably.
+   *
+   * Hero's timeline uses `addPause('intro:end')`, so GSAP's `onComplete` won't
+   * fire when playing the timeline normally. Using `tweenTo('intro:end')`
+   * ensures we still emit `EVENTS.hero.introComplete` at the intended moment.
+   */
+  async playIntro() {
+    if (this.isDisabled) return Promise.resolve();
+    if (this._reducedMotionHandler?.isReducedMotion()) return Promise.resolve();
+
+    return new Promise(resolve => {
+      const tl = this.animations?.timeline;
+      if (!tl) return resolve();
+
+      this._onIntroStart();
+
+      tl.tweenTo('intro:end', {
+        overwrite: true,
+        onComplete: () => {
+          this._onIntroComplete();
+          resolve();
+        },
+      });
+    });
+  }
 }
