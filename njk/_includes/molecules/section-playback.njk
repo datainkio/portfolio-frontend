@@ -6,7 +6,7 @@
 
   {%- set wrapperClasses = [
     'section-playback rounded-lg border border-neutral-700 bg-neutral-900/80 p-4 text-neutral-50 shadow-sm',
-    fixed ? 'section-playback--fixed'
+    fixed and 'section-playback--fixed'
   ] | select | join(' ') -%}
 
   <div
