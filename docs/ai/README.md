@@ -4,7 +4,17 @@ This folder holds AI-facing prompt files and experiment briefs that guide Copilo
 
 Start here:
 
+- [START_HERE.md](./START_HERE.md) — single entrypoint for prompts, context, and canonical examples
 - [WORKSPACE_PORTABILITY.md](./WORKSPACE_PORTABILITY.md) — how these prompts/agents remain usable when the frontend is opened alone or in a multi-root workspace
+
+Also useful:
+
+- [aix-maintenance.md](./aix-maintenance.md) — lightweight loop to keep AIX quality high
+- `examples/` — canonical patterns to anchor Copilot suggestions
+
+Legacy reference:
+
+- `legacy-agents/` — prior agent definitions preserved as reference (not active as selectable agents)
 
 ## Authority in multi-root workspaces
 

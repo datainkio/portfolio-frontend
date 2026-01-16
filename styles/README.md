@@ -36,12 +36,12 @@ npm run build:css
 npm run build:css:dev
 
 # Watch mode with continuous monitoring
-npm run watch:css
+npm run dev:css
 ```
 
 ### Integration Points
 
-- **Figma Sync**: Automatically triggers CSS rebuild after design token updates
+- **Figma Sync**: Design token updates are picked up by the next CSS build (`npm run dev:css` / `npm run build:css`)
 - **Development Server**: Integrated with hot reloading for instant preview
 - **Performance Monitoring**: Tracks build performance and suggests optimizations
 
@@ -110,8 +110,8 @@ perceived performance
 Impact**: Enables consistent typography application across all content
 
 ```css
---font-serif: Cormorant Garamond, serif /* Your Figma heading font */ --font-sans: Poppins,
-  sans-serif /* Your Figma body font */;
+--font-serif:
+  Cormorant Garamond, serif /* Your Figma heading font */ --font-sans: Poppins, sans-serif /* Your Figma body font */;
 ```
 
 ### `/backgrounds/` - Pattern & Texture System

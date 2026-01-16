@@ -1,0 +1,107 @@
+# Mounted Project AIX Manifest (Template)
+# Copy to your mounted project at: /aix.manifest.yaml
+#
+# IMPORTANT
+# - The manifest is OPTIONAL.
+# - EVERY field in this file is OPTIONAL.
+# - You can delete any sections you don’t need.
+# - If a field is missing, Concierge falls back to safe defaults and best-effort discovery.
+#
+# Purpose:
+# - Improve discovery accuracy (where are prompts/docs/agents?)
+# - Improve DX (preferences + override safe defaults like audit output destination)
+
+# Optional. If omitted, treat as version 1.
+manifestVersion: 1
+
+project:
+  # Optional: used for display and report labeling.
+  name: ''
+  description: ''
+  # Optional: repo slug or URL for identification in reports
+  repo: ''
+
+paths:
+  # Relative to mounted project root
+  # If omitted, Concierge will attempt to discover docs and will default audits to docs/ai/audits.
+  docsAiDir: 'docs/ai'
+  auditsDir: 'docs/ai/audits'
+
+  # Optional discovery hints (only set if you deviate from common layouts)
+  copilotDir: '.copilot'
+  promptsDir: '.copilot/prompts'
+  contextDir: '.copilot/context'
+  legacyAgentsDir: 'docs/ai/legacy-agents'
+  githubAgentsDir: '.github/agents'
+
+entrypoints:
+  # Relative to mounted project root
+  # If omitted, Concierge will pick the best available entrypoint it can find.
+  startHere: 'docs/ai/START_HERE.md'
+  readme: 'docs/ai/README.md'
+
+preferences:
+  # reportOnly | allowAutoFix
+  # If omitted, defaults to reportOnly.
+  defaultMode: 'reportOnly'
+  verbosity: 'brief'
+  # If true, Concierge may read legacy agents for context (but should not re-enable them as selectable agents)
+  allowLegacyAgentReferences: true
+
+overrides:
+  outputs:
+    # Override the default audit output destination.
+    # Keep this relative to mounted project root.
+    # If omitted, Concierge defaults to docs/ai/audits.
+    auditsDir: 'docs/ai/audits'
+
+    # Timestamped filenames are the current default strategy.
+    # Tokens:
+    # - {timestamp}: e.g. 2026-01-15T221530Z
+    # - {probeSubset}: e.g. MP
+    # - {projectSlug}: optional, derived from project.name if not set
+    reportFilename: '{timestamp}--aix-audit--{probeSubset}.md'
+    snapshotFilename: '{timestamp}--aix-snapshot--{probeSubset}.json'
+
+  discovery:
+    # Explicitly declare whether project-local .github/agents exists and is intended to be active.
+    # Recommended: false in multi-root scaffold setups to avoid agent-selection ambiguity.
+    # If omitted, Concierge will assume unknown and treat as a discovery risk.
+    githubAgentsActive: false
+
+  policy:
+    # Optional: project-specific augmentations. Scaffold hard-denylists still apply.
+    # Paths are relative to mounted project root.
+    allowlistAdditions: []
+    denylistAdditions:
+      - '_site/**'
+      - 'node_modules/**'
+
+validation:
+  # OPTIONAL.
+  # Declare project-specific validation commands so Concierge doesn’t have to guess.
+  # Concierge should still ask for confirmation before running commands.
+  #
+  # Suggested patterns:
+  # - formatCheck: fast, non-destructive
+  # - tests: may take longer
+  # - build: smoke build to catch obvious breakage
+  #
+  # Each entry is an object with:
+  # - label: human-readable name
+  # - command: shell command to run from project root
+  # - optional: if true, skip silently if it fails or is unavailable
+  # - timeoutSeconds: suggested timeout
+  commands:
+    - label: 'Format check'
+      command: 'npm run -s format:check'
+      optional: true
+      timeoutSeconds: 120
+    - label: 'Unit tests'
+      command: 'npm test'
+      optional: true
+      timeoutSeconds: 300
+    - label: 'Build (smoke)'
+      command: 'npm run -s build'
+      optional: true
+      timeoutSeconds: 600

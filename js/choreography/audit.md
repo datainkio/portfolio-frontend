@@ -14,16 +14,16 @@ Package: `/Users/russelllebo/Projects/Portfolio/frontend/js/choreography`
 
 ### Entry Points
 
-- **[Director.js](js/choreography/Director.js)** - Master coordinator, auto-initialized on `DOMContentLoaded`
-- **[main.js](js/main.js)** - Browser entry (currently minimal, doesn't import Director)
+- **[AnimationDirector.js](AnimationDirector.js)** - Master coordinator, auto-initialized on `DOMContentLoaded`
+- **[main.js](../main.js)** - Browser entry (currently minimal, doesn't import Director)
 
 ### Module Structure
 
 ```
 choreography/
-├── Director.js              ← Master initialization orchestrator
+├── AnimationDirector.js      ← Master initialization orchestrator
 ├── AnimationBus.js          ← Pub/sub event system (core coordination)
-├── StageManager.js          ← Scroll + visual effects coordinator
+├── ScrollEffectsCoordinator.js ← Scroll + visual effects coordinator
 ├── constants.js             ← Event names + system constants
 ├── config.js                ← Site-specific settings (DOM selectors, paths)
 │
@@ -103,7 +103,7 @@ LandingSequence listens and triggers next section
 
 #### **Issue 2.1: Ambiguous Class Name "Director"**
 
-**Files:** [Director.js](Director.js)
+**Files:** [AnimationDirector.js](AnimationDirector.js)
 
 **Problem:** "Director" is a generic term used in multiple contexts (theater, video, software). AI models will struggle to predict its role without reading extensive documentation.
 
@@ -245,7 +245,7 @@ window.addEventListener(EVENTS.system.preloaderOut, this.handlePreloaderOut, { o
 
 #### **Issue 2.5: Unclear Separation Between AnimationBus Instance vs. Static Usage**
 
-**Files:** [AnimationBus.js](AnimationBus.js), [Director.js](Director.js)
+**Files:** [AnimationBus.js](AnimationBus.js), [AnimationDirector.js](AnimationDirector.js)
 
 **Problem:** AnimationBus is instantiated in Director:
 
@@ -355,7 +355,7 @@ super({
 
 #### **Issue 2.8: "StageManager" Name Doesn't Describe Actual Role**
 
-**Files:** [StageManager.js](StageManager.js)
+**Files:** [ScrollEffectsCoordinator.js](ScrollEffectsCoordinator.js)
 
 **Observation:** "StageManager" suggests managing a "stage" (scene graph, layers), but actually coordinates scroll smoothing and background effects.
 
@@ -428,7 +428,7 @@ _emit(eventName, payload) {
 
 #### **Issue 2.10: Commented-Out Code in Multiple Files**
 
-**Files:** [Director.js](Director.js), [HeroAnimations.js](sections/hero/HeroAnimations.js), [LandingSequence.js](sequences/landing/LandingSequence.js)
+**Files:** [AnimationDirector.js](AnimationDirector.js), [HeroAnimations.js](sections/hero/HeroAnimations.js), [LandingSequence.js](sequences/landing/LandingSequence.js)
 
 **Examples:**
 
@@ -491,7 +491,7 @@ if (this.triggers) {
 
 **⚠️ Gaps:**
 
-- **Entry point unclear** - [main.js](../../main.js) doesn't import Director; how does system bootstrap?
+- **Entry point unclear** - [main.js](../main.js) doesn't import Director; how does system bootstrap?
 - **Missing usage examples** - How to add a new section? (README describes pattern but no step-by-step)
 - **No API reference** - Public methods documented but not indexed (which methods are stable API?)
 
@@ -600,10 +600,10 @@ See [initialization sequence diagram](../../docs/director-initialization-sequenc
 
 1. Create `sections/my-section/MySection.js`
 2. Create `sections/my-section/MySectionAnimations.js`
-3. Register in Director.js
+3. Register in AnimationDirector.js
 4. Wire events in LandingSequence.js
 
-Full example: [Creating a New Section Guide](./docs/NEW_SECTION.md)
+Full example: [Creating a New Section Guide](sections/README.md)
 ```
 
 ---
@@ -745,7 +745,7 @@ _applyPostIntroState() {
 
 | #   | Issue                                                 | Files                                                                                    | Change                                                   | Validation                        |
 | --- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------- |
-| 2.1 | Ambiguous "Director" name                             | [Director.js](Director.js)                                                               | Rename to `AnimationDirector` or `ChoreographyBootstrap` | Search imports, update references |
+| 2.1 | Ambiguous "Director" name                             | [AnimationDirector.js](AnimationDirector.js)                                             | Rename to `AnimationDirector` or `ChoreographyBootstrap` | Search imports, update references |
 | 2.2 | Inconsistent constructor variables (`var` vs `const`) | [BackgroundVideo.js](sections/background/BackgroundVideo.js)                             | Standardize all to `const`                               | Run `npm run format`              |
 | 2.3 | Implicit DOM contract in AbstractSection              | [AbstractSection.js](sections/abstract-section/AbstractSection.js)                       | Add `isDisabled` flag pattern + document OR throw error  | Test missing DOM elements         |
 | 2.4 | Hardcoded event strings (`'preloader:out'`)           | [LandingSequence.js](sequences/landing/LandingSequence.js), [constants.js](constants.js) | Add `EVENTS.system.*` to constants                       | grep for hardcoded event strings  |
@@ -760,7 +760,7 @@ _applyPostIntroState() {
 | --- | ------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------- | ------------------------- |
 | 2.6 | config.js vs. constants.js naming ambiguity | [config.js](config.js), [constants.js](constants.js)               | Add module-level JSDoc clarifying purpose | Documentation review      |
 | 2.7 | AbstractSection 6-parameter constructor     | [AbstractSection.js](sections/abstract-section/AbstractSection.js) | Refactor to options object                | Update all subclasses     |
-| 2.8 | "StageManager" name doesn't describe role   | [StageManager.js](StageManager.js)                                 | Rename to `ScrollEffectsCoordinator`      | Update imports            |
+| 2.8 | "StageManager" name doesn't describe role   | [ScrollEffectsCoordinator.js](ScrollEffectsCoordinator.js)         | Rename to `ScrollEffectsCoordinator`      | Update imports            |
 | 2.9 | Mixed defensive patterns for bus stub       | [AbstractSection.js](sections/abstract-section/AbstractSection.js) | Use explicit NullAnimationBus class       | Test sections without bus |
 | 3.1 | GSAP imports scattered across files         | Multiple                                                           | Centralize in `vendor/gsap.js`            | Update all GSAP imports   |
 | 3.2 | Missing "Getting Started" guide             | Documentation                                                      | Add step-by-step new section guide        | Developer onboarding test |

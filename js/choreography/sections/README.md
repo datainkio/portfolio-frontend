@@ -6,13 +6,13 @@ Sections coordinate GSAP timelines with the AnimationBus and respect reduced-mot
 
 ## Registry (source of truth)
 
-- Canonical mapping lives in [js/choreography/sections/registry.js](js/choreography/sections/registry.js); Director iterates it to instantiate sections.
+- Canonical mapping lives in [registry.js](registry.js); Director iterates it to instantiate sections.
 - Add a new section by extending `AbstractSection`, then register it with a lowercase key that matches the DOM id.
 - Organizations is intentionally commented out until it is migrated to the current constructor signature.
 
 ## AbstractSection essentials
 
-- Source: [js/choreography/sections/abstract-section/AbstractSection.js](js/choreography/sections/abstract-section/AbstractSection.js)
+- Source: [abstract-section/AbstractSection.js](abstract-section/AbstractSection.js)
 - Expects an options object: `{ view, animations, triggers, events, bus, reducedMotionHandler }`.
 - Binds GSAP timeline callbacks to AnimationBus events (`introStart`, `introComplete`, `outroComplete`) when a timeline exists.
 - Wires ScrollTrigger hooks via the provided `triggers.bind()` implementation when triggers exist.
@@ -21,10 +21,10 @@ Sections coordinate GSAP timelines with the AnimationBus and respect reduced-mot
 
 ## Registered sections
 
-- Hero: [js/choreography/sections/hero/Hero.js](js/choreography/sections/hero/Hero.js) → view `#hero`, uses `HeroAnimations` + `HeroTriggers`, events `EVENTS.hero`.
-- Background Video: [js/choreography/sections/background/BackgroundVideo.js](js/choreography/sections/background/BackgroundVideo.js) → view `#overlay-view`, uses `BackgroundVideoAnimations` + `BackgroundVideoTriggers`, events `EVENTS.video`.
-- Bio: [js/choreography/sections/bio/Bio.js](js/choreography/sections/bio/Bio.js) → view `#bio`, uses `BioAnimations` + `BioTriggers`, events `EVENTS.bio`.
-- Organizations: [js/choreography/sections/organizations/Organizations.js](js/choreography/sections/organizations/Organizations.js) is not registered and still uses the old constructor signature; migrate before re-enabling.
+- Hero: [hero/Hero.js](hero/Hero.js) → view `#hero`, uses `HeroAnimations` + `HeroTriggers`, events `EVENTS.hero`.
+- Background Video: [background/BackgroundVideo.js](background/BackgroundVideo.js) → view `#overlay-view`, uses `BackgroundVideoAnimations` + `BackgroundVideoTriggers`, events `EVENTS.video`.
+- Bio: [bio/Bio.js](bio/Bio.js) → view `#bio`, uses `BioAnimations` + `BioTriggers`, events `EVENTS.bio`.
+- Organizations: [organizations/Organizations.js](organizations/Organizations.js) is not registered and still uses the old constructor signature; migrate before re-enabling.
 
 ## Lifecycle (current pattern)
 
@@ -56,11 +56,10 @@ export default class Custom extends AbstractSection {
 }
 ```
 
-Then add `custom: Custom` to [js/choreography/sections/registry.js](js/choreography/sections/registry.js) and wire events in `EVENTS`.
+Then add `custom: Custom` to [registry.js](registry.js) and wire events in `EVENTS`.
 
 ## Debugging tips
 
 - Use `window.director.getSections()` to inspect instances after Director boots.
 - Enable bus logging with `window.director.enableDebug(true)` to watch event flow.
 - Add `markers: true` in trigger classes while tuning ScrollTrigger positions.
-

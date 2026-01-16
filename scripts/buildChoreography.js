@@ -1,6 +1,14 @@
 /**
  * Bundle and minify choreography runtime into a single ESM file.
  * Output: assets/js/choreography/bundle.js
+ *
+ * Notes:
+ * - This bundle is treated as a build artifact and is intentionally git-ignored.
+ * - Regenerate on demand via:
+ *   - `npm run build:js` (one-off)
+ *   - `npm run dev:js` (watch)
+ * - To disable bundling (use raw ESM via Eleventy passthrough), set `BUNDLE_JS=false`
+ *   or pass `--no-bundle`.
  */
 import { build, context } from 'esbuild';
 import { existsSync, mkdirSync, rmSync } from 'fs';

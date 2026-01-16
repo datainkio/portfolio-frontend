@@ -9,18 +9,18 @@ The AI assets in this repo (agents, prompts, and AIX docs) should **travel with 
 
 ## What “travels with the frontend”
 
-### Agents (task-level workflows)
+### Prompt modules (task-level workflows)
 
-- `frontend/.github/agents/`
-  - **Frontend Choreography Planner**: planning-only interaction choreography
-  - **Frontend Choreography Implementer**: implements an approved plan
+- `frontend/.copilot/prompts/`
+  - `frontend-choreography-planning.prompt.md` — planning-only choreography
+  - `frontend-choreography-implementation.prompt.md` — implements an approved plan
 
-These are intentionally domain-specific to the portfolio frontend’s GSAP + 11ty architecture.
+Legacy agent definitions are preserved for reference under `frontend/docs/ai/legacy-agents/`, but are not active as selectable agents.
 
 ### Prompts (file-scoped constraints)
 
-- `frontend/.copilot/js.prompt.md` — browser-first JS, progressive enhancement, idempotent init
-- `frontend/.copilot/html.prompt.md` — 11ty/Nunjucks semantics, minimal template logic
+- `frontend/.copilot/prompts/frontend-js.prompt.md` — browser-first JS, progressive enhancement, idempotent init
+- `frontend/.copilot/prompts/frontend-templates.prompt.md` — 11ty/Nunjucks semantics, minimal template logic
 - `frontend/.copilot/README.md` — scoping, precedence, and editing rules
 
 ### AIX maintenance (human-facing)
@@ -32,7 +32,7 @@ These are intentionally domain-specific to the portfolio frontend’s GSAP + 11t
 ### When this repo is opened alone
 
 - Treat this repo’s `.copilot/*` constraints and `docs/ai/*` guidance as authoritative for work inside this repo.
-- Use the choreography agents freely.
+- Use prompt modules under `.copilot/prompts/` for choreography planning/implementation.
 
 ### When this repo is opened in a multi-root workspace
 
@@ -59,5 +59,5 @@ If you need to connect this repo’s AI system to an external scaffold:
 To sanity-check portability, open this repo alone and verify:
 
 - you can discover prompts quickly via `frontend/.copilot/README.md`
-- the choreography agents appear and describe their scope clearly
+- legacy choreography agent definitions are present under `docs/ai/legacy-agents/` (reference only)
 - `frontend/_site/` remains treated as generated output (not a learning source)

@@ -6,42 +6,36 @@ Custom logger styles for visual debugging of Airtable operations.
 
 ```javascript
 // In airtable/fetchAirtableData.js
-import logger, { LoggerStyle } from '../js/utils/logger/index.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
-const airtableStyle = new LoggerStyle('#F97316', '🗄️'); // Orange - Database ops
-const cachingStyle = new LoggerStyle('#8B5CF6', '💾'); // Purple - Cache ops
-const processingStyle = new LoggerStyle('#06B6D4', '⚙️'); // Cyan - Processing
+const msgStyle = new LumberjackStyle('#0A9396', '🗄️');
+const cachedStyle = new LumberjackStyle('#CA6702', '•');
+const refreshStyle = new LumberjackStyle('#CA6702', '↻');
 ```
 
 ## Usage Mapping
 
-| Operation           | Style             | Prefix | Color  | Example                                         |
-| ------------------- | ----------------- | ------ | ------ | ----------------------------------------------- |
-| Force refresh table | `airtableStyle`   | 🗄️     | Orange | `Force refreshing table: { table: "Projects" }` |
-| Cache expired       | `airtableStyle`   | 🗄️     | Orange | `Cache expired, refreshing: { table: "Work" }`  |
-| Using cache         | `cachingStyle`    | 💾     | Purple | `Using cached data: { table: "Projects" }`      |
-| Data cached         | `cachingStyle`    | 💾     | Purple | `Data cached successfully: { records: 30 }`     |
-| Processing records  | `processingStyle` | ⚙️     | Cyan   | `Processing records: { count: 10 }`             |
-| Errors              | Auto-detected     | ❌     | Red    | `Airtable fetch error: [Error]`                 |
-| Slug errors         | `'error'`         | ❌     | Red    | `Could not build slug: { recordId: "rec123" }`  |
+| Operation           | Style          | Prefix | Color                   | Example                                        |
+| ------------------- | -------------- | ------ | ----------------------- | ---------------------------------------------- |
+| Force refresh table | `refreshStyle` | ↻      | Warm orange (`#CA6702`) | `Refreshing: { table: "Projects" }`            |
+| Using cache         | `cachedStyle`  | •      | Warm orange (`#CA6702`) | `Projects: cached`                             |
+| General messages    | `msgStyle`     | 🗄️     | Teal (`#0A9396`)        | `Projects: fetching`                           |
+| Errors              | Auto-detected  | ❌     | Red                     | `Airtable fetch error: [Error]`                |
+| Slug errors         | `'error'`      | ❌     | Red                     | `Could not build slug: { recordId: "rec123" }` |
 
 ## Visual Output Example
 
 When running with `DEBUG=true`:
 
 ```
-💾 Using cached data: { table: "Projects" }
+• Projects: cached
 
-🗄️ Cache expired, refreshing: { table: "Work" }
-  ⚙️ Processing records: { table: "Work", count: 5 }
-  ⚙️ Processing records: { table: "Work", count: 10 }
+🗄️ Work:
+↻ refresh
   ❌ Could not build slug: { recordId: "rec123" }
-  ⚙️ Processing records: { table: "Work", count: 15 }
-💾 Data cached successfully: { table: "Work", records: 15 }
 
-🗄️ Force refreshing table: { table: "BlogPosts", reason: "FORCE_REFRESH=true" }
-  ⚙️ Processing records: { table: "BlogPosts", count: 25 }
-💾 Data cached successfully: { table: "BlogPosts", records: 25 }
+🗄️ BlogPosts:
+↻ refresh
 ```
 
 ## Testing Styles
@@ -54,9 +48,8 @@ DEBUG=true node test/airtable-styles-preview.js
 
 ## Color Palette
 
-- **Orange (#F97316)** - Airtable database operations (fetch, refresh)
-- **Purple (#8B5CF6)** - Cache operations (read, write, validate)
-- **Cyan (#06B6D4)** - Processing operations (records, fields, files)
+- **Teal (#0A9396)** - Airtable message prefix / table label
+- **Warm orange (#CA6702)** - Cache + refresh indicators
 - **Red (#EF4444)** - Errors (auto-detected from Error objects)
 
 ## Benefits

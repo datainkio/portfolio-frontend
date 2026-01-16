@@ -86,7 +86,7 @@ Master coordination system for all page animations using event-driven architectu
 - **`sections/`** - Section controllers (Hero, BackgroundVideo, Bio, Organizations)
   - Follow AbstractSection pattern with intro/outro/scroll lifecycle
   - Communicate via AnimationBus events
-  - Reference: [js/choreography/sections/README.md](js/choreography/sections/README.md) for detailed controller patterns
+  - Reference: [choreography/sections/README.md](choreography/sections/README.md) for detailed controller patterns
 - **`sequences/`** - Multi-section choreography coordinators (e.g., LandingSequence)
 - **`config.js`** - Animation configuration constants (timings, easing, etc.)
 - **`constants.js`** - Event names and other constants
@@ -99,7 +99,7 @@ Shared utilities used across JavaScript modules:
   - Consistent output across build scripts and browser runtime
   - Semantic color styling and emoji indicators
   - Environment-controlled verbosity
-  - Reference: [.github/copilot-instructions.md#logging](.github/copilot-instructions.md) for logging patterns
+  - Reference: [../.github/copilot-instructions.md#logging](../.github/copilot-instructions.md) for logging patterns
 - **`math.js`** - Mathematical utilities and calculations
 - **`color.js`** - Color manipulation functions (conversions, transformations)
 - **`diagnostics/`** - Diagnostic utilities for debugging

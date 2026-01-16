@@ -50,7 +50,7 @@ try {
 - Requires `FIGMA_TOKEN` environment variable
 - Must complete before 11ty build to provide fresh design tokens
 - Writes directly to CSS files (overwrites existing content)
-- **Automatically triggers CSS rebuild** via `buildCSS.js` after design token sync
+- Design tokens are consumed by the CSS build step (`npm run build:css` / `npm run dev:css`) in the standard build pipeline
 
 **FAILURE MODES**:
 
@@ -66,7 +66,7 @@ try {
 **Purpose**: Wraps Tailwind CLI with TailwindLogger service for build transparency  
 **Dependencies**: `TailwindLogger`, Tailwind CSS 4.0 CLI, `@datainkio/lumberjack`  
 **Output**: Generates `_site/assets/styles.css` with comprehensive build analysis  
-**Triggers**: `npm run build:css`, `npm run build:css:dev`, `npm run watch:css`, automatically after Figma sync
+**Triggers**: `npm run build:css`, `npm run build:css:dev`, `npm run dev:css`
 
 **ARCHITECTURE OVERVIEW**:
 

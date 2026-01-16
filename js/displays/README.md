@@ -485,5 +485,5 @@ blockframes.on('frameChange', frame => {
 
 - [Blockframes Architecture](./blockframes/README.md)
 - [GSAP Timeline Documentation](https://gsap.com/docs/v3/GSAP/Timeline)
-- [Canvas Rendering Guide](./blockframes/painter/README.md)
+- [Canvas Rendering (Painter.js)](./blockframes/Painter.js)
 - [Developer Tools Integration](../README.md#debugging)

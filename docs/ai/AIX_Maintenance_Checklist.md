@@ -10,10 +10,11 @@ Use it **monthly**, **before major refactors**, or **any time Copilot quality de
 ☐ `_site/` is untracked and ignored  
 ☐ No generated files committed (`dist/`, `.cache/`, build logs)  
 ☐ No minified JS/CSS in source directories  
+☐ Bundled JS artifacts remain ignored (`assets/js/choreography/bundle.js`)  
 ☐ No experimental or scratch files in `src/`  
 ☐ Old patterns deleted (not commented out)
 
-**Rule:** Generated or stale files *actively harm* Copilot accuracy.
+**Rule:** Generated or stale files _actively harm_ Copilot accuracy.
 
 ---
 
@@ -23,10 +24,10 @@ Use it **monthly**, **before major refactors**, or **any time Copilot quality de
 ☐ Each prompt has a single, explicit scope  
 ☐ No overlapping authority between prompts  
 ☐ Prompts use **must / must not**, not “should”  
-☐ Obsolete rules removed immediately  
+☐ Obsolete rules removed immediately
 
 **Quick test:**  
-Can you answer *“Which prompt applies to this file?”* in under 5 seconds?
+Can you answer _“Which prompt applies to this file?”_ in under 5 seconds?
 
 ---
 
@@ -36,7 +37,7 @@ Can you answer *“Which prompt applies to this file?”* in under 5 seconds?
 ☐ File names describe behavior, not abstraction  
 ☐ No `utils.js`, `helpers.js`, or `misc/` without justification  
 ☐ Shared logic lives in clearly named modules  
-☐ Dead directories removed  
+☐ Dead directories removed
 
 **Rule:** Copilot learns more from filenames than comments.
 
@@ -48,7 +49,7 @@ Can you answer *“Which prompt applies to this file?”* in under 5 seconds?
 ☐ DOM access is guarded (`if (!el) return`)  
 ☐ No SPA or framework assumptions  
 ☐ Side effects are documented  
-☐ Functions under ~40 lines where practical  
+☐ Functions under ~40 lines where practical
 
 **Red flags:**  
 global state · hidden singletons · implicit lifecycles
@@ -61,9 +62,9 @@ global state · hidden singletons · implicit lifecycles
 ☐ Layouts define structure only  
 ☐ Includes/macros are narrowly scoped  
 ☐ No business logic in templates  
-☐ Accessibility treated as baseline  
+☐ Accessibility treated as baseline
 
-**Rule:** Templates express *meaning*, not computation.
+**Rule:** Templates express _meaning_, not computation.
 
 ---
 
@@ -73,14 +74,16 @@ global state · hidden singletons · implicit lifecycles
 ☐ Constraints and invariants documented  
 ☐ Performance assumptions stated  
 ☐ No narrating obvious code  
-☐ No commented‑out code remains  
+☐ No commented‑out code remains
 
 **Bad**
+
 ```js
 // loop through items
 ```
 
 **Good**
+
 ```js
 // Must remain synchronous to avoid layout thrashing
 ```
@@ -99,7 +102,7 @@ Create a new JS file and type:
 ☐ Avoids frameworks  
 ☐ Uses early returns  
 ☐ Matches repo patterns  
-☐ No invented abstractions  
+☐ No invented abstractions
 
 If this fails → tighten prompts or delete noisy files.
 
@@ -110,9 +113,9 @@ If this fails → tighten prompts or delete noisy files.
 ☐ Large suggestions reviewed carefully  
 ☐ Partial completions preferred over full rewrites  
 ☐ Refactors begin with “explain current behavior”  
-☐ Copilot rejected when uncertain  
+☐ Copilot rejected when uncertain
 
-**Metric:** Lower acceptance rate with *higher confidence* is healthy.
+**Metric:** Lower acceptance rate with _higher confidence_ is healthy.
 
 ---
 
@@ -121,7 +124,7 @@ If this fails → tighten prompts or delete noisy files.
 ☐ Remove unused includes  
 ☐ Delete dead JS modules  
 ☐ Prune near‑duplicate patterns  
-☐ Consolidate canonical examples  
+☐ Consolidate canonical examples
 
 > Deleting code improves Copilot faster than adding rules.
 
@@ -132,7 +135,7 @@ If this fails → tighten prompts or delete noisy files.
 ☐ Open `.copilot/js.prompt.md` once per session  
 ☐ Open one canonical JS file and one canonical template  
 ☐ Re‑read `.copilot/README.md`  
-☐ Ask: *“What would confuse an AI here?”*
+☐ Ask: _“What would confuse an AI here?”_
 
 ---
 

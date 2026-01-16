@@ -10,13 +10,15 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 **New to the project?**
 
-1. Read: [.github/copilot-instructions.md](.github/copilot-instructions.md) (5 min overview)
+1. Read: [.github/copilot-instructions.md](../.github/copilot-instructions.md) (5 min overview)
 2. Choose your area:
-   - **Templates?** → [njk/README.md](njk/README.md)
-   - **Build System?** → [eleventy/README.md](eleventy/README.md)
-   - **Animations?** → [js/choreography/README.md](js/choreography/README.md)
-   - **Effects?** → [js/effects/README.md](js/effects/README.md)
-   - **Utilities?** → [js/utils/README.md](js/utils/README.md)
+
+- **Templates?** → [njk/README.md](../njk/README.md)
+- **Build System?** → [eleventy/README.md](../eleventy/README.md)
+- **Animations?** → [js/choreography/README.md](../js/choreography/README.md)
+- **Effects?** → [js/effects/README.md](../js/effects/README.md)
+- **Utilities?** → [js/utils/README.md](../js/utils/README.md)
+
 3. Dive into details from there
 
 ---
@@ -25,7 +27,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 ### Core Reference
 
-- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** (324 lines)
+- **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** (324 lines)
   - Big picture architecture overview
   - All 50+ npm scripts explained
   - Build process and dependencies
@@ -36,7 +38,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 ### Supporting Files
 
-- **[.copilot/README.md](.copilot/.copilot/README.md)** - Schema file references
+- **[.copilot/README.md](../.copilot/README.md)** - Schema file references
 
 ---
 
@@ -44,12 +46,12 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 ### Template System (Nunjucks/11ty)
 
-- **[njk/README.md](njk/README.md)** - Component patterns, registry role, quick start
-- **[eleventy/README.md](eleventy/README.md)** - 11ty overview, filters, shortcodes
-- **[eleventy/filters/string.js](eleventy/filters/string.js)** - 4 string filters documented
-- **[eleventy/filters/array.js](eleventy/filters/array.js)** - 7 array filters documented
-- **[eleventy/filters/date.js](eleventy/filters/date.js)** - Date filtering with Luxon
-- **[eleventy/shortcodes/README.md](eleventy/shortcodes/README.md)** - All 4 shortcodes (picture, lightbox, lorem)
+- **[njk/README.md](../njk/README.md)** - Component patterns, registry role, quick start
+- **[eleventy/README.md](../eleventy/README.md)** - 11ty overview, filters, shortcodes
+- **[eleventy/filters/string.js](../eleventy/filters/string.js)** - 4 string filters documented
+- **[eleventy/filters/array.js](../eleventy/filters/array.js)** - 7 array filters documented
+- **[eleventy/filters/date.js](../eleventy/filters/date.js)** - Date filtering with Luxon
+- **[eleventy/shortcodes/README.md](../eleventy/shortcodes/README.md)** - All 4 shortcodes (picture, lightbox, lorem)
 
 ### Phase 2 Summary
 
@@ -61,7 +63,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 ### Choreography System
 
-- **[js/choreography/README.md](js/choreography/README.md)** (300 lines)
+- **[js/choreography/README.md](../js/choreography/README.md)** (300 lines)
   - Director master initialization
   - AnimationBus event coordination
   - StageManager visual effects
@@ -69,7 +71,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
   - Multi-section choreography patterns
   - Debugging guide
 
-- **[js/choreography/sections/README.md](js/choreography/sections/README.md)** (350 lines)
+- **[js/choreography/sections/README.md](../js/choreography/sections/README.md)** (350 lines)
   - AbstractSection base class
   - Section lifecycle patterns
   - Creating custom sections (3-step tutorial)
@@ -79,7 +81,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
   - Console debugging
   - Performance tips
 
-- **[js/choreography/managers/README.md](js/choreography/managers/README.md)** - Manager module architecture
+- **[js/choreography/managers/README.md](../js/choreography/managers/README.md)** - Manager module architecture
   - ReducedMotionHandler
   - BackgroundLayerManager
   - ScrollSmootherManager
@@ -88,7 +90,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 ### Effects System
 
-- **[js/effects/README.md](js/effects/README.md)** (450 lines)
+- **[js/effects/README.md](../js/effects/README.md)** (450 lines)
   - TextParty text choreography
     - TextParty orchestrator
     - SplitText wrapper
@@ -104,7 +106,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 ### Displays System
 
-- **[js/displays/README.md](js/displays/README.md)** (400 lines)
+- **[js/displays/README.md](../js/displays/README.md)** (400 lines)
   - Blockframes animation breakdown
     - Architect (configuration)
     - Builder (construction)
@@ -120,7 +122,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
 
 ### Utilities
 
-- **[js/utils/README.md](js/utils/README.md)** (400 lines)
+- **[js/utils/README.md](../js/utils/README.md)** (400 lines)
   - Logger system (singleton, semantic styling)
   - Math utilities (Vector2/Vector3, interpolation, angles)
   - Color utilities (ColorSpace, conversion, analysis)
@@ -210,42 +212,42 @@ frontend/
 
 ### Getting Started
 
-- Project overview: [.github/copilot-instructions.md](.github/copilot-instructions.md)
-- Quick reference: [quickRef in copilot-instructions.md](.github/copilot-instructions.md#quick-overview)
+- Project overview: [.github/copilot-instructions.md](../.github/copilot-instructions.md)
+- Quick reference: [quickRef in copilot-instructions.md](../.github/copilot-instructions.md#quick-overview)
 
 ### Architecture Understanding
 
-- Choreography flow: [js/choreography/README.md](js/choreography/README.md)
-- Section patterns: [js/choreography/sections/README.md](js/choreography/sections/README.md)
-- Effects systems: [js/effects/README.md](js/effects/README.md)
-- Display systems: [js/displays/README.md](js/displays/README.md)
+- Choreography flow: [js/choreography/README.md](../js/choreography/README.md)
+- Section patterns: [js/choreography/sections/README.md](../js/choreography/sections/README.md)
+- Effects systems: [js/effects/README.md](../js/effects/README.md)
+- Display systems: [js/displays/README.md](../js/displays/README.md)
 
 ### Code Examples
 
-- Filters usage: [eleventy/filters/\*.js](eleventy/filters/)
-- Shortcodes: [eleventy/shortcodes/README.md](eleventy/shortcodes/README.md)
-- Section controllers: [js/choreography/sections/README.md](js/choreography/sections/README.md)
-- Effects library: [js/effects/README.md](js/effects/README.md)
-- Utilities: [js/utils/README.md](js/utils/README.md)
+- Filters usage: [eleventy/filters/\*.js](../eleventy/filters/)
+- Shortcodes: [eleventy/shortcodes/README.md](../eleventy/shortcodes/README.md)
+- Section controllers: [js/choreography/sections/README.md](../js/choreography/sections/README.md)
+- Effects library: [js/effects/README.md](../js/effects/README.md)
+- Utilities: [js/utils/README.md](../js/utils/README.md)
 
 ### Development Workflows
 
-- npm scripts: [.github/copilot-instructions.md#core-workflows](.github/copilot-instructions.md#core-workflows)
-- Build process: [.github/copilot-instructions.md#build-order-dependencies](.github/copilot-instructions.md#build-order-dependencies)
-- Component creation: [njk/README.md](njk/README.md)
+- npm scripts: [.github/copilot-instructions.md#core-workflows](../.github/copilot-instructions.md#core-workflows)
+- Build process: [.github/copilot-instructions.md#build-order-dependencies](../.github/copilot-instructions.md#build-order-dependencies)
+- Component creation: [njk/README.md](../njk/README.md)
 
 ### Troubleshooting
 
-- Common issues: [.github/copilot-instructions.md#troubleshooting](.github/copilot-instructions.md#troubleshooting)
-- Animation debugging: [js/choreography/README.md#performance--debugging](js/choreography/README.md#performance--debugging)
-- Effects issues: [js/effects/README.md](js/effects/README.md#common-patterns)
+- Common issues: [.github/copilot-instructions.md#troubleshooting](../.github/copilot-instructions.md#troubleshooting)
+- Animation debugging: [js/choreography/README.md#performance--debugging](../js/choreography/README.md#performance--debugging)
+- Effects issues: [js/effects/README.md](../js/effects/README.md#common-patterns)
 
 ### Extending Systems
 
-- Add component: [njk/README.md](njk/README.md#try-it-add-a-molecule)
-- Create section: [js/choreography/sections/README.md#creating-a-custom-section](js/choreography/sections/README.md#creating-a-custom-section)
-- Add effect: [js/effects/README.md](js/effects/README.md#performance-considerations)
-- Create utility: [js/utils/README.md](js/utils/README.md)
+- Add component: [njk/README.md](../njk/README.md#try-it-add-a-molecule)
+- Create section: [js/choreography/sections/README.md#creating-a-custom-section](../js/choreography/sections/README.md#creating-a-custom-section)
+- Add effect: [js/effects/README.md](../js/effects/README.md#performance-considerations)
+- Create utility: [js/utils/README.md](../js/utils/README.md)
 
 ---
 
@@ -288,8 +290,8 @@ frontend/
 
 ### For New Developers
 
-1. Start with [.github/copilot-instructions.md](.github/copilot-instructions.md)
-2. Read domain-specific README (e.g., [js/choreography/README.md](js/choreography/README.md))
+1. Start with [.github/copilot-instructions.md](../.github/copilot-instructions.md)
+2. Read domain-specific README (e.g., [js/choreography/README.md](../js/choreography/README.md))
 3. Study code examples in the README
 4. Check actual source files for implementation details
 5. Reference troubleshooting sections when stuck
@@ -304,7 +306,7 @@ frontend/
 
 ### For AI Agents/Copilot
 
-1. Use [.github/copilot-instructions.md](.github/copilot-instructions.md) as context
+1. Use [.github/copilot-instructions.md](../.github/copilot-instructions.md) as context
 2. Reference specific system README files
 3. Check actual source code for edge cases
 4. Follow "Common Patterns" sections
@@ -314,22 +316,22 @@ frontend/
 
 ## 📞 Quick Links
 
-| Need                  | Go To                                                                                                        |
-| --------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Architecture overview | [copilot-instructions.md](.github/copilot-instructions.md)                                                   |
-| npm scripts reference | [copilot-instructions.md#core-workflows](.github/copilot-instructions.md#core-workflows)                     |
-| Build process         | [copilot-instructions.md#build-order-dependencies](.github/copilot-instructions.md#build-order-dependencies) |
-| Component patterns    | [njk/README.md](njk/README.md)                                                                               |
-| Filter reference      | [eleventy/README.md](eleventy/README.md)                                                                     |
-| Shortcode API         | [eleventy/shortcodes/README.md](eleventy/shortcodes/README.md)                                               |
-| Animation system      | [js/choreography/README.md](js/choreography/README.md)                                                       |
-| Section patterns      | [js/choreography/sections/README.md](js/choreography/sections/README.md)                                     |
-| Effects tutorial      | [js/effects/README.md](js/effects/README.md)                                                                 |
-| Display systems       | [js/displays/README.md](js/displays/README.md)                                                               |
-| Utilities reference   | [js/utils/README.md](js/utils/README.md)                                                                     |
-| Phase 2 summary       | [DOCUMENTATION_UPDATES.md](DOCUMENTATION_UPDATES.md)                                                         |
-| Phase 3 summary       | [JS_DOCUMENTATION_UPDATES.md](JS_DOCUMENTATION_UPDATES.md)                                                   |
-| Complete overview     | [DOCUMENTATION_PROJECT_COMPLETE.md](DOCUMENTATION_PROJECT_COMPLETE.md)                                       |
+| Need                  | Go To                                                                                                           |
+| --------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Architecture overview | [copilot-instructions.md](../.github/copilot-instructions.md)                                                   |
+| npm scripts reference | [copilot-instructions.md#core-workflows](../.github/copilot-instructions.md#core-workflows)                     |
+| Build process         | [copilot-instructions.md#build-order-dependencies](../.github/copilot-instructions.md#build-order-dependencies) |
+| Component patterns    | [njk/README.md](../njk/README.md)                                                                               |
+| Filter reference      | [eleventy/README.md](../eleventy/README.md)                                                                     |
+| Shortcode API         | [eleventy/shortcodes/README.md](../eleventy/shortcodes/README.md)                                               |
+| Animation system      | [js/choreography/README.md](../js/choreography/README.md)                                                       |
+| Section patterns      | [js/choreography/sections/README.md](../js/choreography/sections/README.md)                                     |
+| Effects tutorial      | [js/effects/README.md](../js/effects/README.md)                                                                 |
+| Display systems       | [js/displays/README.md](../js/displays/README.md)                                                               |
+| Utilities reference   | [js/utils/README.md](../js/utils/README.md)                                                                     |
+| Phase 2 summary       | [DOCUMENTATION_UPDATES.md](DOCUMENTATION_UPDATES.md)                                                            |
+| Phase 3 summary       | [JS_DOCUMENTATION_UPDATES.md](JS_DOCUMENTATION_UPDATES.md)                                                      |
+| Complete overview     | [DOCUMENTATION_PROJECT_COMPLETE.md](DOCUMENTATION_PROJECT_COMPLETE.md)                                          |
 
 ---
 

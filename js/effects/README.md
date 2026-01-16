@@ -507,7 +507,7 @@ group.discoverLayers('[data-parallax]');
 
 ## References
 
-- [TextParty API](./textparty/README.md)
+- TextParty API: see the `@datainkio/textparty` package README.
 - [Gel System Architecture](./gel/README.md)
 - [GSAP Documentation](https://gsap.com/docs)
 - [Accessibility Guidelines](../../styles/utilities/reduced-motion.css)

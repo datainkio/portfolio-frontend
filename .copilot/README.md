@@ -26,27 +26,12 @@ They apply only within their declared scope and must not be blended unless expli
 
 ## Prompt Index
 
-### `js.prompt.md`
-**Scope**
-- Browser-first JavaScript used for progressive enhancement
-- Initialization, DOM interaction, UI behavior
+Prompt modules now live under `.copilot/prompts/` and are intended to be selected by the workspace Concierge when working in this repo:
 
-**Does NOT apply to**
-- Build output
-- Config files
-- Server-side JS
-
----
-
-### `html.prompt.md`
-**Scope**
-- Nunjucks / HTML templates rendered by 11ty
-- Layouts, includes, macros
-
-**Does NOT apply to**
-- Generated HTML (`_site/`)
-- JavaScript logic
-- CSS authoring rules
+- `prompts/frontend-js.prompt.md` — browser-first JavaScript, progressive enhancement
+- `prompts/frontend-templates.prompt.md` — 11ty/Nunjucks semantics and structure
+- `prompts/frontend-choreography-planning.prompt.md` — planning-only choreography output
+- `prompts/frontend-choreography-implementation.prompt.md` — implementing an approved plan
 
 ---
 
@@ -56,6 +41,12 @@ They apply only within their declared scope and must not be blended unless expli
 2. Explicit constraints beat implied conventions
 3. Repository conventions beat generic best practices
 4. When in doubt, ask one clarifying question
+
+---
+
+## Multi-root note (scaffold + frontend)
+
+When this repo is opened alongside a platform scaffold, treat the scaffold as the **entrypoint** (Concierge routing policy and cross-workspace conventions). These prompt modules remain authoritative for work **inside this frontend repo**.
 
 ---
 
@@ -85,6 +76,7 @@ Those belong in `docs/ai/`.
 ## Success Criteria
 
 This system is working when:
+
 - Copilot suggestions align with repo conventions
 - AI-generated code requires minimal correction
 - Patterns remain consistent over time
