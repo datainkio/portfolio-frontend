@@ -152,17 +152,19 @@ export function sum(arr) {
  * {% endfor %}
  */
 export function groupByFilter(array, key) {
-  try {
-    return array.reduce((groups, item) => {
-      const value = item[key];
-      groups[value] = groups[value] || [];
-      groups[value].push(item);
-      return groups;
-    }, {});
-  } catch (error) {
-    console.error('Error in groupBy filter', key, array);
-    return {};
-  }
+  if (!Array.isArray(array) || !key) return {};
+
+  const path = String(key).split('.').filter(Boolean);
+  const getValue = item =>
+    path.reduce((current, segment) => (current == null ? undefined : current[segment]), item);
+
+  return array.reduce((groups, item) => {
+    const value = path.length === 1 ? item?.[path[0]] : getValue(item);
+    const groupKey = value == null ? 'ungrouped' : String(value);
+
+    (groups[groupKey] ||= []).push(item);
+    return groups;
+  }, {});
 }
 
 /**
