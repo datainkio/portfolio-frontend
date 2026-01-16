@@ -37,11 +37,20 @@ src/_includes/css
 _site/
 logs/
 
+
+# Build artifacts (keep source modules tracked; ignore generated bundles)
+assets/js/choreography/bundle.js
+
 # Generated schema files
 .copilot/*.json
 .copilot/AIRTABLE_SCHEMA.md
 njk/_data/dbSchema.json
 njk/_data/dbSchema.mmd
+
+
+# AI audits (generated / timestamped reports)
+docs/ai/audits/*
+!docs/ai/audits/README.md
 
 
 # MACOS
@@ -67,7 +76,15 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
-.vscode
+
+# VS Code (track repo-level workspace config; ignore everything else)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/keybindings.json
+!.vscode/mermaid.code-snippets
 
 # Directories potentially created on remote AFP share
 .AppleDB
