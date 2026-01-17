@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Gate frontend commits on AIX context freshness.
+# This ensures that substantial frontend changes trigger a context review.
+
+set -eu
+
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [ -z "$ROOT" ]; then
+  exit 0
+fi
+
+# Expected layout: <workspace>/frontend and <workspace>/aix
+AIX_ROOT="${AIX_ROOT:-"$ROOT/../aix"}"
+
+if [ ! -d "$AIX_ROOT" ]; then
+  echo "aix context gate: AIX repo not found at $AIX_ROOT (set AIX_ROOT to override); skipping"
+  exit 0
+fi
+
+cd "$AIX_ROOT"
+
+if [ -f "scripts/update-context-freshness.mjs" ]; then
+  node scripts/update-context-freshness.mjs --fail-on-threshold
+fi
+
+exit 0

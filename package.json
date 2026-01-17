@@ -107,7 +107,8 @@
     "doctor": "node scripts/systemCheck.js",
     "help": "node scripts/showAvailableWorkflows.js",
     "ref": "node scripts/quickRef.js",
-    "setup": "run-s validate:env doctor"
+    "setup": "run-s validate:env doctor",
+    "hooks:install": "node scripts/install-git-hooks.mjs"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
