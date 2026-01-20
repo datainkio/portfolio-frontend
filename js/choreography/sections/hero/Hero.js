@@ -17,7 +17,8 @@ export default class Hero extends AbstractSection {
     const animations = new HeroAnimations(view, ANIMATION_DEFAULTS);
     const triggers = new HeroTriggers(view);
     const events = EVENTS.hero;
-
+    // Hero starts in view; track that so the first emitted lifecycle event is exit.
+    // Subsequent enter events remain intact for re-entry after scrolling back.
     super({
       view,
       animations,
@@ -26,6 +27,13 @@ export default class Hero extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
+
+    this._suppressInitialEnter = true;
+    this._hasExitedOnce = false;
+    this._initiallyInView = this._isInViewport(view);
+    this._suppressEnterUntilExit = this._initiallyInView;
+    this.isIntroComplete = false;
+    this._introPlaying = false;
 
     // Link triggers back to this section for playIntro/playOutro calls
     if (this.triggers) {
@@ -49,6 +57,9 @@ export default class Hero extends AbstractSection {
     if (this.isDisabled) return Promise.resolve();
     if (this._reducedMotionHandler?.isReducedMotion()) return Promise.resolve();
 
+    this._introPlaying = true;
+    this.isIntroComplete = false;
+
     return new Promise(resolve => {
       const tl = this.animations?.timeline;
       if (!tl) return resolve();
@@ -63,5 +74,60 @@ export default class Hero extends AbstractSection {
         },
       });
     });
+  }
+
+  _onIntroStart() {
+    // Do not mark intro complete here; wait for completion callback.
+    this._introPlaying = true;
+    this.isIntroComplete = false;
+    this._emit(this.events.introStart, { element: this.view });
+  }
+
+  _onIntroComplete() {
+    this._introPlaying = false;
+    this.isIntroComplete = true;
+    this._emit(this.events.introComplete, { element: this.view });
+  }
+
+  // Treat the hero as already on screen at load; only emit enter after the first exit.
+  _onEnter() {
+    if (this._introPlaying || !this.isIntroComplete) return;
+    if (this._suppressEnterUntilExit) return;
+    this._suppressInitialEnter = false;
+    super._onEnter();
+  }
+
+  _onEnterBack() {
+    if (this._introPlaying || !this.isIntroComplete) return;
+    if (this._suppressEnterUntilExit) return;
+
+    super._onEnterBack();
+  }
+
+  _onLeave() {
+    // Ignore early leave callbacks (e.g., initial layout when hero is already visible)
+    if (this._isInViewport(this.view)) return;
+
+    this._suppressEnterUntilExit = false;
+    this._hasExitedOnce = true;
+    super._onLeave();
+  }
+
+  _onLeaveBack() {
+    if (this._isInViewport(this.view)) return;
+
+    this._suppressEnterUntilExit = false;
+    this._hasExitedOnce = true;
+    super._onLeaveBack();
+  }
+
+  _isInViewport(element) {
+    if (!element) return false;
+    const rect = element.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    return (
+      rect.top < viewportHeight && rect.bottom > 0 && rect.left < viewportWidth && rect.right > 0
+    );
   }
 }
