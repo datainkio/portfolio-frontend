@@ -36,6 +36,9 @@
   <!-- Example: {% include "_includes/{{ category }}/{{ name }}.njk" %} -->
 {% endmacro %}
 
+
+
+
 {# Icon Helper - Shorthand for icon components #}
 {% macro icon(name, size="md", className="") %}
   {% include "atoms/icon.njk" %}
@@ -45,6 +48,9 @@
 {% macro button(label, type="primary", btnStyles="", disabled=false, onclick="") %}
   {% include "atoms/button/button.njk" %}
 {% endmacro %}
+
+
+
 
 {# Component List Generator - For development and documentation #}
 {% macro listComponents(category="all") %}

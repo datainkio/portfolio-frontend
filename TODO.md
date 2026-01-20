@@ -8,3 +8,7 @@ IDEA: Create a third agent for Choreography: the Choreography Auditor (using MCP
 - “Scroll early”
 - “Confirm no stuck intermediate state”
 - “Report mismatches vs choreography plan”
+
+TODO: Fix heading template parsing so Prettier passes (replace dynamic tag with explicit h1–h6 branches and fallback p)
+TODO: Remove orphan </label> in global nav dialog template
+TODO: Clean up project page nugget loop by removing stray </section> and keeping loop inside article

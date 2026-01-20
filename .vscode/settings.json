@@ -2,7 +2,7 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[nunjucks]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "guapibai.nunjucks-prettier"
   },
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

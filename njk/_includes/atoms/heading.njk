@@ -1,8 +1,18 @@
-{% set level = level | default(1) %}
-{# Ensure level has a default value of 1 #}
-{% if level >= 1 and level <= 6 %}
-  <h{{ level }} class="{{ class | default('') }}">{{ text | default('') }}</h{{ level }}>
+{% set level = level | default(1) %} {# Use explicit tags to keep Prettier happy
+while retaining a safe fallback #} {% if level == 1 %}
+<h1 class="{{ class | default('') }}">{{ text | default('') }}</h1>
+{% elif level == 2 %}
+<h2 class="{{ class | default('') }}">{{ text | default('') }}</h2>
+{% elif level == 3 %}
+<h3 class="{{ class | default('') }}">{{ text | default('') }}</h3>
+{% elif level == 4 %}
+<h4 class="{{ class | default('') }}">{{ text | default('') }}</h4>
+{% elif level == 5 %}
+<h5 class="{{ class | default('') }}">{{ text | default('') }}</h5>
+{% elif level == 6 %}
+<h6 class="{{ class | default('') }}">{{ text | default('') }}</h6>
 {% else %}
-  {# Fallback for invalid levels #}
-  <p class="{{ class | default('') }}">{{ text | default('Invalid heading level') }}</p>
+<p class="{{ class | default('') }}">
+  {{ text | default('Invalid heading level') }}
+</p>
 {% endif %}
