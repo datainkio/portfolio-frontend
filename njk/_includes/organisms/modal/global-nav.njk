@@ -7,14 +7,13 @@
   aria-haspopup="dialog"
   aria-expanded="false"
   aria-controls="global_nav_modal"
-  onclick="global_nav_modal.showModal()">
+  onclick="global_nav_modal.showModal()"
+>
   {% include "atoms/icon/hamburger.njk" %}
 </button>
 <dialog id="global_nav_modal" class="modal bg-modal">
   {% include "organisms/navigation/mega-menu.njk" %}
   <div class="modal-action">
-    <form method="dialog">
-      {% include "atoms/button/close.njk" %}
-    </form>
+    <form method="dialog">{% include "atoms/button/close.njk" %}</form>
   </div>
 </dialog>
