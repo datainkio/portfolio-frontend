@@ -1,13 +1,13 @@
 ---
 layout: templates/long-scroll.njk
 permalink: /
-title: 'Build What Matters'
-subtitle: 'The online studio for Russ Lebo'
-metaDescription: 'no metaDescription defined'
-metaKeywords: 'user experience, eleventy, sanity, tailwind'
-canonicalUrl: 'https://dataink.io'
-bodyClasses: 'bg-neutral-900'
-contentClasses: ''
+title: "Build What Matters"
+subtitle: "The online studio for Russ Lebo"
+metaDescription: "no metaDescription defined"
+metaKeywords: "user experience, eleventy, sanity, tailwind"
+canonicalUrl: "https://dataink.io"
+bodyClasses: "bg-neutral-900"
+contentClasses: ""
 skipLinks:
   - hero
   - bio
@@ -15,15 +15,21 @@ skipLinks:
 enableChoreography: true
 ---
 
-{% import "organisms/section/hero.njk" as heroSection %}
-{% import "organisms/section/bio/bio.njk" as bioSection %}
-{% import "organisms/section/awards.njk" as awards %}
-{% import "organisms/section/projects.njk" as projects %}
-{% import "organisms/section/work/featured.njk" as featuredWork %}
-{# import "organisms/section/organizations/featured.njk" as featuredOrganizations with context #}
-{# import "organisms/section/debug/airtable-dump.njk" as airtableDebugSection #}
-{{ heroSection.render( { id: "hero", title: title }) }}
-{{ bioSection.render({id: "bio", classes: "relative z-10 col-start-3 col-end-9 p-4 mb-48 bg-primary-100 text-primary-950"}) }}
-{{ awards.render({ id: "awards", awards: collections.sanityAwards, classes: "bg-white p-4 mb-48" }) }}
-{{ projects.render({ id: "projects", projects: collections.sanityProjects, classes: "bg-white p-4 mb-48" }) }}
-{# {{ featuredOrganizations.render({ id: "featured-organizations", organizations: collections.sanityOrganizations }) }} #}
+{% import "organisms/section/hero.njk" as heroSection %} 
+
+
+{% import
+"organisms/section/bio/bio.njk" as bioSection %} {% import
+"organisms/section/awards.njk" as awards %} {% import
+"organisms/section/projects.njk" as projects %} {% import
+"organisms/section/work/featured.njk" as featuredWork %} {# import
+"organisms/section/organizations/featured.njk" as featuredOrganizations with
+context #} {# import "organisms/section/debug/airtable-dump.njk" as
+airtableDebugSection #} {{ heroSection.render( { id: "hero", title: title }) }}
+{{ bioSection.render({id: "bio", classes: "relative z-10 col-start-3 col-end-9
+p-4 mb-48 bg-primary-100 text-primary-950"}) }} {{ awards.render({ id: "awards",
+awards: collections.sanityAwards, classes: "bg-white p-4 mb-48" }) }} {{
+projects.render({ id: "projects", projects: collections.sanityProjects, classes:
+"bg-white p-4 mb-48" }) }} {# {{ featuredOrganizations.render({ id:
+"featured-organizations", organizations: collections.sanityOrganizations }) }}
+#}
