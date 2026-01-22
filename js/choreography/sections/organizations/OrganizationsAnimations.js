@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.sections.organizations.organizationsanimations
+ *   role: Frontend runtime module: js/choreography/sections/organizations/OrganizationsAnimations.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - sections
+ * ---
+ */
 /** @format */
 
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';

@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.collections.sanity
+ *   role: Eleventy module: eleventy/collections/sanity.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - collections
+ * ---
+ */
 /** @format */
 
 import logger, { LumberjackStyle } from '@datainkio/lumberjack';

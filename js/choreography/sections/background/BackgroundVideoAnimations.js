@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.sections.background.backgroundvideoanimations
+ *   role: Frontend runtime module: js/choreography/sections/background/BackgroundVideoAnimations.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - sections
+ * ---
+ */
 /** @format */
 
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';

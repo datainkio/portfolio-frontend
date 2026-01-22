@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.airtable-styles-preview
+ *   role: Test module: test/airtable-styles-preview.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - airtable-styles-preview.js
+ * ---
+ */
 /** @format */
 
 /**

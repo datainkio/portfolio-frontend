@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.collections.documentation
+ *   role: Eleventy module: eleventy/collections/documentation.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - collections
+ * ---
+ */
 /** @format */
 
 /**

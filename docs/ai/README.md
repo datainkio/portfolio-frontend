@@ -11,10 +11,13 @@ Also useful:
 
 - [aix-maintenance.md](./aix-maintenance.md) — lightweight loop to keep AIX quality high
 - `examples/` — canonical patterns to anchor Copilot suggestions
+- [plan-landing-performance.prompt.md](./plan-landing-performance.prompt.md) — performance planning prompt for landing page
 
 Legacy reference:
 
 - `legacy-agents/` — prior agent definitions preserved as reference (not active as selectable agents)
+	- [legacy-agents/choreography-planner.agent.md](./legacy-agents/choreography-planner.agent.md)
+	- [legacy-agents/choreography-implementer.agent.md](./legacy-agents/choreography-implementer.agent.md)
 
 ## Authority in multi-root workspaces
 

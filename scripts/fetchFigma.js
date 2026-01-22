@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.fetchfigma
+ *   role: Build/utility script: scripts/fetchFigma.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - fetchFigma.js
+ * ---
+ */
 import chalk from 'chalk';
 import { fileURLToPath } from 'url';
 import logger from '@datainkio/lumberjack';

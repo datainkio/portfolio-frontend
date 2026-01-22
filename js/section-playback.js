@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.section-playback
+ *   role: Frontend runtime module: js/section-playback.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - section-playback.js
+ * ---
+ */
 import { SECTION_REGISTRY } from '/assets/js/choreography/sections/registry.js';
 import { EVENTS } from '/assets/js/choreography/constants.js';
 import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';

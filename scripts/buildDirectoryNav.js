@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.builddirectorynav
+ *   role: Build/utility script: scripts/buildDirectoryNav.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - buildDirectoryNav.js
+ * ---
+ */
 /** @format */
 
 const fs = require("fs");

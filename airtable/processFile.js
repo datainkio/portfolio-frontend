@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.airtable.processfile
+ *   role: Airtable integration module: airtable/processFile.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - airtable
+ *     - processFile.js
+ * ---
+ */
 /** @format */
 
 import { promises as fs } from 'fs';

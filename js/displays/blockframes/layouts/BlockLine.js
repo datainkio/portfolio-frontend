@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.layouts.blockline
+ *   role: Frontend runtime module: js/displays/blockframes/layouts/BlockLine.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
+/**
  * Takes a set of blockframes contained in a given SVG (blockframes.svg) and renders them
  * onscreen in multiple variations and positions.
  * 

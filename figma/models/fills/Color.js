@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.models.fills.color
+ *   role: Figma tooling module: figma/models/fills/Color.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - models
+ * ---
+ */
 import chalk from "chalk";
 
 export class Color {

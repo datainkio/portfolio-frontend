@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.navigation
+ *   role: Frontend runtime module: js/choreography/navigation.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - navigation.js
+ * ---
+ */
+/**
  * Detect when a user clicks a link, play an outro, and navigate to the desired page after the animation completes.
  *
  * See choreography/pages/ for transition animations. Assume each page has an intro and outro animation.

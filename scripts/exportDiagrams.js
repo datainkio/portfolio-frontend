@@ -1,5 +1,20 @@
 #!/usr/bin/env node
 /**
+ * ---
+ * aix:
+ *   id: frontend.scripts.exportdiagrams
+ *   role: Build/utility script: scripts/exportDiagrams.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - exportDiagrams.js
+ * ---
+ */
+/**
  * Export Mermaid diagrams to SVG
  *
  * Finds all .mmd files in the project and exports them to SVG format

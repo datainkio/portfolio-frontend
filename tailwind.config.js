@@ -1,3 +1,17 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.tailwind-config
+ *   role: Tailwind configuration for the frontend build.
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - tailwind.config.js
+ * ---
+ */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./njk/**/*.{njk,md,html,js}', './js/**/*.js', './eleventy/**/*.js'],

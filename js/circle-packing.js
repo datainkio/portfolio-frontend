@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.circle-packing
+ *   role: Frontend runtime module: js/circle-packing.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - circle-packing.js
+ * ---
+ */
  var Highcharts = require('highcharts');  
 // Load module after Highcharts is loaded
 require('highcharts/modules/exporting')(Highcharts);

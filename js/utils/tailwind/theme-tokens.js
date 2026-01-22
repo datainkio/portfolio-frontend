@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.utils.tailwind.theme-tokens
+ *   role: Frontend runtime module: js/utils/tailwind/theme-tokens.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - utils
+ *     - tailwind
+ * ---
+ */
 export const themeColors = {
   "inherit": "inherit",
   "current": "currentColor",

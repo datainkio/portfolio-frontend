@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.services.fileservice
+ *   role: Figma tooling module: figma/services/FileService.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - services
+ * ---
+ */
 import chalk from 'chalk';
 import { ENDPOINTS } from '../api/endpoints.js';
 import { DesignFile } from '../models/DesignFile.js';

@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.logger.error-detection-test
+ *   role: Test module: test/logger/error-detection.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - logger
+ * ---
+ */
 /** @format */
 
 /**

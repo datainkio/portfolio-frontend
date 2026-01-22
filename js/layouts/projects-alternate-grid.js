@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.layouts.projects-alternate-grid
+ *   role: Frontend runtime module: js/layouts/projects-alternate-grid.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - layouts
+ *     - projects-alternate-grid.js
+ * ---
+ */
 const DUR = .25; // base value for animation duration (in seconds)
 const Y_DELTA = 0; // vertical origin of elements
 const POS = "-=50%"; // offset (in seconds) of animation relative to the previous

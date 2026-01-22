@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.plugins.plugins
+ *   role: Eleventy module: eleventy/plugins/plugins.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - plugins
+ * ---
+ */
 /** @format */
 
 import eleventyNavigationPlugin from "@11ty/eleventy-navigation";

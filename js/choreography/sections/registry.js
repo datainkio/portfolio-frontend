@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.sections.registry
+ *   role: Frontend runtime module: js/choreography/sections/registry.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - sections
+ * ---
+ */
+/**
  * Section Registry - Canonical section definitions
  *
  * Centralized mapping of section identifiers to their controller classes.

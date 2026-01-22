@@ -5,6 +5,12 @@ It is not a source of truth; it points to real sources in the project.
 
 Agents should read this file first when starting work.
 
+## Files
+
+- Architecture map: [.copilot/context/architecture-map.md](architecture-map.md)
+- Coding standards: [.copilot/context/coding-standards.md](coding-standards.md)
+- Stack & commands: [.copilot/context/stack-and-commands.md](stack-and-commands.md)
+
 ## Project brief (portfolio frontend)
 
 - 11ty static site; templates are Nunjucks in `njk/`.

@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.gel.gel
+ *   role: Frontend runtime module: js/effects/gel/Gel.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - gel
+ * ---
+ */
 /** @format */
 
 /**

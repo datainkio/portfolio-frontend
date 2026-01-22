@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.quickref
+ *   role: Build/utility script: scripts/quickRef.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - quickRef.js
+ * ---
+ */
 /** @format */
 
 /**

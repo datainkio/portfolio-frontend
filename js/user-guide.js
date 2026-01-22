@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.user-guide
+ *   role: Frontend runtime module: js/user-guide.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - user-guide.js
+ * ---
+ */
 /** @format */
 
 document.addEventListener("DOMContentLoaded", (event) => {

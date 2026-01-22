@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.sanity.client
+ *   role: Sanity integration module: sanity/client.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - sanity
+ *     - client.js
+ * ---
+ */
 /** @format */
 
 import { config as loadEnv } from 'dotenv';

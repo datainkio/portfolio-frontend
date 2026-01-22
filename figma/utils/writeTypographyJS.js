@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.figma.utils.writetypographyjs
+ *   role: Figma tooling module: figma/utils/writeTypographyJS.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - utils
+ * ---
+ */
+/**
      * Creates a tailwind typography file from a list of TextFormat instances.
      */
 import { writeFile } from 'fs/promises';

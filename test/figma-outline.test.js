@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.figma-outline-test
+ *   role: Test module: test/figma-outline.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - figma-outline.test.js
+ * ---
+ */
 /** @format */
 
 /**

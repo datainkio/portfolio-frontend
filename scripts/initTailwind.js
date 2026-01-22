@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.inittailwind
+ *   role: Build/utility script: scripts/initTailwind.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - initTailwind.js
+ * ---
+ */
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";

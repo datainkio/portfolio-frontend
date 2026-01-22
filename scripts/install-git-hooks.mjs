@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.install-git-hooks
+ *   role: Build/utility script: scripts/install-git-hooks.mjs
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - install-git-hooks.mjs
+ * ---
+ */
 
 import { execFileSync } from 'node:child_process';
 

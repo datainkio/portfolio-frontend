@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.lumberjack-default-disabled-test
+ *   role: Test module: test/lumberjack-default-disabled.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - lumberjack-default-disabled.test.js
+ * ---
+ */
 /** @format */
 
 /**

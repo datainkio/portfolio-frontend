@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.filters.string
+ *   role: Eleventy module: eleventy/filters/string.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - filters
+ * ---
+ */
 /** @format */
 
 /**

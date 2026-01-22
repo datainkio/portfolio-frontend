@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.templates.timeline
+ *   role: Frontend runtime module: js/displays/blockframes/templates/Timeline.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
 import { findFarthestColor } from "../../../../utils/color.js";
 import { paintElement } from "../../Painter.js";
 

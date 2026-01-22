@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.njk.data.runtime
+ *   role: Eleventy data module: njk/_data/runtime.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - njk
+ *     - _data
+ * ---
+ */
 const normalizeBoolean = value => {
   if (value === undefined) return undefined;
   const normalized = value.toLowerCase();

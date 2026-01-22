@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.printermarks
+ *   role: Frontend runtime module: js/displays/PrinterMarks.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - PrinterMarks.js
+ * ---
+ */
+/**
  * Adds graphic elements mimicking printer proof marks, registration, etc., positioned inside a given block element.
  * Built for the 2025 portfolio.
  * Yes, it is an ungodly mix of Tailwind and vanilla CSS.

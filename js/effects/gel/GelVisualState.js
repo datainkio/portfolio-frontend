@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.gel.gelvisualstate
+ *   role: Frontend runtime module: js/effects/gel/GelVisualState.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - gel
+ * ---
+ */
 /** @format */
 
 import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';

@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.filters.array
+ *   role: Eleventy module: eleventy/filters/array.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - filters
+ * ---
+ */
 /** @format */
 
 /**

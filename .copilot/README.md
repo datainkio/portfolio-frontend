@@ -28,10 +28,17 @@ They apply only within their declared scope and must not be blended unless expli
 
 Prompt modules now live under `.copilot/prompts/` and are intended to be selected by the workspace Concierge when working in this repo:
 
-- `prompts/frontend-js.prompt.md` — browser-first JavaScript, progressive enhancement
-- `prompts/frontend-templates.prompt.md` — 11ty/Nunjucks semantics and structure
-- `prompts/frontend-choreography-planning.prompt.md` — planning-only choreography output
-- `prompts/frontend-choreography-implementation.prompt.md` — implementing an approved plan
+- Prompt index: [.copilot/prompts/index.md](prompts/index.md)
+- `prompts/domain.prompt.md` — repo-wide domain constraints
+- `prompts/js.prompt.md` — browser-first JavaScript, progressive enhancement
+- `prompts/display.prompt.md` — UI rendering and display layers
+- `prompts/choreography-planning.prompt.md` — planning-only choreography output
+- `prompts/choreography-implementation.prompt.md` — implementing an approved plan
+
+## Curated context
+
+- Frontend context hub: [.copilot/context/README.md](context/README.md)
+- Architecture map: [.copilot/context/architecture-map.md](context/architecture-map.md)
 
 ---
 

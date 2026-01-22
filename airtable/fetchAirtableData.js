@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.airtable.fetchairtabledata
+ *   role: Airtable integration module: airtable/fetchAirtableData.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - airtable
+ *     - fetchAirtableData.js
+ * ---
+ */
 /** @format */
 
 // Silence punycode deprecation warning

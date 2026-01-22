@@ -34,6 +34,15 @@ npm run start:nobundle
 - `_site/` is untracked output; every environment (local/CI/deploy) must build from source.
 - For structure/placement rules see [docs/architecture.md](docs/architecture.md).
 
+**Entrypoints**
+
+- Docs hub: [docs/README.md](docs/README.md)
+- Architecture map (AIX): [.copilot/context/architecture-map.md](.copilot/context/architecture-map.md)
+- Copilot scope/authority: [.copilot/README.md](.copilot/README.md)
+- Curated agent context: [.copilot/context/README.md](.copilot/context/README.md)
+- Issue template: [.github/ISSUE_TEMPLATE/bug.md](.github/ISSUE_TEMPLATE/bug.md)
+- Backlog: [TODO.md](TODO.md) · [docs/TODO.md](docs/TODO.md) · [js/TODO.md](js/TODO.md)
+
 **BUILD PROCESS DETAILS**:
 
 - `npm run build` sequentially runs: `clean` → `sync:content` → `build:design` → `build:css` → `build:js` → `build:11ty`

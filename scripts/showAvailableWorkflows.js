@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.showavailableworkflows
+ *   role: Build/utility script: scripts/showAvailableWorkflows.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - showAvailableWorkflows.js
+ * ---
+ */
 /** @format */
 
 /**

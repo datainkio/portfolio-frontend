@@ -1,3 +1,17 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy
+ *   role: Eleventy configuration entrypoint.
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - .eleventy.js
+ * ---
+ */
 /** @format */
 // Silence punycode warning
 process.noDeprecation = true;

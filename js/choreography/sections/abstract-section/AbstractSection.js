@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.sections.abstract-section.abstractsection
+ *   role: Frontend runtime module: js/choreography/sections/abstract-section/AbstractSection.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - sections
+ * ---
+ */
+/**
  * AbstractSection - Foundation class for section animation controllers
  *
  * Provides standard lifecycle and event coordination for all section controllers.

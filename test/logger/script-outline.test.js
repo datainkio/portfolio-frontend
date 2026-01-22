@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.logger.script-outline-test
+ *   role: Test module: test/logger/script-outline.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - logger
+ * ---
+ */
 /** @format */
 
 /**

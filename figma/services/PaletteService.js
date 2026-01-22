@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.services.paletteservice
+ *   role: Figma tooling module: figma/services/PaletteService.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - services
+ * ---
+ */
 import chalk from "chalk";
 import { write as PaletteFile } from "../views/tailwind/PaletteFile.js";
 

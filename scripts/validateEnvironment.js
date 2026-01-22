@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.validateenvironment
+ *   role: Build/utility script: scripts/validateEnvironment.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - validateEnvironment.js
+ * ---
+ */
 /** @format */
 
 /**

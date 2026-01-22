@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.utils.stylefactory
+ *   role: Figma tooling module: figma/utils/styleFactory.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - utils
+ * ---
+ */
 import { Color } from '../models/fills/Color.js';
 import { Pattern } from '../models/fills/Pattern.js';
 import { TextFormat } from '../models/text/TextFormat.js';

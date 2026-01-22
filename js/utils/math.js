@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.utils.math
+ *   role: Frontend runtime module: js/utils/math.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - utils
+ *     - math.js
+ * ---
+ */
 // Return the Fibonacci sequence
 export function generateFibonacciSequence(start, length) {
     // Generate the first few numbers to cover any start position

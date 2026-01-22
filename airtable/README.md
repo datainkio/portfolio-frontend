@@ -11,6 +11,11 @@ The Airtable integration transforms your Airtable bases into 11ty collections th
 - **Collection Generation**: `eleventy/collections/content.js` transforms Airtable records into 11ty collections
 - **Template Access**: Collections become available in Nunjucks templates as `collections.tablename`
 
+Related references:
+
+- Airtable scripts: [airtable/scripts/README.md](scripts/README.md)
+- Logger styles reference: [airtable/LOGGER_STYLES.md](LOGGER_STYLES.md)
+
 **CRITICAL DEPENDENCY CHAIN**: Airtable API → Caching Layer → Collection Transformation → Template Rendering. Break any link and your content management system becomes a very expensive digital paperweight.
 
 ## Cache Management (Developer Quick Reference)
@@ -79,6 +84,8 @@ The Airtable integration uses custom Logger styles for visual distinction of dif
 - 💾 **Purple** (#8B5CF6) - `cachingStyle` - Cache operations (using/saving cached data)
 - ⚙️ **Cyan** (#06B6D4) - `processingStyle` - Record processing operations
 - ❌ **Red** (built-in) - Error messages (auto-detected from Error objects)
+
+Full style reference: [airtable/LOGGER_STYLES.md](LOGGER_STYLES.md)
 
 **Example Output:**
 

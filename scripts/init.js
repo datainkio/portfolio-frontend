@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.init
+ *   role: Build/utility script: scripts/init.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - init.js
+ * ---
+ */
 import chalk from "chalk";
 import displayEnvironmentInfo from "./displayEnvironmentInfo.js";
 import fetchDesignSystem from "./fetchFigma.js";

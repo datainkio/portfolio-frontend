@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.blockframes
+ *   role: Frontend runtime module: js/displays/blockframes/Blockframes.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
+/**
  * @fileoverview Blockframes - SVG composition and manipulation system
  *
  * CRITICAL: This is the main controller class that orchestrates SVG loading,

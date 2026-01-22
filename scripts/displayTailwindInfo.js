@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.displaytailwindinfo
+ *   role: Build/utility script: scripts/displayTailwindInfo.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - displayTailwindInfo.js
+ * ---
+ */
 import chalk from "chalk";
 import { readFile } from "fs/promises";
 import { join, dirname } from "path";

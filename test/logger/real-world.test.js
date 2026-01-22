@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.logger.real-world-test
+ *   role: Test module: test/logger/real-world.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - logger
+ * ---
+ */
 /** @format */
 
 /**

@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.sequences.landing.landingsequence
+ *   role: Frontend runtime module: js/choreography/sequences/landing/LandingSequence.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - sequences
+ * ---
+ */
+/**
  * LandingSequence - Landing page animation choreography coordinator
  *
  * Manages the flow of intro and outro animations for the landing page

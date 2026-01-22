@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.services.navigationbuilder
+ *   role: Eleventy module: eleventy/services/NavigationBuilder.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - services
+ * ---
+ */
+/**
  * Navigation Builder Service
  *
  * Handles all navigation processing logic separated from 11ty collection registration.

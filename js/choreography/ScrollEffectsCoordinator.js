@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.scrolleffectscoordinator
+ *   role: Frontend runtime module: js/choreography/ScrollEffectsCoordinator.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - ScrollEffectsCoordinator.js
+ * ---
+ */
 /** @format */
 
 /**

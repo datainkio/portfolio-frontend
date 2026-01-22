@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.api.figmaclient
+ *   role: Figma tooling module: figma/api/FigmaClient.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - api
+ * ---
+ */
 import dotenv from 'dotenv';
 dotenv.config();
 

@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.models.text.textformat
+ *   role: Figma tooling module: figma/models/text/TextFormat.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - models
+ * ---
+ */
 import chalk from 'chalk';
 
 export class TextFormat {

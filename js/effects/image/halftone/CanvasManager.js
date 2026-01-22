@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.image.halftone.canvasmanager
+ *   role: Frontend runtime module: js/effects/image/halftone/CanvasManager.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - image
+ * ---
+ */
 export default class CanvasManager {
     constructor(image, container) {
         this._canvas = document.createElement("canvas");

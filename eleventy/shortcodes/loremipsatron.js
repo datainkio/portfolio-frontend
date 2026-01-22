@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.shortcodes.loremipsatron
+ *   role: Eleventy module: eleventy/shortcodes/loremipsatron.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - shortcodes
+ * ---
+ */
 /** @format */
 
 // eleventy/shortcodes/loremChars.js

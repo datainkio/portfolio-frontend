@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.collections.navigation
+ *   role: Eleventy module: eleventy/collections/navigation.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - collections
+ * ---
+ */
+/**
  * 11ty Navigation Collection Registration
  *
  * This file registers navigation collections with 11ty but delegates all processing

@@ -24,6 +24,7 @@ Comprehensive documentation for the dataink.io portfolio (11ty + Figma + Airtabl
 - **[ai/](./ai/)** - Scoped AI prompts/briefs for Copilot or assistants (keep concise and transient)
 - **[ai/AIX_Maintenance_Checklist.md](./ai/AIX_Maintenance_Checklist.md)** - Monthly Copilot-quality hygiene checklist
 - **[.copilot/README.md](../.copilot/README.md)** - Prompt authority/scope for language-specific AI constraints
+- **[agent-performance-evaluation.md](./agent-performance-evaluation.md)** - AIX evaluation rubric and scoring
 
 ### Template System (NJK/Eleventy)
 
@@ -203,6 +204,13 @@ All documentation in this project:
 - **[View all files in docs/](.)** - Browse this directory
 - **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** - AI agent reference
 - **[.copilot/](../.copilot/)** - AI context files
+
+## Additional references
+
+- **[DOCUMENTATION_EXAMPLES.md](./DOCUMENTATION_EXAMPLES.md)** - Before/after examples
+- **[sanity-integration.md](./sanity-integration.md)** - Sanity studio integration notes
+- **[storyboards/README.md](./storyboards/README.md)** - Storyboard authoring guide
+- **[TODO.md](./TODO.md)** - Docs backlog
 
 ---
 

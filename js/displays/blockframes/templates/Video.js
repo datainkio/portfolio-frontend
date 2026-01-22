@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.templates.video
+ *   role: Frontend runtime module: js/displays/blockframes/templates/Video.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
 /** @format */
 
 export function paint(elem, palette) {

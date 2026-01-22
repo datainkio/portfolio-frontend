@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.organisms.card
+ *   role: Frontend runtime module: js/displays/blockframes/organisms/Card.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
 import * as Image from "./Image.js";
 export function paint(elem, palette) {
     const image = elem.querySelector(".image");

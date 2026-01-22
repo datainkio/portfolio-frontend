@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.choreography.hero-events-test
+ *   role: Test module: test/choreography/hero-events.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - choreography
+ * ---
+ */
 /** @format */
 
 import { readFile } from 'fs/promises';

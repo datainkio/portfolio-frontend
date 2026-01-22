@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.resume
+ *   role: Frontend runtime module: js/choreography/resume.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - resume.js
+ * ---
+ */
 import { Halftone } from '/assets/js/effects/image-halftone.js';
 const TL = gsap.timeline();
 

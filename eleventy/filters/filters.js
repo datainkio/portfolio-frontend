@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.filters.filters
+ *   role: Eleventy module: eleventy/filters/filters.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - filters
+ * ---
+ */
 /** @format */
 
 import arrayConfig from './array.js';

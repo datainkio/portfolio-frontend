@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.scripts.buildcss
+ *   role: Build/utility script: scripts/buildCSS.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - buildCSS.js
+ * ---
+ */
+/**
  * Enhanced Tailwind CSS Build Script with Comprehensive Logging
  *
  * CRITICAL WARNING: This script provides detailed transparency into the

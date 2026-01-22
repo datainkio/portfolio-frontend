@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.generateairtableschema
+ *   role: Build/utility script: scripts/generateAirtableSchema.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - generateAirtableSchema.js
+ * ---
+ */
 /** @format */
 
 /**

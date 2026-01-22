@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.logger.errors-test
+ *   role: Test module: test/logger/errors.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - logger
+ * ---
+ */
 /** @format */
 
 import logger from '@datainkio/lumberjack';

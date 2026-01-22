@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.sections.hero.heroanimations
+ *   role: Frontend runtime module: js/choreography/sections/hero/HeroAnimations.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - sections
+ * ---
+ */
 /** @format */
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
 import { ANIMATION_DEFAULTS } from '../../config.js';

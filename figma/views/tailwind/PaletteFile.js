@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.views.tailwind.palettefile
+ *   role: Figma tooling module: figma/views/tailwind/PaletteFile.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - views
+ * ---
+ */
 import chalk from "chalk";
 import { writeFile, mkdir } from "fs/promises";
 import { join, dirname } from "path";

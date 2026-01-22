@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.templates.calendar
+ *   role: Frontend runtime module: js/displays/blockframes/templates/Calendar.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
 /** @format */
 
 export function paint(elem, palette) {

@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.templates.chrome
+ *   role: Frontend runtime module: js/displays/blockframes/templates/chrome.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
 import { findFarthestColor } from "../../../../utils/color.js";
 export function paint(chrome, palette, method) {
     // Set Settings.size and scale

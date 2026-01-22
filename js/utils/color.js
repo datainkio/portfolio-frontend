@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.utils.color
+ *   role: Frontend runtime module: js/utils/color.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - utils
+ *     - color.js
+ * ---
+ */
 // Calculate the Euclidean distance between two colors
 export function colorDistance(color1, color2) {
     const r1 = parseInt(color1.substring(1, 3), 16);

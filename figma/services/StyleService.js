@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.services.styleservice
+ *   role: Figma tooling module: figma/services/StyleService.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - services
+ * ---
+ */
 import { FileService } from './FileService.js';
 import { createStyle } from '../utils/styleFactory.js';
 import { Color } from '../models/fills/Color.js';

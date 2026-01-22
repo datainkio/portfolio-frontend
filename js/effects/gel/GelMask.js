@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.gel.gelmask
+ *   role: Frontend runtime module: js/effects/gel/GelMask.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - gel
+ * ---
+ */
 /** @format */
 
 /**

@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.organisms.cart-item
+ *   role: Frontend runtime module: js/displays/blockframes/organisms/Cart Item.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
 import * as Image from "./Image.js";
 export function paint(elem, palette) {
     const operators = elem.querySelector(".operators");

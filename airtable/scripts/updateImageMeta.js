@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.airtable.scripts.updateimagemeta
+ *   role: Airtable integration module: airtable/scripts/updateImageMeta.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - airtable
+ *     - scripts
+ * ---
+ */
+/**
  * Purpose:
  * This script processes each record in the "Images" table, retrieves the image file from the "File" attachment field,
  * extracts its height, width, file type, and file size (excluding SVG files), and updates the corresponding fields

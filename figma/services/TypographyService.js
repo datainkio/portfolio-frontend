@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.services.typographyservice
+ *   role: Figma tooling module: figma/services/TypographyService.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - services
+ * ---
+ */
 import chalk from "chalk";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";

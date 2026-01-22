@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.builder
+ *   role: Frontend runtime module: js/displays/blockframes/Builder.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
+/**
  * @fileoverview Builder - SVG DOM manipulation and isometric cityscape generation
  *
  * CRITICAL: This module has TWO distinct responsibilities:

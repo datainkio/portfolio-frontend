@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.preloader
+ *   role: Frontend runtime module: js/preloader.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - preloader.js
+ * ---
+ */
 const preloader = document.querySelector('[data-preloader]');
 if (preloader) {
   const stack = preloader.querySelector('[data-preloader-stack]');

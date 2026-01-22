@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.diagrams.exportstoryboards
+ *   role: Build/utility script: scripts/diagrams/exportStoryboards.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - diagrams
+ * ---
+ */
 import fs from 'fs/promises';
 import path from 'path';
 import { execSync } from 'child_process';

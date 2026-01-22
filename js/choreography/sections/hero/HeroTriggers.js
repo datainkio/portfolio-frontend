@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.sections.hero.herotriggers
+ *   role: Frontend runtime module: js/choreography/sections/hero/HeroTriggers.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - sections
+ * ---
+ */
 /** @format */
 
 import { ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';

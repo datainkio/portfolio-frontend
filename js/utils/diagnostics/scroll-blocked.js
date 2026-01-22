@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.utils.diagnostics.scroll-blocked
+ *   role: Frontend runtime module: js/utils/diagnostics/scroll-blocked.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - utils
+ *     - diagnostics
+ * ---
+ */
 // Add before closing </body> tag
 // Diagnostic: Find what's blocking scroll
 (function () {

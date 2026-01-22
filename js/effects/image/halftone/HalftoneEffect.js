@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.image.halftone.halftoneeffect
+ *   role: Frontend runtime module: js/effects/image/halftone/HalftoneEffect.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - image
+ * ---
+ */
+/**
  * Receives an image and renders it as a matrix of dots. The resolution is a combination of two values. dotSize sets
  * the max size (in pixels) of the dots. gridSize sets the space between the centers of the dots.
  * 

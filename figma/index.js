@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.index
+ *   role: Figma tooling module: figma/index.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - index.js
+ * ---
+ */
 import { FigmaClient } from './api/FigmaClient.js';
 import { FileService } from './services/FileService.js';
 import { StyleService } from './services/StyleService.js';

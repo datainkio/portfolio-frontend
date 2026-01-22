@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.filters.dom
+ *   role: Eleventy module: eleventy/filters/dom.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - filters
+ * ---
+ */
 export default function (eleventyConfig) {
   /**
    * Insert referenced content into text.

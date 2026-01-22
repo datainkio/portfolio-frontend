@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.clearcache
+ *   role: Build/utility script: scripts/clearCache.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - clearCache.js
+ * ---
+ */
 import { rm } from 'fs/promises';
 import { join } from 'path';
 

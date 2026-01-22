@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.sanity.fetchsanitydata
+ *   role: Sanity integration module: sanity/fetchSanityData.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - sanity
+ *     - fetchSanityData.js
+ * ---
+ */
 /** @format */
 
 import { AssetCache } from '@11ty/eleventy-fetch';

@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.diagram
+ *   role: Frontend runtime module: js/choreography/diagram.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - diagram.js
+ * ---
+ */
 gsap.registerPlugin(ScrollTrigger);
 export function arc(id) {
     // Get the SVG

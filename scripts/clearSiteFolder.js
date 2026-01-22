@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.clearsitefolder
+ *   role: Build/utility script: scripts/clearSiteFolder.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - clearSiteFolder.js
+ * ---
+ */
 /** @format */
 
 import { rm, readdir } from 'fs/promises';

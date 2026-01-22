@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.fibonacci
+ *   role: Frontend runtime module: js/fibonacci.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - fibonacci.js
+ * ---
+ */
 export function fibonacci(id) {
     try {
         var graph = gsap.utils.toArray(id)[0];

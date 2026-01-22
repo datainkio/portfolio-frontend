@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.architect
+ *   role: Frontend runtime module: js/displays/blockframes/Architect.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
+/**
  * @fileoverview Architect - Grid generation utility with constraint-based placement
  *
  * CRITICAL: This module generates a 12x12 grid of letters (A-E) with a key constraint:

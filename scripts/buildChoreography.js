@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.scripts.buildchoreography
+ *   role: Build/utility script: scripts/buildChoreography.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - buildChoreography.js
+ * ---
+ */
+/**
  * Bundle and minify choreography runtime into a single ESM file.
  * Output: assets/js/choreography/bundle.js
  *

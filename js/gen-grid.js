@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.gen-grid
+ *   role: Frontend runtime module: js/gen-grid.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - gen-grid.js
+ * ---
+ */
 /** @format */
 console.log("https://frontend.horse/articles/generative-grids/");
 import { SVG } from "https://cdn.skypack.dev/@svgdotjs/svg.js@3.1.1";

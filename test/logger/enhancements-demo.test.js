@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * ---
+ * aix:
+ *   id: frontend.test.logger.enhancements-demo-test
+ *   role: Test module: test/logger/enhancements-demo.test.js
+ *   status: draft
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - test
+ *     - logger
+ * ---
+ */
 /** @format */
 
 /**

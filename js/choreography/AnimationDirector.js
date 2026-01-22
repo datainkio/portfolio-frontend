@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.animationdirector
+ *   role: Frontend runtime module: js/choreography/AnimationDirector.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - AnimationDirector.js
+ * ---
+ */
 /** @format */
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';

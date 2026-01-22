@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.collections.content
+ *   role: Eleventy module: eleventy/collections/content.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - collections
+ * ---
+ */
 import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 import fetchAirtableData from '../../airtable/fetchAirtableData.js';
 

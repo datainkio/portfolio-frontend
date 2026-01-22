@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.scripts.display11tyinfo
+ *   role: Build/utility script: scripts/display11tyInfo.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - scripts
+ *     - display11tyInfo.js
+ * ---
+ */
 import chalk from "chalk";
 import { readFile } from "fs/promises";
 import { dirname, join } from "path";

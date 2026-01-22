@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.services.tailwindlogger
+ *   role: Eleventy module: eleventy/services/TailwindLogger.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - services
+ * ---
+ */
+/**
  * Tailwind Logger Service
  *
  * Provides detailed logging for Tailwind CSS 4.0 build process to match

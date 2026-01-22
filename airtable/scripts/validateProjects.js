@@ -1,4 +1,19 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.airtable.scripts.validateprojects
+ *   role: Airtable integration module: airtable/scripts/validateProjects.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - airtable
+ *     - scripts
+ * ---
+ */
+/**
  * Purpose: The script checks each "Project" record's linked records across multiple tables.
  * If any linked record has "Published" set to false, it sets the "All Published" field
  * in "Projects" to false and lists the unpublished records in the "Unpublished Links" field.

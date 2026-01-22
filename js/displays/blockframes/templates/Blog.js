@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.templates.blog
+ *   role: Frontend runtime module: js/displays/blockframes/templates/Blog.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
 import * as Card from "../organisms/Card.js";
 export function paint(elem, palette) {
     const cards = elem.querySelectorAll(".Card");

@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.managers.usage-examples
+ *   role: Frontend runtime module: js/choreography/managers/USAGE_EXAMPLES.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - managers
+ * ---
+ */
+/**
  * Manager Modules Quick Reference
  *
  * Import paths and basic usage for all manager modules.

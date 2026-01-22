@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.layout.parallax
+ *   role: Frontend runtime module: js/effects/layout/parallax.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - layout
+ * ---
+ */
 document.addEventListener("DOMContentLoaded", (event) => {
     try {
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);

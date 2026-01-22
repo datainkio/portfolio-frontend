@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.image.halftone.halftone
+ *   role: Frontend runtime module: js/effects/image/halftone/Halftone.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - image
+ * ---
+ */
 import CanvasManager from "./CanvasManager.js";
 import HalftoneEffect from "./HalftoneEffect.js";
 import AnimationManager from "./AnimationManager.js";

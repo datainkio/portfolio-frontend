@@ -1,4 +1,21 @@
 /**
+ * ---
+ * aix:
+ *   id: frontend.js.displays.blockframes.animator
+ *   role: Frontend runtime module: js/displays/blockframes/Animator.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - displays
+ *     - blockframes
+ * ---
+ */
+/**
  * @fileoverview Animator - GSAP animation presets for blockframes
  *
  * CRITICAL: This module provides animation presets for blockframes elements.

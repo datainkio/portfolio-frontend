@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.airtable.imageprocessingstatus
+ *   role: Airtable integration module: airtable/ImageProcessingStatus.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - airtable
+ *     - ImageProcessingStatus.js
+ * ---
+ */
 /** @format */
 
 import cliProgress from "cli-progress";

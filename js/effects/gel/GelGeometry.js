@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.effects.gel.gelgeometry
+ *   role: Frontend runtime module: js/effects/gel/GelGeometry.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - effects
+ *     - gel
+ * ---
+ */
 /** @format */
 
 /**

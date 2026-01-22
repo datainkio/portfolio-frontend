@@ -1,3 +1,20 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.managers.sessionmanager
+ *   role: Frontend runtime module: js/choreography/managers/SessionManager.js
+ *   status: stable
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography
+ *     - managers
+ * ---
+ */
 import lumberjack from '../../utils/lumberjack/lumberjack.js';
 
 /** @format */

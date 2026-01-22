@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.figma.views.eleventy.fontimportsfile
+ *   role: Figma tooling module: figma/views/eleventy/FontImportsFile.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - figma
+ *     - views
+ * ---
+ */
 // DEPRECATED AND REPLACE WITH IMPORTING FONTS DIRECTLY INTO CSS
 import chalk from "chalk";
 import { writeFile, mkdir } from "fs/promises";

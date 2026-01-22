@@ -30,6 +30,11 @@ sequenceDiagram
 - Dev: `npm run dev:11ty` then open `/storyboards/` and your page.
 - Build-only: `npm run build:11ty`.
 
+## Existing storyboards
+
+- [About → Design → Storyboards index](../../njk/_pages/about/design/storyboards/index.md)
+- [About → Design → Storyboards landing](../../njk/_pages/about/design/storyboards/landing.md)
+
 ## Export SVG
 
 Generate SVGs from all Mermaid code fences in those Markdown files:

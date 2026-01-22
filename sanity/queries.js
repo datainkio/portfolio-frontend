@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.sanity.queries
+ *   role: Sanity integration module: sanity/queries.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - sanity
+ *     - queries.js
+ * ---
+ */
 /** @format */
 
 import groq from 'groq';

@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography-playground
+ *   role: Frontend runtime module: js/choreography-playground.js
+ *   status: draft
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - choreography-playground.js
+ * ---
+ */
 /** @format */
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';

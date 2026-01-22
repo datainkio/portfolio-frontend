@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.airtable.exportcache
+ *   role: Airtable integration module: airtable/exportCache.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - airtable
+ *     - exportCache.js
+ * ---
+ */
 /** @format */
 
 /**

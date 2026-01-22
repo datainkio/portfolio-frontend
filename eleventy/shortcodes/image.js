@@ -1,3 +1,18 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.eleventy.shortcodes.image
+ *   role: Eleventy module: eleventy/shortcodes/image.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - eleventy
+ *     - shortcodes
+ * ---
+ */
 /** @format */
 import * as cheerio from "cheerio"; // a handy utility for manipulating HTML strings
 

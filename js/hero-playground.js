@@ -1,3 +1,19 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.hero-playground
+ *   role: Frontend runtime module: js/hero-playground.js
+ *   status: draft
+ *   surface: public
+ *   scope: frontend
+ *   runtime: browser
+ *   tags:
+ *     - frontend
+ *     - js
+ *     - runtime
+ *     - hero-playground.js
+ * ---
+ */
 /** @format */
 
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
