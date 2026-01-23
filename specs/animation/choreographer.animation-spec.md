@@ -22,8 +22,8 @@
 
 ## Primitives & Utilities
 ### Canonical Sources
-- Motion tokens: [motion.tokens.js](motion.tokens.js) (single source of truth for durations, eases, distances, staggers; used by GSAP + Tailwind)
-- Tailwind mapping: [tailwind.motion.config.cjs](tailwind.motion.config.cjs) (maps tokens into duration/ease utilities; keep import order consistent with main Tailwind setup)
+- Motion tokens: [motion.tokens.js](../../js/choreography/motion.tokens.js) (single source of truth for durations, eases, distances, staggers; used by GSAP + Tailwind)
+- Tailwind mapping: [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs) (maps tokens into duration/ease utilities; keep import order consistent with main Tailwind setup)
 - Accessibility policy: [motion-accessibility-policy.md](motion-accessibility-policy.md) (reduced-motion rules and strategies)
 
 ### Shared Motion Tokens (source of truth)
@@ -59,7 +59,7 @@ Implementation guidance:
 ### How to consume motion tokens (copy/paste)
 - **GSAP:**
   ```js
-  import { motion, motionTokens } from '../../../../specs/animation/motion.tokens.js';
+  import { motion, motionTokens } from '../../../../js/choreography/motion.tokens.js';
 
   const tl = gsap.timeline({ defaults: { duration: motion.duration('base'), ease: motion.ease('standard') } });
   tl.from(items, { y: motion.distance('md'), stagger: motion.stagger('base'), opacity: 0 });
@@ -186,7 +186,7 @@ This section documents the recommended architecture for a more performant, maint
 ### Architecture Overview
 - **Scene-first modularity:** One scene per section. Each scene lives in `frontend/js/choreography/sections/<Scene>/<Scene>.js` (or `sequences/` for multi-section flows).
 - **Central lifecycle orchestration:** Register scenes via Director/Stage wiring so lifecycle, bus events, and teardown are centralized.
-- **Token-driven motion:** Use [motion.tokens.js](motion.tokens.js) for all durations/eases/distances/staggers. No hard-coded values.
+- **Token-driven motion:** Use [motion.tokens.js](../../js/choreography/motion.tokens.js) for all durations/eases/distances/staggers. No hard-coded values.
 - **Stable hooks:** `data-anim="<scene>"` on the root, `data-anim-item` on children, optional `data-anim-trigger` overrides.
 - **Shared utilities:** Reduced-motion guards + measurement helpers in `frontend/js/choreography/managers/` or `frontend/js/choreography/utils/`.
 

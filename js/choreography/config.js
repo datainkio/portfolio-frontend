@@ -53,6 +53,7 @@ export const SELECTORS = {
   video: 'sizzle-background',
   organizations: 'organizations',
   bio: 'bio',
+  awards: 'awards',
   work: 'work',
 
   // Scroll smoothing container (optional - enables ScrollSmoother)

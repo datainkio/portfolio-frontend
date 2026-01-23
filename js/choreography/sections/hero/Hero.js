@@ -24,14 +24,14 @@
 
 import AbstractSection from '../abstract-section/AbstractSection.js';
 import { EVENTS } from '../../constants.js';
-import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
+import { SELECTORS } from '../../config.js';
 import HeroAnimations from './HeroAnimations.js';
 import HeroTriggers from './HeroTriggers.js';
 
 export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     const view = document.getElementById(SELECTORS.hero);
-    const animations = new HeroAnimations(view, ANIMATION_DEFAULTS);
+    const animations = new HeroAnimations(view);
     const triggers = new HeroTriggers(view);
     const events = EVENTS.hero;
     // Hero starts in view; track that so the first emitted lifecycle event is exit.

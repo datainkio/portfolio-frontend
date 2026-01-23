@@ -265,5 +265,38 @@ export class LandingSequence {
       // this.logger.trace('Bio outro complete');
       // this.sections?.work?.playIntro?.();
     });
+
+    /**
+     * AWARDS EVENTS
+     */
+
+    // Respond to awards enter/exit
+    on(EVENTS.awards.enter, () => {
+      this.logger.trace('Awards entered');
+    });
+
+    on(EVENTS.awards.exit, () => {
+      this.logger.trace('Awards exited');
+    });
+
+    // Respond to awards intro start
+    on(EVENTS.awards.introStart, () => {
+      // this.logger.trace('Awards intro started');
+    });
+
+    // Respond to awards intro complete
+    on(EVENTS.awards.introComplete, () => {
+      // this.logger.trace('Awards intro complete');
+    });
+
+    // Respond to awards outro start
+    on(EVENTS.awards.outroStart, () => {
+      // this.logger.trace('Awards outro started');
+    });
+
+    // Respond to awards outro complete
+    on(EVENTS.awards.outroComplete, () => {
+      // this.logger.trace('Awards outro complete');
+    });
   }
 }

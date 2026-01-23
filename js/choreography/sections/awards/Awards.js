@@ -1,8 +1,8 @@
 /**
  * ---
  * aix:
- *   id: frontend.js.choreography.sections.organizations.organizations
- *   role: Frontend runtime module: js/choreography/sections/organizations/Organizations.js
+ *   id: frontend.js.choreography.sections.awards.awards
+ *   role: Frontend runtime module: js/choreography/sections/awards/Awards.js
  *   status: stable
  *   surface: public
  *   scope: frontend
@@ -17,7 +17,7 @@
  */
 /** @format */
 /**
- * Organizations Section Controller
+ * Awards Section Controller
  *
  * Extends AbstractSection to use shared lifecycle and AnimationBus coordination.
  */
@@ -25,17 +25,24 @@
 import AbstractSection from '../abstract-section/AbstractSection.js';
 import { EVENTS } from '../../constants.js';
 import { SELECTORS } from '../../config.js';
-import OrganizationsAnimations from './OrganizationsAnimations.js';
-import OrganizationsTriggers from './OrganizationsTriggers.js';
+import AwardsAnimations from './AwardsAnimations.js';
+import AwardsTriggers from './AwardsTriggers.js';
 
-export default class Organizations extends AbstractSection {
+export default class Awards extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    const view = document.getElementById(SELECTORS.organizations);
-    const anim = new OrganizationsAnimations(view);
-    const triggers = new OrganizationsTriggers(view);
-    const events = EVENTS.organizations;
+    const view = document.getElementById(SELECTORS.awards);
+    const animations = new AwardsAnimations(view);
+    const triggers = new AwardsTriggers(view);
+    const events = EVENTS.awards;
 
-    super(view, anim, triggers, events, bus, { reducedMotionHandler });
+    super({
+      view,
+      animations,
+      triggers,
+      events,
+      bus,
+      reducedMotionHandler,
+    });
 
     // Link triggers back to this section for playIntro/playOutro calls
     if (this.triggers) {

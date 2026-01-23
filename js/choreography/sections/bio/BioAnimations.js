@@ -18,6 +18,9 @@
 /** @format */
 
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
+import { motion } from '../../motion.tokens.js';
+
+const toSeconds = value => (typeof value === 'number' ? value / 1000 : value);
 
 export default class BioAnimations extends AbstractSectionAnimations {
   /**
@@ -32,6 +35,15 @@ export default class BioAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.options = options;
+    this.options = {
+      duration: options.duration ?? toSeconds(motion.duration('base')),
+      stagger: options.stagger ?? motion.stagger('base'),
+      translateY: options.translateY ?? -motion.distance('md'),
+      ease: {
+        in: options.ease?.in ?? motion.ease('exit'),
+        out: options.ease?.out ?? motion.ease('enter'),
+      },
+      ...options,
+    };
   }
 }

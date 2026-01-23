@@ -38,6 +38,7 @@
 import Hero from './hero/Hero.js';
 import Bio from './bio/Bio.js';
 import BackgroundVideo from './background/BackgroundVideo.js';
+import Awards from './awards/Awards.js';
 // import Organizations from './organizations/Organizations.js'; // Commented out - not implemented
 
 /**
@@ -59,6 +60,7 @@ export const SECTION_REGISTRY = {
   hero: Hero,
   video: BackgroundVideo,
   bio: Bio,
+  awards: Awards,
   // organizations: Organizations, // Uncomment when implemented
 };
 
@@ -72,6 +74,7 @@ export function getSectionName(sectionId) {
     hero: 'Hero Section',
     video: 'Background Video',
     bio: 'Biography Section',
+    awards: 'Awards Section',
     organizations: 'Organizations Section',
   };
   return names[sectionId] || sectionId;

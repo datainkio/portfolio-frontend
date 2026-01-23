@@ -88,7 +88,7 @@ export default class AbstractSectionTriggers {
     // Build vars with callbacks
     const vars = {
       trigger: this.view,
-      start: 'center top',
+      start: 'top center',
       end: 'bottom top',
     };
 

@@ -24,14 +24,14 @@
 
 import AbstractSection from '../abstract-section/AbstractSection.js';
 import { EVENTS } from '../../constants.js';
-import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
+import { SELECTORS } from '../../config.js';
 import BioAnimations from './BioAnimations.js';
 import BioTriggers from './BioTriggers.js';
 
 export default class Bio extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     const view = document.getElementById(SELECTORS.bio);
-    const animations = new BioAnimations(view, ANIMATION_DEFAULTS);
+    const animations = new BioAnimations(view);
     const triggers = new BioTriggers(view);
     const events = EVENTS.bio;
 

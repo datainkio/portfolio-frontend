@@ -18,12 +18,9 @@
 /** @format */
 
 import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
+import { motion } from '../../motion.tokens.js';
 
-const DURATION = 0.75; // Default duration for animations
-const STAGGER = 0.5; // Default stagger duration for animations
-const REVEAL_DELAY = 0; // Delay before starting reveal animations
-const SPEED = 0.2; // Speed of the scramble text effect
-const EASE = 'power1.out';
+const toSeconds = value => (typeof value === 'number' ? value / 1000 : value);
 
 export default class OrganizationsAnimations extends AbstractSectionAnimations {
   /**
@@ -38,6 +35,15 @@ export default class OrganizationsAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.options = options;
+    this.options = {
+      duration: options.duration ?? toSeconds(motion.duration('slow')),
+      stagger: options.stagger ?? motion.stagger('loose'),
+      translateY: options.translateY ?? -motion.distance('md'),
+      ease: {
+        in: options.ease?.in ?? motion.ease('exit'),
+        out: options.ease?.out ?? motion.ease('enter'),
+      },
+      ...options,
+    };
   }
 }

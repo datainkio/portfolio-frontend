@@ -1,7 +1,7 @@
 /**
  * ---
  * aix:
- *   id: frontend.specs.animation.motion.tokens
+ *   id: frontend.js.choreography.motion.tokens
  *   role: Shared motion tokens for frontend choreography and motion tooling.
  *   status: stable
  *   surface: internal

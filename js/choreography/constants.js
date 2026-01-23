@@ -96,4 +96,12 @@ export const EVENTS = {
     outroStart: 'bio:outro:start',
     outroComplete: 'bio:outro:complete',
   },
+  awards: {
+    enter: 'awards:enter',
+    exit: 'awards:exit',
+    introStart: 'awards:intro:start',
+    introComplete: 'awards:intro:complete',
+    outroStart: 'awards:outro:start',
+    outroComplete: 'awards:outro:complete',
+  },
 };

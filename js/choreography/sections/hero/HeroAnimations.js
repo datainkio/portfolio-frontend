@@ -17,7 +17,7 @@
  */
 /** @format */
 import lumberjack from '/assets/js/utils/lumberjack/index.js';
-import { ANIMATION_DEFAULTS } from '../../config.js';
+import { motion } from '../../motion.tokens.js';
 import { gsap, SplitText } from '/assets/js/choreography/vendor/gsap.js';
 import ScrambleText from 'https://cdn.skypack.dev/gsap@3.13.0/ScrambleTextPlugin';
 gsap.registerPlugin(ScrambleText);
@@ -29,6 +29,8 @@ import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimat
 // const REVEAL_DELAY = 0; // Delay before starting reveal animations
 // const SPEED = 0.2; // Speed of the scramble text effect
 // const EASE = 'power1.out';
+
+const toSeconds = value => (typeof value === 'number' ? value / 1000 : value);
 
 export default class HeroAnimations extends AbstractSectionAnimations {
   /**
@@ -44,11 +46,12 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
     this.options = {
-      duration: options.duration ?? ANIMATION_DEFAULTS.duration,
-      translateY: options.translateY ?? ANIMATION_DEFAULTS.translateY,
+      duration: options.duration ?? toSeconds(motion.duration('base')),
+      translateY: options.translateY ?? -motion.distance('lg'),
+      stagger: options.stagger ?? motion.stagger('loose'),
       ease: {
-        in: options.ease?.in ?? ANIMATION_DEFAULTS.ease.in,
-        out: options.ease?.out ?? ANIMATION_DEFAULTS.ease.out,
+        in: options.ease?.in ?? motion.ease('exit'),
+        out: options.ease?.out ?? motion.ease('enter'),
       },
     };
     this.view = view;
@@ -61,6 +64,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     });
 
     this.Y_OFFSET = this.options.translateY;
+    this.STAGGER = this.options.stagger;
     this._buildTimelines();
   }
 
@@ -86,21 +90,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.timeline.clear();
 
     // Intro
-    this.timeline.addLabel('intro', 0);
-    this.timeline.set(this.view, { autoAlpha: 1 }, 'intro');
-    this.timeline.fromTo(
-      targets,
-      { autoAlpha: 0, y: this.options.translateY },
-      {
-        autoAlpha: 1,
-        y: 0,
-        duration: this.options.duration,
-        ease: this.options.ease.out,
-      },
-      'intro'
-    );
-    this.timeline.addLabel('intro:end', this.timeline.duration());
-    this.timeline.addPause('intro:end');
+    this._buildWordByWordAnimation('intro');
 
     // Outro
     this.timeline.addLabel('outro', this.timeline.duration());
