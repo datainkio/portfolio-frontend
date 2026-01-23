@@ -11,14 +11,10 @@
 
   <nav class="mt-8 flex justify-between">
     {% if previousPost %}
-      <a href="{{ previousPost.url }}" class="text-blue-500 hover:underline"
-        >← {{ previousPost.title }}</a
-      >
+      <a href="{{ previousPost.url }}" class="text-blue-500 hover:underline">← {{ previousPost.title }}</a>
     {% endif %}
     {% if nextPost %}
-      <a href="{{ nextPost.url }}" class="text-blue-500 hover:underline"
-        >{{ nextPost.title }} →</a
-      >
+      <a href="{{ nextPost.url }}" class="text-blue-500 hover:underline">{{ nextPost.title }} →</a>
     {% endif %}
   </nav>
 {% endblock %}

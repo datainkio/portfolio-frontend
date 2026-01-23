@@ -16,7 +16,7 @@ Use this module when the request is about **designing/structuring motion** in th
 
 ## Non-triggers (do not use when…)
 
-- The user is asking to implement code changes (use `portfolio-frontend-domain.prompt.md` or Mechanic as appropriate).
+- The user is asking to implement code changes (use `domain.prompt.md` or Mechanic as appropriate).
 - The request is primarily docs/spec work inside `aix/`.
 
 ## Hard Guardrails

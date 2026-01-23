@@ -4,20 +4,21 @@
 
 ## Purpose
 
-Implement an **approved** choreography plan using the portfolio frontend’s established GSAP architecture and conventions.
+Implement an **approved** choreography plan using the portfolio frontend’s established motion system and conventions.
+This module assumes the engine decision and choreography plan already exist.
 
 ## Triggers (use when…)
 
 Use this module when the user provides (or references) an approved choreography plan and asks to:
 
-- implement GSAP timelines/triggers
+- implement GSAP timelines/triggers **or** Tailwind motion utilities per the decision
 - wire section controllers into the choreography system
 - add data-attribute bindings/hooks in Nunjucks templates for animation targets
 
 ## Non-triggers (do not use when…)
 
 - The user is still exploring motion options or needs a plan first (use `choreography-planning.prompt.md`).
-- The request is a generic frontend task unrelated to choreography (use `portfolio-frontend-domain.prompt.md`).
+- The request is a generic frontend task unrelated to choreography (use `domain.prompt.md`).
 
 ## Hard Guardrails
 
@@ -26,7 +27,7 @@ Use this module when the user provides (or references) an approved choreography 
 - Idempotent lifecycle: init/teardown/re-entry must be safe.
 - Performance: avoid layout thrash; prefer transform/opacity; guard DOM queries.
 - Tuning surfaces: expose durations/easings via CSS variables and/or centralized constants.
-- Reuse existing architecture: prefer `frontend/js/choreography/**` patterns (Director → sections → triggers/animations + AnimationBus).
+- Reuse existing architecture: prefer `frontend/js/choreography/**` patterns (Director → sections → triggers/animations + AnimationBus) for GSAP; use Tailwind motion utilities for Tailwind-first interactions.
 
 ## Output (must fit Concierge schema)
 
@@ -37,7 +38,7 @@ Return using Concierge’s required structure:
 3. **Assumptions**
 4. **Next actions**
 
-Inside **Answer / Deliverable**, return an Implementation Report consistent with `portfolio-frontend-domain.prompt.md`:
+Inside **Answer / Deliverable**, return an Implementation Report consistent with `domain.prompt.md`:
 
 - Summary
 - Changes (files touched + what changed)
