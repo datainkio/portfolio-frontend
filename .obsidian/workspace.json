@@ -4,19 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "6eaf2ffb234ca8dc",
+        "id": "f51b3dc2383e7639",
         "type": "tabs",
         "children": [
           {
-            "id": "a96a4fc318c149da",
+            "id": "6597999ee3f44087",
             "type": "leaf",
             "state": {
-              "type": "vscode-editor",
-              "state": {
-                "file": "njk/_pages/index-structure.mmd"
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "index-structure"
+              "title": "New tab"
             }
           }
         ]
@@ -154,21 +152,20 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Welcome.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Welcome"
+              "title": "Outline"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -183,21 +180,28 @@
       "vscode-editor:Create Code File": false
     }
   },
-  "active": "a96a4fc318c149da",
+  "active": "6597999ee3f44087",
   "lastOpenFiles": [
-    "njk/_pages/index.njk",
+    "njk/_pages/index-structure.mmd",
+    ".obsidian/plugins/mermaid-view/main.js",
+    ".obsidian/plugins/mermaid-view/main.ts",
+    ".obsidian/plugins/mermaid-view/manifest.json",
+    ".obsidian/plugins/mermaid-view/styles.css",
+    ".obsidian/plugins/mermaid-view",
+    "obsidian-mermaid-view-main/.github/workflows/release.yml",
+    "obsidian-mermaid-view-main/.github/workflows/ci.yml",
+    "obsidian-mermaid-view-main/.github/workflows",
+    "obsidian-mermaid-view-main/.github/dependabot.yml",
+    "obsidian-mermaid-view-main/test/mocks/obsidian.ts",
+    "obsidian-mermaid-view-main/RELEASING.md",
+    "obsidian-mermaid-view-main/README.md",
+    "obsidian-mermaid-view-main/CHANGELOG.md",
+    "obsidian-mermaid-view-main.zip.download/obsidian-mermaid-view-main/RELEASING.md",
+    "obsidian-mermaid-view-main.zip.download/obsidian-mermaid-view-main/README.md",
+    "obsidian-mermaid-view-main.zip.download/obsidian-mermaid-view-main/CHANGELOG.md",
     "frontend/js/effects.md",
     "IA.canvas",
-    ".obsidian/plugins/vscode-editor/data.json",
-    ".obsidian/plugins/vscode-editor/styles.css",
-    ".obsidian/plugins/vscode-editor/main.js",
-    ".obsidian/plugins/vscode-editor/manifest.json",
-    ".obsidian/plugins/vscode-editor",
     "TODO.md",
-    "Untitled.base",
-    "Untitled 1.base",
-    "frontend/js",
-    "frontend",
     ".copilot/context/coding-standards.md",
     ".github/ISSUE_TEMPLATE/bug.md",
     ".copilot/prompts/display.prompt.md",
