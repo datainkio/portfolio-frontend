@@ -81,6 +81,7 @@ export async function init(eleventyConfig, site) {
   // 1. nav_dirs (no dependencies)
   // 2. nav_projects (depends on 'projects' from Airtable)
   // 3. nav_primary (depends on nav_dirs and nav_projects)
+  // TODO(cms): Replace nav_projects Airtable dependency with Sanity projects.
 
   eleventyConfig.addCollection('nav_dirs', function (collectionApi) {
     return navigationBuilder.buildDirectoryNavigation(collectionApi);

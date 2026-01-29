@@ -112,6 +112,7 @@ export default async function (eleventyConfig) {
   try {
     // STEP 1: Initialize Airtable data collections FIRST
     // These have no dependencies and are required by navigation
+    // TODO(cms): Remove Airtable collections entirely once Sanity parity is complete.
     // await initAirtable(eleventyConfig, site);
 
     // STEP 2: Initialize Sanity collections
