@@ -1,0 +1,42 @@
+name: "TODO to Issue"
+
+on:
+  push:
+  workflow_dispatch:
+
+# Concurrency prevents overlapping runs from stacking and hanging.
+# Goal: ensure only the latest run per branch remains active.
+# Impact: in-progress runs may be canceled when a new run starts.
+concurrency:
+  group: todo-to-issue-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  todo_to_issue:
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: "actions/checkout@v6"
+      - name: "TODO to Issue"
+        uses: "alstr/todo-to-issue-action@v5"
+        with:
+          IDENTIFIERS: '[{"name":"TODO","labels":["todo"]},{"name":"BUG","labels":["bug"]},{"name":"CHORE","labels":["chore"]},{"name":"DOCS","labels":["documentation"]},{"name":"TEST","labels":["test"]},{"name":"PERF","labels":["performance"]},{"name":"A11Y","labels":["accessibility"]},{"name":"SEC","labels":["security"]},{"name":"REFACTOR","labels":["refactor"]}]'
+          IGNORE: 'node_modules|dist|build|coverage|_site|\.cache'
+          INSERT_ISSUE_URLS: "true"
+          CLOSE_ISSUES: "true"
+      - name: "Set Git user"
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: "Commit and Push Changes"
+        run: |
+          git add -A
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "Automatically added GitHub issue links to TODOs"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi

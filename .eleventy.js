@@ -47,7 +47,7 @@ export default async function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy('assets');
     eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
     eleventyConfig.addPassthroughCopy({
-      '../../../lumberjack/lumberjack/dist': 'assets/js/utils/lumberjack',
+      'node_modules/@datainkio/lumberjack/dist': 'assets/js/utils/lumberjack',
     });
     // Copy JavaScript files to _site/assets/
     // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
