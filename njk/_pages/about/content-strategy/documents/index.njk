@@ -5,28 +5,29 @@ eleventyNavigation:
   key: Documents
   parent: Content Strategy
 ---
-{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
-{% set meta = sanityMeta | default({}) %}
+
+{% import "atoms/debug/sanity-schema.njk" as schema %}
+{% set meta = cmsMeta | default({}) %}
 
 <section class="mx-auto max-w-5xl px-6 py-8 text-neutral-100">
-  <h2 class="text-lg font-semibold">Sanity Collections</h2>
-  <p class="mt-2 text-sm text-neutral-400">Each document page shows a sample-based schema preview for its collection.</p>
-  <dl class="mt-4 grid grid-cols-2 gap-3 text-sm">
-    <div class="rounded-lg bg-neutral-800 px-4 py-3">
-      <dt class="text-neutral-400">Project ID</dt>
-      <dd class="text-neutral-100 break-words">{{ meta.projectId | default('not set') }}</dd>
-    </div>
-    <div class="rounded-lg bg-neutral-800 px-4 py-3">
-      <dt class="text-neutral-400">Dataset</dt>
-      <dd class="text-neutral-100 break-words">{{ meta.dataset | default('not set') }}</dd>
-    </div>
-    <div class="rounded-lg bg-neutral-800 px-4 py-3">
-      <dt class="text-neutral-400">API Version</dt>
-      <dd class="text-neutral-100 break-words">{{ meta.apiVersion | default('not set') }}</dd>
-    </div>
-    <div class="rounded-lg bg-neutral-800 px-4 py-3">
-      <dt class="text-neutral-400">Using CDN</dt>
-      <dd class="text-neutral-100 break-words">{{ meta.useCdn | default(false) }}</dd>
-    </div>
-  </dl>
+    <h2 class="text-lg font-semibold">Content Collections</h2>
+    <p class="mt-2 text-sm text-neutral-400">Each document page shows a sample-based schema preview for its collection.</p>
+    <dl class="mt-4 grid grid-cols-2 gap-3 text-sm">
+        <div class="rounded-lg bg-neutral-800 px-4 py-3">
+            <dt class="text-neutral-400">Project ID</dt>
+            <dd class="text-neutral-100 break-words">{{ meta.projectId | default('not set') }}</dd>
+        </div>
+        <div class="rounded-lg bg-neutral-800 px-4 py-3">
+            <dt class="text-neutral-400">Dataset</dt>
+            <dd class="text-neutral-100 break-words">{{ meta.dataset | default('not set') }}</dd>
+        </div>
+        <div class="rounded-lg bg-neutral-800 px-4 py-3">
+            <dt class="text-neutral-400">API Version</dt>
+            <dd class="text-neutral-100 break-words">{{ meta.apiVersion | default('not set') }}</dd>
+        </div>
+        <div class="rounded-lg bg-neutral-800 px-4 py-3">
+            <dt class="text-neutral-400">Using CDN</dt>
+            <dd class="text-neutral-100 break-words">{{ meta.useCdn | default(false) }}</dd>
+        </div>
+    </dl>
 </section>

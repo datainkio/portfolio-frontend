@@ -76,8 +76,7 @@ Style references:
 
 ## Content + data
 
-- Airtable sync: [airtable/](frontend/airtable/), [scripts/syncContent.js](frontend/scripts/syncContent.js), [scripts/generateAirtableSchema.js](frontend/scripts/generateAirtableSchema.js)
-- Sanity integration: [sanity/](frontend/sanity/)
+- CMS integration: [cms/](frontend/cms/)
 - Static assets: [assets/](frontend/assets/)
 
 Assets references:

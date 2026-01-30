@@ -37,8 +37,8 @@
  *
  * 2. Sanity CMS (sanity.js):
  *    - Fetches data from Sanity via GROQ and @sanity/client
- *    - Creates collections defined in eleventy/sanity/queries.js
- *    - Uses site.sanity for defaults and caching behavior
+ *    - Creates collections defined in cms/queries.js
+ *    - Uses site.cms for defaults and caching behavior
  *
  * 3. Navigation (navigation.js):
  *    - Builds navigation structure from njk/_pages/ directory

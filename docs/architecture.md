@@ -5,7 +5,7 @@
 ## Repo boundaries
 
 - This repo is the frontend (11ty + Tailwind + GSAP). The backend repo lives as a sibling, not inside this folder.
-- Sanity studio lives in `sanity/` but is isolated; keep schema/studio changes there and do not intermix with frontend source.
+- Sanity studio lives in `cms/` but is isolated; keep schema/studio changes there and do not intermix with frontend source.
 
 ## Top-level layout (source vs tooling vs generated)
 
@@ -18,7 +18,7 @@
 - `figma/` — Design token services and fetchers (generate CSS tokens).
 - `scripts/` — Build and automation scripts (CSS build, sync, scaffolding).
 - `docs/` — Human/AI docs. AI prompts live in `docs/ai/`.
-- `sanity/` — Sanity studio (kept separate from 11ty build pipeline).
+- `cms/` — Sanity studio (kept separate from 11ty build pipeline).
 - Generated/noise (ignored): `_site/`, `.cache/`, `logs/`, `node_modules/`.
 
 ## Rules of placement

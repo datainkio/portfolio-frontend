@@ -100,7 +100,7 @@ await logger.group(async () => {
 **Responsibilities**:
 
 - Processes directory-based navigation from `_pages` files
-- Transforms Airtable projects data into navigation items
+- Transforms CMS projects data into navigation items
 - Builds hierarchical parent-child navigation structures
 - Provides defensive error handling and validation
 - Manages navigation item formatting and standardization

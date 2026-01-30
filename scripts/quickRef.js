@@ -39,8 +39,7 @@ console.log(chalk.yellow('npm run design') + chalk.gray('     - Sync Figma token
 console.log(chalk.yellow('npm run dev:css') + chalk.gray('    - Watch CSS compilation'));
 
 console.log(chalk.green.bold('\n📝 Content Updates'));
-console.log(chalk.yellow('npm run sync:content:force') + chalk.gray(' - Fresh Airtable sync'));
-console.log(chalk.yellow('npm run build:11ty') + chalk.gray('         - Regenerate pages'));
+console.log(chalk.yellow('npm run build:11ty') + chalk.gray('         - Regenerate pages (CMS fetch)'));
 
 console.log(chalk.green.bold('\n🏗️ Build & Deploy'));
 console.log(chalk.yellow('npm run fresh') + chalk.gray('       - Complete fresh build'));

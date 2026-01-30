@@ -137,7 +137,7 @@ function checkEnvironmentVariables() {
     2
   );
 
-  const criticalVars = ['FIGMA_FILE_ID', 'AIRTABLE_PERSONAL_ACCESS_TOKEN', 'AIRTABLE_BASE_TOKEN'];
+  const criticalVars = ['FIGMA_FILE_ID', 'SANITY_PROJECT_ID', 'SANITY_DATASET'];
 
   criticalVars.forEach(varName => {
     healthCheck(

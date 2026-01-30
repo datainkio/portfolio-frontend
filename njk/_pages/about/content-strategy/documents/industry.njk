@@ -5,7 +5,8 @@ eleventyNavigation:
   key: Industry
   parent: Documents
 ---
-{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
-{% set sanityIndustries = collections.sanityIndustries | default([]) %}
 
-{{ sanitySchema.render({ title: "Sanity Industry Schema", collection: sanityIndustries }) }}
+{% import "atoms/debug/sanity-schema.njk" as schema %}
+{% set industries = collections.industries | default([]) %}
+
+{{ schema.render({ title: "Industry Schema", collection: industries }) }}

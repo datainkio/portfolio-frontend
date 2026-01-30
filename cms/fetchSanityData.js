@@ -1,15 +1,15 @@
 /**
  * ---
  * aix:
- *   id: frontend.sanity.fetchsanitydata
- *   role: Sanity integration module: sanity/fetchSanityData.js
+ *   id: frontend.cms.fetchdata
+ *   role: CMS integration module: cms/fetchSanityData.js
  *   status: stable
  *   surface: internal
  *   scope: frontend
  *   runtime: node
  *   tags:
  *     - frontend
- *     - sanity
+ *     - cms
  *     - fetchSanityData.js
  * ---
  */

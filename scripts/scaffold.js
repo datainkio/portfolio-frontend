@@ -22,7 +22,7 @@
  * CRITICAL WARNING: This script generates standardized component templates
  * with proper frontmatter, documentation, and integration hooks for the
  * dataink.io portfolio architecture. Use this for ALL new components to
- * maintain consistency with Figma design tokens and Airtable integration.
+ * maintain consistency with Figma design tokens and CMS integration.
  *
  * ARCHITECTURE COMPLIANCE:
  * - Follows atomic design principles (atoms/molecules/organisms)
@@ -110,7 +110,7 @@ props:
 # - atoms/button (for actions)
 # - atoms/icon (for visual elements)
 #
-# AIRTABLE INTEGRATION:
+# CMS INTEGRATION:
 # - Supports dynamic content from collections
 # - Handles missing data gracefully
 ---
@@ -137,7 +137,7 @@ props:
 name: "${name}"
 category: "organisms"
 props:
-  data: { type: "object", required: true, description: "Data object from Airtable collections" }
+  data: { type: "object", required: true, description: "Data object from CMS collections" }
   animationId: { type: "string", default: "", description: "GSAP animation identifier" }
 #
 # ANIMATION DEPENDENCIES:
@@ -145,7 +145,7 @@ props:
 # - ScrollTrigger integration points marked with data-scroll
 # - Animation timelines defined in js/choreography/sections/
 #
-# AIRTABLE INTEGRATION:
+# CMS INTEGRATION:
 # - Processes collection data from njk/_data/
 # - Supports multiple content types
 # - Handles empty states gracefully
@@ -185,7 +185,7 @@ scripts: >
 {# 
 CRITICAL WARNING: This page integrates with:
 - GSAP animation system (if scripts included)
-- Airtable collections (via collections.*)
+- CMS collections (via collections.*)
 - Figma design tokens (via CSS classes)
 
 ANIMATION COMPATIBILITY:

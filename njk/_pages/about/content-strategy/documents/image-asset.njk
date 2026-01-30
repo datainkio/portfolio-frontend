@@ -5,7 +5,8 @@ eleventyNavigation:
   key: Image Asset
   parent: Documents
 ---
-{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
-{% set sanityImageAssets = collections.sanityImageAssets | default([]) %}
 
-{{ sanitySchema.render({ title: "Sanity Image Asset Schema", collection: sanityImageAssets }) }}
+{% import "atoms/debug/sanity-schema.njk" as schema %}
+{% set imageAssets = collections.imageAssets | default([]) %}
+
+{{ schema.render({ title: "Image Asset Schema", collection: imageAssets }) }}

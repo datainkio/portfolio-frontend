@@ -381,10 +381,10 @@ this.sections.custom = new Custom({
 - Airtable view names are case-sensitive; 11ty collections are lowercase.
 - Asset paths in templates are `/assets/...` (site root).
 
-## Sanity Workspace (separate)
+## CMS Integration (local)
 
-- Lives under `sanity/sanity/` with schema in `sanity/sanity/schemaTypes/`.
-- Not part of 11ty build; treat as independent studio config.
+- Lives under `cms/` (client, fetcher, queries).
+- Feeds 11ty collections; treat as build-time data only.
 
 Questions or gaps? If any workflow or directory is unclear, tell me which part and I’ll refine this guide with concrete examples from the codebase.
 

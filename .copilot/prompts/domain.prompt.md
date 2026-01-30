@@ -47,7 +47,7 @@ This module is **not** a peer router to Concierge. It is a single domain module 
 | GSAP/ScrollTrigger/ScrollSmoother/Director/AnimationBus | `js/choreography/` | `frontend/js/choreography/**` | `npm run test:choreography` |
 | collection/filter/shortcode/pagination/permalink/Eleventy | `eleventy/` | `frontend/eleventy/**`, `.eleventy.js` | `npm run build:11ty` |
 | Airtable/sync/cache/schema/fetch | `airtable/` (+ `eleventy/`) | `frontend/airtable/**`, `frontend/scripts/syncContent.js` | `npm run sync:content:quick` |
-| Sanity schema/studio/content model | `sanity/` | `frontend/sanity/**` | follow `frontend/sanity/**` workflow |
+| CMS schema/studio/content model | `cms/` | `frontend/cms/**` | follow `frontend/cms/**` workflow |
 | Figma/tokens/colors/typography generation | `figma/` | `frontend/figma/**`, `frontend/scripts/fetchFigma.js` | `npm run build:design` |
 | images/fonts/svg/video/assets paths | `assets/` | `frontend/assets/**` | `npm run start:nobundle` |
 | build scripts/dev pipeline/npm scripts | `scripts/` | `frontend/scripts/**`, `frontend/package.json` | `npm run build` |

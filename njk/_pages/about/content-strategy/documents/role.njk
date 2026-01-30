@@ -5,7 +5,8 @@ eleventyNavigation:
   key: Role
   parent: Documents
 ---
-{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
-{% set sanityRoles = collections.sanityRoles | default([]) %}
 
-{{ sanitySchema.render({ title: "Sanity Role Schema", collection: sanityRoles }) }}
+{% import "atoms/debug/sanity-schema.njk" as schema %}
+{% set roles = collections.roles | default([]) %}
+
+{{ schema.render({ title: "Role Schema", collection: roles }) }}

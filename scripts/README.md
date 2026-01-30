@@ -1,6 +1,6 @@
 # Build Automation Scripts
 
-**ARMAGEDDON WARNING**: This directory contains the build automation scripts that orchestrate your entire development workflow. These scripts coordinate Figma API syncing, Airtable content fetching, 11ty static generation, and Tailwind CSS compilation. Modify these without understanding the intricate dependencies and watch your build system collapse like a house of cards in a hurricane.
+**ARMAGEDDON WARNING**: This directory contains the build automation scripts that orchestrate your entire development workflow. These scripts coordinate Figma API syncing, CMS content fetching, 11ty static generation, and Tailwind CSS compilation. Modify these without understanding the intricate dependencies and watch your build system collapse like a house of cards in a hurricane.
 
 ## Script Architecture Overview (The Digital Command Center)
 
@@ -8,12 +8,12 @@ The build system uses a carefully orchestrated sequence of scripts that must exe
 
 - **`fetchFigma.js`** - Syncs design tokens from Figma API to CSS files
 - **`buildCSS.js`** - Enhanced Tailwind CSS compilation with comprehensive logging
-- **`generateAirtableSchema.js`** - Generates Copilot-optimized Airtable schema documentation
-- **`fetchAirtable.js`** - Syncs content from Airtable API for 11ty collections
+- **`buildPreview.js`** - Displays the build sequence and dependencies
+- **`validateEnvironment.js`** - Checks required env vars for CMS + Figma
 - **`buildAssets.js`** - Processes and copies static assets to build directory
 - **`deployPrep.js`** - Prepares production build with optimizations
 
-**CRITICAL EXECUTION ORDER**: Design tokens → CSS compilation → Content sync → Static generation → Asset processing. Skip steps or change order and experience build system chaos that will haunt your debugging nightmares.
+**CRITICAL EXECUTION ORDER**: Design tokens → CSS compilation → CMS fetch → Static generation → Asset processing. Skip steps or change order and experience build system chaos that will haunt your debugging nightmares.
 
 ## Core Scripts (The Digital Orchestration)
 
@@ -138,81 +138,27 @@ node scripts/buildCSS.js --watch
 - **Build Performance**: Flags slow builds with specific improvement suggestions
 - **Size Analysis**: Tracks CSS bloat and unused code opportunities
 
-### generateAirtableSchema.js - Copilot Schema Generation
+### CMS Query Registry (Source of truth)
 
-**Purpose**: Generates comprehensive Airtable schema documentation optimized for Copilot context  
-**Dependencies**: `fetchAirtableData`, `@datainkio/lumberjack`, Node.js `fs`  
-**Output**: Creates `.copilot/airtable-schema.json`, `.copilot/airtable-schema.compact.json`, `.copilot/AIRTABLE_SCHEMA.md`  
-**Triggers**: `npm run schema:generate`, automatically runs in build sequence via `build:schema`
-
-**ARCHITECTURE OVERVIEW**:
-
-This script analyzes your entire Airtable base and generates three complementary schema files:
-
-1. **airtable-schema.json** - Pretty-printed JSON with complete field analysis
-2. **airtable-schema.compact.json** - Minified version for faster loading
-3. **AIRTABLE_SCHEMA.md** - Human-readable markdown documentation
-
-**WHAT IT ANALYZES**:
-
-- **Field Types**: Infers types from actual data (string, integer, date, recordId, etc.)
-- **Fill Rates**: Calculates what percentage of records have non-null values
-- **Sample Values**: Captures representative data for each field
-- **Relationships**: Detects record references and inter-table links
-- **Unique Counts**: Tracks data cardinality for each field
-
-**SCHEMA STRUCTURE**:
-
-```json
-{
-  "_meta": {
-    "description": "Airtable base schema for dataink.io portfolio",
-    "generated": "2025-11-05T22:30:54.412Z",
-    "purpose": "Copilot context - provides complete structure of CMS tables"
-  },
-  "summary": {
-    "tableCount": 15,
-    "tables": {
-      "Projects": {
-        "recordCount": 30,
-        "fieldCount": 40,
-        "relationships": 17,
-        "view": "Published"
-      }
-    }
-  },
-  "tables": {
-    "Projects": {
-      "fields": {
-        "title": {
-          "types": ["string"],
-          "nullable": false,
-          "fillRate": "100.0%",
-          "samples": ["Live, Hope, Love", "Smart Decisions"]
-        }
-      }
-    }
-  }
-}
-```
+**Purpose**: Defines the CMS data contract used by Eleventy collections.  
+**Location**: `frontend/cms/queries/` and `frontend/cms/queries.js`  
+**Output**: Collections exposed as `collections.<id>` in templates.  
 
 **WHY THIS MATTERS FOR COPILOT**:
 
-- **Accurate Completions**: Copilot knows exact field names and types
-- **Better Suggestions**: Understands relationships between tables
-- **Type Safety**: Prevents errors by showing actual data patterns
-- **Context Awareness**: Sees real sample values for better code generation
+- **Accurate Completions**: The query registry is the canonical field map.
+- **Stable Shapes**: Templates rely on consistent projections across queries.
+- **Context Awareness**: The registry describes content types and relationships.
 
 **EXECUTION REQUIREMENTS**:
 
-- Requires all Airtable tables to be cached (runs after content sync)
-- Uses same Airtable configuration from `njk/_data/site.json`
-- Auto-generates on every build to stay in sync
+- CMS credentials configured via `.env` (Sanity env vars).
+- Queries are fetched during the 11ty build via `eleventy/collections/sanity.js`.
 - Generated files are git-ignored (except README.md)
 
 **FAILURE MODES**:
 
-- **Missing Cache**: If Airtable data not fetched, generates empty schemas
+- **Missing Cache**: If CMS data not fetched, generates empty schemas
 - **Type Inference Errors**: Handles null values and edge cases gracefully
 - **Write Permissions**: Requires write access to `.copilot/` directory
 
@@ -223,7 +169,7 @@ This script analyzes your entire Airtable base and generates three complementary
 **Output**: Removes all files from `_site/` except `content/` directory
 **Triggers**: `npm run clean`, automatically before builds via `npm run build`
 
-**CRITICAL PRESERVATION**: This script uses selective deletion to preserve the `_site/content/` directory which contains processed images and videos from Airtable. Without this preservation, every build would require re-processing all images, which is time-consuming and hits API rate limits.
+**CRITICAL PRESERVATION**: This script uses selective deletion to preserve the `_site/content/` directory which contains processed media. Without this preservation, every build would require re-processing all images, which is time-consuming and hits API rate limits.
 
 ```javascript
 const preserveDirs = ['content'];
@@ -244,7 +190,7 @@ await Promise.all(deletePromises);
 **WHY THIS MATTERS**: The `_site/content/` directory contains optimized images processed by `@11ty/eleventy-img`. Re-processing hundreds of images on every build:
 
 - Takes 5-10 minutes instead of seconds
-- Hammers Airtable API rate limits
+- Hammers CMS API rate limits
 - Downloads gigabytes of data unnecessarily
 - Makes development workflow unbearable
 

@@ -5,7 +5,8 @@ eleventyNavigation:
   key: Post
   parent: Documents
 ---
-{% import "atoms/debug/sanity-schema.njk" as sanitySchema %}
-{% set sanityPosts = collections.sanityPosts | default([]) %}
 
-{{ sanitySchema.render({ title: "Sanity Post Schema", collection: sanityPosts }) }}
+{% import "atoms/debug/sanity-schema.njk" as schema %}
+{% set posts = collections.posts | default([]) %}
+
+{{ schema.render({ title: "Post Schema", collection: posts }) }}

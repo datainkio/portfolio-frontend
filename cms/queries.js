@@ -1,0 +1,38 @@
+/**
+ * ---
+ * aix:
+ *   id: frontend.cms.queries
+ *   role: CMS integration module: cms/queries.js
+ *   status: stable
+ *   surface: internal
+ *   scope: frontend
+ *   runtime: node
+ *   tags:
+ *     - frontend
+ *     - cms
+ *     - queries.js
+ * ---
+ */
+/** @format */
+
+import { activitiesQuery } from './queries/activities.js';
+import { awardsQuery } from './queries/awards.js';
+import { imageAssetsQuery } from './queries/image-assets.js';
+import { industriesQuery } from './queries/industries.js';
+import { organizationsQuery } from './queries/organizations.js';
+import { outcomesQuery } from './queries/outcomes.js';
+import { postsQuery } from './queries/posts.js';
+import { projectsQuery } from './queries/projects.js';
+import { rolesQuery } from './queries/roles.js';
+
+export const CMS_QUERIES = [
+  organizationsQuery,
+  industriesQuery,
+  activitiesQuery,
+  rolesQuery,
+  outcomesQuery,
+  awardsQuery,
+  projectsQuery,
+  imageAssetsQuery,
+  postsQuery,
+];

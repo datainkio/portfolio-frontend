@@ -186,9 +186,9 @@ loremPars((paragraphCount = 1));
 
 ---
 
-## Integration with Airtable Content
+## Integration with CMS Content
 
-Shortcodes work seamlessly with Airtable-sourced content:
+Shortcodes work seamlessly with CMS-sourced content:
 
 ```nunjucks
 {# Example: Display project images with lightbox #}

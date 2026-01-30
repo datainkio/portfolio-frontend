@@ -26,7 +26,7 @@
  * ARCHITECTURE INTEGRATION:
  * - Development workflows for design iteration
  * - Build processes for production deployment
- * - Content management for Airtable/Figma sync
+ * - Content management for CMS/Figma sync
  * - Testing and validation workflows
  * - Debugging and troubleshooting tools
  *
@@ -107,8 +107,8 @@ showWorkflowSection(
   [
     {
       script: 'build',
-      description: 'Full production build: clean → sync → build:*',
-      note: 'Complete build including content sync and design tokens',
+      description: 'Full production build: clean → build:*',
+      note: 'Complete build including CMS fetch and design tokens',
     },
     {
       script: 'build:debug',
@@ -144,18 +144,6 @@ showWorkflowSection(
   '🎨',
   [
     {
-      script: 'sync:content',
-      description: 'Sync cached content from Airtable CMS',
-    },
-    {
-      script: 'sync:content:debug',
-      description: 'Sync content with debug logging',
-    },
-    {
-      script: 'sync:content:force',
-      description: 'Force refresh all Airtable content (ignores cache)',
-    },
-    {
       script: 'build:design',
       description: 'Fetch design tokens from Figma API',
       note: 'Automatically triggers CSS rebuild with new tokens',
@@ -165,7 +153,7 @@ showWorkflowSection(
       description: 'Fetch Figma design tokens with debug logging',
     },
   ],
-  'Figma design system and Airtable content management'
+  'Figma design system and CMS content management'
 );
 
 // Testing & Validation
@@ -237,8 +225,7 @@ console.log(chalk.yellow('  2. npm run dev:css') + chalk.gray(' - Watch CSS comp
 console.log();
 
 console.log(chalk.green('Content updates?'));
-console.log(chalk.yellow('  1. npm run sync:content:force') + chalk.gray(' - Fresh Airtable sync'));
-console.log(chalk.yellow('  2. npm run build:11ty') + chalk.gray(' - Regenerate pages'));
+console.log(chalk.yellow('  1. npm run build:11ty') + chalk.gray(' - Regenerate pages (CMS fetch)'));
 console.log();
 
 console.log(chalk.green('Production deployment?'));

@@ -21,13 +21,13 @@
  *
  * CRITICAL WARNING: This script validates the development environment for dataink.io
  * portfolio build system. Missing environment variables or incorrect configurations
- * will cause silent failures in Figma design sync and Airtable content integration.
+ * will cause silent failures in Figma design sync and CMS content integration.
  *
  * REQUIREMENTS:
  * - FIGMA_TOKEN: Personal access token for design system sync (legacy: FIGMA_ACCESS_TOKEN)
  * - FIGMA_FILE_ID: Figma file ID for design system sync
- * - AIRTABLE_PERSONAL_ACCESS_TOKEN: API access for content management
- * - AIRTABLE_BASE_TOKEN: Specific base identifier for portfolio content
+ * - SANITY_PROJECT_ID: CMS project ID
+ * - SANITY_DATASET: CMS dataset name
  * - Node.js 18+ for ES modules support
  * - npm-run-all for parallel script execution
  *
@@ -66,13 +66,13 @@ function validateEnvironmentVariables() {
       critical: true,
     },
     {
-      name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN',
-      description: 'Personal access token for Airtable API',
+      name: 'SANITY_PROJECT_ID',
+      description: 'CMS project ID (Sanity)',
       critical: true,
     },
     {
-      name: 'AIRTABLE_BASE_TOKEN',
-      description: 'Base ID for portfolio content in Airtable',
+      name: 'SANITY_DATASET',
+      description: 'CMS dataset name (Sanity)',
       critical: true,
     },
   ];
@@ -129,7 +129,7 @@ function validateProjectStructure() {
     { path: '.eleventy.js', description: '11ty configuration' },
     { path: 'scripts', description: 'Build scripts directory' },
     { path: 'figma', description: 'Figma integration services' },
-    { path: 'airtable', description: 'Airtable integration services' },
+    { path: 'cms', description: 'CMS integration services' },
   ];
 
   requiredPaths.forEach(item => {

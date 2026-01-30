@@ -25,7 +25,7 @@
  * ARCHITECTURE DEPENDENCIES:
  * - .cache/ - 11ty-fetch cache with raw API responses and downloaded assets
  * - _site/content/ - Processed content directory served at runtime
- * - airtable/processFile.js - Image processing that writes to _site/content/images/
+ * - CMS media processing that writes to _site/content/images/
  *
  * INTEGRATION POINTS:
  * - Called as part of build process to ensure content availability

@@ -63,13 +63,6 @@ function showProductionBuild() {
       dependencies: ['Node.js fs permissions'],
     },
     {
-      name: 'sync:content',
-      description: 'Sync cached content from Airtable to build directory',
-      script: 'syncContent.js',
-      dependencies: ['Airtable cache', '.cache directory'],
-      triggers: ['Image processing', 'Content availability'],
-    },
-    {
       name: 'build:design',
       description: 'Fetch design tokens from Figma API',
       script: 'fetchFigma.js',
@@ -87,7 +80,7 @@ function showProductionBuild() {
       name: 'build:11ty',
       description: 'Generate static site from Nunjucks templates',
       script: 'eleventy --quiet',
-      dependencies: ['Fresh content', 'Compiled CSS', 'AIRTABLE_PERSONAL_ACCESS_TOKEN'],
+      dependencies: ['CMS content', 'Compiled CSS'],
       triggers: ['Static HTML generation', 'Asset copying', 'Site deployment readiness'],
     },
   ];
@@ -115,7 +108,7 @@ function showDevelopmentWorkflow() {
       name: 'dev:11ty',
       description: 'Start 11ty development server with live reload',
       script: 'eleventy --serve --quiet',
-      dependencies: ['Airtable cache', 'CSS compilation'],
+      dependencies: ['CMS content', 'CSS compilation'],
       triggers: ['HTTP server on localhost:8080', 'Template hot reloading'],
     },
   ];

@@ -1,15 +1,15 @@
 /**
  * ---
  * aix:
- *   id: frontend.sanity.client
- *   role: Sanity integration module: sanity/client.js
+ *   id: frontend.cms.client
+ *   role: CMS integration module: cms/client.js
  *   status: stable
  *   surface: internal
  *   scope: frontend
  *   runtime: node
  *   tags:
  *     - frontend
- *     - sanity
+ *     - cms
  *     - client.js
  * ---
  */
