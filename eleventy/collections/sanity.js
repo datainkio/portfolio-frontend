@@ -22,6 +22,7 @@ import {
   sanitizeConfigForLogs,
 } from '../../cms/client.js';
 import { CMS_QUERIES } from '../../cms/queries.js';
+import logger, { LumberjackStyle } from '@datainkio/lumberjack';
 
 logger.enabled = true;
 
