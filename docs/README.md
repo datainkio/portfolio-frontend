@@ -19,13 +19,6 @@ Comprehensive documentation for the dataink.io portfolio (11ty + Figma + Airtabl
 - **[PROMPT_TEMPLATE.md](./PROMPT_TEMPLATE.md)** - Template for development prompts
 - **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** - Build commands, environment setup, architecture overview
 
-### AI Prompts & AIX
-
-- **[ai/](./ai/)** - Scoped AI prompts/briefs for Copilot or assistants (keep concise and transient)
-- **[ai/AIX_Maintenance_Checklist.md](./ai/AIX_Maintenance_Checklist.md)** - Monthly Copilot-quality hygiene checklist
-- **[.copilot/README.md](../.copilot/README.md)** - Prompt authority/scope for language-specific AI constraints
-- **[agent-performance-evaluation.md](./agent-performance-evaluation.md)** - AIX evaluation rubric and scoring
-
 ### Template System (NJK/Eleventy)
 
 See: `njk/README.md` and `eleventy/README.md` in project root directories
@@ -92,7 +85,6 @@ For a complete table of contents with links and descriptions, see:
 ```
 docs/
 ├── README.md (this file)                    ← Start here
-├── ai/                                      ← AI prompts and experiment briefs
 ├── DOCUMENTATION_INDEX.md                   ← Quick reference navigation
 ├── DOCUMENTATION_PROJECT_COMPLETE.md        ← Complete overview
 ├── DOCUMENTATION_UPDATES.md                 ← Phase 2 summary
@@ -204,13 +196,6 @@ All documentation in this project:
 - **[View all files in docs/](.)** - Browse this directory
 - **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** - AI agent reference
 - **[.copilot/](../.copilot/)** - AI context files
-
-## Additional references
-
-- **[DOCUMENTATION_EXAMPLES.md](./DOCUMENTATION_EXAMPLES.md)** - Before/after examples
-- **[sanity-integration.md](./sanity-integration.md)** - Sanity studio integration notes
-- **[storyboards/README.md](./storyboards/README.md)** - Storyboard authoring guide
-- **[TODO.md](./TODO.md)** - Docs backlog
 
 ---
 

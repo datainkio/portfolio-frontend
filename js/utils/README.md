@@ -23,14 +23,14 @@ Collection of reusable JavaScript utilities powering the portfolio site's intera
 
 Debug logging with semantic styling, singleton pattern, and environment-based control.
 
-**Location**: `@datainkio/lumberjack` (shared logger)
+**Location**: `js/utils/logger/`
 
 ### Logger Class
 
 Singleton pattern - single instance across entire application:
 
 ```javascript
-import logger from '@datainkio/lumberjack';
+import logger from '../js/utils/logger/index.js';
 
 // Basic logging
 logger.trace('Operation complete', optionalData, 'brief', 'success');
@@ -49,16 +49,24 @@ logger.group(async () => {
 ### Logger Styles
 
 ```javascript
-import logger, { LumberjackStyle } from '@datainkio/lumberjack';
+import { LoggerStyles } from '../js/utils/logger/LoggerStyles.js';
 
-// Custom style (color + emoji)
-const customStyle = new LumberjackStyle('#ff00ff', '🎨');
+// Semantic styles
+('standard'); // ● Gray - Default informational
+('success'); // ✅ Green - Successful operations
+('error'); // ❌ Red - Errors/failures
+('headsup'); // ⚡ Yellow - Important warnings
+('custom'); // Custom color + emoji
+
+// Using styles
+logger.trace('Complete', data, 'brief', LoggerStyles.success);
+logger.trace('Warning', data, 'verbose', LoggerStyles.headsup);
+
+// Custom styles
+import { LoggerStyle } from '../js/utils/logger/LoggerStyle.js';
+
+const customStyle = new LoggerStyle('#ff00ff', '🎨');
 logger.trace('Custom', data, 'brief', customStyle);
-
-// Built-in semantic styles also supported
-logger.trace('Complete', data, 'brief', 'success');
-logger.trace('Warning', data, 'verbose', 'headsup');
-logger.trace('Error', error, 'brief', 'error');
 ```
 
 ### Configuration
@@ -85,7 +93,7 @@ if (process.env.DEBUG === 'true') {
 - Performance profiling
 - Error reporting
 
-See [test/logger/README.md](../../test/logger/README.md) for local API examples.
+See [logger/README.md](./logger/README.md) for complete API reference.
 
 ## Math - Numerical & Vector Utilities
 
@@ -548,7 +556,7 @@ if (window.DEBUG) {
 
 ## References
 
-- [Logger Documentation](../../test/logger/README.md)
+- [Logger Documentation](./logger/README.md)
 - [GSAP Math Integration](https://gsap.com/)
 - [Web Color Standards](https://www.w3.org/TR/css-color-3/)
 - [Accessibility Contrast Guidelines](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)

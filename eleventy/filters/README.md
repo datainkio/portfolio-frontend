@@ -68,11 +68,11 @@ Format dates for human readability using Luxon.
 **Common Use Cases:**
 
 - Display publish dates: `{{ post.published | postDate }}`
-- Format CMS dates: `{{ activity.date | postDate }}`
+- Format Airtable dates: `{{ activity.fields.date | postDate }}`
 
 ### Image Filters ([image.js](./image.js))
 
-Process image data from CMS assets.
+Process image data from Airtable attachments.
 
 | Filter      | Purpose         | Example                              |
 | ----------- | --------------- | ------------------------------------ |
@@ -80,7 +80,7 @@ Process image data from CMS assets.
 
 **Common Use Cases:**
 
-- Display project images: `{% picture (project.images | findImage(id)) %}`
+- Display project images: `{% picture (project.fields.images | findImage(id)) %}`
 
 ### File Filters ([file.js](./file.js))
 
@@ -121,23 +121,23 @@ Cross-cutting utilities that don't fit other categories.
 | --------------- | ----------------------------------- | ---------------------------------------------------- |
 | `datatype`      | Get variable type                   | `{{ value \| datatype }}` → `"array"`                |
 | `findFigmaPage` | Find Figma page                     | `{{ designSystem \| findFigmaPage("Colors") }}`      |
-| `findRecord`    | **Critical**: Find related records | `{{ collections.organizations \| findRecord(ids) }}` |
+| `findRecord`    | **Critical**: Find Airtable records | `{{ collections.organizations \| findRecord(ids) }}` |
 | `filterByKey`   | Filter by property                  | `{{ items \| filterByKey("status", "live") }}`       |
 
 ## Critical Filter: findRecord
 
-**Purpose**: Connect relationship IDs to actual content records.
+**Purpose**: Connect Airtable record IDs to actual content records.
 
-**Why It's Critical**: CMS relationships return arrays of record IDs (strings). This filter resolves those IDs to actual record objects from collections.
+**Why It's Critical**: Airtable relationships return arrays of record IDs (strings). This filter resolves those IDs to actual record objects from collections.
 
 **Usage Pattern**:
 
 ```njk
-{# Project has organizationIds: ["rec123", "rec456"] #}
-{% set orgs = collections.organizations | findRecord(project.organizationIds) %}
+{# Project has organization_ids: ["rec123", "rec456"] #}
+{% set orgs = collections.organizations | findRecord(project.fields.organization_ids) %}
 
 {% for org in orgs %}
-  <div>{{ org.title }}</div>
+  <div>{{ org.fields.name }}</div>
 {% endfor %}
 ```
 

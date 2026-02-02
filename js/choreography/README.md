@@ -29,10 +29,6 @@ AnimationBus (pub/sub event system)
 - Starts LandingSequence choreography
 - Exposes `window.director` API for debugging and control
 
-**Initialization Flow Diagram:**
-
-See [director-initialization-sequence.md](../../docs/director-initialization-sequence.md) for a detailed sequence diagram showing exactly how Director, AnimationBus, managers, and sections initialize in order.
-
 **Public API:**
 
 ```javascript
@@ -73,7 +69,7 @@ unsubscribe(); // Remove listener
 - Example: `hero:intro:start`, `hero:intro:complete`
 - See `constants.js` for complete event list
 
-### ScrollEffectsCoordinator (ScrollEffectsCoordinator.js)
+### Stage Manager (StageManager.js)
 
 Coordinates site-wide visual effects via specialized manager modules:
 
@@ -165,78 +161,6 @@ sequence.destroy(); // Cleanup
 2. Triggers Work section animation on completion
 3. Coordinates transitions between sections
 4. Maintains consistent pacing throughout
-
-### Creating Sequences (Listening to Events)
-
-Sequences listen to section events and orchestrate multi-step animation flows. Use the AnimationBus to subscribe to section lifecycle events:
-
-```javascript
-import { AnimationBus } from '../AnimationBus.js';
-import { EVENTS } from '../constants.js';
-
-export class CustomSequence {
-  constructor({ bus, sections = {} } = {}) {
-    this.bus = bus;
-    this.sections = sections;
-    this._listeners = []; // Track subscriptions for cleanup
-  }
-
-  start() {
-    // Listen for hero intro to complete, then start next section
-    const heroIntroListener = this.bus.on(EVENTS.hero.introComplete, () => {
-      console.log('Hero intro done, starting work section...');
-      this.bus.emit(EVENTS.work.introStart);
-    });
-    this._listeners.push(heroIntroListener);
-
-    // Listen for work intro to complete
-    const workIntroListener = this.bus.on(EVENTS.work.introComplete, () => {
-      console.log('Work intro done, revealing bio...');
-      this.bus.emit(EVENTS.bio.introStart);
-    });
-    this._listeners.push(workIntroListener);
-
-    // Start the chain
-    this.bus.emit(EVENTS.hero.introStart);
-  }
-
-  destroy() {
-    // Clean up all listeners to prevent memory leaks
-    this._listeners.forEach(unsubscribe => unsubscribe());
-    this._listeners = [];
-  }
-}
-```
-
-**Event Listening Best Practices:**
-
-1. **Store unsubscribe functions**: Each `bus.on()` returns a cleanup function
-2. **Clean up on destroy**: Always call stored unsubscribe functions in `destroy()`
-3. **Use event constants**: Import from `constants.js` to avoid string typos
-4. **Chain events logically**: Listen for one event, emit the next event
-5. **Handle edge cases**: Check `reducedMotionHandler` before long sequences
-
-**Common Event Flow:**
-
-```javascript
-// Event names follow: section:phase:state pattern
-
-// Intro sequence
-EVENTS.hero.introStart; // → hero section begins intro
-EVENTS.hero.introComplete; // → hero intro finished, safe to start next
-
-// Scroll sequence
-EVENTS.hero.scrollEnter; // → hero enters viewport
-EVENTS.hero.scrollExit; // → hero leaves viewport
-EVENTS.hero.outroStart; // → outro begins
-EVENTS.hero.outroComplete; // → outro finished
-
-// Custom events
-EVENTS.system.preloaderOut; // → preloader animation done
-EVENTS.system.pageReady; // → page fully initialized
-```
-
-See [constants.js](./constants.js) for the complete list of available events for all sections.
 
 ## Manager Modules
 
@@ -332,122 +256,13 @@ window.director.getSequence().enableDebug(true);
 - **Check**: All `bus.on()` subscriptions are cleaned up
 - **Fix**: Call returned unsubscribe function or use `bus.off()`
 
-## Section Structure Patterns
-
-### The Three-File Pattern (Recommended)
-
-All sections follow a consistent 3-file structure for maximum extensibility and consistency:
-
-```
-sections/
-└── my-section/
-    ├── MySection.js          # Controller: initializes animations, triggers, events
-    ├── MyAnimations.js       # Animation definitions extending AbstractSectionAnimations
-    └── MyTriggers.js         # Scroll triggers extending AbstractSectionTriggers
-```
-
-**MySection.js (Controller):**
-
-```javascript
-import AbstractSection from '../abstract-section/AbstractSection.js';
-import { EVENTS } from '../../constants.js';
-import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
-import MyAnimations from './MyAnimations.js';
-import MyTriggers from './MyTriggers.js';
-
-export default class MySection extends AbstractSection {
-  constructor({ bus = null, reducedMotionHandler } = {}) {
-    const view = document.getElementById(SELECTORS.mySection);
-    const animations = new MyAnimations(view, ANIMATION_DEFAULTS);
-    const triggers = new MyTriggers(view);
-    const events = EVENTS.mySection;
-
-    super({ view, animations, triggers, events, bus, reducedMotionHandler });
-
-    if (this.triggers) {
-      this.triggers.section = this;
-    }
-  }
-}
-```
-
-**MyAnimations.js (Animation Logic):**
-
-```javascript
-import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
-
-export default class MyAnimations extends AbstractSectionAnimations {
-  constructor(view, options = {}) {
-    super(view);
-    this.options = options;
-    // Build GSAP timelines with intro/outro labels
-    this._buildIntroAnimation();
-    this._buildOutroAnimation();
-  }
-
-  intro() {
-    return this.timeline.play('intro');
-  }
-
-  outro() {
-    return this.timeline.play('outro');
-  }
-}
-```
-
-**MyTriggers.js (Scroll Triggers):**
-
-```javascript
-import AbstractSectionTriggers from '../abstract-section/AbstractSectionTriggers.js';
-
-export default class MyTriggers extends AbstractSectionTriggers {
-  constructor(view) {
-    super(view);
-    // Custom scroll triggers for this section
-  }
-
-  destroy() {
-    this.kill();
-    this.section = null;
-  }
-}
-```
-
-### Pattern Benefits
-
-✓ **Separation of Concerns**: Controller, animation, triggers are distinct responsibilities  
-✓ **Easy to Extend**: Adding animations doesn't require architectural changes  
-✓ **Discoverable**: Clear file names make code easy to navigate  
-✓ **Testable**: Each class can be tested independently  
-✓ **Consistent**: All sections follow the same pattern (Hero, Bio, BackgroundVideo, etc.)
-
-### When a Section is Minimal (Like Bio Currently)
-
-When a section has no animations yet (like Bio), the pattern still holds:
-
-- **BioAnimations.js** is a thin wrapper—this is intentional and correct
-- **BioTriggers.js** extends base triggers—no custom scroll logic yet
-- **Bio.js** remains the controller—no changes needed
-
-**Do not consolidate minimal sections.** The 3-file structure means future animation additions require **zero refactoring**—just fill in the BioAnimations methods and you're done.
-
-### Real-World Example: Hero Section
-
-Hero demonstrates the full pattern with actual implementation:
-
-- **HeroAnimations.js (149 lines)**: Contains word-by-word reveal, scramble text, throw animation
-- **HeroTriggers.js (37 lines)**: Custom scroll triggers for outro on scroll-away
-- **Hero.js (40 lines)**: Initializes it all with options object pattern
-
-The pattern scales seamlessly from minimal (Bio) to complex (Hero).
-
 ## Key Files Reference
 
 ```plaintext
 js/choreography/
 ├── Director.js                    # Master initialization
 ├── AnimationBus.js               # Event pub/sub system
-├── ScrollEffectsCoordinator.js   # Visual effects coordinator
+├── StageManager.js               # Visual effects coordinator
 ├── constants.js                  # Event name definitions
 ├── config.js                     # Animation settings (timings, easing)
 ├── managers/

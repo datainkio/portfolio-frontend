@@ -1,22 +1,22 @@
-# CMS → 11ty data flow
+# Sanity → 11ty data flow
 
-This repo now fetches Sanity content with the official client + GROQ during the 11ty build. CMS helpers live in `cms/` (client, fetcher, queries) and are wired in via `eleventy/collections/sanity.js`.
+This repo now fetches Sanity content with the official client + GROQ during the 11ty build. Sanity helpers live in `sanity/` (client, fetcher, queries) and are wired in via `eleventy/collections/sanity.js`.
 
 ## Collections
 
-- `organizations` – organizations with industry + logo metadata
-- `industries` – industry taxonomy for organizations and projects
-- `activities` – activities taxonomy used for project classification
-- `roles` – roles taxonomy for project metadata
-- `outcomes` – outcomes/deliverables taxonomy for projects
-- `awards` – awards with grantor + project context
-- `projects` – published projects with relationships, hero image, and links
-- `posts` – published posts with relationships and metadata
-- `imageAssets` – published image assets with metadata
+- `sanityOrganizations` – organizations with industry + logo metadata
+- `sanityIndustries` – industry taxonomy for organizations and projects
+- `sanityActivities` – activities taxonomy used for project classification
+- `sanityRoles` – roles taxonomy for project metadata
+- `sanityOutcomes` – outcomes/deliverables taxonomy for projects
+- `sanityAwards` – awards with grantor + project context
+- `sanityProjects` – published projects with relationships, hero image, and links
+- `sanityPosts` – published posts with relationships and metadata
+- `sanityImageAssets` – published image assets with metadata
 
 ## Configuration
 
-Defaults live in `njk/_data/site.json` under `cms` (projectId, dataset, apiVersion, cache). Environment variables override everything:
+Defaults live in `njk/_data/site.json` under `sanity` (projectId, dataset, apiVersion, cache). Environment variables override everything:
 
 - `SANITY_PROJECT_ID` (required if you override defaults)
 - `SANITY_DATASET` (required if you override defaults)
@@ -25,21 +25,21 @@ Defaults live in `njk/_data/site.json` under `cms` (projectId, dataset, apiVersi
 - `SANITY_USE_CDN` (default `true` when no token, otherwise forced `false`)
 - `SANITY_PARALLEL` (default `true`)
 - `SANITY_FORCE_REFRESH` (forces all queries to refetch)
-- `SANITY_FORCE_REFRESH_QUERY` (force a single query id, e.g., `projects`)
+- `SANITY_FORCE_REFRESH_QUERY` (force a single query id, e.g., `sanityProjects`)
 
 ## Build behavior
 
 - Runs inside `eleventy/collections/sanity.js` before navigation collections.
-- Helpers reside in `cms/client.js`, `cms/fetchSanityData.js`, and `cms/queries.js`.
+- Helpers reside in `sanity/client.js`, `sanity/fetchSanityData.js`, and `sanity/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
-- Exposes metadata as `cmsMeta` global data (no secrets stored).
+- Exposes metadata as `sanityMeta` global data (no secrets stored).
 
 ## Usage in templates
 
 Access data through Eleventy collections:
 
 ```njk
-{% for org in collections.organizations %}
+{% for org in collections.sanityOrganizations %}
   {{ org.title }}
 {% endfor %}
 ```

@@ -1,9 +1,0 @@
-{
-  "userIgnoreFilters": [
-    "node_modules/",
-    "_site/"
-  ],
-  "promptDelete": false,
-  "alwaysUpdateLinks": true,
-  "showUnsupportedFiles": true
-}
