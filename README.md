@@ -1,6 +1,6 @@
 # dataink.io Portfolio
 
-**DANGER ZONE**: This is not your typical portfolio site. This is a fully automated design-developer workflow with Figma API integration, Airtable CMS, and 11ty static generation. If you're here to "quickly fix something" without understanding the architecture, you're about to experience the digital equivalent of performing surgery with a sledgehammer.
+**DANGER ZONE**: This is not your typical portfolio site. This is a fully automated design-developer workflow with Figma API integration, Sanity CMS, and 11ty static generation. If you're here to "quickly fix something" without understanding the architecture, you're about to experience the digital equivalent of performing surgery with a sledgehammer.
 
 ## Architecture Overview (Read This Or Suffer The Consequences)
 
@@ -8,9 +8,9 @@ This site uses a complex but powerful tech stack designed for automated design-t
 
 - **11ty Static Site Generator**: Templates in `njk/` using Nunjucks (NOT Handlebars, NOT Liquid)
 - **Figma API Integration**: Automatically syncs design tokens to CSS files via `figma/services/`
-- **Airtable Headless CMS**: Content management with smart caching and API rate limiting
+- **Sanity Headless CMS**: Content management with smart caching and GROQ queries
 - **Tailwind CSS v4**: Utility-first CSS using `@tailwindcss/cli` (NOT the old `tailwindcss` command - ignore this at your peril)
-- **Atomic Design Pattern**: Components organized as atoms/molecules/organisms/templates in `njk/_includes/`
+- **Atomic Design Pattern**: Components organized as atoms/molecules/organisms/templates in `njk/`
 
 **ABSOLUTE CRITICAL RULE**: Never run builds without understanding dependencies. Each system relies on the others in very specific ways. Skip steps and join the debugging nightmare club.
 
@@ -122,7 +122,7 @@ When you run `npm run build`, the following happens **sequentially**:
    - Generates optimized CSS to `_site/assets/styles.css`
 
 4. **11ty Build** (`npm run build:11ty`)
-   - Fetches content from Airtable (with smart caching)
+   - Fetches content from Sanity (with smart caching)
    - Processes images via `@11ty/eleventy-img`
    - Generates static HTML from Nunjucks templates
    - Outputs to `_site/` folder
@@ -137,12 +137,13 @@ Create a `.env` file with these tokens or the build will fail silently and leave
 
 ```env
 FIGMA_TOKEN=your_figma_personal_access_token
-AIRTABLE_PERSONAL_ACCESS_TOKEN=your_airtable_token
-AIRTABLE_BASE_TOKEN=your_specific_base_id
+SANITY_PROJECT_ID=your_sanity_project_id
+SANITY_DATASET=production
+SANITY_API_TOKEN=your_sanity_read_token
 ```
 
 **Get Figma Token**: Figma Account Settings → Personal Access Tokens → Generate New Token (give it Files:read scope)
-**Get Airtable Tokens**: Airtable Account → Developer Hub → Personal Access Tokens → Create token with base access
+**Get Sanity Token**: Sanity Manage → API → Tokens → Create read token (optional for drafts)
 
 **SECURITY WARNING**: These tokens provide full access to your design files and content. Treat them like nuclear launch codes.
 
@@ -185,42 +186,33 @@ These files are auto-generated and will be overwritten faster than you can say "
 
 **Edit these manually and watch your changes vanish** the next time someone runs `npm run build:design`.
 
-## Content Management (Airtable CMS Integration)
+## Content Management (Sanity CMS Integration)
 
-Content is managed through Airtable and synced via API with smart caching. Configuration lives in `njk/_data/site.json` and follows strict rules:
+Content is managed through Sanity and fetched during the 11ty build. Defaults live in `site.json` under `cms` (or `sanity`), and collections are defined in `cms/queries.js`.
 
 ```json
 {
-  "airtables": [
-    {
-      "tableName": "Projects",
-      "tableView": "Published",
-      "cache": "1d"
-    }
-  ]
+  "cms": {
+    "projectId": "<projectId>",
+    "dataset": "production",
+    "apiVersion": "2025-12-26",
+    "useCdn": true,
+    "cache": "1d"
+  }
 }
 ```
 
-**Table Configuration Rules (Violate These At Your Own Risk)**:
-
-- `tableName` MUST match your Airtable base exactly (case-sensitive, spaces matter)
-- `tableView` MUST be a valid view name in that table (also case-sensitive)
-- `cache` duration prevents API rate limiting (`1d`, `12h`, `30m`, etc.) - set too low and hit rate limits
-- Each table becomes an 11ty collection accessible in templates with lowercase name
-
 ### Accessing Content in Templates
 
-Tables become collections with lowercase names via `eleventy/collections/content.js`:
+Queries become collections by their query id:
 
 ```html
-<!-- Airtable table "Projects" becomes collection "projects" -->
 {% for project in collections.projects %}
-<h2>{{ project.fields.title }}</h2>
-<p>{{ project.fields.description }}</p>
+<h2>{{ project.title }}</h2>
+<p>{{ project.summary }}</p>
 {% endfor %}
 ```
 
-**CRITICAL**: Collection names are always lowercase regardless of Airtable table casing. "MyTable" becomes "mytable". Access fields via `project.fields.fieldName` (matching your Airtable field names).
 This project includes a comprehensive logging system for Tailwind CSS builds that provides the same level of transparency as the 11ty collections and Figma services. **DO NOT bypass this system** - the detailed logging is essential for debugging CSS generation issues and performance optimization.
 
 ### TailwindLogger Service
@@ -273,14 +265,13 @@ npm run watch:css
 
 ```text
 portfolio/
-├── njk/                          # 11ty source templates (NOT _src, NOT src)
-│   ├── _data/site.json          # Site config + Airtable settings (CRITICAL)
-│   ├── _includes/               # Atomic design components
-│   │   ├── atoms/               # Smallest UI elements (buttons, icons)
-│   │   ├── molecules/           # Component combinations (cards, forms)
-│   │   ├── organisms/           # Complex UI sections (headers, footers)
-│   │   └── templates/           # Page layout templates
-│   └── _pages/                  # Page templates → site URLs
+├── ia/                          # Content entrypoints (frontmatter routes)
+├── njk/                         # Nunjucks templates and components
+│   ├── atoms/                   # Smallest UI elements (buttons, icons)
+│   ├── molecules/               # Component combinations (cards, forms)
+│   ├── organisms/               # Complex UI sections (headers, footers)
+│   ├── templates/               # Page layout templates
+│   └── layouts/                 # Base layouts and wrappers
 ├── styles/                      # CSS architecture (import order matters)
 │   ├── main.css                # Master CSS file with CRITICAL import order
 │   ├── colors.css              # AUTO-GENERATED from Figma (DO NOT EDIT)
@@ -301,8 +292,8 @@ portfolio/
 │   ├── shortcodes/            # Reusable template functions
 │   ├── collections/           # Content collection definitions
 │   └── services/              # Build-time services (NavigationBuilder, etc.)
-├── airtable/                   # Airtable API integration
-│   └── fetchAirtableData.js   # CMS data fetching service
+├── cms/                        # Sanity client, queries, fetch helpers
+├── site.json                   # Global site config + CMS defaults
 └── _site/                      # BUILD OUTPUT - never edit directly
 ```
 
@@ -319,9 +310,9 @@ portfolio/
 
 ### Making Content Changes
 
-1. **Edit in Airtable** (add/modify content) - ONLY content source
-2. **Wait for cache expiration** OR delete `.cache` folder to force refresh
-3. **Run `npm run build:11ty`** to fetch fresh content via `@11ty/eleventy-fetch`
+1. **Edit in Sanity** (add/modify content) - content source
+2. **Run `npm run build:11ty`** to fetch fresh content via `@11ty/eleventy-fetch`
+3. **Force refresh if needed**: set `SANITY_FORCE_REFRESH=true`
 
 ### Making Template Changes
 
@@ -346,9 +337,9 @@ portfolio/
 
 ### "Content not showing"
 
-- **Cause**: Airtable table/view names don't match `site.json` config
-- **Fix**: Verify exact spelling and case in Airtable vs config
-- **Prevention**: Copy/paste table names instead of typing
+- **Cause**: Missing or incorrect Sanity config (projectId/dataset) or query mismatch
+- **Fix**: Verify `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `cms/queries.js`
+- **Prevention**: Keep query ids stable and reuse existing patterns
 
 ### "Build fails with module errors"
 
@@ -364,11 +355,11 @@ portfolio/
 
 ## Advanced Configuration
 
-### Adding New Airtable Tables
+### Adding New Sanity Queries
 
-1. Add table config to `njk/_data/site.json`
-2. Collection will auto-generate with lowercase table name
-3. Access in templates via `collections.yourtablename`
+1. Add a query in `cms/queries.js`
+2. Ensure the query has a stable `id`
+3. Access in templates via `collections.<id>`
 
 ### Adding New Background Effects
 
@@ -393,7 +384,7 @@ npm run build
 
 **What Gets Deployed**: The entire `_site/` folder contains your static site.
 
-**What's Preserved**: The `content/` directory within `_site/` is preserved during clean operations to avoid re-processing cached images and videos from Airtable.
+**What's Preserved**: The `content/` directory within `_site/` is preserved during clean operations to avoid re-processing cached media.
 
 **Deployment Targets**: Deploy the `_site/` folder to any static hosting platform:
 
@@ -417,7 +408,7 @@ Comprehensive documentation is available in the `docs/` and individual README fi
 - **[js/choreography/sections/README.md](js/choreography/sections/README.md)** - Section controllers (Hero, BackgroundVideo, Bio, Organizations)
 - **[js/effects/README.md](js/effects/README.md)** - GSAP effects library
 - **[figma/README.md](figma/README.md)** - Figma API integration
-- **[airtable/README.md](airtable/README.md)** - Airtable CMS integration
+- **[docs/sanity-integration.md](docs/sanity-integration.md)** - Sanity CMS integration
 
 For quick reference, see:
 

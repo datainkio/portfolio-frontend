@@ -3,29 +3,35 @@
 Build-time CMS data access for the frontend. This folder is the **single entrypoint** for fetching and shaping CMS content that becomes Eleventy collections.
 
 ## Responsibilities
+
 - Resolve CMS config (`site.cms` + env overrides)
 - Create the CMS client
 - Fetch GROQ data with caching
 - Aggregate CMS queries into `CMS_QUERIES`
 
 ## Files
+
 - `client.js` — resolves config + creates CMS client
 - `fetchSanityData.js` — fetches data with Eleventy cache and error handling
 - `queries/` — one file per query definition
 - `queries.js` — aggregates query definitions into `CMS_QUERIES`
 
 ## Data Flow (11ty)
-1) `eleventy/collections/sanity.js` initializes CMS fetching.
-2) Each query in `CMS_QUERIES` is fetched.
-3) Results are registered as Eleventy collections (e.g., `collections.projects`).
+
+1. `eleventy/collections/sanity.js` initializes CMS fetching.
+2. Each query in `CMS_QUERIES` is fetched.
+3. Results are registered as Eleventy collections (e.g., `collections.projects`).
 
 ## Conventions
+
 - Query IDs become collection names. Keep them **source-agnostic**.
 - Add new queries under `queries/` and export them from `queries.js`.
 - Prefer consistent projection shapes across queries (e.g., shared image fields).
 
 ## Env / Config
-Defaults live in `njk/_data/site.json` under `cms`:
+
+Defaults live in `site.json` under `cms`:
+
 - `projectId`
 - `dataset`
 - `apiVersion`
@@ -33,6 +39,7 @@ Defaults live in `njk/_data/site.json` under `cms`:
 - `cache`
 
 Overrides (via environment):
+
 - `SANITY_PROJECT_ID`
 - `SANITY_DATASET`
 - `SANITY_API_TOKEN`
@@ -43,11 +50,13 @@ Overrides (via environment):
 - `SANITY_FORCE_REFRESH_QUERY`
 
 ## Adding a query
-1) Create `queries/<name>.js` exporting a `{ id, description, cacheDuration, query }` object.
-2) Import and include it in `queries.js`.
-3) Use in templates as `collections.<id>`.
+
+1. Create `queries/<name>.js` exporting a `{ id, description, cacheDuration, query }` object.
+2. Import and include it in `queries.js`.
+3. Use in templates as `collections.<id>`.
 
 ## AIX Gain Links
+
 - [aix/context/projects/portfolio-frontend.md](../../aix/context/projects/portfolio-frontend.md)
 - [aix/context/constraints.md](../../aix/context/constraints.md)
 - [aix/context/project.md](../../aix/context/project.md)

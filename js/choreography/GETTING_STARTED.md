@@ -24,9 +24,9 @@ The system boots automatically on page load via `window.addEventListener('DOMCon
 
 ```javascript
 // From main.js
-import { initDirector } from './AnimationDirector.js';
+import { initDirector } from "./AnimationDirector.js";
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("DOMContentLoaded", () => {
   initDirector(); // Triggers complete choreography initialization
 });
 ```
@@ -135,7 +135,7 @@ Follow this pattern to add a new animated section.
 
 ### Step 1: Create DOM Structure
 
-In your Nunjucks template (`njk/_includes/organisms/`):
+In your Nunjucks template (`njk/organisms/`):
 
 ```nunjucks
 <section id="my-section" class="my-section">
@@ -155,10 +155,10 @@ Create `js/choreography/sections/my-section/MySection.js`:
  * Extends AbstractSection with custom animations for the my-section element.
  */
 
-import AbstractSection from '../abstract-section/AbstractSection.js';
-import MyAnimations from './MyAnimations.js';
-import MyTriggers from './MyTriggers.js';
-import { EVENTS } from '../../constants.js';
+import AbstractSection from "../abstract-section/AbstractSection.js";
+import MyAnimations from "./MyAnimations.js";
+import MyTriggers from "./MyTriggers.js";
+import { EVENTS } from "../../constants.js";
 
 export default class MySection extends AbstractSection {
   /**
@@ -170,7 +170,7 @@ export default class MySection extends AbstractSection {
    */
   constructor({ bus, reducedMotionHandler } = {}) {
     // Find DOM element
-    const elem = document.getElementById('my-section');
+    const elem = document.getElementById("my-section");
 
     // Create animation and trigger modules
     const animations = new MyAnimations(elem);
@@ -195,8 +195,8 @@ Create `js/choreography/sections/my-section/MyAnimations.js`:
  * Extends AbstractSectionAnimations to define intro and outro timelines.
  */
 
-import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
-import { gsap } from '../../vendor/gsap.js';
+import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
+import { gsap } from "../../vendor/gsap.js";
 
 export default class MyAnimations extends AbstractSectionAnimations {
   /**
@@ -211,7 +211,7 @@ export default class MyAnimations extends AbstractSectionAnimations {
     tl.from(this.view, {
       opacity: 0,
       duration: 0.5,
-      ease: 'power2.out',
+      ease: "power2.out",
     });
 
     // Add to shared timeline for coordination
@@ -232,7 +232,7 @@ export default class MyAnimations extends AbstractSectionAnimations {
     tl.to(this.view, {
       opacity: 0,
       duration: 0.5,
-      ease: 'power2.in',
+      ease: "power2.in",
     });
 
     // Add to shared timeline
@@ -254,8 +254,8 @@ Create `js/choreography/sections/my-section/MyTriggers.js`:
  * Extends AbstractSectionTriggers to define scroll-based triggers.
  */
 
-import AbstractSectionTriggers from '../abstract-section/AbstractSectionTriggers.js';
-import { gsap, ScrollTrigger } from '../../vendor/gsap.js';
+import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
+import { gsap, ScrollTrigger } from "../../vendor/gsap.js";
 
 export default class MyTriggers extends AbstractSectionTriggers {
   /**
@@ -268,8 +268,8 @@ export default class MyTriggers extends AbstractSectionTriggers {
   bind(callbacks) {
     ScrollTrigger.create({
       trigger: this.view,
-      start: 'top center',
-      end: 'bottom center',
+      start: "top center",
+      end: "bottom center",
       onEnter: callbacks.onEnter,
       onLeave: callbacks.onLeave,
       onEnterBack: callbacks.onEnterBack,
@@ -288,12 +288,12 @@ Update `js/choreography/constants.js`:
 export const EVENTS = {
   // ... existing events
   mySection: {
-    enter: 'mySection:enter',
-    exit: 'mySection:exit',
-    introStart: 'mySection:intro:start',
-    introComplete: 'mySection:intro:complete',
-    outroStart: 'mySection:outro:start',
-    outroComplete: 'mySection:outro:complete',
+    enter: "mySection:enter",
+    exit: "mySection:exit",
+    introStart: "mySection:intro:start",
+    introComplete: "mySection:intro:complete",
+    outroStart: "mySection:outro:start",
+    outroComplete: "mySection:outro:complete",
   },
 };
 ```
@@ -303,7 +303,7 @@ export const EVENTS = {
 Update `js/choreography/Director.js`:
 
 ```javascript
-import MySection from './sections/my-section/MySection.js';
+import MySection from "./sections/my-section/MySection.js";
 
 export default class AnimationDirector {
   constructor() {
@@ -433,7 +433,7 @@ All choreography modules use `lumberjack` logger:
 ```javascript
 // Check logs in console
 // Each module has a scoped logger: AnimationDirector, Hero, Bio, etc.
-logger.trace('message', data, 'verbose');
+logger.trace("message", data, "verbose");
 ```
 
 ### Performance

@@ -62,15 +62,15 @@ DEBUG=true node test/logger/errors.test.js
  * Test Description
  */
 
-import moduleUnderTest from '../../path/to/module';
+import moduleUnderTest from "../../path/to/module";
 
-console.log('\n=== Test Suite Name ===\n');
+console.log("\n=== Test Suite Name ===\n");
 
 // Test cases with descriptive comments
 // Visual separators for readability
 // Grouped related tests
 
-console.log('\n=== Tests Complete ===\n');
+console.log("\n=== Tests Complete ===\n");
 ```
 
 ## Adding New Test Suites
@@ -187,7 +187,7 @@ Logger tests use `DEBUG=true` to enable full output for verification.
 Planned test coverage for:
 
 - **Figma Integration** (`/test/figma`)
-- **Airtable Data** (`/test/airtable`)
+- **Sanity Data** (`/test/sanity`)
 - **11ty Collections** (`/test/eleventy`)
 - **Build Scripts** (`/test/scripts`)
 

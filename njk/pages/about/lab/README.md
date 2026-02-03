@@ -21,7 +21,7 @@ Create a new `.njk` file in this directory following the naming convention:
 
 ```bash
 # Example: Creating a new canvas experiment
-touch njk/_pages/lab/canvas-effects.njk
+touch ia/lab/canvas-effects.md
 ```
 
 ### 2. Add Frontmatter Configuration
@@ -90,7 +90,7 @@ For automatic navigation inclusion, your page MUST have:
 
 ```yaml
 eleventyNavigation:
-  key: 'Your Page Name' # Required: Unique identifier
+  key: "Your Page Name" # Required: Unique identifier
   parent: Lab # Required: Links to Lab section
 ```
 
@@ -148,9 +148,9 @@ Lab pages have full access to the site's design system and animation framework:
 ### GSAP Animation System
 
 ```javascript
-import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
-import { ScrollTrigger } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js';
-import { MorphSVGPlugin } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MorphSVGPlugin.min.js';
+import { gsap } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js";
+import { ScrollTrigger } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js";
+import { MorphSVGPlugin } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MorphSVGPlugin.min.js";
 ```
 
 ### Design System Components
@@ -166,7 +166,9 @@ import { MorphSVGPlugin } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13
 
 ```html
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-8">
-  <div class="bg-accent text-accent-content rounded-lg p-4">Experiment content</div>
+  <div class="bg-accent text-accent-content rounded-lg p-4">
+    Experiment content
+  </div>
 </div>
 ```
 
@@ -195,7 +197,7 @@ import { MorphSVGPlugin } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13
 ### File Organization
 
 ```
-njk/_pages/lab/
+ia/lab/
 ├── README.md                 # This file
 ├── index.njk                # Lab section landing page
 ├── blockframes.njk          # SVG animation experiments

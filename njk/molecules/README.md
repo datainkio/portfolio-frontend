@@ -42,7 +42,7 @@ Complex form patterns combining input atoms with validation and submission logic
 
 Data presentation patterns for dynamic content display.
 
-**DATA DEPENDENCY**: Expects specific collection structures from Airtable CMS integration.
+**DATA DEPENDENCY**: Expects specific collection structures from Sanity CMS integration.
 
 ### Content Components
 
@@ -73,13 +73,13 @@ Molecules should:
 
 ### Integration Dependencies
 
-**Navigation Collections**: Navigation molecules depend on `eleventy/collections/navigation.js` processing Airtable data into hierarchical structures.
+**Navigation Collections**: Navigation molecules depend on `eleventy/collections/navigation.js` processing Sanity data into hierarchical structures.
 
 **GSAP Animations**: Interactive molecules integrate with choreography system in `js/choreography/`. CSS classes must maintain animation compatibility.
 
 **Tailwind Configuration**: Responsive behavior depends on Tailwind breakpoints. Custom CSS can break mobile-first responsive design.
 
-**CMS Data Structure**: Content molecules expect specific field structures from Airtable tables. Schema changes require template updates.
+**CMS Data Structure**: Content molecules expect specific field structures from Sanity documents. Schema changes require template updates.
 
 ## Development Warnings
 
@@ -186,7 +186,7 @@ All molecules must support:
 
 **Animation System**: GSAP choreography changes can break molecule interactions without obvious errors.
 
-**CMS Schema**: Airtable field name changes silently break data binding in content molecules.
+**CMS Schema**: Sanity field name changes silently break data binding in content molecules.
 
 **CSS Framework**: Tailwind version updates may deprecate utility classes used in molecules.
 

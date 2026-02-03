@@ -4,12 +4,12 @@ Author animation storyboards in Markdown with Mermaid.
 
 ## Write
 
-Place files under `njk/_pages/storyboards/`:
+Place files under `ia/storyboards/`:
 
 ````markdown
 ---
 layout: templates/storyboards.njk
-tags: ['storyboard']
+tags: ["storyboard"]
 permalink: /storyboards/your-page/
 ---
 

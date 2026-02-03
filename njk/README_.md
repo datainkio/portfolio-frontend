@@ -62,7 +62,7 @@ Complete page layouts orchestrating organisms into full user experiences.
 
 **GSAP Animation System**: Interactive components integrate with choreography system in `js/choreography/`.
 
-**Airtable CMS**: Content components expect specific data structures from CMS collections.
+**Sanity CMS**: Content components expect specific data structures from CMS collections.
 
 **Figma Design Tokens**: Typography and color systems sync automatically with design file changes.
 
@@ -117,7 +117,7 @@ Each atomic level requires different testing approaches:
 
 ### **CMS Data Structure Assumptions**
 
-**Problem**: Components often expect specific Airtable field structures. CMS schema changes break data binding without obvious errors.
+**Problem**: Components often expect specific Sanity field structures. CMS schema changes break data binding without obvious errors.
 
 **Solution**: Document expected data structures in component comments. Implement defensive null checking and fallback content.
 

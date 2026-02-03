@@ -2,13 +2,13 @@
 
 ## Macro render pattern (preferred)
 
-- Macro-exported component: [njk/\_includes/organisms/section/hero.njk](../../../njk/_includes/organisms/section/hero.njk)
+- Macro-exported component: [njk/organisms/section/hero.njk](../../../njk/organisms/section/hero.njk)
   - Exports `render(params = {})`
   - Keeps defaults local and explicit
 
 ## Import + render usage
 
-- Page importing a component and calling `render`: [njk/\_pages/playground/hero-playground.njk](../../../njk/_pages/playground/hero-playground.njk)
+- Page importing a component and calling `render`: [ia/playground/hero-playground.md](../../../ia/playground/hero-playground.md)
 
 ## Constraints to preserve
 

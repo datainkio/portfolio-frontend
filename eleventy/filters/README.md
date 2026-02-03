@@ -12,7 +12,7 @@ Central registry and documentation for all 11ty filters used in Nunjucks templat
 
 ```javascript
 // In .eleventy.js
-import filters from './eleventy/filters/filters.js';
+import filters from "./eleventy/filters/filters.js";
 export default async function (eleventyConfig) {
   filters(eleventyConfig);
 }
@@ -68,11 +68,11 @@ Format dates for human readability using Luxon.
 **Common Use Cases:**
 
 - Display publish dates: `{{ post.published | postDate }}`
-- Format Airtable dates: `{{ activity.fields.date | postDate }}`
+- Format CMS dates: `{{ activity.date | postDate }}`
 
 ### Image Filters ([image.js](./image.js))
 
-Process image data from Airtable attachments.
+Process image data from CMS assets.
 
 | Filter      | Purpose         | Example                              |
 | ----------- | --------------- | ------------------------------------ |
@@ -117,18 +117,18 @@ Manipulate HTML and DOM structures.
 
 Cross-cutting utilities that don't fit other categories.
 
-| Filter          | Purpose                             | Example                                              |
-| --------------- | ----------------------------------- | ---------------------------------------------------- |
-| `datatype`      | Get variable type                   | `{{ value \| datatype }}` → `"array"`                |
-| `findFigmaPage` | Find Figma page                     | `{{ designSystem \| findFigmaPage("Colors") }}`      |
-| `findRecord`    | **Critical**: Find Airtable records | `{{ collections.organizations \| findRecord(ids) }}` |
-| `filterByKey`   | Filter by property                  | `{{ items \| filterByKey("status", "live") }}`       |
+| Filter          | Purpose                              | Example                                              |
+| --------------- | ------------------------------------ | ---------------------------------------------------- |
+| `datatype`      | Get variable type                    | `{{ value \| datatype }}` → `"array"`                |
+| `findFigmaPage` | Find Figma page                      | `{{ designSystem \| findFigmaPage("Colors") }}`      |
+| `findRecord`    | **Critical**: Resolve linked records | `{{ collections.organizations \| findRecord(ids) }}` |
+| `filterByKey`   | Filter by property                   | `{{ items \| filterByKey("status", "live") }}`       |
 
 ## Critical Filter: findRecord
 
-**Purpose**: Connect Airtable record IDs to actual content records.
+**Purpose**: Connect linked record IDs to actual content records.
 
-**Why It's Critical**: Airtable relationships return arrays of record IDs (strings). This filter resolves those IDs to actual record objects from collections.
+**Why It's Critical**: CMS relationships can return arrays of record IDs. This filter resolves those IDs to actual record objects from collections.
 
 **Usage Pattern**:
 
@@ -155,7 +155,7 @@ All filters follow this registration pattern:
 ```javascript
 // In individual filter file (e.g., string.js)
 export default function (eleventyConfig) {
-  eleventyConfig.addFilter('filterName', filterFunction);
+  eleventyConfig.addFilter("filterName", filterFunction);
 }
 
 export function filterFunction(input, ...args) {
@@ -243,7 +243,7 @@ Filter within loops:
 ```javascript
 // eleventy/filters/custom.js
 export default function (eleventyConfig) {
-  eleventyConfig.addFilter('myFilter', myFilterFunction);
+  eleventyConfig.addFilter("myFilter", myFilterFunction);
 }
 
 export function myFilterFunction(input, arg1, arg2) {
@@ -255,7 +255,7 @@ export function myFilterFunction(input, arg1, arg2) {
 2. **Import in filters.js**:
 
 ```javascript
-import customConfig from './custom.js';
+import customConfig from "./custom.js";
 
 export default function (eleventyConfig) {
   // ... other imports
@@ -276,11 +276,11 @@ export default function (eleventyConfig) {
 Filters are exported as named functions for testing:
 
 ```javascript
-import { truncate } from './eleventy/filters/string.js';
+import { truncate } from "./eleventy/filters/string.js";
 
 // Test directly
-const result = truncate('Long text here', 10);
-console.assert(result === 'Long text ...');
+const result = truncate("Long text here", 10);
+console.assert(result === "Long text ...");
 ```
 
 ## Debugging Filters
@@ -307,8 +307,8 @@ console.assert(result === 'Long text ...');
 
 - **Configuration**: `.eleventy.js` - Loads filter system
 - **Collections**: `eleventy/collections/` - Data source for filters
-- **Templates**: `njk/_includes/` - Filter usage examples
-- **Schema**: `njk/_data/dbSchema.json` - Airtable field structure
+- **Templates**: `njk/` - Filter usage examples
+- **Config**: `site.json` - CMS defaults
 
 ## Filter Inventory
 
@@ -328,7 +328,7 @@ console.assert(result === 'Long text ...');
 
 **Most Used Filters**:
 
-- `findRecord` - Resolve Airtable relationships
+- `findRecord` - Resolve linked relationships
 - `sortByKey` - Sort collections
 - `markdownify` - Render rich text
 - `truncate` - Preview text

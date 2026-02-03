@@ -32,10 +32,13 @@ The primary class that orchestrates SVG loading, manipulation, and rendering.
 **Usage Example:**
 
 ```javascript
-const blockframes = new Blockframes('/path/to/wireframes.svg');
+const blockframes = new Blockframes("/path/to/wireframes.svg");
 await blockframes.load();
 blockframes.makeResponsive();
-blockframes.insertInto(document.getElementById('container'), blockframes.svgElement);
+blockframes.insertInto(
+  document.getElementById("container"),
+  blockframes.svgElement,
+);
 ```
 
 #### **Builder.js** - Layout Construction
@@ -186,13 +189,11 @@ Full-page wireframe templates combining organisms.
 ### Required External Libraries
 
 1. **GSAP** - Animation engine
-
    - Must be loaded before Animator.js
    - Expected as global: `window.gsap`
    - Used for: Timeline creation, tweens, transforms
 
 2. **SVG.js** - SVG manipulation library
-
    - Loaded via CDN in Builder.js
    - Version: 3.1.1 (Skypack CDN)
    - Used for: Scaling, positioning, DOM manipulation
@@ -208,13 +209,13 @@ Full-page wireframe templates combining organisms.
 ### Loading and Displaying a Wireframe
 
 ```javascript
-import Blockframes from '/assets/js/displays/blockframes/Blockframes.js';
+import Blockframes from "/assets/js/displays/blockframes/Blockframes.js";
 
-const blockframes = new Blockframes('/assets/svg/wireframes.svg');
+const blockframes = new Blockframes("/assets/svg/wireframes.svg");
 await blockframes.load();
 blockframes.makeResponsive();
 
-const container = document.getElementById('wireframe-container');
+const container = document.getElementById("wireframe-container");
 blockframes.insertInto(container, blockframes.svgElement);
 ```
 
@@ -222,10 +223,10 @@ blockframes.insertInto(container, blockframes.svgElement);
 
 ```javascript
 const palette = {
-  primary: { light: '#e0f2fe', base: '#0ea5e9', dark: '#0c4a6e' },
-  secondary: { light: '#fce7f3', base: '#ec4899', dark: '#831843' },
-  neutral: { light: '#f5f5f5', base: '#737373', dark: '#171717' },
-  accent: { light: '#fef3c7', base: '#f59e0b', dark: '#78350f' },
+  primary: { light: "#e0f2fe", base: "#0ea5e9", dark: "#0c4a6e" },
+  secondary: { light: "#fce7f3", base: "#ec4899", dark: "#831843" },
+  neutral: { light: "#f5f5f5", base: "#737373", dark: "#171717" },
+  accent: { light: "#fef3c7", base: "#f59e0b", dark: "#78350f" },
 };
 
 blockframes.paintAll(palette);
@@ -235,7 +236,7 @@ blockframes.paintAll(palette);
 
 ```javascript
 const inventory = blockframes.inventory; // Array of all blocks
-const chartBlock = blockframes.getBlock('.Chart');
+const chartBlock = blockframes.getBlock(".Chart");
 
 blockframes.paintBlock(chartBlock, palette);
 blockframes.placeBlock(chartBlock, targetContainer, true); // true = clone
@@ -340,7 +341,11 @@ console.log(typeof gsap); // Should be "object"
 ```javascript
 // In Animator.js
 export function fadeIn(block) {
-  return gsap.fromTo(block, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' });
+  return gsap.fromTo(
+    block,
+    { opacity: 0, scale: 0.8 },
+    { opacity: 1, scale: 1, duration: 1, ease: "power2.out" },
+  );
 }
 ```
 
@@ -404,7 +409,7 @@ Blockframes.js
 
 ## Related Files
 
-- **Lab Example**: `njk/_pages/lab/blockframes/index.njk` - Interactive demo
+- **Lab Example**: `ia/lab/blockframes/index.md` - Interactive demo
 - **SVG Sources**: Look for `.svg` files in `assets/` or `media/` directories
 - **GSAP Setup**: Check main layout templates for GSAP script tags
 

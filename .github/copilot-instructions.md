@@ -1,14 +1,14 @@
 <!-- @format -->
 
-# Copilot Instructions for dataink.io Portfolio (11ty + Figma + Airtable)
+# Copilot Instructions for dataink.io Portfolio (11ty + Figma + Sanity)
 
 These instructions make AI coding agents immediately productive in this repo by summarizing architecture, workflows, conventions, and gotchas specific to this project.
 
 ## Big Picture
 
-- **11ty static site**: Nunjucks templates in `njk/` generate `_site/`. Atomic design components live under `njk/_includes/` following atomic design principles.
+- **11ty static site**: Content entry lives in `ia/`; Nunjucks templates in `njk/` generate `_site/`. Atomic design components live under `njk/`.
 - **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
-- **Content via Airtable**: Data fetched at build time and exposed as 11ty collections. Config in `njk/_data/site.json`; schema in `njk/_data/dbSchema.json`.
+- **Content via Sanity**: Data fetched at build time and exposed as 11ty collections. Defaults live in `site.json` under `cms` (or `sanity`) with queries in `cms/queries.js`.
 - **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
 - **Animation system**: GSAP-based choreography under `js/choreography/` with Director, StageManager, AnimationBus, section controllers, and specialized managers.
 - **Logging**: Unified `@datainkio/lumberjack` logger across Node and browser environments for consistent output.
@@ -24,21 +24,16 @@ npm start                    # Runs dev:css + dev:11ty in parallel (Tailwind wat
 npm run dev                  # Same as npm start
 
 # Building
-npm run build                # Full build: clean → sync:content → build:design → build:css → build:11ty
+npm run build                # Full build: clean → build:design → build:css → build:11ty
 npm run fresh                # Same as build (full clean build)
-npm run quick                # Fast build: css + 11ty only (skips Figma/Airtable sync)
+npm run quick                # Fast build: css + 11ty only (skips design sync)
 
 # Design System
 npm run build:design         # Sync Figma tokens → CSS (fetchFigma.js → services → CSS files)
 npm run design               # build:design + build:css (design tokens + CSS compilation)
 
 # Content Management
-npm run sync:content         # Fetch Airtable data and generate collections
-npm run sync:content:force   # Force refresh ignoring cache
-npm run sync:content:quick   # Clear cache + rebuild without full sync
-
-# Schema Generation
-npm run schema:generate      # Generate njk/_data/dbSchema.json from Airtable base
+# (Sanity data is fetched during 11ty builds; no separate sync step required.)
 
 # CSS Building
 npm run build:css            # Production build (minified) via buildCSS.js wrapper
@@ -78,35 +73,36 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 - `FIGMA_TOKEN` - Required for design token sync (legacy: `FIGMA_ACCESS_TOKEN`)
 - `FIGMA_FILE_ID` - Required Figma file ID
-- `AIRTABLE_PERSONAL_ACCESS_TOKEN` - Required for CMS data fetch
-- `AIRTABLE_BASE_TOKEN` - Base ID for Airtable connection
+- `SANITY_PROJECT_ID` - Sanity project ID
+- `SANITY_DATASET` - Sanity dataset (e.g., production)
+- `SANITY_API_TOKEN` - Optional; enables drafts and disables CDN
+- `SANITY_API_VERSION` - API version (default `2025-12-26`)
+- `SANITY_USE_CDN` - `true` unless a token is provided
 
 **Build Order Dependencies:**
 
 1. `build:design` must run before `build:css` to ensure tokens exist
-2. `sync:content` fetches Airtable data needed for 11ty collections
+2. `build:11ty` fetches Sanity data needed for 11ty collections
 3. CSS must be built for correct styling in `_site/`
 
 ## Key Directories & Files
 
 **Templates & Structure**
 
-- `njk/_pages/` - Routes and page templates (generates \_site/ structure)
-- `njk/_includes/` - Atomic design components (atoms/molecules/organisms/templates)
+- `ia/` - Content entrypoints with frontmatter (routes)
+- `njk/` - Templates and components (atoms/molecules/organisms/templates/layouts)
 - `.eleventy.js` - 11ty config (plugins, collections, filters, shortcodes)
 - `eleventy/` - Modular 11ty configuration
-  - `collections/` - Collection definitions (auto-generated from Airtable)
+  - `collections/` - Collection definitions (Sanity-driven)
   - `filters/` - Nunjucks filters
   - `shortcodes/` - Reusable template functions
   - `plugins/` - 11ty plugins
   - `services/` - Build-time services
 
-**Data & Schema**
+**Data & CMS**
 
-- `njk/_data/site.json` - Global site config + Airtable table definitions
-- `njk/_data/dbSchema.json` - **Primary schema file** (generated from Airtable)
-- `njk/_data/introduction.json` - Site introduction content
-- `.copilot/` - Context files for AI (copies of schema for reference)
+- `site.json` - Global site config + CMS defaults
+- `cms/` - Sanity client, queries, and fetch helpers
 
 **Design System**
 
@@ -150,11 +146,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Content Management**
 
-- `airtable/` - Airtable integration
-  - `fetchAirtableData.js` - Data fetching service
-  - `ImageProcessingStatus.js` - Image processing utilities
-- `scripts/syncContent.js` - Content sync orchestrator
-- `scripts/generateAirtableSchema.js` - Schema generator
+- `cms/` - Sanity integration (client, fetcher, queries)
 
 **Build System**
 
@@ -173,7 +165,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 - Prefer macros for reusable components with parameters; includes for static content only.
 - Avoid `with` in includes; use macro pattern instead.
-- Import paths are relative to `njk/_includes/`.
+- Import paths are relative to `njk/`.
 
 Example macro:
 
@@ -220,41 +212,30 @@ Example macro:
 
 ```javascript
 // Section emits event when animation completes
-this.bus.emit('hero:intro:complete');
+this.bus.emit("hero:intro:complete");
 
 // LandingSequence listens and triggers next section
-this.bus.on('hero:intro:complete', () => {
-  this.bus.emit('work:intro:start');
+this.bus.on("hero:intro:complete", () => {
+  this.bus.emit("work:intro:start");
 });
 ```
 
-## Airtable Data Flow
+## Sanity Data Flow
 
 **Configuration**
 
-- Tables are configured in `njk/_data/site.json` under `airtables` array
-- Each table specifies: `tableName`, `tableView` (Airtable view name), and `cache` duration
-- Views are **case-sensitive** in Airtable - must match exactly
-
-**Schema Generation**
-
-- Run `npm run schema:generate` to create `njk/_data/dbSchema.json`
-- Schema includes: table structure, field types, sample values, relationships
-- Generated during full build process automatically
-- Copy stored in `.copilot/` for AI context
+- Defaults are configured in `site.json` under `cms` (or `sanity`)
+- Environment variables override defaults (`SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_TOKEN`, `SANITY_API_VERSION`, `SANITY_USE_CDN`)
 
 **11ty Collections**
 
-- Collections auto-generated from tables defined in `site.json`
-- Collection names are **lowercase** versions of table names (e.g., `Projects` → `projects`)
-- Access in templates: `{{ collections.projects }}`, `{{ collections.activities }}`, etc.
-- Schema available globally: `{{ dbSchema }}`
+- Collections are registered from `cms/queries.js`
+- Access in templates: `{{ collections.projects }}`, `{{ collections.landing }}`, etc.
 
 **Caching**
 
-- Cache duration set per table (e.g., `"cache": "4w"` = 4 weeks)
-- Force refresh: `npm run sync:content:force`
-- Clear cache only: `npm run sync:content:quick`
+- Cache duration set globally in `site.json` (`cms.cache`) or per-query in `cms/queries.js`
+- Force refresh: set `SANITY_FORCE_REFRESH=true` (or `SANITY_FORCE_REFRESH_QUERY=<id>`)
 
 ## Tailwind & Styles
 
@@ -312,22 +293,13 @@ logger.trace(title, message, verbosity, style);
 
 ## Common Code Patterns
 
-**Accessing Airtable Data in Templates:**
+**Accessing Sanity Data in Templates:**
 
 ```njk
-{# Access schema structure #}
-{{ dbSchema.tables.Projects.fields }}
-
 {# Loop through collection #}
 {% for project in collections.projects %}
-  <h2>{{ project.fields.title }}</h2>
-  <p>{{ project.fields.description }}</p>
-{% endfor %}
-
-{# Access specific field types from schema #}
-{% set projectSchema = dbSchema.tables.Projects %}
-{% for field in projectSchema.fields %}
-  {{ field.name }}: {{ field.type }}
+  <h2>{{ project.title }}</h2>
+  <p>{{ project.summary }}</p>
 {% endfor %}
 ```
 
@@ -337,20 +309,22 @@ logger.trace(title, message, verbosity, style);
 // 1. Add events to constants.js
 export const EVENTS = {
   custom: {
-    introStart: 'custom:intro:start',
-    introComplete: 'custom:intro:complete',
+    introStart: "custom:intro:start",
+    introComplete: "custom:intro:complete",
   },
 };
 
 // 2. Create section extending AbstractSection
-import AbstractSection from '../abstract-section/AbstractSection.js';
-import { EVENTS } from '../../constants.js';
+import AbstractSection from "../abstract-section/AbstractSection.js";
+import { EVENTS } from "../../constants.js";
 
 export default class Custom extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    const elem = document.getElementById('custom');
+    const elem = document.getElementById("custom");
     // ... initialize animations and triggers
-    super(elem, animations, triggers, EVENTS.custom, bus, { reducedMotionHandler });
+    super(elem, animations, triggers, EVENTS.custom, bus, {
+      reducedMotionHandler,
+    });
   }
 }
 
@@ -365,20 +339,18 @@ this.sections.custom = new Custom({
 
 **Common mistakes that will cause errors:**
 
-- ❌ Don't use `{{ airtableSchema }}` - Use `{{ dbSchema }}` instead
+- ❌ Don't rely on legacy schema helpers; use Sanity collections instead
 - ❌ Don't reference Work, Splash, or Approach sections - They don't exist in current codebase
 - ❌ Don't edit auto-generated files: `styles/colors.css`, `styles/typography/fontFamilies.css` - They're overwritten by `build:design`
 - ❌ Don't call Tailwind CLI directly - Always use npm scripts (`npm run build:css` or `npm run dev:css`)
 - ❌ Don't name sections "Biography" - The actual implementation is "Bio"
 - ❌ Don't skip `build:design` before CSS builds - Tokens must exist first
-- ❌ Don't use `npm run build:schema` - Script doesn't exist; use `npm run schema:generate`
 
 ## Common Gotchas
 
 - Run `build:design` before 11ty build; stale tokens break styles.
 - GSAP ScrollSmoother enables only if both `#smooth-wrapper` and `#smooth-content` exist.
 - Use web-optimized MP4 for background video (Safari issues with MOV).
-- Airtable view names are case-sensitive; 11ty collections are lowercase.
 - Asset paths in templates are `/assets/...` (site root).
 
 ## CMS Integration (local)
@@ -392,14 +364,14 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 
 - Build fails fetching Figma: Ensure `FIGMA_TOKEN` is set; run `npm run build:design`. Check `figma/services/*` logs.
 - Missing styles/tokens: Verify `styles/main.css` import order (fonts → Tailwind → base → generated). Re-run `build:design`.
-- Airtable 429/rate limits: Confirm `AIRTABLE_PERSONAL_ACCESS_TOKEN` and `AIRTABLE_BASE_TOKEN`. Adjust caching in `njk/_data/site.json` and re-run `npm run build:11ty`.
+- Sanity data missing: Confirm `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `cms/queries.js`.
 - GSAP animations not running: Confirm `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)` and DOM IDs exist (`#smooth-wrapper`, `#smooth-content`, `#overlay-view`).
 - Background video not visible: Ensure overlay-view molecule renders before choreography; use MP4 under `/assets/video/`.
 - Tailwind classes missing: Use `@tailwindcss/cli` and check `tailwind.config.js`. Restart `npm start` to refresh watch processes.
 
 ## Try-It: Add a Molecule
 
-- Create `njk/_includes/molecules/<name>/<name>.njk` exporting a `render(params)` macro.
+- Create `njk/molecules/<name>/<name>.njk` exporting a `render(params)` macro.
 - Use in a page: `{% import "molecules/<name>/<name>.njk" as m %} {{ m.render({ ... }) }}`.
 - Add styles under `styles/` (respect `styles/main.css` order). If using tokens, run `npm run build:design`.
 - If animated, add a section controller under `js/choreography/sections/<name>/<Name>.js` and wire via `Director.js`.

@@ -13,7 +13,7 @@ Applies CSS classes to picture elements and removes restrictive width/height att
 **Signature**:
 
 ```javascript
-picture(htmlString, (pictureClasses = ''), (imgClasses = ''));
+picture(htmlString, (pictureClasses = ""), (imgClasses = ""));
 ```
 
 **Parameters**:
@@ -54,7 +54,13 @@ Creates an interactive image that opens in a modal dialog when clicked.
 **Signature**:
 
 ```javascript
-lightbox(htmlString, (title = ''), (caption = ''), (pictureClasses = ''), (imgClasses = ''));
+lightbox(
+  htmlString,
+  (title = ""),
+  (caption = ""),
+  (pictureClasses = ""),
+  (imgClasses = ""),
+);
 ```
 
 **Parameters**:
@@ -186,9 +192,9 @@ loremPars((paragraphCount = 1));
 
 ---
 
-## Integration with Airtable Content
+## Integration with Sanity Content
 
-Shortcodes work seamlessly with Airtable-sourced content:
+Shortcodes work seamlessly with Sanity-sourced content:
 
 ```nunjucks
 {# Example: Display project images with lightbox #}

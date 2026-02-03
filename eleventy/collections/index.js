@@ -42,6 +42,7 @@
  *
  * 3. Navigation (navigation.js):
  *    - Builds navigation structure from njk/_pages/ directory
+ *    - TODO(dx): Update navigation source path to reflect ia/ routes.
  *    - Creates nav_primary and nav_projects collections
  *    - Respects eleventyNavigation frontmatter
  *
@@ -58,6 +59,7 @@
  *
  * CONFIGURATION:
  * Site configuration loaded from njk/_data/site.json must include:
+ * TODO(dx): Update site.json path to current location.
  * - site.airtables: Array of Airtable table configurations
  * - site.navigation: Navigation-specific settings
  *

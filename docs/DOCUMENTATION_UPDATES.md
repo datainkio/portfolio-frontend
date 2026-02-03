@@ -22,7 +22,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 - Added explicit recommendation to use `{% include %}` syntax with `with` parameter passing
 - Updated scaffolding examples to reflect current npm scripts
 - Improved Quick Start workflow to focus on production usage patterns
-- Emphasized direct Airtable collection access patterns
+- Emphasized direct Sanity collection access patterns
 
 **Key Additions**:
 
@@ -30,7 +30,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 {# Recommended production pattern - direct include #}
 {% include "atoms/button.njk" with { label: "Click Me", type: "primary" } %}
 
-{# Access Airtable collections directly #}
+{# Access Sanity collections directly #}
 {% for project in collections.projects %}
   {% include "molecules/card/project.njk" with { project: project } %}
 {% endfor %}
@@ -78,7 +78,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 - Comprehensive documentation for all 4 shortcodes
 - Usage signatures and examples
 - Performance notes
-- Integration with Airtable content
+- Integration with Sanity content
 - Common patterns (galleries, heroes, previews)
 
 **Shortcodes Documented**:
@@ -117,7 +117,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 - Documented 7 array manipulation filters
 - Added template usage examples for each filter
 - Clarified when to use each filter
-- Explained Airtable collection patterns
+- Explained Sanity collection patterns
 - Added detailed parameter documentation
 
 **Filters Documented**:
@@ -137,7 +137,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 **Enhancements**:
 
 - Added comprehensive header explaining Luxon integration
-- Documented the `postDate` filter with Airtable date handling
+- Documented the `postDate` filter with CMS date handling
 - Added examples for common use cases
 - Clarified ISO string handling
 - Noted JavaScript Date object compatibility
@@ -147,7 +147,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 ### Developer Experience
 
 - ✅ Clear examples for each feature
-- ✅ Documented Airtable integration patterns
+- ✅ Documented Sanity integration patterns
 - ✅ Explicit production vs. development guidance
 - ✅ Performance and optimization notes
 - ✅ Common gotchas and troubleshooting tips
@@ -175,7 +175,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 - **Registry** (`_registry.njk`) - Development and documentation tool
 - **Production** - Use direct `{% include %}` statements
 - **Data Passing** - Via Nunjucks `with` syntax
-- **Airtable Access** - Direct collection access in templates
+- **Sanity Access** - Direct collection access in templates
 
 ### Filter System
 
@@ -201,7 +201,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 - ✅ How to use component registry vs. direct includes
 - ✅ What each filter does and when to use it
 - ✅ Shortcode availability and usage
-- ✅ Airtable collection patterns
+- ✅ Sanity collection patterns
 - ✅ Data flow from CMS to templates
 
 ### Now Documented
@@ -209,7 +209,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 - ✅ Complete shortcodes reference with examples
 - ✅ Filter usage patterns and examples
 - ✅ Production-ready component patterns
-- ✅ Airtable integration examples
+- ✅ Sanity integration examples
 - ✅ Performance considerations and optimizations
 
 ## Developer Experience Benefits
@@ -218,7 +218,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 
 - Clear examples of recommended patterns
 - Comprehensive filter and shortcode documentation
-- Airtable integration guidance
+- Sanity integration guidance
 - Step-by-step component creation guide
 
 ### For Maintenance
@@ -232,7 +232,7 @@ Comprehensive documentation updates to improve developer experience and align wi
 
 - Simple template patterns to understand
 - Clear examples of component usage
-- Airtable collection access patterns
+- Sanity collection access patterns
 - Accessible interaction patterns
 
 ## Testing Recommendations
@@ -244,9 +244,9 @@ Comprehensive documentation updates to improve developer experience and align wi
 
 ## Files Not Updated (Comprehensive as-is)
 
-- `njk/_includes/atoms/README.md` - Already comprehensive
-- `njk/_includes/molecules/README.md` - Already comprehensive
-- `njk/_includes/organisms/README.md` - Already comprehensive
+- `njk/atoms/README.md` - Already comprehensive
+- `njk/molecules/README.md` - Already comprehensive
+- `njk/organisms/README.md` - Already comprehensive
 - `eleventy/collections/index.js` - Comments already clear
 - `eleventy/services/NavigationBuilder.js` - Well-documented service
 

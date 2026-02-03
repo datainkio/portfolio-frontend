@@ -12,7 +12,7 @@
 ## Playground harness
 
 - Hero tuning harness (repeatable intro/outro):
-  - [njk/\_pages/playground/hero-playground.njk](../../../njk/_pages/playground/hero-playground.njk)
+  - [ia/playground/hero-playground.md](../../../ia/playground/hero-playground.md)
 
 ## Constraints to preserve
 

@@ -2,7 +2,7 @@
 
 # Project Documentation
 
-Comprehensive documentation for the dataink.io portfolio (11ty + Figma + Airtable + GSAP animation system).
+Comprehensive documentation for the dataink.io portfolio (11ty + Figma + Sanity + GSAP animation system).
 
 ## Quick Start
 
@@ -26,7 +26,7 @@ See: `njk/README.md` and `eleventy/README.md` in project root directories
 - Components and atomic design patterns
 - All filter functions documented (string, array, date, image, color, dom)
 - Shortcodes API (`picture`, `lightbox`, `loremChars`, `loremPars`)
-- Airtable collection integration
+- Sanity collection integration
 
 ### JavaScript Systems
 
@@ -92,7 +92,7 @@ docs/
 ├── DOCUMENTATION_EXAMPLES.md                ← Before/after examples
 ├── PROMPT_TEMPLATE.md                       ← Development prompt template
 ├── TODO.md                                  ← Project tasks
-├── airtable-schema-diagram.mmd              ← Airtable architecture
+├── sanity-integration.md                    ← Sanity integration guide
 ├── director-initialization-sequence.md      ← Animation system flow
 └── director-initialization-sequence.pdf     ← PDF version
 ```
@@ -104,7 +104,7 @@ docs/
 ```
 ┌────────────────────────────────────────────────────────┐
 │         Nunjucks Templates (njk/)                       │
-│    Atomic design + Airtable collections                │
+│    Atomic design + Sanity collections                  │
 └────────────────────────────────────────────────────────┘
                          ↓
 ┌────────────────────────────────────────────────────────┐
@@ -121,7 +121,7 @@ docs/
 ### Data Flow
 
 ```
-Airtable (CMS)
+Sanity (CMS)
     ↓
 [npm run sync:content]
     ↓
@@ -177,7 +177,7 @@ Compiled CSS (styles/)
 → Read `njk/README.md` (component registry and patterns)
 
 **...create a new page**
-→ See `eleventy/README.md` and `njk/_pages/` examples
+→ See `eleventy/README.md` and `ia/` examples
 
 ## Quality Standards
 

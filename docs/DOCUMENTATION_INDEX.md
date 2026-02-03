@@ -30,7 +30,7 @@ Quick reference guide to all documentation in the portfolio project, organized b
   - All 50+ npm scripts explained
   - Build process and dependencies
   - Environment variables reference
-  - Airtable, Figma, GSAP, logging details
+  - Sanity, Figma, GSAP, logging details
   - Troubleshooting guide
   - Try-it tutorials
 
@@ -160,11 +160,14 @@ frontend/
 │   └── copilot-instructions.md          ⭐ START HERE
 ├── .copilot/
 │   └── README.md
+├── ia/
 ├── njk/
 │   ├── README.md                        [Phase 2]
-│   ├── _includes/
-│   ├── _data/
-│   └── _pages/
+│   ├── atoms/
+│   ├── molecules/
+│   ├── organisms/
+│   ├── templates/
+│   └── layouts/
 ├── eleventy/
 │   ├── README.md                        [Phase 2]
 │   ├── filters/

@@ -2,7 +2,7 @@
 
 # Eleventy Collections Manager
 
-Central orchestration for all 11ty collections. This directory manages the registration and initialization of content collections from Airtable CMS and navigation collections from file structure.
+Central orchestration for all 11ty collections. This directory manages the registration and initialization of content collections from Sanity CMS and navigation collections from file structure.
 
 ## Architecture Overview
 
@@ -12,7 +12,7 @@ Central orchestration for all 11ty collections. This directory manages the regis
 
 ```javascript
 // In .eleventy.js
-import collections from './eleventy/collections/index.js';
+import collections from "./eleventy/collections/index.js";
 
 export default async function (eleventyConfig) {
   await collections(eleventyConfig);
@@ -21,44 +21,36 @@ export default async function (eleventyConfig) {
 
 ## Collection Types
 
-### 1. Content Collections (`content.js`)
+### 1. Content Collections (`sanity.js`)
 
-**Source**: Airtable CMS via API
+**Source**: Sanity CMS via GROQ
 **Dependencies**: None (initialized first)
-**Configuration**: `njk/_data/site.json` → `site.airtables[]` array
+**Configuration**: `site.json` → `cms` (or `sanity`) defaults + `cms/queries.js`
 
-Each table in `site.airtables` becomes an 11ty collection:
+Queries in `cms/queries.js` become 11ty collections:
 
-- Table name becomes collection name (lowercase)
+- Collection id comes from the query definition
 - Smart caching via `@11ty/eleventy-fetch` (configurable duration)
-- Parallel or sequential fetching via `AIRTABLE_PARALLEL` env var
-
-**Generated Collections**:
-
-- `projects` - Portfolio projects
-- `work` - Work history
-- `activities` - Project activities
-- `testimonials` - Client testimonials
-- Additional tables as configured in site.json
+- Parallel or sequential fetching via `SANITY_PARALLEL` env var
 
 **Usage in Templates**:
 
 ```njk
 {% for project in collections.projects %}
-  <h2>{{ project.fields.title }}</h2>
+  <h2>{{ project.title }}</h2>
 {% endfor %}
 ```
 
 ### 2. Navigation Collections (`navigation.js`)
 
-**Source**: File system (`njk/_pages/`) + Airtable projects
-**Dependencies**: Requires `projects` collection from Airtable
+**Source**: File system (`ia/`) + Sanity projects
+**Dependencies**: Requires `projects` collection from Sanity
 **Configuration**: `site.directories.nav` path + `site.navigation` structure
 
 **Generated Collections**:
 
 - `nav_dirs` - Directory-based navigation from file structure
-- `nav_projects` - Project navigation from Airtable data
+- `nav_projects` - Project navigation from Sanity data
 - `nav_primary` - Merged hierarchical navigation (depends on both above)
 
 **Processing**: Delegated to `NavigationBuilder` service (`eleventy/services/NavigationBuilder.js`)
@@ -80,11 +72,12 @@ Each table in `site.airtables` becomes an 11ty collection:
 
 Collections MUST be registered in dependency order:
 
-1. **Airtable Collections** (no dependencies)
-   - Fetches external data from CMS
-   - Creates base collections (`projects`, `work`, etc.)
+1. **Sanity Collections** (no dependencies)
 
-2. **Navigation Collections** (depends on Airtable)
+- Fetches external data from CMS
+- Creates base collections (e.g., `projects`, `landing`)
+
+2. **Navigation Collections** (depends on Sanity)
    - `nav_dirs` - No dependencies
    - `nav_projects` - Depends on `projects` collection
    - `nav_primary` - Depends on `nav_dirs` and `nav_projects`
@@ -104,10 +97,10 @@ Collections MUST be registered in dependency order:
 - Catches and logs errors without breaking build
 - Uses chalk for colored terminal output
 
-### `content.js`
+### `sanity.js`
 
-- Fetches data from Airtable API
-- Registers one collection per table
+- Fetches data from Sanity via GROQ
+- Registers one collection per query id
 - Handles parallel/sequential fetching modes
 - Smart caching with configurable expiration
 - Uses lumberjack logger for build output
@@ -132,15 +125,15 @@ Collections MUST be registered in dependency order:
 
 ```json
 {
-  "airtables": [
-    {
-      "tableName": "Projects",
-      "tableView": "Grid view",
-      "cache": "5m"
-    }
-  ],
+  "cms": {
+    "projectId": "<projectId>",
+    "dataset": "production",
+    "apiVersion": "2025-12-26",
+    "useCdn": true,
+    "cache": "5m"
+  },
   "directories": {
-    "nav": "njk/_pages"
+    "nav": "ia"
   },
   "navigation": {
     "items": [
@@ -156,16 +149,13 @@ Collections MUST be registered in dependency order:
 
 ### Environment Variables
 
-**Airtable Integration**:
+**Sanity Integration**:
 
-- `AIRTABLE_PERSONAL_ACCESS_TOKEN` - API authentication
-- `AIRTABLE_BASE_TOKEN` - Specific base identifier
-- `AIRTABLE_PARALLEL` - `true` (default) for parallel fetching, `false` for sequential
-
-**Parallel vs Sequential Fetching**:
-
-- **Parallel** (default): Faster, all tables fetch simultaneously
-- **Sequential**: Easier debugging, fetches one table at a time
+- `SANITY_PROJECT_ID` - Sanity project ID
+- `SANITY_DATASET` - Sanity dataset
+- `SANITY_API_TOKEN` - Optional; enables drafts and disables CDN
+- `SANITY_API_VERSION` - API version
+- `SANITY_PARALLEL` - `true` (default) for parallel fetching, `false` for sequential
 
 ## Collection Access Patterns
 
@@ -174,11 +164,11 @@ Collections MUST be registered in dependency order:
 ```njk
 {# Loop through collection items #}
 {% for item in collections.projects %}
-  {{ item.fields.title }}
+  {{ item.title }}
 {% endfor %}
 
 {# Filter collection #}
-{% set featured = collections.projects | selectattr("fields.featured", "true") %}
+{% set featured = collections.projects | selectattr("featured", "true") %}
 
 {# Access navigation #}
 {{ collections.nav_primary | dump }}
@@ -187,27 +177,13 @@ Collections MUST be registered in dependency order:
 ### In Collection Callbacks
 
 ```javascript
-eleventyConfig.addCollection('custom', function (collectionApi) {
+eleventyConfig.addCollection("custom", function (collectionApi) {
   // Access other collections via context
   const projects = this.ctx?.collections?.projects || [];
 
   // Process and return custom collection
-  return projects.filter(p => p.fields.status === 'live');
+  return projects.filter((p) => p.status === "live");
 });
-```
-
-## Airtable Schema Reference
-
-Complete Airtable schema available at:
-
-- **Primary**: `njk/_data/dbSchema.json` - Available in templates as `{{ dbSchema }}`
-- **Copilot**: `.copilot/airtable-schema.json` - Copy for Copilot context
-- **Documentation**: `.copilot/AIRTABLE_SCHEMA.md` - Human-readable reference
-
-Auto-generated during build process:
-
-```bash
-npm run schema:generate
 ```
 
 ## Logging System
@@ -221,12 +197,12 @@ Collections use the **Lumberjack** dual-mode logger:
 **Custom Logger Styles**:
 
 ```javascript
-import logger, { LumberjackStyle } from '@datainkio/lumberjack';
+import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
-const titleStyle = new LumberjackStyle('#EE9B00', '\n☎️  ');
-const msgStyle = new LumberjackStyle('#CA6702', '•');
+const titleStyle = new LumberjackStyle("#EE9B00", "\n☎️  ");
+const msgStyle = new LumberjackStyle("#CA6702", "•");
 
-logger.trace('Message', data, 'brief', titleStyle);
+logger.trace("Message", data, "brief", titleStyle);
 ```
 
 ## Error Handling
@@ -247,21 +223,20 @@ Collections use isolated error handling to prevent cascading failures:
 
 ## Common Gotchas
 
-- **Collection Names**: Airtable table names are lowercased for collection access
-- **Dependency Order**: Navigation collections MUST initialize after Airtable
+- **Collection Names**: Query ids map directly to collection names
+- **Dependency Order**: Navigation collections MUST initialize after Sanity
 - **Context Access**: `this.ctx.collections` only works in collection callbacks, not async functions
 - **Cache Duration**: Short cache durations (5m) during development, longer (1h+) in production
 - **Parallel Fetching**: Default mode is faster but makes debugging harder - use sequential for troubleshooting
-- **API Rate Limits**: Airtable has rate limits - smart caching prevents excessive requests
+- **API Rate Limits**: Sanity rate limits exist - smart caching prevents excessive requests
 - **Missing Config**: Collections silently fail if site.json configuration is incomplete
 
 ## Related Files
 
 - **Services**: `eleventy/services/NavigationBuilder.js` - Navigation processing logic
-- **Data Fetching**: `airtable/fetchAirtableData.js` - Airtable API client
-- **Configuration**: `njk/_data/site.json` - Collection and navigation config
-- **Schema**: `njk/_data/airtableSchema.json` - Auto-generated schema reference
-- **Templates**: `njk/_includes/organisms/navigation/` - Navigation components
+- **Data Fetching**: `cms/fetchSanityData.js` - Sanity fetch helper
+- **Configuration**: `site.json` - Collection and navigation config
+- **Templates**: `njk/organisms/navigation/` - Navigation components
 - **Logging**: `js/utils/lumberjack/` - Dual-mode logger system
 
 ## Debugging Tips
@@ -274,9 +249,9 @@ Collections use isolated error handling to prevent cascading failures:
 
 2. **Enable Sequential Fetching**:
 
-   ```bash
-   AIRTABLE_PARALLEL=false npm run build
-   ```
+```bash
+SANITY_PARALLEL=false npm run build
+```
 
 3. **Clear Cache**:
 

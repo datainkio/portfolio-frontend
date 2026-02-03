@@ -31,7 +31,7 @@ Comprehensive reference guide for AI coding agents working in this repository:
 - **Big Picture**: Complete architecture overview covering all systems
 - **Core Workflows**: 25+ npm scripts documented with explanations
 - **Key Directories**: All folder purposes and file relationships
-- **Data Flow**: Airtable integration explained with schema details
+- **Data Flow**: Sanity integration explained with schema details
 - **Design System**: Figma token sync process documented
 - **Animation System**: GSAP choreography patterns explained
 - **Build Dependencies**: Explicit ordering for correct compilation
@@ -59,7 +59,7 @@ Comprehensive reference guide for AI coding agents working in this repository:
 
 - ✅ Distinguished development vs. production component usage
 - ✅ Emphasized direct include pattern for production templates
-- ✅ Added Airtable collection access examples
+- ✅ Added Sanity collection access examples
 - ✅ Improved component lifecycle documentation
 
 #### 2. `eleventy/README.md`
@@ -92,14 +92,14 @@ Comprehensive reference guide for AI coding agents working in this repository:
 - ✅ `getByIndexRange(arr, start, end)` - Slice arrays
 - ✅ `getByIndex(arr, index)` - Get single item
 - ✅ `sum(arr, key)` - Sum numeric property
-- Includes: Airtable collection patterns, examples
+- Includes: Sanity collection patterns, examples
 
 #### 5. `eleventy/filters/date.js`
 
 **Changes**: Added comprehensive header with Luxon integration
 
 - ✅ `postDate(date)` - Format date for posts
-- Includes: Airtable date handling notes, Luxon integration
+- Includes: CMS date handling notes, Luxon integration
 
 #### 6. `eleventy/shortcodes/README.md` (NEW FILE - 400+ lines)
 
@@ -306,7 +306,7 @@ Comprehensive reference guide for AI coding agents working in this repository:
 - [x] All npm scripts (50+)
 - [x] Build process and dependencies
 - [x] Environment variables
-- [x] Airtable integration
+- [x] Sanity integration
 - [x] Figma design tokens
 - [x] GSAP animation system
 - [x] Troubleshooting guide
@@ -318,7 +318,7 @@ Comprehensive reference guide for AI coding agents working in this repository:
 - [x] Component registry
 - [x] All 11 filters documented
 - [x] All 4 shortcodes documented
-- [x] Airtable collection access
+- [x] Sanity collection access
 - [x] 11ty role explained
 - [x] Quick start workflows
 

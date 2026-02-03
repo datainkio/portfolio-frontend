@@ -61,19 +61,23 @@ A **service** in this architecture is a specialized class that:
 
 ```javascript
 // Example usage in build script
-import { TailwindLogger } from '../services/TailwindLogger.js';
+import { TailwindLogger } from "../services/TailwindLogger.js";
 
 const logger = new TailwindLogger();
-const buildId = logger.startBuild('production', 'styles/main.css', '_site/assets/styles.css');
+const buildId = logger.startBuild(
+  "production",
+  "styles/main.css",
+  "_site/assets/styles.css",
+);
 
 await logger.group(async () => {
   await logger.logConfigAnalysis(tailwindConfig);
-  await logger.logFileAnalysis('styles/main.css');
+  await logger.logFileAnalysis("styles/main.css");
 
   // Execute Tailwind CLI
   const result = await execTailwindCLI();
 
-  await logger.logOutputAnalysis('_site/assets/styles.css', result);
+  await logger.logOutputAnalysis("_site/assets/styles.css", result);
   logger.completeBuild(startTime);
 });
 ```
@@ -99,8 +103,8 @@ await logger.group(async () => {
 
 **Responsibilities**:
 
-- Processes directory-based navigation from `_pages` files
-- Transforms Airtable projects data into navigation items
+- Processes directory-based navigation from `ia/` entries
+- Transforms Sanity projects data into navigation items
 - Builds hierarchical parent-child navigation structures
 - Provides defensive error handling and validation
 - Manages navigation item formatting and standardization
@@ -196,12 +200,12 @@ Services should be used in collection registration files:
 
 ```javascript
 // eleventy/collections/[domain].js
-import { SomeService } from '../services/SomeService.js';
+import { SomeService } from "../services/SomeService.js";
 
 export async function init(eleventyConfig, site) {
   const service = new SomeService(site);
 
-  eleventyConfig.addCollection('collection_name', function (collectionApi) {
+  eleventyConfig.addCollection("collection_name", function (collectionApi) {
     return service.processData(collectionApi);
   });
 }
@@ -225,10 +229,10 @@ Services can be unit tested independently:
 
 ```javascript
 // test/services/NavigationBuilder.test.js
-import { NavigationBuilder } from '../../eleventy/services/NavigationBuilder.js';
+import { NavigationBuilder } from "../../eleventy/services/NavigationBuilder.js";
 
-describe('NavigationBuilder', () => {
-  it('should build directory navigation', () => {
+describe("NavigationBuilder", () => {
+  it("should build directory navigation", () => {
     const builder = new NavigationBuilder(mockSiteConfig);
     const result = builder.buildDirectoryNavigation(mockCollectionApi);
     expect(result).toHaveLength(expectedLength);

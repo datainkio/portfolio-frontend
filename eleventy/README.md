@@ -11,14 +11,14 @@ accessible, performant web experiences.
 
 11ty serves as the **content-to-experience pipeline**, automatically:
 
-- **Transforms content** from Airtable into web pages
+- **Transforms content** from Sanity into web pages
 - **Generates navigation** based on file structure and content metadata
 - **Creates collections** that make content queryable in templates
 - **Optimizes images** for responsive display and accessibility
 - **Manages filters and shortcodes** for consistent content presentation
 - **Ensures consistency** across all pages through template inheritance
 
-Think of it as the automation layer between your content management system (Airtable) and your design system (Figma tokens), handled through reusable template patterns.
+Think of it as the automation layer between your content management system (Sanity) and your design system (Figma tokens), handled through reusable template patterns.
 
 ## Directory Structure
 
@@ -27,7 +27,7 @@ Think of it as the automation layer between your content management system (Airt
 **What it does**: Defines how content gets grouped and made available to
 templates
 
-- **`content.js`** - Connects Airtable tables to 11ty collections (projects →
+- **`sanity.js`** - Connects Sanity queries to 11ty collections (projects →
   pages)
 - **`navigation.js`** - Registers navigation collections with 11ty (delegates processing to services)
 - **`index.js`** - Orchestrates all collection building
@@ -68,7 +68,7 @@ between content
 {{ description | markdownify }}     {# Markdown to HTML #}
 {{ title | truncate(50) }}          {# Shorten with ellipsis #}
 {{ publishDate | postDate }}        {# Human-readable date like "Jan 1, 2024" #}
-{{ collection | findRecord(ids) }}  {# Critical: Resolve Airtable record relationships #}
+{{ collection | findRecord(ids) }}  {# Resolve linked record relationships #}
 ```
 
 **UX Impact**: Ensures content displays consistently and accessibly across all contexts
@@ -111,8 +111,11 @@ between content
 ```javascript
 // Service-based navigation processing
 const navigationBuilder = new NavigationBuilder(site);
-eleventyConfig.addCollection('nav_primary', function (collectionApi) {
-  return navigationBuilder.buildPrimaryNavigationFromData(directories, projects);
+eleventyConfig.addCollection("nav_primary", function (collectionApi) {
+  return navigationBuilder.buildPrimaryNavigationFromData(
+    directories,
+    projects,
+  );
 });
 ```
 

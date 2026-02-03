@@ -8,7 +8,7 @@
 
 ```njk
 {# Unclear whether to use registry or direct include #}
-{% from "_includes/_registry.njk" import component, icon, button %}
+{% from "_registry.njk" import component, icon, button %}
 {{ icon("chevron-down", "md", "text-primary-500") }}
 {{ component("atoms", "button", { label: "Click me" }) %}
 ```
@@ -23,19 +23,19 @@
 
 ---
 
-## Airtable Integration
+## Sanity Integration
 
 ### BEFORE: Unclear collection access
 
 ```njk
-{# Doesn't show how to work with Airtable collections #}
+{# Doesn't show how to work with Sanity collections #}
 {{ component("molecules", "project-card", { title: "Project" }) }}
 ```
 
-### AFTER: Clear Airtable patterns
+### AFTER: Clear Sanity patterns
 
 ```njk
-{# Direct collection access - automatically created from Airtable tables #}
+{# Direct collection access - created from Sanity queries #}
 {% for project in collections.projects %}
   {% include "molecules/card/project.njk" with { project: project } %}
 {% endfor %}
@@ -138,7 +138,7 @@ export function groupByFilter(array, key) {
 ### BEFORE: No documentation
 
 ```javascript
-export function picture(pe, peClasses = '', imgClasses = '') {
+export function picture(pe, peClasses = "", imgClasses = "") {
   // ... implementation (no explanation)
 }
 ```
@@ -153,7 +153,7 @@ Applies CSS classes to picture elements and removes restrictive width/height att
 **Signature**:
 
 ```javascript
-picture(htmlString, (pictureClasses = ''), (imgClasses = ''));
+picture(htmlString, (pictureClasses = ""), (imgClasses = ""));
 ```
 ````
 
@@ -186,7 +186,7 @@ picture(htmlString, (pictureClasses = ''), (imgClasses = ''));
 ## What 11ty Does for UX
 
 11ty serves as the **content-to-experience pipeline**, automatically:
-- Transforms content from Airtable CMS into web pages
+- Transforms content from Sanity CMS into web pages
 - Generates navigation based on content relationships
 - Optimizes images for fast loading and accessibility
 - Creates interactive components like lightboxes
@@ -200,7 +200,7 @@ picture(htmlString, (pictureClasses = ''), (imgClasses = ''));
 
 11ty serves as the **content-to-experience pipeline**, automatically:
 
-- **Transforms content** from Airtable CMS into web pages
+- **Transforms content** from Sanity CMS into web pages
 - **Generates navigation** based on file structure and content metadata
 - **Creates collections** that make content queryable in templates
 - **Optimizes images** for responsive display and accessibility
@@ -208,7 +208,7 @@ picture(htmlString, (pictureClasses = ''), (imgClasses = ''));
 - **Ensures consistency** across all pages through template inheritance
 
 Think of it as the automation layer between your content management
-system (Airtable) and your design system (Figma tokens), handled through
+system (Sanity) and your design system (Figma tokens), handled through
 reusable template patterns.
 ```
 
@@ -228,7 +228,7 @@ reusable template patterns.
 - **`array.js`** - List manipulation for content organization
 ```
 
-### AFTER: Clear usage and Airtable integration
+### AFTER: Clear usage and Sanity integration
 
 ````markdown
 ### `/filters/` - Content Processing
@@ -249,7 +249,7 @@ reusable template patterns.
 ```
 ````
 
-**Airtable Integration**:
+**Sanity Integration**:
 
 ```nunjucks
 {{ activity.date | postDate }}      {# Converts ISO → "Jan 15, 2024" #}
@@ -269,7 +269,7 @@ reusable template patterns.
 
 ```njk
 {# Import the registry system #}
-{% from "_includes/_registry.njk" import component, icon, button %}
+{% from "_registry.njk" import component, icon, button %}
 
 {# Use shorthand helpers #}
 {{ icon("chevron-down", "md", "text-primary-500") }}
@@ -306,7 +306,7 @@ The registry system is available for documentation purposes.
 | **Filter Docs** | Minimal comments | Comprehensive with examples |
 | **Shortcodes** | No documentation | Complete API reference |
 | **11ty Role** | Generic description | Detailed pipeline explanation |
-| **Airtable Integration** | Unclear | Multiple clear examples |
+| **Sanity Integration** | Unclear | Multiple clear examples |
 | **Date Handling** | Not explained | Clear ISO string handling |
 | **Array Operations** | Implementation only | Complete with use cases |
 | **Developer Onboarding** | Time-consuming learning curve | Quick reference available |

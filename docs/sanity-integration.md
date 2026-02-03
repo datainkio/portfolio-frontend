@@ -1,6 +1,6 @@
 # Sanity → 11ty data flow
 
-This repo now fetches Sanity content with the official client + GROQ during the 11ty build. Sanity helpers live in `sanity/` (client, fetcher, queries) and are wired in via `eleventy/collections/sanity.js`.
+This repo fetches Sanity content with the official client + GROQ during the 11ty build. Sanity helpers live in `cms/` (client, fetcher, queries) and are wired in via `eleventy/collections/sanity.js`.
 
 ## Collections
 
@@ -16,7 +16,7 @@ This repo now fetches Sanity content with the official client + GROQ during the 
 
 ## Configuration
 
-Defaults live in `njk/_data/site.json` under `sanity` (projectId, dataset, apiVersion, cache). Environment variables override everything:
+Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache). Environment variables override everything:
 
 - `SANITY_PROJECT_ID` (required if you override defaults)
 - `SANITY_DATASET` (required if you override defaults)
@@ -30,7 +30,7 @@ Defaults live in `njk/_data/site.json` under `sanity` (projectId, dataset, apiVe
 ## Build behavior
 
 - Runs inside `eleventy/collections/sanity.js` before navigation collections.
-- Helpers reside in `sanity/client.js`, `sanity/fetchSanityData.js`, and `sanity/queries.js`.
+- Helpers reside in `cms/client.js`, `cms/fetchSanityData.js`, and `cms/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
 - Exposes metadata as `sanityMeta` global data (no secrets stored).
 

@@ -37,7 +37,7 @@ Page structure components that define content areas and responsive behavior.
 
 Dynamic content display systems for CMS-driven content.
 
-**DATA DEPENDENCY**: Expects specific Airtable collection structures and field mappings. Schema changes in CMS require organism updates.
+**DATA DEPENDENCY**: Expects specific Sanity collection structures and field mappings. Schema changes in CMS require organism updates.
 
 ### Interactive Organisms (`interactive/`)
 
@@ -97,7 +97,7 @@ Organisms should:
 
 **Animation Choreography**: Organisms coordinate with `js/choreography/Director.js` for complex animation sequences. CSS classes and data attributes must remain consistent.
 
-**CMS Collections**: Content organisms depend on Airtable data processed through `eleventy/collections/content.js`. Field name changes break data binding.
+**CMS Collections**: Content organisms depend on Sanity data processed through `eleventy/collections/sanity.js`. Field name changes break data binding.
 
 **Navigation System**: Navigation organisms integrate with `eleventyNavigation` plugin and custom collection processing. URL structure changes affect navigation generation.
 
@@ -121,7 +121,7 @@ Before editing existing organisms:
 
 1. **MAP page template dependencies** - identify which pages use this organism
 2. **AUDIT animation choreography** - check GSAP timeline integration points
-3. **VERIFY CMS data compatibility** - ensure Airtable field mappings remain valid
+3. **VERIFY CMS data compatibility** - ensure Sanity field mappings remain valid
 4. **TEST responsive breakpoints** - validate mobile through desktop behavior
 5. **RUN accessibility audit** - screen reader testing and keyboard navigation
 6. **PERFORMANCE PROFILE** - measure impact on Core Web Vitals
@@ -211,7 +211,7 @@ All organisms must support:
 
 **Animation System**: GSAP choreography system changes affect multiple organisms simultaneously. Version updates require careful coordination testing.
 
-**CMS Schema Evolution**: Airtable schema changes can silently break multiple organisms that depend on specific field structures.
+**CMS Schema Evolution**: Sanity schema changes can silently break multiple organisms that depend on specific field structures.
 
 **CSS Framework Updates**: Tailwind CSS updates may deprecate utility classes used extensively in layout organisms.
 

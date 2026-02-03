@@ -27,14 +27,14 @@ Foundation templates that other templates extend or include.
 
 ### Content Type Templates
 
-Specialized layouts for different content categories from Airtable CMS.
+Specialized layouts for different content categories from Sanity CMS.
 
 - Blog post layouts with structured data
 - Project showcase templates with media galleries
 - Biography layouts with timeline components
 - Experience templates with filterable content
 
-**CMS DEPENDENCY**: Content templates expect specific Airtable collection structures and field mappings. Schema changes require template coordination.
+**CMS DEPENDENCY**: Content templates expect specific Sanity collection structures and field mappings. Schema changes require template coordination.
 
 ### Landing Page Templates
 
@@ -73,7 +73,7 @@ Templates should:
 
 ### Integration Dependencies
 
-**11ty Collections**: Templates consume data from `eleventy/collections/` processors that transform Airtable data into usable collections.
+**11ty Collections**: Templates consume data from `eleventy/collections/` processors that transform Sanity data into usable collections.
 
 **Animation Choreography**: Page templates initialize `js/choreography/Director.js` which coordinates all section animations and scroll behaviors.
 
@@ -191,7 +191,7 @@ All templates must support:
 
 **Animation System**: GSAP choreography system depends on specific DOM structure and CSS classes. Template changes can silently break animations.
 
-**CMS Integration**: Airtable schema changes affect multiple templates that expect specific data structures from collection processing.
+**CMS Integration**: Sanity schema changes affect multiple templates that expect specific data structures from collection processing.
 
 **CSS Framework**: Tailwind CSS updates may affect responsive design patterns used across template hierarchy.
 
@@ -230,7 +230,7 @@ Templates should implement comprehensive error handling:
 
 ### Collection Processing
 
-1. **Airtable data** fetched and cached by collection processors
+1. **Sanity data** fetched and cached by collection processors
 2. **11ty collections** transform raw data into template-ready structures
 3. **Global data** provides site-wide configuration and navigation
 4. **Page-specific data** combines collections with frontmatter configuration

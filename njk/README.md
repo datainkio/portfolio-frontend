@@ -18,7 +18,7 @@
 - **Rapid component creation**: `npm run scaffold:component atoms heading`
 - **Consistent structure**: Standardized Nunjucks patterns across all components
 - **Organized by level**: Atoms → Molecules → Organisms follow atomic design hierarchy
-- **Airtable ready**: All components designed to work with CMS data
+- **Sanity ready**: All components designed to work with CMS data
 - **Available scaffolds**: Run `npm run scaffold:list` to see all options. See [scripts/README.md](../scripts/README.md) for full scaffolding documentation.
 
 ### **Icon System** ✅
@@ -40,7 +40,7 @@ The enhanced template system serves as the **content-to-HTML transformation engi
 
 - **🔄 Component reusability** - Build once, use everywhere with registry system
 - **📊 Content separation** - UX structure independent of actual content
-- **⚡ Dynamic generation** - Pages automatically adapt to Airtable content changes
+- **⚡ Dynamic generation** - Pages automatically adapt to Sanity content changes
 - **♿ Accessibility by default** - Semantic HTML structure enforced through templates
 - **🎨 Design system enforcement** - Figma tokens ensure brand consistency
 - **🎬 Animation integration** - GSAP compatibility built into component structure
@@ -88,7 +88,7 @@ npm start
 # - Live design token integration
 # - Sample data for testing
 # - Component structure and usage
-# - Airtable content relationships
+# - CMS content relationships
 ```
 
 ## 🏗️ **Atomic Design Architecture**
@@ -104,7 +104,7 @@ enables efficient collaboration.
 
 ## Directory Structure & Component Hierarchy
 
-### `/_includes/` - Reusable Component Library
+### Component Library (atoms/, molecules/, organisms/, templates/)
 
 #### `/atoms/` - Fundamental Building Blocks
 
@@ -235,23 +235,23 @@ scripts: >                         # Page-specific JavaScript
 **What it is**: Site-wide settings and content available to all templates **UX
 Impact**: Centralizes brand information and CMS configuration
 
-- **`site.json`** - Site metadata, manifest, Airtable table configuration,
+- **`site.json`** - Site metadata, manifest, CMS configuration,
   navigation settings
 - **`introduction.json`** - Global content snippets and messaging
 
 ## Content Flow Architecture
 
 ```
-Airtable CMS → 11ty Collections → Nunjucks Templates → HTML Pages
+Sanity CMS → 11ty Collections → Nunjucks Templates → HTML Pages
 ```
 
-### 1. **Airtable Content**
+### 1. **Sanity Content**
 
-Content editors manage projects, articles, images in Airtable
+Content editors manage projects, articles, images in Sanity
 
 ### 2. **11ty Collections**
 
-Build process transforms Airtable data into queryable collections:
+Build process transforms Sanity data into queryable collections:
 
 ```nunjucks
 {% set projects = collections.projects %}
@@ -334,7 +334,7 @@ No HTML knowledge required - use includes with plain English parameters:
 
 ### Content Updates
 
-Edit in Airtable → Rebuild site → Changes appear automatically in all relevant
+Edit in Sanity → Rebuild site → Changes appear automatically in all relevant
 components
 
 ## Design System Integration
