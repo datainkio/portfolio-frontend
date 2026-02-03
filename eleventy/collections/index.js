@@ -73,20 +73,22 @@
  * }
  */
 
-import chalk from 'chalk';
-import { readFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-import { init as initNavigation } from './navigation.js';
+import chalk from "chalk";
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+import { init as initNavigation } from "./navigation.js";
 // import { init as initAirtable } from './content.js';
-import { init as initSanity } from './sanity.js';
-import { init as initDocumentation } from './documentation.js';
+import { init as initSanity } from "./sanity.js";
+import { init as initDocumentation } from "./documentation.js";
 
 // ESM __dirname equivalent
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Load site configuration synchronously (required for all initializers)
-const site = JSON.parse(readFileSync(join(__dirname, '../../njk/_data/site.json'), 'utf8'));
+const site = JSON.parse(
+  readFileSync(join(__dirname, "../../site.json"), "utf8"),
+);
 
 /**
  * Initialize all Eleventy collections
@@ -128,6 +130,6 @@ export default async function (eleventyConfig) {
     await initDocumentation(eleventyConfig);
   } catch (error) {
     // Log collection initialization errors without breaking build
-    console.error(chalk.red('💥 Error loading data:'), error);
+    console.error(chalk.red("💥 Error loading data:"), error);
   }
 }

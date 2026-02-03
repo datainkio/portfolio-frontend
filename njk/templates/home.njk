@@ -1,0 +1,73 @@
+{% import "organisms/SitePreloader.njk" as Preloader %}
+{% import "organisms/header/global-header.njk" as Header %}
+{% import "organisms/footer/global-footer.njk" as Footer %}
+{% import "atoms/gel.njk" as Gel %}
+{% import "molecules/background/video-background.njk" as Background %}
+{% import "atoms/ruler.njk" as ruler %}
+{%- set rulerOptions = params.rulerOptions | default({}) -%}
+{%- set contentClasses = params.contentClasses | default('min-h-screen') -%}
+<!DOCTYPE html>
+<html lang="en">
+    {% include "templates/partials/head.njk" %}
+    {# TODO: Confirm that setting aria-busy="true" on main is appropriate for indicating loading state during preloader sequence.
+        GSAP Animation System Integration
+        
+        REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
+        - id="main-header" : Required by js/choreography/sections/Hero.js
+        - id="work"        : Required by js/choreography/sections/Work.js  
+        - id="biography"   : Required by js/choreography/sections/Biography.js
+        
+        DO NOT MODIFY these IDs without updating corresponding animation controllers
+        Animation system depends on specific DOM structure and element targeting
+        
+        SCROLLSMOOTHER INTEGRATION:
+        - Main content wrapper must maintain scroll context
+        - Section elements require data-scroll attributes for ScrollTrigger
+        - CSS transforms may interfere with animation timelines
+        
+        DESIGN TOKEN DEPENDENCIES:
+        - Animation values sync from Figma design tokens
+        - CSS custom properties used for timing and easing
+        - Maintain --animation-* custom properties in styles/
+        #}
+    <body class="{{ bodyClasses | default('') }}">
+        {% include "templates/partials/gtm-noscript.njk" %}
+        {{ Preloader.render({ kind: "spinner", message: "Preparing the experience…" }) }}
+        {{ Header.render({ classes: "global-header fixed top-0 left-0 w-full z-20" }) }}
+        {{ Background.render({
+      id:"sizzle-background",
+      videoSrc: "https://imgur.com/2cSaKIt.mp4",
+      poster: "/assets/images/self-portrait.png",
+      classes: "fixed inset-0 -z-10 pointer-events-none overflow-hidden gsap-element gsap-fade",
+      defer: false,
+      preload: "none",
+      autoPlay: false
+    }) }}
+        {{ Gel.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
+        {# Wrapping content with the smooth-wrapper and smooth-content divs for ScrollSmoother #}
+        <div id="smooth-wrapper" class="{{ mainClasses }}">
+            <div id="smooth-content" class="{{ contentClasses }}">
+                <main
+                    id="page-main" aria-busy="true">
+                    {# {{ ruler.render({ 
+                                          intervals: rulerOptions.intervals | default(12),
+                                          subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
+                                          id: rulerOptions.id | default("hero-ruler"),
+                                          classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute gsap-element")
+                                        }) }} #}
+                    {% import "organisms/section/hero.njk" as heroSection %}
+                    {% import "organisms/section/bio/bio.njk" as bioSection %}
+                    {% import "organisms/section/awards.njk" as awards %}
+                    {% import "organisms/section/projects.njk" as projects %}
+
+                    {{ heroSection.render( { id: "hero", title: title }) }}
+                    {{ bioSection.render({id: "bio", classes: "relative z-10 col-start-3 col-end-9 p-4 mb-48 bg-primary-100 text-primary-950"}) }}
+                    {{ awards.render({ id: "awards", awards: collections.awards, classes: "bg-white p-4 mb-48" }) }}
+                    {{ projects.render({ id: "projects", projects: collections.projects, classes:"bg-white p-4 mb-48" }) }}
+                </main>
+                {{ Footer.render({ classes: "global-footer py-8 px-4 text-center text-sm text-primary-200 bg-primary-950" }) }}
+            </div>
+        </div>
+        {% include "templates/partials/choreography-script.njk" %}
+    </body>
+</html>
