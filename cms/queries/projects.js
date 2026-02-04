@@ -1,10 +1,10 @@
 /** @format */
-import groq from 'groq';
+import groq from "groq";
 
 export const projectsQuery = {
-  id: 'projects',
-  description: 'Published projects for portfolio grids and detail pages',
-  cacheDuration: '1d',
+  id: "projects",
+  description: "Published projects for portfolio grids and detail pages",
+  cacheDuration: "1d",
   query: groq`*[_type == "project" && meta.published == true]{
     _id,
     _updatedAt,

@@ -1,5 +1,5 @@
 ---
-layout: templates/home.njk
+layout: pages/home.njk
 permalink: /
 fallbackTitle: "Yo yo yo"
 subtitle: "The online studio for Russ Lebo"
