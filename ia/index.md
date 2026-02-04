@@ -16,6 +16,6 @@ eleventyComputed:
   title: "{{ cms.landing[0].pageTitle }}"
   hero:
     tagline: "{{ cms.landing[0].tagline }}"
-    videoSrc: "{{ cms.landing[0].backgroundVideo }}"
-    poster: "{{ cms.landing[0].backgroundPoster }}"
+    videoSrc: "{{ cms.landing[0].videoSrc }}"
+    videoPoster: "{{ cms.landing[0].videoPoster }}"
 ---

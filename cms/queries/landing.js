@@ -8,6 +8,8 @@ export const landingQuery = {
   query: groq`*[_type == "landing"] | order(_updatedAt desc)[0...1]{
     _id,
     _updatedAt,
-    tagline
+    tagline,
+    "videoSrc": backgroundVideo.asset->url,
+    "videoPoster": backgroundPoster.asset->url
   }`,
 };

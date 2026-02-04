@@ -16,6 +16,7 @@
 /** @format */
 
 import { AssetCache } from "@11ty/eleventy-fetch";
+import { createHash } from "crypto";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 // TODO: Logger enable/disable is not respected in this module
 logger.enabled = true;
@@ -36,7 +37,11 @@ export default async function fetchSanityData({
     return [];
   }
 
-  const cacheKey = `sanity-${id}`;
+  const querySignature = createHash("sha1")
+    .update(String(query))
+    .update(JSON.stringify(params))
+    .digest("hex");
+  const cacheKey = `sanity-${id}-${querySignature}`;
   const asset = new AssetCache(cacheKey);
 
   const forceRefresh = process.env.SANITY_FORCE_REFRESH === "true";

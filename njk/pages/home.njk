@@ -3,33 +3,33 @@
 {% import "organisms/footer/global-footer.njk" as Footer %}
 {% import "atoms/gel.njk" as Gel %}
 {% import "molecules/background/video-background.njk" as Background %}
-{% import "atoms/ruler.njk" as ruler %}
 {%- set rulerOptions = params.rulerOptions | default({}) -%}
 {%- set contentClasses = params.contentClasses | default('min-h-screen') -%}
 <!DOCTYPE html>
 <html lang="en">
     {% include "templates/partials/head.njk" %}
-    {# TODO: Confirm that setting aria-busy="true" on main is appropriate for indicating loading state during preloader sequence.
-    GSAP Animation System Integration
-    
-    REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
-    - id="main-header" : Required by js/choreography/sections/Hero.js
-    - id="work" : Required by js/choreography/sections/Work.js  
-    - id="biography" : Required by js/choreography/sections/Biography.js
-    
-    DO NOT MODIFY these IDs without updating corresponding animation controllers
-    Animation system depends on specific DOM structure and element targeting
-    
-    SCROLLSMOOTHER INTEGRATION:
-    - Main content wrapper must maintain scroll context
-    - Section elements require data-scroll attributes for ScrollTrigger
-    - CSS transforms may interfere with animation timelines
-    
-    DESIGN TOKEN DEPENDENCIES:
-    - Animation values sync from Figma design tokens
-    - CSS custom properties used for timing and easing
-    - Maintain --animation-* custom properties in styles/
-    #}
+    {# 
+                                                                                                                            TODO: Confirm that setting aria-busy="true" on main is appropriate for indicating loading state during preloader sequence.
+                                                                                                                            GSAP Animation System Integration
+                                                                                                                            
+                                                                                                                            REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
+                                                                                                                            - id="main-header" : Required by js/choreography/sections/Hero.js
+                                                                                                                            - id="work" : Required by js/choreography/sections/Work.js  
+                                                                                                                            - id="biography" : Required by js/choreography/sections/Biography.js
+                                                                                                                            
+                                                                                                                            DO NOT MODIFY these IDs without updating corresponding animation controllers
+                                                                                                                            Animation system depends on specific DOM structure and element targeting
+                                                                                                                            
+                                                                                                                            SCROLLSMOOTHER INTEGRATION:
+                                                                                                                            - Main content wrapper must maintain scroll context
+                                                                                                                            - Section elements require data-scroll attributes for ScrollTrigger
+                                                                                                                            - CSS transforms may interfere with animation timelines
+                                                                                                                            
+                                                                                                                            DESIGN TOKEN DEPENDENCIES:
+                                                                                                                            - Animation values sync from Figma design tokens
+                                                                                                                            - CSS custom properties used for timing and easing
+                                                                                                                            - Maintain --animation-* custom properties in styles
+                                                                                                                            #}
     <body class="{{ bodyClasses | default('') }}">
         {% include "templates/partials/gtm-noscript.njk" %}
         {{ Preloader.render({ kind: "spinner", message: "Preparing the experience…" }) }}
@@ -37,7 +37,7 @@
         {{ Background.render({
   id:"sizzle-background",
   videoSrc: hero.videoSrc,
-  poster: hero.poster,
+  poster: hero.videoPoster,
   classes: "fixed inset-0 -z-10 pointer-events-none overflow-hidden gsap-element gsap-fade",
   defer: false,
   preload: "none",
@@ -47,14 +47,8 @@
         {# Wrapping content with the smooth-wrapper and smooth-content divs for ScrollSmoother #}
         <div id="smooth-wrapper" class="{{ mainClasses }}">
             <div id="smooth-content" class="{{ contentClasses }}">
-                <main
-                    id="page-main" aria-busy="true">
-                    {# {{ ruler.render({ 
-                                                                                                                                                                                           intervals: rulerOptions.intervals | default(12),
-                                                                                                                                                                                           subticksPerInterval: rulerOptions.subticksPerInterval | default(16),
-                                                                                                                                                                                           id: rulerOptions.id | default("hero-ruler"),
-                                                                                                                                                                                           classes: rulerOptions.classes | default("text-primary-200 col-span-full w-full px-12 bottom-0 pb-6 absolute gsap-element")
-                                                                                                                                                                                         }) }} #}
+                <main id="page-main" aria-busy="true">
+
                     {% import "organisms/section/hero.njk" as heroSection %}
                     {% import "organisms/section/bio/bio.njk" as bioSection %}
                     {% import "organisms/section/awards.njk" as awards %}
