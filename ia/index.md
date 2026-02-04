@@ -13,6 +13,9 @@ skipLinks:
   - projects
 enableChoreography: true
 eleventyComputed:
-  title: "{{ cms.landing[0].title }}"
-  tagline: "{{ cms.landing[0].tagline }}"
+  title: "{{ cms.landing[0].pageTitle }}"
+  hero:
+    tagline: "{{ cms.landing[0].tagline }}"
+    videoSrc: "{{ cms.landing[0].backgroundVideo }}"
+    poster: "{{ cms.landing[0].backgroundPoster }}"
 ---

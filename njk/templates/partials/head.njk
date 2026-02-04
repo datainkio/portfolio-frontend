@@ -12,72 +12,62 @@ INTEGRATION DEPENDENCIES:
 DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
 #}
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   {# TODO: GTM integration breaks page refresh on localhost #}
   {# {% include "atoms/gtm-script.njk" %} #}
-
-  <title>{{ title | default("Default Title") }}</title>
-  {% if metaDescription %}
-    <meta name="description" content="{{ metaDescription }}" />
-  {% endif %}
+  {# TODO: Page titles are not rendering correctly from frontmatter.eleventyComputed - investigate #}
+    <title>
+  {{ title }}
+  </title>
+    {% if metaDescription %}
+  <meta name="description" content="{{ metaDescription }}"/> {% endif %}
   {% if metaKeywords %}
-    <meta name="keywords" content="{{ metaKeywords }}" />
+    <meta name="keywords" content="{{ metaKeywords }}"/>
   {% endif %}
-  <meta name="author" content="{{ author | default('Site Author') }}" />
+  <meta name="author" content="{{ author | default('Site Author') }}"/>
   {% if canonicalUrl %}
-    <link rel="canonical" href="{{ canonicalUrl }}" />
+    <link rel="canonical" href="{{ canonicalUrl }}"/>
   {% endif %}
 
   {% if ogTitle %}
-    <meta property="og:title" content="{{ ogTitle }}" />
+    <meta property="og:title" content="{{ ogTitle }}"/>
   {% endif %}
   {% if ogDescription %}
-    <meta property="og:description" content="{{ ogDescription }}" />
+    <meta property="og:description" content="{{ ogDescription }}"/>
   {% endif %}
   {% if ogImage %}
-    <meta property="og:image" content="{{ ogImage }}" />
+    <meta property="og:image" content="{{ ogImage }}"/>
   {% endif %}
   {% if ogUrl %}
-    <meta property="og:url" content="{{ ogUrl }}" />
+    <meta property="og:url" content="{{ ogUrl }}"/>
   {% endif %}
 
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta
+  name="twitter:card" content="summary_large_image"/>
   {# {% include "molecules/fonts.njk" %} #}
   <link rel="preload" as="style" href="{{ '/assets/styles.css' | url }}">
-  <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}" />
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="{{ site.manifest.theme_color }}" />
-  <meta
-    name="theme-color"
-    media="(prefers-color-scheme: dark)"
-    content="{{ site.manifest.theme_color_dark }}"
-  />
-  <meta name="application-name" content="{{ site.manifest.short_name }}" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta
-    name="apple-mobile-web-app-title"
-    content="{{ site.manifest.short_name }}"
-  />
-  <!-- Icons -->
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  {% for icon in site.manifest.icons %}
-    <link
-      rel="icon"
-      type="{{ icon.type }}"
-      sizes="{{ icon.sizes }}"
-      href="{{ icon.src }}"
-    />
-  {% endfor %}
+    <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}"/>
+    <link rel="manifest" href="/manifest.json"/>
+    <meta name="theme-color" content="{{ site.manifest.theme_color }}"/>
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ site.manifest.theme_color_dark }}"/>
+    <meta name="application-name" content="{{ site.manifest.short_name }}"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta
+    name="apple-mobile-web-app-title" content="{{ site.manifest.short_name }}"/> <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any"/>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    {% for icon in site.manifest.icons %}
+      <link rel="icon" type="{{ icon.type }}" sizes="{{ icon.sizes }}" href="{{ icon.src }}"/>
+    {% endfor %}
 
-  <!-- Preconnects for performance optimization -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  {{ scripts | safe }}
-  {% block extraHeadContent %}{% endblock %}
-</head>
+    <!-- Preconnects for performance optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          {{ scripts | safe }}
+          {% block extraHeadContent %}{% endblock %}
+        </head>
