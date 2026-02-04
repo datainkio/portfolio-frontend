@@ -576,7 +576,7 @@ import { gsap, ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';
 
 **Where to start?** New developers likely experience:
 
-1. Open [README.md](README.md) ✅
+1. Open [README.md](dataink.io/frontend/js/choreography/README.md) ✅
 2. Search for initialization code → not obvious where Director is called ❌
 3. Look at Hero section example → good starting point ✅
 4. Try to add new section → need to understand 3 files (Section, Animations, Triggers) ⚠️
@@ -749,7 +749,7 @@ _applyPostIntroState() {
 | 2.2 | Inconsistent constructor variables (`var` vs `const`) | [BackgroundVideo.js](sections/background/BackgroundVideo.js)                             | Standardize all to `const`                               | Run `npm run format`              |
 | 2.3 | Implicit DOM contract in AbstractSection              | [AbstractSection.js](sections/abstract-section/AbstractSection.js)                       | Add `isDisabled` flag pattern + document OR throw error  | Test missing DOM elements         |
 | 2.4 | Hardcoded event strings (`'preloader:out'`)           | [LandingSequence.js](sequences/landing/LandingSequence.js), [constants.js](constants.js) | Add `EVENTS.system.*` to constants                       | grep for hardcoded event strings  |
-| 2.5 | README shows incorrect static AnimationBus usage      | [README.md](README.md)                                                                   | Update examples to show instance usage                   | Review README code samples        |
+| 2.5 | README shows incorrect static AnimationBus usage      | [README.md](dataink.io/frontend/js/choreography/README.md)                                                                   | Update examples to show instance usage                   | Review README code samples        |
 | 4.1 | Missing `_applyPostIntroState()` method               | [AbstractSection.js](sections/abstract-section/AbstractSection.js)                       | Implement method or remove call                          | Test reduced motion mode          |
 
 ---
@@ -774,7 +774,7 @@ _applyPostIntroState() {
 | ---- | --------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------ | ------------------- |
 | 2.10 | Commented-out code                      | Multiple                                                                           | Remove commented logger statements   | Code cleanup        |
 | 2.11 | Inconsistent optional chaining patterns | Multiple                                                                           | Standardize `?.` usage guidelines    | Code review         |
-| 3.4  | Link initialization diagram from README | [README.md](README.md)                                                             | Add link to sequence diagram         | Documentation check |
+| 3.4  | Link initialization diagram from README | [README.md](dataink.io/frontend/js/choreography/README.md)                                                             | Add link to sequence diagram         | Documentation check |
 | 3.5  | Document bind() idempotency behavior    | [AbstractSectionTriggers.js](sections/abstract-section/AbstractSectionTriggers.js) | Add JSDoc clarifying rebind behavior | Documentation       |
 
 ---
@@ -868,7 +868,7 @@ this.sections.next.playIntro();
 \`\`\`
 ```
 
-**Canonical location:** This pattern should be documented in [README.md](README.md) under "Creating Sequences"
+**Canonical location:** This pattern should be documented in [README.md](dataink.io/frontend/js/choreography/README.md) under "Creating Sequences"
 
 ---
 

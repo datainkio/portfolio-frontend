@@ -18,7 +18,7 @@ process.noDeprecation = true;
 
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
-logger.enabled = false;
+// logger.enabled = false;
 
 import collections from "./eleventy/collections/index.js";
 import plugins from "./eleventy/plugins/plugins.js";
@@ -42,7 +42,7 @@ export default async function (eleventyConfig) {
       "standard",
     );
     // Passthrough copy for static assets
-    logger.trace(null, "Configuring passthrough copy", "brief", msgStyle);
+    logger.trace("Configuring passthrough copy", null, "brief", msgStyle);
     eleventyConfig.addPassthroughCopy({ "static/robots.txt": "robots.txt" });
     eleventyConfig.addPassthroughCopy("assets");
     eleventyConfig.addPassthroughCopy({ js: "assets/js" });
@@ -61,20 +61,20 @@ export default async function (eleventyConfig) {
     // eleventyConfig.addPassthroughCopy("src/js");
 
     // Plugins
-    logger.trace("Registering 11ty plugins...", null, "brief", msgStyle);
+    logger.trace("Registering 11ty plugins", null, "brief", msgStyle);
     plugins(eleventyConfig);
 
     // Filters
-    logger.trace("Registering template filters...", null, "brief", msgStyle);
+    logger.trace("Registering template filters", null, "brief", msgStyle);
     filters(eleventyConfig);
 
     // Shortcodes
-    logger.trace("Registering template shortcodes...", null, "brief", msgStyle);
+    logger.trace("Registering template shortcodes", null, "brief", msgStyle);
     shortcodes(eleventyConfig);
 
     // Collections
-    logger.trace("Registering data collections...", null, "brief", msgStyle);
-    // Wait for all Airtable data to be fetched (either in parallel or sequential mode) before continuing with the buil
+    logger.trace("Registering data collections", null, "brief", msgStyle);
+    // Wait for all data to be fetched (either in parallel or sequential mode) before continuing with the build
     await collections(eleventyConfig);
 
     // Make Tailwind theme data available globally
@@ -97,7 +97,5 @@ export default async function (eleventyConfig) {
       output: "_site",
     },
     markdownTemplateEngine: "njk",
-    htmlTemplateEngine: "njk",
-    dataTemplateEngine: "njk",
   };
 }

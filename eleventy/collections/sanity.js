@@ -15,25 +15,24 @@
  * ---
  */
 /** @format */
-import fetchSanityData from '../../cms/fetchSanityData.js';
+import fetchSanityData from "../../cms/fetchSanityData.js";
 import {
   createSanityClient,
   resolveSanityConfig,
   sanitizeConfigForLogs,
-} from '../../cms/client.js';
-import { CMS_QUERIES } from '../../cms/queries.js';
-import logger, { LumberjackStyle } from '@datainkio/lumberjack';
+} from "../../cms/client.js";
+import { CMS_QUERIES } from "../../cms/queries.js";
+import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
 logger.enabled = true;
 
-const titleStyle = new LumberjackStyle('#0A9396', '\n🛰️ ');
-const msgStyle = new LumberjackStyle('#CA6702', '•');
-const successStyle = new LumberjackStyle('#EE9B00', '\n👍');
-const warnStyle = new LumberjackStyle('#AE2012', '⛔');
+const titleStyle = new LumberjackStyle("#0A9396", "\n🛰️ ");
+const msgStyle = new LumberjackStyle("#CA6702", "•");
+const successStyle = new LumberjackStyle("#EE9B00", "\n👍");
+const warnStyle = new LumberjackStyle("#AE2012", "⛔");
 
-async function fetchAllQueries({ client, cacheDefault }) {
-  const useParallel = process.env.SANITY_PARALLEL !== 'false';
-  const tasks = CMS_QUERIES.map(async definition => {
+async function fetchAllQueries({ client, cacheDefault, useParallel }) {
+  const tasks = CMS_QUERIES.map(async (definition) => {
     const cacheDuration = definition.cacheDuration || cacheDefault;
     const data = await fetchSanityData({
       client,
@@ -57,26 +56,58 @@ async function fetchAllQueries({ client, cacheDefault }) {
 }
 
 export async function init(eleventyConfig, site) {
-  logger.trace('Syncing CMS content', null, 'brief', titleStyle);
+  logger.trace("Syncing CMS content", null, "brief", titleStyle);
+  logger.trace(
+    "process.env.SANITY_CACHE_DURATION: " + process.env.SANITY_CACHE_DURATION,
+    null,
+    "brief",
+    msgStyle,
+  );
+  logger.trace(
+    "process.env.FORCE_REFRESH: " + process.env.SANITY_FORCE_REFRESH,
+    null,
+    "brief",
+    msgStyle,
+  );
   const cmsConfig = resolveSanityConfig(site?.cms || site?.sanity || {});
 
   if (!cmsConfig.projectId || !cmsConfig.dataset) {
-    logger.trace('CMS skipped: missing projectId/dataset', null, 'brief', warnStyle);
+    eleventyConfig.addGlobalData("cms", {});
+    logger.trace(
+      "CMS skipped: missing projectId/dataset",
+      null,
+      "brief",
+      warnStyle,
+    );
     return;
   }
 
   const client = createSanityClient(cmsConfig);
-  if (!client) return;
+  if (!client) {
+    eleventyConfig.addGlobalData("cms", {});
+    return;
+  }
 
-  eleventyConfig.addGlobalData('cmsMeta', sanitizeConfigForLogs(cmsConfig));
-  logger.trace('CMS client ready', sanitizeConfigForLogs(cmsConfig), 'verbose', msgStyle);
+  eleventyConfig.addGlobalData("cmsMeta", sanitizeConfigForLogs(cmsConfig));
 
-  const cacheDefault = site?.cms?.cache || site?.sanity?.cache || '1d';
-  const results = await fetchAllQueries({ client, cacheDefault });
+  const cacheDuration = cmsConfig.cacheDuration || "1d";
+  const useParallel = cmsConfig.parallel !== false;
+  const results = await fetchAllQueries({
+    client,
+    cacheDefault: cacheDuration,
+    useParallel,
+  });
+
+  const cmsPayload = results.reduce((payload, { id, data }) => {
+    payload[id] = data || [];
+    return payload;
+  }, {});
+
+  eleventyConfig.addGlobalData("cms", cmsPayload);
 
   results.forEach(({ id, data }) => {
     eleventyConfig.addCollection(id, () => data || []);
   });
 
-  logger.trace('CMS collections registered', null, 'brief', successStyle);
+  logger.trace("CMS collections registered", null, "brief", successStyle);
 }

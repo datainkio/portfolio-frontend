@@ -16,6 +16,7 @@
 /** @format */
 
 /**
+ * TODO(dx): Update documentation to reflect removal of Airtable CMS.
  * Eleventy Collections Manager
  *
  * Central orchestration point for all Eleventy collections. This module coordinates
@@ -88,7 +89,7 @@ import { init as initDocumentation } from "./documentation.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Load site configuration synchronously (required for all initializers)
-const site = JSON.parse(
+const SITE = JSON.parse(
   readFileSync(join(__dirname, "../../site.json"), "utf8"),
 );
 
@@ -114,22 +115,15 @@ const site = JSON.parse(
  */
 export default async function (eleventyConfig) {
   try {
-    // STEP 1: Initialize Airtable data collections FIRST
-    // These have no dependencies and are required by navigation
-    // TODO(cms): Remove Airtable collections entirely once Sanity parity is complete.
-    // await initAirtable(eleventyConfig, site);
+    // STEP 1: Initialize Sanity collections
+    await initSanity(eleventyConfig, SITE);
 
-    // STEP 2: Initialize Sanity collections
-    await initSanity(eleventyConfig, site);
+    // STEP 2: Initialize navigation collections
+    await initNavigation(eleventyConfig, SITE);
 
-    // STEP 3: Initialize navigation collections AFTER Airtable
-    // nav_projects depends on 'projects' collection from Airtable
-    // nav_primary depends on nav_dirs and nav_projects
-    await initNavigation(eleventyConfig, site);
-
-    // STEP 4: Initialize documentation collection
+    // STEP 3: Initialize documentation collection
     // Auto-discovers README.md files and creates documentation pages
-    await initDocumentation(eleventyConfig);
+    // await initDocumentation(eleventyConfig);
   } catch (error) {
     // Log collection initialization errors without breaking build
     console.error(chalk.red("💥 Error loading data:"), error);
