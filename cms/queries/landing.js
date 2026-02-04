@@ -10,6 +10,9 @@ export const landingQuery = {
     _updatedAt,
     tagline,
     "videoSrc": backgroundVideo.asset->url,
-    "videoPoster": backgroundPoster.asset->url
+    "videoPoster": backgroundPoster.asset->url,
+    valuePropHeading,
+    valuePropSubHeading,
+    valuePropBody,
   }`,
 };

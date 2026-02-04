@@ -9,27 +9,27 @@
 <html lang="en">
     {% include "templates/partials/head.njk" %}
     {# 
-                                                                                                                            TODO: Confirm that setting aria-busy="true" on main is appropriate for indicating loading state during preloader sequence.
-                                                                                                                            GSAP Animation System Integration
-                                                                                                                            
-                                                                                                                            REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
-                                                                                                                            - id="main-header" : Required by js/choreography/sections/Hero.js
-                                                                                                                            - id="work" : Required by js/choreography/sections/Work.js  
-                                                                                                                            - id="biography" : Required by js/choreography/sections/Biography.js
-                                                                                                                            
-                                                                                                                            DO NOT MODIFY these IDs without updating corresponding animation controllers
-                                                                                                                            Animation system depends on specific DOM structure and element targeting
-                                                                                                                            
-                                                                                                                            SCROLLSMOOTHER INTEGRATION:
-                                                                                                                            - Main content wrapper must maintain scroll context
-                                                                                                                            - Section elements require data-scroll attributes for ScrollTrigger
-                                                                                                                            - CSS transforms may interfere with animation timelines
-                                                                                                                            
-                                                                                                                            DESIGN TOKEN DEPENDENCIES:
-                                                                                                                            - Animation values sync from Figma design tokens
-                                                                                                                            - CSS custom properties used for timing and easing
-                                                                                                                            - Maintain --animation-* custom properties in styles
-                                                                                                                            #}
+                    TODO: Confirm that setting aria-busy="true" on main is appropriate for indicating loading state during preloader sequence.
+                    GSAP Animation System Integration
+                    
+                    REQUIRED ELEMENT IDs FOR ANIMATION CONTROLLERS:
+                    - id="main-header" : Required by js/choreography/sections/Hero.js
+                    - id="work" : Required by js/choreography/sections/Work.js  
+                    - id="biography" : Required by js/choreography/sections/Biography.js
+                    
+                    DO NOT MODIFY these IDs without updating corresponding animation controllers
+                    Animation system depends on specific DOM structure and element targeting
+                    
+                    SCROLLSMOOTHER INTEGRATION:
+                    - Main content wrapper must maintain scroll context
+                    - Section elements require data-scroll attributes for ScrollTrigger
+                    - CSS transforms may interfere with animation timelines
+                    
+                    DESIGN TOKEN DEPENDENCIES:
+                    - Animation values sync from Figma design tokens
+                    - CSS custom properties used for timing and easing
+                    - Maintain --animation-* custom properties in styles
+                    #}
     <body class="{{ bodyClasses | default('') }}">
         {% include "templates/partials/gtm-noscript.njk" %}
         {{ Preloader.render({ kind: "spinner", message: "Preparing the experience…" }) }}
@@ -55,7 +55,7 @@
                     {% import "organisms/section/projects.njk" as projects %}
 
                     {{ heroSection.render( { id: "hero", tagline: hero.tagline }) }}
-                    {{ bioSection.render({id: "bio", classes: "relative z-10 col-start-3 col-end-9 p-4 mb-48 bg-primary-100 text-primary-950"}) }}
+                    {{ bioSection.render({id: "bio", content: valueProp, classes: "relative z-10 col-start-3 col-end-9 p-4 mb-48 bg-primary-100 text-primary-950"}) }}
                     {{ awards.render({ id: "awards", awards: collections.awards, classes: "bg-white p-4 mb-48" }) }}
                     {{ projects.render({ id: "projects", projects: collections.projects, classes:"bg-white p-4 mb-48" }) }}
                 </main>

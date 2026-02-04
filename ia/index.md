@@ -18,4 +18,8 @@ eleventyComputed:
     tagline: "{{ cms.landing[0].tagline }}"
     videoSrc: "{{ cms.landing[0].videoSrc }}"
     videoPoster: "{{ cms.landing[0].videoPoster }}"
+  value:
+    heading: "{{ cms.landing[0].valuePropHeading }}"
+    subheading: "{{ cms.landing[0].valuePropSubHeading }}"
+    body: "{{ cms.landing[0].valuePropBody }}"
 ---
