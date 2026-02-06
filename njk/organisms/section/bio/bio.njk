@@ -1,9 +1,9 @@
 {% macro render(params = {}) %}
     {%- set sectionId = params.id | default("bio") -%}
     {%- set classes = params.classes | default("relative z-10 col-start-3 col-end-9 p-4 mb-48 text-neutral-100") -%}
-    {%- set heading = params.heading -%}
-    {%- set subheading = params.subheading -%}
-    {%- set body = params.body -%}
+    {%- set heading = params.copy.heading -%}
+    {%- set subheading = params.copy.subheading -%}
+    {%- set body = params.copy.body -%}
 
     {# Biography section - GSAP Biography Controller Target #}
     <section class="{{ classes }}" id="{{ sectionId }}" data-scroll-section>

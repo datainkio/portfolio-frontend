@@ -22,4 +22,7 @@ eleventyComputed:
     heading: "{{ cms.landing[0].valuePropHeading }}"
     subheading: "{{ cms.landing[0].valuePropSubHeading }}"
     body: "{{ cms.landing[0].valuePropBody }}"
+  recognition:
+    heading: "{{ cms.landing[0].recognitionHeading }}"
+    body: "{{ cms.landing[0].recognitionBody }}"
 ---

@@ -6,8 +6,9 @@
   <div id="{{ bgID }}" style="{{ containerStyles }}" class="{{ containerClasses }}" aria-hidden="true">
     {{ videoAtom.render({
       src: params.videoSrc,
+      defer: params.defer | default(true),
       poster: params.poster | default(''),
-      autoplay: params.autoplay | default(false),
+      autoplay: params.autoPlay | default(false),
       loop: params.loop | default(true),
       muted: params.muted | default(true),
       playsInline: params.playsInline | default(true),

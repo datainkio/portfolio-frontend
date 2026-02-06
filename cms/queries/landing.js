@@ -14,5 +14,7 @@ export const landingQuery = {
     valuePropHeading,
     valuePropSubHeading,
     valuePropBody,
+    recognitionHeading,
+    recognitionBody
   }`,
 };
