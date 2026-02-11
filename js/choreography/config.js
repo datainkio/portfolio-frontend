@@ -50,23 +50,23 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
-  video: 'sizzle-background',
-  organizations: 'organizations',
-  bio: 'bio',
-  awards: 'awards',
-  work: 'work',
+  video: "sizzle-background",
+  organizations: "organizations",
+  bio: "bio",
+  awards: "awards",
+  work: "work",
 
   // Scroll smoothing container (optional - enables ScrollSmoother)
-  smoothWrapper: '#smooth-wrapper',
-  smoothContent: '#smooth-content',
+  smoothWrapper: "#smooth-wrapper",
+  smoothContent: "#smooth-content",
 
   // Background layers (fixed positioning)
-  overlayView: '#overlay-view',
-  sizzleBackground: '#sizzle-background',
+  overlayView: "#overlay-view",
+  sizzleBackground: "#sizzle-background",
 
   // Hero section elements
-  hero: 'hero',
-  heroTitle: '#hero h1',
+  hero: "hero",
+  heroTitle: "#hero h1",
 };
 
 /**
@@ -77,7 +77,7 @@ export const SELECTORS = {
  */
 export const ASSET_PATHS = {
   video: {
-    sizzle: '/assets/video/sizzle.mp4',
+    sizzle: "/assets/video/sizzle.mp4",
   },
 };
 
@@ -101,9 +101,9 @@ export const ANIMATION_DEFAULTS = {
   // speed: 0.2,
   stagger: 0.1,
   ease: {
-    in: 'power3.in',
-    out: 'power3.out',
-    inOut: 'power3.inOut',
+    in: "power3.in",
+    out: "power3.out",
+    inOut: "power3.inOut",
   },
   translateY: -30,
 };
@@ -122,9 +122,9 @@ export const ANIMATION_DEFAULTS = {
  */
 export const SCROLL_DEFAULTS = {
   markers: false,
-  toggleActions: 'play none none reverse',
-  start: 'top center',
-  end: 'bottom center',
+  toggleActions: "play none none reverse",
+  start: "top center",
+  end: "bottom center",
 };
 
 /**
@@ -141,16 +141,16 @@ export const SCROLL_DEFAULTS = {
  * - masked: Boolean to apply mask effect
  */
 export const GEL_CONFIG = {
-  'bg-gel-0': {},
-  'bg-gel-1': {
-    targetElement: '#site-title', // Height match site title element
-    axis: 'x',
-    position: 'top',
+  "bg-gel-0": {},
+  "bg-gel-1": {
+    targetElement: "#hero", // Height match site title element
+    axis: "y",
+    position: "right",
   },
-  'bg-gel-2': {
+  "bg-gel-2": {
     target: 1 / 2, // Trigger at 50% viewport height
-    axis: 'x',
-    position: 'left',
+    axis: "x",
+    position: "left",
   },
 };
 
@@ -167,8 +167,8 @@ export const GEL_CONFIG = {
  */
 export const COLOR_CLASSES = {
   gel: {
-    primary: 'bg-gel-primary',
-    secondary: 'bg-gel-secondary',
-    accent: 'bg-gel-accent',
+    primary: "bg-gel-primary",
+    secondary: "bg-gel-secondary",
+    accent: "bg-gel-accent",
   },
 };

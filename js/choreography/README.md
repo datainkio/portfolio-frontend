@@ -4,6 +4,22 @@
 
 Master coordination system for all page animations using GSAP and a publish/subscribe event bus for loose coupling between sections.
 
+```mmd
+graph TD
+  AD[AnimationDirector] --> BUS[AnimationBus]
+  AD --> STAGE[ScrollEffectsCoordinator]
+  AD --> REG[SECTION_REGISTRY]
+  REG --> HERO[Hero Section Controller]
+  AD --> SEQ[LandingSequence]
+
+  STAGE --> GEL[GelAnimationManager]
+
+  HERO -->|emit lifecycle events| BUS
+  SEQ -->|listen to events| BUS
+
+  SEQ -. holds reference for optional timing .-> GEL
+```
+
 ## Quick Overview
 
 The choreography system coordinates animations across page sections without direct dependencies between them. Sections emit lifecycle events; orchestrators listen and trigger the next animation phase.
@@ -16,6 +32,31 @@ AnimationBus (pub/sub event system)
 ├─ StageManager (scroll smoothing, backgrounds, gels)
 ├─ Section Controllers (Hero, Work, Biography, BackgroundVideo)
 └─ Sequences (LandingSequence orchestrates multi-section flow)
+```
+
+## Key Files Reference
+
+```plaintext
+js/choreography/
+├── AnimationDirector.js          # Master initialization
+├── AnimationBus.js               # Event pub/sub system
+├── ScrollEffectsCoordinator.js   # Visual effects coordinator
+├── constants.js                  # Event name definitions
+├── config.js                     # Animation settings (timings, easing)
+├── managers/
+│   ├── ReducedMotionHandler.js   # Accessibility
+│   ├── BackgroundLayerManager.js # Fixed positioning
+│   ├── ScrollSmootherManager.js  # Smooth scrolling
+│   ├── GelAnimationManager.js    # Gel effects
+│   └── SessionManager.js         # Session state
+├── sections/
+│   ├── abstract-section/
+│   │   └── AbstractSection.js    # Base class for all sections
+│   ├── hero/Hero.js              # Hero section controller
+│   ├── background/BackgroundVideo.js  # Video background
+│   └── [other sections...]
+└── sequences/
+    └── landing/LandingSequence.js # Multi-section orchestration
 ```
 
 ## Core Architecture
@@ -255,31 +296,6 @@ window.director.getSequence().enableDebug(true);
 
 - **Check**: All `bus.on()` subscriptions are cleaned up
 - **Fix**: Call returned unsubscribe function or use `bus.off()`
-
-## Key Files Reference
-
-```plaintext
-js/choreography/
-├── Director.js                    # Master initialization
-├── AnimationBus.js               # Event pub/sub system
-├── StageManager.js               # Visual effects coordinator
-├── constants.js                  # Event name definitions
-├── config.js                     # Animation settings (timings, easing)
-├── managers/
-│   ├── ReducedMotionHandler.js   # Accessibility
-│   ├── BackgroundLayerManager.js # Fixed positioning
-│   ├── ScrollSmootherManager.js  # Smooth scrolling
-│   ├── GelAnimationManager.js    # Gel effects
-│   └── SessionManager.js         # Session state
-├── sections/
-│   ├── abstract-section/
-│   │   └── AbstractSection.js    # Base class for all sections
-│   ├── hero/Hero.js              # Hero section controller
-│   ├── background/BackgroundVideo.js  # Video background
-│   └── [other sections...]
-└── sequences/
-    └── landing/LandingSequence.js # Multi-section orchestration
-```
 
 ## Integration with Templates
 

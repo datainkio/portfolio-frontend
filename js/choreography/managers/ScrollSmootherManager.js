@@ -38,7 +38,7 @@
  */
 
 // ESM-friendly GSAP core + plugins (skypack)
-import { ScrollSmoother } from '/assets/js/choreography/vendor/gsap.js';
+import { ScrollSmoother } from "/assets/js/choreography/vendor/gsap.js";
 
 const SMOOTHER_EFFECTS = true; // Enable parallax effects
 const SMOOTHER_ENABLED = true; // Global disable flag for debugging/UX testing
@@ -54,7 +54,7 @@ export default class ScrollSmootherManager {
 
     // Subscribe to reduced motion changes
     if (reducedMotionHandler) {
-      this._unsubscribe = reducedMotionHandler.onChange(enabled => {
+      this._unsubscribe = reducedMotionHandler.onChange((enabled) => {
         if (enabled && this._smoother) {
           this.disable();
         } else if (!enabled && this._isAvailable && !this._smoother) {
@@ -70,8 +70,8 @@ export default class ScrollSmootherManager {
    * @returns {boolean} True if #smooth-wrapper and #smooth-content exist
    */
   _checkAvailability() {
-    const wrapper = document.querySelector('#smooth-wrapper');
-    const content = document.querySelector('#smooth-content');
+    const wrapper = document.querySelector("#smooth-wrapper");
+    const content = document.querySelector("#smooth-content");
     return !!(wrapper && content);
   }
 
@@ -87,9 +87,9 @@ export default class ScrollSmootherManager {
 
     try {
       this._smoother = ScrollSmoother.create({
-        wrapper: '#smooth-wrapper',
-        content: '#smooth-content',
-        smooth: 1.2,
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 0,
         effects: SMOOTHER_EFFECTS,
         normalizeScroll: true, // ← Add this
         ignoreMobileResize: true, // ← Add this
@@ -97,7 +97,7 @@ export default class ScrollSmootherManager {
       });
       return true;
     } catch (e) {
-      console.error('ScrollSmootherManager: Failed to create instance', e);
+      console.error("ScrollSmootherManager: Failed to create instance", e);
       return false;
     }
   }
