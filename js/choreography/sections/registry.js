@@ -35,10 +35,10 @@
  * @fileoverview Centralized section controller registry
  */
 
-import Hero from './hero/Hero.js';
-import Bio from './bio/Bio.js';
-import BackgroundVideo from './background/BackgroundVideo.js';
-import Awards from './awards/Awards.js';
+import Hero from "./hero/Hero.js";
+import Bio from "./bio/Bio.js";
+import BackgroundVideo from "./background/BackgroundVideo.js";
+import Awards from "./awards/Awards.js";
 // import Organizations from './organizations/Organizations.js'; // Commented out - not implemented
 
 /**
@@ -61,7 +61,6 @@ export const SECTION_REGISTRY = {
   video: BackgroundVideo,
   bio: Bio,
   awards: Awards,
-  // organizations: Organizations, // Uncomment when implemented
 };
 
 /**
@@ -71,11 +70,11 @@ export const SECTION_REGISTRY = {
  */
 export function getSectionName(sectionId) {
   const names = {
-    hero: 'Hero Section',
-    video: 'Background Video',
-    bio: 'Biography Section',
-    awards: 'Awards Section',
-    organizations: 'Organizations Section',
+    hero: "Hero Section",
+    video: "Background Video",
+    bio: "Biography Section",
+    awards: "Awards Section",
+    organizations: "Organizations Section",
   };
   return names[sectionId] || sectionId;
 }

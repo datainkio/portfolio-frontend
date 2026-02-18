@@ -18,9 +18,10 @@
 /**
  * BackgroundLayerManager - Fixed Background Layer Positioning
  *
- * Ensures background layers (overlay-view, sizzle-background) are properly
- * positioned outside ScrollSmoother's transformed content to maintain
- * position:fixed behavior relative to viewport.
+ * The design calls for a set of HTML elements to behave independently of scroll events.
+ * This class ensures background layers (overlay-view, sizzle-background) are properly
+ * positioned outside ScrollSmoother's transformed content to maintain position:fixed
+ * behavior relative to viewport.
  *
  * PROBLEM:
  * - ScrollSmoother applies transforms to #smooth-content
@@ -51,8 +52,8 @@ export default class BackgroundLayerManager {
    */
   _findElements() {
     this._elements = this._elementIds
-      .map(id => document.getElementById(id))
-      .filter(el => el !== null);
+      .map((id) => document.getElementById(id))
+      .filter((el) => el !== null);
   }
 
   /**
@@ -61,10 +62,10 @@ export default class BackgroundLayerManager {
    * @private
    */
   _detachFromScroller() {
-    const scroller = document.getElementById('smooth-content');
-    const wrapper = document.getElementById('smooth-wrapper') || document.body;
+    const scroller = document.getElementById("smooth-content");
+    const wrapper = document.getElementById("smooth-wrapper") || document.body;
 
-    this._elements.forEach(el => {
+    this._elements.forEach((el) => {
       // Only move if inside the scroller
       if (scroller && scroller.contains(el) && wrapper) {
         wrapper.appendChild(el);
@@ -78,16 +79,16 @@ export default class BackgroundLayerManager {
    */
   _applyFixedStyles() {
     const fixedStyles = {
-      position: 'fixed',
-      top: '0',
-      left: '0',
-      width: '100%',
-      height: '100vh',
-      pointerEvents: 'none',
-      zIndex: '-10',
+      position: "fixed",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100vh",
+      pointerEvents: "none",
+      zIndex: "-10",
     };
 
-    this._elements.forEach(el => {
+    this._elements.forEach((el) => {
       Object.assign(el.style, fixedStyles);
     });
   }
@@ -103,15 +104,15 @@ export default class BackgroundLayerManager {
     this._detachFromScroller();
     this._applyFixedStyles();
 
-    this._elements.forEach(layer => {
+    this._elements.forEach((layer) => {
       if (layer) {
-        layer.style.position = 'fixed';
-        layer.style.top = '0';
-        layer.style.left = '0';
-        layer.style.width = '100%';
-        layer.style.height = '100%';
-        layer.style.pointerEvents = 'none';
-        layer.style.zIndex = '-1';
+        layer.style.position = "fixed";
+        layer.style.top = "0";
+        layer.style.left = "0";
+        layer.style.width = "100%";
+        layer.style.height = "100%";
+        layer.style.pointerEvents = "none";
+        layer.style.zIndex = "-1";
       }
     });
   }

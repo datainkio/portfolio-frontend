@@ -55,9 +55,9 @@
  * @fileoverview Gel animation orchestrator for background visual effects
  */
 
-import { gsap, ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';
-import { Gel, GelManipulator } from '/assets/js/effects/gel/index.js';
-import { GEL_CONFIG } from '/assets/js/choreography/config.js';
+import { gsap, ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
+import { Gel, GelManipulator } from "/assets/js/effects/gel/index.js";
+import { GEL_CONFIG } from "/assets/js/choreography/config.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,7 +75,7 @@ export default class GelAnimationManager {
     this._onResize = this._handleResize.bind(this);
 
     if (reducedMotionHandler) {
-      this._unsubscribe = reducedMotionHandler.onChange(enabled => {
+      this._unsubscribe = reducedMotionHandler.onChange((enabled) => {
         if (enabled) {
           this.destroy();
         }
@@ -87,19 +87,19 @@ export default class GelAnimationManager {
    * Initialize gel controllers from DOM elements with bg-gel class
    */
   initialize() {
-    const gelElements = document.querySelectorAll('.bg-gel');
+    const gelElements = document.querySelectorAll(".bg-gel");
     this._gels = Array.from(gelElements)
-      .map(el => this._initializeGelFromElement(el))
-      .filter(gel => gel !== null);
+      .map((el) => this._initializeGelFromElement(el))
+      .filter((gel) => gel !== null);
 
     // Draw a triangle mask on the third gel because why the hell not
-    // this._gels[2].setCorner('topLeft', 50, 0, 0.6, 'power3.out');
-    // this._gels[2].setCorner('topRight', 50, 0, 0.6, 'power3.out');
+    this._gels[2].setCorner("topLeft", 50, 0, 0.6, "power3.out");
+    this._gels[2].setCorner("topRight", 50, 0, 0.6, "power3.out");
     // this._gels[2].setCorner('bottomRight', 100, 100, 0.6, 'power3.out');
     // this._gels[2].setCorner('bottomLeft', 0, 100, 0.6, 'power3.out');
 
     // Reapply sizing/positioning on resize so viewport-filling gels stay in sync
-    window.addEventListener('resize', this._onResize, { passive: true });
+    window.addEventListener("resize", this._onResize, { passive: true });
   }
 
   /**
@@ -111,14 +111,24 @@ export default class GelAnimationManager {
   _initializeGelFromElement(el) {
     const gelId = el.id;
     if (!gelId || !this._config[gelId]) {
-      console.warn('[GelAnimationManager] Missing config for gel element', gelId);
+      console.warn(
+        "[GelAnimationManager] Missing config for gel element",
+        gelId,
+      );
       return null;
     }
 
     const configEntry = this._config[gelId];
-    const { axis, position, target: configTarget, targetElement, masked } = configEntry;
+    const {
+      axis,
+      position,
+      target: configTarget,
+      targetElement,
+      masked,
+    } = configEntry;
     const refEl = targetElement ? document.querySelector(targetElement) : null;
-    const target = configTarget ?? (refEl ? GelManipulator.calculateTarget(refEl, axis) : 1);
+    const target =
+      configTarget ?? (refEl ? GelManipulator.calculateTarget(refEl, axis) : 1);
 
     GelManipulator.apply(el, { axis, refEl, position });
 
@@ -142,12 +152,12 @@ export default class GelAnimationManager {
    * @param {string|undefined} scroller - Scroller selector (undefined for window)
    * @param {string} trigger - Trigger selector
    */
-  animate(scroller = undefined, trigger = 'body') {
+  animate(scroller = undefined, trigger = "body") {
     if (this._reducedMotionHandler?.isReducedMotion()) return;
     if (this._gels.length === 0) return;
 
-    // this._killExistingTrigger();
-    // this._createScrollTrigger(scroller, trigger);
+    this._killExistingTrigger();
+    this._createScrollTrigger(scroller, trigger);
   }
 
   /** @private */
@@ -159,25 +169,26 @@ export default class GelAnimationManager {
   }
 
   /** @private */
-  // _createScrollTrigger(scroller, trigger) {
-  //   const stagger = 0.15;
+  _createScrollTrigger(scroller, trigger) {
+    const stagger = 0.15;
 
-  //   this._trigger = ScrollTrigger.create({
-  //     trigger,
-  //     start: 'top top',
-  //     end: '+=200vh',
-  //     scrub: true,
-  //     scroller,
-  //     onUpdate: self => this._updateGels(self.progress, stagger),
-  //   });
-  // }
+    this._trigger = ScrollTrigger.create({
+      trigger,
+      start: "top top",
+      end: "+=200vh",
+      scrub: true,
+      scroller,
+      onUpdate: (self) => this._updateGels(self.progress, stagger),
+    });
+  }
 
   /** @private */
   _updateGels(progress, stagger) {
     this._gels.forEach((gel, i) => {
       const gelProgress = this._calculateGelProgress(progress, i, stagger);
       const scale = 1 - gelProgress * (1 - gel.target);
-      const scaleState = gel.axis === 'y' ? { yScale: scale } : { xScale: scale };
+      const scaleState =
+        gel.axis === "y" ? { yScale: scale } : { xScale: scale };
       gel.setScrollScale(scaleState);
     });
   }
@@ -203,7 +214,7 @@ export default class GelAnimationManager {
 
   /** Cleanup animations and references */
   destroy() {
-    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener("resize", this._onResize);
     if (this._trigger) {
       this._trigger.kill();
       this._trigger = null;
@@ -226,7 +237,10 @@ export default class GelAnimationManager {
   }
 
   /** Reduce a gel to a viewport fraction (immediate, not scroll-driven) */
-  shrinkGelToViewportFraction(gelIndex = 0, { x = 1, y = 1, origin = 'center' } = {}) {
+  shrinkGelToViewportFraction(
+    gelIndex = 0,
+    { x = 1, y = 1, origin = "center" } = {},
+  ) {
     if (this._reducedMotionHandler?.isReducedMotion()) return;
     const gel = this._gels[gelIndex];
     // console.log('Shrinking gel', gelIndex, 'to width', x, 'and height', y, 'from the', origin);

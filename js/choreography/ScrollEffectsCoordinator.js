@@ -19,7 +19,8 @@
 
 /**
  * StageManager - Master Scroll & Visual Effects Coordinator
- * Maintains temporal coordination between section transitions and background effects. It does not handle coordination between sections; that is the role of the Director class.
+ * Maintains temporal coordination between section transitions and background effects.
+ * It does not handle coordination between sections; that is the role of AnimationDirector.
  *
  * Orchestrates site-wide scroll smoothing, background layers, and gel animations
  * via specialized manager modules. Coordinates with AnimationBus to sequence
@@ -49,12 +50,12 @@
  * @requires GelAnimationManager - Gel animation system
  * @requires AnimationBus - Event-driven section coordination
  */
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
-import ReducedMotionHandler from '/assets/js/choreography/managers/ReducedMotionHandler.js';
-import BackgroundLayerManager from '/assets/js/choreography/managers/BackgroundLayerManager.js';
-import ScrollSmootherManager from '/assets/js/choreography/managers/ScrollSmootherManager.js';
-import GelAnimationManager from '/assets/js/choreography/managers/GelAnimationManager.js';
-import { GEL_CONFIG } from '/assets/js/choreography/config.js';
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
+import ReducedMotionHandler from "/assets/js/choreography/managers/ReducedMotionHandler.js";
+import BackgroundLayerManager from "/assets/js/choreography/managers/BackgroundLayerManager.js";
+import ScrollSmootherManager from "/assets/js/choreography/managers/ScrollSmootherManager.js";
+import GelAnimationManager from "/assets/js/choreography/managers/GelAnimationManager.js";
+import { GEL_CONFIG } from "/assets/js/choreography/config.js";
 
 /**
  * ScrollEffectsCoordinator - Master Animation Coordinator
@@ -76,8 +77,8 @@ export default class ScrollEffectsCoordinator {
    */
   constructor(bus) {
     // Create scoped logger for ScrollEffectsCoordinator operations
-    this.logger = lumberjack.createScoped('ScrollEffectsCoordinator', {
-      color: '#10B981',
+    this.logger = lumberjack.createScoped("ScrollEffectsCoordinator", {
+      color: "#10B981",
     });
     // logger.enabled(true);
     // this.logger.enabled = false;
@@ -86,12 +87,15 @@ export default class ScrollEffectsCoordinator {
 
     // Initialize managers in dependency order
     this.reducedMotion = new ReducedMotionHandler();
-    this.backgroundLayers = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
+    this.backgroundLayers = new BackgroundLayerManager([
+      "overlay-view",
+      "sizzle-background",
+    ]);
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
     this.gelAnimation = new GelAnimationManager(GEL_CONFIG, this.reducedMotion);
 
     // Cache video and container references for external access
-    this._videoContainer = document.querySelector('#overlay-view');
+    this._videoContainer = document.querySelector("#overlay-view");
     // this._video = this._videoContainer?.querySelector('video');
 
     // Track gel animation state
@@ -119,7 +123,7 @@ export default class ScrollEffectsCoordinator {
     // console.log('[StageManager] Initialized all managers');
     this._startGelAnimations();
 
-    this.logger.trace('initialized');
+    this.logger.trace("initialized");
   }
 
   /**
@@ -130,7 +134,9 @@ export default class ScrollEffectsCoordinator {
     if (this._gelsAnimated) return; // Prevent multiple calls
 
     // Start gel animation (uses smoother scroller if available)
-    const scroller = this.scrollSmoother.isActive() ? '#smooth-wrapper' : undefined;
+    const scroller = this.scrollSmoother.isActive()
+      ? "#smooth-wrapper"
+      : undefined;
     this.gelAnimation.animate(scroller);
     this._gelsAnimated = true;
   }
@@ -175,18 +181,20 @@ export default class ScrollEffectsCoordinator {
    * @private
    */
   _fallbackToNativeScroll() {
-    this.logger.trace('Falling back to native scroll (ScrollSmoother not initialized)');
-    const wrapper = document.querySelector('#smooth-wrapper');
-    const content = document.querySelector('#smooth-content');
+    this.logger.trace(
+      "Falling back to native scroll (ScrollSmoother not initialized)",
+    );
+    const wrapper = document.querySelector("#smooth-wrapper");
+    const content = document.querySelector("#smooth-content");
 
     if (wrapper) {
-      wrapper.style.position = 'static';
-      wrapper.style.height = 'auto';
-      wrapper.style.overflow = 'visible';
+      wrapper.style.position = "static";
+      wrapper.style.height = "auto";
+      wrapper.style.overflow = "visible";
     }
 
     if (content) {
-      content.style.overflow = 'visible';
+      content.style.overflow = "visible";
     }
   }
 }
