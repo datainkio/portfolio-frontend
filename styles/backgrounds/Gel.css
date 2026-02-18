@@ -4,29 +4,40 @@
 */
 .bg-gel {
   mix-blend-mode: multiply;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 
 /* .bg-gel-primary applies a gradient from primary-900 to primary-400 */
 .bg-gel-primary {
-  background-image: linear-gradient(to top, var(--color-primary-900), var(--color-primary-600));
+  background-image: linear-gradient(
+    to top,
+    var(--color-primary-900),
+    var(--color-primary-600)
+  );
 }
 
 /* .bg-gel-secondary applies a gradient from secondary-900 to secondary-400 */
 .bg-gel-secondary {
-  background-image: linear-gradient(to top, var(--color-secondary-900), var(--color-secondary-600));
+  background-image: linear-gradient(
+    to top,
+    var(--color-secondary-900),
+    var(--color-secondary-600)
+  );
 }
 
 /* .bg-gel-accent applies a gradient from accent-900 to accent-400 */
 .bg-gel-accent {
-  background-image: linear-gradient(to top, var(--color-accent-900), var(--color-accent-600));
+  background-image: linear-gradient(
+    to top,
+    var(--color-accent-900),
+    var(--color-accent-600)
+  );
 }
 
 /* .bg-gel-success applies a gradient from success-900 to success-400 */
 .bg-gel-success {
-  background-image: linear-gradient(to top, var(--color-success-900), var(--color-success-600));
+  background-image: linear-gradient(
+    to top,
+    var(--color-success-900),
+    var(--color-success-600)
+  );
 }

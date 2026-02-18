@@ -25,6 +25,6 @@
   {%- set color = params.color | default('bg-gel-primary') -%}
   {%- set id = params.id | default('gel-default') -%}
 
-  <div id="{{ id }}" class="bg-gel {{ color }}" aria-hidden="true"></div>
+  <div id="{{ id }}" class="bg-gel absolute inset-0 {{ color }}" aria-hidden="true"></div>
 
 {% endmacro %}
