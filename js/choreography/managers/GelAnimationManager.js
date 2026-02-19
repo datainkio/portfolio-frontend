@@ -17,7 +17,10 @@
  */
 /**
  * GelAnimationManager - Scroll-driven gel animation coordinator
- *
+ * 
+ * - [ ] Does this need to create a scroll trigger, or just manage gel instances and let sequences create triggers as needed?
+ * - [ ] If the goal is to sync gel animations with sections, does it make sense to create configurations that can be animated?
+ * 
  * Initializes Gel instances from DOM elements and creates scroll-triggered
  * animations. Delegates positioning logic to GelManipulator and uses the
  * imported GEL_CONFIG for per-element settings.

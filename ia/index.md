@@ -4,8 +4,6 @@ permalink: /
 metaDescription: "no metaDescription defined"
 metaKeywords: "user experience, eleventy, sanity, tailwind"
 canonicalUrl: "https://dataink.io"
-bodyClasses: "bg-neutral-900"
-contentClasses: ""
 skipLinks:
   - hero
   - bio

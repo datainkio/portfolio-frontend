@@ -21,6 +21,8 @@
  * Manages the flow of intro and outro animations for the landing page
  * Listens to AnimationBus events and triggers next animations based on completion.
  *
+ * - [ ] Video background is not currently going full-bleed.
+ *
  * @requires AnimationBus
  */
 
@@ -250,7 +252,7 @@ export class LandingSequence {
 
     // Respond to bio intro start
     on(EVENTS.bio.enter, () => {
-      this.logger.trace("Bio entered");
+      this.logger.trace("Bio entered. Move gels to new positions.");
     });
 
     on(EVENTS.bio.exit, () => {
@@ -278,7 +280,6 @@ export class LandingSequence {
     // Respond to bio outro complete
     on(EVENTS.bio.outroComplete, () => {
       // this.logger.trace('Bio outro complete');
-      // this.sections?.work?.playIntro?.();
     });
 
     /**

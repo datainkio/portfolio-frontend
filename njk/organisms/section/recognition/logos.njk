@@ -1,7 +1,7 @@
 {% macro render(params = {}) %}
   {%- set awards = params.awards
     | default([]) -%}
-  <section id="{{ params.id | default('awards') }}" class="{{ params.classes | default('') }} awards-section">
+  <section id="{{ params.id | default('awards') }}" class="{{ params.classes | default('text-primary-100') }}">
     {% if awards | length %}
       <h2>{{ params.copy.heading }}</h2>
       <p>{{ params.copy.body }}</p>
@@ -11,13 +11,13 @@
           | default(award.logo.asset.url)
           | default(award.logo)
           | default('/assets/images/logos/default.svg') %}
-          <li class="awards-list__item">
+          <li>
             <img src="{{ logo }}" alt="{{ award.organization.name | default('Organization') }}: {{ award.title | default(award.name) | default('Untitled award') }}" class="awards-list__logo" loading="lazy" decoding="async"/>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      <p class="awards-list__empty">No awards found.</p>
+      <p>No awards found.</p>
     {% endif %}
   </section>
 {% endmacro %}

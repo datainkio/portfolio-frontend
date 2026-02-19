@@ -52,7 +52,7 @@
  */
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import ReducedMotionHandler from "/assets/js/choreography/managers/ReducedMotionHandler.js";
-import BackgroundLayerManager from "/assets/js/choreography/managers/BackgroundLayerManager.js";
+// import BackgroundLayerManager from "/assets/js/choreography/managers/BackgroundLayerManager.js";
 import ScrollSmootherManager from "/assets/js/choreography/managers/ScrollSmootherManager.js";
 import GelAnimationManager from "/assets/js/choreography/managers/GelAnimationManager.js";
 import { GEL_CONFIG } from "/assets/js/choreography/config.js";
@@ -87,16 +87,8 @@ export default class ScrollEffectsCoordinator {
 
     // Initialize managers in dependency order
     this.reducedMotion = new ReducedMotionHandler();
-    this.backgroundLayers = new BackgroundLayerManager([
-      "overlay-view",
-      "sizzle-background",
-    ]);
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
     this.gelAnimation = new GelAnimationManager(GEL_CONFIG, this.reducedMotion);
-
-    // Cache video and container references for external access
-    this._videoContainer = document.querySelector("#overlay-view");
-    // this._video = this._videoContainer?.querySelector('video');
 
     // Track gel animation state
     this._gelsAnimated = false;
@@ -107,7 +99,7 @@ export default class ScrollEffectsCoordinator {
   /**
    * Initialize all manager modules
    *
-   * Sets up background layers, scroll smoothing, and gel animations.
+   * Sets up scroll smoothing and gel animations.
    * Gel animations are held until Hero outro completes.
    */
   initialize() {

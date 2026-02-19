@@ -1,6 +1,6 @@
 {% macro render(params = {}) %}
     {%- set sectionId = params.id | default("bio") -%}
-    {%- set classes = params.classes | default("relative z-10 col-start-3 col-end-9 p-4 mb-48 text-neutral-100") -%}
+    {%- set classes = params.classes | default("relative z-10 col-start-3 col-end-9 text-neutral-100") -%}
     {%- set heading = params.copy.heading -%}
     {%- set subheading = params.copy.subheading -%}
     {%- set body = params.copy.body -%}

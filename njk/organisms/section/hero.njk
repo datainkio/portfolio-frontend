@@ -6,25 +6,13 @@
   {%- set tagline = params.tagline | default(title) -%}
   {%- set rulerOptions = params.ruler | default({}) -%}
 
-  {# DEV #}
-  {%- set hClasses = "col-span-full z-10 text-6xl
-            sm:text-7xl 
-            md:text-8xl 
-            lg:text-9xl 
-            leading-12 
-            sm:leading-14 
-            md:leading-16 
-            lg:leading-28
-            tracking-tighter 
-            uppercase 
-            font-display 
-            p-12 
-            text-primary-100" %}
-
   {# Landing view - GSAP Hero Controller Target #}
   <section id="{{ sectionId }}" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
 
-    <h1 id="hero-title" class="{{ hClasses }}">
+    <h1
+      id="hero-title"
+      class="col-span-full z-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-12 sm:leading-14 md:leading-16
+        lg:leading-28 tracking-tighter uppercase font-display text-primary-100">
       {{ tagline }}
     </h1>
   </section>

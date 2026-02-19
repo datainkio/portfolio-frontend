@@ -2,20 +2,18 @@
 {% import "molecules/list/main-pages.njk" as main_pages %}
 
 {% macro render(params = {}) %}
-  {% set navClasses = params.class or params.navClasses or "flex items-center justify-between px-6 py-3" %}
+  {% set navClasses = params.class or params.navClasses or "flex items-center justify-between" %}
   {% set siteName = params.siteName or site.siteName %}
   {% set items = params.items or eleventyNavigation %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
 
   <nav id="primary-nav" class="{{ navClasses }}" aria-label="Primary Navigation">
-    {{
-      site_title.render({
+    {{ site_title.render({
         siteName: siteName,
         href: "/",
         classes: "mr-auto whitespace-nowrap",
         id: siteTitleId
-      })
-    }}
+      }) }}
     {{ main_pages.render({
       classes: "flex list-none items-center gap-6 m-0",
       items: items

@@ -1,7 +1,7 @@
 {% import "organisms/navigation/primary-nav.njk" as primary_nav %}
 
 {% macro render(params = {}) %}
-  <header id="global-header" class="top-0 left-0 z-50 w-full {{ params.classes }}" aria-label="Global Site Header">
+  <header id="global-header" class="fixed inset-4 w-full z-20 {{ params.classes }} " aria-label=" Global Site Header">
     {{ primary_nav.render({siteName: 'data:ink:io'}) }}
   </header>
 {% endmacro %}

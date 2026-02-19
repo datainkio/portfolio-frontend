@@ -14,12 +14,12 @@
       muted: params.muted | default(true),
       playsInline: params.playsInline | default(true),
       preload: params.preload | default("metadata"),
-      classes: "w-full h-dvh md:h-full object-cover z-0 gsap-element gsap-fade",
+        classes: "fixed inset-0 -z-10 pointer-events-none overflow-hidden gsap-element gsap-fade",
       styles: ""
     }) }}
-    <div class="absolute inset-0 bg-pixelator opacity-60 pointer-events-none z-10"></div>
     {{ Gel.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}
     {{ Gel.render({ id: 'bg-gel-1', color: 'bg-gel-accent' }) }}
     {{ Gel.render({ id: 'bg-gel-2', color: 'bg-gel-secondary' }) }}
+    <div class="absolute inset-0 bg-pixelator opacity-60 pointer-events-none z-10"></div>
   </div>
 {% endmacro %}
