@@ -22,7 +22,7 @@
  * Maintains temporal coordination between section transitions and background effects.
  * It does not handle coordination between sections; that is the role of AnimationDirector.
  *
- * Orchestrates site-wide scroll smoothing, background layers, and gel animations
+ * Orchestrates site-wide scroll smoothing, background layers, and gel effects
  * via specialized manager modules. Coordinates with AnimationBus to sequence
  * visual effects based on section animation events.
  *
@@ -30,7 +30,7 @@
  * - ReducedMotionHandler: Accessibility and motion preferences
  * - BackgroundLayerManager: Fixed background positioning
  * - ScrollSmootherManager: GSAP smooth scrolling
- * - GelAnimationManager: Gel background animations
+ * - GelAnimationManager: Gel background lifecycle
  *
  * ARCHITECTURE:
  * - Modular design with single-responsibility managers
@@ -90,47 +90,22 @@ export default class ScrollEffectsCoordinator {
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
     this.gelAnimation = new GelAnimationManager(GEL_CONFIG, this.reducedMotion);
 
-    // Track gel animation state
-    this._gelsAnimated = false;
-
     this.initialize();
   }
 
   /**
    * Initialize all manager modules
    *
-   * Sets up scroll smoothing and gel animations.
-   * Gel animations are held until Hero outro completes.
+   * Sets up scroll smoothing and gel effects.
    */
   initialize() {
     // Fix background layer positioning
     // this.backgroundLayers.fix();
 
-    // Initialize gel controllers (but don't animate yet)
+    // Initialize gel controllers
     this.gelAnimation.initialize();
 
-    // Attempt to initialize ScrollSmoother immediately so the wrapper does not lock scrolling
-    const smoother = this.scrollSmoother.getSmoother();
-
-    // console.log('[StageManager] Initialized all managers');
-    this._startGelAnimations();
-
     this.logger.trace("initialized");
-  }
-
-  /**
-   * Start gel
-   * @private
-   */
-  _startGelAnimations() {
-    if (this._gelsAnimated) return; // Prevent multiple calls
-
-    // Start gel animation (uses smoother scroller if available)
-    const scroller = this.scrollSmoother.isActive()
-      ? "#smooth-wrapper"
-      : undefined;
-    this.gelAnimation.animate(scroller);
-    this._gelsAnimated = true;
   }
 
   /**
