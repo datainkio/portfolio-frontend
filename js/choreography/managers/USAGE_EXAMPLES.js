@@ -41,7 +41,6 @@ import {
   BackgroundLayerManager,
   ScrollSmootherManager,
   GelAnimationManager,
-  GEL_CONFIG,
 } from "/assets/js/choreography/managers/index.js";
 
 // === USAGE EXAMPLES ===
@@ -70,7 +69,7 @@ if (scrollMgr.isActive()) {
 }
 
 // 4. Gel setup
-const gelMgr = new GelAnimationManager(GEL_CONFIG, reducedMotion);
+const gelMgr = new GelAnimationManager(reducedMotion);
 gelMgr.initialize();
 
 // 5. Coordinated Setup (StageManager pattern)
@@ -80,7 +79,7 @@ const bgLayers2 = new BackgroundLayerManager([
   "sizzle-background",
 ]);
 const scrollMgr2 = new ScrollSmootherManager(reducedMotion2);
-const gelMgr2 = new GelAnimationManager(undefined, reducedMotion2);
+const gelMgr2 = new GelAnimationManager(reducedMotion2);
 
 bgLayers2.fix();
 gelMgr2.initialize();

@@ -14,7 +14,7 @@
       muted: params.muted | default(true),
       playsInline: params.playsInline | default(true),
       preload: params.preload | default("metadata"),
-        classes: "fixed inset-0 -z-10 pointer-events-none overflow-hidden gsap-element gsap-fade",
+      classes: "absolute inset-0 w-full h-full object-cover object-center -z-10 pointer-events-none gsap-element gsap-fade",
       styles: ""
     }) }}
     {{ Gel.render({ id: 'bg-gel-0', color: 'bg-gel-primary' }) }}

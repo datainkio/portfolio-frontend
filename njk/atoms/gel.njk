@@ -8,7 +8,7 @@
   - GelManipulator: Positions gel relative to viewport or reference element
 
   ELEMENT IDS AND CONFIGURATION:
-  - Element ID must match GEL_CONFIG key (e.g., id="bg-gel-0" → config['bg-gel-0'])
+  - Element ID must match arrangement keys used by gel choreography (e.g., id="bg-gel-0")
   - IDs use kebab-case format: bg-gel-0, bg-gel-1, bg-gel-2
   - .bg-gel class triggers automatic discovery during initialization
   - Color classes (bg-gel-primary, etc.) are optional styling
@@ -19,7 +19,7 @@
 
   PARAMETERS:
   - color: CSS class for color state (default: 'bg-gel-primary')
-  - id: Element ID matching GEL_CONFIG entry (required for animation)
+  - id: Element ID matching gel arrangement entries (required for choreography)
 #}
 {% macro render(params = {}) %}
   {%- set color = params.color | default('bg-gel-primary') -%}

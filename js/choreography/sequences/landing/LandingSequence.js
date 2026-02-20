@@ -48,10 +48,14 @@ export class LandingSequence {
     this.bus = bus;
     this.sections = sections;
     this.gelManager = gelAnimation;
+    const initialArrangementId =
+      typeof this.gelManager?.getActiveArrangementId === "function"
+        ? this.gelManager.getActiveArrangementId()
+        : null;
     this.state = {
       isStarted: false,
       isComplete: false,
-      activeGelArrangementId: null,
+      activeGelArrangementId: initialArrangementId,
     };
     this._listeners = [];
 
@@ -200,6 +204,7 @@ export class LandingSequence {
     // Respond to hero intro start
     on(EVENTS.hero.introStart, () => {
       this.logger.trace("Hero intro started");
+      this._applySectionArrangement("hero");
     });
 
     // Respond to hero intro complete

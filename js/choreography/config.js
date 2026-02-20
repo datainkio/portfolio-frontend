@@ -127,31 +127,24 @@ export const SCROLL_DEFAULTS = {
 };
 
 /**
- * Gel Configuration
+ * Gel Arrangement Transition Defaults
  *
- * Visual positioning and behavior for background gel layers.
- * Controls how gel elements animate in response to scroll and section events.
- *
- * CONFIG FORMAT:
- * - target: Scroll position trigger (0-1 range, percentage of viewport height)
- * - targetElement: CSS selector for element height matching
- * - axis: Animation direction ('x' for horizontal, 'y' for vertical)
- * - position: Alignment ('left', 'center', 'right' for x / 'top', 'center', 'bottom' for y)
- * - masked: Boolean to apply mask effect
+ * Timing and easing used when morphing gels between section arrangements.
+ * Reduced-motion users are handled by manager-level immediate application.
  */
-export const GEL_CONFIG = {
-  "bg-gel-0": {},
-  "bg-gel-1": {
-    targetElement: "#hero", // Height match site title element
-    axis: "y",
-    position: "right",
-  },
-  "bg-gel-2": {
-    target: 1 / 2, // Trigger at 50% viewport height
-    axis: "x",
-    position: "left",
-  },
+export const GEL_ARRANGEMENT_TRANSITION = {
+  duration: 0.8,
+  ease: "power2.inOut",
+  refreshOnUpdate: true,
 };
+
+/**
+ * Initial Gel Arrangement
+ *
+ * Optional arrangement id applied immediately after gel initialization.
+ * Set to one of the keys in GEL_ARRANGEMENTS (e.g. "hero") or null to disable.
+ */
+export const INITIAL_GEL_ARRANGEMENT_ID = "hero";
 
 /**
  * Color Classes

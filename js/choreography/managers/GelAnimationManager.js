@@ -26,15 +26,14 @@
  */
 
 import { Gel } from "/assets/js/effects/gel/index.js";
-import { GEL_CONFIG } from "/assets/js/choreography/config.js";
+import gsap from "https://cdn.skypack.dev/gsap@3.13.0";
+import { GEL_ARRANGEMENT_TRANSITION } from "/assets/js/choreography/config.js";
 
 export default class GelAnimationManager {
   /**
-   * @param {Object} gelConfig - Map of gel IDs to config objects
    * @param {ReducedMotionHandler} reducedMotionHandler - Reduced motion coordinator
    */
-  constructor(gelConfig = GEL_CONFIG, reducedMotionHandler = null) {
-    this._config = gelConfig;
+  constructor(reducedMotionHandler = null) {
     this._reducedMotionHandler = reducedMotionHandler;
     this._gels = [];
     this._gelsById = new Map();
@@ -59,11 +58,6 @@ export default class GelAnimationManager {
     this._gels = Array.from(gelElements)
       .map((el) => this._initializeGelFromElement(el))
       .filter((gel) => gel !== null);
-
-    if (this._gels[2]) {
-      this._gels[2].setCorner("topLeft", 50, 0, 0, "none");
-      this._gels[2].setCorner("topRight", 50, 0, 0, "none");
-    }
   }
 
   /**
@@ -79,9 +73,7 @@ export default class GelAnimationManager {
       return null;
     }
 
-    const configEntry = this._config[gelId] || {};
-    const { masked, transformOrigin } = configEntry;
-    const gel = new Gel(el, { masked, transformOrigin });
+    const gel = new Gel(el);
     gel.refresh();
     this._gelsById.set(gelId, gel);
 
@@ -89,11 +81,22 @@ export default class GelAnimationManager {
   }
 
   /**
-   * Apply arrangement immediately with viewport-relative geometry.
+   * Apply arrangement with viewport-relative geometry.
+   * First arrangement is applied immediately; subsequent arrangements tween.
    * @param {{ id?: string, gels?: Record<string, {x:number, y:number, width:number, height:number, origin?:string}> }} arrangement
+   * @param {{ immediate?: boolean, duration?: number, ease?: string, refreshOnUpdate?: boolean }} [options]
    */
-  applyArrangement(arrangement) {
+  applyArrangement(arrangement, options = {}) {
     if (!arrangement || !arrangement.gels) return;
+
+    const isReducedMotion =
+      this._reducedMotionHandler?.isReducedMotion?.() === true;
+    const transition = this._resolveArrangementTransition(options);
+    const immediate =
+      options.immediate === true ||
+      isReducedMotion ||
+      !this._activeArrangementId ||
+      transition.duration === 0;
 
     Object.entries(arrangement.gels).forEach(([gelId, rect]) => {
       const gel = this._gelsById.get(gelId);
@@ -120,23 +123,69 @@ export default class GelAnimationManager {
 
       const { style } = gel.view;
       style.pointerEvents = "none";
-      style.left = `${x * 100}%`;
-      style.top = `${y * 100}%`;
-      style.width = `${width * 100}%`;
-      style.height = `${height * 100}%`;
       style.transformOrigin = origin || "center center";
 
-      try {
-        gel.refresh();
-      } catch (error) {
-        console.warn(
-          `[GelAnimationManager] Failed to refresh gel after arrangement: ${gelId}`,
-          error,
-        );
+      const nextGeometry = {
+        left: `${x * 100}%`,
+        top: `${y * 100}%`,
+        width: `${width * 100}%`,
+        height: `${height * 100}%`,
+      };
+
+      const refreshSafely = () => {
+        try {
+          gel.refresh();
+        } catch (error) {
+          console.warn(
+            `[GelAnimationManager] Failed to refresh gel after arrangement: ${gelId}`,
+            error,
+          );
+        }
+      };
+
+      gsap.killTweensOf(gel.view);
+
+      if (immediate) {
+        Object.assign(style, nextGeometry);
+        refreshSafely();
+        return;
       }
+
+      gsap.to(gel.view, {
+        ...nextGeometry,
+        duration: transition.duration,
+        ease: transition.ease,
+        overwrite: "auto",
+        onUpdate: transition.refreshOnUpdate ? refreshSafely : null,
+        onComplete: transition.refreshOnUpdate ? null : refreshSafely,
+      });
     });
 
     this._activeArrangementId = arrangement.id || null;
+  }
+
+  /** @private */
+  _resolveArrangementTransition(options = {}) {
+    const duration =
+      typeof options.duration === "number" && Number.isFinite(options.duration)
+        ? Math.max(0, options.duration)
+        : GEL_ARRANGEMENT_TRANSITION.duration;
+
+    const ease =
+      typeof options.ease === "string" && options.ease
+        ? options.ease
+        : GEL_ARRANGEMENT_TRANSITION.ease;
+
+    const refreshOnUpdate =
+      typeof options.refreshOnUpdate === "boolean"
+        ? options.refreshOnUpdate
+        : GEL_ARRANGEMENT_TRANSITION.refreshOnUpdate;
+
+    return {
+      duration,
+      ease,
+      refreshOnUpdate,
+    };
   }
 
   getActiveArrangementId() {
@@ -161,6 +210,9 @@ export default class GelAnimationManager {
   /** Cleanup animations and references */
   destroy() {
     this._gels.forEach((gel) => {
+      if (gel?.view) {
+        gsap.killTweensOf(gel.view);
+      }
       if (gel && typeof gel.destroy === "function") {
         gel.destroy();
       }
