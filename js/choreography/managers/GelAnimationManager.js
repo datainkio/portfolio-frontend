@@ -37,6 +37,8 @@ export default class GelAnimationManager {
     this._config = gelConfig;
     this._reducedMotionHandler = reducedMotionHandler;
     this._gels = [];
+    this._gelsById = new Map();
+    this._activeArrangementId = null;
 
     if (reducedMotionHandler) {
       this._unsubscribe = reducedMotionHandler.onChange((enabled) => {
@@ -51,6 +53,8 @@ export default class GelAnimationManager {
    * Initialize gel controllers from DOM elements with bg-gel class
    */
   initialize() {
+    this._gelsById.clear();
+
     const gelElements = document.querySelectorAll(".bg-gel");
     this._gels = Array.from(gelElements)
       .map((el) => this._initializeGelFromElement(el))
@@ -79,8 +83,74 @@ export default class GelAnimationManager {
     const { masked, transformOrigin } = configEntry;
     const gel = new Gel(el, { masked, transformOrigin });
     gel.refresh();
+    this._gelsById.set(gelId, gel);
 
     return gel;
+  }
+
+  /**
+   * Apply arrangement immediately with viewport-relative geometry.
+   * @param {{ id?: string, gels?: Record<string, {x:number, y:number, width:number, height:number, origin?:string}> }} arrangement
+   */
+  applyArrangement(arrangement) {
+    if (!arrangement || !arrangement.gels) return;
+
+    Object.entries(arrangement.gels).forEach(([gelId, rect]) => {
+      const gel = this._gelsById.get(gelId);
+      if (!gel) {
+        console.warn(
+          `[GelAnimationManager] Unknown gel id in arrangement: ${gelId}`,
+        );
+        return;
+      }
+
+      const { x, y, width, height, origin } = rect;
+      if (
+        !this._isNormalizedNumber(x) ||
+        !this._isNormalizedNumber(y) ||
+        !this._isNormalizedNumber(width) ||
+        !this._isNormalizedNumber(height)
+      ) {
+        console.warn(
+          `[GelAnimationManager] Invalid arrangement rect for ${gelId}`,
+          rect,
+        );
+        return;
+      }
+
+      const { style } = gel.view;
+      style.pointerEvents = "none";
+      style.left = `${x * 100}%`;
+      style.top = `${y * 100}%`;
+      style.width = `${width * 100}%`;
+      style.height = `${height * 100}%`;
+      style.transformOrigin = origin || "center center";
+
+      try {
+        gel.refresh();
+      } catch (error) {
+        console.warn(
+          `[GelAnimationManager] Failed to refresh gel after arrangement: ${gelId}`,
+          error,
+        );
+      }
+    });
+
+    this._activeArrangementId = arrangement.id || null;
+  }
+
+  getActiveArrangementId() {
+    return this._activeArrangementId;
+  }
+
+  /** @private */
+  _isNormalizedNumber(value) {
+    return (
+      typeof value === "number" &&
+      Number.isFinite(value) &&
+      value >= 0 &&
+      value <= 1
+    );
   }
 
   /** @returns {Gel[]} */
@@ -96,6 +166,8 @@ export default class GelAnimationManager {
       }
     });
     this._gels = [];
+    this._gelsById.clear();
+    this._activeArrangementId = null;
     if (this._unsubscribe) {
       this._unsubscribe();
     }

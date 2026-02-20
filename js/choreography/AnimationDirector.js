@@ -17,7 +17,7 @@
  */
 /** @format */
 
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 /**
  * AnimationDirector - Master Choreography Controller
@@ -52,22 +52,22 @@ import lumberjack from '/assets/js/utils/lumberjack/index.js';
  * @requires LandingSequence - Animation choreography
  */
 
-import { AnimationBus } from '/assets/js/choreography/AnimationBus.js';
-import ScrollEffectsCoordinator from '/assets/js/choreography/ScrollEffectsCoordinator.js';
-import { LandingSequence } from '/assets/js/choreography/sequences/landing/LandingSequence.js';
-import { SECTION_REGISTRY } from '/assets/js/choreography/sections/registry.js';
+import { AnimationBus } from "/assets/js/choreography/AnimationBus.js";
+import ScrollEffectsCoordinator from "/assets/js/choreography/ScrollEffectsCoordinator.js";
+import { LandingSequence } from "/assets/js/choreography/sequences/landing/LandingSequence.js";
+import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry.js";
 
 const LOGS = {
   description:
-    'The AnimationDirector is the master controller for the entire animation system. It initializes the AnimationBus, ScrollEffectsCoordinator, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The AnimationDirector also provides methods to control and debug the animation flow.',
+    "The AnimationDirector is the master controller for the entire animation system. It initializes the AnimationBus, ScrollEffectsCoordinator, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The AnimationDirector also provides methods to control and debug the animation flow.",
   completion: "Initialized. All systems go. Let's light this candle.",
   methods:
-    'enableDebug(enabled) - Toggle AnimationBus debug logging\n' +
-    'getSections() - Get section controller instances\n' +
-    'getSequence() - Get LandingSequence instance\n' +
-    'getStage() - Get StageManager instance\n' +
-    'restart() - Reset and replay landing sequence\n' +
-    'destroy() - Cleanup and remove all event listeners',
+    "enableDebug(enabled) - Toggle AnimationBus debug logging\n" +
+    "getSections() - Get section controller instances\n" +
+    "getSequence() - Get LandingSequence instance\n" +
+    "getStage() - Get StageManager instance\n" +
+    "restart() - Reset and replay landing sequence\n" +
+    "destroy() - Cleanup and remove all event listeners",
 };
 /**
  * AnimationDirector - Master Animation Coordinator
@@ -96,9 +96,9 @@ export default class AnimationDirector {
    */
   constructor() {
     // Create scoped logger for AnimationDirector operations
-    this.logger = lumberjack.createScoped('AnimationDirector', {
-      prefix: '',
-      color: '#10B981',
+    this.logger = lumberjack.createScoped("AnimationDirector", {
+      prefix: "",
+      color: "#10B981",
     });
     this.logger.enabled = true;
     this.logger.trace(LOGS.description);
@@ -116,11 +116,15 @@ export default class AnimationDirector {
     });
 
     // Initialize choreography sequence
-    this.sequence = new LandingSequence(this.bus, this.sections, this.stage?.gelAnimation);
+    this.sequence = new LandingSequence(
+      this.bus,
+      this.sections,
+      this.stage?.gelAnimation,
+    );
     this.logger.trace(LOGS.completion);
 
     // Signal that Director has finished initializing
-    window.dispatchEvent(new Event('director:ready'));
+    window.dispatchEvent(new Event("director:ready"));
   }
 
   /**
@@ -152,7 +156,7 @@ export default class AnimationDirector {
    * Resets all section controllers and replays sequence
    */
   restart() {
-    logger.trace('Restarting landing sequence', null, 'brief', 'headsup');
+    logger.trace("Restarting landing sequence", null, "brief", "headsup");
     this.sequence.reset();
     this.sequence.start();
   }
@@ -163,7 +167,7 @@ export default class AnimationDirector {
    * WARNING: Director cannot be reused after destroy()
    */
   destroy() {
-    logger.trace('Destroying animation system', null, 'brief', 'headsup');
+    logger.trace("Destroying animation system", null, "brief", "headsup");
 
     // Destroy sequence and remove event listeners
     if (this.sequence) {
@@ -171,8 +175,8 @@ export default class AnimationDirector {
     }
 
     // Destroy all section controllers
-    Object.values(this.sections).forEach(section => {
-      if (section && typeof section.destroy === 'function') {
+    Object.values(this.sections).forEach((section) => {
+      if (section && typeof section.destroy === "function") {
         section.destroy();
       }
     });
@@ -203,15 +207,15 @@ const initDirector = () => {
 };
 
 const scheduleInit = () => {
-  if ('requestIdleCallback' in window) {
+  if ("requestIdleCallback" in window) {
     requestIdleCallback(initDirector, { timeout: 150 });
   } else {
     setTimeout(initDirector, 0);
   }
 };
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', scheduleInit, { once: true });
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", scheduleInit, { once: true });
 } else {
   scheduleInit();
 }

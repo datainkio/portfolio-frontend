@@ -13,6 +13,7 @@
 - **Section-owned layouts:** Each section has exactly one canonical arrangement.
 - **Constants-first tuning:** Arrangement values live in constants so iteration is edit-refresh only.
 - **Viewport-relative geometry:** Position and dimensions are normalized to viewport, not fixed pixels.
+- **Mask state is part of layout state:** Clipping mask geometry/settings switch with the arrangement and apply immediately.
 
 ## Primitives & Utilities
 
@@ -42,9 +43,25 @@ export type GelViewportRect = {
   origin?: string; // optional transform origin, default "center center"
 };
 
+export type GelMaskState = {
+  enabled?: boolean; // default true
+  invert?: boolean; // optional hole-punch behavior
+  corners?: {
+    topLeft?: { x: number; y: number };
+    topRight?: { x: number; y: number };
+    bottomRight?: { x: number; y: number };
+    bottomLeft?: { x: number; y: number };
+  };
+};
+
+export type GelArrangementEntry = {
+  rect: GelViewportRect;
+  mask?: GelMaskState;
+};
+
 export type GelArrangement = {
   id: string; // arrangement id (typically section id)
-  gels: Record<string, GelViewportRect>; // keyed by gel id, e.g. "bg-gel-0"
+  gels: Record<string, GelArrangementEntry>; // keyed by gel id, e.g. "bg-gel-0"
 };
 ```
 
@@ -55,7 +72,12 @@ export const GEL_ARRANGEMENTS = {
   video: {
     id: "video",
     gels: {
-      /* bg-gel-* rects */
+      /*
+      "bg-gel-0": {
+        rect: { x, y, width, height, origin },
+        mask: { enabled, invert, corners }
+      }
+      */
     },
   },
   hero: {
@@ -91,6 +113,10 @@ Rules:
 
 - `SECTION_TO_GEL_ARRANGEMENT` must contain every section in `SECTION_REGISTRY`.
 - Each arrangement must define every active `.bg-gel` id.
+- Each gel entry uses a single shape: `{ rect, mask? }` (no mixed legacy shapes).
+- If `mask` is omitted, existing gel mask state is preserved.
+- If `mask.enabled === false`, manager removes the mask for that gel in that arrangement.
+- If `mask.corners` is present, corner updates apply immediately (no tween).
 - Unknown section id or missing arrangement is a no-op + warning log (non-fatal).
 
 ## Patterns by Component/View
@@ -110,7 +136,7 @@ Rules:
 ### B) Component map + state model
 
 - `LandingSequence`: subscribes to section events and requests arrangement changes.
-- `GelAnimationManager`: exposes imperative `applyArrangement(arrangement)` API (immediate).
+- `GelAnimationManager`: exposes imperative `applyArrangement(arrangement)` API (immediate geometry + mask updates).
 - `gel-arrangements.js`: authoritative constants map and schema.
 - State model: `activeArrangementId` stored in `LandingSequence` (or manager) to avoid redundant reapplies.
 
@@ -121,6 +147,7 @@ Rules:
   2. Resolve arrangement id from `SECTION_TO_GEL_ARRANGEMENT`
   3. Resolve arrangement object from `GEL_ARRANGEMENTS`
   4. Apply all gel rects synchronously (no animation)
+  5. Apply mask state synchronously (enable/disable/invert/corners)
 
 ### D) Trigger/lifecycle/abort/resize rules
 
@@ -134,8 +161,14 @@ Rules:
 1. Add `gel-arrangements.js` with schema docs and two constants (`GEL_ARRANGEMENTS`, `SECTION_TO_GEL_ARRANGEMENT`).
 2. Add `applyArrangement(arrangement)` to `GelAnimationManager`:
    - Iterates `arrangement.gels`.
-   - Applies position + dimensions immediately.
-   - Skips unknown gels safely.
+
+- Applies position + dimensions immediately from `entry.rect`.
+- Applies mask state immediately from `entry.mask`:
+  - `enabled` => `applyMask()` / `removeMask()`
+  - `invert` => `invertMask()`
+  - `corners` => `setCornerImmediate()` per corner key
+- Skips unknown gels safely.
+
 3. Add `applySectionArrangement(sectionId)` helper in `LandingSequence`:
    - Resolves ids via constants.
    - Guards duplicate applications.
@@ -148,6 +181,9 @@ Rules:
 - Entering each section applies exactly one arrangement update.
 - No tween/transition calls are used for arrangement application.
 - Every registered section resolves to one arrangement id.
+- Mask state updates per arrangement apply deterministically (same inputs, same mask output).
+- `mask.enabled: false` removes mask for that gel; `true` reapplies it.
+- Corner overrides update mask shape immediately without interpolation.
 - Missing mapping/gel ids fail gracefully with warning logs only.
 - Resizing window keeps gels in the same relative viewport arrangement.
 
@@ -160,6 +196,7 @@ Rules:
 ## Performance & Budget
 
 - O(number of gels) per arrangement switch; expected tiny cost (3 gels currently).
+- Mask updates are also O(number of configured gel masks) per switch.
 - No ScrollTrigger dependency for arrangement switching.
 - Avoid layout thrash by batching style writes per arrangement application.
 
@@ -171,7 +208,7 @@ Rules:
 ## Decisions
 
 - Dedicated file `gel-arrangements.js` for high-iteration DX.
-- Viewport-normalized rect schema for portable, swappable arrangements.
+- Viewport-normalized rect + mask schema for portable, swappable arrangements.
 - `enter` events are authoritative for MVP section-to-arrangement mapping.
 
 ## Open Questions

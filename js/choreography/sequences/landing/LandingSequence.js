@@ -28,6 +28,10 @@
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "../../constants.js";
+import {
+  GEL_ARRANGEMENTS,
+  SECTION_TO_GEL_ARRANGEMENT,
+} from "../../gel-arrangements.js";
 
 export class LandingSequence {
   /**
@@ -47,6 +51,7 @@ export class LandingSequence {
     this.state = {
       isStarted: false,
       isComplete: false,
+      activeGelArrangementId: null,
     };
     this._listeners = [];
 
@@ -129,7 +134,41 @@ export class LandingSequence {
     this._listeners.forEach((unsubscribe) => unsubscribe());
     this._listeners = [];
     this.sections = null;
+    this.gelManager = null;
     this.bus = null;
+  }
+
+  /**
+   * Apply the mapped gel arrangement for a given section id.
+   * @private
+   * @param {string} sectionId
+   */
+  _applySectionArrangement(sectionId) {
+    if (
+      !this.gelManager ||
+      typeof this.gelManager.applyArrangement !== "function"
+    ) {
+      return;
+    }
+
+    const arrangementId = SECTION_TO_GEL_ARRANGEMENT[sectionId];
+    if (!arrangementId) {
+      this.logger.trace(`No gel arrangement mapping for section: ${sectionId}`);
+      return;
+    }
+
+    if (this.state.activeGelArrangementId === arrangementId) {
+      return;
+    }
+
+    const arrangement = GEL_ARRANGEMENTS[arrangementId];
+    if (!arrangement) {
+      this.logger.trace(`Missing gel arrangement: ${arrangementId}`);
+      return;
+    }
+
+    this.gelManager.applyArrangement(arrangement);
+    this.state.activeGelArrangementId = arrangementId;
   }
 
   /**
@@ -151,6 +190,7 @@ export class LandingSequence {
     // Respond to hero intro start
     on(EVENTS.hero.enter, () => {
       this.logger.trace("Hero entered");
+      this._applySectionArrangement("hero");
     });
 
     on(EVENTS.hero.exit, () => {
@@ -192,6 +232,7 @@ export class LandingSequence {
     // Respond to hero intro complete
     on(EVENTS.video.introComplete, () => {
       this.logger.trace("BG Video intro complete");
+      this._applySectionArrangement("video");
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();
@@ -216,6 +257,7 @@ export class LandingSequence {
     // Respond to organizations intro start
     on(EVENTS.organizations.enter, () => {
       this.logger.trace("Organizations entered");
+      this._applySectionArrangement("organizations");
     });
 
     on(EVENTS.organizations.exit, () => {
@@ -253,6 +295,7 @@ export class LandingSequence {
     // Respond to bio intro start
     on(EVENTS.bio.enter, () => {
       this.logger.trace("Bio entered. Move gels to new positions.");
+      this._applySectionArrangement("bio");
     });
 
     on(EVENTS.bio.exit, () => {
@@ -289,6 +332,7 @@ export class LandingSequence {
     // Respond to awards enter/exit
     on(EVENTS.awards.enter, () => {
       this.logger.trace("Awards entered");
+      this._applySectionArrangement("awards");
     });
 
     on(EVENTS.awards.exit, () => {

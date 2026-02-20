@@ -105,6 +105,11 @@ export default class ScrollEffectsCoordinator {
     // Initialize gel controllers
     this.gelAnimation.initialize();
 
+    const smoother = this.scrollSmoother.getSmoother();
+    if (!smoother) {
+      this._fallbackToNativeScroll();
+    }
+
     this.logger.trace("initialized");
   }
 
