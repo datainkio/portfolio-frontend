@@ -83,7 +83,7 @@ export default class GelAnimationManager {
   /**
    * Apply arrangement with viewport-relative geometry.
    * First arrangement is applied immediately; subsequent arrangements tween.
-   * @param {{ id?: string, gels?: Record<string, {x:number, y:number, width:number, height:number, origin?:string}> }} arrangement
+   * @param {{ id?: string, gels?: Record<string, {x:number, y:number, width:number, height:number, origin?:string, blendMode?:string}> }} arrangement
    * @param {{ immediate?: boolean, duration?: number, ease?: string, refreshOnUpdate?: boolean }} [options]
    */
   applyArrangement(arrangement, options = {}) {
@@ -107,7 +107,7 @@ export default class GelAnimationManager {
         return;
       }
 
-      const { x, y, width, height, origin } = rect;
+      const { x, y, width, height, origin, blendMode } = rect;
       if (
         !this._isNormalizedNumber(x) ||
         !this._isNormalizedNumber(y) ||
@@ -124,6 +124,8 @@ export default class GelAnimationManager {
       const { style } = gel.view;
       style.pointerEvents = "none";
       style.transformOrigin = origin || "center center";
+      style.mixBlendMode =
+        typeof blendMode === "string" && blendMode ? blendMode : "";
 
       const nextGeometry = {
         left: `${x * 100}%`,

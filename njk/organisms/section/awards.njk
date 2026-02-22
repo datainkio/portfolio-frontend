@@ -1,7 +1,7 @@
 {% macro render(params = {}) %}
   {%- set awards = params.awards
     | default([]) -%}
-  <section id="{{ params.id | default('awards') }}" class="{{ params.classes | default('text-primary-100') }}">
+  <section id="{{ params.id | default('awards') }}" class="{{ params.classes | default('text-primary-100 h-dvh') }}">
     {% if awards | length %}
       <h2>{{ params.copy.heading }}</h2>
       <p>{{ params.copy.body }}</p>

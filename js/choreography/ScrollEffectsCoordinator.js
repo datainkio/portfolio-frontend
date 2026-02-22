@@ -55,7 +55,6 @@ import ReducedMotionHandler from "/assets/js/choreography/managers/ReducedMotion
 // import BackgroundLayerManager from "/assets/js/choreography/managers/BackgroundLayerManager.js";
 import ScrollSmootherManager from "/assets/js/choreography/managers/ScrollSmootherManager.js";
 import GelAnimationManager from "/assets/js/choreography/managers/GelAnimationManager.js";
-import { INITIAL_GEL_ARRANGEMENT_ID } from "/assets/js/choreography/config.js";
 import { GEL_ARRANGEMENTS } from "/assets/js/choreography/gel-arrangements.js";
 
 /**
@@ -106,17 +105,15 @@ export default class ScrollEffectsCoordinator {
     // Initialize gel controllers
     this.gelAnimation.initialize();
 
-    if (INITIAL_GEL_ARRANGEMENT_ID) {
-      const initialArrangement = GEL_ARRANGEMENTS[INITIAL_GEL_ARRANGEMENT_ID];
-      if (initialArrangement) {
-        this.gelAnimation.applyArrangement(initialArrangement, {
-          immediate: true,
-        });
-      } else {
-        this.logger.trace(
-          `Initial gel arrangement not found: ${INITIAL_GEL_ARRANGEMENT_ID}`,
-        );
-      }
+    const arrangementOrder = Object.keys(GEL_ARRANGEMENTS);
+    const initialArrangementKey = arrangementOrder[0] ?? null;
+    if (initialArrangementKey) {
+      const initialArrangement = GEL_ARRANGEMENTS[initialArrangementKey];
+      this.gelAnimation.applyArrangement(initialArrangement, {
+        immediate: true,
+      });
+    } else {
+      this.logger.trace("No gel arrangements available for initial state");
     }
 
     const smoother = this.scrollSmoother.getSmoother();

@@ -16,12 +16,12 @@
  * ---
  */
 /** @format */
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
-import { motion } from '../../motion.tokens.js';
-import { gsap, SplitText } from '/assets/js/choreography/vendor/gsap.js';
-import ScrambleText from 'https://cdn.skypack.dev/gsap@3.13.0/ScrambleTextPlugin';
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
+import { motion } from "../../motion.tokens.js";
+import { gsap, SplitText } from "/assets/js/choreography/vendor/gsap.js";
+import ScrambleText from "https://cdn.skypack.dev/gsap@3.13.0/ScrambleTextPlugin";
 gsap.registerPlugin(ScrambleText);
-import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
+import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 
 // const Y_OFFSET = 35; // Default Y offset for animations
 // const DURATION = 0.5; // Default duration for animations
@@ -30,7 +30,7 @@ import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimat
 // const SPEED = 0.2; // Speed of the scramble text effect
 // const EASE = 'power1.out';
 
-const toSeconds = value => (typeof value === 'number' ? value / 1000 : value);
+const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 
 export default class HeroAnimations extends AbstractSectionAnimations {
   /**
@@ -46,20 +46,20 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
     this.options = {
-      duration: options.duration ?? toSeconds(motion.duration('base')),
-      translateY: options.translateY ?? -motion.distance('lg'),
-      stagger: options.stagger ?? motion.stagger('loose'),
+      duration: options.duration ?? toSeconds(motion.duration("base")),
+      translateY: options.translateY ?? -motion.distance("lg"),
+      stagger: options.stagger ?? motion.stagger("loose"),
       ease: {
-        in: options.ease?.in ?? motion.ease('exit'),
-        out: options.ease?.out ?? motion.ease('enter'),
+        in: options.ease?.in ?? motion.ease("exit"),
+        out: options.ease?.out ?? motion.ease("enter"),
       },
     };
     this.view = view;
-    this.title = this.view?.querySelector('h1') || this.view;
-    this.originalText = this.view?.textContent || '';
+    this.title = this.view?.querySelector("h1") || this.view;
+    this.originalText = this.view?.textContent || "";
 
     this.logger = lumberjack.createScoped(this.constructor.name, {
-      color: '#007bff',
+      color: "#007bff",
       enabled: true,
     });
 
@@ -71,16 +71,16 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   // Override AbstractSectionAnimations
   intro() {
     // Return the play promise so AbstractSection can await completion
-    return this.timeline.play('intro');
+    return this.timeline.play("intro");
   }
 
   outro() {
-    // Play the dedicated outro segment forward
-    return this.timeline.play('outro');
+    // Play intro in reverse for outro behavior
+    return this.timeline.reverse("intro:end");
   }
 
   outroReverse() {
-    return this.timeline.reverse('outro:end');
+    return this.timeline.play("intro");
   }
 
   _buildTimelines() {
@@ -90,10 +90,10 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.timeline.clear();
 
     // Intro
-    this._buildWordByWordAnimation('intro');
+    this._buildWordByWordAnimation("intro");
 
     // Outro
-    this.timeline.addLabel('outro', this.timeline.duration());
+    this.timeline.addLabel("outro", this.timeline.duration());
     this.timeline.to(
       targets,
       {
@@ -102,10 +102,10 @@ export default class HeroAnimations extends AbstractSectionAnimations {
         duration: this.options.duration * 0.8,
         ease: this.options.ease.in,
       },
-      'outro'
+      "outro",
     );
-    this.timeline.addLabel('outro:end', this.timeline.duration());
-    this.timeline.addPause('outro:end');
+    this.timeline.addLabel("outro:end", this.timeline.duration());
+    this.timeline.addPause("outro:end");
   }
 
   _buildWordByWordAnimation(label) {
@@ -114,10 +114,10 @@ export default class HeroAnimations extends AbstractSectionAnimations {
 
     this.timeline.addLabel(introLabel, 0);
     this.timeline.set(this.view, { autoAlpha: 1 }, introLabel);
-    const split = new SplitText(this.view, { type: 'words' });
+    const split = new SplitText(this.view, { type: "words" });
 
     split.words.forEach((word, index) => {
-      word.classList.add('w-full');
+      word.classList.add("w-full");
       this.timeline.fromTo(
         word,
         { autoAlpha: 0, yPercent: this.Y_OFFSET },
@@ -126,8 +126,9 @@ export default class HeroAnimations extends AbstractSectionAnimations {
           yPercent: 0,
           duration: this.DURATION,
           ease: this.EASE,
+          stagger: this.options.stagger,
         },
-        `${introLabel}+=${index * this.STAGGER}`
+        `${introLabel}+=${index * this.STAGGER}`,
       );
     });
     // Pause after intro completes to prevent running into outro automatically
@@ -140,12 +141,12 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     const introEndLabel = `${label}:end`;
 
     this.timeline.addLabel(introLabel, 0);
-    const split = new SplitText(this.view, { type: 'words' });
+    const split = new SplitText(this.view, { type: "words" });
 
     split.words.forEach((word, index) => {
-      word.classList.add('w-full');
+      word.classList.add("w-full");
       const finalText = word.textContent;
-      word.textContent = '';
+      word.textContent = "";
 
       this.timeline.to(
         word,
@@ -158,7 +159,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
           },
           ease: this.EASE,
         },
-        `${introLabel}+=${index * this.STAGGER}`
+        `${introLabel}+=${index * this.STAGGER}`,
       );
     });
 
@@ -183,10 +184,10 @@ export default class HeroAnimations extends AbstractSectionAnimations {
           xPercent: -30,
           yPercent: -30,
           rotationZ: -10,
-          transformOrigin: '50% 50%',
-          ease: 'power2.in',
+          transformOrigin: "50% 50%",
+          ease: "power2.in",
         },
-        outroLabel
+        outroLabel,
       );
     }
 

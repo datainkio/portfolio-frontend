@@ -22,9 +22,9 @@
             <div id="smooth-content">
                 <main id="page-main" aria-busy="true">
                     {% import "organisms/section/hero.njk" as heroSection %}
-                    {% import "organisms/section/bio/bio.njk" as bioSection %}
-                    {% import "organisms/section/recognition/logos.njk" as awards %}
-                    {% import "organisms/section/projects.njk" as projects %}
+                    {% import "organisms/section/bio.njk" as bioSection %}
+                    {% import "organisms/section/awards.njk" as awards %}
+                    {% import "organisms/section/work.njk" as projects %}
                     {# Note that content values are set in frontmatter #}
                     {{ heroSection.render( { id: "hero", tagline: hero.tagline }) }}
                     {{ bioSection.render({id: "bio", copy: value}) }}

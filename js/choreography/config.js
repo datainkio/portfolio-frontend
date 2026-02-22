@@ -127,6 +127,20 @@ export const SCROLL_DEFAULTS = {
 };
 
 /**
+ * Bio Reveal Trigger Defaults
+ *
+ * Section-specific ScrollTrigger settings for the Bio reveal interaction.
+ */
+export const BIO_REVEAL_TRIGGER = {
+  start: "bottom center",
+  end: "+=35%",
+  scrub: 0.75,
+  pin: true,
+  anticipatePin: 1,
+  once: false,
+};
+
+/**
  * Gel Arrangement Transition Defaults
  *
  * Timing and easing used when morphing gels between section arrangements.
@@ -137,14 +151,6 @@ export const GEL_ARRANGEMENT_TRANSITION = {
   ease: "power2.inOut",
   refreshOnUpdate: true,
 };
-
-/**
- * Initial Gel Arrangement
- *
- * Optional arrangement id applied immediately after gel initialization.
- * Set to one of the keys in GEL_ARRANGEMENTS (e.g. "hero") or null to disable.
- */
-export const INITIAL_GEL_ARRANGEMENT_ID = "hero";
 
 /**
  * Color Classes

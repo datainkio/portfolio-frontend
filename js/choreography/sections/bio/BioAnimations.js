@@ -17,10 +17,11 @@
  */
 /** @format */
 
-import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
-import { motion } from '../../motion.tokens.js';
+import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
+import { motion } from "../../motion.tokens.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
-const toSeconds = value => (typeof value === 'number' ? value / 1000 : value);
+const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 
 export default class BioAnimations extends AbstractSectionAnimations {
   /**
@@ -36,14 +37,64 @@ export default class BioAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
     this.options = {
-      duration: options.duration ?? toSeconds(motion.duration('base')),
-      stagger: options.stagger ?? motion.stagger('base'),
-      translateY: options.translateY ?? -motion.distance('md'),
+      duration: options.duration ?? toSeconds(motion.duration("base")),
+      stagger: options.stagger ?? motion.stagger("base"),
+      translateY: options.translateY ?? -motion.distance("md"),
       ease: {
-        in: options.ease?.in ?? motion.ease('exit'),
-        out: options.ease?.out ?? motion.ease('enter'),
+        in: options.ease?.in ?? motion.ease("exit"),
+        out: options.ease?.out ?? motion.ease("enter"),
       },
       ...options,
     };
+
+    this._bodyCopy = this.view?.querySelector("header + p") ?? null;
+
+    if (this._bodyCopy) {
+      gsap.set(this._bodyCopy, {
+        autoAlpha: 0,
+        y: Math.abs(this.options.translateY),
+      });
+      this._configureIntroTimeline();
+    }
+  }
+
+  _configureIntroTimeline() {
+    if (!this._bodyCopy) {
+      this.timeline.clear();
+      return;
+    }
+
+    this.timeline.clear();
+    this.timeline.fromTo(
+      this._bodyCopy,
+      {
+        autoAlpha: 0,
+        y: Math.abs(this.options.translateY),
+      },
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: this.options.duration,
+        ease: this.options.ease.out,
+      },
+    );
+  }
+
+  intro() {
+    if (!this._bodyCopy) {
+      return this.timeline;
+    }
+
+    this._configureIntroTimeline();
+    return this.timeline.play(0);
+  }
+
+  outro() {
+    if (!this._bodyCopy) {
+      return this.timeline;
+    }
+
+    this.timeline.time(this.timeline.duration());
+    return this.timeline.reverse();
   }
 }

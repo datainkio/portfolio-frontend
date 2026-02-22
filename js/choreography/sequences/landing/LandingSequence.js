@@ -227,9 +227,9 @@ export class LandingSequence {
     });
 
     /**
-     * BACKGROUNDVIDEO ANIMATION EVENTS
+     * BACKGROUND VIDEO EVENTS
      */
-    // Respond to hero intro start
+    // Respond to video intro start
     on(EVENTS.video.introStart, () => {
       // this.logger.trace('BG Video intro started');
     });
@@ -237,10 +237,6 @@ export class LandingSequence {
     // Respond to hero intro complete
     on(EVENTS.video.introComplete, () => {
       this.logger.trace("BG Video intro complete");
-      this._applySectionArrangement("video");
-      // this.gelManager?
-      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
-      // this.sections?.video?.playIntro?.();
       this.sections.hero.playIntro();
     });
 

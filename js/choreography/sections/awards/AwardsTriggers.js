@@ -17,7 +17,9 @@
  */
 /** @format */
 
-import AbstractSectionTriggers from '../abstract-section/AbstractSectionTriggers.js';
+import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
+import { SCROLL_DEFAULTS } from "../../config.js";
+import { ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
 
 export default class AwardsTriggers extends AbstractSectionTriggers {
   constructor(view) {
@@ -27,7 +29,17 @@ export default class AwardsTriggers extends AbstractSectionTriggers {
   bind(callbacks = {}) {
     const { onEnter, onLeave, onEnterBack, onLeaveBack } = callbacks;
 
-    super.bind({
+    if (!this.view) return;
+
+    const header = this.view.querySelector("header");
+    const triggerElement = header || this.view;
+
+    this._trigger?.kill();
+
+    this._trigger = ScrollTrigger.create({
+      trigger: triggerElement,
+      start: SCROLL_DEFAULTS.start,
+      end: "bottom top",
       onEnter: () => {
         this.section?.playIntro?.();
         onEnter?.();
