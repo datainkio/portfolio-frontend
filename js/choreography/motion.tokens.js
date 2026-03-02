@@ -21,6 +21,7 @@
 // motion.tokens.js
 // Shared motion tokens for GSAP and Tailwind.
 // Source of truth for durations, eases, distances, and stagger values.
+// Super handy for creating consistent motion across the site, and for mapping to Tailwind's design system.
 
 export const motionTokens = {
   duration: {
@@ -33,20 +34,20 @@ export const motionTokens = {
     // More noticeable transitions (modals, section reveals)
     slow: 320,
     // Hero-level or narrative motion, use sparingly
-    slower: 480
+    slower: 480,
   },
 
   ease: {
     // General-purpose “material-ish” curve
-    standard: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+    standard: "cubic-bezier(0.4, 0.0, 0.2, 1)",
     // Ease-out for elements entering
-    enter: 'cubic-bezier(0.0, 0.0, 0.2, 1)',
+    enter: "cubic-bezier(0.0, 0.0, 0.2, 1)",
     // Ease-in for elements exiting
-    exit: 'cubic-bezier(0.4, 0.0, 1, 1)',
+    exit: "cubic-bezier(0.4, 0.0, 1, 1)",
     // Slightly more pronounced than standard; use for emphasis
-    emphasis: 'cubic-bezier(0.3, 0.0, 0.2, 1.1)',
+    emphasis: "cubic-bezier(0.3, 0.0, 0.2, 1.1)",
     // For elastic/overshoot-y motion in GSAP; not mapped to Tailwind by default
-    springy: 'cubic-bezier(0.2, 0.8, 0.2, 1.4)'
+    springy: "cubic-bezier(0.2, 0.8, 0.2, 1.4)",
   },
 
   distance: {
@@ -55,30 +56,30 @@ export const motionTokens = {
     sm: 8,
     md: 16,
     lg: 24,
-    xl: 40
+    xl: 40,
   },
 
   stagger: {
     // Stagger values in seconds, for GSAP timelines
     none: 0,
     tight: 0.05,
-    base: 0.08,
-    loose: 0.12
-  }
+    base: 0.1,
+    loose: 0.12,
+  },
 };
 
 // Convenience helpers for GSAP usage
 export const motion = {
-  duration(name = 'base') {
+  duration(name = "base") {
     return motionTokens.duration[name] ?? motionTokens.duration.base;
   },
-  ease(name = 'standard') {
+  ease(name = "standard") {
     return motionTokens.ease[name] ?? motionTokens.ease.standard;
   },
-  distance(name = 'md') {
+  distance(name = "md") {
     return motionTokens.distance[name] ?? motionTokens.distance.md;
   },
-  stagger(name = 'base') {
+  stagger(name = "base") {
     return motionTokens.stagger[name] ?? motionTokens.stagger.base;
-  }
+  },
 };

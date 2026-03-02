@@ -6,6 +6,15 @@
   mix-blend-mode: multiply;
 }
 
+/* .bg-gel-neutral applies a gradient from neutral-900 to neutral-400 */
+.bg-gel-neutral {
+  background-image: linear-gradient(
+    to top,
+    var(--color-neutral-900),
+    var(--color-neutral-400)
+  );
+}
+
 /* .bg-gel-primary applies a gradient from primary-900 to primary-400 */
 .bg-gel-primary {
   background-image: linear-gradient(

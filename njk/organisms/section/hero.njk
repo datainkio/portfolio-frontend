@@ -1,13 +1,10 @@
 {% macro render(params = {}) %}
   {%- set sectionId = params.id | default("hero") -%}
-  {%- set size = params.size | default("col-span-full w-full h-dvh ") -%}
-  {%- set layout = params.layout | default("grid grid-cols-subgrid") -%}
-  {%- set positioning = params.positioning | default("flex items-center justify-items-start") -%}
   {%- set tagline = params.tagline | default(title) -%}
   {%- set rulerOptions = params.ruler | default({}) -%}
 
   {# Landing view - GSAP Hero Controller Target #}
-  <section id="{{ sectionId }}" class="{{ size }} {{ layout }} {{ positioning }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="col-span-full w-full h-[50dvh] grid grid-cols-subgrid flex items-end justify-items-start" data-scroll-section>
 
     <h1
       id="hero-title"

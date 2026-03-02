@@ -47,10 +47,10 @@ export default class BioAnimations extends AbstractSectionAnimations {
       ...options,
     };
 
-    this._bodyCopy = this.view?.querySelector("header + p") ?? null;
+    this._children = Array.from(this.view?.children ?? null);
 
-    if (this._bodyCopy) {
-      gsap.set(this._bodyCopy, {
+    if (this._children.length) {
+      gsap.set(this._children, {
         autoAlpha: 0,
         y: Math.abs(this.options.translateY),
       });
@@ -59,14 +59,14 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _configureIntroTimeline() {
-    if (!this._bodyCopy) {
+    if (!this._children) {
       this.timeline.clear();
       return;
     }
 
     this.timeline.clear();
     this.timeline.fromTo(
-      this._bodyCopy,
+      this._children,
       {
         autoAlpha: 0,
         y: Math.abs(this.options.translateY),
@@ -75,13 +75,14 @@ export default class BioAnimations extends AbstractSectionAnimations {
         autoAlpha: 1,
         y: 0,
         duration: this.options.duration,
-        ease: this.options.ease.out,
+        stagger: this.options.stagger,
+        ease: this.options.ease.in,
       },
     );
   }
 
   intro() {
-    if (!this._bodyCopy) {
+    if (!this._children) {
       return this.timeline;
     }
 
@@ -90,7 +91,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   outro() {
-    if (!this._bodyCopy) {
+    if (!this._children) {
       return this.timeline;
     }
 

@@ -23,8 +23,9 @@
  * Manages a collection of triggers and provides lifecycle helpers.
  */
 
-import { ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
+import { ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
+import { SCROLL_DEFAULTS } from "../../config.js";
 
 export default class AbstractSectionTriggers {
   /**
@@ -32,7 +33,7 @@ export default class AbstractSectionTriggers {
    */
   constructor(view) {
     this.logger = lumberjack.createScoped(this.constructor.name, {
-      color: '#28a745',
+      color: "#28a745",
       enabled: true,
     });
     this.view = view;
@@ -71,9 +72,14 @@ export default class AbstractSectionTriggers {
    * @param {Function} callbacks.onEnterBack - Fired when scrolling back into viewport
    * @param {Function} callbacks.onLeaveBack - Fired when scrolling back out of viewport
    */
-  bind({ onEnter = null, onLeave = null, onEnterBack = null, onLeaveBack = null } = {}) {
+  bind({
+    onEnter = SCROLL_DEFAULTS.onEnter,
+    onLeave = SCROLL_DEFAULTS.onLeave,
+    onEnterBack = SCROLL_DEFAULTS.onEnterBack,
+    onLeaveBack = SCROLL_DEFAULTS.onLeaveBack,
+  } = {}) {
     if (!this.view) {
-      this.logger.trace('No view available to bind triggers');
+      this.logger.trace("No view available to bind triggers");
       return;
     }
 
@@ -87,9 +93,8 @@ export default class AbstractSectionTriggers {
 
     // Build vars with callbacks
     const vars = {
+      ...SCROLL_DEFAULTS,
       trigger: this.view,
-      start: 'top center',
-      end: 'bottom top',
     };
 
     if (onEnter) vars.onEnter = onEnter;

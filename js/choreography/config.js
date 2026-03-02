@@ -39,6 +39,19 @@
  */
 
 /**
+ * ACCESSIBILITY SETTINGS
+ *
+ * Reduced motion settings for users who prefer less animation.
+ * These values are used by the ReducedMotionHandler to adjust animation behavior.
+ */
+export const ACCESSIBILITY_SETTINGS = {
+  prefersReducedMotion: false, // default; will be updated by ReducedMotionHandler
+  reducedMotionDuration: 0.1, // seconds
+  reducedMotionStagger: 0.05, // seconds
+  reducedMotionEase: "none", // no easing for reduced motion
+};
+
+/**
  * DOM Selectors
  *
  * Element IDs and classes specific to this site's template structure.
@@ -121,9 +134,36 @@ export const ANIMATION_DEFAULTS = {
  */
 export const SCROLL_DEFAULTS = {
   markers: false,
-  toggleActions: "play none none reverse",
+  // POSITIONING
   start: "top center",
   end: "bottom center",
+  pinSpacing: false, // prevent extra space when pinning elements
+  // EVENT HANDLERS
+  onEnter: () => {},
+  onLeave: () => {},
+  onEnterBack: () => {},
+  onLeaveBack: () => {},
+  onRefresh: () => {},
+  onUpdate: () => {},
+  // BEHAVIOR
+  once: true, // trigger only once per page load (default behavior for most sections)
+  scrub: false, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar (value is seconds)
+  snap: false, // snap to the closest label in the timeline (or a specific value)
+  pin: false, // pin the trigger element while active
+  anticipatePin: 0, // at moment of pinning the browser may have already painted the pre-pinned content, making it visible for a frame or two
+  invalidateOnRefresh: true, // call invalidate() whenever a refresh() occurs (typically on resize)
+  fastScrollEnd: true, // force the current ScrollTrigger's animation to completion if you leave its trigger area faster than a certain velocity (default 2500px/s)
+  toggleActions: "play reverse none none", // Determines how the linked animation is controlled at the 4 distinct toggle places - onEnter, onLeave, onEnterBack, and onLeaveBack
+};
+
+/**
+ * Hero Outro Trigger Defaults
+ *
+ * Section-specific ScrollTrigger settings for hero outro/reverse behavior.
+ */
+export const HERO_OUTRO_TRIGGER = {
+  start: "top 25%",
+  end: "bottom 25%",
 };
 
 /**
@@ -132,14 +172,26 @@ export const SCROLL_DEFAULTS = {
  * Section-specific ScrollTrigger settings for the Bio reveal interaction.
  */
 export const BIO_REVEAL_TRIGGER = {
-  start: "bottom center",
-  end: "+=35%",
-  scrub: 0.75,
+  start: "top center",
+  end: "top 25%",
+  // scrub: 0.75,
+  // snap: true,
   pin: true,
-  anticipatePin: 1,
+  // anticipatePin: 1,
   once: false,
+  markers: true,
 };
 
+export const BIO_HIDE_TRIGGER = {
+  start: "bottom center",
+  end: "top center",
+  // scrub: 0.75,
+  // snap: true,
+  // pin: true,
+  // anticipatePin: 1,
+  once: false,
+  markers: true,
+};
 /**
  * Gel Arrangement Transition Defaults
  *

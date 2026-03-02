@@ -36,9 +36,11 @@
  *   // Respond to changes
  * });
  */
+import { ACCESSIBILITY_SETTINGS } from "../config.js";
+
 export default class ReducedMotionHandler {
   constructor() {
-    this._reducedMotion = false;
+    this._reducedMotion = ACCESSIBILITY_SETTINGS.prefersReducedMotion;
     this._mql = null;
     this._callbacks = [];
     this._setup();
@@ -49,19 +51,19 @@ export default class ReducedMotionHandler {
    * @private
    */
   _setup() {
-    if (typeof window === 'undefined' || !('matchMedia' in window)) return;
+    if (typeof window === "undefined" || !("matchMedia" in window)) return;
 
-    const query = '(prefers-reduced-motion: reduce)';
+    const query = "(prefers-reduced-motion: reduce)";
     this._mql = window.matchMedia(query);
     this._reducedMotion = !!this._mql.matches;
 
-    const handler = e => {
+    const handler = (e) => {
       this._reducedMotion = !!e.matches;
       this._notify();
     };
 
     if (this._mql.addEventListener) {
-      this._mql.addEventListener('change', handler);
+      this._mql.addEventListener("change", handler);
     } else if (this._mql.addListener) {
       this._mql.addListener(handler);
     }
@@ -72,11 +74,11 @@ export default class ReducedMotionHandler {
    * @private
    */
   _notify() {
-    this._callbacks.forEach(cb => {
+    this._callbacks.forEach((cb) => {
       try {
         cb(this._reducedMotion);
       } catch (e) {
-        console.error('ReducedMotionHandler callback error:', e);
+        console.error("ReducedMotionHandler callback error:", e);
       }
     });
   }
@@ -95,10 +97,10 @@ export default class ReducedMotionHandler {
    * @returns {Function} Unsubscribe function
    */
   onChange(callback) {
-    if (typeof callback !== 'function') return () => {};
+    if (typeof callback !== "function") return () => {};
     this._callbacks.push(callback);
     return () => {
-      this._callbacks = this._callbacks.filter(cb => cb !== callback);
+      this._callbacks = this._callbacks.filter((cb) => cb !== callback);
     };
   }
 
