@@ -22,11 +22,11 @@
  * Extends AbstractSection to use shared lifecycle and AnimationBus coordination.
  */
 
-import AbstractSection from '../abstract-section/AbstractSection.js';
-import { EVENTS } from '../../constants.js';
-import { SELECTORS } from '../../config.js';
-import OrganizationsAnimations from './OrganizationsAnimations.js';
-import OrganizationsTriggers from './OrganizationsTriggers.js';
+import AbstractSection from "../abstract-section/AbstractSection.js";
+import { EVENTS } from "../../config/events.js";
+import { SELECTORS } from "../../config/runtime.js";
+import OrganizationsAnimations from "./OrganizationsAnimations.js";
+import OrganizationsTriggers from "./OrganizationsTriggers.js";
 
 export default class Organizations extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
@@ -43,7 +43,7 @@ export default class Organizations extends AbstractSection {
     }
 
     if (!view) {
-      this.logger.trace('element not found; skipping initialization.');
+      this.logger.trace("element not found; skipping initialization.");
       return;
     }
   }

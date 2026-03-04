@@ -25,7 +25,7 @@
  *
  * QUICK START:
  * import { AnimationBus } from './AnimationBus.js';
- * import { EVENTS } from './constants.js';
+ * import { EVENTS } from './config/events.js';
  *
  * // Listen for events
  * AnimationBus.on(EVENTS.hero.introComplete, () => {
@@ -39,30 +39,30 @@
  * const unsubscribe = AnimationBus.on(event, callback);
  * unsubscribe(); // Remove listener
  *
- * EVENT NAMING: Use EVENTS from constants.js for standardized event names.
- * See constants.js for full event list and naming conventions.
+ * EVENT NAMING: Use EVENTS from config/events.js for standardized event names.
+ * See config/events.js for full event list and naming conventions.
  *
  * @fileoverview Central event bus for animation coordination
  */
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 export class AnimationBus {
   constructor() {
     // Create scoped logger for Director operations
-    this.logger = lumberjack.createScoped('AnimationBus', {
-      color: '#10B981',
+    this.logger = lumberjack.createScoped("AnimationBus", {
+      color: "#10B981",
     });
     // logger.enabled(true);
     // this.logger.enabled = false;
 
     this._listeners = new Map(); // event name -> [callbacks]
     this._debug = false;
-    this.logger.trace('initialized');
+    this.logger.trace("initialized");
   }
 
   /**
    * Subscribe to event
-   * @param {string} event - Event name (use EVENTS from constants.js)
+   * @param {string} event - Event name (use EVENTS from config/events.js)
    * @param {Function} callback - Handler function
    * @returns {Function} Unsubscribe function
    */
@@ -83,13 +83,13 @@ export class AnimationBus {
 
   /**
    * Emit event to all listeners
-   * @param {string} event - Event name (use EVENTS from constants.js)
+   * @param {string} event - Event name (use EVENTS from config/events.js)
    * @param {Object} [data={}] - Optional data to pass to listeners
    */
   emit(event, data = {}) {
     // this.logger.trace(`Emitting event: ${event}`, data);
     if (this._listeners.has(event)) {
-      this._listeners.get(event).forEach(callback => {
+      this._listeners.get(event).forEach((callback) => {
         try {
           callback(data);
         } catch (error) {

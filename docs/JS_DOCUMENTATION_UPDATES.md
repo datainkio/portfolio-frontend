@@ -356,7 +356,7 @@ All updated files are ready for:
 
 - ✅ All code examples tested against actual source files
 - ✅ Architecture documentation matches current implementation
-- ✅ Event names verified against constants.js
+- ✅ Event names verified against config/events.js
 - ✅ Class APIs verified against actual source code
 - ✅ File paths verified against workspace structure
 - ✅ Accessibility patterns documented throughout

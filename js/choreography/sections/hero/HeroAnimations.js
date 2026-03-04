@@ -17,7 +17,7 @@
  */
 /** @format */
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
-import { motion } from "../../motion.tokens.js";
+import { motion } from "../../config/motion.js";
 import { gsap, SplitText } from "/assets/js/choreography/vendor/gsap.js";
 import ScrambleText from "https://cdn.skypack.dev/gsap@3.13.0/ScrambleTextPlugin";
 gsap.registerPlugin(ScrambleText);

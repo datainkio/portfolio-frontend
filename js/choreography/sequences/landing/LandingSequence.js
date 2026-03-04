@@ -27,11 +27,11 @@
  */
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
-import { EVENTS } from "../../constants.js";
+import { EVENTS } from "../../config/events.js";
 import {
   GEL_ARRANGEMENTS,
   SECTION_TO_GEL_ARRANGEMENT,
-} from "../../gel-arrangements.js";
+} from "../../config/arrangements.js";
 
 export class LandingSequence {
   /**

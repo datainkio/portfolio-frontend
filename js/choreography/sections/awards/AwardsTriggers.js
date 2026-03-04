@@ -18,7 +18,7 @@
 /** @format */
 
 import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
-import { SCROLL_DEFAULTS } from "../../config.js";
+import { SCROLL_DEFAULTS } from "../../config/runtime.js";
 import { ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
 
 export default class AwardsTriggers extends AbstractSectionTriggers {

@@ -36,7 +36,7 @@
  *   // Respond to changes
  * });
  */
-import { ACCESSIBILITY_SETTINGS } from "../config.js";
+import { ACCESSIBILITY_SETTINGS } from "../config/runtime.js";
 
 export default class ReducedMotionHandler {
   constructor() {

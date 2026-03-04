@@ -1,8 +1,8 @@
 /**
  * ---
  * aix:
- *   id: frontend.js.choreography.constants
- *   role: Frontend runtime module: js/choreography/constants.js
+ *   id: frontend.js.choreography.config.events
+ *   role: Frontend runtime module: js/choreography/config/events.js
  *   status: stable
  *   surface: public
  *   scope: frontend
@@ -12,52 +12,15 @@
  *     - js
  *     - runtime
  *     - choreography
- *     - constants.js
+ *     - events
  * ---
  */
 /** @format */
 
 /**
- * Choreography System Constants
+ * Choreography Event Contracts
  *
- * Core system values that define the choreography API and conventions.
- * These are INTERNAL to the animation system and should NOT change between projects.
- *
- * These constants define the choreography system's public API and event contracts.
- * When adapting this system to a new project, these values should remain unchanged
- * to maintain compatibility with the core animation architecture.
- *
- * For site-specific values (DOM selectors, asset paths, visual settings),
- * see config.js
- *
- * @fileoverview System-level constants for choreography architecture
- */
-
-/**
- * AnimationBus Event Names
- *
- * Standardized event naming convention for cross-section coordination.
- * Section controllers emit these events to signal animation lifecycle phases,
- * allowing other components (StageManager, GelAnimationManager, etc.) to
- * coordinate timing without tight coupling.
- *
- * NAMING CONVENTION:
- * - [section]:intro:start    - Section begins intro animation
- * - [section]:intro:complete - Section intro animation finished
- * - [section]:outro:start    - Section begins outro animation
- * - [section]:outro:complete - Section outro animation finished
- *
- * USAGE:
- * import { AnimationBus } from './AnimationBus.js';
- * import { EVENTS } from './constants.js';
- *
- * // Emit event when animation completes
- * AnimationBus.emit(EVENTS.hero.introComplete);
- *
- * // Listen for events from other sections
- * AnimationBus.on(EVENTS.hero.outroComplete, () => {
- *   // Start next animation
- * });
+ * Core event values that define the choreography API and conventions.
  */
 export const EVENTS = {
   system: {

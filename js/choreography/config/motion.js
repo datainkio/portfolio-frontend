@@ -1,7 +1,7 @@
 /**
  * ---
  * aix:
- *   id: frontend.js.choreography.motion.tokens
+ *   id: frontend.js.choreography.config.motion
  *   role: Shared motion tokens for frontend choreography and motion tooling.
  *   status: stable
  *   surface: internal
@@ -18,40 +18,25 @@
  *     critical: false
  * ---
  */
-// motion.tokens.js
-// Shared motion tokens for GSAP and Tailwind.
-// Source of truth for durations, eases, distances, and stagger values.
-// Super handy for creating consistent motion across the site, and for mapping to Tailwind's design system.
 
 export const motionTokens = {
   duration: {
-    // Very fast, nearly instant UI feedback (e.g., button hover)
     instant: 80,
-    // Standard UI affordances, small transitions
     fast: 150,
-    // Default duration for most component transitions
     base: 220,
-    // More noticeable transitions (modals, section reveals)
     slow: 320,
-    // Hero-level or narrative motion, use sparingly
     slower: 480,
   },
 
   ease: {
-    // General-purpose “material-ish” curve
     standard: "cubic-bezier(0.4, 0.0, 0.2, 1)",
-    // Ease-out for elements entering
     enter: "cubic-bezier(0.0, 0.0, 0.2, 1)",
-    // Ease-in for elements exiting
     exit: "cubic-bezier(0.4, 0.0, 1, 1)",
-    // Slightly more pronounced than standard; use for emphasis
     emphasis: "cubic-bezier(0.3, 0.0, 0.2, 1.1)",
-    // For elastic/overshoot-y motion in GSAP; not mapped to Tailwind by default
     springy: "cubic-bezier(0.2, 0.8, 0.2, 1.4)",
   },
 
   distance: {
-    // Distances in pixels; convert to rems in Tailwind if desired
     xs: 4,
     sm: 8,
     md: 16,
@@ -60,7 +45,6 @@ export const motionTokens = {
   },
 
   stagger: {
-    // Stagger values in seconds, for GSAP timelines
     none: 0,
     tight: 0.05,
     base: 0.1,
@@ -68,7 +52,6 @@ export const motionTokens = {
   },
 };
 
-// Convenience helpers for GSAP usage
 export const motion = {
   duration(name = "base") {
     return motionTokens.duration[name] ?? motionTokens.duration.base;

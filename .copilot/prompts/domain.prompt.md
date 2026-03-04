@@ -85,8 +85,8 @@ For each selected area, follow these rules:
 - Keep within the established architecture (Director → sections → triggers/animations).
 - Prefer AnimationBus events for cross-section coordination.
 - Ensure reduced-motion behavior is preserved.
-- Use `frontend/js/choreography/config.js` and `frontend/js/choreography/constants.js` as the default source of truth for selectors, timings/tunables, and event names.
-- When adding new choreography values/contracts, extend `config.js`/`constants.js` first, then import into section/triggers/sequences instead of introducing local literals.
+- Use `frontend/js/choreography/config/runtime.js` and `frontend/js/choreography/config/events.js` as the default source of truth for selectors, timings/tunables, and event names.
+- When adding new choreography values/contracts, extend `config/runtime.js`/`config/events.js` first, then import into section/triggers/sequences instead of introducing local literals.
 
 #### Area: `eleventy/`
 
@@ -124,7 +124,7 @@ Request: “Add an ‘Organizations’ logo strip driven by Sanity and animate i
 - Do not invoke Tailwind CLI directly; use the project’s npm scripts.
 - Default to `npm run start:nobundle` for local dev (avoid `assets/js/choreography/bundle.js`) until explicitly told otherwise.
 - Do not invent non-existent sections or controllers; confirm via repo search.
-- For IxD/choreography edits, consolidate reusable values in `js/choreography/config.js` and event contracts in `js/choreography/constants.js`; avoid scattering duplicate literals across runtime files.
+- For IxD/choreography edits, consolidate reusable values in `js/choreography/config/runtime.js` and event contracts in `js/choreography/config/events.js`; avoid scattering duplicate literals across runtime files.
 
 ## Domain Conventions (do)
 

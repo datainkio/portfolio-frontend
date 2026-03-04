@@ -17,10 +17,10 @@
  */
 /** @format */
 
-import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
-import { motion } from '../../motion.tokens.js';
+import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
+import { motion } from "../../config/motion.js";
 
-const toSeconds = value => (typeof value === 'number' ? value / 1000 : value);
+const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 
 export default class AwardsAnimations extends AbstractSectionAnimations {
   /**
@@ -36,12 +36,12 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
     this.options = {
-      duration: options.duration ?? toSeconds(motion.duration('slower')),
-      stagger: options.stagger ?? motion.stagger('base'),
-      translateY: options.translateY ?? -motion.distance('lg'),
+      duration: options.duration ?? toSeconds(motion.duration("slower")),
+      stagger: options.stagger ?? motion.stagger("base"),
+      translateY: options.translateY ?? -motion.distance("lg"),
       ease: {
-        in: options.ease?.in ?? motion.ease('exit'),
-        out: options.ease?.out ?? motion.ease('enter'),
+        in: options.ease?.in ?? motion.ease("exit"),
+        out: options.ease?.out ?? motion.ease("enter"),
       },
     };
 
@@ -50,20 +50,22 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   }
 
   intro() {
-    return this.timeline.play('intro');
+    return this.timeline.play("intro");
   }
 
   outro() {
-    return this.timeline.play('outro');
+    return this.timeline.play("outro");
   }
 
   _getTargets() {
     if (!this.view) return [];
 
-    const listItems = Array.from(this.view.querySelectorAll('.awards-list__item'));
+    const listItems = Array.from(
+      this.view.querySelectorAll(".awards-list__item"),
+    );
     if (listItems.length) return listItems;
 
-    const emptyState = this.view.querySelector('.awards-list__empty');
+    const emptyState = this.view.querySelector(".awards-list__empty");
     return emptyState ? [emptyState] : [];
   }
 
@@ -75,9 +77,9 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     this.timeline.clear();
 
     // Intro
-    this.timeline.addLabel('intro', 0);
-    this.timeline.set(this.view, { autoAlpha: 1 }, 'intro');
-    this.timeline.set(this.targets, { autoAlpha: 0, y: translateY }, 'intro');
+    this.timeline.addLabel("intro", 0);
+    this.timeline.set(this.view, { autoAlpha: 1 }, "intro");
+    this.timeline.set(this.targets, { autoAlpha: 0, y: translateY }, "intro");
     this.timeline.to(
       this.targets,
       {
@@ -87,13 +89,13 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
         ease: ease.out,
         stagger,
       },
-      'intro'
+      "intro",
     );
-    this.timeline.addLabel('intro:end', this.timeline.duration());
-    this.timeline.addPause('intro:end');
+    this.timeline.addLabel("intro:end", this.timeline.duration());
+    this.timeline.addPause("intro:end");
 
     // Outro
-    this.timeline.addLabel('outro', this.timeline.duration());
+    this.timeline.addLabel("outro", this.timeline.duration());
     this.timeline.to(
       this.targets,
       {
@@ -103,9 +105,9 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
         ease: ease.in,
         stagger: Math.min(stagger, 0.1),
       },
-      'outro'
+      "outro",
     );
-    this.timeline.addLabel('outro:end', this.timeline.duration());
-    this.timeline.addPause('outro:end');
+    this.timeline.addLabel("outro:end", this.timeline.duration());
+    this.timeline.addPause("outro:end");
   }
 }

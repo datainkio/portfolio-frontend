@@ -41,8 +41,11 @@ js/choreography/
 ├── AnimationDirector.js          # Master initialization
 ├── AnimationBus.js               # Event pub/sub system
 ├── ScrollEffectsCoordinator.js   # Visual effects coordinator
-├── constants.js                  # Event name definitions
-├── config.js                     # Animation settings (timings, easing)
+├── config/
+│   ├── events.js                 # Event name definitions
+│   ├── runtime.js                # Animation settings (timings, selectors, triggers)
+│   ├── motion.js                 # Motion tokens/helpers
+│   └── arrangements.js           # Section-to-gel arrangement maps
 ├── managers/
 │   ├── ReducedMotionHandler.js   # Accessibility
 │   ├── BackgroundLayerManager.js # Fixed positioning
@@ -86,14 +89,14 @@ window.director.destroy(); // Cleanup everything
 Tiny pub/sub system enabling loose coupling between animations:
 
 ```javascript
-import { AnimationBus } from './AnimationBus.js';
-import { EVENTS } from './constants.js';
+import { AnimationBus } from "./AnimationBus.js";
+import { EVENTS } from "./config/events.js";
 
 const bus = new AnimationBus();
 
 // Listen for events
 bus.on(EVENTS.hero.introComplete, () => {
-  console.log('Hero intro finished');
+  console.log("Hero intro finished");
 });
 
 // Emit events
@@ -108,7 +111,7 @@ unsubscribe(); // Remove listener
 
 - `${section}:${phase}:${state}`
 - Example: `hero:intro:start`, `hero:intro:complete`
-- See `constants.js` for complete event list
+- See `config/events.js` for complete event list
 
 ### Stage Manager (StageManager.js)
 
@@ -159,12 +162,12 @@ section:${id}:outro:complete
 **Creating New Sections:**
 
 ```javascript
-import { AbstractSection } from './abstract-section/AbstractSection.js';
-import { EVENTS } from '../constants.js';
+import { AbstractSection } from "./abstract-section/AbstractSection.js";
+import { EVENTS } from "../config/events.js";
 
 export class CustomSection extends AbstractSection {
   constructor({ bus, reducedMotionHandler }) {
-    super('custom-section', bus, reducedMotionHandler);
+    super("custom-section", bus, reducedMotionHandler);
   }
 
   createIntro() {
@@ -188,7 +191,7 @@ export class CustomSection extends AbstractSection {
 Orchestrates multi-section animation flow:
 
 ```javascript
-import { LandingSequence } from './sequences/landing/LandingSequence.js';
+import { LandingSequence } from "./sequences/landing/LandingSequence.js";
 
 const sequence = new LandingSequence(bus, sections, gelAnimation);
 sequence.start(); // Begin choreography
@@ -280,7 +283,7 @@ window.director.getSequence().enableDebug(true);
 **Issue**: Animations not playing in order
 
 - **Check**: Event names match exactly (case-sensitive)
-- **Fix**: Use `EVENTS` constants from `constants.js`
+- **Fix**: Use `EVENTS` constants from `config/events.js`
 
 **Issue**: ScrollSmoother conflicts with fixed backgrounds
 
@@ -324,5 +327,5 @@ Sections require specific DOM structure in Nunjucks templates:
 
 - See [managers/README.md](./managers/README.md) for detailed manager documentation
 - See [sections/README.md](./sections/README.md) for section controller patterns
-- See [constants.js](./constants.js) for event naming conventions
-- See [config.js](./config.js) for animation timing and easing
+- See [config/events.js](./config/events.js) for event naming conventions
+- See [config/runtime.js](./config/runtime.js) for animation timing and easing

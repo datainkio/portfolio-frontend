@@ -48,7 +48,7 @@
   - Sections: [js/choreography/sections/](frontend/js/choreography/sections/) (extend `AbstractSection`).
     - Abstract section: [js/choreography/sections/abstract-section/README.md](frontend/js/choreography/sections/abstract-section/README.md)
   - Managers: [js/choreography/managers/](frontend/js/choreography/managers/)
-  - Event contracts: [js/choreography/constants.js](frontend/js/choreography/constants.js) (`EVENTS`).
+  - Event contracts: [js/choreography/config/events.js](frontend/js/choreography/config/events.js) (`EVENTS`).
   - Choreography pages: [js/choreography/pages/README.md](frontend/js/choreography/pages/README.md)
   - Choreography utils: [js/choreography/utils/README.md](frontend/js/choreography/utils/README.md)
 - Displays / effects / layouts: [js/displays/](frontend/js/displays/), [js/effects/](frontend/js/effects/), [js/layouts/](frontend/js/layouts/)

@@ -23,12 +23,12 @@
  * Provides a minimal structure and helpers for building GSAP timelines
  * associated with a specific DOM element and section id.
  */
-import { motion } from '../../motion.tokens.js';
-import { gsap } from '/assets/js/choreography/vendor/gsap.js';
-const toSeconds = value => (typeof value === 'number' ? value / 1000 : value);
-const DURATION = toSeconds(motion.duration('base')); // Default duration for animations
-const STAGGER = motion.stagger('base'); // Default stagger duration for animations
-const EASE = motion.ease('standard'); // Default easing for animations
+import { motion } from "../../config/motion.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
+const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
+const DURATION = toSeconds(motion.duration("base")); // Default duration for animations
+const STAGGER = motion.stagger("base"); // Default stagger duration for animations
+const EASE = motion.ease("standard"); // Default easing for animations
 export default class AbstractSectionAnimations {
   /**
    * @param {HTMLElement|null} view - Target element for animations
@@ -63,7 +63,7 @@ export default class AbstractSectionAnimations {
     this.timeline.fromTo(
       this.view,
       { opacity: 0 },
-      { opacity: 1, duration: this.DURATION, ease: this.EASE }
+      { opacity: 1, duration: this.DURATION, ease: this.EASE },
     );
     return this.timeline.play(0);
   }

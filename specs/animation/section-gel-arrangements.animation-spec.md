@@ -5,7 +5,7 @@
 - **Status:** draft
 - **Last reviewed:** 2026-02-19
 - **Scope:** Landing choreography gel layers (`.bg-gel`) reacting to section lifecycle events (`EVENTS.*.enter` / `EVENTS.*.exit`).
-- **Links:** choreography coordinator [../../js/choreography/sequences/landing/LandingSequence.js](../../js/choreography/sequences/landing/LandingSequence.js), event contracts [../../js/choreography/constants.js](../../js/choreography/constants.js), gel manager [../../js/choreography/managers/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager.js), choreography config [../../js/choreography/config.js](../../js/choreography/config.js)
+- **Links:** choreography coordinator [../../js/choreography/sequences/landing/LandingSequence.js](../../js/choreography/sequences/landing/LandingSequence.js), event contracts [../../js/choreography/config/events.js](../../js/choreography/config/events.js), gel manager [../../js/choreography/managers/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager.js), choreography config [../../js/choreography/config/runtime.js](../../js/choreography/config/runtime.js)
 
 ## Motion Principles
 
@@ -21,11 +21,11 @@
 
 Create a dedicated constants file:
 
-- `frontend/js/choreography/gel-arrangements.js`
+- `frontend/js/choreography/config/arrangements.js`
 
 Rationale:
 
-- Keeps `config.js` focused on base choreography/site config.
+- Keeps `config/runtime.js` focused on base choreography/site config.
 - Keeps arrangement definitions near choreography runtime logic.
 - Enables direct imports from `LandingSequence` and `GelAnimationManager` without inflating global constants.
 
@@ -137,7 +137,7 @@ Rules:
 
 - `LandingSequence`: subscribes to section events and requests arrangement changes.
 - `GelAnimationManager`: exposes imperative `applyArrangement(arrangement)` API (immediate geometry + mask updates).
-- `gel-arrangements.js`: authoritative constants map and schema.
+- `config/arrangements.js`: authoritative constants map and schema.
 - State model: `activeArrangementId` stored in `LandingSequence` (or manager) to avoid redundant reapplies.
 
 ### C) Choreography timeline
@@ -158,7 +158,7 @@ Rules:
 
 ### E) Implementation plan (no code yet)
 
-1. Add `gel-arrangements.js` with schema docs and two constants (`GEL_ARRANGEMENTS`, `SECTION_TO_GEL_ARRANGEMENT`).
+1. Add `config/arrangements.js` with schema docs and two constants (`GEL_ARRANGEMENTS`, `SECTION_TO_GEL_ARRANGEMENT`).
 2. Add `applyArrangement(arrangement)` to `GelAnimationManager`:
    - Iterates `arrangement.gels`.
 
@@ -207,7 +207,7 @@ Rules:
 
 ## Decisions
 
-- Dedicated file `gel-arrangements.js` for high-iteration DX.
+- Dedicated file `config/arrangements.js` for high-iteration DX.
 - Viewport-normalized rect + mask schema for portable, swappable arrangements.
 - `enter` events are authoritative for MVP section-to-arrangement mapping.
 

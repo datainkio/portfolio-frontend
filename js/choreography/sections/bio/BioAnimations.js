@@ -18,7 +18,7 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import { motion } from "../../motion.tokens.js";
+import { motion } from "../../config/motion.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);

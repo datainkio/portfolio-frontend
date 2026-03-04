@@ -158,7 +158,7 @@ Create `js/choreography/sections/my-section/MySection.js`:
 import AbstractSection from "../abstract-section/AbstractSection.js";
 import MyAnimations from "./MyAnimations.js";
 import MyTriggers from "./MyTriggers.js";
-import { EVENTS } from "../../constants.js";
+import { EVENTS } from "../../config/events.js";
 
 export default class MySection extends AbstractSection {
   /**
@@ -282,7 +282,7 @@ export default class MyTriggers extends AbstractSectionTriggers {
 
 ### Step 5: Register in Constants
 
-Update `js/choreography/constants.js`:
+Update `js/choreography/config/events.js`:
 
 ```javascript
 export const EVENTS = {

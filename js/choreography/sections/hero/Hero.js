@@ -22,11 +22,11 @@
  * Extends AbstractSection to use shared lifecycle and AnimationBus coordination.
  */
 
-import AbstractSection from '../abstract-section/AbstractSection.js';
-import { EVENTS } from '../../constants.js';
-import { SELECTORS } from '../../config.js';
-import HeroAnimations from './HeroAnimations.js';
-import HeroTriggers from './HeroTriggers.js';
+import AbstractSection from "../abstract-section/AbstractSection.js";
+import { EVENTS } from "../../config/events.js";
+import { SELECTORS } from "../../config/runtime.js";
+import HeroAnimations from "./HeroAnimations.js";
+import HeroTriggers from "./HeroTriggers.js";
 
 export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
@@ -58,7 +58,7 @@ export default class Hero extends AbstractSection {
     }
 
     if (!view) {
-      this.logger.trace('element not found; skipping initialization.');
+      this.logger.trace("element not found; skipping initialization.");
       return;
     }
   }
@@ -77,13 +77,13 @@ export default class Hero extends AbstractSection {
     this._introPlaying = true;
     this.isIntroComplete = false;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const tl = this.animations?.timeline;
       if (!tl) return resolve();
 
       this._onIntroStart();
 
-      tl.tweenTo('intro:end', {
+      tl.tweenTo("intro:end", {
         overwrite: true,
         onComplete: () => {
           this._onIntroComplete();
@@ -141,10 +141,15 @@ export default class Hero extends AbstractSection {
   _isInViewport(element) {
     if (!element) return false;
     const rect = element.getBoundingClientRect();
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+    const viewportWidth =
+      window.innerWidth || document.documentElement.clientWidth;
     return (
-      rect.top < viewportHeight && rect.bottom > 0 && rect.left < viewportWidth && rect.right > 0
+      rect.top < viewportHeight &&
+      rect.bottom > 0 &&
+      rect.left < viewportWidth &&
+      rect.right > 0
     );
   }
 }

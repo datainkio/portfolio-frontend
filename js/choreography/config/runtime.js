@@ -1,8 +1,8 @@
 /**
  * ---
  * aix:
- *   id: frontend.js.choreography.config
- *   role: Frontend runtime module: js/choreography/config.js
+ *   id: frontend.js.choreography.config.runtime
+ *   role: Frontend runtime module: js/choreography/config/runtime.js
  *   status: stable
  *   surface: public
  *   scope: frontend
@@ -12,22 +12,23 @@
  *     - js
  *     - runtime
  *     - choreography
- *     - config.js
+ *     - config
+ *     - runtime.js
  * ---
  */
 /** @format */
 
 /**
- * Site-Specific Choreography Configuration
+ * Site-Specific Choreography Runtime Configuration
  *
  * DOM selectors, asset paths, animation timing, and visual settings that are
  * UNIQUE to this project. Change these values when adapting the choreography
  * system to a different site.
  *
- * For system-level constants (event names, API contracts), see constants.js
+ * For event contracts, see events.js
  *
  * USAGE PATTERN:
- * import { SELECTORS, ANIMATION_DEFAULTS } from './config.js';
+ * import { SELECTORS, ANIMATION_DEFAULTS } from './runtime.js';
  *
  * // Find DOM elements
  * this.element = document.querySelector(SELECTORS.hero);
@@ -35,7 +36,7 @@
  * // Use consistent animation settings
  * gsap.to(target, { duration: ANIMATION_DEFAULTS.duration });
  *
- * @fileoverview Project-specific configuration values
+ * @fileoverview Project-specific runtime configuration values
  */
 
 /**
@@ -68,15 +69,12 @@ export const SELECTORS = {
   awards: "awards",
   work: "work",
 
-  // Scroll smoothing container (optional - enables ScrollSmoother)
   smoothWrapper: "#smooth-wrapper",
   smoothContent: "#smooth-content",
 
-  // Background layers (fixed positioning)
   overlayView: "#overlay-view",
   sizzleBackground: "#sizzle-background",
 
-  // Hero section elements
   hero: "hero",
   heroTitle: "#hero h1",
 };
@@ -97,20 +95,9 @@ export const ASSET_PATHS = {
  * Animation Default Settings
  *
  * Base timing and easing values used across all sections.
- * Provides consistent animation feel throughout the site.
- *
- * TIMING:
- * - duration: Base animation length in seconds
- * - stagger: Delay between sequential animations (e.g., word reveals)
- *
- * EASING:
- * - in: Accelerating animations (elements exiting)
- * - out: Decelerating animations (elements entering)
- * - inOut: Smooth start and end (continuous motion)
  */
 export const ANIMATION_DEFAULTS = {
   duration: 0.6,
-  // speed: 0.2,
   stagger: 0.1,
   ease: {
     in: "power3.in",
@@ -124,42 +111,30 @@ export const ANIMATION_DEFAULTS = {
  * ScrollTrigger Default Configuration
  *
  * Base settings for GSAP ScrollTrigger instances.
- * Individual sections can override these values for specific behaviors.
- *
- * SETTINGS:
- * - markers: Show debug markers (start/end points) - set true for development
- * - toggleActions: Behavior format: "onEnter onLeave onEnterBack onLeaveBack"
- * - start: Animation trigger point (e.g., "top center" = element top hits viewport center)
- * - end: Animation end point (e.g., "bottom center" = element bottom hits viewport center)
  */
 export const SCROLL_DEFAULTS = {
   markers: false,
-  // POSITIONING
   start: "top center",
   end: "bottom center",
-  pinSpacing: false, // prevent extra space when pinning elements
-  // EVENT HANDLERS
+  pinSpacing: false,
   onEnter: () => {},
   onLeave: () => {},
   onEnterBack: () => {},
   onLeaveBack: () => {},
   onRefresh: () => {},
   onUpdate: () => {},
-  // BEHAVIOR
-  once: true, // trigger only once per page load (default behavior for most sections)
-  scrub: false, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar (value is seconds)
-  snap: false, // snap to the closest label in the timeline (or a specific value)
-  pin: false, // pin the trigger element while active
-  anticipatePin: 0, // at moment of pinning the browser may have already painted the pre-pinned content, making it visible for a frame or two
-  invalidateOnRefresh: true, // call invalidate() whenever a refresh() occurs (typically on resize)
-  fastScrollEnd: true, // force the current ScrollTrigger's animation to completion if you leave its trigger area faster than a certain velocity (default 2500px/s)
-  toggleActions: "play reverse none none", // Determines how the linked animation is controlled at the 4 distinct toggle places - onEnter, onLeave, onEnterBack, and onLeaveBack
+  once: true,
+  scrub: false,
+  snap: false,
+  pin: false,
+  anticipatePin: 0,
+  invalidateOnRefresh: true,
+  fastScrollEnd: true,
+  toggleActions: "play reverse none none",
 };
 
 /**
  * Hero Outro Trigger Defaults
- *
- * Section-specific ScrollTrigger settings for hero outro/reverse behavior.
  */
 export const HERO_OUTRO_TRIGGER = {
   start: "top 25%",
@@ -168,16 +143,11 @@ export const HERO_OUTRO_TRIGGER = {
 
 /**
  * Bio Reveal Trigger Defaults
- *
- * Section-specific ScrollTrigger settings for the Bio reveal interaction.
  */
 export const BIO_REVEAL_TRIGGER = {
   start: "top center",
   end: "top 25%",
-  // scrub: 0.75,
-  // snap: true,
   pin: true,
-  // anticipatePin: 1,
   once: false,
   markers: true,
 };
@@ -185,18 +155,12 @@ export const BIO_REVEAL_TRIGGER = {
 export const BIO_HIDE_TRIGGER = {
   start: "bottom center",
   end: "top center",
-  // scrub: 0.75,
-  // snap: true,
-  // pin: true,
-  // anticipatePin: 1,
   once: false,
   markers: true,
 };
+
 /**
  * Gel Arrangement Transition Defaults
- *
- * Timing and easing used when morphing gels between section arrangements.
- * Reduced-motion users are handled by manager-level immediate application.
  */
 export const GEL_ARRANGEMENT_TRANSITION = {
   duration: 0.8,
@@ -206,14 +170,6 @@ export const GEL_ARRANGEMENT_TRANSITION = {
 
 /**
  * Color Classes
- *
- * CSS classes for gel color states.
- * These map to design tokens generated from Figma (styles/colors.css).
- *
- * Update these when:
- * - Design system colors change
- * - Adding new gel color variations
- * - Syncing with Figma design tokens
  */
 export const COLOR_CLASSES = {
   gel: {

@@ -2,7 +2,7 @@
 
 ## Event contract (single source)
 
-- Standard event names live in: [js/choreography/constants.js](../../../js/choreography/constants.js)
+- Standard event names live in: [js/choreography/config/events.js](../../../js/choreography/config/events.js)
 
 ## Section lifecycle + reduced motion
 

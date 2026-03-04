@@ -1,8 +1,8 @@
 /**
  * ---
  * aix:
- *   id: frontend.js.choreography.gel-arrangements
- *   role: Frontend runtime module: js/choreography/gel-arrangements.js
+ *   id: frontend.js.choreography.config.arrangements
+ *   role: Frontend runtime module: js/choreography/config/arrangements.js
  *   status: draft
  *   surface: public
  *   scope: frontend
@@ -13,41 +13,17 @@
  *     - runtime
  *     - choreography
  *     - gels
+ *     - arrangements
  * ---
  */
 /** @format */
 
-/**
- * Section-to-gel arrangement mapping.
- *
- * 1:1 mapping contract for MVP:
- * - each section id maps to exactly one arrangement id
- * - arrangement ids are stable keys in GEL_ARRANGEMENTS
- */
 export const SECTION_TO_GEL_ARRANGEMENT = {
   hero: "hero",
   bio: "bio",
   awards: "awards",
 };
 
-/**
- * Gel arrangements expressed in viewport-relative units.
- *
- * Schema:
- * {
- *   id: string,
- *   gels: {
- *     [gelId]: {
- *       x: number,      // viewport width fraction [0..1]
- *       y: number,      // viewport height fraction [0..1]
- *       width: number,  // viewport width fraction [0..1]
- *       height: number, // viewport height fraction [0..1]
- *       origin?: string, // optional transform-origin
- *       blendMode?: string // optional CSS mix-blend-mode override
- *     }
- *   }
- * }
- */
 export const GEL_ARRANGEMENTS = {
   hero: {
     id: "hero",

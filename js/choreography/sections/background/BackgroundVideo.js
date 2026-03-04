@@ -15,11 +15,11 @@
  *     - sections
  * ---
  */
-import AbstractSection from '../abstract-section/AbstractSection.js';
-import { EVENTS } from '../../constants.js';
-import { SELECTORS } from '../../config.js';
-import BackgroundVideoAnimations from './BackgroundVideoAnimations.js';
-import BackgroundVideoTriggers from './BackgroundVideoTriggers.js';
+import AbstractSection from "../abstract-section/AbstractSection.js";
+import { EVENTS } from "../../config/events.js";
+import { SELECTORS } from "../../config/runtime.js";
+import BackgroundVideoAnimations from "./BackgroundVideoAnimations.js";
+import BackgroundVideoTriggers from "./BackgroundVideoTriggers.js";
 
 export default class BackgroundVideo extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
@@ -38,7 +38,7 @@ export default class BackgroundVideo extends AbstractSection {
     });
 
     if (!view) {
-      this.logger.trace('element not found; skipping initialization.');
+      this.logger.trace("element not found; skipping initialization.");
       return;
     }
   }

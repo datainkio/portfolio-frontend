@@ -141,7 +141,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
   - `sections/` - Section-specific controllers (Hero, BackgroundVideo, Bio, Organizations)
   - `sequences/` - Animation choreography (LandingSequence)
   - `managers/` - Specialized managers (ReducedMotion, BackgroundLayer, ScrollSmoother, GelAnimation)
-  - `config.js` - Animation configuration constants
+  - `config/` - Choreography configuration modules (`runtime.js`, `events.js`, `motion.js`, `arrangements.js`)
 - `js/utils/lumberjack/` - **Note**: Uses `@datainkio/lumberjack` npm package, not local files
 
 **Content Management**
@@ -306,7 +306,7 @@ logger.trace(title, message, verbosity, style);
 **Creating Section Controllers:**
 
 ```javascript
-// 1. Add events to constants.js
+// 1. Add events to config/events.js
 export const EVENTS = {
   custom: {
     introStart: "custom:intro:start",
@@ -316,7 +316,7 @@ export const EVENTS = {
 
 // 2. Create section extending AbstractSection
 import AbstractSection from "../abstract-section/AbstractSection.js";
-import { EVENTS } from "../../constants.js";
+import { EVENTS } from "../../config/events.js";
 
 export default class Custom extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {

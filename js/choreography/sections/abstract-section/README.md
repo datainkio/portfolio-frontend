@@ -50,17 +50,17 @@ An abstract class is never instantiated on its own, only its descendents. You im
 3. Build the main entrypoint class extending AbstractSection, wire the animations/triggers, and register lifecycle handlers.
 
 - - import { AbstractSection } from '../abstract-section/AbstractSection.js';
-- - import { EVENTS } from '../../constants.js';
-- - import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
+- - import { EVENTS } from '../../config/events.js';
+- - import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/runtime.js';
 
 ### Implementing the AbstractSection
 
 See the Hero class for a good supply of code snippets.
 
 - Instantiate the new subclass with two params:
-- - the section's root selector defined by the SELECTORS object in config.js
+- - the section's root selector defined by the SELECTORS object in config/runtime.js
 - - the shared AnimationBus.
-- Ensure that the required constants and config entries exist and are used
-- - the AbstractSection subclass is dependent upon constants.EVENTS for broadcasting events recognized by the choreography system
-- - the AbstractSectionAnimations subclass relies on config.ANIMATIONS_DEFAULT for animation values
-- - the AbstractSectionTrigggers subclass uses config.SCROLL_DEFAULTS to define scroll trigger values
+- Ensure that the required event and runtime config entries exist and are used
+- - the AbstractSection subclass is dependent upon config/events.EVENTS for broadcasting events recognized by the choreography system
+- - the AbstractSectionAnimations subclass relies on config/runtime.ANIMATION_DEFAULTS for animation values
+- - the AbstractSectionTrigggers subclass uses config/runtime.SCROLL_DEFAULTS to define scroll trigger values

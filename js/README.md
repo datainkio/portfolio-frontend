@@ -88,8 +88,10 @@ Master coordination system for all page animations using event-driven architectu
   - Communicate via AnimationBus events
   - Reference: [js/choreography/sections/README.md](js/choreography/sections/README.md) for detailed controller patterns
 - **`sequences/`** - Multi-section choreography coordinators (e.g., LandingSequence)
-- **`config.js`** - Animation configuration constants (timings, easing, etc.)
-- **`constants.js`** - Event names and other constants
+- **`config/runtime.js`** - Animation/runtime configuration constants (timings, selectors, triggers)
+- **`config/events.js`** - Event names and event contracts
+- **`config/motion.js`** - Motion tokens and helpers
+- **`config/arrangements.js`** - Section-to-gel arrangement configuration
 
 #### `/utils/` - Utilities & Helpers
 
@@ -127,8 +129,8 @@ Loading screens, page transitions, and interim displays
 Use absolute paths from the site root in client-side code:
 
 ```javascript
-import Halftone from '/assets/js/effects/image/halftone/Halftone.js';
-import { trace } from '/assets/js/utils/trace.js';
+import Halftone from "/assets/js/effects/image/halftone/Halftone.js";
+import { trace } from "/assets/js/utils/trace.js";
 ```
 
 ### Initialization Example
@@ -136,7 +138,7 @@ import { trace } from '/assets/js/utils/trace.js';
 ```javascript
 // Basic effect initialization in main.js
 window.onload = function () {
-  const ht = new Halftone(gsap.utils.toArray('#page-content')[0], {
+  const ht = new Halftone(gsap.utils.toArray("#page-content")[0], {
     dotSize: 3,
     gridSize: 3,
     color: true,
@@ -147,10 +149,10 @@ window.onload = function () {
 ### Text Effects Example
 
 ```javascript
-import { radar, morph } from '/assets/js/effects/TextParty.js';
+import { radar, morph } from "/assets/js/effects/TextParty.js";
 
 // Apply radar effect to element
-radar(document.querySelector('.text-element'), {
+radar(document.querySelector(".text-element"), {
   // configuration options
 });
 ```

@@ -2,14 +2,21 @@
 
 # Section Controllers - Standardized Animation Lifecycle
 
-Sections are animation controllers that attach GSAP timelines to DOM elements, emit standardized AnimationBus events from `constants.js`, and respect reduced-motion preferences. **Active sections:** Hero, BackgroundVideo, Bio, and Organizations.
+Sections are animation controllers that attach GSAP timelines to DOM elements, emit standardized AnimationBus events from `config/events.js`, and respect reduced-motion preferences. **Active sections:** Hero, BackgroundVideo, Bio, and Organizations.
 
 ## AbstractSection (current base class)
 
 `AbstractSection` connects a section element to an animation bundle (animations + triggers) and an `events` map from `EVENTS`.
 
 ```javascript
-constructor(elem, animations, triggers, events, bus, ({ reducedMotionHandler } = {}));
+constructor(
+  elem,
+  animations,
+  triggers,
+  events,
+  bus,
+  ({ reducedMotionHandler } = {}),
+);
 
 setAnimations(bundle); // Register animations and bind callbacks
 initialize(); // Apply reduced-motion state, set up scroll triggers
@@ -44,20 +51,20 @@ Optional playOutro()
 
 ## Event Naming (use constants)
 
-Always use `EVENTS` from [../constants.js](../constants.js):
+Always use `EVENTS` from [../config/events.js](../config/events.js):
 
 ```javascript
-import { EVENTS } from '../constants.js';
+import { EVENTS } from "../config/events.js";
 
 bus.emit(EVENTS.hero.introComplete);
 bus.on(EVENTS.video.introStart, handler);
 
-// Adding a new section (in constants.js)
+// Adding a new section (in config/events.js)
 EVENTS.custom = {
-  introStart: 'custom:intro:start',
-  introComplete: 'custom:intro:complete',
-  outroStart: 'custom:outro:start',
-  outroComplete: 'custom:outro:complete',
+  introStart: "custom:intro:start",
+  introComplete: "custom:intro:complete",
+  outroStart: "custom:outro:start",
+  outroComplete: "custom:outro:complete",
 };
 ```
 
@@ -82,17 +89,17 @@ EVENTS.custom = {
   - Events: `EVENTS.organizations.*`
   - DOM: `#organizations` / `SELECTORS.organizations`
 
-To activate additional sections: add event definitions to `constants.js`, import into `Director.js`, instantiate with `bus` and `reducedMotionHandler`, and hook into animation sequence.
+To activate additional sections: add event definitions to `config/events.js`, import into `Director.js`, instantiate with `bus` and `reducedMotionHandler`, and hook into animation sequence.
 
 ## Creating a Custom Section (current pattern)
 
 ```javascript
 // js/choreography/sections/custom/Custom.js
-import AbstractSection from '../abstract-section/AbstractSection.js';
-import { EVENTS } from '../../constants.js';
-import CustomAnimations from './CustomAnimations.js';
-import CustomTriggers from './CustomTriggers.js';
-import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
+import AbstractSection from "../abstract-section/AbstractSection.js";
+import { EVENTS } from "../../config/events.js";
+import CustomAnimations from "./CustomAnimations.js";
+import CustomTriggers from "./CustomTriggers.js";
+import { SELECTORS, ANIMATION_DEFAULTS } from "../../config/runtime.js";
 
 export default class Custom extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
@@ -104,7 +111,7 @@ export default class Custom extends AbstractSection {
     super(elem, anim, triggers, events, bus, { reducedMotionHandler });
 
     if (!elem) {
-      this.logger.trace('element not found; skipping initialization.');
+      this.logger.trace("element not found; skipping initialization.");
     }
   }
 }
@@ -147,15 +154,15 @@ When needed, pass `reducedMotionHandler` from `StageManager` into the section co
 
 ## Event Naming Conventions
 
-Events come from `EVENTS` in [constants.js](../constants.js) and are passed into `AbstractSection` via the `events` argument. Use the constants instead of string interpolation.
-import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
+Events come from `EVENTS` in [config/events.js](../config/events.js) and are passed into `AbstractSection` via the `events` argument. Use the constants instead of string interpolation.
+import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/runtime.js';
 
       export default class Custom extends AbstractSection {
         constructor({ bus = null, reducedMotionHandler } = {}) {
           const elem = document.getElementById(SELECTORS.custom);
           const anim = new CustomAnimations(elem, ANIMATION_DEFAULTS);
           const triggers = new CustomTriggers(elem);
-          const events = EVENTS.custom; // add to constants.js first
+          const events = EVENTS.custom; // add to config/events.js first
 
           super(elem, anim, triggers, events, bus, { reducedMotionHandler });
 
@@ -183,7 +190,7 @@ import { SELECTORS, ANIMATION_DEFAULTS } from '../../config.js';
 
       ```javascript
       // LandingSequence.js
-      import { EVENTS } from '../constants.js';
+      import { EVENTS } from '../config/events.js';
 
       on(EVENTS.hero.introComplete, () => {
         this.sections?.custom?.playIntro?.();
@@ -302,8 +309,8 @@ window.director.enableDebug(true); // Log all events
 ScrollTrigger.create({
   trigger: this.dom.container,
   markers: true, // Visual markers in dev
-  onEnter: () => console.log('entered'),
-  onLeave: () => console.log('left'),
+  onEnter: () => console.log("entered"),
+  onLeave: () => console.log("left"),
 });
 ```
 
@@ -335,5 +342,5 @@ constructor({ stageManager }) {
 - [AbstractSection source code](./abstract-section/AbstractSection.js)
 - [Hero section example](./hero/Hero.js)
 - [Parent choreography system](../README.md)
-- [AnimationBus events](../constants.js)
-- [Animation config](../config.js)
+- [AnimationBus events](../config/events.js)
+- [Animation config](../config/runtime.js)

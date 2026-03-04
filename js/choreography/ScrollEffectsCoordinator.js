@@ -55,7 +55,7 @@ import ReducedMotionHandler from "/assets/js/choreography/managers/ReducedMotion
 // import BackgroundLayerManager from "/assets/js/choreography/managers/BackgroundLayerManager.js";
 import ScrollSmootherManager from "/assets/js/choreography/managers/ScrollSmootherManager.js";
 import GelAnimationManager from "/assets/js/choreography/managers/GelAnimationManager.js";
-import { GEL_ARRANGEMENTS } from "/assets/js/choreography/gel-arrangements.js";
+import { GEL_ARRANGEMENTS } from "/assets/js/choreography/config/arrangements.js";
 
 /**
  * ScrollEffectsCoordinator - Master Animation Coordinator
