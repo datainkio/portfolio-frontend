@@ -194,7 +194,7 @@ export class LandingSequence {
     // Respond to hero intro start
     on(EVENTS.hero.enter, () => {
       this.logger.trace("Hero entered");
-      this._applySectionArrangement("hero");
+      // this._applySectionArrangement("hero");
     });
 
     on(EVENTS.hero.exit, () => {
@@ -204,7 +204,7 @@ export class LandingSequence {
     // Respond to hero intro start
     on(EVENTS.hero.introStart, () => {
       this.logger.trace("Hero intro started");
-      this._applySectionArrangement("hero");
+      // this._applySectionArrangement("hero");
     });
 
     // Respond to hero intro complete

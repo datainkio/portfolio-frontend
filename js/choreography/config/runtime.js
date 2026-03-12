@@ -113,7 +113,6 @@ export const ANIMATION_DEFAULTS = {
  * Base settings for GSAP ScrollTrigger instances.
  */
 export const SCROLL_DEFAULTS = {
-  markers: false,
   start: "top center",
   end: "bottom center",
   pinSpacing: false,
@@ -131,32 +130,36 @@ export const SCROLL_DEFAULTS = {
   invalidateOnRefresh: true,
   fastScrollEnd: true,
   toggleActions: "play reverse none none",
+  markers: false,
 };
 
 /**
- * Hero Outro Trigger Defaults
+ * Hero Trigger Defaults
  */
-export const HERO_OUTRO_TRIGGER = {
-  start: "top 25%",
+export const HERO_TRIGGER = {
+  start: "bottom 45%",
   end: "bottom 25%",
+  markers: true,
+  pin: false,
+  once: false,
 };
 
 /**
  * Bio Reveal Trigger Defaults
  */
-export const BIO_REVEAL_TRIGGER = {
+export const BIO_TRIGGER = {
   start: "top center",
   end: "top 25%",
   pin: true,
   once: false,
-  markers: true,
+  // markers: true,
 };
 
 export const BIO_HIDE_TRIGGER = {
   start: "bottom center",
   end: "top center",
   once: false,
-  markers: true,
+  // markers: true,
 };
 
 /**

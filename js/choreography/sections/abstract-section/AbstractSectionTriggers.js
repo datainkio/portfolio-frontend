@@ -38,19 +38,26 @@ export default class AbstractSectionTriggers {
     });
     this.view = view;
     this._trigger = null;
-    this._callbacks = {};
+  }
+
+  /**
+   * Per-section ScrollTrigger defaults.
+   * Subclasses can override to layer section-specific settings.
+   *
+   * @returns {Object}
+   */
+  getTriggerDefaults() {
+    return SCROLL_DEFAULTS;
   }
 
   /**
    * Bind callbacks to the viewport trigger
    *
-   * Stores callbacks internally and recreates the trigger with them
-   * included in the vars object for proper GSAP ScrollTrigger integration.
+   * Recreates the trigger with callbacks included in vars.
    *
    * **Rebind Behavior:**
    * Calling bind() multiple times is safe and efficient:
    * - Automatically kills the previous trigger before creating a new one
-   * - Stores callbacks for potential re-binding (see _callbacks)
    * - Useful for updating trigger behavior without memory leaks
    *
    * @example
@@ -72,35 +79,28 @@ export default class AbstractSectionTriggers {
    * @param {Function} callbacks.onEnterBack - Fired when scrolling back into viewport
    * @param {Function} callbacks.onLeaveBack - Fired when scrolling back out of viewport
    */
-  bind({
-    onEnter = SCROLL_DEFAULTS.onEnter,
-    onLeave = SCROLL_DEFAULTS.onLeave,
-    onEnterBack = SCROLL_DEFAULTS.onEnterBack,
-    onLeaveBack = SCROLL_DEFAULTS.onLeaveBack,
-  } = {}) {
+  bind({ onEnter, onLeave, onEnterBack, onLeaveBack } = {}) {
     if (!this.view) {
       this.logger.trace("No view available to bind triggers");
       return;
     }
-
-    // Store callbacks
-    this._callbacks = { onEnter, onLeave, onEnterBack, onLeaveBack };
 
     // Kill existing trigger if any
     if (this._trigger) {
       this._trigger.kill();
     }
 
+    const triggerDefaults = this.getTriggerDefaults();
+
     // Build vars with callbacks
     const vars = {
-      ...SCROLL_DEFAULTS,
+      ...triggerDefaults,
       trigger: this.view,
+      onEnter: onEnter ?? triggerDefaults.onEnter,
+      onLeave: onLeave ?? triggerDefaults.onLeave,
+      onEnterBack: onEnterBack ?? triggerDefaults.onEnterBack,
+      onLeaveBack: onLeaveBack ?? triggerDefaults.onLeaveBack,
     };
-
-    if (onEnter) vars.onEnter = onEnter;
-    if (onLeave) vars.onLeave = onLeave;
-    if (onEnterBack) vars.onEnterBack = onEnterBack;
-    if (onLeaveBack) vars.onLeaveBack = onLeaveBack;
 
     // Create trigger with callbacks baked in
     this._trigger = ScrollTrigger.create(vars);

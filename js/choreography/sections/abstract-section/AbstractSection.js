@@ -19,7 +19,7 @@
  * AbstractSection - Foundation class for section animation controllers
  *
  * Provides standard lifecycle and event coordination for all section controllers.
- * Subclasses override createIntro(), createOutro(), and createScrollTriggers().
+ * Subclasses may provide custom animations/triggers modules as needed.
  *
  * Lifecycle:
  * 1. Constructor initializes timeline and element
@@ -30,17 +30,17 @@
  * - AnimationBus for event coordination
  */
 
-import AbstractSectionAnimations from './AbstractSectionAnimations.js';
-import AbstractSectionTriggers from './AbstractSectionTriggers.js';
-import NullAnimationBus from '../../NullAnimationBus.js';
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
+import AbstractSectionAnimations from "./AbstractSectionAnimations.js";
+import AbstractSectionTriggers from "./AbstractSectionTriggers.js";
+import NullAnimationBus from "../../NullAnimationBus.js";
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 export default class AbstractSection {
   /**
    * Initialize section controller
    *
    * Accepts configuration object with all initialization parameters.
-   * Subclasses override createIntro(), createOutro(), and createScrollTriggers().
+   * Subclasses may provide custom animations/triggers modules as needed.
    *
    * @param {Object} options - Configuration object
    * @param {HTMLElement} options.view - DOM element for the section
@@ -50,9 +50,16 @@ export default class AbstractSection {
    * @param {AnimationBus} options.bus - Event bus for coordination (optional)
    * @param {ReducedMotionHandler} options.reducedMotionHandler - Motion preference handler (optional)
    */
-  constructor({ view, animations, triggers, events, bus, reducedMotionHandler } = {}) {
+  constructor({
+    view,
+    animations,
+    triggers,
+    events,
+    bus,
+    reducedMotionHandler,
+  } = {}) {
     this.logger = lumberjack.createScoped(this.constructor.name, {
-      color: '#007bff',
+      color: "#007bff",
       enabled: true,
     });
 
@@ -62,7 +69,7 @@ export default class AbstractSection {
     this._reducedMotionHandler = reducedMotionHandler;
 
     if (this.isDisabled) {
-      this.logger.trace('element not found; section disabled');
+      this.logger.trace("element not found; section disabled");
       return;
     }
 
@@ -89,15 +96,15 @@ export default class AbstractSection {
   }
 
   _onEnterBack() {
-    this._emit(this.events.enter, { element: this.view });
+    this._onEnter();
   }
 
   _onLeaveBack() {
-    this._emit(this.events.exit, { element: this.view });
+    this._onLeave();
   }
 
   _onIntroStart() {
-    this.isIntroComplete = true;
+    this.isIntroComplete = false;
     this._emit(this.events.introStart, { element: this.view });
   }
 
@@ -127,16 +134,16 @@ export default class AbstractSection {
   async playIntro() {
     if (this.isDisabled) return Promise.resolve();
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const tl = this.animations.timeline;
       if (!tl) return resolve();
 
-      tl.eventCallback('onStart', () => this._onIntroStart());
-      tl.eventCallback('onComplete', () => {
+      tl.eventCallback("onStart", () => this._onIntroStart());
+      tl.eventCallback("onComplete", () => {
         this._onIntroComplete();
         resolve();
       });
-      tl.eventCallback('onReverseComplete', null);
+      tl.eventCallback("onReverseComplete", null);
 
       this.animations.intro();
     });
@@ -153,16 +160,16 @@ export default class AbstractSection {
   async playOutro() {
     if (this.isDisabled) return Promise.resolve();
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const tl = this.animations.timeline;
       if (!tl) return resolve();
 
-      tl.eventCallback('onStart', () => this._onOutroStart());
-      tl.eventCallback('onComplete', () => {
+      tl.eventCallback("onStart", () => this._onOutroStart());
+      tl.eventCallback("onComplete", () => {
         this._onOutroComplete();
         resolve();
       });
-      tl.eventCallback('onReverseComplete', null);
+      tl.eventCallback("onReverseComplete", null);
 
       this.animations.outro();
     });
@@ -209,7 +216,7 @@ export default class AbstractSection {
    * Resets timeline and state flags for replay or testing.
    */
   reset() {
-    this.animations.timeline.pause(0);
+    this.animations?.timeline?.pause(0);
     this.isIntroComplete = false;
     this.isOutroComplete = false;
     this.isScrollActive = false;
@@ -226,9 +233,7 @@ export default class AbstractSection {
    * Kills timeline and ScrollTriggers. Section cannot be reused after destroy().
    */
   destroy() {
-    if (this.timeline) {
-      this.timeline.kill();
-    }
+    this.animations?.timeline?.kill?.();
 
     // Remove ScrollTriggers registered via AbstractSectionTriggers
     this.triggers?.kill?.();
@@ -238,6 +243,7 @@ export default class AbstractSection {
     });
 
     this.view = null;
-    this.timeline = null;
+    this.animations = null;
+    this.triggers = null;
   }
 }
