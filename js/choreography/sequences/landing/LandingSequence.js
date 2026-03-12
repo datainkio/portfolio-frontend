@@ -56,6 +56,7 @@ export class LandingSequence {
       isStarted: false,
       isComplete: false,
       activeGelArrangementId: initialArrangementId,
+      heroIntroRequested: false,
     };
     this._listeners = [];
 
@@ -82,7 +83,10 @@ export class LandingSequence {
 
   start() {
     this.logger.trace("Starting landing sequence");
-    window.removeEventListener("preloader:out", this.handlePreloaderOut);
+    window.removeEventListener(
+      EVENTS.system.preloaderOut,
+      this.handlePreloaderOut,
+    );
     // if (this.state.isStarted) return;
     // this.state.isStarted = true;
 
@@ -112,6 +116,26 @@ export class LandingSequence {
 
     this.state.isStarted = false;
     this.state.isComplete = false;
+    this.state.heroIntroRequested = false;
+  }
+
+  _startHeroIntroOnce(source) {
+    if (this.state.heroIntroRequested) return;
+    this.state.heroIntroRequested = true;
+
+    this.logger.trace(`Starting Hero intro from ${source}`);
+    const playPromise = this.sections?.hero?.playIntro?.();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch((error) => {
+        this.logger.trace(
+          `Hero intro failed from ${source}`,
+          error,
+          "verbose",
+          "error",
+        );
+        this.state.heroIntroRequested = false;
+      });
+    }
   }
 
   /**
@@ -231,13 +255,13 @@ export class LandingSequence {
      */
     // Respond to video intro start
     on(EVENTS.video.introStart, () => {
-      // this.logger.trace('BG Video intro started');
+      this.logger.trace("BG Video intro started");
     });
 
-    // Respond to hero intro complete
+    // Expected UX sequencing: Hero begins only after BG Video intro finishes.
     on(EVENTS.video.introComplete, () => {
       this.logger.trace("BG Video intro complete");
-      this.sections.hero.playIntro();
+      this._startHeroIntroOnce(EVENTS.video.introComplete);
     });
 
     // Respond to hero outro start

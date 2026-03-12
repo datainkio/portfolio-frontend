@@ -140,7 +140,7 @@ export const SCROLL_DEFAULTS = {
 export const HERO_TRIGGER = {
   start: "bottom 45%",
   end: "bottom 25%",
-  markers: true,
+  markers: false,
   pin: false,
   once: false,
 };
