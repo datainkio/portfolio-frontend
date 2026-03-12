@@ -11,13 +11,13 @@
           | default(award.logo.asset.url)
           | default(award.logo)
           | default('/assets/images/logos/default.svg') %}
-          <li>
+          <li class="awards-list__item">
             <img src="{{ logo }}" alt="{{ award.organization.name | default('Organization') }}: {{ award.title | default(award.name) | default('Untitled award') }}" class="awards-list__logo" loading="lazy" decoding="async"/>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      <p>No awards found.</p>
+      <p class="awards-list__empty">No awards found.</p>
     {% endif %}
   </section>
 {% endmacro %}

@@ -67,7 +67,8 @@ export const SELECTORS = {
   video: "sizzle-background",
   bio: "bio",
   awards: "awards",
-  work: "work",
+  // Home template renders the projects section with id="projects".
+  work: "projects",
 
   smoothWrapper: "#smooth-wrapper",
   smoothContent: "#smooth-content",
