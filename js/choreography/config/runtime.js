@@ -65,6 +65,7 @@ export const ACCESSIBILITY_SETTINGS = {
  */
 export const SELECTORS = {
   video: "sizzle-background",
+  organizations: "organizations",
   bio: "bio",
   awards: "awards",
   // Home template renders the projects section with id="projects".

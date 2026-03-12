@@ -35,6 +35,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
+
     this.options = {
       duration: options.duration ?? toSeconds(motion.duration("slower")),
       stagger: options.stagger ?? motion.stagger("base"),
@@ -45,7 +46,10 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
       },
     };
 
-    this.targets = this._getTargets();
+    this.title = this.view?.querySelector("h2") || this.view;
+    this.subtitle = this.view?.querySelector("p") || null;
+    this.logos = this._getLogos();
+
     this._buildIntroTimeline();
   }
 
@@ -59,7 +63,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     return this.timeline.play(0);
   }
 
-  _getTargets() {
+  _getLogos() {
     if (!this.view) return [];
 
     const listItems = Array.from(
@@ -72,15 +76,18 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   }
 
   _buildIntroTimeline() {
-    if (!this.view || !this.targets.length) return;
+    if (!this.view || !this.logos.length) return;
 
     const { duration, stagger, translateY, ease } = this.options;
 
     this.timeline.clear();
 
-    this.timeline.set(this.view, { autoAlpha: 1 });
-    this.timeline.set(this.targets, { autoAlpha: 0, y: translateY });
-    this.timeline.to(this.targets, {
+    // this.timeline.set(this.view, { autoAlpha: 1 });
+    this.timeline.set([this.title, this.subtitle, ...this.logos], {
+      autoAlpha: 0,
+      y: translateY,
+    });
+    this.timeline.to([this.title, this.subtitle, ...this.logos], {
       autoAlpha: 1,
       y: 0,
       duration,
@@ -90,14 +97,14 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   }
 
   _buildOutroTimeline() {
-    if (!this.view || !this.targets.length) return;
+    if (!this.view || !this.logos.length) return;
 
     const { duration, stagger, translateY, ease } = this.options;
 
     this.timeline.clear();
     this.timeline.set(this.view, { autoAlpha: 1 });
-    this.timeline.set(this.targets, { autoAlpha: 1, y: 0 });
-    this.timeline.to(this.targets, {
+    this.timeline.set(this.logos, { autoAlpha: 1, y: 0 });
+    this.timeline.to(this.logos, {
       autoAlpha: 0,
       y: translateY * 0.5,
       duration: duration * 0.8,

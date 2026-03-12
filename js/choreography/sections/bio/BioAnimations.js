@@ -54,11 +54,11 @@ export default class BioAnimations extends AbstractSectionAnimations {
         autoAlpha: 0,
         y: Math.abs(this.options.translateY),
       });
-      this._configureIntroTimeline();
+      this._buildIntroTimeline();
     }
   }
 
-  _configureIntroTimeline() {
+  _buildIntroTimeline() {
     if (!this._children) {
       this.timeline.clear();
       return;
@@ -86,7 +86,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
       return this.timeline;
     }
 
-    this._configureIntroTimeline();
+    this._buildIntroTimeline();
     return this.timeline.play(0);
   }
 

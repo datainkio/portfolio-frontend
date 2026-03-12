@@ -28,6 +28,7 @@
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "../../config/events.js";
+import { SELECTORS } from "../../config/runtime.js";
 import {
   GEL_ARRANGEMENTS,
   SECTION_TO_GEL_ARRANGEMENT,
@@ -218,7 +219,7 @@ export class LandingSequence {
     // Respond to hero intro start
     on(EVENTS.hero.enter, () => {
       this.logger.trace("Hero entered");
-      // this._applySectionArrangement("hero");
+      this._applySectionArrangement(SELECTORS.hero);
     });
 
     on(EVENTS.hero.exit, () => {
@@ -282,7 +283,9 @@ export class LandingSequence {
     // Respond to organizations intro start
     on(EVENTS.organizations.enter, () => {
       this.logger.trace("Organizations entered");
-      this._applySectionArrangement("organizations");
+      if (SECTION_TO_GEL_ARRANGEMENT[SELECTORS.organizations]) {
+        this._applySectionArrangement(SELECTORS.organizations);
+      }
     });
 
     on(EVENTS.organizations.exit, () => {
@@ -320,7 +323,7 @@ export class LandingSequence {
     // Respond to bio intro start
     on(EVENTS.bio.enter, () => {
       this.logger.trace("Bio entered. Move gels to new positions.");
-      this._applySectionArrangement("bio");
+      this._applySectionArrangement(SELECTORS.bio);
     });
 
     on(EVENTS.bio.exit, () => {
@@ -329,12 +332,12 @@ export class LandingSequence {
 
     // Respond to bio intro start
     on(EVENTS.bio.introStart, () => {
-      // this.logger.trace('Bio intro started');
+      this.logger.trace("Bio intro started");
     });
 
     // Respond to bio intro complete
     on(EVENTS.bio.introComplete, () => {
-      // this.logger.trace('Bio intro complete');
+      this.logger.trace("Bio intro complete");
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();
@@ -342,12 +345,12 @@ export class LandingSequence {
 
     // Respond to bio outro start
     on(EVENTS.bio.outroStart, () => {
-      // this.logger.trace('Bio outro started');
+      this.logger.trace("Bio outro started");
     });
 
     // Respond to bio outro complete
     on(EVENTS.bio.outroComplete, () => {
-      // this.logger.trace('Bio outro complete');
+      this.logger.trace("Bio outro complete");
     });
 
     /**
@@ -357,7 +360,7 @@ export class LandingSequence {
     // Respond to awards enter/exit
     on(EVENTS.awards.enter, () => {
       this.logger.trace("Awards entered");
-      this._applySectionArrangement("awards");
+      this._applySectionArrangement(SELECTORS.awards);
     });
 
     on(EVENTS.awards.exit, () => {
@@ -366,22 +369,22 @@ export class LandingSequence {
 
     // Respond to awards intro start
     on(EVENTS.awards.introStart, () => {
-      // this.logger.trace('Awards intro started');
+      this.logger.trace("Awards intro started");
     });
 
     // Respond to awards intro complete
     on(EVENTS.awards.introComplete, () => {
-      // this.logger.trace('Awards intro complete');
+      this.logger.trace("Awards intro complete");
     });
 
     // Respond to awards outro start
     on(EVENTS.awards.outroStart, () => {
-      // this.logger.trace('Awards outro started');
+      this.logger.trace("Awards outro started");
     });
 
     // Respond to awards outro complete
     on(EVENTS.awards.outroComplete, () => {
-      // this.logger.trace('Awards outro complete');
+      this.logger.trace("Awards outro complete");
     });
   }
 }
