@@ -33,7 +33,14 @@ export default class Hero extends AbstractSection {
     const view = document.getElementById(SELECTORS.hero);
     const animations = new HeroAnimations(view);
     const triggers = new HeroTriggers(view);
-    const events = EVENTS.hero;
+    const events = {
+      enter: EVENTS.hero.enter,
+      exit: EVENTS.hero.exit,
+      introStart: EVENTS.hero.introStart,
+      introComplete: EVENTS.hero.introComplete,
+      outroStart: EVENTS.hero.outroStart,
+      outroComplete: EVENTS.hero.outroComplete,
+    };
     // Hero starts in view; track that so the first emitted lifecycle event is exit.
     // Subsequent enter events remain intact for re-entry after scrolling back.
     super({
@@ -45,6 +52,11 @@ export default class Hero extends AbstractSection {
       reducedMotionHandler,
     });
 
+    // Hero starts on-screen at page top. Track in-view state so callback order
+    // from ScrollTrigger does not allow top-boundary leaveBack to overwrite
+    // hero state with an exit event.
+    this._isInView = true;
+
     // Link triggers back to this section for playIntro/playOutro calls
     if (this.triggers) {
       this.triggers.section = this;
@@ -54,5 +66,26 @@ export default class Hero extends AbstractSection {
       this.logger.trace("element not found; skipping initialization.");
       return;
     }
+  }
+
+  _onEnter() {
+    if (this._isInView) return;
+    this._isInView = true;
+    super._onEnter();
+  }
+
+  _onLeave() {
+    if (!this._isInView) return;
+    this._isInView = false;
+    super._onLeave();
+  }
+
+  _onEnterBack() {
+    this._onEnter();
+  }
+
+  _onLeaveBack() {
+    // Keep hero logically in-view at the top boundary.
+    this._onEnter();
   }
 }

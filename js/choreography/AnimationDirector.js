@@ -156,7 +156,7 @@ export default class AnimationDirector {
    * Resets all section controllers and replays sequence
    */
   restart() {
-    logger.trace("Restarting landing sequence", null, "brief", "headsup");
+    this.logger.trace("Restarting landing sequence", null, "brief", "headsup");
     this.sequence.reset();
     this.sequence.start();
   }
@@ -167,7 +167,7 @@ export default class AnimationDirector {
    * WARNING: Director cannot be reused after destroy()
    */
   destroy() {
-    logger.trace("Destroying animation system", null, "brief", "headsup");
+    this.logger.trace("Destroying animation system", null, "brief", "headsup");
 
     // Destroy sequence and remove event listeners
     if (this.sequence) {

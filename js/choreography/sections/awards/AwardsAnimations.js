@@ -46,15 +46,17 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     };
 
     this.targets = this._getTargets();
-    this._buildTimelines();
+    this._buildIntroTimeline();
   }
 
   intro() {
-    return this.timeline.play("intro");
+    this._buildIntroTimeline();
+    return this.timeline.play(0);
   }
 
   outro() {
-    return this.timeline.play("outro");
+    this._buildOutroTimeline();
+    return this.timeline.play(0);
   }
 
   _getTargets() {
@@ -69,45 +71,38 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     return emptyState ? [emptyState] : [];
   }
 
-  _buildTimelines() {
+  _buildIntroTimeline() {
     if (!this.view || !this.targets.length) return;
 
     const { duration, stagger, translateY, ease } = this.options;
 
     this.timeline.clear();
 
-    // Intro
-    this.timeline.addLabel("intro", 0);
-    this.timeline.set(this.view, { autoAlpha: 1 }, "intro");
-    this.timeline.set(this.targets, { autoAlpha: 0, y: translateY }, "intro");
-    this.timeline.to(
-      this.targets,
-      {
-        autoAlpha: 1,
-        y: 0,
-        duration,
-        ease: ease.out,
-        stagger,
-      },
-      "intro",
-    );
-    this.timeline.addLabel("intro:end", this.timeline.duration());
-    this.timeline.addPause("intro:end");
+    this.timeline.set(this.view, { autoAlpha: 1 });
+    this.timeline.set(this.targets, { autoAlpha: 0, y: translateY });
+    this.timeline.to(this.targets, {
+      autoAlpha: 1,
+      y: 0,
+      duration,
+      ease: ease.out,
+      stagger,
+    });
+  }
 
-    // Outro
-    this.timeline.addLabel("outro", this.timeline.duration());
-    this.timeline.to(
-      this.targets,
-      {
-        autoAlpha: 0,
-        y: translateY * 0.5,
-        duration: duration * 0.8,
-        ease: ease.in,
-        stagger: Math.min(stagger, 0.1),
-      },
-      "outro",
-    );
-    this.timeline.addLabel("outro:end", this.timeline.duration());
-    this.timeline.addPause("outro:end");
+  _buildOutroTimeline() {
+    if (!this.view || !this.targets.length) return;
+
+    const { duration, stagger, translateY, ease } = this.options;
+
+    this.timeline.clear();
+    this.timeline.set(this.view, { autoAlpha: 1 });
+    this.timeline.set(this.targets, { autoAlpha: 1, y: 0 });
+    this.timeline.to(this.targets, {
+      autoAlpha: 0,
+      y: translateY * 0.5,
+      duration: duration * 0.8,
+      ease: ease.in,
+      stagger: Math.min(stagger, 0.1),
+    });
   }
 }
