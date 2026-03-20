@@ -19,6 +19,7 @@
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import { motion } from "../../config/motion.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 
@@ -49,6 +50,16 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     this.title = this.view?.querySelector("h2") || this.view;
     this.subtitle = this.view?.querySelector("p") || null;
     this.logos = this._getLogos();
+
+    this._children = Array.from(this.view?.children ?? null);
+
+    if (this._children.length) {
+      gsap.set([this.title, this.subtitle, ...this.logos], {
+        autoAlpha: 0,
+        y: Math.abs(this.options.translateY),
+      });
+      this._buildIntroTimeline();
+    }
 
     this._buildIntroTimeline();
   }

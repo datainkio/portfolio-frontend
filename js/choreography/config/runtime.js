@@ -68,7 +68,6 @@ export const SELECTORS = {
   organizations: "organizations",
   bio: "bio",
   awards: "awards",
-  // Home template renders the projects section with id="projects".
   work: "projects",
 
   smoothWrapper: "#smooth-wrapper",
@@ -116,7 +115,7 @@ export const ANIMATION_DEFAULTS = {
  */
 export const SCROLL_DEFAULTS = {
   start: "top center",
-  end: "bottom center",
+  end: "top 15%",
   pinSpacing: false,
   onEnter: () => {},
   onLeave: () => {},
@@ -124,7 +123,7 @@ export const SCROLL_DEFAULTS = {
   onLeaveBack: () => {},
   onRefresh: () => {},
   onUpdate: () => {},
-  once: true,
+  once: false,
   scrub: false,
   snap: false,
   pin: false,
@@ -138,31 +137,12 @@ export const SCROLL_DEFAULTS = {
 /**
  * Hero Trigger Defaults
  */
-export const HERO_TRIGGER = {
-  start: "bottom 45%",
-  end: "bottom 25%",
-  markers: false,
-  pin: false,
-  once: false,
-};
+export const HERO_TRIGGER = {};
 
 /**
  * Bio Reveal Trigger Defaults
  */
-export const BIO_TRIGGER = {
-  start: "top center",
-  end: "top 25%",
-  pin: true,
-  once: false,
-  // markers: true,
-};
-
-export const BIO_HIDE_TRIGGER = {
-  start: "bottom center",
-  end: "top center",
-  once: false,
-  // markers: true,
-};
+export const BIO_TRIGGER = { markers: true };
 
 /**
  * Gel Arrangement Transition Defaults

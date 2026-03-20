@@ -67,6 +67,7 @@ export default class AbstractSection {
     this.isDisabled = !view;
     this.bus = bus ?? new NullAnimationBus();
     this._reducedMotionHandler = reducedMotionHandler;
+    this._isInView = false;
 
     if (this.isDisabled) {
       this.logger.trace("element not found; section disabled");
@@ -88,10 +89,14 @@ export default class AbstractSection {
 
   // Generic enter/exit hooks used by ScrollTrigger bindings
   _onEnter() {
+    if (this._isInView) return;
+    this._isInView = true;
     this._emit(this.events.enter, { element: this.view });
   }
 
   _onLeave() {
+    if (!this._isInView) return;
+    this._isInView = false;
     this._emit(this.events.exit, { element: this.view });
   }
 

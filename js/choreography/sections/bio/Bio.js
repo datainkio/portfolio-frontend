@@ -54,4 +54,26 @@ export default class Bio extends AbstractSection {
       return;
     }
   }
+
+  _onEnter() {
+    // const wasInView = this._isInView;
+    super._onEnter();
+    // if (wasInView === this._isInView) return;
+    void this.playIntro();
+  }
+
+  _onLeave() {
+    // const wasInView = this._isInView;
+    super._onLeave();
+    // if (wasInView === this._isInView) return;
+    void this.playOutro();
+  }
+
+  _onEnterBack() {
+    this._onEnter();
+  }
+
+  _onLeaveBack() {
+    this._onEnter();
+  }
 }

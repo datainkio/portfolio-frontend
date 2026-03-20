@@ -47,7 +47,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     };
     this.view = view;
     this.title = this.view?.querySelector("h1") || this.view;
-    this.originalText = this.view?.textContent || "";
+    // this.originalText = this.view?.textContent || "";
 
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: "#007bff",
@@ -92,32 +92,40 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.timeline.set(this.title, { autoAlpha: 1, yPercent: 0, y: 0 });
 
     this._split = new SplitText(this.title, { type: "words" });
-    this._split.words.forEach((word, index) => {
-      this.timeline.fromTo(
-        word,
-        { autoAlpha: 0, yPercent: this.Y_OFFSET },
-        {
-          autoAlpha: 1,
-          yPercent: 0,
-          duration: this.options.duration,
-          ease: this.options.ease.out,
-        },
-        index * this.STAGGER,
-      );
-    });
+
+    this.timeline.fromTo(
+      this._split.words,
+      { autoAlpha: 0, yPercent: this.Y_OFFSET },
+      {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: this.options.duration,
+        ease: this.options.ease.out,
+        stagger: this.options.stagger,
+      },
+    );
   }
 
   _buildOutroTimeline() {
     if (!this.view || !this.title) return;
 
+    this._resetSplit();
     this.timeline.clear();
     this.timeline.set(this.view, { autoAlpha: 1 });
     this.timeline.set(this.title, { autoAlpha: 1, yPercent: 0, y: 0 });
-    this.timeline.to(this.title, {
-      autoAlpha: 0,
-      y: this.options.translateY * 0.5,
-      duration: this.options.duration * 0.8,
-      ease: this.options.ease.in,
-    });
+
+    this._split = new SplitText(this.title, { type: "words" });
+
+    this.timeline.fromTo(
+      this._split.words.reverse(),
+      { autoAlpha: 1, yPercent: 0 },
+      {
+        autoAlpha: 0,
+        yPercent: this.Y_OFFSET,
+        duration: this.options.duration,
+        ease: this.options.ease.in,
+        stagger: this.options.stagger,
+      },
+    );
   }
 }

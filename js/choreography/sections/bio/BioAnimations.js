@@ -38,8 +38,8 @@ export default class BioAnimations extends AbstractSectionAnimations {
     super(view);
     this.options = {
       duration: options.duration ?? toSeconds(motion.duration("base")),
-      stagger: options.stagger ?? motion.stagger("base"),
-      translateY: options.translateY ?? -motion.distance("md"),
+      stagger: options.stagger ?? motion.stagger("loose"),
+      translateY: options.translateY ?? -motion.distance("lg"),
       ease: {
         in: options.ease?.in ?? motion.ease("exit"),
         out: options.ease?.out ?? motion.ease("enter"),
@@ -47,29 +47,25 @@ export default class BioAnimations extends AbstractSectionAnimations {
       ...options,
     };
 
-    this._children = Array.from(this.view?.children ?? null);
-
-    if (this._children.length) {
-      gsap.set(this._children, {
-        autoAlpha: 0,
-        y: Math.abs(this.options.translateY),
-      });
-      this._buildIntroTimeline();
-    }
+    this.view = view;
+    this.heading = this.view?.querySelector("h2") || this.view;
+    this.body = this.view?.querySelector("p") || this.view;
+    gsap.set([this.heading, this.body], {
+      autoAlpha: 0,
+      y: this.options.translateY,
+    });
+    // this.originalText = this.view?.textContent || "";
+    // this._buildIntroTimeline();
   }
 
   _buildIntroTimeline() {
-    if (!this._children) {
-      this.timeline.clear();
-      return;
-    }
-
     this.timeline.clear();
+
     this.timeline.fromTo(
-      this._children,
+      [this.heading, this.body],
       {
         autoAlpha: 0,
-        y: Math.abs(this.options.translateY),
+        y: this.options.translateY,
       },
       {
         autoAlpha: 1,
@@ -81,21 +77,24 @@ export default class BioAnimations extends AbstractSectionAnimations {
     );
   }
 
-  intro() {
-    if (!this._children) {
-      return this.timeline;
-    }
+  _buildOutroTimeline() {
+    this.timeline.clear();
+    this.timeline.to([this.heading, this.body], {
+      autoAlpha: 0,
+      y: this.options.translateY,
+      duration: this.options.duration,
+      stagger: this.options.stagger,
+      ease: this.options.ease.out,
+    });
+  }
 
+  intro() {
     this._buildIntroTimeline();
     return this.timeline.play(0);
   }
 
   outro() {
-    if (!this._children) {
-      return this.timeline;
-    }
-
-    this.timeline.time(this.timeline.duration());
-    return this.timeline.reverse();
+    this._buildOutroTimeline();
+    return this.timeline.play(0);
   }
 }

@@ -173,6 +173,10 @@ if (preloader) {
   };
 
   const stopObserver = startResourceObserver();
+  const choreographyEnabled =
+    typeof window.__enableChoreography === "boolean"
+      ? window.__enableChoreography
+      : true;
 
   const animateIntro = () => {
     if (!stack) return;
@@ -277,6 +281,15 @@ if (preloader) {
   // Wait for Director to complete initialization before exiting preloader
   // Handles both cases: Director already initialized or event dispatched later
   const directorReady = new Promise((resolve) => {
+    if (!choreographyEnabled) {
+      console.log(
+        "[Preloader]",
+        "Choreography disabled, skipping director wait",
+      );
+      resolve();
+      return;
+    }
+
     if (window.director) {
       console.log(
         "[Preloader]",

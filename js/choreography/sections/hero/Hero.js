@@ -52,9 +52,7 @@ export default class Hero extends AbstractSection {
       reducedMotionHandler,
     });
 
-    // Hero starts on-screen at page top. Track in-view state so callback order
-    // from ScrollTrigger does not allow top-boundary leaveBack to overwrite
-    // hero state with an exit event.
+    // Hero starts on-screen at page top.
     this._isInView = true;
 
     // Link triggers back to this section for playIntro/playOutro calls
@@ -69,15 +67,17 @@ export default class Hero extends AbstractSection {
   }
 
   _onEnter() {
-    if (this._isInView) return;
-    this._isInView = true;
+    const wasInView = this._isInView;
     super._onEnter();
+    if (wasInView === this._isInView) return;
+    void this.playIntro();
   }
 
   _onLeave() {
-    if (!this._isInView) return;
-    this._isInView = false;
+    const wasInView = this._isInView;
     super._onLeave();
+    if (wasInView === this._isInView) return;
+    void this.playOutro();
   }
 
   _onEnterBack() {
