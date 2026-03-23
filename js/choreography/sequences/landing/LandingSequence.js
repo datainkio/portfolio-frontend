@@ -28,7 +28,7 @@
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "../../config/events.js";
-import { SELECTORS } from "../../config/runtime.js";
+import { SELECTORS } from "../../config/index.js";
 import {
   GEL_ARRANGEMENTS,
   SECTION_TO_GEL_ARRANGEMENT,

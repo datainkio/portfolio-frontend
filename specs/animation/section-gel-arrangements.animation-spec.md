@@ -5,7 +5,7 @@
 - **Status:** draft
 - **Last reviewed:** 2026-02-19
 - **Scope:** Landing choreography gel layers (`.bg-gel`) reacting to section lifecycle events (`EVENTS.*.enter` / `EVENTS.*.exit`).
-- **Links:** choreography coordinator [../../js/choreography/sequences/landing/LandingSequence.js](../../js/choreography/sequences/landing/LandingSequence.js), event contracts [../../js/choreography/config/events.js](../../js/choreography/config/events.js), gel manager [../../js/choreography/managers/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager.js), choreography config [../../js/choreography/config/runtime.js](../../js/choreography/config/runtime.js)
+- **Links:** choreography coordinator [../../js/choreography/sequences/landing/LandingSequence.js](../../js/choreography/sequences/landing/LandingSequence.js), event contracts [../../js/choreography/config/events.js](../../js/choreography/config/events.js), gel manager [../../js/choreography/managers/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager.js), choreography config [../../js/choreography/config/index.js](../../js/choreography/config/index.js)
 
 ## Motion Principles
 
@@ -25,7 +25,7 @@ Create a dedicated constants file:
 
 Rationale:
 
-- Keeps `config/runtime.js` focused on base choreography/site config.
+- Keeps `config/index.js` focused on base choreography/site config.
 - Keeps arrangement definitions near choreography runtime logic.
 - Enables direct imports from `LandingSequence` and `GelAnimationManager` without inflating global constants.
 

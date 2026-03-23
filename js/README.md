@@ -88,7 +88,7 @@ Master coordination system for all page animations using event-driven architectu
   - Communicate via AnimationBus events
   - Reference: [js/choreography/sections/README.md](js/choreography/sections/README.md) for detailed controller patterns
 - **`sequences/`** - Multi-section choreography coordinators (e.g., LandingSequence)
-- **`config/runtime.js`** - Animation/runtime configuration constants (timings, selectors, triggers)
+- **`config/index.js`** - Animation/runtime configuration constants (timings, selectors, triggers)
 - **`config/events.js`** - Event names and event contracts
 - **`config/motion.js`** - Motion tokens and helpers
 - **`config/arrangements.js`** - Section-to-gel arrangement configuration

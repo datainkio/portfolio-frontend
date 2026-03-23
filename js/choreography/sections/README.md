@@ -99,7 +99,7 @@ import AbstractSection from "../abstract-section/AbstractSection.js";
 import { EVENTS } from "../../config/events.js";
 import CustomAnimations from "./CustomAnimations.js";
 import CustomTriggers from "./CustomTriggers.js";
-import { SELECTORS, ANIMATION_DEFAULTS } from "../../config/runtime.js";
+import { SELECTORS, ANIMATION_DEFAULTS } from "../../config/index.js";
 
 export default class Custom extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
@@ -155,7 +155,7 @@ When needed, pass `reducedMotionHandler` from `StageManager` into the section co
 ## Event Naming Conventions
 
 Events come from `EVENTS` in [config/events.js](../config/events.js) and are passed into `AbstractSection` via the `events` argument. Use the constants instead of string interpolation.
-import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/runtime.js';
+import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/index.js';
 
       export default class Custom extends AbstractSection {
         constructor({ bus = null, reducedMotionHandler } = {}) {
@@ -343,4 +343,4 @@ constructor({ stageManager }) {
 - [Hero section example](./hero/Hero.js)
 - [Parent choreography system](../README.md)
 - [AnimationBus events](../config/events.js)
-- [Animation config](../config/runtime.js)
+- [Animation config](../config/index.js)

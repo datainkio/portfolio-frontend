@@ -27,7 +27,7 @@ import ScrollTrigger from "https://cdn.skypack.dev/gsap@3.13.0/ScrollTrigger";
 import ScrollSmoother from "https://cdn.skypack.dev/gsap@3.13.0/ScrollSmoother";
 import SplitText from "https://cdn.skypack.dev/gsap@3.13.0/SplitText";
 import Draggable from "https://cdn.skypack.dev/gsap@3.13.0/Draggable";
-import { ANIMATION_DEFAULTS } from "../config/runtime.js";
+import { ANIMATION_DEFAULTS } from "../config/index.js";
 
 // Register plugins globally so they're available to all GSAP instances
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, Draggable);

@@ -18,7 +18,7 @@
 /** @format */
 
 import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
-import { BIO_TRIGGER } from "../../config/runtime.js";
+import { BIO_TRIGGER } from "../../config/index.js";
 import { ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
 
 export default class BioTriggers extends AbstractSectionTriggers {

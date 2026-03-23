@@ -328,4 +328,4 @@ Sections require specific DOM structure in Nunjucks templates:
 - See [managers/README.md](./managers/README.md) for detailed manager documentation
 - See [sections/README.md](./sections/README.md) for section controller patterns
 - See [config/events.js](./config/events.js) for event naming conventions
-- See [config/runtime.js](./config/runtime.js) for animation timing and easing
+- See [config/index.js](./config/index.js) for animation timing and easing

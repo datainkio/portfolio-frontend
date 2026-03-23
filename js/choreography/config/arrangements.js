@@ -24,6 +24,26 @@ export const SECTION_TO_GEL_ARRANGEMENT = {
   awards: "awards",
 };
 
+/**
+ * Gel Arrangement Transition Defaults
+ */
+export const GEL_ARRANGEMENT_TRANSITION = {
+  duration: 0.8,
+  ease: "power2.inOut",
+  refreshOnUpdate: true,
+};
+
+/**
+ * Color Classes
+ */
+export const COLOR_CLASSES = {
+  gel: {
+    primary: "bg-gel-primary",
+    secondary: "bg-gel-secondary",
+    accent: "bg-gel-accent",
+  },
+};
+
 export const GEL_ARRANGEMENTS = {
   hero: {
     id: "hero",

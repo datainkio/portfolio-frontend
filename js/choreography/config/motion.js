@@ -66,3 +66,19 @@ export const motion = {
     return motionTokens.stagger[name] ?? motionTokens.stagger.base;
   },
 };
+
+/**
+ * Animation Default Settings
+ *
+ * Base timing and easing values used across all sections.
+ */
+export const ANIMATION_DEFAULTS = {
+  duration: 0.6,
+  stagger: 0.1,
+  ease: {
+    in: "power3.in",
+    out: "power3.out",
+    inOut: "power3.inOut",
+  },
+  translateY: -30,
+};

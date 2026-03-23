@@ -16,7 +16,7 @@
 ## Primitives & Utilities
 
 - Use section timeline in `OrganizationsAnimations` (GSAP).
-- Default timing/easing sourced from `ANIMATION_DEFAULTS` in `js/choreography/config/runtime.js`.
+- Default timing/easing sourced from `ANIMATION_DEFAULTS` in `js/choreography/config/index.js`.
 - Triggers use `AbstractSectionTriggers` with enter/leave callbacks.
 
 ## Patterns by Component/View

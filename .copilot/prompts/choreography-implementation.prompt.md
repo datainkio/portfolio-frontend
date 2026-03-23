@@ -26,8 +26,8 @@ Use this module when the user provides (or references) an approved choreography 
 - Reduced motion: implement a **graceful degradation** path (shorten/simplify; preserve intent).
 - Idempotent lifecycle: init/teardown/re-entry must be safe.
 - Performance: avoid layout thrash; prefer transform/opacity; guard DOM queries.
-- Config/constants-first edits: for choreography work, consume selectors/timings/settings from `frontend/js/choreography/config/runtime.js` and event names from `frontend/js/choreography/config/events.js` instead of hardcoding values in section/triggers/sequence files.
-- Consolidation rule: when new choreography tunables or event contracts are needed, add them to `config/runtime.js`/`config/events.js` first, then import and use them at call sites.
+- Config/constants-first edits: for choreography work, consume selectors/timings/settings from `frontend/js/choreography/config/index.js` and event names from `frontend/js/choreography/config/events.js` instead of hardcoding values in section/triggers/sequence files.
+- Consolidation rule: when new choreography tunables or event contracts are needed, add them to `config/index.js`/`config/events.js` first, then import and use them at call sites.
 - Tuning surfaces: expose durations/easings via CSS variables and/or centralized constants.
 - Reuse existing architecture: prefer `frontend/js/choreography/**` patterns (Director → sections → triggers/animations + AnimationBus) for GSAP; use Tailwind motion utilities for Tailwind-first interactions.
 

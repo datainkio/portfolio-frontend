@@ -24,7 +24,7 @@
 
 import AbstractSection from "../abstract-section/AbstractSection.js";
 import { EVENTS } from "../../config/events.js";
-import { SELECTORS } from "../../config/runtime.js";
+import { SELECTORS } from "../../config/index.js";
 import BioAnimations from "./BioAnimations.js";
 import BioTriggers from "./BioTriggers.js";
 

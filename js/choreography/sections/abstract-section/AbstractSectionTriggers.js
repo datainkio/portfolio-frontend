@@ -25,7 +25,7 @@
 
 import { ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
-import { SCROLL_DEFAULTS } from "../../config/runtime.js";
+import { SCROLL_DEFAULTS } from "../../config/index.js";
 
 export default class AbstractSectionTriggers {
   /**

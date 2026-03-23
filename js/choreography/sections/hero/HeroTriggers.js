@@ -18,7 +18,7 @@
 /** @format */
 
 import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
-import { HERO_TRIGGER } from "../../config/runtime.js";
+import { HERO_TRIGGER } from "../../config/index.js";
 
 export default class HeroTriggers extends AbstractSectionTriggers {
   constructor(view) {

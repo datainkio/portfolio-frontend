@@ -27,7 +27,7 @@
 
 import { Gel } from "/assets/js/effects/gel/index.js";
 import gsap from "https://cdn.skypack.dev/gsap@3.13.0";
-import { GEL_ARRANGEMENT_TRANSITION } from "/assets/js/choreography/config/runtime.js";
+import { GEL_ARRANGEMENT_TRANSITION } from "/assets/js/choreography/config/index.js";
 
 export default class GelAnimationManager {
   /**

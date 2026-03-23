@@ -51,14 +51,14 @@ An abstract class is never instantiated on its own, only its descendents. You im
 
 - - import { AbstractSection } from '../abstract-section/AbstractSection.js';
 - - import { EVENTS } from '../../config/events.js';
-- - import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/runtime.js';
+- - import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/index.js';
 
 ### Implementing the AbstractSection
 
 See the Hero class for a good supply of code snippets.
 
 - Instantiate the new subclass with two params:
-- - the section's root selector defined by the SELECTORS object in config/runtime.js
+- - the section's root selector defined by the SELECTORS object in config/index.js
 - - the shared AnimationBus.
 - Ensure that the required event and runtime config entries exist and are used
 - - the AbstractSection subclass is dependent upon config/events.EVENTS for broadcasting events recognized by the choreography system
