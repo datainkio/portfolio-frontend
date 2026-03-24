@@ -1,12 +1,11 @@
-
 /**
  * ScrollTrigger Default Configuration
  *
  * Base settings for GSAP ScrollTrigger instances.
  */
 export const SCROLL_DEFAULTS = {
-  start: "top center",
-  end: "top 15%",
+  start: "top top",
+  end: "bottom 85%",
   pinSpacing: false,
   onEnter: () => {},
   onLeave: () => {},
@@ -21,16 +20,23 @@ export const SCROLL_DEFAULTS = {
   anticipatePin: 0,
   invalidateOnRefresh: true,
   fastScrollEnd: true,
-  toggleActions: "play reverse none none",
+  toggleActions: "play reverse play reverse",
   markers: false,
 };
 
 /**
  * Hero Trigger Defaults
  */
-export const HERO_TRIGGER = {};
+export const HERO_TRIGGER = {
+  id: "hero",
+  markers: true,
+  pin: true,
+};
 
 /**
  * Bio Reveal Trigger Defaults
  */
-export const BIO_TRIGGER = { markers: true };
+export const BIO_TRIGGER = {
+  id: "bio",
+  markers: false,
+};

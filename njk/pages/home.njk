@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
     {% include "templates/partials/head.njk" %}
-    <body class="p-4">
+    <body>
         {% include "templates/partials/gtm-noscript.njk" %}
         {{ Preloader.render({ kind: "spinner", message: "Preparing the experience…" }) }}
         {{ Header.render() }}

@@ -47,15 +47,12 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     };
     this.view = view;
     this.title = this.view?.querySelector("h1") || this.view;
-    // this.originalText = this.view?.textContent || "";
 
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: "#007bff",
       enabled: true,
     });
 
-    this.Y_OFFSET = this.options.translateY;
-    this.STAGGER = this.options.stagger;
     this._split = null;
     this._buildIntroTimeline();
   }
@@ -86,16 +83,40 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   _buildIntroTimeline() {
     if (!this.view || !this.title) return;
 
+    const collapsedClip = "inset(0 100% 0 0)";
+    const fullClip = "inset(0 33% 0 0)";
+
+    // Set initial state
     this._resetSplit();
     this.timeline.clear();
     this.timeline.set(this.view, { autoAlpha: 1 });
     this.timeline.set(this.title, { autoAlpha: 1, yPercent: 0, y: 0 });
 
-    this._split = new SplitText(this.title, { type: "words" });
+    this._split = new SplitText(this.title, {
+      type: "words",
+      wordsClass: "block w-full",
+    });
 
+    // Animate clip-path to reveal the background
+    this.timeline.fromTo(
+      this.view,
+      {
+        clipPath: collapsedClip,
+        webkitClipPath: collapsedClip,
+      },
+      {
+        clipPath: fullClip,
+        webkitClipPath: fullClip,
+        duration: this.options.duration,
+        ease: this.options.ease.out,
+      },
+      0,
+    );
+
+    // Animate words fading in and sliding down into place with a stagger
     this.timeline.fromTo(
       this._split.words,
-      { autoAlpha: 0, yPercent: this.Y_OFFSET },
+      { autoAlpha: 0, yPercent: this.options.translateY },
       {
         autoAlpha: 1,
         yPercent: 0,
@@ -109,23 +130,6 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   _buildOutroTimeline() {
     if (!this.view || !this.title) return;
 
-    this._resetSplit();
-    this.timeline.clear();
-    this.timeline.set(this.view, { autoAlpha: 1 });
-    this.timeline.set(this.title, { autoAlpha: 1, yPercent: 0, y: 0 });
-
-    this._split = new SplitText(this.title, { type: "words" });
-
-    this.timeline.fromTo(
-      this._split.words.reverse(),
-      { autoAlpha: 1, yPercent: 0 },
-      {
-        autoAlpha: 0,
-        yPercent: this.Y_OFFSET,
-        duration: this.options.duration,
-        ease: this.options.ease.in,
-        stagger: this.options.stagger,
-      },
-    );
+    this.timeline.reverse(0);
   }
 }

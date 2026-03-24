@@ -165,29 +165,3 @@
     }
   }
 }
-
-/* CSS Custom Properties for Animation Timing */
-@layer theme {
-  :root {
-    /* GSAP Animation Timing Variables */
-    --duration-instant: 0.1s;
-    --duration-fast: 0.25s;
-    --duration-normal: 0.4s;
-    --duration-slow: 0.6s;
-    --duration-slower: 1s;
-
-    /* Easing Functions for GSAP Integration */
-    --ease-in-out-cubic: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-in-out-back: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-    /* Z-Index Scale for Animation Layers */
-    --z-base: 1;
-    --z-content: 10;
-    --z-header: 100;
-    --z-navigation: 200;
-    --z-printer-marks: 50;
-    --z-modal: 300;
-    --z-tooltip: 400;
-  }
-}

@@ -36,13 +36,7 @@ export const GEL_ARRANGEMENT_TRANSITION = {
 /**
  * Color Classes
  */
-export const COLOR_CLASSES = {
-  gel: {
-    primary: "bg-gel-primary",
-    secondary: "bg-gel-secondary",
-    accent: "bg-gel-accent",
-  },
-};
+
 
 export const GEL_ARRANGEMENTS = {
   hero: {
@@ -78,6 +72,14 @@ export const GEL_ARRANGEMENTS = {
         height: 0,
         origin: "left center",
         blendMode: "multiply",
+      },
+      "bg-gel-4": {
+        x: 0.0,
+        y: 0.0,
+        width: 0.5,
+        height: 1.0,
+        origin: "left center",
+        blendMode: "normal",
       },
     },
   },

@@ -38,6 +38,8 @@ export const EVENTS = {
   hero: {
     enter: "hero:enter",
     exit: "hero:exit",
+    onEnterBack: "hero:onEnterBack",
+    onLeaveBack: "hero:onLeaveBack",
     introStart: "hero:intro:start",
     introComplete: "hero:intro:complete",
     outroStart: "hero:outro:start",
