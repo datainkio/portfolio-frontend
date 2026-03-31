@@ -16,12 +16,12 @@ export const SELECTORS = {
   awards: "awards",
   work: "projects",
 
-  smoothWrapper: "#smooth-wrapper",
-  smoothContent: "#smooth-content",
+  smoothWrapper: "smooth-wrapper",
+  smoothContent: "smooth-content",
 
-  overlayView: "#overlay-view",
-  sizzleBackground: "#sizzle-background",
+  overlayView: "overlay-view",
+  sizzleBackground: "sizzle-background",
 
   hero: "hero",
-  heroTitle: "#hero h1",
+  heroTitle: "hero h1",
 };

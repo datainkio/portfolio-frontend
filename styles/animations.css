@@ -4,7 +4,10 @@
  * This file contains CSS optimizations specifically for the GSAP animation system
  * and ScrollSmoother functionality used throughout the portfolio site.
  *
- Integrating GSAP with Tailwind involves using Tailwind for styling and layout, and GSAP for handling the animation logic. This approach allows for a clean separation of concerns, where Tailwind manages the static appearance of elements and GSAP brings them to life with dynamic animations.
+ * Integrating GSAP with Tailwind involves using Tailwind for styling and layout, and 
+ * GSAP for handling the animation logic. This approach allows for a clean separation 
+ * of concerns, where Tailwind manages the static appearance of elements and GSAP 
+ * brings them to life with dynamic animations.
  *
  * CRITICAL INTEGRATION POINTS:
  * - js/choreography/Director.js uses these classes for animation setup
@@ -24,7 +27,7 @@
   .video-background {
     /* Force hardware acceleration for smooth animations */
     will-change: transform;
-    transform: translateZ(0);
+    /* transform: translateZ(0); */
     backface-visibility: hidden;
   }
 
@@ -75,19 +78,6 @@
     animation-play-state: running;
   }
 
-  /* PrinterMarks Dynamic Overlay System */
-  .printer-marks {
-    /* Dynamic category overlay positioning */
-    position: fixed;
-    pointer-events: none;
-    z-index: var(--z-printer-marks, 50);
-    will-change: transform, opacity;
-  }
-
-  .printer-marks.interactive {
-    pointer-events: auto;
-  }
-
   /* Timeline Scrubbing Optimization */
   .scrub-element {
     /* Elements controlled by scroll position */
@@ -99,6 +89,19 @@
   .pin-spacer {
     /* Prevent layout shifts during ScrollTrigger pinning */
     contain: layout style paint;
+  }
+
+  /* PrinterMarks Dynamic Overlay System */
+  .printer-marks {
+    /* Dynamic category overlay positioning */
+    position: fixed;
+    pointer-events: none;
+    z-index: var(--z-printer-marks, 50);
+    will-change: transform, opacity;
+  }
+
+  .printer-marks.interactive {
+    pointer-events: auto;
   }
 
   /* Mobile Animation Optimizations */

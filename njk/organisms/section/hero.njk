@@ -4,11 +4,11 @@
   {%- set rulerOptions = params.ruler | default({}) -%}
 
   {# Landing view - GSAP Hero Controller Target #}
-  <section id="{{ sectionId }}" class="bg-neutral-950 col-span-full w-full h-dvh grid grid-cols-subgrid flex items-center justify-items-start" data-scroll-section>
+  <section id="{{ sectionId }}" class="bg-neutral-950 col-span-3 w-0 max-w-1/2 sm:max-w-1/3 overflow-hidden h-dvh flex items-center" data-scroll-section>
     <h1
       id="hero-title"
-      class="col-span-full z-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-12 sm:leading-14 md:leading-16
-        lg:leading-28 tracking-tighter uppercase font-display text-primary-100">
+      class="z-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-12 sm:leading-14 md:leading-16 lg:leading-28
+        tracking-tighter uppercase font-display text-primary-100">
       {{ tagline }}
     </h1>
   </section>

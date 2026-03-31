@@ -29,8 +29,9 @@ export const SCROLL_DEFAULTS = {
  */
 export const HERO_TRIGGER = {
   id: "hero",
-  markers: true,
-  pin: true,
+  // markers: true,
+  // scrub: true,
+  // toggleActions: "none reverse play play",
 };
 
 /**

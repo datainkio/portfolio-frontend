@@ -30,7 +30,7 @@ import HeroTriggers from "./HeroTriggers.js";
 
 export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    const view = document.getElementById(SELECTORS.hero);
+    const view = document.getElementById(SELECTORS.hero.replace("#", ""));
     const animations = new HeroAnimations(view);
     const triggers = new HeroTriggers(view);
     const events = {
@@ -53,7 +53,7 @@ export default class Hero extends AbstractSection {
     });
 
     // Hero starts on-screen at page top.
-    this._isInView = true;
+    // this._isInView = true;
 
     // Link triggers back to this section for playIntro/playOutro calls
     if (this.triggers) {
@@ -67,16 +67,12 @@ export default class Hero extends AbstractSection {
   }
 
   _onEnter() {
-    const wasInView = this._isInView;
     super._onEnter();
-    if (wasInView === this._isInView) return;
     void this.playIntro();
   }
 
   _onLeave() {
-    const wasInView = this._isInView;
     super._onLeave();
-    if (wasInView === this._isInView) return;
     void this.playOutro();
   }
 
