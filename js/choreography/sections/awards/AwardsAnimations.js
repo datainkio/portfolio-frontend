@@ -66,12 +66,12 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
 
   intro() {
     this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro);
+    return this.playFromLabel(this.labels.intro, 0);
   }
 
   outro() {
     this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro);
+    return this.playFromLabel(this.labels.outro, 0);
   }
 
   _getLogos() {
@@ -92,7 +92,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     const { duration, stagger, translateY, ease } = this.options;
 
     this.timeline.clear();
-    this.addLabel(this.labels.intro, 0);
+    this.addLifecycleLabel("intro", 0);
 
     // this.timeline.set(this.view, { autoAlpha: 1 });
     this.timeline.set([this.title, this.subtitle, ...this.logos], {
@@ -114,7 +114,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     const { duration, stagger, translateY, ease } = this.options;
 
     this.timeline.clear();
-    this.addLabel(this.labels.outro, 0);
+    this.addLifecycleLabel("outro", 0);
     this.timeline.set(this.view, { autoAlpha: 1 });
     this.timeline.set(this.logos, { autoAlpha: 1, y: 0 });
     this.timeline.to(this.logos, {

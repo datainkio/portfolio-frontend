@@ -61,17 +61,17 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   // Override AbstractSectionAnimations
   intro() {
     this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro);
+    return this.playFromLabel(this.labels.intro, 0);
   }
 
   outro() {
     this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro);
+    return this.playFromLabel(this.labels.outro, 0);
   }
 
   outroReverse() {
     this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro);
+    return this.playFromLabel(this.labels.intro, 0);
   }
 
   _resetSplit() {
@@ -87,7 +87,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     // Set initial state
     this._resetSplit();
     this.timeline.clear();
-    this.addLabel(this.labels.intro, 0);
+    this.addLifecycleLabel("intro", 0);
     // this.timeline.set(this.view, { autoAlpha: 1 });
     this.timeline.set(this.title, { autoAlpha: 1, yPercent: 0, y: 0 });
 
@@ -123,7 +123,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   _buildOutroTimeline() {
     if (!this.view || !this.title) return;
     this.timeline.clear();
-    this.addLabel(this.labels.outro, 0);
+    this.addLifecycleLabel("outro", 0);
     this.timeline.to(this.view, {
       height: 0,
       duration: this.options.duration,

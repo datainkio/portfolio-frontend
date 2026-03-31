@@ -96,7 +96,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     await this._loadVideo();
     // Play video when intro animation completes
     // this.timeline.eventCallback('onComplete', () => this._playVideo());
-    return this.playFromLabel(this.labels.intro);
+    return this.playFromLabel(this.labels.intro, 0);
   }
 
   _reveal() {
@@ -104,7 +104,8 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
 
     this.timeline.clear();
-    this.addLabel(this.labels.intro, 0);
+    this.addLifecycleLabel("intro", 0);
+
     this.timeline
       .fromTo(
         this.view,
@@ -131,22 +132,20 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     const targetClip = "inset(0% 0% 0% 0%)";
 
     this.timeline.clear();
-    this.addLabel(this.labels.outro, 0);
-    this.timeline.set(this.view, {
-      autoAlpha: 1,
-      clipPath: targetClip,
-      webkitClipPath: targetClip,
-    });
-    this.timeline.to(this.view, {
-      clipPath: collapsedClip,
-      webkitClipPath: collapsedClip,
-      duration: this.DURATION,
-      ease: this.EASE,
-    });
-    this.timeline.to(
+    this.addLifecycleLabel("outro", 0);
+    this.timeline.fromTo(
       this.view,
-      { autoAlpha: 0, duration: this.DURATION * 0.25 },
-      0,
+      {
+        clipPath: targetClip,
+        webkitClipPath: targetClip,
+        autoAlpha: 1,
+      },
+      {
+        clipPath: collapsedClip,
+        webkitClipPath: collapsedClip,
+        autoAlpha: 0,
+        duration: this.DURATION,
+      },
     );
   }
 
@@ -161,7 +160,8 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     if (this.videoEl) {
       this.videoEl.pause();
     }
+
     this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro);
+    return this.playFromLabel(this.labels.outro, 0);
   }
 }

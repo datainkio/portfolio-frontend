@@ -46,12 +46,15 @@ export default class AbstractSectionAnimations {
     };
   }
 
-  addLabel(name, position = 0) {
-    this.timeline.addLabel(name, position);
+  addLifecycleLabel(phase, position = 0) {
+    const label = this.labels?.[phase] ?? phase;
+    this.timeline.addLabel(label, position);
+    return label;
   }
 
   playFromLabel(label, fallback = 0) {
-    if (this.timeline.labels[label] != null) {
+    if (!this.timeline) return null;
+    if (this.timeline.labels?.[label] != null) {
       return this.timeline.play(label);
     }
     return this.timeline.play(fallback);
@@ -75,13 +78,13 @@ export default class AbstractSectionAnimations {
     }
 
     this.timeline.clear();
-    this.addLabel(this.labels.intro, 0);
+    this.addLifecycleLabel("intro", 0);
     this.timeline.fromTo(
       this.view,
       { opacity: 0 },
       { opacity: 1, duration: this.DURATION, ease: this.EASE },
     );
-    return this.playFromLabel(this.labels.intro);
+    return this.playFromLabel(this.labels.intro, 0);
   }
 
   /**
@@ -93,11 +96,13 @@ export default class AbstractSectionAnimations {
       return this.timeline;
     }
 
-    if (this.timeline.labels[this.labels.outro] != null) {
-      return this.playFromLabel(this.labels.outro);
-    }
-
-    this.timeline.time(this.timeline.duration());
-    return this.timeline.reverse();
+    this.timeline.clear();
+    this.addLifecycleLabel("outro", 0);
+    this.timeline.to(this.view, {
+      opacity: 0,
+      duration: this.DURATION,
+      ease: this.EASE,
+    });
+    return this.playFromLabel(this.labels.outro, 0);
   }
 }

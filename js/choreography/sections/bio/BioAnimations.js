@@ -60,7 +60,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
 
   _buildIntroTimeline() {
     this.timeline.clear();
-    this.addLabel(this.labels.intro, 0);
+    this.addLifecycleLabel("intro", 0);
 
     this.timeline.fromTo(
       [this.heading, this.body],
@@ -80,7 +80,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
 
   _buildOutroTimeline() {
     this.timeline.clear();
-    this.addLabel(this.labels.outro, 0);
+    this.addLifecycleLabel("outro", 0);
     this.timeline.to([this.heading, this.body], {
       autoAlpha: 0,
       y: this.options.translateY,
@@ -92,11 +92,11 @@ export default class BioAnimations extends AbstractSectionAnimations {
 
   intro() {
     this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro);
+    return this.playFromLabel(this.labels.intro, 0);
   }
 
   outro() {
     this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro);
+    return this.playFromLabel(this.labels.outro, 0);
   }
 }
