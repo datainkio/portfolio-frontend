@@ -40,6 +40,21 @@ export default class AbstractSectionAnimations {
     this.DURATION = DURATION; // Default duration for animations
     this.STAGGER = STAGGER; // Default stagger duration for animations
     this.EASE = EASE; // Default easing for animations
+    this.labels = {
+      intro: "intro",
+      outro: "outro",
+    };
+  }
+
+  addLabel(name, position = 0) {
+    this.timeline.addLabel(name, position);
+  }
+
+  playFromLabel(label, fallback = 0) {
+    if (this.timeline.labels[label] != null) {
+      return this.timeline.play(label);
+    }
+    return this.timeline.play(fallback);
   }
 
   /**
@@ -60,12 +75,13 @@ export default class AbstractSectionAnimations {
     }
 
     this.timeline.clear();
+    this.addLabel(this.labels.intro, 0);
     this.timeline.fromTo(
       this.view,
       { opacity: 0 },
       { opacity: 1, duration: this.DURATION, ease: this.EASE },
     );
-    return this.timeline.play(0);
+    return this.playFromLabel(this.labels.intro);
   }
 
   /**
@@ -75,6 +91,10 @@ export default class AbstractSectionAnimations {
   outro() {
     if (!this.view) {
       return this.timeline;
+    }
+
+    if (this.timeline.labels[this.labels.outro] != null) {
+      return this.playFromLabel(this.labels.outro);
     }
 
     this.timeline.time(this.timeline.duration());

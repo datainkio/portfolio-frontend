@@ -51,37 +51,24 @@ export default class Hero extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
-
-    // Hero starts on-screen at page top.
-    // this._isInView = true;
-
-    // Link triggers back to this section for playIntro/playOutro calls
-    if (this.triggers) {
-      this.triggers.section = this;
-    }
-
-    if (!view) {
-      this.logger.trace("element not found; skipping initialization.");
-      return;
-    }
   }
 
-  _onEnter() {
-    super._onEnter();
-    void this.playIntro();
-  }
+  // _onEnter() {
+  //   super._onEnter();
+  //   void this.playIntro();
+  // }
 
-  _onLeave() {
-    super._onLeave();
-    void this.playOutro();
-  }
+  // _onLeave() {
+  //   super._onLeave();
+  //   void this.playOutro();
+  // }
 
-  _onEnterBack() {
-    this._onEnter();
-  }
+  // _onEnterBack() {
+  //   this._onEnter();
+  // }
 
-  _onLeaveBack() {
-    // Keep hero logically in-view at the top boundary.
-    this._onEnter();
-  }
+  // _onLeaveBack() {
+  //   // Keep hero logically in-view at the top boundary.
+  //   this._onEnter();
+  // }
 }

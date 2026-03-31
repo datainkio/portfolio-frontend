@@ -17,8 +17,8 @@
  */
 /** @format */
 
-import AbstractSectionAnimations from '../abstract-section/AbstractSectionAnimations.js';
-import { Lumberjack } from '/assets/js/utils/lumberjack/index.js';
+import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
+import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 export default class BackgroundVideoAnimations extends AbstractSectionAnimations {
   /**
    * Extends AbstractSectionAnimations, which:
@@ -33,9 +33,9 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   constructor(view, options = {}) {
     super(view);
     this.options = options;
-    this.logger = Lumberjack.createScoped('BackgroundVideoAnimations', {
-      prefix: '',
-      color: '#10B981',
+    this.logger = Lumberjack.createScoped("BackgroundVideoAnimations", {
+      prefix: "",
+      color: "#10B981",
     });
     // Prefer site-wide defaults from config with sensible fallbacks
     // this.duration = 5; // options.duration ?? 1.5;
@@ -47,7 +47,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   async setDefault(options = {}) {
-    const collapsedClip = 'inset(50% 0 50% 0)'; // zero-height strip
+    const collapsedClip = "inset(50% 0 50% 0)"; // zero-height strip
 
     super.setDefault({
       clipPath: collapsedClip,
@@ -61,51 +61,56 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
    * Called before intro animation starts
    */
   async _loadVideo() {
-    this.videoEl = this.view.querySelector('video');
+    this.videoEl = this.view.querySelector("video");
 
     if (!this.videoEl) return;
 
     // If video has data-src (deferred loading), set src and load
     if (this.videoEl.dataset.deferVideo && this.videoEl.dataset.src) {
-      this.logger.trace('Loading deferred background video');
+      this.logger.trace("Loading deferred background video");
       this.videoEl.src = this.videoEl.dataset.src;
       this.videoEl.load();
     }
 
     // Return promise that resolves when video can play
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (this.videoEl.readyState >= 2) {
-        this.logger.trace('Background video already sufficiently loaded');
+        this.logger.trace("Background video already sufficiently loaded");
         resolve();
       } else {
-        this.logger.trace('Wait for background video to load, then play');
+        this.logger.trace("Wait for background video to load, then play");
         const handleCanPlay = () => {
-          this.logger.trace('Sounds like it can play now');
-          this.videoEl.removeEventListener('canplay', handleCanPlay);
+          this.logger.trace("Sounds like it can play now");
+          this.videoEl.removeEventListener("canplay", handleCanPlay);
           resolve();
         };
-        this.videoEl.addEventListener('canplay', handleCanPlay);
+        this.videoEl.addEventListener("canplay", handleCanPlay);
       }
     });
   }
 
   // Override AbstractSectionAnimations
   async intro() {
-    this.logger.trace('intro() called for BackgroundVideoAnimations');
+    this.logger.trace("intro() called for BackgroundVideoAnimations");
     // Load video before starting intro animation
     await this._loadVideo();
     // Play video when intro animation completes
     // this.timeline.eventCallback('onComplete', () => this._playVideo());
-    // Start the intro timeline at time 0
-    return this.timeline.play(0);
+    return this.playFromLabel(this.labels.intro);
   }
 
   _reveal() {
-    const collapsedClip = 'inset(50% 0 50% 0)';
-    const targetClip = 'inset(0% 0% 0% 0%)'; // full element width/height
+    const collapsedClip = "inset(50% 0 50% 0)";
+    const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
 
+    this.timeline.clear();
+    this.addLabel(this.labels.intro, 0);
     this.timeline
-      .fromTo(this.view, { autoAlpha: 0 }, { autoAlpha: 1, duration: this.DURATION * 0.25 })
+      .fromTo(
+        this.view,
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: this.DURATION * 0.25 },
+      )
       .fromTo(
         this.view,
         {
@@ -117,8 +122,32 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
           webkitClipPath: targetClip,
           // ease: this.easeOut,
           duration: this.DURATION,
-        }
+        },
       );
+  }
+
+  _buildOutroTimeline() {
+    const collapsedClip = "inset(50% 0 50% 0)";
+    const targetClip = "inset(0% 0% 0% 0%)";
+
+    this.timeline.clear();
+    this.addLabel(this.labels.outro, 0);
+    this.timeline.set(this.view, {
+      autoAlpha: 1,
+      clipPath: targetClip,
+      webkitClipPath: targetClip,
+    });
+    this.timeline.to(this.view, {
+      clipPath: collapsedClip,
+      webkitClipPath: collapsedClip,
+      duration: this.DURATION,
+      ease: this.EASE,
+    });
+    this.timeline.to(
+      this.view,
+      { autoAlpha: 0, duration: this.DURATION * 0.25 },
+      0,
+    );
   }
 
   _playVideo() {
@@ -132,8 +161,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     if (this.videoEl) {
       this.videoEl.pause();
     }
-
-    // Delegates base outro behavior (cleanup and exit sequencing) to the abstract class
-    return super.outro();
+    this._buildOutroTimeline();
+    return this.playFromLabel(this.labels.outro);
   }
 }
