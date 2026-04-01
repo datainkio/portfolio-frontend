@@ -122,10 +122,24 @@ export class LandingSequence {
 
   _startHeroIntroOnce(source) {
     if (this.state.heroIntroRequested) return;
+
+    const hero = this.sections?.hero;
+    const heroTimeline = hero?.animations?.timeline;
+    const heroIntroAlreadyRunning = Boolean(heroTimeline?.isActive?.());
+    const heroIntroAlreadyComplete = Boolean(hero?.isIntroComplete);
+
+    if (heroIntroAlreadyRunning || heroIntroAlreadyComplete) {
+      this.state.heroIntroRequested = true;
+      this.logger.trace(
+        `Skipping Hero intro from ${source} (already running or complete)`,
+      );
+      return;
+    }
+
     this.state.heroIntroRequested = true;
 
     this.logger.trace(`Starting Hero intro from ${source}`);
-    const playPromise = this.sections?.hero?.playIntro?.();
+    const playPromise = hero?.playIntro?.();
     if (playPromise && typeof playPromise.catch === "function") {
       playPromise.catch((error) => {
         this.logger.trace(
@@ -242,12 +256,12 @@ export class LandingSequence {
 
     // Respond to hero outro start
     on(EVENTS.hero.outroStart, () => {
-      // this.logger.trace('Hero outro started');
+      this.logger.trace("Hero outro started");
     });
 
     // Respond to hero outro complete
     on(EVENTS.hero.outroComplete, () => {
-      // this.logger.trace('Hero outro complete');
+      this.logger.trace("Hero outro complete");
       // this.sections?.work?.playIntro?.();
     });
 

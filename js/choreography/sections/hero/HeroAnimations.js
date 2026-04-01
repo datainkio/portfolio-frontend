@@ -124,10 +124,29 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     if (!this.view || !this.title) return;
     this.timeline.clear();
     this.addLifecycleLabel("outro", 0);
+
+    const fullClip = "inset(0% 0% 0% 0%)";
+    const halfHeightClipFromBottom = "inset(0% 0% 50% 0%)";
+
+    // Start fully visible before the scroll-driven outro clip.
+    this.timeline.set(this.view, {
+      clipPath: fullClip,
+      webkitClipPath: fullClip,
+    });
+
     this.timeline.to(this.view, {
-      height: 0,
+      clipPath: halfHeightClipFromBottom,
+      webkitClipPath: halfHeightClipFromBottom,
       duration: this.options.duration,
       ease: this.options.ease.out,
+      scrollTrigger: {
+        trigger: this.view,
+        start: "bottom bottom",
+        end: "+=100%",
+        pin: true,
+        pinSpacing: false,
+        scrub: true,
+      },
     });
   }
 }

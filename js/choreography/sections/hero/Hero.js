@@ -30,7 +30,7 @@ import HeroTriggers from "./HeroTriggers.js";
 
 export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    const view = document.getElementById(SELECTORS.hero.replace("#", ""));
+    const view = document.getElementById(SELECTORS.hero);
     const animations = new HeroAnimations(view);
     const triggers = new HeroTriggers(view);
     const events = {
@@ -51,24 +51,39 @@ export default class Hero extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
+
+    // Hero starts in view at page top; ensure first transition can be leave/outro.
+    this._isInView = true;
+
+    // Keep parity with other sections for trigger/section coordination.
+    if (this.triggers) {
+      this.triggers.section = this;
+    }
+
+    if (!view) {
+      this.logger.trace("element not found; skipping initialization.");
+      return;
+    }
   }
 
-  // _onEnter() {
-  //   super._onEnter();
-  //   void this.playIntro();
-  // }
+  _onEnter() {
+    super._onEnter();
+    // this.playIntro();
+  }
 
-  // _onLeave() {
-  //   super._onLeave();
-  //   void this.playOutro();
-  // }
+  _onLeave() {
+    super._onLeave();
+    this.playOutro();
+  }
 
-  // _onEnterBack() {
-  //   this._onEnter();
-  // }
+  _onEnterBack() {
+    console.log("Hero _onEnterBack");
+    // this._onEnter();
+  }
 
-  // _onLeaveBack() {
-  //   // Keep hero logically in-view at the top boundary.
-  //   this._onEnter();
-  // }
+  _onLeaveBack() {
+    console.log("Hero _onLeaveBack");
+    // Keep hero logically in-view at the top boundary.
+    // this._onEnter();
+  }
 }
