@@ -1,15 +1,23 @@
-BUG: Landing page can crash when console is open.
-BUG: Lumberjack is inconsistent when respecting enabled/disabled state. It appears to propagate across scoped instances.
-BUG: Gel disappears on scroll
+# Project Backlog
 
-TODO: Reduce heap size to <80MB. Current state is 180MB+.
-Look for:
+This file tracks frontend docs/runtime audit backlog priorities.
 
-- large in-memory datasets (JSON payloads kept around),
-- heavy client-side state (SPA routing + caches),
-- rich editors / canvases,
-- lots of 3rd-party scripts (analytics, A/B testing, chat, etc.),
-- or a memory leak.
+## Now
 
-TODO: Add in-page jumplinks to header
-TODO: Add site nav to header
+- [ ] BUG: Fix landing page crash when browser console is open.
+- [ ] BUG: Fix Lumberjack enabled/disabled behavior leaking across scoped instances.
+- [ ] BUG: Fix gel disappearing on scroll.
+
+## Next
+
+- [ ] PERF: Reduce heap size to <80MB from current 180MB+ baseline.
+- [ ] TODO: Add in-page jump links to header.
+- [ ] TODO: Add site navigation to header.
+
+## Later / Parked
+
+- [ ] PERF: Audit large in-memory datasets, heavy client-side caches, rich editors/canvases, third-party scripts, and potential memory leaks.
+
+## Done
+
+- [x] No completed docs/runtime backlog items recorded yet.

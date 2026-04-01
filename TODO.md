@@ -1,14 +1,23 @@
-IDEA: Diagramming 11ty navigation system to aid with IA development and content strategy (e.g. orphaned pages, etc.)
-IDEA: Automatic skip-links generator for 11ty sites (e.g. macro) with configuration options for selecting elements for inclusion
-IDEA: Build things that matter. Design experiences that matter.
-IDEA: Create a third agent for Choreography: the Choreography Auditor (using MCP Playwright):
+# Project Backlog
 
-- “Open the page”
-- “Trigger hero intro”
-- “Scroll early”
-- “Confirm no stuck intermediate state”
-- “Report mismatches vs choreography plan”
+This file tracks frontend-wide backlog priorities.
 
-TODO: Fix heading template parsing so Prettier passes (replace dynamic tag with explicit h1–h6 branches and fallback p)
-TODO: Remove orphan </label> in global nav dialog template
-TODO: Clean up project page nugget loop by removing stray </section> and keeping loop inside article
+## Now
+
+- [ ] BUG: Fix heading template parsing so Prettier passes (replace dynamic tag with explicit `h1-h6` branches and fallback `p`).
+- [ ] BUG: Remove orphan `</label>` in global nav dialog template.
+- [ ] BUG: Clean up project page nugget loop by removing stray `</section>` and keeping the loop inside `article`.
+
+## Next
+
+- [ ] FEAT: Diagram 11ty navigation system to support IA/content strategy and detect orphaned pages.
+- [ ] FEAT: Create automatic skip-links generator for 11ty sites with configurable element selection.
+- [ ] FEAT: Define and pilot a Choreography Auditor flow using browser automation checks (open page, trigger hero, scroll early, verify no stuck states).
+
+## Later / Parked
+
+- [ ] IDEA: Build things that matter; design experiences that matter.
+
+## Done
+
+- [x] No completed frontend-wide backlog items recorded yet.
