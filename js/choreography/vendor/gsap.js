@@ -5,7 +5,7 @@
  * This avoids duplication across the choreography system and provides a
  * single point of truth for GSAP configuration.
  *
- * All GSAP plugins and utilities are imported from Skypack CDN:
+ * All GSAP plugins and utilities are imported from local npm-vendored modules:
  * - gsap: Core animation library
  * - ScrollTrigger: Scroll-based animation plugin
  * - ScrollSmoother: Smooth scroll plugin
@@ -18,15 +18,15 @@
  * // Plugins are pre-registered globally
  * const tl = gsap.timeline();
  *
- * @fileoverview Centralized GSAP vendor configuration and imports from Skypack
+ * @fileoverview Centralized GSAP vendor configuration and imports from local modules
  */
 
-// Import GSAP core and plugins from Skypack CDN (ES module support with CORS)
-import gsap from "https://cdn.skypack.dev/gsap@3.13.0";
-import ScrollTrigger from "https://cdn.skypack.dev/gsap@3.13.0/ScrollTrigger";
-import ScrollSmoother from "https://cdn.skypack.dev/gsap@3.13.0/ScrollSmoother";
-import SplitText from "https://cdn.skypack.dev/gsap@3.13.0/SplitText";
-import Draggable from "https://cdn.skypack.dev/gsap@3.13.0/Draggable";
+// Import GSAP core and plugins from same-origin vendored modules.
+import gsap from "/assets/js/vendor/gsap/index.js";
+import ScrollTrigger from "/assets/js/vendor/gsap/ScrollTrigger.js";
+import ScrollSmoother from "/assets/js/vendor/gsap/ScrollSmoother.js";
+import SplitText from "/assets/js/vendor/gsap/SplitText.js";
+import Draggable from "/assets/js/vendor/gsap/Draggable.js";
 import { ANIMATION_DEFAULTS } from "../config/index.js";
 
 // Register plugins globally so they're available to all GSAP instances

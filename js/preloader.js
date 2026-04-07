@@ -16,7 +16,7 @@
  */
 const LOGS = {
   description:
-    "\nPage load blocks interaction until initial resources are loaded and Director is ready. Provides visual feedback on loading progress and handles intro/outro animations.",
+    "\nA good preloader reduces the *perceived* time from when a given page is requested to when the initial content is visually rendered. The particular strategy used here splits up the load sequence into three stages.\nFirst, it uses runtime-generated visuals to minimize the size of the initial payload of HTML and JS required for first paint. It then loads the remaining assets while providing visual feedback on progress. The final stage is triggered once two events have occurred: the main choreography file (a.k.a. AnimationDirector) announces it has completed initialization, and BackgroundVideo announces that it is ready for playback. At this point the preloader initiates its outro animation and, on completion, removes itself from the DOM.\nTechnical note: Choreography depends on GSAP for runtime behavior, but preloader visibility can start without GSAP.",
   methods: "",
   color: "color: #5e99d9",
 };
@@ -273,7 +273,6 @@ if (preloader) {
   const timeout = new Promise((res) => setTimeout(res, 1800));
 
   const hydrateDeferredVideos = () => {
-    trace("Hydrating deferred videos");
     const videos = document.querySelectorAll(
       "video[data-defer-video][data-src]",
     );
@@ -303,7 +302,6 @@ if (preloader) {
     }
 
     if (window.director) {
-      trace("Director already initialized, resolving immediately");
       resolve();
       return;
     }
@@ -311,7 +309,6 @@ if (preloader) {
     window.addEventListener(
       "director:ready",
       () => {
-        trace("Director ready event received. Begin the primary UX.");
         resolve();
       },
       { once: true },
@@ -321,13 +318,15 @@ if (preloader) {
   const waitForDirector = () => directorReady;
 
   const ready = async () => {
-    trace("Initialization complete.");
+    trace(
+      "Initialization complete. Start the animated loading view and wait for resources and director...",
+    );
     animateIntro();
-    trace("Waiting for fonts, DOM, timeout, and director...");
+    trace("Loading fonts, DOM, timeout, and director...");
     await fontsReady;
     trace("Fonts ready");
     await Promise.race([domReady, timeout]);
-    trace("DOM ready or timeout reached");
+    trace("DOM ready (or timeout reached)");
     await waitForDirector(); // wait for Director init to finish
     trace("Director is ready. Starting preloader exit sequence.");
     await animateExit(); // re-enable exit animation
@@ -371,8 +370,9 @@ if (preloader) {
     }
   };
 
-  const loadGSAPScript = (src) =>
-    new Promise((resolve, reject) => {
+  const loadGSAPScript = (src) => {
+    trace("Loading GSAP script from " + src);
+    return new Promise((resolve, reject) => {
       const s = document.createElement("script");
       s.src = src;
       s.defer = true;
@@ -380,6 +380,7 @@ if (preloader) {
       s.onerror = reject;
       document.body.appendChild(s);
     });
+  };
 
   ready();
 } else {

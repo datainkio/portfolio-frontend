@@ -26,19 +26,23 @@
  * - Visual state (GelVisualState)
  */
 
-import lumberjack from '/assets/js/utils/lumberjack/index.js';
-import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
-import GelMask from './GelMask.js';
-import GelGeometry from './GelGeometry.js';
-import GelVisualState from './GelVisualState.js';
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
+import GelMask from "./GelMask.js";
+import GelGeometry from "./GelGeometry.js";
+import GelVisualState from "./GelVisualState.js";
 
-const DEFAULT_COLOR_CLASSES = ['bg-gel-primary', 'bg-gel-secondary', 'bg-gel-accent'];
-const DEFAULT_TRANSFORM_ORIGIN = 'top center';
+const DEFAULT_COLOR_CLASSES = [
+  "bg-gel-primary",
+  "bg-gel-secondary",
+  "bg-gel-accent",
+];
+const DEFAULT_TRANSFORM_ORIGIN = "top center";
 const MASK_STYLE = {
-  maskRepeat: 'no-repeat',
-  WebkitMaskRepeat: 'no-repeat',
-  maskSize: '100% 100%',
-  WebkitMaskSize: '100% 100%',
+  maskRepeat: "no-repeat",
+  WebkitMaskRepeat: "no-repeat",
+  maskSize: "100% 100%",
+  WebkitMaskSize: "100% 100%",
 };
 
 export default class Gel {
@@ -51,7 +55,7 @@ export default class Gel {
    * @param {boolean} [options.masked=true] - Whether to apply the polygon mask on init
    */
   constructor(view, options = {}) {
-    if (!view) throw new Error('Gel requires a DOM element as its view');
+    if (!view) throw new Error("Gel requires a DOM element as its view");
 
     this.view = view;
     this.masked = options.masked !== undefined ? options.masked : true;
@@ -60,7 +64,9 @@ export default class Gel {
     this.targetElement = options.targetElement || null;
     this.currentState = null;
 
-    this.logger = lumberjack.createScoped(view.id || 'Gel', { color: '#8B5CF6' });
+    this.logger = lumberjack.createScoped(view.id || "Gel", {
+      color: "#8B5CF6",
+    });
 
     this.geometry = new GelGeometry(this.view);
     this.mask = new GelMask(this.view, this.geometry, MASK_STYLE);
@@ -82,7 +88,7 @@ export default class Gel {
    * @param {boolean} [options.autoRefresh=false] - Attach ResizeObserver to auto-refresh polygon
    */
   initialize({ applyMask = this.masked, autoRefresh = false } = {}) {
-    this.logger.trace('initializing gel');
+    this.logger.trace("initializing gel");
     this.mask.ensure();
     if (applyMask) {
       this.mask.apply();
@@ -97,13 +103,13 @@ export default class Gel {
   }
 
   applyMask() {
-    this.logger.trace('applying mask');
+    this.logger.trace("applying mask");
     this.mask.apply();
     this.masked = true;
   }
 
   removeMask() {
-    this.logger.trace('removing mask');
+    this.logger.trace("removing mask");
     this.mask.remove();
     this.masked = false;
   }
@@ -120,7 +126,7 @@ export default class Gel {
    * Animate a corner to new position.
    * @param {string} corner - 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft'
    */
-  setCorner(corner, x, y, duration = 0.6, ease = 'power3.out') {
+  setCorner(corner, x, y, duration = 0.6, ease = "power3.out") {
     if (!this.geometry.corners[corner]) {
       console.warn(`Gel: Invalid corner name "${corner}"`);
       return;
@@ -133,7 +139,7 @@ export default class Gel {
       duration,
       ease,
       onUpdate: update,
-      overwrite: 'auto',
+      overwrite: "auto",
     });
   }
 
@@ -161,7 +167,7 @@ export default class Gel {
   /**
    * Dedicated scale setter (preferred over setState).
    */
-  setScale({ x = 1, y = 1, origin = 'left center' } = {}) {
+  setScale({ x = 1, y = 1, origin = "left center" } = {}) {
     this.visual.setScale({ x, y, origin });
   }
 
@@ -179,7 +185,7 @@ export default class Gel {
   setState(stateName, stateConfig = {}) {
     if (!stateName) return;
 
-    if (stateName === 'scroll-scale') {
+    if (stateName === "scroll-scale") {
       this.setScrollScale(stateConfig);
       return;
     }
@@ -199,21 +205,21 @@ export default class Gel {
 
   setTarget(element) {
     if (!element || !(element instanceof HTMLElement)) {
-      console.warn('Gel: Invalid target element provided');
+      console.warn("Gel: Invalid target element provided");
       return;
     }
     this.targetElement = element;
   }
 
-  matchTarget(duration = 0, ease = 'power2.out') {
+  matchTarget(duration = 0, ease = "power2.out") {
     if (!this.targetElement) {
-      console.warn('Gel: No target element set. Use setTarget() first.');
+      console.warn("Gel: No target element set. Use setTarget() first.");
       return;
     }
 
     const targetRect = this.targetElement.getBoundingClientRect();
     const props = {
-      position: 'fixed',
+      position: "fixed",
       left: `${targetRect.left}px`,
       top: `${targetRect.top}px`,
       width: `${targetRect.width}px`,
@@ -237,7 +243,7 @@ export default class Gel {
    * Attach a ResizeObserver to keep polygon sizing in sync with the element.
    */
   enableAutoRefresh() {
-    if (this._resizeObserver || typeof ResizeObserver === 'undefined') return;
+    if (this._resizeObserver || typeof ResizeObserver === "undefined") return;
     this._resizeObserver = new ResizeObserver(() => this.refresh());
     this._resizeObserver.observe(this.view);
   }

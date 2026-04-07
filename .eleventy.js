@@ -49,6 +49,9 @@ export default async function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy({
       "node_modules/@datainkio/lumberjack/dist": "assets/js/utils/lumberjack",
     });
+    eleventyConfig.addPassthroughCopy({
+      "node_modules/gsap": "assets/js/vendor/gsap",
+    });
     // Copy JavaScript files to _site/assets/
     // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
     // Copy video files for background video in StageManager

@@ -17,7 +17,7 @@
  */
 /** @format */
 
-import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
 /**
  * GelVisualState - Handles color classes and transform-based scaling.
@@ -43,7 +43,9 @@ export default class GelVisualState {
     if (!colorState || !this.colorClasses.includes(colorState)) return;
     if (this.currentColorState === colorState) return;
 
-    this.colorClasses.forEach(cls => this.view.classList.toggle(cls, cls === colorState));
+    this.colorClasses.forEach((cls) =>
+      this.view.classList.toggle(cls, cls === colorState),
+    );
     this.currentColorState = colorState;
   }
 }
