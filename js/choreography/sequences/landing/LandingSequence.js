@@ -34,6 +34,12 @@ import {
   SECTION_TO_GEL_ARRANGEMENT,
 } from "../../config/arrangements.js";
 
+const LOGS = {
+  description:
+    "LandingSequence manages the flow of intro and outro animations for the landing page.",
+  methods: "",
+};
+
 export class LandingSequence {
   /**
    * Initialize landing sequence
@@ -43,9 +49,9 @@ export class LandingSequence {
   constructor(bus, sections, gelAnimation) {
     this.logger = Lumberjack.createScoped("LandingSequence", {
       prefix: "",
-      color: "#8B5CF6",
+      color: "#66B032",
     });
-
+    this.logger.trace(LOGS.description);
     this.bus = bus;
     this.sections = sections;
     this.gelManager = gelAnimation;
@@ -120,6 +126,12 @@ export class LandingSequence {
     this.state.heroIntroRequested = false;
   }
 
+  /**
+   * Limit hero animation to once per session
+   *
+   * @private
+   * @param {*} source - The source triggering the hero intro
+   */
   _startHeroIntroOnce(source) {
     if (this.state.heroIntroRequested) return;
 
@@ -139,7 +151,7 @@ export class LandingSequence {
     this.state.heroIntroRequested = true;
 
     this.logger.trace(`Starting Hero intro from ${source}`);
-    const playPromise = hero?.playIntro?.();
+    const playPromise = hero?.playLanding?.();
     if (playPromise && typeof playPromise.catch === "function") {
       playPromise.catch((error) => {
         this.logger.trace(
@@ -279,12 +291,12 @@ export class LandingSequence {
       this._startHeroIntroOnce(EVENTS.video.introComplete);
     });
 
-    // Respond to hero outro start
+    // Respond to video outro start
     on(EVENTS.video.outroStart, () => {
       this.logger.trace("BG Video outro started");
     });
 
-    // Respond to hero outro complete
+    // Respond to video outro complete
     on(EVENTS.video.outroComplete, () => {
       this.logger.trace("BG Video outro complete");
       // this.sections?.work?.playIntro?.();

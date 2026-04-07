@@ -24,6 +24,7 @@
  * associated with a specific DOM element and section id.
  */
 import { motion } from "../../config/motion.js";
+import { LABELS } from "../../config/labels.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 const DURATION = toSeconds(motion.duration("base")); // Default duration for animations
@@ -40,19 +41,11 @@ export default class AbstractSectionAnimations {
     this.DURATION = DURATION; // Default duration for animations
     this.STAGGER = STAGGER; // Default stagger duration for animations
     this.EASE = EASE; // Default easing for animations
-    this.labels = {
-      intro: "intro",
-      outro: "outro",
-    };
+    this.LABELS = LABELS;
+    this._buildTimeline();
   }
 
-  addLifecycleLabel(phase, position = 0) {
-    const label = this.labels?.[phase] ?? phase;
-    this.timeline.addLabel(label, position);
-    return label;
-  }
-
-  playFromLabel(label, fallback = 0) {
+  play(label, fallback = 0) {
     if (!this.timeline) return null;
     if (this.timeline.labels?.[label] != null) {
       return this.timeline.play(label);
@@ -69,22 +62,34 @@ export default class AbstractSectionAnimations {
   }
 
   /**
+   * Define the standardized labels and structure for the section's timeline.
+   * Descendants should override to add animations to the appropriate label sections.
+   * @returns {gsap.core.Timeline} The constructed timeline
+   */
+  _buildTimeline() {
+    if (!this.view) {
+      return this.timeline;
+    }
+    this.timeline.clear();
+    Object.values(this.LABELS).forEach((label) => {
+      this.timeline.addLabel(label);
+      // this.timeline.addPause(label);
+    });
+
+    // Descendants should add animations to the timeline in the appropriate label sections
+    return this.timeline;
+  }
+
+  landing() {
+    return this.play(this.LABELS.landing);
+  }
+
+  /**
    * Intro animation sequence. Descendants should override for custom behavior.
    * @returns {Promise<void>} Resolves when intro animation completes.
    */
   intro() {
-    if (!this.view) {
-      return this.timeline;
-    }
-
-    this.timeline.clear();
-    this.addLifecycleLabel("intro", 0);
-    this.timeline.fromTo(
-      this.view,
-      { opacity: 0 },
-      { opacity: 1, duration: this.DURATION, ease: this.EASE },
-    );
-    return this.playFromLabel(this.labels.intro, 0);
+    return this.play(this.LABELS.enter);
   }
 
   /**
@@ -92,17 +97,6 @@ export default class AbstractSectionAnimations {
    * @returns {Promise<void>} Resolves when outro animation completes.
    */
   outro() {
-    if (!this.view) {
-      return this.timeline;
-    }
-
-    this.timeline.clear();
-    this.addLifecycleLabel("outro", 0);
-    this.timeline.to(this.view, {
-      opacity: 0,
-      duration: this.DURATION,
-      ease: this.EASE,
-    });
-    return this.playFromLabel(this.labels.outro, 0);
+    return this.play(this.LABELS.leave);
   }
 }

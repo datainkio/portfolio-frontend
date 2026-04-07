@@ -36,15 +36,5 @@ export default class Organizations extends AbstractSection {
     const events = EVENTS.organizations;
 
     super(view, anim, triggers, events, bus, { reducedMotionHandler });
-
-    // Link triggers back to this section for playIntro/playOutro calls
-    if (this.triggers) {
-      this.triggers.section = this;
-    }
-
-    if (!view) {
-      this.logger.trace("element not found; skipping initialization.");
-      return;
-    }
   }
 }

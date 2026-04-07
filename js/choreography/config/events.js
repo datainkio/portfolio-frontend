@@ -30,6 +30,8 @@ export const EVENTS = {
   video: {
     enter: "video:enter",
     exit: "video:exit",
+    landingStart: "video:landing:start",
+    landingComplete: "video:landing:complete",
     introStart: "video:intro:start",
     introComplete: "video:intro:complete",
     outroStart: "video:outro:start",
@@ -40,6 +42,8 @@ export const EVENTS = {
     exit: "hero:exit",
     onEnterBack: "hero:onEnterBack",
     onLeaveBack: "hero:onLeaveBack",
+    landingStart: "hero:landing:start",
+    landingComplete: "hero:landing:complete",
     introStart: "hero:intro:start",
     introComplete: "hero:intro:complete",
     outroStart: "hero:outro:start",
@@ -48,6 +52,8 @@ export const EVENTS = {
   organizations: {
     enter: "organizations:enter",
     exit: "organizations:exit",
+    landingStart: "organizations:landing:start",
+    landingComplete: "organizations:landing:complete",
     introStart: "organizations:intro:start",
     introComplete: "organizations:intro:complete",
     outroStart: "organizations:outro:start",
@@ -56,6 +62,8 @@ export const EVENTS = {
   bio: {
     enter: "bio:enter",
     exit: "bio:exit",
+    landingStart: "bio:landing:start",
+    landingComplete: "bio:landing:complete",
     introStart: "bio:intro:start",
     introComplete: "bio:intro:complete",
     outroStart: "bio:outro:start",
@@ -64,6 +72,8 @@ export const EVENTS = {
   awards: {
     enter: "awards:enter",
     exit: "awards:exit",
+    landingStart: "awards:landing:start",
+    landingComplete: "awards:landing:complete",
     introStart: "awards:intro:start",
     introComplete: "awards:intro:complete",
     outroStart: "awards:outro:start",
@@ -72,6 +82,8 @@ export const EVENTS = {
   work: {
     enter: "work:enter",
     exit: "work:exit",
+    landingStart: "work:landing:start",
+    landingComplete: "work:landing:complete",
     introStart: "work:intro:start",
     introComplete: "work:intro:complete",
     outroStart: "work:outro:start",

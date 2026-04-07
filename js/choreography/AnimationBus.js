@@ -45,16 +45,20 @@
  * @fileoverview Central event bus for animation coordination
  */
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
-
+const LOGS = {
+  description:
+    "AnimationBus is a publish-subscribe pattern enabling loose coupling between section animations. Sections emit lifecycle events; coordinators listen to sequence animations. Use EVENTS from config/events.js for standardized event names.",
+  methods: "",
+};
 export class AnimationBus {
   constructor() {
     // Create scoped logger for Director operations
     this.logger = lumberjack.createScoped("AnimationBus", {
-      color: "#10B981",
+      color: "#EE6C4D",
     });
     // logger.enabled(true);
     // this.logger.enabled = false;
-
+    this.logger.trace(LOGS.description);
     this._listeners = new Map(); // event name -> [callbacks]
     this._debug = false;
     this.logger.trace("initialized");

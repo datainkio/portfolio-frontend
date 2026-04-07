@@ -43,37 +43,5 @@ export default class Bio extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
-
-    // Link triggers back to this section for playIntro/playOutro calls
-    if (this.triggers) {
-      this.triggers.section = this;
-    }
-
-    if (!view) {
-      this.logger.trace("element not found; skipping initialization.");
-      return;
-    }
-  }
-
-  _onEnter() {
-    // const wasInView = this._isInView;
-    super._onEnter();
-    // if (wasInView === this._isInView) return;
-    void this.playIntro();
-  }
-
-  _onLeave() {
-    // const wasInView = this._isInView;
-    super._onLeave();
-    // if (wasInView === this._isInView) return;
-    void this.playOutro();
-  }
-
-  _onEnterBack() {
-    this._onEnter();
-  }
-
-  _onLeaveBack() {
-    this._onEnter();
   }
 }

@@ -36,10 +36,5 @@ export default class BackgroundVideo extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
-
-    if (!view) {
-      this.logger.trace("element not found; skipping initialization.");
-      return;
-    }
   }
 }

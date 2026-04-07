@@ -4,8 +4,8 @@
  * Base settings for GSAP ScrollTrigger instances.
  */
 export const SCROLL_DEFAULTS = {
-  start: "top top",
-  end: "bottom 85%",
+  start: "top 1%",
+  end: "bottom 99%",
   pinSpacing: false,
   onEnter: () => {},
   onLeave: () => {},
@@ -30,6 +30,7 @@ export const SCROLL_DEFAULTS = {
 export const HERO_TRIGGER = {
   id: "hero",
   markers: true,
+  scrub: true,
   // start: "top 5", // Assumes that the hero section is the first section in the page.
   // end: "bottom 85%",
   // toggleActions: "none reverse play play",

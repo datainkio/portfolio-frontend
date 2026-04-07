@@ -17,8 +17,10 @@
  */
 /** @format */
 
+import { EVENTS } from "../../config/events.js";
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 export default class BackgroundVideoAnimations extends AbstractSectionAnimations {
   /**
    * Extends AbstractSectionAnimations, which:
@@ -35,15 +37,10 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     this.options = options;
     this.logger = Lumberjack.createScoped("BackgroundVideoAnimations", {
       prefix: "",
-      color: "#10B981",
+      color: "#CCC59D",
     });
-    // Prefer site-wide defaults from config with sensible fallbacks
-    // this.duration = 5; // options.duration ?? 1.5;
-    // this.easeOut = options.ease?.out ?? options.ease ?? 'power1.out';
 
     this.setDefault(options);
-    // Here's where we tell the timeline what to do
-    this._reveal();
   }
 
   async setDefault(options = {}) {
@@ -75,7 +72,9 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     // Return promise that resolves when video can play
     return new Promise((resolve) => {
       if (this.videoEl.readyState >= 2) {
-        this.logger.trace("Background video already sufficiently loaded");
+        this.logger.trace(
+          "Background video has sufficiently loaded. Stop polling.",
+        );
         resolve();
       } else {
         this.logger.trace("Wait for background video to load, then play");
@@ -95,58 +94,15 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     // Load video before starting intro animation
     await this._loadVideo();
     // Play video when intro animation completes
-    // this.timeline.eventCallback('onComplete', () => this._playVideo());
-    return this.playFromLabel(this.labels.intro, 0);
+    // this.timeline.eventCallback("onComplete", () => this._playVideo());
+    return super.intro();
   }
 
-  _reveal() {
-    const collapsedClip = "inset(50% 0 50% 0)";
-    const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
-
-    this.timeline.clear();
-    this.addLifecycleLabel("intro", 0);
-
-    this.timeline
-      .fromTo(
-        this.view,
-        { autoAlpha: 0 },
-        { autoAlpha: 1, duration: this.DURATION * 0.25 },
-      )
-      .fromTo(
-        this.view,
-        {
-          clipPath: collapsedClip,
-          webkitClipPath: collapsedClip,
-        },
-        {
-          clipPath: targetClip,
-          webkitClipPath: targetClip,
-          // ease: this.easeOut,
-          duration: this.DURATION,
-        },
-      );
-  }
-
-  _buildOutroTimeline() {
-    const collapsedClip = "inset(50% 0 50% 0)";
-    const targetClip = "inset(0% 0% 0% 0%)";
-
-    this.timeline.clear();
-    this.addLifecycleLabel("outro", 0);
-    this.timeline.fromTo(
-      this.view,
-      {
-        clipPath: targetClip,
-        webkitClipPath: targetClip,
-        autoAlpha: 1,
-      },
-      {
-        clipPath: collapsedClip,
-        webkitClipPath: collapsedClip,
-        autoAlpha: 0,
-        duration: this.DURATION,
-      },
-    );
+  _buildTimeline() {
+    super._buildTimeline();
+    this.timeline.add(this._buildIntro(), this.LABELS.enter);
+    this.timeline.add(this._buildOutro(), this.LABELS.leave);
+    return this.timeline;
   }
 
   _playVideo() {
@@ -155,13 +111,49 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     if (playPromise?.catch) playPromise.catch(() => {});
   }
 
+  _buildIntro() {
+    const collapsedClip = "inset(50% 0 50% 0)";
+    const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
+    var tl = gsap.timeline({ id: "intro" });
+    // tl.fromTo(
+    //   this.view,
+    //   { autoAlpha: 0 },
+    //   { autoAlpha: 1, duration: this.DURATION },
+    // ).to(this.view, {
+    //   clipPath: targetClip,
+    //   webkitClipPath: targetClip,
+    //   // ease: this.easeOut,
+    //   duration: this.DURATION,
+    // });
+    return tl;
+  }
+
+  _buildOutro() {
+    const collapsedClip = "inset(50% 0 50% 0)";
+    const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
+    var tl = gsap.timeline({ id: "outro" });
+    // .fromTo(
+    //   this.view,
+    //   {
+    //     clipPath: targetClip,
+    //     webkitClipPath: targetClip,
+    //     autoAlpha: 1,
+    //   },
+    //   {
+    //     clipPath: collapsedClip,
+    //     webkitClipPath: collapsedClip,
+    //     autoAlpha: 0,
+    //     duration: this.DURATION,
+    //   },
+    // );
+    return tl;
+  }
+
   outro() {
     // Pause video on outro
     if (this.videoEl) {
       this.videoEl.pause();
     }
-
-    this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro, 0);
+    return super.outro();
   }
 }

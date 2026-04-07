@@ -92,7 +92,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     const { duration, stagger, translateY, ease } = this.options;
 
     this.timeline.clear();
-    this.addLifecycleLabel("intro", 0);
+    this.timeline.addLabel("intro", ">");
 
     // this.timeline.set(this.view, { autoAlpha: 1 });
     this.timeline.set([this.title, this.subtitle, ...this.logos], {
@@ -114,7 +114,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     const { duration, stagger, translateY, ease } = this.options;
 
     this.timeline.clear();
-    this.addLifecycleLabel("outro", 0);
+    this.timeline.addLabel("outro", ">");
     this.timeline.set(this.view, { autoAlpha: 1 });
     this.timeline.set(this.logos, { autoAlpha: 1, y: 0 });
     this.timeline.to(this.logos, {

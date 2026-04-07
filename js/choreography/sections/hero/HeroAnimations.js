@@ -17,6 +17,8 @@
  */
 /** @format */
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
+
 import { motion } from "../../config/motion.js";
 import { SplitText } from "/assets/js/choreography/vendor/gsap.js";
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
@@ -36,6 +38,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
+    // Allow options to override defaults, but default to motion config values
     this.options = {
       duration: options.duration ?? toSeconds(motion.duration("base")),
       translateY: options.translateY ?? -motion.distance("lg"),
@@ -46,6 +49,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
       },
     };
 
+    // TITLE TEXT
     this.title = this.view?.querySelector("h1") || this.view;
 
     this.logger = lumberjack.createScoped(this.constructor.name, {
@@ -54,62 +58,36 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     });
 
     this._split = null;
-    // this._buildIntroTimeline();
-    // this._buildOutroTimeline();
+    this._buildTimeline();
   }
 
-  // Override AbstractSectionAnimations
-  intro() {
-    this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro, 0);
-  }
-
-  outro() {
-    this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro, 0);
-  }
-
-  outroReverse() {
-    this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro, 0);
-  }
-
-  _resetSplit() {
-    if (this._split?.revert) {
-      this._split.revert();
-    }
-    this._split = null;
-  }
-
-  _buildIntroTimeline() {
+  _buildTimeline() {
+    super._buildTimeline();
     if (!this.view || !this.title) return;
 
+    this.timeline.add(this._buildLanding(), this.LABELS.landing);
+    this.timeline.add(this._buildIntro(), this.LABELS.enter);
+    this.timeline.add(this._buildOutro(), this.LABELS.leave);
+
+    return this.timeline;
+  }
+
+  _buildLanding() {
     // Set initial state
     this._resetSplit();
-    this.timeline.clear();
-    this.addLifecycleLabel("intro", 0);
-    // this.timeline.set(this.view, { autoAlpha: 1 });
-    this.timeline.set(this.title, { autoAlpha: 1, yPercent: 0, y: 0 });
-
-    // Animate hero container width from left to right
-    this.timeline.to(
-      this.view,
-      {
-        width: "100%",
-        duration: this.options.duration,
-        ease: this.options.ease.in,
-      },
-      0,
-    );
-
-    // Animate words fading in and sliding down into place with a stagger
     this._split = new SplitText(this.title, {
       type: "words",
       wordsClass: "block w-full",
     });
-    this.timeline.fromTo(
+
+    var tl = gsap.timeline({ id: "landing" });
+    tl.to(this.view, {
+      width: "100%",
+      duration: this.options.duration,
+      ease: this.options.ease.in,
+    }).fromTo(
       this._split.words,
-      { autoAlpha: 0, yPercent: this.options.translateY },
+      { autoAlpha: 0, yPercent: 1 },
       {
         autoAlpha: 1,
         yPercent: 0,
@@ -118,35 +96,65 @@ export default class HeroAnimations extends AbstractSectionAnimations {
         stagger: this.options.stagger,
       },
     );
+    return tl;
   }
 
-  _buildOutroTimeline() {
-    if (!this.view || !this.title) return;
-    this.timeline.clear();
-    this.addLifecycleLabel("outro", 0);
-
+  _buildIntro() {
     const fullClip = "inset(0% 0% 0% 0%)";
-    const halfHeightClipFromBottom = "inset(0% 0% 50% 0%)";
-
-    // Start fully visible before the scroll-driven outro clip.
-    this.timeline.set(this.view, {
-      clipPath: fullClip,
-      webkitClipPath: fullClip,
-    });
-
-    this.timeline.to(this.view, {
-      clipPath: halfHeightClipFromBottom,
-      webkitClipPath: halfHeightClipFromBottom,
-      duration: this.options.duration,
-      ease: this.options.ease.out,
-      scrollTrigger: {
-        trigger: this.view,
-        start: "bottom bottom",
-        end: "+=100%",
-        pin: true,
-        pinSpacing: false,
-        scrub: true,
+    const collapsedClipFromLeft = "inset(0% 100% 0% 0%)";
+    var tl = gsap.timeline({ id: "intro" }).fromTo(
+      this.view,
+      {
+        clipPath: collapsedClipFromLeft,
+        webkitClipPath: collapsedClipFromLeft,
+        autoAlpha: 0,
       },
-    });
+      {
+        clipPath: fullClip,
+        webkitClipPath: fullClip,
+        autoAlpha: 1,
+        duration: this.options.duration,
+        ease: this.options.ease.in,
+      },
+    );
+    return tl;
+  }
+
+  _buildOutro() {
+    const halfHeightClipFromBottom = "inset(0% 0% 50% 0%)";
+    var tl = gsap.timeline({ id: "outro" }).to(
+      this.view,
+      {
+        clipPath: halfHeightClipFromBottom,
+        webkitClipPath: halfHeightClipFromBottom,
+        duration: this.options.duration,
+        ease: this.options.ease.out,
+      },
+      this.LABELS.outro,
+    );
+    return tl;
+  }
+
+  landing() {
+    if (!this.view || !this.title) return;
+    return this.play(this.LABELS.landing);
+  }
+
+  // Override AbstractSectionAnimations
+  intro() {
+    if (!this.view || !this.title) return;
+    return this.play(this.LABELS.intro);
+  }
+
+  outro() {
+    if (!this.view || !this.title) return;
+    return this.play(this.LABELS.outro);
+  }
+
+  _resetSplit() {
+    if (this._split?.revert) {
+      this._split.revert();
+    }
+    this._split = null;
   }
 }

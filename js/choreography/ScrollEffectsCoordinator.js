@@ -70,6 +70,16 @@ import { GEL_ARRANGEMENTS } from "/assets/js/choreography/config/arrangements.js
  * - getVideo() - Get background video element
  * - destroy() - Cleanup all managers
  */
+
+const LOGS = {
+  description:
+    "Simplified orchestrator that delegates to specialized manager modules. The ScrollEffectsCoordinator handles initialization order and event-driven timing coordination for scroll effects, background layers, and visual animations.",
+  methods:
+    "getSmoother() - Get ScrollSmoother instance\n" +
+    "getGels() - Get Gel controller instances\n" +
+    "getVideo() - Get background video element\n" +
+    "destroy() - Cleanup all managers",
+};
 export default class ScrollEffectsCoordinator {
   /**
    * Initialize ScrollEffectsCoordinator with AnimationBus instance
@@ -78,8 +88,10 @@ export default class ScrollEffectsCoordinator {
   constructor(bus) {
     // Create scoped logger for ScrollEffectsCoordinator operations
     this.logger = lumberjack.createScoped("ScrollEffectsCoordinator", {
-      color: "#10B981",
+      color: "#dbbcbc",
     });
+    this.logger.enabled = true;
+    this.logger.trace(LOGS.description);
     // logger.enabled(true);
     // this.logger.enabled = false;
     // Store bus reference for event coordination

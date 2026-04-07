@@ -14,8 +14,17 @@
  *     - preloader.js
  * ---
  */
+const LOGS = {
+  description:
+    "\nPage load blocks interaction until initial resources are loaded and Director is ready. Provides visual feedback on loading progress and handles intro/outro animations.",
+  methods: "",
+  color: "color: #5e99d9",
+};
+const trace = (message) => console.log("%c[Preloader] " + message, LOGS.color);
+trace(LOGS.description);
 const preloader = document.querySelector("[data-preloader]");
 if (preloader) {
+  trace("DOM element found, initializing...");
   const stack = preloader.querySelector("[data-preloader-stack]");
   const textEl = preloader.querySelector("[data-preloader-text]");
   const main = document.querySelector("main");
@@ -23,7 +32,7 @@ if (preloader) {
     "(prefers-reduced-motion: reduce)",
   ).matches;
   const SCROLL_SMOOTHER_STORAGE_KEY = "scrollSmoother";
-
+  trace("Does the user prefer reduced motion? " + prefersReduce);
   const restoreState = (() => {
     const html = document.documentElement;
     const body = document.body;
@@ -128,6 +137,9 @@ if (preloader) {
   })();
 
   const startResourceObserver = () => {
+    trace(
+      "Preparing resource observer for displaying filetype-specific loading messages",
+    );
     if (
       !("PerformanceObserver" in window) ||
       !("getEntriesByType" in performance)
@@ -179,6 +191,7 @@ if (preloader) {
       : true;
 
   const animateIntro = () => {
+    trace("Intro animation started");
     if (!stack) return;
     if (typeof window.gsap !== "undefined") {
       const tl = window.gsap.timeline({
@@ -211,7 +224,7 @@ if (preloader) {
 
   const animateExit = () =>
     new Promise((resolve) => {
-      console.log("[Preloader]", "exit animation started");
+      trace("Exit animation started");
       const finish = () => {
         if (typeof window !== "undefined") {
           window.dispatchEvent(new Event("preloader:out"));
@@ -227,6 +240,7 @@ if (preloader) {
         return;
       }
       if (prefersReduce) {
+        trace("User prefers reduced motion, skipping exit animation");
         preloader.style.transition = "opacity 500ms ease";
         preloader.style.opacity = "0";
         preloader.addEventListener("transitionend", finish, { once: true });
@@ -259,6 +273,7 @@ if (preloader) {
   const timeout = new Promise((res) => setTimeout(res, 1800));
 
   const hydrateDeferredVideos = () => {
+    trace("Hydrating deferred videos");
     const videos = document.querySelectorAll(
       "video[data-defer-video][data-src]",
     );
@@ -282,19 +297,13 @@ if (preloader) {
   // Handles both cases: Director already initialized or event dispatched later
   const directorReady = new Promise((resolve) => {
     if (!choreographyEnabled) {
-      console.log(
-        "[Preloader]",
-        "Choreography disabled, skipping director wait",
-      );
+      trace("Choreography disabled, skipping director wait");
       resolve();
       return;
     }
 
     if (window.director) {
-      console.log(
-        "[Preloader]",
-        "Director already initialized, resolving immediately",
-      );
+      trace("Director already initialized, resolving immediately");
       resolve();
       return;
     }
@@ -302,7 +311,7 @@ if (preloader) {
     window.addEventListener(
       "director:ready",
       () => {
-        console.log("[Preloader]", "Director ready event received");
+        trace("Director ready event received. Begin the primary UX.");
         resolve();
       },
       { once: true },
@@ -312,18 +321,34 @@ if (preloader) {
   const waitForDirector = () => directorReady;
 
   const ready = async () => {
+    trace("Initialization complete.");
     animateIntro();
+    trace("Waiting for fonts, DOM, timeout, and director...");
     await fontsReady;
+    trace("Fonts ready");
     await Promise.race([domReady, timeout]);
+    trace("DOM ready or timeout reached");
     await waitForDirector(); // wait for Director init to finish
+    trace("Director is ready. Starting preloader exit sequence.");
     await animateExit(); // re-enable exit animation
+    trace("Preloader exit animation complete. Cleaning up.");
     stopObserver();
+    trace("Resource observer stopped.");
     preloader.remove();
+    trace("Preloader element removed from DOM.");
     restoreState();
+    trace("Scroll position restored.");
     if (main) main.setAttribute("aria-busy", "false");
+    trace("Main content marked as ready.");
     hydrateDeferredVideos();
+    trace("Deferred videos hydrated.");
     if (scrollSmootherEnabled) {
+      trace("ScrollSmoother preference enabled. Initializing ScrollSmoother.");
       initializeScrollSmoother(preloader.dataset.gsapSrc);
+    } else {
+      trace(
+        "ScrollSmoother preference disabled. Skipping ScrollSmoother initialization.",
+      );
     }
   };
 
@@ -357,4 +382,9 @@ if (preloader) {
     });
 
   ready();
+} else {
+  console.warn(
+    "[Preloader]",
+    "No preloader element found. Skipping initialization.",
+  );
 }

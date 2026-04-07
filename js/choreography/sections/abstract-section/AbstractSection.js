@@ -85,9 +85,28 @@ export default class AbstractSection {
       return;
     }
     this._bindCallbacks();
+
+    // Keep parity with other sections for trigger/section coordination.
+    if (this.triggers) {
+      this.triggers.section = this;
+    }
+
+    if (!view) {
+      this.logger.trace("element not found; skipping initialization.");
+      return;
+    }
   }
 
-  // Generic enter/exit hooks used by ScrollTrigger bindings
+  // Generic enter/exit hooks used by ScrollTrigger and Timeline bindings
+  _onLandingStart() {
+    this._emit(this.events.landingStart, { element: this.view });
+  }
+
+  _onLandingComplete() {
+    // this.logger.trace("playLanding() complete");
+    this._emit(this.events.landingComplete, { element: this.view });
+  }
+
   _onEnter() {
     if (this._isInView) return;
     this._isInView = true;
@@ -129,6 +148,31 @@ export default class AbstractSection {
   }
 
   /**
+   * Play landing animation
+   *
+   * Executes landing timeline and emits coordination events.
+   * Emits landing:start immediately, landing:complete when finished.
+   *
+   * @returns {Promise<void>} Resolves when animation completes
+   */
+  async playLanding() {
+    if (this.isDisabled) return Promise.resolve();
+    return new Promise((resolve) => {
+      const tl = this.animations.timeline.getById("landing");
+      if (!tl) return resolve();
+
+      tl.eventCallback("onStart", () => this._onLandingStart());
+      tl.eventCallback("onComplete", () => {
+        this._onLandingComplete();
+        resolve();
+      });
+      tl.eventCallback("onReverseComplete", null);
+
+      this.animations.landing();
+    });
+  }
+
+  /**
    * Play intro animation
    *
    * Executes intro timeline and emits coordination events.
@@ -140,7 +184,7 @@ export default class AbstractSection {
     if (this.isDisabled) return Promise.resolve();
 
     return new Promise((resolve) => {
-      const tl = this.animations.timeline;
+      const tl = this.animations.timeline.getById("intro");
       if (!tl) return resolve();
 
       tl.eventCallback("onStart", () => this._onIntroStart());
@@ -166,7 +210,7 @@ export default class AbstractSection {
     if (this.isDisabled) return Promise.resolve();
 
     return new Promise((resolve) => {
-      const tl = this.animations.timeline;
+      const tl = this.animations.timeline.getById("outro");
       if (!tl) return resolve();
 
       tl.eventCallback("onStart", () => this._onOutroStart());

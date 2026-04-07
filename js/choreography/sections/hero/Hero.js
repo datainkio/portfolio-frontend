@@ -33,14 +33,7 @@ export default class Hero extends AbstractSection {
     const view = document.getElementById(SELECTORS.hero);
     const animations = new HeroAnimations(view);
     const triggers = new HeroTriggers(view);
-    const events = {
-      enter: EVENTS.hero.enter,
-      exit: EVENTS.hero.exit,
-      introStart: EVENTS.hero.introStart,
-      introComplete: EVENTS.hero.introComplete,
-      outroStart: EVENTS.hero.outroStart,
-      outroComplete: EVENTS.hero.outroComplete,
-    };
+    const events = EVENTS.hero;
     // Hero starts in view; track that so the first emitted lifecycle event is exit.
     // Subsequent enter events remain intact for re-entry after scrolling back.
     super({
@@ -51,39 +44,34 @@ export default class Hero extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
-
-    // Hero starts in view at page top; ensure first transition can be leave/outro.
-    this._isInView = true;
-
-    // Keep parity with other sections for trigger/section coordination.
-    if (this.triggers) {
-      this.triggers.section = this;
-    }
-
-    if (!view) {
-      this.logger.trace("element not found; skipping initialization.");
-      return;
-    }
   }
 
-  _onEnter() {
-    super._onEnter();
-    // this.playIntro();
-  }
+  // _onEnter() {
+  //   super._onEnter();
+  //   // this.playIntro();
+  // }
 
-  _onLeave() {
-    super._onLeave();
-    this.playOutro();
-  }
+  // _onLeave() {
+  //   super._onLeave();
+  //   // this.playOutro();
+  // }
 
-  _onEnterBack() {
-    console.log("Hero _onEnterBack");
-    // this._onEnter();
-  }
+  // _onEnterBack() {
+  //   super._onEnterBack();
 
-  _onLeaveBack() {
-    console.log("Hero _onLeaveBack");
-    // Keep hero logically in-view at the top boundary.
-    // this._onEnter();
-  }
+  //   const tl = this.animations?.timeline;
+  //   if (!tl) return;
+
+  //   tl.eventCallback("onStart", () => this._onOutroStart());
+  //   tl.eventCallback("onComplete", () => this._onOutroComplete());
+  //   tl.eventCallback("onReverseComplete", null);
+
+  //   this.animations.outroReverse();
+  // }
+
+  // _onLeaveBack() {
+  //   console.log("Hero _onLeaveBack");
+  //   // Keep hero logically in-view at the top boundary.
+  //   // this._onEnter();
+  // }
 }

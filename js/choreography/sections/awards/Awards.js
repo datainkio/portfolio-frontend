@@ -44,7 +44,7 @@ export default class Awards extends AbstractSection {
       reducedMotionHandler,
     });
 
-    // Link triggers back to this section for playIntro/playOutro calls
+    // Keep parity with other sections for trigger/section coordination.
     if (this.triggers) {
       this.triggers.section = this;
     }
