@@ -133,6 +133,7 @@ export class LandingSequence {
    * @param {*} source - The source triggering the hero intro
    */
   _startHeroIntroOnce(source) {
+    this.logger.trace(`Attempting to start Hero intro from ${source}`);
     if (this.state.heroIntroRequested) return;
 
     const hero = this.sections?.hero;
@@ -245,7 +246,7 @@ export class LandingSequence {
     // Respond to hero intro start
     on(EVENTS.hero.enter, () => {
       this.logger.trace("Hero entered");
-      this._applySectionArrangement(SELECTORS.hero);
+      // this._applySectionArrangement(SELECTORS.hero);
     });
 
     on(EVENTS.hero.exit, () => {

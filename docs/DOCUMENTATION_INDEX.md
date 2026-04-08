@@ -86,6 +86,11 @@ Quick reference guide to all documentation in the portfolio project, organized b
   - GelAnimationManager
   - SessionManager
 
+- **[preloader-integration-checklist.md](preloader-integration-checklist.md)**
+  - Modular preloader contracts and boundaries
+  - Startup readiness gates and event contracts
+  - Cleanup guarantees and smoke test matrix
+
 ### Effects System
 
 - **[js/effects/README.md](js/effects/README.md)** (450 lines)
@@ -204,6 +209,7 @@ frontend/
 ├── styles/
 ├── DOCUMENTATION_UPDATES.md             [Phase 2] 📋
 ├── JS_DOCUMENTATION_UPDATES.md          [Phase 3] 📋
+├── preloader-integration-checklist.md   [Phase 3] 📋
 └── DOCUMENTATION_PROJECT_COMPLETE.md    [All Phases] 📋
 ```
 
@@ -219,6 +225,7 @@ frontend/
 ### Architecture Understanding
 
 - Choreography flow: [js/choreography/README.md](js/choreography/README.md)
+- Preloader flow: [preloader-integration-checklist.md](preloader-integration-checklist.md)
 - Section patterns: [js/choreography/sections/README.md](js/choreography/sections/README.md)
 - Effects systems: [js/effects/README.md](js/effects/README.md)
 - Display systems: [js/displays/README.md](js/displays/README.md)

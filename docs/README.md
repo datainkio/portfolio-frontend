@@ -33,6 +33,7 @@ See: `njk/README.md` and `eleventy/README.md` in project root directories
 See: `js/*/README.md` in project js/ directory
 
 - **Choreography**: Director, AnimationBus, StageManager, section controllers
+- **Preloader**: Modular startup and lifecycle checklist
 - **Effects**: TextParty, Transitions, Gel, Halftone, Text effects, Parallax
 - **Displays**: Blockframes, PrinterMarks, Ruler
 - **Utils**: Logger, Math, Color, Theme, Diagnostics, Tailwind
@@ -93,6 +94,7 @@ docs/
 ├── PROMPT_TEMPLATE.md                       ← Development prompt template
 ├── TODO.md                                  ← Project tasks
 ├── sanity-integration.md                    ← Sanity integration guide
+├── preloader-integration-checklist.md       ← Preloader integration checklist
 ├── director-initialization-sequence.md      ← Animation system flow
 └── director-initialization-sequence.pdf     ← PDF version
 ```
@@ -166,6 +168,9 @@ Compiled CSS (styles/)
 
 **...implement animations**
 → See `js/choreography/README.md`
+
+**...change preloader startup behavior**
+→ See [preloader-integration-checklist.md](./preloader-integration-checklist.md)
 
 **...use text/visual effects**
 → See `js/effects/README.md` and `js/displays/README.md`

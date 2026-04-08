@@ -1,5 +1,7 @@
 # Choreography Utilities
 
+TODO: Review js/choreography/utils/ for deprecated JS/docs
+
 Utilities for animation management and gel positioning.
 
 ## GelPositioner
@@ -45,8 +47,8 @@ Supported formats:
 ## Usage Example
 
 ```javascript
-import GelPositioner from './utils/GelPositioner.js';
-import GelConfigParser from './utils/GelConfigParser.js';
+import GelPositioner from "./utils/GelPositioner.js";
+import GelConfigParser from "./utils/GelConfigParser.js";
 
 // Parse configuration
 const parsed = GelConfigParser.parse(config);
@@ -59,5 +61,5 @@ GelPositioner.apply(element, {
 });
 
 // Calculate target
-const target = GelPositioner.calculateTarget(refElement, 'y');
+const target = GelPositioner.calculateTarget(refElement, "y");
 ```
