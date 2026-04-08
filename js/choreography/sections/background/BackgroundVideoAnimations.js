@@ -115,16 +115,16 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     const collapsedClip = "inset(50% 0 50% 0)";
     const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
     var tl = gsap.timeline({ id: "intro" });
-    // tl.fromTo(
-    //   this.view,
-    //   { autoAlpha: 0 },
-    //   { autoAlpha: 1, duration: this.DURATION },
-    // ).to(this.view, {
-    //   clipPath: targetClip,
-    //   webkitClipPath: targetClip,
-    //   // ease: this.easeOut,
-    //   duration: this.DURATION,
-    // });
+    tl.fromTo(
+      this.view,
+      { autoAlpha: 0 },
+      { autoAlpha: 1, duration: this.DURATION },
+    ).to(this.view, {
+      clipPath: targetClip,
+      webkitClipPath: targetClip,
+      // ease: this.easeOut,
+      duration: this.DURATION,
+    });
     return tl;
   }
 
