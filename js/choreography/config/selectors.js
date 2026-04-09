@@ -12,9 +12,9 @@
 export const SELECTORS = {
   video: "sizzle-background",
   organizations: "organizations",
-  bio: "bio",
-  awards: "awards",
-  work: "projects",
+  bio: "biography",
+  awards: "recognition",
+  work: "work",
 
   smoothWrapper: "smooth-wrapper",
   smoothContent: "smooth-content",

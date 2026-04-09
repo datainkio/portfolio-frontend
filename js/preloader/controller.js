@@ -43,7 +43,16 @@ import {
   createFiletypeMessageUpdater,
   startResourceObserver,
 } from "./resource-observer.js";
+import { initCurrentSectionIndicator } from "/assets/js/utils/current-section-indicator.js";
 import { ensureScrollSmoother } from "./scroll-smoother.js";
+
+let currentSectionIndicator = null;
+
+const ensureCurrentSectionIndicator = () => {
+  if (currentSectionIndicator) return currentSectionIndicator;
+  currentSectionIndicator = initCurrentSectionIndicator();
+  return currentSectionIndicator;
+};
 
 const createCleanup = ({
   preloader,
@@ -91,6 +100,8 @@ const createCleanup = ({
 };
 
 export const initPreloader = async () => {
+  const indicator = ensureCurrentSectionIndicator();
+
   if (PRELOADER_ASSET.consoleImageEnabled) {
     showPreloaderConsoleImage(PRELOADER_ASSET);
   }
@@ -100,6 +111,7 @@ export const initPreloader = async () => {
 
   if (!preloader) {
     logger.warn(PRELOADER_CONTROLLER_MESSAGES.noPreloaderElement);
+    indicator?.refresh?.();
     return;
   }
 
@@ -189,6 +201,8 @@ export const initPreloader = async () => {
         PRELOADER_CONTROLLER_MESSAGES.scrollSmootherInitializationFailed,
         error,
       );
+    } finally {
+      indicator?.refresh?.();
     }
   }
 };
