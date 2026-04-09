@@ -44,6 +44,7 @@ export * from "./arrangements.js";
 export * from "./events.js";
 export * from "./motion.js";
 export * from "./paths.js";
+export * from "./ruler.js";
 export * from "./scrolltriggers.js";
 export * from "./selectors.js";
 export * from "./labels.js";

@@ -16,36 +16,24 @@
  * ---
  */
 // ruler.js
+import { RULER_DEFAULTS } from "../choreography/config/ruler.js";
+
 export class Ruler {
   constructor(container, options = {}) {
-    if (!container) throw new Error('Ruler: container is required');
+    if (!container) throw new Error("Ruler: container is required");
 
     this.container = container;
 
     this.opts = {
-      intervals: 12, // number of major intervals
-      subticksPerInterval: 6, // NEW
-      height: 48,
-      paddingTop: 4,
-      paddingBottom: 6,
-      tickHeight: 20, // major tick height
-      subtickHeight: 10, // subtick height
-      labelGap: 2,
-      startAt: 0,
-      step: 1,
-      strokeWidth: 1,
-      fontSize: 12,
-      fontFamily:
-        "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-      color: 'currentColor',
+      ...RULER_DEFAULTS,
       ...options,
     };
 
-    this.svgNS = 'http://www.w3.org/2000/svg';
-    this.svg = document.createElementNS(this.svgNS, 'svg');
-    this.svg.setAttribute('width', '100%');
-    this.svg.style.display = 'block';
-    this.svg.style.userSelect = 'none';
+    this.svgNS = "http://www.w3.org/2000/svg";
+    this.svg = document.createElementNS(this.svgNS, "svg");
+    this.svg.setAttribute("width", "100%");
+    this.svg.style.display = "block";
+    this.svg.style.userSelect = "none";
 
     container.appendChild(this.svg);
 
@@ -89,8 +77,8 @@ export class Ruler {
     // Clear SVG
     this.svg.replaceChildren();
 
-    this.svg.setAttribute('height', height);
-    this.svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    this.svg.setAttribute("height", height);
+    this.svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
     const baselineY = height - paddingBottom;
     const labelTopY = paddingTop;
@@ -98,13 +86,13 @@ export class Ruler {
     const minorTickTopY = baselineY - subtickHeight;
 
     // Baseline
-    const baseline = document.createElementNS(this.svgNS, 'line');
-    baseline.setAttribute('x1', 0);
-    baseline.setAttribute('y1', baselineY);
-    baseline.setAttribute('x2', width);
-    baseline.setAttribute('y2', baselineY);
-    baseline.setAttribute('stroke', color);
-    baseline.setAttribute('stroke-width', strokeWidth);
+    const baseline = document.createElementNS(this.svgNS, "line");
+    baseline.setAttribute("x1", 0);
+    baseline.setAttribute("y1", baselineY);
+    baseline.setAttribute("x2", width);
+    baseline.setAttribute("y2", baselineY);
+    baseline.setAttribute("stroke", color);
+    baseline.setAttribute("stroke-width", strokeWidth);
     this.svg.appendChild(baseline);
 
     const majorCount = Math.max(1, Math.floor(intervals));
@@ -115,33 +103,36 @@ export class Ruler {
       const xMajor = i * majorStepPx;
 
       // --- Major tick ---
-      const majorTick = document.createElementNS(this.svgNS, 'line');
-      majorTick.setAttribute('x1', xMajor);
-      majorTick.setAttribute('y1', baselineY);
-      majorTick.setAttribute('y2', Math.max(majorTickTopY, baselineY - tickHeight));
-      majorTick.setAttribute('x2', xMajor);
-      majorTick.setAttribute('stroke', color);
-      majorTick.setAttribute('stroke-width', strokeWidth);
+      const majorTick = document.createElementNS(this.svgNS, "line");
+      majorTick.setAttribute("x1", xMajor);
+      majorTick.setAttribute("y1", baselineY);
+      majorTick.setAttribute(
+        "y2",
+        Math.max(majorTickTopY, baselineY - tickHeight),
+      );
+      majorTick.setAttribute("x2", xMajor);
+      majorTick.setAttribute("stroke", color);
+      majorTick.setAttribute("stroke-width", strokeWidth);
       this.svg.appendChild(majorTick);
 
       // --- Label ---
       // --- Label ---
-      const label = document.createElementNS(this.svgNS, 'text');
+      const label = document.createElementNS(this.svgNS, "text");
       label.textContent = String(startAt + i * step);
-      label.setAttribute('x', xMajor);
-      label.setAttribute('y', labelTopY);
-      label.setAttribute('fill', color);
-      label.setAttribute('font-size', fontSize);
-      label.setAttribute('font-family', fontFamily);
-      label.setAttribute('dominant-baseline', 'hanging');
+      label.setAttribute("x", xMajor);
+      label.setAttribute("y", labelTopY);
+      label.setAttribute("fill", color);
+      label.setAttribute("font-size", fontSize);
+      label.setAttribute("font-family", fontFamily);
+      label.setAttribute("dominant-baseline", "hanging");
 
       // NEW: edge-aware anchoring
       if (i === 0) {
-        label.setAttribute('text-anchor', 'start'); // left edge at tick center
+        label.setAttribute("text-anchor", "start"); // left edge at tick center
       } else if (i === majorCount) {
-        label.setAttribute('text-anchor', 'end'); // right edge at tick center
+        label.setAttribute("text-anchor", "end"); // right edge at tick center
       } else {
-        label.setAttribute('text-anchor', 'middle'); // centered on tick
+        label.setAttribute("text-anchor", "middle"); // centered on tick
       }
 
       this.svg.appendChild(label);
@@ -170,14 +161,14 @@ export class Ruler {
         const h = tickHeight * ratio;
         const y2 = Math.max(majorTickTopY, baselineY - h);
 
-        const minorTick = document.createElementNS(this.svgNS, 'line');
-        minorTick.setAttribute('x1', xMinor);
-        minorTick.setAttribute('y1', baselineY);
-        minorTick.setAttribute('x2', xMinor);
-        minorTick.setAttribute('y2', y2);
-        minorTick.setAttribute('stroke', color);
-        minorTick.setAttribute('stroke-width', strokeWidth);
-        minorTick.setAttribute('opacity', '0.6');
+        const minorTick = document.createElementNS(this.svgNS, "line");
+        minorTick.setAttribute("x1", xMinor);
+        minorTick.setAttribute("y1", baselineY);
+        minorTick.setAttribute("x2", xMinor);
+        minorTick.setAttribute("y2", y2);
+        minorTick.setAttribute("stroke", color);
+        minorTick.setAttribute("stroke-width", strokeWidth);
+        minorTick.setAttribute("opacity", "0.6");
         this.svg.appendChild(minorTick);
       }
     }

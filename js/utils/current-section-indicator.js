@@ -40,6 +40,7 @@ const DEFAULTS = {
   visibilityTransitionDurationMs: 180,
   selectorMain: "#page-main",
   selectorMarker: "#current-section-marker",
+  selectorSiblingAnchor: "#section-cap-anchor",
   selectorPrefix: "#current-section-prefix",
   selectorCount: "#current-section-count",
   selectorSeparator: "#current-section-separator",
@@ -110,6 +111,7 @@ class CurrentSectionIndicatorController {
     this.config = { ...DEFAULTS, ...options };
     this.main = null;
     this.marker = null;
+    this.siblingAnchor = null;
     this.prefix = null;
     this.count = null;
     this.separator = null;
@@ -150,9 +152,16 @@ class CurrentSectionIndicatorController {
 
     this.main = document.querySelector(this.config.selectorMain);
     this.marker = document.querySelector(this.config.selectorMarker);
+    this.siblingAnchor = document.querySelector(
+      this.config.selectorSiblingAnchor,
+    );
 
     if (!this.main || !this.marker) {
       return this;
+    }
+
+    if (!this.siblingAnchor) {
+      this.siblingAnchor = this.marker;
     }
 
     this.prefix = this.marker.querySelector(this.config.selectorPrefix);
@@ -182,7 +191,7 @@ class CurrentSectionIndicatorController {
     if (!this._initialized) return;
 
     this._syncConfigFromDataset();
-    this.followingSiblings = getFollowingSiblings(this.marker);
+    this.followingSiblings = getFollowingSiblings(this.siblingAnchor);
     this.sections = getTrackedSections(this.followingSiblings);
     this.totalCount = this.followingSiblings.length;
 

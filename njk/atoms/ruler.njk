@@ -3,10 +3,10 @@
   {%- set classes = params.classes | default("") -%}
   {%- set intervals = params.intervals | default(12) -%}
   {%- set subticksPerInterval = params.subticksPerInterval | default(16) -%}
-  <div id="{{ id }}" class="{{ classes }}"></div>
+  <div id="{{ id }}" class="{{ classes }}" role="presentation"></div>
   <script type="module">
     import {createRuler} from "/assets/js/displays/Ruler.js";
-    const el = document.querySelector("# {{ id }}");
+    const el = document.getElementById("{{ id }}");
     if (el) {
       const ruler = createRuler(el, {
         intervals: {{ intervals }},
