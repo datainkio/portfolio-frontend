@@ -12,3 +12,4 @@ This folder defines motion principles and reusable patterns so the portfolio fro
 - [Choreographer module spec](choreographer.animation-spec.md)
 - [Motion accessibility policy](motion-accessibility-policy.md)
 - [Section gel arrangements spec](section-gel-arrangements.animation-spec.md)
+- [Current section indicator spec](current-section-indicator.animation-spec.md)

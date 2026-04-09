@@ -1,7 +1,15 @@
+{# FUNCTIONALITY IMPORTS #}
 {% import "organisms/SitePreloader.njk" as Preloader %}
 {% import "organisms/header/global-header.njk" as Header %}
 {% import "organisms/footer/global-footer.njk" as Footer %}
+{% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
 {% import "molecules/background/sizzle-background.njk" as Background %}
+
+{# SECTION CONTENT #}
+{% import "organisms/section/hero.njk" as heroSection %}
+{% import "organisms/section/bio.njk" as bioSection %}
+{% import "organisms/section/awards.njk" as awardsSection %}
+{% import "organisms/section/work.njk" as projectsSection %}
 
 <!DOCTYPE html>
 <html lang="en" class="bg-slate-950">
@@ -20,16 +28,14 @@
         {# Wrapping content with the smooth-wrapper and smooth-content divs for ScrollSmoother #}
         <div id="smooth-wrapper">
             <div id="smooth-content">
-                <main id="page-main" aria-busy="true" class="space-y-24">
-                    {% import "organisms/section/hero.njk" as heroSection %}
-                    {% import "organisms/section/bio.njk" as bioSection %}
-                    {% import "organisms/section/awards.njk" as awards %}
-                    {% import "organisms/section/work.njk" as projects %}
+                <main
+                    id="page-main" aria-busy="true" class="space-y-24">
                     {# Note that content values are set in frontmatter #}
                     {{ heroSection.render( { id: "hero", tagline: hero.tagline }) }}
-                    {{ bioSection.render({id: "bio", copy: value}) }}
-                    {{ awards.render({ id: "awards", copy: recognition, awards: collections.awards }) }}
-                    {{ projects.render({ id: "projects", projects: collections.projects }) }}
+                    {{ CurrentSectionTitle.render() }}
+                    {{ bioSection.render({id: "biography", copy: value}) }}
+                    {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards }) }}
+                    {{ projectsSection.render({ id: "work", projects: collections.projects }) }}
                 </main>
                 {{ Footer.render() }}
             </div>
