@@ -1,37 +1,37 @@
 /* Font imports MUST come first and outside of layers for CSS 4.0 compatibility */
-@import './typography/imports.css';
+@import "./typography/imports.css";
 
 /* CRITICAL: Define CSS cascade layers for optimal performance and specificity control */
 @layer reset, theme, base, utilities, components;
 
 /* Tailwind CSS must come before everything else - Base utilities and components need to be defined first */
-@import 'tailwindcss' layer(base);
+@import "tailwindcss" layer(base);
 
 /* Base styles - Global resets and fundamental styling that builds on Tailwind's preflight */
-@import './base.css' layer(base);
-@import './sizes.css' layer(theme);
+@import "./base.css" layer(base);
+@import "./sizes.css" layer(theme);
 
 /* Design system colors - Auto-generated from Figma via PaletteService.js, contains CSS custom properties */
-@import './colors.css' layer(theme);
+@import "./colors.css" layer(theme);
 
 /* Typography families - Auto-generated from Figma via TypographyService.js, defines font-family utilities */
-@import './typography/fontFamilies.css' layer(theme);
+@import "./typography/fontFamilies.css" layer(theme);
 
 /* Custom decorations - Project-specific styling for visual elements and effects */
-@import './decorations.css' layer(components);
+@import "./decorations.css" layer(components);
 
 /* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
-@import './utilities/mask.css';
-@import './utilities/text.css' layer(utilities);
-@import './utilities/reduced-motion.css' layer(utilities);
+@import "./utilities/mask.css";
+@import "./utilities/text.css" layer(utilities);
+@import "./utilities/reduced-motion.css" layer(utilities);
 
 /* Animation optimizations for GSAP and ScrollSmoother integration */
-@import './animations.css' layer(components);
-@import './components/section-playback.css' layer(components);
+@import "./animations.css" layer(components);
+@import "./components/section-playback.css" layer(components);
 
 @theme {
   /* Mask Image Tokens */
-  --mask-image-grunge: url('/assets/images/grunge-luminance-mask.png');
+  --mask-image-grunge: url("/assets/images/grunge-luminance-mask.png");
   --mask-image-gradient-vertical: linear-gradient(to bottom, #fff, #000);
   --mask-image-gradient-horizontal: linear-gradient(to right, #fff, #000);
   --mask-image-radial: radial-gradient(circle, #fff 50%, #000 100%);

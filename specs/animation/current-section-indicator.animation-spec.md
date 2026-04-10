@@ -1,8 +1,8 @@
 - **Title:** Current Section Indicator - Scroll Threshold Focus and Relative Position
 - **Owner(s):** Frontend / Choreography Maintainers
 - **Status:** draft
-- **Last reviewed:** 2026-04-09
-- **Scope:** `#current-section-marker` updates inside `main#page-main` based on scroll position and threshold crossings.
+- **Last reviewed:** 2026-04-10
+- **Scope:** `#current-section-marker` updates based on scroll position and threshold crossings.
 - **Links:** marker template [../../njk/molecules/current-section-title.njk](../../njk/molecules/current-section-title.njk), homepage placement [../../njk/pages/home.njk](../../njk/pages/home.njk), section registry [../../js/choreography/sections/registry.js](../../js/choreography/sections/registry.js), choreography events [../../js/choreography/config/events.js](../../js/choreography/config/events.js)
 
 ## Motion Principles
@@ -25,14 +25,14 @@
   - `#current-section-count`
   - `#current-section-separator`
   - `#current-section-title`
-- Page context root: `main#page-main`
 
 ### Config Surface (minimum)
 
-- `thresholdRatio` (default `0.12`) or `thresholdPx` override, sourced from `DEFAULTS.thresholdRatio` and overridable via `data-threshold-ratio`.
+- `thresholdRatio` (default `0.12`), sourced from `DEFAULTS.thresholdRatio` and overridable via `data-threshold-ratio`.
 - `visibilityTransitionDurationMs` (default `180`) for visibility fade in/out, sourced from `DEFAULTS.visibilityTransitionDurationMs` and overridable via `data-visibility-transition-duration-ms`.
-- `selectorMain` (default `#page-main`).
 - `selectorMarker` (default `#current-section-marker`).
+- `selectorSiblingAnchor` (default `#section-cap-anchor`, fallback to marker when not found).
+- `fallbackTitle` (default `none`).
 
 ### Data Model
 
@@ -59,7 +59,7 @@
    - If `firstSibling` is missing, keep marker hidden and render fallback state.
    - When `firstSibling.getBoundingClientRect().top <= thresholdPx`, the marker becomes visible and normal focus/count updates apply.
    - Transition between visible and hidden states must animate opacity using `visibilityTransitionDurationMs` from `DEFAULTS`.
-   - Hide transitions must finish the fade before applying non-visible state.
+   - Visibility transitions must not toggle CSS `visibility`; opacity is the only style value transitioned.
 5. Determine focus using threshold crossing:
    - Compute threshold line: `thresholdPx = viewportHeight * thresholdRatio`.
    - Active section is the last item in `trackedSections` where `section.getBoundingClientRect().top <= thresholdPx`.
@@ -88,7 +88,7 @@ Example:
 
 ### A) Initialization
 
-- Resolve marker nodes and page main root.
+- Resolve marker nodes.
 - Build sibling/section lists and initial state.
 - Evaluate visibility gate from first following sibling.
 - Render initial marker value only when visible; otherwise keep view hidden.
@@ -123,8 +123,8 @@ Example:
 - Do not move keyboard focus when updating the marker.
 - Marker updates are informative only and must not gate content comprehension.
 - Keep separator and wording stable for screen-reader predictability.
-- Hidden state should be non-visible visually and excluded from live updates until visible.
-- During hide transitions, live announcements remain off until the marker is visible again.
+- Hidden state should be non-visible visually via opacity and excluded from live updates until visible.
+- During non-visible states, live announcements remain off until the marker is visible again.
 
 ## Testing & Validation
 
@@ -135,7 +135,7 @@ Example:
 - [ ] Visibility changes animate with duration controlled by `DEFAULTS.visibilityTransitionDurationMs`.
 - [ ] Threshold uses `DEFAULTS.thresholdRatio` unless overridden by `data-threshold-ratio`.
 - [ ] Visibility duration uses `DEFAULTS.visibilityTransitionDurationMs` unless overridden by `data-visibility-transition-duration-ms`.
-- [ ] Fade-out completes before final non-visible state is applied.
+- [ ] Visibility transitions change opacity only and do not toggle CSS `visibility`.
 - [ ] Active position updates to the last section crossing threshold from top.
 - [ ] Scrolling down and up both produce deterministic section swaps.
 - [ ] Fast scroll (trackpad fling) does not skip final active state.

@@ -23,7 +23,7 @@
  * Behavior summary:
  * - Tracks sections that follow the marker in DOM order.
  * - Uses a top-of-viewport threshold to determine active section.
- * - Keeps the marker hidden until the first following sibling crosses threshold.
+ * - Keeps the marker non-visible until the first following sibling crosses threshold.
  * - Animates visibility changes with an opacity transition.
  *
  * Runtime overrides are read from marker data attributes:
@@ -38,17 +38,17 @@
 const DEFAULTS = {
   thresholdRatio: 0.12,
   visibilityTransitionDurationMs: 180,
-  selectorMain: "#page-main",
-  selectorMarker: "#current-section-marker",
-  selectorSiblingAnchor: "#section-cap-anchor",
-  selectorPrefix: "#current-section-prefix",
-  selectorCount: "#current-section-count",
-  selectorSeparator: "#current-section-separator",
-  selectorTitle: "#current-section-title",
-  prefixText: "section",
-  separatorText: ":",
+  selectorMarker: "#current-section-marker", // the container
+  selectorSiblingAnchor: "#section-cap-anchor", // the element used to find siblings; defaults to marker if not found
   fallbackTitle: "none",
 };
+
+const SELECTOR_PREFIX = "#current-section-prefix";
+const SELECTOR_COUNT = "#current-section-count";
+const SELECTOR_SEPARATOR = "#current-section-separator";
+const SELECTOR_TITLE = "#current-section-title";
+const PREFIX_TEXT = "section";
+const SEPARATOR_TEXT = ":";
 
 function parseThresholdRatio(value, fallback) {
   const parsed = Number.parseFloat(value);
@@ -60,6 +60,15 @@ function parseDurationMs(value, fallback) {
   const parsed = Number.parseFloat(value);
   if (!Number.isFinite(parsed) || parsed < 0) return fallback;
   return Math.round(parsed);
+}
+
+function safeQuerySelector(root, selector) {
+  if (!root || !selector) return null;
+  try {
+    return root.querySelector(selector);
+  } catch {
+    return null;
+  }
 }
 
 function getFollowingSiblings(marker) {
@@ -86,15 +95,14 @@ function getTrackedSections(siblings) {
 function resolveActiveIndex(sections, thresholdPx) {
   if (!sections.length) return -1;
 
-  let activeIndex = 0;
-  for (let i = 0; i < sections.length; i += 1) {
-    const top = sections[i].getBoundingClientRect().top;
-    if (top <= thresholdPx) {
-      activeIndex = i;
+  // Reverse scan exits early for lower viewport ranges.
+  for (let i = sections.length - 1; i >= 0; i -= 1) {
+    if (sections[i].getBoundingClientRect().top <= thresholdPx) {
+      return i;
     }
   }
 
-  return activeIndex;
+  return 0;
 }
 
 function setNodeText(node, value) {
@@ -103,13 +111,18 @@ function setNodeText(node, value) {
   node.textContent = value;
 }
 
+function setNodeAttribute(node, name, value) {
+  if (!node) return;
+  if (node.getAttribute(name) === value) return;
+  node.setAttribute(name, value);
+}
+
 /**
  * Orchestrates current-section marker state and rendering.
  */
 class CurrentSectionIndicatorController {
   constructor(options = {}) {
     this.config = { ...DEFAULTS, ...options };
-    this.main = null;
     this.marker = null;
     this.siblingAnchor = null;
     this.prefix = null;
@@ -136,7 +149,7 @@ class CurrentSectionIndicatorController {
 
     this._rafId = 0;
     this._initialized = false;
-    this._visibilityTimer = null;
+    this._forceNextUpdate = false;
 
     this._boundOnScroll = this._onScroll.bind(this);
     this._boundOnResize = this._onResize.bind(this);
@@ -150,13 +163,13 @@ class CurrentSectionIndicatorController {
   init() {
     if (this._initialized) return this;
 
-    this.main = document.querySelector(this.config.selectorMain);
-    this.marker = document.querySelector(this.config.selectorMarker);
-    this.siblingAnchor = document.querySelector(
+    this.marker = safeQuerySelector(document, this.config.selectorMarker);
+    this.siblingAnchor = safeQuerySelector(
+      document,
       this.config.selectorSiblingAnchor,
     );
 
-    if (!this.main || !this.marker) {
+    if (!this.marker) {
       return this;
     }
 
@@ -164,10 +177,10 @@ class CurrentSectionIndicatorController {
       this.siblingAnchor = this.marker;
     }
 
-    this.prefix = this.marker.querySelector(this.config.selectorPrefix);
-    this.count = this.marker.querySelector(this.config.selectorCount);
-    this.separator = this.marker.querySelector(this.config.selectorSeparator);
-    this.title = this.marker.querySelector(this.config.selectorTitle);
+    this.prefix = safeQuerySelector(this.marker, SELECTOR_PREFIX);
+    this.count = safeQuerySelector(this.marker, SELECTOR_COUNT);
+    this.separator = safeQuerySelector(this.marker, SELECTOR_SEPARATOR);
+    this.title = safeQuerySelector(this.marker, SELECTOR_TITLE);
     this.defaultAriaLive = this.marker.getAttribute("aria-live") || "polite";
 
     this._syncConfigFromDataset();
@@ -191,6 +204,12 @@ class CurrentSectionIndicatorController {
     if (!this._initialized) return;
 
     this._syncConfigFromDataset();
+
+    // Re-resolve anchor in case DOM changed since init.
+    this.siblingAnchor =
+      safeQuerySelector(document, this.config.selectorSiblingAnchor) ||
+      this.marker;
+
     this.followingSiblings = getFollowingSiblings(this.siblingAnchor);
     this.sections = getTrackedSections(this.followingSiblings);
     this.totalCount = this.followingSiblings.length;
@@ -213,8 +232,6 @@ class CurrentSectionIndicatorController {
       cancelAnimationFrame(this._rafId);
       this._rafId = 0;
     }
-
-    this._clearVisibilityTimer();
 
     this._initialized = false;
   }
@@ -243,12 +260,6 @@ class CurrentSectionIndicatorController {
       this.visibilityTransitionDurationMs = durationMs;
       this._setupVisibilityTransition();
     }
-  }
-
-  _clearVisibilityTimer() {
-    if (!this._visibilityTimer) return;
-    clearTimeout(this._visibilityTimer);
-    this._visibilityTimer = null;
   }
 
   _onScroll() {
@@ -325,43 +336,16 @@ class CurrentSectionIndicatorController {
     if (!this.marker) return false;
     if (this.isVisible === isVisible) return false;
 
-    this._clearVisibilityTimer();
     this.isVisible = isVisible;
 
-    this.marker.setAttribute("aria-hidden", String(!isVisible));
-    this.marker.setAttribute(
+    setNodeAttribute(this.marker, "aria-hidden", String(!isVisible));
+    setNodeAttribute(
+      this.marker,
       "aria-live",
       isVisible ? this.defaultAriaLive : "off",
     );
 
-    if (isVisible) {
-      this.marker.hidden = false;
-      this.marker.style.visibility = "visible";
-      this.marker.style.opacity = "0";
-
-      requestAnimationFrame(() => {
-        if (!this.marker || !this.isVisible) return;
-        this.marker.style.opacity = "1";
-      });
-      return true;
-    }
-
-    this.marker.hidden = false;
-    this.marker.style.visibility = "visible";
-    this.marker.style.opacity = "0";
-
-    if (this.visibilityTransitionDurationMs === 0) {
-      this.marker.style.visibility = "hidden";
-      this.marker.hidden = true;
-      return true;
-    }
-
-    this._visibilityTimer = setTimeout(() => {
-      if (!this.marker || this.isVisible) return;
-      this.marker.style.visibility = "hidden";
-      this.marker.hidden = true;
-      this._visibilityTimer = null;
-    }, this.visibilityTransitionDurationMs);
+    this.marker.style.opacity = isVisible ? "1" : "0";
 
     return true;
   }
@@ -375,15 +359,16 @@ class CurrentSectionIndicatorController {
     this.activePosition = position;
     this.activeTitle = title;
 
-    setNodeText(this.prefix, this.config.prefixText);
+    setNodeText(this.prefix, PREFIX_TEXT);
     setNodeText(this.count, `${position} of ${total}`);
-    setNodeText(this.separator, this.config.separatorText);
+    setNodeText(this.separator, SEPARATOR_TEXT);
     setNodeText(this.title, title);
 
     // Keep an explicit sentence on the status node for assistive technologies.
-    this.marker.setAttribute(
+    setNodeAttribute(
+      this.marker,
       "aria-label",
-      `${this.config.prefixText} ${position} of ${total} ${this.config.separatorText} ${title}`,
+      `${PREFIX_TEXT} ${position} of ${total} ${SEPARATOR_TEXT} ${title}`,
     );
   }
 }
@@ -411,3 +396,5 @@ export function initCurrentSectionIndicator(options = {}) {
 export function getCurrentSectionIndicator() {
   return singleton;
 }
+
+export const CURRENT_SECTION_INDICATOR_DEFAULTS = DEFAULTS;
