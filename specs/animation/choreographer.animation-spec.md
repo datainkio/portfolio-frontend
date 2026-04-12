@@ -132,7 +132,7 @@ Use GSAP if ANY are true:
 
 Examples:
 
-- Hero intro sequences with staged entrances
+- Hero intro sequences with staged entrances (current hero scene keeps clip-path and width reveal disabled, and uses a transparent section surface)
 - Section reveals with stagger + scroll gating
 - ScrollTrigger storytelling (pin/scrub)
 - Modal/overlay sequences with coordinated background + content motion

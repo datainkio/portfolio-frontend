@@ -81,10 +81,12 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     });
 
     var tl = gsap.timeline({ id: "landing" });
-    tl.to(this.view, {
+    tl.set(this.view, {
       width: "100%",
-      duration: this.options.duration,
-      ease: this.options.ease.in,
+      backgroundColor: "transparent",
+      clipPath: "none",
+      webkitClipPath: "none",
+      autoAlpha: 1,
     }).fromTo(
       this._split.words,
       { autoAlpha: 0, yPercent: 1 },
@@ -100,35 +102,20 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _buildIntro() {
-    const fullClip = "inset(0% 0% 0% 0%)";
-    const collapsedClipFromLeft = "inset(0% 100% 0% 0%)";
-    var tl = gsap.timeline({ id: "intro" }).fromTo(
-      this.view,
-      {
-        clipPath: collapsedClipFromLeft,
-        webkitClipPath: collapsedClipFromLeft,
-        autoAlpha: 0,
-      },
-      {
-        clipPath: fullClip,
-        webkitClipPath: fullClip,
-        autoAlpha: 1,
-        duration: this.options.duration,
-        ease: this.options.ease.in,
-      },
-    );
+    var tl = gsap.timeline({ id: "intro" }).set(this.view, {
+      clipPath: "none",
+      webkitClipPath: "none",
+      autoAlpha: 1,
+    });
     return tl;
   }
 
   _buildOutro() {
-    const halfHeightClipFromBottom = "inset(0% 0% 50% 0%)";
-    var tl = gsap.timeline({ id: "outro" }).to(
+    var tl = gsap.timeline({ id: "outro" }).set(
       this.view,
       {
-        clipPath: halfHeightClipFromBottom,
-        webkitClipPath: halfHeightClipFromBottom,
-        duration: this.options.duration,
-        ease: this.options.ease.out,
+        clipPath: "none",
+        webkitClipPath: "none",
       },
       this.LABELS.outro,
     );
