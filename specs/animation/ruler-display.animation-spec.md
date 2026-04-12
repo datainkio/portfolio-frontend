@@ -1,9 +1,9 @@
 - **Title:** Ruler Display - Hybrid JS Geometry and CSS Presentation
 - **Owner(s):** Frontend / Choreography Maintainers
 - **Status:** draft
-- **Last reviewed:** 2026-04-10
+- **Last reviewed:** 2026-04-12
 - **Scope:** `Ruler` display rendering in `js/displays/Ruler.js` with utility classes supplied by `js/choreography/config/ruler.js`.
-- **Links:** runtime [../../js/displays/Ruler.js](../../js/displays/Ruler.js), defaults [../../js/choreography/config/ruler.js](../../js/choreography/config/ruler.js), template [../../njk/atoms/ruler.njk](../../njk/atoms/ruler.njk)
+- **Links:** runtime [../../js/displays/Ruler.js](../../js/displays/Ruler.js), defaults [../../js/choreography/config/ruler.js](../../js/choreography/config/ruler.js), intro manager [../../js/choreography/managers/RulerIntroManager.js](../../js/choreography/managers/RulerIntroManager.js), template [../../njk/atoms/ruler.njk](../../njk/atoms/ruler.njk)
 
 ## Hybrid Contract
 
@@ -52,6 +52,8 @@ Geometry tokens used by JS (provided via root utility classes):
 - `tick-even` for even minor tick indexes
 - When utility classes target parity, use Tailwind arbitrary selector variants on the same element (for example `[&.tick-odd]:opacity-0 sm:[&.tick-odd]:opacity-100`).
 
+9. Default responsiveness behavior may target odd minor ticks only; parity-specific responsive behavior should be expressed in `minorTickClasses` and leave `tick-even` unchanged unless explicitly required.
+
 ## Validation
 
 - [ ] Ruler still re-renders on container resize without layout break.
@@ -60,3 +62,4 @@ Geometry tokens used by JS (provided via root utility classes):
 - [ ] Intro timeline performs baseline `scaleX` animation before tick/label reveal.
 - [ ] Intro animation does not write inline `opacity` or `autoAlpha` styles.
 - [ ] Minor ticks include parity classes (`tick-odd`/`tick-even`) in creation order.
+- [ ] When `minorTickClasses` contains odd-only responsive selectors, only `tick-odd` changes across breakpoints.
