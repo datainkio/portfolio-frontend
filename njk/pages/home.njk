@@ -4,7 +4,6 @@
 {% import "organisms/footer/global-footer.njk" as Footer %}
 
 {# UX IMPORTS #}
-{% import "organisms/section-cap.njk" as SectionCap %}
 {% import "molecules/background/sizzle-background.njk" as Background %}
 
 {# SECTION CONTENT #}
@@ -34,7 +33,6 @@
                     id="page-main" aria-busy="true" class="space-y-24">
                     {# Note that content values are set in frontmatter #}
                     {{ heroSection.render( { id: "hero", tagline: hero.tagline }) }}
-                    {{ SectionCap.render() }}
                     {{ bioSection.render({id: "biography", copy: value}) }}
                     {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards }) }}
                     {{ projectsSection.render({ id: "work", projects: collections.projects }) }}

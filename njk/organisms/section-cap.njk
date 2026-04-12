@@ -1,9 +1,7 @@
 {% import "atoms/ruler.njk" as Ruler %}
-{% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
 {% macro render(params = {}) %}
   {%- set id = params.id | default("section-cap-anchor") -%}
-  <div id="{{ id }}" class="sticky top-8 w-full px-4 pointer-events-none">
-    {{ CurrentSectionTitle.render({classes: "m-0"}) }}
+  <div id="{{ id }}" class="fixed top-8 left-0 w-full px-4 pointer-events-none z-30">
     {{ Ruler.render({classes: "h-8 m-0"}) }}
   </div>
 {% endmacro %}

@@ -1,7 +1,9 @@
 {% macro render(params = {}) %}
+  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
   {%- set projects = params.projects
     | default([]) -%}
   <section id="{{ params.id | default('projects') }}" class="relative z-10 col-start-3 col-end-9 text-primary-100 projects-section">
+    {{ CurrentSectionTitle.render({classes: "m-0"}) }}
     {% if projects | length %}
       <ul class="projects-list grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-6">
         {% for project in projects %}

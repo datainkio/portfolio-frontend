@@ -1,10 +1,12 @@
 {% macro render(params = {}) %}
+  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
   {%- set sectionId = params.id | default("hero") -%}
   {%- set tagline = params.tagline | default(title) -%}
   {%- set rulerOptions = params.ruler | default({}) -%}
 
   {# Landing view - GSAP Hero Controller Target #}
   <section id="{{ sectionId }}" class="bg-neutral-950 col-span-full w-0 overflow-hidden h-dvh flex items-center" data-scroll-section>
+    {{ CurrentSectionTitle.render({classes: "m-0"}) }}
     <h1
       id="hero-title"
       class="z-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-12 sm:leading-14 md:leading-16 lg:leading-28

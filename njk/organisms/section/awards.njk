@@ -1,7 +1,9 @@
 {% macro render(params = {}) %}
+  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
   {%- set awards = params.awards
     | default([]) -%}
   <section id="{{ params.id | default('awards') }}" class="{{ params.classes | default('text-primary-100 h-dvh') }}">
+    {{ CurrentSectionTitle.render({classes: "m-0"}) }}
     {% if awards | length %}
       <h2>{{ params.copy.heading }}</h2>
       <p>{{ params.copy.body }}</p>
