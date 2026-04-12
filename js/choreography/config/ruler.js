@@ -12,7 +12,7 @@ export const RULER_DEFAULTS = Object.freeze({
   startAt: 0,
   step: 1,
   rootClasses:
-    "ruler w-full h-8 sm:h-10 md:h-12 pt-1 sm:pt-2 pb-1 sm:pb-2 text-white text-xs font-mono [--ruler-tick-height:24] sm:[--ruler-tick-height:28] md:[--ruler-tick-height:32] [--ruler-subtick-height:8] sm:[--ruler-subtick-height:9] md:[--ruler-subtick-height:10] [--ruler-label-gap:2]",
+    "ruler w-full h-6 sm:h-10 md:h-12 pt-1 sm:pt-2 pb-1 sm:pb-2 text-white text-xs font-mono [--ruler-tick-height:24] sm:[--ruler-tick-height:28] md:[--ruler-tick-height:32] [--ruler-subtick-height:8] sm:[--ruler-subtick-height:9] md:[--ruler-subtick-height:10] [--ruler-label-gap:2]",
   svgClasses: "block w-full select-none",
   baselineClasses:
     "stroke-current [stroke-width:1px] [vector-effect:non-scaling-stroke] [shape-rendering:geometricPrecision]",

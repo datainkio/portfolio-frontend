@@ -3,7 +3,7 @@
 {% macro render(params = {}) %}
   {%- set id = params.id | default("section-cap-anchor") -%}
   <div id="{{ id }}" class="sticky top-8 w-full px-4 pointer-events-none">
-    {{ CurrentSectionTitle.render() }}
-    {{ Ruler.render({classes: "h-8"}) }}
+    {{ CurrentSectionTitle.render({classes: "m-0"}) }}
+    {{ Ruler.render({classes: "h-8 m-0"}) }}
   </div>
 {% endmacro %}

@@ -1,7 +1,7 @@
 {% macro render(params = {}) %}
   {%- set thresholdRatio = params.thresholdRatio | default(0.12) -%}
   {%- set visibilityTransitionDurationMs = params.visibilityTransitionDurationMs | default(180) -%}
-  <p id="current-section-marker" role="presentation" aria-live="polite" aria-atomic="true" data-threshold-ratio="{{ thresholdRatio }}" data-visibility-transition-duration-ms="{{ visibilityTransitionDurationMs }}" class="text-sm text-neutral-100 w-full z-20 sticky top-0 pointer-events-none {{ params.classes | default(" ") }}">
+  <p id="current-section-marker" role="presentation" aria-live="polite" aria-atomic="true" data-threshold-ratio="{{ thresholdRatio }}" data-visibility-transition-duration-ms="{{ visibilityTransitionDurationMs }}" class="text-sm text-neutral-100 w-full z-20 pointer-events-none {{ params.classes | default(" ") }}">
     <span id="current-section-prefix">section</span>
     <span id="current-section-count">0/N</span>
     <span id="current-section-separator">:</span>
