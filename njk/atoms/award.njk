@@ -1,0 +1,5 @@
+{% macro render(params = {}) %}
+  {%- set logo = params.logo | default('/assets/images/logos/default.svg') -%}
+  {%- set organization = params.organization | default('Organization') -%}
+  {%- set title = params.title | default('Untitled award') -%} <img src="{{ logo }}" alt="{{ organization }}: {{ title }}" class="awards-list__logo" loading="lazy" decoding="async"/>
+{% endmacro %}

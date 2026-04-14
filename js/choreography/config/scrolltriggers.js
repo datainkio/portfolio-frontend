@@ -3,9 +3,11 @@
  *
  * Base settings for GSAP ScrollTrigger instances.
  */
+import { SELECTORS } from "./selectors.js";
+
 export const SCROLL_DEFAULTS = {
-  start: "top 1%",
-  end: "bottom 99%",
+  start: "bottom 99%",
+  end: "top 1%",
   pinSpacing: false,
   onEnter: () => {},
   onLeave: () => {},
@@ -28,16 +30,24 @@ export const SCROLL_DEFAULTS = {
  * Hero Trigger Defaults
  */
 export const HERO_TRIGGER = {
-  id: "hero",
+  id: SELECTORS.hero,
   // start: "top 5", // Assumes that the hero section is the first section in the page.
   // end: "bottom 85%",
   // toggleActions: "none reverse play play",
 };
 
 /**
- * Bio Reveal Trigger Defaults
+ * Bio Trigger Defaults
  */
 export const BIO_TRIGGER = {
-  id: "bio",
+  id: SELECTORS.bio,
+  markers: false,
+};
+
+/**
+ * Awards Trigger Defaults
+ */
+export const AWARDS_TRIGGER = {
+  id: SELECTORS.awards,
   markers: false,
 };

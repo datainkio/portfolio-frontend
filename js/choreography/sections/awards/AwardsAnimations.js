@@ -18,10 +18,14 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import { motion } from "../../config/motion.js";
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
+import { motion } from "../../config/motion.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
+const AWARDS_EL_ATTR = "data-awards-el";
+const selectAwardsEl = (view, name) =>
+  view?.querySelector(`[${AWARDS_EL_ATTR}="${name}"]`) ?? null;
 
 export default class AwardsAnimations extends AbstractSectionAnimations {
   /**
@@ -36,6 +40,10 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
+    this.logger = lumberjack.createScoped(this.constructor.name, {
+      color: "#007bff",
+      enabled: true,
+    });
 
     this.options = {
       duration: options.duration ?? toSeconds(motion.duration("slower")),
@@ -47,82 +55,96 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
       },
     };
 
-    this.title = this.view?.querySelector("h2") || this.view;
-    this.subtitle = this.view?.querySelector("p") || null;
-    this.logos = this._getLogos();
+    this.view = view;
+    // Using hook-based cached refs for key elements to simplify timeline definitions
+    this.elements = {
+      header: selectAwardsEl(this.view, "header") ?? this.view,
+      context: selectAwardsEl(this.view, "context"),
+      heading: selectAwardsEl(this.view, "heading") ?? this.view,
+      body: selectAwardsEl(this.view, "body") ?? this.view,
+      awards: selectAwardsEl(this.view, "list"),
+    };
 
-    this._children = Array.from(this.view?.children ?? null);
+    this.animTargets = [
+      this.elements.context,
+      this.elements.heading,
+      this.elements.subheading,
+      this.elements.body,
+      this.elements.awards,
+    ].filter(Boolean);
 
-    if (this._children.length) {
-      gsap.set([this.title, this.subtitle, ...this.logos], {
-        autoAlpha: 0,
-        y: Math.abs(this.options.translateY),
+    if (this.animTargets.length) {
+      gsap.set(this.animTargets, {
+        autoAlpha: 0.5,
+        y: this.options.translateY,
       });
-      this._buildIntroTimeline();
     }
-
-    this._buildIntroTimeline();
+    // this.originalText = this.view?.textContent || "";
+    this._buildTimeline();
   }
 
   intro() {
-    this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro, 0);
+    this.logger.trace("Intro started");
+    if (!this.view) return;
+    return this.play(this.LABELS.intro);
   }
 
   outro() {
-    this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro, 0);
+    this.logger.trace("Outro started");
+    if (!this.view) return;
+    return this.play(this.LABELS.outro);
   }
 
   _getLogos() {
-    if (!this.view) return [];
-
-    const listItems = Array.from(
-      this.view.querySelectorAll(".awards-list__item"),
-    );
-    if (listItems.length) return listItems;
-
-    const emptyState = this.view.querySelector(".awards-list__empty");
-    return emptyState ? [emptyState] : [];
+    if (!this.elements.awards) return [];
+    return this.elements.awards ? [this.elements.awards] : [];
   }
 
-  _buildIntroTimeline() {
-    if (!this.view || !this.logos.length) return;
+  _buildTimeline() {
+    super._buildTimeline();
+    if (!this.view || !this.options) return this.timeline;
 
-    const { duration, stagger, translateY, ease } = this.options;
+    this.timeline.add(this._buildIntro(), this.LABELS.enter);
+    this.timeline.add(this._buildIdle(), this.LABELS.idle);
+    this.timeline.add(this._buildOutro(), this.LABELS.leave);
 
-    this.timeline.clear();
-    this.timeline.addLabel("intro", ">");
+    return this.timeline;
+  }
 
-    // this.timeline.set(this.view, { autoAlpha: 1 });
-    this.timeline.set([this.title, this.subtitle, ...this.logos], {
-      autoAlpha: 0,
-      y: translateY,
-    });
-    this.timeline.to([this.title, this.subtitle, ...this.logos], {
+  _buildIntro() {
+    var tl = gsap.timeline({ id: this.LABELS.intro });
+    if (!this.animTargets.length) {
+      return tl;
+    }
+
+    tl.to(this.animTargets, {
       autoAlpha: 1,
       y: 0,
-      duration,
-      ease: ease.out,
-      stagger,
+      duration: this.options.duration,
+      stagger: this.options.stagger,
+      ease: this.options.ease.in,
     });
+    return tl;
   }
 
-  _buildOutroTimeline() {
-    if (!this.view || !this.logos.length) return;
+  _buildIdle() {
+    var tl = gsap.timeline({ id: this.LABELS.idle });
+    return tl;
+  }
 
-    const { duration, stagger, translateY, ease } = this.options;
+  _buildOutro() {
+    var tl = gsap.timeline({ id: this.LABELS.outro });
+    if (!this.animTargets.length) {
+      return tl;
+    }
 
-    this.timeline.clear();
-    this.timeline.addLabel("outro", ">");
-    this.timeline.set(this.view, { autoAlpha: 1 });
-    this.timeline.set(this.logos, { autoAlpha: 1, y: 0 });
-    this.timeline.to(this.logos, {
+    tl.to(this.animTargets, {
       autoAlpha: 0,
-      y: translateY * 0.5,
-      duration: duration * 0.8,
-      ease: ease.in,
-      stagger: Math.min(stagger, 0.1),
+      y: this.options.translateY,
+      duration: this.options.duration,
+      stagger: this.options.stagger,
+      ease: this.options.ease.out,
     });
+    return tl;
   }
 }

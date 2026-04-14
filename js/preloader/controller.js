@@ -44,17 +44,9 @@ import {
   startResourceObserver,
 } from "./resource-observer.js";
 import { initRulerIntro } from "/assets/js/choreography/managers/RulerIntroManager.js";
-import { initCurrentSectionIndicator } from "/assets/js/utils/current-section-indicator.js";
 import { ensureScrollSmoother } from "./scroll-smoother.js";
 
-let currentSectionIndicator = null;
 let rulerIntro = null;
-
-const ensureCurrentSectionIndicator = () => {
-  if (currentSectionIndicator) return currentSectionIndicator;
-  currentSectionIndicator = initCurrentSectionIndicator();
-  return currentSectionIndicator;
-};
 
 const ensureRulerIntro = () => {
   if (!rulerIntro) {
@@ -112,7 +104,6 @@ const createCleanup = ({
 };
 
 export const initPreloader = async () => {
-  const indicator = ensureCurrentSectionIndicator();
   const ruler = ensureRulerIntro();
 
   if (PRELOADER_ASSET.consoleImageEnabled) {
@@ -124,7 +115,6 @@ export const initPreloader = async () => {
 
   if (!preloader) {
     logger.warn(PRELOADER_CONTROLLER_MESSAGES.noPreloaderElement);
-    indicator?.refresh?.();
     ruler?.refresh?.();
     return;
   }
@@ -216,7 +206,6 @@ export const initPreloader = async () => {
         error,
       );
     } finally {
-      indicator?.refresh?.();
       ruler?.refresh?.();
     }
   }

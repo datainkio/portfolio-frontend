@@ -22,6 +22,10 @@ import { motion } from "../../config/motion.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
+const BIO_EL_ATTR = "data-bio-el";
+
+const selectBioEl = (view, name) =>
+  view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
 
 export default class BioAnimations extends AbstractSectionAnimations {
   /**
@@ -44,59 +48,92 @@ export default class BioAnimations extends AbstractSectionAnimations {
         in: options.ease?.in ?? motion.ease("exit"),
         out: options.ease?.out ?? motion.ease("enter"),
       },
-      ...options,
     };
 
     this.view = view;
-    this.heading = this.view?.querySelector("h2") || this.view;
-    this.body = this.view?.querySelector("p") || this.view;
-    gsap.set([this.heading, this.body], {
-      autoAlpha: 0,
-      y: this.options.translateY,
-    });
-    // this.originalText = this.view?.textContent || "";
-    // this._buildIntroTimeline();
-  }
+    // Using hook-based cached refs for key elements to simplify timeline definitions
+    this.elements = {
+      header: selectBioEl(this.view, "header") ?? this.view,
+      context: selectBioEl(this.view, "context"),
+      heading: selectBioEl(this.view, "heading") ?? this.view,
+      subheading: selectBioEl(this.view, "subheading"),
+      body: selectBioEl(this.view, "body") ?? this.view,
+    };
 
-  _buildIntroTimeline() {
-    this.timeline.clear();
-    this.addLifecycleLabel("intro", 0);
+    this.introTargets = [
+      this.elements.context,
+      this.elements.heading,
+      this.elements.subheading,
+      this.elements.body,
+    ].filter(Boolean);
 
-    this.timeline.fromTo(
-      [this.heading, this.body],
-      {
-        autoAlpha: 0,
+    if (this.introTargets.length) {
+      gsap.set(this.introTargets, {
+        autoAlpha: 0.5,
         y: this.options.translateY,
-      },
-      {
-        autoAlpha: 1,
-        y: 0,
-        duration: this.options.duration,
-        stagger: this.options.stagger,
-        ease: this.options.ease.in,
-      },
-    );
+      });
+    }
+    // this.originalText = this.view?.textContent || "";
+    this._buildTimeline();
   }
 
-  _buildOutroTimeline() {
-    this.timeline.clear();
-    this.addLifecycleLabel("outro", 0);
-    this.timeline.to([this.heading, this.body], {
+  _buildTimeline() {
+    super._buildTimeline();
+    if (!this.view || !this.options || !this.introTargets) return this.timeline;
+
+    this.timeline.add(this._buildIntro(), this.LABELS.enter);
+    this.timeline.add(this._buildIdle(), this.LABELS.idle);
+    this.timeline.add(this._buildOutro(), this.LABELS.leave);
+
+    return this.timeline;
+  }
+
+  _buildIntro() {
+    var tl = gsap.timeline({ id: "intro" });
+    if (!this.introTargets.length) {
+      return tl;
+    }
+
+    tl.to(this.introTargets, {
+      autoAlpha: 1,
+      y: 0,
+      duration: this.options.duration,
+      stagger: this.options.stagger,
+      ease: this.options.ease.in,
+    });
+    return tl;
+  }
+
+  _buildIdle() {
+    var tl = gsap.timeline({ id: "idle" });
+    return tl;
+  }
+  _buildOutro() {
+    var tl = gsap.timeline({ id: "outro" });
+
+    if (!this.introTargets.length) {
+      return tl;
+    }
+
+    tl.to(this.introTargets, {
       autoAlpha: 0,
       y: this.options.translateY,
       duration: this.options.duration,
       stagger: this.options.stagger,
       ease: this.options.ease.out,
     });
+
+    return tl;
   }
 
   intro() {
-    this._buildIntroTimeline();
-    return this.playFromLabel(this.labels.intro, 0);
+    if (!this.view) return;
+    console.log("Playing bio intro animation");
+    return this.play(this.LABELS.intro);
   }
 
   outro() {
-    this._buildOutroTimeline();
-    return this.playFromLabel(this.labels.outro, 0);
+    if (!this.view) return;
+    return this.play(this.LABELS.outro);
   }
 }

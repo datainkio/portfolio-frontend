@@ -214,9 +214,10 @@ import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/index.js';
 
 - **Purpose**: Biography section with text and image animations
 - **Lifecycle**: Standard intro → scroll triggers → outro
-- **Elements**: Biography text content and images
+- **Elements**: Hook-based targets via `data-bio-el` (`heading`, `subheading`, `body`)
 - **Events**: Emits `bio:intro:complete` when ready
-- **Dom Structure**: `<section id="bio" data-choreography="bio">`
+- **Dom Structure**: `<section id="bio" data-choreography="bio">` with stable child hooks (`data-bio-el="..."`)
+- **Note**: Context marker content (CurrentSectionTitle) should remain outside intro/outro target groups unless explicitly animated.
 
 ### Organizations (`sections/organizations/Organizations.js`)
 

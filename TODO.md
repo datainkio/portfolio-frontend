@@ -13,6 +13,7 @@ This file tracks frontend-wide backlog priorities.
 - [ ] FEAT: Diagram 11ty navigation system to support IA/content strategy and detect orphaned pages.
 - [ ] FEAT: Create automatic skip-links generator for 11ty sites with configurable element selection.
 - [ ] FEAT: Define and pilot a Choreography Auditor flow using browser automation checks (open page, trigger hero, scroll early, verify no stuck states).
+- [ ] TODO: Audit and standardize `aria-live` usage across the site (when to use `polite`, `off`, or no live region).
 
 ## Later / Parked
 

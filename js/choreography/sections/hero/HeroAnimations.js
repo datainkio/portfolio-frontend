@@ -18,7 +18,6 @@
 /** @format */
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-
 import { motion } from "../../config/motion.js";
 import { SplitText } from "/assets/js/choreography/vendor/gsap.js";
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
