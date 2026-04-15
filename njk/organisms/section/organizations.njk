@@ -1,0 +1,34 @@
+{% macro render(params = {}) %}
+  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
+  {% import "atoms/organization.njk" as Organization %}
+
+  {%- set sectionId = params.id | default("organizations") -%}
+  {%- set classes = params.classes | default("") -%}
+  {%- set heading = params.copy.heading -%}
+  {%- set subheading = params.copy.subheading -%}
+  {%- set body = params.copy.body -%}
+  {%- set order = params.order | default("") -%}
+
+  {%- set organizations = params.organizations | default([]) -%}
+
+  <section id="{{ sectionId }}" class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " data-scroll-section>
+    <header data-organizations-el="header" class="col-span-full">
+      <div data-organizations-el="context" class="text-sm col-span-full">
+        {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
+      </div>
+      <h2 data-organizations-el="heading" class="col-span-full">{{ heading }}</h2>
+      <p data-organizations-el="body" class="col-span-full">{{ body }}</p>
+    </header>
+    {% if organizations | length %}
+      <ul data-organizations-el="list" class="col-span-full grid grid-cols-2 gap-4">
+        {% for organization in organizations %}
+          <li data-organizations-el="organization">
+            {{ Organization.render(organization) }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="col-span-full">No organizations found.</p>
+    {% endif %}
+  </section>
+{% endmacro %}

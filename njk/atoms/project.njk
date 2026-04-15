@@ -1,5 +1,3 @@
-{{ project.title | default(project.name) | default('Untitled project') }}
-
 {% macro render(params = {}) %}
   {%- set title = params.title | default('Untitled project') -%}
   {{ title }}

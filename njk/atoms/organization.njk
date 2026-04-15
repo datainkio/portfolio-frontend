@@ -1,0 +1,4 @@
+{% macro render(params = {}) %}
+  {%- set title = params.title | default('Untitled organization') -%}
+  {{ title }}
+{% endmacro %}

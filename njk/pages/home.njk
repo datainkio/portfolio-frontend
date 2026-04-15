@@ -11,7 +11,9 @@
 {% import "organisms/section/bio.njk" as bioSection %}
 {% import "organisms/section/awards.njk" as awardsSection %}
 {% import "organisms/section/work.njk" as projectsSection %}
+{% import "organisms/section/organizations.njk" as organizationsSection %}
 
+{# Note that content values are set in frontmatter #}
 <!DOCTYPE html>
 <html lang="en" class="bg-slate-950">
     {% include "templates/partials/head.njk" %}
@@ -30,12 +32,13 @@
         <div id="smooth-wrapper">
             <div id="smooth-content">
                 <main
-                    id="page-main" aria-busy="true" class="space-y-48 grid grid-cols-12 text-neutral-100">
+                    id="page-main" aria-busy="true" class="px-4 space-y-48 grid grid-cols-12 text-neutral-100">
                     {# Note that content values are set in frontmatter #}
                     {{ heroSection.render( { id: "hero", tagline: hero.tagline }) }}
-                    {{ bioSection.render({id: "introduction", copy: value, classes: ""}) }}
-                    {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards, classes: "" }) }}
-                    {{ projectsSection.render({ id: "work", projects: collections.projects, classes:"" }) }}
+                    {{ bioSection.render({id: "introduction", copy: value, order: "1/4"}) }}
+                    {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards, order: "2/4" }) }}
+                    {{ projectsSection.render({ id: "work", projects: collections.projects, classes:"", order: "3/4" }) }}
+                    {{ organizationsSection.render({ id: "organizations", organizations: collections.organizations, classes:"", order: "4/4" }) }}
                 </main>
                 {{ Footer.render() }}
             </div>
