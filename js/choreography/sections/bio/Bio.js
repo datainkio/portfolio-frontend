@@ -23,7 +23,6 @@
  */
 
 import AbstractSection from "../abstract-section/AbstractSection.js";
-import { EVENTS } from "../../config/events.js";
 import { SELECTORS } from "../../config/index.js";
 import BioAnimations from "./BioAnimations.js";
 import BioTriggers from "./BioTriggers.js";
@@ -33,13 +32,12 @@ export default class Bio extends AbstractSection {
     const view = document.getElementById(SELECTORS.bio);
     const animations = new BioAnimations(view);
     const triggers = new BioTriggers(view);
-    const events = EVENTS.bio;
 
     super({
       view,
       animations,
       triggers,
-      events,
+      sectionKey: "bio",
       bus,
       reducedMotionHandler,
     });

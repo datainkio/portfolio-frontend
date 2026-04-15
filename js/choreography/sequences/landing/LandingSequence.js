@@ -245,17 +245,17 @@ export class LandingSequence {
 
     // Respond to hero intro start
     on(EVENTS.hero.enter, () => {
-      this.logger.trace(SELECTORS.hero + " entered");
+      // this.logger.trace(SELECTORS.hero + " entered");
       // this._applySectionArrangement(SELECTORS.hero);
     });
 
     on(EVENTS.hero.exit, () => {
-      this.logger.trace(SELECTORS.hero + " exited");
+      // this.logger.trace(SELECTORS.hero + " exited");
     });
 
     // Respond to hero intro start
     on(EVENTS.hero.introStart, () => {
-      this.logger.trace(SELECTORS.hero + " intro started");
+      // this.logger.trace(SELECTORS.hero + " intro started");
       // this._applySectionArrangement("hero");
     });
 
@@ -350,21 +350,21 @@ export class LandingSequence {
     // Respond to bio intro start
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
-      // this._applySectionArrangement(SELECTORS.bio);
+      /// this._applySectionArrangement(SELECTORS.bio);
     });
 
     on(EVENTS.bio.exit, () => {
-      // this.logger.trace(SELECTORS.bio + " exited");
+      this.logger.trace(SELECTORS.bio + " exited");
     });
 
     // Respond to bio intro start
     on(EVENTS.bio.introStart, () => {
-      // this.logger.trace(SELECTORS.bio + " intro started");
+      this.logger.trace(SELECTORS.bio + " intro started");
     });
 
     // Respond to bio intro complete
     on(EVENTS.bio.introComplete, () => {
-      // this.logger.trace(SELECTORS.bio + " intro complete");
+      this.logger.trace(SELECTORS.bio + " intro complete");
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();
@@ -372,12 +372,12 @@ export class LandingSequence {
 
     // Respond to bio outro start
     on(EVENTS.bio.outroStart, () => {
-      // this.logger.trace(SELECTORS.bio + " outro started");
+      this.logger.trace(SELECTORS.bio + " outro started");
     });
 
     // Respond to bio outro complete
     on(EVENTS.bio.outroComplete, () => {
-      // this.logger.trace(SELECTORS.bio + " outro complete");
+      this.logger.trace(SELECTORS.bio + " outro complete");
     });
 
     /**

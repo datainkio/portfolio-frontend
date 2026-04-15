@@ -16,7 +16,6 @@
  * ---
  */
 import AbstractSection from "../abstract-section/AbstractSection.js";
-import { EVENTS } from "../../config/events.js";
 import { SELECTORS } from "../../config/index.js";
 import BackgroundVideoAnimations from "./BackgroundVideoAnimations.js";
 import BackgroundVideoTriggers from "./BackgroundVideoTriggers.js";
@@ -26,13 +25,12 @@ export default class BackgroundVideo extends AbstractSection {
     const view = document.getElementById(SELECTORS.video);
     const animations = new BackgroundVideoAnimations(view);
     const triggers = new BackgroundVideoTriggers(view);
-    const events = EVENTS.video;
 
     super({
       view,
       animations,
       triggers,
-      events,
+      sectionKey: "video",
       bus,
       reducedMotionHandler,
     });

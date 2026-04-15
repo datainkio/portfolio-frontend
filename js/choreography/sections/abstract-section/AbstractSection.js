@@ -33,6 +33,7 @@
 import AbstractSectionAnimations from "./AbstractSectionAnimations.js";
 import AbstractSectionTriggers from "./AbstractSectionTriggers.js";
 import NullAnimationBus from "../../NullAnimationBus.js";
+import { EVENTS } from "../../config/events.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 export default class AbstractSection {
@@ -46,7 +47,7 @@ export default class AbstractSection {
    * @param {HTMLElement} options.view - DOM element for the section
    * @param {AbstractSectionAnimations} options.animations - Animation module instance
    * @param {AbstractSectionTriggers} options.triggers - Triggers module instance
-   * @param {Object} options.events - Event name mapping (e.g., EVENTS.hero)
+   * @param {string} options.sectionKey - Section key that maps to EVENTS config (e.g., 'hero')
    * @param {AnimationBus} options.bus - Event bus for coordination (optional)
    * @param {ReducedMotionHandler} options.reducedMotionHandler - Motion preference handler (optional)
    */
@@ -54,7 +55,7 @@ export default class AbstractSection {
     view,
     animations,
     triggers,
-    events,
+    sectionKey,
     bus,
     reducedMotionHandler,
   } = {}) {
@@ -64,6 +65,7 @@ export default class AbstractSection {
     });
 
     this.view = view;
+    this.sectionKey = sectionKey;
     this.isDisabled = !view;
     this.bus = bus ?? new NullAnimationBus();
     this._reducedMotionHandler = reducedMotionHandler;
@@ -74,7 +76,7 @@ export default class AbstractSection {
       return;
     }
 
-    this.events = events || {};
+    this.events = EVENTS?.[sectionKey] ?? {};
     // Use provided modules; fall back to defaults
     this.triggers = triggers ?? new AbstractSectionTriggers(this.view);
     this.animations = animations ?? new AbstractSectionAnimations(this.view);

@@ -23,7 +23,6 @@
  */
 
 import AbstractSection from "../abstract-section/AbstractSection.js";
-import { EVENTS } from "../../config/events.js";
 import { SELECTORS } from "../../config/index.js";
 import AwardsAnimations from "./AwardsAnimations.js";
 import AwardsTriggers from "./AwardsTriggers.js";
@@ -33,13 +32,12 @@ export default class Awards extends AbstractSection {
     const view = document.getElementById(SELECTORS.awards);
     const animations = new AwardsAnimations(view);
     const triggers = new AwardsTriggers(view);
-    const events = EVENTS.awards;
 
     super({
       view,
       animations,
       triggers,
-      events,
+      sectionKey: "awards",
       bus,
       reducedMotionHandler,
     });

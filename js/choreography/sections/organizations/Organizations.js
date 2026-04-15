@@ -23,7 +23,6 @@
  */
 
 import AbstractSection from "../abstract-section/AbstractSection.js";
-import { EVENTS } from "../../config/events.js";
 import { SELECTORS } from "../../config/index.js";
 import OrganizationsAnimations from "./OrganizationsAnimations.js";
 import OrganizationsTriggers from "./OrganizationsTriggers.js";
@@ -33,8 +32,14 @@ export default class Organizations extends AbstractSection {
     const view = document.getElementById(SELECTORS.organizations);
     const anim = new OrganizationsAnimations(view);
     const triggers = new OrganizationsTriggers(view);
-    const events = EVENTS.organizations;
 
-    super(view, anim, triggers, events, bus, { reducedMotionHandler });
+    super({
+      view,
+      animations: anim,
+      triggers,
+      sectionKey: "organizations",
+      bus,
+      reducedMotionHandler,
+    });
   }
 }
