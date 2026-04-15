@@ -1,5 +1,7 @@
 {% macro render(params = {}) %}
-  {%- set logo = params.logo | default('/assets/images/logos/default.svg') -%}
-  {%- set organization = params.organization | default('Organization') -%}
-  {%- set title = params.title | default('Untitled award') -%} <img src="{{ logo }}" alt="{{ organization }}: {{ title }}" class="awards-list__logo" loading="lazy" decoding="async"/>
+  {%- set organizationRecord = params.organization | default({}) -%}
+  {%- set organizationTitle = organizationRecord.title | default(params.organizationName) | default(params.organization) | default('Organization') -%}
+  {%- set title = params.title | default('Untitled award') -%}
+  {%- set logo = organizationRecord.logo.asset.url | default(params.logo) | default('/assets/images/logos/default.svg') -%}
+  {%- set logoAlt = organizationRecord.logo.alt | default(organizationTitle ~ ': ' ~ title) -%} <img src="{{ logo }}" alt="{{ logoAlt }}" class="awards-list__logo" loading="lazy" decoding="async"/>
 {% endmacro %}
