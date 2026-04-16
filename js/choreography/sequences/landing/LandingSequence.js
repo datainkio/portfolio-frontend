@@ -29,6 +29,7 @@
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "../../config/events.js";
 import { SELECTORS } from "../../config/index.js";
+import { LABELS } from "../../config/labels.js";
 import {
   GEL_ARRANGEMENTS,
   SECTION_TO_GEL_ARRANGEMENT,
@@ -124,46 +125,6 @@ export class LandingSequence {
     this.state.isStarted = false;
     this.state.isComplete = false;
     this.state.heroIntroRequested = false;
-  }
-
-  /**
-   * Limit hero animation to once per session
-   *
-   * @private
-   * @param {*} source - The source triggering the hero intro
-   */
-  _startHeroIntroOnce(source) {
-    this.logger.trace(`Attempting to start Hero intro from ${source}`);
-    if (this.state.heroIntroRequested) return;
-
-    const hero = this.sections?.hero;
-    const heroTimeline = hero?.animations?.timeline;
-    const heroIntroAlreadyRunning = Boolean(heroTimeline?.isActive?.());
-    const heroIntroAlreadyComplete = Boolean(hero?.isIntroComplete);
-
-    if (heroIntroAlreadyRunning || heroIntroAlreadyComplete) {
-      this.state.heroIntroRequested = true;
-      this.logger.trace(
-        `Skipping Hero intro from ${source} (already running or complete)`,
-      );
-      return;
-    }
-
-    this.state.heroIntroRequested = true;
-
-    this.logger.trace(`Starting Hero intro from ${source}`);
-    const playPromise = hero?.playLanding?.();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch((error) => {
-        this.logger.trace(
-          `Hero intro failed from ${source}`,
-          error,
-          "verbose",
-          "error",
-        );
-        this.state.heroIntroRequested = false;
-      });
-    }
   }
 
   /**
@@ -288,8 +249,8 @@ export class LandingSequence {
 
     // Expected UX sequencing: Hero begins only after BG Video intro finishes.
     on(EVENTS.video.introComplete, () => {
-      // this.logger.trace("BG Video intro complete");
-      this._startHeroIntroOnce(EVENTS.video.introComplete);
+      this.logger.trace("BG Video intro complete");
+      this.sections?.hero?.play(this.LABELS.intro);
     });
 
     // Respond to video outro start

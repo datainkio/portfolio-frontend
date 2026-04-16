@@ -34,6 +34,7 @@ import AbstractSectionAnimations from "./AbstractSectionAnimations.js";
 import AbstractSectionTriggers from "./AbstractSectionTriggers.js";
 import NullAnimationBus from "../../NullAnimationBus.js";
 import { EVENTS } from "../../config/events.js";
+import { SECTION_BEHAVIOR } from "../../config/sections.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 export default class AbstractSection {
@@ -66,6 +67,10 @@ export default class AbstractSection {
 
     this.view = view;
     this.sectionKey = sectionKey;
+    this.behavior = {
+      ...(SECTION_BEHAVIOR?.default ?? {}),
+      ...(SECTION_BEHAVIOR?.[sectionKey] ?? {}),
+    };
     this.isDisabled = !view;
     this.bus = bus ?? new NullAnimationBus();
     this._reducedMotionHandler = reducedMotionHandler;
@@ -113,12 +118,20 @@ export default class AbstractSection {
     if (this._isInView) return;
     this._isInView = true;
     this._emit(this.events.enter, { element: this.view });
+
+    if (this.behavior.autoPlayIntroOnEnter) {
+      void this.playIntro();
+    }
   }
 
   _onLeave() {
     if (!this._isInView) return;
     this._isInView = false;
     this._emit(this.events.exit, { element: this.view });
+
+    if (this.behavior.autoPlayOutroOnLeave) {
+      void this.playOutro();
+    }
   }
 
   _onEnterBack() {

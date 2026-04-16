@@ -1,5 +1,10 @@
 # Choreography Config Package
 
+`sections.js` exposes `SECTION_BEHAVIOR`, which currently supports:
+
+- `autoPlayIntroOnEnter`: automatically runs `section.playIntro()` when a section enters the viewport.
+- `autoPlayOutroOnLeave`: automatically runs `section.playOutro()` when a section leaves the viewport.
+
 ```mermaid
 flowchart TB
   subgraph CFG[frontend/js/choreography/config]
@@ -11,6 +16,7 @@ flowchart TB
     PTH[paths.js\nASSET_PATHS]
     SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nBIO_TRIGGER]
     SEL[selectors.js\nSELECTORS]
+    SEC[sections.js\nSECTION_BEHAVIOR]
   end
 
   IDX --> ACC
@@ -20,6 +26,7 @@ flowchart TB
   IDX --> PTH
   IDX --> SCR
   IDX --> SEL
+  IDX --> SEC
 
   subgraph EXT[External Consumers]
     BUS[AnimationBus / sections / managers]
@@ -31,6 +38,7 @@ flowchart TB
   BUS --> ARR
   BUS --> MOT
   BUS --> SEL
+  BUS --> SEC
   GSAP --> MOT
   ENTRY --> IDX
 ```

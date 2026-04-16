@@ -48,3 +48,4 @@ export * from "./ruler.js";
 export * from "./scrolltriggers.js";
 export * from "./selectors.js";
 export * from "./labels.js";
+export * from "./sections.js";

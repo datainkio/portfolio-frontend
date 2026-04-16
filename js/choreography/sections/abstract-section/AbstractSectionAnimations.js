@@ -30,12 +30,14 @@ const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 const DURATION = toSeconds(motion.duration("base")); // Default duration for animations
 const STAGGER = motion.stagger("base"); // Default stagger duration for animations
 const EASE = motion.ease("standard"); // Default easing for animations
+// const TIMELINE = gsap.timeline({ paused: true }); // Base timeline instance with default settings
+
 export default class AbstractSectionAnimations {
   /**
    * @param {HTMLElement|null} view - Target element for animations
    * @param {string} sectionId - Section identifier (e.g., 'main-header')
    */
-  constructor(view) {
+  constructor(view, options = {}) {
     this.view = view;
     this.timeline = gsap.timeline({ paused: true }); // init timeline instance
     this.DURATION = DURATION; // Default duration for animations
@@ -70,33 +72,25 @@ export default class AbstractSectionAnimations {
     if (!this.view) {
       return this.timeline;
     }
+
     this.timeline.clear();
     Object.values(this.LABELS).forEach((label) => {
       this.timeline.addLabel(label);
-      // this.timeline.addPause(label);
     });
 
-    // Descendants should add animations to the timeline in the appropriate label sections
+    this.timeline.add(
+      gsap.timeline({ id: this.LABELS.intro }),
+      this.LABELS.intro,
+    );
+    this.timeline.add(
+      gsap.timeline({ id: this.LABELS.idle }),
+      this.LABELS.idle,
+    );
+    this.timeline.add(
+      gsap.timeline({ id: this.LABELS.leave }),
+      this.LABELS.leave,
+    );
+
     return this.timeline;
-  }
-
-  landing() {
-    return this.play(this.LABELS.landing);
-  }
-
-  /**
-   * Intro animation sequence. Descendants should override for custom behavior.
-   * @returns {Promise<void>} Resolves when intro animation completes.
-   */
-  intro() {
-    return this.play(this.LABELS.enter);
-  }
-
-  /**
-   * Outro animation sequence. Descendants should override for custom behavior.
-   * @returns {Promise<void>} Resolves when outro animation completes.
-   */
-  outro() {
-    return this.play(this.LABELS.leave);
   }
 }

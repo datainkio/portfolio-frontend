@@ -57,18 +57,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     });
 
     this._split = null;
-    this._buildTimeline();
-  }
-
-  _buildTimeline() {
-    super._buildTimeline();
-    if (!this.view || !this.title) return;
-
-    this.timeline.add(this._buildLanding(), this.LABELS.landing);
-    this.timeline.add(this._buildIntro(), this.LABELS.enter);
-    this.timeline.add(this._buildOutro(), this.LABELS.leave);
-
-    return this.timeline;
+    // this._buildTimeline();
   }
 
   _buildLanding() {
@@ -79,7 +68,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
       wordsClass: "block w-full",
     });
 
-    var tl = gsap.timeline({ id: "landing" });
+    var tl = gsap.timeline({ id: this.LABELS.landing });
     tl.set(this.view, {
       width: "100%",
       backgroundColor: "transparent",
@@ -101,7 +90,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _buildIntro() {
-    var tl = gsap.timeline({ id: "intro" }).set(this.view, {
+    var tl = gsap.timeline({ id: this.LABELS.intro }).set(this.view, {
       clipPath: "none",
       webkitClipPath: "none",
       autoAlpha: 1,
@@ -110,7 +99,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _buildOutro() {
-    var tl = gsap.timeline({ id: "outro" }).set(
+    var tl = gsap.timeline({ id: this.LABELS.outro }).set(
       this.view,
       {
         clipPath: "none",

@@ -39,18 +39,6 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
       prefix: "",
       color: "#CCC59D",
     });
-
-    this.setDefault(options);
-  }
-
-  async setDefault(options = {}) {
-    const collapsedClip = "inset(50% 0 50% 0)"; // zero-height strip
-
-    super.setDefault({
-      clipPath: collapsedClip,
-      webkitClipPath: collapsedClip,
-      ...options,
-    });
   }
 
   /**
@@ -95,14 +83,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     await this._loadVideo();
     // Play video when intro animation completes
     // this.timeline.eventCallback("onComplete", () => this._playVideo());
-    return super.intro();
-  }
-
-  _buildTimeline() {
-    super._buildTimeline();
-    this.timeline.add(this._buildIntro(), this.LABELS.enter);
-    this.timeline.add(this._buildOutro(), this.LABELS.leave);
-    return this.timeline;
+    return; // super.intro();
   }
 
   _playVideo() {
@@ -114,7 +95,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   _buildIntro() {
     const collapsedClip = "inset(50% 0 50% 0)";
     const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
-    var tl = gsap.timeline({ id: "intro" });
+    var tl = gsap.timeline({ id: this.LABELS.intro });
     tl.fromTo(
       this.view,
       { autoAlpha: 0 },
@@ -131,21 +112,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   _buildOutro() {
     const collapsedClip = "inset(50% 0 50% 0)";
     const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
-    var tl = gsap.timeline({ id: "outro" });
-    // .fromTo(
-    //   this.view,
-    //   {
-    //     clipPath: targetClip,
-    //     webkitClipPath: targetClip,
-    //     autoAlpha: 1,
-    //   },
-    //   {
-    //     clipPath: collapsedClip,
-    //     webkitClipPath: collapsedClip,
-    //     autoAlpha: 0,
-    //     duration: this.DURATION,
-    //   },
-    // );
+    var tl = gsap.timeline({ id: this.LABELS.leave });
     return tl;
   }
 
@@ -154,6 +121,6 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     if (this.videoEl) {
       this.videoEl.pause();
     }
-    return super.outro();
+    return;
   }
 }

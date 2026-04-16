@@ -19,6 +19,7 @@
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import { motion } from "../../config/motion.js";
+import { LABELS } from "../../config/labels.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
@@ -39,7 +40,8 @@ export default class BioAnimations extends AbstractSectionAnimations {
    * @param {Object} options
    */
   constructor(view, options = {}) {
-    super(view);
+    super(view, options);
+
     this.options = {
       duration: options.duration ?? toSeconds(motion.duration("base")),
       stagger: options.stagger ?? motion.stagger("loose"),
@@ -50,51 +52,25 @@ export default class BioAnimations extends AbstractSectionAnimations {
       },
     };
 
-    this.view = view;
-    // Using hook-based cached refs for key elements to simplify timeline definitions
-    this.elements = {
-      header: selectBioEl(this.view, "header") ?? this.view,
-      context: selectBioEl(this.view, "context"),
-      heading: selectBioEl(this.view, "heading") ?? this.view,
-      subheading: selectBioEl(this.view, "subheading"),
-      body: selectBioEl(this.view, "body") ?? this.view,
-    };
-
-    this.introTargets = [
-      this.elements.context,
-      this.elements.heading,
-      this.elements.subheading,
-      this.elements.body,
+    this.animTargets = [
+      selectBioEl(this.view, "context"),
+      selectBioEl(this.view, "heading"),
+      selectBioEl(this.view, "subheading"),
+      selectBioEl(this.view, "body"),
     ].filter(Boolean);
 
-    if (this.introTargets.length) {
-      gsap.set(this.introTargets, {
-        autoAlpha: 0.5,
+    if (this.animTargets.length) {
+      gsap.set(this.animTargets, {
+        autoAlpha: 0,
         y: this.options.translateY,
       });
     }
-    // this.originalText = this.view?.textContent || "";
-    this._buildTimeline();
-  }
-
-  _buildTimeline() {
-    super._buildTimeline();
-    if (!this.view || !this.options || !this.introTargets) return this.timeline;
-
-    this.timeline.add(this._buildIntro(), this.LABELS.enter);
-    this.timeline.add(this._buildIdle(), this.LABELS.idle);
-    this.timeline.add(this._buildOutro(), this.LABELS.leave);
-
-    return this.timeline;
   }
 
   _buildIntro() {
-    var tl = gsap.timeline({ id: "intro" });
-    if (!this.introTargets.length) {
-      return tl;
-    }
-
-    tl.to(this.introTargets, {
+    // Build the timelines for intro, idle, and outro states
+    var tl = gsap.timeline({ id: this.LABELS.intro });
+    tl.to(this.animTargets, {
       autoAlpha: 1,
       y: 0,
       duration: this.options.duration,
@@ -105,35 +81,21 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _buildIdle() {
-    var tl = gsap.timeline({ id: "idle" });
+    var tl = gsap.timeline({ id: this.LABELS.idle });
     return tl;
   }
   _buildOutro() {
-    var tl = gsap.timeline({ id: "outro" });
-
-    if (!this.introTargets.length) {
+    var tl = gsap.timeline({ id: this.LABELS.leave });
+    if (!this.animTargets.length) {
       return tl;
     }
-
-    tl.to(this.introTargets, {
+    tl.to(this.animTargets, {
       autoAlpha: 0,
       y: this.options.translateY,
       duration: this.options.duration,
       stagger: this.options.stagger,
       ease: this.options.ease.out,
     });
-
     return tl;
-  }
-
-  intro() {
-    if (!this.view) return;
-    console.log("Playing bio intro animation");
-    return this.play(this.LABELS.intro);
-  }
-
-  outro() {
-    if (!this.view) return;
-    return this.play(this.LABELS.outro);
   }
 }
