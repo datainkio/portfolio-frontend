@@ -20,10 +20,12 @@
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { motion } from "../../config/motion.js";
+import { motion } from "../../config/ix/motion.js";
+import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 const AWARDS_EL_ATTR = "data-awards-el";
+
 const selectAwardsEl = (view, name) =>
   view?.querySelector(`[${AWARDS_EL_ATTR}="${name}"]`) ?? null;
 
@@ -56,6 +58,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     };
 
     this.view = view;
+
     // Using hook-based cached refs for key elements to simplify timeline definitions
     this.elements = {
       header: selectAwardsEl(this.view, "header") ?? this.view,
@@ -86,13 +89,13 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   intro() {
     this.logger.trace("Intro started");
     if (!this.view) return;
-    return this.play(this.LABELS.intro);
+    return this.play(TIMELINE_IDS.intro);
   }
 
   outro() {
     this.logger.trace("Outro started");
     if (!this.view) return;
-    return this.play(this.LABELS.outro);
+    return this.play(TIMELINE_IDS.outro);
   }
 
   _getLogos() {
@@ -100,19 +103,8 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     return this.elements.awards ? [this.elements.awards] : [];
   }
 
-  _buildTimeline() {
-    super._buildTimeline();
-    if (!this.view || !this.options) return this.timeline;
-
-    this.timeline.add(this._buildIntro(), this.LABELS.enter);
-    this.timeline.add(this._buildIdle(), this.LABELS.idle);
-    this.timeline.add(this._buildOutro(), this.LABELS.leave);
-
-    return this.timeline;
-  }
-
   _buildIntro() {
-    var tl = gsap.timeline({ id: this.LABELS.intro });
+    var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
     if (!this.animTargets.length) {
       return tl;
     }
@@ -123,17 +115,17 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
       duration: this.options.duration,
       stagger: this.options.stagger,
       ease: this.options.ease.in,
-    });
+    }).addPause();
     return tl;
   }
 
   _buildIdle() {
-    var tl = gsap.timeline({ id: this.LABELS.idle });
+    var tl = gsap.timeline({ id: TIMELINE_IDS.idle });
     return tl;
   }
 
   _buildOutro() {
-    var tl = gsap.timeline({ id: this.LABELS.outro });
+    var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
     if (!this.animTargets.length) {
       return tl;
     }
@@ -144,7 +136,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
       duration: this.options.duration,
       stagger: this.options.stagger,
       ease: this.options.ease.out,
-    });
+    }).addPause();
     return tl;
   }
 }

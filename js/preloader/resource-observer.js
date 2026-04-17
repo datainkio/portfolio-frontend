@@ -60,7 +60,7 @@ const extractExt = (url) => {
 };
 
 export const startResourceObserver = (onExtensionSeen, trace = () => {}) => {
-  trace(PRELOADER_RESOURCE_MESSAGES.preparing);
+  // trace(PRELOADER_RESOURCE_MESSAGES.preparing);
 
   if (
     !(PRELOADER_RESOURCE_OBSERVER.performanceObserverApi in window) ||

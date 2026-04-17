@@ -16,7 +16,7 @@
  * ---
  */
 
-import { EVENTS } from "/assets/js/choreography/config/events.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
 import { animateExit, animateIntro } from "./animations.js";
 import {
   PRELOADER_ASSET,
@@ -74,7 +74,7 @@ const createCleanup = ({
 
     try {
       stopObserver();
-      trace(PRELOADER_CONTROLLER_MESSAGES.resourceObserverStopped);
+      // trace(PRELOADER_CONTROLLER_MESSAGES.resourceObserverStopped);
     } catch (error) {
       warn(PRELOADER_CONTROLLER_MESSAGES.resourceObserverCleanupFailed, error);
     }
@@ -83,23 +83,23 @@ const createCleanup = ({
       if (preloader && preloader.isConnected) {
         preloader.remove();
       }
-      trace(PRELOADER_CONTROLLER_MESSAGES.preloaderElementRemoved);
+      // trace(PRELOADER_CONTROLLER_MESSAGES.preloaderElementRemoved);
     } catch (error) {
       warn(PRELOADER_CONTROLLER_MESSAGES.preloaderElementCleanupFailed, error);
     }
 
     try {
       restoreState();
-      trace(PRELOADER_CONTROLLER_MESSAGES.scrollPositionRestored);
+      // trace(PRELOADER_CONTROLLER_MESSAGES.scrollPositionRestored);
     } catch (error) {
       warn(PRELOADER_CONTROLLER_MESSAGES.scrollStateRestorationFailed, error);
     }
 
     markMainReady(main);
-    trace(PRELOADER_CONTROLLER_MESSAGES.mainContentReady);
+    // trace(PRELOADER_CONTROLLER_MESSAGES.mainContentReady);
 
     hydrateDeferredVideos(warn);
-    trace(PRELOADER_CONTROLLER_MESSAGES.deferredVideosHydrated);
+    // trace(PRELOADER_CONTROLLER_MESSAGES.deferredVideosHydrated);
   };
 };
 
@@ -119,14 +119,14 @@ export const initPreloader = async () => {
     return;
   }
 
-  logger.trace(PRELOADER_CONTROLLER_MESSAGES.domFound);
+  // logger.trace(PRELOADER_CONTROLLER_MESSAGES.domFound);
 
   const prefersReduce = window.matchMedia(
     PRELOADER_MEDIA_QUERIES.reducedMotion,
   ).matches;
-  logger.trace(
-    `${PRELOADER_CONTROLLER_MESSAGES.reducedMotionPreferencePrefix}${prefersReduce}`,
-  );
+  // logger.trace(
+  //   `${PRELOADER_CONTROLLER_MESSAGES.reducedMotionPreferencePrefix}${prefersReduce}`,
+  // );
 
   const restoreState = lockScrollAndCaptureState();
 
@@ -161,7 +161,7 @@ export const initPreloader = async () => {
   });
 
   try {
-    logger.trace(PRELOADER_CONTROLLER_MESSAGES.initializationComplete);
+    // logger.trace(PRELOADER_CONTROLLER_MESSAGES.initializationComplete);
 
     animateIntro({
       stack,
@@ -169,13 +169,13 @@ export const initPreloader = async () => {
       trace: logger.trace,
     });
 
-    logger.trace(PRELOADER_CONTROLLER_MESSAGES.loadingReadiness);
+    // logger.trace(PRELOADER_CONTROLLER_MESSAGES.loadingReadiness);
     await waitForPreloaderReadiness({
       directorReady,
       trace: logger.trace,
     });
 
-    logger.trace(PRELOADER_CONTROLLER_MESSAGES.directorReady);
+    //  logger.trace(PRELOADER_CONTROLLER_MESSAGES.directorReady);
     await animateExit({
       preloader,
       stack,
@@ -188,7 +188,7 @@ export const initPreloader = async () => {
       },
     });
 
-    logger.trace(PRELOADER_CONTROLLER_MESSAGES.exitComplete);
+    // logger.trace(PRELOADER_CONTROLLER_MESSAGES.exitComplete);
   } catch (error) {
     logger.warn(PRELOADER_CONTROLLER_MESSAGES.flowFailed, error);
   } finally {

@@ -33,8 +33,9 @@
 import AbstractSectionAnimations from "./AbstractSectionAnimations.js";
 import AbstractSectionTriggers from "./AbstractSectionTriggers.js";
 import NullAnimationBus from "../../NullAnimationBus.js";
-import { EVENTS } from "../../config/events.js";
-import { SECTION_BEHAVIOR } from "../../config/sections.js";
+import { EVENTS } from "../../config/contracts/events.js";
+import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
+import PromiseResolverQueue from "../../utils/PromiseResolverQueue.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 export default class AbstractSection {
@@ -67,14 +68,15 @@ export default class AbstractSection {
 
     this.view = view;
     this.sectionKey = sectionKey;
-    this.behavior = {
-      ...(SECTION_BEHAVIOR?.default ?? {}),
-      ...(SECTION_BEHAVIOR?.[sectionKey] ?? {}),
-    };
     this.isDisabled = !view;
     this.bus = bus ?? new NullAnimationBus();
     this._reducedMotionHandler = reducedMotionHandler;
+    // _isInView is used as a de-dup guard to prevent repeated enter/exit emissions and repeated auto-play
+    // calls when ScrollTrigger callbacks fire in quick succession or from back-direction callbacks.
     this._isInView = false;
+    this._landing = new PromiseResolverQueue();
+    this._intro = new PromiseResolverQueue();
+    this._outro = new PromiseResolverQueue();
 
     if (this.isDisabled) {
       this.logger.trace("element not found; section disabled");
@@ -86,12 +88,16 @@ export default class AbstractSection {
     this.triggers = triggers ?? new AbstractSectionTriggers(this.view);
     this.animations = animations ?? new AbstractSectionAnimations(this.view);
 
+    const isReducedMotion = Boolean(
+      this._reducedMotionHandler?.isReducedMotion(),
+    );
+    this._bindCallbacks({ includeTriggers: !isReducedMotion });
+
     // Respect reduced motion: skip intro and apply end state immediately.
-    if (this._reducedMotionHandler?.isReducedMotion()) {
+    if (isReducedMotion) {
       this._applyPostIntroState();
       return;
     }
-    this._bindCallbacks();
 
     // Keep parity with other sections for trigger/section coordination.
     if (this.triggers) {
@@ -118,20 +124,14 @@ export default class AbstractSection {
     if (this._isInView) return;
     this._isInView = true;
     this._emit(this.events.enter, { element: this.view });
-
-    if (this.behavior.autoPlayIntroOnEnter) {
-      void this.playIntro();
-    }
+    this.playIntro();
   }
 
   _onLeave() {
     if (!this._isInView) return;
     this._isInView = false;
     this._emit(this.events.exit, { element: this.view });
-
-    if (this.behavior.autoPlayOutroOnLeave) {
-      void this.playOutro();
-    }
+    this.playOutro();
   }
 
   _onEnterBack() {
@@ -143,105 +143,74 @@ export default class AbstractSection {
   }
 
   _onIntroStart() {
-    this.isIntroComplete = false;
     this._emit(this.events.introStart, { element: this.view });
   }
 
   _onIntroComplete() {
-    this.isIntroComplete = true;
     this._emit(this.events.introComplete, { element: this.view });
   }
 
   _onOutroStart() {
-    this.isOutroComplete = false;
     this._emit(this.events.outroStart, { element: this.view });
   }
 
   _onOutroComplete() {
-    this.isOutroComplete = true;
     this._emit(this.events.outroComplete, { element: this.view });
   }
 
-  /**
-   * Play landing animation
-   *
-   * Executes landing timeline and emits coordination events.
-   * Emits landing:start immediately, landing:complete when finished.
-   *
-   * @returns {Promise<void>} Resolves when animation completes
-   */
-  async playLanding() {
-    if (this.isDisabled) return Promise.resolve();
-    return new Promise((resolve) => {
-      const tl = this.animations.timeline.getById("landing");
-      if (!tl) return resolve();
+  _getTimelineOrWarn(timelineId, source) {
+    const tl =
+      this.animations?.getTimeline?.(timelineId) ??
+      this.animations?.timeline?.getById?.(timelineId);
+    if (tl) return tl;
 
-      tl.eventCallback("onStart", () => this._onLandingStart());
-      tl.eventCallback("onComplete", () => {
+    this.logger.trace("Missing required animation timeline", {
+      sectionKey: this.sectionKey,
+      timelineId,
+      source,
+    });
+    return null;
+  }
+
+  // Map trigger and timeline callbacks to standardized AnimationBus events.
+  _bindCallbacks({ includeTriggers = true } = {}) {
+    const bindLifecycle = (timelineId, onStart, onComplete) => {
+      const tl = this._getTimelineOrWarn(timelineId, "_bindCallbacks");
+      if (!tl) return;
+
+      tl.eventCallback("onStart", onStart);
+      tl.eventCallback("onComplete", onComplete);
+      tl.eventCallback("onReverseComplete", null);
+    };
+
+    bindLifecycle(
+      TIMELINE_IDS.landing,
+      () => this._onLandingStart(),
+      () => {
         this._onLandingComplete();
-        resolve();
-      });
-      tl.eventCallback("onReverseComplete", null);
+        this._landing.flush();
+      },
+    );
 
-      this.animations.landing();
-    });
-  }
-
-  /**
-   * Play intro animation
-   *
-   * Executes intro timeline and emits coordination events.
-   * Emits intro:start immediately, intro:complete when finished.
-   *
-   * @returns {Promise<void>} Resolves when animation completes
-   */
-  async playIntro() {
-    if (this.isDisabled) return Promise.resolve();
-
-    return new Promise((resolve) => {
-      const tl = this.animations.timeline.getById("intro");
-      if (!tl) return resolve();
-
-      tl.eventCallback("onStart", () => this._onIntroStart());
-      tl.eventCallback("onComplete", () => {
+    bindLifecycle(
+      TIMELINE_IDS.intro,
+      () => this._onIntroStart(),
+      () => {
         this._onIntroComplete();
-        resolve();
-      });
-      tl.eventCallback("onReverseComplete", null);
+        this._intro.flush();
+      },
+    );
 
-      this.animations.intro();
-    });
-  }
-
-  /**
-   * Play outro animation
-   *
-   * Reverses timeline and emits coordination events.
-   * For scroll-based outros, may just emit events while ScrollTrigger handles animation.
-   *
-   * @returns {Promise<void>} Resolves when animation completes
-   */
-  async playOutro() {
-    if (this.isDisabled) return Promise.resolve();
-
-    return new Promise((resolve) => {
-      const tl = this.animations.timeline.getById("outro");
-      if (!tl) return resolve();
-
-      tl.eventCallback("onStart", () => this._onOutroStart());
-      tl.eventCallback("onComplete", () => {
+    bindLifecycle(
+      TIMELINE_IDS.outro,
+      () => this._onOutroStart(),
+      () => {
         this._onOutroComplete();
-        resolve();
-      });
-      tl.eventCallback("onReverseComplete", null);
+        this._outro.flush();
+      },
+    );
 
-      this.animations.outro();
-    });
-  }
-
-  // Map GSAP timeline callbacks to standardized AnimationBus events.
-  _bindCallbacks() {
-    if (!this.triggers) return;
+    if (!includeTriggers || !this.triggers) return;
 
     this.triggers.bind({
       onEnter: () => this._onEnter(),
@@ -258,17 +227,61 @@ export default class AbstractSection {
   }
 
   /**
+   * Play landing animation
+   *
+   * Executes landing timeline and emits coordination events.
+   * Emits landing:start immediately, landing:complete when finished.
+   *
+   * @returns {Promise<void>} Resolves when animation completes
+   */
+  async playLanding() {
+    this.logger.trace("Playing landing animation");
+    if (this.isDisabled) return Promise.resolve();
+    return this._landing.run(() => this.animations.play(TIMELINE_IDS.landing));
+  }
+
+  /**
+   * Play intro animation
+   *
+   * Executes intro timeline and emits coordination events.
+   * Emits intro:start immediately, intro:complete when finished.
+   *
+   * @returns {Promise<void>} Resolves when animation completes
+   */
+  async playIntro() {
+    if (this.isDisabled) return Promise.resolve();
+    return this._intro.run(() => this.animations.play(TIMELINE_IDS.intro));
+  }
+
+  /**
+   * Play outro animation
+   *
+   * Plays timeline from the outro label and emits coordination events.
+   * For scroll-based outros, may just emit events while ScrollTrigger handles animation.
+   *
+   * @returns {Promise<void>} Resolves when animation completes
+   */
+  async playOutro() {
+    if (this.isDisabled) return Promise.resolve();
+    return this._outro.run(() => this.animations.play(TIMELINE_IDS.outro));
+  }
+
+  /**
    * Apply post-intro state without animation
    *
    * Used when reduced motion is enabled to skip animations and immediately
    * apply the final state. Respects user accessibility preferences.
    */
   _applyPostIntroState() {
-    if (!this.animations?.timeline) return;
+    const introTimeline = this._getTimelineOrWarn(
+      TIMELINE_IDS.intro,
+      "_applyPostIntroState",
+    );
+    if (!introTimeline) return;
 
-    // Jump to end of timeline without playing
-    this.animations.timeline.progress(1, false);
-    this.isIntroComplete = true;
+    // Jump intro to end state without playing
+    introTimeline.progress(1, false);
+    // this.isIntroComplete = true;
 
     // Emit completion event so other systems know section is ready
     this._emit(this.events.introComplete, { element: this.view });
@@ -280,7 +293,7 @@ export default class AbstractSection {
    * Resets timeline and state flags for replay or testing.
    */
   reset() {
-    this.animations?.timeline?.pause(0);
+    this.animations?.pauseAll?.(0);
     this.isIntroComplete = false;
     this.isOutroComplete = false;
     this.isScrollActive = false;
@@ -297,7 +310,7 @@ export default class AbstractSection {
    * Kills timeline and ScrollTriggers. Section cannot be reused after destroy().
    */
   destroy() {
-    this.animations?.timeline?.kill?.();
+    this.animations?.kill?.();
 
     // Remove ScrollTriggers registered via AbstractSectionTriggers
     this.triggers?.kill?.();

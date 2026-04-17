@@ -29,7 +29,7 @@ export const createDirectorReadyPromise = ({
 }) =>
   new Promise((resolve) => {
     if (!choreographyEnabled) {
-      trace(PRELOADER_READINESS_MESSAGES.choreographyDisabled);
+      // trace(PRELOADER_READINESS_MESSAGES.choreographyDisabled);
       resolve();
       return;
     }
@@ -75,7 +75,7 @@ export const waitForPreloaderReadiness = async ({
   );
 
   await fontsReady;
-  trace(PRELOADER_READINESS_MESSAGES.fontsReady);
+  // trace(PRELOADER_READINESS_MESSAGES.fontsReady);
 
   await Promise.race([domReady, timeout]);
   trace(PRELOADER_READINESS_MESSAGES.domReadyOrTimeout);

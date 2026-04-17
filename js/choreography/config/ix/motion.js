@@ -73,12 +73,12 @@ export const motion = {
  * Base timing and easing values used across all sections.
  */
 export const ANIMATION_DEFAULTS = {
-  duration: 0.6,
-  stagger: 0.1,
+  duration: motion.duration("base"),
+  stagger: motion.stagger("base"),
   ease: {
-    in: "power3.in",
-    out: "power3.out",
-    inOut: "power3.inOut",
+    in: motion.ease("enter"),
+    out: motion.ease("exit"),
+    inOut: motion.ease("standard"),
   },
-  translateY: -30,
+  translateY: -motion.distance("md"),
 };

@@ -18,9 +18,10 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import { motion } from "../../config/motion.js";
-import { LABELS } from "../../config/labels.js";
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
+import { motion } from "../../config/ix/motion.js";
+import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 const BIO_EL_ATTR = "data-bio-el";
@@ -40,8 +41,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
    * @param {Object} options
    */
   constructor(view, options = {}) {
-    super(view, options);
-
+    super(view);
     this.options = {
       duration: options.duration ?? toSeconds(motion.duration("base")),
       stagger: options.stagger ?? motion.stagger("loose"),
@@ -65,11 +65,13 @@ export default class BioAnimations extends AbstractSectionAnimations {
         y: this.options.translateY,
       });
     }
+
+    this._buildTimeline();
   }
 
   _buildIntro() {
     // Build the timelines for intro, idle, and outro states
-    var tl = gsap.timeline({ id: this.LABELS.intro });
+    var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
     tl.to(this.animTargets, {
       autoAlpha: 1,
       y: 0,
@@ -81,11 +83,12 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _buildIdle() {
-    var tl = gsap.timeline({ id: this.LABELS.idle });
+    var tl = gsap.timeline({ id: TIMELINE_IDS.idle });
     return tl;
   }
+
   _buildOutro() {
-    var tl = gsap.timeline({ id: this.LABELS.leave });
+    var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
     if (!this.animTargets.length) {
       return tl;
     }

@@ -43,33 +43,4 @@ export default class Hero extends AbstractSection {
       reducedMotionHandler,
     });
   }
-
-  // _onEnter() {
-  //   super._onEnter();
-  //   // this.playIntro();
-  // }
-
-  // _onLeave() {
-  //   super._onLeave();
-  //   // this.playOutro();
-  // }
-
-  // _onEnterBack() {
-  //   super._onEnterBack();
-
-  //   const tl = this.animations?.timeline;
-  //   if (!tl) return;
-
-  //   tl.eventCallback("onStart", () => this._onOutroStart());
-  //   tl.eventCallback("onComplete", () => this._onOutroComplete());
-  //   tl.eventCallback("onReverseComplete", null);
-
-  //   this.animations.outroReverse();
-  // }
-
-  // _onLeaveBack() {
-  //   console.log("Hero _onLeaveBack");
-  //   // Keep hero logically in-view at the top boundary.
-  //   // this._onEnter();
-  // }
 }

@@ -9,7 +9,8 @@
   window.__enableChoreography = {% if enableChoreography %}
     true
   {% else %}
-    false{% endif %};
+    false
+  {% endif %};
   if (!window.__enableChoreography) {
     window.addEventListener("DOMContentLoaded", () => window.dispatchEvent(new Event("director:ready")), {once: true});
   }
@@ -29,4 +30,8 @@
 {% endif %}
 
 {# PRELOADER SCRIPT #}
-<script type="module" src="/assets/js/preloader.js"></script>
+<script type="module">
+  import {initPreloader} from "/assets/js/preloader/Preloader.js";
+
+  void initPreloader();
+</script>

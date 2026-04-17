@@ -40,7 +40,7 @@
 
 ## JavaScript (browser)
 
-- Entry points: [js/main.js](frontend/js/main.js), [js/preloader.js](frontend/js/preloader.js), [js/section-playback.js](frontend/js/section-playback.js)
+- Entry points: [js/main.js](frontend/js/main.js), [njk/templates/partials/choreography-script.njk](frontend/njk/templates/partials/choreography-script.njk) -> [js/preloader/Preloader.js](frontend/js/preloader/Preloader.js), [js/section-playback.js](frontend/js/section-playback.js)
 - Experiments / playgrounds: [js/choreography-playground.js](frontend/js/choreography-playground.js), [js/hero-playground.js](frontend/js/hero-playground.js), [js/circle-packing.js](frontend/js/circle-packing.js), [js/fibonacci.js](frontend/js/fibonacci.js), [js/gen-grid.js](frontend/js/gen-grid.js), [js/gsap-test.js](frontend/js/gsap-test.js)
 - Choreography system: [js/choreography/](frontend/js/choreography/)
   - [js/choreography/AnimationDirector.js](frontend/js/choreography/AnimationDirector.js) initializes the system and exposes `window.director`.

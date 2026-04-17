@@ -3,7 +3,7 @@
  *
  * Base settings for GSAP ScrollTrigger instances.
  */
-import { SELECTORS } from "./selectors.js";
+import { SELECTORS } from "../contracts/selectors.js";
 
 export const SCROLL_DEFAULTS = {
   start: "bottom 99%",

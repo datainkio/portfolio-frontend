@@ -103,7 +103,7 @@ export const ensureScrollSmoother = async ({
   trace = () => {},
 }) => {
   if (!enabled) {
-    trace(PRELOADER_SCROLL_SMOOTHER_MESSAGES.disabled);
+    //  trace(PRELOADER_SCROLL_SMOOTHER_MESSAGES.disabled);
     return null;
   }
 

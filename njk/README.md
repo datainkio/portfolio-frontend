@@ -214,7 +214,7 @@ Impact**: Defines information architecture and user journey structure
 - **`/projects/`** - Individual project detail pages
 - **`/lab/`** - Experimental and interactive features
 - **`/design/`** - Design system documentation
-- **`/_static/`** - Static pages (robots.txt, manifest.json)
+- **`/_static/`** - Static pages (robots.txt, manifest.json, manifest.webmanifest)
 
 **Page Anatomy:**
 

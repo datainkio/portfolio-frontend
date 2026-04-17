@@ -1,44 +1,86 @@
 # Choreography Config Package
 
-`sections.js` exposes `SECTION_BEHAVIOR`, which currently supports:
+Centralized configuration for choreography runtime behavior, with one barrel
+entrypoint at `index.js`.
 
-- `autoPlayIntroOnEnter`: automatically runs `section.playIntro()` when a section enters the viewport.
-- `autoPlayOutroOnLeave`: automatically runs `section.playOutro()` when a section leaves the viewport.
+## Why This Structure Exists
+
+- Findability: constants are grouped by intent so engineers can locate values quickly.
+- Discoverability: folder names communicate purpose without opening files.
+- Change safety: shared contracts stay stable while interaction tuning evolves independently.
+
+## Folder Taxonomy
+
+### `contracts/` - Shared vocabulary
+
+Canonical terms used across modules. These values establish project-wide naming
+and should be treated as durable contracts.
+
+- `events.js` -> `EVENTS`
+- `labels.js` -> `LABELS`
+- `paths.js` -> `ASSET_PATHS`
+- `selectors.js` -> `SELECTORS`
+- `timelines.js` -> `TIMELINE_IDS`
+
+### `ix/` - Interaction design tuning
+
+Constants that shape motion and interaction behavior and are expected to be
+tuned as design evolves.
+
+- `accessibility.js` -> `ACCESSIBILITY_SETTINGS`
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`
+- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `BIO_TRIGGER`, `AWARDS_TRIGGER`
+
+### `displays/` - Decorative display configuration
+
+Defaults for purely decorative display systems.
+
+- `arrangements.js` -> `SECTION_TO_GEL_ARRANGEMENT`, `GEL_ARRANGEMENT_TRANSITION`, `GEL_ARRANGEMENTS`
+- `ruler.js` -> `RULER_DEFAULTS`, `RULER_INTRO_DEFAULTS`
+- `printermarks.js` -> reserved for printer-marks display defaults
+
+## Placement Rules
+
+- Add values to `contracts/` when they define shared names or IDs used across modules.
+- Add values to `ix/` when they tune interaction design behavior.
+- Add values to `displays/` when they tune decorative visual systems.
+- Keep decorative generators themselves (DOM/rendering logic) outside config,
+  in `frontend/js/displays/`.
+
+## Usage
+
+Import from the barrel to avoid deep import paths:
+
+```js
+import { EVENTS, motion, RULER_DEFAULTS } from "./index.js";
+```
+
+## Package Map
 
 ```mermaid
 flowchart TB
   subgraph CFG[frontend/js/choreography/config]
     IDX[index.js\nbarrel export]
-    ACC[accessibility.js\nACCESSIBILITY_SETTINGS]
-    ARR[arrangements.js\nSECTION_TO_GEL_ARRANGEMENT\nGEL_ARRANGEMENTS\nGEL_ARRANGEMENT_TRANSITION\nCOLOR_CLASSES]
-    EVT[events.js\nEVENTS]
-    MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS]
-    PTH[paths.js\nASSET_PATHS]
-    SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nBIO_TRIGGER]
-    SEL[selectors.js\nSELECTORS]
-    SEC[sections.js\nSECTION_BEHAVIOR]
+    subgraph CTR[contracts]
+      EVT[events.js\nEVENTS]
+      LBL[labels.js\nLABELS]
+      PTH[paths.js\nASSET_PATHS]
+      SEL[selectors.js\nSELECTORS]
+      TML[timelines.js\nTIMELINE_IDS]
+    end
+    subgraph IX[ix]
+      ACC[accessibility.js\nACCESSIBILITY_SETTINGS]
+      MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS]
+      SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nBIO_TRIGGER\nAWARDS_TRIGGER]
+    end
+    subgraph DSP[displays]
+      ARR[arrangements.js\nSECTION_TO_GEL_ARRANGEMENT\nGEL_ARRANGEMENTS\nGEL_ARRANGEMENT_TRANSITION]
+      RUL[ruler.js\nRULER_DEFAULTS\nRULER_INTRO_DEFAULTS]
+      PRN[printermarks.js\n(display defaults)]
+    end
   end
 
-  IDX --> ACC
-  IDX --> ARR
-  IDX --> EVT
-  IDX --> MOT
-  IDX --> PTH
-  IDX --> SCR
-  IDX --> SEL
-  IDX --> SEC
-
-  subgraph EXT[External Consumers]
-    BUS[AnimationBus / sections / managers]
-    GSAP[vendor/gsap.js]
-    ENTRY[config/index.js imports\n(used across choreography)]
-  end
-
-  BUS --> EVT
-  BUS --> ARR
-  BUS --> MOT
-  BUS --> SEL
-  BUS --> SEC
-  GSAP --> MOT
-  ENTRY --> IDX
+  IDX --> CTR
+  IDX --> IX
+  IDX --> DSP
 ```

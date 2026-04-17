@@ -56,6 +56,7 @@ import { AnimationBus } from "/assets/js/choreography/AnimationBus.js";
 import ScrollEffectsCoordinator from "/assets/js/choreography/ScrollEffectsCoordinator.js";
 import { LandingSequence } from "/assets/js/choreography/sequences/landing/LandingSequence.js";
 import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
 
 const LOGS = {
   description:
@@ -124,7 +125,7 @@ export default class AnimationDirector {
     this.logger.trace(LOGS.completion);
 
     // Signal that Director has finished initializing
-    window.dispatchEvent(new Event("director:ready"));
+    window.dispatchEvent(new Event(EVENTS.system.directorReady));
   }
 
   /**

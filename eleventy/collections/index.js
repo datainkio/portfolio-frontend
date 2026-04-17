@@ -115,6 +115,9 @@ const SITE = JSON.parse(
  */
 export default async function (eleventyConfig) {
   try {
+    // Make site.json available to all templates/frontmatter as `site`.
+    eleventyConfig.addGlobalData("site", SITE);
+
     // STEP 1: Initialize Sanity collections
     await initSanity(eleventyConfig, SITE);
 

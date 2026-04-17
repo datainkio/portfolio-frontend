@@ -15,7 +15,7 @@
  * ---
  */
 import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry.js";
-import { EVENTS } from "/assets/js/choreography/config/events.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
 import { AnimationBus } from "/assets/js/choreography/AnimationBus.js";
 import ReducedMotionHandler from "/assets/js/choreography/managers/ReducedMotionHandler.js";
 

@@ -41,15 +41,5 @@ export default class Awards extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
-
-    // Keep parity with other sections for trigger/section coordination.
-    if (this.triggers) {
-      this.triggers.section = this;
-    }
-
-    if (!view) {
-      this.logger.trace("element not found; skipping initialization.");
-      return;
-    }
   }
 }

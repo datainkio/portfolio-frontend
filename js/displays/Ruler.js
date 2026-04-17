@@ -16,7 +16,7 @@
  * ---
  */
 // ruler.js
-import { RULER_DEFAULTS } from "../choreography/config/ruler.js";
+import { RULER_DEFAULTS } from "../choreography/config/displays/ruler.js";
 
 const GEOMETRY_CSS_VAR = Object.freeze({
   tickHeight: "--ruler-tick-height",

@@ -33,7 +33,7 @@ const once = (fn) => {
 };
 
 export const animateIntro = ({ stack, prefersReduce, trace = () => {} }) => {
-  trace(PRELOADER_ANIMATION_MESSAGES.introStarted);
+  // trace(PRELOADER_ANIMATION_MESSAGES.introStarted);
   if (!stack) return;
 
   if (typeof window.gsap !== "undefined") {
@@ -79,7 +79,7 @@ export const animateExit = ({
   trace = () => {},
 }) =>
   new Promise((resolve) => {
-    trace(PRELOADER_ANIMATION_MESSAGES.exitStarted);
+    // trace(PRELOADER_ANIMATION_MESSAGES.exitStarted);
     if (!preloader) {
       resolve();
       return;
@@ -108,7 +108,7 @@ export const animateExit = ({
     }
 
     if (prefersReduce) {
-      trace(PRELOADER_ANIMATION_MESSAGES.reducedMotionExit);
+      // trace(PRELOADER_ANIMATION_MESSAGES.reducedMotionExit);
       preloader.style.transition =
         PRELOADER_ANIMATION.reducedMotionExitTransition;
       preloader.style.opacity = PRELOADER_STYLE_VALUES.opacityHidden;

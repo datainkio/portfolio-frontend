@@ -133,7 +133,9 @@ export default class ScrollEffectsCoordinator {
       this._fallbackToNativeScroll();
     }
 
-    this.logger.trace("initialized");
+    this.logger.trace(
+      "ScrollEffectsCoordinator initializion complete and ready to go",
+    );
   }
 
   /**

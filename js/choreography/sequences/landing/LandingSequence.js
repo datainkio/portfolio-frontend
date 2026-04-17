@@ -27,9 +27,8 @@
  */
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
-import { EVENTS } from "../../config/events.js";
+import { EVENTS } from "../../config/contracts/events.js";
 import { SELECTORS } from "../../config/index.js";
-import { LABELS } from "../../config/labels.js";
 import {
   GEL_ARRANGEMENTS,
   SECTION_TO_GEL_ARRANGEMENT,
@@ -52,7 +51,7 @@ export class LandingSequence {
       prefix: "",
       color: "#66B032",
     });
-    this.logger.trace(LOGS.description);
+    // this.logger.trace(LOGS.description);
     this.bus = bus;
     this.sections = sections;
     this.gelManager = gelAnimation;
@@ -100,7 +99,9 @@ export class LandingSequence {
 
     try {
       this.sections?.video?.playIntro?.();
-      // logger.trace('Hero intro started', null, 'brief', 'standard');
+      // The expectation is that the video intro will emit an event on completion that triggers the hero
+      // intro, so we don't need to call playLanding() here. If we want to trigger the hero intro immediately
+      // without waiting for the video, we could call playLanding() here instead.
     } catch (error) {
       this.logger.trace("Error starting hero intro", error, "verbose", "error");
       this.state.isStarted = false;
@@ -206,23 +207,23 @@ export class LandingSequence {
 
     // Respond to hero intro start
     on(EVENTS.hero.enter, () => {
-      // this.logger.trace(SELECTORS.hero + " entered");
+      this.logger.trace(SELECTORS.hero + " entered");
       // this._applySectionArrangement(SELECTORS.hero);
     });
 
     on(EVENTS.hero.exit, () => {
-      // this.logger.trace(SELECTORS.hero + " exited");
+      this.logger.trace(SELECTORS.hero + " exited");
     });
 
     // Respond to hero intro start
     on(EVENTS.hero.introStart, () => {
-      // this.logger.trace(SELECTORS.hero + " intro started");
+      this.logger.trace(SELECTORS.hero + " intro started");
       // this._applySectionArrangement("hero");
     });
 
     // Respond to hero intro complete
     on(EVENTS.hero.introComplete, () => {
-      // this.logger.trace(SELECTORS.hero + " intro complete");
+      this.logger.trace(SELECTORS.hero + " intro complete");
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();
@@ -230,12 +231,12 @@ export class LandingSequence {
 
     // Respond to hero outro start
     on(EVENTS.hero.outroStart, () => {
-      // this.logger.trace(SELECTORS.hero + " outro started");
+      this.logger.trace(SELECTORS.hero + " outro started");
     });
 
     // Respond to hero outro complete
     on(EVENTS.hero.outroComplete, () => {
-      // this.logger.trace(SELECTORS.hero + " outro complete");
+      this.logger.trace(SELECTORS.hero + " outro complete");
       // this.sections?.work?.playIntro?.();
     });
 
@@ -244,23 +245,23 @@ export class LandingSequence {
      */
     // Respond to video intro start
     on(EVENTS.video.introStart, () => {
-      // this.logger.trace("BG Video intro started");
+      this.logger.trace("BG Video intro started");
     });
 
     // Expected UX sequencing: Hero begins only after BG Video intro finishes.
     on(EVENTS.video.introComplete, () => {
       this.logger.trace("BG Video intro complete");
-      this.sections?.hero?.play(this.LABELS.intro);
+      this.sections?.hero?.playLanding?.();
     });
 
     // Respond to video outro start
     on(EVENTS.video.outroStart, () => {
-      // this.logger.trace("BG Video outro started");
+      this.logger.trace("BG Video outro started");
     });
 
     // Respond to video outro complete
     on(EVENTS.video.outroComplete, () => {
-      // this.logger.trace("BG Video outro complete");
+      this.logger.trace("BG Video outro complete");
       // this.sections?.work?.playIntro?.();
     });
 
@@ -311,7 +312,6 @@ export class LandingSequence {
     // Respond to bio intro start
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
-      /// this._applySectionArrangement(SELECTORS.bio);
     });
 
     on(EVENTS.bio.exit, () => {

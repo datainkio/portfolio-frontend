@@ -19,33 +19,40 @@
 /** @format */
 
 /**
- * Site-Specific Choreography Runtime Configuration
+ * Choreography Config Barrel
  *
- * DOM selectors, asset paths, animation timing, and visual settings that are
- * UNIQUE to this project. Change these values when adapting the choreography
- * system to a different site.
+ * Single import surface for choreography configuration.
  *
- * For event contracts, see events.js
+ * Folder taxonomy:
+ * - contracts/: Canonical shared terms used across modules (events, labels,
+ *   selectors, paths, timeline ids). These define the project-wide vocabulary.
+ * - ix/: Interaction design constants that tune behavior and motion
+ *   (accessibility, motion tokens/defaults, scroll trigger defaults).
+ * - displays/: Decorative display configuration and defaults used by visual
+ *   ornamentation systems (arrangements, ruler, printer marks).
  *
- * USAGE PATTERN:
- * import { SELECTORS, ANIMATION_DEFAULTS } from './index.js';
+ * Why this structure exists:
+ * - Improves findability: engineers can locate config by intent quickly.
+ * - Improves discoverability: folder names communicate purpose at a glance.
+ * - Improves safety: contracts stay stable while IX/display tuning can evolve
+ *   without changing shared terminology.
  *
- * // Find DOM elements
- * this.element = document.querySelector(SELECTORS.hero);
+ * Usage pattern:
+ * import { EVENTS, motion, RULER_DEFAULTS } from "./index.js";
  *
- * // Use consistent animation settings
- * gsap.to(target, { duration: ANIMATION_DEFAULTS.duration });
- *
- * @fileoverview Project-specific runtime configuration values
+ * @fileoverview Project-specific choreography runtime configuration exports.
  */
 
-export * from "./accessibility.js";
-export * from "./arrangements.js";
-export * from "./events.js";
-export * from "./motion.js";
-export * from "./paths.js";
-export * from "./ruler.js";
-export * from "./scrolltriggers.js";
-export * from "./selectors.js";
-export * from "./labels.js";
-export * from "./sections.js";
+export * from "./contracts/events.js";
+export * from "./contracts/paths.js";
+export * from "./contracts/selectors.js";
+export * from "./contracts/labels.js";
+export * from "./contracts/timelines.js";
+
+export * from "./displays/arrangements.js";
+export * from "./displays/ruler.js";
+export * from "./displays/printermarks.js";
+
+export * from "./ix/accessibility.js";
+export * from "./ix/motion.js ";
+export * from "./ix/scrolltriggers.js";

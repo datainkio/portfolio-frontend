@@ -17,7 +17,7 @@
 /** @format */
 
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
-import { EVENTS } from "/assets/js/choreography/config/events.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
 import { AnimationBus } from "/assets/js/choreography/AnimationBus.js";
 import {
   SECTION_REGISTRY,

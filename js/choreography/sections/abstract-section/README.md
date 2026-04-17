@@ -24,7 +24,7 @@ Defines the lifecycle contract for every page section, including how intros, out
 
 ### AbstractSectionAnimations
 
-Provides the shared GSAP timeline scaffolding that each section reuses for intro/outro motion. It enforces a common timing vocabulary while still letting subclasses layer in bespoke transitions. This keeps motion language cohesive across the site.
+Provides shared GSAP animation primitives and a consistent playback API while each section owns direct references to landing, intro, idle, and outro timelines. This keeps playback controls predictable without relying on a single master timeline and still allows bespoke transitions per section.
 
 ### AbstractSectionTrigggers
 

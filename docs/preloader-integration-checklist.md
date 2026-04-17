@@ -7,16 +7,16 @@ The goal is to keep startup behavior deterministic, accessible, and aligned with
 
 ## Scope
 
-- Entry point: `js/preloader.js`
-- Controller: `js/preloader/controller.js`
+- Entry point: `njk/templates/partials/choreography-script.njk` (module bootstrap)
+- Controller: `js/preloader/Preloader.js`
 - Supporting modules: `js/preloader/*.js`
 - Template contract: `njk/organisms/SitePreloader.njk`
 - Bootstrap script wiring: `njk/templates/partials/choreography-script.njk`
 
 ## Module Boundaries
 
-- [ ] Keep `js/preloader.js` as a thin bootstrap only.
-- [ ] Keep orchestration and lifecycle state in `js/preloader/controller.js`.
+- [ ] Keep bootstrap wiring in `njk/templates/partials/choreography-script.njk` as a thin import-and-init wrapper.
+- [ ] Keep orchestration and lifecycle state in `js/preloader/Preloader.js`.
 - [ ] Keep side concerns isolated:
   - DOM contract and scroll lock in `dom.js`
   - Preferences and DX hooks in `preferences.js`
