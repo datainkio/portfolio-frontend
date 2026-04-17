@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.logger.script-outline-test
  *   role: Test module: test/logger/script-outline.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/53
  *   status: draft
  *   surface: internal
  *   scope: frontend

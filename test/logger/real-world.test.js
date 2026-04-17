@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.logger.real-world-test
  *   role: Test module: test/logger/real-world.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/52
  *   status: draft
  *   surface: internal
  *   scope: frontend

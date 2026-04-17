@@ -20,6 +20,7 @@
  *
  * Provides a no-op AnimationBus implementation for sections that don't have
  * access to the real AnimationBus (e.g., missing DOM elements, test scenarios).
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/37
  *
  * Implements the same interface as AnimationBus (emit, on, off) but silently
  * discards events and listeners. This eliminates the need for defensive checks

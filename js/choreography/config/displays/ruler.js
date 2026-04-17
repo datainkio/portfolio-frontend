@@ -6,6 +6,7 @@
  */
 
 // TODO: Review value of using Object.freeze for these config objects. It prevents mutation but also prevents extension, which could be a problem if we want to allow users to add custom tokens or other values.
+// Issue URL: https://github.com/datainkio/portfolio-frontend/issues/39
 export const RULER_DEFAULTS = Object.freeze({
   intervals: 12,
   subticksPerInterval: 6,

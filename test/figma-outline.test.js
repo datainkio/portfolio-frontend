@@ -4,6 +4,7 @@
  * aix:
  *   id: frontend.test.figma-outline-test
  *   role: Test module: test/figma-outline.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/44
  *   status: draft
  *   surface: internal
  *   scope: frontend

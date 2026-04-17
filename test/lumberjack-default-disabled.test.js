@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.lumberjack-default-disabled-test
  *   role: Test module: test/lumberjack-default-disabled.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/56
  *   status: draft
  *   surface: internal
  *   scope: frontend

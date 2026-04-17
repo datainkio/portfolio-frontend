@@ -23,6 +23,7 @@ This file tracks JavaScript/runtime and DX backlog priorities.
 ## Later / Parked
 
 - [ ] TODO: Expand fixture reliability for external dependencies if CI reveals flaky edge cases.
+- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/36
 
 ## Done
 

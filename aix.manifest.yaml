@@ -24,6 +24,7 @@ project:
 paths:
   # Relative to mounted project root
   # If omitted, Concierge will attempt to discover docs and will default audits to docs/ai/audits.
+  # Issue URL: https://github.com/datainkio/portfolio-frontend/issues/25
   docsAiDir: 'docs/ai'
   auditsDir: 'docs/ai/audits'
 

@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.logger.custom-styles-test
  *   role: Test module: test/logger/custom-styles.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/45
  *   status: draft
  *   surface: internal
  *   scope: frontend

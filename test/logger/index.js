@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.logger.index
  *   role: Test module: test/logger/index.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/50
  *   status: draft
  *   surface: internal
  *   scope: frontend

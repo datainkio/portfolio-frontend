@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.airtable-styles-preview
  *   role: Test module: test/airtable-styles-preview.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/42
  *   status: draft
  *   surface: internal
  *   scope: frontend
