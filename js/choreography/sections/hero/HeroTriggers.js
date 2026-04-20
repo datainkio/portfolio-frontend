@@ -23,12 +23,11 @@ import { HERO_TRIGGER } from "../../config/index.js";
 export default class HeroTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
+    this._revealTrigger = null;
+    this._hideTrigger = null;
   }
-
-  getTriggerDefaults() {
-    return {
-      ...super.getTriggerDefaults(),
-      ...HERO_TRIGGER,
-    };
+  // Override to layer section-specific trigger defaults
+  _getTriggerDefaults() {
+    return HERO_TRIGGER;
   }
 }

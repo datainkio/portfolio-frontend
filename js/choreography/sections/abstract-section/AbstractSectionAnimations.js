@@ -23,24 +23,27 @@
  * Provides a minimal structure and helpers for building GSAP timelines
  * associated with a specific DOM element and section id.
  */
-import { motion } from "../../config/ix/motion.js";
+import { ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { LABELS } from "../../config/contracts/labels.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
-const DURATION = toSeconds(motion.duration("base")); // Default duration for animations
-const STAGGER = motion.stagger("base"); // Default stagger duration for animations
-const EASE = motion.ease("standard"); // Default easing for animations
-const TIMELINE_LABEL_MAP = Object.freeze({
-  [LABELS.landing]: TIMELINE_IDS.landing,
-  [LABELS.intro]: TIMELINE_IDS.intro,
-  [LABELS.enter]: TIMELINE_IDS.intro,
-  [LABELS.enterBack]: TIMELINE_IDS.intro,
-  [LABELS.idle]: TIMELINE_IDS.idle,
-  [LABELS.leave]: TIMELINE_IDS.outro,
-  [LABELS.leaveBack]: TIMELINE_IDS.outro,
-  outro: TIMELINE_IDS.outro,
-});
+
+// Set up default motion values and timeline label mapping for consistent timeline resolution across sections
+
+const DURATION = ANIMATION_DEFAULTS.duration; // Default duration for animations
+const STAGGER = ANIMATION_DEFAULTS.stagger; // Default stagger duration for animations
+const EASE = ANIMATION_DEFAULTS.ease; // Default easing for animations
+const TRANSLATE_Y = ANIMATION_DEFAULTS.translateY; // Default distance for animations
+
+// const TIMELINE_LABEL_MAP = Object.freeze({
+//   [LABELS.landing]: TIMELINE_IDS.landing,
+//   [LABELS.intro]: TIMELINE_IDS.intro,
+//   [LABELS.enter]: TIMELINE_IDS.intro,
+//   [LABELS.enterBack]: TIMELINE_IDS.intro,
+//   [LABELS.idle]: TIMELINE_IDS.idle,
+//   [LABELS.leave]: TIMELINE_IDS.outro,
+//   [LABELS.leaveBack]: TIMELINE_IDS.outro,
+// });
 
 const EMPTY_TIMELINES = () => ({
   [TIMELINE_IDS.landing]: null,
@@ -61,7 +64,8 @@ export default class AbstractSectionAnimations {
     this.DURATION = DURATION; // Default duration for animations
     this.STAGGER = STAGGER; // Default stagger duration for animations
     this.EASE = EASE; // Default easing for animations
-    this.LABELS = LABELS;
+    this.TRANSLATE_Y = TRANSLATE_Y; // Default distance for animations
+    // this.LABELS = LABELS;
   }
 
   play(label, fallback = 0) {

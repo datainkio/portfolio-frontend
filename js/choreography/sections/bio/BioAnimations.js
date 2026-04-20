@@ -20,7 +20,7 @@
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { motion } from "../../config/ix/motion.js";
+import { BIO_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
@@ -42,15 +42,15 @@ export default class BioAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.options = {
-      duration: options.duration ?? toSeconds(motion.duration("base")),
-      stagger: options.stagger ?? motion.stagger("loose"),
-      translateY: options.translateY ?? -motion.distance("lg"),
-      ease: {
-        in: options.ease?.in ?? motion.ease("exit"),
-        out: options.ease?.out ?? motion.ease("enter"),
-      },
-    };
+    // this.options = {
+    //   duration: options.duration ?? toSeconds(motion.duration("base")),
+    //   stagger: options.stagger ?? motion.stagger("loose"),
+    //   translateY: options.translateY ?? -motion.distance("lg"),
+    //   ease: {
+    //     in: options.ease?.in ?? motion.ease("exit"),
+    //     out: options.ease?.out ?? motion.ease("enter"),
+    //   },
+    // };
 
     this.animTargets = [
       selectBioEl(this.view, "context"),
@@ -62,11 +62,11 @@ export default class BioAnimations extends AbstractSectionAnimations {
     if (this.animTargets.length) {
       gsap.set(this.animTargets, {
         autoAlpha: 0,
-        y: this.options.translateY,
+        y: this.TRANSLATE_Y,
       });
     }
 
-    this._buildTimeline();
+    this._buildTimeline(options);
   }
 
   _buildIntro() {
@@ -75,9 +75,9 @@ export default class BioAnimations extends AbstractSectionAnimations {
     tl.to(this.animTargets, {
       autoAlpha: 1,
       y: 0,
-      duration: this.options.duration,
-      stagger: this.options.stagger,
-      ease: this.options.ease.in,
+      duration: this.DURATION,
+      stagger: this.STAGGER,
+      ease: this.EASE.in,
     });
     return tl;
   }
@@ -89,15 +89,12 @@ export default class BioAnimations extends AbstractSectionAnimations {
 
   _buildOutro() {
     var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
-    if (!this.animTargets.length) {
-      return tl;
-    }
     tl.to(this.animTargets, {
       autoAlpha: 0,
-      y: this.options.translateY,
-      duration: this.options.duration,
-      stagger: this.options.stagger,
-      ease: this.options.ease.out,
+      y: this.TRANSLATE_Y,
+      duration: this.DURATION,
+      stagger: this.STAGGER,
+      ease: this.EASE.out,
     });
     return tl;
   }

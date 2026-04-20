@@ -15,12 +15,67 @@
  */
 /** @format */
 
+const svgMarkupCache = new Map();
+
 export default function (eleventyConfig) {
   eleventyConfig.addFilter("filesize", fileSizeFilter);
   eleventyConfig.addFilter("uniqueTypes", uniqueTypesFilter);
   eleventyConfig.addFilter("countByType", countByTypeFilter);
   eleventyConfig.addFilter("totalSize", totalSizeFilter);
   eleventyConfig.addFilter("lastCacheUpdate", lastCacheUpdateFilter);
+  eleventyConfig.addAsyncFilter(
+    "inlineSvgFromUrl",
+    async function (url, className = "") {
+      try {
+        if (!url || typeof url !== "string") {
+          return "";
+        }
+
+        let svgMarkup = svgMarkupCache.get(url);
+        if (!svgMarkup) {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(
+              `Failed to fetch SVG: ${response.status} ${response.statusText}`,
+            );
+          }
+
+          svgMarkup = await response.text();
+          svgMarkupCache.set(url, svgMarkup);
+        }
+
+        return injectSvgClass(svgMarkup, className);
+      } catch (error) {
+        console.warn(`inlineSvgFromUrl failed for ${url}: ${error.message}`);
+        return "";
+      }
+    },
+  );
+}
+
+function mergeClasses(existing = "", additional = "") {
+  const tokens = `${existing} ${additional}`
+    .split(/\s+/)
+    .map((token) => token.trim())
+    .filter(Boolean);
+  return [...new Set(tokens)].join(" ");
+}
+
+function injectSvgClass(svgMarkup, className) {
+  if (!svgMarkup || typeof svgMarkup !== "string") {
+    return "";
+  }
+
+  return svgMarkup.replace(/<svg\b([^>]*)>/i, (match, attributes) => {
+    const classMatch = attributes.match(/\sclass=(['"])(.*?)\1/i);
+
+    if (classMatch) {
+      const mergedClassName = mergeClasses(classMatch[2], className);
+      return match.replace(classMatch[0], ` class="${mergedClassName}"`);
+    }
+
+    return `<svg${attributes} class="${className}">`;
+  });
 }
 
 export function fileSizeFilter(bytes) {

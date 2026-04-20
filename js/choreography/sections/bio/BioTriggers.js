@@ -19,7 +19,6 @@
 
 import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
 import { BIO_TRIGGER } from "../../config/index.js";
-import { ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
 
 export default class BioTriggers extends AbstractSectionTriggers {
   constructor(view) {
@@ -27,10 +26,8 @@ export default class BioTriggers extends AbstractSectionTriggers {
     this._revealTrigger = null;
     this._hideTrigger = null;
   }
-  getTriggerDefaults() {
-    return {
-      ...super.getTriggerDefaults(),
-      ...BIO_TRIGGER,
-    };
+  // Override to layer section-specific trigger defaults
+  _getTriggerDefaults() {
+    return BIO_TRIGGER;
   }
 }

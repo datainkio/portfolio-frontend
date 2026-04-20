@@ -9,7 +9,7 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 - `sanityActivities` – activities taxonomy used for project classification
 - `sanityRoles` – roles taxonomy for project metadata
 - `sanityOutcomes` – outcomes/deliverables taxonomy for projects
-- `sanityAwards` – awards with grantor + project context (including `organization.logo.asset.url` and `organization.logo.alt` for award logo rendering)
+- `sanityAwards` – awards with grantor + project context (including `organization.logo.asset.url` and `organization.logo.alt` for award logo rendering; SVG logos are inlined during build, tagged with `fill-current`, and non-SVG assets are skipped with console logging)
 - `sanityProjects` – published projects with relationships, hero image, and links
 - `sanityPosts` – published posts with relationships and metadata
 - `sanityImageAssets` – published image assets with metadata

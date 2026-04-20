@@ -10,7 +10,7 @@
   {# Biography section #}
   <section class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }}" id="{{ sectionId }}" data-scroll-section>
     <header class="col-span-full space-y-4" data-bio-el="header">
-      <div class="text-sm text-neutral-100" data-bio-el="context">
+      <div class="text-sm sticky top-8" data-bio-el="context">
         {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
       </div>
       <h2 data-bio-el="heading">{{ heading }}</h2>

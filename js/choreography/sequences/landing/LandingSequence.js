@@ -200,6 +200,30 @@ export class LandingSequence {
       const off = this.bus.on(event, handler);
       this._listeners.push(off);
     };
+    /**
+     * BACKGROUND VIDEO EVENTS
+     */
+    // Respond to video intro start
+    on(EVENTS.video.introStart, () => {
+      this.logger.trace("BG Video intro started");
+    });
+
+    // This is where it all begins. The video intro completes, we trigger the hero intro.
+    on(EVENTS.video.introComplete, () => {
+      this.logger.trace("BG Video intro complete");
+      this.sections?.hero?.playLanding?.();
+    });
+
+    // Respond to video outro start
+    on(EVENTS.video.outroStart, () => {
+      this.logger.trace("BG Video outro started");
+    });
+
+    // Respond to video outro complete
+    on(EVENTS.video.outroComplete, () => {
+      this.logger.trace("BG Video outro complete");
+      // this.sections?.work?.playIntro?.();
+    });
 
     /**
      * HERO EVENTS
@@ -237,31 +261,6 @@ export class LandingSequence {
     // Respond to hero outro complete
     on(EVENTS.hero.outroComplete, () => {
       this.logger.trace(SELECTORS.hero + " outro complete");
-      // this.sections?.work?.playIntro?.();
-    });
-
-    /**
-     * BACKGROUND VIDEO EVENTS
-     */
-    // Respond to video intro start
-    on(EVENTS.video.introStart, () => {
-      this.logger.trace("BG Video intro started");
-    });
-
-    // Expected UX sequencing: Hero begins only after BG Video intro finishes.
-    on(EVENTS.video.introComplete, () => {
-      this.logger.trace("BG Video intro complete");
-      this.sections?.hero?.playLanding?.();
-    });
-
-    // Respond to video outro start
-    on(EVENTS.video.outroStart, () => {
-      this.logger.trace("BG Video outro started");
-    });
-
-    // Respond to video outro complete
-    on(EVENTS.video.outroComplete, () => {
-      this.logger.trace("BG Video outro complete");
       // this.sections?.work?.playIntro?.();
     });
 
