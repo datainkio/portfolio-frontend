@@ -120,6 +120,10 @@ export default class AbstractSection {
     this._emit(this.events.landingComplete, { element: this.view });
   }
 
+  _onUpdate() {}
+
+  _onRefresh() {}
+
   _onEnter() {
     if (this._isInView) return;
     this._isInView = true;
@@ -217,6 +221,8 @@ export default class AbstractSection {
       onLeave: () => this._onLeave(),
       onEnterBack: () => this._onEnterBack(),
       onLeaveBack: () => this._onLeaveBack(),
+      onUpdate: (trigger) => this._onUpdate(trigger),
+      onRefresh: (trigger) => this._onRefresh(trigger),
     });
   }
 

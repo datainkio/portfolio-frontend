@@ -20,10 +20,9 @@
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { motion } from "../../config/ix/motion.js";
+import { AWARDS_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 
-const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 const AWARDS_EL_ATTR = "data-awards-el";
 
 const selectAwardsEl = (view, name) =>
@@ -48,12 +47,17 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     });
 
     this.options = {
-      duration: options.duration ?? toSeconds(motion.duration("slower")),
-      stagger: options.stagger ?? motion.stagger("base"),
-      translateY: options.translateY ?? -motion.distance("lg"),
+      duration: options.duration ?? AWARDS_ANIMATION_DEFAULTS.duration,
+      stagger: options.stagger ?? AWARDS_ANIMATION_DEFAULTS.stagger,
+      translateY: options.translateY ?? AWARDS_ANIMATION_DEFAULTS.translateY,
+      itemTranslateY:
+        options.itemTranslateY ?? AWARDS_ANIMATION_DEFAULTS.itemTranslateY,
+      itemRevealViewportRatio:
+        options.itemRevealViewportRatio ??
+        AWARDS_ANIMATION_DEFAULTS.itemRevealViewportRatio,
       ease: {
-        in: options.ease?.in ?? motion.ease("exit"),
-        out: options.ease?.out ?? motion.ease("enter"),
+        in: options.ease?.in ?? AWARDS_ANIMATION_DEFAULTS.ease.in,
+        out: options.ease?.out ?? AWARDS_ANIMATION_DEFAULTS.ease.out,
       },
     };
 
@@ -65,16 +69,20 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
       context: selectAwardsEl(this.view, "context"),
       heading: selectAwardsEl(this.view, "heading") ?? this.view,
       body: selectAwardsEl(this.view, "body") ?? this.view,
-      awards: selectAwardsEl(this.view, "list"),
+      list: selectAwardsEl(this.view, "list"),
     };
 
     this.animTargets = [
       this.elements.context,
       this.elements.heading,
-      this.elements.subheading,
       this.elements.body,
-      this.elements.awards,
+      this.elements.list,
     ].filter(Boolean);
+
+    this.awardItems = Array.from(
+      this.view?.querySelectorAll(`[${AWARDS_EL_ATTR}="award"]`) ?? [],
+    );
+    this.revealedItems = new WeakSet();
 
     if (this.animTargets.length) {
       gsap.set(this.animTargets, {
@@ -82,6 +90,14 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
         y: this.options.translateY,
       });
     }
+
+    if (this.awardItems.length) {
+      gsap.set(this.awardItems, {
+        autoAlpha: 0,
+        y: this.options.itemTranslateY,
+      });
+    }
+
     // this.originalText = this.view?.textContent || "";
     this._buildTimeline();
   }
@@ -99,8 +115,51 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   }
 
   _getLogos() {
-    if (!this.elements.awards) return [];
-    return this.elements.awards ? [this.elements.awards] : [];
+    if (!this.elements.list) return [];
+    return [this.elements.list];
+  }
+
+  showAllAwards() {
+    if (!this.awardItems.length) return;
+
+    this.awardItems.forEach((item) => {
+      this.revealedItems.add(item);
+    });
+
+    gsap.set(this.awardItems, {
+      autoAlpha: 1,
+      y: 0,
+    });
+  }
+
+  updateAwardsReveal() {
+    if (!this.awardItems.length) return;
+
+    const viewportHeight =
+      window.innerHeight || document.documentElement?.clientHeight || 0;
+    if (!viewportHeight) return;
+
+    const clampedRatio = Math.min(
+      0.95,
+      Math.max(0.05, this.options.itemRevealViewportRatio),
+    );
+    const revealThreshold = viewportHeight * clampedRatio;
+
+    this.awardItems.forEach((item) => {
+      if (this.revealedItems.has(item)) return;
+
+      const itemTop = item.getBoundingClientRect().top;
+      if (itemTop > revealThreshold) return;
+
+      this.revealedItems.add(item);
+
+      gsap.to(item, {
+        autoAlpha: 1,
+        y: 0,
+        duration: this.options.duration,
+        ease: this.options.ease.in,
+      });
+    });
   }
 
   _buildIntro() {

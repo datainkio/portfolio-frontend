@@ -113,3 +113,20 @@ export const BIO_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
   translateY: -motion.distance("lg"),
 };
+
+/**
+ * Awards Section Animation Defaults
+ *
+ * Includes per-item reveal behavior tuned for viewport-threshold entry.
+ */
+export const AWARDS_ANIMATION_DEFAULTS = {
+  ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("slower")),
+  translateY: -motion.distance("lg"),
+  itemTranslateY: -motion.distance("md"),
+  itemRevealViewportRatio: 0.5, // Reveal items when they are 50% visible in the viewport
+  ease: {
+    in: motion.ease("exit"),
+    out: motion.ease("enter"),
+  },
+};

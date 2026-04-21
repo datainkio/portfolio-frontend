@@ -42,4 +42,17 @@ export default class Awards extends AbstractSection {
       reducedMotionHandler,
     });
   }
+
+  _onUpdate(trigger) {
+    this.animations?.updateAwardsReveal?.(trigger);
+  }
+
+  _onRefresh(trigger) {
+    this.animations?.updateAwardsReveal?.(trigger);
+  }
+
+  _applyPostIntroState() {
+    super._applyPostIntroState();
+    this.animations?.showAllAwards?.();
+  }
 }

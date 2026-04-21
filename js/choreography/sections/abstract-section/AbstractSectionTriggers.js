@@ -81,7 +81,14 @@ export default class AbstractSectionTriggers {
    * @param {Function} callbacks.onEnterBack - Fired when scrolling back into viewport
    * @param {Function} callbacks.onLeaveBack - Fired when scrolling back out of viewport
    */
-  bind({ onEnter, onLeave, onEnterBack, onLeaveBack } = {}) {
+  bind({
+    onEnter,
+    onLeave,
+    onEnterBack,
+    onLeaveBack,
+    onUpdate,
+    onRefresh,
+  } = {}) {
     if (!this.view) {
       this.logger.trace("No view available to bind triggers");
       return;
@@ -119,6 +126,8 @@ export default class AbstractSectionTriggers {
         onLeaveBack,
         triggerDefaults.onLeaveBack,
       ),
+      onUpdate: onUpdate ?? triggerDefaults.onUpdate,
+      onRefresh: onRefresh ?? triggerDefaults.onRefresh,
     };
 
     // Create trigger with callbacks baked in

@@ -254,6 +254,7 @@ This section documents the recommended architecture for a more performant, maint
 
 - Prefer transform/opacity. Avoid layout animation unless required.
 - Minimize ScrollTrigger count; batch when possible.
+- For list sections (for example awards), prefer one section-level trigger plus viewport-threshold checks in `onUpdate` instead of per-item ScrollTriggers.
 - Lazy-init scenes by presence of `data-anim` roots.
 - Measure once per init/refresh and cache values.
 

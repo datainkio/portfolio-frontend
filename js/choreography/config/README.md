@@ -28,7 +28,7 @@ Constants that shape motion and interaction behavior and are expected to be
 tuned as design evolves.
 
 - `accessibility.js` -> `ACCESSIBILITY_SETTINGS`
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
 - `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `BIO_TRIGGER`, `AWARDS_TRIGGER`
 
 ### `displays/` - Decorative display configuration
@@ -70,7 +70,7 @@ flowchart TB
     end
     subgraph IX[ix]
       ACC[accessibility.js\nACCESSIBILITY_SETTINGS]
-      MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS]
+      MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS\nHERO/BACKGROUND/BIO/AWARDS defaults]
       SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nBIO_TRIGGER\nAWARDS_TRIGGER]
     end
     subgraph DSP[displays]
