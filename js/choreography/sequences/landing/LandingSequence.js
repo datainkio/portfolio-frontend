@@ -44,7 +44,7 @@ export class LandingSequence {
   /**
    * Initialize landing sequence
    * @param {AnimationBus} bus - Event bus for coordination
-   * @param {Object} sections - Section controllers (hero, work, biography)
+   * @param {Object} sections - Section controllers (hero, work, biography...)
    */
   constructor(bus, sections, gelAnimation) {
     this.logger = Lumberjack.createScoped("LandingSequence", {

@@ -5,8 +5,8 @@
  */
 import { SELECTORS } from "../contracts/selectors.js";
 export const SCROLL_DEFAULTS = {
-  start: "bottom 99%",
-  end: "top 1%",
+  start: "top center",
+  end: "bottom center",
   pinSpacing: false,
   onEnter: () => {},
   onLeave: () => {},
