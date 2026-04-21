@@ -5,7 +5,7 @@
 - **Status:** draft
 - **Last reviewed:** 2026-01-23
 - **Scope:** Organizations section list and empty state (`featured.njk`) wherever rendered (landing page or future routes).
-- **Links:** motion system [choreographer.animation-spec.md](choreographer.animation-spec.md), reduced motion policy [motion-accessibility-policy.md](motion-accessibility-policy.md), tokens/config [config/motion.js](../../js/choreography/config/motion.js), [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs)
+- **Links:** motion system [choreographer.animation-spec.md](choreographer.animation-spec.md), reduced motion policy [motion-accessibility-policy.md](motion-accessibility-policy.md), tokens/config [ix/motion.js](../../js/choreography/config/ix/motion.js), [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs)
 
 ## Motion Principles
 
@@ -16,7 +16,7 @@
 ## Primitives & Utilities
 
 - Use section timeline in `OrganizationsAnimations` (GSAP).
-- Default timing/easing sourced from `ANIMATION_DEFAULTS` in `js/choreography/config/index.js`.
+- Default timing/easing and item-reveal threshold sourced from `ORGANIZATIONS_ANIMATION_DEFAULTS` in `js/choreography/config/ix/motion.js`.
 - Triggers use `AbstractSectionTriggers` with enter/leave callbacks.
 
 ## Patterns by Component/View
