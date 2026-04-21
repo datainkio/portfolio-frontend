@@ -16,6 +16,7 @@
  */
 /** @format */
 import fetchSanityData from "../../cms/fetchSanityData.js";
+import { toHTML } from "@portabletext/to-html";
 import {
   createSanityClient,
   resolveSanityConfig,
@@ -32,6 +33,93 @@ const successStyle = new LumberjackStyle("#EE9B00", "\n👍");
 const warnStyle = new LumberjackStyle("#AE2012", "⛔");
 
 const svgMarkupCache = new Map();
+
+function normalizeLinkHref(href) {
+  if (!href || typeof href !== "string") {
+    return "";
+  }
+
+  const trimmed = href.trim();
+  if (!trimmed) {
+    return "";
+  }
+
+  if (
+    trimmed.startsWith("/") ||
+    trimmed.startsWith("#") ||
+    trimmed.startsWith("mailto:") ||
+    trimmed.startsWith("tel:")
+  ) {
+    return trimmed;
+  }
+
+  try {
+    const parsed = new URL(trimmed);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return trimmed;
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
+}
+
+function serializePortableTextToHtml(blocks) {
+  if (!Array.isArray(blocks) || blocks.length === 0) {
+    return "";
+  }
+
+  return toHTML(blocks, {
+    components: {
+      types: {
+        image: ({ value }) => {
+          const src = value?.asset?.url;
+          if (!src) {
+            return "";
+          }
+
+          const alt = value?.alt || "";
+          return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />`;
+        },
+      },
+      block: {
+        normal: ({ children }) => `<p>${children}</p>`,
+      },
+      marks: {
+        link: ({ children, value }) => {
+          const href = normalizeLinkHref(value?.href);
+          if (!href) {
+            return children;
+          }
+
+          const external =
+            href.startsWith("http://") || href.startsWith("https://");
+          const rel = external ? ' rel="noopener noreferrer"' : "";
+          const target = external ? ' target="_blank"' : "";
+          return `<a href=\"${href}\"${target}${rel}>${children}</a>`;
+        },
+      },
+    },
+  });
+}
+
+function normalizeLandingRecords(records = []) {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
+  return records.map((record) => {
+    const valuePropBodyHtml = serializePortableTextToHtml(
+      record?.valuePropRichText,
+    );
+
+    return {
+      ...record,
+      valuePropBodyHtml,
+    };
+  });
+}
 
 async function fetchSvgMarkup(url) {
   if (!url || typeof url !== "string") {
@@ -109,6 +197,10 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "awards") {
       data = await hydrateAwardInlineLogos(data);
+    }
+
+    if (definition.id === "landing") {
+      data = normalizeLandingRecords(data);
     }
 
     return { id: definition.id, data };

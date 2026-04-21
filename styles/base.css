@@ -44,7 +44,7 @@
     @apply max-w-none;
   }
   p {
-    @apply hover:no-underline mb-4 text-sm sm:text-base;
+    @apply hover:no-underline mb-4 text-base leading-relaxed md:text-lg;
   }
   a {
     @apply font-medium;

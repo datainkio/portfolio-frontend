@@ -42,22 +42,17 @@ export default class BioAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    // this.options = {
-    //   duration: options.duration ?? toSeconds(motion.duration("base")),
-    //   stagger: options.stagger ?? motion.stagger("loose"),
-    //   translateY: options.translateY ?? -motion.distance("lg"),
-    //   ease: {
-    //     in: options.ease?.in ?? motion.ease("exit"),
-    //     out: options.ease?.out ?? motion.ease("enter"),
-    //   },
-    // };
 
-    this.animTargets = [
-      selectBioEl(this.view, "context"),
-      selectBioEl(this.view, "heading"),
-      selectBioEl(this.view, "subheading"),
-      selectBioEl(this.view, "body"),
-    ].filter(Boolean);
+    this.animTargets = Array.from(
+      new Set(
+        [
+          selectBioEl(this.view, "context"),
+          selectBioEl(this.view, "heading"),
+          selectBioEl(this.view, "subheading"),
+          ...Array.from(this.view?.querySelectorAll("p") ?? []), // Include all paragraphs within the section
+        ].filter(Boolean),
+      ),
+    );
 
     if (this.animTargets.length) {
       gsap.set(this.animTargets, {

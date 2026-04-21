@@ -13,6 +13,7 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 - `sanityProjects` – published projects with relationships, hero image, and links
 - `sanityPosts` – published posts with relationships and metadata
 - `sanityImageAssets` – published image assets with metadata
+- `landing` – landing-page singleton content (hero, value, recognition). `valuePropRichText` is serialized to `valuePropBodyHtml` during build. Legacy `valuePropBody` has been removed from schema and is no longer consumed by frontend rendering.
 
 ## Configuration
 
@@ -32,7 +33,8 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - Runs inside `eleventy/collections/sanity.js` before navigation collections.
 - Helpers reside in `cms/client.js`, `cms/fetchSanityData.js`, and `cms/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
-- Exposes metadata as `sanityMeta` global data (no secrets stored).
+- Serializes landing Portable Text (`valuePropRichText`) to HTML using `@portabletext/to-html` and stores it on each landing record as `valuePropBodyHtml`.
+- Exposes metadata as `cmsMeta` global data (no secrets stored).
 
 ## Usage in templates
 
