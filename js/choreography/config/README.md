@@ -37,6 +37,7 @@ Defaults for purely decorative display systems.
 
 - `arrangements.js` -> `SECTION_TO_GEL_ARRANGEMENT`, `GEL_ARRANGEMENT_TRANSITION`, `GEL_ARRANGEMENTS`
 - `ruler.js` -> `RULER_DEFAULTS`, `RULER_INTRO_DEFAULTS`
+- `section-lead-lines.js` -> `SECTION_LEAD_LINE_STYLES`, `SECTION_LEAD_LINE_ANCHORS`, `SECTION_LEAD_LINE_THEME`
 - `printermarks.js` -> reserved for printer-marks display defaults
 
 ## Placement Rules

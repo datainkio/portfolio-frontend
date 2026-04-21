@@ -33,6 +33,11 @@ import {
   GEL_ARRANGEMENTS,
   SECTION_TO_GEL_ARRANGEMENT,
 } from "../../config/arrangements.js";
+import {
+  SECTION_LEAD_LINE_ANCHORS,
+  SECTION_LEAD_LINE_STYLES,
+  SECTION_LEAD_LINE_THEME,
+} from "../../config/displays/section-lead-lines.js";
 
 const LOGS = {
   description:
@@ -65,6 +70,15 @@ export class LandingSequence {
       activeGelArrangementId: initialArrangementId,
       heroIntroRequested: false,
     };
+    this._sectionLeadLines = [];
+    this._linePositionRaf = null;
+    this._handleLinePositionUpdate = () => {
+      if (this._linePositionRaf !== null) return;
+      this._linePositionRaf = window.requestAnimationFrame(() => {
+        this._linePositionRaf = null;
+        this._positionSectionLeadLines();
+      });
+    };
     this._listeners = [];
 
     /**
@@ -94,6 +108,19 @@ export class LandingSequence {
       EVENTS.system.preloaderOut,
       this.handlePreloaderOut,
     );
+    this._drawSectionLeadLines();
+    this._positionSectionLeadLines();
+    window.addEventListener("resize", this._handleLinePositionUpdate, {
+      passive: true,
+    });
+    window.addEventListener("scroll", this._handleLinePositionUpdate, {
+      passive: true,
+    });
+    window.addEventListener("load", this._handleLinePositionUpdate, {
+      once: true,
+    });
+    this._handleLinePositionUpdate();
+    setTimeout(() => this._positionSectionLeadLines(), 250);
     // if (this.state.isStarted) return;
     // this.state.isStarted = true;
 
@@ -135,6 +162,16 @@ export class LandingSequence {
    * Sequence cannot be reused after destroy().
    */
   destroy() {
+    this._destroySectionLeadLines();
+    if (this._handleLinePositionUpdate) {
+      window.removeEventListener("resize", this._handleLinePositionUpdate);
+      window.removeEventListener("scroll", this._handleLinePositionUpdate);
+    }
+    if (this._linePositionRaf !== null) {
+      window.cancelAnimationFrame(this._linePositionRaf);
+      this._linePositionRaf = null;
+    }
+
     if (this.handlePreloaderOut) {
       window.removeEventListener(
         EVENTS.system.preloaderOut,
@@ -187,6 +224,116 @@ export class LandingSequence {
 
     this.gelManager.applyArrangement(arrangement);
     this.state.activeGelArrangementId = arrangementId;
+  }
+
+  /**
+   * Draw section-to-section lead lines in main content.
+   * Each line starts at the bottom edge of a section and points to the
+   * top edge of the following section.
+   * @private
+   */
+  _drawSectionLeadLines() {
+    this._destroySectionLeadLines();
+
+    const LeaderLine = window.LeaderLine;
+    if (!LeaderLine || typeof LeaderLine.pointAnchor !== "function") {
+      this.logger.trace("LeaderLine unavailable; skipping section lead lines");
+      return;
+    }
+
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    const lineStyle = this._getSectionLeadLineStyle(main);
+
+    const sections = Array.from(main.children).filter(
+      (element) => element.tagName === "SECTION",
+    );
+    if (sections.length < 2) return;
+
+    for (let i = 0; i < sections.length - 1; i += 1) {
+      const currentSection = sections[i];
+      const nextSection = sections[i + 1];
+
+      const line = new LeaderLine(
+        LeaderLine.pointAnchor(currentSection, SECTION_LEAD_LINE_ANCHORS.start),
+        LeaderLine.pointAnchor(nextSection, SECTION_LEAD_LINE_ANCHORS.end),
+        lineStyle,
+      );
+
+      this._sectionLeadLines.push(line);
+    }
+
+    this.logger.trace(
+      `Section lead lines drawn: ${this._sectionLeadLines.length}`,
+    );
+  }
+
+  /**
+   * Recalculate lead line positions after layout or scroll changes.
+   * @private
+   */
+  _positionSectionLeadLines() {
+    this._sectionLeadLines.forEach((line) => {
+      if (line && typeof line.position === "function") {
+        line.position();
+      }
+    });
+  }
+
+  /**
+   * Resolve a Tailwind theme CSS variable from :root.
+   * @private
+   * @param {string} variableName
+   * @param {string} fallback
+   * @returns {string}
+   */
+  _resolveTailwindColor(variableName, fallback) {
+    const value = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue(variableName)
+      .trim();
+
+    return value || fallback;
+  }
+
+  /**
+   * Build section lead line style values from Tailwind theme tokens.
+   * @private
+   * @param {HTMLElement} main
+   * @returns {object}
+   */
+  _getSectionLeadLineStyle(main) {
+    const mainColor = window.getComputedStyle(main).color || "#E6E7E7";
+    const accentColor = this._resolveTailwindColor(
+      SECTION_LEAD_LINE_THEME.stroke.variableName,
+      mainColor,
+    );
+    const outlineColor = this._resolveTailwindColor(
+      SECTION_LEAD_LINE_THEME.outline.variableName,
+      SECTION_LEAD_LINE_THEME.outline.fallback,
+    );
+
+    return {
+      ...SECTION_LEAD_LINE_STYLES,
+      color: accentColor,
+      endPlugColor: accentColor,
+      startPlugColor: accentColor,
+      outlineColor,
+    };
+  }
+
+  /**
+   * Remove all section lead lines.
+   * @private
+   */
+  _destroySectionLeadLines() {
+    this._sectionLeadLines.forEach((line) => {
+      if (line && typeof line.remove === "function") {
+        line.remove();
+      }
+    });
+    this._sectionLeadLines = [];
   }
 
   /**

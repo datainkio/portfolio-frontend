@@ -1,5 +1,6 @@
 {# Provide import map so raw ESM (no bundle) can resolve scoped packages in the browser #}
-{% if runtime.bundleJs == false %}
+{% set useBundleJs = runtime and runtime.bundleJs %}
+{% if not useBundleJs %}
   <script type="importmap">
     { "imports": { "@datainkio/lumberjack": "/assets/js/utils/lumberjack/index.js" } }
   </script>
@@ -18,7 +19,8 @@
 
 {# BUNDLE OR NO BUNDLE #}
 {% if enableChoreography %}
-  {% if runtime.bundleJs %}
+  <script src="/assets/js/vendor/leader-line/leader-line.min.js"></script>
+  {% if useBundleJs %}
     <script type="module">
       import ('/assets/js/choreography/bundle.js').catch(() => import ('/assets/js/choreography/AnimationDirector.js'));
     </script>
