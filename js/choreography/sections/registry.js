@@ -40,6 +40,7 @@ import Bio from "./bio/Bio.js";
 import BackgroundVideo from "./background/BackgroundVideo.js";
 import Awards from "./awards/Awards.js";
 import Organizations from "./organizations/Organizations.js";
+import Work from "./work/Work.js";
 
 /**
  * SECTION_REGISTRY - Canonical section definitions
@@ -62,6 +63,7 @@ export const SECTION_REGISTRY = {
   bio: Bio,
   awards: Awards,
   organizations: Organizations,
+  work: Work,
 };
 
 /**
@@ -76,6 +78,7 @@ export function getSectionName(sectionId) {
     bio: "Biography Section",
     awards: "Awards Section",
     organizations: "Organizations Section",
+    work: "Work Section",
   };
   return names[sectionId] || sectionId;
 }

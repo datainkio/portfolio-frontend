@@ -58,12 +58,17 @@ export const ORGANIZATIONS_TRIGGER = {
 };
 
 /**
- * Projects Trigger Defaults
+ * Work Trigger Defaults
  */
-export const PROJECTS_TRIGGER = {
+export const WORK_TRIGGER = {
   ...SCROLL_DEFAULTS,
-  id: SELECTORS.projects,
+  id: SELECTORS.work,
 };
+
+/**
+ * @deprecated Use WORK_TRIGGER instead.
+ */
+export const PROJECTS_TRIGGER = WORK_TRIGGER;
 
 /**
  * Background Trigger Defaults
