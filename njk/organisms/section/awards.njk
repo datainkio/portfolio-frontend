@@ -1,6 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
-  {% import "atoms/award.njk" as Award %}
+  {% import "molecules/card/card.njk" as Card %}
 
   {%- set sectionId = params.id | default("recognition") -%}
   {%- set classes = params.classes | default("") -%}
@@ -22,8 +22,11 @@
     {% if awards | length %}
       <ul data-awards-el="list" class="col-span-full grid grid-cols-4 gap-4">
         {% for award in awards %}
+          {%- set awardTitle = award.title | default("Untitled award") -%}
+          {%- set awardImage = award.organization.logo | default(award.logo) -%}
+          {%- set awardUrl = award.url | default("") -%}
           <li data-awards-el="award" class="text-neutral-500">
-            {{ Award.render(award) }}
+            {{ Card.render({ title: awardTitle, image: awardImage, url: awardUrl }) }}
           </li>
         {% endfor %}
       </ul>

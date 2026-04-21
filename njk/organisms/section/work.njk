@@ -1,6 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
-  {% import "atoms/project.njk" as Project %}
+  {% import "molecules/card/card.njk" as Card %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
@@ -23,8 +23,11 @@
     {% if projects | length %}
       <ul data-projects-el="list" class="col-span-full grid grid-cols-2 gap-4">
         {% for project in projects %}
+          {%- set projectTitle = project.title | default(project.name) | default("Untitled project") -%}
+          {%- set projectImage = project.image | default(project.imageUrl) -%}
+          {%- set projectUrl = project.url | default(project.href) | default("") -%}
           <li data-projects-el="project">
-            {{ Project.render(project) }}
+            {{ Card.render({ title: projectTitle, image: projectImage, url: projectUrl }) }}
           </li>
         {% endfor %}
       </ul>

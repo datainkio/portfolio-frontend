@@ -4,6 +4,29 @@ Card components for displaying various content types across the portfolio site.
 
 ## Available Cards
 
+### `card.njk` - Generic Content Card
+
+**Purpose**: Displays a reusable card with a required title, optional image, and optional link.
+
+**Usage Pattern**: Macro (import and call with parameters)
+
+```njk
+{% import "molecules/card/card.njk" as card %}
+
+{{ card.render({
+  title: project.title,
+  image: project.image,
+  url: project.url
+}) }}
+```
+
+**Parameters**:
+
+- `title` (required): Card heading text
+- `image` (optional): Image source string or object (`{ src, alt }`, `{ url, alt }`, or `{ asset: { url }, alt }`)
+- `url` (optional): Card destination URL; when omitted, card renders as non-link content
+- `classes` (optional): Additional utility classes for the outer card container
+
 ### `category.njk` - Project Category Display
 
 **Purpose**: Displays a project category with associated projects, recognition, and outcomes.

@@ -1,10 +1,33 @@
-<div class="card w-96 bg-base-100 shadow-xl">
-  <div class="card-body">
-    <h2 class="card-title">{{ title }}</h2>
-    <p>{{ content }}</p>
-    {% if button %}
-      {% set label = button %}
-      {% include "atoms/button.njk" %}
+{% macro render(params = {}) %}
+  {%- set title = params.title | default("Untitled") -%}
+  {%- set image = params.image -%}
+  {%- set url = params.url | default("") -%}
+  {%- set classes = params.classes | default("") -%}
+
+  {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
+  {%- set imageAlt = image and image.alt or title -%}
+
+  <article class="rounded-xl border border-neutral-800 bg-neutral-900/60 shadow-sm overflow-hidden {{ classes }}">
+    {% if url %}
+      <a href="{{ url }}" class="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 focus-visible:ring-neutral-200">
+      {% else %}
+        <div class="block h-full">
+        {% endif %}
+
+        {% if imageSrc %}
+          <figure class="aspect-video overflow-hidden bg-neutral-800">
+            <img src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full w-full object-cover" loading="lazy"/>
+          </figure>
+        {% endif %}
+
+        <div class="p-4">
+          <h3 class="text-base sm:text-lg font-semibold text-neutral-100">{{ title }}</h3>
+        </div>
+
+        {% if url %}
+        </a>
+    {% else %}
+      </div>
     {% endif %}
-  </div>
-</div>
+  </article>
+{% endmacro %}
