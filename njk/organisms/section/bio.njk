@@ -8,16 +8,14 @@
   {%- set order = params.order | default("") -%}
 
   {# Biography section #}
-  <section class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }}" id="{{ sectionId }}" data-scroll-section>
+  <section class="bg-primary-800 relative z-10 col-span-full prose prose-invert [&_p]:col-span-full max-w-none prose-p:col-span-full {{ classes }}" id="{{ sectionId }}" data-scroll-section>
     <header class="col-span-full space-y-4" data-bio-el="header">
-      <div class="text-sm text-neutral-100" data-bio-el="context">
+      <div class="text-sm sticky top-8 bg-primary-800 z-10" data-bio-el="context">
         {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
       </div>
       <h2 data-bio-el="heading">{{ heading }}</h2>
       <p class="text-2xl" data-bio-el="subheading">{{ subheading }}</p>
     </header>
-    <p class="col-span-full prose prose-invert max-w-none" data-bio-el="body">
-      {{ body | safe }}
-    </p>
+    {{ body | safe }}
   </section>
 {% endmacro %}

@@ -205,6 +205,7 @@ import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/index.js';
 ### BackgroundVideo (`sections/background/BackgroundVideo.js`)
 
 - **Purpose**: Manages background video synchronization
+- **Ownership**: Controller owns deferred video loading/readiness and play/pause lifecycle; `BackgroundVideoAnimations` is timeline-only.
 - **Lifecycle**: Auto-plays on page load, syncs with scroll
 - **Elements**: Video element, overlay controls
 - **Events**: Syncs scroll position to video time

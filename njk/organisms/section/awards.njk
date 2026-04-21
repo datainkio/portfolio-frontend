@@ -22,7 +22,7 @@
     {% if awards | length %}
       <ul data-awards-el="list" class="col-span-full grid grid-cols-4 gap-4">
         {% for award in awards %}
-          <li data-awards-el="award">
+          <li data-awards-el="award" class="text-neutral-500">
             {{ Award.render(award) }}
           </li>
         {% endfor %}

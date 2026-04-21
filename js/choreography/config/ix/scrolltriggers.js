@@ -4,10 +4,9 @@
  * Base settings for GSAP ScrollTrigger instances.
  */
 import { SELECTORS } from "../contracts/selectors.js";
-
 export const SCROLL_DEFAULTS = {
-  start: "bottom 99%",
-  end: "top 1%",
+  start: "top center",
+  end: "bottom center",
   pinSpacing: false,
   onEnter: () => {},
   onLeave: () => {},
@@ -15,14 +14,14 @@ export const SCROLL_DEFAULTS = {
   onLeaveBack: () => {},
   onRefresh: () => {},
   onUpdate: () => {},
-  once: false,
+  once: true,
   scrub: false,
   snap: false,
   pin: false,
   anticipatePin: 0,
   invalidateOnRefresh: true,
   fastScrollEnd: true,
-  toggleActions: "play reverse play reverse",
+  toggleActions: "play none none none",
   markers: false,
 };
 
@@ -30,24 +29,46 @@ export const SCROLL_DEFAULTS = {
  * Hero Trigger Defaults
  */
 export const HERO_TRIGGER = {
+  ...SCROLL_DEFAULTS,
   id: SELECTORS.hero,
-  // start: "top 5", // Assumes that the hero section is the first section in the page.
-  // end: "bottom 85%",
-  // toggleActions: "none reverse play play",
 };
 
 /**
  * Bio Trigger Defaults
  */
 export const BIO_TRIGGER = {
+  ...SCROLL_DEFAULTS,
   id: SELECTORS.bio,
-  markers: false,
 };
 
 /**
  * Awards Trigger Defaults
  */
 export const AWARDS_TRIGGER = {
+  ...SCROLL_DEFAULTS,
   id: SELECTORS.awards,
-  markers: false,
+};
+
+/**
+ * Organizations Trigger Defaults
+ */
+export const ORGANIZATIONS_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: SELECTORS.organizations,
+};
+
+/**
+ * Projects Trigger Defaults
+ */
+export const PROJECTS_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: SELECTORS.projects,
+};
+
+/**
+ * Background Trigger Defaults
+ */
+export const BACKGROUND_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: SELECTORS.background,
 };

@@ -20,12 +20,9 @@
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { motion } from "../../config/ix/motion.js";
+import { HERO_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import { SplitText } from "/assets/js/choreography/vendor/gsap.js";
-
-const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
-
 const HERO_EL_ATTR = "data-hero-el";
 
 const selectHeroEl = (view, name) =>
@@ -50,12 +47,12 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     });
 
     this.options = {
-      duration: options.duration ?? toSeconds(motion.duration("base")),
-      translateY: options.translateY ?? -motion.distance("lg"),
-      stagger: options.stagger ?? motion.stagger("loose"),
+      duration: options.duration ?? HERO_ANIMATION_DEFAULTS.duration,
+      translateY: options.translateY ?? HERO_ANIMATION_DEFAULTS.translateY,
+      stagger: options.stagger ?? HERO_ANIMATION_DEFAULTS.stagger,
       ease: {
-        in: options.ease?.in ?? motion.ease("exit"),
-        out: options.ease?.out ?? motion.ease("enter"),
+        in: options.ease?.in ?? HERO_ANIMATION_DEFAULTS.ease.in,
+        out: options.ease?.out ?? HERO_ANIMATION_DEFAULTS.ease.out,
       },
     };
 
@@ -122,7 +119,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   landing() {
     console.log("Playing hero landing animation");
     if (!this.view || !this.elements.tagline) return;
-    return this.play(this.LABELS.landing);
+    return this.play(TIMELINE_IDS.landing);
   }
 
   // Override AbstractSectionAnimations

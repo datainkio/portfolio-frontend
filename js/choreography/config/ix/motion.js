@@ -18,7 +18,7 @@
  *     critical: false
  * ---
  */
-
+const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 export const motionTokens = {
   duration: {
     instant: 80,
@@ -73,7 +73,7 @@ export const motion = {
  * Base timing and easing values used across all sections.
  */
 export const ANIMATION_DEFAULTS = {
-  duration: motion.duration("base"),
+  duration: toSeconds(motion.duration("base")),
   stagger: motion.stagger("base"),
   ease: {
     in: motion.ease("enter"),
@@ -81,4 +81,35 @@ export const ANIMATION_DEFAULTS = {
     inOut: motion.ease("standard"),
   },
   translateY: -motion.distance("md"),
+  translateX: -motion.distance("md"),
+};
+
+/**
+ * Hero Section Animation Defaults
+ *
+ * Specific overrides for the Hero section animations.
+ */
+export const HERO_ANIMATION_DEFAULTS = {
+  ...ANIMATION_DEFAULTS,
+  // translateY: -motion.distance("lg"),
+};
+
+/**
+ * BACKGROUND Section Animation Defaults
+ *
+ * Specific overrides for the BACKGROUND section animations.
+ */
+export const BACKGROUND_ANIMATION_DEFAULTS = {
+  ...ANIMATION_DEFAULTS,
+  // translateY: -motion.distance("lg"),
+};
+
+/**
+ * Bio Section Animation Defaults
+ *
+ * Specific overrides for the Bio section animations.
+ */
+export const BIO_ANIMATION_DEFAULTS = {
+  ...ANIMATION_DEFAULTS,
+  translateY: -motion.distance("lg"),
 };
