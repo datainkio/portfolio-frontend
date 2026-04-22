@@ -9,7 +9,7 @@
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
 
   {# Biography section #}
-  <section class="relative z-10 col-span-full prose prose-invert max-w-none {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section class="relative z-10 col-span-full space-y-48 prose prose-invert max-w-none {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
     <header class="col-span-full space-y-4" data-bio-el="header">
       <div class="text-sm sticky top-8 z-10" data-bio-el="context">
         {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
