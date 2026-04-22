@@ -26,7 +26,7 @@
           {%- set awardImage = award.organization.logo | default(award.logo) -%}
           {%- set awardUrl = award.url | default("") -%}
           <li data-awards-el="award" class="text-neutral-500">
-            {{ Card.render({ title: awardTitle, image: awardImage, url: awardUrl }) }}
+            {{ Card.render({ title: awardTitle, image: awardImage, url: awardUrl, imageClasses: "saturate-0 invert" }) }}
           </li>
         {% endfor %}
       </ul>

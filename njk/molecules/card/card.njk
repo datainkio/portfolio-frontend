@@ -3,6 +3,7 @@
   {%- set image = params.image -%}
   {%- set url = params.url | default("") -%}
   {%- set classes = params.classes | default("") -%}
+  {%- set imageClasses = params.imageClasses | default("") -%}
 
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
@@ -16,7 +17,7 @@
 
         {% if imageSrc %}
           <figure class="aspect-square overflow-hidden">
-            <img src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full w-full object-contain saturate-0 invert" loading="lazy"/>
+            <img src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full w-full object-contain {{ imageClasses }}" loading="lazy"/>
           </figure>
         {% endif %}
         <h3 class="text-base sm:text-lg font-semibold text-neutral-100">{{ title }}</h3>
