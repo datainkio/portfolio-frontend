@@ -52,7 +52,7 @@ export * from "./contracts/timelines.js";
 export * from "./displays/arrangements.js";
 export * from "./displays/ruler.js";
 export * from "./displays/printermarks.js";
-export * from "./displays/section-lead-lines.js";
+export * from "./displays/leader-lines.js";
 
 export * from "./ix/accessibility.js";
 export * from "./ix/motion.js ";

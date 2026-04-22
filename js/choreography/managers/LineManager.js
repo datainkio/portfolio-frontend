@@ -18,11 +18,7 @@
 /** @format */
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
-import {
-  SECTION_LEAD_LINE_POINTS,
-  SECTION_LEAD_LINE_STYLES,
-  SECTION_LEAD_LINE_THEME,
-} from "../config/displays/section-lead-lines.js";
+import { SOCKETS, LINE_STYLES } from "../config/displays/leader-lines.js";
 
 const DEFAULT_SHOW_EFFECT = "draw";
 const DEFAULT_SHOW_ANIM_OPTIONS = Object.freeze({
@@ -38,13 +34,17 @@ export default class LineManager {
     });
 
     this.root = options.root || document;
-    this.points = Array.isArray(options.points)
-      ? options.points
-      : SECTION_LEAD_LINE_POINTS;
-    this.styles = options.styles || SECTION_LEAD_LINE_STYLES;
-    this.theme = options.theme || SECTION_LEAD_LINE_THEME;
+    this.sockets =
+      options.sockets && typeof options.sockets === "object"
+        ? options.sockets
+        : options.lines && typeof options.lines === "object"
+          ? options.lines
+          : SOCKETS;
+    this.styles = options.styles || LINE_STYLES;
 
     this._lines = [];
+    this._leaderLineCtor = null;
+    this._lineOptions = null;
     this._linePositionRaf = null;
     this._handleLinePositionUpdate = () => {
       if (this._linePositionRaf !== null) return;
@@ -60,48 +60,22 @@ export default class LineManager {
 
     const LeaderLine = window.LeaderLine;
     if (!LeaderLine || typeof LeaderLine.pointAnchor !== "function") {
-      this.logger.trace("LeaderLine unavailable; skipping section lead lines");
+      this.logger.trace("LeaderLine unavailable; skipping leader lines");
       return;
     }
 
-    if (this.points.length < 2) {
-      this.logger.trace("No section lead line points configured");
+    const socketEntries = Object.entries(this.sockets || {});
+    if (!socketEntries.length) {
+      this.logger.trace("No leader lines configured");
       return;
     }
 
-    if (this.points.length % 2 !== 0) {
-      this.logger.trace(
-        "Odd number of section lead line points; last point will be ignored",
-      );
-    }
+    this._leaderLineCtor = LeaderLine;
+    this._lineOptions = this._getLeaderLineOptions();
 
-    const lineStyle = this._getSectionLeadLineStyle();
-
-    for (let i = 0; i < this.points.length - 1; i += 2) {
-      const startPoint = this.points[i];
-      const endPoint = this.points[i + 1];
-
-      const lineRecord = this._createLineRecord(
-        LeaderLine,
-        lineStyle,
-        i / 2,
-        startPoint,
-        endPoint,
-      );
-
-      if (lineRecord) {
-        this._lines.push(lineRecord);
-      }
-    }
-
-    this.positionLines();
     this._bindPositionListeners();
     this._handleLinePositionUpdate();
-
-    // Give layout a second pass after initial async render work settles.
-    setTimeout(() => this.positionLines(), 250);
-
-    this.logger.trace(`Section lead lines initialized: ${this._lines.length}`);
+    this.logger.trace("Leader lines initialized");
   }
 
   reset() {
@@ -138,54 +112,34 @@ export default class LineManager {
     return true;
   }
 
-  showLineByStartSelector(selector, options = {}) {
-    const normalized = this._normalizeSelector(selector);
-    if (!normalized) {
+  connect(originSocketKey, terminusSocketKey, options = {}) {
+    const originKey = this._normalizeSocketKey(originSocketKey);
+    const terminusKey = this._normalizeSocketKey(terminusSocketKey);
+    if (!originKey || !terminusKey) {
       return false;
     }
 
-    const exactMatch = this._lines.find(
-      (record) => this._normalizeSelector(record.start.element) === normalized,
-    );
-
-    if (exactMatch) {
-      return this.showLine(exactMatch.id, options);
-    }
-
-    const targetStartElement = this.root.querySelector(normalized);
-    if (!targetStartElement) {
-      return false;
-    }
-
-    const lineRecord = this._lines.find(
-      (record) => record.startElement === targetStartElement,
-    );
+    const lineId = `${originKey}->${terminusKey}`;
+    let lineRecord = this._findLineRecord(lineId);
 
     if (!lineRecord) {
-      return false;
+      lineRecord = this._createLineRecord(
+        this._leaderLineCtor,
+        this._lineOptions,
+        originKey,
+        terminusKey,
+        this._lines.length,
+      );
+
+      if (!lineRecord) {
+        return false;
+      }
+
+      this._lines.push(lineRecord);
+      this._handleLinePositionUpdate();
     }
 
-    return this.showLine(lineRecord.id, options);
-  }
-
-  showLineBySection(sectionId, options = {}) {
-    const normalizedSection = this._normalizeSectionId(sectionId);
-    if (!normalizedSection) {
-      return false;
-    }
-
-    const candidates = this._lines.filter(
-      (record) =>
-        this._normalizeSectionId(record.start?.section) === normalizedSection,
-    );
-
-    if (!candidates.length) {
-      return false;
-    }
-
-    const lineRecord =
-      candidates.find((record) => !record.visible) || candidates[0];
-    return this.showLine(lineRecord.id, options);
+    return this.showLine(lineId, options);
   }
 
   hideAllLines(effect = "none") {
@@ -204,12 +158,6 @@ export default class LineManager {
     });
   }
 
-  showAllLines(options = {}) {
-    this._lines.forEach((lineRecord) => {
-      this.showLine(lineRecord.id, options);
-    });
-  }
-
   positionLines() {
     this._lines.forEach((lineRecord) => {
       if (lineRecord.line && typeof lineRecord.line.position === "function") {
@@ -218,19 +166,51 @@ export default class LineManager {
     });
   }
 
-  _createLineRecord(LeaderLine, lineStyle, index, startPoint, endPoint) {
-    const startSelector = this._normalizeSelector(startPoint?.element);
-    const endSelector = this._normalizeSelector(endPoint?.element);
+  _createLineRecord(
+    LeaderLine,
+    lineOptions,
+    originSocketId,
+    terminusSocketId,
+    index,
+  ) {
+    if (!LeaderLine || typeof LeaderLine.pointAnchor !== "function") {
+      this.logger.trace("LeaderLine unavailable; cannot create line");
+      return null;
+    }
 
-    if (!startSelector || !endSelector) {
+    const originKey = this._normalizeSocketKey(originSocketId);
+    const terminusKey = this._normalizeSocketKey(terminusSocketId);
+
+    const id = `${originKey}->${terminusKey}`;
+    if (!originKey || !terminusKey) {
+      this.logger.trace(`Skipping line ${index}: missing socket key`);
+      return null;
+    }
+
+    const originSocket = this.sockets?.[originKey];
+    const terminusSocket = this.sockets?.[terminusKey];
+    const origin = originSocket?.origin;
+    const terminus = terminusSocket?.terminus;
+
+    if (!origin || !terminus) {
       this.logger.trace(
-        `Skipping line ${index}: missing start or end selector`,
+        `Skipping line ${index}: missing origin/terminus socket (${originKey} -> ${terminusKey})`,
       );
       return null;
     }
 
-    const startElement = this.root.querySelector(startSelector);
-    const endElement = this.root.querySelector(endSelector);
+    const startSelector = this._normalizeSelector(origin?.element);
+    const endSelector = this._normalizeSelector(terminus?.element);
+
+    if (!startSelector || !endSelector) {
+      this.logger.trace(
+        `Skipping line ${index}: missing origin/terminus element selector`,
+      );
+      return null;
+    }
+
+    const startElement = this._resolveSocketElement(origin, startSelector);
+    const endElement = this._resolveSocketElement(terminus, endSelector);
 
     if (!startElement || !endElement) {
       this.logger.trace(
@@ -240,42 +220,91 @@ export default class LineManager {
     }
 
     const startAnchor = {
-      x: startPoint?.x || "50%",
-      y: startPoint?.y || "50%",
+      x: origin?.x || "50%",
+      y: origin?.y || "50%",
     };
     const endAnchor = {
-      x: endPoint?.x || "50%",
-      y: endPoint?.y || "50%",
+      x: terminus?.x || "50%",
+      y: terminus?.y || "50%",
     };
 
     const line = new LeaderLine(
       LeaderLine.pointAnchor(startElement, startAnchor),
       LeaderLine.pointAnchor(endElement, endAnchor),
       {
-        ...lineStyle,
+        ...lineOptions,
         hide: true,
       },
     );
 
-    const id = this._buildLineId(index, startPoint, endPoint);
+    this._applyLineClasses(line, this.styles?.classes);
 
     return {
       id,
-      index,
       line,
       visible: false,
-      start: startPoint,
-      end: endPoint,
-      startElement,
-      endElement,
     };
   }
 
-  _buildLineId(index, startPoint, endPoint) {
-    const startId =
-      startPoint?.id || this._normalizeSelector(startPoint?.element);
-    const endId = endPoint?.id || this._normalizeSelector(endPoint?.element);
-    return `line-${index}:${startId}->${endId}`;
+  _normalizeSocketKey(socketKey) {
+    const normalized = this._normalizeSelector(socketKey);
+    if (!normalized) {
+      return "";
+    }
+
+    if (this.sockets && normalized in this.sockets) {
+      return normalized;
+    }
+
+    const withoutHash = normalized.startsWith("#")
+      ? normalized.slice(1)
+      : normalized;
+
+    if (this.sockets && withoutHash in this.sockets) {
+      return withoutHash;
+    }
+
+    return normalized;
+  }
+
+  _resolveSocketElement(socket, elementSelector) {
+    const scopes = [];
+    const socketScope = socket?.scope;
+
+    if (socketScope && typeof socketScope === "object") {
+      scopes.push(socketScope);
+    } else if (typeof socketScope === "string") {
+      const normalizedScope = this._normalizeSelector(socketScope);
+      if (normalizedScope === "document") {
+        scopes.push(document);
+      } else if (normalizedScope) {
+        const scopeElement = document.querySelector(normalizedScope);
+        if (scopeElement) {
+          scopes.push(scopeElement);
+        }
+      }
+    }
+
+    if (this.root) {
+      scopes.push(this.root);
+    }
+
+    if (!scopes.includes(document)) {
+      scopes.push(document);
+    }
+
+    for (const scope of scopes) {
+      if (!scope || typeof scope.querySelector !== "function") {
+        continue;
+      }
+
+      const candidate = scope.querySelector(elementSelector);
+      if (candidate) {
+        return candidate;
+      }
+    }
+
+    return null;
   }
 
   _findLineRecord(lineRef) {
@@ -303,48 +332,56 @@ export default class LineManager {
     return trimmed;
   }
 
-  _normalizeSectionId(sectionId) {
-    if (typeof sectionId !== "string") {
-      return "";
-    }
-
-    const trimmed = sectionId.trim();
-    if (!trimmed) {
-      return "";
-    }
-
-    return trimmed.startsWith("#") ? trimmed.slice(1) : trimmed;
+  _getLeaderLineOptions() {
+    const options = { ...this.styles };
+    delete options.classes;
+    return options;
   }
 
-  _resolveTailwindColor(variableName, fallback) {
-    const value = window
-      .getComputedStyle(document.documentElement)
-      .getPropertyValue(variableName)
-      .trim();
+  _applyLineClasses(line, classNames) {
+    if (typeof classNames !== "string" || !classNames.trim()) {
+      return;
+    }
 
-    return value || fallback;
+    const svg = this._resolveLineSvgElement(line);
+    if (!svg || !svg.classList) {
+      return;
+    }
+
+    svg.classList.add(...classNames.split(/\s+/).filter(Boolean));
   }
 
-  _getSectionLeadLineStyle() {
-    const main = this.root.querySelector("main");
-    const mainColor = main ? window.getComputedStyle(main).color : "#E6E7E7";
+  _resolveLineSvgElement(line) {
+    const directRefs = [line?.svg, line?.element, line?._el];
+    for (const ref of directRefs) {
+      if (!ref || typeof ref !== "object") {
+        continue;
+      }
 
-    const accentColor = this._resolveTailwindColor(
-      this.theme.stroke.variableName,
-      mainColor,
-    );
-    const outlineColor = this._resolveTailwindColor(
-      this.theme.outline.variableName,
-      this.theme.outline.fallback,
-    );
+      if (ref instanceof SVGElement) {
+        return ref;
+      }
 
-    return {
-      ...this.styles,
-      color: accentColor,
-      endPlugColor: accentColor,
-      startPlugColor: accentColor,
-      outlineColor,
-    };
+      if (typeof ref.querySelector === "function") {
+        const nestedSvg = ref.querySelector("svg");
+        if (nestedSvg) {
+          return nestedSvg;
+        }
+      }
+    }
+
+    if (typeof line?._id === "string" && line._id) {
+      const byId = document.getElementById(line._id);
+      if (byId instanceof SVGElement) {
+        return byId;
+      }
+
+      if (byId && typeof byId.querySelector === "function") {
+        return byId.querySelector("svg");
+      }
+    }
+
+    return null;
   }
 
   _bindPositionListeners() {

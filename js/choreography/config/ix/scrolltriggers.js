@@ -21,7 +21,7 @@ export const SCROLL_DEFAULTS = {
   anticipatePin: 0,
   invalidateOnRefresh: true,
   fastScrollEnd: true,
-  toggleActions: "play none none none",
+  toggleActions: "play pause pause pause",
   markers: false,
 };
 

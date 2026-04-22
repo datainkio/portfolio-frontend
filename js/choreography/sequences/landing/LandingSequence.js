@@ -29,15 +29,11 @@
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "../../config/contracts/events.js";
 import { SELECTORS } from "../../config/index.js";
-import {
-  GEL_ARRANGEMENTS,
-  SECTION_TO_GEL_ARRANGEMENT,
-} from "../../config/arrangements.js";
-import {
-  SECTION_LEAD_LINE_POINTS,
-  SECTION_LEAD_LINE_STYLES,
-  SECTION_LEAD_LINE_THEME,
-} from "../../config/displays/section-lead-lines.js";
+// import {
+//   GEL_ARRANGEMENTS,
+//   SECTION_TO_GEL_ARRANGEMENT,
+// } from "../../config/arrangements.js";
+import { SOCKETS, LINE_STYLES } from "../../config/displays/leader-lines.js";
 import LineManager from "../../managers/LineManager.js";
 
 const LOGS = {
@@ -72,9 +68,8 @@ export class LandingSequence {
       heroIntroRequested: false,
     };
     this.lineManager = new LineManager({
-      points: SECTION_LEAD_LINE_POINTS,
-      styles: SECTION_LEAD_LINE_STYLES,
-      theme: SECTION_LEAD_LINE_THEME,
+      sockets: SOCKETS,
+      styles: LINE_STYLES,
     });
     this._listeners = [];
 
@@ -222,23 +217,23 @@ export class LandingSequence {
      */
     // Respond to video intro start
     on(EVENTS.video.introStart, () => {
-      this.logger.trace("BG Video intro started");
+      // this.logger.trace("BG Video intro started");
     });
 
     // This is where it all begins. The video intro completes, we trigger the hero intro.
     on(EVENTS.video.introComplete, () => {
-      this.logger.trace("BG Video intro complete");
+      //  this.logger.trace("BG Video intro complete");
       this.sections?.hero?.playLanding?.();
     });
 
     // Respond to video outro start
     on(EVENTS.video.outroStart, () => {
-      this.logger.trace("BG Video outro started");
+      // this.logger.trace("BG Video outro started");
     });
 
     // Respond to video outro complete
     on(EVENTS.video.outroComplete, () => {
-      this.logger.trace("BG Video outro complete");
+      // this.logger.trace("BG Video outro complete");
       // this.sections?.work?.playIntro?.();
     });
 
@@ -254,34 +249,28 @@ export class LandingSequence {
 
     on(EVENTS.hero.exit, () => {
       this.logger.trace(SELECTORS.hero + " exited");
+      this.lineManager?.connect(SELECTORS.hero, SELECTORS.bio, "none");
     });
 
     // Respond to hero intro start
     on(EVENTS.hero.introStart, () => {
-      this.logger.trace(SELECTORS.hero + " intro started");
+      // this.logger.trace(SELECTORS.hero + " intro started");
       // this._applySectionArrangement("hero");
     });
 
     // Respond to hero intro complete
     on(EVENTS.hero.introComplete, () => {
-      this.logger.trace(SELECTORS.hero + " intro complete");
-
-      // START HERE WEDNESDAY
-      this.lineManager?.showLineBySection(SELECTORS.hero + "-out");
-
-      // this.gelManager?
-      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
-      // this.sections?.video?.playIntro?.();
+      // this.logger.trace(SELECTORS.hero + " intro complete");
     });
 
     // Respond to hero outro start
     on(EVENTS.hero.outroStart, () => {
-      this.logger.trace(SELECTORS.hero + " outro started");
+      // this.logger.trace(SELECTORS.hero + " outro started");
     });
 
     // Respond to hero outro complete
     on(EVENTS.hero.outroComplete, () => {
-      this.logger.trace(SELECTORS.hero + " outro complete");
+      // this.logger.trace(SELECTORS.hero + " outro complete");
       // this.sections?.work?.playIntro?.();
     });
 
@@ -292,9 +281,6 @@ export class LandingSequence {
     // Respond to organizations intro start
     on(EVENTS.organizations.enter, () => {
       // this.logger.trace("Organizations entered");
-      if (SECTION_TO_GEL_ARRANGEMENT[SELECTORS.organizations]) {
-        this._applySectionArrangement(SELECTORS.organizations);
-      }
     });
 
     on(EVENTS.organizations.exit, () => {
@@ -309,7 +295,6 @@ export class LandingSequence {
     // Respond to organizations intro complete
     on(EVENTS.organizations.introComplete, () => {
       // this.logger.trace('Organizations intro complete');
-      this.lineManager?.showLineBySection(SELECTORS.organizations);
       // this.gelManager?
       // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
       // this.sections?.video?.playIntro?.();
@@ -337,30 +322,27 @@ export class LandingSequence {
 
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
+      // this.lineManager?.connect(SELECTORS.bio, SELECTORS.awards, "none");
     });
 
     // Respond to bio intro start
     on(EVENTS.bio.introStart, () => {
-      this.logger.trace(SELECTORS.bio + " intro started");
+      // this.logger.trace(SELECTORS.bio + " intro started");
     });
 
     // Respond to bio intro complete
     on(EVENTS.bio.introComplete, () => {
-      this.logger.trace(SELECTORS.bio + " intro complete");
-      this.lineManager?.showLineBySection(SELECTORS.bio);
-      // this.gelManager?
-      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
-      // this.sections?.video?.playIntro?.();
+      // this.logger.trace(SELECTORS.bio + " intro complete");
     });
 
     // Respond to bio outro start
     on(EVENTS.bio.outroStart, () => {
-      this.logger.trace(SELECTORS.bio + " outro started");
+      // this.logger.trace(SELECTORS.bio + " outro started");
     });
 
     // Respond to bio outro complete
     on(EVENTS.bio.outroComplete, () => {
-      this.logger.trace(SELECTORS.bio + " outro complete");
+      // this.logger.trace(SELECTORS.bio + " outro complete");
     });
 
     /**
@@ -369,33 +351,32 @@ export class LandingSequence {
 
     // Respond to awards enter/exit
     on(EVENTS.awards.enter, () => {
-      this.logger.trace(SELECTORS.awards + " entered");
-      this._applySectionArrangement(SELECTORS.awards);
+      // this.logger.trace(SELECTORS.awards + " entered");
     });
 
     on(EVENTS.awards.exit, () => {
-      this.logger.trace(SELECTORS.awards + " exited");
+      // this.logger.trace(SELECTORS.awards + " exited");
+      // this.lineManager?.connect(SELECTORS.awards, SELECTORS.work, "none");
     });
 
     // Respond to awards intro start
     on(EVENTS.awards.introStart, () => {
-      this.logger.trace(SELECTORS.awards + " intro started");
+      // this.logger.trace(SELECTORS.awards + " intro started");
     });
 
     // Respond to awards intro complete
     on(EVENTS.awards.introComplete, () => {
-      this.logger.trace(SELECTORS.awards + " intro complete");
-      this.lineManager?.showLineBySection(SELECTORS.awards);
+      // this.logger.trace(SELECTORS.awards + " intro complete");
     });
 
     // Respond to awards outro start
     on(EVENTS.awards.outroStart, () => {
-      this.logger.trace(SELECTORS.awards + " outro started");
+      // this.logger.trace(SELECTORS.awards + " outro started");
     });
 
     // Respond to awards outro complete
     on(EVENTS.awards.outroComplete, () => {
-      this.logger.trace(SELECTORS.awards + " outro complete");
+      // this.logger.trace(SELECTORS.awards + " outro complete");
     });
 
     /**
@@ -403,29 +384,33 @@ export class LandingSequence {
      */
 
     on(EVENTS.work.enter, () => {
-      this.logger.trace(SELECTORS.work + " entered");
-      this._applySectionArrangement(SELECTORS.work);
+      // this.logger.trace(SELECTORS.work + " entered");
     });
 
     on(EVENTS.work.exit, () => {
-      this.logger.trace(SELECTORS.work + " exited");
+      // this.logger.trace(SELECTORS.work + " exited");
+      // this.lineManager?.connect(
+      //   SELECTORS.work,
+      //   SELECTORS.organizations,
+      //   "none",
+      // );
     });
 
     on(EVENTS.work.introStart, () => {
-      this.logger.trace(SELECTORS.work + " intro started");
+      // this.logger.trace(SELECTORS.work + " intro started");
     });
 
     on(EVENTS.work.introComplete, () => {
-      this.logger.trace(SELECTORS.work + " intro complete");
-      this.lineManager?.showLineBySection(SELECTORS.work);
+      // this.logger.trace(SELECTORS.work + " intro complete");
     });
 
     on(EVENTS.work.outroStart, () => {
-      this.logger.trace(SELECTORS.work + " outro started");
+      // this.logger.trace(SELECTORS.work + " outro started");
     });
 
     on(EVENTS.work.outroComplete, () => {
-      this.logger.trace(SELECTORS.work + " outro complete");
+      // this.logger.trace(SELECTORS.work + " outro complete");
+      // this.lineManager?.connect(SELECTORS.work, SELECTORS.organizations, "none");
     });
   }
 }

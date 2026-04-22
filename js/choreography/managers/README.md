@@ -196,15 +196,15 @@ manager.animate("#smooth-wrapper"); // or undefined for window
 
 ### LineManager
 
-**Purpose**: Render and manage decorative LeaderLine connectors from config-defined point pairs.
+**Purpose**: Render and manage decorative LeaderLine connectors from config-defined line objects.
 
 **Responsibilities**:
 
-- Builds lines from `SECTION_LEAD_LINE_POINTS` start/end pairs (`section`, `element`, `x`, `y`)
-- Resolves line colors from Tailwind theme CSS variables
+- Builds lines from `SOCKETS` entries keyed by id, each with `origin` and `terminus` sockets
+- Applies `LINE_STYLES.classes` to generated LeaderLine SVG elements for stroke/fill styling
 - Handles resize/scroll/load reposition updates
-- Exposes imperative APIs so sequences can reveal one line, one section, or all lines on demand
-- Matches selectors by element identity fallback, so equivalent selectors (for example `#hero h1` and `#hero-title`) can target the same line
+- Exposes imperative APIs so sequences can reveal one line from a socket pair and hide all lines when needed
+- Resolves `origin.element` and `terminus.element` independently (optional per-socket `scope`), so endpoints can live in different DOM regions
 
 **Usage**:
 
@@ -212,15 +212,11 @@ manager.animate("#smooth-wrapper"); // or undefined for window
 const lineManager = new LineManager();
 lineManager.initialize();
 
-// Reveal line whose start point resolves to the hero heading element
-lineManager.showLineByStartSelector("#hero h1");
-lineManager.showLineByStartSelector("#hero-title");
+// Reveal a line using the origin socket from one key and terminus socket from another
+lineManager.showLineBySocketPair("hero", "bio");
 
-// Reveal the next line configured for a section id from SELECTORS
-lineManager.showLineBySection("hero");
-
-// Reveal all configured lines immediately
-lineManager.showAllLines();
+// Hide all lines immediately
+lineManager.hideAllLines("none");
 
 // Cleanup
 lineManager.destroy();

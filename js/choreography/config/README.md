@@ -37,7 +37,7 @@ Defaults for purely decorative display systems.
 
 - `arrangements.js` -> `SECTION_TO_GEL_ARRANGEMENT`, `GEL_ARRANGEMENT_TRANSITION`, `GEL_ARRANGEMENTS`
 - `ruler.js` -> `RULER_DEFAULTS`, `RULER_INTRO_DEFAULTS`
-- `section-lead-lines.js` -> `SECTION_LEAD_LINE_POINTS`, `SECTION_LEAD_LINE_STYLES`, `SECTION_LEAD_LINE_THEME`
+- `leader-lines.js` -> `SOCKETS` (id-keyed origin/terminus socket pairs with `element`, `x`, `y`, optional `scope`), `LINE_STYLES` (LeaderLine options plus optional `classes` for SVG styling)
 - `printermarks.js` -> reserved for printer-marks display defaults
 
 ## Placement Rules
