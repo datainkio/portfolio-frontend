@@ -19,7 +19,7 @@ and should be treated as durable contracts.
 - `events.js` -> `EVENTS`
 - `labels.js` -> `LABELS`
 - `paths.js` -> `ASSET_PATHS`
-- `selectors.js` -> `SELECTORS`
+- `selectors.js` -> `SELECTORS`, `BIO_SELECTORS`
 - `timelines.js` -> `TIMELINE_IDS`
 
 ### `ix/` - Interaction design tuning
@@ -28,7 +28,7 @@ Constants that shape motion and interaction behavior and are expected to be
 tuned as design evolves.
 
 - `accessibility.js` -> `ACCESSIBILITY_SETTINGS`
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS`, `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
 - `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
 
 ### `displays/` - Decorative display configuration

@@ -26,6 +26,12 @@ export const SELECTORS = {
   smoothContent: "smooth-content",
 
   overlayView: "overlay-view",
-  video: "sizzle-background",
-  sizzleBackground: "sizzle-background",
+  video: "background",
+  sizzleBackground: "background",
+};
+
+export const BIO_SELECTORS = {
+  elementAttribute: "data-bio-el",
+  subSectionHook: "sub-section",
+  subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
 };

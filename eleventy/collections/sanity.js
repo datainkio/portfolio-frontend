@@ -106,7 +106,7 @@ function serializePortableTextToHtml(blocks) {
             ? `<div data-bio-el="sub-section-body">${bodyHtml}</div>`
             : "";
 
-          return `<section data-bio-el="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
+          return `<section class="sub-section" data-bio-el="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
         },
       },
       block: {

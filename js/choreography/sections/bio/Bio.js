@@ -42,4 +42,17 @@ export default class Bio extends AbstractSection {
       reducedMotionHandler,
     });
   }
+
+  _onUpdate(trigger) {
+    this.animations?.updateSubSectionReveal?.(trigger);
+  }
+
+  _onRefresh(trigger) {
+    this.animations?.updateSubSectionReveal?.(trigger);
+  }
+
+  _applyPostIntroState() {
+    super._applyPostIntroState();
+    this.animations?.showAllSubSections?.();
+  }
 }

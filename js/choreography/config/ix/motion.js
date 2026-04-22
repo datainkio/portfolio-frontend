@@ -111,7 +111,10 @@ export const BACKGROUND_ANIMATION_DEFAULTS = {
  */
 export const BIO_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("slower")),
   translateY: -motion.distance("lg"),
+  itemTranslateY: -motion.distance("md"),
+  itemRevealViewportRatio: 0.5,
 };
 
 /**
