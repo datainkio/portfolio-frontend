@@ -44,8 +44,8 @@ if (handler.isReducedMotion()) {
 }
 
 // React to changes
-const unsubscribe = handler.onChange(enabled => {
-  console.log('Reduced motion:', enabled);
+const unsubscribe = handler.onChange((enabled) => {
+  console.log("Reduced motion:", enabled);
 });
 ```
 
@@ -75,7 +75,10 @@ ScrollSmoother applies transforms to `#smooth-content`, which breaks `position:f
 **Usage**:
 
 ```javascript
-const manager = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
+const manager = new BackgroundLayerManager([
+  "overlay-view",
+  "sizzle-background",
+]);
 manager.fix(); // Call after DOM ready
 ```
 
@@ -162,7 +165,7 @@ const manager = new GelAnimationManager(customConfig, reducedMotionHandler);
 
 // Initialize and animate
 manager.initialize();
-manager.animate('#smooth-wrapper'); // or undefined for window
+manager.animate("#smooth-wrapper"); // or undefined for window
 ```
 
 **Default Configuration** (aligned to Tailwind's 12-column grid):
@@ -191,6 +194,40 @@ manager.animate('#smooth-wrapper'); // or undefined for window
 
 ---
 
+### LineManager
+
+**Purpose**: Render and manage decorative LeaderLine connectors from config-defined point pairs.
+
+**Responsibilities**:
+
+- Builds lines from `SECTION_LEAD_LINE_POINTS` start/end pairs (`section`, `element`, `x`, `y`)
+- Resolves line colors from Tailwind theme CSS variables
+- Handles resize/scroll/load reposition updates
+- Exposes imperative APIs so sequences can reveal one line, one section, or all lines on demand
+- Matches selectors by element identity fallback, so equivalent selectors (for example `#hero h1` and `#hero-title`) can target the same line
+
+**Usage**:
+
+```javascript
+const lineManager = new LineManager();
+lineManager.initialize();
+
+// Reveal line whose start point resolves to the hero heading element
+lineManager.showLineByStartSelector("#hero h1");
+lineManager.showLineByStartSelector("#hero-title");
+
+// Reveal the next line configured for a section id from SELECTORS
+lineManager.showLineBySection("hero");
+
+// Reveal all configured lines immediately
+lineManager.showAllLines();
+
+// Cleanup
+lineManager.destroy();
+```
+
+---
+
 ## StageManager Integration
 
 **Before Refactoring** (monolithic):
@@ -214,7 +251,10 @@ export default class StageManager {
   constructor() {
     // Initialize managers in dependency order
     this.reducedMotion = new ReducedMotionHandler();
-    this.backgroundLayers = new BackgroundLayerManager(['overlay-view', 'sizzle-background']);
+    this.backgroundLayers = new BackgroundLayerManager([
+      "overlay-view",
+      "sizzle-background",
+    ]);
     this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
     this.gelAnimation = new GelAnimationManager(undefined, this.reducedMotion);
 
@@ -225,7 +265,9 @@ export default class StageManager {
     this.backgroundLayers.fix();
     this.gelAnimation.initialize();
 
-    const scroller = this.scrollSmoother.isActive() ? '#smooth-wrapper' : undefined;
+    const scroller = this.scrollSmoother.isActive()
+      ? "#smooth-wrapper"
+      : undefined;
     this.gelAnimation.animate(scroller);
   }
 }
@@ -243,7 +285,7 @@ const scrollManager = new ScrollSmootherManager(reducedMotion);
 const gelManager = new GelAnimationManager(config, reducedMotion);
 
 // Managers automatically respond to preference changes
-reducedMotion.onChange(enabled => {
+reducedMotion.onChange((enabled) => {
   // Managers handle cleanup internally
 });
 ```
@@ -280,13 +322,13 @@ gelManager.animate(scroller);
 
 ```javascript
 // Test ReducedMotionHandler in isolation
-test('detects prefers-reduced-motion', () => {
+test("detects prefers-reduced-motion", () => {
   const handler = new ReducedMotionHandler();
   expect(handler.isReducedMotion()).toBe(false);
 });
 
 // Test GelAnimationManager without dependencies
-test('initializes gels from config', () => {
+test("initializes gels from config", () => {
   const manager = new GelAnimationManager(testConfig);
   manager.initialize();
   expect(manager.getGels()).toHaveLength(3);
@@ -297,7 +339,7 @@ test('initializes gels from config', () => {
 
 ```javascript
 // Test manager coordination
-test('StageManager coordinates managers', () => {
+test("StageManager coordinates managers", () => {
   const stage = new StageManager();
   expect(stage.reducedMotion).toBeDefined();
   expect(stage.gelAnimation).toBeDefined();
@@ -310,7 +352,7 @@ test('StageManager coordinates managers', () => {
 **Enable ScrollTrigger markers**:
 
 ```javascript
-import { ScrollTrigger } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js';
+import { ScrollTrigger } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js";
 ScrollTrigger.defaults({ markers: true });
 ```
 
@@ -319,9 +361,9 @@ ScrollTrigger.defaults({ markers: true });
 ```javascript
 // Via global Director instance
 const stage = window.director.getStage();
-console.log('Smoother:', stage.scrollSmoother.isActive());
-console.log('Gels:', stage.gelAnimation.getGels());
-console.log('Reduced Motion:', stage.reducedMotion.isReducedMotion());
+console.log("Smoother:", stage.scrollSmoother.isActive());
+console.log("Gels:", stage.gelAnimation.getGels());
+console.log("Reduced Motion:", stage.reducedMotion.isReducedMotion());
 ```
 
 **Common Issues**:
@@ -330,15 +372,15 @@ console.log('Reduced Motion:', stage.reducedMotion.isReducedMotion());
 
    ```javascript
    // Must have both elements
-   document.querySelector('#smooth-wrapper');
-   document.querySelector('#smooth-content');
+   document.querySelector("#smooth-wrapper");
+   document.querySelector("#smooth-content");
    ```
 
 2. **Gels not animating**: Verify element IDs
 
    ```javascript
    // Check gel elements exist
-   ['bgGel_0', 'bgGel_1', 'bgGel_2'].forEach(id => {
+   ["bgGel_0", "bgGel_1", "bgGel_2"].forEach((id) => {
      console.log(id, document.getElementById(id));
    });
    ```
@@ -346,8 +388,8 @@ console.log('Reduced Motion:', stage.reducedMotion.isReducedMotion());
 3. **Fixed backgrounds not working**: Check transform context
    ```javascript
    // Background layers should be outside #smooth-content
-   const overlay = document.getElementById('overlay-view');
-   console.log('Parent:', overlay.parentElement.id); // Should be smooth-wrapper or body
+   const overlay = document.getElementById("overlay-view");
+   console.log("Parent:", overlay.parentElement.id); // Should be smooth-wrapper or body
    ```
 
 ## Future Enhancements

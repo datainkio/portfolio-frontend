@@ -203,9 +203,10 @@ sequence.destroy(); // Cleanup
 
 1. Listens for intro:complete from Hero
 2. Triggers Work section animation on completion
-3. Draws section lead lines in `main` from each section's bottom edge to the next section's top edge (last section excluded), with connector color styling derived from Tailwind theme tokens
-4. Coordinates transitions between sections
-5. Maintains consistent pacing throughout
+3. Initializes `LineManager`, which draws lead lines from `SECTION_LEAD_LINE_POINTS` (point pairs with `section`, `element`, and x/y anchors) and resolves connector colors from Tailwind theme tokens
+4. Keeps lines hidden by default and reveals them as sections emit `intro:complete` via `LineManager.showLineBySection()`
+5. Coordinates transitions between sections
+6. Maintains consistent pacing throughout
 
 ## Manager Modules
 
