@@ -10,8 +10,10 @@
 
   {# Biography section #}
   <section class="relative col-span-full space-y-48 prose prose-invert max-w-none {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header class="col-span-full sticky top-8 z-10 space-y-4" data-bio-el="header">
-      <div class="text-sm " data-bio-el="context">
+    <header
+      class="col-span-full bg-neutral-950 sticky top-0 z-10 p-4 pt-10 space-y-4 border-b-1 border-b-primary-900"
+      data-bio-el="header">
+      <div class="text-sm" data-bio-el="context">
         {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
       </div>
       <h2 id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>

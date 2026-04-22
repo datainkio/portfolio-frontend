@@ -34,4 +34,5 @@ export const BIO_SELECTORS = {
   elementAttribute: "data-bio-el",
   subSectionHook: "sub-section",
   subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
+  subSectionLineKeyAttribute: "data-bio-line-key",
 };

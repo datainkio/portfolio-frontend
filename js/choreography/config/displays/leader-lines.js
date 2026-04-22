@@ -12,6 +12,7 @@
  *   When omitted, LineManager resolves against its configured root and then document.
  */
 import { SELECTORS } from "../contracts/selectors.js";
+import { ANIMATION_DEFAULTS } from "../ix/motion.js";
 
 export const SOCKETS = Object.freeze({
   [SELECTORS.hero]: Object.freeze({
@@ -87,4 +88,19 @@ export const LINE_STYLES = Object.freeze({
   //   len: 10,
   //   gap: 6,
   // }),
+});
+
+export const BIO_SUB_SECTION_LINE_DEFAULTS = Object.freeze({
+  origin: Object.freeze({
+    x: "85%",
+    y: "100%",
+  }),
+  terminus: Object.freeze({
+    x: "15%",
+    y: "0%",
+  }),
+  showEffect: "draw",
+  showAnimOptions: Object.freeze({
+    duration: ANIMATION_DEFAULTS.duration,
+  }),
 });

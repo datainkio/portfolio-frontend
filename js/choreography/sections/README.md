@@ -217,6 +217,8 @@ import { SELECTORS, ANIMATION_DEFAULTS } from '../../config/index.js';
 - **Lifecycle**: Standard intro → scroll triggers → outro
 - **Elements**: Hook-based targets via `data-bio-el` (`heading`, `subheading`, `body`)
 - **Item Reveal Strategy**: Uses Awards-style per-item reveal for nested bio content blocks (`.sub-section` / `data-bio-el="sub-section"`)
+- **Line Strategy**: Bio owns LineManager setup for adjacent sub-section connectors and draws each line only after the corresponding sub-section reveal animation completes
+- **Sticky Behavior**: Header has explicit `open`/`collapsed` states controlled by a dedicated Bio `ScrollTrigger`. Crossing the sticky threshold transitions `open -> collapsed` as: fade out subheading, then collapse header height. Crossing back reverses the sequence: expand header height, then fade subheading in.
 - **Events**: Emits `bio:intro:complete` when ready
 - **Dom Structure**: `<section id="bio" data-choreography="bio">` with stable child hooks (`data-bio-el="..."`)
 - **Note**: Context marker content (CurrentSectionTitle) should remain outside intro/outro target groups unless explicitly animated.

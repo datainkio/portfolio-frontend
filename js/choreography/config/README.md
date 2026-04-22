@@ -35,16 +35,13 @@ tuned as design evolves.
 
 Defaults for purely decorative display systems.
 
-- `arrangements.js` -> `SECTION_TO_GEL_ARRANGEMENT`, `GEL_ARRANGEMENT_TRANSITION`, `GEL_ARRANGEMENTS`
-- `ruler.js` -> `RULER_DEFAULTS`, `RULER_INTRO_DEFAULTS`
-- `leader-lines.js` -> `SOCKETS` (id-keyed origin/terminus socket pairs with `element`, `x`, `y`, optional `scope`), `LINE_STYLES` (LeaderLine options plus optional `classes` for SVG styling)
+- `leader-lines.js` -> `SOCKETS` (id-keyed origin/terminus socket pairs with `element`, `x`, `y`, optional `scope`), `LINE_STYLES` (LeaderLine options plus optional `classes` for SVG styling), `BIO_SUB_SECTION_LINE_DEFAULTS` (configured anchors/effect/animOptions for Bio sub-section connectors)
 - `printermarks.js` -> reserved for printer-marks display defaults
 
 ## Placement Rules
 
 - Add values to `contracts/` when they define shared names or IDs used across modules.
-- Add values to `ix/` when they tune interaction design behavior.
-- Add values to `displays/` when they tune decorative visual systems.
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults, sub-section delay defaults, and sticky header state transition defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
 - Keep decorative generators themselves (DOM/rendering logic) outside config,
   in `frontend/js/displays/`.
 

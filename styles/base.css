@@ -29,7 +29,7 @@
     @apply text-4xl font-sans font-bold hover:no-underline;
   }
   h3 {
-    @apply text-3xl font-sans font-medium leading-tight hover:no-underline;
+    @apply text-xl font-sans font-medium leading-tight hover:no-underline;
   }
   h4 {
     @apply text-2xl font-sans leading-tight hover:no-underline;

@@ -115,6 +115,10 @@ export const BIO_ANIMATION_DEFAULTS = {
   translateY: -motion.distance("lg"),
   itemTranslateY: -motion.distance("md"),
   itemRevealViewportRatio: 0.5,
+  subSectionStartDelay: ANIMATION_DEFAULTS.duration,
+  stickySubheadingFadeDuration: ANIMATION_DEFAULTS.duration,
+  stickyHeaderCollapseDuration: ANIMATION_DEFAULTS.duration,
+  stickySubheadingTopThreshold: 1,
 };
 
 /**

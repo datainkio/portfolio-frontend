@@ -33,8 +33,6 @@ import { SELECTORS } from "../../config/index.js";
 //   GEL_ARRANGEMENTS,
 //   SECTION_TO_GEL_ARRANGEMENT,
 // } from "../../config/arrangements.js";
-import { SOCKETS, LINE_STYLES } from "../../config/displays/leader-lines.js";
-import LineManager from "../../managers/LineManager.js";
 
 const LOGS = {
   description:
@@ -67,10 +65,6 @@ export class LandingSequence {
       activeGelArrangementId: initialArrangementId,
       heroIntroRequested: false,
     };
-    this.lineManager = new LineManager({
-      sockets: SOCKETS,
-      styles: LINE_STYLES,
-    });
     this._listeners = [];
 
     /**
@@ -100,8 +94,6 @@ export class LandingSequence {
       EVENTS.system.preloaderOut,
       this.handlePreloaderOut,
     );
-    this.lineManager?.initialize();
-    this.lineManager?.hideAllLines("none");
     // if (this.state.isStarted) return;
     // this.state.isStarted = true;
 
@@ -134,7 +126,6 @@ export class LandingSequence {
     this.state.isStarted = false;
     this.state.isComplete = false;
     this.state.heroIntroRequested = false;
-    this.lineManager?.reset();
   }
 
   /**
@@ -144,8 +135,6 @@ export class LandingSequence {
    * Sequence cannot be reused after destroy().
    */
   destroy() {
-    this.lineManager?.destroy();
-
     if (this.handlePreloaderOut) {
       window.removeEventListener(
         EVENTS.system.preloaderOut,
@@ -164,7 +153,6 @@ export class LandingSequence {
     this._listeners = [];
     this.sections = null;
     this.gelManager = null;
-    this.lineManager = null;
     this.bus = null;
   }
 
@@ -249,7 +237,6 @@ export class LandingSequence {
 
     on(EVENTS.hero.exit, () => {
       this.logger.trace(SELECTORS.hero + " exited");
-      this.lineManager?.connect(SELECTORS.hero, SELECTORS.bio, "none");
     });
 
     // Respond to hero intro start
@@ -322,7 +309,6 @@ export class LandingSequence {
 
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
-      // this.lineManager?.connect(SELECTORS.bio, SELECTORS.awards, "none");
     });
 
     // Respond to bio intro start
@@ -356,7 +342,6 @@ export class LandingSequence {
 
     on(EVENTS.awards.exit, () => {
       // this.logger.trace(SELECTORS.awards + " exited");
-      // this.lineManager?.connect(SELECTORS.awards, SELECTORS.work, "none");
     });
 
     // Respond to awards intro start
@@ -389,11 +374,6 @@ export class LandingSequence {
 
     on(EVENTS.work.exit, () => {
       // this.logger.trace(SELECTORS.work + " exited");
-      // this.lineManager?.connect(
-      //   SELECTORS.work,
-      //   SELECTORS.organizations,
-      //   "none",
-      // );
     });
 
     on(EVENTS.work.introStart, () => {
@@ -410,7 +390,6 @@ export class LandingSequence {
 
     on(EVENTS.work.outroComplete, () => {
       // this.logger.trace(SELECTORS.work + " outro complete");
-      // this.lineManager?.connect(SELECTORS.work, SELECTORS.organizations, "none");
     });
   }
 }
