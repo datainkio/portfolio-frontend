@@ -34,6 +34,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - Helpers reside in `cms/client.js`, `cms/fetchSanityData.js`, and `cms/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
 - Serializes landing Portable Text (`valuePropRichText`) to HTML using `@portabletext/to-html` and stores it on each landing record as `valuePropBodyHtml`.
+- Supports `sub_section` custom blocks in `valuePropRichText` during serialization, including nested Portable Text body content and image asset URL expansion.
 - Exposes metadata as `cmsMeta` global data (no secrets stored).
 
 ## Usage in templates

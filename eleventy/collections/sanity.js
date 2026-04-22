@@ -65,6 +65,15 @@ function normalizeLinkHref(href) {
   return "";
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function serializePortableTextToHtml(blocks) {
   if (!Array.isArray(blocks) || blocks.length === 0) {
     return "";
@@ -79,8 +88,25 @@ function serializePortableTextToHtml(blocks) {
             return "";
           }
 
-          const alt = value?.alt || "";
+          const alt = escapeHtml(value?.alt || "");
           return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />`;
+        },
+        sub_section: ({ value }) => {
+          const heading = escapeHtml(value?.heading || "");
+          const bodyHtml = serializePortableTextToHtml(value?.body);
+
+          if (!heading && !bodyHtml) {
+            return "";
+          }
+
+          const headingHtml = heading
+            ? `<h3 data-bio-el="sub-section-heading">${heading}</h3>`
+            : "";
+          const nestedBodyHtml = bodyHtml
+            ? `<div data-bio-el="sub-section-body">${bodyHtml}</div>`
+            : "";
+
+          return `<section data-bio-el="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
         },
       },
       block: {

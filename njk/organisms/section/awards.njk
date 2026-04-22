@@ -8,15 +8,16 @@
   {%- set subheading = params.copy.subheading -%}
   {%- set body = params.copy.body -%}
   {%- set order = params.order | default("") -%}
+  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
 
   {%- set awards = params.awards | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " data-scroll-section>
+  <section id="{{ sectionId }}" class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header data-awards-el="header" class="col-span-full">
       <div data-awards-el="context" class="text-sm col-span-full">
         {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
       </div>
-      <h2 data-awards-el="heading" class="col-span-full">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-awards-el="heading" class="col-span-full">{{ heading }}</h2>
       <p data-awards-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if awards | length %}

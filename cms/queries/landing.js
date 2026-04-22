@@ -21,6 +21,18 @@ export const landingQuery = {
         "asset": asset->{
           "url": url
         }
+      },
+      _type == "sub_section" => {
+        ...,
+        body[]{
+          ...,
+          _type == "image" => {
+            ...,
+            "asset": asset->{
+              "url": url
+            }
+          }
+        }
       }
     },
     recognitionHeading,

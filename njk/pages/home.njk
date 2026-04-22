@@ -35,7 +35,7 @@
             <div id="smooth-content">
                 <main id="page-main" aria-busy="true" class="space-y-48 grid grid-cols-12 text-neutral-100">
                     {# Note that content values are set in frontmatter #}
-                    {# The id param has a matching value in SELECTORS for consistency #}
+                    {# The id param has a matching value in SELECTORS.js for consistency w/choreography #}
                     {{ heroSection.render( { id: "hero", tagline: hero.tagline, classes: sharedClasses }) }}
                     {{ bioSection.render({id: "introduction", copy: value, order: "1/4", classes: sharedClasses}) }}
                     {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards, order: "2/4", classes: sharedClasses }) }}
