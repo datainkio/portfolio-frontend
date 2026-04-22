@@ -49,7 +49,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
           selectBioEl(this.view, "context"),
           selectBioEl(this.view, "heading"),
           selectBioEl(this.view, "subheading"),
-          ...Array.from(selectBioEl(this.view, "sub-section") ?? []), // Include all paragraphs within the section
+          ...Array.from(selectBioEl(this.view, "sub-section") ?? []),
         ].filter(Boolean),
       ),
     );
