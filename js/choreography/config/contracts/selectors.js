@@ -19,6 +19,7 @@ export const SELECTORS = {
   bio: "introduction",
   awards: "recognition",
   work: "work",
+  contact: "contact",
 
   // GSAP ScrollSmoother containers
   // TODO: Optimize design to avoid these wrappers, which add complexity to DOM and animations

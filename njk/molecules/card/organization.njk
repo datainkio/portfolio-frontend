@@ -1,0 +1,12 @@
+{% from "molecules/card/card.njk" import render as renderCard %}
+
+{% macro render(organization) %}
+  {{ renderCard({
+    href: organization.url,
+    title: organization.title,
+    eyebrow: organization.role,
+    description: organization.summary,
+    image: organization.thumbnail,
+    meta: organization.year
+  }) }}
+{% endmacro %}

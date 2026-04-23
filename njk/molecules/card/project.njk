@@ -1,65 +1,12 @@
----
-# Project Card Component - Molecular UI Pattern
-#
-# CRITICAL WARNING: This molecule displays project teasers
-# Requires collections.images and collections.roles for data lookup
-#
-# PROPS:
-name: "project-card"
-category: "molecules"
-props:
-  project: { type: "object", required: true, description: "Project object with thumbnail, roles, title, teaser, url" }
-  modal: { type: "boolean", default: false, description: "Enable modal interaction instead of link" }
-  featured: { type: "boolean", default: false, description: "Display as featured item (larger aspect ratio)" }
-  imageStyle: { type: "string", default: "auto", description: "Custom image container styles" }
-#
-# ATOMIC DEPENDENCIES:
-# - picture shortcode for responsive images
-# - Modal organism for interactive display
-#
-# AIRTABLE INTEGRATION:
-# - Expects project object from collections.projects
-# - Images referenced by ID in project.thumbnail
-# - Roles referenced by ID array in project.roles
----
+{% from "molecules/card/card.njk" import render as renderCard %}
 
-{% macro render(params = {}) %}
-  {%- set project = params.project -%}
-  {%- set modal = params.modal | default(false) -%}
-  {%- set featured = params.featured | default(false) -%}
-  {%- set customImageStyle = params.imageStyle -%}
-  
-  {# Lookup image and roles from collections #}
-  {%- set image = collections.images | findRecord(project.thumbnail) -%}
-  
-  {# Determine image container styles #}
-  {%- if customImageStyle -%}
-    {%- set imageContainerStyle = customImageStyle -%}
-  {%- elif featured -%}
-    {%- set imageContainerStyle = "relative w-full aspect-video overflow-hidden" -%}
-  {%- else -%}
-    {%- set imageContainerStyle = "relative w-full sm:aspect-video overflow-hidden" -%}
-  {%- endif -%}
-  
-  <article
-    class="project-teaser relative flex flex-col items-start"
-    {% if modal %}onclick="modal_{{ project.id }}.showModal()"{% endif %}
-  >
-    {% picture image[0].file.html, imageContainerStyle, "absolute inset-0 object-cover" %}
-    
-    <ul class="flex flex-row gap-2 uppercase text-xs">
-      {% for role in collections.roles | findRecord(project.roles) %}
-        <li>{{ role.title }}</li>
-      {% endfor %}
-    </ul>
-    
-    <h4 class="text-2xl">{{ project.title }}</h4>
-    <p>{{ project.teaser }}</p>
-    
-    {% if modal %}
-      {% include "organisms/modal/project.njk" %}
-    {% else %}
-      <a href="{{ project.url }}" class="btn">View project</a>
-    {% endif %}
-  </article>
+{% macro render(project) %}
+  {{ renderCard({
+    href: project.url,
+    title: project.title,
+    eyebrow: project.role,
+    description: project.summary,
+    image: project.thumbnail,
+    meta: project.year
+  }) }}
 {% endmacro %}

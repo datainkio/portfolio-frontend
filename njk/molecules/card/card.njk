@@ -1,5 +1,6 @@
 {% macro render(params = {}) %}
-  {%- set title = params.title | default("Untitled") -%}
+  {%- set title = params.title | default("") -%}
+  {%- set showTitle = params.showTitle | default(true) -%}
   {%- set image = params.image -%}
   {%- set url = params.url | default("") -%}
   {%- set classes = params.classes | default("") -%}

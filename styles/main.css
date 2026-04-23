@@ -27,7 +27,7 @@
 
 /* Animation optimizations for GSAP and ScrollSmoother integration */
 @import "./animations.css" layer(components);
-@import "./components/section-playback.css" layer(components);
+@import "./components/portable-text.css" layer(components);
 
 @theme {
   /* Mask Image Tokens */

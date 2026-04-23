@@ -86,7 +86,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
 
     if (this.animTargets.length) {
       gsap.set(this.animTargets, {
-        autoAlpha: 0.5,
+        autoAlpha: 0,
         y: this.options.translateY,
       });
     }

@@ -12,6 +12,7 @@
 {% import "organisms/section/awards.njk" as awardsSection %}
 {% import "organisms/section/work.njk" as projectsSection %}
 {% import "organisms/section/organizations.njk" as organizationsSection %}
+{% import "organisms/section/contact.njk" as contactSection %}
 
 {# SECTION STYLING #}
 {% set sharedClasses = "" %}
@@ -30,20 +31,16 @@
             preload: "none",
             autoPlay: true
             }) }}
-        {# Wrapping content with the smooth-wrapper and smooth-content divs for ScrollSmoother #}
-        {# Design may not require this. Disabled for now, but leaving in place for potential future use. #}
-        {# <div id="smooth-wrapper"> #}
-        {# <div id="smooth-content"> #}
-            <main id="page-main" aria-busy="true" class="space-y-48 grid grid-cols-12 text-neutral-100"> {# Note that content values are set in frontmatter #}
-            {# The id param has a matching value in SELECTORS.js for consistency w/choreography #}
+        <main id="page-main" aria-busy="true" class="space-y-48 grid grid-cols-12 text-neutral-100">
+            {# Note that content values are set in frontmatter #}
+            {# The id param has a matching value in SELECTORS.js for consistency w/choreography during runtime #}
             {{ heroSection.render( { id: "hero", tagline: hero.tagline, classes: sharedClasses }) }}
-            {{ bioSection.render({id: "introduction", copy: value, order: "1/4", classes: sharedClasses}) }}
-            {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards, order: "2/4", classes: sharedClasses }) }}
-            {{ projectsSection.render({ id: "work", projects: collections.projects, classes: sharedClasses, order: "3/4" }) }}
-        {{ organizationsSection.render({ id: "organizations", organizations: collections.organizations, classes: sharedClasses, order: "4/4" }) }}
+            {{ bioSection.render({ id: "introduction", copy: value, order: "1/5", classes: sharedClasses}) }}
+            {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards, order: "2/5", classes: sharedClasses }) }}
+            {{ projectsSection.render({ id: "work", projects: collections.projects, classes: sharedClasses, order: "3/5" }) }}
+            {{ organizationsSection.render({ id: "organizations", organizations: collections.organizations, classes: sharedClasses, order: "4/5" }) }}
+        {{ contactSection.render({ id: "contact", copy: contact, classes: sharedClasses, order: "5/5" }) }}
         </main>
         {{ Footer.render() }}
-        {# </div> #}
-        {# </div> #}
-        {# Closing the smooth-wrapper and smooth-content divs for ScrollSmoother #}{# If smooth scrolling is desired, uncomment the wrapping divs above and this script include #}
-{% include "templates/partials/choreography-script.njk" %}</body></html>
+    {% include "templates/partials/choreography-script.njk" %}
+</body></html>

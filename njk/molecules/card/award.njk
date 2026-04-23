@@ -1,0 +1,8 @@
+{% macro render(award) %}
+  {% import "molecules/card/card.njk" as Card %}
+  {%- set title = award.title | default("Untitled award") -%}
+  {%- set image = award.organization.logo | default(award.logo) -%}
+  {%- set url = award.url | default("") -%}
+
+  {{ Card.render({ title: title, image: image, url: url, showTitle: false }) }}
+{% endmacro %}
