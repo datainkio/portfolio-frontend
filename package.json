@@ -41,8 +41,8 @@
   ],
   "scripts": {
     "_comment_development": "=== DEVELOPMENT WORKFLOWS ===",
-    "start": "run-s build:js dev",
-    "start:nobundle": "run-s dev:nobundle",
+    "start": "run-s dev:nobundle",
+    "start:bundle": "run-s build:js dev",
     "dev": "run-p dev:css dev:11ty dev:js",
     "dev:nobundle": "BUNDLE_JS=false run-s build:js dev:nobundle:serve",
     "dev:nobundle:serve": "run-p dev:css dev:11ty",
