@@ -2,7 +2,7 @@
 // Example Tailwind config extension that wires motionTokens into Tailwind utilities.
 // Import into main tailwind.config.cjs or merge its `theme.extend` section.
 
-const { motionTokens } = require("./config/motion.js");
+const { motionTokens } = require("./config/ix/motion.js");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

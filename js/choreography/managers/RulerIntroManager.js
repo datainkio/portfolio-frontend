@@ -4,8 +4,10 @@
  * Keeps the display implementation (Ruler.js) focused on rendering while
  * choreography concerns (timing, trigger, motion tokens) live in this manager.
  */
-import { motion } from "/assets/js/choreography/config/motion.js";
-import { RULER_INTRO_DEFAULTS } from "/assets/js/choreography/config/ruler.js";
+import {
+  motion,
+  RULER_INTRO_DEFAULTS,
+} from "/assets/js/choreography/config/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
