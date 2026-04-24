@@ -4,6 +4,7 @@
 {% import "organisms/footer/global-footer.njk" as Footer %}
 
 {# UX IMPORTS #}
+{% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
 {% import "molecules/background/sizzle-background.njk" as Background %}
 
 {# SECTION CONTENT #}
@@ -22,8 +23,9 @@
     {% include "templates/partials/head.njk" %}
     <body>
         {% include "templates/partials/gtm-noscript.njk" %}
-        {{ Preloader.render({ kind: "spinner", message: "Lubricating the framistan…" }) }}
+        {{ SkipLinksNav.render({ items: ["hero", "introduction", "recognition", "work", "organizations", "contact"] }) }}
         {{ Header.render() }}
+        {{ Preloader.render({ kind: "spinner", message: "Lubricating the framistan…" }) }}
         {{ Background.render({
             id:"background",
             videoSrc: hero.videoSrc,
