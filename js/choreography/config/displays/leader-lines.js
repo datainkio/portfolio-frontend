@@ -18,61 +18,41 @@ export const SOCKETS = Object.freeze({
   [SELECTORS.hero]: Object.freeze({
     origin: Object.freeze({
       element: "#hero-title",
-      x: "50%",
-      y: "100%",
     }),
     terminus: Object.freeze({
       element: "#hero-title",
-      x: "0%",
-      y: "50%",
     }),
   }),
   [SELECTORS.bio]: Object.freeze({
     origin: Object.freeze({
       element: "#introduction",
-      x: "100%",
-      y: "85%",
     }),
     terminus: Object.freeze({
       element: "#introduction",
-      x: "15%",
-      y: "0%",
     }),
   }),
   [SELECTORS.awards]: Object.freeze({
     origin: Object.freeze({
       element: "#recognition",
-      x: "100%",
-      y: "85%",
     }),
     terminus: Object.freeze({
       element: "#recognition",
-      x: "0%",
-      y: "0%",
     }),
   }),
   [SELECTORS.work]: Object.freeze({
     origin: Object.freeze({
       element: "#work",
-      x: "80%",
-      y: "100%",
     }),
     terminus: Object.freeze({
       element: "#work",
-      x: "20%",
-      y: "0%",
     }),
   }),
   [SELECTORS.organizations]: Object.freeze({
     origin: Object.freeze({
       element: "#organizations",
-      x: "80%",
-      y: "100%",
     }),
     terminus: Object.freeze({
       element: "#organizations",
-      x: "20%",
-      y: "0%",
     }),
   }),
 });
@@ -91,14 +71,8 @@ export const LINE_STYLES = Object.freeze({
 });
 
 export const BIO_SUB_SECTION_LINE_DEFAULTS = Object.freeze({
-  origin: Object.freeze({
-    x: "85%",
-    y: "100%",
-  }),
-  terminus: Object.freeze({
-    x: "15%",
-    y: "0%",
-  }),
+  origin: Object.freeze({}),
+  terminus: Object.freeze({}),
   showEffect: "draw",
   showAnimOptions: Object.freeze({
     duration: ANIMATION_DEFAULTS.duration,

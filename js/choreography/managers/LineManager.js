@@ -22,7 +22,7 @@ import { SOCKETS, LINE_STYLES } from "../config/displays/leader-lines.js";
 
 const DEFAULT_SHOW_EFFECT = "draw";
 const DEFAULT_SHOW_ANIM_OPTIONS = Object.freeze({
-  duration: 500,
+  duration: 2000,
   timing: [0.58, 0, 0.42, 1],
 });
 
@@ -219,22 +219,11 @@ export default class LineManager {
       return null;
     }
 
-    const startAnchor = {
-      x: origin?.x || "50%",
-      y: origin?.y || "50%",
-    };
-    const endAnchor = {
-      x: terminus?.x || "50%",
-      y: terminus?.y || "50%",
-    };
-
+    // after:
     const line = new LeaderLine(
-      LeaderLine.pointAnchor(startElement, startAnchor),
-      LeaderLine.pointAnchor(endElement, endAnchor),
-      {
-        ...lineOptions,
-        hide: true,
-      },
+      this._resolveAnchor(LeaderLine, startElement, origin),
+      this._resolveAnchor(LeaderLine, endElement, terminus),
+      { ...lineOptions, hide: true },
     );
 
     this._applyLineClasses(line, this.styles?.classes);
@@ -244,6 +233,15 @@ export default class LineManager {
       line,
       visible: false,
     };
+  }
+
+  _resolveAnchor(LeaderLine, element, socket) {
+    const hasCoords = socket?.x !== undefined || socket?.y !== undefined;
+    if (!hasCoords) return element;
+    return LeaderLine.pointAnchor(element, {
+      x: socket.x ?? "50%",
+      y: socket.y ?? "50%",
+    });
   }
 
   _normalizeSocketKey(socketKey) {
