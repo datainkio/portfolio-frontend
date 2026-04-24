@@ -10,7 +10,7 @@ These instructions make AI coding agents immediately productive in this repo by 
 - **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
 - **Content via Sanity**: Data fetched at build time and exposed as 11ty collections. Defaults live in `site.json` under `cms` (or `sanity`) with queries in `cms/queries.js`.
 - **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
-- **Animation system**: GSAP-based choreography under `js/choreography/` with Director, StageManager, AnimationBus, section controllers, and specialized managers.
+- **Animation system**: GSAP-based choreography under `js/choreography/` with AnimationDirector, ScrollEffectsCoordinator, AnimationBus, section controllers, and specialized managers.
 - **Logging**: Unified `@datainkio/lumberjack` logger across Node and browser environments for consistent output.
 
 ## Core Workflows
@@ -135,13 +135,13 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 - `js/main.js` - Browser entry point (imports AnimationDirector)
 - `js/choreography/` - Animation system
-  - `Director.js` - Master coordinator (initializes everything)
+  - `AnimationDirector.js` - Master coordinator (initializes sections, bus, and runtime gates)
   - `ScrollEffectsCoordinator.js` - Scroll smoothing & background effects coordinator
   - `AnimationBus.js` - Event system for section coordination
-  - `sections/` - Section-specific controllers (Hero, BackgroundVideo, Bio, Organizations)
+  - `sections/` - Section-specific controllers (Hero, BackgroundVideo, Bio, Awards, Organizations, Work)
   - `sequences/` - Animation choreography (LandingSequence)
-  - `managers/` - Specialized managers (ReducedMotion, BackgroundLayer, ScrollSmoother, GelAnimation)
-  - `config/` - Choreography configuration modules (`runtime.js`, `events.js`, `motion.js`, `arrangements.js`)
+  - `managers/` - Specialized managers (ReducedMotionHandler, ScrollSmootherManager, GelAnimationManager, LineManager, SessionManager, RulerIntroManager)
+  - `config/` - Choreography config barrel + modules (`index.js`, `contracts/events.js`, `contracts/selectors.js`, `ix/*`, `displays/*`)
 - `js/utils/lumberjack/` - **Note**: Uses `@datainkio/lumberjack` npm package, not local files
 
 **Content Management**
@@ -183,7 +183,7 @@ Example macro:
 
 **Architecture Overview**
 
-- `Director.js` - Master coordinator that initializes all animation systems
+- `AnimationDirector.js` - Master coordinator that initializes choreography systems
 - `AnimationBus.js` - Event-driven coordination between sections (pub/sub pattern)
 - `ScrollEffectsCoordinator.js` - Scroll smoothing, background effects, and specialized managers
 - `LandingSequence.js` - Choreographs animation flow by listening to events
@@ -191,16 +191,18 @@ Example macro:
 **Section Controllers** (in `js/choreography/sections/`)
 
 - Each section follows pattern: `<Section>.js`, `<Section>Animations.js`, `<Section>Triggers.js`
-- Active sections: `Hero`, `BackgroundVideo`, `Bio`, `Organizations`
+- Active sections: `Hero`, `BackgroundVideo`, `Bio`, `Awards`, `Organizations`, `Work`
 - All sections extend `AbstractSection` base class
 - Sections communicate via AnimationBus events (e.g., `hero:intro:start`, `hero:intro:complete`)
 
 **Specialized Managers** (in `js/choreography/managers/`)
 
 - `ReducedMotionHandler` - Accessibility and motion preferences
-- `BackgroundLayerManager` - Fixed background positioning
 - `ScrollSmootherManager` - GSAP smooth scrolling (optional, graceful degradation)
 - `GelAnimationManager` - Gel background animations
+- `LineManager` - Decorative/relational line rendering support
+- `SessionManager` - Runtime session state coordination
+- `RulerIntroManager` - Intro ruler display choreography
 
 **GSAP Setup**
 
@@ -306,7 +308,7 @@ logger.trace(title, message, verbosity, style);
 **Creating Section Controllers:**
 
 ```javascript
-// 1. Add events to config/events.js
+// 1. Add events to config/contracts/events.js
 export const EVENTS = {
   custom: {
     introStart: "custom:intro:start",
@@ -316,19 +318,27 @@ export const EVENTS = {
 
 // 2. Create section extending AbstractSection
 import AbstractSection from "../abstract-section/AbstractSection.js";
-import { EVENTS } from "../../config/events.js";
+import CustomAnimations from "./CustomAnimations.js";
+import CustomTriggers from "./CustomTriggers.js";
 
 export default class Custom extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
-    const elem = document.getElementById("custom");
-    // ... initialize animations and triggers
-    super(elem, animations, triggers, EVENTS.custom, bus, {
+    const view = document.getElementById("custom");
+    const animations = new CustomAnimations(view);
+    const triggers = new CustomTriggers(view);
+
+    super({
+      view,
+      animations,
+      triggers,
+      sectionKey: "custom",
+      bus,
       reducedMotionHandler,
     });
   }
 }
 
-// 3. Wire into Director.js
+// 3. Register in sections/registry.js and AnimationDirector initialization
 this.sections.custom = new Custom({
   bus: this.bus,
   reducedMotionHandler: this.stage?.reducedMotion,
@@ -340,7 +350,7 @@ this.sections.custom = new Custom({
 **Common mistakes that will cause errors:**
 
 - ❌ Don't rely on legacy schema helpers; use Sanity collections instead
-- ❌ Don't reference Work, Splash, or Approach sections - They don't exist in current codebase
+- ❌ Don't reference Splash or Approach sections unless they are added to `js/choreography/sections/registry.js`
 - ❌ Don't edit auto-generated files: `styles/colors.css`, `styles/typography/fontFamilies.css` - They're overwritten by `build:design`
 - ❌ Don't call Tailwind CLI directly - Always use npm scripts (`npm run build:css` or `npm run dev:css`)
 - ❌ Don't name sections "Biography" - The actual implementation is "Bio"
@@ -374,12 +384,12 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 - Create `njk/molecules/<name>/<name>.njk` exporting a `render(params)` macro.
 - Use in a page: `{% import "molecules/<name>/<name>.njk" as m %} {{ m.render({ ... }) }}`.
 - Add styles under `styles/` (respect `styles/main.css` order). If using tokens, run `npm run build:design`.
-- If animated, add a section controller under `js/choreography/sections/<name>/<Name>.js` and wire via `Director.js`.
+- If animated, add a section controller under `js/choreography/sections/<name>/<Name>.js` and wire via `AnimationDirector.js` + `sections/registry.js`.
 - Verify DOM IDs/classes expected by controllers exist in the template.
 
 ## Hero Section Hooks
 
 - The hero controller lives at `js/choreography/sections/hero/Hero.js`.
-- Expects hero DOM container and any target elements to be present before `Director` initialization.
+- Expects hero DOM container and any target elements to be present before `AnimationDirector` initialization.
 - Coordinate cross-section timing via `AnimationBus` rather than direct calls.
 - Keep GSAP timelines modular and avoid side effects outside the hero container.

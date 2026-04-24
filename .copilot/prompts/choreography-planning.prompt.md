@@ -25,7 +25,7 @@ Use this module when the request is about **designing/structuring motion** in th
 - Progressive enhancement: content must work without JS.
 - Accessibility: always include a **graceful reduced-motion** variant (shorten/simplify; don’t “turn everything off” unless requested).
 - Include cancel/escape hatches: scroll early, focus/keyboard changes, route/page teardown/re-entry.
-- Config/constants-first planning: for `js/choreography` decisions, prefer values/events/selectors sourced from `frontend/js/choreography/config/index.js` and `frontend/js/choreography/config/events.js`; explicitly call out any required additions there before per-file literals.
+- Config/constants-first planning: for `js/choreography` decisions, prefer values/events/selectors sourced from `frontend/js/choreography/config/index.js` and `frontend/js/choreography/config/contracts/events.js`; explicitly call out any required additions there before per-file literals.
 
 ## Output (must fit Concierge schema)
 
@@ -37,7 +37,7 @@ Return using Concierge’s required structure:
 4. **Next actions**
 
 Handoff to implementation: include a concise, numbered checklist of decisions (timelines, targets, triggers, reduced-motion rules). The implementation module will assume this checklist exists and will not re-plan.
-Include configuration mapping in the checklist: identify which decisions are sourced from existing `config/index.js`/`config/events.js` keys and which new keys/events must be introduced.
+Include configuration mapping in the checklist: identify which decisions are sourced from existing `config/index.js` and `config/contracts/events.js` keys and which new keys/events must be introduced.
 
 Inside **Answer / Deliverable**, include the plan sections:
 
