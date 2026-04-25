@@ -18,7 +18,6 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap, ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
 import { BIO_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors.js";
@@ -42,11 +41,6 @@ export default class BioAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.logger = lumberjack.createScoped(this.constructor.name, {
-      color: "#007bff",
-      enabled: true,
-    });
-
     this.options = {
       duration: options.duration ?? BIO_ANIMATION_DEFAULTS.duration,
       stagger: options.stagger ?? BIO_ANIMATION_DEFAULTS.stagger,
@@ -74,8 +68,6 @@ export default class BioAnimations extends AbstractSectionAnimations {
         inOut: options.ease?.inOut ?? BIO_ANIMATION_DEFAULTS.ease.inOut,
       },
     };
-
-    this.view = view;
 
     this.elements = {
       header: selectBioEl(this.view, "header") ?? this.view,
@@ -126,29 +118,8 @@ export default class BioAnimations extends AbstractSectionAnimations {
     this._createHeaderStateTrigger();
   }
 
-  intro() {
-    this.logger.trace("Intro started");
-    if (!this.view) return;
-    return this.play(TIMELINE_IDS.intro);
-  }
-
-  outro() {
-    this.logger.trace("Outro started");
-    if (!this.view) return;
-    return this.play(TIMELINE_IDS.outro);
-  }
-
   showAllSubSections() {
-    if (!this.subSectionItems.length) return;
-
-    this.subSectionItems.forEach((item) => {
-      this.revealedItems.add(item);
-    });
-
-    gsap.set(this.subSectionItems, {
-      autoAlpha: 1,
-      y: 0,
-    });
+    this._showAllItems(this.subSectionItems, this.revealedItems);
   }
 
   setOnSubSectionRevealComplete(handler) {
@@ -344,36 +315,22 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   updateSubSectionReveal() {
-    if (!this.subSectionItems.length) return;
-
-    const viewportHeight =
-      window.innerHeight || document.documentElement?.clientHeight || 0;
-    if (!viewportHeight) return;
-
-    const clampedRatio = Math.min(
-      0.95,
-      Math.max(0.05, this.options.itemRevealViewportRatio),
-    );
-    const revealThreshold = viewportHeight * clampedRatio;
-
-    this.subSectionItems.forEach((item, itemIndex) => {
-      if (this.revealedItems.has(item)) return;
-
-      const itemTop = item.getBoundingClientRect().top;
-      if (itemTop > revealThreshold) return;
-
-      this.revealedItems.add(item);
-
-      gsap.to(item, {
-        autoAlpha: 1,
-        y: 0,
-        delay: this.options.subSectionStartDelay,
-        duration: this.options.duration,
-        ease: this.options.ease.in,
-        onComplete: () => {
-          this.onSubSectionRevealComplete?.(item, itemIndex);
-        },
-      });
+    this._revealItemsOnScroll({
+      items: this.subSectionItems,
+      revealedItems: this.revealedItems,
+      revealViewportRatio: this.options.itemRevealViewportRatio,
+      buildTween: (item, itemIndex) => {
+        gsap.to(item, {
+          autoAlpha: 1,
+          y: 0,
+          delay: this.options.subSectionStartDelay,
+          duration: this.options.duration,
+          ease: this.options.ease.in,
+          onComplete: () => {
+            this.onSubSectionRevealComplete?.(item, itemIndex);
+          },
+        });
+      },
     });
   }
 

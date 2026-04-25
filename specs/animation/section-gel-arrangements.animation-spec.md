@@ -5,7 +5,7 @@
 - **Status:** draft
 - **Last reviewed:** 2026-02-19
 - **Scope:** Landing choreography gel layers (`.bg-gel`) reacting to section lifecycle events (`EVENTS.*.enter` / `EVENTS.*.exit`).
-- **Links:** choreography coordinator [../../js/choreography/sequences/landing/LandingSequence.js](../../js/choreography/sequences/landing/LandingSequence.js), event contracts [../../js/choreography/config/events.js](../../js/choreography/config/events.js), gel manager [../../js/choreography/managers/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager.js), choreography config [../../js/choreography/config/index.js](../../js/choreography/config/index.js)
+- **Links:** choreography coordinator [../../js/choreography/sequences/landing/LandingSequence.js](../../js/choreography/sequences/landing/LandingSequence.js), event contracts [../../js/choreography/config/contracts/events.js](../../js/choreography/config/contracts/events.js), gel manager [../../js/choreography/managers/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager.js), choreography config [../../js/choreography/config/index.js](../../js/choreography/config/index.js)
 
 ## Motion Principles
 
@@ -210,6 +210,10 @@ Rules:
 - Dedicated file `config/arrangements.js` for high-iteration DX.
 - Viewport-normalized rect + mask schema for portable, swappable arrangements.
 - `enter` events are authoritative for MVP section-to-arrangement mapping.
+- Runtime extension: hero outro applies a dedicated `hero_outro` arrangement so `bg-gel-0` is top-anchored at `y: 0` with `height: 0.5`.
+- Runtime sequencing: on `hero:exit`, LandingSequence applies `hero_outro` and starts hero outro playback after `bg-gel-0` tween completion.
+- Trigger timing: `HERO_TRIGGER` uses `start: "top top"`, `end: "+=32"`, and `fastScrollEnd: false` so `hero:exit` emits near first user scroll movement without 1px boundary chatter.
+- Lifecycle initialization: Hero controller starts with `initialInView: true`, and `HERO_TRIGGER.once` remains `false` so initial in-view state does not consume the first actionable exit transition.
 
 ## Open Questions
 

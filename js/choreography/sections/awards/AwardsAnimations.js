@@ -18,7 +18,6 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 import { AWARDS_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
@@ -41,10 +40,6 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.logger = lumberjack.createScoped(this.constructor.name, {
-      color: "#007bff",
-      enabled: true,
-    });
 
     this.options = {
       duration: options.duration ?? AWARDS_ANIMATION_DEFAULTS.duration,
@@ -60,8 +55,6 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
         out: options.ease?.out ?? AWARDS_ANIMATION_DEFAULTS.ease.out,
       },
     };
-
-    this.view = view;
 
     // Using hook-based cached refs for key elements to simplify timeline definitions
     this.elements = {
@@ -102,63 +95,23 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     this._buildTimeline();
   }
 
-  intro() {
-    this.logger.trace("Intro started");
-    if (!this.view) return;
-    return this.play(TIMELINE_IDS.intro);
-  }
-
-  outro() {
-    this.logger.trace("Outro started");
-    if (!this.view) return;
-    return this.play(TIMELINE_IDS.outro);
-  }
-
-  _getLogos() {
-    if (!this.elements.list) return [];
-    return [this.elements.list];
-  }
-
   showAllAwards() {
-    if (!this.awardItems.length) return;
-
-    this.awardItems.forEach((item) => {
-      this.revealedItems.add(item);
-    });
-
-    gsap.set(this.awardItems, {
-      autoAlpha: 1,
-      y: 0,
-    });
+    this._showAllItems(this.awardItems, this.revealedItems);
   }
 
   updateAwardsReveal() {
-    if (!this.awardItems.length) return;
-
-    const viewportHeight =
-      window.innerHeight || document.documentElement?.clientHeight || 0;
-    if (!viewportHeight) return;
-
-    const clampedRatio = Math.min(
-      0.95,
-      Math.max(0.05, this.options.itemRevealViewportRatio),
-    );
-    const revealThreshold = viewportHeight * clampedRatio;
-
-    this.awardItems.forEach((item) => {
-      if (this.revealedItems.has(item)) return;
-
-      const itemTop = item.getBoundingClientRect().top;
-      if (itemTop > revealThreshold) return;
-
-      this.revealedItems.add(item);
-
-      gsap.to(item, {
-        autoAlpha: 1,
-        y: 0,
-        duration: this.options.duration,
-        ease: this.options.ease.in,
-      });
+    this._revealItemsOnScroll({
+      items: this.awardItems,
+      revealedItems: this.revealedItems,
+      revealViewportRatio: this.options.itemRevealViewportRatio,
+      buildTween: (item) => {
+        gsap.to(item, {
+          autoAlpha: 1,
+          y: 0,
+          duration: this.options.duration,
+          ease: this.options.ease.in,
+        });
+      },
     });
   }
 

@@ -24,7 +24,7 @@ Defines the lifecycle contract for every page section, including how intros, out
 
 ### AbstractSectionAnimations
 
-Provides shared GSAP animation primitives and a consistent playback API while each section owns direct references to landing, intro, idle, and outro timelines. This keeps playback controls predictable without relying on a single master timeline and still allows bespoke transitions per section.
+Provides shared timeline playback and registration helpers while each section owns direct references to landing, intro, idle, and outro timelines. It also includes reusable item-reveal helpers (`_showAllItems`, `_revealItemsOnScroll`) to reduce repeated viewport-threshold animation code across sections.
 
 ### AbstractSectionTrigggers
 

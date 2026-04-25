@@ -31,6 +31,15 @@ export const SCROLL_DEFAULTS = {
 export const HERO_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.hero,
+  // Hero is the first section and initializes at viewport top.
+  // Keep trigger range small so hero exit fires near first scroll,
+  // but wide enough to avoid enter/exit chatter around a 1px boundary.
+  // `once` stays false so initial in-view lifecycle does not consume exit handling.
+  start: "center top",
+  end: "top+=1 top-=1",
+  fastScrollEnd: false,
+  once: false,
+  markers: true,
 };
 
 /**

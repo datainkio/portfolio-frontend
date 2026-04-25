@@ -58,8 +58,6 @@ export default class OrganizationsAnimations extends AbstractSectionAnimations {
       },
     };
 
-    this.view = view;
-
     this.elements = {
       header: selectOrganizationsEl(this.view, "header") ?? this.view,
       context: selectOrganizationsEl(this.view, "context"),
@@ -100,45 +98,22 @@ export default class OrganizationsAnimations extends AbstractSectionAnimations {
   }
 
   showAllOrganizations() {
-    if (!this.organizationItems.length) return;
-
-    this.organizationItems.forEach((item) => {
-      this.revealedItems.add(item);
-    });
-
-    gsap.set(this.organizationItems, {
-      autoAlpha: 1,
-      y: 0,
-    });
+    this._showAllItems(this.organizationItems, this.revealedItems);
   }
 
   updateOrganizationsReveal() {
-    if (!this.organizationItems.length) return;
-
-    const viewportHeight =
-      window.innerHeight || document.documentElement?.clientHeight || 0;
-    if (!viewportHeight) return;
-
-    const clampedRatio = Math.min(
-      0.95,
-      Math.max(0.05, this.options.itemRevealViewportRatio),
-    );
-    const revealThreshold = viewportHeight * clampedRatio;
-
-    this.organizationItems.forEach((item) => {
-      if (this.revealedItems.has(item)) return;
-
-      const itemTop = item.getBoundingClientRect().top;
-      if (itemTop > revealThreshold) return;
-
-      this.revealedItems.add(item);
-
-      gsap.to(item, {
-        autoAlpha: 1,
-        y: 0,
-        duration: this.options.duration,
-        ease: this.options.ease.in,
-      });
+    this._revealItemsOnScroll({
+      items: this.organizationItems,
+      revealedItems: this.revealedItems,
+      revealViewportRatio: this.options.itemRevealViewportRatio,
+      buildTween: (item) => {
+        gsap.to(item, {
+          autoAlpha: 1,
+          y: 0,
+          duration: this.options.duration,
+          ease: this.options.ease.in,
+        });
+      },
     });
   }
 

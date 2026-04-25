@@ -18,7 +18,6 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 import { HERO_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
@@ -41,10 +40,6 @@ export default class HeroAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.logger = lumberjack.createScoped(this.constructor.name, {
-      color: "#007bff",
-      enabled: true,
-    });
 
     this.options = {
       duration: options.duration ?? HERO_ANIMATION_DEFAULTS.duration,
@@ -55,8 +50,6 @@ export default class HeroAnimations extends AbstractSectionAnimations {
         out: options.ease?.out ?? HERO_ANIMATION_DEFAULTS.ease.out,
       },
     };
-
-    this.view = view;
 
     // TITLE TEXT
     // Using hook-based cached refs for key elements to simplify timeline definitions
@@ -100,37 +93,23 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _buildIntro() {
-    var tl = gsap.timeline({ id: TIMELINE_IDS.intro }).set(this.view, {
-      clipPath: "none",
-      webkitClipPath: "none",
+    var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
+    tl.to(this.view, {
       autoAlpha: 1,
+      duration: this.options.duration,
+      ease: this.options.ease.out,
     });
     return tl;
   }
 
   _buildOutro() {
-    var tl = gsap.timeline({ id: TIMELINE_IDS.outro }).set(this.view, {
-      clipPath: "none",
-      webkitClipPath: "none",
+    var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
+    tl.to(this.view, {
+      autoAlpha: 0,
+      duration: this.options.duration,
+      ease: this.options.ease.in,
     });
     return tl;
-  }
-
-  landing() {
-    console.log("Playing hero landing animation");
-    if (!this.view || !this.elements.tagline) return;
-    return this.play(TIMELINE_IDS.landing);
-  }
-
-  // Override AbstractSectionAnimations
-  intro() {
-    if (!this.view || !this.elements.tagline) return;
-    return this.play(TIMELINE_IDS.intro);
-  }
-
-  outro() {
-    if (!this.view || !this.elements.tagline) return;
-    return this.play(TIMELINE_IDS.outro);
   }
 
   _resetSplit() {

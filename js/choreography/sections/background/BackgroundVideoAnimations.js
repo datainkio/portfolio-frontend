@@ -52,18 +52,16 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   _buildIntro() {
-    const collapsedClip = "inset(50% 0 50% 0)";
     const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
     var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
     tl.fromTo(
       this.animTargets,
       { autoAlpha: 0 },
-      { autoAlpha: 1, duration: this.DURATION },
+      { autoAlpha: 1, duration: this.options.duration },
     ).to(this.animTargets, {
       clipPath: targetClip,
       webkitClipPath: targetClip,
-      // ease: this.easeOut,
-      duration: this.DURATION,
+      duration: this.options.duration,
     });
     return tl;
   }
@@ -74,8 +72,6 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   _buildOutro() {
-    const collapsedClip = "inset(50% 0 50% 0)";
-    const targetClip = "inset(0% 0% 0% 0%)"; // full element width/height
     var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
     return tl;
   }

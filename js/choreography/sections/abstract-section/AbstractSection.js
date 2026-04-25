@@ -52,6 +52,7 @@ export default class AbstractSection {
    * @param {string} options.sectionKey - Section key that maps to EVENTS config (e.g., 'hero')
    * @param {AnimationBus} options.bus - Event bus for coordination (optional)
    * @param {ReducedMotionHandler} options.reducedMotionHandler - Motion preference handler (optional)
+   * @param {boolean} options.initialInView - Initial in-view state for sections that start in viewport
    */
   constructor({
     view,
@@ -60,6 +61,7 @@ export default class AbstractSection {
     sectionKey,
     bus,
     reducedMotionHandler,
+    initialInView = false,
   } = {}) {
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: "#007bff",
@@ -73,7 +75,7 @@ export default class AbstractSection {
     this._reducedMotionHandler = reducedMotionHandler;
     // _isInView is used as a de-dup guard to prevent repeated enter/exit emissions and repeated auto-play
     // calls when ScrollTrigger callbacks fire in quick succession or from back-direction callbacks.
-    this._isInView = false;
+    this._isInView = Boolean(initialInView);
     this._landing = new PromiseResolverQueue();
     this._intro = new PromiseResolverQueue();
     this._outro = new PromiseResolverQueue();
@@ -164,9 +166,7 @@ export default class AbstractSection {
   }
 
   _getTimelineOrWarn(timelineId, source) {
-    const tl =
-      this.animations?.getTimeline?.(timelineId) ??
-      this.animations?.timeline?.getById?.(timelineId);
+    const tl = this.animations?.getTimeline?.(timelineId);
     if (tl) return tl;
 
     this.logger.trace("Missing required animation timeline", {
@@ -269,7 +269,7 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
-    if (this.isDisabled) return Promise.resolve();
+    console.log("Playing outro animation");
     return this._outro.run(() => this.animations.play(TIMELINE_IDS.outro));
   }
 

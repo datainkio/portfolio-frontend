@@ -204,6 +204,39 @@ export default class GelAnimationManager {
     );
   }
 
+  /**
+   * Get a gel instance by its DOM id.
+   * @param {string} gelId
+   * @returns {Gel|null}
+   */
+  getGel(gelId) {
+    if (typeof gelId !== "string" || gelId.length === 0) {
+      return null;
+    }
+
+    return this._gelsById.get(gelId) ?? null;
+  }
+
+  /**
+   * Get the current GSAP tween for a gel by DOM id.
+   * Prefers an active tween and falls back to the newest tween if needed.
+   * @param {string} gelId
+   * @returns {Object|null}
+   */
+  getTween(gelId) {
+    const gel = this.getGel(gelId);
+    if (!gel?.view) {
+      return null;
+    }
+
+    const tweens = gsap.getTweensOf(gel.view);
+    if (!Array.isArray(tweens) || tweens.length === 0) {
+      return null;
+    }
+
+    return tweens.find((tween) => tween.isActive()) ?? tweens.at(-1) ?? null;
+  }
+
   /** @returns {Gel[]} */
   getGels() {
     return this._gels;

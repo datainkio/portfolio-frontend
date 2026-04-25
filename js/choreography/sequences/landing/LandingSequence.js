@@ -28,11 +28,11 @@
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "../../config/contracts/events.js";
-import { SELECTORS } from "../../config/index.js";
-// import {
-//   GEL_ARRANGEMENTS,
-//   SECTION_TO_GEL_ARRANGEMENT,
-// } from "../../config/arrangements.js";
+import {
+  GEL_ARRANGEMENTS,
+  SECTION_TO_GEL_ARRANGEMENT,
+  SELECTORS,
+} from "../../config/index.js";
 
 const LOGS = {
   description:
@@ -210,7 +210,7 @@ export class LandingSequence {
 
     // This is where it all begins. The video intro completes, we trigger the hero intro.
     on(EVENTS.video.introComplete, () => {
-      //  this.logger.trace("BG Video intro complete");
+      this.logger.trace("BG Video intro complete");
       this.sections?.hero?.playLanding?.();
     });
 
@@ -236,6 +236,9 @@ export class LandingSequence {
     });
 
     on(EVENTS.hero.exit, () => {
+      // const playHeroOutro = () => this.sections?.hero?.playOutro?.();
+
+      // const gelTween = this.gelManager?.getTween?.("bg-gel-0");
       this.logger.trace(SELECTORS.hero + " exited");
     });
 

@@ -23,7 +23,7 @@
  */
 
 import AbstractSection from "../abstract-section/AbstractSection.js";
-import { SELECTORS } from "../../config/index.js";
+import { SELECTORS, TIMELINE_IDS } from "../../config/index.js";
 import HeroAnimations from "./HeroAnimations.js";
 import HeroTriggers from "./HeroTriggers.js";
 
@@ -38,9 +38,20 @@ export default class Hero extends AbstractSection {
       view,
       animations,
       triggers,
-      sectionKey: "hero",
+      sectionKey: SELECTORS.hero,
       bus,
       reducedMotionHandler,
+      initialInView: true,
     });
+  }
+
+  // Super Overrides
+  playOutro() {
+    // For the hero section, we want to play the outro immediately on exit trigger
+    // without waiting for the scroll trigger to complete. This allows the hero
+    // animations to start as soon as the user scrolls past the hero, creating a
+    // more responsive and engaging experience.
+    this.logger.trace("Playing outro immediately on exit trigger");
+    this.animations.play(TIMELINE_IDS.outro);
   }
 }
