@@ -150,6 +150,8 @@ export default class AbstractSection {
   }
 
   _onLeaveBack() {
+    if (!this._isInView) return;
+    this._emit(this.events.onLeaveBack, { element: this.view });
     this._onLeave();
   }
 

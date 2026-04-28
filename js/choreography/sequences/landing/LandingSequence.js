@@ -200,6 +200,18 @@ export class LandingSequence {
   }
 
   /**
+   * Resume background video playback after back-scrolling out of bio.
+   * @private
+   */
+  _resumeBackgroundVideo() {
+    const videoEl = this.sections?.video?.videoEl ?? null;
+    const playPromise = videoEl?.play?.();
+    if (playPromise?.catch) {
+      playPromise.catch(() => {});
+    }
+  }
+
+  /**
    * Wire AnimationBus listeners to drive the sequence
    * @private
    */
@@ -242,11 +254,13 @@ export class LandingSequence {
     // Respond to hero intro start
     on(EVENTS.hero.enter, () => {
       this.logger.trace(SELECTORS.hero + " entered");
+
       // this._applySectionArrangement(SELECTORS.hero);
     });
 
     on(EVENTS.hero.onEnterBack, () => {
       this.logger.trace(SELECTORS.hero + " entered back");
+      this._resumeBackgroundVideo();
       // this._applySectionArrangement(SELECTORS.hero);
     });
 
@@ -326,8 +340,18 @@ export class LandingSequence {
       this._pauseBackgroundVideo();
     });
 
+    on(EVENTS.bio.onEnterBack, () => {
+      this.logger.trace(SELECTORS.bio + " entered back");
+      this._pauseBackgroundVideo();
+    });
+
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
+      this._resumeBackgroundVideo();
+    });
+
+    on(EVENTS.bio.onLeaveBack, () => {
+      this.logger.trace(SELECTORS.bio + " leave back");
     });
 
     // Respond to bio intro start

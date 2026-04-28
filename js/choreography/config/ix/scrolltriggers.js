@@ -47,6 +47,7 @@ export const HERO_TRIGGER = {
 export const BIO_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.bio,
+  once: false,
 };
 
 /**

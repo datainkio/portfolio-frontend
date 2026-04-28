@@ -62,6 +62,8 @@ export const EVENTS = {
   bio: {
     enter: "bio:enter",
     exit: "bio:exit",
+    onEnterBack: "bio:onEnterBack",
+    onLeaveBack: "bio:onLeaveBack",
     landingStart: "bio:landing:start",
     landingComplete: "bio:landing:complete",
     introStart: "bio:intro:start",
