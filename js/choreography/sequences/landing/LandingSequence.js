@@ -235,6 +235,11 @@ export class LandingSequence {
       // this._applySectionArrangement(SELECTORS.hero);
     });
 
+    on(EVENTS.hero.onEnterBack, () => {
+      this.logger.trace(SELECTORS.hero + " entered back");
+      this._applySectionArrangement(SELECTORS.hero);
+    });
+
     on(EVENTS.hero.exit, () => {
       // const playHeroOutro = () => this.sections?.hero?.playOutro?.();
 

@@ -90,6 +90,12 @@ export default class AbstractSection {
     this.triggers = triggers ?? new AbstractSectionTriggers(this.view);
     this.animations = animations ?? new AbstractSectionAnimations(this.view);
 
+    // Expose owning section to trigger modules before bind() so section-specific
+    // triggers can coordinate timeline playback safely.
+    if (this.triggers) {
+      this.triggers.section = this;
+    }
+
     const isReducedMotion = Boolean(
       this._reducedMotionHandler?.isReducedMotion(),
     );
@@ -99,11 +105,6 @@ export default class AbstractSection {
     if (isReducedMotion) {
       this._applyPostIntroState();
       return;
-    }
-
-    // Keep parity with other sections for trigger/section coordination.
-    if (this.triggers) {
-      this.triggers.section = this;
     }
 
     if (!view) {
@@ -142,7 +143,10 @@ export default class AbstractSection {
   }
 
   _onEnterBack() {
-    this._onEnter();
+    if (this._isInView) return;
+    this._isInView = true;
+    this._emit(this.events.onEnterBack, { element: this.view });
+    this.playIntro();
   }
 
   _onLeaveBack() {

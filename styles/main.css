@@ -26,7 +26,8 @@
 @import "./utilities/reduced-motion.css" layer(utilities);
 
 /* Animation optimizations for GSAP and ScrollSmoother integration */
-@import "./animations.css" layer(components);
+/* Disabling animations.css to address landing page scroll weirdness */
+/* @import "./animations.css" layer(components); */
 @import "./components/portable-text.css" layer(components);
 
 @theme {

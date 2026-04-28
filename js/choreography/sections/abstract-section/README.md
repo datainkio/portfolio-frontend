@@ -20,7 +20,7 @@ The interaction design for the landing page experience centers on event coordina
 
 ### AbstractSection
 
-Defines the lifecycle contract for every page section, including how intros, outros, and scroll triggers are orchestrated. It centralizes event broadcasting so choreography logic can react without sections talking to each other directly. Designers can rely on consistent hooks for sequencing interactions across the experience.
+Defines the lifecycle contract for every page section, including how intros, outros, and scroll triggers are orchestrated. It centralizes event broadcasting so choreography logic can react without sections talking to each other directly. Designers can rely on consistent hooks for sequencing interactions across the experience, including dedicated back-scroll hooks like `onEnterBack` when present in a section event contract.
 
 ### AbstractSectionAnimations
 

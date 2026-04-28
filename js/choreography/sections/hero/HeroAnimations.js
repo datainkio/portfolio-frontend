@@ -41,6 +41,8 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
 
+    this.gelManager = options.gelManager ?? null;
+
     this.options = {
       duration: options.duration ?? HERO_ANIMATION_DEFAULTS.duration,
       translateY: options.translateY ?? HERO_ANIMATION_DEFAULTS.translateY,
@@ -70,45 +72,74 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     });
 
     var tl = gsap.timeline({ id: TIMELINE_IDS.landing });
-    tl.set(this.view, {
-      width: "100%",
-      backgroundColor: "transparent",
-      clipPath: "none",
-      webkitClipPath: "none",
-      autoAlpha: 1,
-    })
-      .fromTo(
-        this._split.words,
-        { autoAlpha: 0, yPercent: 1 },
-        {
-          autoAlpha: 1,
-          yPercent: 0,
-          duration: this.options.duration,
-          ease: this.options.ease.out,
-          stagger: this.options.stagger,
-        },
-      )
-      .addPause();
+    tl.fromTo(
+      this._split.words,
+      { autoAlpha: 0, yPercent: 1 },
+      {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: this.options.duration,
+        ease: this.options.ease.out,
+        stagger: this.options.stagger,
+      },
+    ).addPause();
     return tl;
   }
 
   _buildIntro() {
+    const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
+
     var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
-    tl.to(this.view, {
-      autoAlpha: 1,
-      duration: this.options.duration,
-      ease: this.options.ease.out,
-    });
-    return tl;
+
+    // tl.to(
+    //   this.view,
+    //   {
+    //     autoAlpha: 1,
+    //     duration: this.options.duration,
+    //     ease: this.options.ease.in,
+    //   },
+    //   0,
+    // );
+    if (gel?.view) {
+      tl.to(
+        gel.view,
+        {
+          top: "0%",
+          height: "100%",
+          duration: this.options.duration,
+          ease: this.options.ease.in,
+          overwrite: "auto",
+          // onUpdate: () => gel.refresh?.(),
+          // onComplete: () => gel.refresh?.(),
+        },
+        0,
+      ).addPause();
+      return tl;
+    }
   }
 
   _buildOutro() {
+    const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
     var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
-    tl.to(this.view, {
-      autoAlpha: 0,
-      duration: this.options.duration,
-      ease: this.options.ease.in,
-    });
+
+    if (!gel?.view) {
+      return tl;
+    }
+
+    tl.to(
+      gel.view,
+      {
+        top: "0%",
+        height: "50%",
+        duration: 1,
+        ease: "none",
+        overwrite: "auto",
+        onUpdate: () => gel.refresh?.(),
+        onComplete: () => gel.refresh?.(),
+      },
+      0,
+    );
+
     return tl;
   }
 

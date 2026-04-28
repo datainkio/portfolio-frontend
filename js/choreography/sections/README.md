@@ -74,6 +74,7 @@ EVENTS.custom = {
 
 - **Hero** (`sections/hero/Hero.js`)
   - Uses `AbstractSection` with `HeroAnimations` and `HeroTriggers`
+  - `HeroTriggers` adds a dedicated outro pin trigger so hero stays pinned while outro animates on exit
   - Events: `EVENTS.hero.*`
   - DOM: `#hero` (from `SELECTORS.hero`)
 - **BackgroundVideo** (`sections/background/BackgroundVideo.js`)

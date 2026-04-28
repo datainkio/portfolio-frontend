@@ -6,10 +6,15 @@
   {%- set classes = params.classes | default("") -%}
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
 
-  {# Landing view - GSAP Hero Controller Target #}
-  <section id="{{ sectionId }}" class="relative z-10 col-span-full w-full overflow-hidden h-dvh flex items-center {{ classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    <h1 id="{{ headingId }}" data-hero-el="tagline" class="z-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-12 sm:leading-14 md:leading-16 lg:leading-28
-                tracking-tighter uppercase font-display text-primary-100">
+  {# Let's make styling the tagline text a little more manageable... #}
+  {%- set font = "font-display text-primary-100 uppercase" -%}
+  {%- set layout = "w-full h-1/2 flex flex-col justify-end overflow-hidden z-10 px-4 py-8" -%}
+  {%- set sizes = "text-6xl sm:text-7xl md:text-8xl lg:text-9xl" -%}
+  {%- set leading = "leading-12 sm:leading-14 md:leading-16 lg:leading-28" -%}
+  {%- set tracking = "tracking-tighter" -%}
+
+  <section id="{{ sectionId }}" class="relative z-10 col-span-full h-dvh  {{ classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+    <h1 id="{{ headingId }}" data-hero-el="tagline" class="{{ layout }} {{ sizes }} {{ leading }} {{ tracking }} {{ font }}">
       {{ tagline }}
     </h1>
   </section>

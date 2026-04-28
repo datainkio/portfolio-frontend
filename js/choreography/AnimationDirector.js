@@ -114,6 +114,7 @@ export default class AnimationDirector {
       this.sections[sectionId] = new SectionClass({
         bus: this.bus,
         reducedMotionHandler: this.stage?.reducedMotion,
+        gelManager: this.stage?.gelAnimation,
       });
     });
 

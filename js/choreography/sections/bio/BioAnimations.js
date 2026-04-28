@@ -195,7 +195,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
         ease,
         overwrite: "auto",
       })
-        .set(subheading, { display: "none" })
+        // .set(subheading, { display: "none" })
         .to(
           header,
           {
@@ -339,7 +339,6 @@ export default class BioAnimations extends AbstractSectionAnimations {
     if (!this.animTargets.length) {
       return tl;
     }
-
     tl.to(this.animTargets, {
       autoAlpha: 1,
       y: 0,
