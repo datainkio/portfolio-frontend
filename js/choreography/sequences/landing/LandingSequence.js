@@ -190,6 +190,16 @@ export class LandingSequence {
   }
 
   /**
+   * Pause the background video playback without triggering section outro events.
+   * LandingSequence owns this cross-section media handoff behavior.
+   * @private
+   */
+  _pauseBackgroundVideo() {
+    const videoEl = this.sections?.video?.videoEl ?? null;
+    videoEl?.pause?.();
+  }
+
+  /**
    * Wire AnimationBus listeners to drive the sequence
    * @private
    */
@@ -237,7 +247,7 @@ export class LandingSequence {
 
     on(EVENTS.hero.onEnterBack, () => {
       this.logger.trace(SELECTORS.hero + " entered back");
-      this._applySectionArrangement(SELECTORS.hero);
+      // this._applySectionArrangement(SELECTORS.hero);
     });
 
     on(EVENTS.hero.exit, () => {
@@ -313,6 +323,7 @@ export class LandingSequence {
     // Respond to bio intro start
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
+      this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.exit, () => {

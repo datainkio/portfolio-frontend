@@ -234,6 +234,7 @@ This section documents the recommended architecture for a more performant, maint
 
 - **Scene-first modularity:** One scene per section. Each scene lives in `frontend/js/choreography/sections/<Scene>/<Scene>.js` (or `sequences/` for multi-section flows).
 - **Central lifecycle orchestration:** Register scenes via Director/Stage wiring so lifecycle, bus events, and teardown are centralized.
+- **Cross-section media handoff:** Sequence orchestration (LandingSequence) owns media playback transitions between sections (for example, pausing background video on `bio.enter`).
 - **Token-driven motion:** Use [config/motion.js](../../js/choreography/config/motion.js) for all durations/eases/distances/staggers. No hard-coded values.
 - **Stable hooks:** `data-anim="<scene>"` on the root, `data-anim-item` on children, optional `data-anim-trigger` overrides.
 - **Shared utilities:** Reduced-motion guards + measurement helpers in `frontend/js/choreography/managers/` or `frontend/js/choreography/utils/`.
