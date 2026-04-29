@@ -30,12 +30,18 @@ import {
   LINE_STYLES,
 } from "../../config/displays/leader-lines.js";
 import LineManager from "../../managers/LineManager.js";
+import { add as addPrinterMarks } from "../../../displays/PrinterMarks.js";
 import BioAnimations from "./BioAnimations.js";
 import BioTriggers from "./BioTriggers.js";
 
 export default class Bio extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
     const view = document.getElementById(SELECTORS.bio);
+
+    if (view && !view.querySelector(".printmarks")) {
+      addPrinterMarks(view);
+    }
+
     const animations = new BioAnimations(view);
     const triggers = new BioTriggers(view);
 

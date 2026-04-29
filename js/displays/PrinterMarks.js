@@ -17,13 +17,25 @@
  */
 /**
  * Adds graphic elements mimicking printer proof marks, registration, etc., positioned inside a given block element.
- * Built for the 2025 portfolio.
+ * Built for the 2026 portfolio.
  * Yes, it is an ungodly mix of Tailwind and vanilla CSS.
  */
 
-const REGISTRATION_MARK_URL = "./assets/svg/registration-mark.svg";
+const REGISTRATION_MARK_URL = "/assets/svg/registration-mark.svg";
 
 export function add(elem) {
+  if (!elem) {
+    return;
+  }
+
+  const hasPrintMarks = Array.from(elem.children).some((child) =>
+    child.classList?.contains("printmarks"),
+  );
+
+  if (hasPrintMarks) {
+    return;
+  }
+
   const container = document.createElement("div");
   container.classList.add("printmarks", "pointer-events-none");
   elem.prepend(container);
@@ -120,7 +132,7 @@ export function addRegistrationBar(elem, count) {
   };
 
   markImg.onerror = () => {
-    console.error(`Failed to load image: ${url}`);
+    console.error(`Failed to load image: ${REGISTRATION_MARK_URL}`);
   };
 
   // addRegistration(container);

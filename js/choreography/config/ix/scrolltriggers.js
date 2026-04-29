@@ -34,7 +34,7 @@ export const HERO_TRIGGER = {
   once: false,
   start: "top top",
   end: "+=300",
-  pinSpacing: true,
+  pinSpacing: false,
   pin: true,
   scrub: true,
   fastScrollEnd: false,
