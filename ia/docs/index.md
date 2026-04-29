@@ -1,3 +1,4 @@
 ---
-layout: pages/docs.njk
+eleventyComputed:
+  title: "This is the title"
 ---

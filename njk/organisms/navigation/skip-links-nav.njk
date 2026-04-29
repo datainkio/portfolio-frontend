@@ -2,8 +2,8 @@
   {%- set items = params.items | default(skipLinks | default([])) -%}
 
   {%- if items and items | length -%}
-    <a href="#page-main" class="sr-only focus:not-sr-only" aria-label="Skip to main content">Skip to main content</a>
-    <nav class="skip-links sr-only focus-within:not-sr-only" aria-label="Skip links">
+    <a href="#page-main" class="sr-only" aria-label="Skip to main content">Skip to main content</a>
+    <nav class="skip-links sr-only " aria-label="Skip links">
       <ul role="list">
         {%- for id in items -%}
           <li>

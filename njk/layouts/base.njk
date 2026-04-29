@@ -7,13 +7,14 @@
 <html lang="en">
   {% include "templates/partials/head.njk" %}
   {% block head %}{% endblock %}
-  <body class="{{ bodyClasses }}">
+  <body
+    class="{{ bodyClasses }}" data-scroll-container>
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
     {# SKIP LINKS #}
     {{ skip_links.render() }}
     {# GLOBAL PAGE HEADER #}
-    {{ header.render({classes: 'col-span-full w-full bg-gray-900 text-gray-400'}) }}
+    {{ header.render({classes: 'bg-gray-900'}) }}
     {# BREADCRUMBS #}
     {{ breadcrumbs.render({classes: 'col-span-full w-full'}) }}
     {# SIDEBAR #}
@@ -21,8 +22,8 @@
     {# MAIN CONTENT AREA #}
     <main class="{{ mainClasses }}" data-scroll-container>
       <h1>{{ title }}</h1>
-      {% block content %}      
-        {% if content %}  
+      {% block content %}
+        {% if content %}
           {{ content | safe }}
         {% else %}
           {% loremPars 3 %}

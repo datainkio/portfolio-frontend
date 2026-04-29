@@ -24,7 +24,7 @@
     <body>
         {% include "templates/partials/gtm-noscript.njk" %}
         {# {{ SkipLinksNav.render({ items: ["hero", "introduction", "recognition", "work", "organizations", "contact"] }) }} #}
-        {{ Header.render() }}
+        {{ Header.render({classes: 'bg-transparent'}) }}
         {{ Preloader.render({ kind: "spinner", message: "Lubricating the framistan…" }) }}
         {{ Background.render({
             id:"background",

@@ -232,7 +232,7 @@ this.bus.on("hero:intro:complete", () => {
 **11ty Collections**
 
 - Collections are registered from `cms/queries.js`
-- Access in templates: `{{ collections.projects }}`, `{{ collections.landing }}`, etc.
+- Access in templates: `{{ collections.projects }}`, `{{ collections.home }}`, etc.
 
 **Caching**
 

@@ -1,0 +1,126 @@
+{% extends "./base.njk" %}
+{%- set bodyClasses = "bg-gray-100 text-gray-900" -%}
+{%- set mainClasses = "col-span-full mx-auto w-full max-w-6xl px-4 py-12 md:px-8" -%}
+{%- set hasImage = project and project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
+{%- set hasCaseStudyLink = project and project.caseStudyUrl -%}
+{%- set hasExternalLink = project and project.externalLink -%}
+{% block content %}
+  <article class="space-y-8">
+    <header class="space-y-6">
+      {% if project.featured %}
+        <p class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
+          Featured Project
+        </p>
+      {% endif %}
+
+      {% if project.abstract %}
+        <p class="text-lg leading-relaxed text-gray-700 md:text-xl">{{ project.abstract }}</p>
+      {% endif %}
+
+      {% if hasCaseStudyLink or hasExternalLink %}
+        <nav aria-label="Project links">
+          <ul class="flex flex-wrap gap-3">
+            {% if hasCaseStudyLink %}
+              <li>
+                <a class="rounded-sm bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700" href="{{ project.caseStudyUrl }}">
+                  View Case Study
+                </a>
+              </li>
+            {% endif %}
+            {% if hasExternalLink %}
+              <li>
+                <a class="rounded-sm border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:border-gray-500" href="{{ project.externalLink }}" target="_blank" rel="noopener noreferrer">
+                  Visit External Link
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+    </header>
+  </article>
+{% endblock %}
+{% block sidebar_after %}
+  <aside class="mx-auto w-full max-w-6xl px-4 pb-12 md:px-8" aria-label="Project details">
+    <section class="grid gap-8 lg:grid-cols-12">
+      <section class="space-y-6 lg:col-span-5" aria-labelledby="project-details-heading">
+        <h2 id="project-details-heading" class="text-base font-semibold uppercase tracking-wide text-gray-600">Project Details</h2>
+        {% if hasImage %}
+          <figure class="overflow-hidden rounded-md border border-gray-200 bg-white">
+            <img src="{{ project.featuredImage.asset.url }}" alt="{{ project.featuredImage.alt | default(project.title) }}" class="h-full w-full object-cover" loading="lazy" decoding="async"/>
+          </figure>
+        {% endif %}
+
+        {% if project.organization or project.status %}
+          <dl class="space-y-2 text-sm text-gray-600">
+            {% if project.organization %}
+              <dt class="inline uppercase tracking-wide">Organization:</dt>
+              <dd class="mb-2 inline">
+                {% if project.organization.slug %}
+                  <a
+                    class="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-4 hover:decoration-gray-700"
+                    href="/organizations/{{ project.organization.slug }}/">
+                    {{ project.organization.title }}
+                  </a>
+                {% else %}
+                  <span class="font-semibold text-gray-900">{{ project.organization.title }}</span>
+                {% endif %}
+              </dd>
+            {% endif %}
+            {% if project.status %}
+              <dt class="inline uppercase tracking-wide">Status:</dt>
+              <dd class="inline font-semibold text-gray-900">{{ project.status }}</dd>
+            {% endif %}
+          </dl>
+        {% endif %}
+      </section>
+
+      <section class="space-y-8 lg:col-span-7" aria-label="Project taxonomy">
+        {% if project.roles and project.roles | length %}
+          <section aria-labelledby="project-roles-heading">
+            <h2 id="project-roles-heading" class="mb-3 text-base font-semibold uppercase tracking-wide text-gray-600">Roles</h2>
+            <ul class="flex flex-wrap gap-2">
+              {% for role in project.roles %}
+                <li class="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-800">{{ role.title }}</li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endif %}
+
+        {% if project.activities and project.activities | length %}
+          <section aria-labelledby="project-activities-heading">
+            <h2 id="project-activities-heading" class="mb-3 text-base font-semibold uppercase tracking-wide text-gray-600">
+            Activities</h2>
+            <ul class="flex flex-wrap gap-2">
+              {% for activity in project.activities %}
+                <li class="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-800">{{ activity.title }}</li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endif %}
+
+        {% if project.outcomes and project.outcomes | length %}
+          <section aria-labelledby="project-outcomes-heading">
+            <h2 id="project-outcomes-heading" class="mb-3 text-base font-semibold uppercase tracking-wide text-gray-600">Outcomes</h2>
+            <ul class="flex flex-wrap gap-2">
+              {% for outcome in project.outcomes %}
+                <li class="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-800">{{ outcome.title }}</li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endif %}
+
+        {% if project.awards and project.awards | length %}
+          <section aria-labelledby="project-awards-heading">
+            <h2 id="project-awards-heading" class="mb-3 text-base font-semibold uppercase tracking-wide text-gray-600">Awards</h2>
+            <ul class="flex flex-wrap gap-2">
+              {% for award in project.awards %}
+                <li class="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-800">{{ award.title }}</li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endif %}
+      </section>
+    </section>
+  </aside>
+{% endblock %}

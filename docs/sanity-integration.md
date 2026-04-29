@@ -4,16 +4,16 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 
 ## Collections
 
-- `sanityOrganizations` – organizations with industry + logo metadata
-- `sanityIndustries` – industry taxonomy for organizations and projects
-- `sanityActivities` – activities taxonomy used for project classification
-- `sanityRoles` – roles taxonomy for project metadata
-- `sanityOutcomes` – outcomes/deliverables taxonomy for projects
-- `sanityAwards` – awards with grantor + project context (including `organization.logo.asset.url` and `organization.logo.alt` for award logo rendering; SVG logos are inlined during build, tagged with `fill-current`, and non-SVG assets are skipped with console logging)
-- `sanityProjects` – published projects with relationships, hero image, and links
-- `sanityPosts` – published posts with relationships and metadata
-- `sanityImageAssets` – published image assets with metadata
-- `landing` – landing-page singleton content (hero, value, recognition). `valuePropRichText` is serialized to `valuePropBodyHtml` during build. Legacy `valuePropBody` has been removed from schema and is no longer consumed by frontend rendering.
+- `organizations` – organizations with industry + logo metadata
+- `industries` – industry taxonomy for organizations and projects
+- `activities` – activities taxonomy used for project classification
+- `roles` – roles taxonomy for project metadata
+- `outcomes` – outcomes/deliverables taxonomy for projects
+- `awards` – awards with grantor + project context (including `organization.logo.asset.url` and `organization.logo.alt` for award logo rendering; SVG logos are inlined during build, tagged with `fill-current`, and non-SVG assets are skipped with console logging)
+- `projects` – published projects with relationships, hero image, and links
+- `posts` – published posts with relationships and metadata
+- `imageAssets` – published image assets with metadata
+- `home` – home-page singleton content (hero, value, recognition). `valuePropRichText` is serialized to `valuePropBodyHtml` during build. Legacy `valuePropBody` has been removed from schema and is no longer consumed by frontend rendering.
 
 ## Configuration
 
@@ -26,14 +26,14 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - `SANITY_USE_CDN` (default `true` when no token, otherwise forced `false`)
 - `SANITY_PARALLEL` (default `true`)
 - `SANITY_FORCE_REFRESH` (forces all queries to refetch)
-- `SANITY_FORCE_REFRESH_QUERY` (force a single query id, e.g., `sanityProjects`)
+- `SANITY_FORCE_REFRESH_QUERY` (force a single query id, e.g., `projects`)
 
 ## Build behavior
 
 - Runs inside `eleventy/collections/sanity.js` before navigation collections.
 - Helpers reside in `cms/client.js`, `cms/fetchSanityData.js`, and `cms/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
-- Serializes landing Portable Text (`valuePropRichText`) to HTML using `@portabletext/to-html` and stores it on each landing record as `valuePropBodyHtml`.
+- Serializes home-page Portable Text (`valuePropRichText`) to HTML using `@portabletext/to-html` and stores it on each home record as `valuePropBodyHtml`.
 - Supports `sub_section` custom blocks in `valuePropRichText` during serialization, including nested Portable Text body content and image asset URL expansion.
 - Exposes metadata as `cmsMeta` global data (no secrets stored).
 
@@ -42,9 +42,24 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 Access data through Eleventy collections:
 
 ```njk
-{% for org in collections.sanityOrganizations %}
-  {{ org.title }}
+{% for project in collections.projects %}
+  {{ project.title }}
 {% endfor %}
+```
+
+Generate one detail page per published project by paginating over `collections.projects` in `ia/projects/project.md`:
+
+```yaml
+---
+layout: layouts/case-study.njk
+pagination:
+  data: collections.projects
+  size: 1
+  alias: project
+permalink: "/projects/{{ project.slug }}/"
+eleventyComputed:
+  title: "{{ project.title }}"
+---
 ```
 
 ## Local setup

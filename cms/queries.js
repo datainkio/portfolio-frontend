@@ -19,7 +19,7 @@ import { activitiesQuery } from "./queries/activities.js";
 import { awardsQuery } from "./queries/awards.js";
 import { imageAssetsQuery } from "./queries/image-assets.js";
 import { industriesQuery } from "./queries/industries.js";
-import { landingQuery } from "./queries/landing.js";
+import { homeQuery } from "./queries/home.js";
 import { organizationsQuery } from "./queries/organizations.js";
 import { outcomesQuery } from "./queries/outcomes.js";
 import { postsQuery } from "./queries/posts.js";
@@ -34,7 +34,7 @@ export const CMS_QUERIES = [
   outcomesQuery,
   awardsQuery,
   projectsQuery,
-  landingQuery,
+  homeQuery,
   imageAssetsQuery,
   postsQuery,
 ];

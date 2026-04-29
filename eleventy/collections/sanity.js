@@ -225,7 +225,7 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
       data = await hydrateAwardInlineLogos(data);
     }
 
-    if (definition.id === "landing") {
+    if (definition.id === "home") {
       data = normalizeLandingRecords(data);
     }
 

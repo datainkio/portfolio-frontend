@@ -1,11 +1,11 @@
 /** @format */
 import groq from "groq";
 
-export const landingQuery = {
-  id: "landing",
-  description: "Landing page singleton (hero, value copy, and recognition)",
+export const homeQuery = {
+  id: "home",
+  description: "Home page singleton (hero, value copy, and recognition)",
   cacheDuration: "1d",
-  query: groq`*[_type == "landing"] | order(_updatedAt desc)[0...1]{
+  query: groq`*[_type == "home"] | order(_updatedAt desc)[0...1]{
     _id,
     _updatedAt,
     pageTitle,
