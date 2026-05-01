@@ -1,10 +1,10 @@
 /** @format */
-import groq from 'groq';
+import groq from "groq";
 
 export const organizationsQuery = {
-  id: 'organizations',
-  description: 'Organizations with industry taxonomy and brand assets',
-  cacheDuration: '1d',
+  id: "organizations",
+  description: "Organizations with industry taxonomy and brand assets",
+  cacheDuration: "1d",
   query: groq`*[_type == "organization"]{
     _id,
     _updatedAt,
@@ -15,7 +15,6 @@ export const organizationsQuery = {
     "title": page.title,
     "slug": page.slug.current,
     "abstract": page.abstract,
-    "weight": page.weight,
     "industry": industry->{
       _id,
       title,
@@ -31,5 +30,5 @@ export const organizationsQuery = {
         metadata{dimensions, lqip}
       }
     }
-  } | order(featured desc, weight desc, title asc)`,
+  } | order(featured desc, title asc)`,
 };

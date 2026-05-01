@@ -11,7 +11,6 @@ export const projectsQuery = {
     "title": page.title,
     "slug": page.slug.current,
     "abstract": page.abstract,
-    "weight": page.weight,
     "status": meta.status,
     "featured": meta.featured,
     "organization": meta.organization->{
@@ -25,11 +24,27 @@ export const projectsQuery = {
     "activities": meta.activities[]->{_id, title, "slug": slug.current, color, icon},
     "outcomes": meta.outcomes[]->{_id, title, "slug": slug.current},
     "awards": meta.awards[]->{_id, title, "slug": slug.current},
+    body[]{
+      ...,
+      _type == "image" => {
+        ...,
+        asset->{url, metadata{dimensions, lqip}}
+      },
+      _type == "project_aside" => {
+        ...,
+        body[]{
+          ...
+        },
+        resources[]{
+          ...
+        }
+      }
+    },
     featuredImage{
       alt,
       asset->{url, metadata{dimensions, lqip}}
     },
     externalLink,
     caseStudyUrl
-  } | order(featured desc, weight desc, title asc)`,
+  } | order(featured desc, title asc)`,
 };

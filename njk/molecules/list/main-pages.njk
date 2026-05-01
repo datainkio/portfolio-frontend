@@ -1,15 +1,18 @@
+{% import "atoms/link/nav-link.njk" as nav_link with context %}
+
 {% macro render(params = {}) %}
-  {%- set items = params.items | default(collections.all) -%}
+  {%- set items = params.items | default([]) -%}
   {%- set classes = params.classes | default("flex gap-6 items-center") -%}
+  {%- set linkClass = params.linkClass | default("") -%}
 
   <ul class="{{ classes }}" role="list">
-    {%- for entry in items | eleventyNavigation -%}
-      <li>
-        {% include "atoms/link/nav-link.njk" %}
-        {% if entry.children and entry.children.length > 0 %}
-          {% include "atoms/link/nav-link.njk" %}
-        {% endif %}
-      </li>
+    {%- for entry in items -%}
+      {%- set hasHref = entry and (entry.url or entry.href) -%}
+      {%- if hasHref and (entry.title or entry.key) -%}
+        <li>
+          {{ nav_link.render({ entry: entry, class: linkClass }) }}
+        </li>
+      {%- endif -%}
     {%- endfor -%}
   </ul>
 {% endmacro %}

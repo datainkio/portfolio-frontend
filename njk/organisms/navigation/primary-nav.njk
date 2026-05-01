@@ -1,13 +1,17 @@
-{% import "atoms/link/site-title.njk" as site_title %}
-{% import "molecules/list/main-pages.njk" as main_pages %}
+{% import "atoms/link/site-title.njk" as site_title with context %}
+{% import "molecules/list/main-pages.njk" as main_pages with context %}
 
 {% macro render(params = {}) %}
   {% set navClasses = params.class or params.navClasses or "flex items-center justify-between" %}
-  {% set siteName = params.siteName or site.siteName %}
-  {% set items = params.items or eleventyNavigation %}
+  {% set siteName = params.siteName or site.siteName or "data:ink:io" %}
+  {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
+  {% set cmsItems = params.items or cmsNavigation.headerItems or [] %}
+  {% set navPrimary = collections.nav_primary or [] %}
+  {% set fallbackItems = navPrimary if (navPrimary and navPrimary.length) else (collections.all | eleventyNavigation) %}
+  {% set items = cmsItems if (cmsItems and cmsItems.length) else fallbackItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
 
-  <nav id="primary-nav" class="{{ navClasses }}" aria-label="Primary Navigation">
+  <nav id="primary-nav" class="{{ navClasses }}" aria-label="Primary navigation">
     {{ site_title.render({
         siteName: siteName,
         href: "/",
@@ -16,7 +20,8 @@
       }) }}
     {{ main_pages.render({
       classes: "flex list-none items-center gap-6 m-0",
-      items: items
+      items: items,
+      linkClass: "text-neutral-100 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
     }) }}
   </nav>
 {% endmacro %}

@@ -2,19 +2,14 @@
 
 {% macro render(params = {}) %}
   {% set entry = params.entry or {} %}
-  {% set linkUrl = entry.url or params.url %}
+  {% set linkUrl = entry.url or entry.href or params.url or params.href %}
   {% set linkTitle = entry.title or entry.key or params.title %}
   {% set linkClasses = (entry.class or params.class or "") %}
   {% set isCurrent = (linkUrl == page.url) %}
   {% set hasChildren = entry.children and entry.children.length > 0 %}
   {% set linkDescription = entry.description or params.description %}
 
-  <a
-    href="{{ linkUrl }}"
-    class="nav-link {{ linkClasses }}"
-    {% if isCurrent %}aria-current="page"{% endif %}
-    {% if linkDescription %}title="{{ linkDescription }}"{% endif %}
-  >
+  <a href="{{ linkUrl }}" class="nav-link {{ linkClasses }}" {% if isCurrent %} aria-current="page" {% endif %} {% if linkDescription %} title="{{ linkDescription }}" {% endif %}>
     {{ linkTitle }}
   </a>
 {% endmacro %}

@@ -74,6 +74,37 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function renderAsideResources(resources) {
+  if (!Array.isArray(resources) || resources.length === 0) {
+    return "";
+  }
+
+  const items = resources
+    .map((resource) => {
+      const href = normalizeLinkHref(resource?.href);
+      if (!href) {
+        return "";
+      }
+
+      const label = escapeHtml(resource?.label || href);
+      const external =
+        href.startsWith("http://") || href.startsWith("https://");
+      const openInNewTab = Boolean(resource?.openInNewTab) || external;
+      const rel = openInNewTab ? ' rel="noopener noreferrer"' : "";
+      const target = openInNewTab ? ' target="_blank"' : "";
+
+      return `<li><a href="${href}"${target}${rel}>${label}<span aria-hidden="true">↗</span></a></li>`;
+    })
+    .filter(Boolean)
+    .join("");
+
+  if (!items) {
+    return "";
+  }
+
+  return `<nav aria-label="Related resources"><h4>Resources</h4><ul>${items}</ul></nav>`;
+}
+
 function serializePortableTextToHtml(blocks) {
   if (!Array.isArray(blocks) || blocks.length === 0) {
     return "";
@@ -89,7 +120,7 @@ function serializePortableTextToHtml(blocks) {
           }
 
           const alt = escapeHtml(value?.alt || "");
-          return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />`;
+          return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" />`;
         },
         sub_section: ({ value }) => {
           const heading = escapeHtml(value?.heading || "");
@@ -99,14 +130,26 @@ function serializePortableTextToHtml(blocks) {
             return "";
           }
 
-          const headingHtml = heading
-            ? `<h3 data-bio-el="sub-section-heading">${heading}</h3>`
-            : "";
-          const nestedBodyHtml = bodyHtml
-            ? `<div data-bio-el="sub-section-body">${bodyHtml}</div>`
+          const headingHtml = heading ? `<h3>${heading}</h3>` : "";
+          const nestedBodyHtml = bodyHtml ? `${bodyHtml}` : "";
+
+          return `<section class="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
+        },
+        aside: ({ value }) => {
+          const heading = escapeHtml(value?.title || "");
+          const bodyHtml = serializePortableTextToHtml(value?.body);
+          const resourcesHtml = renderAsideResources(value?.resources);
+
+          if (!heading && !bodyHtml && !resourcesHtml) {
+            return "";
+          }
+
+          const headingHtml = heading ? `<h3>${heading}</h3>` : "";
+          const narrativeHtml = bodyHtml
+            ? `<section>${bodyHtml}</section>`
             : "";
 
-          return `<section class="sub-section" data-bio-el="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
+          return `<aside>${headingHtml}${narrativeHtml}${resourcesHtml}</aside>`;
         },
       },
       block: {
@@ -145,6 +188,104 @@ function normalizeLandingRecords(records = []) {
       valuePropBodyHtml,
     };
   });
+}
+
+function normalizeProjectRecords(records = []) {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
+  return records.map((record) => {
+    const bodyBlocks = Array.isArray(record?.body) ? record.body : [];
+    const bodyHtml = serializePortableTextToHtml(bodyBlocks);
+
+    return {
+      ...record,
+      body: bodyBlocks,
+      bodyHtml,
+    };
+  });
+}
+
+function resolveNavigationHref(item) {
+  if (!item || typeof item !== "object") {
+    return "";
+  }
+
+  switch (item._type) {
+    case "home":
+      return "/";
+    case "projects":
+      return "/projects/";
+    case "contact":
+      return "/contact/";
+    case "project":
+      return item.slug ? `/work/${item.slug}/` : "";
+    case "post":
+      return item.slug ? `/posts/${item.slug}/` : "/posts/";
+    case "documentation":
+      return "/docs/";
+    default:
+      return "";
+  }
+}
+
+function resolveNavigationLabel(item) {
+  const label = typeof item?.label === "string" ? item.label.trim() : "";
+  if (label) {
+    return label;
+  }
+
+  switch (item?._type) {
+    case "home":
+      return "Home";
+    case "projects":
+      return "Projects";
+    case "contact":
+      return "Contact";
+    case "project":
+      return "Project";
+    case "post":
+      return "Post";
+    case "documentation":
+      return "Documentation";
+    default:
+      return "Untitled";
+  }
+}
+
+function normalizeNavigationItems(items = []) {
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  return items
+    .map((item) => {
+      const url = resolveNavigationHref(item);
+      if (!url) {
+        return null;
+      }
+
+      const title = resolveNavigationLabel(item);
+      return {
+        title,
+        key: title,
+        url,
+      };
+    })
+    .filter(Boolean);
+}
+
+function normalizeNavigationRecords(records = []) {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
+  return records.map((record) => ({
+    ...record,
+    headerItems: normalizeNavigationItems(record?.headerItems),
+    footerItems: normalizeNavigationItems(record?.footerItems),
+  }));
 }
 
 async function fetchSvgMarkup(url) {
@@ -227,6 +368,14 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "home") {
       data = normalizeLandingRecords(data);
+    }
+
+    if (definition.id === "projects") {
+      data = normalizeProjectRecords(data);
+    }
+
+    if (definition.id === "navigation") {
+      data = normalizeNavigationRecords(data);
     }
 
     return { id: definition.id, data };

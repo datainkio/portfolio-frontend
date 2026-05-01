@@ -36,7 +36,7 @@ export function resolveSanityConfig() {
   const cacheDuration = clean(process.env.SANITY_CACHE_DURATION);
   const parallel = clean(process.env.SANITY_PARALLEL);
   const useCdn = clean(token ? false : process.env.SANITY_USE_CDN);
-  const perspective = clean(token ? "drafts" : "published");
+  const perspective = clean(process.env.SANITY_PERSPECTIVE || "published");
 
   return {
     projectId,

@@ -5,7 +5,16 @@
             <h1 class="text-2xl font-semibold">Projects</h1>
             <ul class="space-y-2">
                 {% for project in collections.projects %}
-                    <li>{{ project.title }}</li>
+                    {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
+                    <li>
+                        {% if projectHref %}
+                            <a href="{{ projectHref }}" class="hover:underline focus-visible:underline">
+                                {{ project.title }}
+                            </a>
+                        {% else %}
+                            {{ project.title }}
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         </section>

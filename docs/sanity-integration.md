@@ -10,8 +10,9 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 - `roles` – roles taxonomy for project metadata
 - `outcomes` – outcomes/deliverables taxonomy for projects
 - `awards` – awards with grantor + project context (including `organization.logo.asset.url` and `organization.logo.alt` for award logo rendering; SVG logos are inlined during build, tagged with `fill-current`, and non-SVG assets are skipped with console logging)
-- `projects` – published projects with relationships, hero image, and links
+- `projects` – published projects with relationships, Portable Text `body` narrative content, hero image, and links
 - `posts` – published posts with relationships and metadata
+- `navigation` – navigation singleton content with normalized `headerItems[]` and `footerItems[]` link data for templates
 - `imageAssets` – published image assets with metadata
 - `home` – home-page singleton content (hero, value, recognition). `valuePropRichText` is serialized to `valuePropBodyHtml` during build. Legacy `valuePropBody` has been removed from schema and is no longer consumed by frontend rendering.
 
@@ -21,8 +22,9 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 
 - `SANITY_PROJECT_ID` (required if you override defaults)
 - `SANITY_DATASET` (required if you override defaults)
-- `SANITY_API_TOKEN` (optional; enables draft/preview, forces `useCdn=false`)
+- `SANITY_API_TOKEN` (optional; authenticated requests, forces `useCdn=false`)
 - `SANITY_API_VERSION` (default `2025-12-26`)
+- `SANITY_PERSPECTIVE` (default `published`; set to `drafts` only for preview workflows)
 - `SANITY_USE_CDN` (default `true` when no token, otherwise forced `false`)
 - `SANITY_PARALLEL` (default `true`)
 - `SANITY_FORCE_REFRESH` (forces all queries to refetch)
@@ -34,8 +36,19 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - Helpers reside in `cms/client.js`, `cms/fetchSanityData.js`, and `cms/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
 - Serializes home-page Portable Text (`valuePropRichText`) to HTML using `@portabletext/to-html` and stores it on each home record as `valuePropBodyHtml`.
+- Serializes project Portable Text (`body`) to HTML as `bodyHtml` during collection hydration.
+- Normalizes navigation references from Sanity into accessible link-ready records (`title`, `url`, `key`) for header and footer rendering.
 - Supports `sub_section` custom blocks in `valuePropRichText` during serialization, including nested Portable Text body content and image asset URL expansion.
+- Supports `project_aside` custom blocks in project `body` during serialization, rendering semantic `<aside>` elements with optional heading, narrative copy, and resource links.
+- Keeps serializer output semantic for `project_aside` and other custom objects, while Tailwind presentation is applied in view-layer templates/CSS.
 - Exposes metadata as `cmsMeta` global data (no secrets stored).
+
+## Project Portable Text Rendering Path
+
+1. Query projection in `cms/queries/projects.js` fetches project `body[]`, including nested fields required by custom object blocks like `project_aside`.
+2. `eleventy/collections/sanity.js` converts Portable Text to HTML via `serializePortableTextToHtml`, mapping custom types (for example `project_aside`) to semantic HTML.
+3. `njk/layouts/case-study.njk` renders `project.bodyHtml` inside the article narrative container.
+4. `njk/layouts/case-study.njk` applies a small semantic wrapper class (`case-study-body`) and `styles/components/portable-text.css` styles semantic elements (`aside`, `nav`, headings, lists, links) with Tailwind `@apply`.
 
 ## Usage in templates
 
@@ -56,10 +69,18 @@ pagination:
   data: collections.projects
   size: 1
   alias: project
-permalink: "/projects/{{ project.slug }}/"
+permalink: "/work/{{ project.slug }}/"
 eleventyComputed:
   title: "{{ project.title }}"
 ---
+```
+
+For navigation rendering:
+
+```njk
+{% set nav = cms.navigation[0] if cms.navigation and cms.navigation[0] else {} %}
+{% set headerItems = nav.headerItems or [] %}
+{% set footerItems = nav.footerItems or [] %}
 ```
 
 ## Local setup

@@ -4,6 +4,7 @@
 {%- set hasImage = project and project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
 {%- set hasCaseStudyLink = project and project.caseStudyUrl -%}
 {%- set hasExternalLink = project and project.externalLink -%}
+{%- set projectBodyClasses = "prose prose-slate max-w-none case-study-body" -%}
 {% block content %}
   <article class="space-y-8">
     <header class="space-y-6">
@@ -38,6 +39,12 @@
         </nav>
       {% endif %}
     </header>
+
+    {% if project.bodyHtml %}
+      <section class="{{ projectBodyClasses }}" aria-label="Project narrative">
+        {{ project.bodyHtml | safe }}
+      </section>
+    {% endif %}
   </article>
 {% endblock %}
 {% block sidebar_after %}
@@ -90,7 +97,7 @@
         {% if project.activities and project.activities | length %}
           <section aria-labelledby="project-activities-heading">
             <h2 id="project-activities-heading" class="mb-3 text-base font-semibold uppercase tracking-wide text-gray-600">
-            Activities</h2>
+              Activities</h2>
             <ul class="flex flex-wrap gap-2">
               {% for activity in project.activities %}
                 <li class="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-800">{{ activity.title }}</li>
@@ -120,6 +127,7 @@
             </ul>
           </section>
         {% endif %}
+
       </section>
     </section>
   </aside>

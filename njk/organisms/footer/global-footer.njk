@@ -3,9 +3,21 @@ FOOTER LAYOUT ORGANISM
 Reusable footer macro for consistent site-wide footer rendering.
 Part of layout organism category for consistent page structure.
 #}
+{% import "molecules/list/main-pages.njk" as main_pages %}
 
 {% macro render(params = {}) %}
-  <footer class="{{ params.classes | default('global-footer py-8 px-4 text-center text-sm text-primary-200 bg-primary-950') }}">
-    &copy; {{ params.year or site.year }} data:ink:io. All rights reserved.
-  </footer>
+    {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
+    {% set footerItems = params.items or cmsNavigation.footerItems or [] %}
+    <footer class="{{ params.classes | default('global-footer py-8 px-4 text-center text-sm text-primary-200 bg-primary-950') }}">
+        {% if footerItems and footerItems.length %}
+            <nav class="mb-6" aria-label="Footer navigation">
+                {{ main_pages.render({
+          items: footerItems,
+          classes: "flex flex-wrap items-center justify-center gap-x-6 gap-y-3 m-0",
+          linkClass: "text-primary-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        }) }}
+            </nav>
+        {% endif %}
+        <p>&copy; {{ params.year or site.year }} data:ink:io. All rights reserved.</p>
+    </footer>
 {% endmacro %}

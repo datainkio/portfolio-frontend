@@ -1,17 +1,16 @@
 /** @format */
-import groq from 'groq';
+import groq from "groq";
 
 export const postsQuery = {
-  id: 'posts',
-  description: 'Published posts with relationships and metadata',
-  cacheDuration: '1d',
+  id: "posts",
+  description: "Published posts with relationships and metadata",
+  cacheDuration: "1d",
   query: groq`*[_type == "post" && status == "published"]{
     _id,
     _updatedAt,
     "title": page.title,
     "slug": page.slug.current,
     "abstract": page.abstract,
-    "weight": page.weight,
     seo,
     publishDate,
     updateDate,
