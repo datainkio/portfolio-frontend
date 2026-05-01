@@ -40,7 +40,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - Normalizes navigation references from Sanity into accessible link-ready records (`title`, `url`, `key`) for header and footer rendering.
 - Supports `sub_section` custom blocks in `valuePropRichText` during serialization, including nested Portable Text body content and image asset URL expansion.
 - Supports `project_aside` custom blocks in project `body` during serialization, rendering semantic `<aside>` elements with optional heading, narrative copy, and resource links.
-- Keeps serializer output semantic for `project_aside` and other custom objects, while Tailwind presentation is applied in view-layer templates/CSS.
+- Keeps serializer output semantic for `project_aside` (structural class hooks only) and applies Tailwind presentation in the Nunjucks view layer.
 - Exposes metadata as `cmsMeta` global data (no secrets stored).
 
 ## Project Portable Text Rendering Path
@@ -48,7 +48,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 1. Query projection in `cms/queries/projects.js` fetches project `body[]`, including nested fields required by custom object blocks like `project_aside`.
 2. `eleventy/collections/sanity.js` converts Portable Text to HTML via `serializePortableTextToHtml`, mapping custom types (for example `project_aside`) to semantic HTML.
 3. `njk/layouts/case-study.njk` renders `project.bodyHtml` inside the article narrative container.
-4. `njk/layouts/case-study.njk` applies a small semantic wrapper class (`case-study-body`) and `styles/components/portable-text.css` styles semantic elements (`aside`, `nav`, headings, lists, links) with Tailwind `@apply`.
+4. `njk/layouts/case-study.njk` applies Tailwind utility classes to style serialized project Portable Text output (including `project_aside` hooks).
 
 ## Usage in templates
 

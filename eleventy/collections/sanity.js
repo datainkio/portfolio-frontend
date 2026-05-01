@@ -102,7 +102,7 @@ function renderAsideResources(resources) {
     return "";
   }
 
-  return `<nav aria-label="Related resources"><h4>Resources</h4><ul>${items}</ul></nav>`;
+  return `<aside><h3>Resources</h3><ul>${items}</ul></aside>`;
 }
 
 function serializePortableTextToHtml(blocks) {
@@ -120,7 +120,7 @@ function serializePortableTextToHtml(blocks) {
           }
 
           const alt = escapeHtml(value?.alt || "");
-          return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" />`;
+          return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />`;
         },
         sub_section: ({ value }) => {
           const heading = escapeHtml(value?.heading || "");
@@ -130,12 +130,16 @@ function serializePortableTextToHtml(blocks) {
             return "";
           }
 
-          const headingHtml = heading ? `<h3>${heading}</h3>` : "";
-          const nestedBodyHtml = bodyHtml ? `${bodyHtml}` : "";
+          const headingHtml = heading
+            ? `<h3 data-bio-el="sub-section-heading">${heading}</h3>`
+            : "";
+          const nestedBodyHtml = bodyHtml
+            ? `<div data-bio-el="sub-section-body">${bodyHtml}</div>`
+            : "";
 
-          return `<section class="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
+          return `<section class="sub-section" data-bio-el="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
         },
-        aside: ({ value }) => {
+        project_aside: ({ value }) => {
           const heading = escapeHtml(value?.title || "");
           const bodyHtml = serializePortableTextToHtml(value?.body);
           const resourcesHtml = renderAsideResources(value?.resources);
@@ -144,12 +148,14 @@ function serializePortableTextToHtml(blocks) {
             return "";
           }
 
-          const headingHtml = heading ? `<h3>${heading}</h3>` : "";
+          const headingHtml = heading
+            ? `<h3 class="project-aside__heading" data-bio-el="project-aside-heading">${heading}</h3>`
+            : "";
           const narrativeHtml = bodyHtml
-            ? `<section>${bodyHtml}</section>`
+            ? `<div class="project-aside__body" data-bio-el="project-aside-body">${bodyHtml}</div>`
             : "";
 
-          return `<aside>${headingHtml}${narrativeHtml}${resourcesHtml}</aside>`;
+          return `<aside class="project-aside" data-bio-el="project-aside">${headingHtml}${narrativeHtml}${resourcesHtml}</aside>`;
         },
       },
       block: {
