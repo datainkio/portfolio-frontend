@@ -78,6 +78,10 @@ export default async function (eleventyConfig) {
     logger.trace("Registering template shortcodes", null, "brief", msgStyle);
     shortcodes(eleventyConfig);
 
+    // README-as-index permalink rule is scoped to ia/docs/ via
+    // ia/docs/docs.11tydata.js to avoid interfering with paginated templates.
+    // Decision documented in: /docs/ia/frontmatter/
+
     // Collections
     logger.trace("Registering data collections", null, "brief", msgStyle);
     // Wait for all data to be fetched (either in parallel or sequential mode) before continuing with the build
