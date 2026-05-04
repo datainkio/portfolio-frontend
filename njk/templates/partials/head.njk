@@ -65,9 +65,9 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
     {% endfor %}
 
     <!-- Preconnects for performance optimization -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          {{ scripts | safe }}
-          {% block extraHeadContent %}{% endblock %}
-        </head>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/> {{ scripts | safe }}
+    {% block extraHeadContent %}{% endblock %}
+  </head>
+</head>
