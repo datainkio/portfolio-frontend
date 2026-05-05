@@ -113,6 +113,7 @@
     "@11ty/eleventy-navigation": "^0.3.5",
     "@datainkio/lumberjack": "^0.1.0",
     "@datainkio/textparty": "^0.1.0",
+    "@portabletext/react": "^6.0.3",
     "@portabletext/to-html": "^5.0.2",
     "@sanity/client": "^6.29.1",
     "@svgdotjs/svg.js": "^3.2.4",

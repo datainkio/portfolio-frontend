@@ -1,0 +1,15 @@
+{% extends "./base.njk" %}
+{% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
+{%- set bodyClasses = "grid grid-cols-12" -%}
+{%- set mainClasses = "col-span-full w-full grid grid-cols-12" -%}
+{%- set sidebarBeforeClasses = "col-span-2" -%}
+{% block sidebar_before %}
+  {{ docsNav.render({ collections: collections, page: page }) }}
+{% endblock %}
+{% block content %}
+  {% if content %}
+    {{ content | safe }}
+  {% else %}
+    {% loremPars 3 %}
+  {% endif %}
+{% endblock %}

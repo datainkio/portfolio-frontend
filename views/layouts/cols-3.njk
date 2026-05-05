@@ -1,0 +1,30 @@
+{% extends "./base.njk" %}
+{% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
+{%- set bodyClasses = "grid grid-cols-12" -%}
+{%- set mainClasses = "col-span-8 col-start-3" -%}
+{%- set sidebarBeforeClasses = "col-span-2" -%}
+{%- set sidebarAfterClasses = "col-span-2" -%}
+
+{% block sidebar_before %}
+  <aside class="{{ sidebarBeforeClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">
+        {{ docsNav.render({ collections: collections, page: page }) }}
+  </aside>    
+{% endblock %}
+
+{% block content %}
+  {% if content %}
+    {{ content | safe }}
+  {% else %}
+    {% loremPars 3 %}
+  {% endif %}
+{% endblock %}
+
+{% block sidebar_after  %}
+  <aside class="{{ sidebarAfterClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">
+      {% if sidebar_after %}
+      {{ sidebar_after | safe }}
+    {% else %}
+      {% loremPars 3 %}
+    {% endif %}
+  </aside>
+{% endblock %}

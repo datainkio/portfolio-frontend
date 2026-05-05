@@ -15,12 +15,16 @@
     {{ skip_links.render() }}
     {# GLOBAL PAGE HEADER #}
     {{ header.render() }}
-    {# BREADCRUMBS #}
-    {{ breadcrumbs.render({classes: 'col-span-full w-full'}) }}
     {# SIDEBAR #}
-    {% block sidebar_before %}{% endblock %}
+    {% block sidebar_before %}
+      {% if sidebar_before %}
+      {{ sidebar_before | safe }}
+      {% endif %}
+    {% endblock %}
     {# MAIN CONTENT AREA #}
     <main class="{{ mainClasses }}" data-scroll-container>
+      {# BREADCRUMBS #}
+      {{ breadcrumbs.render({classes: 'col-span-full w-full'}) }}
       <h1>{{ title }}</h1>
       {% block content %}
         {% if content %}
@@ -31,8 +35,12 @@
       {% endblock %}
     </main>
     {# SIDEBAR #}
-    {% block sidebar_after %}{% endblock %}
+    {% block sidebar_after %}
+      {% if sidebar_after %}
+      {{ sidebar_after | safe }}
+      {% endif %}
+    {% endblock %}
     {# GLOBAL PAGE FOOTER #}
-    {{ footer.render({classes: 'col-span-full w-full py-8 px-4 md:px-8 lg:px-12 bg-gray-900 text-gray-400 text-center text-sm'}) }}
+    {{ footer.render() }}
   </body>
 </html>

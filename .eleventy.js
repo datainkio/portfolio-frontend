@@ -103,7 +103,7 @@ export default async function (eleventyConfig) {
   return {
     dir: {
       input: "ia",
-      includes: "../njk", // relative to input
+      includes: "../views", // relative to input
       output: "_site",
     },
     markdownTemplateEngine: "njk",
