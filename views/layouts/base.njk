@@ -7,8 +7,7 @@
 <html lang="en">
   {% include "templates/partials/head.njk" %}
   {% block head %}{% endblock %}
-  <body
-    class="{{ bodyClasses }}" data-scroll-container>
+  <body class="{{ bodyClasses }}" data-scroll-container>
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
     {# SKIP LINKS #}
@@ -18,7 +17,7 @@
     {# SIDEBAR #}
     {% block sidebar_before %}
       {% if sidebar_before %}
-      {{ sidebar_before | safe }}
+        {{ sidebar_before | safe }}
       {% endif %}
     {% endblock %}
     {# MAIN CONTENT AREA #}
@@ -37,7 +36,7 @@
     {# SIDEBAR #}
     {% block sidebar_after %}
       {% if sidebar_after %}
-      {{ sidebar_after | safe }}
+        {{ sidebar_after | safe }}
       {% endif %}
     {% endblock %}
     {# GLOBAL PAGE FOOTER #}
