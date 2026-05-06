@@ -4,11 +4,11 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 
 ## Collections
 
-- `organizations` – organizations with industry + logo metadata
-- `industries` – industry taxonomy for organizations and projects
-- `activities` – activities taxonomy used for project classification
-- `roles` – roles taxonomy for project metadata
-- `outcomes` – outcomes/deliverables taxonomy for projects
+- `organizations` – organizations with industry concept + logo metadata
+- `industries` – industry concepts for organizations and projects
+- `activities` – activity concepts used for project classification
+- `roles` – role concepts for project metadata
+- `outcomes` – deliverable concepts for projects
 - `awards` – awards with grantor + project context (including `organization.logo.asset.url` and `organization.logo.alt` for award logo rendering; SVG logos are inlined during build, tagged with `fill-current`, and non-SVG assets are skipped with console logging)
 - `projects` – published projects with relationships, Portable Text `body` narrative content, hero image, and links
 - `posts` – published posts with relationships and metadata
@@ -41,6 +41,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - Supports `sub_section` custom blocks in `valuePropRichText` during serialization, including nested Portable Text body content and image asset URL expansion.
 - Supports `project_aside` custom blocks in project `body` during serialization, rendering semantic `<aside>` elements with optional heading, narrative copy, and resource links.
 - Keeps serializer output semantic for `project_aside` (structural class hooks only) and applies Tailwind presentation in the Nunjucks view layer.
+- Resolves legacy taxonomy collection ids (`activities`, `roles`, `outcomes`, `industries`) from `skosConcept` records scoped by concept scheme so existing Eleventy collection names remain stable.
 - Exposes metadata as `cmsMeta` global data (no secrets stored).
 
 ## Project Portable Text Rendering Path

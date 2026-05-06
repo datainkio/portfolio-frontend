@@ -24,15 +24,3 @@ aix:
     - frontend
   canonical: true
 ---
-
-This section is the public-facing documentation area for the IA and design-system model used by the frontend.
-
-## Atomic Design Role
-
-This directory is the index layer. It links content strategy, IA maps, and component-level documentation into one navigable system.
-
-## Sections
-
-- `content strategy/`: content model and narrative constraints.
-- `design/`: component documentation by atomic tier.
-- `ia/`: navigation structure, sitemap, and metadata conventions.

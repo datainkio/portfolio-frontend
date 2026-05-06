@@ -1,18 +1,20 @@
 /** @format */
-import groq from 'groq';
+import groq from "groq";
 
 export const outcomesQuery = {
-  id: 'outcomes',
-  description: 'Outcomes taxonomy for deliverables',
-  cacheDuration: '1d',
-  query: groq`*[_type == "outcome"]{
+  id: "outcomes",
+  description: "Deliverable concepts for projects",
+  cacheDuration: "1d",
+  query: groq`*[
+    _type == "skosConcept" && (
+      _id in *[_type == "skosConceptScheme" && (schemeId in ["deliverable", "deliverables", "outcome", "outcomes"] || title in ["Deliverable", "Deliverables", "Outcome", "Outcomes"])][0].topConcepts[]._ref ||
+      _id in *[_type == "skosConceptScheme" && (schemeId in ["deliverable", "deliverables", "outcome", "outcomes"] || title in ["Deliverable", "Deliverables", "Outcome", "Outcomes"])][0].concepts[]._ref
+    )
+  ]{
     _id,
     _updatedAt,
-    title,
-    "slug": slug.current,
-    description,
-    category,
-    icon,
-    weight
-  } | order(weight desc, title asc)`,
+    "title": prefLabel,
+    conceptId,
+    "description": coalesce(definition, scopeNote, "")
+  } | order(title asc)`,
 };

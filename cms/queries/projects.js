@@ -20,9 +20,9 @@ export const projectsQuery = {
       organizationType,
       featured
     },
-    "roles": meta.roles[]->{_id, title, "slug": slug.current},
-    "activities": meta.activities[]->{_id, title, "slug": slug.current, color, icon},
-    "outcomes": meta.outcomes[]->{_id, title, "slug": slug.current},
+    "roles": meta.roles[]->{_id, "title": prefLabel, conceptId},
+    "activities": meta.activities[]->{_id, "title": prefLabel, conceptId},
+    "outcomes": meta.outcomes[]->{_id, "title": prefLabel, conceptId},
     "awards": meta.awards[]->{_id, title, "slug": slug.current},
     body[]{
       ...,
@@ -40,9 +40,10 @@ export const projectsQuery = {
         }
       }
     },
-    featuredImage{
-      alt,
-      asset->{url, metadata{dimensions, lqip}}
+    "featuredImage": featuredImage->{
+      "alt": image.alt,
+      "caption": image.caption,
+      "asset": image.asset->{url, metadata{dimensions, lqip}}
     },
     externalLink,
     caseStudyUrl

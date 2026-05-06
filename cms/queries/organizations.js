@@ -3,7 +3,7 @@ import groq from "groq";
 
 export const organizationsQuery = {
   id: "organizations",
-  description: "Organizations with industry taxonomy and brand assets",
+  description: "Organizations with industry concepts and brand assets",
   cacheDuration: "1d",
   query: groq`*[_type == "organization"]{
     _id,
@@ -17,11 +17,9 @@ export const organizationsQuery = {
     "abstract": page.abstract,
     "industry": industry->{
       _id,
-      title,
-      "slug": slug.current,
-      description,
-      color,
-      icon
+      "title": prefLabel,
+      conceptId,
+      "description": coalesce(definition, scopeNote, "")
     },
     logo{
       alt,

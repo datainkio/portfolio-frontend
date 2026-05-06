@@ -17,11 +17,3 @@ eleventyNavigation:
 eleventyComputed:
   title: "{{ title }}"
 ---
-
-This page captures how documentation concepts connect across IA, design, and content strategy.
-
-## Focus
-
-- entities and relationships used across docs
-- naming consistency between sections
-- link paths that support discoverability

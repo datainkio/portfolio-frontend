@@ -1,4 +1,4 @@
-{% set roles = collections.roles | findRecord(project.roles) %}
+{% set roles = project.roles %}
 {% if roles %}
   <ul class="flex flex-row list-none p-0 m-0">
     {% for role in roles %}

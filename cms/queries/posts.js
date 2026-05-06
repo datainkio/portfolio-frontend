@@ -20,10 +20,10 @@ export const postsQuery = {
     tags,
     status,
     featured,
-    featuredImage{
-      alt,
-      caption,
-      asset->{url, metadata{dimensions, lqip}}
+    "featuredImage": featuredImage->{
+      "alt": image.alt,
+      "caption": image.caption,
+      "asset": image.asset->{url, metadata{dimensions, lqip}}
     },
     excerpt,
     relatedProjects[]->{
