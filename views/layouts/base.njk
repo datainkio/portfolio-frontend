@@ -7,7 +7,8 @@
 <html lang="en">
   {% include "templates/partials/head.njk" %}
   {% block head %}{% endblock %}
-  <body class="{{ bodyClasses }}" data-scroll-container>
+  <body
+    class="{{ bodyClasses }}" data-scroll-container>
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
     {# SKIP LINKS #}
@@ -21,10 +22,10 @@
       {% endif %}
     {% endblock %}
     {# MAIN CONTENT AREA #}
-    <main class="{{ mainClasses }}" data-scroll-container>
+    <main
+      class="{{ mainClasses }}" data-scroll-container>
       {# BREADCRUMBS #}
       {{ breadcrumbs.render({classes: 'col-span-full w-full'}) }}
-      <h1>{{ title }}</h1>
       {% block content %}
         {% if content %}
           {{ content | safe }}
