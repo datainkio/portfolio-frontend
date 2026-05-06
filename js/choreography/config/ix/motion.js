@@ -84,12 +84,24 @@ export const ANIMATION_DEFAULTS = {
   translateX: -motion.distance("md"),
 };
 
-export const THROW_ANIMATION = {
+export const THROW_OUT_ANIMATION = {
   ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("slow")),
   xPercent: -100,
   yPercent: -125,
   rotation: -12,
+  overwrite: "auto",
+  transformOrigin: "50% 66%",
+  translateY: 0,
+  translateX: 0,
+};
+
+export const THROW_IN_ANIMATION = {
+  ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("slow")),
+  xPercent: 100,
+  yPercent: 125,
+  rotation: 12,
   overwrite: "auto",
   transformOrigin: "50% 66%",
   translateY: 0,

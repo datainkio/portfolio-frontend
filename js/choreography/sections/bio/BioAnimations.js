@@ -19,7 +19,10 @@
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import { gsap, ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
-import { BIO_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
+import {
+  BIO_ANIMATION_DEFAULTS,
+  THROW_IN_ANIMATION,
+} from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 
@@ -336,16 +339,17 @@ export default class BioAnimations extends AbstractSectionAnimations {
 
   _buildIntro() {
     var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
-    if (!this.animTargets.length) {
-      return tl;
-    }
-    tl.to(this.animTargets, {
-      autoAlpha: 1,
-      y: 0,
-      duration: this.options.duration,
-      stagger: this.options.stagger,
-      ease: this.options.ease.in,
-    }).addPause();
+    // if (!this.animTargets.length) {
+    //   return tl;
+    // }
+    // tl.to(this.animTargets, {
+    //   autoAlpha: 1,
+    //   y: 0,
+    //   duration: this.options.duration,
+    //   stagger: this.options.stagger,
+    //   ease: this.options.ease.in,
+    // }).addPause();
+    tl.from(this.view, THROW_IN_ANIMATION, 0);
     return tl;
   }
 
@@ -355,8 +359,8 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _buildOutro() {
-    // Outro consists of using SplitText to break subheading into lines and animating them out with a staggered upward motion and fade.
     var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
+
     return tl;
   }
 }

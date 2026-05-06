@@ -19,7 +19,10 @@
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { HERO_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
+import {
+  HERO_ANIMATION_DEFAULTS,
+  THROW_OUT_ANIMATION,
+} from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import { SplitText } from "/assets/js/choreography/vendor/gsap.js";
 const HERO_EL_ATTR = "data-hero-el";
@@ -136,23 +139,13 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     //   0,
     // );
 
-    const throwMotion = {
-      duration: 2,
-      xPercent: -110,
-      yPercent: -125,
-      rotation: -8,
-      ease: "power3.in",
-      overwrite: "auto",
-      transformOrigin: "50% 50%",
-    };
-
-    tl.to(this.view, throwMotion, 0);
+    tl.to(this.view, THROW_OUT_ANIMATION, 0);
 
     if (gel?.view) {
       tl.to(
         gel.view,
         {
-          ...throwMotion,
+          ...THROW_OUT_ANIMATION,
           // onUpdate: () => gel.refresh?.(),
           // onComplete: () => gel.refresh?.(),
         },
