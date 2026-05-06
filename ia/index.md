@@ -10,6 +10,9 @@ skipLinks:
   - awards
   - projects
 enableChoreography: true
+eleventyNavigation:
+  key: home
+  title: Home
 eleventyComputed:
   title: "{{ cms.home[0].pageTitle }}"
   hero:

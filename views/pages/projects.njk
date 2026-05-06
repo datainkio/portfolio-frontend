@@ -1,27 +1,18 @@
 {% extends "layouts/base.njk" %}
+{% import "molecules/card/project.njk" as ProjectCard %}
 {% block content %}
+    <h1 class="text-2xl font-semibold">Projects</h1>
     {% if collections.projects and collections.projects.length %}
-        <section class="space-y-4">
-            <h1 class="text-2xl font-semibold">Projects</h1>
-            <ul class="space-y-2">
-                {% for project in collections.projects %}
-                    {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
-                    <li>
-                        {% if projectHref %}
-                            <a href="{{ projectHref }}" class="hover:underline focus-visible:underline">
-                                {{ project.title }}
-                            </a>
-                        {% else %}
-                            {{ project.title }}
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        </section>
+
+        <ul class="space-y-2">
+            {% for project in collections.projects %}
+                {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
+                <li>
+                    {{ ProjectCard.render({ project: project, url: projectHref }) }}
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-        <section class="space-y-4">
-            <h1 class="text-2xl font-semibold">Projects</h1>
-            <p>No projects found.</p>
-        </section>
+        <p>No projects found.</p>
     {% endif %}
 {% endblock %}

@@ -7,42 +7,14 @@
 {% block content %}
   <article class="space-y-8">
     <header class="space-y-6">
-      {% if project.featured %}
-        <p>
-          Featured Project
-        </p>
-      {% endif %}
-
+      <h1>{{ project.title }}</h1>
       {% if project.abstract %}
         <p>{{ project.abstract }}</p>
-      {% endif %}
-
-      {% if hasCaseStudyLink or hasExternalLink %}
-        <nav aria-label="Project links">
-          <ul>
-            {% if hasCaseStudyLink %}
-              <li>
-                <a href="{{ project.caseStudyUrl }}">
-                  View Case Study
-                </a>
-              </li>
-            {% endif %}
-            {% if hasExternalLink %}
-              <li>
-                <a href="{{ project.externalLink }}" target="_blank" rel="noopener noreferrer">
-                  Visit External Link
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </nav>
       {% endif %}
     </header>
 
     {% if project.bodyHtml %}
-      <section aria-label="Project narrative">
-        {{ project.bodyHtml | safe }}
-      </section>
+      {{ project.bodyHtml | safe }}
     {% endif %}
   </article>
 {% endblock %}

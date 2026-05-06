@@ -22,7 +22,7 @@
     /* @apply relative; */ /* Disabled to support GSAP ScrollSmoother */
   }
   h1 {
-    @apply font-sans text-5xl font-extrabold hover:no-underline 
+    @apply font-display text-5xl hover:no-underline 
     tracking-tight;
   }
   h2 {

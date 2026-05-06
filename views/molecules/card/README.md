@@ -6,7 +6,7 @@ Card components for displaying various content types across the portfolio site.
 
 ### `card.njk` - Generic Content Card
 
-**Purpose**: Displays a reusable card with a required title, optional image, and optional link.
+**Purpose**: Displays a reusable card with optional image, title, metadata, and optional link.
 
 **Usage Pattern**: Macro (import and call with parameters)
 
@@ -15,6 +15,10 @@ Card components for displaying various content types across the portfolio site.
 
 {{ card.render({
   title: project.title,
+  eyebrow: project.organization.title,
+  description: project.abstract,
+  meta: "Status: " ~ project.status,
+  featured: project.featured,
   image: project.image,
   url: project.url
 }) }}
@@ -23,9 +27,15 @@ Card components for displaying various content types across the portfolio site.
 **Parameters**:
 
 - `title` (required): Card heading text
+- `eyebrow` (optional): Small context label shown above the title (for example organization)
+- `description` (optional): Supporting copy shown below the title
+- `meta` (optional): Compact metadata line (for example status/year)
+- `featured` (optional): When true, renders a featured badge
 - `image` (optional): Image source string or object (`{ src, alt }`, `{ url, alt }`, or `{ asset: { url }, alt }`)
-- `url` (optional): Card destination URL; when omitted, card renders as non-link content
+- `url` (optional): Card destination URL for linked image/title
 - `classes` (optional): Additional utility classes for the outer card container
+- `imageClasses` (optional): Additional utility classes for the image element
+- `showTitle` (optional, default: true): Toggle title rendering
 
 ### `category.njk` - Project Category Display
 
@@ -66,7 +76,7 @@ Card components for displaying various content types across the portfolio site.
 
 ### `project.njk` - Project Teaser Card
 
-**Purpose**: Displays project preview with thumbnail, roles, and call-to-action.
+**Purpose**: Displays project previews from the Sanity `project` schema using schema-native fields.
 
 **Usage Pattern**: Macro (import and call with parameters)
 
@@ -74,19 +84,64 @@ Card components for displaying various content types across the portfolio site.
 {% import "molecules/card/project.njk" as projectCard %}
 
 {{ projectCard.render({
-  project: projectObject,
-  modal: false,
-  featured: false,
-  imageStyle: "auto"
+  project: projectObject
 }) }}
 ```
 
 **Parameters**:
 
-- `project` (required): Project object with `thumbnail`, `roles`, `title`, `teaser`, `url`, `id`
-- `modal` (optional, default: false): Enable modal interaction instead of direct link
-- `featured` (optional, default: false): Display as featured (larger aspect ratio)
-- `imageStyle` (optional, default: "auto"): Custom image container CSS classes
+- `project` (required): Project object from the `projects` collection (`title`, `slug`, `abstract`, `featuredImage`, `organization`, `status`, `featured`, `caseStudyUrl`, `externalLink`)
+- `project.card` (preferred when present): Canonical card view model normalized in `frontend/eleventy/collections/sanity.js` (`title`, `image`, `url`, `eyebrow`, `description`, `meta`, `featured`)
+- `title`, `description`, `status`, `organization`, `featured`, `url`, `image` (optional): Explicit overrides when needed
+- `classes`, `imageClasses`, `showTitle` (optional): Pass-through presentation controls to `card.njk`
+
+Note: Legacy field-level fallback chains were removed. Wrappers now expect normalized `*.card` data (or explicit override params).
+
+### `organization.njk` - Organization Card
+
+**Purpose**: Displays organizations from the Sanity `organization` schema using normalized card fields.
+
+**Usage Pattern**: Macro (import and call with parameters)
+
+```njk
+{% import "molecules/card/organization.njk" as organizationCard %}
+
+{{ organizationCard.render({
+  organization: organizationObject
+}) }}
+```
+
+**Parameters**:
+
+- `organization` (required): Organization record from `collections.organizations`
+- `organization.card` (preferred when present): Canonical card view model normalized in `frontend/eleventy/collections/sanity.js`
+- `title`, `description`, `eyebrow`, `featured`, `url`, `image`, `meta` (optional): Explicit overrides when needed
+- `classes`, `imageClasses`, `showTitle` (optional): Pass-through presentation controls to `card.njk`
+
+Note: Legacy field-level fallback chains were removed. Wrappers now expect normalized `*.card` data (or explicit override params).
+
+### `award.njk` - Award Card
+
+**Purpose**: Displays awards from the Sanity `award` schema using normalized card fields.
+
+**Usage Pattern**: Macro (import and call with parameters)
+
+```njk
+{% import "molecules/card/award.njk" as awardCard %}
+
+{{ awardCard.render({
+  award: awardObject
+}) }}
+```
+
+**Parameters**:
+
+- `award` (required): Award record from `collections.awards`
+- `award.card` (preferred when present): Canonical card view model normalized in `frontend/eleventy/collections/sanity.js`
+- `title`, `description`, `eyebrow`, `featured`, `url`, `image`, `meta` (optional): Explicit overrides when needed
+- `classes`, `imageClasses`, `showTitle` (optional): Pass-through presentation controls to `card.njk`
+
+Note: Legacy field-level fallback chains were removed. Wrappers now expect normalized `*.card` data (or explicit override params).
 
 **Example with Modal**:
 
@@ -97,8 +152,7 @@ Card components for displaying various content types across the portfolio site.
 {% for project in collections.projects %}
   {{ projectCard.render({
     project: project,
-    featured: loop.index == 1,
-    modal: true
+    featured: loop.index == 1
   }) }}
 {% endfor %}
 ```

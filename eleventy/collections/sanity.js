@@ -196,6 +196,80 @@ function normalizeLandingRecords(records = []) {
   });
 }
 
+function resolveProjectCardUrl(project) {
+  if (project?.slug) {
+    return `/work/${project.slug}/`;
+  }
+
+  const caseStudyUrl =
+    typeof project?.caseStudyUrl === "string" ? project.caseStudyUrl : "";
+  if (caseStudyUrl) {
+    return caseStudyUrl;
+  }
+
+  if (typeof project?.externalLink === "string") {
+    return project.externalLink;
+  }
+
+  if (typeof project?.externalLink?.href === "string") {
+    return project.externalLink.href;
+  }
+
+  return "";
+}
+
+function buildProjectCardRecord(project = {}) {
+  const title = project?.title || "Untitled project";
+  const organization = project?.organization?.title || "";
+  const status = project?.status || "";
+
+  return {
+    title,
+    image: project?.featuredImage,
+    url: resolveProjectCardUrl(project),
+    eyebrow: organization,
+    description: project?.abstract || "",
+    meta: status ? `Status: ${status}` : "",
+    featured: Boolean(project?.featured),
+  };
+}
+
+function buildOrganizationCardRecord(organization = {}) {
+  const title = organization?.title || "Untitled organization";
+  const url = organization?.slug ? `/organizations/${organization.slug}/` : "";
+  const industry = organization?.industry?.title || "";
+  const website =
+    typeof organization?.website === "string" ? organization.website : "";
+
+  return {
+    title,
+    image: organization?.logo,
+    url,
+    eyebrow: industry,
+    description: organization?.abstract || "",
+    meta: website,
+    featured: Boolean(organization?.featured),
+  };
+}
+
+function buildAwardCardRecord(award = {}) {
+  const title = award?.title || "Untitled award";
+  const level = typeof award?.level === "string" ? award.level.trim() : "";
+  const category =
+    typeof award?.category === "string" ? award.category.trim() : "";
+  const meta = [level, category].filter(Boolean).join(" - ");
+
+  return {
+    title,
+    image: award?.organization?.logo,
+    url: award?.url || "",
+    eyebrow: award?.organization?.title || "",
+    description: award?.description || "",
+    meta,
+    featured: Boolean(award?.featured),
+  };
+}
+
 function normalizeProjectRecords(records = []) {
   if (!Array.isArray(records)) {
     return [];
@@ -209,8 +283,31 @@ function normalizeProjectRecords(records = []) {
       ...record,
       body: bodyBlocks,
       bodyHtml,
+      card: buildProjectCardRecord(record),
     };
   });
+}
+
+function normalizeOrganizationRecords(records = []) {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
+  return records.map((record) => ({
+    ...record,
+    card: buildOrganizationCardRecord(record),
+  }));
+}
+
+function normalizeAwardRecords(records = []) {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
+  return records.map((record) => ({
+    ...record,
+    card: buildAwardCardRecord(record),
+  }));
 }
 
 function resolveNavigationHref(item) {
@@ -370,6 +467,7 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "awards") {
       data = await hydrateAwardInlineLogos(data);
+      data = normalizeAwardRecords(data);
     }
 
     if (definition.id === "home") {
@@ -378,6 +476,10 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "projects") {
       data = normalizeProjectRecords(data);
+    }
+
+    if (definition.id === "organizations") {
+      data = normalizeOrganizationRecords(data);
     }
 
     if (definition.id === "navigation") {

@@ -1,12 +1,25 @@
 {% from "molecules/card/card.njk" import render as renderCard %}
 
-{% macro render(project) %}
+{% macro render(params = {}) %}
+  {%- set card = (params.project and params.project.card) or params.card or {} -%}
+  {%- set title = params.title | default(card.title) | default("Untitled project") -%}
+  {%- set image = params.image | default(card.image) -%}
+  {%- set url = params.url | default(card.url) | default("") -%}
+  {%- set description = params.description | default(card.description) | default("") -%}
+  {%- set organization = params.organization | default(card.eyebrow) | default("") -%}
+  {%- set meta = params.meta | default(card.meta) | default("") -%}
+  {%- set featured = params.featured | default(card.featured) | default(false) -%}
+
   {{ renderCard({
-    href: project.url,
-    title: project.title,
-    eyebrow: project.role,
-    description: project.summary,
-    image: project.thumbnail,
-    meta: project.year
+    title: title,
+    image: image,
+    url: url,
+    eyebrow: organization,
+    description: description,
+    meta: meta,
+    featured: featured,
+    classes: params.classes,
+    imageClasses: params.imageClasses,
+    showTitle: params.showTitle
   }) }}
 {% endmacro %}

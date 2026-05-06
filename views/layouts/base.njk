@@ -1,7 +1,7 @@
 {% import "organisms/header/global-header.njk" as header with context %}
 {% import "organisms/footer/global-footer.njk" as footer with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as skip_links %}
-{% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs %}
+{% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,7 @@
     <main
       class="{{ mainClasses }}" data-scroll-container>
       {# BREADCRUMBS #}
-      {{ breadcrumbs.render({classes: 'col-span-full w-full'}) }}
+      {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
       {% block content %}
         {% if content %}
           {{ content | safe }}

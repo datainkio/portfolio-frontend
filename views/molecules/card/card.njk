@@ -1,6 +1,10 @@
 {% macro render(params = {}) %}
   {%- set title = params.title | default("") -%}
   {%- set showTitle = params.showTitle | default(true) -%}
+  {%- set eyebrow = params.eyebrow | default("") -%}
+  {%- set description = params.description | default("") -%}
+  {%- set meta = params.meta | default("") -%}
+  {%- set featured = params.featured | default(false) -%}
   {%- set image = params.image -%}
   {%- set url = params.url | default("") -%}
   {%- set classes = params.classes | default("") -%}
@@ -9,23 +13,44 @@
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
-  <article class="overflow-hidden {{ classes }}">
+  <article class="overflow-hidden space-y-3 {{ classes }}">
     {% if url %}
-      <a href="{{ url }}" class="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 focus-visible:ring-neutral-200">
+      <a href="{{ url }}" class="block space-y-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 focus-visible:ring-neutral-200">
       {% else %}
-        <div class="block h-full">
+        <div class="space-y-3">
+        {% endif %}
+
+        {% if featured %}
+          <p class="text-xs font-semibold uppercase tracking-wide text-neutral-400">Featured</p>
         {% endif %}
 
         {% if imageSrc %}
-          <figure class="aspect-square overflow-hidden">
-            <img src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full w-full object-contain {{ imageClasses }}" loading="lazy"/>
+          <figure class="aspect-video overflow-hidden">
+            <img src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full w-full object-cover object-top {{ imageClasses }}" loading="lazy"/>
           </figure>
         {% endif %}
-        <h3 class="text-base sm:text-lg font-semibold text-neutral-100">{{ title }}</h3>
+
+        {% if eyebrow %}
+          <p class="text-xs uppercase tracking-wide text-neutral-400">{{ eyebrow }}</p>
+        {% endif %}
+
+        {% if showTitle %}
+          <h3 class="text-base sm:text-lg {% if url %} hover:underline{% endif %}">{{ title }}</h3>
+        {% endif %}
+
+        {% if description %}
+          <p class="text-sm">{{ description }}</p>
+        {% endif %}
+
+        {% if meta %}
+          <p class="text-xs uppercase tracking-wide text-neutral-400">{{ meta }}</p>
+        {% endif %}
+
         {% if url %}
         </a>
     {% else %}
       </div>
     {% endif %}
+
   </article>
 {% endmacro %}
