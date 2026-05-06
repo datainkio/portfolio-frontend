@@ -14,7 +14,7 @@
     {# SKIP LINKS #}
     {{ skip_links.render() }}
     {# GLOBAL PAGE HEADER #}
-    {{ header.render() }}
+    {{ header.render({classes: 'font-display'}) }}
     {# SIDEBAR #}
     {% block sidebar_before %}
       {% if sidebar_before %}
@@ -23,7 +23,7 @@
     {% endblock %}
     {# MAIN CONTENT AREA #}
     <main
-      class="{{ mainClasses }}" data-scroll-container>
+      class="py-8 {{ mainClasses }}" data-scroll-container>
       {# BREADCRUMBS #}
       {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
       {% block content %}
