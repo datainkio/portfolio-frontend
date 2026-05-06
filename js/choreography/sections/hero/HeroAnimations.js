@@ -19,7 +19,10 @@
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { HERO_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
+import {
+  HERO_ANIMATION_DEFAULTS,
+  THROW_ANIMATION,
+} from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import { SplitText } from "/assets/js/choreography/vendor/gsap.js";
 const HERO_EL_ATTR = "data-hero-el";
@@ -122,22 +125,43 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
     var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
 
-    if (!gel?.view) {
-      return tl;
+    // tl.to(
+    //   gel.view,
+    //   {
+    //     top: "0%",
+    //     height: "50%",
+    //     duration: 1,
+    //     ease: "none",
+    //     overwrite: "auto",
+    //     onUpdate: () => gel.refresh?.(),
+    //     onComplete: () => gel.refresh?.(),
+    //   },
+    //   0,
+    // );
+
+    tl.to(this.view, THROW_ANIMATION, 0);
+
+    if (gel?.view) {
+      tl.to(
+        gel.view,
+        {
+          ...THROW_ANIMATION,
+          onUpdate: () => gel.refresh?.(),
+          onComplete: () => gel.refresh?.(),
+        },
+        0,
+      );
     }
 
     tl.to(
-      gel.view,
+      this.view,
       {
-        top: "0%",
-        height: "50%",
-        duration: 1,
-        ease: "none",
+        autoAlpha: 0,
+        duration: 0.45,
+        ease: "power1.in",
         overwrite: "auto",
-        onUpdate: () => gel.refresh?.(),
-        onComplete: () => gel.refresh?.(),
       },
-      0,
+      0.55,
     );
 
     return tl;

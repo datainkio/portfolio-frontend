@@ -44,7 +44,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     };
   }
 
-  // Phase 2: after pin release, scrub gel height from 50% to 0%.
+  // Phase 2: after pin release, scrub gel upward offstage while preserving size.
   bind(callbacks = {}) {
     super.bind(callbacks);
 
@@ -97,10 +97,9 @@ export default class HeroTriggers extends AbstractSectionTriggers {
 
     const applyReleaseProgress = (progress) => {
       const clamped = Math.max(0, Math.min(1, progress));
-      const nextHeight = 50 * (1 - clamped);
+      const nextTop = -50 * clamped;
 
-      gel.view.style.top = "0%";
-      gel.view.style.height = `${nextHeight}%`;
+      gel.view.style.top = `${nextTop}%`;
       gel.refresh?.();
     };
 

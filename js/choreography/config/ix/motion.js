@@ -84,6 +84,18 @@ export const ANIMATION_DEFAULTS = {
   translateX: -motion.distance("md"),
 };
 
+export const THROW_ANIMATION = {
+  ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("slow")),
+  xPercent: -100,
+  yPercent: -125,
+  rotation: -12,
+  overwrite: "auto",
+  transformOrigin: "50% 66%",
+  translateY: 0,
+  translateX: 0,
+};
+
 /**
  * Hero Section Animation Defaults
  *

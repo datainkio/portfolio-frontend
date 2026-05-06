@@ -211,9 +211,9 @@ Rules:
 - Viewport-normalized rect + mask schema for portable, swappable arrangements.
 - `enter` events are authoritative for MVP section-to-arrangement mapping.
 - Runtime extension: hero outro applies a dedicated `hero_outro` arrangement so `bg-gel-0` is top-anchored at `y: 0` with `height: 0.5`.
-- Runtime composition: `HeroAnimations` accepts an injected gel manager and composes `bg-gel-0` into `_buildOutro` so gel geometry and hero fade run on the same GSAP timeline.
-- Runtime sequencing: on `hero:exit`, LandingSequence applies `hero_outro` and starts hero outro playback after `bg-gel-0` tween completion.
-- Runtime release phase: after hero pin release, a secondary scrub trigger linearly interpolates `bg-gel-0` height from `50%` to `0%` across a scroll span derived from the hero heading's bottom-edge travel at refresh time, avoiding per-frame DOM geometry reads while keeping gel and heading exit timing aligned.
+- Runtime composition: `HeroAnimations` accepts an injected gel manager and composes `bg-gel-0` into `_buildOutro` so hero and gel share a synchronized throw-offstage motion (slight counter-clockwise rotation with upper-left travel) on one GSAP timeline.
+- Runtime sequencing: hero outro playback is scroll-scrubbed by `HeroTriggers` via `HERO_TRIGGER.animation`, so no imperative timeline restart is required on `hero:exit`.
+- Runtime release phase: after hero pin release, a secondary scrub trigger linearly interpolates `bg-gel-0` top position from `0%` to `-50%` (size unchanged) across a scroll span derived from the hero heading's bottom-edge travel at refresh time, avoiding per-frame DOM geometry reads while keeping gel and heading exit timing aligned.
 - Runtime re-entry: on `hero:onEnterBack`, LandingSequence re-applies the `hero` arrangement.
 - Trigger timing: `HERO_TRIGGER` uses `start: "top top"`, `end: "+=32"`, and `fastScrollEnd: false` so `hero:exit` emits near first user scroll movement without 1px boundary chatter.
 - Lifecycle initialization: Hero controller starts with `initialInView: true`, and `HERO_TRIGGER.once` remains `false` so initial in-view state does not consume the first actionable exit transition.

@@ -22,7 +22,7 @@
  * Auto-detects DOM requirements and gracefully degrades when unavailable.
  *
  * REQUIREMENTS:
- * - HTML: #smooth-wrapper and #smooth-content elements (both required)
+ * - HTML: IDs configured via SELECTORS.smoothWrapper and SELECTORS.smoothContent
  * - GSAP: ScrollSmoother and ScrollTrigger plugins
  *
  * FEATURES:
@@ -39,9 +39,12 @@
 
 // ESM-friendly GSAP core + plugins (skypack)
 import { ScrollSmoother } from "/assets/js/choreography/vendor/gsap.js";
+import { SELECTORS } from "/assets/js/choreography/config/index.js";
 
 const SMOOTHER_EFFECTS = true; // Enable parallax effects
 const SMOOTHER_ENABLED = true; // Global disable flag for debugging/UX testing
+const SMOOTH_WRAPPER_SELECTOR = `#${SELECTORS.smoothWrapper}`;
+const SMOOTH_CONTENT_SELECTOR = `#${SELECTORS.smoothContent}`;
 
 export default class ScrollSmootherManager {
   /**
@@ -67,11 +70,11 @@ export default class ScrollSmootherManager {
   /**
    * Check if ScrollSmoother DOM requirements exist
    * @private
-   * @returns {boolean} True if #smooth-wrapper and #smooth-content exist
+   * @returns {boolean} True if configured smoother wrapper/content elements exist
    */
   _checkAvailability() {
-    const wrapper = document.querySelector("#smooth-wrapper");
-    const content = document.querySelector("#smooth-content");
+    const wrapper = document.querySelector(SMOOTH_WRAPPER_SELECTOR);
+    const content = document.querySelector(SMOOTH_CONTENT_SELECTOR);
     return !!(wrapper && content);
   }
 
@@ -87,8 +90,8 @@ export default class ScrollSmootherManager {
 
     try {
       this._smoother = ScrollSmoother.create({
-        wrapper: "#smooth-wrapper",
-        content: "#smooth-content",
+        wrapper: SMOOTH_WRAPPER_SELECTOR,
+        content: SMOOTH_CONTENT_SELECTOR,
         smooth: 0,
         effects: SMOOTHER_EFFECTS,
         normalizeScroll: true, // ← Add this

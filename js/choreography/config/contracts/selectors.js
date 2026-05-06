@@ -23,8 +23,8 @@ export const SELECTORS = {
 
   // GSAP ScrollSmoother containers
   // TODO: Optimize design to avoid these wrappers, which add complexity to DOM and animations
-  smoothWrapper: "smooth-wrapper",
-  smoothContent: "smooth-content",
+  smoothWrapper: "page-main",
+  smoothContent: "page-main-content",
 
   overlayView: "overlay-view",
   video: "background",
