@@ -80,8 +80,9 @@ export const ANIMATION_DEFAULTS = {
     out: motion.ease("exit"),
     inOut: motion.ease("standard"),
   },
-  translateY: -motion.distance("md"),
-  translateX: -motion.distance("md"),
+  // translateY: -motion.distance("md"),
+  // translateX: -motion.distance("md"),
+  overwrite: "auto",
 };
 
 export const THROW_OUT_ANIMATION = {
@@ -92,8 +93,6 @@ export const THROW_OUT_ANIMATION = {
   rotation: -12,
   overwrite: "auto",
   transformOrigin: "50% 66%",
-  translateY: 0,
-  translateX: 0,
 };
 
 export const THROW_IN_ANIMATION = {
@@ -104,8 +103,6 @@ export const THROW_IN_ANIMATION = {
   rotation: 12,
   overwrite: "auto",
   transformOrigin: "50% 66%",
-  translateY: 0,
-  translateX: 0,
 };
 
 /**
@@ -113,9 +110,28 @@ export const THROW_IN_ANIMATION = {
  *
  * Specific overrides for the Hero section animations.
  */
-export const HERO_ANIMATION_DEFAULTS = {
+export const HERO_LANDING = {
+  from: {
+    ...ANIMATION_DEFAULTS,
+    autoAlpha: 0,
+    yPercent: 1,
+  },
+  to: {
+    ...ANIMATION_DEFAULTS,
+    autoAlpha: 1,
+    yPercent: 0,
+  },
+};
+
+export const HERO_INTRO = {
   ...ANIMATION_DEFAULTS,
-  // translateY: -motion.distance("lg"),
+  top: "100%",
+  height: "100%",
+};
+export const HERO_OUTRO = {
+  ...ANIMATION_DEFAULTS,
+  top: "0%",
+  height: "50%",
 };
 
 /**

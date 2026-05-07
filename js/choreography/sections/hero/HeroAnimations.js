@@ -20,8 +20,10 @@
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 import {
-  HERO_ANIMATION_DEFAULTS,
-  THROW_OUT_ANIMATION,
+  ANIMATION_DEFAULTS,
+  HERO_LANDING,
+  HERO_INTRO,
+  HERO_OUTRO,
 } from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import { SplitText } from "/assets/js/choreography/vendor/gsap.js";
@@ -47,12 +49,13 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.gelManager = options.gelManager ?? null;
 
     this.options = {
-      duration: options.duration ?? HERO_ANIMATION_DEFAULTS.duration,
-      translateY: options.translateY ?? HERO_ANIMATION_DEFAULTS.translateY,
-      stagger: options.stagger ?? HERO_ANIMATION_DEFAULTS.stagger,
+      duration: options.duration ?? ANIMATION_DEFAULTS.duration,
+      translateY: options.translateY ?? ANIMATION_DEFAULTS.translateY,
+      translateX: options.translateX ?? ANIMATION_DEFAULTS.translateX,
+      stagger: options.stagger ?? ANIMATION_DEFAULTS.stagger,
       ease: {
-        in: options.ease?.in ?? HERO_ANIMATION_DEFAULTS.ease.in,
-        out: options.ease?.out ?? HERO_ANIMATION_DEFAULTS.ease.out,
+        in: options.ease?.in ?? ANIMATION_DEFAULTS.ease.in,
+        out: options.ease?.out ?? ANIMATION_DEFAULTS.ease.out,
       },
     };
 
@@ -77,14 +80,8 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     var tl = gsap.timeline({ id: TIMELINE_IDS.landing });
     tl.fromTo(
       this._split.words,
-      { autoAlpha: 0, yPercent: 1 },
-      {
-        autoAlpha: 1,
-        yPercent: 0,
-        duration: this.options.duration,
-        ease: this.options.ease.out,
-        stagger: this.options.stagger,
-      },
+      { ...HERO_LANDING.from },
+      { ...HERO_LANDING.to },
     ).addPause();
     return tl;
   }
@@ -107,13 +104,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
       tl.to(
         gel.view,
         {
-          top: "0%",
-          height: "100%",
-          duration: this.options.duration,
-          ease: this.options.ease.in,
-          overwrite: "auto",
-          // onUpdate: () => gel.refresh?.(),
-          // onComplete: () => gel.refresh?.(),
+          ...HERO_INTRO,
         },
         0,
       ).addPause();
@@ -125,33 +116,19 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
     var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
 
-    // tl.to(
-    //   gel.view,
-    //   {
-    //     top: "0%",
-    //     height: "50%",
-    //     duration: 1,
-    //     ease: "none",
-    //     overwrite: "auto",
-    //     onUpdate: () => gel.refresh?.(),
-    //     onComplete: () => gel.refresh?.(),
-    //   },
-    //   0,
-    // );
-
-    tl.to(this.view, THROW_OUT_ANIMATION, 0);
-
-    if (gel?.view) {
-      tl.to(
-        gel.view,
-        {
-          ...THROW_OUT_ANIMATION,
-          // onUpdate: () => gel.refresh?.(),
-          // onComplete: () => gel.refresh?.(),
-        },
-        0,
-      );
+    if (!gel?.view) {
+      return tl;
     }
+
+    tl.to(
+      gel.view,
+      {
+        ...HERO_OUTRO,
+        onUpdate: () => gel.refresh?.(),
+        onComplete: () => gel.refresh?.(),
+      },
+      0,
+    );
 
     return tl;
   }
