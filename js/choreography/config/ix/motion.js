@@ -128,6 +128,7 @@ export const HERO_INTRO = {
   top: "100%",
   height: "100%",
 };
+
 export const HERO_OUTRO = {
   ...ANIMATION_DEFAULTS,
   top: "0%",
@@ -159,6 +160,10 @@ export const BIO_ANIMATION_DEFAULTS = {
   stickySubheadingFadeDuration: ANIMATION_DEFAULTS.duration,
   stickyHeaderCollapseDuration: ANIMATION_DEFAULTS.duration,
   stickySubheadingTopThreshold: 1,
+};
+
+export const BIO_INTRO = {
+  ...ANIMATION_DEFAULTS,
 };
 
 /**

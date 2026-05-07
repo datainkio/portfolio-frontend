@@ -4,7 +4,7 @@
   {%- set bgID = params.id | default('sizzle-background') -%}
   {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
   {%- set containerStyles = params.styles | default('') -%}
-  <div id="{{ bgID }}" style="{{ containerStyles }}" class="{{ containerClasses }}" aria-hidden="true">
+  <div id="{{ bgID }}" style="{{ containerStyles }}" class="{{ containerClasses }}" aria-hidden="true" inert>
     {{ videoAtom.render({
       src: params.videoSrc,
       defer: params.defer | default(true),

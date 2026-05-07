@@ -103,7 +103,7 @@ node scripts/buildCSS.js --watch
    • Found 8 @import statements
    • Found 1 @layer definitions
    • Layer structure: reset, theme, base, utilities, components
-⚙️ Executing: npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css
+⚙️ Executing: npx @tailwindcss/cli -i styles/main.css -o _site/assets/styles.css --watch=always
 • Analyzing generated CSS output...
    📊 Generated CSS size: 61.39 KB
    📊 Generated utility classes: 1,234
@@ -129,6 +129,7 @@ node scripts/buildCSS.js --watch
 - **Configuration Errors**: Invalid tailwind.config.js causing CLI failures
 - **File Permissions**: Unable to write to output directory
 - **Memory Issues**: Large CSS files causing Node.js heap overflow
+- **macOS FSEvents Overflow**: Under heavy file churn, native watcher events can be dropped. `buildCSS.js` now auto-restarts Tailwind watch mode and forces a re-scan (up to 8 times) to keep development watch sessions alive.
 
 **OPTIMIZATION INSIGHTS**:
 

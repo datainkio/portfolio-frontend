@@ -1,81 +1,86 @@
 /* Custom Print Marks Components */
 @layer components {
   .printmarks {
-    @apply absolute inset-2;
+    @apply absolute w-full h-full inset-0 p-2 pointer-events-none blur-[0.5px];
+    -webkit-mask-image: var(--mask-image-grunge);
+    mask-image: var(--mask-image-grunge);
+    -webkit-mask-mode: var(--mask-mode-luminance);
+    mask-mode: var(--mask-mode-luminance);
+    /* -webkit-mask-size: var(--mask-size-cover);
+    mask-size: var(--mask-size-cover);
+    -webkit-mask-position: var(--mask-position-center);
+    mask-position: var(--mask-position-center);
+    -webkit-mask-repeat: var(--mask-repeat-no-repeat);
+    mask-repeat: var(--mask-repeat-no-repeat);
+    */
   }
 
   .printmark-bleed {
-    border-width: 1px;
-    border-style: dashed;
-    border-color: var(--color-neutral-100); /* Replace with your theme value */
+    @apply border mt-2 border-dashed border-current;
+  }
+
+  .printmark-trim {
+    @apply absolute inset-6 mt-8 pointer-events-none;
   }
 
   .printmark-trim-horiz {
-    background-color: var(--color-neutral-100);
-    width: 1rem; /* Corresponds to theme('width.4') assuming 1rem */
-    height: 0.125rem;
+    @apply bg-current w-4 h-0.25;
   }
 
   .printmark-trim-vert {
-    background-color: var(--color-neutral-100);
-    width: 0.125rem;
-    height: 1rem;
+    @apply bg-current w-0.25 h-4;
   }
 
   .printmark-margins {
-    outline: 1px solid var(--color-accent-400);
-    outline-offset: -4px;
+    @apply outline -outline-offset-[4px] mt-2;
   }
 
   .printmark-registration-bar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 1rem; /* Corresponds to theme('spacing.4') if 1rem = 4 x 0.25rem */
+    @apply flex flex-row items-center w-full h-4;
   }
 
+  .printmark-registration {
+    @apply w-6 h-6 invert grow;
+  }
+
+  /** COLORS AND NEUTRALS */
   .printmark-colors,
   .printmark-neutrals {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-    width: 25%;
+    @apply flex-none flex flex-row items-center h-full w-1/4 border border-1 border-solid border-current divide-x divide-current;
   }
 
   .printmark-colors li,
   .printmark-neutrals li {
-    flex: 1;
-    height: 1rem; /* Corresponds to theme('spacing.4') if 1rem = 4 x 0.25rem */
+    @apply flex-1 h-full;
   }
 
   .printmark-colors {
-    justify-self: end;
+    @apply ml-auto;
   }
 
   .printmark-colors li:nth-child(1) {
-    background-color: var(--color-primary-600);
+    @apply bg-primary-600;
   }
   .printmark-colors li:nth-child(2) {
-    background-color: var(--color-secondary-600);
+    @apply bg-secondary-600;
   }
   .printmark-colors li:nth-child(3) {
-    background-color: var(--color-tertiary-500);
+    @apply bg-tertiary-500;
   }
   .printmark-colors li:nth-child(4) {
-    background-color: var(--color-accent-500);
+    @apply bg-accent-500;
   }
 
   .printmark-neutrals li:nth-child(1) {
-    background-color: var(--color-neutral-800);
+    @apply bg-neutral-800;
   }
   .printmark-neutrals li:nth-child(2) {
-    background-color: var(--color-neutral-600);
+    @apply bg-neutral-600;
   }
   .printmark-neutrals li:nth-child(3) {
-    background-color: var(--color-neutral-400);
+    @apply bg-neutral-400;
   }
   .printmark-neutrals li:nth-child(4) {
-    background-color: var(--color-neutral-200);
+    @apply bg-neutral-200;
   }
 }

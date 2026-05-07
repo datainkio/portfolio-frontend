@@ -354,6 +354,12 @@ portfolio/
 - **Fix**: Verify Tailwind CSS v4 installation and import sequence
 - **Prevention**: Don't rearrange CSS imports without understanding cascade
 
+### "VS Code shows 'Unknown at rule @apply'"
+
+- **Cause**: Built-in CSS linting does not understand Tailwind directives by default
+- **Fix**: Use workspace setting `.vscode/settings.json` with `css.lint.unknownAtRules` set to `ignore`
+- **Prevention**: Keep workspace lint settings in source control so team/editor defaults stay consistent
+
 ## Advanced Configuration
 
 ### Adding New Sanity Queries

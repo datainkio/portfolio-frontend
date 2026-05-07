@@ -21,7 +21,7 @@
  * Yes, it is an ungodly mix of Tailwind and vanilla CSS.
  */
 
-const REGISTRATION_MARK_URL = "/assets/svg/registration-mark.svg";
+const REGISTRATION_MARK_URL = "/assets/icons/registration-mark.svg";
 
 export function add(elem) {
   if (!elem) {
@@ -40,8 +40,9 @@ export function add(elem) {
   container.classList.add("printmarks", "pointer-events-none");
   elem.prepend(container);
   addRegistrationBar(container, 4);
-  addTrim(container);
-  addBleed(container, 8);
+  addTrim(container, 12);
+  addMargins(container, 12);
+  addBleed(container, 12);
   // elem.classList.add("relative", "h-fit", "pt-8");
 }
 
@@ -77,11 +78,11 @@ function border(offset) {
   };
 }
 
-export function addTrim(elem) {
+export function addTrim(elem, offset = 0) {
   const container = createMarkElement("printmark-trim", {});
   // Set the y-position based on the current value of YOFFSET
-  container.style.top = `0px`;
-  container.classList.add("absolute", "inset-4", "mt-8");
+  // container.style.top = `0px`;
+  // container.classList.add("absolute", "w-full", "h-full");
   elem.appendChild(container);
   // Define the positions of the corners
   const corners = [
@@ -115,7 +116,6 @@ export function addTrim(elem) {
   });
 }
 
-// TODO: Try to use the SVG instead of an image
 export function addRegistrationBar(elem, count) {
   const container = createMarkElement("printmark-registration-bar", {});
   elem.appendChild(container);
@@ -134,9 +134,8 @@ export function addRegistrationBar(elem, count) {
   markImg.onerror = () => {
     console.error(`Failed to load image: ${REGISTRATION_MARK_URL}`);
   };
-
-  // addRegistration(container);
 }
+
 /**
  * Create a set of color swatches. Styles applied via CSS.
  * @param {*} elem
@@ -150,32 +149,4 @@ function addGradientBar(elem, count, className) {
     gradient.appendChild(document.createElement("li"));
   }
   elem.appendChild(gradient);
-}
-
-export function addStarTarget(elem, size) {
-  const starTarget = createMarkElement("star-target", {
-    position: "absolute",
-    width: `${size * 2}rem`,
-    height: `${size * 2}rem`,
-    border: "0.1rem solid black",
-    borderRadius: "50%",
-    top: `calc(50% - ${size}rem)`,
-    left: `calc(50% - ${size}rem)`,
-    pointerEvents: "none",
-  });
-
-  const center = createMarkElement("center-dot", {
-    position: "absolute",
-    width: "0.2rem",
-    height: "0.2rem",
-    backgroundColor: "black",
-    borderRadius: "50%",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  });
-
-  starTarget.appendChild(center);
-  elem.style.position = "relative";
-  elem.appendChild(starTarget);
 }

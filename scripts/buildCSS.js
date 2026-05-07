@@ -50,11 +50,11 @@
  *
  * @module scripts/buildCSS
  */
-import { TailwindLogger } from '../eleventy/services/TailwindLogger.js';
-import { execSync, spawn } from 'child_process';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import logger, { LumberjackStyle } from '@datainkio/lumberjack';
+import { TailwindLogger } from "../eleventy/services/TailwindLogger.js";
+import { execSync, spawn } from "child_process";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
 // Enable logger for build transparency
 logger.enabled = true;
@@ -62,13 +62,13 @@ logger.enabled = true;
 // Get directory paths for imports
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, '..');
+const projectRoot = resolve(__dirname, "..");
 
 /**
  * Custom Logger Styles for Build Script
  */
-const scriptStyle = new LumberjackStyle('#7C3AED', '\n⚙️ ');
-const errorStyle = new LumberjackStyle('#EF4444', '\n🚨 ');
+const scriptStyle = new LumberjackStyle("#7C3AED", "\n⚙️ ");
+const errorStyle = new LumberjackStyle("#EF4444", "\n🚨 ");
 
 /**
  * CRITICAL WARNING: Main CSS build function with comprehensive logging
@@ -96,49 +96,55 @@ const errorStyle = new LumberjackStyle('#EF4444', '\n🚨 ');
  * @returns {Promise<Object>} Build result with metrics
  */
 async function buildCSS(options = {}) {
-  const { watch = false, minify = false, verbose = process.env.DEBUG === 'true' } = options;
+  const {
+    watch = false,
+    minify = false,
+    verbose = process.env.DEBUG === "true",
+  } = options;
 
   // Initialize logger with options
   const tailwindLogger = new TailwindLogger({ verbose });
 
   // File paths
-  const inputFile = resolve(projectRoot, 'styles/main.css');
-  const outputFile = resolve(projectRoot, '_site/assets/styles.css');
-  const configFile = resolve(projectRoot, 'tailwind.config.js');
+  const inputFile = resolve(projectRoot, "styles/main.css");
+  const outputFile = resolve(projectRoot, "_site/assets/styles.css");
+  const configFile = resolve(projectRoot, "tailwind.config.js");
 
   try {
     // Show script execution outline
     const buildWorkflow = [
       {
-        name: 'config-analysis',
-        description: 'Analyze Tailwind configuration and content paths',
-        script: 'TailwindLogger.logConfigAnalysis()',
+        name: "config-analysis",
+        description: "Analyze Tailwind configuration and content paths",
+        script: "TailwindLogger.logConfigAnalysis()",
       },
       {
-        name: 'input-analysis',
-        description: 'Parse CSS imports, layers, and custom properties',
-        script: 'TailwindLogger.logFileAnalysis()',
+        name: "input-analysis",
+        description: "Parse CSS imports, layers, and custom properties",
+        script: "TailwindLogger.logFileAnalysis()",
       },
       {
-        name: 'css-compilation',
-        description: `Compile CSS with Tailwind CLI${minify ? ' (minified)' : ''}${watch ? ' (watch mode)' : ''}`,
-        script: '@tailwindcss/cli',
-        dependencies: ['tailwind.config.js', 'styles/main.css'],
+        name: "css-compilation",
+        description: `Compile CSS with Tailwind CLI${minify ? " (minified)" : ""}${watch ? " (watch mode)" : ""}`,
+        script: "@tailwindcss/cli",
+        dependencies: ["tailwind.config.js", "styles/main.css"],
       },
       {
-        name: 'output-analysis',
-        description: 'Analyze generated CSS for size and performance metrics',
-        script: 'TailwindLogger.logOutputAnalysis()',
+        name: "output-analysis",
+        description: "Analyze generated CSS for size and performance metrics",
+        script: "TailwindLogger.logOutputAnalysis()",
       },
       {
-        name: 'performance-review',
-        description: 'Provide optimization suggestions and build metrics',
-        script: 'TailwindLogger.completeBuild()',
+        name: "performance-review",
+        description: "Provide optimization suggestions and build metrics",
+        script: "TailwindLogger.completeBuild()",
       },
     ];
 
-    const operationName = watch ? 'Tailwind CSS Watch Mode' : 'Tailwind CSS Build';
-    logger.showScriptOutline(operationName, buildWorkflow, 'brief');
+    const operationName = watch
+      ? "Tailwind CSS Watch Mode"
+      : "Tailwind CSS Build";
+    logger.showScriptOutline(operationName, buildWorkflow, "brief");
 
     // Initialize build logging
     tailwindLogger.startBuild(inputFile, outputFile, { watch, minify });
@@ -149,10 +155,10 @@ async function buildCSS(options = {}) {
 
     // Build Tailwind command
     let command = `npx @tailwindcss/cli -i ${inputFile} -o ${outputFile}`;
-    if (minify) command += ' --minify';
-    if (watch) command += ' --watch';
+    if (minify) command += " --minify";
+    if (watch) command += " --watch=always";
 
-    logger.trace(`Executing: ${command}`, null, 'brief', scriptStyle);
+    logger.trace(`Executing: ${command}`, null, "brief", scriptStyle);
 
     if (watch) {
       // Watch mode: use spawn for continuous process
@@ -162,15 +168,15 @@ async function buildCSS(options = {}) {
       return await runSingleBuild(command, tailwindLogger, outputFile);
     }
   } catch (error) {
-    tailwindLogger.logError(error, 'build script');
+    tailwindLogger.logError(error, "build script");
     tailwindLogger.completeBuild(false);
 
     // Log additional context for build failures
     logger.trace(
       null,
-      'Build script failed. Common causes: missing dependencies, invalid CSS syntax, configuration errors, or file permission issues. Check the error details above for specific resolution steps.',
-      'brief',
-      'standard'
+      "Build script failed. Common causes: missing dependencies, invalid CSS syntax, configuration errors, or file permission issues. Check the error details above for specific resolution steps.",
+      "brief",
+      "standard",
     );
 
     throw error; // Re-throw to ensure proper exit codes
@@ -188,9 +194,9 @@ async function buildCSS(options = {}) {
 async function runSingleBuild(command, tailwindLogger, outputFile) {
   try {
     const result = execSync(command, {
-      encoding: 'utf-8',
+      encoding: "utf-8",
       cwd: projectRoot,
-      stdio: ['pipe', 'pipe', 'pipe'],
+      stdio: ["pipe", "pipe", "pipe"],
     });
 
     // Analyze output after successful build
@@ -203,7 +209,7 @@ async function runSingleBuild(command, tailwindLogger, outputFile) {
     return {
       success: true,
       summary:
-        typeof tailwindLogger.getBuildSummary === 'function'
+        typeof tailwindLogger.getBuildSummary === "function"
           ? tailwindLogger.getBuildSummary()
           : null,
       output: result,
@@ -215,20 +221,22 @@ async function runSingleBuild(command, tailwindLogger, outputFile) {
     // Filter out normal Tailwind messages that might appear in error streams
     const isActualError =
       errorOutput &&
-      !errorOutput.includes('tailwindcss v') &&
-      !errorOutput.includes('Done in') &&
-      !errorOutput.includes('Build finished') &&
+      !errorOutput.includes("tailwindcss v") &&
+      !errorOutput.includes("Done in") &&
+      !errorOutput.includes("Build finished") &&
       errorOutput.trim().length > 0;
 
     if (isActualError) {
-      tailwindLogger.logError(new Error(errorOutput), 'Tailwind CLI');
+      tailwindLogger.logError(new Error(errorOutput), "Tailwind CLI");
     }
 
     return {
       success: false,
-      error: isActualError ? errorOutput : 'Build failed - check logs for details',
+      error: isActualError
+        ? errorOutput
+        : "Build failed - check logs for details",
       summary:
-        typeof tailwindLogger.getBuildSummary === 'function'
+        typeof tailwindLogger.getBuildSummary === "function"
           ? tailwindLogger.getBuildSummary()
           : null,
     };
@@ -245,81 +253,188 @@ async function runSingleBuild(command, tailwindLogger, outputFile) {
  */
 async function runWatchMode(command, tailwindLogger, outputFile) {
   return new Promise((resolve, reject) => {
-    logger.trace('Starting CSS watch mode - press Ctrl+C to stop', null, 'brief', scriptStyle);
+    logger.trace(
+      "Starting CSS watch mode - press Ctrl+C to stop",
+      null,
+      "brief",
+      scriptStyle,
+    );
 
-    const [cmd, ...args] = command.split(' ');
-    const childProcess = spawn(cmd, args, {
-      cwd: projectRoot,
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
-
+    const [cmd, ...args] = command.split(" ");
     let buildCount = 0;
+    let restartCount = 0;
+    let childProcess = null;
+    let restartRequested = false;
+    let isShuttingDown = false;
 
-    childProcess.stdout.on('data', data => {
-      const output = data.toString();
+    const maxRestarts = 8;
+    const restartDelayMs = 300;
+    const fseventsRescanPattern =
+      /events were dropped by (the )?(fsevents client|kernel)\. file system must be re-scanned\./i;
 
-      // Detect successful builds in watch mode
-      if (output.includes('Done in') || output.includes('Build finished')) {
-        buildCount++;
-        logger.trace(`Watch rebuild #${buildCount} completed`, null, 'brief', scriptStyle);
+    const cleanup = () => {
+      process.off("SIGINT", handleSigInt);
+      process.off("SIGTERM", handleSigTerm);
+    };
 
-        // Analyze output periodically (every 5th build to avoid spam)
-        if (buildCount % 5 === 0) {
-          tailwindLogger.logOutputAnalysis(outputFile);
+    const finalizeSuccess = () => {
+      cleanup();
+      resolve({
+        success: true,
+        buildCount,
+        summary:
+          typeof tailwindLogger.getBuildSummary === "function"
+            ? tailwindLogger.getBuildSummary()
+            : null,
+      });
+    };
+
+    const finalizeError = (error) => {
+      cleanup();
+      reject(error);
+    };
+
+    const requestRestart = (reason) => {
+      if (isShuttingDown || restartRequested) return;
+
+      restartRequested = true;
+      restartCount += 1;
+
+      logger.trace(
+        `Restarting CSS watch process (${restartCount}/${maxRestarts}) due to ${reason}`,
+        null,
+        "brief",
+        scriptStyle,
+      );
+
+      if (childProcess && !childProcess.killed) {
+        childProcess.kill("SIGTERM");
+      }
+    };
+
+    const startWatcher = () => {
+      childProcess = spawn(cmd, args, {
+        cwd: projectRoot,
+        stdio: ["pipe", "pipe", "pipe"],
+      });
+
+      childProcess.stdout.on("data", (data) => {
+        const output = data.toString();
+
+        // Detect successful builds in watch mode
+        if (output.includes("Done in") || output.includes("Build finished")) {
+          buildCount++;
+          logger.trace(
+            `Watch rebuild #${buildCount} completed`,
+            null,
+            "brief",
+            scriptStyle,
+          );
+
+          // Analyze output periodically (every 5th build to avoid spam)
+          if (buildCount % 5 === 0) {
+            tailwindLogger.logOutputAnalysis(outputFile);
+          }
         }
-      }
 
-      // Forward Tailwind output with our styling
-      if (output.trim()) {
-        logger.trace(output.trim(), null, 'brief');
-      }
-    });
-
-    childProcess.stderr.on('data', data => {
-      const output = data.toString().trim();
-
-      // Filter out normal Tailwind status messages that go to stderr
-      const isNormalMessage =
-        output.includes('tailwindcss v') || // Version info
-        output.includes('Done in') || // Build completion
-        output.includes('Build finished') || // Build status
-        output.includes('Watching for changes') || // Watch status
-        output.match(/^\s*$/) || // Empty lines
-        output.includes('Ready in'); // Ready status
-
-      if (isNormalMessage) {
-        // Log as normal output, not error
+        // Forward Tailwind output with our styling
         if (output.trim()) {
-          logger.trace(output, null, 'brief');
+          logger.trace(output.trim(), null, "brief");
         }
-      } else {
+      });
+
+      childProcess.stderr.on("data", (data) => {
+        const output = data.toString().trim();
+
+        // Filter out normal Tailwind status messages that go to stderr
+        const isNormalMessage =
+          output.includes("tailwindcss v") || // Version info
+          output.includes("Done in") || // Build completion
+          output.includes("Build finished") || // Build status
+          output.includes("Watching for changes") || // Watch status
+          output.match(/^\s*$/) || // Empty lines
+          output.includes("Ready in"); // Ready status
+
+        if (isNormalMessage) {
+          // Log as normal output, not error
+          if (output.trim()) {
+            logger.trace(output, null, "brief");
+          }
+          return;
+        }
+
+        // FSEvents may drop events under heavy churn; restart to force re-scan.
+        if (fseventsRescanPattern.test(output)) {
+          logger.trace(
+            "Watcher event overflow detected; restarting Tailwind watch to re-scan files.",
+            null,
+            "brief",
+            scriptStyle,
+          );
+          requestRestart("dropped macOS FSEvents");
+          return;
+        }
+
         // Only log actual errors
-        tailwindLogger.logError(new Error(output), 'watch mode');
+        tailwindLogger.logError(new Error(output), "watch mode");
+      });
+
+      childProcess.on("close", (code) => {
+        if (isShuttingDown) {
+          logger.trace("CSS watch mode stopped", null, "brief", scriptStyle);
+          finalizeSuccess();
+          return;
+        }
+
+        if (restartRequested) {
+          restartRequested = false;
+
+          if (restartCount > maxRestarts) {
+            finalizeError(
+              new Error(
+                "Watch process restarted too many times after file-event overflows. Reduce filesystem churn or restart the dev server.",
+              ),
+            );
+            return;
+          }
+
+          setTimeout(startWatcher, restartDelayMs);
+          return;
+        }
+
+        if (code === 0) {
+          logger.trace("CSS watch mode stopped", null, "brief", scriptStyle);
+          finalizeSuccess();
+        } else {
+          finalizeError(new Error(`Watch process exited with code ${code}`));
+        }
+      });
+    };
+
+    const handleSigInt = () => {
+      if (isShuttingDown) return;
+
+      isShuttingDown = true;
+      logger.trace("Stopping CSS watch mode...", null, "brief", scriptStyle);
+
+      if (childProcess && !childProcess.killed) {
+        childProcess.kill("SIGTERM");
       }
-    });
+    };
 
-    childProcess.on('close', code => {
-      if (code === 0) {
-        logger.trace('CSS watch mode stopped', null, 'brief', scriptStyle);
-        resolve({
-          success: true,
-          buildCount,
-          summary: tailwindLogger.getBuildSummary(),
-        });
-      } else {
-        reject(new Error(`Watch process exited with code ${code}`));
+    const handleSigTerm = () => {
+      if (isShuttingDown) return;
+
+      isShuttingDown = true;
+      if (childProcess && !childProcess.killed) {
+        childProcess.kill("SIGTERM");
       }
-    });
+    };
 
-    // Handle process termination gracefully
-    process.on('SIGINT', () => {
-      logger.trace('Stopping CSS watch mode...', null, 'brief', scriptStyle);
-      childProcess.kill('SIGTERM');
-    });
+    process.on("SIGINT", handleSigInt);
+    process.on("SIGTERM", handleSigTerm);
 
-    process.on('SIGTERM', () => {
-      childProcess.kill('SIGTERM');
-    });
+    startWatcher();
   });
 }
 
@@ -337,7 +452,7 @@ function parseTailwindOutput(output) {
   if (durationMatch) {
     const duration = parseFloat(durationMatch[1]);
     const unit = durationMatch[2];
-    metrics.duration = unit === 's' ? duration * 1000 : duration;
+    metrics.duration = unit === "s" ? duration * 1000 : duration;
   }
 
   // Extract warnings count
@@ -351,7 +466,7 @@ function parseTailwindOutput(output) {
   if (sizeMatch) {
     const size = parseFloat(sizeMatch[1]);
     const unit = sizeMatch[2];
-    metrics.outputSize = unit === 'MB' ? size * 1024 : size;
+    metrics.outputSize = unit === "MB" ? size * 1024 : size;
   }
 
   return metrics;
@@ -364,9 +479,9 @@ async function main() {
   const args = process.argv.slice(2);
 
   const options = {
-    watch: args.includes('--watch'),
-    minify: args.includes('--minify'),
-    verbose: args.includes('--verbose') || process.env.DEBUG === 'true',
+    watch: args.includes("--watch"),
+    minify: args.includes("--minify"),
+    verbose: args.includes("--verbose") || process.env.DEBUG === "true",
   };
 
   try {
@@ -379,14 +494,19 @@ async function main() {
     // Log final summary for integration with other build tools
     if (options.verbose) {
       logger.trace(
-        'Build summary:',
+        "Build summary:",
         JSON.stringify(result.summary, null, 2),
-        'verbose',
-        scriptStyle
+        "verbose",
+        scriptStyle,
       );
     }
   } catch (error) {
-    logger.trace(`Build script error: ${error.message}`, null, 'brief', errorStyle);
+    logger.trace(
+      `Build script error: ${error.message}`,
+      null,
+      "brief",
+      errorStyle,
+    );
     process.exit(1);
   }
 }

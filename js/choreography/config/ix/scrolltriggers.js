@@ -8,12 +8,6 @@ export const SCROLL_DEFAULTS = {
   start: "top center",
   end: "bottom center",
   pinSpacing: false,
-  onEnter: () => {},
-  onLeave: () => {},
-  onEnterBack: () => {},
-  onLeaveBack: () => {},
-  onRefresh: () => {},
-  onUpdate: () => {},
   once: true,
   scrub: false,
   snap: false,
@@ -23,6 +17,12 @@ export const SCROLL_DEFAULTS = {
   fastScrollEnd: true,
   toggleActions: "play pause pause pause",
   markers: false,
+  onEnter: () => {},
+  onLeave: () => {},
+  onEnterBack: () => {},
+  onLeaveBack: () => {},
+  onRefresh: () => {},
+  onUpdate: () => {},
 };
 
 /**
