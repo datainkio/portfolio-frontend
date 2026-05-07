@@ -13,7 +13,14 @@ export const projectsQuery = {
     "abstract": page.abstract,
     "status": meta.status,
     "featured": meta.featured,
-    "organization": meta.organization->{
+    "organizations": meta.organization[]->{
+      _id,
+      "title": page.title,
+      "slug": page.slug.current,
+      organizationType,
+      featured
+    },
+    "organization": meta.organization[0]->{
       _id,
       "title": page.title,
       "slug": page.slug.current,

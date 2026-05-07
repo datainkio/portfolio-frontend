@@ -3,7 +3,6 @@
 {% block content %}
     <h1 class="px-4 text-2xl font-semibold">Projects</h1>
     {% if collections.projects and collections.projects.length %}
-
         <ul class="space-y-2">
             {% for project in collections.projects %}
                 {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}

@@ -6,17 +6,16 @@
   {%- set image = params.image | default(card.image) -%}
   {%- set url = params.url | default(card.url) | default("") -%}
   {%- set description = params.description | default(card.description) | default("") -%}
-  {%- set organization = params.organization | default(card.eyebrow) | default("") -%}
-  {%- set meta = params.meta | default(card.meta) | default("") -%}
+  {%- set organizationSource = params.organization | default(params.project and params.project.organization) -%}
+  {%- set organization = (organizationSource and organizationSource.title) or organizationSource or card.eyebrow or "" -%}
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
-
   {{ renderCard({
     title: title,
     image: image,
     url: url,
     eyebrow: organization,
     description: description,
-    meta: meta,
+    byline: organization,
     featured: featured,
     classes: params.classes,
     imageClasses: params.imageClasses,

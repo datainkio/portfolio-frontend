@@ -83,7 +83,7 @@ erDiagram
         image backgroundPoster
     }
 
-    PROJECT ||--|| ORGANIZATION : "meta.organization"
+    PROJECT }o--o{ ORGANIZATION : "meta.organization[]"
     PROJECT }o--o{ ROLE : "meta.roles"
     PROJECT }o--o{ ACTIVITY : "meta.activities"
     PROJECT }o--o{ OUTCOME : "meta.outcomes"

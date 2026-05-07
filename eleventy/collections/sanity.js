@@ -220,7 +220,13 @@ function resolveProjectCardUrl(project) {
 
 function buildProjectCardRecord(project = {}) {
   const title = project?.title || "Untitled project";
-  const organization = project?.organization?.title || "";
+  const primaryOrganization =
+    project?.organization ||
+    (Array.isArray(project?.organizations) ? project.organizations[0] : null);
+  const organization =
+    typeof primaryOrganization === "string"
+      ? primaryOrganization
+      : primaryOrganization?.title || "";
   const status = project?.status || "";
 
   return {
@@ -277,11 +283,17 @@ function normalizeProjectRecords(records = []) {
 
   return records.map((record) => {
     const bodyBlocks = Array.isArray(record?.body) ? record.body : [];
+    const organizations = Array.isArray(record?.organizations)
+      ? record.organizations
+      : [];
+    const organization = record?.organization || organizations[0] || null;
     const bodyHtml = serializePortableTextToHtml(bodyBlocks);
 
     return {
       ...record,
       body: bodyBlocks,
+      organizations,
+      organization,
       bodyHtml,
       card: buildProjectCardRecord(record),
     };
