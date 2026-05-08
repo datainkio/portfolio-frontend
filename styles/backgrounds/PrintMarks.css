@@ -46,7 +46,7 @@
   /** COLORS AND NEUTRALS */
   .printmark-colors,
   .printmark-neutrals {
-    @apply flex-none flex flex-row items-center h-full w-1/4 border border-1 border-solid border-current divide-x divide-current;
+    @apply flex-none flex flex-row items-center h-full w-1/4;
   }
 
   .printmark-colors li,

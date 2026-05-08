@@ -10,12 +10,12 @@
 
   {# Biography section #}
   <section class="relative h-dvh bg-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header class="col-span-full z-10 relative top-6" data-bio-el="header">
+    <header class="col-span-full z-10 relative top-6 " data-bio-el="header">
       <div class="text-xs font-thin px-2" data-bio-el="context">
         {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
       </div>
-      <h2 class="px-10 mt-12 font-display" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
-      <p class="px-10 mt-4 text-xl" data-bio-el="subheading">{{ subheading }}</p>
+      <h2 class="px-10 mt-12 font-display text-4xl" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
+      <p class="px-10 mt-4 text-lg" data-bio-el="subheading">{{ subheading }}</p>
     </header>
   </section>
 {% endmacro %}
