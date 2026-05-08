@@ -38,7 +38,7 @@
         {# Note that content values are set in frontmatter #}
         {# The id param has a matching value in SELECTORS.js for consistency w/choreography during runtime #}
         {{ heroSection.render( { id: "hero", tagline: hero.tagline, classes: sharedClasses }) }}
-        {{ bioSection.render({ id: "introduction", copy: value, order: "1/5", classes: sharedClasses}) }}
+        {{ bioSection.render({ id: "introduction", copy: value, order: "1/5", classes: sharedClasses, buildDate: buildDate}) }}
         {{ awardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards, order: "2/5", classes: sharedClasses }) }}
         {{ projectsSection.render({ id: "work", projects: collections.projects, classes: sharedClasses, order: "3/5" }) }}
         {{ organizationsSection.render({ id: "organizations", organizations: collections.organizations, classes: sharedClasses, order: "4/5" }) }}

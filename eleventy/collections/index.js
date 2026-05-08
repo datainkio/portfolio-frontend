@@ -118,6 +118,9 @@ export default async function (eleventyConfig) {
     // Make site.json available to all templates/frontmatter as `site`.
     eleventyConfig.addGlobalData("site", SITE);
 
+    // Just a little thing to display the date of the last build
+    eleventyConfig.addGlobalData("buildDate", () => new Date());
+
     // STEP 1: Initialize Sanity collections
     await initSanity(eleventyConfig, SITE);
 
