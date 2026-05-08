@@ -227,13 +227,17 @@ function buildProjectCardRecord(project = {}) {
     typeof primaryOrganization === "string"
       ? primaryOrganization
       : primaryOrganization?.title || "";
+  const industry =
+    typeof primaryOrganization === "string"
+      ? ""
+      : primaryOrganization?.industry?.preferredLabel || "";
   const status = project?.status || "";
 
   return {
     title,
     image: project?.featuredImage,
     url: resolveProjectCardUrl(project),
-    eyebrow: organization,
+    eyebrow: industry || organization,
     description: project?.abstract || "",
     meta: status ? `Status: ${status}` : "",
     featured: Boolean(project?.featured),

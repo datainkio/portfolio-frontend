@@ -6,14 +6,20 @@
   {%- set image = params.image | default(card.image) -%}
   {%- set url = params.url | default(card.url) | default("") -%}
   {%- set description = params.description | default(card.description) | default("") -%}
-  {%- set organizationSource = params.organization | default(params.project and params.project.organization) -%}
-  {%- set organization = (organizationSource and organizationSource.title) or organizationSource or card.eyebrow or "" -%}
+  {%- set project = params.project or {} -%}
+  {%- set organizationSource = params.organization | default(project.organization) -%}
+  {%- if not organizationSource and project.organizations and project.organizations[0] -%}
+    {%- set organizationSource = project.organizations[0] -%}
+  {%- endif -%}
+  {%- set organization = (organizationSource and organizationSource.title) or organizationSource or "" -%}
+  {%- set industry = (organizationSource and organizationSource.industry and (organizationSource.industry.preferredLabel or organizationSource.industry.title)) or "" -%}
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
+  {{ organizationSource | dump }}
   {{ renderCard({
     title: title,
     image: image,
     url: url,
-    eyebrow: organization,
+    eyebrow: industry,
     description: description,
     byline: organization,
     featured: featured,

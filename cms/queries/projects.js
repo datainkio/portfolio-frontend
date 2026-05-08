@@ -17,6 +17,10 @@ export const projectsQuery = {
       _id,
       "title": page.title,
       "slug": page.slug.current,
+      "industry": industry->{
+        _id,
+        "preferredLabel": prefLabel
+      },
       organizationType,
       featured
     },
@@ -24,6 +28,10 @@ export const projectsQuery = {
       _id,
       "title": page.title,
       "slug": page.slug.current,
+      "industry": industry->{
+        _id,
+        "preferredLabel": prefLabel
+      },
       organizationType,
       featured
     },

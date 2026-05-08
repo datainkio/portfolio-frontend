@@ -14,14 +14,14 @@
   {%- set projects = params.projects
     | default([]) -%}
 
-  <section id="{{ sectionId }}" class="px-10 relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header data-projects-el="header" class="col-span-full">
-      <div data-projects-el="context" class="text-sm col-span-full">
+  <section id="{{ sectionId }}" class="bg-white p-10 relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header data-projects-el="header" class="col-span-full grid grid-cols-12">
+      <div data-projects-el="context" class="text-xs font-thin col-span-full flex items-center justify-between">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="mt-12 font-display text-4xl">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="font-display text-3xl">{{ heading }}</h2>
       {% if subheading %}
-        <p data-projects-el="subheading" class="col-span-full">{{ subheading }}</p>
+        <p data-projects-el="subheading">{{ subheading }}</p>
       {% endif %}
       <p data-projects-el="body" class="col-span-full">{{ body }}</p>
     </header>
