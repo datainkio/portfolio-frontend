@@ -19,7 +19,7 @@
       {% endif %}
 
       {% if featured %}
-        <p class="text-xs font-semibold uppercase tracking-wide text-neutral-400">Featured</p>
+        <p class="text-xs text-current font-semibold uppercase tracking-wide">Featured</p>
       {% endif %}
 
       {% if imageSrc %}
@@ -29,19 +29,19 @@
       {% endif %}
 
       {% if eyebrow %}
-        <p class="eyebrow px-4 text-xs uppercase tracking-wide text-neutral-400">{{ eyebrow }}</p>
+        <p class="eyebrow px-4 text-xs text-current uppercase tracking-wide">{{ eyebrow }}</p>
       {% endif %}
 
       {% if showTitle %}
-        <h3 class="px-4 text-base sm:text-lg {% if url %} hover:underline{% endif %}">{{ title }}</h3>
+        <h3 class="px-4 text-base text-current sm:text-lg {% if url %} hover:underline{% endif %}">{{ title }}</h3>
       {% endif %}
 
       {% if byline %}
-        <p class="bylinepx-4 text-xs uppercase tracking-wide text-neutral-400">{{ byline }}</p>
+        <p class="bylinepx-4 text-xs  text-current uppercase tracking-wide">{{ byline }}</p>
       {% endif %}
 
       {% if description %}
-        <p class="px-4 text-sm">{{ description }}</p>
+        <p class="px-4 text-sm text-current">{{ description }}</p>
       {% endif %}
 
       {% if url %}

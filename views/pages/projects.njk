@@ -6,7 +6,7 @@
         <ul class="space-y-2">
             {% for project in collections.projects %}
                 {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
-                <li>
+                <li class="text-black">
                     {{ ProjectCard.render({ project: project, url: projectHref }) }}
                 </li>
             {% endfor %}

@@ -22,7 +22,7 @@
       <p data-projects-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if projects | length %}
-      <ul data-projects-el="list" class="col-span-full grid grid-cols-2 gap-4">
+      <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4">
         {% for project in projects %}
           <li data-projects-el="project">
             {{ Card.render({ project: project }) }}
