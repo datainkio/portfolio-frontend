@@ -1,5 +1,5 @@
 {% macro render(params = {}) %}
-  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
+  {% import "molecules/section-cap.njk" as SectionCap %}
 
   {%- set sectionId = params.id | default("contact") -%}
   {%- set classes = params.classes | default("") -%}
@@ -12,7 +12,7 @@
   <section id="{{ sectionId }}" class="bg-slate-950 relative col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header data-contact-el="header" class="col-span-full sticky top-0 z-10 p-4 pt-10 space-y-4">
       <div data-contact-el="context" class="text-sm col-span-full">
-        {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
+        {{ SectionCap.render({title: sectionId , count: order}) }}
       </div>
       <h2 id="{{ headingId }}" data-contact-el="heading" class="col-span-full">{{ heading }}</h2>
       <p data-contact-el="body" class="col-span-full">{{ body }}</p>

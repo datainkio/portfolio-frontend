@@ -1,5 +1,4 @@
 {% macro render(params = {}) %}
-  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
   {%- set sectionId = params.id | default("hero") -%}
   {%- set tagline = params.tagline | default(title) -%}
   {%- set rulerOptions = params.ruler | default({}) -%}

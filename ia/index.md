@@ -26,4 +26,7 @@ eleventyComputed:
   recognition:
     heading: "{{ cms.home[0].recognitionHeading }}"
     body: "{{ cms.home[0].recognitionBody }}"
+  work:
+    heading: "{{ cms.home[0].workHeading }}"
+    body: "{{ cms.home[0].workBody }}"
 ---

@@ -36,6 +36,8 @@ export const homeQuery = {
       }
     },
     recognitionHeading,
-    recognitionBody
+    recognitionBody,
+    workHeading,
+    workBody
   }`,
 };

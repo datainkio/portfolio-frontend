@@ -1,24 +1,28 @@
 {% macro render(params = {}) %}
-  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
+  {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/card/project.njk" as Card %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
-  {%- set heading = params.copy.heading -%}
-  {%- set subheading = params.copy.subheading -%}
-  {%- set body = params.copy.body -%}
+  {%- set heading = params.copy.heading | default("Work") -%}
+  {%- set subheading = params.copy.subheading | default("") -%}
+  {%- set body = params.copy.body | default("") -%}
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+  {%- set buildDate = params.buildDate -%}
 
   {%- set projects = params.projects
     | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="px-10 relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header data-projects-el="header" class="col-span-full">
       <div data-projects-el="context" class="text-sm col-span-full">
-        {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
+        {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-full">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="mt-12 font-display text-4xl">{{ heading }}</h2>
+      {% if subheading %}
+        <p data-projects-el="subheading" class="col-span-full">{{ subheading }}</p>
+      {% endif %}
       <p data-projects-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if projects | length %}

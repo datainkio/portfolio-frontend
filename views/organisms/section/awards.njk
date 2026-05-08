@@ -1,5 +1,5 @@
 {% macro render(params = {}) %}
-  {% import "molecules/current-section-title.njk" as CurrentSectionTitle %}
+  {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/card/award.njk" as Card %}
 
   {%- set sectionId = params.id | default("recognition") -%}
@@ -13,17 +13,15 @@
   {%- set awards = params.awards | default([]) -%}
 
   <section id="{{ sectionId }}" class="relative col-span-full space-y-48 grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header
-      data-awards-el="header"
-      class="col-span-full bg-neutral-950 sticky top-0 z-10 p-4 pt-10 space-y-4 border-b-1 border-b-primary-900">
+    <header data-awards-el="header" class="col-span-full z-10 p-4 pt-10 space-y-4">
       <div data-awards-el="context" class="text-sm col-span-full">
-        {{ CurrentSectionTitle.render({title: sectionId , count: order}) }}
+        {{ SectionCap.render({title: sectionId , count: order}) }}
       </div>
-      <h2 id="{{ headingId }}" data-awards-el="heading" class="col-span-full">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-awards-el="heading" class="col-span-full font-display">{{ heading }}</h2>
       <p data-awards-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if awards | length %}
-      <ul data-awards-el="list" class="col-span-full grid grid-cols-subgrid gap-2 px-4">
+      <ul data-awards-el="list" class="col-span-full grid grid-cols-subgrid gap-2 px-4 bg-black">
         {% for award in awards %}
           {%- set awardTitle = award.title | default("Untitled award") -%}
           {%- set awardImage = award.organization.logo | default(award.logo) -%}
