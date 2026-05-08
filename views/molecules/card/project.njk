@@ -14,7 +14,6 @@
   {%- set organization = (organizationSource and organizationSource.title) or organizationSource or "" -%}
   {%- set industry = (organizationSource and organizationSource.industry and (organizationSource.industry.preferredLabel or organizationSource.industry.title)) or "" -%}
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
-  {{ organizationSource | dump }}
   {{ renderCard({
     title: title,
     image: image,
