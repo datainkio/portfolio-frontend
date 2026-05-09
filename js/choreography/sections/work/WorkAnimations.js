@@ -78,19 +78,19 @@ export default class WorkAnimations extends AbstractSectionAnimations {
     this.cardFigurePins = [];
     // this._buildCardFigurePins();
 
-    if (this.animTargets.length) {
-      gsap.set(this.animTargets, {
-        autoAlpha: 0.5,
-        y: this.options.translateY,
-      });
-    }
+    // if (this.animTargets.length) {
+    //   gsap.set(this.animTargets, {
+    //     autoAlpha: 0.5,
+    //     y: this.options.translateY,
+    //   });
+    // }
 
-    if (this.workItems.length) {
-      gsap.set(this.workItems, {
-        autoAlpha: 0,
-        y: this.options.itemTranslateY,
-      });
-    }
+    // if (this.workItems.length) {
+    //   gsap.set(this.workItems, {
+    //     autoAlpha: 1,
+    //     y: this.options.itemTranslateY,
+    //   });
+    // }
 
     this._buildTimeline();
   }
@@ -122,7 +122,7 @@ export default class WorkAnimations extends AbstractSectionAnimations {
     }
 
     tl.to(this.animTargets, {
-      autoAlpha: 1,
+      // autoAlpha: 1,
       y: 0,
       duration: this.options.duration,
       stagger: this.options.stagger,
@@ -143,7 +143,7 @@ export default class WorkAnimations extends AbstractSectionAnimations {
     }
 
     tl.to(this.animTargets, {
-      autoAlpha: 0,
+      // autoAlpha: 0,
       y: this.options.translateY,
       duration: this.options.duration,
       stagger: this.options.stagger,
