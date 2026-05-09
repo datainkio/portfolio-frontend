@@ -86,3 +86,19 @@ export const BACKGROUND_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.background,
 };
+
+/**
+ * Card Figure Clip Trigger Defaults
+ *
+ * Drives a clip-path scrub on the card figure element.
+ * The figure stays in document flow; clip-path handles the visual reveal.
+ * GPU-composited — no layout or paint work during scroll.
+ */
+export const CARD_FIGURE_CLIP_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: "card-figure-clip",
+  // once: false overrides SCROLL_DEFAULTS so the clip reverses on scroll-back
+  once: false,
+  start: "top top",
+  scrub: true,
+};

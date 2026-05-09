@@ -18,14 +18,20 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { WORK_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
-import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
+import { gsap, ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
+import {
+  WORK_ANIMATION_DEFAULTS,
+  TIMELINE_IDS,
+  SELECTORS,
+} from "../../config/index.js";
 
 const WORK_EL_ATTR = "data-projects-el";
+const CARD_EL_ATTR = "data-card-el";
 
 const selectWorkEl = (view, name) =>
   view?.querySelector(`[${WORK_EL_ATTR}="${name}"]`) ?? null;
+const selectCardEl = (view, name) =>
+  view?.querySelector("[" + CARD_EL_ATTR + "=\"" + name + "\"]") ?? null;
 
 export default class WorkAnimations extends AbstractSectionAnimations {
   /**
@@ -69,6 +75,8 @@ export default class WorkAnimations extends AbstractSectionAnimations {
       this.view?.querySelectorAll(`[${WORK_EL_ATTR}="project"]`) ?? [],
     );
     this.revealedItems = new WeakSet();
+    this.cardFigurePins = [];
+    // this._buildCardFigurePins();
 
     if (this.animTargets.length) {
       gsap.set(this.animTargets, {
@@ -142,5 +150,10 @@ export default class WorkAnimations extends AbstractSectionAnimations {
       ease: this.options.ease.out,
     }).addPause();
     return tl;
+  }
+
+
+  kill() {
+    super.kill();
   }
 }

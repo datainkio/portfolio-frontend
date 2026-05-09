@@ -14,7 +14,7 @@
   {%- set projects = params.projects
     | default([]) -%}
 
-  <section id="{{ sectionId }}" class="bg-white p-10 relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header data-projects-el="header" class="col-span-full grid grid-cols-12">
       <div data-projects-el="context" class="text-xs font-thin col-span-full flex items-center justify-between">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
@@ -29,7 +29,7 @@
       <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4">
         {% for project in projects %}
           <li data-projects-el="project">
-            {{ Card.render({ project: project }) }}
+            {{ Card.render({ project: project, eager: loop.first }) }}
           </li>
         {% endfor %}
       </ul>

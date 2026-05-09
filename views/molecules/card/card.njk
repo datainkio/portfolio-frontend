@@ -9,40 +9,45 @@
   {%- set url = params.url | default("") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set imageClasses = params.imageClasses | default("") -%}
+  {%- set eager = params.eager | default(false) -%}
 
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
-  <article class="overflow-hidden space-y-3 {{ classes }}">
+  <article data-card-el="root" class="relative isolate w-full space-y-0 {{ classes }}">
+
     {% if url %}
       <a href="{{ url }}" class="block space-y-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 focus-visible:ring-neutral-200">
       {% endif %}
 
-      {% if featured %}
-        <p class="text-xs text-current font-semibold uppercase tracking-wide">Featured</p>
-      {% endif %}
-
       {% if imageSrc %}
-        <figure class="aspect-video overflow-hidden">
-          <img src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full w-full object-cover object-top {{ imageClasses }}" loading="lazy"/>
+        <figure data-card-el="figure" class="m-0 relative z-0 overflow-hidden w-full h-dvh">
+          <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full object-cover object-center {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
         </figure>
       {% endif %}
 
-      {% if eyebrow %}
-        <p class="eyebrow px-4 text-xs text-current uppercase tracking-wide">{{ eyebrow }}</p>
-      {% endif %}
+      <div data-card-el="body" class="bg-white p-4 space-y-2">
+        <header>
+          {% if eyebrow %}
+            <p class="eyebrow text-xs text-current uppercase tracking-wide">{{ eyebrow }}</p>
+          {% endif %}
 
-      {% if showTitle %}
-        <h3 class="px-4 text-base text-current sm:text-lg {% if url %} hover:underline{% endif %}">{{ title }}</h3>
-      {% endif %}
+          {% if showTitle %}
+            <h3 class="title text-base text-current sm:text-lg {% if url %} hover:underline{% endif %}">{{ title }}</h3>
+          {% endif %}
+        </header>
 
-      {% if byline %}
-        <p class="bylinepx-4 text-xs  text-current uppercase tracking-wide">{{ byline }}</p>
-      {% endif %}
+        {% if description %}
+          <p class="description text-sm text-current">{{ description }}</p>
+        {% endif %}
 
-      {% if description %}
-        <p class="px-4 text-sm text-current">{{ description }}</p>
-      {% endif %}
+        <footer >
+          {% if byline %}
+            <p class="byline text-xs text-current uppercase tracking-wide">{{ byline }}</p>
+          {% endif %}
+        </footer>
+      </div>
+
 
       {% if url %}
       </a>

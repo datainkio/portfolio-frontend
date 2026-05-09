@@ -58,6 +58,7 @@ import ScrollEffectsCoordinator from "/assets/js/choreography/ScrollEffectsCoord
 import { LandingSequence } from "/assets/js/choreography/sequences/landing/LandingSequence.js";
 import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
+import CardManager from "./card/CardManager.js";
 
 const LOGS = {
   description:
@@ -117,6 +118,9 @@ export default class AnimationDirector {
         gelManager: this.stage?.gelAnimation,
       });
     });
+
+    // Initialize global card behaviors
+    this.cardManager = new CardManager();
 
     // Initialize choreography sequence
     this.sequence = new LandingSequence(
@@ -184,7 +188,11 @@ export default class AnimationDirector {
       }
     });
 
+
     // Clear references for garbage collection
+
+    this.cardManager?.kill();
+    this.cardManager = null;
     this.bus = null;
     this.stage = null;
     this.smoother = null;
