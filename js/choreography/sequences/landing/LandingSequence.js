@@ -265,9 +265,7 @@ export class LandingSequence {
     });
 
     on(EVENTS.hero.exit, () => {
-      // const playHeroOutro = () => this.sections?.hero?.playOutro?.();
-
-      // const gelTween = this.gelManager?.getTween?.("bg-gel-0");
+      this._pauseBackgroundVideo();
       this.logger.trace(SELECTORS.hero + " exited");
     });
 
