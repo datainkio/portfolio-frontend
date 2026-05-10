@@ -98,6 +98,7 @@ export const CARD_FIGURE_CLIP_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: "card-figure-clip",
   // once: false overrides SCROLL_DEFAULTS so the clip reverses on scroll-back
+  pin: true,
   once: false,
   start: "top top",
   scrub: true,
