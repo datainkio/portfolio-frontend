@@ -25,7 +25,7 @@
  * - Summing numeric values
  *
  * CRITICAL FILTER: findRecord (in filters.js)
- * This filter connects Airtable record IDs to actual content:
+ * This filter connects CMS record IDs to actual content:
  * {{ collections.organizations | findRecord(project.organization_ids) }}
  *
  * USAGE PATTERNS:
@@ -37,13 +37,13 @@
  */
 
 export default function (eleventyConfig) {
-  eleventyConfig.addFilter('sum', sum);
-  eleventyConfig.addFilter('groupBy', groupByFilter);
-  eleventyConfig.addFilter('getByIndex', getByIndex);
-  eleventyConfig.addFilter('unique', getUniqueItems);
-  eleventyConfig.addFilter('findIndexOf', findIndexOf);
-  eleventyConfig.addFilter('sortByKey', sortByKey);
-  eleventyConfig.addFilter('getByIndexRange', getByIndexRange);
+  eleventyConfig.addFilter("sum", sum);
+  eleventyConfig.addFilter("groupBy", groupByFilter);
+  eleventyConfig.addFilter("getByIndex", getByIndex);
+  eleventyConfig.addFilter("unique", getUniqueItems);
+  eleventyConfig.addFilter("findIndexOf", findIndexOf);
+  eleventyConfig.addFilter("sortByKey", sortByKey);
+  eleventyConfig.addFilter("getByIndexRange", getByIndexRange);
 }
 
 /**
@@ -98,11 +98,14 @@ export function getByIndexRange(array, startIndex, endIndex) {
   if (!Array.isArray(array)) return [];
 
   // Default startIndex to 0 if undefined
-  const start = startIndex !== undefined ? Math.max(0, parseInt(startIndex, 10)) : 0;
+  const start =
+    startIndex !== undefined ? Math.max(0, parseInt(startIndex, 10)) : 0;
 
   // Default endIndex to the last element if undefined
   const end =
-    endIndex !== undefined ? Math.min(array.length - 1, parseInt(endIndex, 10)) : array.length - 1;
+    endIndex !== undefined
+      ? Math.min(array.length - 1, parseInt(endIndex, 10))
+      : array.length - 1;
 
   if (start > end) return [];
   return array.slice(start, end + 1);
@@ -120,16 +123,16 @@ export function getByIndexRange(array, startIndex, endIndex) {
  * {{ "red, blue, green" | getByIndex(1) }} {# "blue" #}
  */
 export function getByIndex(input, index) {
-  if (!input) return '';
+  if (!input) return "";
 
   // Check if input is an array or a string
-  let items = Array.isArray(input) ? input : input.split(',');
+  let items = Array.isArray(input) ? input : input.split(",");
 
   // Parse the index to ensure it's an integer
   const idx = parseInt(index, 10);
 
   // Return the item at the given index, trimmed, or a fallback if out of range
-  return items.length > idx && idx >= 0 ? items[idx].trim() : 'Not found';
+  return items.length > idx && idx >= 0 ? items[idx].trim() : "Not found";
 }
 
 /**
@@ -169,13 +172,16 @@ export function sum(arr) {
 export function groupByFilter(array, key) {
   if (!Array.isArray(array) || !key) return {};
 
-  const path = String(key).split('.').filter(Boolean);
-  const getValue = item =>
-    path.reduce((current, segment) => (current == null ? undefined : current[segment]), item);
+  const path = String(key).split(".").filter(Boolean);
+  const getValue = (item) =>
+    path.reduce(
+      (current, segment) => (current == null ? undefined : current[segment]),
+      item,
+    );
 
   return array.reduce((groups, item) => {
     const value = path.length === 1 ? item?.[path[0]] : getValue(item);
-    const groupKey = value == null ? 'ungrouped' : String(value);
+    const groupKey = value == null ? "ungrouped" : String(value);
 
     (groups[groupKey] ||= []).push(item);
     return groups;
@@ -201,7 +207,7 @@ export function getUniqueItems(array, field) {
 
   const seen = new Set();
 
-  return array.filter(item => {
+  return array.filter((item) => {
     const value = Array.isArray(item[field]) ? item[field][0] : item[field];
 
     if (!value || seen.has(value)) return false;

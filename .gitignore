@@ -43,7 +43,6 @@ assets/js/choreography/bundle.js
 
 # Generated schema files
 .copilot/*.json
-.copilot/AIRTABLE_SCHEMA.md
 njk/_data/dbSchema.json
 njk/_data/dbSchema.mmd
 

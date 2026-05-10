@@ -17,7 +17,7 @@ props:
 # - atoms/button (for actions)
 # - atoms/icon (for visual elements)
 #
-# AIRTABLE INTEGRATION:
+# CONTENT INTEGRATION:
 # - Supports dynamic content from collections
 # - Handles missing data gracefully
 ---
@@ -26,7 +26,7 @@ props:
 
 <div class="project-card project-card--{{ variant | default('default') }}">
   {{ component("atoms", "heading", { content: title, level: 3 }) }}
-  
+
   {% if content %}
     <div class="project-card__content">
       {{ content }}

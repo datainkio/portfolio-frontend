@@ -196,5 +196,5 @@ Singleton documents controlling global site behavior.
 
 - `project.body` is Portable Text with an optional `project_aside` block for inline commentary.
 - `page` is a shared object embedded in `project`, `post`, and `organization` — not a standalone document.
-- `nugget` references `post` (not `project`) despite its `project` field name; this is a legacy Airtable mapping.
+- `nugget` references `post` (not `project`) despite its `project` field name; this is a legacy schema mapping.
 - Activity slugs must stay in sync with `PrinterMarks.js` category identifiers for the overlay animation system.
