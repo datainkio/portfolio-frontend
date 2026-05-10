@@ -1,18 +1,15 @@
-{% set level = level | default(1) %} {# Use explicit tags to keep Prettier happy
-while retaining a safe fallback #} {% if level == 1 %}
-<h1 class="{{ class | default('') }}">{{ text | default('') }}</h1>
-{% elif level == 2 %}
-<h2 class="{{ class | default('') }}">{{ text | default('') }}</h2>
-{% elif level == 3 %}
-<h3 class="{{ class | default('') }}">{{ text | default('') }}</h3>
-{% elif level == 4 %}
-<h4 class="{{ class | default('') }}">{{ text | default('') }}</h4>
-{% elif level == 5 %}
-<h5 class="{{ class | default('') }}">{{ text | default('') }}</h5>
-{% elif level == 6 %}
-<h6 class="{{ class | default('') }}">{{ text | default('') }}</h6>
-{% else %}
-<p class="{{ class | default('') }}">
-  {{ text | default('Invalid heading level') }}
-</p>
-{% endif %}
+{# This is an atomic component for rendering headings (h1-h6) with customizable properties. It's super useful when you want to maintain proper semantic structure. Which you should always want to do. #}
+{% macro render(props) %}
+  {% set level = props.level | default(2) %}
+  {% set text = props.text %}
+  {% set className = props.class | default("") %}
+  {% set id = props.id | default(null) %}
+
+  {% if level < 1 or level > 6 %}
+    {% set level = 2 %}
+  {% endif %}
+
+  <h{{ level }} {% if id %} id="{{ id }}" {% endif %} {% if className %} class="{{ className }}" {% endif %}>
+    {{ text }}
+  </h{{ level }}>
+{% endmacro %}

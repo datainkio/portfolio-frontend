@@ -4,18 +4,28 @@ import groq from "groq";
 export const projectsByIndustryQuery = {
   id: "projectsByIndustry",
   description:
-    "Projects grouped under their top-level industry concept (max 5 industries)",
+    "Projects grouped by industry concepts that are linked through project organizations (max 5 industries)",
   cacheDuration: "1d",
   query: groq`*[
-    _type == "skosConceptScheme" &&
-    (schemeId in ["industry", "industries"] || title in ["Industry", "Industries"])
-  ][0].topConcepts[0...5]->{
+    _type == "skosConcept" &&
+    (
+      _id in *[_type == "skosConceptScheme" && (schemeId in ["industry", "industries"] || title in ["Industry", "Industries"])][0].concepts[]._ref ||
+      _id in *[_type == "skosConceptScheme" && (schemeId in ["industry", "industries"] || title in ["Industry", "Industries"])][0].topConcepts[]._ref
+    ) &&
+    (
+      _id in *[_type == "project"].organization[]->industry._ref ||
+      _id in *[_type == "project"].projectMeta.organization[]->industry._ref
+    )
+  ]{
     _id,
     "title": prefLabel,
-    conceptId,
+    "conceptId": coalesce(conceptId, _id),
     "projects": *[
       _type == "project" &&
-      ^._id in organization[]->industry._ref
+      (
+        ^._id in organization[]->industry._ref ||
+        ^._id in projectMeta.organization[]->industry._ref
+      )
     ]{
       _id,
       _updatedAt,
@@ -52,5 +62,5 @@ export const projectsByIndustryQuery = {
       externalLink,
       caseStudyUrl
     } | order(page.title asc)
-  } | order(title asc)`,
+  } | order(title asc)[0...5]`,
 };

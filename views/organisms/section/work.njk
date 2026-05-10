@@ -33,7 +33,7 @@
             <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4">
               {% for project in industry.projects %}
                 <li data-projects-el="project">
-                  {{ Card.render({ project: project, eager: loop.first and loop.parent.first }) }}
+                  {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first }) }}
                 </li>
               {% endfor %}
             </ul>
@@ -44,7 +44,7 @@
       <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4">
         {% for project in projects %}
           <li data-projects-el="project">
-            {{ Card.render({ project: project, eager: loop.first }) }}
+            {{ Card.render({ project: project, headingLevel: 4, eager: loop.first }) }}
           </li>
         {% endfor %}
       </ul>

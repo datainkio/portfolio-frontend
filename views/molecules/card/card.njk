@@ -1,7 +1,9 @@
+{% import "atoms/heading.njk" as Heading %}
 {% macro render(params = {}) %}
   {%- set title = params.title | default("") -%}
   {%- set showTitle = params.showTitle | default(true) -%}
   {%- set eyebrow = params.eyebrow | default("") -%}
+  {%- set headingLevel = params.headingLevel | default(3) -%}
   {%- set description = params.description | default("") -%}
   {%- set byline = params.byline | default("") -%}
   {%- set featured = params.featured | default(false) -%}
@@ -33,7 +35,7 @@
           {% endif %}
 
           {% if showTitle %}
-            <h3 class="title text-base text-current sm:text-lg {% if url %} hover:underline{% endif %}">{{ title }}</h3>
+            {{ Heading.render({ level: headingLevel, text: title, class: "title text-base text-current sm:text-lg" ~ (" hover:underline" if url else "") }) }}
           {% endif %}
         </header>
 
@@ -41,13 +43,12 @@
           <p class="description text-sm text-current">{{ description }}</p>
         {% endif %}
 
-        <footer >
+        <footer>
           {% if byline %}
             <p class="byline text-xs text-current uppercase tracking-wide">{{ byline }}</p>
           {% endif %}
         </footer>
       </div>
-
 
       {% if url %}
       </a>
