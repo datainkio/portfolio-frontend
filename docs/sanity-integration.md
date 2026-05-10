@@ -6,7 +6,7 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 
 - `organizations` – organizations with industry concept + logo metadata
 - `industries` – industry concepts for organizations and projects
-- `projectsByIndustry` – industry concepts with nested project lists, resolved via project organization industry references
+- `projectsByIndustry` – industry concepts with nested project lists, resolved via project organization industry references; nested project records are normalized with `project.card`
 - `activities` – activity concepts used for project classification
 - `roles` – role concepts for project metadata
 - `outcomes` – deliverable concepts for projects
@@ -44,6 +44,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - Keeps serializer output semantic for `project_aside` (structural class hooks only) and applies Tailwind presentation in the Nunjucks view layer.
 - Resolves legacy taxonomy collection ids (`activities`, `roles`, `outcomes`, `industries`) from `skosConcept` records scoped by concept scheme so existing Eleventy collection names remain stable.
 - Resolves `projectsByIndustry` by intersecting industry concept schemes with projects linked through `organization[]->industry`, with legacy fallback support for `projectMeta.organization[]` during data migration.
+- Normalizes nested projects in `projectsByIndustry` to include canonical card fields (`project.card`) and primary-organization fallback alignment used by project card templates.
 - Exposes metadata as `cmsMeta` global data (no secrets stored).
 
 ## Project Portable Text Rendering Path

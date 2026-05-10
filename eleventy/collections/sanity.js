@@ -304,6 +304,36 @@ function normalizeProjectRecords(records = []) {
   });
 }
 
+function normalizeProjectsByIndustryRecords(records = []) {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
+  return records.map((industry) => {
+    const projects = Array.isArray(industry?.projects)
+      ? industry.projects.map((project) => {
+          const organizations = Array.isArray(project?.organizations)
+            ? project.organizations
+            : [];
+          const organization =
+            project?.organization || organizations[0] || null;
+
+          return {
+            ...project,
+            organizations,
+            organization,
+            card: buildProjectCardRecord(project),
+          };
+        })
+      : [];
+
+    return {
+      ...industry,
+      projects,
+    };
+  });
+}
+
 function normalizeOrganizationRecords(records = []) {
   if (!Array.isArray(records)) {
     return [];
@@ -492,6 +522,10 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "projects") {
       data = normalizeProjectRecords(data);
+    }
+
+    if (definition.id === "projectsByIndustry") {
+      data = normalizeProjectsByIndustryRecords(data);
     }
 
     if (definition.id === "organizations") {

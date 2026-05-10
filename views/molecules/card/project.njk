@@ -1,26 +1,22 @@
 {% from "molecules/card/card.njk" import render as renderCard %}
 
 {% macro render(params = {}) %}
-  {%- set card = (params.project and params.project.card) or params.card or {} -%}
+  {%- set project = params.project or {} -%}
+  {%- set card = params.card or (project and project.card) or {} -%}
   {%- set title = params.title | default(card.title) | default("Untitled project") -%}
   {%- set image = params.image | default(card.image) -%}
   {%- set url = params.url | default(card.url) | default("") -%}
   {%- set description = params.description | default(card.description) | default("") -%}
-  {%- set project = params.project or {} -%}
-  {%- set organizationSource = params.organization | default(project.organization) -%}
-  {%- if not organizationSource and project.organizations and project.organizations[0] -%}
-    {%- set organizationSource = project.organizations[0] -%}
-  {%- endif -%}
-  {%- set organization = (organizationSource and organizationSource.title) or organizationSource or "" -%}
-  {%- set industry = (organizationSource and organizationSource.industry and (organizationSource.industry.preferredLabel or organizationSource.industry.title)) or "" -%}
+  {%- set eyebrow = params.eyebrow | default(card.eyebrow) | default("") -%}
+  {%- set byline = params.byline | default(params.organization) | default(card.byline) | default("") -%}
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
   {{ renderCard({
     title: title,
     image: image,
     url: url,
-    eyebrow: industry,
+    eyebrow: eyebrow,
     description: description,
-    byline: organization,
+    byline: byline,
     featured: featured,
     classes: params.classes,
     imageClasses: params.imageClasses,

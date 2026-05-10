@@ -15,7 +15,7 @@
   {%- set projectsByIndustry = params.projectsByIndustry | default([]) -%}
 
   <section id="{{ sectionId }}" class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header data-projects-el="header" class="bg-white p-4 col-span-full grid grid-cols-12">
+    <header data-projects-el="header" class="p-4 col-span-full grid grid-cols-12">
       <div data-projects-el="context" class="text-xs font-thin col-span-full flex items-center justify-between">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
@@ -29,7 +29,10 @@
       {% for industry in projectsByIndustry %}
         {% if industry.projects | length %}
           <section data-projects-el="industry-group" class="col-span-full" aria-labelledby="industry-{{ industry.conceptId }}">
-            <h3 id="industry-{{ industry.conceptId }}" data-projects-el="industry-heading" class="font-display text-xl px-4">{{ industry.title }}</h3>
+            <h3
+              id="industry-{{ industry.conceptId }}"
+              data-projects-el="industry-heading"
+              class="bg-white font-display text-2xl px-4">{{ industry.title }}</h3>
             <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4">
               {% for project in industry.projects %}
                 <li data-projects-el="project">

@@ -92,10 +92,10 @@ Card components for displaying various content types across the portfolio site.
 
 - `project` (required): Project object from the `projects` collection (`title`, `slug`, `abstract`, `featuredImage`, `organization`, `status`, `featured`, `caseStudyUrl`, `externalLink`)
 - `project.card` (preferred when present): Canonical card view model normalized in `frontend/eleventy/collections/sanity.js` (`title`, `image`, `url`, `eyebrow`, `description`, `meta`, `featured`)
-- `title`, `description`, `status`, `organization`, `featured`, `url`, `image` (optional): Explicit overrides when needed
+- `title`, `description`, `organization`, `featured`, `url`, `image`, `eyebrow`, `byline` (optional): Explicit overrides when needed (`organization` is treated as a `byline` alias)
 - `classes`, `imageClasses`, `showTitle` (optional): Pass-through presentation controls to `card.njk`
 
-Note: Legacy field-level fallback chains were removed. Wrappers now expect normalized `*.card` data (or explicit override params).
+Note: This macro now expects normalized `project.card` data (provided upstream for both `projects` and `projectsByIndustry`) and falls back only to explicit override params plus hard defaults. It no longer derives `eyebrow`/`byline` from `project.organization` fields.
 
 ### `organization.njk` - Organization Card
 
