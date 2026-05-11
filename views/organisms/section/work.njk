@@ -14,29 +14,53 @@
   {%- set projects = params.projects | default([]) -%}
   {%- set projectsByIndustry = params.projectsByIndustry | default([]) -%}
 
-  <section id="{{ sectionId }}" class="bg-horizontal-stripes relative z-10 bg-white col-span-full space-y-4 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header data-projects-el="header" class="outline outline-1 outline-black outline-offset-[-6px] p-4">
-      <div data-projects-el="context" class="gap-1 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed pb-2">
+  <section id="{{ sectionId }}" class="bg-striped relative z-10 col-span-full space-y-4 p-4 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header
+      data-projects-el="header"
+      class="bg-white grid grid-cols-6 gap-2 outline outline-1 outline-black outline-offset-[-6px] p-4">
+      <div
+        data-projects-el="context"
+        class="gap-1 pb-2 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="font-display text-3xl">{{ heading }}</h2>
-      {% if subheading %}
-        <p data-projects-el="subheading">{{ subheading }}</p>
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-2 font-display text-5xl mt-4 ">{{ heading }}</h2>
+      {% if projectsByIndustry | length %}
+        <nav aria-label="Jump to industries" class="col-span-4 border-l border-black pl-4">
+          <ul data-projects-el="industry-links" class="leading-none">
+            {% for industry in projectsByIndustry %}
+              {% if industry.projects | length %}
+                <li class="my-0 leading-none">
+                  <a
+                    href="#industry-{{ industry.conceptId }}"
+                    data-projects-el="industry-link"
+                    class="block py-0 no-underline font-display text-sm leading-snug">{{ industry.title }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </nav>
       {% endif %}
-      <p data-projects-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if projectsByIndustry | length %}
+      {% set industryHeadingIndex = 0 %}
       {% for industry in projectsByIndustry %}
         {% if industry.projects | length %}
+          {% set industryHeadingIndex = industryHeadingIndex + 1 %}
+          {% set industryLabelIndex = industryHeadingIndex %}
+          {% if industryHeadingIndex < 10 %}
+            {% set industryLabelIndex = "0" ~ industryHeadingIndex %}
+          {% endif %}
           <section
             data-projects-el="industry-group"
-            class="relative z-10 my-4 col-span-full"
+            class="relative z-10 col-span-full"
             aria-labelledby="industry-{{ industry.conceptId }}">
             <h3
               id="industry-{{ industry.conceptId }}"
               data-projects-el="industry-heading"
-              class="bg-white font-display text-2xl px-4">{{ industry.title }}</h3>
-            <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4">
+              class="bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold text-xl px-4 mb-4">
+              → {{ industryLabelIndex }}
+              {{ industry.title }}</h3>
+            <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4 -mx-4">
               {% for project in industry.projects %}
                 <li data-projects-el="project">
                   {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first }) }}
@@ -46,14 +70,6 @@
           </section>
         {% endif %}
       {% endfor %}
-    {% elif projects | length %}
-      <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4">
-        {% for project in projects %}
-          <li data-projects-el="project">
-            {{ Card.render({ project: project, headingLevel: 4, eager: loop.first }) }}
-          </li>
-        {% endfor %}
-      </ul>
     {% else %}
       <p class="col-span-full">No projects found.</p>
     {% endif %}

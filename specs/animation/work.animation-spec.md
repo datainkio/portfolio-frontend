@@ -23,12 +23,14 @@
 
 - **Work list items (`[data-projects-el="project"]`)**: Reveal once when item top crosses `itemRevealViewportRatio * viewportHeight`.
 - **Header/content (`context`, `heading`, `body`, `list`)**: Intro/outro timeline driven by section enter/leave.
+- **Industry group headers (`[data-projects-el="industry-heading"]`)**: Pinned per industry group with `pinSpacing: false`; each heading pins beneath the Work section header using `Work header height + WORK_INDUSTRY_HEADER_PIN.offsetPx` for breathing room, and hands off to the next group so only one industry heading is pinned at a time.
 
 ## Performance & Budget
 
 - Target 60fps; no layout animation.
-- One ScrollTrigger per section; no per-item ScrollTriggers.
+- One section-level trigger plus header pin triggers (Work header + per-industry heading pins); still no per-item ScrollTriggers.
 - Keep per-update work to item position checks and one-time reveal writes.
+- Handoff uses next-group boundary alignment to prevent concurrent stacked industry heading pins.
 
 ## Accessibility
 

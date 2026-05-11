@@ -2,9 +2,21 @@
 
 /* Custom Background Graphpaper Patterns */
 @layer components {
-  .bg-horizontal-stripes {
-    background-image: linear-gradient(45deg, #FFFFFF 75%, #2182e3 25%);
-    background-size: 100% 20px;
+  .bg-striped {
+    background-image: linear-gradient(
+      45deg,
+      var(--color-neutral-50) 25%,
+      var(--color-primary-300) 25%,
+      var(--color-primary-300) 50%,
+      var(--color-neutral-50) 50%,
+      var(--color-neutral-50) 75%,
+      var(--color-primary-300) 75%,
+      var(--color-primary-300) 100%
+    );
+    background-size: 8px 8px;
+    background-repeat: repeat;
+    background-position: 0 0;
+    background-attachment: fixed;
   }
 
   .bg-fibonacci {

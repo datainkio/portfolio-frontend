@@ -75,6 +75,20 @@ export const WORK_TRIGGER = {
 };
 
 /**
+ * Work Industry Header Pin Defaults
+ *
+ * Controls stacked pinning for industry headers beneath the pinned Work header.
+ */
+export const WORK_INDUSTRY_HEADER_PIN = {
+  ...SCROLL_DEFAULTS,
+  id: `${SELECTORS.work}-industry-header-pin`,
+  pin: true,
+  pinSpacing: false,
+  // Extra space beneath the pinned Work header.
+  offsetPx: 24,
+};
+
+/**
  * @deprecated Use WORK_TRIGGER instead.
  */
 export const PROJECTS_TRIGGER = WORK_TRIGGER;
