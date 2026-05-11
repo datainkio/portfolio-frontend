@@ -14,9 +14,9 @@
   {%- set projects = params.projects | default([]) -%}
   {%- set projectsByIndustry = params.projectsByIndustry | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative z-10 bg-white col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header data-projects-el="header" class="p-4 col-span-full grid grid-cols-12">
-      <div data-projects-el="context" class="text-xs font-thin col-span-full flex items-center justify-between">
+  <section id="{{ sectionId }}" class="bg-horizontal-stripes relative z-10 bg-white col-span-full space-y-4 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header data-projects-el="header" class="outline outline-1 outline-black outline-offset-[-6px] p-4">
+      <div data-projects-el="context" class="gap-1 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed pb-2">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
       <h2 id="{{ headingId }}" data-projects-el="heading" class="font-display text-3xl">{{ heading }}</h2>
@@ -30,7 +30,7 @@
         {% if industry.projects | length %}
           <section
             data-projects-el="industry-group"
-            class="relative z-10col-span-full"
+            class="relative z-10 my-4 col-span-full"
             aria-labelledby="industry-{{ industry.conceptId }}">
             <h3
               id="industry-{{ industry.conceptId }}"

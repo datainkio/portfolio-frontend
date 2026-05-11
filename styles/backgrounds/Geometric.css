@@ -3,7 +3,7 @@
 /* Custom Background Graphpaper Patterns */
 @layer components {
   .bg-horizontal-stripes {
-    background-image: linear-gradient(180deg, #000 75%, #2182e3 25%);
+    background-image: linear-gradient(45deg, #FFFFFF 75%, #2182e3 25%);
     background-size: 100% 20px;
   }
 
