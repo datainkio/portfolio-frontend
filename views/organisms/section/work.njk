@@ -25,7 +25,7 @@
       </div>
       <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-2 font-display text-5xl mt-4 ">{{ heading }}</h2>
       {% if projectsByIndustry | length %}
-        <nav aria-label="Jump to industries" class="col-span-4 border-l border-black pl-4">
+        <nav aria-label="Jump to industries" class="col-span-4 border-l-2 border-black pl-4">
           <ul data-projects-el="industry-links" class="leading-none">
             {% for industry in projectsByIndustry %}
               {% if industry.projects | length %}

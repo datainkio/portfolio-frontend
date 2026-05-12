@@ -4,10 +4,9 @@
   {%- set count = params.count | default("") -%}
   {%- set title = params.title | default("") -%}
   {%- set classes = params.classes | default("") -%}
-  {%- set classes = params.classes | default("") -%}
   {%- set buildDate = params.buildDate -%}
   <span data-current-section-prefix>{{ prefix }}</span>
   <span data-current-section-count>{{ count }}</span>
   <span data-current-section-title>: {{ title }}</span>
-  <time class="ml-auto text-right" datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
+  <time class="ml-auto text-right text-neutral-300" datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
 {% endmacro %}
