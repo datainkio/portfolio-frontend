@@ -1,14 +1,13 @@
 {% import "atoms/heading.njk" as Heading %}
 {% macro render(params = {}) %}
-  {%- set title = params.title | default("") -%}
-  {%- set showTitle = params.showTitle | default(true) -%}
-  {%- set eyebrow = params.eyebrow | default("") -%}
+  {%- set title = params.title | default("title") -%}
+  {%- set eyebrow = params.eyebrow | default("eyebrow") -%}
   {%- set headingLevel = params.headingLevel | default(3) -%}
-  {%- set description = params.description | default("") -%}
-  {%- set byline = params.byline | default("") -%}
+  {%- set description = params.description| default("Lorem ipsum dolor sit amet, consectetur adipiscing elit.") -%}
+  {%- set byline = params.byline | default("byline") -%}
   {%- set featured = params.featured | default(false) -%}
   {%- set image = params.image -%}
-  {%- set url = params.url | default("") -%}
+  {%- set url = params.url | default("url") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set imageClasses = params.imageClasses | default("") -%}
   {%- set eager = params.eager | default(false) -%}
@@ -33,10 +32,7 @@
           {% if eyebrow %}
             <p class="eyebrow text-xs text-current uppercase tracking-wide">{{ eyebrow }}</p>
           {% endif %}
-
-          {% if showTitle %}
-            {{ Heading.render({ level: headingLevel, text: title, class: "title font-display text-current sm:text-lg" ~ (" hover:underline" if url else "") }) }}
-          {% endif %}
+          {{ Heading.render({ level: headingLevel, text: title, class: "title font-display text-current sm:text-lg" ~ (" hover:underline" if url else "") }) }}
         </header>
 
         {% if description %}

@@ -1,4 +1,4 @@
-{% from "molecules/card/card.njk" import render as renderCard %}
+{% import "molecules/card/card.njk" as Card %}
 
 {% macro render(params = {}) %}
   {%- set project = params.project or {} -%}
@@ -6,16 +6,17 @@
   {%- set title = params.title | default(card.title) | default("Untitled project") -%}
   {%- set image = params.image | default(card.image) -%}
   {%- set url = params.url | default(card.url) | default("") -%}
-  {%- set description = params.description | default(card.description) | default("") -%}
-  {%- set eyebrow = params.eyebrow | default(card.eyebrow) | default("") -%}
-  {%- set byline = params.byline | default(params.organization) | default(card.byline) | default("") -%}
+  {%- set description = params.description | default(card.description) | default("Project description") -%}
+  {%- set organizations = params.organizations | default(card.organizations) | default([]) -%}
+  {%- set eyebrow = params.eyebrow | default(card.eyebrow) | default("eyebrow") -%}
+  {%- set byline = params.byline | default(params.organization) | default(card.byline) | default("byline") -%}
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
-  {{ renderCard({
+  {{ Card.render({
     title: title,
     image: image,
     url: url,
-    eyebrow: eyebrow,
     description: description,
+    eyebrow: eyebrow,
     byline: byline,
     featured: featured,
     classes: params.classes,

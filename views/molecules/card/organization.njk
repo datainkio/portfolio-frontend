@@ -1,4 +1,4 @@
-{% from "molecules/card/card.njk" import render as renderCard %}
+{% import "molecules/card/card.njk" as Card %}
 
 {% macro render(params = {}) %}
   {%- set card = (params.organization and params.organization.card) or params.card or {} -%}
@@ -10,7 +10,7 @@
   {%- set meta = params.meta | default(card.meta) | default("") -%}
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
 
-  {{ renderCard({
+  {{ Card.render({
     title: title,
     image: image,
     url: url,

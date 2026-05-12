@@ -11,18 +11,7 @@ export const projectsQuery = {
     "title": page.title,
     "slug": page.slug.current,
     "abstract": page.abstract,
-    "organizations": organization[]->{
-      _id,
-      "title": page.title,
-      "slug": page.slug.current,
-      "industry": industry->{
-        _id,
-        "preferredLabel": prefLabel
-      },
-      organizationType,
-      featured
-    },
-    "organization": organization[0]->{
+    "organization": organization[]->{
       _id,
       "title": page.title,
       "slug": page.slug.current,

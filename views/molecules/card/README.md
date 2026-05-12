@@ -172,6 +172,11 @@ Note: Legacy field-level fallback chains were removed. Wrappers now expect norma
 
 ### When to Use Macros vs Includes
 
+**Import Convention (Recommended)**:
+
+- ✅ Use root-relative template paths (for example `molecules/card/card.njk`) instead of `../` chains
+- ✅ Prefer namespaced imports (`{% import "molecules/card/card.njk" as Card %}`) for clarity and refactor safety
+
 **Use Macros (Recommended)**:
 
 - ✅ Component needs explicit parameters
