@@ -1,0 +1,16 @@
+{% macro render(params = {}) %}
+  {%- set classes = params.classes | default("") -%}
+  {%- set ink = params.ink | default("current") -%}
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 50 50" class="registration-mark {{ classes }}">
+    <g class="outer">
+      <circle class="stroke-{{ ink }}" cx="25" cy="25" r="20"/>
+      <path class="stroke-{{ ink }}" stroke-miterlimit="10" d="M0 25h50" class="horiz"/>
+      <path class="stroke-{{ ink }}" stroke-miterlimit="10" d="M25 0v50" class="vert"/>
+    </g>
+    <g class="inner">
+      <circle class="fill-{{ ink }}" cx="25" cy="25" r="12"/>
+      <path class="stroke-white stroke-2" stroke-miterlimit="10" d="M13 25h24"/>
+      <path class="stroke-white stroke-2" stroke-miterlimit="10" d="M25 13v24"/>
+    </g>
+  </svg>
+{% endmacro %}

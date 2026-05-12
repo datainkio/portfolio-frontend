@@ -1,11 +1,13 @@
 /* Custom Print Marks Components */
 @layer components {
   .printmarks {
-    @apply absolute w-full h-full inset-0 p-2 pointer-events-none blur-[0.5px];
-    -webkit-mask-image: var(--mask-image-grunge);
+    @apply absolute inset-0 pointer-events-none;
+
+    /* -webkit-mask-image: var(--mask-image-grunge);
     mask-image: var(--mask-image-grunge);
     -webkit-mask-mode: var(--mask-mode-luminance);
-    mask-mode: var(--mask-mode-luminance);
+    mask-mode: var(--mask-mode-luminance); */
+
     /* -webkit-mask-size: var(--mask-size-cover);
     mask-size: var(--mask-size-cover);
     -webkit-mask-position: var(--mask-position-center);
@@ -15,12 +17,18 @@
     */
   }
 
-  .printmark-bleed {
-    @apply border mt-2 border-dashed border-current;
+  /** BLEED AND MARGIN LINES **/
+  /* .printmark-bleed {
+    @apply border border-dashed border-current opacity-0;
+  } */
+
+  .printmark-margins {
+    @apply absolute inset-8 mt-6 border border-accent-600;
   }
 
+  /** TRIM MARKS **/
   .printmark-trim {
-    @apply absolute inset-6 mt-8 pointer-events-none;
+    @apply absolute inset-8 mt-6 pointer-events-none;
   }
 
   .printmark-trim-horiz {
@@ -31,16 +39,9 @@
     @apply bg-current w-0.25 h-4;
   }
 
-  .printmark-margins {
-    @apply outline -outline-offset-[4px] mt-2;
-  }
-
+  /** REGISTRATION MARKS **/
   .printmark-registration-bar {
-    @apply flex flex-row items-center w-full h-4;
-  }
-
-  .printmark-registration {
-    @apply w-6 h-6 invert grow;
+    @apply m-4 flex flex-row items-center h-4;
   }
 
   /** COLORS AND NEUTRALS */

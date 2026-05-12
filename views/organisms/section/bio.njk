@@ -1,5 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
+  {% import "molecules/printmarks/printmarks.njk" as PrintMarks %}
   {%- set sectionId = params.id | default("bio") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
@@ -10,12 +11,13 @@
   {%- set buildDate = params.buildDate -%}
 
   {# Biography section #}
-  <section class="relative h-dvh bg-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header class="col-span-full z-10 relative top-6" data-bio-el="header">
-      <div class="text-xs space-x-1 font-thin px-2 flex items-center justify-between" data-bio-el="context">
+  <section class="relative p-12 bg-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+    {{ PrintMarks.render({classes: "inset-4"}) }}
+    <header class="col-span-full z-10" data-bio-el="header">
+      <div class="text-xs space-x-1 font-thin px-2 mt-4 flex items-center justify-between" data-bio-el="context">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
-      <h2 class="px-10 mt-12 font-display text-3xl sm:text-4xl" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
+      <h2 class="px-10 font-display text-3xl sm:text-4xl" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
       <p class="px-10 mt-4 text-lg" data-bio-el="subheading">{{ subheading }}</p>
     </header>
   </section>

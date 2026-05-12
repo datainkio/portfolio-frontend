@@ -16,10 +16,6 @@
  * DO NOT remove - used by portfolio grid layouts and technical documentation displays */
 @import "./backgrounds/Graphpapers.css";
 
-/* Print registration marks - Corner marks, crop indicators, bleed guides  
- * REQUIRED for print-style portfolio layouts and design presentation modes */
-@import "./backgrounds/PrintMarks.css";
-
 /* Geometric patterns - Shapes, tessellations, mathematical constructs
  * CRITICAL for hero sections and mathematical visualization components */
 @import "./backgrounds/Geometric.css";
