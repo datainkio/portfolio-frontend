@@ -2,7 +2,7 @@
  * ---
  * aix:
  *   id: frontend.cms.client
- *   role: CMS integration module: data/sanity/client.js
+ *   role: CMS integration module: data/sanity/client/index.js
  *   status: stable
  *   surface: internal
  *   scope: frontend

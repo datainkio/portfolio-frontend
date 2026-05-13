@@ -2,7 +2,7 @@
  * ---
  * aix:
  *   id: frontend.cms.fetchdata
- *   role: CMS integration module: data/sanity/fetchSanityData.js
+ *   role: CMS integration module: data/sanity/services/fetchSanityData.js
  *   status: stable
  *   surface: internal
  *   scope: frontend

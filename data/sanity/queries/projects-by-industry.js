@@ -1,6 +1,9 @@
 /** @format */
 import groq from "groq";
-import { ORG_PROJECTION, FEATURED_IMAGE_PROJECTION } from "./fragments.js";
+import {
+  ORG_PROJECTION,
+  FEATURED_IMAGE_PROJECTION,
+} from "../projections/fragments.js";
 
 export const projectsByIndustryQuery = {
   id: "projectsByIndustry",

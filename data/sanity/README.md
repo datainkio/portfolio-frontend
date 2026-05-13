@@ -11,8 +11,9 @@ Build-time CMS data access for the frontend. This folder is the **single entrypo
 
 ## Files
 
-- `client.js` — resolves config + creates CMS client
-- `fetchSanityData.js` — fetches data with Eleventy cache and error handling
+- `client/` — resolves config + creates CMS client (`index.js`)
+- `services/` — fetches data with Eleventy cache and error handling (`fetchSanityData.js`)
+- `projections/` — shared GROQ projection fragments (`fragments.js`, `projectProjection.js`)
 - `queries/` — one file per query definition
 - `queries.js` — aggregates query definitions into `CMS_QUERIES`
 
@@ -26,6 +27,7 @@ Build-time CMS data access for the frontend. This folder is the **single entrypo
 
 - Query IDs become collection names. Keep them **source-agnostic**.
 - Add new queries under `queries/` and export them from `queries.js`.
+- Add shared GROQ projection fragments to `projections/fragments.js`.
 - Prefer consistent projection shapes across queries (e.g., shared image fields).
 
 ## Env / Config
