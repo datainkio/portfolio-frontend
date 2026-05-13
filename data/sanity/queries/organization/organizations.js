@@ -14,6 +14,7 @@ export const organizationsQuery = {
     location,
     "title": page.title,
     "slug": page.slug.current,
+    "url": select(defined(page.slug.current) => "/organizations/" + page.slug.current + "/", ""),
     "abstract": page.abstract,
     "industry": industry->{
       _id,

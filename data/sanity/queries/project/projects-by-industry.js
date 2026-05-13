@@ -1,7 +1,6 @@
 /** @format */
 import groq from "groq";
-import { ORGANIZATION_PROJECTION } from "../../projections/organization/organizationProjection.js";
-import { FEATURED_IMAGE_PROJECTION } from "../../projections/image/featuredImageProjection.js";
+import { PROJECT_CARD_PROJECTION } from "../../projections/project/projectCardProjection.js";
 
 export const projectsByIndustryQuery = {
   id: "projectsByIndustry",
@@ -28,17 +27,6 @@ export const projectsByIndustryQuery = {
         ^._id in organization[]->industry._ref ||
         ^._id in projectMeta.organization[]->industry._ref
       )
-    ]{
-      _id,
-      _updatedAt,
-      "title": page.title,
-      "slug": page.slug.current,
-      "abstract": page.abstract,
-      "organizations": organization[]->${ORGANIZATION_PROJECTION},
-      "organization": organization[0]->${ORGANIZATION_PROJECTION},
-      "featuredImage": featuredImage->${FEATURED_IMAGE_PROJECTION},
-      externalLink,
-      caseStudyUrl
-    } | order(page.title asc)
+    ]${PROJECT_CARD_PROJECTION} | order(page.title asc)
   } | order(title asc)[0...5]`,
 };

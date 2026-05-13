@@ -25,6 +25,7 @@ import { organizationsQuery } from "./queries/organization/organizations.js";
 import { navigationQuery } from "./queries/navigation/navigation.js";
 import { outcomesQuery } from "./queries/outcome/outcomes.js";
 import { postsQuery } from "./queries/post/posts.js";
+import { projectPagesQuery } from "./queries/project/project-pages.js";
 import { projectsQuery } from "./queries/project/projects.js";
 import { rolesQuery } from "./queries/role/roles.js";
 
@@ -37,6 +38,7 @@ export const CMS_QUERIES = [
   outcomesQuery,
   awardsQuery,
   projectsQuery,
+  projectPagesQuery,
   homeQuery,
   navigationQuery,
   imageAssetsQuery,

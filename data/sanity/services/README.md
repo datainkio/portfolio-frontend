@@ -1,6 +1,6 @@
 ---
 aix:
-  id: frontend.cms.services
+  id: frontend.data.sanity.services
   role: CMS fetch and cache layer for build-time Sanity data access.
   status: stable
   surface: internal
