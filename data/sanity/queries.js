@@ -15,18 +15,18 @@
  */
 /** @format */
 
-import { activitiesQuery } from "./queries/activities.js";
-import { awardsQuery } from "./queries/awards.js";
-import { imageAssetsQuery } from "./queries/image-assets.js";
-import { industriesQuery } from "./queries/industries.js";
-import { projectsByIndustryQuery } from "./queries/projects-by-industry.js";
+import { activitiesQuery } from "./queries/activity/activities.js";
+import { awardsQuery } from "./queries/award/awards.js";
+import { imageAssetsQuery } from "./queries/image/image-assets.js";
+import { industriesQuery } from "./queries/industry/industries.js";
+import { projectsByIndustryQuery } from "./queries/project/projects-by-industry.js";
 import { homeQuery } from "./queries/home.js";
-import { organizationsQuery } from "./queries/organizations.js";
-import { navigationQuery } from "./queries/navigation.js";
-import { outcomesQuery } from "./queries/outcomes.js";
-import { postsQuery } from "./queries/posts.js";
-import { projectsQuery } from "./queries/projects.js";
-import { rolesQuery } from "./queries/roles.js";
+import { organizationsQuery } from "./queries/organization/organizations.js";
+import { navigationQuery } from "./queries/navigation/navigation.js";
+import { outcomesQuery } from "./queries/outcome/outcomes.js";
+import { postsQuery } from "./queries/post/posts.js";
+import { projectsQuery } from "./queries/project/projects.js";
+import { rolesQuery } from "./queries/role/roles.js";
 
 export const CMS_QUERIES = [
   organizationsQuery,

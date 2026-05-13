@@ -1,0 +1,11 @@
+/** @format */
+
+/**
+ * Outcome concept reference projection (inner shape — excludes field name and traversal operator).
+ * Used for outcomes[] references on project documents.
+ */
+export const OUTCOME_PROJECTION = `{
+  _id,
+  "title": prefLabel,
+  conceptId
+}`;

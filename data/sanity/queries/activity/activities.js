@@ -1,5 +1,5 @@
 /** @format */
-import { makeSkosConceptQuery } from "./skos-concept.js";
+import { makeSkosConceptQuery } from "../taxonomy/skos-concept.js";
 
 export const activitiesQuery = makeSkosConceptQuery({
   id: "activities",

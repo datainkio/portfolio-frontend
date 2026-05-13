@@ -1,9 +1,7 @@
 /** @format */
 import groq from "groq";
-import {
-  ORG_PROJECTION,
-  FEATURED_IMAGE_PROJECTION,
-} from "../projections/fragments.js";
+import { ORGANIZATION_PROJECTION } from "../../projections/organization/organizationProjection.js";
+import { FEATURED_IMAGE_PROJECTION } from "../../projections/image/featuredImageProjection.js";
 
 export const projectsQuery = {
   id: "projects",
@@ -15,7 +13,7 @@ export const projectsQuery = {
     "title": page.title,
     "slug": page.slug.current,
     "abstract": page.abstract,
-    "organization": organization[]->${ORG_PROJECTION},
+    "organization": organization[]->${ORGANIZATION_PROJECTION},
     "roles": roles[]->{_id, "title": prefLabel, conceptId},
     "activities": activities[]->{_id, "title": prefLabel, conceptId},
     "outcomes": outcomes[]->{_id, "title": prefLabel, conceptId},
