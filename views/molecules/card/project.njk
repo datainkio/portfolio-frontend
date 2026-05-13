@@ -8,8 +8,11 @@
   {%- set url = params.url | default(card.url) | default("") -%}
   {%- set description = params.description | default(card.description) | default("Project description") -%}
   {%- set organizations = params.organizations | default(card.organizations) | default([]) -%}
-  {%- set eyebrow = params.eyebrow | default(card.eyebrow) | default("eyebrow") -%}
+  {%- set roles = params.roles | default(card.roles) | default([]) -%}
+  {%- set activities = params.activities | default(card.activities) | default([]) -%}
   {%- set byline = params.byline | default(params.organization) | default(card.byline) | default("byline") -%}
+  {%- set awards = params.awards | default(card.awards) | default([]) -%}
+
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
   {{ Card.render({
     title: title,
