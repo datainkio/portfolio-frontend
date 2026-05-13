@@ -77,7 +77,7 @@ Style references:
 
 ## Content + data
 
-- CMS integration: [cms/](frontend/cms/)
+- CMS integration: [data/sanity/](frontend/data/sanity/)
 - Static assets: [assets/](frontend/assets/)
 
 Assets references:

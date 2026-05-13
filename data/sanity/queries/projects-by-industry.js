@@ -1,5 +1,6 @@
 /** @format */
 import groq from "groq";
+import { ORG_PROJECTION, FEATURED_IMAGE_PROJECTION } from "./fragments.js";
 
 export const projectsByIndustryQuery = {
   id: "projectsByIndustry",
@@ -32,33 +33,9 @@ export const projectsByIndustryQuery = {
       "title": page.title,
       "slug": page.slug.current,
       "abstract": page.abstract,
-      "organizations": organization[]->{
-        _id,
-        "title": page.title,
-        "slug": page.slug.current,
-        "industry": industry->{
-          _id,
-          "preferredLabel": prefLabel
-        },
-        organizationType,
-        featured
-      },
-      "organization": organization[0]->{
-        _id,
-        "title": page.title,
-        "slug": page.slug.current,
-        "industry": industry->{
-          _id,
-          "preferredLabel": prefLabel
-        },
-        organizationType,
-        featured
-      },
-      "featuredImage": featuredImage->{
-        "alt": image.alt,
-        "caption": image.caption,
-        "asset": image.asset->{url, metadata{dimensions, lqip}}
-      },
+      "organizations": organization[]->${ORG_PROJECTION},
+      "organization": organization[0]->${ORG_PROJECTION},
+      "featuredImage": featuredImage->${FEATURED_IMAGE_PROJECTION},
       externalLink,
       caseStudyUrl
     } | order(page.title asc)

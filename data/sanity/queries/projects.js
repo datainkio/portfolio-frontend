@@ -1,5 +1,6 @@
 /** @format */
 import groq from "groq";
+import { ORG_PROJECTION, FEATURED_IMAGE_PROJECTION } from "./fragments.js";
 
 export const projectsQuery = {
   id: "projects",
@@ -11,17 +12,7 @@ export const projectsQuery = {
     "title": page.title,
     "slug": page.slug.current,
     "abstract": page.abstract,
-    "organization": organization[]->{
-      _id,
-      "title": page.title,
-      "slug": page.slug.current,
-      "industry": industry->{
-        _id,
-        "preferredLabel": prefLabel
-      },
-      organizationType,
-      featured
-    },
+    "organization": organization[]->${ORG_PROJECTION},
     "roles": roles[]->{_id, "title": prefLabel, conceptId},
     "activities": activities[]->{_id, "title": prefLabel, conceptId},
     "outcomes": outcomes[]->{_id, "title": prefLabel, conceptId},
@@ -42,11 +33,7 @@ export const projectsQuery = {
         }
       }
     },
-    "featuredImage": featuredImage->{
-      "alt": image.alt,
-      "caption": image.caption,
-      "asset": image.asset->{url, metadata{dimensions, lqip}}
-    },
+    "featuredImage": featuredImage->${FEATURED_IMAGE_PROJECTION},
     externalLink,
     caseStudyUrl
   } | order(page.title asc)`,

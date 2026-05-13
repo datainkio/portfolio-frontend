@@ -8,7 +8,7 @@ These instructions make AI coding agents immediately productive in this repo by 
 
 - **11ty static site**: Content entry lives in `ia/`; Nunjucks templates in `njk/` generate `_site/`. Atomic design components live under `njk/`.
 - **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
-- **Content via Sanity**: Data fetched at build time and exposed as 11ty collections. Defaults live in `site.json` under `cms` (or `sanity`) with queries in `cms/queries.js`.
+- **Content via Sanity**: Data fetched at build time and exposed as 11ty collections. Defaults live in `site.json` under `cms` (or `sanity`) with queries in `data/sanity/queries.js`.
 - **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
 - **Animation system**: GSAP-based choreography under `js/choreography/` with AnimationDirector, ScrollEffectsCoordinator, AnimationBus, section controllers, and specialized managers.
 - **Logging**: Unified `@datainkio/lumberjack` logger across Node and browser environments for consistent output.
@@ -102,7 +102,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 **Data & CMS**
 
 - `site.json` - Global site config + CMS defaults
-- `cms/` - Sanity client, queries, and fetch helpers
+- `data/sanity/` - Sanity client, queries, and fetch helpers
 
 **Design System**
 
@@ -146,7 +146,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Content Management**
 
-- `cms/` - Sanity integration (client, fetcher, queries)
+- `data/sanity/` - Sanity integration (client, fetcher, queries)
 
 **Build System**
 
@@ -231,12 +231,12 @@ this.bus.on("hero:intro:complete", () => {
 
 **11ty Collections**
 
-- Collections are registered from `cms/queries.js`
+- Collections are registered from `data/sanity/queries.js`
 - Access in templates: `{{ collections.projects }}`, `{{ collections.home }}`, etc.
 
 **Caching**
 
-- Cache duration set globally in `site.json` (`cms.cache`) or per-query in `cms/queries.js`
+- Cache duration set globally in `site.json` (`cms.cache`) or per-query in `data/sanity/queries.js`
 - Force refresh: set `SANITY_FORCE_REFRESH=true` (or `SANITY_FORCE_REFRESH_QUERY=<id>`)
 
 ## Tailwind & Styles
@@ -365,7 +365,7 @@ this.sections.custom = new Custom({
 
 ## CMS Integration (local)
 
-- Lives under `cms/` (client, fetcher, queries).
+- Lives under `data/sanity/` (client, fetcher, queries).
 - Feeds 11ty collections; treat as build-time data only.
 
 Questions or gaps? If any workflow or directory is unclear, tell me which part and I’ll refine this guide with concrete examples from the codebase.
@@ -374,7 +374,7 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 
 - Build fails fetching Figma: Ensure `FIGMA_TOKEN` is set; run `npm run build:design`. Check `figma/services/*` logs.
 - Missing styles/tokens: Verify `styles/main.css` import order (fonts → Tailwind → base → generated). Re-run `build:design`.
-- Sanity data missing: Confirm `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `cms/queries.js`.
+- Sanity data missing: Confirm `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `data/sanity/queries.js`.
 - GSAP animations not running: Confirm `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)` and DOM IDs exist (`#smooth-wrapper`, `#smooth-content`, `#overlay-view`).
 - Background video not visible: Ensure overlay-view molecule renders before choreography; use MP4 under `/assets/video/`.
 - Tailwind classes missing: Use `@tailwindcss/cli` and check `tailwind.config.js`. Restart `npm start` to refresh watch processes.

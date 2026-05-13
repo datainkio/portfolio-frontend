@@ -10,7 +10,7 @@
   {%- set organizations = params.organizations | default(card.organizations) | default([]) -%}
   {%- set roles = params.roles | default(card.roles) | default([]) -%}
   {%- set activities = params.activities | default(card.activities) | default([]) -%}
-  {%- set byline = params.byline | default(params.organization) | default(card.byline) | default("byline") -%}
+  {%- set organizations = params.byline | default(params.organization) | default(card.byline) | default("byline") -%}
   {%- set awards = params.awards | default(card.awards) | default([]) -%}
 
   {%- set featured = params.featured | default(card.featured) | default(false) -%}
@@ -19,7 +19,7 @@
     image: image,
     url: url,
     description: description,
-    eyebrow: eyebrow,
+    eyebrow: "eyebrow",
     byline: byline,
     featured: featured,
     classes: params.classes,

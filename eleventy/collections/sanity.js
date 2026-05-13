@@ -15,14 +15,14 @@
  * ---
  */
 /** @format */
-import fetchSanityData from "../../cms/fetchSanityData.js";
+import fetchSanityData from "../../data/sanity/fetchSanityData.js";
 import { toHTML } from "@portabletext/to-html";
 import {
   createSanityClient,
   resolveSanityConfig,
   sanitizeConfigForLogs,
-} from "../../cms/client.js";
-import { CMS_QUERIES } from "../../cms/queries.js";
+} from "../../data/sanity/client.js";
+import { CMS_QUERIES } from "../../data/sanity/queries.js";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
 logger.enabled = true;

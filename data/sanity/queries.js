@@ -2,7 +2,7 @@
  * ---
  * aix:
  *   id: frontend.cms.queries
- *   role: CMS integration module: cms/queries.js
+ *   role: CMS integration module: data/sanity/queries.js
  *   status: stable
  *   surface: internal
  *   scope: frontend
@@ -19,7 +19,7 @@ import { activitiesQuery } from "./queries/activities.js";
 import { awardsQuery } from "./queries/awards.js";
 import { imageAssetsQuery } from "./queries/image-assets.js";
 import { industriesQuery } from "./queries/industries.js";
-import { projectsByIndustryQuery } from "./queries/projectsByIndustry.js";
+import { projectsByIndustryQuery } from "./queries/projects-by-industry.js";
 import { homeQuery } from "./queries/home.js";
 import { organizationsQuery } from "./queries/organizations.js";
 import { navigationQuery } from "./queries/navigation.js";

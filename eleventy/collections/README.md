@@ -25,9 +25,9 @@ export default async function (eleventyConfig) {
 
 **Source**: Sanity CMS via GROQ
 **Dependencies**: None (initialized first)
-**Configuration**: `site.json` → `cms` (or `sanity`) defaults + `cms/queries.js`
+**Configuration**: `site.json` → `cms` (or `sanity`) defaults + `data/sanity/queries.js`
 
-Queries in `cms/queries.js` become 11ty collections:
+Queries in `data/sanity/queries.js` become 11ty collections:
 
 - Collection id comes from the query definition
 - Smart caching via `@11ty/eleventy-fetch` (configurable duration)
@@ -234,7 +234,7 @@ Collections use isolated error handling to prevent cascading failures:
 ## Related Files
 
 - **Services**: `eleventy/services/NavigationBuilder.js` - Navigation processing logic
-- **Data Fetching**: `cms/fetchSanityData.js` - Sanity fetch helper
+- **Data Fetching**: `data/sanity/fetchSanityData.js` - Sanity fetch helper
 - **Configuration**: `site.json` - Collection and navigation config
 - **Templates**: `njk/organisms/navigation/` - Navigation components
 - **Logging**: `js/utils/lumberjack/` - Dual-mode logger system

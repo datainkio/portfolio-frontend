@@ -1,6 +1,6 @@
 # Sanity → 11ty data flow
 
-This repo fetches Sanity content with the official client + GROQ during the 11ty build. Sanity helpers live in `cms/` (client, fetcher, queries) and are wired in via `eleventy/collections/sanity.js`.
+This repo fetches Sanity content with the official client + GROQ during the 11ty build. Sanity helpers live in `data/sanity/` (client, fetcher, queries) and are wired in via `eleventy/collections/sanity.js`.
 
 ## Collections
 
@@ -34,7 +34,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 ## Build behavior
 
 - Runs inside `eleventy/collections/sanity.js` before navigation collections.
-- Helpers reside in `cms/client.js`, `cms/fetchSanityData.js`, and `cms/queries.js`.
+- Helpers reside in `data/sanity/client.js`, `data/sanity/fetchSanityData.js`, and `data/sanity/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
 - Serializes home-page Portable Text (`valuePropRichText`) to HTML using `@portabletext/to-html` and stores it on each home record as `valuePropBodyHtml`.
 - Serializes project Portable Text (`body`) to HTML as `bodyHtml` during collection hydration.
@@ -49,7 +49,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 
 ## Project Portable Text Rendering Path
 
-1. Query projection in `cms/queries/projects.js` fetches project `body[]`, including nested fields required by custom object blocks like `project_aside`.
+1. Query projection in `data/sanity/queries/projects.js` fetches project `body[]`, including nested fields required by custom object blocks like `project_aside`.
 2. `eleventy/collections/sanity.js` converts Portable Text to HTML via `serializePortableTextToHtml`, mapping custom types (for example `project_aside`) to semantic HTML.
 3. `njk/layouts/case-study.njk` renders `project.bodyHtml` inside the article narrative container.
 4. `njk/layouts/case-study.njk` applies Tailwind utility classes to style serialized project Portable Text output (including `project_aside` hooks).

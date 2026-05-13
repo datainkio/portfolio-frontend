@@ -32,7 +32,7 @@
  * COLLECTION SOURCES:
  * 1. Sanity CMS (sanity.js):
  *    - Fetches data from Sanity via GROQ and @sanity/client
- *    - Creates collections defined in cms/queries.js
+ *    - Creates collections defined in data/sanity/queries.js
  *    - Uses site.cms for defaults and caching behavior
  *
  * 2. Navigation (navigation.js):
