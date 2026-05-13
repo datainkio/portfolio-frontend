@@ -60,7 +60,7 @@
               class="bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold text-xl px-4 mb-4">
               → {{ industryLabelIndex }}
               {{ industry.title }}</h3>
-            <ul data-projects-el="list" class="col-span-full sm:grid sm:grid-cols-2 gap-4 -mx-4">
+            <ul data-projects-el="list" class="col-span-full -mx-4">
               {% for project in industry.projects %}
                 <li data-projects-el="project">
                   {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first }) }}

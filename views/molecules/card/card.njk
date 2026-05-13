@@ -1,24 +1,26 @@
 {% import "atoms/heading.njk" as Heading %}
 {% macro render(params = {}) %}
-  {%- set title = params.title | default("title") -%}
-  {%- set eyebrow = params.eyebrow | default("eyebrow") -%}
+  {# Note that defaults are limited. This gives the caller more control and allows them to pass in empty strings or falsy values if they want to intentionally omit something that might otherwise be pulled from a project object. #}
+  {%- set title = params.title -%}
+  {%- set eyebrow = params.eyebrow -%}
   {%- set headingLevel = params.headingLevel | default(3) -%}
-  {%- set description = params.description| default("Lorem ipsum dolor sit amet, consectetur adipiscing elit.") -%}
-  {%- set byline = params.byline | default("byline") -%}
+  {%- set description = params.description -%}
+  {%- set byline = params.byline -%}
+  {%- set meta = params.meta | default([]) -%}
   {%- set featured = params.featured | default(false) -%}
   {%- set image = params.image -%}
-  {%- set url = params.url | default("url") -%}
-  {%- set classes = params.classes | default("") -%}
-  {%- set imageClasses = params.imageClasses | default("") -%}
+  {%- set url = params.url -%}
+  {%- set classes = params.classes -%}
+  {%- set imageClasses = params.imageClasses -%}
   {%- set eager = params.eager | default(false) -%}
 
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
-  <article data-card-el="root" class="relative isolate w-full space-y-0 {{ classes }}">
+  <article data-card-el="root" class="relative isolate w-full {{ classes }}">
 
     {% if url %}
-      <a href="{{ url }}" class="block space-y-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 focus-visible:ring-neutral-200">
+      <a href="{{ url }}" class="block space-y-3">
       {% endif %}
 
       {% if imageSrc %}
@@ -27,7 +29,7 @@
         </figure>
       {% endif %}
 
-      <div data-card-el="body" class="bg-white p-4 space-y-2">
+      <div data-card-el="body" class="bg-white outline-1 -outline-offset-8 outline-neutral-800 space-y-2 p-6">
         <header>
           {% if eyebrow %}
             <p class="eyebrow text-xs text-current uppercase tracking-wide">{{ eyebrow }}</p>
@@ -39,11 +41,24 @@
           <p class="description text-sm text-current">{{ description }}</p>
         {% endif %}
 
-        <footer>
-          {% if byline %}
-            <p class="byline text-xs text-current uppercase tracking-wide">{{ byline }}</p>
+        <footer class="border-t border-neutral-800 mt-8 pt-4">
+          {% if meta | length %}
+            <dl class="bg-neutral-800 flex flex-wrap flex-row gap-0.25">
+              {% for item in meta %}
+                {% if item.value %}
+                  {% if item.key in ["activities", "industries"] %}
+                    {% set responsive = "hidden sm:block" %}
+                  {% endif %}
+                  <div class="meta-item p-4 bg-white {{ responsive }}">
+                    <dt class="text-xs text-neutral-400 uppercase tracking-wide">{{ item.key }}</dt>
+                    <dd class="text-xs text-current">{{ item.value }}</dd>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </dl>
           {% endif %}
         </footer>
+
       </div>
 
       {% if url %}

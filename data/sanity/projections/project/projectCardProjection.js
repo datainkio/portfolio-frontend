@@ -1,5 +1,9 @@
 /** @format */
 
+import { ORGANIZATION_PROJECTION } from "../organization/organizationProjection.js";
+import { ROLE_PROJECTION } from "../role/roleProjection.js";
+import { ACTIVITY_PROJECTION } from "../activity/activityProjection.js";
+
 /**
  * Project card projection (inner shape — excludes field name and traversal operator).
  * Used in grid/list views and industry groupings (e.g. projectsByIndustry).
@@ -10,17 +14,12 @@ export const PROJECT_CARD_PROJECTION = `{
   "title": page.title,
   "slug": page.slug.current,
   "abstract": page.abstract,
-  "organization": organization[]->{
-    _id,
-    "title": page.title,
-    "slug": page.slug.current,
-    "industry": industry->{
-      _id,
-      "preferredLabel": prefLabel
-    },
-    organizationType,
-    featured
-  },
+  "industries": array::unique(organization[]->industry->prefLabel),
+  "rolesTitles": array::unique(roles[]->prefLabel),
+  "activityTitles": array::unique(activities[]->prefLabel),
+  "organization": organization[]->${ORGANIZATION_PROJECTION},
+  "roles": roles[]->${ROLE_PROJECTION},
+  "activities": activities[]->${ACTIVITY_PROJECTION},
   "featuredImage": featuredImage->{
     "alt": image.alt,
     "caption": image.caption,
