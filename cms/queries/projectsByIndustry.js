@@ -5,7 +5,7 @@ export const projectsByIndustryQuery = {
   id: "projectsByIndustry",
   description:
     "Projects grouped by industry concepts that are linked through project organizations (max 5 industries)",
-  cacheDuration: "1d",
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[
     _type == "skosConcept" &&
     (

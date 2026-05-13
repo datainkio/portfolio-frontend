@@ -4,7 +4,7 @@ import groq from "groq";
 export const projectsQuery = {
   id: "projects",
   description: "Published projects for portfolio grids and detail pages",
-  cacheDuration: "1d",
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "project"]{
     _id,
     _updatedAt,

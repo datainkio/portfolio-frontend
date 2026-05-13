@@ -4,7 +4,7 @@ import groq from "groq";
 export const postsQuery = {
   id: "posts",
   description: "Published posts with relationships and metadata",
-  cacheDuration: "1d",
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "post" && status == "published"]{
     _id,
     _updatedAt,

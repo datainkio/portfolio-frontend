@@ -4,7 +4,7 @@ import groq from 'groq';
 export const imageAssetsQuery = {
   id: 'imageAssets',
   description: 'Published image assets with metadata',
-  cacheDuration: '1d',
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "imageAsset" && published != false]{
     _id,
     _updatedAt,

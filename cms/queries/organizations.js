@@ -4,7 +4,7 @@ import groq from "groq";
 export const organizationsQuery = {
   id: "organizations",
   description: "Organizations with industry concepts and brand assets",
-  cacheDuration: "1d",
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "organization"]{
     _id,
     _updatedAt,

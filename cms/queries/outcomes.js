@@ -4,7 +4,7 @@ import groq from "groq";
 export const outcomesQuery = {
   id: "outcomes",
   description: "Deliverable concepts for projects",
-  cacheDuration: "1d",
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[
     _type == "skosConcept" && (
       _id in *[_type == "skosConceptScheme" && (schemeId in ["deliverable", "deliverables", "outcome", "outcomes"] || title in ["Deliverable", "Deliverables", "Outcome", "Outcomes"])][0].topConcepts[]._ref ||

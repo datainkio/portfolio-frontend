@@ -4,7 +4,7 @@ import groq from 'groq';
 export const awardsQuery = {
   id: 'awards',
   description: 'Awards with organization and project context',
-  cacheDuration: '1d',
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "award"]{
     _id,
     _updatedAt,

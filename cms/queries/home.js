@@ -4,7 +4,7 @@ import groq from "groq";
 export const homeQuery = {
   id: "home",
   description: "Home page singleton (hero, value copy, and recognition)",
-  cacheDuration: "1d",
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "home"] | order(_updatedAt desc)[0...1]{
     _id,
     _updatedAt,

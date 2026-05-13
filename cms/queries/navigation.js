@@ -4,7 +4,7 @@ import groq from "groq";
 export const navigationQuery = {
   id: "navigation",
   description: "Navigation singleton with header and footer reference items",
-  cacheDuration: "1d",
+  cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "navigation"] | order(_updatedAt desc)[0...1]{
     _id,
     _updatedAt,
