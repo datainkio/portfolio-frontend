@@ -1,0 +1,9 @@
+@layer utilities {
+  .border-inset {
+    @apply outline outline-1 -outline-offset-8 outline-neutral-800;
+  }
+
+  .border-inset-none {
+    @apply outline-none;
+  }
+}

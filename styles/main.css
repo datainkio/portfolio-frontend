@@ -20,6 +20,9 @@
 /* Custom decorations - Project-specific styling for visual elements and effects */
 @import "./decorations.css" layer(components);
 
+/* Custom borders. Because why not. */
+@import "./utilities/borders.css" layer(utilities);
+
 /* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
 @import "./utilities/mask.css";
 @import "./utilities/text.css" layer(utilities);

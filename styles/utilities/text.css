@@ -3,4 +3,8 @@
     word-spacing: 100vw;
     line-height: 0;
   }
+
+  .arrow-prefix::before {
+    content: "\2192\00a0";
+  }
 }

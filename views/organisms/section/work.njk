@@ -23,7 +23,7 @@
         class="gap-1 pb-2 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-2 font-display text-5xl mt-4 ">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-2 font-display text-4xl sm:text-5xl mt-4 ">{{ heading }}</h2>
       {% if projectsByIndustry | length %}
         <nav aria-label="Jump to industries" class="col-span-4 border-l-2 border-black pl-4">
           <ul data-projects-el="industry-links" class="leading-none">
@@ -57,8 +57,8 @@
             <h3
               id="industry-{{ industry.conceptId }}"
               data-projects-el="industry-heading"
-              class="bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold text-xl px-4 mb-4">
-              → {{ industryLabelIndex }}
+              class="arrow-prefix bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold text-xl
+                px-4 mb-4">{{ industryLabelIndex }}
               {{ industry.title }}</h3>
             <ul data-projects-el="list" class="col-span-full -mx-4">
               {% for project in industry.projects %}

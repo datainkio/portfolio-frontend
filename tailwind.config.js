@@ -17,7 +17,7 @@ import typography from "@tailwindcss/typography";
 
 export default {
   content: [
-    "./njk/**/*.{njk,md,html,js}",
+    "./views/**/*.{njk,md,html,js}",
     "./js/**/*.js",
     "./eleventy/**/*.js",
   ],

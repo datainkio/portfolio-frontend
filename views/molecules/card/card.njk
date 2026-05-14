@@ -1,5 +1,6 @@
 {% import "atoms/heading.njk" as Heading %}
 {% import "atoms/cta.njk" as CTA %}
+{% import "molecules/stats/stats.njk" as Details %}
 {% macro render(params = {}) %}
   {# Note that defaults are limited. This gives the caller more control and allows them to pass in empty strings or falsy values if they want to intentionally omit something that might otherwise be pulled from a project object. #}
   {%- set title = params.title -%}
@@ -18,20 +19,26 @@
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
-  <article data-card-el="root" class="relative isolate w-full {{ classes }}">
+  <article
+    data-card-el="root"
+    class="relative isolate w-full sm:max-w-4xl sm:grid sm:grid-cols-3 sm:border-inset sm:bg-white sm:mx-auto {{ classes }}">
 
     {% if imageSrc %}
-      <figure data-card-el="figure" class="m-0 relative z-0 overflow-hidden w-full h-dvh md:h-auto">
+      <figure data-card-el="figure" class="m-0 relative z-0 overflow-hidden w-full h-dvh sm:h-auto">
         <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full object-cover object-center {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
       </figure>
     {% endif %}
 
-    <div data-card-el="body" class="bg-white outline-1 -outline-offset-8 outline-neutral-800 space-y-2 p-6">
+    <div data-card-el="body" class="bg-white border-inset sm:border-inset-none space-y-2 p-6 sm:col-span-2 sm:outline-none">
+
       <header>
         {% if eyebrow %}
           <p class="eyebrow text-xs text-current uppercase tracking-wide">{{ eyebrow }}</p>
         {% endif %}
         {{ Heading.render({ level: headingLevel, text: title, class: "title font-display text-current font-bold sm:text-lg" ~ (" hover:underline" if url else "") }) }}
+        {% if byline %}
+          <p class="byline text-sm text-current font-thin">{{ byline }}</p>
+        {% endif %}
       </header>
 
       {% if description %}
@@ -40,19 +47,10 @@
 
       <footer class="mt-8 pt-4">
         {% if meta | length %}
-          <dl class="grid grid-cols-2 bg-neutral-700 gap-0.25 border border-neutral-700">
-            {% for item in meta %}
-              {% if item.value %}
-                <div class="meta-item bg-white p-4 flex flex-col gap-1">
-                  <dt class="text-xs text-neutral-400 uppercase tracking-wide">{{ item.key }}</dt>
-                  <dd class="text-sm text-current">{{ item.value }}</dd>
-                </div>
-              {% endif %}
-            {% endfor %}
-          </dl>
+          {{ Details.render({ stats: meta }) }}
         {% endif %}
         {% if url %}
-          {{ CTA.render({ text: "view case study", url: url, classes: "mt-4 font-display inline-block uppercase" }) }}
+          {{ CTA.render({ text: "view case study", url: url, classes: "mt-4 font-display inline-block uppercase text-right w-full" }) }}
         {% endif %}
       </footer>
 
