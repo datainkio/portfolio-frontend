@@ -98,7 +98,7 @@ export default {
       },
     },
   },
-  plugins: [typography, "tailwindcss-inner-border"],
+  plugins: [typography],
 
   // CSS 4.0 optimizations
   experimental: {

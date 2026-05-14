@@ -1,6 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
-  {% import "molecules/printmarks/printmarks.njk" as PrintMarks %}
+  {% import "molecules/printmarks.njk" as PrintMarks %}
   {%- set sectionId = params.id | default("bio") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
