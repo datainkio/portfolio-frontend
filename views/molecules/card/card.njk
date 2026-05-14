@@ -21,15 +21,15 @@
 
   <article
     data-card-el="root"
-    class="relative isolate w-full sm:max-w-4xl sm:grid sm:grid-cols-3 sm:border-inset sm:bg-white sm:mx-auto {{ classes }}">
+    class="relative isolate w-full sm:max-w-4xl sm:grid sm:grid-cols-3 sm:inner-border sm:p-4 sm:mx-auto {{ classes }}">
 
     {% if imageSrc %}
-      <figure data-card-el="figure" class="m-0 relative z-0 overflow-hidden w-full h-dvh sm:h-auto">
+      <figure data-card-el="figure" class="m-0 relative z-0 overflow-hidden w-full h-dvh sm:h-full sm:p-2">
         <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="h-full object-cover object-center {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
       </figure>
     {% endif %}
 
-    <div data-card-el="body" class="bg-white border-inset sm:border-inset-none space-y-2 p-6 sm:col-span-2 sm:outline-none">
+    <div data-card-el="body" class="bg-white inner-border sm:inner-border-none space-y-2 p-6 sm:col-span-2">
 
       <header>
         {% if eyebrow %}
