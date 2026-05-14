@@ -1,3 +1,82 @@
+---
+template:
+  id: "templates.molecules.card"
+  name: "Card"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/card/card.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a generic content card with optional image, title, eyebrow, byline, description, meta stats, and CTA."
+  role: "Base card macro composed by all card variant molecules in this directory."
+
+data:
+  expects:
+    - "params.title"
+    - "params.image"
+    - "params.url"
+    - "params.description"
+    - "params.eyebrow"
+    - "params.byline"
+    - "params.meta"
+    - "params.headingLevel"
+    - "params.featured"
+    - "params.classes"
+    - "params.imageClasses"
+    - "params.eager"
+  provides:
+    - "article card with image, header, body, and footer regions"
+
+components:
+  uses:
+    - "atoms/heading.njk"
+    - "atoms/cta.njk"
+    - "molecules/stats/stats.njk"
+    - "atoms/printmarks/trim-marks.njk"
+
+a11y:
+  landmarks:
+    - "article"
+  headingContext:
+    baseLevel: null
+    notes: "Heading level is caller-controlled via params.headingLevel (default 3). Callers must ensure correct document outline."
+
+design:
+  system:
+    - "portfolio"
+    - "print-inspired layout"
+  interactions:
+    - "image lazy/eager loading"
+
+dependencies:
+  styles:
+    - "tailwind"
+    - "inner-border"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "atom component path changes"
+    - "heading-level changes"
+    - "inner-border utility removal"
+
+tags:
+  - "molecule"
+  - "card"
+  - "nunjucks"
+  - "macro"
+---
+
 {% import "atoms/heading.njk" as Heading %}
 {% import "atoms/cta.njk" as CTA %}
 {% import "molecules/stats/stats.njk" as Details %}

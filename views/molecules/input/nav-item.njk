@@ -1,6 +1,56 @@
+---
+template:
+  id: "templates.molecules.input.nav-item"
+  name: "Nav Item"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/input/nav-item.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a navigation list item with an accordion collapse for items that have children, or a plain link for leaf nodes."
+  role: "Used as an include within nav loop contexts; renders a single nav entry with optional nested children."
+
+data:
+  expects:
+    - "item (nav entry with url, key, children[])"
+    - "accordionName"
+  provides:
+    - "li with collapse accordion if children present, plain link if leaf node"
+
+a11y:
+  headingContext:
+    notes: "Uses div.collapse-title for accordion label; not a semantic heading."
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "nav data shape changes"
+    - "accordion component changes"
+
+tags:
+  - "molecule"
+  - "navigation"
+  - "nunjucks"
+  - "partial"
+---
+
 {% if item.children.length > 0 %}
   <li class="collapse collapse-plus md:collapse-open ">
-    <input type="radio" name="{{ accordionName }}" />
+    <input type="radio" name="{{ accordionName }}"/>
     <div class="collapse-title text-xl font-medium">{{ item.key }}</div>
     <ul class="collapse-content">
       <li class="pb-2 italic">

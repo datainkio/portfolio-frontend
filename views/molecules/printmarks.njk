@@ -1,3 +1,65 @@
+---
+template:
+  id: "templates.molecules.printmarks"
+  name: "Printmarks"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/printmarks.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders the full set of print production marks (ink, registration, trim, margin/bleed) as a single decorative overlay."
+  role: "Composes all printmark atom layers for the print-inspired design system; rendered aria-hidden."
+
+data:
+  expects:
+    - "params.classes"
+  provides:
+    - "absolute inset overlay with all print mark layers"
+
+components:
+  uses:
+    - "atoms/printmarks/ink-marks.njk"
+    - "atoms/printmarks/trim-marks.njk"
+    - "atoms/printmarks/margin-bleed-marks.njk"
+    - "atoms/printmarks/registration-marks.njk"
+
+a11y:
+  headingContext:
+    notes: "aria-hidden; purely decorative."
+
+design:
+  system:
+    - "portfolio"
+    - "print-inspired layout"
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "printmark atom path changes"
+    - "print design system changes"
+
+tags:
+  - "molecule"
+  - "printmarks"
+  - "decorative"
+  - "nunjucks"
+  - "macro"
+---
+
 {% macro render(params = {}) %}
   {% import "atoms/printmarks/ink-marks.njk" as InkMarks %}
   {% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}

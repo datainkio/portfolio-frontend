@@ -1,3 +1,58 @@
+---
+template:
+  id: "templates.molecules.docs-nav"
+  name: "Docs Nav"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/docs-nav/docs-nav.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders the /docs section as a hierarchical tree navigation using eleventyNavigation."
+  role: "Sidebar navigation for the documentation section; tracks current page with aria-current."
+
+data:
+  expects:
+    - "params.collections (requires collections.all)"
+    - "params.page (Eleventy page object)"
+    - "params.classes"
+  provides:
+    - "hierarchical nav tree rooted at the 'docs' eleventyNavigation key"
+
+a11y:
+  landmarks:
+    - "nav"
+  headingContext:
+    notes: "Uses a heading-like anchor link for the Docs root; no h elements."
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "eleventyNavigation key changes"
+    - "docs section IA changes"
+
+tags:
+  - "molecule"
+  - "navigation"
+  - "docs"
+  - "nunjucks"
+  - "macro"
+  - "11ty"
+---
+
 {#
   Molecule: Docs Nav
   - Purpose: Render the /docs section as a hierarchical tree navigation.
@@ -14,11 +69,7 @@
       {%- set isCurrent = item.url == currentUrl -%}
       {%- set hasChildren = item.children and item.children.length -%}
       <li class="docs-nav__item{% if hasChildren %} docs-nav__item--has-children{% endif %}">
-        <a
-          href="{{ item.url }}"
-          class="docs-nav__link{% if isCurrent %} docs-nav__link--current{% endif %}"
-          {% if isCurrent %}aria-current="page"{% endif %}
-        >{{ item.title }}</a>
+        <a href="{{ item.url }}" class="docs-nav__link{% if isCurrent %} docs-nav__link--current{% endif %}" {% if isCurrent %} aria-current="page" {% endif %}>{{ item.title }}</a>
         {% if hasChildren %}
           {{ renderItems(item.children, currentUrl) }}
         {% endif %}
@@ -34,7 +85,7 @@
   {%- set classes = params.classes | default("") -%}
 
   <nav class="docs-nav {{ classes }}" aria-label="Documentation navigation">
-    <a href="/docs/" class="docs-nav__heading{% if currentUrl == '/docs/' %} docs-nav__link--current{% endif %}"{% if currentUrl == '/docs/' %} aria-current="page"{% endif %}>
+    <a href="/docs/" class="docs-nav__heading{% if currentUrl == '/docs/' %} docs-nav__link--current{% endif %}" {% if currentUrl == '/docs/' %} aria-current="page" {% endif %}>
       Docs
     </a>
     {% if navItems and navItems.length %}

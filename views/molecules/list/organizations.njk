@@ -1,3 +1,56 @@
+---
+template:
+  id: "templates.molecules.list.organizations"
+  name: "Organizations List"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/list/organizations.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders an inline comma-separated list of a project's client/partner organizations."
+  role: "Included in project detail contexts; resolves organization records from collections."
+
+data:
+  expects:
+    - "project.organizations (array of organization IDs)"
+    - "collections.organizations"
+  provides:
+    - "inline ul of organization names"
+
+contentModel:
+  sanityTypes:
+    - "organization"
+    - "project"
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "Sanity organization schema changes"
+    - "findRecord filter changes"
+
+tags:
+  - "molecule"
+  - "list"
+  - "organizations"
+  - "project"
+  - "nunjucks"
+  - "partial"
+---
+
 {% set orgs = collections.organizations | findRecord(project.organizations) %}
 {% if orgs %}
   <ul class="flex flex-row list-none p-0 m-0">

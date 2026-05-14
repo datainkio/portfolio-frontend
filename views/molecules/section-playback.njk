@@ -1,3 +1,67 @@
+---
+template:
+  id: "templates.molecules.section-playback"
+  name: "Section Playback"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/section-playback.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders playback controls for manually triggering a section's GSAP intro and outro animations."
+  role: "Developer/QA tool for choreography review; not intended for production audiences."
+
+data:
+  expects:
+    - "params.sectionId (default: 'hero')"
+    - "params.label (default: 'Playback controls')"
+    - "params.note"
+    - "params.fixed (default: false)"
+  provides:
+    - "control panel with Play Intro / Play Outro buttons and status indicator"
+
+a11y:
+  headingContext:
+    notes: "No headings; uses aria-live on controls region for playback status updates."
+
+design:
+  system:
+    - "kinetic scroll"
+  interactions:
+    - "GSAP section intro/outro trigger"
+
+dependencies:
+  styles:
+    - "tailwind"
+  scripts:
+    - "gsap"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+    - "data-* attributes (consumed by choreography JS)"
+  reviewTriggers:
+    - "GSAP choreography API changes"
+    - "section animation architecture changes"
+
+tags:
+  - "molecule"
+  - "section"
+  - "playback"
+  - "dev-tool"
+  - "gsap"
+  - "nunjucks"
+  - "macro"
+---
+
 {% macro render(params = {}) %}
   {%- set sectionId = params.sectionId | default('hero') -%}
   {%- set label = params.label | default('Playback controls') -%}
@@ -9,12 +73,7 @@
     fixed and 'section-playback--fixed'
   ] | select | join(' ') -%}
 
-  <div
-    class="{{ wrapperClasses }}"
-    data-section-playback
-    data-section-id="{{ sectionId }}"
-    data-state="idle"
-  >
+  <div class="{{ wrapperClasses }}" data-section-playback data-section-id="{{ sectionId }}" data-state="idle">
     <div class="section-playback__header space-y-1 md:space-y-0 md:flex md:items-center md:gap-4">
       <div class="section-playback__title text-sm font-semibold tracking-[0.04em]">{{ label }}</div>
       <div class="section-playback__section text-xs text-neutral-300">Section: {{ sectionId }}</div>
@@ -24,16 +83,16 @@
     <div class="section-playback__controls mt-3 flex flex-wrap items-center gap-2" aria-live="polite">
       <button
         type="button"
-        class="section-playback__btn section-playback__btn--intro rounded-full border border-emerald-500/70 bg-emerald-900/50 px-3 py-2 text-sm font-semibold text-neutral-50 hover:border-emerald-500"
-        data-play-intro
-      >
+        class="section-playback__btn section-playback__btn--intro rounded-full border border-emerald-500/70 bg-emerald-900/50
+          px-3 py-2 text-sm font-semibold text-neutral-50 hover:border-emerald-500"
+        data-play-intro>
         Play intro
       </button>
       <button
         type="button"
-        class="section-playback__btn section-playback__btn--outro rounded-full border border-rose-500/70 bg-rose-900/40 px-3 py-2 text-sm font-semibold text-neutral-50 hover:border-rose-500"
-        data-play-outro
-      >
+        class="section-playback__btn section-playback__btn--outro rounded-full border border-rose-500/70 bg-rose-900/40 px-3 py-2
+          text-sm font-semibold text-neutral-50 hover:border-rose-500"
+        data-play-outro>
         Play outro
       </button>
       <span class="section-playback__status text-xs text-neutral-300" data-playback-status>Idle</span>

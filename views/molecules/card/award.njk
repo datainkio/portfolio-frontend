@@ -1,3 +1,73 @@
+---
+template:
+  id: "templates.molecules.card.award"
+  name: "Award Card"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/card/award.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders an award card by mapping a Sanity award object to the base card macro."
+  role: "Card variant for displaying recognition and award items."
+
+data:
+  expects:
+    - "params.award (Sanity award object with card sub-object)"
+    - "params.card"
+    - "params.title"
+    - "params.image"
+    - "params.url"
+    - "params.eyebrow"
+    - "params.description"
+    - "params.meta"
+    - "params.featured"
+    - "params.showTitle"
+    - "params.classes"
+    - "params.imageClasses"
+  provides:
+    - "award card with title, image, and optional CTA"
+
+components:
+  uses:
+    - "molecules/card/card.njk"
+
+contentModel:
+  sanityTypes:
+    - "award"
+
+a11y:
+  headingContext:
+    notes: "Heading level delegated to card.njk; default is 3."
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "Sanity award schema changes"
+    - "card.njk param signature changes"
+
+tags:
+  - "molecule"
+  - "card"
+  - "award"
+  - "recognition"
+  - "nunjucks"
+  - "sanity"
+---
+
 {% macro render(params = {}) %}
   {% import "molecules/card/card.njk" as Card %}
   {%- set card = (params.award and params.award.card) or params.card or {} -%}

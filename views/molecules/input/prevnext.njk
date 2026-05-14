@@ -1,3 +1,62 @@
+---
+template:
+  id: "templates.molecules.input.prevnext"
+  name: "Prev/Next"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/input/prevnext.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a directional navigation link to a sibling project with a hover-reveal slide animation."
+  role: "Included by project-nav.njk for both previous and next directions; layout and animation are direction-aware."
+
+data:
+  expects:
+    - "sibling (project object with slug, name, organizations)"
+    - "direction ('previous' | 'next')"
+    - "collections.organizations"
+  provides:
+    - "directional project link with label, title, and client info"
+
+a11y:
+  headingContext:
+    baseLevel: 4
+    notes: "Sibling name renders as h4; Next/Previous label is a span."
+
+design:
+  system:
+    - "portfolio"
+  interactions:
+    - "translate-x reveal on hover (CSS transition duration-300)"
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "project data shape changes"
+    - "project-nav.njk changes"
+
+tags:
+  - "molecule"
+  - "navigation"
+  - "project"
+  - "nunjucks"
+  - "partial"
+---
+
 {# 
     Provides a link for navigating to a given project's sibling (i.e. a project either immediately before or after the given project).
     The layout and show/hide animation is determined by the sibling's position relative to the given project (i.e. "direction").
@@ -19,21 +78,16 @@
 {% set md = "md:w-64 md:h-36" %}
 {% set xl = "" %}
 <a
-  class="sexy-link hover:no-underline project-nav-{{ direction }} {{ placement }} {{ base }} {{ md }} {{ xl }}"
-  href="{{ sibling.slug }}"
->
+  class="sexy-link hover:no-underline project-nav-{{ direction }} {{ placement }} {{ base }} {{ md }} {{ xl }}" href="{{ sibling.slug }}">
   {# Set responsive styles for the details #}
   {% set base = "bg-primary hover:bg-primary-dark border border-primary-dark flex flex-col p-2 w-full h-full -z-10" %}
   {% set md = "md:w-60 md:hover:bg-primary" %}
   {% set xl = "" %}
   {% set animate = "transform transition-transform duration-300 ease-in-out" %}
   <div
-    class="{{ base }} {{ md }} {{ xl }} {{ textAlign }} {{ animate }} {{ reveal }}"
-  >
+    class="{{ base }} {{ md }} {{ xl }} {{ textAlign }} {{ animate }} {{ reveal }}">
     {# Set the label #}
-    <span
-      class="text-xl md:text-2xl text-center w-full font-serif italic text-accent"
-    >
+    <span class="text-xl md:text-2xl text-center w-full font-serif italic text-accent">
       {% if direction == "next" %}
         Next
       {% else %}

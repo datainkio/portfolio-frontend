@@ -1,25 +1,69 @@
 ---
-# Category Card Component - Molecular UI Pattern
-#
-# CRITICAL WARNING: This molecule displays project categories
-# Requires collections.projects to be passed as parameter
-#
-# PROPS:
-name: "category-card"
-category: "molecules"
-props:
-  category: { type: "object", required: true, description: "Category object with slug, title, and projects array" }
-  collections: { type: "object", required: true, description: "Eleventy collections object for data lookup" }
-  maxProjects: { type: "number", default: 3, description: "Maximum number of projects to display" }
-  showRecognition: { type: "boolean", default: true, description: "Display recognition section" }
-  showOutcomes: { type: "boolean", default: true, description: "Display outcomes section" }
-#
-# ATOMIC DEPENDENCIES:
-# - Project card molecule for project rendering
-#
-# CONTENT INTEGRATION:
-# - Expects category object from collections.ia
-# - Projects referenced by ID array in category.projects
+template:
+  id: "templates.molecules.card.category"
+  name: "Category Card"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/card/category.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a project category card with associated projects and recognition items."
+  role: "Groups portfolio work by IA category; surfaces project titles, awards, and outcomes for a given category."
+
+data:
+  expects:
+    - "params.category (object with slug, title, projects array from collections.ia)"
+    - "params.collections (Eleventy collections — requires collections.projects and collections.awards)"
+    - "params.maxProjects (default 3)"
+    - "params.showRecognition (default true)"
+    - "params.showOutcomes (default true)"
+  provides:
+    - "category article with project list, awards, and outcomes sections"
+
+contentModel:
+  sanityTypes:
+    - "project"
+    - "award"
+
+a11y:
+  landmarks:
+    - "article"
+  headingContext:
+    baseLevel: 3
+    notes: "Category title renders as h3; project titles render as h4."
+
+design:
+  system:
+    - "portfolio"
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "Sanity project or award schema changes"
+    - "collections.ia shape changes"
+    - "findRecord filter changes"
+    - "heading-level changes"
+
+tags:
+  - "molecule"
+  - "card"
+  - "category"
+  - "nunjucks"
+  - "sanity"
 ---
 
 {% macro render(params = {}) %}

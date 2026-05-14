@@ -1,3 +1,76 @@
+---
+template:
+  id: "templates.molecules.card.project"
+  name: "Project Card"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/card/project.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a project card by mapping a Sanity project object to the base card macro."
+  role: "Primary card variant for displaying portfolio projects with title, image, client, industries, roles, and activities."
+
+data:
+  expects:
+    - "params.project (Sanity project object)"
+    - "params.title"
+    - "params.image"
+    - "params.url"
+    - "params.description"
+    - "params.eyebrow"
+    - "params.meta"
+    - "params.featured"
+    - "params.classes"
+    - "params.imageClasses"
+    - "params.eager"
+  provides:
+    - "project card with client, industries, roles, and activities meta"
+
+components:
+  uses:
+    - "molecules/card/card.njk"
+
+contentModel:
+  sanityTypes:
+    - "project"
+
+a11y:
+  headingContext:
+    notes: "Heading level delegated to card.njk; default is 3. Override via params.headingLevel."
+
+design:
+  system:
+    - "portfolio"
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "Sanity project schema changes"
+    - "card.njk param signature changes"
+    - "project data shape changes"
+
+tags:
+  - "molecule"
+  - "card"
+  - "project"
+  - "nunjucks"
+  - "sanity"
+---
+
 {% import "molecules/card/card.njk" as Card %}
 
 {% macro render(params = {}) %}

@@ -1,3 +1,59 @@
+---
+template:
+  id: "templates.molecules.list.main-pages"
+  name: "Main Pages List"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/list/main-pages.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a horizontal navigation list of top-level page links."
+  role: "Primary site navigation bar; renders nav-link atoms for each entry with a resolvable URL."
+
+data:
+  expects:
+    - "params.items (array of nav entry objects with url/href and title/key)"
+    - "params.classes"
+    - "params.linkClass"
+  provides:
+    - "horizontal ul of nav links, filtering out entries without hrefs"
+
+components:
+  uses:
+    - "atoms/link/nav-link.njk"
+
+a11y:
+  headingContext:
+    notes: "No heading; wrapping nav landmark is expected from the parent layout."
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "nav-link atom changes"
+    - "site nav data shape changes"
+
+tags:
+  - "molecule"
+  - "list"
+  - "navigation"
+  - "nunjucks"
+  - "macro"
+---
+
 {% import "atoms/link/nav-link.njk" as nav_link with context %}
 
 {% macro render(params = {}) %}

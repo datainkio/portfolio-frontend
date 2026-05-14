@@ -1,3 +1,56 @@
+---
+template:
+  id: "templates.molecules.stats"
+  name: "Stats"
+  type: "molecule"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/stats/stats.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a grid of key/value stat pairs as a definition list."
+  role: "Displays project metadata (clients, industries, roles, activities) in card footers and project detail views."
+
+data:
+  expects:
+    - "params.stats (array of { key, value } objects)"
+  provides:
+    - "dl grid of meta items; entries with empty values are suppressed"
+
+a11y:
+  headingContext:
+    notes: "Uses dl/dt/dd semantics; no headings."
+
+design:
+  system:
+    - "portfolio"
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "card.njk meta format changes"
+
+tags:
+  - "molecule"
+  - "stats"
+  - "metadata"
+  - "nunjucks"
+  - "macro"
+---
+
 {% macro render(params = {}) %}
   {%- set stats = params.stats | default([]) -%}
   <dl class="grid grid-cols-2 justify-stretch bg-neutral-700 gap-0.25 border border-neutral-700">

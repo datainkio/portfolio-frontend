@@ -1,3 +1,57 @@
+---
+template:
+  id: "templates.molecules.card.image"
+  name: "Image Card"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/card/image.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders an image asset card with filename, type, dimensions, and a lightbox preview."
+  role: "Display molecule for image asset metadata; used in asset browsing or media library contexts."
+
+data:
+  expects:
+    - "image.file.html (lightbox HTML)"
+    - "image.file.originalFilename"
+    - "image.title"
+    - "image.type"
+    - "image.id"
+    - "image.width"
+    - "image.height"
+  provides:
+    - "card with lightbox image and stat grid"
+
+dependencies:
+  styles:
+    - "tailwind"
+  scripts:
+    - "lightbox"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "image data shape changes"
+    - "lightbox shortcode changes"
+
+tags:
+  - "molecule"
+  - "card"
+  - "image"
+  - "media"
+  - "nunjucks"
+---
+
 <div class="card bg-base-200 shadow-xl">
   {% lightbox image.file.html, image.title %}
   <div class="card-body px-4 py-4">

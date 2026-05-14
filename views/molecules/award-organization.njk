@@ -1,5 +1,57 @@
+---
+template:
+  id: "templates.molecules.award-organization"
+  name: "Award Organization"
+  type: "partial"
+  status: "deprecated"
+
+source:
+  path: "frontend/views/molecules/award-organization.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Groups awards by organization, displaying an org logo and a list of award titles."
+  role: "Superseded by list/awards.njk; no active references found in the codebase."
+
+data:
+  expects:
+    - "awards (array of award objects with logo_id)"
+    - "orgName"
+    - "collections.images"
+  provides:
+    - "grouped award list with org logo and award titles"
+
+a11y:
+  headingContext:
+    baseLevel: 4
+    notes: "Organization name renders as h4."
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+  reviewTriggers:
+    - "consider removing — no active references found"
+
+tags:
+  - "molecule"
+  - "award"
+  - "organization"
+  - "nunjucks"
+  - "deprecated"
+---
+
 {# UNUSED - No references found in codebase, safe to remove #}
-<div class="award-organization flex flex-row flex-wrap">
+<div
+  class="award-organization flex flex-row flex-wrap">
   {# Get the logo for the award organization #}
   {% set image = collections.images | findRecord(awards[0].logo_id) %}
   {# assume that award logos are always SVG #}

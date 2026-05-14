@@ -1,3 +1,69 @@
+---
+template:
+  id: "templates.molecules.input.project-nav"
+  name: "Project Nav"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/input/project-nav.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a full-screen previous/next navigation overlay for the project detail page."
+  role: "Computes adjacent projects from collections.projects and includes prevnext.njk for each direction."
+
+data:
+  expects:
+    - "project (current project object)"
+    - "collections.projects"
+  provides:
+    - "fixed 2-column nav grid with previous and next project links"
+
+components:
+  uses:
+    - "molecules/input/prevnext.njk"
+
+contentModel:
+  sanityTypes:
+    - "project"
+
+a11y:
+  headingContext:
+    notes: "Headings delegated to prevnext.njk."
+
+design:
+  system:
+    - "portfolio"
+  interactions:
+    - "z-50 overlay; hover-reveal prevnext transitions"
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "collections.projects shape changes"
+    - "findIndexOf filter changes"
+    - "prevnext.njk changes"
+
+tags:
+  - "molecule"
+  - "navigation"
+  - "project"
+  - "nunjucks"
+  - "partial"
+---
+
 {# Create the bottom navigation for the project detail page #}
 {# This will support navigating forward or back through the set of projects currently in view #}
 {# The initial destinations are set based on a given project's position within collections.projects #}
@@ -8,11 +74,8 @@
 {# Set responsive styles #}
 {% set base = "absolute inset-0 h-dvh w-full items-end" %}
 {% set md = "md:items-center" %}
-<div
-  id="project-nav"
-  class="grid grid-cols-2 text-primary-light  {{ base }} {{ md }} z-50 "
->
-  {# PREVIOUS #}
+  <div
+  id="project-nav" class="grid grid-cols-2 text-primary-light  {{ base }} {{ md }} z-50 "> {# PREVIOUS #}
   {% if previous %}
     {% set sibling = previous %}
     {% set direction = "previous" %}

@@ -1,16 +1,75 @@
+---
+template:
+  id: "templates.molecules.list.awards"
+  name: "Awards List"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/molecules/list/awards.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders a project's awards grouped by organization, with logos and award titles."
+  role: "Included in project detail contexts; resolves award records from collections and groups by org."
+
+data:
+  expects:
+    - "project.awards (array of award IDs)"
+    - "collections.awards"
+    - "collections.images"
+  provides:
+    - "ul of award organizations, each with logo and list of award titles"
+
+contentModel:
+  sanityTypes:
+    - "award"
+    - "project"
+
+a11y:
+  headingContext:
+    baseLevel: 4
+    notes: "Organization name renders as h4."
+
+dependencies:
+  styles:
+    - "tailwind"
+
+agent:
+  owner: "Template Steward"
+  safeToEdit:
+    - "frontmatter"
+    - "comments"
+  doNotEdit:
+    - "rendered markup"
+    - "Nunjucks logic"
+  reviewTriggers:
+    - "Sanity award schema changes"
+    - "groupBy filter changes"
+    - "findRecord filter changes"
+
+tags:
+  - "molecule"
+  - "list"
+  - "awards"
+  - "recognition"
+  - "project"
+  - "nunjucks"
+  - "partial"
+---
+
 {% set awards = collections.awards | findRecord(project.awards) %}
 {% if awards %}
   <ul
     id="awards"
-    class=" sm:columns-2 list-none m-0 space-y-4 px-2 py-8 bg-[url('/assets/icons/award-lg.svg')] bg-[size:2.5rem] bg-repeat"
-  >
+    class=" sm:columns-2 list-none m-0 space-y-4 px-2 py-8 bg-[url('/assets/icons/award-lg.svg')] bg-[size:2.5rem] bg-repeat">
     {# Some records cause a bug in the groupBy filter, which reports that the array is undefined #}
     {% set orgs = awards | groupBy("organization") %}
-    {%
-      for
-      orgName, awards in orgs
-    %}
-      <li class="award-organization grid grid-cols-12 place-content-start">
+    {% for
+      orgName, awards in orgs %}
+      <li
+        class="award-organization grid grid-cols-12 place-content-start">
         {# Get the logo for the award organization #}
         {% set image = collections.images | findRecord(awards[0].logo_id) %}
         {# assume that award logos are always SVG #}
