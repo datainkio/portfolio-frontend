@@ -5,9 +5,9 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - content-strategy
+  - #docs
+  - #ia
+  - #content-strategy
 permalink: /docs/ia/content-strategy/
 eleventyNavigation:
   key: docs-content-strategy

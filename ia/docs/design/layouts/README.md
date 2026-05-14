@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - design-system
-  - layouts
+  - #docs
+  - #ia
+  - #design-system
+  - #layouts
 eleventyNavigation:
   key: docs-design-layouts
   title: Layouts

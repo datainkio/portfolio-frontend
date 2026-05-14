@@ -5,11 +5,11 @@ docType: pattern
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - design-system
-  - organisms
-  - bio
+  - #docs
+  - #ia
+  - #design-system
+  - #organisms
+  - #bio
 eleventyNavigation:
   key: docs-design-bio-section
   title: Bio Section

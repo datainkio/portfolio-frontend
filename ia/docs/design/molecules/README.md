@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - design-system
-  - molecules
+  - #docs
+  - #ia
+  - #design-system
+  - #molecules
 eleventyNavigation:
   key: docs-design-molecules
   title: Molecules

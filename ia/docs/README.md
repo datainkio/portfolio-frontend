@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - atomic-design
-  - design-system
+  - #docs
+  - #ia
+  - #atomic-design
+  - #design-system
 eleventyNavigation:
   key: docs-ia
   title: IA Docs

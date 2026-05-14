@@ -6,11 +6,11 @@ aix:
   surface: internal
   owner: Template Steward
   tags:
-    - views
-    - templates
-    - atomic-design
-    - nunjucks
-    - 11ty
+    - #views
+    - #templates
+    - #atomic-design
+    - #nunjucks
+    - #11ty
   type: guide
   scope: frontend
   audience: maintainers

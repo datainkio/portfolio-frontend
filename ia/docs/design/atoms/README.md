@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - design-system
-  - atoms
+  - #docs
+  - #ia
+  - #design-system
+  - #atoms
 eleventyNavigation:
   key: docs-design-atoms
   title: Atoms

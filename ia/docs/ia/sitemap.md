@@ -5,9 +5,9 @@ docType: reference
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - sitemap
+  - #docs
+  - #ia
+  - #sitemap
 eleventyNavigation:
   key: docs-ia-sitemap
   title: Sitemap

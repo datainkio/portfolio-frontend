@@ -5,10 +5,10 @@ docType: reference
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - content-strategy
-  - schemas
+  - #docs
+  - #ia
+  - #content-strategy
+  - #schemas
 eleventyNavigation:
   key: docs-content-schemas
   title: Schemas

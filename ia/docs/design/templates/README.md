@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - design-system
-  - templates
+  - #docs
+  - #ia
+  - #design-system
+  - #templates
 eleventyNavigation:
   key: docs-design-templates
   title: Templates

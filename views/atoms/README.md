@@ -6,9 +6,9 @@ aix:
   surface: internal
   owner: Template Steward
   tags:
-    - atoms
-    - atomic-design
-    - nunjucks
+    - #atoms
+    - #atomic-design
+    - #nunjucks
   type: guide
   scope: frontend
   audience: maintainers

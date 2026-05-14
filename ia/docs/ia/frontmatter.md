@@ -5,9 +5,9 @@ docType: reference
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - frontmatter
+  - #docs
+  - #ia
+  - #frontmatter
 eleventyNavigation:
   key: docs-ia-frontmatter
   title: Frontmatter Rules

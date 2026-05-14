@@ -6,10 +6,10 @@ aix:
   surface: internal
   owner: Template Steward
   tags:
-    - molecules
-    - background
-    - gsap
-    - scroll
+    - #molecules
+    - #background
+    - #gsap
+    - #scroll
   type: guide
   scope: frontend
   audience: maintainers

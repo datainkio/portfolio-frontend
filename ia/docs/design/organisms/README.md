@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - ia
-  - design-system
-  - organisms
+  - #docs
+  - #ia
+  - #design-system
+  - #organisms
 eleventyNavigation:
   key: docs-design-organisms
   title: Organisms

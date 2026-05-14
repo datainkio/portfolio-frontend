@@ -5,8 +5,8 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - docs
-  - navigation
+  - #docs
+  - #navigation
 eleventyNavigation:
   key: docs
   title: Docs
