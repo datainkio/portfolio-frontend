@@ -101,8 +101,7 @@ tags:
 
   <article
     data-card-el="root"
-    class="relative isolate w-full sm:max-w-4xl sm:grid sm:grid-cols-3 sm:bg-white sm:inner-border sm:p-4 sm:mx-auto {{
-      classes }}">
+    class="relative isolate w-full sm:max-w-4xl sm:grid sm:grid-cols-3 sm:inner-border sm:p-4 sm:mx-auto {{ classes }}">
 
     {% if imageSrc %}
       <figure data-card-el="figure" class="m-0 relative z-0 overflow-hidden w-full h-dvh sm:h-full sm:p-2">
@@ -111,9 +110,7 @@ tags:
       </figure>
     {% endif %}
 
-    <div
-      data-card-el="body"
-      class="bg-white sm:bg-transparent inner-border sm:inner-border-none space-y-2 p-6 sm:col-span-2">
+    <div data-card-el="body" class="bg-white inner-border sm:inner-border-none space-y-2 p-6 sm:col-span-2">
 
       <header>
         {% if eyebrow %}
