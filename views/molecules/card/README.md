@@ -1,3 +1,23 @@
+---
+aix:
+  id: frontend.views.molecules.card.readme
+  role: Documents card molecule components for displaying content types across the portfolio.
+  status: stable
+  surface: internal
+  owner: Template Steward
+  tags:
+    - molecules
+    - card
+    - nunjucks
+  type: guide
+  scope: frontend
+  audience: maintainers
+  perf:
+    readPriority: low
+    cacheSafe: true
+    critical: false
+---
+
 # Card Molecules
 
 Card components for displaying various content types across the portfolio site.

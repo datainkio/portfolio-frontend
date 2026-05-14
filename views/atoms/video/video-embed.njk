@@ -1,8 +1,27 @@
-<iframe
-  class="w-full aspect-video"
-  src="https://youtube.com/embed/{{ video.YTID }}"
-  title="{{ video.Title }}"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen="allowfullscreen"
-></iframe>
+---
+template:
+  id: "templates.atoms.video.video-embed"
+  name: "Video Embed"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/video/video-embed.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Responsive YouTube embed iframe atom."
+
+data:
+  expects:
+    - "video.YTID"
+    - "video.Title"
+
+tags:
+  - "atom"
+  - "video"
+  - "embed"
+  - "youtube"
+---
+
+<iframe class="w-full aspect-video" src="https://youtube.com/embed/{{ video.YTID }}" title="{{ video.Title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen"></iframe>

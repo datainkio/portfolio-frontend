@@ -1,5 +1,30 @@
+---
+template:
+  id: "templates.atoms.debug.sanity-schema"
+  name: "Sanity Schema Debug"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/debug/sanity-schema.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Development utility — displays field keys and sample values from the first item in a Sanity collection for schema inspection."
+
+data:
+  expects:
+    - "params.collection (array)"
+    - "params.title"
+
+tags:
+  - "atom"
+  - "debug"
+  - "sanity"
+  - "dev"
+---
+
 {% macro render(params = {}) %}
-  {# Displays field keys and sample values from the first item in a Sanity collection #}
   {% set collection = params.collection | default([]) %}
   {% set title = params.title | default('Schema Preview') %}
   {% set sample = collection | first %}

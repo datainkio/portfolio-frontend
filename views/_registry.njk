@@ -1,31 +1,33 @@
 ---
-# Component Registry - Unified Component Discovery System
-#
-# CRITICAL WARNING: This registry enables component auto-discovery
-# and provides a single interface for component inclusion across
-# the entire 11ty site. DO NOT bypass this system for component
-# inclusion in production templates.
-#
-# ARCHITECTURE OVERVIEW:
-# - Centralizes component loading and prop validation
-# - Provides consistent error handling for missing components
-# - Enables component documentation auto-generation
-# - Integrates with Figma design tokens and Sanity content
-#
-# USAGE:
-# {% from "_registry.njk" import component %}
-# {{ component("atoms", "button", { label: "Click me", type: "primary" }) }}
-# {{ component("molecules", "card", { title: "Card Title", content: "..." }) }}
-#
-# IMPACT:
-# - Minimal overhead: ~1-2ms per component render
-# - Enables component caching for repeated includes
-# - Provides better error messages for debugging
-#
-# INTEGRATION DEPENDENCIES:
-# - njk/ directory structure (atoms/molecules/organisms/templates/layouts)
-# - Component frontmatter metadata for validation
-# - Design system CSS classes from Figma integration
+template:
+  id: "templates.registry"
+  name: "Component Registry"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/_registry.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Centralised component discovery system — provides a single interface for importing and rendering any component by tier and name."
+  role: "Used during development and documentation; production templates should prefer direct includes."
+
+agent:
+  safeToEdit:
+    - "frontmatter"
+  doNotEdit:
+    - "import macro logic"
+  reviewTriggers:
+    - "directory structure changes"
+    - "new component tiers added"
+
+tags:
+  - "registry"
+  - "components"
+  - "dx"
+  - "nunjucks"
 ---
 
 {# Component Registry Macro - Central Component Loader #}

@@ -1,3 +1,38 @@
+---
+template:
+  id: "templates.organisms.site-preloader"
+  name: "Site Preloader"
+  type: "organism"
+  status: "active"
+
+source:
+  path: "frontend/views/organisms/SitePreloader.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Full-screen loading overlay rendered at page start; dismissed by GSAP once assets are ready."
+
+data:
+  expects:
+    - "params.kind (spinner | bar, default: spinner)"
+    - "params.message"
+    - "params.showText"
+    - "params.markText"
+
+components:
+  uses:
+    - "molecules/LoaderStack.njk"
+
+design:
+  interactions:
+    - "GSAP opacity/translate-y dismissal animation"
+
+tags:
+  - "organism"
+  - "preloader"
+  - "gsap"
+---
+
 {% import "molecules/LoaderStack.njk" as LoaderStack %}
 
 {# Usage: {% import "organisms/SitePreloader.njk" as Preloader %} {{ Preloader.render() }} #}

@@ -1,3 +1,23 @@
+---
+aix:
+  id: frontend.views.templates.readme
+  role: Documents the templates/ directory — partials and the readme documentation renderer.
+  status: stable
+  surface: internal
+  owner: Template Steward
+  tags:
+    - templates
+    - partials
+    - nunjucks
+  type: guide
+  scope: frontend
+  audience: maintainers
+  perf:
+    readPriority: medium
+    cacheSafe: true
+    critical: false
+---
+
 <!-- @format -->
 
 # Templates Directory - Page Layout Templates
@@ -13,47 +33,37 @@ Templates represent complete page layouts that combine organisms into functional
 - **IMPLEMENT SEO and performance optimizations** at the page level
 - **COORDINATE animation choreography** across multiple page sections
 
-## Template Categories
+## Directory Contents
 
-### Base Templates
+### Partials (`partials/`)
 
-Foundation templates that other templates extend or include.
+Reusable HTML fragments injected into page layouts.
 
-- `base.njk` - Core HTML structure with head, body, and script loading
-- `layout.njk` - Main content wrapper with navigation and footer
-- `page.njk` - Standard page template for static content
+- `head.njk` - `<head>` element with meta tags and CSS loading
+- `fonts.njk` - Font loading strategy
+- `gtm-script.njk` / `gtm-noscript.njk` - Google Tag Manager snippets
+- `choreography-script.njk` - GSAP choreography initialization script
+- `robots.njk` - Robots meta tag partial
 
-**INTEGRATION CRITICAL**: Base templates control site-wide resources including CSS loading order, JavaScript module imports, and meta tag generation.
+### `readme.njk`
 
-### Content Type Templates
+Documentation renderer. Wraps README files in a styled layout with sidebar navigation for the `/dev/` documentation pages.
 
-Specialized layouts for different content categories from Sanity CMS.
+---
 
-- Blog post layouts with structured data
-- Project showcase templates with media galleries
-- Biography layouts with timeline components
-- Experience templates with filterable content
+> **Note:** Base and page layout templates (`base.njk`, `blog.njk`, `case-study.njk`, `cols-2-*`, `cols-3.njk`, `storyboards.njk`) live in `layouts/`, not here.
 
-**CMS DEPENDENCY**: Content templates expect specific Sanity collection structures and field mappings. Schema changes require template coordination.
+**INTEGRATION CRITICAL**: Partials control site-wide resources including CSS loading order, JavaScript module imports, and meta tag generation.
 
-### Landing Page Templates
-
-High-impact templates for conversion-focused pages.
-
-- Homepage with hero animations and featured content
-- Portfolio landing with project filtering
-- About page with interactive biography sections
-- Contact forms with validation and submission handling
-
-**PERFORMANCE CRITICAL**: Landing pages must optimize for Core Web Vitals and conversion metrics.
+Content type layouts (`blog.njk`, `case-study.njk`, `storyboards.njk`) and multi-column layouts (`cols-2-before.njk`, `cols-2-after.njk`, `cols-3.njk`) are in `layouts/`.
 
 ## Usage Guidelines
 
 ### Template Extension
 
 ```nunjucks
-{# Correct template inheritance #}
-{% extends "templates/layout.njk" %}
+{# Correct template inheritance — extend from layouts/, not templates/ #}
+{% extends "layouts/base.njk" %}
 
 {% block content %}
   {% include "organisms/section/hero.njk" with heroData %}

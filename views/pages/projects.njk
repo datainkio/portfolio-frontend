@@ -1,17 +1,51 @@
+---
+template:
+  id: "templates.pages.projects"
+  name: "Projects Listing Page"
+  type: "page"
+  status: "active"
+
+source:
+  path: "frontend/views/pages/projects.njk"
+  engine: "nunjucks"
+  eleventyLayout: true
+
+purpose:
+  summary: "Projects listing page extending base.njk — renders all portfolio projects as a vertical card list."
+
+data:
+  expects:
+    - "collections.projects"
+
+components:
+  uses:
+    - "molecules/card/project.njk"
+
+contentModel:
+  sanityTypes:
+    - "project"
+
+tags:
+  - "page"
+  - "projects"
+  - "listing"
+  - "sanity"
+---
+
 {% extends "layouts/base.njk" %}
 {% import "molecules/card/project.njk" as ProjectCard %}
 {% block content %}
-    <h1 class="px-4 text-2xl font-semibold">Projects</h1>
-    {% if collections.projects and collections.projects.length %}
-        <ul class="space-y-2">
-            {% for project in collections.projects %}
-                {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
-                <li class="text-black">
-                    {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2 }) }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No projects found.</p>
-    {% endif %}
+  <h1 class="px-4 text-2xl font-semibold">Projects</h1>
+  {% if collections.projects and collections.projects.length %}
+    <ul class="space-y-2">
+      {% for project in collections.projects %}
+        {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
+        <li class="text-black">
+          {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2 }) }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No projects found.</p>
+  {% endif %}
 {% endblock %}

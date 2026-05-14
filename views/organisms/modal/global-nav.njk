@@ -1,15 +1,34 @@
+---
+template:
+  id: "templates.organisms.modal.global-nav"
+  name: "Global Navigation Modal"
+  type: "organism"
+  status: "deprecated"
+
+source:
+  path: "frontend/views/organisms/modal/global-nav.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Modal-based global navigation trigger and dialog. Currently unused — no references found in the codebase."
+
+tags:
+  - "organism"
+  - "modal"
+  - "navigation"
+  - "unused"
+---
+
 {# UNUSED - No references found in codebase, safe to remove #}
 <!-- Open the modal using ID.showModal() method -->
-<button
+  <button
   type="button"
   class="btn"
   aria-label="Open primary navigation"
   aria-haspopup="dialog"
   aria-expanded="false"
   aria-controls="global_nav_modal"
-  onclick="global_nav_modal.showModal()"
->
-  {% include "atoms/icon/hamburger.njk" %}
+  onclick="global_nav_modal.showModal()"> {% include "atoms/icon/hamburger.njk" %}
 </button>
 <dialog id="global_nav_modal" class="modal bg-modal">
   {% include "organisms/navigation/mega-menu.njk" %}

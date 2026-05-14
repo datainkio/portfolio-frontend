@@ -1,3 +1,41 @@
+---
+template:
+  id: "templates.organisms.section.organizations"
+  name: "Organizations Section"
+  type: "organism"
+  status: "active"
+
+source:
+  path: "frontend/views/organisms/section/organizations.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Homepage organizations section — section header and a grid of organization logos sourced from Sanity."
+
+data:
+  expects:
+    - "params.copy.heading"
+    - "params.copy.body"
+    - "params.order"
+    - "params.organizations (array of Sanity organization objects)"
+
+components:
+  uses:
+    - "molecules/section-cap.njk"
+    - "atoms/organization.njk"
+
+contentModel:
+  sanityTypes:
+    - "organization"
+
+tags:
+  - "organism"
+  - "section"
+  - "organizations"
+  - "homepage"
+  - "sanity"
+---
+
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "atoms/organization.njk" as Organization %}
@@ -12,7 +50,7 @@
 
   {%- set organizations = params.organizations | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="relative bg-white z-10 col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header data-organizations-el="header" class="col-span-full">
       <div data-organizations-el="context" class="text-sm col-span-full">
         {{ SectionCap.render({title: sectionId , count: order}) }}

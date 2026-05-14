@@ -1,3 +1,25 @@
+---
+aix:
+  id: frontend.views.readme
+  role: Architecture overview for the views/ template system using Atomic Design principles.
+  status: stable
+  surface: internal
+  owner: Template Steward
+  tags:
+    - views
+    - templates
+    - atomic-design
+    - nunjucks
+    - 11ty
+  type: guide
+  scope: frontend
+  audience: maintainers
+  perf:
+    readPriority: high
+    cacheSafe: true
+    critical: false
+---
+
 <!-- @format -->
 
 # Template Architecture & Component System

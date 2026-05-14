@@ -1,5 +1,36 @@
+---
+template:
+  id: "templates.organisms.navigation.skip-links-nav"
+  name: "Skip Links Navigation"
+  type: "organism"
+  status: "active"
+
+source:
+  path: "frontend/views/organisms/navigation/skip-links-nav.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Accessible skip links rendered as a screen-reader-visible nav for keyboard users to jump to page landmarks."
+
+data:
+  expects:
+    - "params.items (array of landmark IDs)"
+    - "skipLinks (global data fallback)"
+
+a11y:
+  landmarks:
+    - "nav[aria-label='Skip links']"
+  notes: "sr-only by default; keyboard-focusable for accessibility."
+
+tags:
+  - "organism"
+  - "navigation"
+  - "a11y"
+  - "skip-links"
+---
+
 {% macro render(params = {}) %}
-  {%- set items = params.items | default(skipLinks | default([])) -%}
+   -%}
 
   {%- if items and items | length -%}
     <a href="#page-main" class="sr-only" aria-label="Skip to main content">Skip to main content</a>

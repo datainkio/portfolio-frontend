@@ -1,3 +1,29 @@
+---
+template:
+  id: "templates.atoms.gel"
+  name: "Gel Overlay"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/gel.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "SVG-masked background overlay element animated by Gel.js and GelAnimationManager on scroll."
+
+design:
+  interactions:
+    - "GSAP ScrollTrigger polygon mask animation via Gel.js"
+    - "GelManipulator viewport positioning"
+
+tags:
+  - "atom"
+  - "gel"
+  - "gsap"
+  - "scroll"
+---
+
 {#
   Gel Overlay Atom - SVG-masked background element with corner manipulation
 

@@ -1,10 +1,32 @@
+---
+template:
+  id: "templates.atoms.textformat"
+  name: "Text Format Reference"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/textformat.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Static reference panel documenting Figma text format token conventions (_fontFamily, styles, etc.)."
+
+tags:
+  - "atom"
+  - "design-system"
+  - "typography"
+  - "docs"
+---
+
 <dl>
-  <dt>_fontFamily</dt>
   <dd>
     <ul>
       <li>Any valid font family name installed or available in Figma.</li>
       <li>
-        Examples: <code>'Roboto'</code>, <code>'Arial'</code>,
+        Examples:
+        <code>'Roboto'</code>,
+        <code>'Arial'</code>,
         <code>'Big Shoulders Display'</code>
       </li>
     </ul>
@@ -13,10 +35,14 @@
   <dt>_fontPostScriptName</dt>
   <dd>
     <ul>
-      <li><code>null</code> if not applicable.</li>
+      <li>
+        <code>null</code>
+        if not applicable.</li>
       <li>Valid PostScript name strings of the font.</li>
       <li>
-        Examples: <code>'Roboto-Regular'</code>, <code>'Arial-BoldMT'</code>
+        Examples:
+        <code>'Roboto-Regular'</code>,
+        <code>'Arial-BoldMT'</code>
       </li>
     </ul>
   </dd>
@@ -42,21 +68,39 @@
   <dt>_textAlignHorizontal</dt>
   <dd>
     <ul>
-      <li><code>'LEFT'</code></li>
-      <li><code>'CENTER'</code></li>
-      <li><code>'RIGHT'</code></li>
-      <li><code>'JUSTIFIED'</code></li>
-      <li><code>'AUTO'</code></li>
+      <li>
+        <code>'LEFT'</code>
+      </li>
+      <li>
+        <code>'CENTER'</code>
+      </li>
+      <li>
+        <code>'RIGHT'</code>
+      </li>
+      <li>
+        <code>'JUSTIFIED'</code>
+      </li>
+      <li>
+        <code>'AUTO'</code>
+      </li>
     </ul>
   </dd>
 
   <dt>_textAlignVertical</dt>
   <dd>
     <ul>
-      <li><code>'TOP'</code></li>
-      <li><code>'CENTER'</code></li>
-      <li><code>'BOTTOM'</code></li>
-      <li><code>'BASELINE'</code></li>
+      <li>
+        <code>'TOP'</code>
+      </li>
+      <li>
+        <code>'CENTER'</code>
+      </li>
+      <li>
+        <code>'BOTTOM'</code>
+      </li>
+      <li>
+        <code>'BASELINE'</code>
+      </li>
     </ul>
   </dd>
 
@@ -65,11 +109,13 @@
     <ul>
       <li>
         Any numerical value (positive, negative, or zero) representing letter
-        spacing in pixels.
+                spacing in pixels.
       </li>
       <li>
-        Example: <code>-1.2</code> px means letters are 1.2 pixels closer
-        together.
+        Example:
+        <code>-1.2</code>
+        px means letters are 1.2 pixels closer
+                together.
       </li>
     </ul>
   </dd>
@@ -87,7 +133,7 @@
     <ul>
       <li>
         Any positive number representing line height as a percentage of the font
-        size.
+                size.
       </li>
       <li>Common values range from 100% to 200%, depending on design needs.</li>
     </ul>
@@ -96,10 +142,18 @@
   <dt>_lineHeightUnit</dt>
   <dd>
     <ul>
-      <li><code>INTRINSIC_PX</code></li>
-      <li><code>INTRINSIC_%</code></li>
-      <li><code>EXTRINSIC_PX</code></li>
-      <li><code>EXTRINSIC_%</code></li>
+      <li>
+        <code>INTRINSIC_PX</code>
+      </li>
+      <li>
+        <code>INTRINSIC_%</code>
+      </li>
+      <li>
+        <code>EXTRINSIC_PX</code>
+      </li>
+      <li>
+        <code>EXTRINSIC_%</code>
+      </li>
     </ul>
   </dd>
 
@@ -108,7 +162,9 @@
     <ul>
       <li>Any string identifier for the text format.</li>
       <li>Used for referencing within styles or components.</li>
-      <li>Example: <code>'fontFamily/display'</code></li>
+      <li>Example:
+        <code>'fontFamily/display'</code>
+      </li>
     </ul>
   </dd>
 

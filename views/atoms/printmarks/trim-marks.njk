@@ -1,7 +1,33 @@
+---
+template:
+  id: "templates.atoms.printmarks.trim-marks"
+  name: "Trim Marks"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/printmarks/trim-marks.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Print trim marks at the four corners of the layout area."
+
+data:
+  expects:
+    - "params.classes"
+    - "params.inset"
+    - "params.size"
+    - "params.weight"
+    - "params.color"
+
+tags:
+  - "atom"
+  - "printmarks"
+  - "print"
+---
+
 {% macro render(params = {}) %}
-  {% set classes = params.classes | default("") %}
-  {% set inset = params.inset | default("10") %}
-  {% set size = params.size | default("6") %}
+  {% set classes = params.classes | default("") %} | default("10") %} {% set size = params.size | default("6") %}
   {% set weight = params.weight | default("2") %}
   {% set color = params.color | default("black") %}
   {# TRIM MARKS #}

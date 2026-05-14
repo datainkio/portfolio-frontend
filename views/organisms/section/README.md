@@ -1,3 +1,25 @@
+---
+aix:
+  id: frontend.views.organisms.section.readme
+  role: Documents the section/ organisms — homepage section macros; primarily one-offs.
+  status: stable
+  surface: internal
+  owner: Template Steward
+  tags:
+    - organisms
+    - section
+    - homepage
+    - macros
+    - a11y
+  type: guide
+  scope: frontend
+  audience: maintainers
+  perf:
+    readPriority: medium
+    cacheSafe: true
+    critical: false
+---
+
 This directory primarily contains section content for the homepage. Most of these are going to be one-offs.
 
 Accessibility contract for section macros:

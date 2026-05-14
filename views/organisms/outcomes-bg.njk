@@ -1,3 +1,27 @@
+---
+template:
+  id: "templates.organisms.outcomes-bg"
+  name: "Outcomes Background"
+  type: "organism"
+  status: "deprecated"
+
+source:
+  path: "frontend/views/organisms/outcomes-bg.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Background figure displaying quantitative outcomes as a decorative column list. Currently unused — no references found in the codebase."
+
+data:
+  expects:
+    - "collections.outcomes"
+
+tags:
+  - "organism"
+  - "outcomes"
+  - "unused"
+---
+
 {# UNUSED - No references found in codebase, safe to remove #}
 <figure data-speed=".90" class="absolute top-12 w-full h-full opacity-15 z-0">
   <figcaption class="sr-only">Quantitative Outcomes</figcaption>
@@ -8,9 +32,7 @@
           {{ stat.title }}
         </h4>
         <div class="stat-value text-2xl sm:text-4xl">{{ stat.value }}</div>
-        <div
-          class="stat-desc font-light text-xs text-wrap leading-normal w-5/6"
-        >
+        <div class="stat-desc font-light text-xs text-wrap leading-normal w-5/6">
           {{ stat.description }}
         </div>
       </li>

@@ -1,3 +1,32 @@
+---
+template:
+  id: "templates.layouts.blog"
+  name: "Blog Post Layout"
+  type: "layout"
+  status: "active"
+
+source:
+  path: "frontend/views/layouts/blog.njk"
+  engine: "nunjucks"
+  eleventyLayout: true
+
+purpose:
+  summary: "Blog post layout extending base.njk with article prose, publication date, and prev/next navigation."
+
+data:
+  expects:
+    - "title"
+    - "date"
+    - "content"
+    - "previousPost"
+    - "nextPost"
+
+tags:
+  - "layout"
+  - "blog"
+  - "11ty"
+---
+
 {% extends "layouts/base.njk" %}
 
 {% block content %}

@@ -1,3 +1,33 @@
+---
+template:
+  id: "templates.organisms.navigation.tree-nav"
+  name: "Tree Navigation"
+  type: "organism"
+  status: "active"
+
+source:
+  path: "frontend/views/organisms/navigation/tree-nav.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Generic recursive tree navigation renderer for eleventyNavigation-style data arrays."
+
+data:
+  expects:
+    - "params.nav (eleventyNavigation array)"
+    - "params.fallback"
+    - "params.currentUrl"
+
+components:
+  uses:
+    - "atoms/link/nav-link.njk"
+
+tags:
+  - "organism"
+  - "navigation"
+  - "tree"
+---
+
 {#
   Generic tree navigation renderer for eleventyNavigation-style data.
   Provide a nav array via params.nav; optionally pass params.fallback to use when nav is empty.

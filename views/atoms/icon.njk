@@ -1,22 +1,35 @@
 ---
-# Icon Component - Unified SVG Icon System
-# 
-# CRITICAL WARNING: This component replaces the fragmented icon system
-# DO NOT create separate .njk files for individual icons
-# 
-# USAGE:
-# Set variables: name, size, className then include this component
-#
-# SUPPORTED ICONS:
-# - direction-left, direction-right
-# - chevron-up, chevron-down, chevron-left, chevron-right
-# - external-link, close, menu
-# - Add new icons to the icons object below
-#
-# INTEGRATION NOTES:
-# - Uses Figma design tokens for consistent sizing
-# - Supports all Tailwind utility classes
-# - currentColor for flexible theming
+template:
+  id: "templates.atoms.icon"
+  name: "Icon"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/icon.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Unified SVG icon system — single component for all site icons; do not create separate .njk files for individual icons."
+
+data:
+  expects:
+    - "name (icon key)"
+    - "size ('sm' | 'md' | 'lg')"
+    - "className"
+
+agent:
+  doNotEdit:
+    - "icons object keys"
+  reviewTriggers:
+    - "new icon additions"
+    - "Figma design token changes"
+
+tags:
+  - "atom"
+  - "icon"
+  - "svg"
+  - "design-system"
 ---
 
 {% set icons = {

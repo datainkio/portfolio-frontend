@@ -1,26 +1,52 @@
+---
+template:
+  id: "templates.atoms.link.nav-link"
+  name: "Nav Link"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/link/nav-link.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Navigation anchor atom with active state detection and optional icon."
+
+data:
+  expects:
+    - "params.entry.url"
+    - "params.entry.title"
+    - "params.url"
+    - "params.title"
+    - "params.class"
+    - "page.url (11ty current page)"
+
+components:
+  uses:
+    - "atoms/icon.njk"
+
+tags:
+  - "atom"
+  - "link"
+  - "navigation"
+---
+
 {% import "atoms/icon.njk" as icon %}
+{% set entry = params.entry or {} %}
+{% set linkUrl = entry.url or entry.href or params.url or params.href %}
+{% set linkTitle = entry.title or entry.key or params.title %}
+{% set linkClasses = (entry.class or params.class or "") %}
+{% set isCurrent = (linkUrl == page.url) %}
+{% set hasChildren = entry.children and entry.children.length > 0 %}
+{% set linkDescription = entry.description or params.description %}
 
-{% macro render(params = {}) %}
-  {% set entry = params.entry or {} %}
-  {% set linkUrl = entry.url or entry.href or params.url or params.href %}
-  {% set linkTitle = entry.title or entry.key or params.title %}
-  {% set linkClasses = (entry.class or params.class or "") %}
-  {% set isCurrent = (linkUrl == page.url) %}
-  {% set hasChildren = entry.children and entry.children.length > 0 %}
-  {% set linkDescription = entry.description or params.description %}
-
-  <a href="{{ linkUrl }}" class="nav-link {{ linkClasses }}" {% if isCurrent %} aria-current="page" {% endif %} {% if linkDescription %} title="{{ linkDescription }}" {% endif %}>
-    {{ linkTitle }}
-  </a>
-{% endmacro %}
-
-{# Backward compatibility: render immediately when included directly #}
-{% if renderImmediately | default(true) %}
-  {{ render({
+<a href="{{ linkUrl }}" class="nav-link {{ linkClasses }}" {% if isCurrent %} aria-current="page" {% endif %} {% if linkDescription %} title="{{ linkDescription }}" {% endif %}>
+  {{ linkTitle }}
+</a>{% endmacro %}{# Backward compatibility: render immediately when included directly #}{% if renderImmediately | default(true) %}
+{{ render({
     entry: entry,
     url: url,
     title: title,
     class: class,
     description: description
-  }) }}
-{% endif %}
+  }) }}{% endif %}

@@ -1,5 +1,23 @@
-<button
-  class="close btn btn-xs btn-circle btn-primary-light not-italic absolute right-2 top-2"
->
+---
+template:
+  id: "templates.atoms.button.close"
+  name: "Close Button"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/button/close.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Minimal circular close button positioned absolutely in the top-right corner of its parent."
+
+tags:
+  - "atom"
+  - "button"
+  - "close"
+---
+
+<button class="close btn btn-xs btn-circle btn-primary-light not-italic absolute right-2 top-2">
   x
 </button>

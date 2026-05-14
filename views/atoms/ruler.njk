@@ -1,5 +1,31 @@
+---
+template:
+  id: "templates.atoms.ruler"
+  name: "Ruler"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/ruler.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Decorative print-inspired ruler element — renders tick marks via JS into a container div."
+
+data:
+  expects:
+    - "params.id"
+    - "params.classes"
+    - "params.intervals"
+    - "params.subticksPerInterval"
+
+tags:
+  - "atom"
+  - "ruler"
+  - "print"
+---
+
 {% macro render(params = {}) %}
-  {%- set id = params.id | default("ruler-wrap") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set className = ("ruler " ~ classes) | trim -%}
   {%- set intervals = params.intervals | default(12) -%}

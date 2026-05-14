@@ -1,3 +1,60 @@
+---
+template:
+  id: "templates.layouts.base"
+  name: "Base Layout"
+  type: "layout"
+  status: "active"
+
+source:
+  path: "frontend/views/layouts/base.njk"
+  engine: "nunjucks"
+  eleventyLayout: true
+
+purpose:
+  summary: "Root HTML document layout — head, body, global header/footer, skip links, GTM, and content/sidebar blocks."
+  role: "Extended by all page-level layouts; controls CSS loading order, JS module loading, and global navigation."
+
+data:
+  expects:
+    - "bodyClasses"
+    - "mainClasses"
+    - "breadcrumbKey"
+    - "eleventyNavigation"
+    - "collections.all"
+  provides:
+    - "content block"
+    - "sidebar_before block"
+    - "sidebar_after block"
+    - "head block"
+
+components:
+  uses:
+    - "organisms/header/global-header.njk"
+    - "organisms/footer/global-footer.njk"
+    - "organisms/navigation/skip-links-nav.njk"
+    - "organisms/navigation/breadcrumbs-nav.njk"
+    - "templates/partials/head.njk"
+    - "templates/partials/gtm-noscript.njk"
+
+agent:
+  safeToEdit:
+    - "frontmatter"
+    - "CSS classes"
+  doNotEdit:
+    - "block names"
+    - "script loading order"
+  reviewTriggers:
+    - "CSS loading order changes"
+    - "JS module dependency changes"
+    - "navigation organism changes"
+
+tags:
+  - "layout"
+  - "base"
+  - "11ty"
+  - "nunjucks"
+---
+
 {% import "organisms/header/global-header.njk" as header with context %}
 {% import "organisms/footer/global-footer.njk" as footer with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as skip_links %}

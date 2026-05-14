@@ -1,3 +1,24 @@
+---
+aix:
+  id: frontend.views.molecules.background.readme
+  role: Documents the background molecule — overlay container for StageManager scroll animations.
+  status: stable
+  surface: internal
+  owner: Template Steward
+  tags:
+    - molecules
+    - background
+    - gsap
+    - scroll
+  type: guide
+  scope: frontend
+  audience: maintainers
+  perf:
+    readPriority: low
+    cacheSafe: true
+    critical: false
+---
+
 # Overlay View Molecule
 
 Background visual effects container for StageManager's scroll-based animations.

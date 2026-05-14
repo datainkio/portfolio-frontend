@@ -1,3 +1,30 @@
+---
+template:
+  id: "templates.atoms.heading"
+  name: "Heading"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/heading.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Semantic heading atom rendering h1–h6 with configurable level, text, class, and id."
+
+data:
+  expects:
+    - "props.level (1-6, default: 2)"
+    - "props.text"
+    - "props.class"
+    - "props.id"
+
+tags:
+  - "atom"
+  - "heading"
+  - "a11y"
+---
+
 {# This is an atomic component for rendering headings (h1-h6) with customizable properties. It's super useful when you want to maintain proper semantic structure. Which you should always want to do. #}
 {% macro render(props) %}
   {% set level = props.level | default(2) %}

@@ -1,7 +1,37 @@
+---
+template:
+  id: "templates.organisms.section.contact"
+  name: "Contact Section"
+  type: "organism"
+  status: "active"
+
+source:
+  path: "frontend/views/organisms/section/contact.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Homepage contact section — section header with copy and contact form."
+
+data:
+  expects:
+    - "params.copy.heading"
+    - "params.copy.subheading"
+    - "params.copy.body"
+    - "params.order"
+
+components:
+  uses:
+    - "molecules/section-cap.njk"
+
+tags:
+  - "organism"
+  - "section"
+  - "contact"
+  - "homepage"
+---
+
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
-
-  {%- set sectionId = params.id | default("contact") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading | default("Contact") -%}
   {%- set subheading = params.copy.subheading | default("") -%}

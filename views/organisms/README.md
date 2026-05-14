@@ -1,3 +1,23 @@
+---
+aix:
+  id: frontend.views.organisms.readme
+  role: Documents the organisms/ layer — complex UI assemblies composed of molecules and atoms.
+  status: stable
+  surface: internal
+  owner: Template Steward
+  tags:
+    - organisms
+    - atomic-design
+    - nunjucks
+  type: guide
+  scope: frontend
+  audience: maintainers
+  perf:
+    readPriority: medium
+    cacheSafe: true
+    critical: false
+---
+
 <!-- @format -->
 
 # Organisms Directory - Complex UI Assemblies

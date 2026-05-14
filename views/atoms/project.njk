@@ -1,3 +1,26 @@
+---
+template:
+  id: "templates.atoms.project"
+  name: "Project"
+  type: "atom"
+  status: "draft"
+
+source:
+  path: "frontend/views/atoms/project.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Minimal project title renderer. Stub atom — renders only the project title string."
+
+data:
+  expects:
+    - "params.title"
+
+tags:
+  - "atom"
+  - "project"
+---
+
 {% macro render(params = {}) %}
   {%- set title = params.title | default('Untitled project') -%}
   {{ title }}

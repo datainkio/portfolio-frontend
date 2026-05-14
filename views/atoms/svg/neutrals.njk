@@ -1,11 +1,27 @@
+---
+template:
+  id: "templates.atoms.svg.neutrals"
+  name: "Neutral Color Swatches"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/svg/neutrals.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "SVG strip of four neutral color swatches (200/400/600/800) for print mark / design system preview."
+
+tags:
+  - "atom"
+  - "svg"
+  - "color"
+  - "print"
+---
+
 {% macro render(params = {}) %}
   {% set classes = params.classes | default("") %}
-  <svg class="{{ classes }}" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g>
-      <rect id="200" class="fill-neutral-200 w-1/4 h-full" x="0"/>
-      <rect id="400" class="fill-neutral-400 w-1/4 h-full" x="50"/>
-      <rect id="600" class="fill-neutral-600 w-1/4 h-full" x="100"/>
-      <rect id="800" class="fill-neutral-800 w-1/4 h-full" x="150"/>
-    </g>
-  </svg>
-{% endmacro %}
+  <svg class="{{ classes }}" viewBox="0 0 200 50" w-1/4 h-full" x=" 0"/>
+          <rect id=" 400" class=" fill-neutral-400 w-1/4 h-full" x=" 50"/>
+          <rect id=" 600" class=" fill-neutral-600 w-1/4 h-full" x=" 100"/>
+          <rect id=" 800" class=" fill-neutral-800 w-1/4 h-full" x="

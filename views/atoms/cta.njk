@@ -1,3 +1,29 @@
+---
+template:
+  id: "templates.atoms.cta"
+  name: "Call to Action Link"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/cta.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Arrow-prefixed call to action anchor link."
+
+data:
+  expects:
+    - "params.text"
+    - "params.url"
+    - "params.classes"
+
+tags:
+  - "atom"
+  - "cta"
+  - "link"
+---
+
 {% macro render(params = {}) %}
   {%- set text = params.text -%}
   {%- set url = params.url -%}

@@ -1,3 +1,29 @@
+---
+template:
+  id: "templates.layouts.cols-2-before"
+  name: "2-Column Layout (Docs Nav Before)"
+  type: "layout"
+  status: "active"
+
+source:
+  path: "frontend/views/layouts/cols-2-before.njk"
+  engine: "nunjucks"
+  eleventyLayout: true
+
+purpose:
+  summary: "2-column layout extending base.njk with a docs navigation sidebar before the main content."
+
+components:
+  uses:
+    - "molecules/docs-nav/docs-nav.njk"
+
+tags:
+  - "layout"
+  - "2-column"
+  - "docs"
+  - "11ty"
+---
+
 {% extends "./base.njk" %}
 {% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
 {%- set bodyClasses = "grid grid-cols-12" -%}

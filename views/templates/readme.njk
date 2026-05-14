@@ -1,5 +1,30 @@
 ---
 layout: templates/base.njk
+template:
+  id: "templates.templates.readme"
+  name: "README Documentation Renderer"
+  type: "partial"
+  status: "active"
+
+source:
+  path: "frontend/views/templates/readme.njk"
+  engine: "nunjucks"
+  eleventyLayout: false
+
+purpose:
+  summary: "Renders README.md files as styled documentation pages with sidebar navigation and prose formatting."
+  role: "Applied automatically to README files via the documentation collection."
+
+data:
+  expects:
+    - "collections.documentation"
+    - "content (rendered README HTML)"
+    - "page.url"
+
+tags:
+  - "template"
+  - "docs"
+  - "readme"
 ---
 
 {# 
@@ -12,28 +37,26 @@ USAGE:
 - Uses Tailwind prose plugin for beautiful typography
 #}
 
-<div class="grid grid-cols-12 gap-8 max-w-screen-2xl mx-auto px-4 py-8">
-  
+<div
+  class="grid grid-cols-12 gap-8 max-w-screen-2xl mx-auto px-4 py-8">
+
   {# Sidebar Navigation #}
   <aside class="col-span-12 lg:col-span-3">
     <nav class="sticky top-8 space-y-6">
       <h2 class="text-sm font-semibold text-neutral-900 uppercase tracking-wider">
         Documentation
       </h2>
-      
+
       {# Auto-generated navigation from documentation collection #}
       <ul class="space-y-1 text-sm">
         {% for doc in collections.documentation %}
           <li>
-            <a 
-              href="{{ doc.url }}" 
-              class="block px-3 py-2 rounded transition-colors
-                     {% if page.url == doc.url %}
-                       bg-neutral-900 text-neutral-50
-                     {% else %}
-                       text-neutral-700 hover:bg-neutral-200 hover:text-neutral-900
-                     {% endif %}"
-            >
+            <a href="{{ doc.url }}" class="block px-3 py-2 rounded transition-colors
+                                     {% if page.url == doc.url %}
+                                       bg-neutral-900 text-neutral-50
+                                     {% else %}
+                                       text-neutral-700 hover:bg-neutral-200 hover:text-neutral-900
+                                     {% endif %}">
               {{ doc.data.title }}
             </a>
           </li>
@@ -43,8 +66,9 @@ USAGE:
   </aside>
 
   {# Main Content #}
-  <main class="col-span-12 lg:col-span-9">
-    
+  <main
+    class="col-span-12 lg:col-span-9">
+
     {# Breadcrumb Navigation #}
     {% if breadcrumbs %}
       <nav class="mb-8" aria-label="Breadcrumb">
@@ -56,7 +80,10 @@ USAGE:
                   {{ crumb.label }}
                 </a>
                 <svg class="w-4 h-4 mx-2 text-neutral-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                  <path
+                    fill-rule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd"/>
                 </svg>
               {% else %}
                 <span class="text-neutral-900 font-medium">{{ crumb.label }}</span>
@@ -80,17 +107,12 @@ USAGE:
     </header>
 
     {# README Content with Prose Styling #}
-    <article class="prose prose-neutral prose-lg max-w-none
-                    prose-headings:font-bold prose-headings:text-neutral-900
-                    prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
-                    prose-p:text-neutral-700 prose-p:leading-relaxed
-                    prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
-                    prose-code:text-pink-600 prose-code:bg-neutral-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
-                    prose-pre:bg-neutral-900 prose-pre:text-neutral-50
-                    prose-strong:text-neutral-900 prose-strong:font-semibold
-                    prose-ul:list-disc prose-ol:list-decimal
-                    prose-li:text-neutral-700
-                    prose-blockquote:border-l-4 prose-blockquote:border-neutral-300 prose-blockquote:pl-4 prose-blockquote:italic">
+    <article class="prose prose-neutral prose-lg max-w-none prose-headings:font-bold prose-headings:text-neutral-900 prose-h1:text-3xl
+        prose-h2:text-2xl prose-h3:text-xl prose-p:text-neutral-700 prose-p:leading-relaxed prose-a:text-blue-600
+        prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-neutral-100 prose-code:px-1
+        prose-code:py-0.5 prose-code:rounded prose-pre:bg-neutral-900 prose-pre:text-neutral-50 prose-strong:text-neutral-900
+        prose-strong:font-semibold prose-ul:list-disc prose-ol:list-decimal prose-li:text-neutral-700 prose-blockquote:border-l-4
+        prose-blockquote:border-neutral-300 prose-blockquote:pl-4 prose-blockquote:italic">
       {{ content | safe }}
     </article>
 

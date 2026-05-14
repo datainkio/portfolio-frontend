@@ -1,3 +1,36 @@
+---
+template:
+  id: "templates.organisms.section.featured"
+  name: "Featured Section"
+  type: "organism"
+  status: "active"
+
+source:
+  path: "frontend/views/organisms/section/featured.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Featured items section — renders IA collection items as category cards in a vertical stacked layout."
+
+data:
+  expects:
+    - "params.items (defaults to collections.ia)"
+    - "params.id"
+    - "params.sectionClasses"
+    - "params.listClasses"
+    - "params.card"
+
+components:
+  uses:
+    - "molecules/card/category.njk"
+
+tags:
+  - "organism"
+  - "section"
+  - "featured"
+  - "homepage"
+---
+
 {% import "molecules/card/category.njk" as categoryCard %}
 
 {% macro render(params = {}) %}

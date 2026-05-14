@@ -1,3 +1,30 @@
+---
+template:
+  id: "templates.atoms.link.site-title"
+  name: "Site Title"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/link/site-title.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Site name rendered as a linked button, used in the primary navigation header."
+
+data:
+  expects:
+    - "params.siteName (default: site.siteName)"
+    - "params.href (default: '/')"
+    - "params.classes"
+
+tags:
+  - "atom"
+  - "link"
+  - "site-title"
+  - "navigation"
+---
+
 {# 
   Site Title Atom
   Displays the site name as a linked button, typically used in navigation headers but adaptable to other contexts if you're willing to get a little creative with CSS.

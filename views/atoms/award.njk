@@ -1,5 +1,36 @@
+---
+template:
+  id: "templates.atoms.award"
+  name: "Award"
+  type: "atom"
+  status: "active"
+
+source:
+  path: "frontend/views/atoms/award.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Renders an award with organization logo, title, and optional inline SVG fallback."
+
+data:
+  expects:
+    - "params.organization (Sanity organization object)"
+    - "params.title"
+    - "params.logo"
+    - "params.logoInline"
+
+contentModel:
+  sanityTypes:
+    - "recognitionItem"
+    - "organization"
+
+tags:
+  - "atom"
+  - "award"
+  - "sanity"
+---
+
 {% macro render(params = {}) %}
-  {%- set organizationRecord = params.organization | default({}) -%}
   {%- set organizationTitle = organizationRecord.title | default(params.organizationName) | default(params.organization) | default('Organization') -%}
   {%- set title = params.title | default('Untitled award') -%}
   {%- set logo = organizationRecord.logo.asset.url | default(params.logo) | default('/assets/images/logos/default.svg') -%}

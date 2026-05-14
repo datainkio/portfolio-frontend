@@ -1,8 +1,38 @@
+---
+template:
+  id: "templates.organisms.modal.project"
+  name: "Project Modal"
+  type: "organism"
+  status: "active"
+
+source:
+  path: "frontend/views/organisms/modal/project.njk"
+  engine: "nunjucks"
+
+purpose:
+  summary: "Project detail dialog — renders a project object as a full-screen modal with image gallery, description, and metadata."
+
+data:
+  expects:
+    - "project (Sanity project object)"
+    - "project.id"
+    - "project.title"
+    - "project.description"
+
+contentModel:
+  sanityTypes:
+    - "project"
+
+tags:
+  - "organism"
+  - "modal"
+  - "project"
+  - "sanity"
+---
+
 <dialog id="modal_{{ project.id }}" class="modal">
-  <figure
-    class="modal-box bg-transparent max-w-none shadow-none content-start relative flex flex-col gap-4 lg:grid lg:grid-cols-3
-            h-full"
-  >
+  <figure class="modal-box bg-transparent max-w-none shadow-none content-start relative flex flex-col gap-4 lg:grid lg:grid-cols-3
+      h-full">
     <figcaption class="content-start lg:col-span-full lg:mb-8">
       <h3 class="mb-4">{{ project.title }}</h3>
       {% include "molecules/list/organizations.njk" %}
@@ -11,11 +41,7 @@
     </figcaption>
     <div>
       <p class="prose">{{ project.description }}</p>
-      <a
-        class="text-accent font-serif italic text-xl lg:col-start-1 lg:pr-4"
-        href="{{ project.slug }}"
-        >View the Case Study</a
-      >
+      <a class="text-accent font-serif italic text-xl lg:col-start-1 lg:pr-4" href="{{ project.slug }}">View the Case Study</a>
     </div>
     {% set gallery = collections.galleries | findRecord(project.galleries) %}
     {% set gallery = gallery[0] %}
@@ -28,9 +54,7 @@
     {% endif %}
   </figure>
   <form method="dialog">
-    <button
-      class="close btn btn-xs btn-circle btn-primary-light absolute right-2 top-2 not-italic"
-    >
+    <button class="close btn btn-xs btn-circle btn-primary-light absolute right-2 top-2 not-italic">
       ✕
     </button>
   </form>
