@@ -1,80 +1,10 @@
----
-template:
-  id: "templates.organisms.section.awards"
-  name: "Awards Section"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/section/awards.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Homepage recognition/awards section — section header with copy and a grid of award cards."
-
-data:
-  expects:
-    - "params.id"
-    - "params.copy.heading"
-    - "params.copy.subheading"
-    - "params.copy.body"
-    - "params.order"
-    - "params.awards (array of Sanity award objects)"
-
-components:
-  uses:
-    - "molecules/section-cap.njk"
-    - "molecules/card/award.njk"
-
-contentModel:
-  sanityTypes:
-    - "recognitionItem"
-
-tags:
-  - "organism"
-  - "section"
-  - "awards"
-  - "homepage"
-  - "sanity"
----
-
 {% macro render(params = {}) %}
-  {% import "molecules/section-cap.njk" as SectionCap %}
-  {% import "molecules/card/award.njk" as Card %}
-  {% import "atoms/award.njk" as Award %}
-
-  {%- set sectionId = params.id | default("recognition") -%}
-  {%- set classes = params.classes | default("") -%}
-  {%- set heading = params.copy.heading -%}
-  {%- set subheading = params.copy.subheading -%}
-  {%- set body = params.copy.body -%}
-  {%- set order = params.order | default("") -%}
-  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
-
-  {%- set awards = params.awards | default([]) -%}
-
-  <section id="{{ sectionId }}" class="relative bg-white col-span-full space-y-8 p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header data-awards-el="header" class="col-span-full z-10 p-4 pt-10">
-      <div data-awards-el="context" class="text-sm col-span-full">
-        {{ SectionCap.render({title: sectionId , count: order}) }}
-      </div>
-      <h2 id="{{ headingId }}" data-awards-el="heading" class="col-span-full font-display">{{ heading }}</h2>
-      <p data-awards-el="body" class="col-span-full">{{ body }}</p>
-    </header>
-
-    <ul data-awards-el="list" class="col-span-full grid grid-cols-2 gap-2 px-4">
-      {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="col-span-full">
-          <h3>{{ group.organization.title }}</h3>
-          <ul>
-            {% for award in group.items %}
-              <li data-awards-el="award" class="col-span-2">
-                {{ Award.render(award) }}
-              </li>
-            </ul>
-          {% endfor %}
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
+  {% import "atoms/svg/inline.njk" as InlineSvg %}
+  {%- set organizationRecord = params.organization | default({}) -%}
+  {%- set organizationTitle = organizationRecord.title | default(params.organizationName) | default(params.organization) | default('Organization') -%}
+  {%- set title = params.title | default('Untitled award') -%}
+  {%- set logo = organizationRecord.logo.asset.url | default(params.logo) | default('/assets/images/logos/default.svg') -%}
+  {%- set logoAlt = organizationRecord.logo.alt | default(organizationTitle ~ ': ' ~ title) -%}
+  {{ title | default('Untitled award') }}
+  {{ InlineSvg.render({ logoInline: organizationRecord.logo.inline, logo: logo, logoAlt: logoAlt }) }}
 {% endmacro %}
