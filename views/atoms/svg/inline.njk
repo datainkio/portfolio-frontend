@@ -1,0 +1,78 @@
+---
+Description: A component for rendering remote SVG files as inline SVG elements, with accessibility attributes and styling.
+---
+
+{% macro render(params = {}) %}
+{%- set classes = params.classes | default('') -%}
+{%- set logoInline = organizationRecord.logo.inline | default(params.logoInline) | default('') -%}
+  {%- set inlineLooksSvg = '<svg' in logoInline -%}
+
+  {% if inlineLooksSvg %}
+    <span data-award-logo-state="svg" data-logo-src="{{ logo | escape }}" data-logo-alt="{{ logoAlt | escape }}">
+      {{ logoInline | safe }}
+    </span>
+  {% else %}
+    <span data-award-logo-state="hidden" data-logo-src="{{ logo | escape }}" data-logo-alt="{{ logoAlt | escape }}" hidden aria-hidden="true"></span>
+  {% endif %}
+
+  <script>
+    (() => {
+      if (window.__awardLogoStateInitialized) {
+        if (typeof window.__applyAwardLogoState === "function") {
+          window.__applyAwardLogoState();
+        }
+        return;
+      }
+
+      const applyState = (container) => {
+        if (!container || container.dataset.logoProcessed === "true") {
+          return;
+        }
+
+        container.dataset.logoProcessed = "true";
+
+        const logoUrl = container.dataset.logoSrc || "";
+        const logoAlt = container.dataset.logoAlt || "Award logo";
+        const state = container.getAttribute("data-award-logo-state");
+
+        if (state !== "svg") {
+          container.style.display = "none";
+          console.info("[awards] Hidden non-SVG logo asset.", {url: logoUrl});
+          return;
+        }
+
+        const svgElement = container.querySelector("svg");
+
+        if (! svgElement) {
+          container.style.display = "none";
+          console.info("[awards] Hidden non-SVG logo asset.", {
+            url: logoUrl,
+            reason: "inline-svg-missing"
+          });
+          return;
+        }
+
+        svgElement.classList.add("awards-list__logo", "fill-current");
+        svgElement.setAttribute("role", "img");
+        svgElement.setAttribute("aria-label", logoAlt);
+        svgElement.setAttribute("focusable", "false");
+        console.info("[awards] Rendered SVG logo.", {url: logoUrl});
+      };
+
+      window.__applyAwardLogoState = () => {
+        const containers = document.querySelectorAll("[data-award-logo-state]");
+        containers.forEach((container) => {
+          applyState(container);
+        });
+      };
+
+      window.__awardLogoStateInitialized = true;
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", window.__applyAwardLogoState, {once: true});
+      } else {
+        window.__applyAwardLogoState();
+      }
+    })();
+  </script>
+{% endmacro %}

@@ -41,6 +41,7 @@ tags:
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/card/award.njk" as Card %}
+  {% import "atoms/award.njk" as Award %}
 
   {%- set sectionId = params.id | default("recognition") -%}
   {%- set classes = params.classes | default("") -%}
@@ -52,27 +53,28 @@ tags:
 
   {%- set awards = params.awards | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative col-span-full space-y-48 grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header data-awards-el="header" class="col-span-full z-10 p-4 pt-10 space-y-4">
+  <section id="{{ sectionId }}" class="relative bg-white col-span-full space-y-8 p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header data-awards-el="header" class="col-span-full z-10 p-4 pt-10">
       <div data-awards-el="context" class="text-sm col-span-full">
         {{ SectionCap.render({title: sectionId , count: order}) }}
       </div>
       <h2 id="{{ headingId }}" data-awards-el="heading" class="col-span-full font-display">{{ heading }}</h2>
       <p data-awards-el="body" class="col-span-full">{{ body }}</p>
     </header>
-    {% if awards | length %}
-      <ul data-awards-el="list" class="col-span-full grid grid-cols-subgrid gap-2 px-4 bg-black">
-        {% for award in awards %}
-          {%- set awardTitle = award.title | default("Untitled award") -%}
-          {%- set awardImage = award.organization.logo | default(award.logo) -%}
-          {%- set awardUrl = award.url | default("") -%}
-          <li data-awards-el="award" class="text-neutral-500 col-span-2">
-            {{ Card.render({ title: awardTitle, image: awardImage, url: awardUrl }) }}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="col-span-full">No awards found.</p>
-    {% endif %}
+
+    <ul data-awards-el="list" class="col-span-full grid grid-cols-2 gap-2 px-4">
+      {% for orgId, group in awards | groupByOrg %}
+        <li data-awards-el="group" class="col-span-full">
+          <h3>{{ group.organization.title }}</h3>
+          <ul>
+            {% for award in group.items %}
+              <li data-awards-el="award" class="col-span-2">
+                {{ Award.render(award) }}
+              </li>
+            </ul>
+          {% endfor %}
+        </li>
+      {% endfor %}
+    </ul>
   </section>
 {% endmacro %}

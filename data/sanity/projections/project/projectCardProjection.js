@@ -1,5 +1,5 @@
 /** @format */
-
+import groq from "groq";
 import { ORGANIZATION_PROJECTION } from "../organization/organizationProjection.js";
 import { ROLE_PROJECTION } from "../role/roleProjection.js";
 import { ACTIVITY_PROJECTION } from "../activity/activityProjection.js";
@@ -8,7 +8,7 @@ import { ACTIVITY_PROJECTION } from "../activity/activityProjection.js";
  * Project card projection (inner shape — excludes field name and traversal operator).
  * Used in grid/list views and industry groupings (e.g. projectsByIndustry).
  */
-export const PROJECT_CARD_PROJECTION = `{
+export const PROJECT_CARD_PROJECTION = groq`{
   _id,
   _updatedAt,
   "title": page.title,

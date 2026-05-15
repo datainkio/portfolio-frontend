@@ -31,7 +31,6 @@ export default function (eleventyConfig) {
   fileConfig(eleventyConfig);
   imageConfig(eleventyConfig);
   colorConfig(eleventyConfig);
-
   eleventyConfig.addFilter('datatype', function (value) {
     if (Array.isArray(value)) {
       return 'array';

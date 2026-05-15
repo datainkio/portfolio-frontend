@@ -1,10 +1,10 @@
 /** @format */
-
+import groq from "groq";
 /**
  * Project page projection (inner shape — excludes field name and traversal operator).
  * Used for project detail/page views with full relational data.
  */
-export const PROJECT_PAGE_PROJECTION = `{
+export const PROJECT_PAGE_PROJECTION = groq`{
   _id,
   _updatedAt,
   "title": page.title,
