@@ -1,37 +1,3 @@
----
-template:
-  id: "templates.atoms.icon"
-  name: "Icon"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/icon.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Unified SVG icon system — single component for all site icons; do not create separate .njk files for individual icons."
-
-data:
-  expects:
-    - "name (icon key)"
-    - "size ('sm' | 'md' | 'lg')"
-    - "className"
-
-agent:
-  doNotEdit:
-    - "icons object keys"
-  reviewTriggers:
-    - "new icon additions"
-    - "Figma design token changes"
-
-tags:
-  - "atom"
-  - "icon"
-  - "svg"
-  - "design-system"
----
-
 {% set icons = {
   "direction-left": '<path d="M15.41 16.59L10.83 12L15.41 7.41L14 6l-6 6 6 6 1.41-1.41z" />',
   "direction-right": '<path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6-6 6-1.41-1.41z" />',

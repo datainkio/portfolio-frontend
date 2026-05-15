@@ -1,36 +1,3 @@
----
-template:
-  id: "templates.organisms.section.bio"
-  name: "Bio Section"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/section/bio.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Homepage biography section — section header, bio copy, and print mark decoration."
-
-data:
-  expects:
-    - "params.copy.heading"
-    - "params.copy.subheading"
-    - "params.copy.body"
-    - "params.order"
-
-components:
-  uses:
-    - "molecules/section-cap.njk"
-    - "molecules/printmarks.njk"
-
-tags:
-  - "organism"
-  - "section"
-  - "bio"
-  - "homepage"
----
-
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/printmarks.njk" as PrintMarks %}

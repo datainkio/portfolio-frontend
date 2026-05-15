@@ -1,27 +1,11 @@
----
-template:
-  id: "templates.atoms.svg.colors"
-  name: "Brand Color Swatches"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/svg/colors.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "SVG strip of four brand color swatches (secondary/tertiary/primary/accent) for print mark / design system preview."
-
-tags:
-  - "atom"
-  - "svg"
-  - "color"
-  - "print"
----
-
 {% macro render(params = {}) %}
   {% set classes = params.classes | default("") %}
-  <svg class="{{ classes }}" viewBox="0 0 200 50" w-1/4 h-full" x=" 0"/>
-          <rect id=" 400" class=" fill-tertiary-400 w-1/4 h-full" x=" 50"/>
-          <rect id=" 600" class=" fill-primary-400 w-1/4 h-full" x=" 100"/>
-          <rect id=" 800" class=" fill-accent-400 w-1/4 h-full" x="
+  <svg class="{{ classes }}" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <rect id="200" class="fill-secondary-400 w-1/4 h-full" x="0"/>
+      <rect id="400" class="fill-tertiary-400 w-1/4 h-full" x="50"/>
+      <rect id="600" class="fill-primary-400 w-1/4 h-full" x="100"/>
+      <rect id="800" class="fill-accent-400 w-1/4 h-full" x="150"/>
+    </g>
+  </svg>
+{% endmacro %}

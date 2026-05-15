@@ -1,35 +1,3 @@
----
-template:
-  id: "templates.organisms.modal.project"
-  name: "Project Modal"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/modal/project.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Project detail dialog — renders a project object as a full-screen modal with image gallery, description, and metadata."
-
-data:
-  expects:
-    - "project (Sanity project object)"
-    - "project.id"
-    - "project.title"
-    - "project.description"
-
-contentModel:
-  sanityTypes:
-    - "project"
-
-tags:
-  - "organism"
-  - "modal"
-  - "project"
-  - "sanity"
----
-
 <dialog id="modal_{{ project.id }}" class="modal">
   <figure class="modal-box bg-transparent max-w-none shadow-none content-start relative flex flex-col gap-4 lg:grid lg:grid-cols-3
       h-full">

@@ -1,27 +1,3 @@
----
-template:
-  id: "templates.atoms.printmarks.registration-marks"
-  name: "Registration Marks"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/printmarks/registration-marks.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Composite registration mark assembly — top, left, right positions around the layout area."
-
-components:
-  uses:
-    - "atoms/svg/registration-mark.njk"
-
-tags:
-  - "atom"
-  - "printmarks"
-  - "print"
----
-
 {% macro render(params = {}) %}
   {% import "atoms/svg/registration-mark.njk" as RegistrationMark %}
   {%- set classes = params.classes | default("") -%}

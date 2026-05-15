@@ -1,35 +1,3 @@
----
-template:
-  id: "templates.registry"
-  name: "Component Registry"
-  type: "partial"
-  status: "active"
-
-source:
-  path: "frontend/views/_registry.njk"
-  engine: "nunjucks"
-  eleventyLayout: false
-
-purpose:
-  summary: "Centralised component discovery system — provides a single interface for importing and rendering any component by tier and name."
-  role: "Used during development and documentation; production templates should prefer direct includes."
-
-agent:
-  safeToEdit:
-    - "frontmatter"
-  doNotEdit:
-    - "import macro logic"
-  reviewTriggers:
-    - "directory structure changes"
-    - "new component tiers added"
-
-tags:
-  - "registry"
-  - "components"
-  - "dx"
-  - "nunjucks"
----
-
 {# Component Registry Macro - Central Component Loader #}
 {# Note: For complex props, use direct includes. This is for simple documentation. #}{% macro component(category, name, note="Use direct includes for complex props") %}
   <!-- Component: {{ category }}/{{ name }} -->

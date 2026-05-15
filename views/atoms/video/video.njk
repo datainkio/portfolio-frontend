@@ -1,32 +1,3 @@
----
-template:
-  id: "templates.atoms.video.video"
-  name: "Video"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/video/video.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "HTML5 video element atom with background video defaults (muted, loop, poster support)."
-
-data:
-  expects:
-    - "params.src"
-    - "params.autoplay"
-    - "params.loop"
-    - "params.muted"
-    - "params.poster"
-    - "params.classes"
-
-tags:
-  - "atom"
-  - "video"
-  - "media"
----
-
 {#
 /**
  * Video Atom

@@ -1,35 +1,3 @@
----
-template:
-  id: "templates.organisms.section.contact"
-  name: "Contact Section"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/section/contact.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Homepage contact section — section header with copy and contact form."
-
-data:
-  expects:
-    - "params.copy.heading"
-    - "params.copy.subheading"
-    - "params.copy.body"
-    - "params.order"
-
-components:
-  uses:
-    - "molecules/section-cap.njk"
-
-tags:
-  - "organism"
-  - "section"
-  - "contact"
-  - "homepage"
----
-
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
   {%- set classes = params.classes | default("") -%}
@@ -52,18 +20,18 @@ tags:
         type="text"
         name="name"
         placeholder="Your Name"
-        class="p-2 border border-neutral-700 bg-neutral-900 text-white rounded">
-        <input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          class="p-2 border border-neutral-700 bg-neutral-900 text-white rounded">
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            class="col-span-full p-2 border border-neutral-700 bg-neutral-900 text-white rounded"></textarea>
-          <button type="submit" class="col-span-full bg-primary-900 hover:bg-primary-700 text-white py-2 px-4 rounded">Send
-            Message</button>
-        </form>
-      </section>
-    {% endmacro %}
+        class="p-2 border border-neutral-700 bg-neutral-900 text-white rounded"/>
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        class="p-2 border border-neutral-700 bg-neutral-900 text-white rounded"/>
+      <textarea
+        name="message"
+        placeholder="Your Message"
+        class="col-span-full p-2 border border-neutral-700 bg-neutral-900 text-white rounded"></textarea>
+      <button type="submit" class="col-span-full bg-primary-900 hover:bg-primary-700 text-white py-2 px-4 rounded">Send
+        Message</button>
+    </form>
+  </section>
+{% endmacro %}

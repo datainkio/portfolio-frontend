@@ -1,28 +1,3 @@
----
-template:
-  id: "templates.atoms.field"
-  name: "Debug Field"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/field.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Development utility — displays a data field name alongside its type and truncated value for schema inspection."
-
-data:
-  expects:
-    - "field (field name)"
-    - "value"
-
-tags:
-  - "atom"
-  - "debug"
-  - "dev"
----
-
 <strong>{{ field }}</strong>
 <span class="italic text-xs">{{ value | datatype }}</span>
 <span class="block italic text-sm break-words">

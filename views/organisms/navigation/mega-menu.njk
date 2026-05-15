@@ -1,28 +1,3 @@
----
-template:
-  id: "templates.organisms.navigation.mega-menu"
-  name: "Mega Menu"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/navigation/mega-menu.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Mega menu content panel — avatar, heading, description, and eleventyNavigation-driven links."
-
-data:
-  expects:
-    - "collections.all"
-    - "avatarStyles"
-
-tags:
-  - "organism"
-  - "navigation"
-  - "mega-menu"
----
-
 <div class="modal-box max-w-none rounded-none bg-transparent shadow-none flex flex-col gap-12">
   <header class="flex flex-col items-center sm:grid sm:grid-cols-6 sm:place-content-center gap-4 border-b-2 border-b-primary-light">
     {% set avatarStyles = "row-span-2" %}

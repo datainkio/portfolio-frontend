@@ -1,32 +1,3 @@
----
-template:
-  id: "templates.organisms.figure.organizations"
-  name: "Organizations Figure"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/figure/organizations.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Full-width figure listing all organizations, clients, and partners grouped by industry."
-
-data:
-  expects:
-    - "collections.organizations"
-
-contentModel:
-  sanityTypes:
-    - "organization"
-
-tags:
-  - "organism"
-  - "figure"
-  - "organizations"
-  - "sanity"
----
-
 <figure class="col-span-full grid grid-cols-subgrid gap-4">
   <figcaption class="block w-full">
     <h2>Organizations, Clients, & Partners</h2>

@@ -1,31 +1,3 @@
----
-template:
-  id: "templates.organisms.content.gallery"
-  name: "Gallery"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/content/gallery.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Image gallery carousel rendering a list of image IDs as a scrollable carousel with captions."
-
-data:
-  expects:
-    - "gallery.images (array of image IDs)"
-    - "gallery.id"
-    - "collections.images"
-    - "galleryStyles"
-
-tags:
-  - "organism"
-  - "content"
-  - "gallery"
-  - "carousel"
----
-
 <ul class="sm:carousel {{ galleryStyles }}">
   {% set index = 0 %}
   {% set imgClasses = "absolute inset-0 w-full h-full object-contain" %}

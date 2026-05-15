@@ -1,29 +1,3 @@
----
-template:
-  id: "templates.layouts.cols-3"
-  name: "3-Column Layout"
-  type: "layout"
-  status: "active"
-
-source:
-  path: "frontend/views/layouts/cols-3.njk"
-  engine: "nunjucks"
-  eleventyLayout: true
-
-purpose:
-  summary: "3-column layout extending base.njk — sticky docs nav sidebars flanking a centred content area."
-
-components:
-  uses:
-    - "molecules/docs-nav/docs-nav.njk"
-
-tags:
-  - "layout"
-  - "3-column"
-  - "docs"
-  - "11ty"
----
-
 {% extends "./base.njk" %}
 {% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
 {%- set bodyClasses = "grid grid-cols-12" -%}

@@ -1,39 +1,3 @@
----
-template:
-  id: "templates.atoms.button.button"
-  name: "Button"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/button/button.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Primary UI button atom with design-token-driven variants (primary, secondary, tertiary, danger)."
-
-data:
-  expects:
-    - "label (required)"
-    - "type ('primary' | 'secondary' | 'tertiary' | 'danger', default: 'primary')"
-    - "btnStyles"
-    - "disabled"
-    - "onclick"
-
-agent:
-  doNotEdit:
-    - "CSS class names (update design tokens instead)"
-  reviewTriggers:
-    - "Figma design token changes"
-    - "styles/components/buttons.css changes"
-
-tags:
-  - "atom"
-  - "button"
-  - "design-system"
-  - "figma"
----
-
 <button class="btn btn-{{ type | default('primary') }} {{ btnStyles }}" {% if disabled %} disabled {% endif %} {% if onclick %} onclick="{{ onclick }}" {% endif %}>
   {{ label | default('Button') }}
 </button>

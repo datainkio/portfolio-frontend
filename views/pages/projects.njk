@@ -1,37 +1,3 @@
----
-template:
-  id: "templates.pages.projects"
-  name: "Projects Listing Page"
-  type: "page"
-  status: "active"
-
-source:
-  path: "frontend/views/pages/projects.njk"
-  engine: "nunjucks"
-  eleventyLayout: true
-
-purpose:
-  summary: "Projects listing page extending base.njk — renders all portfolio projects as a vertical card list."
-
-data:
-  expects:
-    - "collections.projects"
-
-components:
-  uses:
-    - "molecules/card/project.njk"
-
-contentModel:
-  sanityTypes:
-    - "project"
-
-tags:
-  - "page"
-  - "projects"
-  - "listing"
-  - "sanity"
----
-
 {% extends "layouts/base.njk" %}
 {% import "molecules/card/project.njk" as ProjectCard %}
 {% block content %}

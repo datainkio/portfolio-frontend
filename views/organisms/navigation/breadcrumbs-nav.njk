@@ -1,28 +1,3 @@
----
-template:
-  id: "templates.organisms.navigation.breadcrumbs-nav"
-  name: "Breadcrumbs Navigation"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/navigation/breadcrumbs-nav.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Renders breadcrumb trail using eleventyNavigationBreadcrumb for the current page."
-
-a11y:
-  landmarks:
-    - "nav[aria-label='Breadcrumb']"
-
-tags:
-  - "organism"
-  - "navigation"
-  - "breadcrumbs"
-  - "a11y"
----
-
 {% macro render(params = {}) %}(eleventyNavigation.key) %}
   <nav aria-label="Breadcrumb">
     <ol>

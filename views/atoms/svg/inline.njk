@@ -1,7 +1,3 @@
----
-Description: A component for rendering remote SVG files as inline SVG elements, with accessibility attributes and styling.
----
-
 {% macro render(params = {}) %}
 {%- set classes = params.classes | default('') -%}
 {%- set logoInline = organizationRecord.logo.inline | default(params.logoInline) | default('') -%}

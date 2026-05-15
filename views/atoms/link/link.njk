@@ -1,29 +1,3 @@
----
-template:
-  id: "templates.atoms.link.link"
-  name: "Link"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/link/link.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Base link atom with consistent styling; supports external, download, and accessible link patterns."
-
-data:
-  expects:
-    - "url"
-    - "text"
-    - "title"
-
-tags:
-  - "atom"
-  - "link"
-  - "a11y"
----
-
 {#
 Base Link Atom Component
 Provides consistent link styling across the site

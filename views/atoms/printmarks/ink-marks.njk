@@ -1,29 +1,3 @@
----
-template:
-  id: "templates.atoms.printmarks.ink-marks"
-  name: "Ink Marks"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/printmarks/ink-marks.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Print ink swatch strip combining neutral and brand color swatches side by side."
-
-components:
-  uses:
-    - "atoms/svg/neutrals.njk"
-    - "atoms/svg/colors.njk"
-
-tags:
-  - "atom"
-  - "printmarks"
-  - "print"
-  - "color"
----
-
 {% macro render(params = {}) %}
   {% import "atoms/svg/neutrals.njk" as Neutrals %}
   {% import "atoms/svg/colors.njk" as Colors %}

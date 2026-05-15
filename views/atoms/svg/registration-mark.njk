@@ -1,31 +1,6 @@
----
-template:
-  id: "templates.atoms.svg.registration-mark"
-  name: "Registration Mark"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/svg/registration-mark.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "SVG print registration mark — crosshair circle used in print mark assemblies."
-
-data:
-  expects:
-    - "params.classes"
-    - "params.ink (color token suffix, default: 'current')"
-
-tags:
-  - "atom"
-  - "svg"
-  - "print"
-  - "registration-mark"
----
-
 {% macro render(params = {}) %}
-   -%}
+  {% set classes = params.classes | default("") %}
+  {% set ink = params.ink or "black" %}
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 50 50" class="registration-mark {{ classes }}">
     <g class="outer">
       <circle class="stroke-{{ ink }}" cx="25" cy="25" r="20"/>

@@ -1,29 +1,3 @@
----
-template:
-  id: "templates.layouts.cols-2-after"
-  name: "2-Column Layout (Sidebar After)"
-  type: "layout"
-  status: "active"
-
-source:
-  path: "frontend/views/layouts/cols-2-after.njk"
-  engine: "nunjucks"
-  eleventyLayout: true
-
-purpose:
-  summary: "2-column layout extending base.njk with content on the left and a sidebar column on the right."
-
-data:
-  provides:
-    - "content block"
-    - "sidebar_after block"
-
-tags:
-  - "layout"
-  - "2-column"
-  - "11ty"
----
-
 {% extends "./base.njk" %}
 {% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
 {%- set bodyClasses = "grid grid-cols-12" -%}

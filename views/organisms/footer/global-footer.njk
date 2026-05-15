@@ -1,38 +1,3 @@
----
-template:
-  id: "templates.organisms.footer.global-footer"
-  name: "Global Site Footer"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/footer/global-footer.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Site-wide footer with footer navigation items sourced from CMS or collection fallback."
-
-data:
-  expects:
-    - "params.items"
-    - "cms.navigation[0].footerItems"
-    - "params.classes"
-
-components:
-  uses:
-    - "molecules/list/main-pages.njk"
-
-contentModel:
-  sanityTypes:
-    - "navigation"
-
-tags:
-  - "organism"
-  - "footer"
-  - "navigation"
-  - "sanity"
----
-
 {#
 FOOTER LAYOUT ORGANISM
 Reusable footer macro for consistent site-wide footer rendering.

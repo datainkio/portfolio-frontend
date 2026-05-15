@@ -1,27 +1,3 @@
----
-template:
-  id: "templates.atoms.loader.loader-indicator"
-  name: "Loader Indicator"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/loader/LoaderIndicator.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Animated loading indicator — renders either a spinner ring or a shimmer progress bar."
-
-data:
-  expects:
-    - "kind ('spinner' | 'bar', default: 'spinner')"
-
-tags:
-  - "atom"
-  - "loader"
-  - "animation"
----
-
 {% macro render(kind = "spinner") -%}
   {# kind can be "spinner" or "bar" #}
   {% if kind == "bar" %}

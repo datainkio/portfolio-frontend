@@ -1,30 +1,3 @@
----
-template:
-  id: "templates.organisms.content.nugget"
-  name: "Content Nugget"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/content/nugget.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Renders a content nugget — a two-column section with a heading, image lightbox, and rich-text description."
-
-data:
-  expects:
-    - "nugget.title"
-    - "nugget.images"
-    - "nugget.description"
-    - "collections.images"
-
-tags:
-  - "organism"
-  - "content"
-  - "nugget"
----
-
 <section class="nugget flex flex-col md:flex-row gap-4 my-12">
   <h2 class="basis-1/3 text-lg leading-tight font-bold">{{ nugget.title }}</h2>
   <div class="basis-2/3">

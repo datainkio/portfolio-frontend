@@ -1,31 +1,3 @@
----
-template:
-  id: "templates.organisms.header.global-header"
-  name: "Global Site Header"
-  type: "organism"
-  status: "active"
-
-source:
-  path: "frontend/views/organisms/header/global-header.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Fixed site header containing the primary navigation; used in base.njk and home.njk."
-
-data:
-  expects:
-    - "params.classes"
-
-components:
-  uses:
-    - "organisms/navigation/primary-nav.njk"
-
-tags:
-  - "organism"
-  - "header"
-  - "navigation"
----
-
 {% import "organisms/navigation/primary-nav.njk" as primary_nav with context %}
 
 {% macro render(params = {}) %}

@@ -1,27 +1,2 @@
----
-template:
-  id: "templates.atoms.link.breadcrumb"
-  name: "Breadcrumb Link"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/link/breadcrumb.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Simple anchor link atom for breadcrumb trail items."
-
-data:
-  expects:
-    - "url"
-    - "label"
-
-tags:
-  - "atom"
-  - "link"
-  - "breadcrumb"
----
-
 <!-- _includes/atoms/breadcrumb.njk -->
 <a href="{{ url }}" class="font-semibold">{{ label }}</a>

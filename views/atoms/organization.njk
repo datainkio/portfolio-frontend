@@ -1,36 +1,6 @@
----
-template:
-  id: "templates.atoms.organization"
-  name: "Organization"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/organization.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Renders an organization logo image or a text name fallback when no logo is available."
-
-data:
-  expects:
-    - "params.logo.asset.url"
-    - "params.logo.alt"
-    - "params.title"
-
-contentModel:
-  sanityTypes:
-    - "organization"
-
-tags:
-  - "atom"
-  - "organization"
-  - "logo"
-  - "sanity"
----
-
 {% macro render(params = {}) %}
-  | default(params.logo) -%} {%- set title = params.title | default('Untitled organization') -%}
+  {%- set logo = params.logo.asset.url | default(params.logoUrl) | default(params.logo) -%}
+  {%- set title = params.title | default('Untitled organization') -%}
   {%- set logoAlt = params.logo.alt | default(params.logoAlt) | default(title ~ ' logo') -%}
 
   {% if logo %}

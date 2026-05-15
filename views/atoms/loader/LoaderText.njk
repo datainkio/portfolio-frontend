@@ -1,27 +1,3 @@
----
-template:
-  id: "templates.atoms.loader.loader-text"
-  name: "Loader Text"
-  type: "atom"
-  status: "active"
-
-source:
-  path: "frontend/views/atoms/loader/LoaderText.njk"
-  engine: "nunjucks"
-
-purpose:
-  summary: "Loading state text span with aria-live for screen readers."
-
-data:
-  expects:
-    - "message (string, default: 'Preparing the experience…')"
-
-tags:
-  - "atom"
-  - "loader"
-  - "a11y"
----
-
 {% macro render(message = "Preparing the experience…") -%}
   <span class="mt-4 text-xs text-white/70" aria-live="polite" data-preloader-text>{{ message }}</span>
 {%- endmacro %}

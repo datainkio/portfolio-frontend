@@ -1,32 +1,3 @@
----
-layout: templates/base.njk
-template:
-  id: "templates.templates.readme"
-  name: "README Documentation Renderer"
-  type: "partial"
-  status: "active"
-
-source:
-  path: "frontend/views/templates/readme.njk"
-  engine: "nunjucks"
-  eleventyLayout: false
-
-purpose:
-  summary: "Renders README.md files as styled documentation pages with sidebar navigation and prose formatting."
-  role: "Applied automatically to README files via the documentation collection."
-
-data:
-  expects:
-    - "collections.documentation"
-    - "content (rendered README HTML)"
-    - "page.url"
-
-tags:
-  - "template"
-  - "docs"
-  - "readme"
----
-
 {# 
 DOCUMENTATION TEMPLATE
 Auto-generated documentation pages from README.md files
