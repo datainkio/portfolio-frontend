@@ -5,11 +5,6 @@
   {%- set title = params.title | default('Untitled award') -%}
   {%- set logo = organizationRecord.logo.asset.url | default(params.logo) | default('/assets/images/logos/default.svg') -%}
   {%- set logoAlt = organizationRecord.logo.alt | default(organizationTitle ~ ': ' ~ title) -%}
-  {{ params | dump }}
-  {{ params.title | default('Untitled award') }}
-  {{ params.image | default(logo) }}
-  {{ params.url | default('') }}
-
-
+  {{ title | default('Untitled award') }}
   {{ InlineSvg.render({ logoInline: organizationRecord.logo.inline, logo: logo, logoAlt: logoAlt }) }}
 {% endmacro %}

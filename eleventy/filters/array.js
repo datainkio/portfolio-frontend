@@ -39,6 +39,7 @@
 export default function (eleventyConfig) {
   eleventyConfig.addFilter("sum", sum);
   eleventyConfig.addFilter("groupBy", groupByFilter);
+  eleventyConfig.addFilter("groupByOrg", groupByOrg);
   eleventyConfig.addFilter("getByIndex", getByIndex);
   eleventyConfig.addFilter("unique", getUniqueItems);
   eleventyConfig.addFilter("findIndexOf", findIndexOf);
@@ -214,4 +215,44 @@ export function getUniqueItems(array, field) {
     seen.add(value);
     return true;
   });
+}
+
+/**
+ * Group an array of items by their associated organization(s).
+ * Handles both single-org references (e.g. awards) and multi-org arrays (e.g. projects).
+ * A single item may appear in multiple groups if it belongs to multiple organizations.
+ *
+ * @param {Array} items - Array of award or project objects
+ * @returns {Object} Keyed by organization `_id`; each value is `{ organization, items[] }`
+ *
+ * EXAMPLE:
+ * {{ collections.awards | groupByOrg }}
+ * => { "abc123": { organization: { _id, title, slug, logo }, items: [{...}] } }
+ *
+ * TEMPLATE USAGE:
+ * {% for orgId, group in collections.awards | groupByOrg %}
+ *   <h2>{{ group.organization.title }}</h2>
+ *   {% for award in group.items %}...{% endfor %}
+ * {% endfor %}
+ */
+export function groupByOrg(items) {
+  if (!Array.isArray(items)) return {};
+
+  return items.reduce((groups, item) => {
+    const orgs = Array.isArray(item.organization)
+      ? item.organization
+      : item.organization
+        ? [item.organization]
+        : [];
+
+    orgs.forEach((org) => {
+      const key = org._id;
+      if (!groups[key]) {
+        groups[key] = { organization: org, items: [] };
+      }
+      groups[key].items.push(item);
+    });
+
+    return groups;
+  }, {});
 }

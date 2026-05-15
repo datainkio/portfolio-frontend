@@ -18,9 +18,9 @@ export const AWARD_PROJECTION = groq`{
       _id,
       "title": page.title,
       "slug": page.slug.current,
-      logo{
-        alt,
-        asset->{url, metadata{dimensions, lqip}}
+      "logo": logo->{
+        "alt": image.alt,
+        "asset": image.asset->{url, metadata{dimensions, lqip}}
       }
     },
     project->{
