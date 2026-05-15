@@ -1,9 +1,9 @@
 {% extends "./base.njk" %}
 {% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
 {%- set bodyClasses = "grid grid-cols-12" -%}
-{%- set mainClasses = "col-span-8 col-start-3" -%}
-{%- set sidebarBeforeClasses = "col-span-2" -%}
-{%- set sidebarAfterClasses = "col-span-2" -%}
+{%- set mainClasses = "bg-white col-span-8 col-start-3" -%}
+{%- set sidebarBeforeClasses = "text-white font-base col-span-2" -%}
+{%- set sidebarAfterClasses = "text-white col-span-2" -%}
 
 {% block sidebar_before %}
   <aside class="{{ sidebarBeforeClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">

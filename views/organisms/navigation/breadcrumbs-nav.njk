@@ -1,4 +1,5 @@
-{% macro render(params = {}) %}(eleventyNavigation.key) %}
+{% macro render(params = {}) %}
+  {% set crumbs = collections.all | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
   <nav aria-label="Breadcrumb">
     <ol>
       {% for crumb in crumbs %}
