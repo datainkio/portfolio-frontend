@@ -1,10 +1,4 @@
 {% macro render(params = {}) %}
-  {% import "atoms/svg/inline.njk" as InlineSvg %}
-  {%- set organizationRecord = params.organization | default({}) -%}
-  {%- set organizationTitle = organizationRecord.title | default(params.organizationName) | default(params.organization) | default('Organization') -%}
   {%- set title = params.title | default('Untitled award') -%}
-  {%- set logo = organizationRecord.logo.asset.url | default(params.logo) | default('/assets/images/logos/default.svg') -%}
-  {%- set logoAlt = organizationRecord.logo.alt | default(organizationTitle ~ ': ' ~ title) -%}
   {{ title | default('Untitled award') }}
-  {{ InlineSvg.render({ logoInline: organizationRecord.logo.inline, logo: logo, logoAlt: logoAlt }) }}
 {% endmacro %}

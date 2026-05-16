@@ -4,6 +4,9 @@ eleventyNavigation:
   key: docs-design-organisms-section-awards
   parent: docs-design
   order: 30
+# Keep Nunjucks-only rendering here so Markdown does not inject empty <p></p>
+# wrappers around the awards section's inline HTML output.
+templateEngineOverride: njk
 eleventyComputed:
   title: "{{ title }}"
   recognition:
@@ -12,9 +15,12 @@ eleventyComputed:
 ---
 
 {% import "organisms/section/awards.njk" as AwardsSection %}
-
-This page renders the awards section organism template with sample data.
-
-## Live Preview
-
-{{ AwardsSection.render({ id: "recognition", copy: recognition, awards: collections.awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}
+{% set awardsPreviewParams = {
+  id: "recognition",
+  copy: recognition,
+  awards: collections.awards,
+  order: "2/5",
+  classes: sharedClasses,
+  buildDate: buildDate
+} %}
+{{ AwardsSection.render(awardsPreviewParams) }}
