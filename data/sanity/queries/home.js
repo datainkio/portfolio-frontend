@@ -1,5 +1,6 @@
 /** @format */
 import groq from "groq";
+import { PROJECT_CARD_PROJECTION } from "../projections/project/projectCardProjection.js";
 
 export const homeQuery = {
   id: "home",
@@ -38,6 +39,7 @@ export const homeQuery = {
     recognitionHeading,
     recognitionBody,
     workHeading,
-    workBody
+    workBody,
+    "featuredProjects": featuredProjects[]->${PROJECT_CARD_PROJECTION},
   }`,
 };

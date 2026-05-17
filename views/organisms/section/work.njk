@@ -10,9 +10,7 @@
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
   {%- set buildDate = params.buildDate -%}
-
-  {%- set projects = params.projects | default([]) -%}
-  {%- set projectsByIndustry = params.projectsByIndustry | default([]) -%}
+  {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   <section id="{{ sectionId }}" class="bg-striped relative z-10 col-span-full space-y-4 p-4 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header
@@ -24,27 +22,26 @@
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
       <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-2 font-display text-4xl sm:text-5xl mt-4 ">{{ heading }}</h2>
-      {% if projectsByIndustry | length %}
+      {% if industries | length %}
         <nav aria-label="Jump to industries" class="col-span-4 border-l-2 border-black pl-4">
           <ul data-projects-el="industry-links" class="leading-none">
-            {% for industry in projectsByIndustry %}
-              {% if industry.projects | length %}
-                <li class="my-0 leading-none">
-                  <a
-                    href="#industry-{{ industry.conceptId }}"
-                    data-projects-el="industry-link"
-                    class="block py-0 no-underline font-display text-sm leading-snug">{{ industry.title }}</a>
-                </li>
-              {% endif %}
+            {% for industryTitle, projects in industries %}
+
+              <li class="my-0 leading-none">
+                <a
+                  href="#industry-{{ industryTitle | slugify }}"
+                  data-projects-el="industry-link"
+                  class="block py-0 no-underline font-display text-sm leading-snug">{{ industryTitle }}</a>
+              </li>
             {% endfor %}
           </ul>
         </nav>
       {% endif %}
     </header>
-    {% if projectsByIndustry | length %}
+    {% if industries | length %}
       {% set industryHeadingIndex = 0 %}
-      {% for industry in projectsByIndustry %}
-        {% if industry.projects | length %}
+      {% for industryTitle, projects in industries %}
+        {% if projects | length %}
           {% set industryHeadingIndex = industryHeadingIndex + 1 %}
           {% set industryLabelIndex = industryHeadingIndex %}
           {% if industryHeadingIndex < 10 %}
@@ -53,15 +50,15 @@
           <section
             data-projects-el="industry-group"
             class="relative z-10 col-span-full"
-            aria-labelledby="industry-{{ industry.conceptId }}">
+            aria-labelledby="industry-{{ industryTitle | slugify }}">
             <h3
-              id="industry-{{ industry.conceptId }}"
+              id="industry-{{ industryTitle | slugify }}"
               data-projects-el="industry-heading"
               class="arrow-prefix bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold text-xl
                 px-4 mb-4">{{ industryLabelIndex }}
-              {{ industry.title }}</h3>
+              {{ industryTitle }}</h3>
             <ul data-projects-el="list" class="col-span-full -mx-4">
-              {% for project in industry.projects %}
+              {% for project in projects %}
                 <li data-projects-el="project">
                   {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first }) }}
                 </li>

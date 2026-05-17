@@ -38,7 +38,7 @@
 
 export default function (eleventyConfig) {
   eleventyConfig.addFilter("sum", sum);
-  eleventyConfig.addFilter("groupBy", groupByFilter);
+  eleventyConfig.addFilter("groupBy", groupBy);
   eleventyConfig.addFilter("groupByOrg", groupByOrg);
   eleventyConfig.addFilter("getByIndex", getByIndex);
   eleventyConfig.addFilter("unique", getUniqueItems);
@@ -170,21 +170,15 @@ export function sum(arr) {
  *   {% endfor %}
  * {% endfor %}
  */
-export function groupByFilter(array, key) {
-  if (!Array.isArray(array) || !key) return {};
+export function groupBy(items = [], key) {
+  return items.reduce((groups, item) => {
+    const value = item?.[key] || "Uncategorized";
 
-  const path = String(key).split(".").filter(Boolean);
-  const getValue = (item) =>
-    path.reduce(
-      (current, segment) => (current == null ? undefined : current[segment]),
-      item,
-    );
+    if (!groups[value]) {
+      groups[value] = [];
+    }
 
-  return array.reduce((groups, item) => {
-    const value = path.length === 1 ? item?.[path[0]] : getValue(item);
-    const groupKey = value == null ? "ungrouped" : String(value);
-
-    (groups[groupKey] ||= []).push(item);
+    groups[value].push(item);
     return groups;
   }, {});
 }

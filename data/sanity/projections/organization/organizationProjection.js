@@ -10,10 +10,6 @@ export const ORGANIZATION_PROJECTION = groq`{
     "alt": image.alt,
     "asset": image.asset->{url, metadata{dimensions, lqip}}
   },
-  "industry": industry->{
-    _id,
-    "preferredLabel": prefLabel
-  },
   organizationType,
   website,
   location,
