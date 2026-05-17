@@ -221,6 +221,32 @@ Comprehensive documentation updates to improve developer experience and align wi
 - Sanity integration guidance
 - Step-by-step component creation guide
 
+## Addendum: Awards Header Media Input Contract
+
+The awards section header media now supports both inline SVG markup and image URLs (including PNG).
+
+### Affected Templates
+
+- `views/organisms/section/awards.njk`
+- `views/atoms/svg/inline.njk`
+
+### Accepted Inputs
+
+- `headerAwardMedia` (recommended) accepts an inline SVG string containing `<svg ...>`.
+- `headerAwardMedia` (recommended) also accepts an image URL string (for example `.png`, `.jpg`, `.webp`, or URL-based `.svg`).
+- `headerAwardInline` remains backward-compatible for existing inline SVG callers.
+- `headerAwardInline` non-SVG strings are treated as image sources.
+
+### Rendering Behavior
+
+- If the incoming value contains `<svg`, the template renders inline SVG (styled and aria-labeled as before).
+- Otherwise, the template renders `<img>` using the URL source with `alt`, `loading="lazy"`, and `decoding="async"`.
+
+### Practical Guidance
+
+- Prefer `headerAwardMedia` for new usage.
+- Keep `headerAwardInline` only where legacy naming is already wired.
+
 ### For Maintenance
 
 - Accurate architecture documentation

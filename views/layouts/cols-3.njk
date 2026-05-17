@@ -1,15 +1,9 @@
-{% extends "./base.njk" %}
-{% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
-{%- set bodyClasses = "grid grid-cols-12" -%}
-{%- set mainClasses = "bg-white col-span-8 col-start-3" -%}
-{%- set sidebarBeforeClasses = "text-white font-base col-span-2" -%}
-{%- set sidebarAfterClasses = "text-white col-span-2" -%}
-
-{% block sidebar_before %}
-  <aside class="{{ sidebarBeforeClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">
-    {{ docsNav.render({ collections: collections, page: page }) }}
-  </aside>
-{% endblock %}
+{% extends "./cols-2-before.njk" %}
+{% import "organisms/navigation/docs-nav.njk" as docsNav %}
+{%- set bodyClasses = "grid grid-cols-12 gap-6 px-4" -%}
+{%- set mainClasses = "col-span-8 col-start-3" -%}
+{%- set sidebarBeforeClasses = "" -%}
+{%- set sidebarAfterClasses = "" -%}
 
 {% block content %}
   {% if content %}
@@ -20,7 +14,11 @@
 {% endblock %}
 
 {% block sidebar_after %}
-  <aside class="{{ sidebarAfterClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">
+  <aside
+    class="text-white font-light text-xs col-span-2 pt-24 {{ sidebarAfterClasses }}"
+    data-scroll
+    data-scroll-sticky
+    data-scroll-target="main">
     {% if sidebar_after %}
       {{ sidebar_after | safe }}
     {% else %}

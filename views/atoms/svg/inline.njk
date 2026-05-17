@@ -1,9 +1,14 @@
 {% macro render(params = {}) %}
   {%- set classes = params.classes | default('') -%}
   {%- set logoInline = params.logoInline | default(organizationRecord.logo.inline) | default('') -%}
+  {%- set logo = params.logo | default('') -%}
   {%- set logoAlt = params.logoAlt | default('Award logo') -%}
   {%- set inlineLooksSvg = '<svg' in logoInline -%}
-  {%- set state = 'svg' if inlineLooksSvg else 'hidden' -%}
+  {%- set imageSrc = logo -%}
+  {%- if not imageSrc and logoInline and not inlineLooksSvg -%}
+    {%- set imageSrc = logoInline -%}
+  {%- endif -%}
+  {%- set state = 'svg' if inlineLooksSvg else ('image' if imageSrc else 'hidden') -%}
   {%- set svgClassList = params.svgClasses | default('awards-list__logo fill-current') -%}
   {%- if classes %}
     {%- set svgClassList = svgClassList ~ ' ' ~ classes -%}
@@ -24,5 +29,7 @@
 
   {% if state == 'svg' %}
     {{ processedInline | safe }}
+  {% elif state == 'image' %}
+    <img src="{{ imageSrc | escape }}" alt="{{ logoAlt | escape }}" loading="lazy" decoding="async" class="{{ classes | escape }}"/>
   {% endif %}
 {% endmacro %}

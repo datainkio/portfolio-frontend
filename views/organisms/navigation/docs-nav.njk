@@ -9,12 +9,12 @@
 #}
 
 {% macro renderItems(items, currentUrl) %}
-  <ul class="docs-nav__list" role="list">
+  <ul class="docs-nav__list pl-2" role="list">
     {% for item in items %}
       {%- set isCurrent = item.url == currentUrl -%}
       {%- set hasChildren = item.children and item.children.length -%}
       <li class="docs-nav__item{% if hasChildren %} docs-nav__item--has-children{% endif %}">
-        <a href="{{ item.url }}" class="docs-nav__link{% if isCurrent %} docs-nav__link--current{% endif %}" {% if isCurrent %} aria-current="page" {% endif %}>{{ item.title }}</a>
+        <a href="{{ item.url }}" class="text-sm font-base font-light docs-nav__link{% if isCurrent %} docs-nav__link--current{% endif %}" {% if isCurrent %} aria-current="page" {% endif %}>{{ item.title }}</a>
         {% if hasChildren %}
           {{ renderItems(item.children, currentUrl) }}
         {% endif %}
@@ -29,7 +29,7 @@
   {%- set navItems = collections.all | eleventyNavigation("docs") -%}
   {%- set classes = params.classes | default("") -%}
 
-  <nav class="docs-nav {{ classes }}" aria-label="Documentation navigation">
+  <nav class="docs-nav text-sm font-base font-thin {{ classes }}" aria-label="Documentation navigation">
     <a href="/docs/" class="docs-nav__heading{% if currentUrl == '/docs/' %} docs-nav__link--current{% endif %}" {% if currentUrl == '/docs/' %} aria-current="page" {% endif %}>
       Docs
     </a>
