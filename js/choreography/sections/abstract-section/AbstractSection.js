@@ -38,6 +38,7 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import {
   BREAKPOINT_MATCH_MEDIA_CONDITIONS,
   getActiveBreakpoint,
+  resolveSectionMotionProfile,
 } from "../../config/index.js";
 import PromiseResolverQueue from "../../utils/PromiseResolverQueue.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
@@ -136,18 +137,22 @@ export default class AbstractSection {
       conditions.reduceMotion ??
         this._reducedMotionHandler?.isReducedMotion?.(),
     );
-    const isBaseBreakpoint = activeBreakpoint === "base";
-    const shouldEnableMotion = !isReducedMotion && isBaseBreakpoint;
+
+    const profile = resolveSectionMotionProfile(this.sectionKey, {
+      ...conditions,
+      reduceMotion: isReducedMotion,
+    });
     const wasLifecycleMotionEnabled = this._isLifecycleMotionEnabled;
 
     this._isReducedMotionMode = isReducedMotion;
-    this._isLifecycleMotionEnabled = shouldEnableMotion;
+    this._motionProfile = profile;
+    this._isLifecycleMotionEnabled = profile.timeline.enabled;
 
-    // When motion is off, this kills all section triggers (including scroll triggers).
-    this._bindCallbacks({ includeTriggers: shouldEnableMotion });
+    // When triggers are off, kills all section scroll triggers.
+    this._bindCallbacks({ includeTriggers: profile.trigger.enabled });
 
-    // Ensure non-animated end state whenever motion is disabled.
-    if (!shouldEnableMotion && wasLifecycleMotionEnabled) {
+    // Ensure non-animated end state whenever timeline motion is disabled.
+    if (!profile.timeline.enabled && wasLifecycleMotionEnabled) {
       this._applyPostIntroState();
     }
   }

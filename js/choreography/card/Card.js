@@ -4,6 +4,7 @@ import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 import {
   BREAKPOINT_MATCH_MEDIA_CONDITIONS,
   CARD_FIGURE_CLIP_TRIGGER,
+  resolveSectionMotionProfile,
 } from "../config/index.js";
 
 const CARD_EL_ATTR = "data-card-el";
@@ -27,12 +28,15 @@ export default class Card {
 
   _setupResponsiveMotion() {
     if (typeof gsap?.matchMedia !== "function") {
-      const isBase = window.matchMedia("(max-width: 39.999rem)").matches;
       const isReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+      const profile = resolveSectionMotionProfile("card", {
+        base: true,
+        reduceMotion: isReducedMotion,
+      });
 
-      if (isBase && !isReducedMotion) {
+      if (profile.trigger.enabled) {
         this._init();
       } else {
         this._applyStaticState();
@@ -43,10 +47,9 @@ export default class Card {
     this._mm = gsap.matchMedia(this.root);
     this._mm.add(BREAKPOINT_MATCH_MEDIA_CONDITIONS, (context = {}) => {
       const conditions = context.conditions ?? {};
-      const shouldEnableMotion =
-        Boolean(conditions.base) && !Boolean(conditions.reduceMotion);
+      const profile = resolveSectionMotionProfile("card", conditions);
 
-      if (!shouldEnableMotion) {
+      if (!profile.trigger.enabled) {
         this.kill();
         this._applyStaticState();
         return;
