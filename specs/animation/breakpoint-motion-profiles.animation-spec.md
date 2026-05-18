@@ -6,6 +6,7 @@
 - Last reviewed: 2026-05-17
 - Scope: Choreography runtime motion behavior across section controllers and card animations, including timeline and ScrollTrigger policy by breakpoint and reduced-motion preference.
 - Links: [js/choreography/config/ix/motion.js](../../js/choreography/config/ix/motion.js), [js/choreography/config/ix/breakpoints.js](../../js/choreography/config/ix/breakpoints.js), [js/choreography/config/ix/scrolltriggers.js](../../js/choreography/config/ix/scrolltriggers.js), [js/choreography/sections/abstract-section/AbstractSection.js](../../js/choreography/sections/abstract-section/AbstractSection.js), [js/choreography/card/Card.js](../../js/choreography/card/Card.js)
+- Diagrams: [AbstractSection responsive lifecycle](abstract-section-responsive-lifecycle.mmd), [Card responsive motion](card-responsive-motion.mmd)
 
 ## Objective
 
