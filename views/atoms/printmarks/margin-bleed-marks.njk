@@ -4,6 +4,8 @@
   {%- set bleedInset = params.bleedInset | default("8") -%}
   {%- set style = params.style | default("dashed") -%}
   {%- set marginInset = params.marginInset | default("6") -%}
-  <div aria-hidden="true" class="absolute inset-{{ bleedInset }} border-{{ size }} border-{{ color }} border-{{ style }}"></div>
-  <div aria-hidden="true" class="absolute inset-{{ marginInset }} border-{{ size }} border-white"></div>
+  <div
+    aria-hidden="true"
+    class="absolute inset-{{ bleedInset }} border border-{{ size }} border-{{ color }} border-{{ style }}"></div>
+  <div aria-hidden="true" class="absolute inset-{{ marginInset }} border border-{{ size }} border-{{ color }}"></div>
 {% endmacro %}
