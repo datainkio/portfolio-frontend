@@ -9,7 +9,7 @@ export function resolveNavigationHref(item) {
     case "home":
       return "/";
     case "projects":
-      return "/projects/";
+      return "/case-studies/";
     case "contact":
       return "/contact/";
     case "project":

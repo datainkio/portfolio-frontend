@@ -3,7 +3,7 @@
 {% macro render(params = {}) %}
   <header
     id="global-header"
-    class="fixed w-full text-sm p-4 h-12 z-20 text-shadow-md/80 {{ params.classes }} "
+    class="fixed w-full text-sm p-4 h-12 z-20 {{ params.classes }} "
     aria-label=" Global Site Header">
     {{ primary_nav.render() }}
   </header>

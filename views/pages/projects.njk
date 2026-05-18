@@ -1,7 +1,9 @@
-{% extends "layouts/base.njk" %}
+{% extends "layouts/landing.njk" %}
 {% import "molecules/card/project.njk" as ProjectCard %}
+{% set bodyClasses = "" %}
+{% set mainClasses = "bg-black col-span-full w-full" %}
 {% block content %}
-  <h1 class="px-4 text-2xl font-semibold">Projects</h1>
+  {{ super() }}
   {% if collections.projects and collections.projects.length %}
     <ul class="space-y-2">
       {% for project in collections.projects %}

@@ -2,7 +2,7 @@
 {% import "molecules/list/main-pages.njk" as main_pages with context %}
 
 {% macro render(params = {}) %}
-  {% set navClasses = params.class or params.navClasses or "flex items-center justify-between" %}
+  {% set navClasses = params.class or params.navClasses or "flex items-center justify-between text-neutral-200 text-shadow-md/80 " %}
   {% set siteName = params.siteName or site.siteName or "data:ink:io" %}
   {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
   {% set cmsItems = params.items or cmsNavigation.headerItems or [] %}

@@ -47,7 +47,7 @@
     "dev:nobundle": "BUNDLE_JS=false run-s build:js build:css:dev dev:nobundle:serve",
     "dev:nobundle:serve": "run-p dev:css dev:11ty",
     "dev:css": "node scripts/buildCSS.js --watch",
-    "dev:11ty": "eleventy --serve --incremental",
+    "dev:11ty": "eleventy --serve",
     "dev:js": "node scripts/buildChoreography.js --watch",
     "_comment_build": "=== BUILD PROCESSES ===",
     "build": "run-s clean build:design build:css build:js build:11ty",

@@ -2,28 +2,23 @@
 {% import "organisms/footer/global-footer.njk" as footer with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as skip_links %}
 {% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
-
+{%- set bodyClasses = "bg-white grid grid-cols-12" -%}
+{%- set mainClasses = "bg-white col-span-full w-full " -%}
 <!DOCTYPE html>
 <html lang="en">
   {% include "templates/partials/head.njk" %}
   {% block head %}{% endblock %}
   <body
-    class="bg-primary-950 {{ bodyClasses }}" data-scroll-container>
+    class="{{ bodyClasses }}" data-scroll-container>
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
     {# SKIP LINKS #}
     {{ skip_links.render() }}
     {# GLOBAL PAGE HEADER #}
     {{ header.render({classes: 'font-display'}) }}
-    {# SIDEBAR #}
-    {% block sidebar_before %}
-      {% if sidebar_before %}
-        {{ sidebar_before | safe }}
-      {% endif %}
-    {% endblock %}
     {# MAIN CONTENT AREA #}
     <main
-      class="py-8 {{ mainClasses }}" data-scroll-container>
+      class="{{ mainClasses }}" data-scroll-container>
       {# BREADCRUMBS #}
       {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
       {% block content %}
@@ -34,12 +29,6 @@
         {% endif %}
       {% endblock %}
     </main>
-    {# SIDEBAR #}
-    {% block sidebar_after %}
-      {% if sidebar_after %}
-        {{ sidebar_after | safe }}
-      {% endif %}
-    {% endblock %}
     {# GLOBAL PAGE FOOTER #}
     {{ footer.render() }}
   </body>
