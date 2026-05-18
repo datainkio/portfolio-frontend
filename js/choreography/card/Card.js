@@ -104,6 +104,9 @@ export default class Card {
     }
   }
 
+  // Note: kill() and destroy() are separate methods to allow for different cleanup
+  // semantics. kill() is for tearing down motion and scroll triggers, while
+  // destroy() also reverts matchMedia contexts and resets to static state.
   kill() {
     this._tl?.scrollTrigger?.kill();
     this._tl?.kill();
