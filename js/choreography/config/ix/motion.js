@@ -340,6 +340,26 @@ export const MOTION_PROFILES = Object.freeze({
 });
 
 /**
+ * Section-Specific Motion Overrides
+ *
+ * Shallow-merged over the matching MOTION_PROFILES entry by resolveSectionMotionProfile.
+ * Only include keys that differ from the global profile default.
+ *
+ * animation channel:
+ *   variant - selects which animation implementation to run.
+ *             Values are section-defined; Card supports 'clip' and 'fade'.
+ */
+export const SECTION_OVERRIDES = Object.freeze({
+  card: {
+    base: { animation: { variant: "clip" } },
+    sm: { animation: { variant: "clip" } },
+    md: { animation: { variant: "fade" } },
+    lg: { animation: { variant: "clip" } },
+    xl: { animation: { variant: "clip" } },
+  },
+});
+
+/**
  * Get the active motion profile key from matchMedia conditions.
  *
  * Reduced motion always overrides the breakpoint profile.
@@ -355,14 +375,19 @@ export function getActiveMotionProfileKey(conditions = {}) {
 /**
  * Resolve the motion profile for a section at the current conditions.
  *
- * Section-specific overrides are not implemented in this pass.
- * The sectionKey parameter is accepted for forward compatibility.
+ * Merges the global MOTION_PROFILES entry for the active breakpoint with any
+ * section-specific overrides from SECTION_OVERRIDES. The merge is shallow —
+ * top-level channels (timeline, trigger, animation) in the override replace
+ * their counterparts in the base profile.
  *
- * @param {string} _sectionKey - Section identifier (e.g. 'hero', 'bio', 'card')
+ * @param {string} sectionKey - Section identifier (e.g. 'hero', 'bio', 'card')
  * @param {Object} conditions  - Conditions object from gsap.matchMedia context
- * @returns {{ timeline: Object, trigger: Object }} Resolved motion profile
+ * @returns {{ timeline: Object, trigger: Object, animation?: Object }} Resolved profile
  */
-export function resolveSectionMotionProfile(_sectionKey, conditions = {}) {
+export function resolveSectionMotionProfile(sectionKey, conditions = {}) {
   const key = getActiveMotionProfileKey(conditions);
-  return MOTION_PROFILES[key] ?? MOTION_PROFILES.base;
+  const baseProfile = MOTION_PROFILES[key] ?? MOTION_PROFILES.base;
+  const override = SECTION_OVERRIDES[sectionKey]?.[key];
+  if (!override) return baseProfile;
+  return { ...baseProfile, ...override };
 }

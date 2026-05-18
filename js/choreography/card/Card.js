@@ -20,6 +20,7 @@ export default class Card {
     this._tl = null;
     this._mm = null;
     this._index = index;
+    this._profile = null;
 
     if (this.figure && this.body) {
       this._setupResponsiveMotion();
@@ -59,7 +60,7 @@ export default class Card {
       // trigger.enabled is false only when the resolved profile is 'reduced'.
       // All other profiles (base through xl) enable the scroll-driven animation.
       if (profile.trigger.enabled) {
-        this._init();
+        this._init(profile);
       } else {
         this._applyStaticState();
       }
@@ -92,13 +93,23 @@ export default class Card {
       // Profile permits animation — (re)initialize the scrubbed clip timeline.
       // _init() calls kill() first, so rapid breakpoint transitions won't
       // accumulate duplicate ScrollTrigger instances.
-      this._init();
+      this._init(profile);
     });
   }
 
-  _init() {
+  _init(profile = {}) {
     this.kill();
+    this._profile = profile;
+    const variant = profile.animation?.variant ?? "clip";
 
+    if (variant === "fade") {
+      this._initFade();
+    } else {
+      this._initClip();
+    }
+  }
+
+  _initClip() {
     // Promote both elements to compositor layers — clip-path and transform
     // are handled entirely by the GPU with no layout or paint cost.
     this.figure.style.willChange = "clip-path";
@@ -129,18 +140,46 @@ export default class Card {
     this._tl.to(this.body, { y: () => -window.innerHeight, ease: "none" }, 0);
   }
 
+  _initFade() {
+    this.figure.style.willChange = "opacity, transform";
+
+    gsap.set(this.figure, { autoAlpha: 0, y: 16 });
+
+    // Single-play reveal on scroll enter: figure fades in and lifts into place.
+    // No body translate needed — body remains in flow at its natural position.
+    this._tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: this.root,
+        start: "top 75%",
+        once: true,
+      },
+    });
+
+    this._tl.to(this.figure, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.48,
+      ease: "power2.out",
+    });
+  }
+
   _applyStaticState() {
-    if (this.figure) {
-      gsap.set(this.figure, {
-        clipPath: "inset(0 0 0% 0)",
-        clearProps: "willChange",
-      });
-    }
-    if (this.body) {
-      gsap.set(this.body, {
-        y: 0,
-        clearProps: "willChange",
-      });
+    const variant = this._profile?.animation?.variant ?? "clip";
+
+    if (variant === "fade") {
+      if (this.figure) {
+        gsap.set(this.figure, { autoAlpha: 1, y: 0, clearProps: "willChange" });
+      }
+    } else {
+      if (this.figure) {
+        gsap.set(this.figure, {
+          clipPath: "inset(0 0 0% 0)",
+          clearProps: "willChange",
+        });
+      }
+      if (this.body) {
+        gsap.set(this.body, { y: 0, clearProps: "willChange" });
+      }
     }
   }
 
