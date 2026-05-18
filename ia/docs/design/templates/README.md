@@ -9,11 +9,6 @@ tags:
   - #ia
   - #design-system
   - #templates
-eleventyNavigation:
-  key: docs-design-templates
-  title: Templates
-  parent: docs-design
-  order: 50
 eleventyComputed:
   title: "{{ title }}"
 aix:

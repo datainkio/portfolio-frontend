@@ -10,11 +10,6 @@ tags:
   - #design-system
   - #organisms
   - #bio
-eleventyNavigation:
-  key: docs-design-bio-section
-  title: Bio Section
-  parent: docs-design-organisms
-  order: 10
 eleventyComputed:
   title: "{{ title }}"
 ---

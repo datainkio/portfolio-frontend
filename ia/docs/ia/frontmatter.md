@@ -8,11 +8,6 @@ tags:
   - #docs
   - #ia
   - #frontmatter
-eleventyNavigation:
-  key: docs-ia-frontmatter
-  title: Frontmatter Rules
-  parent: docs-ia-metadata
-  order: 10
 eleventyComputed:
   title: "{{ title }}"
 ---

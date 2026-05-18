@@ -5,12 +5,8 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - #docs
-  - #navigation
-eleventyNavigation:
-  key: docs
-  title: Docs
-  order: 10
+  -  #docs
+  -  #navigation
 eleventyComputed:
   title: "{{ title }}"
 ---

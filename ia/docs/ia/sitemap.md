@@ -8,11 +8,6 @@ tags:
   - #docs
   - #ia
   - #sitemap
-eleventyNavigation:
-  key: docs-ia-sitemap
-  title: Sitemap
-  parent: docs-ia-metadata
-  order: 20
 eleventyComputed:
   title: "{{ title }}"
 ---

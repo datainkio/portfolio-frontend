@@ -2,26 +2,17 @@
 {% import "molecules/list/main-pages.njk" as main_pages with context %}
 
 {% macro render(params = {}) %}
-  {% set navClasses = params.class or params.navClasses or "flex items-center justify-between text-neutral-200 text-shadow-md/80 " %}
   {% set siteName = params.siteName or site.siteName or "data:ink:io" %}
-  {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
-  {% set cmsItems = params.items or cmsNavigation.headerItems or [] %}
-  {% set navPrimary = collections.nav_primary or [] %}
-  {% set fallbackItems = navPrimary if (navPrimary and navPrimary.length) else (collections.all | eleventyNavigation) %}
-  {% set items = cmsItems if (cmsItems and cmsItems.length) else fallbackItems %}
+  {% set eleventyNavItems = collections.all | eleventyNavigation %}
+  {# CMS navigation preserved for future use — currently bypassed in favour of eleventyNavigation frontmatter #}
+  {# {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %} #}
+  {# {% set cmsItems = params.items or cmsNavigation.headerItems or [] %} #}
+  {% set items = params.items or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
 
-  <nav id="primary-nav" class="{{ navClasses }}" aria-label="Primary navigation">
-    {{ site_title.render({
-        siteName: siteName,
-        href: "/",
-        classes: "mr-auto whitespace-nowrap",
-        id: siteTitleId
-      }) }}
-    {{ main_pages.render({
-      classes: "flex list-none items-center gap-6 m-0",
-      items: items,
-      linkClass: ""
-    }) }}
+    <nav id="primary-nav" class="w-full" aria-label="Primary navigation">
+    {{ main_pages.render({ 
+      items: items, 
+      linkClass: ""}) }}
   </nav>
 {% endmacro %}

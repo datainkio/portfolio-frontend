@@ -13,7 +13,7 @@ export function resolveNavigationHref(item) {
     case "contact":
       return "/contact/";
     case "project":
-      return item.slug ? `/work/${item.slug}/` : "";
+      return item.slug ? `/case-studies/${item.slug}/` : "";
     case "post":
       return item.slug ? `/posts/${item.slug}/` : "/posts/";
     case "documentation":
@@ -37,7 +37,7 @@ export function resolveNavigationLabel(item) {
     case "contact":
       return "Contact";
     case "project":
-      return "Project";
+      return "Case Study";
     case "post":
       return "Post";
     case "documentation":

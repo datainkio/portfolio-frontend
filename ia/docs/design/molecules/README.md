@@ -9,11 +9,6 @@ tags:
   - #ia
   - #design-system
   - #molecules
-eleventyNavigation:
-  key: docs-design-molecules
-  title: Molecules
-  parent: docs-design
-  order: 20
 eleventyComputed:
   title: "{{ title }}"
 aix:

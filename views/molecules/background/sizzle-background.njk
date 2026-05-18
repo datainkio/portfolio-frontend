@@ -1,14 +1,9 @@
 {% import "atoms/video/video.njk" as videoAtom %}
 {% import "atoms/gel.njk" as Gel %}
-{% import "molecules/printmarks.njk" as PrintMarks %}
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
   {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
   {%- set containerStyles = params.styles | default('') -%}
-  {# Print marks parameters #}
-  {%- set marginBleed = {color: "neutral-200", size: "1", bleedInset: "8", style: "dashed", marginInset: "6"} | default({}) -%}
-  {%- set trim = {color: "neutral-200", size: "3", inset: "12", weight: "2"} | default({}) -%}
-
   <div id="{{ bgID }}" style="{{ containerStyles }}" class="{{ containerClasses }}" aria-hidden="true" inert>
     {{ videoAtom.render({
       src: params.videoSrc,
@@ -28,6 +23,5 @@
     {{ Gel.render({ id: 'bg-gel-3', color: 'bg-gel-success' }) }}
     {{ Gel.render({ id: 'bg-gel-4', color: 'bg-gel-black' }) }}
     <div class="absolute inset-0 bg-pixelator opacity-60 pointer-events-none z-10"></div>
-    {{ PrintMarks.render({classes: "inset-4", marginBleed: marginBleed, trim: trim}) }}
   </div>
 {% endmacro %}

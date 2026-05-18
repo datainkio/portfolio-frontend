@@ -2,15 +2,13 @@
 
 {% macro render(params = {}) %}
   {%- set items = params.items | default([]) -%}
-  {%- set classes = params.classes | default("flex gap-6 items-center") -%}
-  {%- set linkClass = params.linkClass | default("") -%}
 
-  <ul class="{{ classes }}" role="list">
+  <ul class="w-full flex list-none justify-end gap-6 m-0" role="list">
     {%- for entry in items -%}
       {%- set hasHref = entry and (entry.url or entry.href) -%}
       {%- if hasHref and (entry.title or entry.key) -%}
-        <li>
-          {{ nav_link.render({ entry: entry, class: linkClass }) }}
+        <li {% if loop.first %} class="mr-auto" {% endif %}>
+          {{ nav_link.render({ entry: entry }) }}
         </li>
       {%- endif -%}
     {%- endfor -%}

@@ -1,9 +1,5 @@
 ---
 title: "Mission Statement"
-eleventyNavigation:
-  key: docs-design-organisms-section-mission-statement
-  parent: docs-design
-  order: 30
 # Keep Nunjucks-only rendering here so Markdown does not inject empty <p></p> wrappers around the awards section's inline HTML output.
 templateEngineOverride: njk
 eleventyComputed:

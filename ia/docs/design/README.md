@@ -9,11 +9,6 @@ tags:
   - #ia
   - #design-system
   - #atomic-design
-eleventyNavigation:
-  key: docs-design
-  title: Design
-  parent: docs
-  order: 30
 eleventyComputed:
   title: "{{ title }}"
 aix:

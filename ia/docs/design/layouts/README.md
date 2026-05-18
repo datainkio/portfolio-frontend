@@ -9,11 +9,6 @@ tags:
   - #ia
   - #design-system
   - #layouts
-eleventyNavigation:
-  key: docs-design-layouts
-  title: Layouts
-  parent: docs-design
-  order: 40
 eleventyComputed:
   title: "{{ title }}"
 aix:

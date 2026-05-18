@@ -9,11 +9,6 @@ tags:
   - #ia
   - #atomic-design
   - #design-system
-eleventyNavigation:
-  key: docs-ia
-  title: IA Docs
-  parent: docs
-  order: 20
 permalink: /docs/ia/
 eleventyComputed:
   title: "{{ title }}"

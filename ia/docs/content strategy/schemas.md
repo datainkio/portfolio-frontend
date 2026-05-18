@@ -9,11 +9,6 @@ tags:
   - #ia
   - #content-strategy
   - #schemas
-eleventyNavigation:
-  key: docs-content-schemas
-  title: Schemas
-  parent: docs-content-strategy
-  order: 30
 eleventyComputed:
   title: "{{ title }}"
 ---

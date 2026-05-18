@@ -12,7 +12,7 @@ skipLinks:
 enableChoreography: true
 eleventyNavigation:
   key: home
-  title: Home
+  title: data:ink:io
 eleventyComputed:
   title: "{{ cms.home[0].pageTitle }}"
   hero:

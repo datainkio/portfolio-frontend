@@ -9,11 +9,6 @@ tags:
   - #ia
   - #content-strategy
 permalink: /docs/ia/content-strategy/
-eleventyNavigation:
-  key: docs-content-strategy
-  title: Content Strategy
-  parent: docs-ia
-  order: 10
 eleventyComputed:
   title: "{{ title }}"
 aix:

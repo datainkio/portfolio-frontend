@@ -1,9 +1,5 @@
 ---
 title: "Awards + Recognition"
-eleventyNavigation:
-  key: docs-design-organisms-section-awards
-  parent: docs-design
-  order: 30
 # Keep Nunjucks-only rendering here so Markdown does not inject empty <p></p>
 # wrappers around the awards section's inline HTML output.
 templateEngineOverride: njk

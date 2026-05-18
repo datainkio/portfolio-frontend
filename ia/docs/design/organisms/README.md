@@ -9,11 +9,6 @@ tags:
   - #ia
   - #design-system
   - #organisms
-eleventyNavigation:
-  key: docs-design-organisms
-  title: Organisms
-  parent: docs-design
-  order: 30
 eleventyComputed:
   title: "{{ title }}"
 aix:

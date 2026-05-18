@@ -9,11 +9,6 @@ tags:
   - #ia
   - #content-strategy
   - #graph
-eleventyNavigation:
-  key: docs-content-graph
-  title: Content Graph
-  parent: docs-content-strategy
-  order: 20
 eleventyComputed:
   title: "{{ title }}"
 ---

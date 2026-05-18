@@ -10,11 +10,6 @@ tags:
   - #sitemap
   - #frontmatter
 permalink: /docs/ia/information-architecture/
-eleventyNavigation:
-  key: docs-ia-metadata
-  title: IA And Metadata
-  parent: docs-ia
-  order: 20
 eleventyComputed:
   title: "{{ title }}"
 aix:
