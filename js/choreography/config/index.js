@@ -55,5 +55,6 @@ export * from "./displays/printermarks.js";
 export * from "./displays/leader-lines.js";
 
 export * from "./ix/accessibility.js";
+export * from "./ix/breakpoints.js";
 export * from "./ix/motion.js";
 export * from "./ix/scrolltriggers.js";

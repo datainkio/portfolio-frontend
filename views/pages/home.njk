@@ -44,9 +44,7 @@
         {{ heroSection.render( { id: "hero", tagline: hero.tagline, classes: sharedClasses }) }}
         {{ bioSection.render({ id: "introduction", copy: value, order: "1/5", classes: sharedClasses, buildDate: buildDate}) }}
         {{ projectsSection.render({ id: "work", copy: work, projects: projects, classes: sharedClasses, order: "3/5", buildDate: buildDate }) }}
-        {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}
-        {{ organizationsSection.render({ id: "organizations", organizations: organizations, classes: sharedClasses, order: "4/5", buildDate: buildDate }) }}
-      {{ contactSection.render({ id: "contact", copy: contact, classes: sharedClasses, order: "5/5", buildDate: buildDate }) }}
+      {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}
     </div>
     </main>
     {{ Footer.render() }}

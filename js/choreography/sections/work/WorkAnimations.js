@@ -31,7 +31,7 @@ const CARD_EL_ATTR = "data-card-el";
 const selectWorkEl = (view, name) =>
   view?.querySelector(`[${WORK_EL_ATTR}="${name}"]`) ?? null;
 const selectCardEl = (view, name) =>
-  view?.querySelector("[" + CARD_EL_ATTR + "=\"" + name + "\"]") ?? null;
+  view?.querySelector("[" + CARD_EL_ATTR + '="' + name + '"]') ?? null;
 
 export default class WorkAnimations extends AbstractSectionAnimations {
   /**
@@ -100,19 +100,19 @@ export default class WorkAnimations extends AbstractSectionAnimations {
   }
 
   updateWorkReveal() {
-    this._revealItemsOnScroll({
-      items: this.workItems,
-      revealedItems: this.revealedItems,
-      revealViewportRatio: this.options.itemRevealViewportRatio,
-      buildTween: (item) => {
-        gsap.to(item, {
-          autoAlpha: 1,
-          y: 0,
-          duration: this.options.duration,
-          ease: this.options.ease.in,
-        });
-      },
-    });
+    // this._revealItemsOnScroll({
+    //   items: this.workItems,
+    //   revealedItems: this.revealedItems,
+    //   revealViewportRatio: this.options.itemRevealViewportRatio,
+    //   buildTween: (item) => {
+    //     gsap.to(item, {
+    //       autoAlpha: 1,
+    //       y: 0,
+    //       duration: this.options.duration,
+    //       ease: this.options.ease.in,
+    //     });
+    //   },
+    // });
   }
 
   _buildIntro() {
@@ -121,13 +121,13 @@ export default class WorkAnimations extends AbstractSectionAnimations {
       return tl;
     }
 
-    tl.to(this.animTargets, {
-      // autoAlpha: 1,
-      y: 0,
-      duration: this.options.duration,
-      stagger: this.options.stagger,
-      ease: this.options.ease.in,
-    }).addPause();
+    // tl.to(this.animTargets, {
+    //   // autoAlpha: 1,
+    //   y: 0,
+    //   duration: this.options.duration,
+    //   stagger: this.options.stagger,
+    //   ease: this.options.ease.in,
+    // }).addPause();
     return tl;
   }
 
@@ -142,16 +142,15 @@ export default class WorkAnimations extends AbstractSectionAnimations {
       return tl;
     }
 
-    tl.to(this.animTargets, {
-      // autoAlpha: 0,
-      y: this.options.translateY,
-      duration: this.options.duration,
-      stagger: this.options.stagger,
-      ease: this.options.ease.out,
-    }).addPause();
+    // tl.to(this.animTargets, {
+    //   // autoAlpha: 0,
+    //   y: this.options.translateY,
+    //   duration: this.options.duration,
+    //   stagger: this.options.stagger,
+    //   ease: this.options.ease.out,
+    // }).addPause();
     return tl;
   }
-
 
   kill() {
     super.kill();

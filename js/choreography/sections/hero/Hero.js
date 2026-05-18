@@ -38,7 +38,7 @@ export default class Hero extends AbstractSection {
       view,
       animations,
       triggers,
-      sectionKey: SELECTORS.hero,
+      sectionKey: "hero",
       bus,
       reducedMotionHandler,
       initialInView: true,

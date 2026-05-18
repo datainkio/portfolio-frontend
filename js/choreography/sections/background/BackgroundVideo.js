@@ -81,6 +81,11 @@ export default class BackgroundVideo extends AbstractSection {
   }
 
   async playIntro() {
+    if (this.isDisabled || !this._isLifecycleMotionEnabled) {
+      this.videoEl?.pause?.();
+      return Promise.resolve();
+    }
+
     await this._ensureVideoReady();
     this._playVideo();
     return super.playIntro();
