@@ -1,4 +1,9 @@
 {% macro render(params = {}) %}
-  <div class="absolute inset-8 border-2 border-black"></div>
-  <div class="absolute inset-6 border-2 border-black border-dashed"></div>
+  {%- set color = params.color | default("white") -%}
+  {%- set size = params.size | default("1") -%}
+  {%- set bleedInset = params.bleedInset | default("8") -%}
+  {%- set style = params.style | default("dashed") -%}
+  {%- set marginInset = params.marginInset | default("6") -%}
+  <div aria-hidden="true" class="absolute inset-{{ bleedInset }} border-{{ size }} border-{{ color }} border-{{ style }}"></div>
+  <div aria-hidden="true" class="absolute inset-{{ marginInset }} border-{{ size }} border-white"></div>
 {% endmacro %}
