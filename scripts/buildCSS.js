@@ -262,15 +262,8 @@ async function runWatchMode(command, tailwindLogger, outputFile) {
 
     const [cmd, ...args] = command.split(" ");
     let buildCount = 0;
-    let restartCount = 0;
     let childProcess = null;
-    let restartRequested = false;
     let isShuttingDown = false;
-
-    const maxRestarts = 8;
-    const restartDelayMs = 300;
-    const fseventsRescanPattern =
-      /events were dropped by (the )?(fsevents client|kernel)\. file system must be re-scanned\./i;
 
     const cleanup = () => {
       process.off("SIGINT", handleSigInt);
@@ -292,24 +285,6 @@ async function runWatchMode(command, tailwindLogger, outputFile) {
     const finalizeError = (error) => {
       cleanup();
       reject(error);
-    };
-
-    const requestRestart = (reason) => {
-      if (isShuttingDown || restartRequested) return;
-
-      restartRequested = true;
-      restartCount += 1;
-
-      logger.trace(
-        `Restarting CSS watch process (${restartCount}/${maxRestarts}) due to ${reason}`,
-        null,
-        "brief",
-        scriptStyle,
-      );
-
-      if (childProcess && !childProcess.killed) {
-        childProcess.kill("SIGTERM");
-      }
     };
 
     const startWatcher = () => {
@@ -363,18 +338,6 @@ async function runWatchMode(command, tailwindLogger, outputFile) {
           return;
         }
 
-        // FSEvents may drop events under heavy churn; restart to force re-scan.
-        if (fseventsRescanPattern.test(output)) {
-          logger.trace(
-            "Watcher event overflow detected; restarting Tailwind watch to re-scan files.",
-            null,
-            "brief",
-            scriptStyle,
-          );
-          requestRestart("dropped macOS FSEvents");
-          return;
-        }
-
         // Only log actual errors
         tailwindLogger.logError(new Error(output), "watch mode");
       });
@@ -383,22 +346,6 @@ async function runWatchMode(command, tailwindLogger, outputFile) {
         if (isShuttingDown) {
           logger.trace("CSS watch mode stopped", null, "brief", scriptStyle);
           finalizeSuccess();
-          return;
-        }
-
-        if (restartRequested) {
-          restartRequested = false;
-
-          if (restartCount > maxRestarts) {
-            finalizeError(
-              new Error(
-                "Watch process restarted too many times after file-event overflows. Reduce filesystem churn or restart the dev server.",
-              ),
-            );
-            return;
-          }
-
-          setTimeout(startWatcher, restartDelayMs);
           return;
         }
 
