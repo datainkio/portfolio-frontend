@@ -10,20 +10,14 @@
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
   {%- set buildDate = params.buildDate -%}
 
-  {# Print marks parameters #}
-  {%- set marginBleed = {color: "neutral-200", size: "1", bleedInset: "8", style: "dashed", marginInset: "6"} | default({}) -%}
-  {%- set trim = {color: "neutral-200", size: "3", inset: "12", weight: "2"} | default({}) -%}
-
   {# Biography section #}
   <section class="relative p-12 text-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    {{ PrintMarks.render({classes: "inset-4", marginBleed: marginBleed, trim: trim}) }}
-    {{ PrintMarks.render({classes: "inset-4", marginBleed: marginBleed, trim: trim}) }}
     <header class="col-span-full z-10" data-bio-el="header">
       <div class="text-xs space-x-1 font-thin px-2 mt-4 flex items-center justify-between" data-bio-el="context">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
       <h2 class="px-10 font-display text-3xl sm:text-4xl" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
-      <p class="px-10 mt-4 text-lg" data-bio-el="subheading">{{ subheading }}</p>
+      <p class="px-10 mt-4 text-lg font-light" data-bio-el="subheading">{{ subheading }}</p>
     </header>
   </section>
 {% endmacro %}

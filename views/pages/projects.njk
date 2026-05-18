@@ -5,7 +5,7 @@
 {% block content %}
   {{ super() }}
   {% if collections.projects and collections.projects.length %}
-    <ul class="space-y-2">
+    <ul class="space-y-8">
       {% for project in collections.projects %}
         {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
         <li class="text-black">

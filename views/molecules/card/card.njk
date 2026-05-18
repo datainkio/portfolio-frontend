@@ -40,7 +40,7 @@
         {% if eyebrow %}
           <p class="eyebrow text-xs text-current uppercase tracking-wide">{{ eyebrow }}</p>
         {% endif %}
-        {{ Heading.render({ level: headingLevel, text: title, class: "title font-display text-current font-bold sm:text-lg" ~ (" hover:underline" if url else "") }) }}
+        {{ Heading.render({ level: headingLevel, text: title, class: "title font-display text-current font-bold sm:text-2xl" ~ (" hover:underline" if url else "") }) }}
         {% if byline %}
           <p class="byline text-sm text-current font-thin">{{ byline }}</p>
         {% endif %}
