@@ -48,6 +48,13 @@ export const BIO_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.bio,
   once: false,
+  start: "top top",
+  end: "bottom center",
+  pinSpacing: false,
+  pin: true,
+  scrub: true,
+  fastScrollEnd: false,
+  toggleActions: "none none none none",
 };
 
 /**
