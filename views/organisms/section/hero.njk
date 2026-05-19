@@ -1,4 +1,6 @@
 {% macro render(params = {}) %}
+  {% import "atoms/hanko.njk" as Hanko %}
+
   {%- set sectionId = params.id | default("hero") -%}
   {%- set tagline = params.tagline | default(title) -%}
   {%- set rulerOptions = params.ruler | default({}) -%}
@@ -7,12 +9,13 @@
 
   {# Let's make styling the tagline text a little more manageable... #}
   {%- set font = "font-display text-primary-100 uppercase" -%}
-  {%- set layout = "w-full py-8 flex flex-col overflow-hidden z-10" -%}
+  {%- set layout = "my-auto col-start-2 col-span-2 py-8 flex flex-col overflow-hidden z-10" -%}
   {%- set sizes = "text-6xl sm:text-7xl md:text-8xl lg:text-9xl" -%}
-  {%- set leading = "leading-12 sm:leading-14 md:leading-16 lg:leading-28" -%}
+  {%- set leading = "leading-12 sm:leading-14 md:leading-16 lg:leading-24" -%}
   {%- set tracking = "" -%}
 
-  <section id="{{ sectionId }}" class="z-10 col-span-full h-dvh content-center  {{ classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="z-10 h-dvh content-center grid grid-cols-3 gap-4 {{ classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+    {{ Hanko.render({svg: params.logoSvg, classes: "hanko justify-self-end block w-24 sm:w-36 lg:w-40 text-secondary-500"}) }}
     <h1 id="{{ headingId }}" data-hero-el="tagline" class="{{ layout }} {{ sizes }} {{ leading }} {{ tracking }} {{ font }}">
       {{ tagline }}
     </h1>

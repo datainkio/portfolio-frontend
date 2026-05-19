@@ -4,6 +4,7 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 
 ## Collections
 
+- `siteSettings` – site-wide singleton (siteName, tagline, canonicalUrl, brand logos/OG image, SEO defaults, analytics integrations). Resolved via fixed `_id == "siteSettings"`.
 - `organizations` – organizations with industry concept + logo metadata
 - `industries` – industry concepts for organizations and projects
 - `projectsByIndustry` – industry concepts with nested project lists, resolved via project organization industry references; nested project records are normalized with `project.card`

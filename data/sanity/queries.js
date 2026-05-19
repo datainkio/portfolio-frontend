@@ -29,8 +29,10 @@ import { projectPagesQuery } from "./queries/project/project-pages.js";
 import { projectsLandingQuery } from "./queries/project/projects-landing.js";
 import { projectsQuery } from "./queries/project/projects.js";
 import { rolesQuery } from "./queries/role/roles.js";
+import { siteSettingsQuery } from "./queries/siteSettings/siteSettings.js";
 
 export const CMS_QUERIES = [
+  siteSettingsQuery,
   organizationsQuery,
   industriesQuery,
   projectsByIndustryQuery,

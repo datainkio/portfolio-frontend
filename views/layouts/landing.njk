@@ -1,9 +1,17 @@
 {% extends "./base.njk" %}
+{% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
+{% import "atoms/printmarks/margin-bleed-marks.njk" as MarginBleedMarks %}
 {% set navClasses = "text-neutral-200" %}
-{% set mainClasses = "bg-neutral-200" %}
+{% set mainClasses = "bg-primary-950" %}
 {% block content %}
   {% if title %}
-    <h1 class="col-span-full px-4 text-8xl text-neutral-100 h-96 font-display bg-neutral-950 flex items-end">{{ title }}</h1>
+    <h1
+      class="col-span-full p-12 text-6xl sm:text-8xl text-neutral-100 sm:h-[50vh] font-display bg-black flex items-end"
+      style="min-height: 100vh; min-height: 100svh;">
+      {{ MarginBleedMarks.render() }}
+      {{ title }}
+    </h1>
+
     <section doc-abstract class="prose prose-lg px-4 col-span-full max-w-none">
       {{ body | safe }}
     </section>

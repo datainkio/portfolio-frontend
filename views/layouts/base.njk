@@ -9,7 +9,7 @@
   {% include "templates/partials/head.njk" %}
   {% block head %}{% endblock %}
   <body
-    class="{{ bodyClasses }}" data-scroll-container>
+    class="{{ bodyClasses }}">
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
     {# SKIP LINKS #}
@@ -18,7 +18,7 @@
     {{ header.render({classes: 'font-display'}) }}
     {# MAIN CONTENT AREA #}
     <main
-      class="{{ mainClasses }}" data-scroll-container>
+      class="{{ mainClasses }}">
       {# BREADCRUMBS #}
       {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
       {% block content %}

@@ -5,11 +5,11 @@
 {% block content %}
   {{ super() }}
   {% if collections.projects and collections.projects.length %}
-    <ul class="space-y-8">
+    <ul class="space-y-8 sm:grid sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
       {% for project in collections.projects %}
         {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
         <li class="text-black">
-          {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2 }) }}
+          {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2, classes: "sm:inner-border-none" }) }}
         </li>
       {% endfor %}
     </ul>

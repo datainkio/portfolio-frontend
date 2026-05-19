@@ -1,0 +1,7 @@
+{% macro render(params = {}) %}
+  {% set svg = params.svg %}
+  {% set classes= params.classes | default("block w-12 text-secondary-700") %}
+  <span class="{{ classes }}">
+    {{ svg | safe }}
+  </span>
+{% endmacro %}

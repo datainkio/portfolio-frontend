@@ -22,8 +22,8 @@
 
   <article
     data-card-el="root"
-    class="relative isolate w-full sm:max-w-4xl sm:bg-white sm:grid sm:grid-cols-3 sm:inner-border sm:p-4 sm:mx-auto {{
-      classes }}">
+    class="relative isolate w-full sm:max-w-4xl sm:bg-white sm:grid sm:grid-cols-3 sm:inner-border sm:p-4 sm:mx-auto
+      md:grid-cols-1 {{ classes }}">
 
     {% if imageSrc %}
       <figure data-card-el="figure" class="m-0 relative z-0 overflow-hidden w-full h-dvh sm:h-full sm:p-2">
@@ -44,6 +44,9 @@
         {% if byline %}
           <p class="byline text-sm text-current font-thin">{{ byline }}</p>
         {% endif %}
+        {% if meta | length %}
+          {{ Details.render({ stats: meta }) }}
+        {% endif %}
       </header>
 
       {% if description %}
@@ -51,9 +54,6 @@
       {% endif %}
 
       <footer class="mt-8 pt-4">
-        {% if meta | length %}
-          {{ Details.render({ stats: meta }) }}
-        {% endif %}
         {% if url %}
           {{ CTA.render({ text: "view case study", url: url, classes: "mt-4 font-display inline-block uppercase text-right w-full" }) }}
         {% endif %}
