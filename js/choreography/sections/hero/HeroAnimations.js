@@ -123,14 +123,22 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     tl.to(
       gel.view,
       {
-        ...HERO_OUTRO,
-        onUpdate: () => gel.refresh?.(),
-        onComplete: () => gel.refresh?.(),
+        height: 0,
+        ease: "none",
+        // onUpdate: () => gel.refresh?.(),
+        // onComplete: () => gel.refresh?.(),
       },
       0,
     );
 
     return tl;
+  }
+
+  getLastWordBottom() {
+    const el = document.getElementById("hero-heading");
+    const rect = el?.getBoundingClientRect();
+    const bottom = rect?.top; // * 0.25; // Add a bit of buffer to ensure the last word is fully out of view
+    return Number.isFinite(bottom) && bottom > 0 ? bottom : null;
   }
 
   _resetSplit() {

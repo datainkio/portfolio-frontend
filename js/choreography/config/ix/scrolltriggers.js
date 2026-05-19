@@ -33,7 +33,7 @@ export const HERO_TRIGGER = {
   id: SELECTORS.hero,
   once: false,
   start: "top top",
-  end: "+=300",
+  end: "bottom top",
   pinSpacing: false,
   pin: true,
   scrub: true,
