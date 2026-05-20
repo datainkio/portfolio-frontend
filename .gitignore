@@ -1,4 +1,6 @@
 # MEDIA
+/responsive-testing/screenshots/
+/responsive-testing/recordings/
 # Keep the repo from throwing errors when faced with large files
 *.mp4
 *.wav
