@@ -16,7 +16,7 @@
   {%- set tracking = "" -%}
 
   <section id="{{ sectionId }}" class="z-10 h-dvh content-center grid grid-cols-3 gap-4 {{ classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    {{ Hanko.render({classes: "hanko justify-self-end block text-secondary-500 " ~ hanko}) }}
+    {{ Hanko.render({svg: params.logo, classes: "hanko justify-self-end block text-secondary-500 " ~ hanko}) }}
     <h1 id="{{ headingId }}" data-hero-el="tagline" class="{{ layout }} {{ sizes }} {{ leading }} {{ tracking }} {{ font }}">
       {{ tagline }}
     </h1>
