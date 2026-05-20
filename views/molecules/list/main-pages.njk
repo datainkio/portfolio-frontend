@@ -17,7 +17,7 @@
               </span>
             {%- else -%}
               <a href="{{ entryHref }}" class="nav-link inline-flex items-center" aria-label="{{ entry.title or entry.key }}">
-                {{ Hanko.render({ svg: logoSvg, classes: "inline-block size-18 text-secondary-700" }) }}
+                {{ Hanko.render({ classes: "inline-block size-18 text-secondary-700" }) }}
               </a>
             {%- endif -%}
           {%- elif isCurrent -%}

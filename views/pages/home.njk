@@ -41,8 +41,7 @@
       <div id="page-main-content" class="col-span-full space-y-48">
         {# Note that content values are set in frontmatter #}
         {# The id param has a matching value in SELECTORS.js for consistency w/choreography during runtime #}
-        {% set heroLogoSvg = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl %}
-        {{ heroSection.render( { id: "hero", tagline: hero.tagline, classes: sharedClasses, logoSvg: heroLogoSvg }) }}
+        {{ heroSection.render( { id: "hero", tagline: hero.tagline, classes: sharedClasses}) }}
         {{ bioSection.render({ id: "introduction", copy: value, order: "1/5", classes: sharedClasses, buildDate: buildDate}) }}
         {{ projectsSection.render({ id: "work", copy: work, projects: projects, classes: sharedClasses, order: "3/5", buildDate: buildDate }) }}
       {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}

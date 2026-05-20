@@ -1,7 +1,7 @@
 {% macro render(params = {}) %}
   {% set svg = params.svg %}
   {% set classes= params.classes | default("block w-12 text-secondary-700") %}
-  <span aria-hidden="true" class="[&>svg]:w-full [&>svg]:h-full [&>svg]:block{{ classes }}">
+  <span aria-hidden="true" class="[&>svg]:w-full [&>svg]:h-full [&>svg]:block {{ classes }}">
     {{ svg | safe }}
   </span>
 {% endmacro %}

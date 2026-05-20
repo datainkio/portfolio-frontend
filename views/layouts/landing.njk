@@ -1,19 +1,21 @@
 {% extends "./base.njk" %}
-{% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
-{% import "atoms/printmarks/margin-bleed-marks.njk" as MarginBleedMarks %}
+{% import "atoms/hanko.njk" as Hanko %}
 {% set navClasses = "text-neutral-200" %}
 {% set mainClasses = "bg-primary-950" %}
+{% set logo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl %}
 {% block content %}
   {% if title %}
-    <h1
-      class="col-span-full p-12  text-6xl sm:text-8xl text-neutral-100 sm:h-[50vh] font-display bg-black flex items-end"
-      style="min-height: 100vh; min-height: 100svh;">
-
-      {{ title }}
-    </h1>
-    <section doc-abstract class="prose prose-lg px-4 col-span-full max-w-none">
-      {{ body | safe }}
-    </section>
+    <header class="col-span-full bg-black flex items-end z-10" style="min-height: 100vh; min-height: 100svh;">
+      <a href="/" class="nav-link inline-flex items-center" aria-label="Home">
+        {{ Hanko.render({ svg: logo, classes: "inline-block size-20 m-2 text-secondary-700" }) }}
+      </a>
+      <h1 class="text-6xl sm:text-8xl text-neutral-100 font-display ">
+        {{ title }}
+      </h1>
+      <section doc-abstract class="prose prose-lg px-4 col-span-full max-w-none">
+        {{ body | safe }}
+      </section>
+    </header>
   {% endif %}
   {% if content %}
     {{ content | safe }}
