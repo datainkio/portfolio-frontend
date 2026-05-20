@@ -24,9 +24,9 @@ tags:
 - scroll pacing
 
 ## Tested Viewports
-- [[390x660-mobile-narrow]]
-- [[768x1024-tablet-portrait]]
-- [[1024x768-tablet-landscape]]
+- [[01 XS]]
+- [[04 LG]]
+- [[05 XL]]
 
 ## Related Issues
 - [[ISSUE-001-pin-release-timing]]

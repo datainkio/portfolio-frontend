@@ -11,12 +11,12 @@ tags:
 # Responsive Testing
 
 ## Viewports
-- [[390x660-mobile-narrow]]
-- [[480x854-mobile-standard]]
-- [[640x960-mobile-large]]
-- [[768x1024-tablet-portrait]]
-- [[1024x768-tablet-landscape]]
-- [[1280x800-laptop]]
+- [[01 XS]]
+- [[02 SM]]
+- [[03 MD]]
+- [[04 LG]]
+- [[05 XL]]
+- [[00 Base]]
 - [[1440x900-desktop-large]]
 
 ## Systems

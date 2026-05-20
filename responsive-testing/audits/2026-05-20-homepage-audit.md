@@ -10,9 +10,9 @@ date: 2026-05-20
 # Homepage Audit — 2026-05-20
 
 ## Tested Viewports
-- [[390x660-mobile-narrow]]
-- [[768x1024-tablet-portrait]]
-- [[1024x768-tablet-landscape]]
+- [[01 XS]]
+- [[04 LG]]
+- [[05 XL]]
 
 ---
 

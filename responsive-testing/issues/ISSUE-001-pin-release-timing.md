@@ -17,8 +17,8 @@ viewport: 1024x768
 Pinned image releases before metadata section completes.
 
 ## Affected Viewports
-- [[1024x768-tablet-landscape]]
-- [[390x660-mobile-narrow]]
+- [[05 XL]]
+- [[01 XS]]
 
 ## Affected Systems
 - [[case-cards]]
