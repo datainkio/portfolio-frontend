@@ -3,18 +3,23 @@
 {% set navClasses = "text-neutral-200" %}
 {% set mainClasses = "bg-primary-950" %}
 {% set logo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl %}
+
+{%- set base = "col-span-full grid grid-cols-12 gap-x-4 gap-y-10 p-8 content-end h-dvh bg-black z-10 overflow-hidden text-neutral-100" -%}
+{%- set sm = "" -%}
+{%- set md = " " -%}
+{%- set lg = " " -%}
+{%- set xl = " " -%}
+
 {% block content %}
   {% if title %}
-    <header data-landing-header class="col-span-full h-dvh bg-black flex items-end z-10 overflow-hidden">
-      <a href="/" class="nav-link block w-24 h-24" aria-label="Home">
-        {{ Hanko.render({ svg: logo, classes: "m-2 text-secondary-700" }) }}
+    <header data-landing-header class="{{ base }} {{ sm }} {{ md }} {{ lg }} {{ xl }}">
+      <a href="/" class="nav-link block col-span-3" aria-label="Home">
+        {{ Hanko.render({ svg: logo, classes: "text-secondary-700" }) }}
       </a>
-
-      <h1 data-landing-header-title class="text-6xl sm:text-8xl text-neutral-100 font-display">
+      <h1 data-landing-header-title class="col-span-4 text-6xl leading-12 sm:text-8xl font-display">
         {{ title }}
       </h1>
-
-      <section doc-abstract class="prose prose-lg px-4 col-span-full max-w-none">
+      <section doc-abstract class="prose prose-lg col-span-8 col-start-4 max-w-none">
         {{ body | safe }}
       </section>
     </header>
