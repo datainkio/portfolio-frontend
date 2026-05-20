@@ -1,14 +1,20 @@
 {% import "atoms/link/nav-link.njk" as nav_link with context %}
-
+{% import "atoms/hanko.njk" as Hanko %}
 {% macro render(params = {}) %}
   {%- set items = params.items | default([]) -%}
-
+  {%- set logoSvg = params.logoSvg -%}
   <ul class="w-full flex list-none justify-end gap-6 m-0" role="list">
     {%- for entry in items -%}
       {%- set hasHref = entry and (entry.url or entry.href) -%}
       {%- if hasHref and (entry.title or entry.key) -%}
         <li {% if loop.first %} class="mr-auto" {% endif %}>
-          {{ nav_link.render({ entry: entry }) }}
+          {%- if loop.first and logoSvg -%}
+            <a href="{{ entry.url or entry.href }}" class="nav-link inline-flex items-center" aria-label="{{ entry.title or entry.key }}" {% if (entry.url or entry.href) == page.url %} aria-current="page" {% endif %}>
+              {{ Hanko.render({ svg: logoSvg, classes: "inline-block size-18 text-secondary-700" }) }}
+            </a>
+          {%- else -%}
+            {{ nav_link.render({ entry: entry }) }}
+          {%- endif -%}
         </li>
       {%- endif -%}
     {%- endfor -%}

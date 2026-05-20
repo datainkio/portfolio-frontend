@@ -9,10 +9,10 @@
   {# {% set cmsItems = params.items or cmsNavigation.headerItems or [] %} #}
   {% set items = params.items or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
-
-    <nav id="primary-nav" class="w-full" aria-label="Primary navigation">
+    <nav id="primary-nav" class="w-full text-current text-xl p-8" aria-label="Primary navigation">
     {{ main_pages.render({ 
-      items: items, 
+      items: items,
+      logoSvg: params.logoSvg,
       linkClass: ""}) }}
   </nav>
 {% endmacro %}

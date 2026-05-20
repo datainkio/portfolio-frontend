@@ -11,7 +11,7 @@
   {%- set buildDate = params.buildDate -%}
 
   {# Biography section #}
-  <section class="relative h-dvh content-center p-12 text-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section class="relative h-dvh content-center text-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
     <header class="col-span-full z-10" data-bio-el="header">
       {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       <h2 class="px-10 font-display text-3xl sm:text-4xl" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>

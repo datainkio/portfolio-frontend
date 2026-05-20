@@ -1,6 +1,7 @@
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/card/project.njk" as Card %}
+  {% import "molecules/list/projects-by-industry.njk" as ProjectsByIndustry %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
@@ -15,26 +16,16 @@
   <section id="{{ sectionId }}" class="relative z-10 col-span-full space-y-12 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header
       data-projects-el="header"
-      class="bg-white grid grid-cols-6 gap-2 outline outline-1 outline-black outline-offset-[-6px] p-4">
+      class="bg-white grid grid-cols-6 gap-2 outline outline-1 outline-black outline-offset-[-6px] p-4 pb-8 sm:pb-4">
       <div
         data-projects-el="context"
         class="gap-1 pb-2 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-2 font-display text-4xl sm:text-5xl mt-4 ">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-full sm:col-span-2 font-display text-2xl sm:text-5xl sm:mt-4 ">{{ heading }}</h2>
       {% if industries | length %}
-        <nav aria-label="Jump to an industry" class="col-span-4 border-l-2 border-black pl-4">
-          <ul data-projects-el="industry-links" class="leading-none">
-            {% for industryTitle, projects in industries %}
-
-              <li class="my-0 leading-none">
-                <a
-                  href="#industry-{{ industryTitle | slugify }}"
-                  data-projects-el="industry-link"
-                  class="block py-0 no-underline font-display text-sm leading-snug">{{ industryTitle }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+        <nav aria-label="Jump to an industry" class="col-span-full sm:col-span-4 sm:border-l-2 border-black pl-4">
+          {{ ProjectsByIndustry.render({ industries: industries }) }}
         </nav>
       {% endif %}
     </header>

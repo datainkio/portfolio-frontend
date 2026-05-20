@@ -6,12 +6,11 @@
 {% block content %}
   {% if title %}
     <h1
-      class="col-span-full p-12 text-6xl sm:text-8xl text-neutral-100 sm:h-[50vh] font-display bg-black flex items-end"
+      class="col-span-full p-12  text-6xl sm:text-8xl text-neutral-100 sm:h-[50vh] font-display bg-black flex items-end"
       style="min-height: 100vh; min-height: 100svh;">
       {{ MarginBleedMarks.render() }}
       {{ title }}
     </h1>
-
     <section doc-abstract class="prose prose-lg px-4 col-span-full max-w-none">
       {{ body | safe }}
     </section>

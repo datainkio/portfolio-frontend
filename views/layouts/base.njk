@@ -2,6 +2,8 @@
 {% import "organisms/footer/global-footer.njk" as footer with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as skip_links %}
 {% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
+{%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
+{%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 {%- set bodyClasses = "bg-white grid grid-cols-12" -%}
 {%- set mainClasses = "bg-white col-span-full w-full " -%}
 <!DOCTYPE html>
@@ -15,7 +17,7 @@
     {# SKIP LINKS #}
     {{ skip_links.render() }}
     {# GLOBAL PAGE HEADER #}
-    {{ header.render({classes: 'font-display'}) }}
+    {{ header.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
     {# MAIN CONTENT AREA #}
     <main
       class="{{ mainClasses }}">
