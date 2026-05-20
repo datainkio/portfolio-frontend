@@ -5,14 +5,20 @@
 {% set logo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl %}
 {% block content %}
   {% if title %}
-    <header class="col-span-full bg-black flex items-end z-10" style="min-height: 100vh; min-height: 100svh;">
+    <header
+      data-landing-header
+      class="col-span-full bg-black flex items-end z-10 overflow-hidden sticky top-0 transition-all duration-300 ease-out">
       <a href="/" class="nav-link inline-flex items-center" aria-label="Home">
-        {{ Hanko.render({ svg: logo, classes: "inline-block size-20 m-2 text-secondary-700" }) }}
+        {{ Hanko.render({ svg: logo, classes: "inline-block size-20 m-2 text-secondary-700 transition-all duration-300 ease-out" }) }}
       </a>
-      <h1 class="text-6xl sm:text-8xl text-neutral-100 font-display ">
+
+      <h1
+        data-landing-header-title
+        class="text-6xl sm:text-8xl text-neutral-100 font-display transition-all duration-300 ease-out">
         {{ title }}
       </h1>
-      <section doc-abstract class="prose prose-lg px-4 col-span-full max-w-none">
+
+      <section doc-abstract class="prose prose-lg px-4 col-span-full max-w-none transition-all duration-300 ease-out">
         {{ body | safe }}
       </section>
     </header>
@@ -22,4 +28,5 @@
   {% elif not title %}
     {% loremPars 3 %}
   {% endif %}
+  <script type="module" src="/assets/js/layouts/landing-header.js"></script>
 {% endblock %}
