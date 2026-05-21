@@ -69,7 +69,7 @@ views/pages/project/project.njk  (paginated, one page per project)
 | Abstract              | `project.page.abstract`                                           | yes               |
 | Featured image        | `project.featuredImage` → resolved `imageAsset`                   | yes               |
 | Outcome               | `project.outcome` → resolved name                                 | no                |
-| Metadata band         | `project.roles[]`, `project.industries[]`, `project.activities[]` | yes (per spec IA) |
+| Metadata band         | `project.roles[]`, `project.industry`, `project.activities[]`     | yes (per spec IA) |
 | Awards                | `project.awards[]` → resolved `award`                             | no                |
 | Body                  | `project.body` (Portable Text; H2+ only)                          | yes               |
 | Live link             | `project.externalLinks[]` (cardinality tbd)                       | no                |
@@ -120,7 +120,7 @@ The page should include a clear CTA at the end of the content. Consider a contac
   - project title
   - project abstract
   - featured image
-  - project metadata (awards, roles, industries, activities, organization, outcome)
+  - project metadata (awards, roles, industry, activities, organization, outcome)
   - project body, including images and headings
   - link to live project (optional)
 
@@ -211,13 +211,12 @@ The page should include a clear CTA at the end of the content. Consider a contac
 ## Risks & Mitigations
 
 - **Path drift** in earlier informal references (`data/projections`, `data/queries`) — mitigated by anchoring this spec to `data/sanity/...`.
-- **Spec/schema field drift:** the IA names `outcome` (singular) and `industries`, but the schema exposes `project.outcomes[]` (plural) and has no `industries` field at all. Reconcile before implementation.
+- **Spec/schema field drift:** the IA originally named `outcome` (singular); the schema exposes `project.outcomes[]` (plural). Reconcile naming in the template + transform.
 - **PDF requirement without a pipeline:** the IA requires a downloadable PDF but no build mechanism is defined; risks scope creep into the template work. Decide pipeline or move to a follow-up spec.
 - **Lighthouse-100 target with parallax:** image-driven parallax can regress perf and a11y; mitigated by tying motion to `prefers-reduced-motion` per [`motion-accessibility-policy.md`](../animation/motion-accessibility-policy.md) and budgeting hero image weight.
 
 ## Open Questions
 
-- **`industries` field:** add `project.industries[]` (reference[] to `industry` taxonomy doc) or strike from the IA.
 - **Outcome region treatment:** between metadata and body, or as an aside?
 - **PDF pipeline:** print stylesheet only, headless-browser post-build, or third-party service.
 - **SEO surface:** confirm `project.seo` (already on the schema) drives `<title>`, meta description, and OG image; document defaults when fields are empty.
