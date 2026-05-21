@@ -1,3 +1,27 @@
+---
+title: "Spec: Single Project Page Template"
+description: "File inventory and structural spec for the single-project detail page template."
+docType: "reference"
+status: "draft"
+owner: "frontend"
+tags:
+  - spec
+  - views
+  - project
+  - eleventy
+  - sanity
+permalink: false
+aliases:
+  - "Project Page Spec"
+  - "Single Project Page Template Spec"
+aix:
+  intent: "view-spec"
+  audience:
+    - frontend
+    - content
+  canonical: true
+---
+
 # Spec: Single Project Page Template
 
 - **Status:** draft
@@ -7,6 +31,53 @@
 ## Goal
 
 Render an individual `project` document as a routed Eleventy page at a stable per-project URL, using a dedicated Nunjucks template fed by a Sanity-backed projection.
+
+A successful project page is one that produces an inquiry email, scheduled, call, follow on social, or a download.
+
+## UX
+
+The goal in terms of UX is to make it as easy as possible for people to answer the question, "Is this someone I can work with?" While the content itself may focus on a particular project or concept, the page needs to support the larger goal of communicating thought leadership, skill, experience, and collaboration.
+
+### Audiences
+
+Recruiters, hiring managers, prospective clients, and peer practitioners.
+
+### CTA
+
+The page should include a clear CTA at the end of the content. Consider a contact form in the global footer.
+
+### Information Architecture
+
+- The IA for the page should reflect the following content strategy priorities (in descending order):
+  - project title
+  - project abstract
+  - featured image
+  - project metadata (awards, roles, industries, activities)
+  - project body, including images and headings
+  - link to live project (optional)
+
+- Assume all fields - with the exception of awards - are required.
+
+- The page should be available for download as a formatted PDF.
+
+- One H1 per page, body headings demote correctly.
+
+### Visual Design
+
+- Emphasize content over ornamentation.
+- The scan priority needs to reflect the IA.
+- It does not need to have a unique layout for each breakpoint, but it should appear intentional (i.e. nothing breaks) at Tailwind breakpoints: base, sm, md, lg, and xl.
+- Readability over sexiness.
+
+### Interaction Design
+
+- IxD touchpoints are not a priority, but consider lightweight parallax (including accounting for reduced motion) for images.
+
+### Accessibility & Performance
+
+- Maintain established best practices for structure, tabbed navigation (including skip-links), and aria definitions.
+- Color, layout, and imagery should not be required for a reader to gain value from the content.
+- Success looks like perfect Lighthouse scores.
 
 ## Assumptions
 
