@@ -10,17 +10,23 @@ skipLinks:
   - awards
   - projects
 enableChoreography: true
+eleventyNavigation:
+  key: home
+  title: data:ink:io
 eleventyComputed:
-  title: "{{ cms.landing[0].pageTitle }}"
+  title: "{{ cms.home[0].pageTitle }}"
   hero:
-    tagline: "{{ cms.landing[0].tagline }}"
-    videoSrc: "{{ cms.landing[0].videoSrc }}"
-    videoPoster: "{{ cms.landing[0].videoPoster }}"
+    tagline: "{{ cms.home[0].tagline }}"
+    videoSrc: "{{ cms.home[0].videoSrc }}"
+    videoPoster: "{{ cms.home[0].videoPoster }}"
   value:
-    heading: "{{ cms.landing[0].valuePropHeading }}"
-    subheading: "{{ cms.landing[0].valuePropSubHeading }}"
-    body: "{{ cms.landing[0].valuePropBody }}"
+    heading: "{{ cms.home[0].valuePropHeading }}"
+    subheading: "{{ cms.home[0].valuePropSubHeading }}"
+    body: "{{ cms.home[0].valuePropBodyHtml | safe }}"
   recognition:
-    heading: "{{ cms.landing[0].recognitionHeading }}"
-    body: "{{ cms.landing[0].recognitionBody }}"
+    heading: "{{ cms.home[0].recognitionHeading }}"
+    body: "{{ cms.home[0].recognitionBody }}"
+  work:
+    heading: "{{ cms.home[0].workHeading }}"
+    body: "{{ cms.home[0].workBody }}"
 ---

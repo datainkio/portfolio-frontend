@@ -52,6 +52,9 @@ export default async function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy({
       "node_modules/gsap": "assets/js/vendor/gsap",
     });
+    eleventyConfig.addPassthroughCopy({
+      "node_modules/leader-line": "assets/js/vendor/leader-line",
+    });
     // Copy JavaScript files to _site/assets/
     // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
     // Copy video files for background video in StageManager
@@ -75,6 +78,10 @@ export default async function (eleventyConfig) {
     logger.trace("Registering template shortcodes", null, "brief", msgStyle);
     shortcodes(eleventyConfig);
 
+    // README-as-index permalink rule is scoped to ia/docs/ via
+    // ia/docs/docs.11tydata.js to avoid interfering with paginated templates.
+    // Decision documented in: /docs/ia/frontmatter/
+
     // Collections
     logger.trace("Registering data collections", null, "brief", msgStyle);
     // Wait for all data to be fetched (either in parallel or sequential mode) before continuing with the build
@@ -96,7 +103,7 @@ export default async function (eleventyConfig) {
   return {
     dir: {
       input: "ia",
-      includes: "../njk", // relative to input
+      includes: "../views", // relative to input
       output: "_site",
     },
     markdownTemplateEngine: "njk",

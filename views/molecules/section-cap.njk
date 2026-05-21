@@ -1,0 +1,12 @@
+{# Current Section Title - a simple text element that displays the id of its parent and its location with respect to its siblings. #}
+{% macro render(params = {}) %}
+  {%- set prefix = params.prefix | default("section") -%}
+  {%- set count = params.count | default("") -%}
+  {%- set title = params.title | default("") -%}
+  {%- set classes = params.classes | default("") -%}
+  {%- set buildDate = params.buildDate -%}
+  <span data-current-section-prefix>{{ prefix }}</span>
+  <span data-current-section-count>{{ count }}</span>
+  <span data-current-section-title>: {{ title }}</span>
+  <time class="ml-auto text-right text-neutral-300" datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
+{% endmacro %}

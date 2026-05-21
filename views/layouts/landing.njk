@@ -1,0 +1,59 @@
+{% extends "./base.njk" %}
+{% import "atoms/hanko.njk" as Hanko %}
+{% set navClasses = "text-neutral-200" %}
+{% set bodyClasses = "bg-primary-950" %}
+{% set logo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl %}
+
+{%- set header = {
+  "base": "col-span-full grid grid-cols-12 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
+  "sm": "sm:px-12 sm:gap-y-12",
+  "md": "md:px-16 md:gap-y-14",
+  "lg": "lg:px-24 lg:gap-y-8",
+  "xl": ""
+} -%}
+
+{%- set hanko = {
+  "base": "nav-link block col-span-3 size-12 justify-self-end",
+  "sm": "sm:size-16 sm:pt-1",
+  "md": "",
+  "lg": "lg:col-span-3 lg:size-36",
+  "xl": ""
+} -%}
+
+{%- set heading = {
+  "base": "col-span-4 font-display text-6xl leading-12",
+  "sm": "sm:text-8xl sm:leading-18",
+  "md": "md:text-10xl md:leading-20",
+  "lg": "",
+  "xl": ""
+} -%}
+
+{%- set abstract = {
+  "base": "col-span-8 col-start-4 max-w-none pl-2",
+  "sm": "",
+  "md": "",
+  "lg": "lg:col-span-5 lg:col-start-7 lg:row-start-2 lg:pl-0",
+  "xl": ""
+} -%}
+
+{% block content %}
+  {% if title %}
+    <header data-landing-header class="{{ header.base }} {{ header.sm }} {{ header.md }} {{ header.lg }} {{ header.xl }}">
+      <a href="/" class="{{ hanko.base }} {{ hanko.sm }} {{ hanko.md }} {{ hanko.lg }} {{ hanko.xl }}" aria-label="Home">
+        {{ Hanko.render({ svg: logo, classes: "text-secondary-700" }) }}
+      </a>
+      <h1 data-landing-header-title class="{{ heading.base }} {{ heading.sm }} {{ heading.md }} {{ heading.lg }} {{ heading.xl }}">
+        {{ title }}
+      </h1>
+      <section data-doc-abstract class="{{ abstract.base }} {{ abstract.sm }} {{ abstract.md }} {{ abstract.lg }} {{ abstract.xl }}">
+        {{ body | safe }}
+      </section>
+    </header>
+  {% endif %}
+  {% if content %}
+    {{ content | safe }}
+  {% elif not title %}
+    {% loremPars 3 %}
+  {% endif %}
+  <script type="module" src="/assets/js/layouts/landing-header.js"></script>
+{% endblock %}

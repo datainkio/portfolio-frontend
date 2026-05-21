@@ -18,7 +18,7 @@
 @import "./typography/fontFamilies.css" layer(theme);
 
 /* Custom decorations - Project-specific styling for visual elements and effects */
-@import "./decorations.css" layer(components);
+@import "./decorations.css";
 
 /* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
 @import "./utilities/mask.css";
@@ -26,47 +26,15 @@
 @import "./utilities/reduced-motion.css" layer(utilities);
 
 /* Animation optimizations for GSAP and ScrollSmoother integration */
-@import "./animations.css" layer(components);
-@import "./components/section-playback.css" layer(components);
+/* Disabling animations.css to address landing page scroll weirdness */
+/* @import "./animations.css" layer(components); */
+@import "./components/portable-text.css" layer(components);
+@import "./components/hanko.css" layer(components);
 
-@theme {
-  /* Mask Image Tokens */
-  --mask-image-grunge: url("/assets/images/grunge-luminance-mask.png");
-  --mask-image-gradient-vertical: linear-gradient(to bottom, #fff, #000);
-  --mask-image-gradient-horizontal: linear-gradient(to right, #fff, #000);
-  --mask-image-radial: radial-gradient(circle, #fff 50%, #000 100%);
-
-  /* Mask Mode Tokens */
-  --mask-mode-luminance: luminance;
-  --mask-mode-alpha: alpha;
-
-  /* Mask Size Tokens */
-  --mask-size-auto: auto;
-  --mask-size-cover: cover;
-  --mask-size-contain: contain;
-
-  /* Mask Position Tokens */
-  --mask-position-center: center;
-  --mask-position-top: top;
-  --mask-position-bottom: bottom;
-  --mask-position-left: left;
-  --mask-position-right: right;
-
-  /* Mask Repeat Tokens */
-  --mask-repeat-repeat: repeat;
-  --mask-repeat-no-repeat: no-repeat;
-  --mask-repeat-repeat-x: repeat-x;
-  --mask-repeat-repeat-y: repeat-y;
-
-  /* Mask Clip Tokens */
-  --mask-clip-border: border-box;
-  --mask-clip-padding: padding-box;
-  --mask-clip-content: content-box;
-  --mask-clip-text: text;
-
-  /* Mask Composite Tokens */
-  --mask-composite-add: add;
-  --mask-composite-subtract: subtract;
-  --mask-composite-intersect: intersect;
-  --mask-composite-exclude: exclude;
-}
+/* Force generation of dynamic utility classes used in Nunjucks macros */
+@source inline("border-{t,r,b,l}-{1,2,3,4,5,6,7,8,10,12,14,16}");
+@source inline("size-{1,2,3,4,5,6,7,8,10,12,14,16}");
+@source inline("inset-{1,2,3,4,5,6,7,8,10,12,14,16}");
+@source inline("border-{black,white}");
+/* Viewport height units — h-dvh is a named utility but svh/lvh arbitrary values need explicit generation */
+@source inline("h-[100svh] h-[100lvh]");

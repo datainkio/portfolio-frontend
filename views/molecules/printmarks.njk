@@ -1,0 +1,15 @@
+{% macro render(params = {}) %}
+  {% import "atoms/printmarks/ink-marks.njk" as InkMarks %}
+  {% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
+  {% import "atoms/printmarks/margin-bleed-marks.njk" as MarginBleedMarks %}
+  {% import "atoms/printmarks/registration-marks.njk" as RegistrationMarks %}
+  {%- set classes = params.classes | default("") -%}
+  {%- set marginBleed = params.marginBleed | default({color: "white", size: "1", bleedInset: "12", style: "dashed", marginInset: "6"}) -%}
+  {%- set trim = params.trim | default({color: "white", size: "3", inset: "12", weight: "1"}) -%}
+  <div aria-hidden="true" class="absolute inset-24 pointer-events-none {{ classes }}">
+    {{ InkMarks.render() }}
+    {{ RegistrationMarks.render() }}
+    {{ TrimMarks.render(trim) }}
+    {{ MarginBleedMarks.render(marginBleed) }}
+  </div>
+{% endmacro %}

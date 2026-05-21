@@ -18,14 +18,15 @@
 /** @format */
 
 import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-import { motion } from "../../config/ix/motion.js";
+import {
+  ANIMATION_DEFAULTS,
+  HERO_LANDING,
+  HERO_INTRO,
+  HERO_OUTRO,
+} from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import { SplitText } from "/assets/js/choreography/vendor/gsap.js";
-
-const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
-
 const HERO_EL_ATTR = "data-hero-el";
 
 const selectHeroEl = (view, name) =>
@@ -44,22 +45,19 @@ export default class HeroAnimations extends AbstractSectionAnimations {
    */
   constructor(view, options = {}) {
     super(view);
-    this.logger = lumberjack.createScoped(this.constructor.name, {
-      color: "#007bff",
-      enabled: true,
-    });
+
+    this.gelManager = options.gelManager ?? null;
 
     this.options = {
-      duration: options.duration ?? toSeconds(motion.duration("base")),
-      translateY: options.translateY ?? -motion.distance("lg"),
-      stagger: options.stagger ?? motion.stagger("loose"),
+      duration: options.duration ?? ANIMATION_DEFAULTS.duration,
+      translateY: options.translateY ?? ANIMATION_DEFAULTS.translateY,
+      translateX: options.translateX ?? ANIMATION_DEFAULTS.translateX,
+      stagger: options.stagger ?? ANIMATION_DEFAULTS.stagger,
       ease: {
-        in: options.ease?.in ?? motion.ease("exit"),
-        out: options.ease?.out ?? motion.ease("enter"),
+        in: options.ease?.in ?? ANIMATION_DEFAULTS.ease.in,
+        out: options.ease?.out ?? ANIMATION_DEFAULTS.ease.out,
       },
     };
-
-    this.view = view;
 
     // TITLE TEXT
     // Using hook-based cached refs for key elements to simplify timeline definitions
@@ -80,60 +78,67 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     });
 
     var tl = gsap.timeline({ id: TIMELINE_IDS.landing });
-    tl.set(this.view, {
-      width: "100%",
-      backgroundColor: "transparent",
-      clipPath: "none",
-      webkitClipPath: "none",
-      autoAlpha: 1,
-    })
-      .fromTo(
-        this._split.words,
-        { autoAlpha: 0, yPercent: 1 },
-        {
-          autoAlpha: 1,
-          yPercent: 0,
-          duration: this.options.duration,
-          ease: this.options.ease.out,
-          stagger: this.options.stagger,
-        },
-      )
-      .addPause();
+    tl.fromTo(
+      this._split.words,
+      { ...HERO_LANDING.from },
+      { ...HERO_LANDING.to },
+    ).addPause();
     return tl;
   }
 
   _buildIntro() {
-    var tl = gsap.timeline({ id: TIMELINE_IDS.intro }).set(this.view, {
-      clipPath: "none",
-      webkitClipPath: "none",
-      autoAlpha: 1,
-    });
-    return tl;
+    const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
+
+    var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
+
+    // tl.to(
+    //   this.view,
+    //   {
+    //     autoAlpha: 1,
+    //     duration: this.options.duration,
+    //     ease: this.options.ease.in,
+    //   },
+    //   0,
+    // );
+    if (gel?.view) {
+      tl.to(
+        gel.view,
+        {
+          ...HERO_INTRO,
+        },
+        0,
+      ).addPause();
+      return tl;
+    }
   }
 
   _buildOutro() {
-    var tl = gsap.timeline({ id: TIMELINE_IDS.outro }).set(this.view, {
-      clipPath: "none",
-      webkitClipPath: "none",
-    });
+    const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
+    var tl = gsap.timeline({ id: TIMELINE_IDS.outro });
+
+    if (!gel?.view) {
+      return tl;
+    }
+
+    tl.to(
+      gel.view,
+      {
+        height: 0,
+        ease: "none",
+        // onUpdate: () => gel.refresh?.(),
+        // onComplete: () => gel.refresh?.(),
+      },
+      0,
+    );
+
     return tl;
   }
 
-  landing() {
-    console.log("Playing hero landing animation");
-    if (!this.view || !this.elements.tagline) return;
-    return this.play(this.LABELS.landing);
-  }
-
-  // Override AbstractSectionAnimations
-  intro() {
-    if (!this.view || !this.elements.tagline) return;
-    return this.play(TIMELINE_IDS.intro);
-  }
-
-  outro() {
-    if (!this.view || !this.elements.tagline) return;
-    return this.play(TIMELINE_IDS.outro);
+  getLastWordBottom() {
+    const el = document.getElementById("hero-heading");
+    const rect = el?.getBoundingClientRect();
+    const bottom = rect?.top; // * 0.25; // Add a bit of buffer to ensure the last word is fully out of view
+    return Number.isFinite(bottom) && bottom > 0 ? bottom : null;
   }
 
   _resetSplit() {

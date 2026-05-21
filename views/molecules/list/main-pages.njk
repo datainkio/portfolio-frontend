@@ -1,0 +1,32 @@
+{% import "atoms/link/nav-link.njk" as nav_link with context %}
+{% import "atoms/hanko.njk" as Hanko %}
+{% macro render(params = {}) %}
+  {%- set items = params.items | default([]) -%}
+  {%- set logoSvg = params.logoSvg -%}
+  <ul class="w-full flex list-none justify-end gap-6 m-0" role="list">
+    {%- for entry in items -%}
+      {%- set hasHref = entry and (entry.url or entry.href) -%}
+      {%- set entryHref = entry.url or entry.href -%}
+      {%- set isCurrent = entryHref == page.url -%}
+      {%- if hasHref and (entry.title or entry.key) -%}
+        <li {% if loop.first %} class="mr-auto" {% endif %}>
+          {%- if loop.first and logoSvg -%}
+            {%- if isCurrent -%}
+              <span class="nav-link inline-flex items-center" aria-label="{{ entry.title or entry.key }}" aria-current="page">
+                {{ Hanko.render({ svg: logoSvg, classes: "inline-block size-18 text-secondary-700" }) }}
+              </span>
+            {%- else -%}
+              <a href="{{ entryHref }}" class="nav-link inline-flex items-center" aria-label="{{ entry.title or entry.key }}">
+                {{ Hanko.render({ classes: "inline-block size-18 text-secondary-700" }) }}
+              </a>
+            {%- endif -%}
+          {%- elif isCurrent -%}
+            <span class="nav-link text-neutral-700" aria-current="page">{{ entry.title or entry.key }}</span>
+          {%- else -%}
+            {{ nav_link.render({ entry: entry }) }}
+          {%- endif -%}
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{% endmacro %}

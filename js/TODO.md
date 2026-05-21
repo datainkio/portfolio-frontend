@@ -19,6 +19,8 @@ This file tracks JavaScript/runtime and DX backlog priorities.
 - [ ] FEAT: Ship `.env.example` and gate `npm start`/`npm run build` with `npm run validate:env`.
 - [ ] FEAT: Publish concise AI/maintainer playbook at repo root with required DOM IDs/classes.
 - [ ] FEAT: Pin runtime tooling (`.nvmrc`, engine strictness, early system checks).
+- [ ] FIX: Resolve performance hit from scroll snapping either from CSS or GSAP ScrollTrigger
+- [ ] TODO: Remove logging for award logo images
 
 ## Later / Parked
 

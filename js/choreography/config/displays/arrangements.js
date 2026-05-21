@@ -37,7 +37,6 @@ export const GEL_ARRANGEMENT_TRANSITION = {
  * Color Classes
  */
 
-
 export const GEL_ARRANGEMENTS = {
   hero: {
     id: "hero",
@@ -47,6 +46,50 @@ export const GEL_ARRANGEMENTS = {
         y: 0.0,
         width: 1.0,
         height: 1.0,
+        origin: "top center",
+        blendMode: "multiply",
+      },
+      "bg-gel-1": {
+        x: 0.0,
+        y: 0,
+        width: 0.0,
+        height: 0.0,
+        blendMode: "screen",
+      },
+      "bg-gel-2": {
+        x: 0.0,
+        y: 0.0,
+        width: 0.0,
+        height: 0,
+        origin: "left center",
+        blendMode: "multiply",
+      },
+      "bg-gel-3": {
+        x: 0.0,
+        y: 0.0,
+        width: 0.0,
+        height: 0,
+        origin: "left center",
+        blendMode: "multiply",
+      },
+      "bg-gel-4": {
+        x: 0.0,
+        y: 0.0,
+        width: 0.5,
+        height: 1.0,
+        origin: "left center",
+        blendMode: "normal",
+      },
+    },
+  },
+  hero_outro: {
+    id: "hero_outro",
+    gels: {
+      "bg-gel-0": {
+        x: 0.0,
+        y: 0.0,
+        width: 1.0,
+        height: 0.5,
         origin: "top center",
         blendMode: "multiply",
       },

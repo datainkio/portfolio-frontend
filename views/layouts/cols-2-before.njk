@@ -1,0 +1,23 @@
+{% extends "./base.njk" %}
+{% import "organisms/navigation/docs-nav.njk" as docsNav %}
+{%- set bodyClasses = "grid grid-cols-12 gap-6 px-4" -%}
+{%- set mainClasses = "col-span-8 col-start-3" -%}
+{%- set sidebarBeforeClasses = "col-span-2" -%}
+
+{% block sidebar_before %}
+  <aside
+    class="text-white font-light col-span-2 pt-24 {{ sidebarBeforeClasses }}"
+    data-scroll
+    data-scroll-sticky
+    data-scroll-target="main">
+    {{ docsNav.render({ collections: collections, page: page }) }}
+  </aside>
+{% endblock %}
+
+{% block content %}
+  {% if content %}
+    {{ content | safe }}
+  {% else %}
+    {% loremPars 3 %}
+  {% endif %}
+{% endblock %}

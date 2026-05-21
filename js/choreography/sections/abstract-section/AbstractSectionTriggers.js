@@ -46,7 +46,7 @@ export default class AbstractSectionTriggers {
    *
    * @returns {Object}
    */
-  getTriggerDefaults() {
+  _getTriggerDefaults() {
     return SCROLL_DEFAULTS;
   }
 
@@ -59,6 +59,8 @@ export default class AbstractSectionTriggers {
    * Calling bind() multiple times is safe and efficient:
    * - Automatically kills the previous trigger before creating a new one
    * - Useful for updating trigger behavior without memory leaks
+   * - Callback handlers (explicit and fallback) only apply for phases whose
+   *   `toggleActions` value is not `none`
    *
    * @example
    * // First bind
@@ -79,7 +81,14 @@ export default class AbstractSectionTriggers {
    * @param {Function} callbacks.onEnterBack - Fired when scrolling back into viewport
    * @param {Function} callbacks.onLeaveBack - Fired when scrolling back out of viewport
    */
-  bind({ onEnter, onLeave, onEnterBack, onLeaveBack } = {}) {
+  bind({
+    onEnter,
+    onLeave,
+    onEnterBack,
+    onLeaveBack,
+    onUpdate,
+    onRefresh,
+  } = {}) {
     if (!this.view) {
       this.logger.trace("No view available to bind triggers");
       return;
@@ -90,16 +99,35 @@ export default class AbstractSectionTriggers {
       this._trigger.kill();
     }
 
-    const triggerDefaults = this.getTriggerDefaults();
+    const triggerDefaults = this._getTriggerDefaults();
+    const toggleActions = String(triggerDefaults.toggleActions ?? "")
+      .trim()
+      .split(/\s+/);
+    const [enterAction, leaveAction, enterBackAction, leaveBackAction] =
+      toggleActions;
+    const resolveCallback = (action, callback, fallback) =>
+      String(action ?? "").toLowerCase() === "none"
+        ? undefined
+        : (callback ?? fallback);
 
     // Build vars with callbacks
     const vars = {
       ...triggerDefaults,
       trigger: this.view,
-      onEnter: onEnter ?? triggerDefaults.onEnter,
-      onLeave: onLeave ?? triggerDefaults.onLeave,
-      onEnterBack: onEnterBack ?? triggerDefaults.onEnterBack,
-      onLeaveBack: onLeaveBack ?? triggerDefaults.onLeaveBack,
+      onEnter: resolveCallback(enterAction, onEnter, triggerDefaults.onEnter),
+      onLeave: resolveCallback(leaveAction, onLeave, triggerDefaults.onLeave),
+      onEnterBack: resolveCallback(
+        enterBackAction,
+        onEnterBack,
+        triggerDefaults.onEnterBack,
+      ),
+      onLeaveBack: resolveCallback(
+        leaveBackAction,
+        onLeaveBack,
+        triggerDefaults.onLeaveBack,
+      ),
+      onUpdate: onUpdate ?? triggerDefaults.onUpdate,
+      onRefresh: onRefresh ?? triggerDefaults.onRefresh,
     };
 
     // Create trigger with callbacks baked in

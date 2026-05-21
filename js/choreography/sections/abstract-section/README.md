@@ -20,11 +20,11 @@ The interaction design for the landing page experience centers on event coordina
 
 ### AbstractSection
 
-Defines the lifecycle contract for every page section, including how intros, outros, and scroll triggers are orchestrated. It centralizes event broadcasting so choreography logic can react without sections talking to each other directly. Designers can rely on consistent hooks for sequencing interactions across the experience.
+Defines the lifecycle contract for every page section, including how intros, outros, and scroll triggers are orchestrated. It centralizes event broadcasting so choreography logic can react without sections talking to each other directly. Designers can rely on consistent hooks for sequencing interactions across the experience, including dedicated back-scroll hooks like `onEnterBack` when present in a section event contract.
 
 ### AbstractSectionAnimations
 
-Provides shared GSAP animation primitives and a consistent playback API while each section owns direct references to landing, intro, idle, and outro timelines. This keeps playback controls predictable without relying on a single master timeline and still allows bespoke transitions per section.
+Provides shared timeline playback and registration helpers while each section owns direct references to landing, intro, idle, and outro timelines. It also includes reusable item-reveal helpers (`_showAllItems`, `_revealItemsOnScroll`) to reduce repeated viewport-threshold animation code across sections.
 
 ### AbstractSectionTrigggers
 

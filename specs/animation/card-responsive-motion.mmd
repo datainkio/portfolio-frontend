@@ -1,0 +1,52 @@
+---
+title: Card — Breakpoint-Aware Responsive Motion
+aix:
+  id: frontend.specs.animation.card-responsive-motion
+  role: Sequence diagram showing how Card resolves a motion profile on each matchMedia change and decides between initializing the scrubbed clip-path ScrollTrigger timeline or applying a static end state.
+  status: current
+  surface: internal
+  scope: frontend
+  runtime: browser
+  tags:
+    - choreography
+    - motion-profiles
+    - card
+    - responsive-motion
+    - sequence-diagram
+  related:
+    - specs/animation/breakpoint-motion-profiles.animation-spec.md
+    - js/choreography/card/Card.js
+    - js/choreography/config/ix/motion.js
+    - js/choreography/config/ix/scrolltriggers.js
+---
+sequenceDiagram
+    participant MM as gsap.matchMedia
+    participant Card
+    participant Resolver as resolveSectionMotionProfile
+    participant Profiles as MOTION_PROFILES
+    participant GSAP as gsap + ScrollTrigger
+
+    note over MM: Fires on breakpoint change<br/>or prefers-reduced-motion change
+
+    MM->>Card: _setupResponsiveMotion callback (conditions)
+
+    Card->>Resolver: resolveSectionMotionProfile('card', conditions)
+    note over Resolver: reduceMotion? → 'reduced' (trigger.enabled = false)<br/>else breakpoint key → trigger.enabled = true
+    Resolver->>Profiles: MOTION_PROFILES[key]
+    Profiles-->>Resolver: { trigger: { enabled, scrub, pin, ... } }
+    Resolver-->>Card: resolved profile
+
+    alt profile.trigger.enabled = true
+        Card->>Card: _init()
+        Card->>GSAP: gsap.set(figure, clipPath inset 0 0 0% 0)
+        Card->>GSAP: gsap.set(body, y: 0)
+        Card->>GSAP: gsap.timeline({ scrollTrigger: CARD_FIGURE_CLIP_TRIGGER })
+        note over GSAP: scrubbed timeline pins card,<br/>clips figure from bottom,<br/>translates body upward in sync
+        GSAP-->>Card: _tl registered
+    else profile.trigger.enabled = false
+        Card->>Card: kill()
+        Card->>GSAP: scrollTrigger.kill() + tl.kill()
+        Card->>Card: _applyStaticState()
+        Card->>GSAP: gsap.set(figure/body, clearProps: willChange)
+        note over Card: static end state applied;<br/>no scroll-driven motion
+    end

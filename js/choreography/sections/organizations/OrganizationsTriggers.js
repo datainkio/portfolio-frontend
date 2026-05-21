@@ -17,15 +17,16 @@
  */
 /** @format */
 
-import AbstractSectionTriggers from '../abstract-section/AbstractSectionTriggers.js';
-
+import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
+import { ORGANIZATIONS_TRIGGER } from "../../config/index.js";
 export default class OrganizationsTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
+    this._revealTrigger = null;
+    this._hideTrigger = null;
   }
-
-  destroy() {
-    this.kill();
-    this.section = null;
+  // Override to layer section-specific trigger defaults
+  _getTriggerDefaults() {
+    return ORGANIZATIONS_TRIGGER;
   }
 }

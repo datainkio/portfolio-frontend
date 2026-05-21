@@ -42,4 +42,17 @@ export default class Organizations extends AbstractSection {
       reducedMotionHandler,
     });
   }
+
+  _onUpdate(trigger) {
+    this.animations?.updateOrganizationsReveal?.(trigger);
+  }
+
+  _onRefresh(trigger) {
+    this.animations?.updateOrganizationsReveal?.(trigger);
+  }
+
+  _applyPostIntroState() {
+    super._applyPostIntroState();
+    this.animations?.showAllOrganizations?.();
+  }
 }

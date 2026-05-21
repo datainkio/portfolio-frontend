@@ -50,17 +50,17 @@ This module is **not** a peer router to Concierge. It is a single domain module 
 
 ### Signals table (fast)
 
-| Signal (keywords / intent)                                | Area               | Likely path(s)                                        | Smallest verify                   |
-| --------------------------------------------------------- | ------------------ | ----------------------------------------------------- | --------------------------------- |
-| macro/include/layout/molecule/organism/template/`njk`     | `njk/`             | `frontend/njk/**`                                     | `npm run start:nobundle`          |
-| Tailwind/@layer/utilities/theme/tokens/`main.css`         | `styles/`          | `frontend/styles/**`                                  | `npm run build:css`               |
-| GSAP/ScrollTrigger/ScrollSmoother/Director/AnimationBus   | `js/choreography/` | `frontend/js/choreography/**`                         | `npm run test:choreography`       |
-| collection/filter/shortcode/pagination/permalink/Eleventy | `eleventy/`        | `frontend/eleventy/**`, `.eleventy.js`                | `npm run build:11ty`              |
-| Sanity/cms/schema/fetch                                   | `cms/`             | `frontend/cms/**`                                     | follow `frontend/cms/**` workflow |
-| Figma/tokens/colors/typography generation                 | `figma/`           | `frontend/figma/**`, `frontend/scripts/fetchFigma.js` | `npm run build:design`            |
-| images/fonts/svg/video/assets paths                       | `assets/`          | `frontend/assets/**`                                  | `npm run start:nobundle`          |
-| build scripts/dev pipeline/npm scripts                    | `scripts/`         | `frontend/scripts/**`, `frontend/package.json`        | `npm run build`                   |
-| `_site/` output                                           | stop               | `frontend/_site/**`                                   | do not edit                       |
+| Signal (keywords / intent)                                | Area               | Likely path(s)                                        | Smallest verify                           |
+| --------------------------------------------------------- | ------------------ | ----------------------------------------------------- | ----------------------------------------- |
+| macro/include/layout/molecule/organism/template/`njk`     | `njk/`             | `frontend/njk/**`                                     | `npm run start:nobundle`                  |
+| Tailwind/@layer/utilities/theme/tokens/`main.css`         | `styles/`          | `frontend/styles/**`                                  | `npm run build:css`                       |
+| GSAP/ScrollTrigger/ScrollSmoother/Director/AnimationBus   | `js/choreography/` | `frontend/js/choreography/**`                         | `npm run test:choreography`               |
+| collection/filter/shortcode/pagination/permalink/Eleventy | `eleventy/`        | `frontend/eleventy/**`, `.eleventy.js`                | `npm run build:11ty`                      |
+| Sanity/cms/schema/fetch                                   | `data/sanity/`     | `frontend/data/sanity/**`                             | follow `frontend/data/sanity/**` workflow |
+| Figma/tokens/colors/typography generation                 | `figma/`           | `frontend/figma/**`, `frontend/scripts/fetchFigma.js` | `npm run build:design`                    |
+| images/fonts/svg/video/assets paths                       | `assets/`          | `frontend/assets/**`                                  | `npm run start:nobundle`                  |
+| build scripts/dev pipeline/npm scripts                    | `scripts/`         | `frontend/scripts/**`, `frontend/package.json`        | `npm run build`                           |
+| `_site/` output                                           | stop               | `frontend/_site/**`                                   | do not edit                               |
 
 Pick the smallest set of areas that must change (usually 1–2). If it spans multiple areas, apply each area’s guardrails and keep changes minimal.
 
@@ -85,8 +85,8 @@ For each selected area, follow these rules:
 - Keep within the established architecture (Director → sections → triggers/animations).
 - Prefer AnimationBus events for cross-section coordination.
 - Ensure reduced-motion behavior is preserved.
-- Use `frontend/js/choreography/config/index.js` and `frontend/js/choreography/config/events.js` as the default source of truth for selectors, timings/tunables, and event names.
-- When adding new choreography values/contracts, extend `config/index.js`/`config/events.js` first, then import into section/triggers/sequences instead of introducing local literals.
+- Use `frontend/js/choreography/config/index.js` and `frontend/js/choreography/config/contracts/events.js` as the default source of truth for selectors, timings/tunables, and event names.
+- When adding new choreography values/contracts, extend `config/index.js` and `config/contracts/events.js` first, then import into section/triggers/sequences instead of introducing local literals.
 
 #### Area: `eleventy/`
 
@@ -108,9 +108,9 @@ Always return the **Implementation Report** sections defined above and list the 
 
 Request: “Add an ‘Organizations’ logo strip driven by Sanity and animate it on scroll; ensure styling uses existing tokens.”
 
-1. Classify via signals table → `cms/` + `eleventy/` + `njk/` + `js/choreography/` + `styles/`.
+1. Classify via signals table → `data/sanity/` + `eleventy/` + `njk/` + `js/choreography/` + `styles/`.
 2. Confirm what already exists (avoid invention): search for existing Organizations templates/controllers and whether a `collections.organizations` (or similar) collection is already wired.
-3. Data: if a new/changed field is required, adjust the Sanity query/shape in `cms/queries.js`.
+3. Data: if a new/changed field is required, adjust the Sanity query/shape in `data/sanity/queries.js`.
 4. Markup: create/update a reusable macro under `frontend/njk/` and render it in the appropriate page/section template.
 5. Style: prefer existing tokens/utilities; only add minimal CSS in the correct layer order (never edit generated token files).
 6. Motion: update the existing Organizations section controller/triggers to animate the new DOM targets; coordinate via AnimationBus if cross-section timing matters.
@@ -124,7 +124,7 @@ Request: “Add an ‘Organizations’ logo strip driven by Sanity and animate i
 - Do not invoke Tailwind CLI directly; use the project’s npm scripts.
 - Default to `npm run start:nobundle` for local dev (avoid `assets/js/choreography/bundle.js`) until explicitly told otherwise.
 - Do not invent non-existent sections or controllers; confirm via repo search.
-- For IxD/choreography edits, consolidate reusable values in `js/choreography/config/index.js` and event contracts in `js/choreography/config/events.js`; avoid scattering duplicate literals across runtime files.
+- For IxD/choreography edits, consolidate reusable values in `js/choreography/config/index.js` and event contracts in `js/choreography/config/contracts/events.js`; avoid scattering duplicate literals across runtime files.
 
 ## Domain Conventions (do)
 

@@ -1,0 +1,28 @@
+{% extends "./cols-2-before.njk" %}
+{% import "organisms/navigation/docs-nav.njk" as docsNav %}
+{%- set bodyClasses = "grid grid-cols-12 gap-6 px-4" -%}
+{%- set mainClasses = "col-span-8 col-start-3" -%}
+{%- set sidebarBeforeClasses = "" -%}
+{%- set sidebarAfterClasses = "" -%}
+
+{% block content %}
+  {% if content %}
+    {{ content | safe }}
+  {% else %}
+    {% loremPars 3 %}
+  {% endif %}
+{% endblock %}
+
+{% block sidebar_after %}
+  <aside
+    class="text-white font-light text-xs col-span-2 pt-24 {{ sidebarAfterClasses }}"
+    data-scroll
+    data-scroll-sticky
+    data-scroll-target="main">
+    {% if sidebar_after %}
+      {{ sidebar_after | safe }}
+    {% else %}
+      {% loremPars 3 %}
+    {% endif %}
+  </aside>
+{% endblock %}

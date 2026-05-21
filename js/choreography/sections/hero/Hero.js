@@ -28,9 +28,9 @@ import HeroAnimations from "./HeroAnimations.js";
 import HeroTriggers from "./HeroTriggers.js";
 
 export default class Hero extends AbstractSection {
-  constructor({ bus = null, reducedMotionHandler } = {}) {
+  constructor({ bus = null, reducedMotionHandler, gelManager = null } = {}) {
     const view = document.getElementById(SELECTORS.hero);
-    const animations = new HeroAnimations(view);
+    const animations = new HeroAnimations(view, { gelManager });
     const triggers = new HeroTriggers(view);
     // Hero starts in view; track that so the first emitted lifecycle event is exit.
     // Subsequent enter events remain intact for re-entry after scrolling back.
@@ -41,6 +41,17 @@ export default class Hero extends AbstractSection {
       sectionKey: "hero",
       bus,
       reducedMotionHandler,
+      initialInView: true,
     });
+  }
+
+  // Super Overrides
+  playOutro() {
+    // Hero outro playback is driven by ScrollTrigger scrub in HeroTriggers.
+    // Do not restart the timeline manually; that would break scroll-linked motion.
+    this.logger.trace(
+      "Hero outro is scrub-driven; skipping direct timeline play",
+    );
+    return Promise.resolve();
   }
 }

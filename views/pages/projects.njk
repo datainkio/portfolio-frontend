@@ -1,0 +1,17 @@
+{% extends "layouts/landing.njk" %}
+{% import "molecules/list/project-cards.njk" as ProjectCards %}
+{%- set list = {
+  "base": "",
+  "sm": "sm:bg-primary-950 sm:space-y-12",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+{% block content %}
+  {{ super() }}
+  {% if collections.projects and collections.projects.length %}
+    {{ ProjectCards.render({ projects: collections.projects, classes: list.base ~ " " ~ list.sm ~ " " ~ list.md ~ " " ~ list.lg ~ " " ~ list.xl }) }}
+  {% else %}
+    <p>No projects found.</p>
+  {% endif %}
+{% endblock %}

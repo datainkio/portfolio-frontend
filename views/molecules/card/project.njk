@@ -1,0 +1,32 @@
+{% import "molecules/card/card.njk" as Card %}
+
+{% macro render(params = {}) %}
+  {%- set project = params.project or {} -%}
+  {%- set title = params.title | default(project.title) | default("Untitled project") -%}
+  {%- set image = params.image | default(project.featuredImage) -%}
+  {%- set url = params.url | default(project.url) | default("") -%}
+  {%- set description = params.description | default(project.abstract) | default("") -%}
+  {%- set industries = params.eyebrow | default((project.industries or []) | join(", ")) -%}
+  {%- set roles = params.roles | default((project.rolesTitles or []) | join(", ")) -%}
+  {%- set activities = params.activities | default((project.activityTitles or []) | join(", ")) -%}
+  {%- set client = (project.organization or []) | join(", ", "title") -%}
+  {%- set meta = params.meta | default([
+    { key: "industries", value: industries },
+    { key: "roles", value: roles },
+    { key: "activities", value: activities }
+  ]) -%}
+
+  {{ Card.render({
+    title: title,
+    image: image,
+    url: url,
+    byline: client,
+    description: description,
+    meta: meta,
+    featured: params.featured | default(false),
+    classes: params.classes,
+    imageClasses: params.imageClasses,
+    showTitle: params.showTitle,
+    eager: params.eager
+  }) }}
+{% endmacro %}

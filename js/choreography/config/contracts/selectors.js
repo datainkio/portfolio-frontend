@@ -19,14 +19,27 @@ export const SELECTORS = {
   bio: "introduction",
   awards: "recognition",
   work: "work",
+  contact: "contact",
 
   // GSAP ScrollSmoother containers
   // TODO: Optimize design to avoid these wrappers, which add complexity to DOM and animations
+<<<<<<< HEAD
   // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/38
   smoothWrapper: "smooth-wrapper",
   smoothContent: "smooth-content",
+=======
+  smoothWrapper: "page-main",
+  smoothContent: "page-main-content",
+>>>>>>> landing-xd
 
   overlayView: "overlay-view",
-  video: "sizzle-background",
-  sizzleBackground: "sizzle-background",
+  video: "background",
+  sizzleBackground: "background",
+};
+
+export const BIO_SELECTORS = {
+  elementAttribute: "data-bio-el",
+  subSectionHook: "sub-section",
+  subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
+  subSectionLineKeyAttribute: "data-bio-line-key",
 };

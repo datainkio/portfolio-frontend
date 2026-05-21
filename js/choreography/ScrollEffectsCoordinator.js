@@ -40,7 +40,7 @@
  *
  * CRITICAL DEPENDENCIES:
  * - HTML: #overlay-view, #sizzle-background (background layers)
- * - HTML: #smooth-wrapper, #smooth-content (optional for smooth scroll)
+ * - HTML: IDs configured in SELECTORS.smoothWrapper and SELECTORS.smoothContent
  * - CSS: .bg-gel-* classes for gel styling
  * - AnimationBus: Event system for section coordination (passed from AnimationDirector)
  *
@@ -55,7 +55,10 @@ import ReducedMotionHandler from "/assets/js/choreography/managers/ReducedMotion
 // import BackgroundLayerManager from "/assets/js/choreography/managers/BackgroundLayerManager.js";
 import ScrollSmootherManager from "/assets/js/choreography/managers/ScrollSmootherManager.js";
 import GelAnimationManager from "/assets/js/choreography/managers/GelAnimationManager.js";
-import { GEL_ARRANGEMENTS } from "/assets/js/choreography/config/arrangements.js";
+import {
+  GEL_ARRANGEMENTS,
+  SELECTORS,
+} from "/assets/js/choreography/config/index.js";
 
 /**
  * ScrollEffectsCoordinator - Master Animation Coordinator
@@ -181,8 +184,8 @@ export default class ScrollEffectsCoordinator {
     this.logger.trace(
       "Falling back to native scroll (ScrollSmoother not initialized)",
     );
-    const wrapper = document.querySelector("#smooth-wrapper");
-    const content = document.querySelector("#smooth-content");
+    const wrapper = document.querySelector(`#${SELECTORS.smoothWrapper}`);
+    const content = document.querySelector(`#${SELECTORS.smoothContent}`);
 
     if (wrapper) {
       wrapper.style.position = "static";

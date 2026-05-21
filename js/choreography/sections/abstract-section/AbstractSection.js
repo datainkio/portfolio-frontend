@@ -35,8 +35,14 @@ import AbstractSectionTriggers from "./AbstractSectionTriggers.js";
 import NullAnimationBus from "../../NullAnimationBus.js";
 import { EVENTS } from "../../config/contracts/events.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
+import {
+  BREAKPOINT_MATCH_MEDIA_CONDITIONS,
+  getActiveBreakpoint,
+  resolveSectionMotionProfile,
+} from "../../config/index.js";
 import PromiseResolverQueue from "../../utils/PromiseResolverQueue.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 
 export default class AbstractSection {
   /**
@@ -52,6 +58,7 @@ export default class AbstractSection {
    * @param {string} options.sectionKey - Section key that maps to EVENTS config (e.g., 'hero')
    * @param {AnimationBus} options.bus - Event bus for coordination (optional)
    * @param {ReducedMotionHandler} options.reducedMotionHandler - Motion preference handler (optional)
+   * @param {boolean} options.initialInView - Initial in-view state for sections that start in viewport
    */
   constructor({
     view,
@@ -60,6 +67,7 @@ export default class AbstractSection {
     sectionKey,
     bus,
     reducedMotionHandler,
+    initialInView = false,
   } = {}) {
     this.logger = lumberjack.createScoped(this.constructor.name, {
       color: "#007bff",
@@ -71,9 +79,13 @@ export default class AbstractSection {
     this.isDisabled = !view;
     this.bus = bus ?? new NullAnimationBus();
     this._reducedMotionHandler = reducedMotionHandler;
+    this._matchMedia = null;
+    this._isLifecycleMotionEnabled = true;
+    this._isReducedMotionMode = null;
+    this._activeBreakpoint = "base";
     // _isInView is used as a de-dup guard to prevent repeated enter/exit emissions and repeated auto-play
     // calls when ScrollTrigger callbacks fire in quick succession or from back-direction callbacks.
-    this._isInView = false;
+    this._isInView = Boolean(initialInView);
     this._landing = new PromiseResolverQueue();
     this._intro = new PromiseResolverQueue();
     this._outro = new PromiseResolverQueue();
@@ -88,25 +100,60 @@ export default class AbstractSection {
     this.triggers = triggers ?? new AbstractSectionTriggers(this.view);
     this.animations = animations ?? new AbstractSectionAnimations(this.view);
 
-    const isReducedMotion = Boolean(
-      this._reducedMotionHandler?.isReducedMotion(),
-    );
-    this._bindCallbacks({ includeTriggers: !isReducedMotion });
-
-    // Respect reduced motion: skip intro and apply end state immediately.
-    if (isReducedMotion) {
-      this._applyPostIntroState();
-      return;
-    }
-
-    // Keep parity with other sections for trigger/section coordination.
+    // Expose owning section to trigger modules before bind() so section-specific
+    // triggers can coordinate timeline playback safely.
     if (this.triggers) {
       this.triggers.section = this;
     }
 
-    if (!view) {
-      this.logger.trace("element not found; skipping initialization.");
+    this._setupResponsiveLifecycle();
+  }
+
+  _setupResponsiveLifecycle() {
+    if (typeof gsap?.matchMedia !== "function") {
+      const isReducedMotion = Boolean(
+        this._reducedMotionHandler?.isReducedMotion?.(),
+      );
+
+      this._applyResponsiveLifecycle({
+        base: true,
+        reduceMotion: isReducedMotion,
+        motionOk: !isReducedMotion,
+      });
       return;
+    }
+
+    this._matchMedia = gsap.matchMedia(this.view);
+    this._matchMedia.add(BREAKPOINT_MATCH_MEDIA_CONDITIONS, (context = {}) => {
+      this._applyResponsiveLifecycle(context.conditions ?? {});
+    });
+  }
+
+  _applyResponsiveLifecycle(conditions = {}) {
+    const activeBreakpoint = getActiveBreakpoint(conditions);
+    this._activeBreakpoint = activeBreakpoint;
+
+    const isReducedMotion = Boolean(
+      conditions.reduceMotion ??
+        this._reducedMotionHandler?.isReducedMotion?.(),
+    );
+
+    const profile = resolveSectionMotionProfile(this.sectionKey, {
+      ...conditions,
+      reduceMotion: isReducedMotion,
+    });
+    const wasLifecycleMotionEnabled = this._isLifecycleMotionEnabled;
+
+    this._isReducedMotionMode = isReducedMotion;
+    this._motionProfile = profile;
+    this._isLifecycleMotionEnabled = profile.timeline.enabled;
+
+    // When triggers are off, kills all section scroll triggers.
+    this._bindCallbacks({ includeTriggers: profile.trigger.enabled });
+
+    // Ensure non-animated end state whenever timeline motion is disabled.
+    if (!profile.timeline.enabled && wasLifecycleMotionEnabled) {
+      this._applyPostIntroState();
     }
   }
 
@@ -120,6 +167,10 @@ export default class AbstractSection {
     this._emit(this.events.landingComplete, { element: this.view });
   }
 
+  _onUpdate() {}
+
+  _onRefresh() {}
+
   _onEnter() {
     if (this._isInView) return;
     this._isInView = true;
@@ -131,14 +182,20 @@ export default class AbstractSection {
     if (!this._isInView) return;
     this._isInView = false;
     this._emit(this.events.exit, { element: this.view });
-    this.playOutro();
+    // TODO: Implement a more flexible solution for allowing events to be emitted on section exit without necessarily playing an outro animation. This could be a separate "exit" timeline that defaults to empty but can be defined by sections that need it, or a configuration option on the triggers that allows exit events to emit without an outro.
+    // this.playOutro();
   }
 
   _onEnterBack() {
-    this._onEnter();
+    if (this._isInView) return;
+    this._isInView = true;
+    this._emit(this.events.onEnterBack, { element: this.view });
+    this.playIntro();
   }
 
   _onLeaveBack() {
+    if (!this._isInView) return;
+    this._emit(this.events.onLeaveBack, { element: this.view });
     this._onLeave();
   }
 
@@ -159,9 +216,7 @@ export default class AbstractSection {
   }
 
   _getTimelineOrWarn(timelineId, source) {
-    const tl =
-      this.animations?.getTimeline?.(timelineId) ??
-      this.animations?.timeline?.getById?.(timelineId);
+    const tl = this.animations?.getTimeline?.(timelineId);
     if (tl) return tl;
 
     this.logger.trace("Missing required animation timeline", {
@@ -210,13 +265,18 @@ export default class AbstractSection {
       },
     );
 
-    if (!includeTriggers || !this.triggers) return;
+    if (!includeTriggers || !this.triggers) {
+      this.triggers?.kill?.();
+      return;
+    }
 
     this.triggers.bind({
       onEnter: () => this._onEnter(),
       onLeave: () => this._onLeave(),
       onEnterBack: () => this._onEnterBack(),
       onLeaveBack: () => this._onLeaveBack(),
+      onUpdate: (trigger) => this._onUpdate(trigger),
+      onRefresh: (trigger) => this._onRefresh(trigger),
     });
   }
 
@@ -236,7 +296,9 @@ export default class AbstractSection {
    */
   async playLanding() {
     this.logger.trace("Playing landing animation");
-    if (this.isDisabled) return Promise.resolve();
+    if (this.isDisabled || !this._isLifecycleMotionEnabled) {
+      return Promise.resolve();
+    }
     return this._landing.run(() => this.animations.play(TIMELINE_IDS.landing));
   }
 
@@ -250,6 +312,10 @@ export default class AbstractSection {
    */
   async playIntro() {
     if (this.isDisabled) return Promise.resolve();
+    if (!this._isLifecycleMotionEnabled) {
+      this._applyPostIntroState();
+      return Promise.resolve();
+    }
     return this._intro.run(() => this.animations.play(TIMELINE_IDS.intro));
   }
 
@@ -262,7 +328,9 @@ export default class AbstractSection {
    * @returns {Promise<void>} Resolves when animation completes
    */
   async playOutro() {
-    if (this.isDisabled) return Promise.resolve();
+    if (this.isDisabled || !this._isLifecycleMotionEnabled) {
+      return Promise.resolve();
+    }
     return this._outro.run(() => this.animations.play(TIMELINE_IDS.outro));
   }
 
@@ -310,6 +378,9 @@ export default class AbstractSection {
    * Kills timeline and ScrollTriggers. Section cannot be reused after destroy().
    */
   destroy() {
+    this._matchMedia?.revert?.();
+    this._matchMedia = null;
+
     this.animations?.kill?.();
 
     // Remove ScrollTriggers registered via AbstractSectionTriggers

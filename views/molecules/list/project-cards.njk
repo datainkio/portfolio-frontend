@@ -1,0 +1,13 @@
+{% import "molecules/card/project.njk" as ProjectCard %}
+{% macro render(params = {}) %}
+  {%- set classes = params.classes | default("") -%}
+  {%- set projects = params.projects | default([]) -%}
+  <ul class="{{ classes }}">
+    {% for project in projects %}
+      {% set projectHref = project.url or (project.slug and '/case-studies/' ~ project.slug ~ '/') %}
+      <li class="text-black">
+        {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2, classes: "sm:inner-border-none" }) }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

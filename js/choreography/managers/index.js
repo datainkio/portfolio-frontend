@@ -28,3 +28,4 @@ export { default as ReducedMotionHandler } from "./ReducedMotionHandler.js";
 export { default as ScrollSmootherManager } from "./ScrollSmootherManager.js";
 export { default as GelAnimationManager } from "./GelAnimationManager.js";
 export { default as RulerIntroManager } from "./RulerIntroManager.js";
+export { default as LineManager } from "./LineManager.js";

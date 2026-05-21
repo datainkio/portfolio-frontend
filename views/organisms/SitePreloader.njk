@@ -1,0 +1,37 @@
+{% import "molecules/LoaderStack.njk" as LoaderStack %}
+
+{# Usage: {% import "organisms/SitePreloader.njk" as Preloader %} {{ Preloader.render() }} #}
+{% macro render(params = {}) -%}
+  <div inert id="site-preloader" data-preloader data-preloader-kind="{{ params.kind | default('spinner') }}" data-preloader-message="{{ params.message | default('Loading…') }}" data-gsap-src="{{ params.gsapSrc | default('') }}" data-scroll-smoother="{{ params.scrollSmoother | default('off') }}" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950 text-white pointer-events-auto" role="status" aria-live="polite">
+    <div data-preloader-stack class="opacity-100 translate-y-0">
+      {{ LoaderStack.render({
+        message: params.message or "Loading…",
+        kind: params.kind or "spinner",
+        showText: params.showText | default(true),
+        markText: params.markText or "dataink.io"
+      }) }}
+    </div>
+    <style>
+      @keyframes loader-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes loader-shimmer {
+        0% {
+          transform: translateX(-150%);
+        }
+        50% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(150%);
+        }
+      }
+      @media(prefers-reduced-motion: reduce) {
+        #site-preloader [data-preloader-stack] {
+          animation: none !important;
+        }
+        #site-preloader [class*="animate-[loader-"] { animation: none !important; } }</style>
+    </div>
+  {%- endmacro %}

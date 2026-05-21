@@ -1,0 +1,14 @@
+{% macro render(params = {}) %}
+  {% set classes = params.classes | default("") %}
+  <svg
+    class="w-1/6 h-4 {{ classes }}"
+    viewBox="0 0 200 50"
+    preserveAspectRatio="none"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <rect id="200" class="fill-secondary-400" x="0" y="0" width="50" height="50"/>
+    <rect id="400" class="fill-tertiary-400" x="50" y="0" width="50" height="50"/>
+    <rect id="600" class="fill-primary-400" x="100" y="0" width="50" height="50"/>
+    <rect id="800" class="fill-accent-400" x="150" y="0" width="50" height="50"/>
+  </svg>
+{% endmacro %}

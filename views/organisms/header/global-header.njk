@@ -1,0 +1,10 @@
+{% import "organisms/navigation/primary-nav.njk" as primary_nav with context %}
+
+{% macro render(params = {}) %}
+  <header
+    id="global-header"
+    class="fixed w-full text-sm p-4 h-12 z-20 text-white text-48 {{ params.classes }} "
+    aria-label=" Global Site Header">
+    {{ primary_nav.render({ logoSvg: params.logoSvg }) }}
+  </header>
+{% endmacro %}

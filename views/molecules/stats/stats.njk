@@ -1,0 +1,14 @@
+{% macro render(params = {}) %}
+  {%- set stats = params.stats | default([]) -%}
+  {%- set classes = params.classes | default("") -%}
+  <dl class="{{ classes | default("") }}">
+    {% for item in stats %}
+      {% if item.value %}
+        <div class="meta-item bg-white flex flex-col gap-1 p-2">
+          <dt class="text-xs text-neutral-400 uppercase tracking-wide">{{ item.key }}</dt>
+          <dd class="text-xs text-current">{{ item.value }}</dd>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </dl>
+{% endmacro %}

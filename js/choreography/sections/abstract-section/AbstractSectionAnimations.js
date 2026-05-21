@@ -20,27 +20,10 @@
 /**
  * BaseAnimations - Shared foundation for section animation modules
  *
- * Provides a minimal structure and helpers for building GSAP timelines
- * associated with a specific DOM element and section id.
+ * Provides shared helpers for section-scoped timeline playback.
  */
-import { motion } from "../../config/ix/motion.js";
-import { LABELS } from "../../config/contracts/labels.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap.js";
-const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
-const DURATION = toSeconds(motion.duration("base")); // Default duration for animations
-const STAGGER = motion.stagger("base"); // Default stagger duration for animations
-const EASE = motion.ease("standard"); // Default easing for animations
-const TIMELINE_LABEL_MAP = Object.freeze({
-  [LABELS.landing]: TIMELINE_IDS.landing,
-  [LABELS.intro]: TIMELINE_IDS.intro,
-  [LABELS.enter]: TIMELINE_IDS.intro,
-  [LABELS.enterBack]: TIMELINE_IDS.intro,
-  [LABELS.idle]: TIMELINE_IDS.idle,
-  [LABELS.leave]: TIMELINE_IDS.outro,
-  [LABELS.leaveBack]: TIMELINE_IDS.outro,
-  outro: TIMELINE_IDS.outro,
-});
 
 const EMPTY_TIMELINES = () => ({
   [TIMELINE_IDS.landing]: null,
@@ -49,27 +32,30 @@ const EMPTY_TIMELINES = () => ({
   [TIMELINE_IDS.outro]: null,
 });
 
+const TIMELINE_BUILDERS = [
+  [TIMELINE_IDS.landing, "_buildLanding"],
+  [TIMELINE_IDS.intro, "_buildIntro"],
+  [TIMELINE_IDS.idle, "_buildIdle"],
+  [TIMELINE_IDS.outro, "_buildOutro"],
+];
+
 export default class AbstractSectionAnimations {
   /**
    * @param {HTMLElement|null} view - Target element for animations
-   * @param {string} sectionId - Section identifier (e.g., 'main-header')
    */
-  constructor(view, options = {}) {
+  constructor(view) {
     this.view = view;
     this._timelines = EMPTY_TIMELINES();
-    this.timeline = this._createTimelineRegistry();
-    this.DURATION = DURATION; // Default duration for animations
-    this.STAGGER = STAGGER; // Default stagger duration for animations
-    this.EASE = EASE; // Default easing for animations
-    this.LABELS = LABELS;
   }
 
-  play(label, fallback = 0) {
-    const timelineId = this._resolveTimelineId(label, fallback);
-    const activeTimeline = this.getTimeline(timelineId);
+  play(timelineId) {
+    const resolvedId = this._resolveTimelineId(timelineId);
+    if (!resolvedId) return null;
+
+    const activeTimeline = this._timelines[resolvedId] ?? null;
     if (!activeTimeline) return null;
 
-    this._pauseInactiveTimelines(timelineId);
+    this._pauseInactiveTimelines(resolvedId);
     return activeTimeline.restart();
   }
 
@@ -85,12 +71,6 @@ export default class AbstractSectionAnimations {
     });
   }
 
-  progressAll(value, suppressEvents = false) {
-    Object.values(this._timelines).forEach((timeline) => {
-      timeline?.progress?.(value, suppressEvents);
-    });
-  }
-
   kill() {
     Object.keys(this._timelines).forEach((timelineId) => {
       this._timelines[timelineId]?.kill?.();
@@ -99,28 +79,17 @@ export default class AbstractSectionAnimations {
   }
 
   /**
-   * Set the default styles for the element
-   * Descendants should override for custom behavior.
-   */
-  async setDefault(props = {}) {
-    gsap.set(this.view, props);
-  }
-
-  /**
    * Build and register section timelines by direct reference.
-   * Descendants should implement _buildLanding/_buildIntro/_buildIdle/_buildOutro as needed.
-   * @returns {Object} Timeline registry facade
    */
   _buildTimeline() {
     this.kill();
-    if (!this.view) return this.timeline;
+    if (!this.view) return this._timelines;
 
-    this._registerTimeline(TIMELINE_IDS.landing, this._buildLanding?.());
-    this._registerTimeline(TIMELINE_IDS.intro, this._buildIntro?.());
-    this._registerTimeline(TIMELINE_IDS.idle, this._buildIdle?.());
-    this._registerTimeline(TIMELINE_IDS.outro, this._buildOutro?.());
+    TIMELINE_BUILDERS.forEach(([id, builderName]) => {
+      this._registerTimeline(id, this[builderName]?.());
+    });
 
-    return this.timeline;
+    return this._timelines;
   }
 
   _registerTimeline(timelineId, timeline) {
@@ -144,30 +113,65 @@ export default class AbstractSectionAnimations {
     });
   }
 
-  _resolveTimelineId(label, fallback) {
-    const resolve = (candidate) => {
-      if (typeof candidate !== "string") return null;
-      if (Object.hasOwn(this._timelines, candidate)) return candidate;
-      return TIMELINE_LABEL_MAP[candidate] ?? null;
-    };
+  _showAllItems(items, revealedItems) {
+    if (
+      !Array.isArray(items) ||
+      items.length === 0 ||
+      !revealedItems ||
+      typeof revealedItems.add !== "function"
+    ) {
+      return;
+    }
 
-    return resolve(label) ?? resolve(fallback);
+    items.forEach((item) => {
+      revealedItems.add(item);
+    });
+
+    gsap.set(items, {
+      autoAlpha: 1,
+      y: 0,
+    });
   }
 
-  _createTimelineRegistry() {
-    return {
-      getById: (timelineId) => this.getTimeline(timelineId),
-      pause: (atTime = 0) => {
-        this.pauseAll(atTime);
-        return this.timeline;
-      },
-      progress: (value, suppressEvents = false) => {
-        this.progressAll(value, suppressEvents);
-        return this.timeline;
-      },
-      kill: () => {
-        this.kill();
-      },
-    };
+  _revealItemsOnScroll({
+    items,
+    revealedItems,
+    revealViewportRatio,
+    buildTween,
+  } = {}) {
+    if (
+      !Array.isArray(items) ||
+      items.length === 0 ||
+      !revealedItems ||
+      typeof revealedItems.has !== "function" ||
+      typeof revealedItems.add !== "function" ||
+      typeof buildTween !== "function"
+    ) {
+      return;
+    }
+
+    const viewportHeight =
+      window.innerHeight || document.documentElement?.clientHeight || 0;
+    if (!viewportHeight) return;
+
+    const ratio =
+      typeof revealViewportRatio === "number" ? revealViewportRatio : 0.5;
+    const clampedRatio = Math.min(0.95, Math.max(0.05, ratio));
+    const revealThreshold = viewportHeight * clampedRatio;
+
+    items.forEach((item, itemIndex) => {
+      if (revealedItems.has(item)) return;
+
+      const itemTop = item.getBoundingClientRect().top;
+      if (itemTop > revealThreshold) return;
+
+      revealedItems.add(item);
+      buildTween(item, itemIndex);
+    });
+  }
+
+  _resolveTimelineId(candidate) {
+    if (typeof candidate !== "string") return null;
+    return Object.hasOwn(this._timelines, candidate) ? candidate : null;
   }
 }

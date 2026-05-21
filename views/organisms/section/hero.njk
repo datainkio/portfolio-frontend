@@ -1,0 +1,24 @@
+{% macro render(params = {}) %}
+  {% import "atoms/hanko.njk" as Hanko %}
+
+  {%- set sectionId = params.id | default("hero") -%}
+  {%- set tagline = params.tagline | default(title) -%}
+  {%- set rulerOptions = params.ruler | default({}) -%}
+  {%- set classes = params.classes | default("") -%}
+  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+
+  {# Let's make styling the tagline text a little more manageable... #}
+  {%- set font = "font-display text-primary-100 uppercase" -%}
+  {%- set layout = "my-auto col-start-2 col-span-2 py-8 flex flex-col overflow-hidden z-10" -%}
+  {%- set sizes = "text-5xl sm:text-6xl md:text-7xl lg:text-9xl" -%}
+  {%- set hanko = "w-24 sm:w-28 md:w-32 lg:w-40 " %}
+  {%- set leading = "leading-10 sm:leading-10 md:leading-14 lg:leading-24" -%}
+  {%- set tracking = "" -%}
+
+  <section id="{{ sectionId }}" class="z-10 h-dvh content-center grid grid-cols-3 gap-4 {{ classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+    {{ Hanko.render({svg: params.logo, classes: "hanko justify-self-end block text-secondary-500 " ~ hanko}) }}
+    <h1 id="{{ headingId }}" data-hero-el="tagline" class="{{ layout }} {{ sizes }} {{ leading }} {{ tracking }} {{ font }}">
+      {{ tagline }}
+    </h1>
+  </section>
+{% endmacro %}

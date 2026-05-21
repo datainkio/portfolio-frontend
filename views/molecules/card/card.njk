@@ -1,0 +1,157 @@
+{% import "atoms/heading.njk" as HeadingBlock %}
+{% import "atoms/cta.njk" as CTA %}
+{% import "molecules/stats/stats.njk" as Details %}
+{% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
+{% macro render(params = {}) %}
+  {# Note that defaults are limited. This gives the caller more control and allows them to pass in empty strings or falsy values if they want to intentionally omit something that might otherwise be pulled from a project object. #}
+  {%- set title = params.title -%}
+  {%- set eyebrow_txt = params.eyebrow -%}
+  {%- set headingLevel = params.headingLevel | default(3) -%}
+  {%- set description_txt = params.description -%}
+  {%- set byline_txt = params.byline -%}
+  {%- set meta = params.meta | default([]) -%}
+  {%- set featured = params.featured | default(false) -%}
+  {%- set image = params.image -%}
+  {%- set url = params.url -%}
+  {%- set classes = params.classes -%}
+  {%- set imageClasses = params.imageClasses -%}
+  {%- set eager = params.eager | default(false) -%}
+
+  {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
+  {%- set imageAlt = image and image.alt or title -%}
+
+  {%- set root = {
+    "base": "bg-white relative isolate w-full text-current",
+    "sm": "",
+    "md": "md:grid md:grid-cols-6 md:inner-border md:p-4 md:mx-auto",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set figure = {
+    "base": "bg-black m-0 relative z-0 overflow-hidden w-full h-dvh",
+    "sm": "sm:min-h-36 sm:max-h-64",
+    "md": "md:col-span-3 md:h-auto",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set image = {
+    "base": "w-full h-full object-cover object-center",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set body = {
+    "base": "body bg-white inner-border p-6 ",
+    "sm": "sm:bg-transparent sm:grid sm:grid-cols-6 sm:gap-x-2 sm:inner-border-none",
+    "md": "md:col-span-3",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set eyebrow = {
+    "base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set header = {
+    "base": "header col-span-full",
+    "sm": "sm:col-span-4",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set heading = {
+    "base": "heading font-display col-span-full",
+    "sm": "sm:text-2xl",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set byline = {
+    "base": "byline text-sm font-thin col-span-full",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set description = {
+    "base": "description text-sm",
+    "sm": "sm:col-span-4 sm:pb-2 sm:pr-4",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set stats = {
+    "base": "col-span-full grid grid-cols-2",
+    "sm": "sm:pl-2 sm:row-span-2 sm:row-start-1 sm:col-start-5 sm:col-span-2 sm:grid-cols-1 sm:border-l sm:border-black sm:border-dashed",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set footer = {
+    "base": "col-span-full text-right ",
+    "sm": "sm:border-y sm:border-black sm:border-dashed py-2",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  {%- set linky = {
+    "base": "font-display inline-block uppercase text-right",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
+  <article data-card-el="root" class="{{ root.base }} {{ root.sm }} {{ root.md }} {{ root.lg }} {{ root.xl }} {{ classes }}">
+
+    {% if imageSrc %}
+      <figure data-card-el="figure" class="{{ figure.base }} {{ figure.sm }} {{ figure.md }} {{ figure.lg }} {{ figure.xl }}">
+        {{ TrimMarks.render({ inset: "6", size: "4", weight: "1", color: "white", classes:"invisible sm:visible" }) }}
+        <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="{{ image.base }} {{ image.sm }} {{ image.md }} {{ image.lg }} {{ image.xl }} {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
+      </figure>
+    {% endif %}
+
+    <div data-card-el="body" class="{{ body.base }} {{ body.sm }} {{ body.md }} {{ body.lg }} {{ body.xl }}">
+
+      <header class="{{ header.base }} {{ header.sm }} {{ header.md }} {{ header.lg }} {{ header.xl }}">
+        {% if eyebrow_txt %}
+          <p class="{{ eyebrow.base }} {{ eyebrow.sm }} {{ eyebrow.md }} {{ eyebrow.lg }} {{ eyebrow.xl }}">{{ eyebrow_txt }}</p>
+        {% endif %}
+        {{ HeadingBlock.render({ level: headingLevel, text: title, class: heading.base ~ " " ~ heading.sm ~ " " ~ heading.md ~ " " ~ heading.lg ~ " " ~ heading.xl ~ (" hover:underline" if url else "") }) }}
+        {% if byline_txt %}
+          <p class="{{ byline.base }} {{ byline.sm }} {{ byline.md }} {{ byline.lg }} {{ byline.xl }}">{{ byline_txt }}</p>
+        {% endif %}
+      </header>
+
+      {% if description_txt %}
+        <p class="{{ description.base }} {{ description.sm }} {{ description.md }} {{ description.lg }} {{ description.xl }}">{{ description_txt }}</p>
+      {% endif %}
+
+      {% if meta | length %}
+        {{ Details.render({ stats: meta, classes: stats.base ~ " " ~ stats.sm ~ " " ~ stats.md ~ " " ~ stats.lg ~ " " ~ stats.xl }) }}
+      {% endif %}
+
+      <footer class="{{ footer.base }} {{ footer.sm }} {{ footer.md }} {{ footer.lg }} {{ footer.xl }}">
+        {% if url %}
+          {{ CTA.render({ text: "view case study", url: url, classes: linky.base ~ " " ~ linky.sm ~ " " ~ linky.md ~ " " ~ linky.lg ~ " " ~ linky.xl }) }}
+        {% endif %}
+      </footer>
+
+    </div>
+
+  </article>
+{% endmacro %}

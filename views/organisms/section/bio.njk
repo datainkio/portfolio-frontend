@@ -1,0 +1,21 @@
+{% macro render(params = {}) %}
+  {% import "molecules/section-cap.njk" as SectionCap %}
+  {% import "molecules/printmarks.njk" as PrintMarks %}
+  {%- set sectionId = params.id | default("bio") -%}
+  {%- set classes = params.classes | default("") -%}
+  {%- set heading = params.copy.heading -%}
+  {%- set subheading = params.copy.subheading -%}
+  {%- set body = params.copy.body -%}
+  {%- set order = params.order | default("") -%}
+  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+  {%- set buildDate = params.buildDate -%}
+
+  {# Biography section #}
+  <section class="relative h-dvh content-center text-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header class="col-span-full z-10" data-bio-el="header">
+      {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
+      <h2 class="px-10 font-display text-3xl sm:text-4xl" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
+      <p class="px-10 mt-4 text-lg font-light" data-bio-el="subheading">{{ subheading }}</p>
+    </header>
+  </section>
+{% endmacro %}

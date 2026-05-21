@@ -83,6 +83,7 @@ npm run watch:css
 
 - Default builds generate a single choreography bundle at [assets/js/choreography/bundle.js](assets/js/choreography/bundle.js) via [scripts/buildChoreography.js](scripts/buildChoreography.js).
 - Set `BUNDLE_JS=false` (or run the shortcuts above) to skip bundling and serve the raw ESM modules from [js/choreography](js/choreography) that Eleventy passthrough-copies into [assets/js/choreography](assets/js/choreography).
+- Raw ESM mode relies on browser-resolvable dependencies: vendor assets (for example GSAP modules and the LeaderLine browser script) are passthrough-copied to [assets/js/vendor](assets/js/vendor) and loaded via runtime paths.
 - When bundling is disabled the build script deletes any stale [bundle.js](assets/js/choreography/bundle.js) so the site falls back to loading [Director.js](js/choreography/Director.js) directly; re-enable by removing the env var or passing `--bundle` to the script.
 - Use `npm run build:nobundle` if you want a production build that deliberately avoids bundling for debugging or source-mapping in the browser.
 - Direct invocation switches: `--no-bundle` / `--skip-bundle` to force raw modules, `--bundle` to override and force bundling even when `BUNDLE_JS` is false.
@@ -188,7 +189,7 @@ These files are auto-generated and will be overwritten faster than you can say "
 
 ## Content Management (Sanity CMS Integration)
 
-Content is managed through Sanity and fetched during the 11ty build. Defaults live in `site.json` under `cms` (or `sanity`), and collections are defined in `cms/queries.js`.
+Content is managed through Sanity and fetched during the 11ty build. Defaults live in `site.json` under `cms` (or `sanity`), and collections are defined in `data/sanity/queries.js`.
 
 ```json
 {
@@ -292,7 +293,7 @@ portfolio/
 │   ├── shortcodes/            # Reusable template functions
 │   ├── collections/           # Content collection definitions
 │   └── services/              # Build-time services (NavigationBuilder, etc.)
-├── cms/                        # Sanity client, queries, fetch helpers
+├── data/sanity/                 # Sanity client, queries, fetch helpers
 ├── site.json                   # Global site config + CMS defaults
 └── _site/                      # BUILD OUTPUT - never edit directly
 ```
@@ -338,7 +339,7 @@ portfolio/
 ### "Content not showing"
 
 - **Cause**: Missing or incorrect Sanity config (projectId/dataset) or query mismatch
-- **Fix**: Verify `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `cms/queries.js`
+- **Fix**: Verify `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `data/sanity/queries.js`
 - **Prevention**: Keep query ids stable and reuse existing patterns
 
 ### "Build fails with module errors"
@@ -353,11 +354,17 @@ portfolio/
 - **Fix**: Verify Tailwind CSS v4 installation and import sequence
 - **Prevention**: Don't rearrange CSS imports without understanding cascade
 
+### "VS Code shows 'Unknown at rule @apply'"
+
+- **Cause**: Built-in CSS linting does not understand Tailwind directives by default
+- **Fix**: Use workspace setting `.vscode/settings.json` with `css.lint.unknownAtRules` set to `ignore`
+- **Prevention**: Keep workspace lint settings in source control so team/editor defaults stay consistent
+
 ## Advanced Configuration
 
 ### Adding New Sanity Queries
 
-1. Add a query in `cms/queries.js`
+1. Add a query in `data/sanity/queries.js`
 2. Ensure the query has a stable `id`
 3. Access in templates via `collections.<id>`
 
