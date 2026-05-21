@@ -29,6 +29,73 @@ aix:
 - **Scope:** Per-project detail page (one routed Eleventy page per `project` document)
 - **Related:** [card.views-spec.md](./card.views-spec.md)
 
+## Feature
+
+A single Nunjucks template renders one Eleventy page per `project` document. Eleventy paginates over the `projectPages` query (one item per page, slug-based permalink). The template reads a pre-shaped object produced by a GROQ projection plus a JS transform — no Sanity calls or GROQ live in the template.
+
+### Data flow
+
+```
+Sanity ──┐
+         │  GROQ
+         ▼
+projectPageProjection.js
+         │
+         ▼
+project-pages.js  (projectPages query)
+         │
+         ▼
+queries.js  (CMS_QUERIES)
+         │  Eleventy global data
+         ▼
+transforms/project.js  (shape for template)
+         │
+         ▼
+views/pages/project/project.njk  (paginated, one page per project)
+```
+
+### Routing
+
+- Source: `project.page.slug.current`
+- Permalink: `/work/{slug}/index.html` (final segment subject to existing site routing conventions)
+- Pagination: `size: 1`, alias `project`
+
+### Region → field map
+
+| Region                | Source field(s)                                                   | Required          |
+| --------------------- | ----------------------------------------------------------------- | ----------------- |
+| Title                 | `project.page.title`                                              | yes               |
+| Byline (organization) | `project.organization` → resolved name                            | yes               |
+| Abstract              | `project.page.abstract`                                           | yes               |
+| Featured image        | `project.featuredImage` → resolved `imageAsset`                   | yes               |
+| Outcome               | `project.outcome` → resolved name                                 | no                |
+| Metadata band         | `project.roles[]`, `project.industries[]`, `project.activities[]` | yes (per spec IA) |
+| Awards                | `project.awards[]` → resolved `award`                             | no                |
+| Body                  | `project.body` (Portable Text; H2+ only)                          | yes               |
+| Live link             | `project.externalLinks[]` (cardinality tbd)                       | no                |
+| End CTA               | Site-global footer contact form                                   | yes               |
+| PDF download          | Server-rendered HTML → PDF artifact at `/work/{slug}/project.pdf` | yes               |
+
+### Developer contract
+
+- **Template never queries Sanity.** All data is preloaded via `CMS_QUERIES` and shaped by `transforms/project.js`.
+- **Projection owns expansion.** Taxonomy/award/organization/outcome dereferences happen in `projectPageProjection.js`, not the template.
+- **Transform owns presentation shape.** Slug derivation, sorted relations, and Portable Text prep happen in `transforms/project.js`.
+- **Sidecar (`project.md`) owns metadata.** Template inputs and relationships are documented there, not inline in the `.njk`.
+- **One H1, never in body.** Body Portable Text demotes block headings to H2+ via the transform.
+
+### Local dev
+
+- `cd frontend && npm start` — Eleventy dev with live reload.
+- `cd backend && npm run dev` — Sanity Studio (for editing source docs).
+- Build validation: `cd frontend && npm run build` — must complete with no template errors and a Lighthouse run (a11y/perf/best-practices/SEO) of 100 on a representative project.
+
+### Out of scope (for this iteration)
+
+- Related/next-prev projects surface.
+- Breadcrumbs and in-page anchor navigation.
+- Per-project art direction beyond the featured image.
+
 ## Goal
 
 Render an individual `project` document as a routed Eleventy page at a stable per-project URL, using a dedicated Nunjucks template fed by a Sanity-backed projection.
@@ -69,7 +136,7 @@ The page should include a clear CTA at the end of the content. Consider a contac
 
 - Emphasize content over ornamentation.
 - The scan priority needs to reflect the IA:
-  - associate byline with title
+  - associate organization with title as a byline
   - outcome gets its own treatment either as a section between the metadata and body or as an aside.
   - H2 body headings located outside of the body text; horizontal positioning maintains the connection.
 - It does not need to have a unique layout for each breakpoint, but it should appear intentional (i.e. nothing breaks) at Tailwind breakpoints: base, sm, md, lg, and xl.
