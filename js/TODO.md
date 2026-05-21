@@ -21,6 +21,7 @@ This file tracks JavaScript/runtime and DX backlog priorities.
 - [ ] FEAT: Pin runtime tooling (`.nvmrc`, engine strictness, early system checks).
 - [ ] FIX: Resolve performance hit from scroll snapping either from CSS or GSAP ScrollTrigger
 - [ ] TODO: Remove logging for award logo images
+- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/62
 
 ## Later / Parked
 

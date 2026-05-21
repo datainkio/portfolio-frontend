@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.choreography.animation-bus-flow-test
  *   role: Test module: test/choreography/animation-bus-flow.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/64
  *   status: draft
  *   surface: internal
  *   scope: frontend

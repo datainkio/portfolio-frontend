@@ -183,6 +183,7 @@ export default class AbstractSection {
     this._isInView = false;
     this._emit(this.events.exit, { element: this.view });
     // TODO: Implement a more flexible solution for allowing events to be emitted on section exit without necessarily playing an outro animation. This could be a separate "exit" timeline that defaults to empty but can be defined by sections that need it, or a configuration option on the triggers that allows exit events to emit without an outro.
+    // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/63
     // this.playOutro();
   }
 
