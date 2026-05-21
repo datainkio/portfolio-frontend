@@ -53,13 +53,13 @@ The page should include a clear CTA at the end of the content. Consider a contac
   - project title
   - project abstract
   - featured image
-  - project metadata (awards, roles, industries, activities)
+  - project metadata (awards, roles, industries, activities, organization, outcome)
   - project body, including images and headings
   - link to live project (optional)
 
 - The URL for the page is based on the slug field.
 
-- Assume all fields - with the exception of awards - are required.
+- Assume all fields - with the exception of awards and outcome - are required.
 
 - The page should be available for download as a formatted PDF.
 
@@ -68,7 +68,10 @@ The page should include a clear CTA at the end of the content. Consider a contac
 ### Visual Design
 
 - Emphasize content over ornamentation.
-- The scan priority needs to reflect the IA.
+- The scan priority needs to reflect the IA:
+  - associate byline with title
+  - outcome gets its own treatment either as a section between the metadata and body or as an aside.
+  - H2 body headings located outside of the body text; horizontal positioning maintains the connection.
 - It does not need to have a unique layout for each breakpoint, but it should appear intentional (i.e. nothing breaks) at Tailwind breakpoints: base, sm, md, lg, and xl.
 - Readability over sexiness.
 
@@ -79,6 +82,7 @@ The page should include a clear CTA at the end of the content. Consider a contac
 ### Accessibility & Performance
 
 - Maintain established best practices for structure, tabbed navigation (including skip-links), and aria definitions.
+- Adhere to [motion-accessibility-policy](motion-accessibility-policy.md)
 - Color, layout, and imagery should not be required for a reader to gain value from the content.
 - Success looks like perfect Lighthouse scores.
 
