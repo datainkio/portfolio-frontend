@@ -10,6 +10,11 @@ export const PROJECT_PAGE_PROJECTION = groq`{
   "title": page.title,
   "slug": page.slug.current,
   "abstract": page.abstract,
+  "industry": industry->{
+    _id,
+    "title": prefLabel,
+    conceptId
+  },
   "organization": organization[]->{
     _id,
     "title": page.title,

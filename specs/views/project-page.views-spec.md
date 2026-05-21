@@ -211,8 +211,14 @@ The page should include a clear CTA at the end of the content. Consider a contac
 ## Risks & Mitigations
 
 - **Path drift** in earlier informal references (`data/projections`, `data/queries`) — mitigated by anchoring this spec to `data/sanity/...`.
-- **`README.documents.md` missing** under `content-model/documents/` — flagged for creation rather than silent update.
+- **Spec/schema field drift:** the IA names `outcome` (singular) and `industries`, but the schema exposes `project.outcomes[]` (plural) and has no `industries` field at all. Reconcile before implementation.
+- **PDF requirement without a pipeline:** the IA requires a downloadable PDF but no build mechanism is defined; risks scope creep into the template work. Decide pipeline or move to a follow-up spec.
+- **Lighthouse-100 target with parallax:** image-driven parallax can regress perf and a11y; mitigated by tying motion to `prefers-reduced-motion` per [`motion-accessibility-policy.md`](../animation/motion-accessibility-policy.md) and budgeting hero image weight.
 
 ## Open Questions
 
-- Feature behavior (sections, data shape, routing slug, related-projects rules) — to be defined in a follow-up section of this spec.
+- **`industries` field:** add `project.industries[]` (reference[] to `industry` taxonomy doc) or strike from the IA.
+- **Outcome region treatment:** between metadata and body, or as an aside?
+- **PDF pipeline:** print stylesheet only, headless-browser post-build, or third-party service.
+- **SEO surface:** confirm `project.seo` (already on the schema) drives `<title>`, meta description, and OG image; document defaults when fields are empty.
+- **Body H2 placement:** confirm grid/column system for headings rendered outside the body text column at each Tailwind breakpoint (base, sm, md, lg, xl).

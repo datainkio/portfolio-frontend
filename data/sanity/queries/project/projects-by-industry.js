@@ -13,20 +13,14 @@ export const projectsByIndustryQuery = {
       _id in *[_type == "skosConceptScheme" && (schemeId in ["industry", "industries"] || title in ["Industry", "Industries"])][0].concepts[]._ref ||
       _id in *[_type == "skosConceptScheme" && (schemeId in ["industry", "industries"] || title in ["Industry", "Industries"])][0].topConcepts[]._ref
     ) &&
-    (
-      _id in *[_type == "project"].organization[]->industry._ref ||
-      _id in *[_type == "project"].projectMeta.organization[]->industry._ref
-    )
+    _id in *[_type == "project"].industry._ref
   ]{
     _id,
     "title": prefLabel,
     "conceptId": coalesce(conceptId, _id),
     "projects": *[
       _type == "project" &&
-      (
-        ^._id in organization[]->industry._ref ||
-        ^._id in projectMeta.organization[]->industry._ref
-      )
+      ^._id == industry._ref
     ]${PROJECT_CARD_PROJECTION} | order(page.title asc)
   } | order(title asc)[0...5]`,
 };

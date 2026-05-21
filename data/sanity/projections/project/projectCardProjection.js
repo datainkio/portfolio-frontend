@@ -14,12 +14,7 @@ export const PROJECT_CARD_PROJECTION = groq`{
   "title": page.title,
   "slug": page.slug.current,
   "abstract": page.abstract,
-  "industry": coalesce(
-    industry->prefLabel,
-    organization[0]->industry->prefLabel,
-    projectMeta.organization[0]->industry->prefLabel,
-    "Uncategorized"
-  ),
+  "industry": coalesce(industry->prefLabel, "Uncategorized"),
   "rolesTitles": array::unique(roles[]->prefLabel),
   "activityTitles": array::unique(activities[]->prefLabel),
   "organization": organization[]->${ORGANIZATION_PROJECTION},
