@@ -10,6 +10,7 @@ tags:
   - project
   - eleventy
   - sanity
+  - case study
 permalink: false
 aliases:
   - "Project Page Spec"
@@ -55,6 +56,8 @@ The page should include a clear CTA at the end of the content. Consider a contac
   - project metadata (awards, roles, industries, activities)
   - project body, including images and headings
   - link to live project (optional)
+
+- The URL for the page is based on the slug field.
 
 - Assume all fields - with the exception of awards - are required.
 
