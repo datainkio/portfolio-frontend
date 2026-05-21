@@ -14,45 +14,76 @@ tags:
   - template
   - obsidian
   - page
-  - page
+  - project
 ---
 
-# Projects
+# Project (single)
 
-Renders a top-level Eleventy page.
+Renders one Eleventy page per `project` document. The page is emitted by
+paginating over the `projectPages` collection in
+[`frontend/ia/project.md`](../../../ia/project.md), aliased as `project`,
+and routed to `/case-studies/{slug}/`.
 
 ## Template
 
 - Source: [[project.njk]]
 - Path: `views/pages/project/project.njk`
+- Layout: `views/layouts/base.njk`
 
 ## Purpose
 
-Generates a routed page in the Eleventy build.
+Per-project detail page (case study). One H1 per page, body headings demote
+to H2 and below via the transform. Composition follows
+[`content-model/patterns/project-page.md`](../../../../content-model/patterns/project-page.md).
 
 ## Role in the System
 
-Classified as a **page** at the atomic **page** level based on its location under `views/`.
+Classified as a **page** at the atomic **page** level.
 
 ## Data and Context
 
-- `ProjectCards` — referenced in the template.
+- Pagination source: `collections.projectPages` (registered by
+  `frontend/data/sanity/services/sanityService.js`).
+- Query: `frontend/data/sanity/queries/project/project-pages.js`
+- Projection: `frontend/data/sanity/projections/project/projectPageProjection.js`
+- Transform: `frontend/data/sanity/transforms/project.js`
+  (`normalizeProjectPageRecords` adds `url` and `bodyHtml`).
+
+### Template inputs (shape of `project`)
+
+| Key              | Source                              | Required |
+| ---------------- | ----------------------------------- | -------- |
+| `title`          | `project.page.title`                | yes      |
+| `slug`           | `project.page.slug.current`         | yes      |
+| `abstract`       | `project.page.abstract`             | yes      |
+| `featuredImage`  | resolved `imageAsset`               | yes      |
+| `organization[]` | resolved organizations (byline)     | yes      |
+| `industry`       | resolved taxonomy                   | yes      |
+| `roles[]`        | resolved taxonomy                   | yes      |
+| `activities[]`   | resolved taxonomy                   | yes      |
+| `outcomes[]`     | resolved taxonomy                   | no       |
+| `awards[]`       | resolved awards                     | no       |
+| `bodyHtml`       | serialized portable text (H2+ only) | yes      |
+| `externalLink`   | string or `{ href, label }`         | no       |
+| `caseStudyUrl`   | string                              | no       |
 
 ## Relationships
 
-- Extends:
-  - [[landing.njk]]
-- Imports:
-  - [[project-cards.njk]]
-- Likely used by:
-  - Unknown
+- Extends: [[base.njk]]
+- Driven by: [[project.md]] (`frontend/ia/project.md`)
+- Spec: [`frontend/specs/views/project-page.views-spec.md`](../../../specs/views/project-page.views-spec.md)
+- Pattern: [`content-model/patterns/project-page.md`](../../../../content-model/patterns/project-page.md)
 
 ## Notes for Future Maintenance
 
-- Keep this sidecar documentation in sync when the template signature changes.
-- Preserve semantic HTML and accessibility attributes when editing.
-- Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
+- The template must not call Sanity or contain GROQ. All shape lives in the
+  projection + transform.
+- Keep the IA region order in sync with the pattern doc.
+- After structural changes, run `npm run build` (or `npm start`) from
+  `frontend/` to validate the Eleventy build.
 
 ## Open Questions
 
-- Are the inferred data dependencies complete, or are some supplied indirectly (front matter, computed data, Sanity)?
+- Outcome treatment: aside vs. between metadata and body (currently aside).
+- PDF download pipeline is required by the spec but not yet implemented.
+- SEO surface: confirm `project.seo` drives `<title>`, meta description, OG.

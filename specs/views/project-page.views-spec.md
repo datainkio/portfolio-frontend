@@ -57,24 +57,24 @@ views/pages/project/project.njk  (paginated, one page per project)
 ### Routing
 
 - Source: `project.page.slug.current`
-- Permalink: `/work/{slug}/index.html` (final segment subject to existing site routing conventions)
+- Permalink: `/case-studies/{slug}/` (matches the `/case-studies/` landing route and the navigation transform).
 - Pagination: `size: 1`, alias `project`
 
 ### Region → field map
 
-| Region                | Source field(s)                                                   | Required          |
-| --------------------- | ----------------------------------------------------------------- | ----------------- |
-| Title                 | `project.page.title`                                              | yes               |
-| Byline (organization) | `project.organization` → resolved name                            | yes               |
-| Abstract              | `project.page.abstract`                                           | yes               |
-| Featured image        | `project.featuredImage` → resolved `imageAsset`                   | yes               |
-| Outcome               | `project.outcome` → resolved name                                 | no                |
-| Metadata band         | `project.roles[]`, `project.industry`, `project.activities[]`     | yes (per spec IA) |
-| Awards                | `project.awards[]` → resolved `award`                             | no                |
-| Body                  | `project.body` (Portable Text; H2+ only)                          | yes               |
-| Live link             | `project.externalLinks[]` (cardinality tbd)                       | no                |
-| End CTA               | Site-global footer contact form                                   | yes               |
-| PDF download          | Server-rendered HTML → PDF artifact at `/work/{slug}/project.pdf` | yes               |
+| Region                | Source field(s)                                                           | Required          |
+| --------------------- | ------------------------------------------------------------------------- | ----------------- |
+| Title                 | `project.page.title`                                                      | yes               |
+| Byline (organization) | `project.organization` → resolved name                                    | yes               |
+| Abstract              | `project.page.abstract`                                                   | yes               |
+| Featured image        | `project.featuredImage` → resolved `imageAsset`                           | yes               |
+| Outcome               | `project.outcome` → resolved name                                         | no                |
+| Metadata band         | `project.roles[]`, `project.industry`, `project.activities[]`             | yes (per spec IA) |
+| Awards                | `project.awards[]` → resolved `award`                                     | no                |
+| Body                  | `project.body` (Portable Text; H2+ only)                                  | yes               |
+| Live link             | `project.externalLinks[]` (cardinality tbd)                               | no                |
+| End CTA               | Site-global footer contact form                                           | yes               |
+| PDF download          | Server-rendered HTML → PDF artifact at `/case-studies/{slug}/project.pdf` | yes               |
 
 ### Developer contract
 

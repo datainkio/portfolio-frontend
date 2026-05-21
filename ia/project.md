@@ -1,7 +1,7 @@
 ---
-layout: layouts/base.njk
+layout: pages/project/project.njk
 pagination:
-  data: collections.projects
+  data: collections.projectPages
   size: 1
   alias: project
 permalink: "/case-studies/{{ project.slug }}/"

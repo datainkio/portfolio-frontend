@@ -24,18 +24,31 @@ export default async function (eleventyConfig) {
 
 Transform and format text content.
 
-| Filter        | Purpose                      | Example                                          |
-| ------------- | ---------------------------- | ------------------------------------------------ |
-| `uppercase`   | Convert text to uppercase    | `{{ "hello" \| uppercase }}` → `"HELLO"`         |
-| `truncate`    | Shorten text with ellipsis   | `{{ text \| truncate(50) }}` → First 50 chars... |
-| `markdownify` | Convert Markdown to HTML     | `{{ description \| markdownify }}`               |
-| `prettify`    | Markdown with custom classes | `{{ body \| prettify("prose") }}`                |
+| Filter        | Purpose                                   | Example                                          |
+| ------------- | ----------------------------------------- | ------------------------------------------------ |
+| `uppercase`   | Convert text to uppercase                 | `{{ "hello" \| uppercase }}` → `"HELLO"`         |
+| `truncate`    | Shorten text with ellipsis                | `{{ text \| truncate(50) }}` → First 50 chars... |
+| `markdownify` | Convert Markdown to HTML                  | `{{ description \| markdownify }}`               |
+| `prettify`    | Markdown with custom classes              | `{{ body \| prettify("prose") }}`                |
+| `classes`     | Flatten variants object into class string | `{{ header \| classes }}`                        |
 
 **Common Use Cases:**
 
 - Preview text for cards: `{{ post.body | truncate(150) }}`
 - Rich text content: `{{ project.description | markdownify }}`
 - Styled markdown: `{{ content | prettify("prose prose-lg") }}`
+- Responsive class variants:
+
+  ```njk
+  {%- set header = {
+    "base": "flex items-center",
+    "sm":   "sm:gap-4",
+    "md":   "md:gap-6",
+    "lg":   "",
+    "xl":   "xl:gap-10"
+  } -%}
+  <header class="{{ header | classes }}">
+  ```
 
 ### Array Filters ([array.js](./array.js))
 

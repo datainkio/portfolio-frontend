@@ -4,7 +4,7 @@ import { serializePortableTextToHtml } from "./portableText.js";
 
 export function resolveProjectCardUrl(project) {
   if (project?.slug) {
-    return `/work/${project.slug}/`;
+    return `/case-studies/${project.slug}/`;
   }
 
   const caseStudyUrl =
