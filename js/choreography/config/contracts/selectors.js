@@ -23,14 +23,9 @@ export const SELECTORS = {
 
   // GSAP ScrollSmoother containers
   // TODO: Optimize design to avoid these wrappers, which add complexity to DOM and animations
-<<<<<<< HEAD
   // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/38
-  smoothWrapper: "smooth-wrapper",
-  smoothContent: "smooth-content",
-=======
   smoothWrapper: "page-main",
   smoothContent: "page-main-content",
->>>>>>> landing-xd
 
   overlayView: "overlay-view",
   video: "background",
