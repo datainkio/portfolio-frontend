@@ -1,18 +1,16 @@
 {% extends "layouts/landing.njk" %}
-{% import "molecules/card/project.njk" as ProjectCard %}
-{% set bodyClasses = "" %}
-{% set mainClasses = "bg-black col-span-full w-full" %}
+{% import "molecules/list/project-cards.njk" as ProjectCards %}
+{%- set list = {
+  "base": "",
+  "sm": "sm:bg-primary-950 sm:space-y-12",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
 {% block content %}
   {{ super() }}
   {% if collections.projects and collections.projects.length %}
-    <ul class="space-y-8 sm:grid sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
-      {% for project in collections.projects %}
-        {% set projectHref = project.url or (project.slug and '/work/' ~ project.slug ~ '/') %}
-        <li class="text-black">
-          {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2, classes: "sm:inner-border-none" }) }}
-        </li>
-      {% endfor %}
-    </ul>
+    {{ ProjectCards.render({ projects: collections.projects, classes: list.base ~ " " ~ list.sm ~ " " ~ list.md ~ " " ~ list.lg ~ " " ~ list.xl }) }}
   {% else %}
     <p>No projects found.</p>
   {% endif %}

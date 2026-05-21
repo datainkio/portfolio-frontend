@@ -1,7 +1,7 @@
 {% extends "./base.njk" %}
 {% import "atoms/hanko.njk" as Hanko %}
 {% set navClasses = "text-neutral-200" %}
-{% set mainClasses = "bg-primary-950" %}
+{% set bodyClasses = "bg-primary-950" %}
 {% set logo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl %}
 
 {%- set header = {
@@ -16,7 +16,7 @@
   "base": "nav-link block col-span-3 size-12 justify-self-end",
   "sm": "sm:size-16 sm:pt-1",
   "md": "",
-  "lg": "lg:col-span-2",
+  "lg": "lg:col-span-3 lg:size-36",
   "xl": ""
 } -%}
 
@@ -29,7 +29,7 @@
 } -%}
 
 {%- set abstract = {
-  "base": "prose prose-lg col-span-8 col-start-4 max-w-none pl-2",
+  "base": "col-span-8 col-start-4 max-w-none pl-2",
   "sm": "",
   "md": "",
   "lg": "lg:col-span-5 lg:col-start-7 lg:row-start-2 lg:pl-0",

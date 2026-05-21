@@ -1,6 +1,7 @@
 {% macro render(params = {}) %}
+  {%- set classes = params.classes | default("leading-none") -%}
   {%- set industries = params.industries | default([]) -%}
-  <ul data-projects-el="industry-links" class="leading-none">
+  <ul data-projects-el="industry-links" class="{{ classes }}">
     {% for industryTitle, projects in industries %}
       <li class="my-0 leading-none">
         <a
