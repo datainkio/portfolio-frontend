@@ -110,7 +110,7 @@ try {
   const response = await fetch(figmaUrl, { headers });
   if (!response.ok) {
     throw new Error(
-      `Figma API failed: ${response.status} ${response.statusText}`
+      `Figma API failed: ${response.status} ${response.statusText}`,
     );
   }
   // Process successful response

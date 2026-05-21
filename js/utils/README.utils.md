@@ -30,43 +30,43 @@ Debug logging with semantic styling, singleton pattern, and environment-based co
 Singleton pattern - single instance across entire application:
 
 ```javascript
-import logger from '../js/utils/logger/index.js';
+import logger from "../js/utils/logger/index.js";
 
 // Basic logging
-logger.trace('Operation complete', optionalData, 'brief', 'success');
-logger.info('Loading resources', resourceArray, 'verbose');
-logger.warn('Deprecated method used', details, 'brief');
-logger.error('Failed to load', error, 'verbose');
+logger.trace("Operation complete", optionalData, "brief", "success");
+logger.info("Loading resources", resourceArray, "verbose");
+logger.warn("Deprecated method used", details, "brief");
+logger.error("Failed to load", error, "verbose");
 
 // Group related logs
 logger.group(async () => {
-  logger.trace('Step 1: Starting');
+  logger.trace("Step 1: Starting");
   await doSomething();
-  logger.trace('Step 1: Complete');
+  logger.trace("Step 1: Complete");
 });
 ```
 
 ### Logger Styles
 
 ```javascript
-import { LoggerStyles } from '../js/utils/logger/LoggerStyles.js';
+import { LoggerStyles } from "../js/utils/logger/LoggerStyles.js";
 
 // Semantic styles
-('standard'); // ● Gray - Default informational
-('success'); // ✅ Green - Successful operations
-('error'); // ❌ Red - Errors/failures
-('headsup'); // ⚡ Yellow - Important warnings
-('custom'); // Custom color + emoji
+("standard"); // ● Gray - Default informational
+("success"); // ✅ Green - Successful operations
+("error"); // ❌ Red - Errors/failures
+("headsup"); // ⚡ Yellow - Important warnings
+("custom"); // Custom color + emoji
 
 // Using styles
-logger.trace('Complete', data, 'brief', LoggerStyles.success);
-logger.trace('Warning', data, 'verbose', LoggerStyles.headsup);
+logger.trace("Complete", data, "brief", LoggerStyles.success);
+logger.trace("Warning", data, "verbose", LoggerStyles.headsup);
 
 // Custom styles
-import { LoggerStyle } from '../js/utils/logger/LoggerStyle.js';
+import { LoggerStyle } from "../js/utils/logger/LoggerStyle.js";
 
-const customStyle = new LoggerStyle('#ff00ff', '🎨');
-logger.trace('Custom', data, 'brief', customStyle);
+const customStyle = new LoggerStyle("#ff00ff", "🎨");
+logger.trace("Custom", data, "brief", customStyle);
 ```
 
 ### Configuration
@@ -76,12 +76,12 @@ logger.trace('Custom', data, 'brief', customStyle);
 logger.enabled = true;
 
 // Control output level
-logger.setLevel('verbose'); // 'brief', 'verbose', 'silent'
+logger.setLevel("verbose"); // 'brief', 'verbose', 'silent'
 
 // Environment control
-if (process.env.DEBUG === 'true') {
+if (process.env.DEBUG === "true") {
   logger.enabled = true;
-  logger.setLevel('verbose');
+  logger.setLevel("verbose");
 }
 ```
 
@@ -106,7 +106,7 @@ Mathematical functions for animation calculations and geometry.
 #### Vector Operations
 
 ```javascript
-import { Vector2, Vector3 } from './math/Vector.js';
+import { Vector2, Vector3 } from "./math/Vector.js";
 
 // 2D Vectors
 const v1 = new Vector2(10, 20);
@@ -129,7 +129,7 @@ v3d.cross(other); // Cross product
 #### Interpolation
 
 ```javascript
-import { lerp, easeInOut, easeInQuad } from './math/interpolation.js';
+import { lerp, easeInOut, easeInQuad } from "./math/interpolation.js";
 
 // Linear interpolation
 lerp(0, 100, 0.5); // 50
@@ -144,7 +144,7 @@ easeInOutExpo(t);
 #### Angle & Rotation
 
 ```javascript
-import { toRadians, toDegrees, normalizeAngle } from './math/angle.js';
+import { toRadians, toDegrees, normalizeAngle } from "./math/angle.js";
 
 toRadians(90); // 1.57...
 toDegrees(Math.PI); // 180
@@ -155,7 +155,7 @@ normalizeAngle(450); // 90
 
 ```javascript
 // Combine with GSAP for physics-based animations
-import { lerp, Vector2 } from './math/index.js';
+import { lerp, Vector2 } from "./math/index.js";
 
 const timeline = gsap.timeline();
 timeline.fromTo(
@@ -164,9 +164,9 @@ timeline.fromTo(
   {
     x: 100,
     y: 100,
-    ease: 'power2.inOut',
+    ease: "power2.inOut",
     duration: 1,
-  }
+  },
 );
 ```
 
@@ -179,12 +179,12 @@ Color conversion, manipulation, and analysis tools.
 ### ColorSpace Class
 
 ```javascript
-import { ColorSpace } from './color/ColorSpace.js';
+import { ColorSpace } from "./color/ColorSpace.js";
 
 // Parse any color format
-const color = new ColorSpace('#ff00ff'); // Hex
-const color2 = new ColorSpace('rgb(255,0,255)'); // RGB
-const color3 = new ColorSpace('hsl(300,100%,50%)'); // HSL
+const color = new ColorSpace("#ff00ff"); // Hex
+const color2 = new ColorSpace("rgb(255,0,255)"); // RGB
+const color3 = new ColorSpace("hsl(300,100%,50%)"); // HSL
 
 // Convert between formats
 color.toHex(); // '#ff00ff'
@@ -219,14 +219,16 @@ color.analogous(); // Adjacent colors
 ### Design Token Integration
 
 ```javascript
-import { ThemeColors } from './color/ThemeColors.js';
+import { ThemeColors } from "./color/ThemeColors.js";
 
 // Access design tokens
 const primaryColor = ThemeColors.primary500;
 const secondaryColor = ThemeColors.secondary700;
 
 // Works with CSS custom properties
-const computedColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary-500');
+const computedColor = getComputedStyle(
+  document.documentElement,
+).getPropertyValue("--color-primary-500");
 ```
 
 ## Theme - Dark/Light Mode Management
@@ -238,7 +240,7 @@ Persistent theme switching with localStorage and system preference detection.
 ### Theme Management
 
 ```javascript
-import { setTheme, getTheme, initTheme } from './theme.js';
+import { setTheme, getTheme, initTheme } from "./theme.js";
 
 // Initialize on page load (respects system preference)
 initTheme();
@@ -247,15 +249,15 @@ initTheme();
 const current = getTheme(); // 'light' or 'dark'
 
 // Set theme
-setTheme('dark');
-setTheme('light');
+setTheme("dark");
+setTheme("light");
 
 // Toggle theme
-const newTheme = getTheme() === 'dark' ? 'light' : 'dark';
+const newTheme = getTheme() === "dark" ? "light" : "dark";
 setTheme(newTheme);
 
 // Listen to theme changes
-document.addEventListener('theme-change', e => {
+document.addEventListener("theme-change", (e) => {
   console.log(`Theme changed to: ${e.detail.theme}`);
 });
 ```
@@ -264,16 +266,18 @@ document.addEventListener('theme-change', e => {
 
 ```javascript
 // Automatically detect system preference
-if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  setTheme('dark');
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  setTheme("dark");
 } else {
-  setTheme('light');
+  setTheme("light");
 }
 
 // Listen to system preference changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-  setTheme(e.matches ? 'dark' : 'light');
-});
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", (e) => {
+    setTheme(e.matches ? "dark" : "light");
+  });
 ```
 
 ### CSS Integration
@@ -285,7 +289,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
   --text-color: #000000;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --bg-color: #000000;
   --text-color: #ffffff;
 }
@@ -300,7 +304,7 @@ Performance tracking and accessibility utilities.
 ### ScrollBlocked Detection
 
 ```javascript
-import { ScrollBlockedDiagnostic } from './diagnostics/ScrollBlockedDiagnostic.js';
+import { ScrollBlockedDiagnostic } from "./diagnostics/ScrollBlockedDiagnostic.js";
 
 const diagnostic = new ScrollBlockedDiagnostic({
   showLogs: true, // Console output
@@ -323,7 +327,7 @@ diagnostic.stop();
 ### Accessibility Checking
 
 ```javascript
-import { AccessibilityAuditor } from './diagnostics/AccessibilityAuditor.js';
+import { AccessibilityAuditor } from "./diagnostics/AccessibilityAuditor.js";
 
 const auditor = new AccessibilityAuditor();
 
@@ -342,13 +346,13 @@ auditor.auditPage(); // {
 ### Memory Profiling
 
 ```javascript
-import { MemoryProfiler } from './diagnostics/MemoryProfiler.js';
+import { MemoryProfiler } from "./diagnostics/MemoryProfiler.js";
 
 const profiler = new MemoryProfiler();
 
-profiler.mark('start-operation');
+profiler.mark("start-operation");
 doHeavyOperation();
-profiler.mark('end-operation');
+profiler.mark("end-operation");
 
 profiler.getReport();
 // { 'start-operation': 45.2 MB, 'end-operation': 67.8 MB }
@@ -363,7 +367,7 @@ Access Tailwind configuration and custom design tokens programmatically.
 ### Theme Tokens
 
 ```javascript
-import { ThemeTokens } from './tailwind/ThemeTokens.js';
+import { ThemeTokens } from "./tailwind/ThemeTokens.js";
 
 // Access color tokens
 const colors = ThemeTokens.colors;
@@ -386,7 +390,7 @@ spacing[8]; // 2rem
 ### ThemeColors Class
 
 ```javascript
-import { ThemeColors } from './tailwind/ThemeColors.js';
+import { ThemeColors } from "./tailwind/ThemeColors.js";
 
 // Static access
 ThemeColors.primary500;
@@ -394,22 +398,22 @@ ThemeColors.neutral700;
 ThemeColors.success400;
 
 // Dynamic access
-ThemeColors.getColor('primary', 500);
-ThemeColors.getColor('secondary', 700);
+ThemeColors.getColor("primary", 500);
+ThemeColors.getColor("secondary", 700);
 
 // Get all colors in scale
-ThemeColors.getScale('primary'); // [50, 100, 200, ..., 950]
+ThemeColors.getScale("primary"); // [50, 100, 200, ..., 950]
 ```
 
 ### Runtime Theme Customization
 
 ```javascript
-import { ThemeTokens } from './tailwind/ThemeTokens.js';
+import { ThemeTokens } from "./tailwind/ThemeTokens.js";
 
 // Extend tokens at runtime
 ThemeTokens.extend({
   colors: {
-    accent: '#ff00ff',
+    accent: "#ff00ff",
   },
 });
 
@@ -425,16 +429,16 @@ Resolve asset paths for different build environments.
 **Location**: `js/utils/assetPath.js`
 
 ```javascript
-import { getAssetPath, getImagePath, getVideoPath } from './assetPath.js';
+import { getAssetPath, getImagePath, getVideoPath } from "./assetPath.js";
 
 // Resolve asset paths
-getAssetPath('icons/menu.svg'); // '/assets/icons/menu.svg'
-getImagePath('hero.jpg'); // '/assets/images/hero.jpg'
-getVideoPath('background.mp4'); // '/assets/video/background.mp4'
+getAssetPath("icons/menu.svg"); // '/assets/icons/menu.svg'
+getImagePath("hero.jpg"); // '/assets/images/hero.jpg'
+getVideoPath("background.mp4"); // '/assets/video/background.mp4'
 
 // With environment variables
-const cdnUrl = process.env.CDN_URL || '/assets/';
-getAssetPath('styles.css', cdnUrl); // 'https://cdn.example.com/styles.css'
+const cdnUrl = process.env.CDN_URL || "/assets/";
+getAssetPath("styles.css", cdnUrl); // 'https://cdn.example.com/styles.css'
 ```
 
 ## Directory Structure
@@ -475,23 +479,23 @@ js/utils/
 ### Logging with Grouping
 
 ```javascript
-import logger from './logger/index.js';
+import logger from "./logger/index.js";
 
 logger.group(async () => {
-  logger.trace('Starting build', {}, 'brief', 'headsup');
+  logger.trace("Starting build", {}, "brief", "headsup");
 
   await buildCSS();
-  logger.trace('CSS built', {}, 'brief', 'success');
+  logger.trace("CSS built", {}, "brief", "success");
 
   await buildTemplates();
-  logger.trace('Templates built', {}, 'brief', 'success');
+  logger.trace("Templates built", {}, "brief", "success");
 });
 ```
 
 ### Color Analysis for Accessibility
 
 ```javascript
-import { ColorSpace } from './color/ColorSpace.js';
+import { ColorSpace } from "./color/ColorSpace.js";
 
 function ensureContrast(foreground, background) {
   const fg = new ColorSpace(foreground);
@@ -511,13 +515,15 @@ function ensureContrast(foreground, background) {
 ### Responsive Theme Switching
 
 ```javascript
-import { setTheme, getTheme } from './theme.js';
-import { ThemeColors } from './tailwind/ThemeColors.js';
+import { setTheme, getTheme } from "./theme.js";
+import { ThemeColors } from "./tailwind/ThemeColors.js";
 
 // Listen to system preference
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-  setTheme(e.matches ? 'dark' : 'light');
-});
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", (e) => {
+    setTheme(e.matches ? "dark" : "light");
+  });
 
 // Update component based on theme
 function updateComponentForTheme() {
@@ -531,13 +537,13 @@ function updateComponentForTheme() {
 ### Performance Diagnostics in Development
 
 ```javascript
-import { ScrollBlockedDiagnostic } from './diagnostics/ScrollBlockedDiagnostic.js';
+import { ScrollBlockedDiagnostic } from "./diagnostics/ScrollBlockedDiagnostic.js";
 
 if (window.DEBUG) {
   const diagnostic = new ScrollBlockedDiagnostic({ showLogs: true });
   diagnostic.start();
 
-  window.addEventListener('beforeunload', () => {
+  window.addEventListener("beforeunload", () => {
     const report = diagnostic.getReport();
     console.table(report);
     diagnostic.stop();

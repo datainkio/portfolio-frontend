@@ -23,21 +23,21 @@ Templates serve as the final composition layer by:
 Each template exports a `paint` function that orchestrates the styling of the entire page layout:
 
 ```javascript
-import * as Header from '../organisms/Header.js';
-import * as Sidebar from '../molecules/Sidebar.js';
-import * as Card from '../molecules/Card.js';
+import * as Header from "../organisms/Header.js";
+import * as Sidebar from "../molecules/Sidebar.js";
+import * as Card from "../molecules/Card.js";
 
 export function paint(node, palette) {
   // Paint page background/container
-  node.setAttribute('fill', palette.neutral.lightest);
+  node.setAttribute("fill", palette.neutral.lightest);
 
   // Paint major sections (organisms)
-  const header = node.querySelector('.Header');
+  const header = node.querySelector(".Header");
   if (header) Header.paint(header, palette);
 
   // Paint content areas (molecules/organisms)
-  const cards = node.querySelectorAll('.Card');
-  cards.forEach(card => Card.paint(card, palette));
+  const cards = node.querySelectorAll(".Card");
+  cards.forEach((card) => Card.paint(card, palette));
 }
 
 // Optional: Animation functions
@@ -382,7 +382,7 @@ export function intro(elem) {
     duration: 1,
     opacity: 0,
     y: 20,
-    ease: 'power2.out',
+    ease: "power2.out",
   });
 }
 
@@ -392,14 +392,14 @@ export function outro(elem) {
     duration: 0.5,
     opacity: 0,
     scale: 0.95,
-    ease: 'power2.in',
+    ease: "power2.in",
   });
 }
 
 // Optional: Validation
 export function validate(elem) {
   // Check required structure exists
-  return elem.querySelector('.required-section') !== null;
+  return elem.querySelector(".required-section") !== null;
 }
 ```
 
@@ -412,12 +412,12 @@ Templates make the highest-level color decisions:
 ```javascript
 export function paint(elem, palette) {
   // 1. Page background
-  elem.setAttribute('fill', palette.neutral.lightest);
+  elem.setAttribute("fill", palette.neutral.lightest);
 
   // 2. Header section - emphasized
-  const header = elem.querySelector('.header');
+  const header = elem.querySelector(".header");
   if (header) {
-    header.setAttribute('fill', palette.primary.DEFAULT);
+    header.setAttribute("fill", palette.primary.DEFAULT);
     // Pass modified palette to header children
     Header.paint(header, {
       ...palette,
@@ -426,13 +426,13 @@ export function paint(elem, palette) {
   }
 
   // 3. Content section - standard
-  const content = elem.querySelector('.content');
+  const content = elem.querySelector(".content");
   Content.paint(content, palette);
 
   // 4. Sidebar - muted
-  const sidebar = elem.querySelector('.sidebar');
+  const sidebar = elem.querySelector(".sidebar");
   if (sidebar) {
-    sidebar.setAttribute('fill', palette.neutral.light);
+    sidebar.setAttribute("fill", palette.neutral.light);
     Sidebar.paint(sidebar, palette);
   }
 }
@@ -445,21 +445,21 @@ Templates often use semantic colors for status/context:
 ```javascript
 export function paint(elem, palette) {
   // Success state
-  const successMessage = elem.querySelector('.message.success');
+  const successMessage = elem.querySelector(".message.success");
   if (successMessage) {
-    successMessage.setAttribute('fill', palette.semantic.success);
+    successMessage.setAttribute("fill", palette.semantic.success);
   }
 
   // Error state
-  const errorMessage = elem.querySelector('.message.error');
+  const errorMessage = elem.querySelector(".message.error");
   if (errorMessage) {
-    errorMessage.setAttribute('fill', palette.semantic.error);
+    errorMessage.setAttribute("fill", palette.semantic.error);
   }
 
   // Warning state
-  const warningBanner = elem.querySelector('.banner.warning');
+  const warningBanner = elem.querySelector(".banner.warning");
   if (warningBanner) {
-    warningBanner.setAttribute('fill', palette.semantic.warning);
+    warningBanner.setAttribute("fill", palette.semantic.warning);
   }
 }
 ```
@@ -470,18 +470,18 @@ Templates are imported and routed through `Painter.js`:
 
 ```javascript
 // In Painter.js
-import * as Article from './templates/Article.js';
-import * as Blog from './templates/Blog.js';
+import * as Article from "./templates/Article.js";
+import * as Blog from "./templates/Blog.js";
 // ... more imports
 
 export function block(blockNode, palette) {
   const type = blockNode.classList[0].toLowerCase();
 
   switch (type) {
-    case 'article':
+    case "article":
       Article.paint(blockNode, palette);
       break;
-    case 'blog':
+    case "blog":
       Blog.paint(blockNode, palette);
       break;
     // ... more cases
@@ -494,10 +494,10 @@ export function block(blockNode, palette) {
 ### Using Template Animations
 
 ```javascript
-import * as Article from './templates/Article.js';
+import * as Article from "./templates/Article.js";
 
 // Get article element from SVG
-const article = blockframes.getBlock('.Article');
+const article = blockframes.getBlock(".Article");
 
 // Paint with colors
 Article.paint(article, palette);
@@ -518,19 +518,19 @@ export function intro(elem) {
     duration: 1,
     opacity: 0,
     y: 50,
-    ease: 'power2.out',
+    ease: "power2.out",
   });
 }
 
 // Stagger children
 export function intro(elem) {
-  const children = elem.querySelectorAll('.Card');
+  const children = elem.querySelectorAll(".Card");
   return gsap.from(children, {
     duration: 0.8,
     opacity: 0,
     y: 30,
     stagger: 0.1,
-    ease: 'power2.out',
+    ease: "power2.out",
   });
 }
 
@@ -538,29 +538,29 @@ export function intro(elem) {
 export function intro(elem) {
   const tl = gsap.timeline();
 
-  tl.from(elem.querySelector('.header'), {
+  tl.from(elem.querySelector(".header"), {
     duration: 0.5,
     opacity: 0,
     y: -20,
   })
     .from(
-      elem.querySelector('.image'),
+      elem.querySelector(".image"),
       {
         duration: 0.7,
         scale: 0.9,
         opacity: 0,
       },
-      '-=0.2'
+      "-=0.2",
     )
     .from(
-      elem.querySelectorAll('.content > *'),
+      elem.querySelectorAll(".content > *"),
       {
         duration: 0.5,
         opacity: 0,
         y: 20,
         stagger: 0.1,
       },
-      '-=0.3'
+      "-=0.3",
     );
 
   return tl;
@@ -572,7 +572,6 @@ export function intro(elem) {
 ### Step-by-Step Process
 
 1. **Analyze the page structure**
-
    - Identify major sections (header, hero, content, sidebar, footer)
    - Determine which organisms/molecules are needed
    - Sketch the layout hierarchy
@@ -586,10 +585,10 @@ export function intro(elem) {
 3. **Import dependencies**
 
    ```javascript
-   import * as Image from '../organisms/Image.js';
-   import * as Card from '../molecules/Card.js';
-   import * as TextBlock from '../molecules/TextBlock.js';
-   import * as Button from '../atoms/Button.js';
+   import * as Image from "../organisms/Image.js";
+   import * as Card from "../molecules/Card.js";
+   import * as TextBlock from "../molecules/TextBlock.js";
+   import * as Button from "../atoms/Button.js";
    ```
 
 4. **Implement paint function**
@@ -599,26 +598,26 @@ export function intro(elem) {
      if (!elem) return;
 
      // Page background
-     elem.setAttribute('fill', palette.neutral.lightest);
+     elem.setAttribute("fill", palette.neutral.lightest);
 
      // Hero section
-     const hero = elem.querySelector('.hero');
+     const hero = elem.querySelector(".hero");
      if (hero) {
-       hero.setAttribute('fill', palette.primary.light);
-       const image = hero.querySelector('.Image');
+       hero.setAttribute("fill", palette.primary.light);
+       const image = hero.querySelector(".Image");
        if (image) Image.paint(image, palette);
      }
 
      // Product details
-     const details = elem.querySelector('.details');
+     const details = elem.querySelector(".details");
      if (details) TextBlock.paint(details, palette);
 
      // Related products
-     const related = elem.querySelectorAll('.Card.related');
-     related.forEach(card => Card.paint(card, palette.secondary));
+     const related = elem.querySelectorAll(".Card.related");
+     related.forEach((card) => Card.paint(card, palette.secondary));
 
      // CTA button
-     const cta = elem.querySelector('.Button.cta');
+     const cta = elem.querySelector(".Button.cta");
      if (cta) Button.paint(cta, { ...palette, primary: palette.accent });
    }
    ```
@@ -629,9 +628,17 @@ export function intro(elem) {
    export function intro(elem) {
      const tl = gsap.timeline();
 
-     tl.from(elem.querySelector('.hero'), { duration: 0.8, opacity: 0 })
-       .from(elem.querySelector('.details'), { duration: 0.6, x: -50, opacity: 0 }, '-=0.4')
-       .from(elem.querySelectorAll('.related'), { duration: 0.5, y: 30, opacity: 0, stagger: 0.1 }, '-=0.3');
+     tl.from(elem.querySelector(".hero"), { duration: 0.8, opacity: 0 })
+       .from(
+         elem.querySelector(".details"),
+         { duration: 0.6, x: -50, opacity: 0 },
+         "-=0.4",
+       )
+       .from(
+         elem.querySelectorAll(".related"),
+         { duration: 0.5, y: 30, opacity: 0, stagger: 0.1 },
+         "-=0.3",
+       );
 
      return tl;
    }
@@ -718,8 +725,8 @@ export function intro(elem) {
 
 ```javascript
 // Only paint visible templates
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
     if (entry.isIntersecting) {
       const template = entry.target;
       const type = template.classList[0];
@@ -728,7 +735,7 @@ const observer = new IntersectionObserver(entries => {
   });
 });
 
-templates.forEach(t => observer.observe(t));
+templates.forEach((t) => observer.observe(t));
 ```
 
 ### Batch DOM Updates
@@ -736,17 +743,17 @@ templates.forEach(t => observer.observe(t));
 ```javascript
 // ❌ BAD - Multiple reflows
 export function paint(elem, palette) {
-  elem.setAttribute('fill', palette.neutral.lightest);
-  elem.querySelector('.header').setAttribute('fill', palette.primary.base);
-  elem.querySelector('.content').setAttribute('fill', palette.neutral.light);
+  elem.setAttribute("fill", palette.neutral.lightest);
+  elem.querySelector(".header").setAttribute("fill", palette.primary.base);
+  elem.querySelector(".content").setAttribute("fill", palette.neutral.light);
 }
 
 // ✅ GOOD - Batch updates
 export function paint(elem, palette) {
   requestAnimationFrame(() => {
-    elem.setAttribute('fill', palette.neutral.lightest);
-    elem.querySelector('.header').setAttribute('fill', palette.primary.base);
-    elem.querySelector('.content').setAttribute('fill', palette.neutral.light);
+    elem.setAttribute("fill", palette.neutral.lightest);
+    elem.querySelector(".header").setAttribute("fill", palette.primary.base);
+    elem.querySelector(".content").setAttribute("fill", palette.neutral.light);
   });
 }
 ```
@@ -758,11 +765,38 @@ export function paint(elem, palette) {
 ```javascript
 export function paintWithTestPalette(elem) {
   const testPalette = {
-    primary: { base: '#FF0000', light: '#FF6666', dark: '#990000', DEFAULT: '#FF0000' },
-    secondary: { base: '#00FF00', light: '#66FF66', dark: '#009900', DEFAULT: '#00FF00' },
-    neutral: { base: '#666666', light: '#CCCCCC', dark: '#333333', lightest: '#F5F5F5', DEFAULT: '#666666' },
-    accent: { base: '#0000FF', light: '#6666FF', dark: '#000099', DEFAULT: '#0000FF' },
-    semantic: { success: '#00CC00', error: '#CC0000', warning: '#CCCC00', info: '#00CCCC', alert: '#CC00CC' },
+    primary: {
+      base: "#FF0000",
+      light: "#FF6666",
+      dark: "#990000",
+      DEFAULT: "#FF0000",
+    },
+    secondary: {
+      base: "#00FF00",
+      light: "#66FF66",
+      dark: "#009900",
+      DEFAULT: "#00FF00",
+    },
+    neutral: {
+      base: "#666666",
+      light: "#CCCCCC",
+      dark: "#333333",
+      lightest: "#F5F5F5",
+      DEFAULT: "#666666",
+    },
+    accent: {
+      base: "#0000FF",
+      light: "#6666FF",
+      dark: "#000099",
+      DEFAULT: "#0000FF",
+    },
+    semantic: {
+      success: "#00CC00",
+      error: "#CC0000",
+      warning: "#CCCC00",
+      info: "#00CCCC",
+      alert: "#CC00CC",
+    },
   };
 
   paint(elem, testPalette);
@@ -773,12 +807,12 @@ export function paintWithTestPalette(elem) {
 
 ```javascript
 export function validate(elem) {
-  const required = ['.header', '.content'];
-  const optional = ['.sidebar', '.footer'];
+  const required = [".header", ".content"];
+  const optional = [".sidebar", ".footer"];
 
-  const missing = required.filter(sel => !elem.querySelector(sel));
+  const missing = required.filter((sel) => !elem.querySelector(sel));
   if (missing.length > 0) {
-    console.error(`Template missing required: ${missing.join(', ')}`);
+    console.error(`Template missing required: ${missing.join(", ")}`);
     return false;
   }
 

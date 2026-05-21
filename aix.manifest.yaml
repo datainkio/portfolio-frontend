@@ -16,36 +16,36 @@ manifestVersion: 1
 
 project:
   # Optional: used for display and report labeling.
-  name: ''
-  description: ''
+  name: ""
+  description: ""
   # Optional: repo slug or URL for identification in reports
-  repo: ''
+  repo: ""
 
 paths:
   # Relative to mounted project root
   # If omitted, Concierge will attempt to discover docs and will default audits to docs/ai/audits.
   # Issue URL: https://github.com/datainkio/portfolio-frontend/issues/25
-  docsAiDir: 'docs/ai'
-  auditsDir: 'docs/ai/audits'
+  docsAiDir: "docs/ai"
+  auditsDir: "docs/ai/audits"
 
   # Optional discovery hints (only set if you deviate from common layouts)
-  copilotDir: '.copilot'
-  promptsDir: '.copilot/prompts'
-  contextDir: '.copilot/context'
-  legacyAgentsDir: 'docs/ai/legacy-agents'
-  githubAgentsDir: '.github/agents'
+  copilotDir: ".copilot"
+  promptsDir: ".copilot/prompts"
+  contextDir: ".copilot/context"
+  legacyAgentsDir: "docs/ai/legacy-agents"
+  githubAgentsDir: ".github/agents"
 
 entrypoints:
   # Relative to mounted project root
   # If omitted, Concierge will pick the best available entrypoint it can find.
-  startHere: 'docs/ai/START_HERE.md'
-  readme: 'docs/ai/README.md'
+  startHere: "docs/ai/START_HERE.md"
+  readme: "docs/ai/README.md"
 
 preferences:
   # reportOnly | allowAutoFix
   # If omitted, defaults to reportOnly.
-  defaultMode: 'reportOnly'
-  verbosity: 'brief'
+  defaultMode: "reportOnly"
+  verbosity: "brief"
   # If true, Concierge may read legacy agents for context (but should not re-enable them as selectable agents)
   allowLegacyAgentReferences: true
 
@@ -54,15 +54,15 @@ overrides:
     # Override the default audit output destination.
     # Keep this relative to mounted project root.
     # If omitted, Concierge defaults to docs/ai/audits.
-    auditsDir: 'docs/ai/audits'
+    auditsDir: "docs/ai/audits"
 
     # Timestamped filenames are the current default strategy.
     # Tokens:
     # - {timestamp}: e.g. 2026-01-15T221530Z
     # - {probeSubset}: e.g. MP
     # - {projectSlug}: optional, derived from project.name if not set
-    reportFilename: '{timestamp}--aix-audit--{probeSubset}.md'
-    snapshotFilename: '{timestamp}--aix-snapshot--{probeSubset}.json'
+    reportFilename: "{timestamp}--aix-audit--{probeSubset}.md"
+    snapshotFilename: "{timestamp}--aix-snapshot--{probeSubset}.json"
 
   discovery:
     # Explicitly declare whether project-local .github/agents exists and is intended to be active.
@@ -75,8 +75,8 @@ overrides:
     # Paths are relative to mounted project root.
     allowlistAdditions: []
     denylistAdditions:
-      - '_site/**'
-      - 'node_modules/**'
+      - "_site/**"
+      - "node_modules/**"
 
 validation:
   # OPTIONAL.
@@ -94,15 +94,15 @@ validation:
   # - optional: if true, skip silently if it fails or is unavailable
   # - timeoutSeconds: suggested timeout
   commands:
-    - label: 'Format check'
-      command: 'npm run -s format:check'
+    - label: "Format check"
+      command: "npm run -s format:check"
       optional: true
       timeoutSeconds: 120
-    - label: 'Unit tests'
-      command: 'npm test'
+    - label: "Unit tests"
+      command: "npm test"
       optional: true
       timeoutSeconds: 300
-    - label: 'Build (smoke)'
-      command: 'npm run -s build'
+    - label: "Build (smoke)"
+      command: "npm run -s build"
       optional: true
       timeoutSeconds: 600

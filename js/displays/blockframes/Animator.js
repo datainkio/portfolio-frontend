@@ -46,7 +46,7 @@
  * // timeline.play();
  */
 
-import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
+import { gsap } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js";
 
 /**
  * Creates a horizontal wipe/marquee animation for a block element
@@ -93,7 +93,11 @@ export function wipe(block) {
   const ph = parent.getBoundingClientRect().width; // BUG: Should be .height for vertical animations
   const w = block.getBoundingClientRect().width;
   const tl = gsap.timeline({});
-  tl.fromTo(block, { opacity: 0, x: pw }, { opacity: 1, x: 0 - w, duration: 2, repeat: -1 });
+  tl.fromTo(
+    block,
+    { opacity: 0, x: pw },
+    { opacity: 1, x: 0 - w, duration: 2, repeat: -1 },
+  );
   // tl.to(block, { duration: 2, opacity: 0, yoyo: true, repeat: -1 }); // Alternative: fade animation
   // return tl; // TODO: Uncomment to enable external timeline control
 }

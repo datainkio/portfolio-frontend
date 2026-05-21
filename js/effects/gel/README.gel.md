@@ -18,7 +18,7 @@ Liquid-style background and transition primitives used by the effects system.
 Most consumers should import from the gel package entry:
 
 ```js
-import { gel } from './gel/index.js';
+import { gel } from "./gel/index.js";
 ```
 
 If you’re wiring gel into page/section transitions, start from the transitions entry points in `js/effects/Transitions.js` and the choreography system.

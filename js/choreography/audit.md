@@ -167,7 +167,9 @@ export default class BackgroundVideo extends AbstractSection {
 
 ```javascript
 if (!this.view) {
-  console.warn(`[${this.constructor.name.toLowerCase()}] element not found - section disabled`);
+  console.warn(
+    `[${this.constructor.name.toLowerCase()}] element not found - section disabled`,
+  );
   return; // ← Constructor returns void; partial initialization
 }
 ```
@@ -213,7 +215,9 @@ async playIntro() {
 
 ```javascript
 // LandingSequence.js
-window.addEventListener('preloader:out', this.handlePreloaderOut, { once: true });
+window.addEventListener("preloader:out", this.handlePreloaderOut, {
+  once: true,
+});
 
 // But EVENTS.hero.introComplete is in constants.js
 ```
@@ -458,7 +462,7 @@ _emit(eventName, payload) {
 ```javascript
 // Inconsistent
 this.stage?.reducedMotion; // ← optional chaining
-this._videoContainer?.querySelector('video'); // ← optional chaining
+this._videoContainer?.querySelector("video"); // ← optional chaining
 this.sections?.video?.playIntro?.(); // ← triple chaining
 
 // vs.
@@ -545,7 +549,7 @@ Add `GETTING_STARTED.md` with:
 
 - **Tight coupling to GSAP CDN imports** - Every file imports GSAP from Skypack:
   ```javascript
-  import gsap from 'https://cdn.skypack.dev/gsap@3.13.0';
+  import gsap from "https://cdn.skypack.dev/gsap@3.13.0";
   ```
   If CDN changes or version upgrades, many files need updates.
 - **No version pinning strategy** - Different files may end up importing different GSAP versions
@@ -558,16 +562,16 @@ Create `js/choreography/vendor/gsap.js`:
  * Centralized GSAP import
  * All choreography modules import from here for version consistency
  */
-export { default as gsap } from 'https://cdn.skypack.dev/gsap@3.13.0';
-export { default as ScrollTrigger } from 'https://cdn.skypack.dev/gsap/ScrollTrigger';
-export { default as ScrollSmoother } from 'https://cdn.skypack.dev/gsap/ScrollSmoother';
-export { default as SplitText } from 'https://cdn.skypack.dev/gsap/SplitText';
+export { default as gsap } from "https://cdn.skypack.dev/gsap@3.13.0";
+export { default as ScrollTrigger } from "https://cdn.skypack.dev/gsap/ScrollTrigger";
+export { default as ScrollSmoother } from "https://cdn.skypack.dev/gsap/ScrollSmoother";
+export { default as SplitText } from "https://cdn.skypack.dev/gsap/SplitText";
 ```
 
 Then all files import:
 
 ```javascript
-import { gsap, ScrollTrigger } from '/assets/js/choreography/vendor/gsap.js';
+import { gsap, ScrollTrigger } from "/assets/js/choreography/vendor/gsap.js";
 ```
 
 ---
@@ -659,7 +663,7 @@ if (!this.view) {
 **✅ Optional chaining used consistently:**
 
 ```javascript
-this._videoContainer?.querySelector('video');
+this._videoContainer?.querySelector("video");
 ```
 
 ---
@@ -704,7 +708,7 @@ destroy() {
 ```javascript
 // GelAnimationManager.js
 this._onResize = this._handleResize.bind(this);
-window.addEventListener('resize', this._onResize, { passive: true });
+window.addEventListener("resize", this._onResize, { passive: true });
 ```
 
 ---
@@ -749,7 +753,7 @@ _applyPostIntroState() {
 | 2.2 | Inconsistent constructor variables (`var` vs `const`) | [BackgroundVideo.js](sections/background/BackgroundVideo.js)                             | Standardize all to `const`                               | Run `npm run format`              |
 | 2.3 | Implicit DOM contract in AbstractSection              | [AbstractSection.js](sections/abstract-section/AbstractSection.js)                       | Add `isDisabled` flag pattern + document OR throw error  | Test missing DOM elements         |
 | 2.4 | Hardcoded event strings (`'preloader:out'`)           | [LandingSequence.js](sequences/landing/LandingSequence.js), [constants.js](constants.js) | Add `EVENTS.system.*` to constants                       | grep for hardcoded event strings  |
-| 2.5 | README shows incorrect static AnimationBus usage      | [README.md](dataink.io/frontend/js/choreography/README.md)                                                                   | Update examples to show instance usage                   | Review README code samples        |
+| 2.5 | README shows incorrect static AnimationBus usage      | [README.md](dataink.io/frontend/js/choreography/README.md)                               | Update examples to show instance usage                   | Review README code samples        |
 | 4.1 | Missing `_applyPostIntroState()` method               | [AbstractSection.js](sections/abstract-section/AbstractSection.js)                       | Implement method or remove call                          | Test reduced motion mode          |
 
 ---
@@ -774,7 +778,7 @@ _applyPostIntroState() {
 | ---- | --------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------ | ------------------- |
 | 2.10 | Commented-out code                      | Multiple                                                                           | Remove commented logger statements   | Code cleanup        |
 | 2.11 | Inconsistent optional chaining patterns | Multiple                                                                           | Standardize `?.` usage guidelines    | Code review         |
-| 3.4  | Link initialization diagram from README | [README.md](dataink.io/frontend/js/choreography/README.md)                                                             | Add link to sequence diagram         | Documentation check |
+| 3.4  | Link initialization diagram from README | [README.md](dataink.io/frontend/js/choreography/README.md)                         | Add link to sequence diagram         | Documentation check |
 | 3.5  | Document bind() idempotency behavior    | [AbstractSectionTriggers.js](sections/abstract-section/AbstractSectionTriggers.js) | Add JSDoc clarifying rebind behavior | Documentation       |
 
 ---
@@ -799,18 +803,21 @@ this.sections = {
 ```javascript
 // sections/registry.js
 export const SECTION_REGISTRY = [
-  { id: 'video', Class: BackgroundVideo, selector: SELECTORS.video },
-  { id: 'hero', Class: Hero, selector: SELECTORS.hero },
-  { id: 'bio', Class: Bio, selector: SELECTORS.bio },
+  { id: "video", Class: BackgroundVideo, selector: SELECTORS.video },
+  { id: "hero", Class: Hero, selector: SELECTORS.hero },
+  { id: "bio", Class: Bio, selector: SELECTORS.bio },
 ];
 
 // Director.js
-import { SECTION_REGISTRY } from './sections/registry.js';
+import { SECTION_REGISTRY } from "./sections/registry.js";
 
 this.sections = SECTION_REGISTRY.reduce((acc, { id, Class, selector }) => {
   const element = document.getElementById(selector);
   if (element) {
-    acc[id] = new Class({ bus: this.bus, reducedMotionHandler: this.stage?.reducedMotion });
+    acc[id] = new Class({
+      bus: this.bus,
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
   }
   return acc;
 }, {});
@@ -892,7 +899,7 @@ this.sections.next.playIntro();
 // Hero.js (all-in-one for simple sections)
 export default class Hero extends AbstractSection {
   constructor({ bus, reducedMotionHandler }) {
-    const view = document.getElementById('hero');
+    const view = document.getElementById("hero");
 
     super({
       view,

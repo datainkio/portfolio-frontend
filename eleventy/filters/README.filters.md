@@ -307,7 +307,7 @@ console.assert(result === "Long text ...");
 
 - **Configuration**: `.eleventy.js` - Loads filter system
 - **Collections**: `eleventy/collections/` - Data source for filters
-- **Templates**: `njk/` - Filter usage examples
+- **Templates**: `views/` - Filter usage examples
 - **Config**: `site.json` - CMS defaults
 
 ## Filter Inventory

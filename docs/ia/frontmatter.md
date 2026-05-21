@@ -5,11 +5,11 @@ docType: reference
 status: active
 owner: frontend
 tags:
-  - #docs
-  - #ia
-  - #frontmatter
-  - #eleventy
-  - #obsidian
+  -  #docs
+  -  #ia
+  -  #frontmatter
+  -  #eleventy
+  -  #obsidian
 permalink: /docs/ia/frontmatter/
 eleventyComputed:
   title: "{{ title }}"

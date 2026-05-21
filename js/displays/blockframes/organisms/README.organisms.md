@@ -22,21 +22,21 @@ Organisms serve as major building blocks by:
 Each organism exports a `paint` function that orchestrates styling of multiple molecules and atoms:
 
 ```javascript
-import * as Card from '../molecules/Card.js';
-import * as TextBlock from '../molecules/TextBlock.js';
-import * as Image from '../atoms/Image.js';
+import * as Card from "../molecules/Card.js";
+import * as TextBlock from "../molecules/TextBlock.js";
+import * as Image from "../atoms/Image.js";
 
 export function paint(node, palette) {
   // Style organism container
-  node.setAttribute('fill', palette.neutral.lightest);
+  node.setAttribute("fill", palette.neutral.lightest);
 
   // Paint child molecules
-  const cards = node.querySelectorAll('.Card');
-  cards.forEach(card => Card.paint(card, palette));
+  const cards = node.querySelectorAll(".Card");
+  cards.forEach((card) => Card.paint(card, palette));
 
   // Paint individual atoms
-  const images = node.querySelectorAll('.Image');
-  images.forEach(img => Image.paint(img, palette.secondary));
+  const images = node.querySelectorAll(".Image");
+  images.forEach((img) => Image.paint(img, palette.secondary));
 }
 ```
 
@@ -215,20 +215,20 @@ Organisms make high-level color decisions based on purpose:
 ```javascript
 export function paint(node, palette) {
   // Background color based on organism type
-  node.setAttribute('fill', palette.neutral.lightest);
+  node.setAttribute("fill", palette.neutral.lightest);
 
   // Highlighted sections get accent backgrounds
-  const featured = node.querySelector('.featured');
+  const featured = node.querySelector(".featured");
   if (featured) {
-    featured.setAttribute('fill', palette.accent.light);
+    featured.setAttribute("fill", palette.accent.light);
   }
 
   // Pass appropriate palettes to children
-  const header = node.querySelector('.Card');
+  const header = node.querySelector(".Card");
   Card.paint(header, palette.primary); // Emphasize header card
 
-  const items = node.querySelectorAll('.Card.item');
-  items.forEach(item => Card.paint(item, palette.secondary)); // Muted item cards
+  const items = node.querySelectorAll(".Card.item");
+  items.forEach((item) => Card.paint(item, palette.secondary)); // Muted item cards
 }
 ```
 
@@ -250,12 +250,12 @@ Footer.paint(footer, footerPalette);
 ### With Molecules
 
 ```javascript
-import * as Card from '../molecules/Card.js';
-import * as Sidebar from '../molecules/Sidebar.js';
+import * as Card from "../molecules/Card.js";
+import * as Sidebar from "../molecules/Sidebar.js";
 
 export function paint(node, palette) {
   // Paint multiple instances of molecules
-  const cards = node.querySelectorAll('.Card');
+  const cards = node.querySelectorAll(".Card");
   cards.forEach((card, index) => {
     // Apply alternating styles
     const cardPalette =
@@ -269,7 +269,7 @@ export function paint(node, palette) {
   });
 
   // Paint unique molecules
-  const sidebar = node.querySelector('.Sidebar');
+  const sidebar = node.querySelector(".Sidebar");
   if (sidebar) Sidebar.paint(sidebar, palette);
 }
 ```
@@ -277,14 +277,14 @@ export function paint(node, palette) {
 ### With Atoms (Direct Access)
 
 ```javascript
-import * as Button from '../atoms/Button.js';
-import * as Text from '../atoms/Text.js';
+import * as Button from "../atoms/Button.js";
+import * as Text from "../atoms/Text.js";
 
 export function paint(node, palette) {
   // Sometimes organisms need direct atom access
   // for fine-grained control
 
-  const ctaButton = node.querySelector('.Button.cta');
+  const ctaButton = node.querySelector(".Button.cta");
   if (ctaButton) {
     Button.paint(ctaButton, {
       ...palette,
@@ -327,9 +327,9 @@ If yes to 3+, create an organism. Otherwise, use a molecule.
 3. **Import dependencies**
 
    ```javascript
-   import * as FilterBar from '../molecules/FilterBar.js';
-   import * as Card from '../molecules/Card.js';
-   import * as Pagination from '../molecules/Pagination.js';
+   import * as FilterBar from "../molecules/FilterBar.js";
+   import * as Card from "../molecules/Card.js";
+   import * as Pagination from "../molecules/Pagination.js";
    ```
 
 4. **Export paint function**
@@ -339,18 +339,18 @@ If yes to 3+, create an organism. Otherwise, use a molecule.
      if (!node) return;
 
      // Organism container
-     node.setAttribute('fill', palette.neutral.lightest);
+     node.setAttribute("fill", palette.neutral.lightest);
 
      // Filter section
-     const filterBar = node.querySelector('.FilterBar');
+     const filterBar = node.querySelector(".FilterBar");
      if (filterBar) FilterBar.paint(filterBar, palette);
 
      // Product grid
-     const cards = node.querySelectorAll('.Card');
-     cards.forEach(card => Card.paint(card, palette));
+     const cards = node.querySelectorAll(".Card");
+     cards.forEach((card) => Card.paint(card, palette));
 
      // Pagination controls
-     const pagination = node.querySelector('.Pagination');
+     const pagination = node.querySelector(".Pagination");
      if (pagination) Pagination.paint(pagination, palette);
    }
    ```
@@ -358,10 +358,10 @@ If yes to 3+, create an organism. Otherwise, use a molecule.
 5. **Use in templates**
 
    ```javascript
-   import * as ProductGrid from '../organisms/ProductGrid.js';
+   import * as ProductGrid from "../organisms/ProductGrid.js";
 
    export function paint(node, palette) {
-     const grid = node.querySelector('.ProductGrid');
+     const grid = node.querySelector(".ProductGrid");
      if (grid) ProductGrid.paint(grid, palette);
    }
    ```
@@ -456,15 +456,15 @@ If yes to 3+, create an organism. Otherwise, use a molecule.
 ```javascript
 // ❌ BAD - Multiple queries
 export function paint(node, palette) {
-  node.querySelectorAll('.Card').forEach(c => Card.paint(c, palette));
-  node.querySelectorAll('.Card').forEach(c => validate(c));
-  node.querySelectorAll('.Card').forEach(c => track(c));
+  node.querySelectorAll(".Card").forEach((c) => Card.paint(c, palette));
+  node.querySelectorAll(".Card").forEach((c) => validate(c));
+  node.querySelectorAll(".Card").forEach((c) => track(c));
 }
 
 // ✅ GOOD - Single query, reuse results
 export function paint(node, palette) {
-  const cards = node.querySelectorAll('.Card');
-  cards.forEach(card => {
+  const cards = node.querySelectorAll(".Card");
+  cards.forEach((card) => {
     Card.paint(card, palette);
     validate(card);
     track(card);
@@ -476,13 +476,13 @@ export function paint(node, palette) {
 
 ```javascript
 // ❌ BAD - Creating objects in loop
-cards.forEach(card => {
+cards.forEach((card) => {
   Card.paint(card, { ...palette, primary: palette.secondary });
 });
 
 // ✅ GOOD - Create once, reuse
 const cardPalette = { ...palette, primary: palette.secondary };
-cards.forEach(card => Card.paint(card, cardPalette));
+cards.forEach((card) => Card.paint(card, cardPalette));
 ```
 
 ## Testing Patterns
@@ -492,17 +492,17 @@ cards.forEach(card => Card.paint(card, cardPalette));
 ```javascript
 export function validate(node) {
   const required = {
-    molecules: ['.Card', '.Sidebar'],
-    atoms: ['.Button.submit', '.Text.heading'],
+    molecules: [".Card", ".Sidebar"],
+    atoms: [".Button.submit", ".Text.heading"],
   };
 
   const missing = [];
-  required.molecules.forEach(sel => {
+  required.molecules.forEach((sel) => {
     if (!node.querySelector(sel)) missing.push(sel);
   });
 
   if (missing.length > 0) {
-    console.warn(`Organism missing: ${missing.join(', ')}`);
+    console.warn(`Organism missing: ${missing.join(", ")}`);
     return false;
   }
   return true;
@@ -514,10 +514,10 @@ export function validate(node) {
 ```javascript
 export function paintWithDefaults(node) {
   const testPalette = {
-    primary: { base: '#0000ff', light: '#6666ff', dark: '#000066' },
-    secondary: { base: '#00ff00', light: '#66ff66', dark: '#006600' },
-    neutral: { base: '#666666', light: '#cccccc', dark: '#333333' },
-    accent: { base: '#ff0000', light: '#ff6666', dark: '#660000' },
+    primary: { base: "#0000ff", light: "#6666ff", dark: "#000066" },
+    secondary: { base: "#00ff00", light: "#66ff66", dark: "#006600" },
+    neutral: { base: "#666666", light: "#cccccc", dark: "#333333" },
+    accent: { base: "#ff0000", light: "#ff6666", dark: "#660000" },
   };
 
   paint(node, testPalette);

@@ -6,11 +6,11 @@ aix:
   surface: internal
   owner: Template Steward
   tags:
-    - #organisms
-    - #section
-    - #homepage
-    - #macros
-    - #a11y
+    -  #organisms
+    -  #section
+    -  #homepage
+    -  #macros
+    -  #a11y
   type: guide
   scope: frontend
   audience: maintainers

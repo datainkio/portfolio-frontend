@@ -9,7 +9,8 @@
 
 /* Base diagram container */
 .mermaid {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.6;
   background: #ffffff;
@@ -72,7 +73,7 @@
 .noteText {
   fill: #92400e;
   font-size: 12px;
-  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+  font-family: "SF Mono", "Monaco", "Courier New", monospace;
 }
 
 /* Sequence numbers (autonumber) */
@@ -91,21 +92,21 @@
 }
 
 /* Background rectangles (rect blocks) */
-rect[style*='rgb(230, 240, 255)'] {
+rect[style*="rgb(230, 240, 255)"] {
   fill: #dbeafe;
   stroke: #2563eb;
   stroke-width: 1px;
   opacity: 0.3;
 }
 
-rect[style*='rgb(255, 240, 230)'] {
+rect[style*="rgb(255, 240, 230)"] {
   fill: #fed7aa;
   stroke: #f59e0b;
   stroke-width: 1px;
   opacity: 0.3;
 }
 
-rect[style*='rgb(240, 255, 240)'] {
+rect[style*="rgb(240, 255, 240)"] {
   fill: #d1fae5;
   stroke: #10b981;
   stroke-width: 1px;

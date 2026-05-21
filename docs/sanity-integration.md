@@ -52,8 +52,8 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 
 1. Query projection in `data/sanity/queries/projects.js` fetches project `body[]`, including nested fields required by custom object blocks like `project_aside`.
 2. `eleventy/collections/sanity.js` converts Portable Text to HTML via `serializePortableTextToHtml`, mapping custom types (for example `project_aside`) to semantic HTML.
-3. `njk/layouts/case-study.njk` renders `project.bodyHtml` inside the article narrative container.
-4. `njk/layouts/case-study.njk` applies Tailwind utility classes to style serialized project Portable Text output (including `project_aside` hooks).
+3. `views/layouts/case-study.njk` renders `project.bodyHtml` inside the article narrative container.
+4. `views/layouts/case-study.njk` applies Tailwind utility classes to style serialized project Portable Text output (including `project_aside` hooks).
 
 ## Usage in templates
 

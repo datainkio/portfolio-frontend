@@ -24,8 +24,8 @@ Each atom module exports a painter function that applies colors/styles to SVG el
 ```javascript
 export function paint(node, palette) {
   // Apply palette colors to SVG node attributes
-  node.setAttribute('fill', palette.primary.base);
-  node.setAttribute('stroke', palette.neutral.dark);
+  node.setAttribute("fill", palette.primary.base);
+  node.setAttribute("stroke", palette.neutral.dark);
 }
 ```
 
@@ -241,12 +241,12 @@ Atoms are typically called from molecule, organism, or template painters:
 
 ```javascript
 // In a molecule painter
-import * as Button from '../atoms/Button.js';
-import * as Text from '../atoms/Text.js';
+import * as Button from "../atoms/Button.js";
+import * as Text from "../atoms/Text.js";
 
 export function paint(node, palette) {
-  const button = node.querySelector('.Button');
-  const label = node.querySelector('.Text');
+  const button = node.querySelector(".Button");
+  const label = node.querySelector(".Text");
 
   Button.paint(button, palette);
   Text.paint(label, palette);
@@ -288,14 +288,14 @@ export function paint(node, palette) {
 export function paint(node, palette) {
   if (!node) return;
 
-  node.setAttribute('fill', palette.accent.base);
-  node.setAttribute('stroke', palette.accent.dark);
-  node.setAttribute('stroke-width', 2);
+  node.setAttribute("fill", palette.accent.base);
+  node.setAttribute("stroke", palette.accent.dark);
+  node.setAttribute("stroke-width", 2);
 
   // Find nested elements
-  const text = node.querySelector('.badge-text');
+  const text = node.querySelector(".badge-text");
   if (text) {
-    text.setAttribute('fill', palette.neutral.lightest);
+    text.setAttribute("fill", palette.neutral.lightest);
   }
 }
 ```

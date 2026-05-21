@@ -26,7 +26,7 @@ export function reveal(params) {
       y: params.destination.y,
       opacity: params.destination.opacity,
       ease: params.ease,
-    }
+    },
   );
   return tl;
 }

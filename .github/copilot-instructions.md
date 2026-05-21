@@ -6,7 +6,7 @@ These instructions make AI coding agents immediately productive in this repo by 
 
 ## Big Picture
 
-- **11ty static site**: Content entry lives in `ia/`; Nunjucks templates in `njk/` generate `_site/`. Atomic design components live under `njk/`.
+- **11ty static site**: Content entry lives in `ia/` (Eleventy `input`); Nunjucks templates live in `views/` (Eleventy `includes`, configured as `../views` relative to `ia/`) and generate `_site/`. Atomic design components live under `views/` (`atoms/`, `molecules/`, `organisms/`, plus `layouts/`, `pages/`, `templates/`). Each `.njk` template has a sibling Obsidian sidecar `.md` for documentation.
 - **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
 - **Content via Sanity**: Data fetched at build time and exposed as 11ty collections. Defaults live in `site.json` under `cms` (or `sanity`) with queries in `data/sanity/queries.js`.
 - **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
@@ -89,8 +89,13 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Templates & Structure**
 
-- `ia/` - Content entrypoints with frontmatter (routes)
-- `njk/` - Templates and components (atoms/molecules/organisms/templates/layouts)
+- `ia/` - Content entrypoints with frontmatter (routes); Eleventy `input` directory
+- `views/` - Templates and components; Eleventy `includes` directory (resolved as `../views` from `ia/`)
+  - `atoms/`, `molecules/`, `organisms/` - Atomic design components (each `.njk` paired with a sibling `.md` Obsidian sidecar)
+  - `layouts/` - Page shells consumed via `{% extends %}`
+  - `pages/` - Page-level templates
+  - `templates/partials/` - Shared partials (head, fonts, GTM, choreography script)
+  - `_registry.njk` - Central component registry
 - `.eleventy.js` - 11ty config (plugins, collections, filters, shortcodes)
 - `eleventy/` - Modular 11ty configuration
   - `collections/` - Collection definitions (Sanity-driven)
@@ -165,7 +170,8 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 - Prefer macros for reusable components with parameters; includes for static content only.
 - Avoid `with` in includes; use macro pattern instead.
-- Import paths are relative to `njk/`.
+- Import paths are relative to the Eleventy includes dir, `views/` (e.g. `"atoms/icon.njk"`, `"molecules/card/card.njk"`).
+- Keep each template's sibling `.md` sidecar in `views/` in sync when the template's signature, includes, or data dependencies change. Sidecars are documentation only and are not consumed by Eleventy.
 
 Example macro:
 
@@ -355,6 +361,7 @@ this.sections.custom = new Custom({
 - ❌ Don't call Tailwind CLI directly - Always use npm scripts (`npm run build:css` or `npm run dev:css`)
 - ❌ Don't name sections "Biography" - The actual implementation is "Bio"
 - ❌ Don't skip `build:design` before CSS builds - Tokens must exist first
+- ❌ Don't reference `njk/` as the templates folder - templates moved to `views/` (Eleventy `includes`). Older paths under `njk/` no longer exist.
 
 ## Common Gotchas
 
@@ -381,7 +388,8 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 
 ## Try-It: Add a Molecule
 
-- Create `njk/molecules/<name>/<name>.njk` exporting a `render(params)` macro.
+- Create `views/molecules/<name>/<name>.njk` exporting a `render(params)` macro.
+- Create a sibling `views/molecules/<name>/<name>.md` Obsidian sidecar describing the template (front matter + purpose + relationships).
 - Use in a page: `{% import "molecules/<name>/<name>.njk" as m %} {{ m.render({ ... }) }}`.
 - Add styles under `styles/` (respect `styles/main.css` order). If using tokens, run `npm run build:design`.
 - If animated, add a section controller under `js/choreography/sections/<name>/<Name>.js` and wire via `AnimationDirector.js` + `sections/registry.js`.

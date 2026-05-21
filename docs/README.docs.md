@@ -1,209 +1,70 @@
 <!-- @format -->
 
-# Project Documentation
+# Frontend Documentation Index
 
-Comprehensive documentation for the dataink.io portfolio (11ty + Figma + Sanity + GSAP animation system).
+Durable reference docs for the dataink.io frontend. Optimized for the **Concierge** agent and its modules — pointers are short, paths are exact, and content is grouped by intent.
 
-## Quick Start
+> When a doc conflicts with code, the code wins. Update the doc.
 
-**New to the project?** Start here:
+## Start here
 
-1. **[DOCUMENTATION_PROJECT_COMPLETE.md](./DOCUMENTATION_PROJECT_COMPLETE.md)** - Complete overview of all systems and architecture
-2. **[DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)** - Quick reference guide with organized navigation
-3. **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** - AI agent context (npm scripts, environment variables, troubleshooting)
+- [[.github/copilot-instructions]] — AI agent context (commands, env, gotchas, troubleshooting).
+- [[README.frontend]] — AIX-focused workspace reference.
+- [[docs/architecture|architecture]] — Repo boundaries and folder semantics.
 
-## Documentation by Area
+## By task
 
-### Build System & Configuration
+### "I need to run / build the site"
 
-- **[PROMPT_TEMPLATE.md](./PROMPT_TEMPLATE.md)** - Template for development prompts
-- **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** - Build commands, environment setup, architecture overview
+- Commands and env: [[.github/copilot-instructions]]
+- Build order rationale: [[docs/architecture|architecture]]
 
-### Template System (NJK/Eleventy)
+### "I'm working on content / Sanity"
 
-See: `njk/README.md` and `eleventy/README.md` in project root directories
+- Sanity contract, queries, collections: [[docs/sanity-integration|sanity-integration]]
+- Page frontmatter conventions: [[docs/ia/frontmatter|ia/frontmatter]]
 
-- Components and atomic design patterns
-- All filter functions documented (string, array, date, image, color, dom)
-- Shortcodes API (`picture`, `lightbox`, `loremChars`, `loremPars`)
-- Sanity collection integration
+### "I'm working on templates (views/) or 11ty"
 
-### JavaScript Systems
+- Top-level conventions: [[README.frontend#Conventions]]
+- Eleventy modules: [[eleventy/README.eleventy]]
 
-See: `js/*/README.md` in project js/ directory
+### "I'm working on choreography / animation"
 
-- **Choreography**: Director, AnimationBus, StageManager, section controllers
-- **Preloader**: Modular startup and lifecycle checklist
-- **Effects**: TextParty, Transitions, Gel, Halftone, Text effects, Parallax
-- **Displays**: Blockframes, PrinterMarks, Ruler
-- **Utils**: Logger, Math, Color, Theme, Diagnostics, Tailwind
+- System overview: [[js/choreography/README.choreography]]
+- Section controllers (Hero, BackgroundVideo, Bio, Awards, Organizations, Work): [[js/choreography/sections/README.sections]]
+- Managers (reduced-motion, smoother, gel, line, ruler, session): [[js/choreography/managers/README.managers]]
+- Director init sequence diagram: [[docs/director-initialization-sequence|director-initialization-sequence]]
+- Preloader contract and smoke tests: [[docs/preloader-integration-checklist|preloader-integration-checklist]]
+- Landing performance plan: [[docs/ai/plan-landing-performance.prompt|plan-landing-performance]]
 
-### Phase Documentation
+### "I'm working on styling / design tokens"
 
-#### Phase 1: Copilot Instructions (Complete)
+- Import order and generated files: [[README.frontend#Styles]]
+- Figma → CSS pipeline: [[.github/copilot-instructions]] (Design System section)
 
-[.github/copilot-instructions.md](../.github/copilot-instructions.md) - Comprehensive reference for AI agents
+### "I need agent / prompt context"
 
-- Complete npm script documentation
-- Build process and dependencies
-- Environment variables
-- Troubleshooting guide
+- AI prompts and onboarding: [ai/](ai/)
+- Storyboards: [[docs/storyboards/README.storyboards]]
 
-#### Phase 2: Template Documentation (Complete)
+### "I want to see the backlog"
 
-[DOCUMENTATION_UPDATES.md](./DOCUMENTATION_UPDATES.md) - Phase 2 overview
+- Frontend backlog: [[docs/TODO|docs/TODO]]
+- Repo TODO: [[TODO]]
 
-- njk/ directory documentation
-- eleventy/ directory documentation
-- Filter and shortcode API reference
-- Improved developer experience
+## Conventions
 
-#### Phase 3: JavaScript Documentation (Complete)
+- Documentation files use `README.<scope>.md` naming inside subdirectories (matches the AIX workspace convention). Top-level `README.md` remains for GitHub.
+- Generated artifacts are never committed and never documented as editable: `_site/`, `.cache/`, `logs/`, `styles/colors.css`, `styles/typography/fontFamilies.css`.
+- Deprecated / historical documentation lives in [\_archive/](_archive/). See [[docs/_archive/README|_archive/README]] for an inventory.
 
-[JS_DOCUMENTATION_UPDATES.md](./JS_DOCUMENTATION_UPDATES.md) - Phase 3 overview
+## Module-to-doc map (for Concierge routing)
 
-- Choreography system documentation
-- Effects system documentation
-- Display systems documentation
-- Utilities documentation
-
-#### Complete Project Overview
-
-[DOCUMENTATION_PROJECT_COMPLETE.md](./DOCUMENTATION_PROJECT_COMPLETE.md) - All phases combined
-
-- Summary across all three phases
-- Statistics and metrics
-- Quality assurance validation
-- Developer impact assessment
-
-## Documentation Index
-
-For a complete table of contents with links and descriptions, see:
-**[DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)**
-
-## Key Files & Their Purpose
-
-```
-docs/
-├── README.md (this file)                    ← Start here
-├── DOCUMENTATION_INDEX.md                   ← Quick reference navigation
-├── DOCUMENTATION_PROJECT_COMPLETE.md        ← Complete overview
-├── DOCUMENTATION_UPDATES.md                 ← Phase 2 summary
-├── JS_DOCUMENTATION_UPDATES.md              ← Phase 3 summary
-├── DOCUMENTATION_EXAMPLES.md                ← Before/after examples
-├── PROMPT_TEMPLATE.md                       ← Development prompt template
-├── TODO.md                                  ← Project tasks
-├── sanity-integration.md                    ← Sanity integration guide
-├── preloader-integration-checklist.md       ← Preloader integration checklist
-├── director-initialization-sequence.md      ← Animation system flow
-└── director-initialization-sequence.pdf     ← PDF version
-```
-
-## Architecture Overview
-
-### Three-Layer Stack
-
-```
-┌────────────────────────────────────────────────────────┐
-│         Nunjucks Templates (njk/)                       │
-│    Atomic design + Sanity collections                  │
-└────────────────────────────────────────────────────────┘
-                         ↓
-┌────────────────────────────────────────────────────────┐
-│      11ty Build System (eleventy/)                      │
-│    Filters, shortcodes, collections, services          │
-└────────────────────────────────────────────────────────┘
-                         ↓
-┌────────────────────────────────────────────────────────┐
-│    JavaScript Runtime (js/)                            │
-│    GSAP choreography, effects, utils, displays         │
-└────────────────────────────────────────────────────────┘
-```
-
-### Data Flow
-
-```
-Sanity (CMS)
-    ↓
-[npm run sync:content]
-    ↓
-Collections (11ty)
-    ↓
-Nunjucks Templates
-    ↓
-HTML (_site/)
-    ↓
-JavaScript (choreography, effects)
-```
-
-### Design System Flow
-
-```
-Figma (design tokens)
-    ↓
-[npm run build:design]
-    ↓
-CSS Custom Properties
-    ↓
-Tailwind Configuration
-    ↓
-Compiled CSS (styles/)
-```
-
-## Common Tasks
-
-### I want to...
-
-**...understand the project architecture**
-→ Read [DOCUMENTATION_PROJECT_COMPLETE.md](./DOCUMENTATION_PROJECT_COMPLETE.md)
-
-**...find a quick reference**
-→ See [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)
-
-**...learn about npm scripts**
-→ Check [.github/copilot-instructions.md](../.github/copilot-instructions.md#core-workflows)
-
-**...work with templates**
-→ See `njk/README.md` and `eleventy/README.md`
-
-**...implement animations**
-→ See `js/choreography/README.md`
-
-**...change preloader startup behavior**
-→ See [preloader-integration-checklist.md](./preloader-integration-checklist.md)
-
-**...use text/visual effects**
-→ See `js/effects/README.md` and `js/displays/README.md`
-
-**...debug performance**
-→ Check `js/utils/README.md` (diagnostics section)
-
-**...add a new component**
-→ Read `njk/README.md` (component registry and patterns)
-
-**...create a new page**
-→ See `eleventy/README.md` and `ia/` examples
-
-## Quality Standards
-
-All documentation in this project:
-
-- ✅ **Accurate**: Verified against actual source code
-- ✅ **Complete**: Covers architecture, API, and examples
-- ✅ **Clear**: Written for developers with varying expertise levels
-- ✅ **Practical**: Includes real-world usage patterns
-- ✅ **Accessible**: Documents accessibility considerations throughout
-- ✅ **Performant**: Includes optimization guidance
-
-## Navigation
-
-- **[Back to project root](../)** - View all project files
-- **[View all files in docs/](.)** - Browse this directory
-- **[.github/copilot-instructions.md](../.github/copilot-instructions.md)** - AI agent reference
-- **[.copilot/](../.copilot/)** - AI context files
-
----
-
-**Last Updated**: December 19, 2025  
-**Status**: ✅ Complete and Maintained  
-**Quality Level**: ⭐⭐⭐⭐⭐ Professional-grade
+| Module    | Primary docs                                                     |
+| --------- | ---------------------------------------------------------------- |
+| Mechanic  | [[.github/copilot-instructions]], [[docs/sanity-integration]]    |
+| Navigator | This file, [[docs/architecture]]                                 |
+| Librarian | This file, [\_archive/](_archive/)                               |
+| Architect | [[docs/architecture]], [[docs/director-initialization-sequence]] |
+| Editor    | [ai/](ai/), [storyboards/](storyboards/)                         |

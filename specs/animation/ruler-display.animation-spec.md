@@ -3,7 +3,7 @@
 - **Status:** draft
 - **Last reviewed:** 2026-04-12
 - **Scope:** `Ruler` display rendering in `js/displays/Ruler.js` with utility classes supplied by `js/choreography/config/ruler.js`.
-- **Links:** runtime [../../js/displays/Ruler.js](../../js/displays/Ruler.js), defaults [../../js/choreography/config/ruler.js](../../js/choreography/config/ruler.js), intro manager [../../js/choreography/managers/RulerIntroManager.js](../../js/choreography/managers/RulerIntroManager.js), template [../../njk/atoms/ruler.njk](../../njk/atoms/ruler.njk)
+- **Links:** runtime [../../js/displays/Ruler.js](../../js/displays/Ruler.js), defaults [../../js/choreography/config/ruler.js](../../js/choreography/config/ruler.js), intro manager [../../js/choreography/managers/RulerIntroManager.js](../../js/choreography/managers/RulerIntroManager.js), template [../../views/atoms/ruler.njk](../../views/atoms/ruler.njk)
 
 ## Hybrid Contract
 

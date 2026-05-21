@@ -5,10 +5,10 @@ docType: reference
 status: active
 owner: frontend
 tags:
-  - #docs
-  - #ia
-  - #content-strategy
-  - #graph
+  -  #docs
+  -  #ia
+  -  #content-strategy
+  -  #graph
 eleventyComputed:
   title: "{{ title }}"
 ---

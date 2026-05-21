@@ -2,14 +2,22 @@
 name: Frontend Choreography Planner
 description: Designs and outlines accessible interaction choreography plans for landing pages and atomic components.
 argument-hint: Describe the interaction goals, components involved, and any waypoints/triggers (load/scroll/hover/focus).
-tools: ['search', 'web/githubRepo', 'search/usages', 'web/fetch', 'agent', 'search/changes']
+tools:
+  [
+    "search",
+    "web/githubRepo",
+    "search/usages",
+    "web/fetch",
+    "agent",
+    "search/changes",
+  ]
 handoffs:
   - label: Start Implementation
     agent: Choreography Implementer
     prompt: Implement the approved choreography plan
   - label: Open in Editor
     agent: agent
-    prompt: '#createFile the plan as is into an untitled file (`untitled:plan-${camelCaseName}.prompt.md` without frontmatter) for further refinement.'
+    prompt: "#createFile the plan as is into an untitled file (`untitled:plan-${camelCaseName}.prompt.md` without frontmatter) for further refinement."
     showContinueOn: false
     send: true
 ---

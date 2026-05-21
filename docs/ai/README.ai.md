@@ -16,8 +16,8 @@ Also useful:
 Legacy reference:
 
 - `legacy-agents/` — prior agent definitions preserved as reference (not active as selectable agents)
-	- [legacy-agents/choreography-planner.agent.md](./legacy-agents/choreography-planner.agent.md)
-	- [legacy-agents/choreography-implementer.agent.md](./legacy-agents/choreography-implementer.agent.md)
+  - [legacy-agents/choreography-planner.agent.md](./legacy-agents/choreography-planner.agent.md)
+  - [legacy-agents/choreography-implementer.agent.md](./legacy-agents/choreography-implementer.agent.md)
 
 ## Authority in multi-root workspaces
 

@@ -47,9 +47,9 @@ export function calculate(elements, bounds, options = {}) {
 export function apply(elements, positions) {
   elements.forEach((elem, index) => {
     const pos = positions[index];
-    elem.setAttribute('transform', `translate(${pos.x}, ${pos.y})`);
-    elem.setAttribute('width', pos.width);
-    elem.setAttribute('height', pos.height);
+    elem.setAttribute("transform", `translate(${pos.x}, ${pos.y})`);
+    elem.setAttribute("width", pos.width);
+    elem.setAttribute("height", pos.height);
   });
 }
 ```
@@ -74,7 +74,12 @@ Sequential horizontal or vertical line arrangement.
 ```javascript
 // Horizontal BlockLine
 export function calculate(elements, bounds, options = {}) {
-  const { orientation = 'horizontal', spacing = 20, padding = 40, alignment = 'start' } = options;
+  const {
+    orientation = "horizontal",
+    spacing = 20,
+    padding = 40,
+    alignment = "start",
+  } = options;
 
   const availableWidth = bounds.width - padding * 2;
   const totalSpacing = (elements.length - 1) * spacing;
@@ -141,14 +146,19 @@ Organic clustering algorithm for scattered element positioning.
 
 ```javascript
 export function calculate(elements, bounds, options = {}) {
-  const { iterations = 100, centerGravity = 0.1, collisionPadding = 10, seed = null } = options;
+  const {
+    iterations = 100,
+    centerGravity = 0.1,
+    collisionPadding = 10,
+    seed = null,
+  } = options;
 
   // Initialize random positions
   const positions = elements.map((elem, i) => ({
     x: Math.random() * bounds.width,
     y: Math.random() * bounds.height,
-    width: parseFloat(elem.getAttribute('width') || 100),
-    height: parseFloat(elem.getAttribute('height') || 100),
+    width: parseFloat(elem.getAttribute("width") || 100),
+    height: parseFloat(elem.getAttribute("height") || 100),
     vx: 0,
     vy: 0,
   }));
@@ -191,8 +201,14 @@ export function calculate(elements, bounds, options = {}) {
       pos.vy *= 0.8;
 
       // Bounds checking
-      pos.x = Math.max(pos.width / 2, Math.min(bounds.width - pos.width / 2, pos.x));
-      pos.y = Math.max(pos.height / 2, Math.min(bounds.height - pos.height / 2, pos.y));
+      pos.x = Math.max(
+        pos.width / 2,
+        Math.min(bounds.width - pos.width / 2, pos.x),
+      );
+      pos.y = Math.max(
+        pos.height / 2,
+        Math.min(bounds.height - pos.height / 2, pos.y),
+      );
     });
   }
 
@@ -253,13 +269,20 @@ Traditional row/column grid system with responsive breakpoints.
 
 ```javascript
 export function calculate(elements, bounds, options = {}) {
-  const { columns = 3, rows = 'auto', gap = 20, padding = 40, aspectRatio = null } = options;
+  const {
+    columns = 3,
+    rows = "auto",
+    gap = 20,
+    padding = 40,
+    aspectRatio = null,
+  } = options;
 
   const availableWidth = bounds.width - padding * 2 - gap * (columns - 1);
   const cellWidth = availableWidth / columns;
   const cellHeight = aspectRatio ? cellWidth / aspectRatio : cellWidth;
 
-  const calculatedRows = rows === 'auto' ? Math.ceil(elements.length / columns) : rows;
+  const calculatedRows =
+    rows === "auto" ? Math.ceil(elements.length / columns) : rows;
 
   return elements.map((elem, i) => {
     const col = i % columns;
@@ -323,7 +346,7 @@ export function calculateWithSpans(elements, bounds, options) {
   const positions = calculate(elements, bounds, options);
 
   elements.forEach((elem, i) => {
-    const span = parseInt(elem.getAttribute('data-span') || '1');
+    const span = parseInt(elem.getAttribute("data-span") || "1");
     if (span > 1) {
       const pos = positions[i];
       pos.width = pos.width * span + options.gap * (span - 1);
@@ -342,40 +365,44 @@ Layouts are applied through `Builder.js` during SVG construction:
 
 ```javascript
 // In Builder.js
-import * as Grid from './layouts/Grid.js';
-import * as Cloud from './layouts/Cloud.js';
-import * as BlockLine from './layouts/BlockLine.js';
+import * as Grid from "./layouts/Grid.js";
+import * as Cloud from "./layouts/Cloud.js";
+import * as BlockLine from "./layouts/BlockLine.js";
 
 export function applyLayout(container) {
-  const layoutType = container.getAttribute('data-layout');
+  const layoutType = container.getAttribute("data-layout");
   const children = Array.from(container.children);
   const bounds = container.getBBox();
 
   let positions;
 
   switch (layoutType) {
-    case 'grid':
+    case "grid":
       const gridOptions = {
-        columns: parseInt(container.getAttribute('data-columns') || '3'),
-        gap: parseInt(container.getAttribute('data-gap') || '20'),
+        columns: parseInt(container.getAttribute("data-columns") || "3"),
+        gap: parseInt(container.getAttribute("data-gap") || "20"),
       };
       positions = Grid.calculate(children, bounds, gridOptions);
       Grid.apply(children, positions);
       break;
 
-    case 'cloud':
+    case "cloud":
       const cloudOptions = {
-        iterations: parseInt(container.getAttribute('data-iterations') || '100'),
-        centerGravity: parseFloat(container.getAttribute('data-gravity') || '0.1'),
+        iterations: parseInt(
+          container.getAttribute("data-iterations") || "100",
+        ),
+        centerGravity: parseFloat(
+          container.getAttribute("data-gravity") || "0.1",
+        ),
       };
       positions = Cloud.calculate(children, bounds, cloudOptions);
       Cloud.apply(children, positions);
       break;
 
-    case 'blockline':
+    case "blockline":
       const lineOptions = {
-        orientation: container.getAttribute('data-orientation') || 'horizontal',
-        spacing: parseInt(container.getAttribute('data-spacing') || '20'),
+        orientation: container.getAttribute("data-orientation") || "horizontal",
+        spacing: parseInt(container.getAttribute("data-spacing") || "20"),
       };
       positions = BlockLine.calculate(children, bounds, lineOptions);
       BlockLine.apply(children, positions);
@@ -389,7 +416,7 @@ export function applyLayout(container) {
 Layouts can be animated by tweening between calculated positions:
 
 ```javascript
-import * as Grid from './layouts/Grid.js';
+import * as Grid from "./layouts/Grid.js";
 
 // Animate from Cloud to Grid
 export function morphLayout(container, fromLayout, toLayout, duration = 1) {
@@ -414,13 +441,13 @@ export function morphLayout(container, fromLayout, toLayout, duration = 1) {
         width: end.width,
         height: end.height,
       },
-      ease: 'power2.inOut',
+      ease: "power2.inOut",
     });
   });
 }
 
 // Usage
-morphLayout(document.querySelector('.Gallery'), Cloud, Grid, 1.5);
+morphLayout(document.querySelector(".Gallery"), Cloud, Grid, 1.5);
 ```
 
 ## Creating New Layouts
@@ -428,7 +455,6 @@ morphLayout(document.querySelector('.Gallery'), Cloud, Grid, 1.5);
 ### Step-by-Step Process
 
 1. **Define the positioning algorithm**
-
    - What mathematical rule determines position?
    - Grid? Random? Physics simulation?
    - Fixed or dynamic element sizes?
@@ -454,8 +480,8 @@ morphLayout(document.querySelector('.Gallery'), Cloud, Grid, 1.5);
        return {
          x: bounds.width / 2 + Math.cos(angle) * radius,
          y: bounds.height / 2 + Math.sin(angle) * radius,
-         width: parseFloat(elem.getAttribute('width') || 50),
-         height: parseFloat(elem.getAttribute('height') || 50),
+         width: parseFloat(elem.getAttribute("width") || 50),
+         height: parseFloat(elem.getAttribute("height") || 50),
          rotation: (angle * 180) / Math.PI + 90, // Face outward
        };
      });
@@ -468,9 +494,12 @@ morphLayout(document.querySelector('.Gallery'), Cloud, Grid, 1.5);
    export function apply(elements, positions) {
      elements.forEach((elem, i) => {
        const pos = positions[i];
-       elem.setAttribute('transform', `translate(${pos.x}, ${pos.y}) rotate(${pos.rotation})`);
-       elem.setAttribute('width', pos.width);
-       elem.setAttribute('height', pos.height);
+       elem.setAttribute(
+         "transform",
+         `translate(${pos.x}, ${pos.y}) rotate(${pos.rotation})`,
+       );
+       elem.setAttribute("width", pos.width);
+       elem.setAttribute("height", pos.height);
      });
    }
    ```
@@ -480,12 +509,12 @@ morphLayout(document.querySelector('.Gallery'), Cloud, Grid, 1.5);
    ```javascript
    export function validate(elements, bounds, options) {
      if (!elements || elements.length === 0) {
-       console.error('Spiral layout requires elements');
+       console.error("Spiral layout requires elements");
        return false;
      }
 
      if (!bounds || !bounds.width || !bounds.height) {
-       console.error('Spiral layout requires valid bounds');
+       console.error("Spiral layout requires valid bounds");
        return false;
      }
 
@@ -598,9 +627,12 @@ const testData = [
 
 const bounds = { x: 0, y: 0, width: 1000, height: 800 };
 
-console.log('Grid:', Grid.calculate(testData, bounds, { columns: 3 }));
-console.log('Cloud:', Cloud.calculate(testData, bounds, { iterations: 100 }));
-console.log('BlockLine:', BlockLine.calculate(testData, bounds, { orientation: 'horizontal' }));
+console.log("Grid:", Grid.calculate(testData, bounds, { columns: 3 }));
+console.log("Cloud:", Cloud.calculate(testData, bounds, { iterations: 100 }));
+console.log(
+  "BlockLine:",
+  BlockLine.calculate(testData, bounds, { orientation: "horizontal" }),
+);
 ```
 
 ### Algorithm Validation
@@ -653,12 +685,12 @@ export function calculate(elements, bounds, options) {
 
 ```javascript
 // For computationally expensive layouts (Cloud)
-const layoutWorker = new Worker('/js/workers/layout-worker.js');
+const layoutWorker = new Worker("/js/workers/layout-worker.js");
 
 export function calculateAsync(elements, bounds, options) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     layoutWorker.postMessage({ elements, bounds, options });
-    layoutWorker.onmessage = e => resolve(e.data);
+    layoutWorker.onmessage = (e) => resolve(e.data);
   });
 }
 ```

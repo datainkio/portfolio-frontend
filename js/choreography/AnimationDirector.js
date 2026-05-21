@@ -188,7 +188,6 @@ export default class AnimationDirector {
       }
     });
 
-
     // Clear references for garbage collection
 
     this.cardManager?.kill();

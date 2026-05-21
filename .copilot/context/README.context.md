@@ -13,7 +13,7 @@ Agents should read this file first when starting work.
 
 ## Project brief (portfolio frontend)
 
-- 11ty static site; templates are Nunjucks in `njk/`.
+- 11ty static site; templates are Nunjucks in `views/` (Eleventy `includes`).
 - JavaScript is **progressive enhancement**, not a framework SPA.
 - Animation system lives under `js/choreography/` (GSAP + event bus).
 - Design tokens are generated (Figma → `styles/`), and content is fetched from the CMS at build time.
@@ -24,8 +24,8 @@ Primary goal: keep the site deterministic, readable, and easy to extend while pr
 
 - Generated site output: `_site/**` (never treat as source of truth).
 - Generated design tokens:
-	- `styles/colors.css`
-	- `styles/typography/fontFamilies.css`
-	- (re-generated via design/token sync)
+  - `styles/colors.css`
+  - `styles/typography/fontFamilies.css`
+  - (re-generated via design/token sync)
 
 Guideline: prefer deleting noise (generated artifacts, experiments left in canonical paths) before adding new prompts.

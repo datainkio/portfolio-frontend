@@ -22,16 +22,16 @@ Molecules bridge the gap between primitive atoms and complex organisms by:
 Each molecule exports a `paint` function that styles both the molecule container and its child atoms:
 
 ```javascript
-import * as Button from '../atoms/Button.js';
-import * as Text from '../atoms/Text.js';
+import * as Button from "../atoms/Button.js";
+import * as Text from "../atoms/Text.js";
 
 export function paint(node, palette) {
   // Style the molecule container
-  node.setAttribute('fill', palette.neutral.lightest);
+  node.setAttribute("fill", palette.neutral.lightest);
 
   // Find and style child atoms
-  const button = node.querySelector('.Button');
-  const label = node.querySelector('.Text');
+  const button = node.querySelector(".Button");
+  const label = node.querySelector(".Text");
 
   if (button) Button.paint(button, palette);
   if (label) Text.paint(label, palette);
@@ -259,8 +259,8 @@ Each molecule should serve one clear purpose:
 // ✅ GOOD - Clear single purpose
 export function paint(node, palette) {
   // Styles a search input with button
-  const input = node.querySelector('.Textfield');
-  const button = node.querySelector('.Button');
+  const input = node.querySelector(".Textfield");
+  const button = node.querySelector(".Button");
 
   Textfield.paint(input, palette);
   Button.paint(button, palette.primary);
@@ -280,12 +280,12 @@ Apply styles from container to atoms:
 ```javascript
 export function paint(node, palette) {
   // 1. Style molecule container
-  node.setAttribute('fill', palette.neutral.lightest);
-  node.setAttribute('stroke', palette.neutral.base);
+  node.setAttribute("fill", palette.neutral.lightest);
+  node.setAttribute("stroke", palette.neutral.base);
 
   // 2. Style child atoms
-  const atoms = node.querySelectorAll('.Button');
-  atoms.forEach(atom => Button.paint(atom, palette));
+  const atoms = node.querySelectorAll(".Button");
+  atoms.forEach((atom) => Button.paint(atom, palette));
 }
 ```
 
@@ -295,8 +295,8 @@ Molecules can pass modified palettes to atoms:
 
 ```javascript
 export function paint(node, palette) {
-  const primaryButton = node.querySelector('.Button.primary');
-  const secondaryButton = node.querySelector('.Button.secondary');
+  const primaryButton = node.querySelector(".Button.primary");
+  const secondaryButton = node.querySelector(".Button.secondary");
 
   // Pass full palette for primary
   Button.paint(primaryButton, palette);
@@ -339,9 +339,9 @@ Molecules make contextual color choices:
 Always import atom modules at the top:
 
 ```javascript
-import * as Image from '../atoms/Image.js';
-import * as Text from '../atoms/Text.js';
-import * as Button from '../atoms/Button.js';
+import * as Image from "../atoms/Image.js";
+import * as Text from "../atoms/Text.js";
+import * as Button from "../atoms/Button.js";
 ```
 
 ### Selective Painting
@@ -351,7 +351,7 @@ Not all atoms need styling if defaults are acceptable:
 ```javascript
 export function paint(node, palette) {
   // Only paint atoms that need custom colors
-  const highlightedText = node.querySelector('.Text.highlight');
+  const highlightedText = node.querySelector(".Text.highlight");
   if (highlightedText) {
     Text.paint(highlightedText, {
       ...palette,
@@ -383,9 +383,9 @@ export function paint(node, palette) {
 3. **Import dependencies**
 
    ```javascript
-   import * as Avatar from '../atoms/Avatar.js';
-   import * as Text from '../atoms/Text.js';
-   import * as Button from '../atoms/Button.js';
+   import * as Avatar from "../atoms/Avatar.js";
+   import * as Text from "../atoms/Text.js";
+   import * as Button from "../atoms/Button.js";
    ```
 
 4. **Export paint function**
@@ -395,15 +395,15 @@ export function paint(node, palette) {
      if (!node) return;
 
      // Container styling
-     node.setAttribute('fill', palette.neutral.lightest);
-     node.setAttribute('stroke', palette.neutral.base);
-     node.setAttribute('stroke-width', 1);
+     node.setAttribute("fill", palette.neutral.lightest);
+     node.setAttribute("stroke", palette.neutral.base);
+     node.setAttribute("stroke-width", 1);
 
      // Find and paint atoms
-     const avatar = node.querySelector('.Avatar');
-     const name = node.querySelector('.Text.name');
-     const role = node.querySelector('.Text.role');
-     const button = node.querySelector('.Button');
+     const avatar = node.querySelector(".Avatar");
+     const name = node.querySelector(".Text.name");
+     const role = node.querySelector(".Text.role");
+     const button = node.querySelector(".Button");
 
      if (avatar) Avatar.paint(avatar, palette);
      if (name) Text.paint(name, palette);
@@ -415,11 +415,11 @@ export function paint(node, palette) {
 5. **Use in organisms or templates**
 
    ```javascript
-   import * as UserProfile from '../molecules/UserProfile.js';
+   import * as UserProfile from "../molecules/UserProfile.js";
 
    export function paint(node, palette) {
-     const profiles = node.querySelectorAll('.UserProfile');
-     profiles.forEach(profile => UserProfile.paint(profile, palette));
+     const profiles = node.querySelectorAll(".UserProfile");
+     profiles.forEach((profile) => UserProfile.paint(profile, palette));
    }
    ```
 
@@ -507,13 +507,13 @@ export function paint(node, palette) {
 ```javascript
 // Create test harness
 const testPalette = {
-  primary: { base: '#0000ff' },
-  secondary: { base: '#00ff00' },
-  neutral: { base: '#666666' },
-  accent: { base: '#ff0000' },
+  primary: { base: "#0000ff" },
+  secondary: { base: "#00ff00" },
+  neutral: { base: "#666666" },
+  accent: { base: "#ff0000" },
 };
 
-const card = document.querySelector('.Card');
+const card = document.querySelector(".Card");
 Card.paint(card, testPalette);
 ```
 
@@ -521,11 +521,11 @@ Card.paint(card, testPalette);
 
 ```javascript
 export function validate(node) {
-  const required = ['.Image', '.Text.title', '.Button'];
-  const missing = required.filter(sel => !node.querySelector(sel));
+  const required = [".Image", ".Text.title", ".Button"];
+  const missing = required.filter((sel) => !node.querySelector(sel));
 
   if (missing.length > 0) {
-    console.warn(`Card missing: ${missing.join(', ')}`);
+    console.warn(`Card missing: ${missing.join(", ")}`);
     return false;
   }
   return true;

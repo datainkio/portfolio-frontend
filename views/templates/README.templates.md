@@ -6,9 +6,9 @@ aix:
   surface: internal
   owner: Template Steward
   tags:
-    - #templates
-    - #partials
-    - #nunjucks
+    -  #templates
+    -  #partials
+    -  #nunjucks
   type: guide
   scope: frontend
   audience: maintainers

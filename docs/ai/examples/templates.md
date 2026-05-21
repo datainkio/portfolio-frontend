@@ -2,7 +2,7 @@
 
 ## Macro render pattern (preferred)
 
-- Macro-exported component: [njk/organisms/section/hero.njk](../../../njk/organisms/section/hero.njk)
+- Macro-exported component: [views/organisms/section/hero.njk](../../../views/organisms/section/hero.njk)
   - Exports `render(params = {})`
   - Keeps defaults local and explicit
 

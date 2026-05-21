@@ -36,8 +36,7 @@
  *    - Uses site.cms for defaults and caching behavior
  *
  * 2. Navigation (navigation.js):
- *    - Builds navigation structure from njk/_pages/ directory
- *    - TODO(dx): Update navigation source path to reflect ia/ routes.
+ *    - Builds navigation structure from `ia/` routes (Eleventy input dir)
  *    - Creates nav_primary and nav_projects collections
  *    - Respects eleventyNavigation frontmatter
  *

@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - #docs
-  - #ia
-  - #sitemap
-  - #frontmatter
+  -  #docs
+  -  #ia
+  -  #sitemap
+  -  #frontmatter
 permalink: /docs/ia/information-architecture/
 eleventyComputed:
   title: "{{ title }}"

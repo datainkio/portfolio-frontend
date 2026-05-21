@@ -250,4 +250,4 @@ Shortcodes work seamlessly with Sanity-sourced content:
 - [Filters documentation](../filters/README.md) - Complete filter reference (23+ filters) with usage examples
 - [Shortcodes detailed reference](./README.md) - This comprehensive guide
 - [Eleventy configuration](../README.md) - 11ty system overview
-- [Nunjucks templates](../../njk/README.md) - Template architecture
+- [Nunjucks templates](../../views/README.views.md) - Template architecture

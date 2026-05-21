@@ -13,11 +13,11 @@
  *     - index.js
  * ---
  */
-import { FigmaClient } from './api/FigmaClient.js';
-import { FileService } from './services/FileService.js';
-import { StyleService } from './services/StyleService.js';
-import { PaletteService } from './services/PaletteService.js';
-import { TypographyService } from './services/TypographyService.js';
+import { FigmaClient } from "./api/FigmaClient.js";
+import { FileService } from "./services/FileService.js";
+import { StyleService } from "./services/StyleService.js";
+import { PaletteService } from "./services/PaletteService.js";
+import { TypographyService } from "./services/TypographyService.js";
 
 const client = new FigmaClient(); // Establish connection to Figma API
 const fileService = new FileService(client); // Retrieve information and content from the Figma file

@@ -106,7 +106,7 @@ Displays a structured outline of the build process steps using `logger.showScrip
 
 **Triggered by**: `npm run scaffold:component`, `npm run scaffold:page`, `npm run scaffold:list`
 
-Generates component and page templates following atomic design conventions. Outputs to `njk/` with proper frontmatter and integration hooks.
+Generates component and page templates following atomic design conventions. Outputs to `views/` with proper frontmatter and integration hooks.
 
 ---
 
@@ -122,7 +122,7 @@ Finds `.mmd` files in the project and renders them to SVG using the `mmdc` CLI. 
 
 **Triggered by**: `npm run diagrams:export:storyboards`, `npm run diagrams:watch:storyboards`
 
-Extracts fenced Mermaid code blocks from Markdown files in `njk/_pages/storyboards/` and renders each block to an SVG in `assets/storyboards/`.
+Extracts fenced Mermaid code blocks from Markdown files in the storyboards content path and renders each block to an SVG in `assets/storyboards/`. (The historical source path under `njk/_pages/storyboards/` no longer exists in this repo — confirm the active input path with `scripts/diagrams/exportStoryboards.js` before relying on this step.)
 
 ---
 

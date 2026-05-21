@@ -236,7 +236,7 @@ Collections use isolated error handling to prevent cascading failures:
 - **Services**: `eleventy/services/NavigationBuilder.js` - Navigation processing logic
 - **Data Fetching**: `data/sanity/fetchSanityData.js` - Sanity fetch helper
 - **Configuration**: `site.json` - Collection and navigation config
-- **Templates**: `njk/organisms/navigation/` - Navigation components
+- **Templates**: `views/organisms/navigation/` - Navigation components
 - **Logging**: `js/utils/lumberjack/` - Dual-mode logger system
 
 ## Debugging Tips

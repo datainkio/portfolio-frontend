@@ -5,10 +5,10 @@ aix:
   status: stable
   surface: internal
   tags:
-    - #frontend
-    - #cms
-    - #transforms
-    - #normalization
+    -  #frontend
+    -  #cms
+    -  #transforms
+    -  #normalization
   type: guide
   scope: frontend
   audience: maintainers

@@ -15,7 +15,7 @@
  *     - managers
  * ---
  */
-import lumberjack from '../../utils/lumberjack/lumberjack.js';
+import lumberjack from "../../utils/lumberjack/lumberjack.js";
 
 /** @format */
 
@@ -25,10 +25,10 @@ import lumberjack from '../../utils/lumberjack/lumberjack.js';
  */
 class SessionManager {
   constructor() {
-    this.sessionKey = 'dataink_session';
+    this.sessionKey = "dataink_session";
     this.state = this.loadState();
 
-    lumberjack.trace('SessionManager', 'Initialized', 'brief', 'standard');
+    lumberjack.trace("SessionManager", "Initialized", "brief", "standard");
   }
 
   /**
@@ -41,10 +41,10 @@ class SessionManager {
       return stored ? JSON.parse(stored) : this.getDefaultState();
     } catch (error) {
       lumberjack.trace(
-        'SessionManager',
+        "SessionManager",
         `Error loading state: ${error.message}`,
-        'verbose',
-        'error'
+        "verbose",
+        "error",
       );
       return this.getDefaultState();
     }
@@ -70,10 +70,10 @@ class SessionManager {
       sessionStorage.setItem(this.sessionKey, JSON.stringify(this.state));
     } catch (error) {
       lumberjack.trace(
-        'SessionManager',
+        "SessionManager",
         `Error saving state: ${error.message}`,
-        'verbose',
-        'error'
+        "verbose",
+        "error",
       );
     }
   }
@@ -93,7 +93,12 @@ class SessionManager {
     this.state.heroIntroPlayed = true;
     this.saveState();
 
-    lumberjack.trace('SessionManager', 'Hero intro marked as played', 'brief', 'success');
+    lumberjack.trace(
+      "SessionManager",
+      "Hero intro marked as played",
+      "brief",
+      "success",
+    );
   }
 
   /**
@@ -103,7 +108,7 @@ class SessionManager {
     this.state = this.getDefaultState();
     this.saveState();
 
-    lumberjack.trace('SessionManager', 'Session reset', 'brief', 'standard');
+    lumberjack.trace("SessionManager", "Session reset", "brief", "standard");
   }
 }
 

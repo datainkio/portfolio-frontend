@@ -5,10 +5,10 @@ docType: index
 status: active
 owner: frontend
 tags:
-  - #docs
-  - #ia
-  - #design-system
-  - #atomic-design
+  -  #docs
+  -  #ia
+  -  #design-system
+  -  #atomic-design
 eleventyComputed:
   title: "{{ title }}"
 aix:

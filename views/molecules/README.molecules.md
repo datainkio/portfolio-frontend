@@ -6,9 +6,9 @@ aix:
   surface: internal
   owner: Template Steward
   tags:
-    - #molecules
-    - #atomic-design
-    - #nunjucks
+    -  #molecules
+    -  #atomic-design
+    -  #nunjucks
   type: guide
   scope: frontend
   audience: maintainers

@@ -45,16 +45,16 @@ BlockframesDisplay (output)
 Defines animation structure and timing:
 
 ```javascript
-import { Architect } from './blockframes/Architect.js';
+import { Architect } from "./blockframes/Architect.js";
 
 const architect = new Architect({
   sections: [
     {
-      name: 'Hero Intro',
+      name: "Hero Intro",
       duration: 1.2,
       elements: [
-        { name: 'title', start: 0, duration: 0.6 },
-        { name: 'subtitle', start: 0.3, duration: 0.9 },
+        { name: "title", start: 0, duration: 0.6 },
+        { name: "subtitle", start: 0.3, duration: 0.9 },
       ],
     },
   ],
@@ -68,7 +68,7 @@ const architect = new Architect({
 Constructs animation timeline from architecture:
 
 ```javascript
-import { Builder } from './blockframes/Builder.js';
+import { Builder } from "./blockframes/Builder.js";
 
 const builder = new Builder(architect.getConfig());
 
@@ -91,13 +91,13 @@ const structure = builder.getStructure();
 Controls frame-by-frame playback:
 
 ```javascript
-import { Animator } from './blockframes/Animator.js';
+import { Animator } from "./blockframes/Animator.js";
 
 const animator = new Animator(timeline, {
   onFrameChange: (currentFrame, totalFrames) => {
     console.log(`Frame: ${currentFrame} / ${totalFrames}`);
   },
-  onSectionChange: sectionName => {
+  onSectionChange: (sectionName) => {
     console.log(`Section: ${sectionName}`);
   },
 });
@@ -121,29 +121,29 @@ animator.isPlaying();
 Renders visualization on canvas:
 
 ```javascript
-import { Painter } from './blockframes/Painter.js';
+import { Painter } from "./blockframes/Painter.js";
 
 const painter = new Painter({
-  canvas: document.querySelector('canvas'),
+  canvas: document.querySelector("canvas"),
   width: 1200,
   height: 600,
-  theme: 'dark', // 'light', 'dark'
+  theme: "dark", // 'light', 'dark'
 });
 
 // Paint frame visualization
 painter.paintFrame({
   currentFrame: 15,
   structure: timelineStructure,
-  activeElements: ['title', 'subtitle'],
+  activeElements: ["title", "subtitle"],
   timelineWidth: 1000,
 });
 
 // Customization
 painter.setColorScheme({
-  background: '#1a1a1a',
-  section: '#ff00ff',
-  element: '#00ffff',
-  activeElement: '#ffff00',
+  background: "#1a1a1a",
+  section: "#ff00ff",
+  element: "#00ffff",
+  activeElement: "#ffff00",
 });
 ```
 
@@ -191,21 +191,21 @@ class HeroAnimationDemo {
     this.timeline = gsap.timeline();
 
     // Build timeline...
-    this.timeline.fromTo('.hero-title', { opacity: 0 }, { opacity: 1 }, 0);
-    this.timeline.fromTo('.hero-subtitle', { opacity: 0 }, { opacity: 1 }, 0.3);
+    this.timeline.fromTo(".hero-title", { opacity: 0 }, { opacity: 1 }, 0);
+    this.timeline.fromTo(".hero-subtitle", { opacity: 0 }, { opacity: 1 }, 0.3);
 
     // Create blockframes visualization
     this.blockframes = new BlockframesDisplay({
-      element: document.querySelector('#animation-preview'),
+      element: document.querySelector("#animation-preview"),
       timeline: this.timeline,
       architect: {
         sections: [
           {
-            name: 'Hero Intro',
+            name: "Hero Intro",
             duration: this.timeline.duration(),
             elements: [
-              { name: 'Title', start: 0, duration: 0.6 },
-              { name: 'Subtitle', start: 0.3, duration: 0.6 },
+              { name: "Title", start: 0, duration: 0.6 },
+              { name: "Subtitle", start: 0.3, duration: 0.6 },
             ],
           },
         ],
@@ -228,12 +228,12 @@ Print-ready marks and guides for design/production verification.
 ### PrinterMarks Class
 
 ```javascript
-import { PrinterMarks } from './PrinterMarks.js';
+import { PrinterMarks } from "./PrinterMarks.js";
 
 const marks = new PrinterMarks({
-  element: document.querySelector('.layout'),
-  type: 'full', // 'full', 'crop', 'corner', 'center'
-  color: '#000',
+  element: document.querySelector(".layout"),
+  type: "full", // 'full', 'crop', 'corner', 'center'
+  color: "#000",
   opacity: 0.3,
   bleed: 0.125, // Inches
   cropSize: 0.5, // Inches
@@ -249,7 +249,7 @@ marks.hide();
 marks.toggle();
 
 // Update style
-marks.setColor('#ff0000');
+marks.setColor("#ff0000");
 marks.setOpacity(0.5);
 marks.setBleed(0.25);
 
@@ -294,14 +294,14 @@ Interactive measurement guide for precision layout verification.
 ### Ruler Class
 
 ```javascript
-import { Ruler } from './Ruler.js';
+import { Ruler } from "./Ruler.js";
 
 const ruler = new Ruler({
-  container: document.querySelector('#viewport'),
-  orientation: 'both', // 'horizontal', 'vertical', 'both'
-  unit: 'px', // 'px', 'cm', 'in', 'mm'
+  container: document.querySelector("#viewport"),
+  orientation: "both", // 'horizontal', 'vertical', 'both'
+  unit: "px", // 'px', 'cm', 'in', 'mm'
   scale: 1, // Zoom level
-  color: '#999',
+  color: "#999",
   fontSize: 12,
   major: 50, // Pixels between major marks
   minor: 10, // Pixels between minor marks
@@ -313,7 +313,7 @@ ruler.hide();
 ruler.toggle();
 
 // Configuration
-ruler.setUnit('cm');
+ruler.setUnit("cm");
 ruler.setScale(2); // 2x zoom
 ruler.setMajorInterval(100);
 ruler.setMinorInterval(20);
@@ -341,7 +341,7 @@ ruler.destroy();
 if (window.DEBUG) {
   const ruler = new Ruler({
     container: document.body,
-    unit: 'cm',
+    unit: "cm",
     scale: window.devicePixelRatio,
   });
   ruler.show();
@@ -354,14 +354,14 @@ if (window.DEBUG) {
 Manage multiple displays together:
 
 ```javascript
-import { CompositeDisplay } from './CompositeDisplay.js';
+import { CompositeDisplay } from "./CompositeDisplay.js";
 
 const composite = new CompositeDisplay({
-  container: document.querySelector('#displays'),
+  container: document.querySelector("#displays"),
   displays: [
-    { type: 'blockframes', config: blockframesConfig },
-    { type: 'ruler', config: rulerConfig },
-    { type: 'printer-marks', config: marksConfig },
+    { type: "blockframes", config: blockframesConfig },
+    { type: "ruler", config: rulerConfig },
+    { type: "printer-marks", config: marksConfig },
   ],
 });
 
@@ -369,8 +369,8 @@ const composite = new CompositeDisplay({
 composite.renderAll();
 
 // Control individual displays
-composite.getDisplay('blockframes').play();
-composite.getDisplay('ruler').setUnit('cm');
+composite.getDisplay("blockframes").play();
+composite.getDisplay("ruler").setUnit("cm");
 
 // Toggle all visibility
 composite.toggleAll();
@@ -461,7 +461,7 @@ class Display {
 
 ```javascript
 // In console or dev script
-import { DisplayManager } from './DisplayManager.js';
+import { DisplayManager } from "./DisplayManager.js";
 
 const displays = new DisplayManager(document.body);
 displays.enableAll({
@@ -475,9 +475,9 @@ displays.enableAll({
 
 ```javascript
 // Highlight elements during blockframes playback
-blockframes.on('frameChange', frame => {
+blockframes.on("frameChange", (frame) => {
   console.log(`Frame ${frame}: animating title`);
-  document.querySelector('.title').classList.add('highlight');
+  document.querySelector(".title").classList.add("highlight");
 });
 ```
 

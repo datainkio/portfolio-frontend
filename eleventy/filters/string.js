@@ -31,20 +31,20 @@
  * {{ text | uppercase }}                  {# UPPERCASE TEXT #}
  */
 
-import markdownIt from 'markdown-it';
-import * as cheerio from 'cheerio';
+import markdownIt from "markdown-it";
+import * as cheerio from "cheerio";
 
 export default function (eleventyConfig) {
   /**
    * Convert a string to uppercase.
    */
-  eleventyConfig.addFilter('uppercase', str => {
+  eleventyConfig.addFilter("uppercase", (str) => {
     return str.toUpperCase();
   });
 
-  eleventyConfig.addFilter('truncate', truncate);
-  eleventyConfig.addFilter('markdownify', markdownify);
-  eleventyConfig.addFilter('prettify', prettify);
+  eleventyConfig.addFilter("truncate", truncate);
+  eleventyConfig.addFilter("markdownify", markdownify);
+  eleventyConfig.addFilter("prettify", prettify);
 }
 
 /**
@@ -58,7 +58,7 @@ export default function (eleventyConfig) {
  * => "This is a ..."
  */
 export function truncate(str, length) {
-  return str.length > length ? str.substring(0, length) + '...' : str;
+  return str.length > length ? str.substring(0, length) + "..." : str;
 }
 
 /**
@@ -102,6 +102,6 @@ export function markdownify(markdownString) {
  */
 export function prettify(markdownString, parClasses) {
   const $ = cheerio.load(markdownify(markdownString));
-  $('p').addClass(parClasses);
+  $("p").addClass(parClasses);
   return $.html();
 }

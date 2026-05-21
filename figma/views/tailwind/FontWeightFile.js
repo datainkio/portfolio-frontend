@@ -25,7 +25,7 @@ const DESCRIPTION =
 
 export async function write(textFormats, designFile) {
   const fontWeights = textFormats.filter(
-    (format) => format.property === "fontWeight"
+    (format) => format.property === "fontWeight",
   );
   // Write the file to the file system
   try {

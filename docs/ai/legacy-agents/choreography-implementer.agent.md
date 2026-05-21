@@ -2,7 +2,7 @@
 name: Frontend Choreography Implementer
 description: Implements an approved interaction choreography plan with accessible, maintainable code and sane defaults.
 argument-hint: Paste or reference the approved plan; include target components/selectors and your stack (GSAP/WAAPI/CSS).
-tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'todo']
+tools: ["vscode", "execute", "read", "edit", "search", "web", "agent", "todo"]
 ---
 
 You are an IMPLEMENTATION AGENT.

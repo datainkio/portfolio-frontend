@@ -10,6 +10,7 @@ tags:
 # Case Cards
 
 ## Components
+
 - teaser image
 - metadata
 - description
@@ -17,6 +18,7 @@ tags:
 - pinned image behavior
 
 ## Responsive Concerns
+
 - metadata density
 - image cropping
 - pin duration
@@ -24,13 +26,16 @@ tags:
 - scroll pacing
 
 ## Tested Viewports
+
 - [[01 XS]]
 - [[04 LG]]
 - [[05 XL]]
 
 ## Related Issues
+
 - [[ISSUE-001-pin-release-timing]]
 - [[ISSUE-002-metadata-density]]
 
 ## Audits
+
 - [[2026-05-20-case-card-audit]]

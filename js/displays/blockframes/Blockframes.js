@@ -65,10 +65,10 @@
  * timeline.play();
  */
 
-import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
-import * as Builder from './Builder.js';
-import * as Painter from './Painter.js';
-import * as Animator from './Animator.js';
+import { gsap } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js";
+import * as Builder from "./Builder.js";
+import * as Painter from "./Painter.js";
+import * as Animator from "./Animator.js";
 
 /**
  * Blockframes - SVG composition and manipulation system
@@ -152,7 +152,9 @@ export default class Blockframes {
 
       // Check if the response is OK (status code in the range 200-299)
       if (!response.ok) {
-        throw new Error(`Failed to fetch SVG. Status: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch SVG. Status: ${response.status} ${response.statusText}`,
+        );
       }
 
       // Get the response text (the SVG content)
@@ -160,14 +162,14 @@ export default class Blockframes {
 
       // Parse the SVG text into an SVG document
       const parser = new DOMParser();
-      const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+      const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
 
       // Extract the SVG element from the document
       this.svgElement = svgDoc.documentElement;
 
       // Check if the parsed content is a valid SVG element
-      if (this.svgElement.nodeName !== 'svg') {
-        throw new Error('The fetched content is not a valid SVG element.');
+      if (this.svgElement.nodeName !== "svg") {
+        throw new Error("The fetched content is not a valid SVG element.");
       }
 
       // Return the SVG element for potential further use
@@ -205,23 +207,23 @@ export default class Blockframes {
    * // Creates a 3x3 grid with cycling colors
    */
   makeGrid(rows, cols, colors) {
-    const grid = document.createElement('div');
+    const grid = document.createElement("div");
     const totalCells = rows * cols;
     const colorCount = colors.length;
 
     // Set grid properties
-    grid.classList.add('grid');
+    grid.classList.add("grid");
     Object.assign(grid.style, {
-      display: 'grid',
+      display: "grid",
       gridTemplateColumns: `repeat(${cols}, 1fr)`,
       gridTemplateRows: `repeat(${rows}, 1fr)`,
-      gap: '1px',
+      gap: "1px",
     });
 
     // Use DocumentFragment for batch insertion (prevents multiple reflows)
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < totalCells; i++) {
-      const cell = document.createElement('div');
+      const cell = document.createElement("div");
       cell.style.backgroundColor = colors[i % colorCount];
       fragment.appendChild(cell);
     }
@@ -276,17 +278,17 @@ export default class Blockframes {
     const svg = this.svgElement;
 
     // Capture dimensions before removal (if viewBox needs to be inferred)
-    if (!svg.hasAttribute('viewBox')) {
-      const width = svg.getAttribute('width') || '100';
-      const height = svg.getAttribute('height') || '100';
-      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    if (!svg.hasAttribute("viewBox")) {
+      const width = svg.getAttribute("width") || "100";
+      const height = svg.getAttribute("height") || "100";
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     }
 
     // Batch attribute changes to minimize reflows
-    svg.removeAttribute('width');
-    svg.removeAttribute('height');
-    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-    svg.classList.add('w-full', 'h-full');
+    svg.removeAttribute("width");
+    svg.removeAttribute("height");
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    svg.classList.add("w-full", "h-full");
   }
 
   /**
@@ -363,9 +365,9 @@ export default class Blockframes {
    * });
    */
   get inventory() {
-    const blocksContainer = this.svgElement.querySelector('.Blocks');
+    const blocksContainer = this.svgElement.querySelector(".Blocks");
     if (!blocksContainer) {
-      throw new TypeError('SVG must contain a .Blocks container element');
+      throw new TypeError("SVG must contain a .Blocks container element");
     }
     return Array.from(blocksContainer.children);
   }
@@ -447,8 +449,8 @@ export default class Blockframes {
    */
   paintAll(palette) {
     const svg = this.svgElement;
-    svg.setAttribute('stroke-width', 2);
-    svg.setAttribute('fill', palette.neutral.light);
+    svg.setAttribute("stroke-width", 2);
+    svg.setAttribute("fill", palette.neutral.light);
     // Optional: svg.setAttribute('stroke', palette.neutral.dark);
   }
 
@@ -515,7 +517,7 @@ export default class Blockframes {
    */
   paintBlock(block, palette) {
     if (!block) {
-      console.warn('paintBlock: block is null or undefined');
+      console.warn("paintBlock: block is null or undefined");
       return;
     }
     Painter.block(block, palette);
@@ -575,7 +577,10 @@ export default class Blockframes {
    */
   placeBlock(block, container, clone = true) {
     if (!block || !container) {
-      console.warn('placeBlock: block or container is null/undefined', { block, container });
+      console.warn("placeBlock: block or container is null/undefined", {
+        block,
+        container,
+      });
       return;
     }
     Builder.insert(block, container, clone);
@@ -656,7 +661,7 @@ export default class Blockframes {
    */
   animateBlock(block) {
     if (!block) {
-      console.warn('animateBlock: block is null or undefined');
+      console.warn("animateBlock: block is null or undefined");
       return null;
     }
     return Animator.wipe(block);

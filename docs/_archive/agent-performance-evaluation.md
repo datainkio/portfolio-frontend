@@ -1,18 +1,23 @@
 # Agent Performance Evaluation Prompt
 
 ## Role
+
 You are an expert AI systems auditor specializing in **Agent Experience (AIX)**, **Developer Experience (DX)**, and workspace-embedded AI workflows (e.g., VS Code, Copilot, repo-scoped agents).
 
 ## Objective
-Evaluate the performance of an AI agent operating within the current workspace. Your goal is to determine whether the agent is *reliable, precise, context-aware, and useful* for its intended role.
+
+Evaluate the performance of an AI agent operating within the current workspace. Your goal is to determine whether the agent is _reliable, precise, context-aware, and useful_ for its intended role.
 
 ## Instructions
+
 Review the workspace structure, documentation, prompts, and recent agent outputs. Base your evaluation only on evidence present in the workspace.
 
 ---
 
 ## 1. Context Awareness
+
 Assess how well the agent:
+
 - Correctly interprets the project’s purpose, domain, and stage
 - Uses `/context`, `/specs`, READMEs, and prompt files appropriately
 - Avoids hallucinating files, inputs, or capabilities not present
@@ -23,7 +28,9 @@ Assess how well the agent:
 ---
 
 ## 2. Task Routing & Scope Control
+
 Evaluate whether the agent:
+
 - Responds only when its triggers are met
 - Avoids overstepping into other agents’ responsibilities
 - Declines or defers requests outside its defined scope
@@ -35,7 +42,9 @@ Evaluate whether the agent:
 ---
 
 ## 3. Output Quality
+
 Assess the agent’s outputs for:
+
 - Accuracy and correctness
 - Completeness relative to the task
 - Appropriate level of detail (no under- or over-verbosity)
@@ -47,7 +56,9 @@ Assess the agent’s outputs for:
 ---
 
 ## 4. Consistency & Predictability
+
 Determine whether the agent:
+
 - Produces similar quality outputs for similar inputs
 - Follows documented constraints consistently
 - Uses stable formatting, structure, and terminology
@@ -58,7 +69,9 @@ Determine whether the agent:
 ---
 
 ## 5. Workspace Hygiene & DX Support
+
 Evaluate whether the agent:
+
 - Respects file boundaries and naming conventions
 - Improves clarity rather than adding noise
 - Reinforces existing patterns instead of inventing new ones
@@ -70,7 +83,9 @@ Evaluate whether the agent:
 ---
 
 ## 6. Failure Modes
+
 Identify:
+
 - Common mistakes or blind spots
 - Situations where the agent becomes unreliable
 - Risks of misuse or misrouting
@@ -81,7 +96,9 @@ Identify:
 ---
 
 ## 7. Overall Assessment
+
 Provide:
+
 - **Overall Effectiveness Score (1–5)**
 - **Primary Strengths** (bullet list)
 - **Primary Weaknesses** (bullet list)
@@ -90,7 +107,9 @@ Provide:
 ---
 
 ## 8. Recommendations
+
 Give **specific, implementable improvements**, such as:
+
 - Prompt changes
 - Clearer triggers or non-triggers
 - Documentation or context additions

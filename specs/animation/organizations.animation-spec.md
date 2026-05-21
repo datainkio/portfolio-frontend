@@ -4,7 +4,7 @@
 - **Owner(s):** Frontend / Motion System Maintainers
 - **Status:** draft
 - **Last reviewed:** 2026-01-23
-- **Scope:** Organizations section list and empty state in [../../njk/organisms/section/organizations.njk](../../njk/organisms/section/organizations.njk).
+- **Scope:** Organizations section list and empty state in [../../views/organisms/section/organizations.njk](../../views/organisms/section/organizations.njk).
 - **Links:** motion system [choreographer.animation-spec.md](choreographer.animation-spec.md), reduced motion policy [motion-accessibility-policy.md](motion-accessibility-policy.md), tokens/config [ix/motion.js](../../js/choreography/config/ix/motion.js), [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs)
 
 ## Motion Principles

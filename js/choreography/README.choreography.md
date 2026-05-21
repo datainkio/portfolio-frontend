@@ -25,12 +25,12 @@ graph TD
 The choreography system coordinates animations across page sections without direct dependencies between them. Sections emit lifecycle events; orchestrators listen and trigger the next animation phase.
 
 ```
-Director (initializes everything)
+AnimationDirector (initializes everything)
    ↓
 AnimationBus (pub/sub event system)
    ↓
-├─ StageManager (scroll smoothing, backgrounds, gels)
-├─ Section Controllers (Hero, Work, Biography, BackgroundVideo)
+├─ ScrollEffectsCoordinator (scroll smoothing, backgrounds, gels, lines, ruler)
+├─ Section Controllers (Hero, BackgroundVideo, Bio, Awards, Organizations, Work)
 └─ Sequences (LandingSequence orchestrates multi-section flow)
 ```
 
@@ -38,38 +38,45 @@ AnimationBus (pub/sub event system)
 
 ```plaintext
 js/choreography/
-├── AnimationDirector.js          # Master initialization
+├── AnimationDirector.js          # Master initialization (boots on DOMContentLoaded)
 ├── AnimationBus.js               # Event pub/sub system
-├── ScrollEffectsCoordinator.js   # Visual effects coordinator
-├── config/
-│   ├── events.js                 # Event name definitions
-│   ├── runtime.js                # Animation settings (timings, selectors, triggers)
-│   ├── motion.js                 # Motion tokens/helpers
-│   └── arrangements.js           # Section-to-gel arrangement maps
+├── NullAnimationBus.js           # No-op bus used when choreography is disabled
+├── ScrollEffectsCoordinator.js   # Scroll smoothing + background/decoration effects
+├── config/                       # Choreography configuration (barrel export)
+│   ├── contracts/
+│   │   ├── events.js             # Event name definitions (EVENTS)
+│   │   └── selectors.js          # DOM selectors (SELECTORS)
+│   ├── ix/                       # Interaction timing / triggers
+│   └── displays/                 # Display configuration
 ├── managers/
-│   ├── ReducedMotionHandler.js   # Accessibility
-│   ├── BackgroundLayerManager.js # Fixed positioning
-│   ├── ScrollSmootherManager.js  # Smooth scrolling
-│   ├── GelAnimationManager.js    # Gel effects
-│   └── SessionManager.js         # Session state
+│   ├── ReducedMotionHandler.js   # Accessibility (prefers-reduced-motion)
+│   ├── ScrollSmootherManager.js  # GSAP ScrollSmoother (optional)
+│   ├── GelAnimationManager.js    # Gel background animations
+│   ├── LineManager.js            # Decorative/relational lines (LeaderLine)
+│   ├── SessionManager.js         # Runtime session state
+│   └── RulerIntroManager.js      # Ruler intro display choreography
 ├── sections/
 │   ├── abstract-section/
 │   │   └── AbstractSection.js    # Base class for all sections
+│   ├── registry.js               # Active section registry
 │   ├── hero/Hero.js              # Hero section controller
 │   ├── background/BackgroundVideo.js  # Video background
-│   └── [other sections...]
+│   ├── bio/Bio.js                # Biography section
+│   ├── awards/Awards.js          # Awards section
+│   ├── organizations/Organizations.js  # Organizations section
+│   └── work/Work.js              # Work section
 └── sequences/
-    └── landing/LandingSequence.js # Multi-section orchestration
+    └── landing/LandingSequence.js  # Multi-section orchestration
 ```
 
 ## Core Architecture
 
-### Master Initialization (Director.js)
+### Master Initialization (AnimationDirector.js)
 
 - Boots on `DOMContentLoaded`
 - Creates AnimationBus for event coordination
-- Initializes StageManager for visual effects
-- Instantiates section controllers (Hero, BackgroundVideo)
+- Initializes ScrollEffectsCoordinator for scroll smoothing + background/decoration effects
+- Instantiates section controllers from [sections/registry.js](sections/registry.js): Hero, BackgroundVideo, Bio, Awards, Organizations, Work
 - Starts LandingSequence choreography
 - Exposes `window.director` API for debugging and control
 
@@ -79,7 +86,7 @@ js/choreography/
 window.director.enableDebug(true); // Enable event logging
 window.director.getSections(); // Get section instances
 window.director.getSequence(); // Get LandingSequence
-window.director.getStage(); // Get StageManager
+window.director.getStage(); // Get ScrollEffectsCoordinator
 window.director.restart(); // Reset and replay sequence
 window.director.destroy(); // Cleanup everything
 ```
@@ -90,7 +97,7 @@ Tiny pub/sub system enabling loose coupling between animations:
 
 ```javascript
 import { AnimationBus } from "./AnimationBus.js";
-import { EVENTS } from "./config/events.js";
+import { EVENTS } from "./config/contracts/events.js";
 
 const bus = new AnimationBus();
 
@@ -111,25 +118,26 @@ unsubscribe(); // Remove listener
 
 - `${section}:${phase}:${state}`
 - Example: `hero:intro:start`, `hero:intro:complete`
-- See `config/events.js` for complete event list
+- See [config/contracts/events.js](config/contracts/events.js) for the complete event list
 
-### Stage Manager (StageManager.js)
+### Scroll Effects Coordinator (ScrollEffectsCoordinator.js)
 
-Coordinates site-wide visual effects via specialized manager modules:
+Coordinates site-wide scroll-driven and background visual effects via specialized manager modules:
 
 ```javascript
-const stageManager = new StageManager(animationBus);
+const coordinator = new ScrollEffectsCoordinator(animationBus);
 
-stageManager.getSmoother(); // Get GSAP ScrollSmoother instance
-stageManager.getGels(); // Get gel animation controllers
+coordinator.getSmoother(); // Get GSAP ScrollSmoother instance (when enabled)
+coordinator.getGels?.(); // Get gel animation controllers (if exposed)
 ```
 
 **Responsibilities:**
 
 - ✓ Scroll smoothing (via ScrollSmootherManager)
-- ✓ Background layer positioning (via BackgroundLayerManager)
+- ✓ Reduced-motion accessibility (via ReducedMotionHandler)
 - ✓ Gel animations (via GelAnimationManager)
-- ✓ Accessibility handling (via ReducedMotionHandler)
+- ✓ Decorative/relational lines (via LineManager)
+- ✓ Ruler intro choreography (via RulerIntroManager)
 - ✓ Session state management (via SessionManager)
 
 ### Section Controllers
@@ -152,18 +160,20 @@ section:${id}:scroll:{enter|exit}
 section:${id}:outro:complete
 ```
 
-**Available Sections:**
+**Available Sections** (see [sections/registry.js](sections/registry.js)):
 
 - `Hero` - Landing hero with introductory animations
 - `BackgroundVideo` - Background video playback and synchronization
 - `Bio` - Biography section with animations
-- `Organizations` - Organizations showcase section
+- `Awards` - Awards showcase
+- `Organizations` - Organizations showcase
+- `Work` - Work section
 
 **Creating New Sections:**
 
 ```javascript
-import { AbstractSection } from "./abstract-section/AbstractSection.js";
-import { EVENTS } from "../config/events.js";
+import AbstractSection from "./abstract-section/AbstractSection.js";
+import { EVENTS } from "../config/contracts/events.js";
 
 export class CustomSection extends AbstractSection {
   constructor({ bus, reducedMotionHandler }) {
@@ -210,33 +220,14 @@ sequence.destroy(); // Cleanup
 
 ## Manager Modules
 
-Each manager has single responsibility and can be used independently:
+Each manager has single responsibility and can be used independently. See [[js/choreography/managers/README.managers|managers/README.managers]] for the detailed reference.
 
-### ReducedMotionHandler
-
-- **Purpose**: Accessibility-first motion preference detection
-- **Use**: All animations check this before playing
-
-### BackgroundLayerManager
-
-- **Purpose**: Fix ScrollSmoother positioning issues with fixed elements
-- **Problem**: ScrollSmoother transforms break `position:fixed`
-- **Solution**: Move fixed backgrounds outside transformed container
-
-### ScrollSmootherManager
-
-- **Purpose**: Initialize and manage GSAP ScrollSmoother
-- **Optional**: Gracefully degrades to native scroll if disabled
-
-### GelAnimationManager
-
-- **Purpose**: Manage gel background animations
-- **Use**: Liquid gel effects responding to scroll position
-
-### SessionManager
-
-- **Purpose**: Persist user interaction state
-- **Use**: Track which animations have played, user preferences
+- **ReducedMotionHandler** — accessibility-first motion preference detection; all animations check this before playing.
+- **ScrollSmootherManager** — initialize and manage GSAP `ScrollSmoother`; gracefully degrades to native scroll when disabled or when the required DOM (`#smooth-wrapper` / `#smooth-content`) is absent.
+- **GelAnimationManager** — gel/blob background animations responding to scroll position.
+- **LineManager** — decorative/relational lines drawn between sockets using LeaderLine; hidden by default and revealed as sections emit `intro:complete`.
+- **SessionManager** — runtime session state used to gate one-time animations and preferences.
+- **RulerIntroManager** — ruler-style intro overlay choreography.
 
 ## Event Patterns
 
@@ -285,12 +276,12 @@ window.director.getSequence().enableDebug(true);
 **Issue**: Animations not playing in order
 
 - **Check**: Event names match exactly (case-sensitive)
-- **Fix**: Use `EVENTS` constants from `config/events.js`
+- **Fix**: Use `EVENTS` constants from [config/contracts/events.js](config/contracts/events.js)
 
 **Issue**: ScrollSmoother conflicts with fixed backgrounds
 
-- **Check**: BackgroundLayerManager configuration
-- **Fix**: Ensure background elements are in correct containers
+- **Check**: Required DOM exists (`#smooth-wrapper`, `#smooth-content`) and fixed background elements live outside the transformed wrapper
+- **Fix**: Move fixed/decorative backgrounds out of `#smooth-content` so transforms do not break `position: fixed`
 
 **Issue**: Animations ignore `prefers-reduced-motion`
 
@@ -327,7 +318,8 @@ Sections require specific DOM structure in Nunjucks templates:
 
 ## References
 
-- See [managers/README.md](./managers/README.md) for detailed manager documentation
-- See [sections/README.md](./sections/README.md) for section controller patterns
-- See [config/events.js](./config/events.js) for event naming conventions
-- See [config/index.js](./config/index.js) for animation timing and easing
+- [[js/choreography/managers/README.managers|managers/README.managers]] — detailed manager documentation
+- [[js/choreography/sections/README.sections|sections/README.sections]] — section controller patterns
+- [config/contracts/events.js](config/contracts/events.js) — event naming conventions (`EVENTS`)
+- [config/contracts/selectors.js](config/contracts/selectors.js) — DOM selectors (`SELECTORS`)
+- [config/index.js](config/index.js) — barrel export of choreography configuration

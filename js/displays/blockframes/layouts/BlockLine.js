@@ -46,8 +46,8 @@ import * as Builder from "../Builder..js";
 import * as Painter from "../Painter.js";
 
 /**
- * 
- * @param {*} . 
+ *
+ * @param {*} .
  * @returns gsap.timeline instance describing how the blockline presents itself
  */
 export default class BlockLine {
@@ -63,7 +63,7 @@ export default class BlockLine {
     this._brightness = settings.brightness;
     this._opacity = settings.opacity;
     this._types = settings.types;
-    this._timeline = gsap.timeline({id: "blockline"});
+    this._timeline = gsap.timeline({ id: "blockline" });
 
     this.blockframes.classList.add("hidden");
 
@@ -73,17 +73,27 @@ export default class BlockLine {
     Painter.paint(this.color);
 
     // Animate things all pretty-like
-    this.color.node.querySelectorAll(".building").forEach(building => {
+    this.color.node.querySelectorAll(".building").forEach((building) => {
       var stories = building.querySelectorAll(".story");
-      gsap.set(stories, {autoAlpha: 0,});
-      this._timeline.add(gsap.to(stories, {autoAlpha: 1, onUpdate: this.update, onUpdateParams: [this], stagger: .05}, "<+=.25" ));
+      gsap.set(stories, { autoAlpha: 0 });
+      this._timeline.add(
+        gsap.to(
+          stories,
+          {
+            autoAlpha: 1,
+            onUpdate: this.update,
+            onUpdateParams: [this],
+            stagger: 0.05,
+          },
+          "<+=.25",
+        ),
+      );
     });
 
     // this._timeline.play();
 
     // this.update(this);
-  
-  };
+  }
 
   update(blockline) {
     console.log(blockline.type);
@@ -92,10 +102,12 @@ export default class BlockLine {
         blockline.container.innerHTML = blockline.color.svg();
         break;
       case "background":
-        blockline.container.style.backgroundImage = `url("data:image/svg+xml;charset=UTF-8,${escape(blockline.color.svg())}")`
+        blockline.container.style.backgroundImage = `url("data:image/svg+xml;charset=UTF-8,${escape(blockline.color.svg())}")`;
         break;
       default:
-        console.log("unrecognized container type for BlockLine.update: " + blockline.type);
+        console.log(
+          "unrecognized container type for BlockLine.update: " + blockline.type,
+        );
     }
   }
 
@@ -110,12 +122,12 @@ export default class BlockLine {
   }
   get bw() {
     return this._views[1];
-  };
+  }
   get color() {
     return this._views[0];
-  };
+  }
   get container() {
-    return  this._container;
+    return this._container;
   }
   get cols() {
     return this._colCount;
@@ -138,4 +150,4 @@ export default class BlockLine {
   get opacity() {
     return this._opacity;
   }
-};
+}

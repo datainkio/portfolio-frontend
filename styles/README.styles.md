@@ -87,7 +87,8 @@ classes
 **UX Impact**: Ensures brand consistency and enables theme flexibility
 
 ```css
---color-primary-500: #0caaeb /* Your exact Figma color */ --color-accent-400: #ffe01f /* Automatically synchronized */;
+--color-primary-500: #0caaeb /* Your exact Figma color */
+  --color-accent-400: #ffe01f /* Automatically synchronized */;
 ```
 
 #### `decorations.css` - Visual Enhancement System
@@ -110,7 +111,8 @@ perceived performance
 Impact**: Enables consistent typography application across all content
 
 ```css
---font-serif: Cormorant Garamond, serif /* Your Figma heading font */ --font-sans: Poppins,
+--font-serif:
+  Cormorant Garamond, serif /* Your Figma heading font */ --font-sans: Poppins,
   sans-serif /* Your Figma body font */;
 ```
 

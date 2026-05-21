@@ -5,9 +5,9 @@ aix:
   status: stable
   surface: internal
   tags:
-    - #frontend
-    - #cms
-    - #services
+    -  #frontend
+    -  #cms
+    -  #services
   type: guide
   scope: frontend
   audience: maintainers

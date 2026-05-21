@@ -1,424 +1,110 @@
+<!-- @format -->
+
 # dataink.io Portfolio
 
-**DANGER ZONE**: This is not your typical portfolio site. This is a fully automated design-developer workflow with Figma API integration, Sanity CMS, and 11ty static generation. If you're here to "quickly fix something" without understanding the architecture, you're about to experience the digital equivalent of performing surgery with a sledgehammer.
+Personal portfolio site for [dataink.io](https://dataink.io) — built with Eleventy (11ty), Tailwind CSS v4, Sanity (content), Figma (design tokens), and a GSAP-based choreography system.
 
-## Architecture Overview (Read This Or Suffer The Consequences)
-
-This site uses a complex but powerful tech stack designed for automated design-to-code workflows. Each piece depends on the others in very specific ways - break one link and watch the entire chain snap:
-
-- **11ty Static Site Generator**: Templates in `njk/` using Nunjucks (NOT Handlebars, NOT Liquid)
-- **Figma API Integration**: Automatically syncs design tokens to CSS files via `figma/services/`
-- **Sanity Headless CMS**: Content management with smart caching and GROQ queries
-- **Tailwind CSS v4**: Utility-first CSS using `@tailwindcss/cli` (NOT the old `tailwindcss` command - ignore this at your peril)
-- **Atomic Design Pattern**: Components organized as atoms/molecules/organisms/templates in `njk/`
-
-**ABSOLUTE CRITICAL RULE**: Never run builds without understanding dependencies. Each system relies on the others in very specific ways. Skip steps and join the debugging nightmare club.
-
-## Quick Start (Follow This Exactly Or Face Digital Chaos)
+## Quick start
 
 ```bash
-# Step 1: ALWAYS run install first - missing npm-run-all will cause cryptic parallel execution failures
-npm install
-
-# Step 2: Full build (clean → design → 11ty) - recommended for production
-npm run build
-
-# Step 3: Development with parallel Tailwind watching + 11ty serving (requires npm-run-all)
-npm start
+npm install        # one-time
+npm start          # dev server (Tailwind + 11ty in parallel; no JS bundling)
+npm run build      # full production build
 ```
 
-**BUILD PROCESS DETAILS**:
+Default dev mode is `start: npm run dev:nobundle` (raw ESM modules; faster reload). Use `npm run start:bundle` for a bundled dev build.
 
-- `npm run build` sequentially runs: `clean` → `build:design` → `build:11ty`
-- The clean step removes old files BUT preserves the `content/` directory (cached images/videos)
-- Design tokens MUST sync before 11ty build or site will look like a 1990s disaster. Geocities, anyone?
+## Common commands
 
-## Available Commands
+| Goal                              | Command                      |
+| --------------------------------- | ---------------------------- |
+| Dev (no JS bundle, fastest)       | `npm start`                  |
+| Dev (with JS bundle)              | `npm run start:bundle`       |
+| Full clean build                  | `npm run build`              |
+| Fast build (skip Figma sync)      | `npm run quick`              |
+| Sync Figma tokens + rebuild CSS   | `npm run design`             |
+| Format / format check             | `npm run format` / `:check`  |
+| Tests (logger + choreography)     | `npm test`                   |
+| Validation (format check + tests) | `npm run validate`           |
+| System health check               | `npm run doctor`             |
+| List all workflows                | `npm run help`               |
+| Scaffold component / page         | `npm run scaffold:component` |
+|                                   | `npm run scaffold:page`      |
 
-### Production Build Commands
+Full script reference: [[.github/copilot-instructions]].
 
-```bash
-# Full production build (clean + design + 11ty)
-npm run build
+## Build order
 
-# Clean _site folder (preserves content directory with cached images)
-npm run clean
+`npm run build` runs sequentially:
 
-# Sync Figma design tokens to CSS files only
-npm run build:design
+1. `clean` — clear `_site/` (preserves cached media in `_site/content/`)
+2. `build:design` — fetch Figma tokens → write `styles/colors.css`, `styles/typography/fontFamilies.css`
+3. `build:css` — Tailwind v4 compile via [scripts/buildCSS.js](scripts/buildCSS.js)
+4. `build:js` — choreography bundle via [scripts/buildChoreography.js](scripts/buildChoreography.js) (skippable with `BUNDLE_JS=false`)
+5. `build:11ty` — 11ty render (also fetches Sanity collections at this step)
 
-# Generate static site from njk/ templates only
-npm run build:11ty
-```
+Skipping step 2 will compile but produce a site without design tokens.
 
-### Development Commands
+## Environment variables
 
-```bash
-# Start development server (parallel: Tailwind watch + 11ty serve)
-npm start
+Create a `.env` (see [.env.example](.env.example)). Required for full builds:
 
-# Start dev server without JS bundling (uses raw ESM modules)
-npm run start:nobundle
+| Variable             | Purpose                                  |
+| -------------------- | ---------------------------------------- |
+| `FIGMA_TOKEN`        | Figma personal access token (Files:read) |
+| `FIGMA_FILE_ID`      | Source Figma file                        |
+| `SANITY_PROJECT_ID`  | Sanity project (defaults in `site.json`) |
+| `SANITY_DATASET`     | Sanity dataset (e.g., `production`)      |
+| `SANITY_API_TOKEN`   | Optional; enables drafts, forces no CDN  |
+| `SANITY_API_VERSION` | Defaults to `2025-12-26`                 |
+| `SANITY_USE_CDN`     | `true` unless a token is provided        |
 
-# Run 11ty dev server only (watch and serve)
-npm run dev:11ty
+## Tech stack
 
-# Run Tailwind watch only (CSS compilation)
-npm run dev:css
+- **Eleventy 3** with Nunjucks templates in [views/](views/) (atomic design)
+- **Tailwind CSS v4** via `@tailwindcss/cli` (wrapped by [scripts/buildCSS.js](scripts/buildCSS.js))
+- **Sanity** content fetched at build time — see [data/sanity/](data/sanity/) and [[docs/sanity-integration]]
+- **Figma** design tokens via [scripts/fetchFigma.js](scripts/fetchFigma.js) and [figma/services/](figma/services/)
+- **GSAP** choreography in [js/choreography/](js/choreography/) (see [[js/choreography/README.choreography]])
+- **Logging** via `@datainkio/lumberjack` (Node + browser)
 
-# Build CSS with comprehensive logging (production mode)
-npm run build:css
+## Where to start
 
-# Build CSS with detailed development logging
-npm run build:css:dev
+- **AI agents / Copilot context** → [[.github/copilot-instructions]]
+- **AIX-focused project reference** → [[README.frontend]]
+- **Architecture overview** → [[docs/architecture]]
+- **Documentation index** → [[docs/README.docs]]
+- **Sanity integration** → [[docs/sanity-integration]]
+- **Choreography system** → [[js/choreography/README.choreography]]
 
-# Skip the choreography bundle and use raw modules during dev
-npm run dev:nobundle
-
-# Watch CSS with continuous logging
-npm run watch:css
-```
-
-### JS Bundling Toggle (DX helper)
-
-- Default builds generate a single choreography bundle at [assets/js/choreography/bundle.js](assets/js/choreography/bundle.js) via [scripts/buildChoreography.js](scripts/buildChoreography.js).
-- Set `BUNDLE_JS=false` (or run the shortcuts above) to skip bundling and serve the raw ESM modules from [js/choreography](js/choreography) that Eleventy passthrough-copies into [assets/js/choreography](assets/js/choreography).
-- Raw ESM mode relies on browser-resolvable dependencies: vendor assets (for example GSAP modules and the LeaderLine browser script) are passthrough-copied to [assets/js/vendor](assets/js/vendor) and loaded via runtime paths.
-- When bundling is disabled the build script deletes any stale [bundle.js](assets/js/choreography/bundle.js) so the site falls back to loading [Director.js](js/choreography/Director.js) directly; re-enable by removing the env var or passing `--bundle` to the script.
-- Use `npm run build:nobundle` if you want a production build that deliberately avoids bundling for debugging or source-mapping in the browser.
-- Direct invocation switches: `--no-bundle` / `--skip-bundle` to force raw modules, `--bundle` to override and force bundling even when `BUNDLE_JS` is false.
-
-### Utility Commands
-
-```bash
-# Format all files with Prettier
-npm run format
-
-# Check formatting without making changes
-npm run format:check
-
-# Format only Nunjucks template files
-npm run format:njk
-```
-
-### Build Execution Order
-
-When you run `npm run build`, the following happens **sequentially**:
-
-1. **Clean** (`npm run clean`)
-   - Deletes all files in `_site/` folder
-   - **Preserves** `_site/content/` directory (images, videos)
-   - Prevents file duplication from previous builds
-
-2. **Design Sync** (`npm run build:design`)
-   - Fetches design tokens from Figma API
-   - Writes colors to `styles/colors.css`
-   - Writes typography to `styles/typography/fontFamilies.css`
-   - **Automatically triggers CSS rebuild** with updated design tokens
-
-3. **CSS Build** (`npm run build:css`)
-   - Compiles Tailwind CSS with comprehensive logging
-   - Analyzes input CSS structure and imports
-   - Provides build metrics and optimization suggestions
-   - Generates optimized CSS to `_site/assets/styles.css`
-
-4. **11ty Build** (`npm run build:11ty`)
-   - Fetches content from Sanity (with smart caching)
-   - Processes images via `@11ty/eleventy-img`
-   - Generates static HTML from Nunjucks templates
-   - Outputs to `_site/` folder
-
-**CRITICAL**: Steps run sequentially via `run-s` (npm-run-all). Each step must complete before the next begins.
-
-**DO NOT SKIP STEP 2**: The site will compile without design tokens but will look broken. The `build:design` command fetches colors, typography, and spacing tokens from Figma and writes them to CSS files that 11ty templates depend on.
-
-## Environment Variables (Required For External Integrations Or Everything Breaks)
-
-Create a `.env` file with these tokens or the build will fail silently and leave you wondering why nothing works:
-
-```env
-FIGMA_TOKEN=your_figma_personal_access_token
-SANITY_PROJECT_ID=your_sanity_project_id
-SANITY_DATASET=production
-SANITY_API_TOKEN=your_sanity_read_token
-```
-
-**Get Figma Token**: Figma Account Settings → Personal Access Tokens → Generate New Token (give it Files:read scope)
-**Get Sanity Token**: Sanity Manage → API → Tokens → Create read token (optional for drafts)
-
-**SECURITY WARNING**: These tokens provide full access to your design files and content. Treat them like nuclear launch codes.
-
-## Design System Integration (The Most Fragile And Critical Part)
-
-The Figma integration is **bidirectional and automated** via services in `figma/`. This means:
-
-1. **Design tokens flow FROM Figma TO CSS files** via `scripts/fetchFigma.js`
-2. **Typography settings are auto-generated** by `figma/services/TypographyService.js`
-3. **Color palettes are auto-written** by `figma/services/PaletteService.js` to `styles/colors.css`
-4. **Any manual edits to generated files WILL BE OVERWRITTEN** without mercy or warning
-
-### Figma File Structure Requirements (Break This = Break Everything)
-
-Your Figma file MUST follow these exact naming conventions or the sync will fail spectacularly:
-
-```text
-Design System Frame
-├── Colors (Frame)
-│   ├── Primary/Light (Color style)
-│   ├── Primary/Dark (Color style)
-│   └── Primary (Color style)
-└── Typography (Frame)
-    ├── Heading/Large (Text style)
-    ├── Heading/Medium (Text style)
-    └── Body/Regular (Text style)
-```
-
-BREAK THIS STRUCTURE = BREAK THE BUILD = ANGER THE DESIGN GODS
-
-The services expect this exact hierarchy. Rename a color from "Primary/Light" to "Primary Light" and watch the system implode.
-
-### Generated Files (ABSOLUTELY DO NOT EDIT MANUALLY)
-
-These files are auto-generated and will be overwritten faster than you can say "git commit":
-
-- `styles/colors.css` - CSS custom properties from Figma color tokens
-- `styles/typography/fontFamilies.css` - Font family utilities from Figma text styles
-- Any file with "Auto-generated" in the header comment
-
-**Edit these manually and watch your changes vanish** the next time someone runs `npm run build:design`.
-
-## Content Management (Sanity CMS Integration)
-
-Content is managed through Sanity and fetched during the 11ty build. Defaults live in `site.json` under `cms` (or `sanity`), and collections are defined in `data/sanity/queries.js`.
-
-```json
-{
-  "cms": {
-    "projectId": "<projectId>",
-    "dataset": "production",
-    "apiVersion": "2025-12-26",
-    "useCdn": true,
-    "cache": "1d"
-  }
-}
-```
-
-### Accessing Content in Templates
-
-Queries become collections by their query id:
-
-```html
-{% for project in collections.projects %}
-<h2>{{ project.title }}</h2>
-<p>{{ project.summary }}</p>
-{% endfor %}
-```
-
-This project includes a comprehensive logging system for Tailwind CSS builds that provides the same level of transparency as the 11ty collections and Figma services. **DO NOT bypass this system** - the detailed logging is essential for debugging CSS generation issues and performance optimization.
-
-### TailwindLogger Service
-
-The `eleventy/services/TailwindLogger.js` service provides:
-
-- **Build Metrics**: File sizes, build time analysis, performance recommendations
-- **CSS Analysis**: Import structure, layer organization, custom property detection
-- **Optimization Insights**: Complex selector detection, performance warnings
-- **Error Tracking**: Comprehensive error capture with actionable resolution steps
-
-### Enhanced Build Scripts
-
-The `scripts/buildCSS.js` script wraps the Tailwind CLI with detailed logging:
-
-```bash
-# Production build with optimization analysis
-npm run build:css
-
-# Development build with detailed debugging
-npm run build:css:dev
-
-# Watch mode with continuous file monitoring
-npm run watch:css
-```
-
-### Build Output Example
+## Project layout (high level)
 
 ```
-🎨 Starting Tailwind CSS 4.0 build process...
-• Build ID: abc123 | Mode: production
-• Input: styles/main.css
-• Output: _site/assets/styles.css
-• Analyzing Tailwind configuration...
-   • Content paths: 3
-   • Custom plugins: 1
-   • Layer structure: reset, theme, base, utilities, components
-• Generated CSS size: 61.39 KB
-• Build performance: 1234ms
-✅ Tailwind CSS build completed
+ia/         Content entrypoints (route frontmatter; Eleventy input)
+views/      Nunjucks templates (atoms / molecules / organisms / pages / templates / layouts; Eleventy includes)
+styles/     CSS (main.css orchestrates import order; colors.css + typography/fontFamilies.css are generated)
+js/         Browser runtime (choreography, effects, displays, preloader, utils)
+eleventy/   11ty config modules (collections, filters, shortcodes, plugins, services)
+data/sanity/ Sanity client, queries, fetchers
+figma/      Figma API services (token generation)
+scripts/    Build automation (buildCSS, buildChoreography, fetchFigma, scaffold, …)
+assets/     Static source assets (copied to _site/assets/)
+docs/       Project documentation
+_site/      Build output (gitignored, never edited)
 ```
 
-**INTEGRATION POINTS**:
+## Generated files (do not edit)
 
-- Automatically triggered by Figma design token sync (`npm run build:design`)
-- Integrated with development watch modes for hot reloading
-- Provides same logging standards as other project services
+- `styles/colors.css`
+- `styles/typography/fontFamilies.css`
+- Anything under `_site/`, `.cache/`, `logs/`
 
-## File Organization (Touch The Wrong Thing = Break Everything)
-
-```text
-portfolio/
-├── ia/                          # Content entrypoints (frontmatter routes)
-├── njk/                         # Nunjucks templates and components
-│   ├── atoms/                   # Smallest UI elements (buttons, icons)
-│   ├── molecules/               # Component combinations (cards, forms)
-│   ├── organisms/               # Complex UI sections (headers, footers)
-│   ├── templates/               # Page layout templates
-│   └── layouts/                 # Base layouts and wrappers
-├── styles/                      # CSS architecture (import order matters)
-│   ├── main.css                # Master CSS file with CRITICAL import order
-│   ├── colors.css              # AUTO-GENERATED from Figma (DO NOT EDIT)
-│   ├── typography/             # Font files + AUTO-GENERATED styles
-│   └── backgrounds/            # Background effect systems
-├── js/                         # Client-side JavaScript modules (ES6)
-│   ├── effects/                # GSAP animations and effects
-│   ├── displays/               # Interactive display components
-│   └── utils/                  # Theme and utility functions
-├── assets/                     # Static files copied to _site/assets/
-├── figma/                      # Figma API integration services
-│   └── services/               # PaletteService.js, TypographyService.js
-├── scripts/                    # Build automation scripts
-│   ├── buildCSS.js            # Enhanced Tailwind CSS build with logging
-│   └── fetchFigma.js          # Design token sync (triggers CSS rebuild)
-├── eleventy/                   # 11ty configuration and collections
-│   ├── filters/               # Nunjucks filters (string, array, date, etc.)
-│   ├── shortcodes/            # Reusable template functions
-│   ├── collections/           # Content collection definitions
-│   └── services/              # Build-time services (NavigationBuilder, etc.)
-├── data/sanity/                 # Sanity client, queries, fetch helpers
-├── site.json                   # Global site config + CMS defaults
-└── _site/                      # BUILD OUTPUT - never edit directly
-```
-
-**DO NOT REORGANIZE** this structure without updating all the import paths, build scripts, and 11ty configuration.
-
-## Development Workflow (The Safe Path To Avoid Disaster)
-
-### Making Design Changes
-
-1. **Edit in Figma** (colors, typography, spacing) - ONLY source of truth
-2. **Run `npm run build:design`** to sync changes via API services
-3. **Run `npm run build:11ty`** to regenerate site with new tokens
-4. **Never edit generated CSS files directly** - they will be overwritten
-
-### Making Content Changes
-
-1. **Edit in Sanity** (add/modify content) - content source
-2. **Run `npm run build:11ty`** to fetch fresh content via `@11ty/eleventy-fetch`
-3. **Force refresh if needed**: set `SANITY_FORCE_REFRESH=true`
-
-### Making Template Changes
-
-1. **Edit Nunjucks templates** in `njk/` (NOT Handlebars, NOT Liquid)
-2. **Follow atomic design patterns** (atoms → molecules → organisms → templates)
-3. **Test with `npm start`** for parallel Tailwind watching + 11ty serving
-4. **Use ES modules syntax** for all JavaScript (`import`/`export`)
-
-## Common Failure Points (Learn From Others' Digital Pain)
-
-### "Site looks broken/unstyled"
-
-- **Cause**: Skipped `npm run build:design` step
-- **Fix**: Run design build before 11ty build
-- **Prevention**: Always run full build sequence
-
-### "Colors/fonts not updating"
-
-- **Cause**: Figma token structure changed or API token expired
-- **Fix**: Check Figma file structure, verify token in `.env`
-- **Prevention**: Don't rename Figma color/text styles without updating sync logic
-
-### "Content not showing"
-
-- **Cause**: Missing or incorrect Sanity config (projectId/dataset) or query mismatch
-- **Fix**: Verify `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `data/sanity/queries.js`
-- **Prevention**: Keep query ids stable and reuse existing patterns
-
-### "Build fails with module errors"
-
-- **Cause**: Missing `npm install` or outdated dependencies
-- **Fix**: Delete `node_modules`, run fresh `npm install`
-- **Prevention**: Always run install on fresh clone
-
-### "CSS not compiling"
-
-- **Cause**: Wrong Tailwind version or import order in `main.css`
-- **Fix**: Verify Tailwind CSS v4 installation and import sequence
-- **Prevention**: Don't rearrange CSS imports without understanding cascade
-
-### "VS Code shows 'Unknown at rule @apply'"
-
-- **Cause**: Built-in CSS linting does not understand Tailwind directives by default
-- **Fix**: Use workspace setting `.vscode/settings.json` with `css.lint.unknownAtRules` set to `ignore`
-- **Prevention**: Keep workspace lint settings in source control so team/editor defaults stay consistent
-
-## Advanced Configuration
-
-### Adding New Sanity Queries
-
-1. Add a query in `data/sanity/queries.js`
-2. Ensure the query has a stable `id`
-3. Access in templates via `collections.<id>`
-
-### Adding New Background Effects
-
-1. Create CSS file in `styles/backgrounds`
-2. Import in `styles/decorations.css` BEFORE `@tailwind utilities`
-3. Follow existing patterns for CSS custom properties
-
-### Custom JavaScript Modules
-
-1. Create modules in `js/` with ES6 import/export
-2. Import in templates using `/assets/js/` paths (absolute from site root)
-3. Follow existing module patterns in `js/effects/` and `js/displays/`
+These are overwritten by `build:design` and `build:*` steps.
 
 ## Deployment
 
-The build generates a static site in `_site/` that can be deployed anywhere:
+The build produces a fully static site in `_site/`. Deploy to any static host (Netlify, Vercel, Pages, S3+CloudFront, etc.).
 
-```bash
-# Full production build (clean + design + 11ty)
-npm run build
-```
+## License
 
-**What Gets Deployed**: The entire `_site/` folder contains your static site.
-
-**What's Preserved**: The `content/` directory within `_site/` is preserved during clean operations to avoid re-processing cached media.
-
-**Deployment Targets**: Deploy the `_site/` folder to any static hosting platform:
-
-- Netlify, Vercel, GitHub Pages, Cloudflare Pages
-- AWS S3 + CloudFront, Google Cloud Storage
-- Any static file server
-
-The site is fully static with no server-side requirements or runtime dependencies.
-
-## Documentation & Resources
-
-Comprehensive documentation is available in the `docs/` and individual README files:
-
-- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Complete AI agent context (50+ workflows, patterns, gotchas)
-- **[docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)** - Documentation navigation hub
-- **[njk/README.md](njk/README.md)** - Nunjucks/11ty templates and atomic design
-- **[eleventy/README.md](eleventy/README.md)** - 11ty configuration overview
-- **[eleventy/filters/README.md](eleventy/filters/README.md)** - Complete filter reference (23+ filters)
-- **[eleventy/shortcodes/README.md](eleventy/shortcodes/README.md)** - Shortcode API
-- **[js/choreography/README.md](js/choreography/README.md)** - Animation system architecture
-- **[js/choreography/sections/README.md](js/choreography/sections/README.md)** - Section controllers (Hero, BackgroundVideo, Bio, Organizations)
-- **[js/effects/README.md](js/effects/README.md)** - GSAP effects library
-- **[figma/README.md](figma/README.md)** - Figma API integration
-- **[docs/sanity-integration.md](docs/sanity-integration.md)** - Sanity CMS integration
-
-For quick reference, see:
-
-- **Common mistakes to avoid**: [.github/copilot-instructions.md#dont-do-this](.github/copilot-instructions.md#dont-do-this)
-- **Build troubleshooting**: [.github/copilot-instructions.md#troubleshooting](.github/copilot-instructions.md#troubleshooting)
-- **All npm scripts explained**: [.github/copilot-instructions.md#core-workflows](.github/copilot-instructions.md#core-workflows)
+ISC — see [package.json](package.json).

@@ -11,6 +11,7 @@ tags:
 # Responsive Testing
 
 ## Viewports
+
 - [[01 XS]]
 - [[02 SM]]
 - [[03 MD]]
@@ -20,6 +21,7 @@ tags:
 - [[1440x900-desktop-large]]
 
 ## Systems
+
 - [[hero]]
 - [[case-cards]]
 - [[motion-scroll]]
@@ -27,12 +29,15 @@ tags:
 - [[metadata]]
 
 ## Active Audits
+
 - [[2026-05-20-homepage-audit]]
 
 ## Open Issues
+
 - [[ISSUE-001-pin-release-timing]]
 - [[ISSUE-002-metadata-density]]
 
 ## Known Constraints
+
 - [[viewport-height]]
 - [[safari-ios]]

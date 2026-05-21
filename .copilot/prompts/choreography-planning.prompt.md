@@ -54,5 +54,5 @@ Inside **Answer / Deliverable**, include the plan sections:
 - When planning, prefer frontend’s authoritative constraints and conventions:
   - `frontend/.github/copilot-instructions.md`
   - `frontend/js/choreography/**` architecture (Director/sections/triggers)
-  - `frontend/njk/**` atomic component structure
+  - `frontend/views/**` atomic component structure (atoms/molecules/organisms/layouts/pages/templates)
 - Do not assume sections/controllers exist; verify via repo search before naming concrete targets.
