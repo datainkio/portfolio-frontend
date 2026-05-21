@@ -1,0 +1,173 @@
+{% extends "layouts/base.njk" %}
+
+{#
+  Single project page template.
+  Data: paginated from `collections.projectPages`, aliased as `project`
+  (see ../../../ia/project.md). Shape produced by
+  `frontend/data/sanity/transforms/project.js` + `projectPageProjection.js`.
+  Spec: frontend/specs/views/project-page.views-spec.md
+  Pattern: content-model/patterns/project-page.md
+#}
+
+{%- set bodyClasses = "bg-white grid grid-cols-12" -%}
+{%- set mainClasses = "col-span-full w-full" -%}
+
+{%- set article = {
+  "base": "project-page w-full space-y-12",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+
+{%- set header = {
+  "base": "",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+
+{%- set figure = {
+  "base": "",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+
+{%- set orgs = project.organization or [] -%}
+{%- set hasByline = orgs | length -%}
+
+{%- set hasFeaturedImage =
+  project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
+{%- set hasAwards = project.awards and project.awards | length -%}
+{%- set hasRoles = project.roles and project.roles | length -%}
+{%- set hasActivities = project.activities and project.activities | length -%}
+{%- set hasIndustry = project.industry and project.industry.title -%}
+{%- set hasOutcomes = project.outcomes and project.outcomes | length -%}
+{%- set hasBody = project.bodyHtml -%}
+{%- set externalLinkHref =
+  (project.externalLink.href if project.externalLink and project.externalLink.href else
+    (project.externalLink if project.externalLink is string else "")) -%}
+{%- set externalLinkLabel =
+  (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}
+
+{% block content %}
+  <article
+    class="{{ article | classes }}" aria-labelledby="project-title">
+
+    {# 1. Title + byline (single H1 on the page) #}
+    <header class="project-page__header space-y-3 bg-black text-white">
+      <h1 id="project-title" class="text-4xl font-black tracking-tight">
+        {{ project.title }}
+      </h1>
+      {% if hasByline %}
+        <p class="project-page__byline text-sm uppercase tracking-wide text-gray-600">
+          <span class="sr-only">For
+          </span>
+          {%- for org in orgs -%}
+            {{ org.title }}
+            {% if not loop.last %},
+            {% endif %}
+          {%- endfor -%}
+        </p>
+      {% endif %}
+    </header>
+
+    {# 2. Abstract #}
+    {% if project.abstract %}
+      <p class="project-page__abstract text-xl text-gray-800">
+        {{ project.abstract }}
+      </p>
+    {% endif %}
+
+    {# 3. Featured image #}
+    {% if hasFeaturedImage %}
+      <figure class="project-page__featured-image">
+        <img src="{{ project.featuredImage.asset.url }}" alt="{{ project.featuredImage.alt | default(project.title) }}" {% if project.featuredImage.asset.metadata and project.featuredImage.asset.metadata.dimensions %} width="{{ project.featuredImage.asset.metadata.dimensions.width }}" height="{{ project.featuredImage.asset.metadata.dimensions.height }}" {% endif %} loading="eager" decoding="async" class="w-full h-auto"/>
+        {% if project.featuredImage.caption %}
+          <figcaption class="mt-2 text-sm text-gray-600">
+            {{ project.featuredImage.caption }}
+          </figcaption>
+        {% endif %}
+      </figure>
+    {% endif %}
+
+    {# 4. Metadata band: awards, roles, industry, activities #}
+    <section class="project-page__metadata grid gap-6 md:grid-cols-2 lg:grid-cols-4" aria-label="Project metadata">
+      {% if hasAwards %}
+        <div class="project-page__meta-group">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Awards</h2>
+          <ul class="mt-2 space-y-1">
+            {% for award in project.awards %}
+              <li>{{ award.title }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if hasRoles %}
+        <div class="project-page__meta-group">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Roles</h2>
+          <ul class="mt-2 space-y-1">
+            {% for role in project.roles %}
+              <li>{{ role.title }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if hasIndustry %}
+        <div class="project-page__meta-group">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Industry</h2>
+          <p class="mt-2">{{ project.industry.title }}</p>
+        </div>
+      {% endif %}
+
+      {% if hasActivities %}
+        <div class="project-page__meta-group">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Activities</h2>
+          <ul class="mt-2 space-y-1">
+            {% for activity in project.activities %}
+              <li>{{ activity.title }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </section>
+
+    {# 5. Outcome (optional, distinct treatment) #}
+    {% if hasOutcomes %}
+      <aside class="project-page__outcome border-l-4 border-primary-500 pl-6 py-2" aria-labelledby="project-outcome-heading">
+        <h2 id="project-outcome-heading" class="text-xs font-semibold uppercase tracking-wide text-gray-600">
+          Outcome{% if project.outcomes | length > 1 %}s{% endif %}
+        </h2>
+        <ul class="mt-2 space-y-1 text-lg">
+          {% for outcome in project.outcomes %}
+            <li>{{ outcome.title }}</li>
+          {% endfor %}
+        </ul>
+      </aside>
+    {% endif %}
+
+    {# 6. Body (Portable Text → HTML, prepared by transform; H2+ only) #}
+    {% if hasBody %}
+      <section class="project-page__body prose prose-lg max-w-none" aria-label="Project narrative">
+        {{ project.bodyHtml | safe }}
+      </section>
+    {% endif %}
+
+    {# 7. Link to live project (optional) #}
+    {% if externalLinkHref %}
+      <p class="project-page__external-link">
+        <a href="{{ externalLinkHref }}" rel="noopener noreferrer" target="_blank" class="underline underline-offset-4">
+          {{ externalLinkLabel }}
+        </a>
+      </p>
+    {% endif %}
+
+    {# 8. End CTA — provided by site-global footer contact form. #}
+    {# Intentionally no inline CTA: conversion handled in global footer. #}
+  </article>
+{% endblock %}

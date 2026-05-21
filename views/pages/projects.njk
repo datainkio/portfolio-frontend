@@ -10,7 +10,7 @@
 {% block content %}
   {{ super() }}
   {% if collections.projects and collections.projects.length %}
-    {{ ProjectCards.render({ projects: collections.projects, classes: list.base ~ " " ~ list.sm ~ " " ~ list.md ~ " " ~ list.lg ~ " " ~ list.xl }) }}
+    {{ ProjectCards.render({ projects: collections.projects, classes: list | classes }) }}
   {% else %}
     <p>No projects found.</p>
   {% endif %}

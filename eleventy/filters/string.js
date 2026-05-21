@@ -45,6 +45,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("truncate", truncate);
   eleventyConfig.addFilter("markdownify", markdownify);
   eleventyConfig.addFilter("prettify", prettify);
+  eleventyConfig.addFilter("classes", classes);
 }
 
 /**
@@ -104,4 +105,45 @@ export function prettify(markdownString, parClasses) {
   const $ = cheerio.load(markdownify(markdownString));
   $("p").addClass(parClasses);
   return $.html();
+}
+
+/**
+ * Flatten a class-variants object into a single space-delimited string.
+ *
+ * Designed for managing Tailwind responsive variants keyed by breakpoint
+ * (e.g. base, sm, md, lg, xl), but accepts any plain object whose values
+ * are strings or arrays of strings. Insertion order is preserved.
+ * Non-string/empty values are skipped, and internal whitespace is
+ * collapsed so the result is safe to drop directly into `class="…"`.
+ *
+ * @param {object|string} variants - Class-variants object, or a string
+ *   (returned trimmed for convenience when callers may pass either).
+ * @returns {string} Space-delimited class string.
+ *
+ * EXAMPLE:
+ * {% set header = {
+ *   "base": "flex items-center",
+ *   "sm":   "sm:gap-4",
+ *   "md":   "md:gap-6",
+ *   "lg":   "",
+ *   "xl":   "xl:gap-10"
+ * } %}
+ * <header class="{{ header | classes }}">
+ * => <header class="flex items-center sm:gap-4 md:gap-6 xl:gap-10">
+ */
+export function classes(variants) {
+  if (variants == null) return "";
+  if (typeof variants === "string") return variants.trim().replace(/\s+/g, " ");
+  if (Array.isArray(variants)) {
+    return variants
+      .map((v) => classes(v))
+      .filter(Boolean)
+      .join(" ");
+  }
+  if (typeof variants !== "object") return "";
+
+  return Object.values(variants)
+    .map((value) => classes(value))
+    .filter(Boolean)
+    .join(" ");
 }

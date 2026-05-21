@@ -131,7 +131,7 @@
         {% if eyebrow_txt %}
           <p class="{{ eyebrow.base }} {{ eyebrow.sm }} {{ eyebrow.md }} {{ eyebrow.lg }} {{ eyebrow.xl }}">{{ eyebrow_txt }}</p>
         {% endif %}
-        {{ HeadingBlock.render({ level: headingLevel, text: title, class: heading.base ~ " " ~ heading.sm ~ " " ~ heading.md ~ " " ~ heading.lg ~ " " ~ heading.xl ~ (" hover:underline" if url else "") }) }}
+        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) ~ (" hover:underline" if url else "") }) }}
         {% if byline_txt %}
           <p class="{{ byline.base }} {{ byline.sm }} {{ byline.md }} {{ byline.lg }} {{ byline.xl }}">{{ byline_txt }}</p>
         {% endif %}
@@ -142,12 +142,12 @@
       {% endif %}
 
       {% if meta | length %}
-        {{ Details.render({ stats: meta, classes: stats.base ~ " " ~ stats.sm ~ " " ~ stats.md ~ " " ~ stats.lg ~ " " ~ stats.xl }) }}
+        {{ Details.render({ stats: meta, classes: stats | classes }) }}
       {% endif %}
 
       <footer class="{{ footer.base }} {{ footer.sm }} {{ footer.md }} {{ footer.lg }} {{ footer.xl }}">
         {% if url %}
-          {{ CTA.render({ text: "view case study", url: url, classes: linky.base ~ " " ~ linky.sm ~ " " ~ linky.md ~ " " ~ linky.lg ~ " " ~ linky.xl }) }}
+          {{ CTA.render({ text: "view case study", url: url, classes: linky | classes }) }}
         {% endif %}
       </footer>
 
