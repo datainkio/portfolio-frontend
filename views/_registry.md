@@ -21,7 +21,7 @@ Defines Nunjucks macros: `component`, `icon`, `button`, `listComponents`, `valid
 
 ## Template
 
-- Source: [[_registry.njk]]
+- Source: `_registry.njk`
 - Path: `views/_registry.njk`
 
 ## Purpose
