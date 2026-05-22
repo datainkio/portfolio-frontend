@@ -60,7 +60,6 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
       { autoAlpha: 1, duration: this.options.duration },
     ).to(this.animTargets, {
       clipPath: targetClip,
-      webkitClipPath: targetClip,
       duration: this.options.duration,
     });
     return tl;

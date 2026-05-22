@@ -17,12 +17,6 @@ export const SCROLL_DEFAULTS = {
   fastScrollEnd: true,
   toggleActions: "play pause pause pause",
   markers: false,
-  onEnter: () => {},
-  onLeave: () => {},
-  onEnterBack: () => {},
-  onLeaveBack: () => {},
-  onRefresh: () => {},
-  onUpdate: () => {},
 };
 
 /**

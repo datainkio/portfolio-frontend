@@ -91,25 +91,11 @@ export default class HeroAnimations extends AbstractSectionAnimations {
 
     var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
 
-    // tl.to(
-    //   this.view,
-    //   {
-    //     autoAlpha: 1,
-    //     duration: this.options.duration,
-    //     ease: this.options.ease.in,
-    //   },
-    //   0,
-    // );
     if (gel?.view) {
-      tl.to(
-        gel.view,
-        {
-          ...HERO_INTRO,
-        },
-        0,
-      ).addPause();
-      return tl;
+      tl.to(gel.view, { ...HERO_INTRO }, 0).addPause();
     }
+
+    return tl;
   }
 
   _buildOutro() {
@@ -123,10 +109,9 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     tl.to(
       gel.view,
       {
-        height: 0,
+        scaleY: 0,
         ease: "none",
-        // onUpdate: () => gel.refresh?.(),
-        // onComplete: () => gel.refresh?.(),
+        transformOrigin: "top center",
       },
       0,
     );

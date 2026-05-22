@@ -222,46 +222,15 @@ export class LandingSequence {
       const off = this.bus.on(event, handler);
       this._listeners.push(off);
     };
-    /**
-     * BACKGROUND VIDEO EVENTS
-     */
-    // Respond to video intro start
-    on(EVENTS.video.introStart, () => {
-      // this.logger.trace("BG Video intro started");
-    });
 
-    // This is where it all begins. The video intro completes, we trigger the hero intro.
     on(EVENTS.video.introComplete, () => {
       this.logger.trace("BG Video intro complete");
       this.sections?.hero?.playLanding?.();
     });
 
-    // Respond to video outro start
-    on(EVENTS.video.outroStart, () => {
-      // this.logger.trace("BG Video outro started");
-    });
-
-    // Respond to video outro complete
-    on(EVENTS.video.outroComplete, () => {
-      // this.logger.trace("BG Video outro complete");
-      // this.sections?.work?.playIntro?.();
-    });
-
-    /**
-     * HERO EVENTS
-     */
-
-    // Respond to hero intro start
-    on(EVENTS.hero.enter, () => {
-      this.logger.trace(SELECTORS.hero + " entered");
-
-      // this._applySectionArrangement(SELECTORS.hero);
-    });
-
     on(EVENTS.hero.onEnterBack, () => {
       this.logger.trace(SELECTORS.hero + " entered back");
       this._resumeBackgroundVideo();
-      // this._applySectionArrangement(SELECTORS.hero);
     });
 
     on(EVENTS.hero.exit, () => {
@@ -269,70 +238,6 @@ export class LandingSequence {
       this.logger.trace(SELECTORS.hero + " exited");
     });
 
-    // Respond to hero intro start
-    on(EVENTS.hero.introStart, () => {
-      // this.logger.trace(SELECTORS.hero + " intro started");
-      // this._applySectionArrangement("hero");
-    });
-
-    // Respond to hero intro complete
-    on(EVENTS.hero.introComplete, () => {
-      // this.logger.trace(SELECTORS.hero + " intro complete");
-    });
-
-    // Respond to hero outro start
-    on(EVENTS.hero.outroStart, () => {
-      // this.logger.trace(SELECTORS.hero + " outro started");
-    });
-
-    // Respond to hero outro complete
-    on(EVENTS.hero.outroComplete, () => {
-      // this.logger.trace(SELECTORS.hero + " outro complete");
-      // this.sections?.work?.playIntro?.();
-    });
-
-    /**
-     * ORGANIZATIONS EVENTS
-     */
-
-    // Respond to organizations intro start
-    on(EVENTS.organizations.enter, () => {
-      // this.logger.trace("Organizations entered");
-    });
-
-    on(EVENTS.organizations.exit, () => {
-      // this.logger.trace("Organizations exited");
-    });
-
-    // Respond to organizations intro start
-    on(EVENTS.organizations.introStart, () => {
-      // this.logger.trace('Organizations intro started');
-    });
-
-    // Respond to organizations intro complete
-    on(EVENTS.organizations.introComplete, () => {
-      // this.logger.trace('Organizations intro complete');
-      // this.gelManager?
-      // this.gelManager?.shrinkGelToViewportFraction(0, { x: 0.5, y: 1, origin: 'left center' });
-      // this.sections?.video?.playIntro?.();
-    });
-
-    // Respond to organizations outro start
-    on(EVENTS.organizations.outroStart, () => {
-      // this.logger.trace('Organizations outro started');
-    });
-
-    // Respond to organizations outro complete
-    on(EVENTS.organizations.outroComplete, () => {
-      // this.logger.trace('Organizations outro complete');
-      // this.sections?.work?.playIntro?.();
-    });
-
-    /**
-     * BIO EVENTS
-     */
-
-    // Respond to bio intro start
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
       this._pauseBackgroundVideo();
@@ -346,91 +251,6 @@ export class LandingSequence {
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
       this._resumeBackgroundVideo();
-    });
-
-    on(EVENTS.bio.onLeaveBack, () => {
-      this.logger.trace(SELECTORS.bio + " leave back");
-    });
-
-    // Respond to bio intro start
-    on(EVENTS.bio.introStart, () => {
-      // this.logger.trace(SELECTORS.bio + " intro started");
-    });
-
-    // Respond to bio intro complete
-    on(EVENTS.bio.introComplete, () => {
-      // this.logger.trace(SELECTORS.bio + " intro complete");
-    });
-
-    // Respond to bio outro start
-    on(EVENTS.bio.outroStart, () => {
-      // this.logger.trace(SELECTORS.bio + " outro started");
-    });
-
-    // Respond to bio outro complete
-    on(EVENTS.bio.outroComplete, () => {
-      // this.logger.trace(SELECTORS.bio + " outro complete");
-    });
-
-    /**
-     * AWARDS EVENTS
-     */
-
-    // Respond to awards enter/exit
-    on(EVENTS.awards.enter, () => {
-      // this.logger.trace(SELECTORS.awards + " entered");
-    });
-
-    on(EVENTS.awards.exit, () => {
-      // this.logger.trace(SELECTORS.awards + " exited");
-    });
-
-    // Respond to awards intro start
-    on(EVENTS.awards.introStart, () => {
-      // this.logger.trace(SELECTORS.awards + " intro started");
-    });
-
-    // Respond to awards intro complete
-    on(EVENTS.awards.introComplete, () => {
-      // this.logger.trace(SELECTORS.awards + " intro complete");
-    });
-
-    // Respond to awards outro start
-    on(EVENTS.awards.outroStart, () => {
-      // this.logger.trace(SELECTORS.awards + " outro started");
-    });
-
-    // Respond to awards outro complete
-    on(EVENTS.awards.outroComplete, () => {
-      // this.logger.trace(SELECTORS.awards + " outro complete");
-    });
-
-    /**
-     * WORK EVENTS
-     */
-
-    on(EVENTS.work.enter, () => {
-      // this.logger.trace(SELECTORS.work + " entered");
-    });
-
-    on(EVENTS.work.exit, () => {
-      // this.logger.trace(SELECTORS.work + " exited");
-    });
-
-    on(EVENTS.work.introStart, () => {
-      // this.logger.trace(SELECTORS.work + " intro started");
-    });
-
-    on(EVENTS.work.introComplete, () => {
-      // this.logger.trace(SELECTORS.work + " intro complete");
-    });
-
-    on(EVENTS.work.outroStart, () => {
-      // this.logger.trace(SELECTORS.work + " outro started");
-    });
-
-    on(EVENTS.work.outroComplete, () => {
-      // this.logger.trace(SELECTORS.work + " outro complete");
     });
   }
 }

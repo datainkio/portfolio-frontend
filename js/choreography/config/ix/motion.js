@@ -126,8 +126,7 @@ export const HERO_LANDING = {
 
 export const HERO_INTRO = {
   ...ANIMATION_DEFAULTS,
-  top: "100%",
-  height: "100%",
+  yPercent: 100,
 };
 
 export const HERO_OUTRO = {

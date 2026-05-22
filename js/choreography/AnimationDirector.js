@@ -194,7 +194,6 @@ export default class AnimationDirector {
     this.cardManager = null;
     this.bus = null;
     this.stage = null;
-    this.smoother = null;
     this.sections = null;
     this.sequence = null;
   }

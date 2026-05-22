@@ -29,7 +29,6 @@ export const SELECTORS = {
 
   overlayView: "overlay-view",
   video: "background",
-  sizzleBackground: "background",
 };
 
 export const BIO_SELECTORS = {

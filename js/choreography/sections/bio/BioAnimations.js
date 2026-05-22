@@ -50,23 +50,6 @@ export default class BioAnimations extends AbstractSectionAnimations {
     this._buildTimeline();
   }
 
-  showAllSubSections() {
-    // this._showAllItems(this.subSectionItems, this.revealedItems);
-  }
-
-  setOnSubSectionRevealComplete(handler) {
-    // this.onSubSectionRevealComplete =
-    //   typeof handler === "function" ? handler : null;
-  }
-
-  kill() {
-    // this._headerTransition?.kill?.();
-    // this._headerTransition = null;
-    // this._headerStateTrigger?.kill?.();
-    // this._headerStateTrigger = null;
-    super.kill();
-  }
-
   _buildIntro() {
     var tl = gsap.timeline({ id: TIMELINE_IDS.intro });
     tl.to(this.view, BIO_INTRO, 0);
