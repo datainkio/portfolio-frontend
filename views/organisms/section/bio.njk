@@ -10,12 +10,28 @@
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
   {%- set buildDate = params.buildDate -%}
 
+  {%- set section = {
+    "base": "relative h-dvh content-center text-white bg-black col-span-full prose max-w-4xl mx-auto"
+  } %}
+  {% set header = {
+    "base": "col-span-full z-10"
+  } %}
+  {%- set title = {
+    "base": "px-10 font-display text-3xl",
+    "sm": "sm:text-4xl"
+  } %}
+  {%- set copy = {
+    "base": "px-10 mt-4 text-lg font-light columns-md",
+    "sm": "sm:text-xl",
+    "md": "md:text-2xl"
+  } %}
+
   {# Biography section #}
-  <section class="relative h-dvh content-center text-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header class="col-span-full z-10" data-bio-el="header">
-      {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
-      <h2 class="px-10 font-display text-3xl sm:text-4xl" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
-      <p class="px-10 mt-4 text-lg font-light" data-bio-el="subheading">{{ subheading }}</p>
+  <section class="{{ section | classes }} {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header class="{{ header | classes }}" data-bio-el="header">
+      {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate, classes: ""}) }}
+      <h2 class="{{ title | classes }}" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
+      <p class="{{ copy | classes }}" data-bio-el="subheading">{{ subheading }}</p>
     </header>
   </section>
 {% endmacro %}

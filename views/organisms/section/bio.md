@@ -27,7 +27,7 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Encapsulates reusable markup as Nunjucks macros for use by other templates.
+Renders the biography section of the landing page. Displays a heading, subheading, and body copy within a full-viewport pinned section. Targeted by the choreography system via `data-bio-el` attributes.
 
 ## Role in the System
 
@@ -35,22 +35,32 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Data and Context
 
-- `SectionCap` — referenced in the template.
+- `params.id` — section element ID; defaults to `"bio"`.
+- `params.classes` — additional CSS classes applied to the section root.
+- `params.copy.heading` — primary heading text.
+- `params.copy.subheading` — subheading text.
+- `params.copy.body` — body copy (currently bound but not rendered in markup).
+- `params.order` — display count passed to the section cap.
+- `params.headingId` — overrides the default heading element ID (`{sectionId}-heading`).
+- `params.buildDate` — passed to the section cap for build metadata display.
 
 ## Relationships
 
 - Imports:
   - [[section-cap.njk]]
-  - [[printmarks.njk]]
+  - [[printmarks.njk]] _(imported but not currently used in rendered output)_
 - Likely used by:
-  - Unknown
+  - [[introduction.njk]]
 
 ## Notes for Future Maintenance
 
-- Keep this sidecar documentation in sync when the template signature changes.
+- `data-bio-el` attributes (`header`, `heading`, `subheading`) are choreography hooks — do not rename without updating `BioAnimations.js` and `selectors.js`.
+- `data-scroll-section` is required for ScrollSmoother section detection.
+- Keep this sidecar in sync when the macro signature or `data-bio-el` hook set changes.
 - Preserve semantic HTML and accessibility attributes when editing.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
 
 ## Open Questions
 
-- Are the inferred data dependencies complete, or are some supplied indirectly (front matter, computed data, Sanity)?
+- Is `params.copy.body` intended to be rendered as block content (Portable Text)? Currently captured but not output.
+- Should `PrintMarks` be removed from the import if it remains unused?
