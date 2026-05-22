@@ -56,6 +56,7 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 - `data-bio-el` attributes (`header`, `heading`, `subheading`) are choreography hooks — do not rename without updating `BioAnimations.js` and `selectors.js`.
 - `data-scroll-section` is required for ScrollSmoother section detection.
+- The `<header>` is the flex container (`flex flex-wrap items-center [&>time]:ml-auto`); it positions the SectionCap spans left and the `<time>` right. The `<h2>` and `<p>` use `basis-full` to each occupy their own row.
 - Keep this sidecar in sync when the macro signature or `data-bio-el` hook set changes.
 - Preserve semantic HTML and accessibility attributes when editing.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
