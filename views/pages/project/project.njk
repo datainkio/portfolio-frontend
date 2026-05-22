@@ -1,4 +1,5 @@
 {% extends "layouts/base.njk" %}
+{% import "organisms/project-metadata/project-metadata.njk" as ProjectMetadata %}
 
 {#
   Single project page template.
@@ -21,10 +22,26 @@
 } -%}
 
 {%- set header = {
-  "base": "",
+  "base": "project-page__header space-y-3 bg-black text-white",
   "sm": "",
   "md": "",
   "lg": "",
+  "xl": ""
+} -%}
+
+{%- set title = {
+  "base": "project-page__title text-4xl font-black tracking-tight",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+
+{%- set metadata = {
+  "base": "project-page__metadata grid gap-6",
+  "sm": "",
+  "md": "md:grid-cols-2",
+  "lg": "lg:grid-cols-4",
   "xl": ""
 } -%}
 
@@ -58,8 +75,8 @@
     class="{{ article | classes }}" aria-labelledby="project-title">
 
     {# 1. Title + byline (single H1 on the page) #}
-    <header class="project-page__header space-y-3 bg-black text-white">
-      <h1 id="project-title" class="text-4xl font-black tracking-tight">
+    <header class="{{ header | classes }}">
+      <h1 id="project-title" class="{{ title | classes }}">
         {{ project.title }}
       </h1>
       {% if hasByline %}
@@ -73,6 +90,7 @@
           {%- endfor -%}
         </p>
       {% endif %}
+      {{ ProjectMetadata.render({ project: project, classes: metadata, aria: "Project metadata" }) }}
     </header>
 
     {# 2. Abstract #}
@@ -94,48 +112,7 @@
       </figure>
     {% endif %}
 
-    {# 4. Metadata band: awards, roles, industry, activities #}
-    <section class="project-page__metadata grid gap-6 md:grid-cols-2 lg:grid-cols-4" aria-label="Project metadata">
-      {% if hasAwards %}
-        <div class="project-page__meta-group">
-          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Awards</h2>
-          <ul class="mt-2 space-y-1">
-            {% for award in project.awards %}
-              <li>{{ award.title }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-
-      {% if hasRoles %}
-        <div class="project-page__meta-group">
-          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Roles</h2>
-          <ul class="mt-2 space-y-1">
-            {% for role in project.roles %}
-              <li>{{ role.title }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-
-      {% if hasIndustry %}
-        <div class="project-page__meta-group">
-          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Industry</h2>
-          <p class="mt-2">{{ project.industry.title }}</p>
-        </div>
-      {% endif %}
-
-      {% if hasActivities %}
-        <div class="project-page__meta-group">
-          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-600">Activities</h2>
-          <ul class="mt-2 space-y-1">
-            {% for activity in project.activities %}
-              <li>{{ activity.title }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-    </section>
+    {% import "organisms/project-metadata/project-metadata.njk" as ProjectMetadata %}
 
     {# 5. Outcome (optional, distinct treatment) #}
     {% if hasOutcomes %}
