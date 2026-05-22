@@ -17,6 +17,7 @@ tags:
   - metadata
   - case-study
 ---
+
 # Project Metadata Band
 
 Renders the metadata band for a single project page, including awards, roles, industry, and activities, as a responsive grid. Consumes the raw `project` object and handles all formatting and value joining internally.
