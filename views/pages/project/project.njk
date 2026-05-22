@@ -13,57 +13,31 @@
 {%- set bodyClasses = "bg-white grid grid-cols-12" -%}
 {%- set mainClasses = "col-span-full w-full" -%}
 
-{%- set article = {
-  "base": "project-page w-full space-y-12",
-  "sm": "",
-  "md": "",
-  "lg": "",
-  "xl": ""
-} -%}
+{# ─── Styles ──────────────────────────────────────────────────────────────── #}
 
-{%- set header = {
-  "base": "project-page__header space-y-3 bg-black text-white",
-  "sm": "",
-  "md": "",
-  "lg": "",
-  "xl": ""
-} -%}
-
-{%- set title = {
-  "base": "project-page__title text-4xl font-black tracking-tight",
-  "sm": "",
-  "md": "",
-  "lg": "",
-  "xl": ""
-} -%}
-
-{%- set metadata = {
+{%- set article        = { "base": "project-page w-full space-y-12" } -%}
+{%- set header         = { "base": "project-page__header space-y-3 bg-black text-white" } -%}
+{%- set title          = { "base": "project-page__title text-4xl font-black tracking-tight" } -%}
+{%- set byline         = { "base": "project-page__byline text-sm uppercase tracking-wide text-gray-600" } -%}
+{%- set metadata       = {
   "base": "project-page__metadata grid gap-6",
-  "sm": "",
   "md": "md:grid-cols-2",
-  "lg": "lg:grid-cols-4",
-  "xl": ""
+  "lg": "lg:grid-cols-4"
 } -%}
+{%- set figure         = { "base": "project-page__featured-image" } -%}
+{%- set abstract       = { "base": "project-page__abstract text-xl text-gray-800" } -%}
+{%- set aside          = { "base": "project-page__outcome border-l-4 border-primary-500 pl-6 py-2" } -%}
+{%- set body           = { "base": "project-page__body prose prose-lg max-w-none" } -%}
+{%- set projectLink    = { "base": "project-page__external-link underline underline-offset-4" } -%}
+{%- set outcomeHeading = { "base": "project-page__outcome-heading text-xs font-semibold uppercase tracking-wide text-gray-600" } -%}
 
-{%- set figure = {
-  "base": "",
-  "sm": "",
-  "md": "",
-  "lg": "",
-  "xl": ""
-} -%}
+{# ─── Data guards ─────────────────────────────────────────────────────────── #}
 
-{%- set orgs = project.organization or [] -%}
-{%- set hasByline = orgs | length -%}
-
-{%- set hasFeaturedImage =
-  project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
-{%- set hasAwards = project.awards and project.awards | length -%}
-{%- set hasRoles = project.roles and project.roles | length -%}
-{%- set hasActivities = project.activities and project.activities | length -%}
-{%- set hasIndustry = project.industry and project.industry.title -%}
-{%- set hasOutcomes = project.outcomes and project.outcomes | length -%}
-{%- set hasBody = project.bodyHtml -%}
+{%- set orgs             = project.organization or [] -%}
+{%- set hasByline        = orgs | length -%}
+{%- set hasFeaturedImage = project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
+{%- set hasOutcomes      = project.outcomes and project.outcomes | length -%}
+{%- set hasBody          = project.bodyHtml | length > 0 -%}
 {%- set externalLinkHref =
   (project.externalLink.href if project.externalLink and project.externalLink.href else
     (project.externalLink if project.externalLink is string else "")) -%}
@@ -80,29 +54,29 @@
         {{ project.title }}
       </h1>
       {% if hasByline %}
-        <p class="project-page__byline text-sm uppercase tracking-wide text-gray-600">
-          <span class="sr-only">For
+        <p class="{{ byline | classes }}">
+          <span>
+            {%- for org in orgs -%}
+              {{ org.title }}
+              {% if not loop.last %},
+              {% endif %}
+            {%- endfor -%}
           </span>
-          {%- for org in orgs -%}
-            {{ org.title }}
-            {% if not loop.last %},
-            {% endif %}
-          {%- endfor -%}
         </p>
       {% endif %}
-      {{ ProjectMetadata.render({ project: project, classes: metadata, aria: "Project metadata" }) }}
+      {{ ProjectMetadata.render({ project: project, classes: metadata | classes, aria: "Project metadata" }) }}
     </header>
 
     {# 2. Abstract #}
     {% if project.abstract %}
-      <p class="project-page__abstract text-xl text-gray-800">
+      <p class="{{ abstract | classes }}">
         {{ project.abstract }}
       </p>
     {% endif %}
 
     {# 3. Featured image #}
     {% if hasFeaturedImage %}
-      <figure class="project-page__featured-image">
+      <figure class="{{ figure | classes }}">
         <img src="{{ project.featuredImage.asset.url }}" alt="{{ project.featuredImage.alt | default(project.title) }}" {% if project.featuredImage.asset.metadata and project.featuredImage.asset.metadata.dimensions %} width="{{ project.featuredImage.asset.metadata.dimensions.width }}" height="{{ project.featuredImage.asset.metadata.dimensions.height }}" {% endif %} loading="eager" decoding="async" class="w-full h-auto"/>
         {% if project.featuredImage.caption %}
           <figcaption class="mt-2 text-sm text-gray-600">
@@ -112,12 +86,10 @@
       </figure>
     {% endif %}
 
-    {% import "organisms/project-metadata/project-metadata.njk" as ProjectMetadata %}
-
     {# 5. Outcome (optional, distinct treatment) #}
     {% if hasOutcomes %}
-      <aside class="project-page__outcome border-l-4 border-primary-500 pl-6 py-2" aria-labelledby="project-outcome-heading">
-        <h2 id="project-outcome-heading" class="text-xs font-semibold uppercase tracking-wide text-gray-600">
+      <aside class="{{ aside | classes }}" aria-labelledby="project-outcome-heading">
+        <h2 id="project-outcome-heading" class="{{ outcomeHeading | classes }}">
           Outcome{% if project.outcomes | length > 1 %}s{% endif %}
         </h2>
         <ul class="mt-2 space-y-1 text-lg">
@@ -130,18 +102,16 @@
 
     {# 6. Body (Portable Text → HTML, prepared by transform; H2+ only) #}
     {% if hasBody %}
-      <section class="project-page__body prose prose-lg max-w-none" aria-label="Project narrative">
+      <section class="{{ body | classes }}" aria-label="Project narrative">
         {{ project.bodyHtml | safe }}
       </section>
     {% endif %}
 
     {# 7. Link to live project (optional) #}
     {% if externalLinkHref %}
-      <p class="project-page__external-link">
-        <a href="{{ externalLinkHref }}" rel="noopener noreferrer" target="_blank" class="underline underline-offset-4">
-          {{ externalLinkLabel }}
-        </a>
-      </p>
+      <a href="{{ externalLinkHref }}" rel="noopener noreferrer" target="_blank" class="{{ projectLink | classes }}">
+        {{ externalLinkLabel }}
+      </a>
     {% endif %}
 
     {# 8. End CTA — provided by site-global footer contact form. #}
