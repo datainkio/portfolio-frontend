@@ -1,20 +1,32 @@
 {% extends "./base.njk" %}
-{% import "organisms/navigation/docs-nav.njk" as docsNav %}
+{% import "atoms/hanko.njk" as Hanko %}
 {%- set bodyClasses = "grid grid-cols-12 gap-6 px-4" -%}
 {%- set mainClasses = "col-span-8 col-start-3" -%}
 {%- set sidebarBeforeClasses = "col-span-2" -%}
-
-{% block sidebar_before %}
+{% block content %}
   <aside
-    class="text-white font-light col-span-2 pt-24 {{ sidebarBeforeClasses }}"
+    class="text-current font-light col-span-2 pt-24 {{ sidebarBeforeClasses }}"
     data-scroll
     data-scroll-sticky
     data-scroll-target="main">
-    {{ docsNav.render({ collections: collections, page: page }) }}
+    {% block sidebar_before %}
+      Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
+      sidebar.
+    {% endblock %}
   </aside>
-{% endblock %}
-
-{% block content %}
+  {% if title %}
+    <header data-landing-header class="{{ header.base }} {{ header.sm }} {{ header.md }} {{ header.lg }} {{ header.xl }}">
+      <a href="/" class="{{ hanko.base }} {{ hanko.sm }} {{ hanko.md }} {{ hanko.lg }} {{ hanko.xl }}" aria-label="Home">
+        {{ Hanko.render({ svg: logo, classes: "text-secondary-700" }) }}
+      </a>
+      <h1 data-landing-header-title class="{{ heading.base }} {{ heading.sm }} {{ heading.md }} {{ heading.lg }} {{ heading.xl }}">
+        {{ title }}
+      </h1>
+      <section data-doc-abstract class="{{ abstract.base }} {{ abstract.sm }} {{ abstract.md }} {{ abstract.lg }} {{ abstract.xl }}">
+        {{ body | safe }}
+      </section>
+    </header>
+  {% endif %}
   {% if content %}
     {{ content | safe }}
   {% else %}
