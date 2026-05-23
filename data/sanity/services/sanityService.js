@@ -36,6 +36,7 @@ import {
   normalizeProjectPageRecords,
 } from "../transforms/project.js";
 import { normalizeNavigationRecords } from "../transforms/navigation.js";
+import { normalizeUserGuideRecords } from "../transforms/user-guide.js";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
 logger.enabled = true;
@@ -82,6 +83,10 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "navigation") {
       data = normalizeNavigationRecords(data);
+    }
+
+    if (definition.id === "userGuide") {
+      data = normalizeUserGuideRecords(data);
     }
 
     return { id: definition.id, data };
