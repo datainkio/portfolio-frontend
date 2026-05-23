@@ -46,6 +46,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("markdownify", markdownify);
   eleventyConfig.addFilter("prettify", prettify);
   eleventyConfig.addFilter("classes", classes);
+  eleventyConfig.addFilter("slugify", slugify);
 }
 
 /**
@@ -146,4 +147,20 @@ export function classes(variants) {
     .map((value) => classes(value))
     .filter(Boolean)
     .join(" ");
+}
+
+/**
+ * Convert a string to a URL-safe slug.
+ *
+ * EXAMPLE:
+ * {{ "Getting Started!" | slugify }}
+ * => "getting-started"
+ */
+export function slugify(str) {
+  return String(str ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
