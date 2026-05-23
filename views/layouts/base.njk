@@ -1,28 +1,46 @@
-{% import "organisms/header/global-header.njk" as header with context %}
-{% import "organisms/footer/global-footer.njk" as footer with context %}
-{% import "organisms/navigation/skip-links-nav.njk" as skip_links %}
-{% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
+{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
+{% import "organisms/footer/global-footer.njk" as Footer with context %}
+{% import "organisms/header/article/article-header.njk" as ArticleHeader with context %}
+{% import "organisms/navigation/skip-links-nav.njk" as SkipLinks %}
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
-{%- set bodyClasses = "bg-white grid grid-cols-12" -%}
-{%- set mainClasses = "bg-white col-span-full w-full " -%}
+{%- set bodyClasses = {
+  "base": "bg-white grid grid-cols-12 mx-12",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+{%- set mainClasses = {
+  "base": "bg-white col-span-full w-full",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
 <!DOCTYPE html>
 <html lang="en">
   {% include "templates/partials/head.njk" %}
   {% block head %}{% endblock %}
   <body
-    class="{{ bodyClasses }}">
+    class="{{ bodyClasses | classes }}">
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
     {# SKIP LINKS #}
-    {{ skip_links.render() }}
+    {{ SkipLinks.render() }}
     {# GLOBAL PAGE HEADER #}
-    {{ header.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
+    {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
     {# MAIN CONTENT AREA #}
-    <main
-      class="{{ mainClasses }}">
-      {# BREADCRUMBS #}
-      {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
+    <main class="{{ mainClasses | classes }}">
+      {{ ArticleHeader.render({ title: title | default('Untitled'), abstract: abstract }) }}
+      {% if sidebar_before %}
+        <aside class="col-span-2 pt-24 {{ sidebarBeforeClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">
+          {% block sidebar_before %}
+            Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
+            sidebar.
+          {% endblock %}
+        </aside>
+      {% endif %}
       {% block content %}
         {% if content %}
           {{ content | safe }}
@@ -30,8 +48,20 @@
           {% loremPars 3 %}
         {% endif %}
       {% endblock %}
+      {% if sidebar_after %}
+        <aside
+          class="text-current font-light col-span-2 pt-24 {{ sidebarAfterClasses }}"
+          data-scroll
+          data-scroll-sticky
+          data-scroll-target="main">
+          {% block sidebar_after %}
+            Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
+            sidebar.
+          {% endblock %}
+        </aside>
+      {% endif %}
     </main>
     {# GLOBAL PAGE FOOTER #}
-    {{ footer.render() }}
+    {{ Footer.render() }}
   </body>
 </html>
