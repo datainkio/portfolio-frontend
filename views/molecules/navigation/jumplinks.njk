@@ -1,0 +1,29 @@
+{#
+  Molecule: Jumplinks
+  - Purpose: Render a list of h2 headings extracted from a body of content.
+  - Dependencies: extractHeadings filter (eleventy/filters/dom.js)
+
+  Usage:
+    {% from "molecules/navigation/jumplinks.njk" import render as jumplinks %}
+    {{ jumplinks({ headings: body | extractHeadings }) }}
+
+  Params:
+    headings  {id, text}[]  Required. Array of heading objects from the extractHeadings filter.
+    classes   string        Optional. Extra CSS classes on the <nav> element.
+#}
+
+{% macro render(params = {}) %}
+  {%- set headings = params.headings -%}
+  {%- set classes = params.classes | default("") -%}
+  {% if headings and headings.length %}
+    <nav class="jumplinks {{ classes }}" aria-label="On this page">
+      <ul class="jumplinks__list" role="list">
+        {% for heading in headings %}
+          <li class="jumplinks__item">
+            <a href="#{{ heading.id }}" class="jumplinks__link text-sm font-light">{{ heading.text }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endmacro %}

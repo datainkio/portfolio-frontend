@@ -1,6 +1,6 @@
 /** @format */
 import groq from "groq";
-import { USER_GUIDE_PROJECTION } from "../../projections/userGuide/userGuideProjection.js";
+import { USER_GUIDE_PROJECTION } from "../projections/userGuide/userGuideProjection.js";
 
 export const userGuideQuery = {
   id: "userGuide",
