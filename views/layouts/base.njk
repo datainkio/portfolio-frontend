@@ -5,14 +5,28 @@
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 {%- set bodyClasses = {
-  "base": "bg-white grid grid-cols-12 mx-12",
+  "base": "bg-white",
   "sm": "",
   "md": "",
   "lg": "",
   "xl": ""
 } -%}
 {%- set mainClasses = {
-  "base": "bg-white col-span-full w-full",
+  "base": "grid grid-cols-12 w-full",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+{%- set sidebarBeforeClasses = {
+  "base": "",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+{%- set sidebarAfterClasses = {
+  "base": "",
   "sm": "",
   "md": "",
   "lg": "",
@@ -34,7 +48,7 @@
     <main class="{{ mainClasses | classes }}">
       {{ ArticleHeader.render({ title: title | default('Untitled'), abstract: abstract, logoSvg: brandLogoSvg }) }}
       {% if sidebar_before %}
-        <aside class="col-span-2 pt-24 {{ sidebarBeforeClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">
+        <aside class="{{ sidebarBeforeClasses | classes }}" data-scroll data-scroll-sticky data-scroll-target="main">
           {% block sidebar_before %}
             Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
             sidebar.
@@ -49,11 +63,7 @@
         {% endif %}
       {% endblock %}
       {% if sidebar_after %}
-        <aside
-          class="text-current font-light col-span-2 pt-24 {{ sidebarAfterClasses }}"
-          data-scroll
-          data-scroll-sticky
-          data-scroll-target="main">
+        <aside class="{{ sidebarAfterClasses | classes }}" data-scroll data-scroll-sticky data-scroll-target="main">
           {% block sidebar_after %}
             Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
             sidebar.

@@ -22,130 +22,92 @@
 
   {%- set root = {
     "base": "bg-white relative isolate w-full text-current",
-    "sm": "",
-    "md": "md:grid md:grid-cols-6 md:inner-border md:p-4 md:mx-auto",
-    "lg": "",
-    "xl": ""
+    "md": "grid grid-cols-6 inner-border p-4 mx-auto"
   } -%}
 
   {%- set figure = {
     "base": "bg-black m-0 relative z-0 overflow-hidden w-full h-dvh",
-    "sm": "sm:min-h-36 sm:max-h-64",
-    "md": "md:col-span-3 md:h-auto",
-    "lg": "",
-    "xl": ""
+    "sm": "min-h-36 max-h-64",
+    "md": "col-span-3 h-auto"
   } -%}
 
   {%- set image = {
-    "base": "w-full h-full object-cover object-center",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "w-full h-full object-cover object-center"
   } -%}
 
   {%- set body = {
-    "base": "body bg-white inner-border p-6 ",
-    "sm": "sm:bg-transparent sm:grid sm:grid-cols-6 sm:gap-x-2 sm:inner-border-none",
-    "md": "md:col-span-3",
-    "lg": "",
-    "xl": ""
+    "base": "body bg-white inner-border p-6",
+    "sm": "bg-transparent grid grid-cols-6 gap-x-2 inner-border-none",
+    "md": "col-span-3"
   } -%}
 
   {%- set eyebrow = {
-    "base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"
   } -%}
 
   {%- set header = {
     "base": "header col-span-full",
-    "sm": "sm:col-span-4",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "sm": "col-span-4"
   } -%}
 
   {%- set heading = {
     "base": "heading font-display col-span-full",
-    "sm": "sm:text-2xl",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "sm": "text-2xl"
   } -%}
 
   {%- set byline = {
-    "base": "byline text-sm font-thin col-span-full",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "byline text-sm font-thin col-span-full"
   } -%}
 
   {%- set description = {
     "base": "description text-sm",
-    "sm": "sm:col-span-4 sm:pb-2 sm:pr-4",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "sm": "col-span-4 pb-2 pr-4"
   } -%}
 
   {%- set stats = {
     "base": "col-span-full grid grid-cols-2",
-    "sm": "sm:pl-2 sm:row-span-2 sm:row-start-1 sm:col-start-5 sm:col-span-2 sm:grid-cols-1 sm:border-l sm:border-black sm:border-dashed",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 grid-cols-1 border-l border-black border-dashed"
   } -%}
 
   {%- set footer = {
-    "base": "col-span-full text-right ",
-    "sm": "sm:border-y sm:border-black sm:border-dashed py-2",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "col-span-full text-right py-2",
+    "sm": "border-y border-black border-dashed"
   } -%}
 
   {%- set linky = {
-    "base": "font-display inline-block uppercase text-right",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "font-display inline-block uppercase text-right"
   } -%}
 
-  <article data-card-el="root" class="{{ root.base }} {{ root.sm }} {{ root.md }} {{ root.lg }} {{ root.xl }} {{ classes }}">
+  <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
 
     {% if imageSrc %}
-      <figure data-card-el="figure" class="{{ figure.base }} {{ figure.sm }} {{ figure.md }} {{ figure.lg }} {{ figure.xl }}">
+      <figure data-card-el="figure" class="{{ figure | classes }}">
         {{ TrimMarks.render({ inset: "6", size: "4", weight: "1", color: "white", classes:"invisible sm:visible" }) }}
-        <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="{{ image.base }} {{ image.sm }} {{ image.md }} {{ image.lg }} {{ image.xl }} {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
+        <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="{{ image | classes }} {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
       </figure>
     {% endif %}
 
-    <div data-card-el="body" class="{{ body.base }} {{ body.sm }} {{ body.md }} {{ body.lg }} {{ body.xl }}">
+    <div data-card-el="body" class="{{ body | classes }}">
 
-      <header class="{{ header.base }} {{ header.sm }} {{ header.md }} {{ header.lg }} {{ header.xl }}">
+      <header class="{{ header | classes }}">
         {% if eyebrow_txt %}
-          <p class="{{ eyebrow.base }} {{ eyebrow.sm }} {{ eyebrow.md }} {{ eyebrow.lg }} {{ eyebrow.xl }}">{{ eyebrow_txt }}</p>
+          <p class="{{ eyebrow | classes }}">{{ eyebrow_txt }}</p>
         {% endif %}
         {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) ~ (" hover:underline" if url else "") }) }}
         {% if byline_txt %}
-          <p class="{{ byline.base }} {{ byline.sm }} {{ byline.md }} {{ byline.lg }} {{ byline.xl }}">{{ byline_txt }}</p>
+          <p class="{{ byline | classes }}">{{ byline_txt }}</p>
         {% endif %}
       </header>
 
       {% if description_txt %}
-        <p class="{{ description.base }} {{ description.sm }} {{ description.md }} {{ description.lg }} {{ description.xl }}">{{ description_txt }}</p>
+        <p class="{{ description | classes }}">{{ description_txt }}</p>
       {% endif %}
 
       {% if meta | length %}
         {{ Details.render({ stats: meta, classes: stats | classes }) }}
       {% endif %}
 
-      <footer class="{{ footer.base }} {{ footer.sm }} {{ footer.md }} {{ footer.lg }} {{ footer.xl }}">
+      <footer class="{{ footer | classes }}">
         {% if url %}
           {{ CTA.render({ text: "view case study", url: url, classes: linky | classes }) }}
         {% endif %}

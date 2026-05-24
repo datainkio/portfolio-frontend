@@ -1,0 +1,15 @@
+{% extends "layouts/base.njk" %}
+{% import "molecules/navigation/jumplinks.njk" as Jumplinks %}
+{%- set articleClasses = {
+"base": "col-span-full"
+  } %}
+{% set sidebar_before = true %}
+{% block sidebar_before %}
+  {{ Jumplinks.render({ headings: body | extractHeadings }) }}
+{% endblock %}
+
+<article data-article classes="{{ articleClasses | classes }}">
+  {% block content %}
+    {{ body | safe }}
+  {% endblock %}
+</article>

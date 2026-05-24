@@ -143,8 +143,20 @@ export function classes(variants) {
   }
   if (typeof variants !== "object") return "";
 
-  return Object.values(variants)
-    .map((value) => classes(value))
+  return Object.entries(variants)
+    .map(([key, value]) => {
+      if (!value) return "";
+      const str =
+        typeof value === "string"
+          ? value.trim().replace(/\s+/g, " ")
+          : classes(value);
+      if (!str) return "";
+      if (key === "base") return str;
+      return str
+        .split(" ")
+        .map((cls) => `${key}:${cls}`)
+        .join(" ");
+    })
     .filter(Boolean)
     .join(" ");
 }
