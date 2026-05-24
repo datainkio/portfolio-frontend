@@ -2,13 +2,6 @@
 {% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
 
 {% macro render(params) %}
-  {%- set header = {
-    "base": "col-span-full grid grid-cols-12 px-0 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
-    "sm": "px-12 gap-y-12",
-    "md": "px-16 gap-y-14",
-    "lg": "px-24 gap-y-8",
-    "xl": ""
-  } -%}
   {%- set hanko = {
     "base": "nav-link block col-span-3 size-12 justify-self-end",
     "sm": "size-16 pt-1",
@@ -30,18 +23,16 @@
     "lg": "col-span-5 col-start-7 row-start-2 pl-0",
     "xl": ""
   } -%}
-  <header data-article-header class="{{ header | classes }}">
-    {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
-    <a href="/" class="{{ hanko | classes }}" aria-label="Home">
-      {{ Hanko.render({ svg: params.logoSvg, classes: "text-secondary-700" }) }}
-    </a>
-    <h1 data-landing-header-title class="{{ heading | classes }}">
-      {{ params.title | default('Untitled') }}
-    </h1>
-    {% if params.abstract and params.abstract | length > 0 %}
-      <section data-doc-abstract class="{{ abstract | classes }}">
-        {{ params.abstract | safe }}
-      </section>
-    {% endif %}
-  </header>
+  {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
+  <a href="/" class="{{ hanko | classes }}" aria-label="Home">
+    {{ Hanko.render({ svg: params.logoSvg, classes: "text-secondary-700" }) }}
+  </a>
+  <h1 data-landing-header-title class="{{ heading | classes }}">
+    {{ params.title | default('Untitled') }}
+  </h1>
+  {% if params.abstract and params.abstract | length > 0 %}
+    <section data-doc-abstract class="{{ abstract | classes }}">
+      {{ params.abstract | safe }}
+    </section>
+  {% endif %}
 {% endmacro %}

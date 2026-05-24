@@ -1,15 +1,29 @@
 {% extends "layouts/base.njk" %}
-{% import "molecules/navigation/jumplinks.njk" as Jumplinks %}
-{%- set articleClasses = {
-"base": "col-span-full"
-  } %}
-{% set sidebar_before = true %}
-{% block sidebar_before %}
-  {{ Jumplinks.render({ headings: body | extractHeadings }) }}
-{% endblock %}
+{% import "organisms/header/article/article-header.njk" as ArticleHeader with context %}
+{% import "molecules/navigation/article-nav-links.njk" as ArticleNavLinks %}
 
-<article data-article classes="{{ articleClasses | classes }}">
-  {% block content %}
+{%- set article = {
+  "base": "col-span-full grid grid-cols-12 [&>p]:col-span-10 [&>h2]:col-start-3 [&>h2]:col-span-10 [&>ul]:col-span-10 [&>ol]:col-span-10"
+} -%}
+{%- set header = {
+    "base": "col-span-full grid grid-cols-12 px-0 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
+    "sm": "px-12 gap-y-12",
+    "md": "px-16 gap-y-14",
+    "lg": "px-24 gap-y-8",
+    "xl": ""
+  } -%}
+{%- set aside = {
+    "base": "col-span-2"
+  } -%}
+
+{% block content %}
+  <article data-article class="{{ article | classes }}">
+    <header data-article-header class="{{ header | classes }}">
+      {{ ArticleHeader.render({ title: title | default('Untitled'), abstract: abstract, logoSvg: brandLogoSvg }) }}
+    </header>
+    <aside data-article-nav class="{{ aside | classes }}">
+      {{ ArticleNavLinks.render({ headings: body | extractHeadings }) }}
+    </aside>
     {{ body | safe }}
-  {% endblock %}
-</article>
+  </article>
+{% endblock %}

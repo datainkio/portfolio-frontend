@@ -1,6 +1,5 @@
 {% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as Footer with context %}
-{% import "organisms/header/article/article-header.njk" as ArticleHeader with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinks %}
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
@@ -46,7 +45,6 @@
     {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
     {# MAIN CONTENT AREA #}
     <main class="{{ mainClasses | classes }}">
-      {{ ArticleHeader.render({ title: title | default('Untitled'), abstract: abstract, logoSvg: brandLogoSvg }) }}
       {% if sidebar_before %}
         <aside class="{{ sidebarBeforeClasses | classes }}" data-scroll data-scroll-sticky data-scroll-target="main">
           {% block sidebar_before %}
