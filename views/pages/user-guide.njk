@@ -1,9 +1,11 @@
 {% extends "layouts/base.njk" %}
-{% from "molecules/navigation/jumplinks.njk" import render as jumplinks %}
-{% set sidebar_before = true %}
-{% block sidebar_before %}
-  {{ jumplinks({ headings: body | extractHeadings }) }}
-{% endblock %}
+{% import "molecules/navigation/jumplinks.njk" as Jumplinks %}
+
 {% block content %}
   {{ body | safe }}
+{% endblock %}
+
+{% set sidebar_before = true %}
+{% block sidebar_before %}
+  {{ Jumplinks.render({ headings: body | extractHeadings }) }}
 {% endblock %}

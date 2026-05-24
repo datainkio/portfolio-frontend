@@ -9,7 +9,8 @@ export const USER_GUIDE_PROJECTION = groq`{
   _id,
   _updatedAt,
   pageTitle,
-  valuePropRichText[]{
+  pageAbstract,
+  pageBody[]{
     ...,
     _type == "image" => {
       ...,

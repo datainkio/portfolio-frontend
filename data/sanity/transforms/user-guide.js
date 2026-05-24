@@ -18,7 +18,7 @@ export function normalizeUserGuideRecords(records = []) {
 
   return records.map((record) => {
     const bodyHtml = addHeadingIds(
-      serializePortableTextToHtml(record?.valuePropRichText),
+      serializePortableTextToHtml(record?.pageBody || []),
     );
 
     return {

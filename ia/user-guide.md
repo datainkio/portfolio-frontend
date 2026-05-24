@@ -8,7 +8,7 @@ eleventyNavigation:
   title: User Guide
   order: 30
 eleventyComputed:
-  title: "{{ cms.userGuide[0].title }}"
-  abstract: "{{ cms.userGuide[0].abstract }}"
+  title: "{{ cms.userGuide[0].pageTitle}}"
+  abstract: "{{ cms.userGuide[0].pageAbstract }}"
   body: "{{ cms.userGuide[0].bodyHtml | safe }}"
 ---
