@@ -32,7 +32,7 @@
     {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
     {# MAIN CONTENT AREA #}
     <main class="{{ mainClasses | classes }}">
-      {{ ArticleHeader.render({ title: title | default('Untitled'), abstract: abstract }) }}
+      {{ ArticleHeader.render({ title: title | default('Untitled'), abstract: abstract, logoSvg: brandLogoSvg }) }}
       {% if sidebar_before %}
         <aside class="col-span-2 pt-24 {{ sidebarBeforeClasses }}" data-scroll data-scroll-sticky data-scroll-target="main">
           {% block sidebar_before %}

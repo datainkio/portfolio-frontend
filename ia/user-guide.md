@@ -1,5 +1,5 @@
 ---
-layout: pages/user-guide.njk
+layout: pages/user-guide/user-guide.njk
 permalink: "/user-guide/"
 metaDescription: "Something else to add to the user guide.:)"
 canonicalUrl: "https://dataink.io/user-guide/"
