@@ -1,6 +1,6 @@
 # Choreography Utilities
 
-TODO: Review js/choreography/utils/ for deprecated JS/docs
+[ ] TODO: Review js/choreography/utils/ for deprecated JS/docs
 
 Utilities for animation management and gel positioning.
 
