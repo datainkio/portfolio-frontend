@@ -3,21 +3,8 @@
 {% macro render(params = {}) %}
   <header
     id="global-header"
-    class="fixed w-full text-sm p-0 h-auto z-20 text-white {{ params.classes }} "
-    aria-label=" Global Site Header">
+    class="fixed w-full text-sm p-0 h-auto z-20 text-white will-change-transform {{ params.classes }}"
+    aria-label="Global Site Header">
     {{ primary_nav.render({ logoSvg: params.logoSvg }) }}
   </header>
-  <script>
-    let lastScrollY = window.scrollY;
-
-    window.addEventListener('scroll', () => {
-      const navbar = document.getElementById('global-header');
-
-      if (window.scrollY > lastScrollY) { // Scrolling down: Hide navbar
-        navbar.classList.add('-translate-y-full'); // Or 'hidden'
-      } else { // Scrolling up: Show navbar
-        navbar.classList.remove('-translate-y-full'); // Or remove 'hidden'
-      } lastScrollY = window.scrollY;
-    });
-  </script>
 {% endmacro %}

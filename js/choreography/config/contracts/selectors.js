@@ -13,6 +13,9 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
+  // Layout
+  header: "global-header",
+
   // Section IDs
   hero: "hero",
   organizations: "organizations",

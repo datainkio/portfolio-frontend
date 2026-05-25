@@ -59,6 +59,7 @@ import { LandingSequence } from "/assets/js/choreography/sequences/landing/Landi
 import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
 import CardManager from "./card/CardManager.js";
+import GlobalHeaderManager from "./managers/GlobalHeaderManager.js";
 
 const LOGS = {
   description:
@@ -121,6 +122,11 @@ export default class AnimationDirector {
 
     // Initialize global card behaviors
     this.cardManager = new CardManager();
+
+    // Initialize global header hide/show on scroll
+    this.headerManager = new GlobalHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
 
     // Initialize choreography sequence
     this.sequence = new LandingSequence(
@@ -192,6 +198,9 @@ export default class AnimationDirector {
 
     this.cardManager?.kill();
     this.cardManager = null;
+
+    this.headerManager?.kill();
+    this.headerManager = null;
     this.bus = null;
     this.stage = null;
     this.sections = null;
