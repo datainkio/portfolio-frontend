@@ -1,7 +1,7 @@
 ---
 title: "Blog"
 template: "[[blog.njk]]"
-templatePath: "views/layouts/blog.njk"
+templatePath: "views/templates/blog/blog.njk"
 engine: "Nunjucks"
 system: "Eleventy"
 type: "template"
@@ -15,6 +15,7 @@ tags:
   - obsidian
   - layout
 ---
+
 # Blog
 
 Provides a reusable page shell used by other templates via `{% extends %}`.

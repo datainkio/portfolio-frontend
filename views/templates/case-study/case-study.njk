@@ -1,23 +1,27 @@
-{% extends "./base.njk" %}
+{% extends "layouts/base.njk" %}
 {%- set bodyClasses = "" -%}
 {%- set mainClasses = "col-span-full mx-auto w-full max-w-6xl px-4 py-12 md:px-8" -%}
 {%- set hasImage = project and project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
 {%- set hasCaseStudyLink = project and project.caseStudyUrl -%}
 {%- set hasExternalLink = project and project.externalLink -%}
-{% block content %}
-  <article class="space-y-8">
-    <header class="space-y-6">
-      <h1>{{ project.title }}</h1>
-      {% if project.abstract %}
-        <p>{{ project.abstract }}</p>
-      {% endif %}
-    </header>
 
-    {% if project.bodyHtml %}
-      {{ project.bodyHtml | safe }}
-    {% endif %}
+{%- set article = {
+  "base": [
+    "col-span-full grid grid-cols-12 gap-8",
+    "[&>p]:col-start-4 [&>p]:col-span-8",
+    "[&>h2]:col-start-4 [&>h2]:col-span-8",
+    "[&>ul]:col-start-4 [&>ul]:col-span-8 [&>ol]:col-start-4 [&>ol]:col-span-8"
+]} -%}
+
+{% block content %}
+  <article data-case-study class="{{ article | classes }}">
+    <header data-article-header class="{{ header|classes }}">{{ ArticleHeader.render({title:project.title|default('Untitled'),abstract:project.abstract,logoSvg:brandLogoSvg}) }}</header>
+    <aside data-article-nav class="{{ aside | classes }}">{{ ArticleNavLinks.render({headings:body|extractHeadings}) }}</aside>
+    {{ project.bodyHtml|safe }}
   </article>
+  {% if project.bodyHtml %}{% endif %}
 {% endblock %}
+{#
 {% block sidebar_after %}
   <aside class="mx-auto w-full max-w-6xl px-4 pb-12 md:px-8" aria-label="Project details">
     <section class="grid gap-8 lg:grid-cols-12">
@@ -102,4 +106,6 @@
       </section>
     </section>
   </aside>
+
 {% endblock %}
+%} } }

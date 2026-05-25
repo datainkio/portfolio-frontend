@@ -1,5 +1,5 @@
 {% macro render(params = {}) %}
-  {% import "atoms/hanko.njk" as Hanko %}
+  {% import "atoms/hanko/hanko.njk" as Hanko %}
 
   {%- set sectionId = params.id | default("hero") -%}
   {%- set tagline = params.tagline | default(title) -%}

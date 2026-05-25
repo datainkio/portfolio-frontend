@@ -1,7 +1,7 @@
 ---
 title: "Hanko"
 template: "[[hanko.njk]]"
-templatePath: "views/atoms/hanko.njk"
+templatePath: "views/atoms/hanko/hanko.njk"
 engine: "Nunjucks"
 system: "Eleventy"
 type: "template"
@@ -16,6 +16,7 @@ tags:
   - component
   - atom
 ---
+
 # Hanko
 
 Defines Nunjucks macro: `render`.

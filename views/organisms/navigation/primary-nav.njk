@@ -9,8 +9,14 @@
   {# {% set cmsItems = params.items or cmsNavigation.headerItems or [] %} #}
   {% set items = params.items or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
-    <nav id="primary-nav" class="w-full text-current text-xl p-8" aria-label="Primary navigation">
-    {{ main_pages.render({ 
+  {% set navClasses = {
+    "base": "bg-black px-4 py-2",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } %}
+    <nav id="primary-nav" class="{{ navClasses | classes }}" aria-label="Primary navigation"> {{ main_pages.render({ 
       items: items,
       logoSvg: params.logoSvg,
       linkClass: ""}) }}

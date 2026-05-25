@@ -73,7 +73,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { init as initNavigation } from "./navigation.js";
 import { init as initSanity } from "./sanity.js";
-import { init as initDocumentation } from "./documentation.js";
+// import { init as initDocumentation } from "./documentation.js";
 
 // ESM __dirname equivalent
 const __dirname = dirname(fileURLToPath(import.meta.url));
