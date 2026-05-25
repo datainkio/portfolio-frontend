@@ -3,17 +3,21 @@
 {% import "molecules/navigation/article-nav-links.njk" as ArticleNavLinks %}
 
 {%- set article = {
-  "base": "col-span-full grid grid-cols-12 [&>p]:col-span-10 [&>h2]:col-start-3 [&>h2]:col-span-10 [&>ul]:col-span-10 [&>ol]:col-span-10"
-} -%}
+  "base": [
+    "col-span-full grid grid-cols-12 gap-8",
+    "[&>p]:col-start-4 [&>p]:col-span-8",
+    "[&>h2]:col-start-4 [&>h2]:col-span-8",
+    "[&>ul]:col-start-4 [&>ul]:col-span-8 [&>ol]:col-start-4 [&>ol]:col-span-8"
+]} -%}
 {%- set header = {
-    "base": "col-span-full grid grid-cols-12 px-0 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
+    "base": "col-span-full grid grid-cols-subgrid px-0 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
     "sm": "px-12 gap-y-12",
     "md": "px-16 gap-y-14",
     "lg": "px-24 gap-y-8",
     "xl": ""
   } -%}
 {%- set aside = {
-    "base": "col-span-2"
+    "base": "pl-8 sticky top-12 row-start-2 row-span-4 col-span-3"
   } -%}
 
 {% block content %}

@@ -16,11 +16,11 @@
   {%- set headings = params.headings -%}
   {%- set classes = params.classes | default("") -%}
   {% if headings and headings.length %}
-    <nav class="jumplinks {{ classes }}" aria-label="On this page">
-      <ul class="jumplinks__list" role="list">
+    <nav class="{{ classes }}" aria-label="On this page">
+      <ul class="" role="list">
         {% for heading in headings %}
           <li class="jumplinks__item">
-            <a href="#{{ heading.id }}" class="jumplinks__link text-sm font-light">{{ heading.text }}</a>
+            <a href="#{{ heading.id }}">{{ heading.text }}</a>
           </li>
         {% endfor %}
       </ul>

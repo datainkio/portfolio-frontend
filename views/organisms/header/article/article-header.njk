@@ -4,23 +4,23 @@
 {% macro render(params) %}
   {%- set hanko = {
     "base": "nav-link block col-span-3 size-12 justify-self-end",
-    "sm": "size-16 pt-1",
+    "sm": "w-48 pt-1",
     "md": "",
-    "lg": "col-span-3 size-36",
+    "lg": "",
     "xl": ""
   } -%}
   {%- set heading = {
-    "base": "col-span-4 font-display text-6xl leading-12",
+    "base": "col-start-4 col-span-6 font-display text-6xl leading-12",
     "sm": "text-8xl leading-18",
-    "md": "text-10xl leading-20",
+    "md": "w-full text-10xl leading-20",
     "lg": "",
     "xl": ""
   } -%}
   {%- set abstract = {
-    "base": "col-span-8 col-start-4 max-w-none pl-2",
+    "base": "col-start-4 col-span-6 pl-2",
     "sm": "",
     "md": "",
-    "lg": "col-span-5 col-start-7 row-start-2 pl-0",
+    "lg": "",
     "xl": ""
   } -%}
   {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
