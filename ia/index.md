@@ -1,5 +1,5 @@
 ---
-layout: pages/home.njk
+layout: pages/home/home.njk
 permalink: /
 metaDescription: "no metaDescription defined"
 metaKeywords: "user experience, eleventy, sanity, tailwind"

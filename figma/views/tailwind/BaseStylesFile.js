@@ -17,7 +17,7 @@ import chalk from "chalk";
 import { writeFile, mkdir } from "fs/promises";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-// TODO: Update for Tailwind v4
+// [ ] CHORE: Update for Tailwind v4
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILEPATH = join(__dirname, "../../../tailwind/baseStyles.js");
 const DESCRIPTION =

@@ -236,8 +236,6 @@ Converting from include to macro:
 
 ## Future Enhancements
 
-- [x] ~~Migrate `project.njk` to macro pattern~~ ✅ **Completed**
-- [x] ~~Migrate `category.njk` to macro pattern~~ ✅ **Completed**
 - [ ] Migrate `image.njk` to macro pattern
 - [ ] Add loading states for async content
 - [ ] Implement card variants (compact, expanded, grid)

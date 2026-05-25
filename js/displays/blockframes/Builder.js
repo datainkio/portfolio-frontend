@@ -156,7 +156,7 @@ var SRC, COLOR, BW, COLS, ROWS, SIZE, ANGLE, OPACITY, TYPES, PALETTES;
  * - SVGs are added to hidden div for measurement
  * - getBBox() and getBoundingClientRect() require DOM presence
  * - Div is NOT removed (stays in document.body)
- * - TODO: Remove temp div after build completes
+ * - [ ] CHORE: Remove temp div after build completes
  *
  * GLOBAL STATE WARNING:
  * - Uses module-level variables (SRC, COLOR, BW, etc.)

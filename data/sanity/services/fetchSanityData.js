@@ -18,7 +18,7 @@
 import { AssetCache } from "@11ty/eleventy-fetch";
 import { createHash } from "crypto";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
-// TODO: Logger enable/disable is not respected in this module
+// [ ] BUG: Logger enable/disable flag is not respected in this module [refs=#27]
 // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/27
 logger.enabled = true;
 
@@ -49,7 +49,7 @@ export default async function fetchSanityData({
 
   if (!forceRefresh && asset.isCacheValid(cacheDuration)) {
     const cached = await asset.getCachedValue();
-    // TODO: Confirm that caching logic works as intended. There are some edge cases where one content type is cached while another is not. For example, outcomes and posts.
+    // [ ] TEST: Validate caching behavior — some content types (e.g. outcomes, posts) may cache inconsistently [refs=#26]
     // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/26
     // If we cached an empty response (e.g., first fetch failed or data arrived later),
     // proactively refresh so the build doesn't get stuck showing nothing.

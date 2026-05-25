@@ -360,7 +360,7 @@ function paintBlockframe(face, colors) {
   var background = face.querySelector(".background");
   background.style.opacity = .5;
 
-  // var palette = types[Math.floor(Math.random() * types.length)];; // TODO: Select from the collection of palettes (currently in blockline)
+  // var palette = types[Math.floor(Math.random() * types.length)];; // [ ] FEAT: Select palette from blockline collection
   Chrome.paint(face, colors, paintElement);
   paintMe(face, colors);
   // return [stroked, painted];

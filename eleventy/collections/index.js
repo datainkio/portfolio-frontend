@@ -52,7 +52,7 @@
  *
  * CONFIGURATION:
  * Site configuration loaded from site.json must include:
- * TODO(dx): Update site.json path to current location.
+ * [ ] CHORE: Update site.json path to current location.
  * - site.navigation: Navigation-specific settings
  *
  * @param {Object} eleventyConfig - Eleventy configuration object

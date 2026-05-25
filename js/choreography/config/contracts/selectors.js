@@ -22,7 +22,7 @@ export const SELECTORS = {
   contact: "contact",
 
   // GSAP ScrollSmoother containers
-  // TODO: Optimize design to avoid these wrappers, which add complexity to DOM and animations
+  // [ ] REFACTOR: Remove wrapper requirement from GSAP ScrollSmoother containers [refs=#38]
   // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/38
   smoothWrapper: "page-main",
   smoothContent: "page-main-content",

@@ -111,7 +111,7 @@ async function fetchDesignSystem() {
           "success",
         );
 
-        // TODO: UPDATE THE LOCAL TYPOGRAPHY FILES
+        // [ ] CHORE: Update local typography files
         const fontImports = await typographyService.updateFontImports(
           styles.textFormats,
           designFile,

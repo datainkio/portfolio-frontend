@@ -14,9 +14,9 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  {# TODO: GTM integration breaks page refresh on localhost #}
+  {# [ ] BUG: GTM integration breaks page refresh on localhost #}
   {# {% include "atoms/gtm-script.njk" %} #}
-  {# TODO: Page titles are not rendering correctly from frontmatter.eleventyComputed - investigate #}
+  {# [ ] BUG: Page titles not rendering from frontmatter.eleventyComputed #}
     <title>
   {{ title }}
   </title>

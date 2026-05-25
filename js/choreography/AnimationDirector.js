@@ -46,7 +46,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * - Enable debug mode: window.director.enableDebug(true)
  * - Access globally: window.director
  *
- * TODO: AnimationDirector intro documentation needs updating to reflect current architecture and responsibilities.
+ * [ ] DOCS: Update AnimationDirector intro to reflect current architecture and responsibilities.
  * @requires AnimationBus - Event coordination system
  * @requires StageManager - Scroll and visual effects
  * @requires Splash, Hero, Work, Biography - Section controllers

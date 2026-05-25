@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   animatedLinks.forEach((link) => {
     link.addEventListener("click", handleLinkClick);
   });
-  // TODO: Address FOUC
+  // [ ] BUG: Fix flash of unstyled content on project page load
   TL.from("#project-banner", { duration: DUR, opacity: 0, y: -24 });
   TL.from("article", { duration: DUR, opacity: 0, y: 12 }, "-=25%");
   TL.from("#project-nav", { duration: DUR, opacity: 0 }, "-=25%");

@@ -20,6 +20,8 @@
  * This service follows the Single Responsibility Principle by focusing only on
  * transforming data into navigation structures.
  *
+ * In English: it makes it testable outside of 11ty's build context. :D
+ *
  * ARCHITECTURE OVERVIEW:
  * - Processes directory-based navigation from _pages files
  * - Handles Sanity projects data transformation

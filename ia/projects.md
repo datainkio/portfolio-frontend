@@ -1,5 +1,5 @@
 ---
-layout: pages/projects.njk
+layout: pages/projects/projects.njk
 permalink: "/case-studies/"
 metaDescription: "no metaDescription defined"
 metaKeywords: "user experience, eleventy, sanity, tailwind"

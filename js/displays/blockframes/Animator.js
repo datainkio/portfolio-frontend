@@ -90,7 +90,7 @@ import { gsap } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.mi
 export function wipe(block) {
   const parent = block.ownerSVGElement;
   const pw = parent.getBoundingClientRect().width;
-  const ph = parent.getBoundingClientRect().width; // BUG: Should be .height for vertical animations
+  const ph = parent.getBoundingClientRect().width; // [ ] BUG: Fix ph to use .height instead of .width for vertical animations
   const w = block.getBoundingClientRect().width;
   const tl = gsap.timeline({});
   tl.fromTo(
@@ -99,5 +99,5 @@ export function wipe(block) {
     { opacity: 1, x: 0 - w, duration: 2, repeat: -1 },
   );
   // tl.to(block, { duration: 2, opacity: 0, yoyo: true, repeat: -1 }); // Alternative: fade animation
-  // return tl; // TODO: Uncomment to enable external timeline control
+  // return tl; // [ ] CHORE: Re-enable external timeline control (uncomment return tl)
 }

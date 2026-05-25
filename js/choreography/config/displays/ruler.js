@@ -5,7 +5,7 @@
  * are defined in one place and reused by the runtime module.
  */
 
-// TODO: Review value of using Object.freeze for these config objects. It prevents mutation but also prevents extension, which could be a problem if we want to allow users to add custom tokens or other values.
+// [ ] CHORE: Evaluate Object.freeze usage — prevents extension for custom tokens [refs=#39]
 // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/39
 export const RULER_DEFAULTS = Object.freeze({
   intervals: 12,
