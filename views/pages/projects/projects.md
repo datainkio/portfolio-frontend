@@ -1,7 +1,7 @@
 ---
-title: "Home"
-template: "[[home.njk]]"
-templatePath: "views/pages/home.njk"
+title: "Projects"
+template: "[[projects.njk]]"
+templatePath: "views/pages/projects/projects.njk"
 engine: "Nunjucks"
 system: "Eleventy"
 type: "template"
@@ -16,14 +16,15 @@ tags:
   - page
   - page
 ---
-# Home
+
+# Projects
 
 Renders a top-level Eleventy page.
 
 ## Template
 
-- Source: [[home.njk]]
-- Path: `views/pages/home.njk`
+- Source: [[projects.njk]]
+- Path: `views/pages/projects.njk`
 
 ## Purpose
 
@@ -35,34 +36,14 @@ Classified as a **page** at the atomic **page** level based on its location unde
 
 ## Data and Context
 
-- `Background` — referenced in the template.
-- `Footer` — referenced in the template.
-- `Header` — referenced in the template.
-- `Preloader` — referenced in the template.
-- `SkipLinksNav` — referenced in the template.
-- `awardsSection` — referenced in the template.
-- `bioSection` — referenced in the template.
-- `heroSection` — referenced in the template.
-- `projectsSection` — referenced in the template.
+- `ProjectCards` — referenced in the template.
 
 ## Relationships
 
-- Includes:
-  - [[head.njk]]
-  - [[gtm-noscript.njk]]
-  - [[choreography-script.njk]]
+- Extends:
+  - [[landing.njk]]
 - Imports:
-  - [[SitePreloader.njk]]
-  - [[global-header.njk]]
-  - [[global-footer.njk]]
-  - [[skip-links-nav.njk]]
-  - [[sizzle-background.njk]]
-  - [[hero.njk]]
-  - [[bio.njk]]
-  - [[awards.njk]]
-  - [[work.njk]]
-  - [[organizations.njk]]
-  - [[contact.njk]]
+  - [[project-cards.njk]]
 - Likely used by:
   - Unknown
 
