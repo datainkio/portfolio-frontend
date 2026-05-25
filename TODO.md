@@ -5,21 +5,21 @@ This file tracks frontend-wide backlog priorities.
 ## Now
 
 - [ ] BUG: Fix heading template parsing so Prettier passes (replace dynamic tag with explicit `h1-h6` branches and fallback `p`).
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/24
+  - Issue: [#24](https://github.com/datainkio/portfolio-frontend/issues/24)
 - [ ] BUG: Remove orphan `</label>` in global nav dialog template.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/23
+  - Issue: [#23](https://github.com/datainkio/portfolio-frontend/issues/23)
 - [ ] BUG: Clean up project page nugget loop by removing stray `</section>` and keeping the loop inside `article`.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/22
+  - Issue: [#22](https://github.com/datainkio/portfolio-frontend/issues/22)
 - [ ] BUG: Fix landing page crash when browser console is open.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/34
+  - Issue: [#34](https://github.com/datainkio/portfolio-frontend/issues/34)
 - [ ] BUG: Fix Lumberjack enabled/disabled behavior leaking across scoped instances.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/33
+  - Issue: [#33](https://github.com/datainkio/portfolio-frontend/issues/33)
 - [ ] BUG: Fix gel disappearing on scroll.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/32
+  - Issue: [#32](https://github.com/datainkio/portfolio-frontend/issues/32)
 - [ ] FEAT: Define preload body background color to prevent flash of unstyled background.
 - [ ] FEAT: Define staged asset display sequence as assets become available (background color -> pixelator background -> text -> video).
 - [ ] FEAT: Introduce offline/fixture mode for `scripts/fetchFigma.js` and `scripts/syncContent.js` to support a deterministic CI pipeline (GitHub Actions) that runs `npm run validate` with no network.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/36
+  - Issue: [#36](https://github.com/datainkio/portfolio-frontend/issues/36)
 - [ ] FEAT: Explore lazy loading for images and other assets, especially on the design-heavy homepage.
 
 ## Next
@@ -28,14 +28,13 @@ This file tracks frontend-wide backlog priorities.
 - [ ] FEAT: Create automatic skip-links generator for 11ty sites with configurable element selection.
 - [ ] FEAT: Define and pilot a Choreography Auditor flow using browser automation checks (open page, trigger hero, scroll early, verify no stuck states).
 - [ ] TODO: Audit and standardize `aria-live` usage across the site (when to use `polite`, `off`, or no live region).
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/21
+  - Issue: [#21](https://github.com/datainkio/portfolio-frontend/issues/21)
 - [ ] PERF: Audit large in-memory datasets, heavy client-side caches, third-party scripts, and potential memory leaks; target heap size <80MB (currently 180MB+).
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/31
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/28
+  - Issue: [#31](https://github.com/datainkio/portfolio-frontend/issues/31), [#28](https://github.com/datainkio/portfolio-frontend/issues/28)
 - [ ] TODO: Add in-page jump links to header.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/30
+  - Issue: [#30](https://github.com/datainkio/portfolio-frontend/issues/30)
 - [ ] TODO: Add site navigation to header.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/29
+  - Issue: [#29](https://github.com/datainkio/portfolio-frontend/issues/29)
 - [ ] FEAT: Add generated-file guard that blocks edits to `styles/colors.css` and `styles/typography/fontFamilies.css`.
 - [ ] FEAT: Turn on type checking for `js/choreography/` and `scripts/`.
 - [ ] FEAT: Add ESLint (Node + browser + Nunjucks globals) with Prettier integration.
@@ -46,7 +45,7 @@ This file tracks frontend-wide backlog priorities.
 - [ ] FEAT: Pin runtime tooling (`.nvmrc`, engine strictness, early system checks).
 - [ ] FIX: Resolve performance hit from scroll snapping either from CSS or GSAP ScrollTrigger.
 - [ ] TODO: Remove logging for award logo images.
-- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/62
+  - Issue: [#62](https://github.com/datainkio/portfolio-frontend/issues/62)
 
 ## Later / Parked
 
