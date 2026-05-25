@@ -1,10 +1,14 @@
 {% import "organisms/navigation/primary-nav.njk" as primary_nav with context %}
 
 {% macro render(params = {}) %}
-  <header
-    id="global-header"
-    class="fixed w-full text-sm p-0 h-auto z-20 text-white will-change-transform {{ params.classes }}"
-    aria-label="Global Site Header">
+  {%- set headerClasses = {
+  "base": "fixed w-full text-xs p-0 h-auto z-20 text-white will-change-transform",
+  "sm": "",
+  "md": "",
+  "lg": "",
+  "xl": ""
+} -%}
+  <header id="global-header" class="{{ headerClasses | classes }} {{ params.classes }}" aria-label="Global Site Header">
     {{ primary_nav.render({ logoSvg: params.logoSvg }) }}
   </header>
 {% endmacro %}

@@ -156,11 +156,7 @@ Typography Frame
 **In Custom Components**:
 
 ```css
-/* Extend generated utilities in component styles */
-.hero-title {
-  @apply font-display text-6xl font-bold;
-  /* Additional custom styling */
-}
+
 ```
 
 ## Font Loading Performance Optimization
