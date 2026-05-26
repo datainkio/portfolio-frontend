@@ -7,7 +7,7 @@
 {% macro render(params) %}
 
   {%- set header = {
-    "base": "relative col-span-full h-dvh bg-black -z-10 overflow-hidden text-neutral-100",
+    "base": "relative col-span-full h-dvh inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent overflow-hidden text-neutral-100",
     "sm": "",
     "md": "",
     "lg": "",
@@ -22,14 +22,20 @@
     "xl": ""
   } -%}
 
+  {%- set gradient = {
+    "base": "absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-[1]",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+
   <header
     data-project-header class="{{ header | classes }}">
     {# Image layer: 130% tall so yPercent parallax travel never exhausts the image #}
     {{ FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.title, class: "absolute inset-x-0 top-0 h-[130%] w-full", attrs: "data-project-header-image" }) }}
-    {# Gradient scrim for text legibility #}
-    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-[1]" aria-hidden="true"></div>
     {# Content overlay: anchored to the bottom of the hero #}
-    <div class="relative z-[2] flex flex-col justify-end h-full px-12 sm:px-16 lg:px-24 pb-12 sm:pb-14 lg:pb-16 gap-y-4">
+    <div class="{{ gradient | classes }} z-[2] flex flex-col justify-end h-full px-12 sm:px-16 lg:px-24 pb-12 sm:pb-14 lg:pb-16 gap-y-4">
       {{ BreadCrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'w-full' }) }}
       <h1 data-landing-header-title class="{{ heading | classes }}">
         {{ params.project.title | default('Untitled') }}
