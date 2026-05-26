@@ -5,13 +5,15 @@
 {% import "molecules/figure/featured-image.njk" as FeaturedImage %}
 
 {% macro render(params) %}
+
   {%- set header = {
-    "base": "col-span-full grid grid-cols-subgrid gap-4 h-[90dvh] bg-black -z-10 overflow-hidden text-neutral-100",
-    "sm": "px-12 gap-y-12",
-    "md": "px-16 gap-y-14",
-    "lg": "px-24 gap-y-8",
+    "base": "relative col-span-full h-dvh bg-black -z-10 overflow-hidden text-neutral-100",
+    "sm": "",
+    "md": "",
+    "lg": "",
     "xl": ""
   } -%}
+
   {%- set heading = {
     "base": "relative text-12 font-display leading-12",
     "sm": "leading-18",
@@ -20,21 +22,20 @@
     "xl": ""
   } -%}
 
-  {%- set featuredImage = {
-    "base": "h-dvh object-cover object-center ",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
-  } -%}
-
-  <header class="{{ header | classes }}">
-    {{ FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.title, class: featuredImage | classes }) }}
-    {{ BreadCrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
-    <h1 data-landing-header-title class="{{ heading | classes }}">
-      {{ params.project.title | default('Untitled') }}
-    </h1>
-    {{ ProjectOrgs.render({ orgs: params.project.organization, class: byline | classes }) }}
-    {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
+  <header
+    data-project-header class="{{ header | classes }}">
+    {# Image layer: 130% tall so yPercent parallax travel never exhausts the image #}
+    {{ FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.title, class: "absolute inset-x-0 top-0 h-[130%] w-full", attrs: "data-project-header-image" }) }}
+    {# Gradient scrim for text legibility #}
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-[1]" aria-hidden="true"></div>
+    {# Content overlay: anchored to the bottom of the hero #}
+    <div class="relative z-[2] flex flex-col justify-end h-full px-12 sm:px-16 lg:px-24 pb-12 sm:pb-14 lg:pb-16 gap-y-4">
+      {{ BreadCrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'w-full' }) }}
+      <h1 data-landing-header-title class="{{ heading | classes }}">
+        {{ params.project.title | default('Untitled') }}
+      </h1>
+      {{ ProjectOrgs.render({ orgs: params.project.organization, class: byline | classes }) }}
+      {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
+    </div>
   </header>
 {% endmacro %}

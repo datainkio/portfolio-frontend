@@ -3,7 +3,7 @@
   {%- set url = image.asset.url if image.asset else "" -%}
   {%- if url -%}
     {%- set dims = image.asset.metadata.dimensions if image.asset.metadata else {} -%}
-    <figure class="overflow-hidden {{ params.class | default('') }}">
+    <figure class="overflow-hidden {{ params.class | default('') }}" {{ params.attrs | default('') | safe }}>
       <img
         src="{{ url }}"
         alt="{{ image.alt | default(params.alt) | default('') }}"

@@ -60,6 +60,7 @@ import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
 import CardManager from "./card/CardManager.js";
 import GlobalHeaderManager from "./managers/GlobalHeaderManager.js";
+import ProjectHeaderManager from "./managers/ProjectHeaderManager.js";
 
 const LOGS = {
   description:
@@ -125,6 +126,11 @@ export default class AnimationDirector {
 
     // Initialize global header hide/show on scroll
     this.headerManager = new GlobalHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
+
+    // Initialize project page hero parallax (no-ops on non-project pages)
+    this.projectHeaderManager = new ProjectHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 
@@ -201,6 +207,10 @@ export default class AnimationDirector {
 
     this.headerManager?.kill();
     this.headerManager = null;
+
+    this.projectHeaderManager?.kill();
+    this.projectHeaderManager = null;
+
     this.bus = null;
     this.stage = null;
     this.sections = null;
