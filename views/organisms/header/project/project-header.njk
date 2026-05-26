@@ -1,20 +1,19 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
-{% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
+{% import "organisms/navigation/breadcrumbs-nav.njk" as BreadCrumbs with context %}
 {% import "organisms/project-metadata/project-metadata.njk" as ProjectMetadata %}
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
 {% import "molecules/figure/featured-image.njk" as FeaturedImage %}
 
 {% macro render(params) %}
-  {%- set hanko = {
-    "base": "nav-link block col-span-3 size-24 justify-self-end",
-    "sm": "pt-1",
-    "md": "",
-    "lg": "",
+  {%- set header = {
+    "base": "col-span-full grid grid-cols-subgrid gap-4 h-[90dvh] bg-black -z-10 overflow-hidden text-neutral-100",
+    "sm": "px-12 gap-y-12",
+    "md": "px-16 gap-y-14",
+    "lg": "px-24 gap-y-8",
     "xl": ""
   } -%}
-
   {%- set heading = {
-    "base": "col-start-5 row-start-2 col-span-8 text-12 font-display leading-12",
+    "base": "relative text-12 font-display leading-12",
     "sm": "leading-18",
     "md": "w-full leading-20",
     "lg": "",
@@ -22,19 +21,20 @@
   } -%}
 
   {%- set featuredImage = {
-    "base": "col-start-1 col-span-4 row-start-1 row-span-5 h-full ",
+    "base": "h-dvh object-cover object-center ",
     "sm": "",
     "md": "",
     "lg": "",
     "xl": ""
   } -%}
 
-  {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
-  <h1 data-landing-header-title class="{{ heading | classes }}">
-    {{ params.title | default('Untitled') }}
-  </h1>
-  {{ ProjectOrgs.render({ orgs: orgs, class: byline | classes }) }}
-  {{ ProjectMetadata.render({ project: project, classes: metadata | classes, aria: "Project metadata" }) }}
-  {{ FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.title, class: featuredImage | classes }) }}
-
+  <header class="{{ header | classes }}">
+    {{ FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.title, class: featuredImage | classes }) }}
+    {{ BreadCrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
+    <h1 data-landing-header-title class="{{ heading | classes }}">
+      {{ params.project.title | default('Untitled') }}
+    </h1>
+    {{ ProjectOrgs.render({ orgs: params.project.organization, class: byline | classes }) }}
+    {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
+  </header>
 {% endmacro %}

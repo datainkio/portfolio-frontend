@@ -25,17 +25,11 @@
 } -%}
 {%- set abstract       = { "base": "project-page__abstract text-xl text-gray-800" } -%}
 {%- set aside          = { "base": "project-page__outcome border-l-4 border-primary-500 pl-6 py-2" } -%}
-{%- set body           = { "base": "project-page__body prose prose-lg max-w-none" } -%}
+{%- set body           = { 
+  "base": "project-page__body prose prose-lg max-w-none z-10 bg-white" } -%}
 {%- set projectLink    = { "base": "project-page__external-link underline underline-offset-4" } -%}
 {%- set outcomeHeading = { "base": "project-page__outcome-heading text-xs font-semibold uppercase tracking-wide text-gray-600" } -%}
 
-{%- set header = {
-    "base": "col-span-full grid grid-cols-subgrid p-4 gap-4 h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
-    "sm": "px-12 gap-y-12",
-    "md": "px-16 gap-y-14",
-    "lg": "px-24 gap-y-8",
-    "xl": ""
-  } -%}
 {# ─── Data guards ─────────────────────────────────────────────────────────── #}
 
 {%- set orgs             = project.organization or [] -%}
@@ -50,11 +44,8 @@
 
 {% block content %}
   <article data-project-page class="{{ article | classes }}">
-    <header
-      data-project-header class="{{ header | classes }}">
-      {# Removed abstract from params for visual design's sake #}
-      {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg }) }}
-    </header>
+
+    {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
 
     {# 2. Abstract #}
     {% if project.abstract %}
