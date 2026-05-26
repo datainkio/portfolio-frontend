@@ -1,5 +1,5 @@
 {% extends "layouts/base.njk" %}
-{% import "organisms/project-metadata/project-metadata.njk" as ProjectMetadata %}
+{% import "organisms/header/project/project-header.njk" as ProjectHeader with context %}
 
 {#
   Single project page template.
@@ -15,8 +15,7 @@
 
 {# ─── Styles ──────────────────────────────────────────────────────────────── #}
 
-{%- set article        = { "base": "project-page w-full space-y-12" } -%}
-{%- set header         = { "base": "project-page__header space-y-3 bg-black text-white" } -%}
+{%- set article        = { "base": "project-page col-span-full space-y-12" } -%}
 {%- set title          = { "base": "project-page__title text-4xl font-black tracking-tight" } -%}
 {%- set byline         = { "base": "project-page__byline text-sm uppercase tracking-wide text-gray-600" } -%}
 {%- set metadata       = {
@@ -24,18 +23,23 @@
   "md": "grid-cols-2",
   "lg": "grid-cols-4"
 } -%}
-{%- set figure         = { "base": "project-page__featured-image" } -%}
 {%- set abstract       = { "base": "project-page__abstract text-xl text-gray-800" } -%}
 {%- set aside          = { "base": "project-page__outcome border-l-4 border-primary-500 pl-6 py-2" } -%}
 {%- set body           = { "base": "project-page__body prose prose-lg max-w-none" } -%}
 {%- set projectLink    = { "base": "project-page__external-link underline underline-offset-4" } -%}
 {%- set outcomeHeading = { "base": "project-page__outcome-heading text-xs font-semibold uppercase tracking-wide text-gray-600" } -%}
 
+{%- set header = {
+    "base": "col-span-full grid grid-cols-subgrid p-4 gap-4 h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
+    "sm": "px-12 gap-y-12",
+    "md": "px-16 gap-y-14",
+    "lg": "px-24 gap-y-8",
+    "xl": ""
+  } -%}
 {# ─── Data guards ─────────────────────────────────────────────────────────── #}
 
 {%- set orgs             = project.organization or [] -%}
 {%- set hasByline        = orgs | length -%}
-{%- set hasFeaturedImage = project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
 {%- set hasOutcomes      = project.outcomes and project.outcomes | length -%}
 {%- set hasBody          = project.bodyHtml | length > 0 -%}
 {%- set externalLinkHref =
@@ -45,26 +49,11 @@
   (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}
 
 {% block content %}
-  <article
-    class="{{ article | classes }}" aria-labelledby="project-title">
-
-    {# 1. Title + byline (single H1 on the page) #}
-    <header class="{{ header | classes }}">
-      <h1 id="project-title" class="{{ title | classes }}">
-        {{ project.title }}
-      </h1>
-      {% if hasByline %}
-        <p class="{{ byline | classes }}">
-          <span>
-            {%- for org in orgs -%}
-              {{ org.title }}
-              {% if not loop.last %},
-              {% endif %}
-            {%- endfor -%}
-          </span>
-        </p>
-      {% endif %}
-      {{ ProjectMetadata.render({ project: project, classes: metadata | classes, aria: "Project metadata" }) }}
+  <article data-project-page class="{{ article | classes }}">
+    <header
+      data-project-header class="{{ header | classes }}">
+      {# Removed abstract from params for visual design's sake #}
+      {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg }) }}
     </header>
 
     {# 2. Abstract #}
@@ -72,18 +61,6 @@
       <p class="{{ abstract | classes }}">
         {{ project.abstract }}
       </p>
-    {% endif %}
-
-    {# 3. Featured image #}
-    {% if hasFeaturedImage %}
-      <figure class="{{ figure | classes }}">
-        <img src="{{ project.featuredImage.asset.url }}" alt="{{ project.featuredImage.alt | default(project.title) }}" {% if project.featuredImage.asset.metadata and project.featuredImage.asset.metadata.dimensions %} width="{{ project.featuredImage.asset.metadata.dimensions.width }}" height="{{ project.featuredImage.asset.metadata.dimensions.height }}" {% endif %} loading="eager" decoding="async" class="w-full h-auto"/>
-        {% if project.featuredImage.caption %}
-          <figcaption class="mt-2 text-sm text-gray-600">
-            {{ project.featuredImage.caption }}
-          </figcaption>
-        {% endif %}
-      </figure>
     {% endif %}
 
     {# 5. Outcome (optional, distinct treatment) #}

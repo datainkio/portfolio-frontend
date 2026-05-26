@@ -4,7 +4,7 @@
   <dl class="{{ classes | default("") }}" aria-label="{{ params.aria | default("Metadata") }}">
     {% for item in stats %}
       {% if item.value %}
-        <div class="meta-item bg-white flex flex-col gap-1 p-2">
+        <div class="meta-item flex flex-col gap-1 p-2">
           <dt class="text-xs text-neutral-400 uppercase tracking-wide">{{ item.key }}</dt>
           <dd class="text-xs text-current">{{ item.value }}</dd>
         </div>
