@@ -1,10 +1,7 @@
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/vendor/gsap/gsap.js";
-
-const SELECTORS = {
-  header: "[data-project-header]",
-  image: "[data-project-header-image]",
-};
+import { PROJECT_HEADER_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { PROJECT_HEADER_ANIMATION } from "../../config/ix/motion/motion.js";
 
 /**
  * Drives the parallax scroll effect on the project hero header.
@@ -21,8 +18,8 @@ export default class ProjectHeaderManager {
     this.logger = lumberjack.createScoped("ProjectHeaderManager", {
       color: "#6366f1",
     });
-    this._header = document.querySelector(SELECTORS.header);
-    this._image = document.querySelector(SELECTORS.image);
+    this._header = document.querySelector(PROJECT_HEADER_SELECTORS.header);
+    this._image = document.querySelector(PROJECT_HEADER_SELECTORS.image);
     this._reducedMotionHandler = reducedMotionHandler;
     this._trigger = null;
 
@@ -36,14 +33,11 @@ export default class ProjectHeaderManager {
 
   _init() {
     this._trigger = gsap.to(this._image, {
-      yPercent: -15,
-      ease: "none",
+      yPercent: PROJECT_HEADER_ANIMATION.yPercent,
+      ease: PROJECT_HEADER_ANIMATION.ease,
       scrollTrigger: {
         trigger: this._header,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        invalidateOnRefresh: true,
+        ...PROJECT_HEADER_ANIMATION.scrollTrigger,
       },
     }).scrollTrigger;
 

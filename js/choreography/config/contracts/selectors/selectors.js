@@ -34,6 +34,11 @@ export const SELECTORS = {
   video: "background",
 };
 
+export const PROJECT_HEADER_SELECTORS = {
+  header: "[data-project-header]",
+  image: "[data-project-header-image]",
+};
+
 export const BIO_SELECTORS = {
   elementAttribute: "data-bio-el",
   subSectionHook: "sub-section",
