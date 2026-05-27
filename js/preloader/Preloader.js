@@ -43,7 +43,7 @@ import {
   createFiletypeMessageUpdater,
   startResourceObserver,
 } from "./resource-observer.js";
-import { initRulerIntro } from "/assets/js/choreography/managers/RulerIntroManager/RulerIntroManager.js";
+import { initRulerIntro } from "/assets/js/choreography/organisms/ruler-intro/RulerIntro.js";
 import { ensureScrollSmoother } from "./scroll-smoother.js";
 
 let rulerIntro = null;

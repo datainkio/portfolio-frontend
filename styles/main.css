@@ -31,10 +31,14 @@
 @import "./components/portable-text.css" layer(components);
 @import "./components/hanko.css" layer(components);
 
+/* Scan rendered HTML output so Tailwind picks up classes assembled at build time */
+@source "../_site/**/*.html";
+
 /* Force generation of dynamic utility classes used in Nunjucks macros */
 @source inline("border-{t,r,b,l}-{1,2,3,4,5,6,7,8,10,12,14,16}");
 @source inline("size-{1,2,3,4,5,6,7,8,10,12,14,16}");
 @source inline("inset-{1,2,3,4,5,6,7,8,10,12,14,16}");
 @source inline("border-{black,white}");
+@source inline("leading-{1,2,3,4,5,6,7,8,9,10,11,12,14,16,18,20,24,28,32,36,40,44,48}");
 /* Viewport height units — h-dvh is a named utility but svh/lvh arbitrary values need explicit generation */
 @source inline("h-[100svh] h-[100lvh]");

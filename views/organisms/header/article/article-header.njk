@@ -3,16 +3,16 @@
 
 {% macro render(params) %}
   {%- set hanko = {
-    "base": "inline-block mx-auto w-24 text-center text-secondary-700",
+    "base": "inline-block mr-0 w-24 text-center text-secondary-700",
     "sm": "w-32",
     "md": "w-40",
     "lg": "w-48",
     "xl": "w-56"
   } -%}
   {%- set heading = {
-    "base": "col-start-4 col-span-9 text-4xl text-center font-display font-extrabold leading-8",
-    "sm": "text-4xl leading-18",
-    "md": "w-full text-10xl leading-20",
+    "base": "w-full text-4xl font-display leading-8",
+    "sm": "text-6xl text-left",
+    "md": "w-full text-10xl",
     "lg": "",
     "xl": ""
   } -%}
@@ -23,7 +23,6 @@
     "lg": "",
     "xl": ""
   } -%}
-  {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
   {{ Hanko.render({ svg: params.logoSvg, classes: hanko | classes }) }}
   <h1 data-landing-header-title class="{{ heading | classes }}">
     {{ params.title | default('Untitled') }}

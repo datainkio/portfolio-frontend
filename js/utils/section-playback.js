@@ -17,7 +17,7 @@
 import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
 import { AnimationBus } from "/assets/js/choreography/system/AnimationBus.js";
-import ReducedMotionHandler from "/assets/js/choreography/managers/ReducedMotionHandler/ReducedMotionHandler.js";
+import ReducedMotionHandler from "/assets/js/choreography/system/ReducedMotionHandler.js";
 
 console.info("[section-playback] script loaded");
 

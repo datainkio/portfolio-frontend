@@ -17,7 +17,7 @@
 
 {%- set article = {
   "base": [
-    "prose col-span-full grid grid-cols-subgrid ",
+    "prose col-span-full grid grid-cols-12 ",
     "[&>p]:col-span-full [&>p]:px-4",
     "[&>h2]:font-display [&>h2]:col-span-full [&>h2]:px-4",
     "[&>ul]:col-span-full [&>ul]:px-4 [&>ol]:col-span-full [&>ol]:px-4"
@@ -27,8 +27,8 @@
     "[&>ul]:col-start-5 [&>ul]:col-span-6 [&>ol]:col-start-5 [&>ol]:col-span-6"
 ]} -%}
 {%- set header = {
-    "base": "w-full col-span-full flex flex-col justify-end p-4 pb-24 gap-4 h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
-    "sm": "grid grid-cols-subgrid px-12 gap-y-12",
+    "base": "w-full col-span-full flex items-end p-4 pb-24 gap-2 h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
+    "sm": "text-left flex flex-row",
     "md": "px-16 gap-y-14",
     "lg": "px-24 gap-y-8",
     "xl": ""
