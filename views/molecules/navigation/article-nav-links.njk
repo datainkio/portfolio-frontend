@@ -10,17 +10,42 @@
   Params:
     headings  {id, text}[]  Required. Array of heading objects from the extractHeadings filter.
     classes   string        Optional. Extra CSS classes on the <nav> element.
-#}
 
+  Toggle behavior:
+    - On mobile (< sm): collapsed by default; button toggles open/close via GSAP.
+    - On sm+: button hidden, list always visible (GSAP inline styles cleared).
+    - Wired by article-nav-toggle.js (createArticleNavToggle factory).
+#}
+{% import "atoms/icon.njk" as Icon %}
 {% macro render(params = {}) %}
   {%- set headings = params.headings -%}
   {%- set classes = params.classes | default("") -%}
+  {% set ulClasses = {
+    "base": "flex flex-col gap-0",
+    "sm": "gap-3",
+    "md": "gap-4",
+    "lg": "gap-2",
+    "xl": ""
+  } %}
+  {% set buttonClasses = {
+    "base": "flex items-center justify-between w-full py-2 text-left border-t border-neutral-800",
+    "sm": "hidden"
+  } %}
+  {% set iconClasses = {
+    "base": "mx-auto w-4 h-4 shrink-0"
+  } %}
   {% if headings and headings.length %}
-    <nav class="{{ classes }}" aria-label="On this page">
-      <ul class="" role="list">
+    <nav data-article-nav-links class="{{ classes }} py-4" aria-label="On this page">
+      <button type="button" data-article-nav-toggle aria-expanded="false" aria-controls="article-nav-list" class="{{ buttonClasses | classes }}">
+        <svg data-chevron class="{{ iconClasses | classes }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <ul id="article-nav-list" data-article-nav-list class="{{ ulClasses | classes }} overflow-hidden" role="list">
         {% for heading in headings %}
           <li class="jumplinks__item">
-            <a href="#{{ heading.id }}">{{ heading.text }}</a>
+            {{ Icon.render({ name: "arrow-right", classes: "w-3 h-3 mr-1 shrink-0" }) }}
+            <a class="font-thin" href="#{{ heading.id }}">{{ heading.text }}</a>
           </li>
         {% endfor %}
       </ul>

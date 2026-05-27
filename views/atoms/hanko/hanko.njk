@@ -26,8 +26,8 @@
 #}
 {% macro render(params = {}) %}
   {% set svg = params.svg %}
-  {% set classes = params.classes | default("block w-12 text-secondary-700") %}
-  <span aria-hidden="true" class="hanko-mount block {{ classes }}">
+  {% set classes = params.classes | default("inline-block w-12 text-secondary-700") %}
+  <span aria-hidden="true" class="hanko-mount {{ classes }}">
     {{ svg | safe }}
   </span>
 {% endmacro %}

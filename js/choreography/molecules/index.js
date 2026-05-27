@@ -3,3 +3,4 @@ export { createSectionHeaderIntro } from "./section-header-intro.js";
 export { createCardScrollClip, createCardScrollFade } from "./card-scroll-clip.js";
 export { createVideoReveal } from "./video-reveal.js";
 export { createGelTransition } from "./gel-transition.js";
+export { createArticleNavToggle } from "./article-nav-toggle.js";
