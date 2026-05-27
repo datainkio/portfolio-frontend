@@ -11,6 +11,7 @@ tags:
   - "#runtime"
   - "#choreography"
   - "#AnimationDirector.js"
+  - "#animation"
 links:
   - "[AnimationBus](../AnimationBus/AnimationBus.md)"
   - "[ScrollEffectsCoordinator](../ScrollEffectsCoordinator/ScrollEffectsCoordinator.md)"

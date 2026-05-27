@@ -12,6 +12,7 @@ tags:
   - "#choreography"
   - "#card"
   - "#CardManager"
+  - "#manager"
 links:
   - "[Card](../Card/Card.md)"
 ---

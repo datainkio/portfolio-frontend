@@ -11,6 +11,7 @@ tags:
   - "#runtime"
   - "#choreography"
   - "#AnimationBus.js"
+  - "#animation"
 links:
   - "[index](../config/index/index.md)"
 ---

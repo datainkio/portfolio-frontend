@@ -11,6 +11,7 @@ tags:
   - "#runtime"
   - "#choreography"
   - "#sections"
+  - "#animation"
 links:
   - "[timelines](../../../config/contracts/timelines/timelines.md)"
   - "[gsap](../../../vendor/gsap/gsap.md)"

@@ -14,6 +14,7 @@ tags:
   - "#project"
   - "#parallax"
   - "#scroll"
+  - "#manager"
 links:
   - "[gsap](../../vendor/gsap/gsap.md)"
 ---

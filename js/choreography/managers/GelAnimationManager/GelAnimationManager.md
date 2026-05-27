@@ -12,6 +12,8 @@ tags:
   - "#choreography"
   - "#managers"
   - "#GelAnimationManager"
+  - "#manager"
+  - "#animation"
 links:
   - "[gsap](../../vendor/gsap/gsap.md)"
   - "[index](../../config/index/index.md)"

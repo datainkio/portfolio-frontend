@@ -10,6 +10,7 @@ tags:
   - "#scroll"
   - "#gsap"
   - "#GlobalHeaderManager"
+  - "#manager"
 scope: frontend
 runtime: browser
 links:

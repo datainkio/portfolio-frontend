@@ -12,6 +12,7 @@ tags:
   - "#choreography"
   - "#managers"
   - "#SessionManager"
+  - "#manager"
 links:
   - "[lumberjack](lumberjack.js)"
 ---

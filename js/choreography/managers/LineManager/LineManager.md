@@ -12,6 +12,7 @@ tags:
   - "#choreography"
   - "#managers"
   - "#LineManager"
+  - "#manager"
 links:
   - "[index](../index/index.md)"
   - "[leader-lines](../../config/displays/leader-lines/leader-lines.md)"

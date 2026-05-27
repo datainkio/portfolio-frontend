@@ -11,6 +11,7 @@ tags:
   - "#runtime"
   - "#choreography"
   - "#sections"
+  - "#animation"
 links:
   - "[AbstractSectionAnimations](../../abstract-section/AbstractSectionAnimations/AbstractSectionAnimations.md)"
   - "[gsap](../../../vendor/gsap/gsap.md)"

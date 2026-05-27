@@ -12,6 +12,7 @@ tags:
   - "#choreography"
   - "#managers"
   - "#RulerIntroManager"
+  - "#manager"
 links:
   - "[index](../../config/index/index.md)"
   - "[gsap](../../vendor/gsap/gsap.md)"

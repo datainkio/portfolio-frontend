@@ -12,6 +12,7 @@ tags:
   - "#choreography"
   - "#managers"
   - "#ScrollSmootherManager"
+  - "#manager"
 links:
   - "[gsap](../../vendor/gsap/gsap.md)"
   - "[index](../../config/index/index.md)"
