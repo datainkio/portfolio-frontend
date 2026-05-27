@@ -1,23 +1,21 @@
 ---
-aix:
-  id: frontend.views.atoms.readme
-  role: Documents the atoms/ layer — foundational UI building blocks of the design system.
-  status: stable
-  surface: internal
-  owner: Template Steward
-  tags:
-    -  #atoms
-    -  #atomic-design
-    -  #nunjucks
-  type: guide
-  scope: frontend
-  audience: maintainers
-  perf:
-    readPriority: medium
-    cacheSafe: true
-    critical: false
+id: frontend.views.atoms.readme
+role: Documents the atoms/ layer — foundational UI building blocks of the design system.
+status: stable
+surface: internal
+owner: Template Steward
+type: guide
+scope: frontend
+audience: maintainers
+tags:
+  - "#atoms"
+  - "#atomic-design"
+  - "#nunjucks"
+perf:
+  readPriority: medium
+  cacheSafe: true
+  critical: false
 ---
-
 <!-- @format -->
 
 # Atoms Directory - Foundational UI Components

@@ -9,12 +9,28 @@ templateRole: "page"
 atomicLevel: "page"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - page
-  - page
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#page"
+  - "#atomic-design"
+links:
+  - "[SitePreloader](../../organisms/SitePreloader.md)"
+  - "[global-header](../../organisms/header/global-header.md)"
+  - "[global-footer](../../organisms/footer/global-footer.md)"
+  - "[skip-links-nav](organisms/navigation/skip-links-nav.njk)"
+  - "[sizzle-background](../../molecules/background/sizzle-background.md)"
+  - "[hero](../../organisms/section/hero.md)"
+  - "[bio](../../organisms/section/bio.md)"
+  - "[awards](../../organisms/section/awards.md)"
+  - "[work](../../organisms/section/work.md)"
+  - "[organizations](../../organisms/section/organizations.md)"
+  - "[contact](../../organisms/section/contact.md)"
+  - "[head](../../templates/partials/head.md)"
+  - "[gtm-noscript](../../templates/partials/gtm-noscript.md)"
+  - "[choreography-script](../../templates/partials/choreography-script.md)"
+
 ---
 
 # Home

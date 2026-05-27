@@ -9,11 +9,11 @@ templateRole: "layout"
 atomicLevel: "none"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - layout
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#layout"
 ---
 # Storyboards
 

@@ -9,12 +9,17 @@ templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - component
-  - molecule
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#component"
+  - "#molecule"
+  - "#atomic-design"
+links:
+  - "[video](../../atoms/video/video.md)"
+  - "[gel](../../atoms/gel.md)"
+
 ---
 # Sizzle Background
 

@@ -1,23 +1,21 @@
 ---
-aix:
-  id: frontend.views.templates.readme
-  role: Documents the templates/ directory — partials and the readme documentation renderer.
-  status: stable
-  surface: internal
-  owner: Template Steward
-  tags:
-    -  #templates
-    -  #partials
-    -  #nunjucks
-  type: guide
-  scope: frontend
-  audience: maintainers
-  perf:
-    readPriority: medium
-    cacheSafe: true
-    critical: false
+id: frontend.views.templates.readme
+role: Documents the templates/ directory — partials and the readme documentation renderer.
+status: stable
+surface: internal
+owner: Template Steward
+type: guide
+scope: frontend
+audience: maintainers
+tags:
+  - "#templates"
+  - "#partials"
+  - "#nunjucks"
+perf:
+  readPriority: medium
+  cacheSafe: true
+  critical: false
 ---
-
 <!-- @format -->
 
 # Templates Directory - Page Layout Templates

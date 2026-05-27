@@ -6,14 +6,18 @@ engine: "Nunjucks"
 system: "Eleventy"
 type: "template"
 templateRole: "layout"
-atomicLevel: "none"
+atomicLevel: "template"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - layout
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#atomic-design"
+links:
+  - "[base](../../layouts/base.md)"
+  - "[landing-header](../../organisms/header/landing/landing-header.md)"
+
 ---
 # Landing
 

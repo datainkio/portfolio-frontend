@@ -9,12 +9,12 @@ templateRole: "partial"
 atomicLevel: "template"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - partial
-  - template
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#partial"
+  - "#atomic-design"
 ---
 # Choreography Script
 

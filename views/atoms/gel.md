@@ -9,12 +9,16 @@ templateRole: "component"
 atomicLevel: "atom"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - component
-  - atom
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#component"
+  - "#atom"
+  - "#atomic-design"
+links:
+  - "[gel](gel.md)"
+
 ---
 # Gel
 

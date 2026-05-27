@@ -1,23 +1,21 @@
 ---
-aix:
-  id: frontend.views.molecules.readme
-  role: Documents the molecules/ layer — composite UI groups composed of atoms.
-  status: stable
-  surface: internal
-  owner: Template Steward
-  tags:
-    -  #molecules
-    -  #atomic-design
-    -  #nunjucks
-  type: guide
-  scope: frontend
-  audience: maintainers
-  perf:
-    readPriority: medium
-    cacheSafe: true
-    critical: false
+id: frontend.views.molecules.readme
+role: Documents the molecules/ layer — composite UI groups composed of atoms.
+status: stable
+surface: internal
+owner: Template Steward
+type: guide
+scope: frontend
+audience: maintainers
+tags:
+  - "#molecules"
+  - "#atomic-design"
+  - "#nunjucks"
+perf:
+  readPriority: medium
+  cacheSafe: true
+  critical: false
 ---
-
 <!-- @format -->
 
 # Molecules Directory - Composite UI Components

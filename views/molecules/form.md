@@ -9,12 +9,17 @@ templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - component
-  - molecule
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#component"
+  - "#molecule"
+  - "#atomic-design"
+links:
+  - "[input](../atoms/input.md)"
+  - "[button](../atoms/button/button.md)"
+
 ---
 # Form
 

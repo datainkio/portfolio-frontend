@@ -9,11 +9,15 @@ templateRole: "layout"
 atomicLevel: "none"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - layout
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#layout"
+links:
+  - "[base](base.md)"
+  - "[docs-nav](../organisms/navigation/docs-nav.md)"
+
 ---
 # Cols 2 After
 

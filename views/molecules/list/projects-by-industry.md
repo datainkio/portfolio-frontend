@@ -9,12 +9,13 @@ templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - component
-  - molecule
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#component"
+  - "#molecule"
+  - "#atomic-design"
 ---
 # Projects By Industry
 

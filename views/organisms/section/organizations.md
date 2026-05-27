@@ -9,12 +9,17 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - template
-  - obsidian
-  - component
-  - organism
+  - "#eleventy"
+  - "#nunjucks"
+  - "#template"
+  - "#obsidian"
+  - "#component"
+  - "#organism"
+  - "#atomic-design"
+links:
+  - "[section-cap](../../molecules/section-cap.md)"
+  - "[organization](../../atoms/organization.md)"
+
 ---
 # Organizations
 
