@@ -16,7 +16,7 @@
  * ---
  */
 
-import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
 import { animateExit, animateIntro } from "./animations.js";
 import {
   PRELOADER_ASSET,
@@ -43,7 +43,7 @@ import {
   createFiletypeMessageUpdater,
   startResourceObserver,
 } from "./resource-observer.js";
-import { initRulerIntro } from "/assets/js/choreography/managers/RulerIntroManager.js";
+import { initRulerIntro } from "/assets/js/choreography/managers/RulerIntroManager/RulerIntroManager.js";
 import { ensureScrollSmoother } from "./scroll-smoother.js";
 
 let rulerIntro = null;
