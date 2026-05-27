@@ -12,6 +12,7 @@ tags:
   - "#choreography"
   - "#ix"
   - "#scrolltriggers"
+  - "#trigger"
 links:
   - "[selectors](../../contracts/selectors/selectors.md)"
 ---

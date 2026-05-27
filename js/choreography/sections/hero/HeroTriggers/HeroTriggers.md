@@ -11,6 +11,7 @@ tags:
   - "#runtime"
   - "#choreography"
   - "#sections"
+  - "#trigger"
 links:
   - "[AbstractSectionTriggers](../../abstract-section/AbstractSectionTriggers/AbstractSectionTriggers.md)"
   - "[gsap](../../../vendor/gsap/gsap.md)"

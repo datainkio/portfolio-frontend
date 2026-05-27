@@ -11,6 +11,7 @@ tags:
   - "#runtime"
   - "#choreography"
   - "#sections"
+  - "#trigger"
 links:
   - "[AbstractSectionTriggers](../../abstract-section/AbstractSectionTriggers/AbstractSectionTriggers.md)"
   - "[index](../../../config/index/index.md)"

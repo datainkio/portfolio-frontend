@@ -11,6 +11,7 @@ tags:
   - "#runtime"
   - "#choreography"
   - "#sections"
+  - "#trigger"
 links:
   - "[gsap](../../../vendor/gsap/gsap.md)"
   - "[index](../../../config/index/index.md)"
