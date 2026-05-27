@@ -1,15 +1,15 @@
 ---
-id: frontend.js.choreography.config.displays.ruler
-role: "Frontend runtime module: js/choreography/config/displays/ruler.js"
+id: frontend.js.choreography.config.displays.ruler.ruler
+role: "Configuration — defines display defaults and scroll-triggered intro animation defaults for the SVG ruler component."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#displays"
+  - "#config"
   - "#ruler"
+links: []
 ---

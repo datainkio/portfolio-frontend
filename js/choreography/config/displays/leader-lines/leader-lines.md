@@ -1,18 +1,17 @@
 ---
-id: frontend.js.choreography.config.displays.leader-lines
-role: "Frontend runtime module: js/choreography/config/displays/leader-lines.js"
+id: frontend.js.choreography.config.displays.leader-lines.leader-lines
+role: "Configuration — defines socket pairs, line styles, and sub-section line defaults for the LeaderLine connector display system."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#displays"
+  - "#config"
   - "#leader-lines"
 links:
-  - "[selectors](../../contracts/selectors/selectors.md)"
-  - "[motion](../../ix/motion/motion.md)"
+  - "[[selectors|selectors]]"
+  - "[[motion|motion]]"
 ---

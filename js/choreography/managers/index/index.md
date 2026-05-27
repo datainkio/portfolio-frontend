@@ -1,21 +1,15 @@
 ---
-id: frontend.js.choreography.managers.index
-role: "Frontend runtime module: js/choreography/managers/index.js"
+id: frontend.js.choreography.managers.index.index
+role: "Managers barrel — re-exports manager modules; note that the imported paths reference stale sub-folder locations that no longer exist in the current architecture."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#managers"
-links:
-  - "[ReducedMotionHandler](../ReducedMotionHandler/ReducedMotionHandler.md)"
-  - "[ScrollSmootherManager](../ScrollSmootherManager/ScrollSmootherManager.md)"
-  - "[GelAnimationManager](../GelAnimationManager/GelAnimationManager.md)"
-  - "[RulerIntroManager](../RulerIntroManager/RulerIntroManager.md)"
-  - "[LineManager](../LineManager/LineManager.md)"
-  - "[ProjectHeaderManager](../ProjectHeaderManager/ProjectHeaderManager.md)"
+  - "#system"
+  - "#index"
+links: []
 ---

@@ -1,18 +1,16 @@
 ---
-id: frontend.js.choreography.config.ix.scrolltriggers
-role: "Frontend runtime module: js/choreography/config/ix/scrolltriggers.js"
+id: frontend.js.choreography.config.ix.scrolltriggers.scrolltriggers
+role: "Configuration — defines ScrollTrigger defaults and section-specific trigger presets for hero, bio, awards, organizations, work, card, and background sections."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#ix"
+  - "#config"
   - "#scrolltriggers"
-  - "#trigger"
 links:
-  - "[selectors](../../contracts/selectors/selectors.md)"
+  - "[[selectors|selectors]]"
 ---

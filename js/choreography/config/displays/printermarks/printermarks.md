@@ -1,15 +1,15 @@
 ---
-id: frontend.js.choreography.config.displays.printermarks
-role: "Frontend runtime module: js/choreography/config/displays/printermarks.js"
+id: frontend.js.choreography.config.displays.printermarks.printermarks
+role: "Configuration — placeholder module for printermarks display defaults."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#displays"
+  - "#config"
   - "#printermarks"
+links: []
 ---

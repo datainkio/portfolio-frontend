@@ -43,7 +43,7 @@
  *       in both bundled and no-bundle (raw ESM) dev modes.
  */
 
-import { gsap, ScrollTrigger } from "/assets/js/choreography/vendor/gsap/gsap.js";
+import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 
 const SELECTORS = {
   header: "[data-landing-header]",

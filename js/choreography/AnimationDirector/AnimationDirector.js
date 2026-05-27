@@ -36,14 +36,14 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * @requires LandingSequence - Animation choreography
  */
 
-import { AnimationBus } from "/assets/js/choreography/AnimationBus/AnimationBus.js";
-import ScrollEffectsCoordinator from "/assets/js/choreography/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js";
-import { LandingSequence } from "/assets/js/choreography/sequences/landing/LandingSequence/LandingSequence.js";
-import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry/registry.js";
+import { AnimationBus } from "/assets/js/choreography/system/AnimationBus.js";
+import ScrollEffectsCoordinator from "/assets/js/choreography/system/ScrollEffectsCoordinator.js";
+import { LandingSequence } from "/assets/js/choreography/templates/landing/LandingSequence.js";
+import { SECTION_REGISTRY } from "/assets/js/choreography/system/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
-import CardManager from "../card/CardManager/CardManager.js";
-import GlobalHeaderManager from "../managers/GlobalHeaderManager/GlobalHeaderManager.js";
-import ProjectHeaderManager from "../managers/ProjectHeaderManager/ProjectHeaderManager.js";
+import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
+import GlobalHeaderManager from "/assets/js/choreography/system/GlobalHeaderManager.js";
+import ProjectHeaderManager from "/assets/js/choreography/organisms/project-header/ProjectHeader.js";
 
 const LOGS = {
   description:

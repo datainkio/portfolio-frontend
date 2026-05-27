@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.animationdirector
-role: "Frontend runtime module: js/choreography/AnimationDirector.js"
+role: "Master choreography controller — initializes and coordinates AnimationBus, ScrollEffectsCoordinator, section controllers, CardManager, GlobalHeaderManager, ProjectHeaderManager, and LandingSequence."
 status: stable
 surface: public
 scope: frontend
@@ -8,17 +8,16 @@ runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#AnimationDirector.js"
-  - "#animation"
+  - "#system"
+  - "#AnimationDirector"
 links:
-  - "[AnimationBus](../AnimationBus/AnimationBus.md)"
-  - "[ScrollEffectsCoordinator](../ScrollEffectsCoordinator/ScrollEffectsCoordinator.md)"
-  - "[LandingSequence](../sequences/landing/LandingSequence/LandingSequence.md)"
-  - "[registry](../sections/registry/registry.md)"
-  - "[events](../config/contracts/events/events.md)"
-  - "[CardManager](../card/CardManager/CardManager.md)"
-  - "[GlobalHeaderManager](../managers/GlobalHeaderManager/GlobalHeaderManager.md)"
-  - "[ProjectHeaderManager](../managers/ProjectHeaderManager/ProjectHeaderManager.md)"
+  - "[[AnimationBus|AnimationBus]]"
+  - "[[ScrollEffectsCoordinator|ScrollEffectsCoordinator]]"
+  - "[[LandingSequence|LandingSequence]]"
+  - "[[registry|registry]]"
+  - "[[events|events]]"
+  - "[[CardManager|CardManager]]"
+  - "[[GlobalHeaderManager|GlobalHeaderManager]]"
+  - "[[ProjectHeader|ProjectHeader]]"
 ---

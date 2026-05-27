@@ -1,29 +1,28 @@
 ---
-id: frontend.js.choreography.config.index
-role: "Frontend runtime module: js/choreography/config/index.js"
+id: frontend.js.choreography.config.index.index
+role: "Configuration barrel — single import surface re-exporting all choreography configuration from contracts, displays, and ix sub-folders."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
   - "#config"
   - "#index"
 links:
-  - "[events](../contracts/events/events.md)"
-  - "[paths](../contracts/paths/paths.md)"
-  - "[selectors](../contracts/selectors/selectors.md)"
-  - "[labels](../contracts/labels/labels.md)"
-  - "[timelines](../contracts/timelines/timelines.md)"
-  - "[arrangements](../displays/arrangements/arrangements.md)"
-  - "[ruler](../displays/ruler/ruler.md)"
-  - "[printermarks](../displays/printermarks/printermarks.md)"
-  - "[leader-lines](../displays/leader-lines/leader-lines.md)"
-  - "[accessibility](../ix/accessibility/accessibility.md)"
-  - "[breakpoints](../ix/breakpoints/breakpoints.md)"
-  - "[motion](../ix/motion/motion.md)"
-  - "[scrolltriggers](../ix/scrolltriggers/scrolltriggers.md)"
+  - "[[events|events]]"
+  - "[[paths|paths]]"
+  - "[[selectors|selectors]]"
+  - "[[labels|labels]]"
+  - "[[timelines|timelines]]"
+  - "[[arrangements|arrangements]]"
+  - "[[ruler|ruler]]"
+  - "[[printermarks|printermarks]]"
+  - "[[leader-lines|leader-lines]]"
+  - "[[accessibility|accessibility]]"
+  - "[[breakpoints|breakpoints]]"
+  - "[[motion|motion]]"
+  - "[[scrolltriggers|scrolltriggers]]"
 ---

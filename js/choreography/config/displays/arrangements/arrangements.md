@@ -1,15 +1,15 @@
 ---
-id: frontend.js.choreography.config.arrangements
-role: "Frontend runtime module: js/choreography/config/arrangements.js"
-status: draft
-surface: public
+id: frontend.js.choreography.config.displays.arrangements.arrangements
+role: "Configuration — defines gel arrangement presets and transition defaults for background gel composition transitions."
+status: stable
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#gels"
+  - "#config"
   - "#arrangements"
+links: []
 ---

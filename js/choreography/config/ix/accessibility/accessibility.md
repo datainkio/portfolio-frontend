@@ -1,15 +1,15 @@
 ---
-id: frontend.js.choreography.config.ix.accessibility
-role: "Frontend runtime module: js/choreography/config/ix/accessibility.js"
+id: frontend.js.choreography.config.ix.accessibility.accessibility
+role: "Configuration — defines reduced-motion default settings used by ReducedMotionHandler to gate animation behavior."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#ix"
+  - "#config"
   - "#accessibility"
+links: []
 ---

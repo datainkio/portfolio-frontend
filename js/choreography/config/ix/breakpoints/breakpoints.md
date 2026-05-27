@@ -1,15 +1,15 @@
 ---
-id: frontend.js.choreography.config.ix.breakpoints
-role: "Frontend runtime module: js/choreography/config/ix/breakpoints.js"
+id: frontend.js.choreography.config.ix.breakpoints.breakpoints
+role: "Configuration — defines Tailwind-aligned breakpoint values and gsap.matchMedia condition strings for responsive motion profiles."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
   - "#config"
   - "#breakpoints"
+links: []
 ---

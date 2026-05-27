@@ -18,7 +18,7 @@
 
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
-import { AnimationBus } from "/assets/js/choreography/AnimationBus/AnimationBus.js";
+import { AnimationBus } from "/assets/js/choreography/system/AnimationBus.js";
 import Hero from "/assets/js/choreography/sections/hero/Hero/Hero.js";
 
 const logger = lumberjack.createScoped("HeroPlayground", {

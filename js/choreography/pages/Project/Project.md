@@ -1,15 +1,15 @@
 ---
-id: frontend.js.choreography.pages.project
-role: "Frontend runtime module: js/choreography/pages/Project.js"
+id: frontend.js.choreography.pages.project.project
+role: "Page controller — plays intro and reverse-outro GSAP timeline animations for project page entry and link-click exit transitions."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#pages"
+  - "#page"
   - "#Project"
+links: []
 ---

@@ -1,18 +1,15 @@
 ---
-id: frontend.js.choreography.managers.sessionmanager
-role: "Frontend runtime module: js/choreography/managers/SessionManager.js"
+id: frontend.js.choreography.managers.sessionmanager.sessionmanager
+role: "Runtime infrastructure — manages session state persistence in sessionStorage, tracking hero intro play status and user interaction history."
 status: stable
-surface: public
+surface: internal
 scope: frontend
 runtime: browser
 tags:
   - "#frontend"
   - "#js"
-  - "#runtime"
   - "#choreography"
-  - "#managers"
+  - "#system"
   - "#SessionManager"
-  - "#manager"
-links:
-  - "[lumberjack](lumberjack.js)"
+links: []
 ---

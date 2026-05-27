@@ -1,0 +1,17 @@
+---
+id: frontend.js.choreography.atoms.slide
+role: "Pure GSAP factory — translates a target along an axis for lift-and-fade effects."
+status: stable
+surface: internal
+scope: frontend
+runtime: browser
+tags:
+  - "#frontend"
+  - "#js"
+  - "#choreography"
+  - "#atom"
+  - "#slide"
+links:
+  - "[[system/gsap|system/gsap]]"
+  - "[[motion|motion]]"
+---
