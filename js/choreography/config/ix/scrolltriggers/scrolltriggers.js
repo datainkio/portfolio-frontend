@@ -105,16 +105,16 @@ export const BACKGROUND_TRIGGER = {
 /**
  * Card Figure Clip Trigger Defaults
  *
- * Drives a clip-path scrub on the card figure element.
- * The figure stays in document flow; clip-path handles the visual reveal.
- * GPU-composited — no layout or paint work during scroll.
+ * Drives a synchronized height collapse (figure) and clip-path scrub (image).
+ * pinSpacing: false — the card's actual height shrinks during the animation,
+ * so no extra scroll space should be reserved by the pin.
  */
 export const CARD_FIGURE_CLIP_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: "card-figure-clip",
   // once: false overrides SCROLL_DEFAULTS so the clip reverses on scroll-back
   pin: true,
-  pinSpacing: true,
+  pinSpacing: false,
   once: false,
   start: "top top",
   scrub: true,

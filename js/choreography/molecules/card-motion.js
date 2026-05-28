@@ -1,14 +1,15 @@
 /**
- * Card-Scroll-Clip Molecule
+ * Card-Motion Molecule
  *
- * Encapsulates the two scroll-driven animation variants for project cards:
+ * Encapsulates the scroll-driven animation variants for project cards:
  *
- *   clip  (default, lg+) — Scrubbed clip-path on the figure + matching body translate.
- *                          The figure clips bottom-to-top as the card exits the viewport.
- *                          Both figure and body are promoted to compositor layers.
+ *   clip  (default) — Scrubbed height collapse on the figure + natural body rise.
+ *                     The image is absolutely positioned at its initial dimensions so
+ *                     it never scales as the figure shrinks. The card genuinely loses
+ *                     height as it exits the viewport.
  *
- *   fade  (md)           — Single-play fade+lift on scroll enter.
- *                          Simpler pattern suited for mid-range breakpoints.
+ *   fade  (md)      — Single-play fade+lift on scroll enter.
+ *                     Simpler pattern suited for mid-range breakpoints.
  *
  * The returned object exposes kill() to destroy the internal timeline and its
  * ScrollTrigger. Card.js calls this on breakpoint/reduced-motion transitions.
@@ -29,7 +30,12 @@ import {
 } from "../config/index/index.js";
 
 /**
- * Creates the scrubbed clip-path + body-translate variant.
+ * Creates the scrubbed height-collapse + image clip-path variant.
+ *
+ * The image is absolutely positioned at its initial pixel height so h-full
+ * never rescales it as the figure collapses. clip-path on the image provides
+ * a GPU-composited mask that hides the bottom in sync with the figure's height
+ * tween, preventing any sub-pixel paint artifacts during the scrub.
  *
  * @param {{
  *   figure: Element,
@@ -40,11 +46,20 @@ import {
  * @returns {{ timeline: gsap.core.Timeline, kill(): void }}
  */
 export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
-  figure.style.willChange = "clip-path";
-  body.style.willChange = "transform";
+  const image = figure.querySelector('[data-card-el="image"]');
+  const initialHeight = figure.offsetHeight;
 
-  gsap.set(figure, { clipPath: "inset(0 0 0% 0)" });
-  gsap.set(body, { y: 0 });
+  figure.style.willChange = "height";
+  gsap.set(figure, { overflow: "hidden" });
+  gsap.set(image, {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: initialHeight,
+    clipPath: "inset(0 0 0% 0)",
+    willChange: "clip-path",
+  });
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -52,11 +67,12 @@ export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
       id: `${CARD_FIGURE_CLIP_TRIGGER.id}-${index}`,
       trigger: triggerEl,
       end: () => `+=${window.innerHeight}`,
+      invalidateOnRefresh: true,
     },
   });
 
-  tl.to(figure, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
-  tl.to(body, { y: () => -window.innerHeight, ease: "none" }, 0);
+  tl.to(figure, { height: 0, ease: "none" }, 0);
+  tl.to(image, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
 
   return {
     timeline: tl,
@@ -64,7 +80,8 @@ export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
       tl?.scrollTrigger?.kill();
       tl?.kill();
       figure.style.willChange = "";
-      body.style.willChange = "";
+      gsap.set(image, { clearProps: "all" });
+      gsap.set(figure, { clearProps: "height,overflow" });
     },
   };
 }
