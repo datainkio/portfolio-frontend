@@ -7,6 +7,7 @@ import {
   createCardScrollClip,
   createCardScrollFade,
   createCardParallax,
+  createCardMotionPath,
 } from "../../molecules/card-motion.js";
 
 const CARD_EL_ATTR = "data-card-el";
@@ -67,7 +68,14 @@ export default class Card {
     this._profile = profile;
     const variant = profile.animation?.variant ?? "clip";
 
-    if (variant === "parallax") {
+    if (variant === "motionpath") {
+      this._clip = createCardMotionPath({
+        figure: this.root,
+        body: this.body,
+        index: this._index,
+        triggerEl: this.root,
+      });
+    } else if (variant === "parallax") {
       this._clip = createCardParallax({
         figure: this.figure,
         body: this.body,
@@ -92,7 +100,9 @@ export default class Card {
   _applyStaticState() {
     const variant = this._profile?.animation?.variant ?? "clip";
 
-    if (variant === "parallax") {
+    if (variant === "motionpath") {
+      gsap.set(this.root, { clearProps: "willChange,x,y" });
+    } else if (variant === "parallax") {
       if (this.figure) {
         gsap.set(this.figure, { yPercent: 0, clearProps: "willChange" });
       }

@@ -23,9 +23,11 @@ import ScrollTrigger from "/assets/js/vendor/gsap/ScrollTrigger.js";
 import ScrollSmoother from "/assets/js/vendor/gsap/ScrollSmoother.js";
 import SplitText from "/assets/js/vendor/gsap/SplitText.js";
 import Draggable from "/assets/js/vendor/gsap/Draggable.js";
+import MotionPathPlugin from "/assets/js/vendor/gsap/MotionPathPlugin.js";
+import MotionPathHelper from "/assets/js/vendor/gsap/MotionPathHelper.js";
 import { ANIMATION_DEFAULTS } from "../config/index/index.js";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, Draggable);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, Draggable, MotionPathPlugin, MotionPathHelper);
 
 // Only pass GSAP-global properties here; section-level values like stagger/translateY stay local.
 gsap.defaults({
@@ -33,4 +35,4 @@ gsap.defaults({
   ease: ANIMATION_DEFAULTS.ease.out,
 });
 
-export { gsap, ScrollTrigger, ScrollSmoother, SplitText, Draggable };
+export { gsap, ScrollTrigger, ScrollSmoother, SplitText, Draggable, MotionPathPlugin, MotionPathHelper };
