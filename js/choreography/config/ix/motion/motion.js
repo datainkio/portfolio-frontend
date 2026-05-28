@@ -310,15 +310,15 @@ export const MOTION_PROFILES = Object.freeze({
  *
  * animation channel:
  *   variant - selects which animation implementation to run.
- *             Values are section-defined; Card supports 'clip' and 'fade'.
+ *             Values are section-defined; Card supports 'clip', 'fade', and 'parallax'.
  */
 export const SECTION_OVERRIDES = Object.freeze({
   card: {
     base: { animation: { variant: "clip" } },
-    sm: { animation: { variant: "clip" } },
-    md: { animation: { variant: "fade" } },
-    lg: { animation: { variant: "clip" } },
-    xl: { animation: { variant: "clip" } },
+    sm: { animation: { variant: "parallax" } },
+    md: { trigger: { enabled: false } },
+    lg: { trigger: { enabled: false } },
+    xl: { trigger: { enabled: false } },
   },
 });
 

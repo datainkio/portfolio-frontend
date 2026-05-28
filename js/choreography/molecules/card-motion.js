@@ -23,7 +23,10 @@
  */
 
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { CARD_FIGURE_CLIP_TRIGGER } from "../config/index/index.js";
+import {
+  CARD_FIGURE_CLIP_TRIGGER,
+  CARD_FIGURE_PARALLAX_TRIGGER,
+} from "../config/index/index.js";
 
 /**
  * Creates the scrubbed clip-path + body-translate variant.
@@ -100,6 +103,47 @@ export function createCardScrollFade({ figure, triggerEl }) {
       tl?.scrollTrigger?.kill();
       tl?.kill();
       figure.style.willChange = "";
+    },
+  };
+}
+
+/**
+ * Creates the scroll-scrubbed parallax variant for md+ breakpoints.
+ *
+ * Figure moves upward and body drifts downward as the card scrolls through
+ * the viewport, creating a depth separation between the image and text layers.
+ * Both elements are GPU-promoted via willChange.
+ *
+ * @param {{
+ *   figure: Element,
+ *   body: Element,
+ *   index?: number,
+ *   triggerEl?: Element
+ * }} param0
+ * @returns {{ timeline: gsap.core.Timeline, kill(): void }}
+ */
+export function createCardParallax({ figure, body, index = 0, triggerEl }) {
+  figure.style.willChange = "transform";
+  body.style.willChange = "transform";
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      ...CARD_FIGURE_PARALLAX_TRIGGER,
+      id: `${CARD_FIGURE_PARALLAX_TRIGGER.id}-${index}`,
+      trigger: triggerEl,
+    },
+  });
+
+  tl.fromTo(figure, { yPercent: 0 }, { yPercent: 0, ease: "none" }, 0);
+  tl.fromTo(body, { yPercent: 0 }, { yPercent: -25, ease: "none" }, 0);
+
+  return {
+    timeline: tl,
+    kill() {
+      tl?.scrollTrigger?.kill();
+      tl?.kill();
+      figure.style.willChange = "";
+      body.style.willChange = "";
     },
   };
 }

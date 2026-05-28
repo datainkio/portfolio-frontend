@@ -121,6 +121,27 @@ export const CARD_FIGURE_CLIP_TRIGGER = {
 };
 
 /**
+ * Card Figure Parallax Trigger Defaults
+ *
+ * Drives a scroll-scrubbed parallax split between the card figure and body.
+ * No pin — both elements shift in opposite directions as the card scrolls
+ * through the viewport, creating a depth separation effect.
+ * Covers the full in-viewport range: top-of-card at viewport-bottom to
+ * bottom-of-card at viewport-top.
+ */
+export const CARD_FIGURE_PARALLAX_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: "card-figure-parallax",
+  once: false,
+  start: "top bottom",
+  end: "bottom top",
+  scrub: true,
+  pin: false,
+  pinSpacing: false,
+  invalidateOnRefresh: true,
+};
+
+/**
  * Compose a ScrollTrigger config from a base config and a resolved motion profile.
  *
  * Applies the profile's trigger channel capability flags (scrub, pin, once,

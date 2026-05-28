@@ -4,6 +4,7 @@ permalink: "/case-studies/"
 metaDescription: "no metaDescription defined"
 metaKeywords: "user experience, eleventy, sanity, tailwind"
 canonicalUrl: "https://dataink.io/case-studies/"
+enableChoreography: true
 skipLinks:
   - main
 eleventyNavigation:
