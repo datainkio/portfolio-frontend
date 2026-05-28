@@ -70,8 +70,7 @@ export default class Card {
 
     if (variant === "motionpath") {
       this._clip = createCardMotionPath({
-        figure: this.root,
-        body: this.body,
+        article: this.root,
         index: this._index,
         triggerEl: this.root,
       });

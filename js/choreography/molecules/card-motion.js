@@ -27,7 +27,7 @@
  * const fade = createCardScrollFade({ figure, triggerEl: root });
  * fade.kill();
  *
- * const mp = createCardMotionPath({ figure, triggerEl: root });
+ * const mp = createCardMotionPath({ article: root, triggerEl: root });
  * mp.kill();
  */
 
@@ -241,8 +241,8 @@ function getOrCreatePathGuide() {
 /**
  * Scroll-scrubbed MotionPath variant for the curved card trajectory.
  *
- * Animates only the horizontal (x) offset of the figure element; vertical motion
- * is provided by scroll. The x offset follows the same arc as the SVG guide:
+ * Animates only the horizontal (x) offset of the entire article element; vertical
+ * motion is provided by scroll. The x offset follows the same arc as the SVG guide:
  * –4.5vw at entry and exit, 0 (natural center) when the card's center reaches
  * the viewport's vertical midpoint. power2.out / power2.in eases match the
  * bezier curvature of the path guide.
@@ -251,25 +251,82 @@ function getOrCreatePathGuide() {
  * recreate it via getOrCreatePathGuide() if a prior kill() removed it.
  *
  * @param {{
- *   figure: Element,
- *   body: Element,
+ *   article: Element,
  *   index?: number,
  *   triggerEl?: Element
  * }} param0
  * @returns {{ pathEl: SVGSVGElement, timeline: gsap.core.Timeline, kill(): void }}
  */
-export function createCardMotionPath({
-  figure,
-  body,
-  index = 0,
-  triggerEl,
-} = {}) {
+// const MOTION_PATH_GUIDE_ATTR = "data-card-path-guide";
+// const MOTION_PATH_ID = "card-motion-path";
+
+function cubic(p0, p1, p2, p3, t) {
+  const u = 1 - t;
+
+  return (
+    u * u * u * p0 + 3 * u * u * t * p1 + 3 * u * t * t * p2 + t * t * t * p3
+  );
+}
+
+function cubicDerivative(p0, p1, p2, p3, t) {
+  const u = 1 - t;
+
+  return 3 * u * u * (p1 - p0) + 6 * u * t * (p2 - p1) + 3 * t * t * (p3 - p2);
+}
+
+export function createCardMotionPath({ article, index = 0, triggerEl } = {}) {
   const pathEl = getOrCreatePathGuide();
 
-  figure.style.willChange = "transform";
+  article.style.willChange = "transform";
+  gsap.set(article, {
+    transformOrigin: "50% 50%",
+  });
+
+  const state = { progress: 0 };
+
+  function render() {
+    const t = state.progress;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // Equivalent to guide x coordinates:
+    // 41.667 -> 52.778 -> 52.778 -> 41.667,
+    // but expressed relative to the card's natural centered position.
+    const xOffset = vw / 12;
+    const cpX = xOffset / 3;
+
+    const x0 = -xOffset;
+    const x1 = cpX;
+    const x2 = cpX;
+    const x3 = -xOffset;
+
+    // Equivalent to guide y coordinates:
+    // 100 -> 70 -> 30 -> 0, converted to pixels.
+    // This is used only for tangent/rotation math.
+    // The actual vertical movement is still provided by scroll.
+    const y0 = vh;
+    const y1 = vh * 0.7;
+    const y2 = vh * 0.3;
+    const y3 = 0;
+
+    const x = cubic(x0, x1, x2, x3, t);
+
+    const dx = cubicDerivative(x0, x1, x2, x3, t);
+    const dy = cubicDerivative(y0, y1, y2, y3, t);
+
+    // Tangent angle of the visible path.
+    // +90 assumes the article's visual "upright" axis should align with the path.
+    // Try 0, 90, -90, or 180 depending on the card's intended facing direction.
+    const rotation = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+
+    gsap.set(article, {
+      x,
+      rotation,
+    });
+  }
 
   const tl = gsap.timeline({
-    autoRotate: true,
     scrollTrigger: {
       trigger: triggerEl,
       start: "top bottom",
@@ -279,14 +336,13 @@ export function createCardMotionPath({
     },
   });
 
-  // Animate only the horizontal offset. Vertical motion comes from scroll.
-  // Bezier math: at t=0.25, x_offset is 75% resolved → power2.out for entry, power2.in for exit.
-  tl.fromTo(
-    figure,
-    { x: "calc(-100vw / 12)" },
-    { x: "0vw", ease: "power2.out" },
-  );
-  tl.to(figure, { x: "calc(-100vw / 12)", ease: "power2.in" });
+  tl.to(state, {
+    progress: 1,
+    ease: "none",
+    onUpdate: render,
+  });
+
+  render();
 
   return {
     pathEl,
@@ -294,8 +350,8 @@ export function createCardMotionPath({
     kill() {
       tl?.scrollTrigger?.kill();
       tl?.kill();
-      figure.style.willChange = "";
-      gsap.set(figure, { clearProps: "x" });
+      article.style.willChange = "";
+      gsap.set(article, { clearProps: "x,y,rotation,transformOrigin" });
       pathEl?.remove();
     },
   };
