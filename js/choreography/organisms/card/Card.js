@@ -8,6 +8,7 @@ import {
   createCardScrollFade,
   createCardParallax,
   createCardMotionPath,
+  createMasterTimeline,
 } from "../../molecules/card-motion.js";
 
 const CARD_EL_ATTR = "data-card-el";
@@ -17,7 +18,7 @@ const selectCardEl = (root, name) =>
 
 const VARIANT_FACTORIES = {
   motionpath: (card) =>
-    createCardMotionPath({
+    createMasterTimeline({
       article: card.root,
       figure: card.figure,
       body: card.body,
@@ -49,18 +50,26 @@ const VARIANT_FACTORIES = {
 const VARIANT_RESET = {
   motionpath: (card) => {
     gsap.set(card.root, { clearProps: "willChange,x,rotation" });
-    if (card.figure) gsap.set(card.figure, { clearProps: "willChange,yPercent" });
+    if (card.figure)
+      gsap.set(card.figure, { clearProps: "willChange,yPercent" });
     if (card.body) gsap.set(card.body, { clearProps: "willChange,yPercent" });
   },
   parallax: (card) => {
-    if (card.figure) gsap.set(card.figure, { yPercent: 0, clearProps: "willChange" });
-    if (card.body) gsap.set(card.body, { yPercent: 0, clearProps: "willChange" });
+    if (card.figure)
+      gsap.set(card.figure, { yPercent: 0, clearProps: "willChange" });
+    if (card.body)
+      gsap.set(card.body, { yPercent: 0, clearProps: "willChange" });
   },
   fade: (card) => {
-    if (card.figure) gsap.set(card.figure, { autoAlpha: 1, y: 0, clearProps: "willChange" });
+    if (card.figure)
+      gsap.set(card.figure, { autoAlpha: 1, y: 0, clearProps: "willChange" });
   },
   clip: (card) => {
-    if (card.figure) gsap.set(card.figure, { clipPath: "inset(0 0 0% 0)", clearProps: "willChange" });
+    if (card.figure)
+      gsap.set(card.figure, {
+        clipPath: "inset(0 0 0% 0)",
+        clearProps: "willChange",
+      });
     if (card.body) gsap.set(card.body, { y: 0, clearProps: "willChange" });
   },
 };

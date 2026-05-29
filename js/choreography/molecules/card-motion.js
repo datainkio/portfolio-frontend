@@ -38,8 +38,13 @@ import {
 } from "../config/index/index.js";
 import { isReducedMotion } from "../system/ReducedMotionHandler.js";
 
-const killST = (tl) => { tl?.scrollTrigger?.kill(true); tl?.kill(); };
-const DEBUG_MOTION_PATH = new URLSearchParams(location.search).has("debug-motion");
+const killST = (tl) => {
+  tl?.scrollTrigger?.kill(true);
+  tl?.kill();
+};
+const DEBUG_MOTION_PATH = new URLSearchParams(location.search).has(
+  "debug-motion",
+);
 
 /**
  * Creates the scrubbed height-collapse + image clip-path variant.
@@ -57,13 +62,21 @@ const DEBUG_MOTION_PATH = new URLSearchParams(location.search).has("debug-motion
  * }} param0
  * @returns {{ kill(): void }}
  */
-export function createCardScrollClip({ figure, body, index = 0, triggerEl, reduceMotion }) {
+export function createCardScrollClip({
+  figure,
+  body,
+  index = 0,
+  triggerEl,
+  reduceMotion,
+}) {
   const image = figure.querySelector('[data-card-el="image"]');
   if (!image) return { kill() {} };
 
   if (isReducedMotion(reduceMotion)) {
     gsap.set(figure, { clearProps: "height,overflow,willChange" });
-    gsap.set(image, { clearProps: "position,top,left,width,height,clipPath,willChange" });
+    gsap.set(image, {
+      clearProps: "position,top,left,width,height,clipPath,willChange",
+    });
     return { kill() {} };
   }
 
@@ -96,7 +109,9 @@ export function createCardScrollClip({ figure, body, index = 0, triggerEl, reduc
   return {
     kill() {
       killST(tl);
-      gsap.set(image, { clearProps: "position,top,left,width,height,clipPath,willChange" });
+      gsap.set(image, {
+        clearProps: "position,top,left,width,height,clipPath,willChange",
+      });
       gsap.set(figure, { clearProps: "height,overflow,willChange" });
     },
   };
@@ -112,7 +127,12 @@ export function createCardScrollClip({ figure, body, index = 0, triggerEl, reduc
  * }} param0
  * @returns {{ kill(): void }}
  */
-export function createCardScrollFade({ figure, index = 0, triggerEl, reduceMotion }) {
+export function createCardScrollFade({
+  figure,
+  index = 0,
+  triggerEl,
+  reduceMotion,
+}) {
   if (isReducedMotion(reduceMotion)) {
     gsap.set(figure, { autoAlpha: 1, y: 0 });
     return { kill() {} };
@@ -159,7 +179,13 @@ export function createCardScrollFade({ figure, index = 0, triggerEl, reduceMotio
  * }} param0
  * @returns {{ kill(): void }}
  */
-export function createCardParallax({ figure, body, index = 0, triggerEl, reduceMotion }) {
+export function createCardParallax({
+  figure,
+  body,
+  index = 0,
+  triggerEl,
+  reduceMotion,
+}) {
   if (isReducedMotion(reduceMotion)) {
     gsap.set(figure, { yPercent: 0, clearProps: "willChange" });
     if (body) gsap.set(body, { yPercent: 0, clearProps: "willChange" });
@@ -287,6 +313,162 @@ function getOrCreatePathGuide() {
  * }} param0
  * @returns {{ kill(): void }}
  */
+
+export function createIntroTimeline({ article, render }) {
+  const proxy = { t: 0 };
+  const tl = gsap.timeline();
+  tl.from(article, { y: () => window.innerHeight, ease: "none" }, 0);
+  tl.to(proxy, { t: 0.5, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+  return tl;
+}
+
+function createInterIndicator(index) {
+  const attr = "data-card-inter-indicator";
+  const existing = document.querySelector(`[${attr}="${index}"]`);
+  if (existing) return existing;
+  const el = document.createElement("div");
+  el.setAttribute(attr, index);
+  el.style.cssText = [
+    "position:fixed",
+    `top:${1 + index * 2}rem`,
+    "right:1rem",
+    "background:#ff4db2",
+    "color:white",
+    "font:bold 0.75rem/1 monospace",
+    "padding:0.25rem 0.5rem",
+    "border-radius:4px",
+    "pointer-events:none",
+    "z-index:9999",
+  ].join(";");
+  el.textContent = `inter · ${index}`;
+  gsap.set(el, { autoAlpha: 0 });
+  document.body.appendChild(el);
+  return el;
+}
+
+export function createInterTimeline({ figure, body, index = 0 }) {
+  const indicator = DEBUG_MOTION_PATH ? createInterIndicator(index) : null;
+  const tl = gsap.timeline();
+  if (indicator) tl.set(indicator, { autoAlpha: 1 }, 0);
+  if (figure) {
+    tl.fromTo(
+      figure,
+      { x: 0, y: 0, immediateRender: false },
+      {
+        x: () => -figure.getBoundingClientRect().left,
+        y: () => -figure.getBoundingClientRect().top,
+        ease: "none",
+      },
+      0,
+    );
+  }
+  if (body) {
+    tl.fromTo(body, { y: 0 }, { y: () => -window.innerHeight, ease: "none" }, 0);
+  }
+  if (indicator) tl.set(indicator, { autoAlpha: 0 }, ">");
+  return tl;
+}
+
+export function createOutroTimeline({ article, render }) {
+  const proxy = { t: 0.5 };
+  const tl = gsap.timeline();
+  tl.to(article, { y: () => -window.innerHeight, ease: "none" }, 0);
+  tl.to(proxy, { t: 1, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+  return tl;
+}
+
+export function createMasterTimeline({
+  article,
+  figure, // assume the figure has a height of h-full and contains an image that is absolutely positioned at its initial pixel height
+  body, // the container for the card's text content
+  index = 0,
+  triggerEl,
+  reduceMotion,
+} = {}) {
+  if (isReducedMotion(reduceMotion)) {
+    gsap.set(article, {
+      clearProps: "x,y,rotation,transformOrigin,willChange",
+    });
+    if (figure) gsap.set(figure, { clearProps: "x,y,willChange" });
+    if (body) gsap.set(body, { clearProps: "y,willChange" });
+    return { kill() {} };
+  }
+
+  gsap.set(article, { willChange: "transform" });
+  if (figure) gsap.set(figure, { willChange: "transform" });
+  if (body) gsap.set(body, { willChange: "transform" });
+
+  const pts = { x0: 0, x1: 0, x2: 0, x3: 0, gy0: 0, gy1: 0, gy2: 0, gy3: 0 };
+  const setX = gsap.quickSetter(article, "x", "px");
+  const setRotation = gsap.quickSetter(article, "rotation", "deg");
+
+  function buildPoints() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    pts.x0 = -(vw * ENTRY_X_FRACTION);
+    pts.x1 = vw * CP_X_FRACTION;
+    pts.x2 = vw * CP_X_FRACTION;
+    pts.x3 = -(vw * ENTRY_X_FRACTION);
+    pts.gy0 = vh;
+    pts.gy1 = vh * CP_Y_RATIOS[0];
+    pts.gy2 = vh * CP_Y_RATIOS[1];
+    pts.gy3 = 0;
+  }
+
+  function updateTransformOrigin() {
+    if (!body) return;
+    const ar = article.getBoundingClientRect();
+    const br = body.getBoundingClientRect();
+    gsap.set(article, {
+      transformOrigin: `${br.left - ar.left + br.width / 2}px ${br.top - ar.top + br.height / 2}px`,
+    });
+  }
+
+  function refresh() {
+    buildPoints();
+    updateTransformOrigin();
+  }
+
+  function render(t) {
+    const x = cubic(pts.x0, pts.x1, pts.x2, pts.x3, t);
+    const dx = cubicDerivative(pts.x0, pts.x1, pts.x2, pts.x3, t);
+    const dy = cubicDerivative(pts.gy0, pts.gy1, pts.gy2, pts.gy3, t);
+    setX(x);
+    setRotation(Math.atan2(dy, dx) * (180 / Math.PI) + ROTATION_OFFSET);
+  }
+
+  refresh();
+  render(0);
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      id: `card-master-${index}`,
+      trigger: triggerEl,
+      start: "top center",
+      end: () => `+=${window.innerHeight * 3}`,
+      pin: true,
+      scrub: true,
+      invalidateOnRefresh: true,
+      onRefresh: refresh,
+    },
+  });
+
+  tl.add(createIntroTimeline({ article, render }));
+  tl.add(createInterTimeline({ figure, body, index }));
+  tl.add(createOutroTimeline({ article, render }));
+
+  return {
+    kill() {
+      killST(tl);
+      gsap.set(article, {
+        clearProps: "x,y,rotation,transformOrigin,willChange",
+      });
+      if (figure) gsap.set(figure, { clearProps: "x,y,willChange" });
+      if (body) gsap.set(body, { clearProps: "y,willChange" });
+    },
+  };
+}
+
 function cubic(p0, p1, p2, p3, t) {
   const u = 1 - t;
   return (
@@ -432,7 +614,9 @@ export function createCardMotionPath({
       killST(tl2);
       st3?.kill();
       parallaxTl?.kill();
-      gsap.set(article, { clearProps: "x,rotation,transformOrigin,willChange" });
+      gsap.set(article, {
+        clearProps: "x,rotation,transformOrigin,willChange",
+      });
       if (figure) gsap.set(figure, { clearProps: "willChange" });
       if (body) gsap.set(body, { clearProps: "yPercent,willChange" });
       if (DEBUG_MOTION_PATH) pathEl?.remove();
