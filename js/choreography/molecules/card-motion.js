@@ -13,7 +13,7 @@
  *
  *   motionpath (md+)  — Curved viewport-relative trajectory with mid-path pin.
  *                       Phase 1: article arcs in from bottom-left to viewport center.
- *                       Phase 2: article pins; figure/body play a parallax separation.
+ *                       Phase 2: article pins; body plays a parallax lift.
  *                       Phase 3: article arcs from center toward top-left and exits.
  *
  * The returned object exposes kill() to destroy the internal timeline and its
@@ -31,11 +31,14 @@
  * mp.kill();
  */
 
-import { gsap } from "/assets/js/choreography/system/gsap.js";
+import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import {
   CARD_FIGURE_CLIP_TRIGGER,
   CARD_FIGURE_PARALLAX_TRIGGER,
 } from "../config/index/index.js";
+
+const killST = (tl) => { tl?.scrollTrigger?.kill(true); tl?.kill(); };
+const DEBUG_MOTION_PATH = false;
 
 /**
  * Creates the scrubbed height-collapse + image clip-path variant.
@@ -51,14 +54,15 @@ import {
  *   index?: number,
  *   triggerEl?: Element
  * }} param0
- * @returns {{ timeline: gsap.core.Timeline, kill(): void }}
+ * @returns {{ kill(): void }}
  */
 export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
   const image = figure.querySelector('[data-card-el="image"]');
+  if (!image) return { kill() {} };
+
   const initialHeight = figure.offsetHeight;
 
-  figure.style.willChange = "height";
-  gsap.set(figure, { overflow: "hidden" });
+  gsap.set(figure, { overflow: "hidden", willChange: "height" });
   gsap.set(image, {
     position: "absolute",
     top: 0,
@@ -83,13 +87,10 @@ export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
   tl.to(image, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
 
   return {
-    timeline: tl,
     kill() {
-      tl?.scrollTrigger?.kill();
-      tl?.kill();
-      figure.style.willChange = "";
-      gsap.set(image, { clearProps: "all" });
-      gsap.set(figure, { clearProps: "height,overflow" });
+      killST(tl);
+      gsap.set(image, { clearProps: "position,top,left,width,height,clipPath,willChange" });
+      gsap.set(figure, { clearProps: "height,overflow,willChange" });
     },
   };
 }
@@ -99,16 +100,17 @@ export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
  *
  * @param {{
  *   figure: Element,
+ *   index?: number,
  *   triggerEl?: Element
  * }} param0
- * @returns {{ timeline: gsap.core.Timeline, kill(): void }}
+ * @returns {{ kill(): void }}
  */
-export function createCardScrollFade({ figure, triggerEl }) {
-  figure.style.willChange = "opacity, transform";
-  gsap.set(figure, { autoAlpha: 0, y: 16 });
+export function createCardScrollFade({ figure, index = 0, triggerEl }) {
+  gsap.set(figure, { autoAlpha: 0, y: 16, willChange: "opacity, transform" });
 
   const tl = gsap.timeline({
     scrollTrigger: {
+      id: `card-scroll-fade-${index}`,
       trigger: triggerEl,
       start: "top 75%",
       once: true,
@@ -123,11 +125,9 @@ export function createCardScrollFade({ figure, triggerEl }) {
   });
 
   return {
-    timeline: tl,
     kill() {
-      tl?.scrollTrigger?.kill();
-      tl?.kill();
-      figure.style.willChange = "";
+      killST(tl);
+      gsap.set(figure, { clearProps: "willChange" });
     },
   };
 }
@@ -135,9 +135,9 @@ export function createCardScrollFade({ figure, triggerEl }) {
 /**
  * Creates the scroll-scrubbed parallax variant for md+ breakpoints.
  *
- * Figure moves upward and body drifts downward as the card scrolls through
- * the viewport, creating a depth separation between the image and text layers.
- * Both elements are GPU-promoted via willChange.
+ * Body drifts upward as the card scrolls through the viewport, creating
+ * a depth separation between the image and text layers. Both elements are
+ * GPU-promoted via willChange.
  *
  * @param {{
  *   figure: Element,
@@ -145,11 +145,11 @@ export function createCardScrollFade({ figure, triggerEl }) {
  *   index?: number,
  *   triggerEl?: Element
  * }} param0
- * @returns {{ timeline: gsap.core.Timeline, kill(): void }}
+ * @returns {{ kill(): void }}
  */
 export function createCardParallax({ figure, body, index = 0, triggerEl }) {
-  figure.style.willChange = "transform";
-  body.style.willChange = "transform";
+  gsap.set(figure, { willChange: "transform" });
+  gsap.set(body, { willChange: "transform" });
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -159,16 +159,13 @@ export function createCardParallax({ figure, body, index = 0, triggerEl }) {
     },
   });
 
-  tl.fromTo(figure, { yPercent: 0 }, { yPercent: 0, ease: "none" }, 0);
   tl.fromTo(body, { yPercent: 0 }, { yPercent: -25, ease: "none" }, 0);
 
   return {
-    timeline: tl,
     kill() {
-      tl?.scrollTrigger?.kill();
-      tl?.kill();
-      figure.style.willChange = "";
-      body.style.willChange = "";
+      killST(tl);
+      gsap.set(figure, { clearProps: "willChange" });
+      gsap.set(body, { clearProps: "yPercent,willChange" });
     },
   };
 }
@@ -250,7 +247,7 @@ function getOrCreatePathGuide() {
  *
  * Three-phase animation:
  *   Phase 1 — path entry: article arcs in from bottom-left to horizontal center (t 0→0.5).
- *   Phase 2 — pin: article pins at viewport center; figure/body play a parallax separation.
+ *   Phase 2 — pin: article pins at viewport center; body plays a parallax lift.
  *   Phase 3 — path exit: article arcs from horizontal center toward top-left (t 0.5→1).
  *
  * Vertical motion throughout is provided by natural scroll; only the x offset and
@@ -258,8 +255,7 @@ function getOrCreatePathGuide() {
  * upright when it pins. Control points are computed once (buildPoints) and refreshed
  * on resize via ScrollTrigger's onRefresh.
  *
- * The guide SVG is a singleton — all instances share the same element and
- * recreate it via getOrCreatePathGuide() if a prior kill() removed it.
+ * The guide SVG is a singleton gated behind DEBUG_MOTION_PATH — off by default.
  *
  * @param {{
  *   article: Element,
@@ -268,7 +264,7 @@ function getOrCreatePathGuide() {
  *   index?: number,
  *   triggerEl?: Element
  * }} param0
- * @returns {{ pathEl: SVGSVGElement, timelines: gsap.core.Timeline[], kill(): void }}
+ * @returns {{ kill(): void }}
  */
 function cubic(p0, p1, p2, p3, t) {
   const u = 1 - t;
@@ -289,11 +285,11 @@ export function createCardMotionPath({
   index = 0,
   triggerEl,
 } = {}) {
-  const pathEl = getOrCreatePathGuide();
+  const pathEl = DEBUG_MOTION_PATH ? getOrCreatePathGuide() : null;
 
-  article.style.willChange = "transform";
-  if (figure) figure.style.willChange = "transform";
-  if (body) body.style.willChange = "transform";
+  gsap.set(article, { willChange: "transform" });
+  if (figure) gsap.set(figure, { willChange: "transform" });
+  if (body) gsap.set(body, { willChange: "transform" });
 
   const setX = gsap.quickSetter(article, "x", "px");
   const setRotation = gsap.quickSetter(article, "rotation", "deg");
@@ -335,36 +331,27 @@ export function createCardMotionPath({
     setRotation(Math.atan2(dy, dx) * (180 / Math.PI) + ROTATION_OFFSET);
   }
 
-  // Phase 2 sub-timeline: parallax separation played during the pin.
-  // Mirrors createCardParallax but driven by ST progress instead of its own ST.
+  // Phase 2 sub-timeline: body parallax lift played during the pin.
+  // Driven by ST progress instead of its own ScrollTrigger.
   const parallaxTl = gsap.timeline({ paused: true });
-  if (figure)
-    parallaxTl.fromTo(
-      figure,
-      { yPercent: 0 },
-      { yPercent: 0, ease: "none" },
-      0,
-    );
   if (body)
     parallaxTl.fromTo(
       body,
       { yPercent: 0 },
-      { yPercent: -25, ease: "none" },
+      { yPercent: -50, ease: "none" },
       0,
     );
 
   // Phase 1: path entry (t = 0 → 0.5)
-  const tl1 = gsap.timeline({
-    scrollTrigger: {
-      id: `card-motion-path-${index}-1`,
-      trigger: triggerEl,
-      start: "top bottom",
-      end: "center center",
-      scrub: true,
-      invalidateOnRefresh: true,
-      onUpdate: (st) => render(st.progress * 0.5),
-      onRefresh: buildPoints,
-    },
+  const st1 = ScrollTrigger.create({
+    id: `card-motion-path-${index}-1`,
+    trigger: triggerEl,
+    start: "top bottom",
+    end: "center center",
+    scrub: true,
+    invalidateOnRefresh: true,
+    onUpdate: (st) => render(st.progress * 0.5),
+    onRefresh: buildPoints,
   });
 
   // Phase 2: pin + parallax
@@ -392,38 +379,28 @@ export function createCardMotionPath({
   // start is a function so it evaluates lazily after tl2's ScrollTrigger has resolved
   // its end scroll position — this guarantees Phase 3 begins exactly where Phase 2 ends,
   // regardless of how much scroll distance the pin added.
-  const tl3 = gsap.timeline({
-    scrollTrigger: {
-      id: `card-motion-path-${index}-3`,
-      trigger: triggerEl,
-      start: () => tl2.scrollTrigger?.end ?? "center center",
-      end: "bottom top",
-      scrub: true,
-      invalidateOnRefresh: true,
-      onUpdate: (st) => render(0.5 + st.progress * 0.5),
-    },
+  const st3 = ScrollTrigger.create({
+    id: `card-motion-path-${index}-3`,
+    trigger: triggerEl,
+    start: () => tl2.scrollTrigger?.end ?? "center center",
+    end: "bottom top",
+    scrub: true,
+    invalidateOnRefresh: true,
+    onUpdate: (st) => render(0.5 + st.progress * 0.5),
   });
 
   render(0);
 
   return {
-    pathEl,
-    timelines: [tl1, tl2, tl3],
     kill() {
-      tl1?.scrollTrigger?.kill();
-      tl1?.kill();
-      tl2?.scrollTrigger?.kill();
-      tl2?.kill();
-      tl3?.scrollTrigger?.kill();
-      tl3?.kill();
+      st1?.kill();
+      killST(tl2);
+      st3?.kill();
       parallaxTl?.kill();
-      article.style.willChange = "";
-      if (figure) figure.style.willChange = "";
-      if (body) body.style.willChange = "";
-      gsap.set(article, { clearProps: "x,rotation,transformOrigin" });
-      if (figure) gsap.set(figure, { clearProps: "yPercent" });
-      if (body) gsap.set(body, { clearProps: "yPercent" });
-      pathEl?.remove();
+      gsap.set(article, { clearProps: "x,rotation,transformOrigin,willChange" });
+      if (figure) gsap.set(figure, { clearProps: "willChange" });
+      if (body) gsap.set(body, { clearProps: "yPercent,willChange" });
+      if (DEBUG_MOTION_PATH) pathEl?.remove();
     },
   };
 }
