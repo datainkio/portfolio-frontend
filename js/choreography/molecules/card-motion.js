@@ -11,10 +11,10 @@
  *   fade       (md)   — Single-play fade+lift on scroll enter.
  *                       Simpler pattern suited for mid-range breakpoints.
  *
- *   motionpath (md+)  — Curved viewport-relative trajectory (phase 1: path guide only).
- *                       Cards will follow an arc: enter slightly left of center, reach
- *                       horizontal center at vertical midpoint, exit slightly left of center.
- *                       Currently only renders the visible SVG guide; no tween yet.
+ *   motionpath (md+)  — Curved viewport-relative trajectory with mid-path pin.
+ *                       Phase 1: article arcs in from bottom-left to viewport center.
+ *                       Phase 2: article pins; figure/body play a parallax separation.
+ *                       Phase 3: article arcs from center toward top-left and exits.
  *
  * The returned object exposes kill() to destroy the internal timeline and its
  * ScrollTrigger. Card.js calls this on breakpoint/reduced-motion transitions.
@@ -27,7 +27,7 @@
  * const fade = createCardScrollFade({ figure, triggerEl: root });
  * fade.kill();
  *
- * const mp = createCardMotionPath({ article: root, triggerEl: root });
+ * const mp = createCardMotionPath({ article: root, figure, body, triggerEl: root });
  * mp.kill();
  */
 
@@ -183,9 +183,16 @@ export function createCardParallax({ figure, body, index = 0, triggerEl }) {
 //
 // At t=0.5: x = (1/8)(41.667) + (3/8)(52.778) + (3/8)(52.778) + (1/8)(41.667) = 50.0
 // i.e. the card is exactly centered at the vertical midpoint of the viewport.
+// At t=0.5: dx=0, so rotation=0 — the card is upright. This is the natural pin point.
 const MOTION_PATH_D = "M 41.667 100 C 52.778 70 52.778 30 41.667 0";
 const MOTION_PATH_GUIDE_ATTR = "data-card-path-guide";
 const MOTION_PATH_ID = "card-motion-path";
+// ENTRY_X_FRACTION (1/12): horizontal offset as a fraction of vw at entry and exit.
+// CP_X_FRACTION (1/36):    control-point offset as a fraction of vw (pulls arc inward).
+const ENTRY_X_FRACTION = 1 / 12;
+const CP_X_FRACTION = 1 / 36;
+// +90 aligns the article's natural upright axis with the path tangent direction.
+const ROTATION_OFFSET = 90;
 
 function getOrCreatePathGuide() {
   const existing = document.querySelector(`[${MOTION_PATH_GUIDE_ATTR}]`);
@@ -241,28 +248,30 @@ function getOrCreatePathGuide() {
 /**
  * Scroll-scrubbed MotionPath variant for the curved card trajectory.
  *
- * Animates only the horizontal (x) offset of the entire article element; vertical
- * motion is provided by scroll. The x offset follows the same arc as the SVG guide:
- * –4.5vw at entry and exit, 0 (natural center) when the card's center reaches
- * the viewport's vertical midpoint. power2.out / power2.in eases match the
- * bezier curvature of the path guide.
+ * Three-phase animation:
+ *   Phase 1 — path entry: article arcs in from bottom-left to horizontal center (t 0→0.5).
+ *   Phase 2 — pin: article pins at viewport center; figure/body play a parallax separation.
+ *   Phase 3 — path exit: article arcs from horizontal center toward top-left (t 0.5→1).
+ *
+ * Vertical motion throughout is provided by natural scroll; only the x offset and
+ * rotation are animated. At t=0.5 dx=0, so rotation=0 — the article is perfectly
+ * upright when it pins. Control points are computed once (buildPoints) and refreshed
+ * on resize via ScrollTrigger's onRefresh.
  *
  * The guide SVG is a singleton — all instances share the same element and
  * recreate it via getOrCreatePathGuide() if a prior kill() removed it.
  *
  * @param {{
  *   article: Element,
+ *   figure?: Element,
+ *   body?: Element,
  *   index?: number,
  *   triggerEl?: Element
  * }} param0
- * @returns {{ pathEl: SVGSVGElement, timeline: gsap.core.Timeline, kill(): void }}
+ * @returns {{ pathEl: SVGSVGElement, timelines: gsap.core.Timeline[], kill(): void }}
  */
-// const MOTION_PATH_GUIDE_ATTR = "data-card-path-guide";
-// const MOTION_PATH_ID = "card-motion-path";
-
 function cubic(p0, p1, p2, p3, t) {
   const u = 1 - t;
-
   return (
     u * u * u * p0 + 3 * u * u * t * p1 + 3 * u * t * t * p2 + t * t * t * p3
   );
@@ -270,88 +279,150 @@ function cubic(p0, p1, p2, p3, t) {
 
 function cubicDerivative(p0, p1, p2, p3, t) {
   const u = 1 - t;
-
   return 3 * u * u * (p1 - p0) + 6 * u * t * (p2 - p1) + 3 * t * t * (p3 - p2);
 }
 
-export function createCardMotionPath({ article, index = 0, triggerEl } = {}) {
+export function createCardMotionPath({
+  article,
+  figure,
+  body,
+  index = 0,
+  triggerEl,
+} = {}) {
   const pathEl = getOrCreatePathGuide();
 
   article.style.willChange = "transform";
-  gsap.set(article, {
-    transformOrigin: "50% 50%",
-  });
+  if (figure) figure.style.willChange = "transform";
+  if (body) body.style.willChange = "transform";
 
-  const state = { progress: 0 };
+  const setX = gsap.quickSetter(article, "x", "px");
+  const setRotation = gsap.quickSetter(article, "rotation", "deg");
 
-  function render() {
-    const t = state.progress;
+  // Control points in pixels — recomputed on resize via buildPoints().
+  // x: expressed relative to the card's natural centered position (see ENTRY_X_FRACTION).
+  // guideY: path y-coordinates converted to pixels, used only for tangent/rotation math.
+  let x0, x1, x2, x3, guideY0, guideY1, guideY2, guideY3;
 
+  function buildPoints() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    x0 = -(vw * ENTRY_X_FRACTION);
+    x1 = vw * CP_X_FRACTION;
+    x2 = vw * CP_X_FRACTION;
+    x3 = -(vw * ENTRY_X_FRACTION);
+    guideY0 = vh;
+    guideY1 = vh * 0.7;
+    guideY2 = vh * 0.3;
+    guideY3 = 0;
 
-    // Equivalent to guide x coordinates:
-    // 41.667 -> 52.778 -> 52.778 -> 41.667,
-    // but expressed relative to the card's natural centered position.
-    const xOffset = vw / 12;
-    const cpX = xOffset / 3;
-
-    const x0 = -xOffset;
-    const x1 = cpX;
-    const x2 = cpX;
-    const x3 = -xOffset;
-
-    // Equivalent to guide y coordinates:
-    // 100 -> 70 -> 30 -> 0, converted to pixels.
-    // This is used only for tangent/rotation math.
-    // The actual vertical movement is still provided by scroll.
-    const y0 = vh;
-    const y1 = vh * 0.7;
-    const y2 = vh * 0.3;
-    const y3 = 0;
-
-    const x = cubic(x0, x1, x2, x3, t);
-
-    const dx = cubicDerivative(x0, x1, x2, x3, t);
-    const dy = cubicDerivative(y0, y1, y2, y3, t);
-
-    // Tangent angle of the visible path.
-    // +90 assumes the article's visual "upright" axis should align with the path.
-    // Try 0, 90, -90, or 180 depending on the card's intended facing direction.
-    const rotation = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
-
-    gsap.set(article, {
-      x,
-      rotation,
-    });
+    if (body) {
+      const ar = article.getBoundingClientRect();
+      const br = body.getBoundingClientRect();
+      // Difference of rects is scroll-independent; gives body center in article's local space.
+      gsap.set(article, {
+        transformOrigin: `${br.left - ar.left + br.width / 2}px ${br.top - ar.top + br.height / 2}px`,
+      });
+    }
   }
 
-  const tl = gsap.timeline({
+  buildPoints();
+
+  function render(t) {
+    const x = cubic(x0, x1, x2, x3, t);
+    const dx = cubicDerivative(x0, x1, x2, x3, t);
+    const dy = cubicDerivative(guideY0, guideY1, guideY2, guideY3, t);
+    setX(x);
+    setRotation(Math.atan2(dy, dx) * (180 / Math.PI) + ROTATION_OFFSET);
+  }
+
+  // Phase 2 sub-timeline: parallax separation played during the pin.
+  // Mirrors createCardParallax but driven by ST progress instead of its own ST.
+  const parallaxTl = gsap.timeline({ paused: true });
+  if (figure)
+    parallaxTl.fromTo(
+      figure,
+      { yPercent: 0 },
+      { yPercent: 0, ease: "none" },
+      0,
+    );
+  if (body)
+    parallaxTl.fromTo(
+      body,
+      { yPercent: 0 },
+      { yPercent: -25, ease: "none" },
+      0,
+    );
+
+  // Phase 1: path entry (t = 0 → 0.5)
+  const tl1 = gsap.timeline({
     scrollTrigger: {
+      id: `card-motion-path-${index}-1`,
       trigger: triggerEl,
       start: "top bottom",
-      end: "bottom top",
+      end: "center center",
       scrub: true,
       invalidateOnRefresh: true,
+      onUpdate: (st) => render(st.progress * 0.5),
+      onRefresh: buildPoints,
     },
   });
 
-  tl.to(state, {
-    progress: 1,
-    ease: "none",
-    onUpdate: render,
+  // Phase 2: pin + parallax
+  const tl2 = gsap.timeline({
+    scrollTrigger: {
+      id: `card-motion-path-${index}-2`,
+      trigger: triggerEl,
+      start: "center center",
+      // Release when body's bottom reaches 50% of the viewport height.
+      // getBoundingClientRect().bottom + scrollY is scroll-independent (document-absolute).
+      end: () =>
+        body
+          ? body.getBoundingClientRect().bottom +
+            window.scrollY -
+            window.innerHeight * 0.5
+          : `+=${window.innerHeight * 0.5}`,
+      pin: true,
+      scrub: true,
+      invalidateOnRefresh: true,
+      onUpdate: (st) => parallaxTl.progress(st.progress),
+    },
   });
 
-  render();
+  // Phase 3: path exit (t = 0.5 → 1).
+  // start is a function so it evaluates lazily after tl2's ScrollTrigger has resolved
+  // its end scroll position — this guarantees Phase 3 begins exactly where Phase 2 ends,
+  // regardless of how much scroll distance the pin added.
+  const tl3 = gsap.timeline({
+    scrollTrigger: {
+      id: `card-motion-path-${index}-3`,
+      trigger: triggerEl,
+      start: () => tl2.scrollTrigger?.end ?? "center center",
+      end: "bottom top",
+      scrub: true,
+      invalidateOnRefresh: true,
+      onUpdate: (st) => render(0.5 + st.progress * 0.5),
+    },
+  });
+
+  render(0);
 
   return {
     pathEl,
-    timeline: tl,
+    timelines: [tl1, tl2, tl3],
     kill() {
-      tl?.scrollTrigger?.kill();
-      tl?.kill();
+      tl1?.scrollTrigger?.kill();
+      tl1?.kill();
+      tl2?.scrollTrigger?.kill();
+      tl2?.kill();
+      tl3?.scrollTrigger?.kill();
+      tl3?.kill();
+      parallaxTl?.kill();
       article.style.willChange = "";
-      gsap.set(article, { clearProps: "x,y,rotation,transformOrigin" });
+      if (figure) figure.style.willChange = "";
+      if (body) body.style.willChange = "";
+      gsap.set(article, { clearProps: "x,rotation,transformOrigin" });
+      if (figure) gsap.set(figure, { clearProps: "yPercent" });
+      if (body) gsap.set(body, { clearProps: "yPercent" });
       pathEl?.remove();
     },
   };

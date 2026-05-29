@@ -71,6 +71,8 @@ export default class Card {
     if (variant === "motionpath") {
       this._clip = createCardMotionPath({
         article: this.root,
+        figure: this.figure,
+        body: this.body,
         index: this._index,
         triggerEl: this.root,
       });
@@ -100,7 +102,9 @@ export default class Card {
     const variant = this._profile?.animation?.variant ?? "clip";
 
     if (variant === "motionpath") {
-      gsap.set(this.root, { clearProps: "willChange,x,y" });
+      gsap.set(this.root,   { clearProps: "willChange,x,rotation" });
+      if (this.figure) gsap.set(this.figure, { clearProps: "willChange,yPercent" });
+      if (this.body)   gsap.set(this.body,   { clearProps: "willChange,yPercent" });
     } else if (variant === "parallax") {
       if (this.figure) {
         gsap.set(this.figure, { yPercent: 0, clearProps: "willChange" });
