@@ -33,6 +33,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, Draggable, MotionP
 gsap.defaults({
   duration: ANIMATION_DEFAULTS.duration,
   ease: ANIMATION_DEFAULTS.ease.out,
+  overwrite: ANIMATION_DEFAULTS.overwrite,
 });
 
 export { gsap, ScrollTrigger, ScrollSmoother, SplitText, Draggable, MotionPathPlugin, MotionPathHelper };

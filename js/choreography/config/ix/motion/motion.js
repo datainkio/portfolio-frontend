@@ -38,22 +38,18 @@ export const ANIMATION_DEFAULTS = {
 };
 
 export const THROW_OUT_ANIMATION = {
-  ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("slow")),
   xPercent: -100,
   yPercent: -125,
   rotation: -12,
-  overwrite: "auto",
   transformOrigin: "50% 66%",
 };
 
 export const THROW_IN_ANIMATION = {
-  ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("slow")),
   xPercent: 100,
   yPercent: 125,
   rotation: 12,
-  overwrite: "auto",
   transformOrigin: "50% 66%",
 };
 
@@ -64,24 +60,21 @@ export const THROW_IN_ANIMATION = {
  */
 export const HERO_LANDING = {
   from: {
-    ...ANIMATION_DEFAULTS,
     autoAlpha: 0,
     yPercent: 1,
   },
   to: {
-    ...ANIMATION_DEFAULTS,
     autoAlpha: 1,
     yPercent: 0,
+    stagger: motionTokens.stagger.base,
   },
 };
 
 export const HERO_INTRO = {
-  ...ANIMATION_DEFAULTS,
   yPercent: 100,
 };
 
 export const HERO_OUTRO = {
-  ...ANIMATION_DEFAULTS,
   top: "0%",
   height: "50%",
 };
@@ -113,9 +106,7 @@ export const BIO_ANIMATION_DEFAULTS = {
   stickySubheadingTopThreshold: 1,
 };
 
-export const BIO_INTRO = {
-  ...ANIMATION_DEFAULTS,
-};
+export const BIO_INTRO = {};
 
 /**
  * Organizations Section Animation Defaults
