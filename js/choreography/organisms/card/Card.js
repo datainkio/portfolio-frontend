@@ -15,17 +15,67 @@ const CARD_EL_ATTR = "data-card-el";
 const selectCardEl = (root, name) =>
   root?.querySelector(`[${CARD_EL_ATTR}="${name}"]`) ?? null;
 
+const VARIANT_FACTORIES = {
+  motionpath: (card) =>
+    createCardMotionPath({
+      article: card.root,
+      figure: card.figure,
+      body: card.body,
+      index: card._index,
+      triggerEl: card.root,
+    }),
+  parallax: (card) =>
+    createCardParallax({
+      figure: card.figure,
+      body: card.body,
+      index: card._index,
+      triggerEl: card.root,
+    }),
+  fade: (card) =>
+    createCardScrollFade({
+      figure: card.figure,
+      index: card._index,
+      triggerEl: card.root,
+    }),
+  clip: (card) =>
+    createCardScrollClip({
+      figure: card.figure,
+      body: card.body,
+      index: card._index,
+      triggerEl: card.root,
+    }),
+};
+
+const VARIANT_RESET = {
+  motionpath: (card) => {
+    gsap.set(card.root, { clearProps: "willChange,x,rotation" });
+    if (card.figure) gsap.set(card.figure, { clearProps: "willChange,yPercent" });
+    if (card.body) gsap.set(card.body, { clearProps: "willChange,yPercent" });
+  },
+  parallax: (card) => {
+    if (card.figure) gsap.set(card.figure, { yPercent: 0, clearProps: "willChange" });
+    if (card.body) gsap.set(card.body, { yPercent: 0, clearProps: "willChange" });
+  },
+  fade: (card) => {
+    if (card.figure) gsap.set(card.figure, { autoAlpha: 1, y: 0, clearProps: "willChange" });
+  },
+  clip: (card) => {
+    if (card.figure) gsap.set(card.figure, { clipPath: "inset(0 0 0% 0)", clearProps: "willChange" });
+    if (card.body) gsap.set(card.body, { y: 0, clearProps: "willChange" });
+  },
+};
+
 export default class Card {
   constructor(root, { index = 0 } = {}) {
     this.root = root;
     this.figure = selectCardEl(root, "figure");
     this.body = selectCardEl(root, "body");
-    this._clip = null;
+    this._motion = null;
     this._mm = null;
     this._index = index;
     this._profile = null;
 
-    if (this.figure && this.body) {
+    if (this.figure) {
       this._setupResponsiveMotion();
     }
   }
@@ -67,71 +117,19 @@ export default class Card {
     this.kill();
     this._profile = profile;
     const variant = profile.animation?.variant ?? "clip";
-
-    if (variant === "motionpath") {
-      this._clip = createCardMotionPath({
-        article: this.root,
-        figure: this.figure,
-        body: this.body,
-        index: this._index,
-        triggerEl: this.root,
-      });
-    } else if (variant === "parallax") {
-      this._clip = createCardParallax({
-        figure: this.figure,
-        body: this.body,
-        index: this._index,
-        triggerEl: this.root,
-      });
-    } else if (variant === "fade") {
-      this._clip = createCardScrollFade({
-        figure: this.figure,
-        triggerEl: this.root,
-      });
-    } else {
-      this._clip = createCardScrollClip({
-        figure: this.figure,
-        body: this.body,
-        index: this._index,
-        triggerEl: this.root,
-      });
-    }
+    const factory = VARIANT_FACTORIES[variant] ?? VARIANT_FACTORIES.clip;
+    this._motion = factory(this);
   }
 
   _applyStaticState() {
     const variant = this._profile?.animation?.variant ?? "clip";
-
-    if (variant === "motionpath") {
-      gsap.set(this.root,   { clearProps: "willChange,x,rotation" });
-      if (this.figure) gsap.set(this.figure, { clearProps: "willChange,yPercent" });
-      if (this.body)   gsap.set(this.body,   { clearProps: "willChange,yPercent" });
-    } else if (variant === "parallax") {
-      if (this.figure) {
-        gsap.set(this.figure, { yPercent: 0, clearProps: "willChange" });
-      }
-      if (this.body) {
-        gsap.set(this.body, { yPercent: 0, clearProps: "willChange" });
-      }
-    } else if (variant === "fade") {
-      if (this.figure) {
-        gsap.set(this.figure, { autoAlpha: 1, y: 0, clearProps: "willChange" });
-      }
-    } else {
-      if (this.figure) {
-        gsap.set(this.figure, {
-          clipPath: "inset(0 0 0% 0)",
-          clearProps: "willChange",
-        });
-      }
-      if (this.body) {
-        gsap.set(this.body, { y: 0, clearProps: "willChange" });
-      }
-    }
+    const reset = VARIANT_RESET[variant] ?? VARIANT_RESET.clip;
+    reset(this);
   }
 
   kill() {
-    this._clip?.kill();
-    this._clip = null;
+    this._motion?.kill();
+    this._motion = null;
   }
 
   destroy() {

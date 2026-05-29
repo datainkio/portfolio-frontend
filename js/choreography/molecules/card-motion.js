@@ -38,7 +38,7 @@ import {
 } from "../config/index/index.js";
 
 const killST = (tl) => { tl?.scrollTrigger?.kill(true); tl?.kill(); };
-const DEBUG_MOTION_PATH = false;
+const DEBUG_MOTION_PATH = new URLSearchParams(location.search).has("debug-motion");
 
 /**
  * Creates the scrubbed height-collapse + image clip-path variant.
@@ -190,6 +190,9 @@ const ENTRY_X_FRACTION = 1 / 12;
 const CP_X_FRACTION = 1 / 36;
 // +90 aligns the article's natural upright axis with the path tangent direction.
 const ROTATION_OFFSET = 90;
+// Fractions of viewport height for the two bezier control points.
+// Used in both buildPoints (pixel space) and the debug guide circles (SVG 0-100 space).
+const CP_Y_RATIOS = [0.7, 0.3];
 
 function getOrCreatePathGuide() {
   const existing = document.querySelector(`[${MOTION_PATH_GUIDE_ATTR}]`);
@@ -224,8 +227,8 @@ function getOrCreatePathGuide() {
 
   // Control point handles for visual reference
   [
-    [52.778, 70],
-    [52.778, 30],
+    [52.778, CP_Y_RATIOS[0] * 100],
+    [52.778, CP_Y_RATIOS[1] * 100],
   ].forEach(([cx, cy]) => {
     const circle = document.createElementNS(
       "http://www.w3.org/2000/svg",
@@ -295,38 +298,44 @@ export function createCardMotionPath({
   const setRotation = gsap.quickSetter(article, "rotation", "deg");
 
   // Control points in pixels — recomputed on resize via buildPoints().
-  // x: expressed relative to the card's natural centered position (see ENTRY_X_FRACTION).
-  // guideY: path y-coordinates converted to pixels, used only for tangent/rotation math.
-  let x0, x1, x2, x3, guideY0, guideY1, guideY2, guideY3;
+  // x: relative to the card's natural centered position (see ENTRY_X_FRACTION).
+  // gy: y-coordinates in pixels, used only for tangent/rotation math.
+  const pts = { x0: 0, x1: 0, x2: 0, x3: 0, gy0: 0, gy1: 0, gy2: 0, gy3: 0 };
 
   function buildPoints() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    x0 = -(vw * ENTRY_X_FRACTION);
-    x1 = vw * CP_X_FRACTION;
-    x2 = vw * CP_X_FRACTION;
-    x3 = -(vw * ENTRY_X_FRACTION);
-    guideY0 = vh;
-    guideY1 = vh * 0.7;
-    guideY2 = vh * 0.3;
-    guideY3 = 0;
-
-    if (body) {
-      const ar = article.getBoundingClientRect();
-      const br = body.getBoundingClientRect();
-      // Difference of rects is scroll-independent; gives body center in article's local space.
-      gsap.set(article, {
-        transformOrigin: `${br.left - ar.left + br.width / 2}px ${br.top - ar.top + br.height / 2}px`,
-      });
-    }
+    pts.x0 = -(vw * ENTRY_X_FRACTION);
+    pts.x1 = vw * CP_X_FRACTION;
+    pts.x2 = vw * CP_X_FRACTION;
+    pts.x3 = -(vw * ENTRY_X_FRACTION);
+    pts.gy0 = vh;
+    pts.gy1 = vh * CP_Y_RATIOS[0];
+    pts.gy2 = vh * CP_Y_RATIOS[1];
+    pts.gy3 = 0;
   }
 
-  buildPoints();
+  function updateTransformOrigin() {
+    if (!body) return;
+    const ar = article.getBoundingClientRect();
+    const br = body.getBoundingClientRect();
+    // Difference of rects is scroll-independent; gives body center in article's local space.
+    gsap.set(article, {
+      transformOrigin: `${br.left - ar.left + br.width / 2}px ${br.top - ar.top + br.height / 2}px`,
+    });
+  }
+
+  function refresh() {
+    buildPoints();
+    updateTransformOrigin();
+  }
+
+  refresh();
 
   function render(t) {
-    const x = cubic(x0, x1, x2, x3, t);
-    const dx = cubicDerivative(x0, x1, x2, x3, t);
-    const dy = cubicDerivative(guideY0, guideY1, guideY2, guideY3, t);
+    const x = cubic(pts.x0, pts.x1, pts.x2, pts.x3, t);
+    const dx = cubicDerivative(pts.x0, pts.x1, pts.x2, pts.x3, t);
+    const dy = cubicDerivative(pts.gy0, pts.gy1, pts.gy2, pts.gy3, t);
     setX(x);
     setRotation(Math.atan2(dy, dx) * (180 / Math.PI) + ROTATION_OFFSET);
   }
@@ -351,7 +360,7 @@ export function createCardMotionPath({
     scrub: true,
     invalidateOnRefresh: true,
     onUpdate: (st) => render(st.progress * 0.5),
-    onRefresh: buildPoints,
+    onRefresh: refresh,
   });
 
   // Phase 2: pin + parallax
