@@ -36,6 +36,7 @@ import {
   CARD_FIGURE_CLIP_TRIGGER,
   CARD_FIGURE_PARALLAX_TRIGGER,
 } from "../config/index/index.js";
+import { isReducedMotion } from "../system/ReducedMotionHandler.js";
 
 const killST = (tl) => { tl?.scrollTrigger?.kill(true); tl?.kill(); };
 const DEBUG_MOTION_PATH = new URLSearchParams(location.search).has("debug-motion");
@@ -56,9 +57,15 @@ const DEBUG_MOTION_PATH = new URLSearchParams(location.search).has("debug-motion
  * }} param0
  * @returns {{ kill(): void }}
  */
-export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
+export function createCardScrollClip({ figure, body, index = 0, triggerEl, reduceMotion }) {
   const image = figure.querySelector('[data-card-el="image"]');
   if (!image) return { kill() {} };
+
+  if (isReducedMotion(reduceMotion)) {
+    gsap.set(figure, { clearProps: "height,overflow,willChange" });
+    gsap.set(image, { clearProps: "position,top,left,width,height,clipPath,willChange" });
+    return { kill() {} };
+  }
 
   const initialHeight = figure.offsetHeight;
 
@@ -105,7 +112,12 @@ export function createCardScrollClip({ figure, body, index = 0, triggerEl }) {
  * }} param0
  * @returns {{ kill(): void }}
  */
-export function createCardScrollFade({ figure, index = 0, triggerEl }) {
+export function createCardScrollFade({ figure, index = 0, triggerEl, reduceMotion }) {
+  if (isReducedMotion(reduceMotion)) {
+    gsap.set(figure, { autoAlpha: 1, y: 0 });
+    return { kill() {} };
+  }
+
   gsap.set(figure, { autoAlpha: 0, y: 16, willChange: "opacity, transform" });
 
   const tl = gsap.timeline({
@@ -147,7 +159,13 @@ export function createCardScrollFade({ figure, index = 0, triggerEl }) {
  * }} param0
  * @returns {{ kill(): void }}
  */
-export function createCardParallax({ figure, body, index = 0, triggerEl }) {
+export function createCardParallax({ figure, body, index = 0, triggerEl, reduceMotion }) {
+  if (isReducedMotion(reduceMotion)) {
+    gsap.set(figure, { yPercent: 0, clearProps: "willChange" });
+    if (body) gsap.set(body, { yPercent: 0, clearProps: "willChange" });
+    return { kill() {} };
+  }
+
   gsap.set(figure, { willChange: "transform" });
   gsap.set(body, { willChange: "transform" });
 
@@ -287,7 +305,15 @@ export function createCardMotionPath({
   body,
   index = 0,
   triggerEl,
+  reduceMotion,
 } = {}) {
+  if (isReducedMotion(reduceMotion)) {
+    gsap.set(article, { clearProps: "x,rotation,transformOrigin,willChange" });
+    if (figure) gsap.set(figure, { clearProps: "willChange" });
+    if (body) gsap.set(body, { clearProps: "yPercent,willChange" });
+    return { kill() {} };
+  }
+
   const pathEl = DEBUG_MOTION_PATH ? getOrCreatePathGuide() : null;
 
   gsap.set(article, { willChange: "transform" });

@@ -6,6 +6,19 @@
  */
 import { ACCESSIBILITY_SETTINGS } from "../config/index/index.js";
 
+/**
+ * Standalone reduced-motion guard for spec-compliant GSAP entry points.
+ * Pass a boolean override to force a value in tests.
+ *
+ * @param {boolean} [override]
+ * @returns {boolean}
+ */
+export function isReducedMotion(override) {
+  if (override !== undefined) return Boolean(override);
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export default class ReducedMotionHandler {
   constructor() {
     this._reducedMotion = ACCESSIBILITY_SETTINGS.prefersReducedMotion;
