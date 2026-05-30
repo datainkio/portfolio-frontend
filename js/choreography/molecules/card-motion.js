@@ -24,6 +24,21 @@ const killST = (tl) => {
   tl?.kill();
 };
 
+const CLEAR = {
+  figure:      "height,overflow,willChange",
+  figureImage: "position,top,left,width,height,clipPath,willChange",
+  body:        "position,top,bottom,left,right,zIndex,y",
+  article:     "x,y,height,rotation,transformOrigin,autoAlpha,willChange",
+  articleBase: "x,y,rotation,transformOrigin,willChange",
+};
+
+const buildScrollTrigger = (base, index, triggerEl, overrides = {}) => ({
+  ...base,
+  id: `${base.id}-${index}`,
+  trigger: triggerEl,
+  ...overrides,
+});
+
 /**
  * Creates the scrubbed height-collapse + image clip-path variant.
  *
@@ -51,15 +66,12 @@ export function createCardScrollClip({
   if (!image) return { kill() {} };
 
   if (isReducedMotion(reduceMotion)) {
-    gsap.set(figure, { clearProps: "height,overflow,willChange" });
-    gsap.set(image, {
-      clearProps: "position,top,left,width,height,clipPath,willChange",
-    });
+    gsap.set(figure, { clearProps: CLEAR.figure });
+    gsap.set(image, { clearProps: CLEAR.figureImage });
     return { kill() {} };
   }
 
   const initialHeight = getViewport().height;
-  console.log("initialHeight", initialHeight);
   gsap.set(figure, { overflow: "hidden", willChange: "height" });
   gsap.set(image, {
     position: "absolute",
@@ -72,13 +84,10 @@ export function createCardScrollClip({
   });
 
   const tl = gsap.timeline({
-    scrollTrigger: {
-      ...CARD_FIGURE_CLIP_TRIGGER,
-      id: `${CARD_FIGURE_CLIP_TRIGGER.id}-${index}`,
-      trigger: triggerEl,
+    scrollTrigger: buildScrollTrigger(CARD_FIGURE_CLIP_TRIGGER, index, triggerEl, {
       end: () => `+=${window.innerHeight}`,
       invalidateOnRefresh: true,
-    },
+    }),
   });
 
   tl.to(figure, { height: 0, ease: "none" }, 0);
@@ -87,10 +96,8 @@ export function createCardScrollClip({
   return {
     kill() {
       killST(tl);
-      gsap.set(image, {
-        clearProps: "position,top,left,width,height,clipPath,willChange",
-      });
-      gsap.set(figure, { clearProps: "height,overflow,willChange" });
+      gsap.set(image, { clearProps: CLEAR.figureImage });
+      gsap.set(figure, { clearProps: CLEAR.figure });
     },
   };
 }
@@ -170,15 +177,10 @@ export function createCardParallax({
     return { kill() {} };
   }
 
-  gsap.set(figure, { willChange: "transform" });
-  gsap.set(body, { willChange: "transform" });
+  gsap.set([figure, body], { willChange: "transform" });
 
   const tl = gsap.timeline({
-    scrollTrigger: {
-      ...CARD_FIGURE_PARALLAX_TRIGGER,
-      id: `${CARD_FIGURE_PARALLAX_TRIGGER.id}-${index}`,
-      trigger: triggerEl,
-    },
+    scrollTrigger: buildScrollTrigger(CARD_FIGURE_PARALLAX_TRIGGER, index, triggerEl),
   });
 
   tl.fromTo(body, { yPercent: 0 }, { yPercent: -25, ease: "none" }, 0);
@@ -192,90 +194,61 @@ export function createCardParallax({
   };
 }
 
-// Cubic bezier control points for the card's curved viewport trajectory (pixel space).
-//   x0 = x3 = -(vw / 12)  — entry/exit offset: ~1/12 vw left of center
-//   x1 = x2 =  vw / 36    — control points: slightly right of center (pulls arc inward)
-//
-// At t=0.5: x = 0 (horizontally centered), dx = 0, so rotation = 0. Natural pin point.
-const ENTRY_X_FRACTION = 1 / 12;
-const CP_X_FRACTION = 1 / 36;
-// +90 aligns the article's natural upright axis with the bezier tangent direction.
-const ROTATION_OFFSET = 90;
-const CP_Y_RATIOS = [0.7, 0.3];
-const CARD_SCROLL_DISTANCE_FACTOR = 3;
-const CARD_MOTION_TUNING = {
-  articleTravelVhFraction: 1,
-};
-
-// Figure and body elements are offscreen at the start of the scroll. (Is overflow-hidden useful here? Gotta think about how the height of the article is impacted.)
 function createIntroTimeline(article) {
   const figure = article.querySelector('[data-card-el="figure"]');
   const body = article.querySelector('[data-card-el="body"]');
 
-  // Move the figure and body elements to their starting positions, which is
-  // just below the viewport. The article itself will be pinned, so it won't
-  // move.
   const initialHeight = getViewport().height;
-  gsap.set([figure, body], {
-    y: initialHeight,
-  });
+  gsap.set([figure, body], { y: initialHeight });
 
-  // With the article pinned, the figure animates into view along the path
   const tl = gsap.timeline();
   tl.to(figure, {
-    y: 0,
-    // motionPath: {
-    //   path: toViewportPath(VIEWPORT_PATHS.throwIn),
-    //   // curviness: 1.25,
-    //   // autoRotate: true,
-    // },
+    duration: motion.duration("slow") / 1000,
+    motionPath: {
+      path: toViewportPath(VIEWPORT_PATHS.throwIn),
+      curviness: 1.5,
+      autoRotate: 90,
+    },
   });
 
-  // With the intro complete, the figure appears pinned
   return tl;
 }
 
-// The article is still pinned and the figure has completed its travel. Collapse the card.
 function createInterTimeline(article) {
   const figure = article.querySelector('[data-card-el="figure"]');
-  const image = figure.querySelector("img");
   const body = article.querySelector('[data-card-el="body"]');
 
-  // Capture before any DOM mutation — once image goes position:absolute the
-  // figure loses its only in-flow child and article's auto height shrinks.
-  const initialHeight = getViewport().height;
+  // Capture before any DOM mutation — once body goes position:absolute it
+  // leaves the grid flow and article's auto height shrinks.
   const figureHeight = figure.offsetHeight;
   const articleHeight = article.offsetHeight;
   const bodyHeight = body.offsetHeight;
   const collapseDistance = figureHeight + bodyHeight - articleHeight;
-  // Position the body at its final pixel location so it can be scrubbed up
-  // with the figure collapse without scaling artifacts. The body is above the figure in z-index so it will appear to be revealed as the figure collapses.
-
-  gsap.set(body, {
-    position: "absolute",
-    bottom: collapseDistance,
-    left: 0,
-    right: 0,
-    zIndex: 10,
-  });
 
   const tl = gsap.timeline();
-  tl.to(body, { y: collapseDistance });
-  tl.to(article, { height: bodyHeight * 1.5 });
+  tl.call(() => {
+    gsap.set(body, {
+      position: "absolute",
+      bottom: collapseDistance,
+      left: 0,
+      right: 0,
+      zIndex: 10,
+    });
+  });
+  tl.to(body, {
+    y: collapseDistance,
+    duration: motion.duration("slow") / 1000,
+  });
+  tl.to(article, {
+    height: bodyHeight * 1.5,
+    duration: motion.duration("slow") / 1000,
+  });
 
   return tl;
 }
 
 function createOutroTimeline(article) {
   const tl = gsap.timeline();
-  tl.to(article, {
-    rotation: 45,
-    // motionPath: {
-    //   path: toViewportPath(VIEWPORT_PATHS.throwOut),
-    //   // curviness: 1.25,
-    //   //autoRotate: true,
-    // },
-  });
   return tl;
 }
 
@@ -287,26 +260,19 @@ export function createMasterTimeline({
   reduceMotion,
 } = {}) {
   if (isReducedMotion(reduceMotion)) {
-    gsap.set(article, {
-      clearProps: "x,y,rotation,transformOrigin,willChange",
-    });
+    gsap.set(article, { clearProps: CLEAR.articleBase });
     return { kill() {} };
   }
 
-  // gsap.set(article, { willChange: "transform" });
-  // gsap.set(article, {
-  //   y: window.innerHeight * CARD_MOTION_TUNING.articleTravelVhFraction,
-  // });
-
   const tl = gsap.timeline({
-    duration: motion.duration("slow") / 1000, // use system token here
+    duration: motion.duration("slow") / 1000,
     scrollTrigger: {
       trigger: article,
       start: "top top",
-      end: "bottom top",
+      end: "bottom 50px",
       pin: true,
       scrub: true,
-      markers: true,
+      invalidateOnRefresh: true,
     },
   });
 
@@ -316,30 +282,21 @@ export function createMasterTimeline({
 
   const figure = article.querySelector('[data-card-el="figure"]');
   const image = figure?.querySelector("img");
-  // const body = article.querySelector('[data-card-el="body"]');
 
   return {
     kill() {
       killST(tl);
-      gsap.set(article, {
-        clearProps: "x,y,height,rotation,transformOrigin,autoAlpha,willChange",
-      });
-      if (image)
-        gsap.set(image, {
-          clearProps: "position,top,left,width,height,clipPath,willChange",
-        });
-      if (body)
-        gsap.set(body, {
-          clearProps: "position,top,bottom,left,right,zIndex,y",
-        });
+      gsap.set(article, { clearProps: CLEAR.article });
+      if (image) gsap.set(image, { clearProps: CLEAR.figureImage });
+      if (body) gsap.set(body, { clearProps: CLEAR.body });
     },
   };
 }
 
 const VIEWPORT_PATHS = {
   throwIn: [
-    { x: 80, y: 100 },
-    { x: 25, y: 25 },
+    { x: 85, y: 100 },
+    { x: 10, y: 33 },
     { x: 0, y: 0 },
   ],
   throwOut: [
@@ -366,58 +323,3 @@ const toViewportPath = (points) => {
     y: height * (y / 100),
   }));
 };
-
-function cubic(p0, p1, p2, p3, t) {
-  const u = 1 - t;
-  return (
-    u * u * u * p0 + 3 * u * u * t * p1 + 3 * u * t * t * p2 + t * t * t * p3
-  );
-}
-
-function cubicDerivative(p0, p1, p2, p3, t) {
-  const u = 1 - t;
-  return 3 * u * u * (p1 - p0) + 6 * u * t * (p2 - p1) + 3 * t * t * (p3 - p2);
-}
-
-function createPathRenderer({ article, body }) {
-  const pts = { x0: 0, x1: 0, x2: 0, x3: 0, gy0: 0, gy1: 0, gy2: 0, gy3: 0 };
-  const setX = gsap.quickSetter(article, "x", "px");
-  const setRotation = gsap.quickSetter(article, "rotation", "deg");
-
-  function buildPoints() {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    pts.x0 = -(vw * ENTRY_X_FRACTION);
-    pts.x1 = vw * CP_X_FRACTION;
-    pts.x2 = vw * CP_X_FRACTION;
-    pts.x3 = -(vw * ENTRY_X_FRACTION);
-    pts.gy0 = vh;
-    pts.gy1 = vh * CP_Y_RATIOS[0];
-    pts.gy2 = vh * CP_Y_RATIOS[1];
-    pts.gy3 = 0;
-  }
-
-  function updateTransformOrigin() {
-    if (!body) return;
-    const ar = article.getBoundingClientRect();
-    const br = body.getBoundingClientRect();
-    gsap.set(article, {
-      transformOrigin: `${br.left - ar.left + br.width / 2}px ${br.top - ar.top + br.height / 2}px`,
-    });
-  }
-
-  function refresh() {
-    buildPoints();
-    updateTransformOrigin();
-  }
-
-  function render(t) {
-    const x = cubic(pts.x0, pts.x1, pts.x2, pts.x3, t);
-    const dx = cubicDerivative(pts.x0, pts.x1, pts.x2, pts.x3, t);
-    const dy = cubicDerivative(pts.gy0, pts.gy1, pts.gy2, pts.gy3, t);
-    setX(x);
-    setRotation(Math.atan2(dy, dx) * (180 / Math.PI) + ROTATION_OFFSET);
-  }
-
-  return { refresh, render };
-}
