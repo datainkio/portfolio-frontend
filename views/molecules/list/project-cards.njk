@@ -6,7 +6,7 @@
     {% for project in projects %}
       {% set projectHref = project.url or (project.slug and '/case-studies/' ~ project.slug ~ '/') %}
       <li class="text-black">
-        {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2, classes: "sm:inner-border-none" }) }}
+        {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2 }) }}
       </li>
     {% endfor %}
   </ul>

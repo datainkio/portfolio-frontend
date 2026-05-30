@@ -1,40 +1,21 @@
 /**
  * Card-Motion Molecule
  *
- * Encapsulates the scroll-driven animation variants for project cards:
+ * Scroll-driven animation variants for project cards. Each factory returns { kill() }.
+ * Card.js calls kill() on breakpoint and reduced-motion transitions.
  *
- *   clip       (base) — Scrubbed height collapse on the figure + natural body rise.
- *                       The image is absolutely positioned at its initial dimensions so
- *                       it never scales as the figure shrinks. The card genuinely loses
- *                       height as it exits the viewport.
- *
- *   fade       (md)   — Single-play fade+lift on scroll enter.
- *                       Simpler pattern suited for mid-range breakpoints.
- *
- *   motionpath (md+)  — Curved viewport-relative trajectory with mid-path pin.
- *                       Phase 1: article arcs in from bottom-left to viewport center.
- *                       Phase 2: article pins; body plays a parallax lift.
- *                       Phase 3: article arcs from center toward top-left and exits.
- *
- * The returned object exposes kill() to destroy the internal timeline and its
- * ScrollTrigger. Card.js calls this on breakpoint/reduced-motion transitions.
- *
- * @example
- * const clip = createCardScrollClip({ figure, body, index: 2, triggerEl: root });
- * // on destroy / breakpoint change:
- * clip.kill();
- *
- * const fade = createCardScrollFade({ figure, triggerEl: root });
- * fade.kill();
- *
- * const mp = createCardMotionPath({ article: root, figure, body, triggerEl: root });
- * mp.kill();
+ *   createCardScrollClip   (base) — Scrubbed height collapse + image clip-path.
+ *   createCardScrollFade   (md)   — Single-play fade+lift on scroll enter.
+ *   createCardParallax     (md)   — Scroll-scrubbed body parallax.
+ *   createMasterTimeline   (lg+)  — Curved bezier arc with three scroll phases:
+ *                                   intro (arc in), inter (pin/hold), outro (arc out).
  */
 
-import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 import {
   CARD_FIGURE_CLIP_TRIGGER,
   CARD_FIGURE_PARALLAX_TRIGGER,
+  motion,
 } from "../config/index/index.js";
 import { isReducedMotion } from "../system/ReducedMotionHandler.js";
 
@@ -42,9 +23,6 @@ const killST = (tl) => {
   tl?.scrollTrigger?.kill(true);
   tl?.kill();
 };
-const DEBUG_MOTION_PATH = new URLSearchParams(location.search).has(
-  "debug-motion",
-);
 
 /**
  * Creates the scrubbed height-collapse + image clip-path variant.
@@ -80,8 +58,8 @@ export function createCardScrollClip({
     return { kill() {} };
   }
 
-  const initialHeight = figure.offsetHeight;
-
+  const initialHeight = getViewport().height;
+  console.log("initialHeight", initialHeight);
   gsap.set(figure, { overflow: "hidden", willChange: "height" });
   gsap.set(image, {
     position: "absolute",
@@ -214,173 +192,96 @@ export function createCardParallax({
   };
 }
 
-// Cubic bezier control points for the card's curved viewport trajectory.
-// viewBox is 0 0 100 100, so 1 unit = 1vw/1vh (preserveAspectRatio: none).
+// Cubic bezier control points for the card's curved viewport trajectory (pixel space).
+//   x0 = x3 = -(vw / 12)  — entry/exit offset: ~1/12 vw left of center
+//   x1 = x2 =  vw / 36    — control points: slightly right of center (pulls arc inward)
 //
-//   Start  (41.667, 95) — bottom entry,  1/12 vw from left (100/12 vw left of center)
-//   CP1    (52.778, 70) — pulls arc rightward through lower half
-//   CP2    (52.778, 30) — pulls arc rightward through upper half
-//   End    (41.667,  5) — top exit,      1/12 vw from left
-//
-// At t=0.5: x = (1/8)(41.667) + (3/8)(52.778) + (3/8)(52.778) + (1/8)(41.667) = 50.0
-// i.e. the card is exactly centered at the vertical midpoint of the viewport.
-// At t=0.5: dx=0, so rotation=0 — the card is upright. This is the natural pin point.
-const MOTION_PATH_D = "M 41.667 100 C 52.778 70 52.778 30 41.667 0";
-const MOTION_PATH_GUIDE_ATTR = "data-card-path-guide";
-const MOTION_PATH_ID = "card-motion-path";
-// ENTRY_X_FRACTION (1/12): horizontal offset as a fraction of vw at entry and exit.
-// CP_X_FRACTION (1/36):    control-point offset as a fraction of vw (pulls arc inward).
+// At t=0.5: x = 0 (horizontally centered), dx = 0, so rotation = 0. Natural pin point.
 const ENTRY_X_FRACTION = 1 / 12;
 const CP_X_FRACTION = 1 / 36;
-// +90 aligns the article's natural upright axis with the path tangent direction.
+// +90 aligns the article's natural upright axis with the bezier tangent direction.
 const ROTATION_OFFSET = 90;
-// Fractions of viewport height for the two bezier control points.
-// Used in both buildPoints (pixel space) and the debug guide circles (SVG 0-100 space).
 const CP_Y_RATIOS = [0.7, 0.3];
+const CARD_SCROLL_DISTANCE_FACTOR = 3;
+const CARD_MOTION_TUNING = {
+  articleTravelVhFraction: 1,
+};
 
-function getOrCreatePathGuide() {
-  const existing = document.querySelector(`[${MOTION_PATH_GUIDE_ATTR}]`);
-  if (existing) return existing;
+// Figure and body elements are offscreen at the start of the scroll. (Is overflow-hidden useful here? Gotta think about how the height of the article is impacted.)
+function createIntroTimeline(article) {
+  const figure = article.querySelector('[data-card-el="figure"]');
+  const body = article.querySelector('[data-card-el="body"]');
 
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute(MOTION_PATH_GUIDE_ATTR, "");
-  svg.setAttribute("viewBox", "0 0 100 100");
-  svg.setAttribute("preserveAspectRatio", "none");
-  svg.setAttribute(
-    "style",
-    [
-      "position:fixed",
-      "inset:0",
-      "width:100vw",
-      "height:100vh",
-      "pointer-events:none",
-      "z-index:9999",
-      "opacity:0.75",
-      "overflow:visible",
-    ].join(";"),
-  );
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("id", MOTION_PATH_ID);
-  path.setAttribute("d", MOTION_PATH_D);
-  path.setAttribute("stroke", "#ff4db2");
-  path.setAttribute("stroke-width", "0.4");
-  path.setAttribute("stroke-dasharray", "1.5 1");
-  path.setAttribute("fill", "none");
-  svg.appendChild(path);
-
-  // Control point handles for visual reference
-  [
-    [52.778, CP_Y_RATIOS[0] * 100],
-    [52.778, CP_Y_RATIOS[1] * 100],
-  ].forEach(([cx, cy]) => {
-    const circle = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "circle",
-    );
-    circle.setAttribute("cx", cx);
-    circle.setAttribute("cy", cy);
-    circle.setAttribute("r", "0.8");
-    circle.setAttribute("fill", "#ff4db2");
-    svg.appendChild(circle);
+  // Move the figure and body elements to their starting positions, which is
+  // just below the viewport. The article itself will be pinned, so it won't
+  // move.
+  const initialHeight = getViewport().height;
+  gsap.set([figure, body], {
+    y: initialHeight,
   });
 
-  document.body.appendChild(svg);
-  return svg;
-}
-
-/**
- * Scroll-scrubbed MotionPath variant for the curved card trajectory.
- *
- * Three-phase animation:
- *   Phase 1 — path entry: article arcs in from bottom-left to horizontal center (t 0→0.5).
- *   Phase 2 — pin: article pins at viewport center; body plays a parallax lift.
- *   Phase 3 — path exit: article arcs from horizontal center toward top-left (t 0.5→1).
- *
- * Vertical motion throughout is provided by natural scroll; only the x offset and
- * rotation are animated. At t=0.5 dx=0, so rotation=0 — the article is perfectly
- * upright when it pins. Control points are computed once (buildPoints) and refreshed
- * on resize via ScrollTrigger's onRefresh.
- *
- * The guide SVG is a singleton gated behind DEBUG_MOTION_PATH — off by default.
- *
- * @param {{
- *   article: Element,
- *   figure?: Element,
- *   body?: Element,
- *   index?: number,
- *   triggerEl?: Element
- * }} param0
- * @returns {{ kill(): void }}
- */
-
-export function createIntroTimeline({ article, render }) {
-  const proxy = { t: 0 };
+  // With the article pinned, the figure animates into view along the path
   const tl = gsap.timeline();
-  tl.from(article, { y: () => window.innerHeight, ease: "none" }, 0);
-  tl.to(proxy, { t: 0.5, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+  tl.to(figure, {
+    y: 0,
+    // motionPath: {
+    //   path: toViewportPath(VIEWPORT_PATHS.throwIn),
+    //   // curviness: 1.25,
+    //   // autoRotate: true,
+    // },
+  });
+
+  // With the intro complete, the figure appears pinned
   return tl;
 }
 
-function createInterIndicator(index) {
-  const attr = "data-card-inter-indicator";
-  const existing = document.querySelector(`[${attr}="${index}"]`);
-  if (existing) return existing;
-  const el = document.createElement("div");
-  el.setAttribute(attr, index);
-  el.style.cssText = [
-    "position:fixed",
-    `top:${1 + index * 2}rem`,
-    "right:1rem",
-    "background:#ff4db2",
-    "color:white",
-    "font:bold 0.75rem/1 monospace",
-    "padding:0.25rem 0.5rem",
-    "border-radius:4px",
-    "pointer-events:none",
-    "z-index:9999",
-  ].join(";");
-  el.textContent = `inter · ${index}`;
-  gsap.set(el, { autoAlpha: 0 });
-  document.body.appendChild(el);
-  return el;
-}
+// The article is still pinned and the figure has completed its travel. Collapse the card.
+function createInterTimeline(article) {
+  const figure = article.querySelector('[data-card-el="figure"]');
+  const image = figure.querySelector("img");
+  const body = article.querySelector('[data-card-el="body"]');
 
-export function createInterTimeline({ figure, body, index = 0 }) {
-  const indicator = DEBUG_MOTION_PATH ? createInterIndicator(index) : null;
+  // Capture before any DOM mutation — once image goes position:absolute the
+  // figure loses its only in-flow child and article's auto height shrinks.
+  const initialHeight = getViewport().height;
+  const figureHeight = figure.offsetHeight;
+  const articleHeight = article.offsetHeight;
+  const bodyHeight = body.offsetHeight;
+  const collapseDistance = figureHeight + bodyHeight - articleHeight;
+  // Position the body at its final pixel location so it can be scrubbed up
+  // with the figure collapse without scaling artifacts. The body is above the figure in z-index so it will appear to be revealed as the figure collapses.
+
+  gsap.set(body, {
+    position: "absolute",
+    bottom: collapseDistance,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+  });
+
   const tl = gsap.timeline();
-  if (indicator) tl.set(indicator, { autoAlpha: 1 }, 0);
-  if (figure) {
-    tl.fromTo(
-      figure,
-      { x: 0, y: 0, immediateRender: false },
-      {
-        x: () => -figure.getBoundingClientRect().left,
-        y: () => -figure.getBoundingClientRect().top,
-        ease: "none",
-      },
-      0,
-    );
-  }
-  if (body) {
-    tl.fromTo(body, { y: 0 }, { y: () => -window.innerHeight, ease: "none" }, 0);
-  }
-  if (indicator) tl.set(indicator, { autoAlpha: 0 }, ">");
+  tl.to(body, { y: collapseDistance });
+  tl.to(article, { height: bodyHeight * 1.5 });
+
   return tl;
 }
 
-export function createOutroTimeline({ article, render }) {
-  const proxy = { t: 0.5 };
+function createOutroTimeline(article) {
   const tl = gsap.timeline();
-  tl.to(article, { y: () => -window.innerHeight, ease: "none" }, 0);
-  tl.to(proxy, { t: 1, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+  tl.to(article, {
+    rotation: 45,
+    // motionPath: {
+    //   path: toViewportPath(VIEWPORT_PATHS.throwOut),
+    //   // curviness: 1.25,
+    //   //autoRotate: true,
+    // },
+  });
   return tl;
 }
 
 export function createMasterTimeline({
   article,
-  figure, // assume the figure has a height of h-full and contains an image that is absolutely positioned at its initial pixel height
-  body, // the container for the card's text content
+  body,
   index = 0,
   triggerEl,
   reduceMotion,
@@ -389,85 +290,82 @@ export function createMasterTimeline({
     gsap.set(article, {
       clearProps: "x,y,rotation,transformOrigin,willChange",
     });
-    if (figure) gsap.set(figure, { clearProps: "x,y,willChange" });
-    if (body) gsap.set(body, { clearProps: "y,willChange" });
     return { kill() {} };
   }
 
-  gsap.set(article, { willChange: "transform" });
-  if (figure) gsap.set(figure, { willChange: "transform" });
-  if (body) gsap.set(body, { willChange: "transform" });
-
-  const pts = { x0: 0, x1: 0, x2: 0, x3: 0, gy0: 0, gy1: 0, gy2: 0, gy3: 0 };
-  const setX = gsap.quickSetter(article, "x", "px");
-  const setRotation = gsap.quickSetter(article, "rotation", "deg");
-
-  function buildPoints() {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    pts.x0 = -(vw * ENTRY_X_FRACTION);
-    pts.x1 = vw * CP_X_FRACTION;
-    pts.x2 = vw * CP_X_FRACTION;
-    pts.x3 = -(vw * ENTRY_X_FRACTION);
-    pts.gy0 = vh;
-    pts.gy1 = vh * CP_Y_RATIOS[0];
-    pts.gy2 = vh * CP_Y_RATIOS[1];
-    pts.gy3 = 0;
-  }
-
-  function updateTransformOrigin() {
-    if (!body) return;
-    const ar = article.getBoundingClientRect();
-    const br = body.getBoundingClientRect();
-    gsap.set(article, {
-      transformOrigin: `${br.left - ar.left + br.width / 2}px ${br.top - ar.top + br.height / 2}px`,
-    });
-  }
-
-  function refresh() {
-    buildPoints();
-    updateTransformOrigin();
-  }
-
-  function render(t) {
-    const x = cubic(pts.x0, pts.x1, pts.x2, pts.x3, t);
-    const dx = cubicDerivative(pts.x0, pts.x1, pts.x2, pts.x3, t);
-    const dy = cubicDerivative(pts.gy0, pts.gy1, pts.gy2, pts.gy3, t);
-    setX(x);
-    setRotation(Math.atan2(dy, dx) * (180 / Math.PI) + ROTATION_OFFSET);
-  }
-
-  refresh();
-  render(0);
+  // gsap.set(article, { willChange: "transform" });
+  // gsap.set(article, {
+  //   y: window.innerHeight * CARD_MOTION_TUNING.articleTravelVhFraction,
+  // });
 
   const tl = gsap.timeline({
+    duration: motion.duration("slow") / 1000, // use system token here
     scrollTrigger: {
-      id: `card-master-${index}`,
-      trigger: triggerEl,
-      start: "top center",
-      end: () => `+=${window.innerHeight * 3}`,
+      trigger: article,
+      start: "top top",
+      end: "bottom top",
       pin: true,
       scrub: true,
-      invalidateOnRefresh: true,
-      onRefresh: refresh,
+      markers: true,
     },
   });
 
-  tl.add(createIntroTimeline({ article, render }));
-  tl.add(createInterTimeline({ figure, body, index }));
-  tl.add(createOutroTimeline({ article, render }));
+  tl.add(createIntroTimeline(article));
+  tl.add(createInterTimeline(article));
+  tl.add(createOutroTimeline(article));
+
+  const figure = article.querySelector('[data-card-el="figure"]');
+  const image = figure?.querySelector("img");
+  // const body = article.querySelector('[data-card-el="body"]');
 
   return {
     kill() {
       killST(tl);
       gsap.set(article, {
-        clearProps: "x,y,rotation,transformOrigin,willChange",
+        clearProps: "x,y,height,rotation,transformOrigin,autoAlpha,willChange",
       });
-      if (figure) gsap.set(figure, { clearProps: "x,y,willChange" });
-      if (body) gsap.set(body, { clearProps: "y,willChange" });
+      if (image)
+        gsap.set(image, {
+          clearProps: "position,top,left,width,height,clipPath,willChange",
+        });
+      if (body)
+        gsap.set(body, {
+          clearProps: "position,top,bottom,left,right,zIndex,y",
+        });
     },
   };
 }
+
+const VIEWPORT_PATHS = {
+  throwIn: [
+    { x: 80, y: 100 },
+    { x: 25, y: 25 },
+    { x: 0, y: 0 },
+  ],
+  throwOut: [
+    { x: 0, y: 0 },
+    { x: 25, y: -25 },
+    { x: 100, y: -100 },
+  ],
+};
+
+const getViewport = () => {
+  const viewport = window.visualViewport;
+
+  return {
+    width: viewport?.width ?? window.innerWidth,
+    height: viewport?.height ?? window.innerHeight,
+  };
+};
+
+const toViewportPath = (points) => {
+  const { width, height } = getViewport();
+
+  return points.map(({ x, y }) => ({
+    x: width * (x / 100),
+    y: height * (y / 100),
+  }));
+};
 
 function cubic(p0, p1, p2, p3, t) {
   const u = 1 - t;
@@ -481,34 +379,10 @@ function cubicDerivative(p0, p1, p2, p3, t) {
   return 3 * u * u * (p1 - p0) + 6 * u * t * (p2 - p1) + 3 * t * t * (p3 - p2);
 }
 
-export function createCardMotionPath({
-  article,
-  figure,
-  body,
-  index = 0,
-  triggerEl,
-  reduceMotion,
-} = {}) {
-  if (isReducedMotion(reduceMotion)) {
-    gsap.set(article, { clearProps: "x,rotation,transformOrigin,willChange" });
-    if (figure) gsap.set(figure, { clearProps: "willChange" });
-    if (body) gsap.set(body, { clearProps: "yPercent,willChange" });
-    return { kill() {} };
-  }
-
-  const pathEl = DEBUG_MOTION_PATH ? getOrCreatePathGuide() : null;
-
-  gsap.set(article, { willChange: "transform" });
-  if (figure) gsap.set(figure, { willChange: "transform" });
-  if (body) gsap.set(body, { willChange: "transform" });
-
+function createPathRenderer({ article, body }) {
+  const pts = { x0: 0, x1: 0, x2: 0, x3: 0, gy0: 0, gy1: 0, gy2: 0, gy3: 0 };
   const setX = gsap.quickSetter(article, "x", "px");
   const setRotation = gsap.quickSetter(article, "rotation", "deg");
-
-  // Control points in pixels — recomputed on resize via buildPoints().
-  // x: relative to the card's natural centered position (see ENTRY_X_FRACTION).
-  // gy: y-coordinates in pixels, used only for tangent/rotation math.
-  const pts = { x0: 0, x1: 0, x2: 0, x3: 0, gy0: 0, gy1: 0, gy2: 0, gy3: 0 };
 
   function buildPoints() {
     const vw = window.innerWidth;
@@ -527,7 +401,6 @@ export function createCardMotionPath({
     if (!body) return;
     const ar = article.getBoundingClientRect();
     const br = body.getBoundingClientRect();
-    // Difference of rects is scroll-independent; gives body center in article's local space.
     gsap.set(article, {
       transformOrigin: `${br.left - ar.left + br.width / 2}px ${br.top - ar.top + br.height / 2}px`,
     });
@@ -538,8 +411,6 @@ export function createCardMotionPath({
     updateTransformOrigin();
   }
 
-  refresh();
-
   function render(t) {
     const x = cubic(pts.x0, pts.x1, pts.x2, pts.x3, t);
     const dx = cubicDerivative(pts.x0, pts.x1, pts.x2, pts.x3, t);
@@ -548,78 +419,5 @@ export function createCardMotionPath({
     setRotation(Math.atan2(dy, dx) * (180 / Math.PI) + ROTATION_OFFSET);
   }
 
-  // Phase 2 sub-timeline: body parallax lift played during the pin.
-  // Driven by ST progress instead of its own ScrollTrigger.
-  const parallaxTl = gsap.timeline({ paused: true });
-  if (body)
-    parallaxTl.fromTo(
-      body,
-      { yPercent: 0 },
-      { yPercent: -50, ease: "none" },
-      0,
-    );
-
-  // Phase 1: path entry (t = 0 → 0.5)
-  const st1 = ScrollTrigger.create({
-    id: `card-motion-path-${index}-1`,
-    trigger: triggerEl,
-    start: "top bottom",
-    end: "center center",
-    scrub: true,
-    invalidateOnRefresh: true,
-    onUpdate: (st) => render(st.progress * 0.5),
-    onRefresh: refresh,
-  });
-
-  // Phase 2: pin + parallax
-  const tl2 = gsap.timeline({
-    scrollTrigger: {
-      id: `card-motion-path-${index}-2`,
-      trigger: triggerEl,
-      start: "center center",
-      // Release when body's bottom reaches 50% of the viewport height.
-      // getBoundingClientRect().bottom + scrollY is scroll-independent (document-absolute).
-      end: () =>
-        body
-          ? body.getBoundingClientRect().bottom +
-            window.scrollY -
-            window.innerHeight * 0.5
-          : `+=${window.innerHeight * 0.5}`,
-      pin: true,
-      scrub: true,
-      invalidateOnRefresh: true,
-      onUpdate: (st) => parallaxTl.progress(st.progress),
-    },
-  });
-
-  // Phase 3: path exit (t = 0.5 → 1).
-  // start is a function so it evaluates lazily after tl2's ScrollTrigger has resolved
-  // its end scroll position — this guarantees Phase 3 begins exactly where Phase 2 ends,
-  // regardless of how much scroll distance the pin added.
-  const st3 = ScrollTrigger.create({
-    id: `card-motion-path-${index}-3`,
-    trigger: triggerEl,
-    start: () => tl2.scrollTrigger?.end ?? "center center",
-    end: "bottom top",
-    scrub: true,
-    invalidateOnRefresh: true,
-    onUpdate: (st) => render(0.5 + st.progress * 0.5),
-  });
-
-  render(0);
-
-  return {
-    kill() {
-      st1?.kill();
-      killST(tl2);
-      st3?.kill();
-      parallaxTl?.kill();
-      gsap.set(article, {
-        clearProps: "x,rotation,transformOrigin,willChange",
-      });
-      if (figure) gsap.set(figure, { clearProps: "willChange" });
-      if (body) gsap.set(body, { clearProps: "yPercent,willChange" });
-      if (DEBUG_MOTION_PATH) pathEl?.remove();
-    },
-  };
+  return { refresh, render };
 }

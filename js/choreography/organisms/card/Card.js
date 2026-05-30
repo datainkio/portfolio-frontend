@@ -7,7 +7,6 @@ import {
   createCardScrollClip,
   createCardScrollFade,
   createCardParallax,
-  createCardMotionPath,
   createMasterTimeline,
 } from "../../molecules/card-motion.js";
 

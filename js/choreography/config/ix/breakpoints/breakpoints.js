@@ -20,6 +20,6 @@ const BREAKPOINT_PRIORITY = Object.freeze(["xl", "lg", "md", "sm", "base"]);
 
 export function getActiveBreakpoint(conditions = {}) {
   const matched = BREAKPOINT_PRIORITY.find((key) => conditions[key]);
-  console.log("getActiveBreakpoint", { conditions, matched });
+  // console.log("getActiveBreakpoint", { conditions, matched });
   return matched ?? "base";
 }

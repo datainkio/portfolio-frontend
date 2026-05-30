@@ -21,7 +21,7 @@
   {%- set imageAlt = image and image.alt or title -%}
 
   {%- set root = {
-    "base": "bg-white relative isolate w-full text-current",
+    "base": "text-current relative isolate w-full overflow-hidden border-dashed border-secondary-400 border-2",
     "md": "grid grid-cols-6 inner-border p-4 mx-auto"
   } -%}
 
@@ -36,7 +36,7 @@
   } -%}
 
   {%- set body = {
-    "base": "prose bg-white inner-border p-6",
+    "base": "prose bg-white inner-border p-6 relative z-10 border-dashed border-primary-400 border-2",
     "sm": "grid grid-cols-6 gap-x-2",
     "md": "col-span-3 inner-border-none"
   } -%}
