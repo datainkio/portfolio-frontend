@@ -11,17 +11,17 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative h-dvh content-center text-white bg-black col-span-full prose max-w-4xl mx-auto"
+    "base": "relative h-dvh content-center text-white col-span-full prose mx-auto px-4 border-dashed border-primary-400 border-2"
   } %}
   {% set header = {
-    "base": "col-span-full z-10 flex flex-wrap items-center [&>time]:ml-auto"
+    "base": "h-full col-span-full z-10 flex flex-wrap items-center [&>time]:ml-auto"
   } %}
   {%- set title = {
-    "base": "basis-full px-10 font-display text-3xl",
+    "base": "basis-full font-display text-3xl",
     "sm": "text-4xl"
   } %}
   {%- set copy = {
-    "base": "basis-full px-10 mt-4 text-lg font-light columns-md",
+    "base": "basis-full mt-4 text-lg font-light columns-md",
     "sm": "text-xl",
     "md": "text-2xl"
   } %}

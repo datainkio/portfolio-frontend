@@ -59,7 +59,12 @@ export class LandingSequence {
     try {
       this.sections?.video?.playIntro?.();
     } catch (error) {
-      this.logger.trace("Error starting video intro", error, "verbose", "error");
+      this.logger.trace(
+        "Error starting video intro",
+        error,
+        "verbose",
+        "error",
+      );
       this.state.isStarted = false;
     }
   }
@@ -159,6 +164,7 @@ export class LandingSequence {
 
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
+      // this._applySectionArrangement("bio");
       this._pauseBackgroundVideo();
     });
 
@@ -169,6 +175,7 @@ export class LandingSequence {
 
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
+      this.sections?.bio?.playOutro?.();
       this._resumeBackgroundVideo();
     });
   }

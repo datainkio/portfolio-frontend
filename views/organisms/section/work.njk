@@ -13,7 +13,7 @@
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative z-10 col-span-full space-y-12 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="relative col-span-full {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header
       data-projects-el="header"
       class="bg-white grid grid-cols-6 gap-2 outline outline-1 outline-black outline-offset-[-6px] p-4 pb-8 sm:pb-4">
@@ -40,7 +40,7 @@
           {% endif %}
           <section
             data-projects-el="industry-group"
-            class="relative z-10 col-span-full space-y-12"
+            class="relative z-10 col-span-full"
             aria-labelledby="industry-{{ industryTitle | slugify }}">
             <h3
               id="industry-{{ industryTitle | slugify }}"

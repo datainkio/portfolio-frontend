@@ -44,11 +44,11 @@ export const BIO_TRIGGER = {
   once: false,
   start: "top top",
   end: "bottom center",
-  pinSpacing: false,
+  pinSpacing: true,
   pin: true,
   scrub: true,
   fastScrollEnd: false,
-  toggleActions: "none none none none",
+  toggleActions: "play play none none",
 };
 
 /**
@@ -84,9 +84,9 @@ export const WORK_INDUSTRY_HEADER_PIN = {
   ...SCROLL_DEFAULTS,
   id: `${SELECTORS.work}-industry-header-pin`,
   pin: true,
-  pinSpacing: false,
+  pinSpacing: true,
   // Extra space beneath the pinned Work header.
-  offsetPx: 24,
+  // offsetPx: 24,
 };
 
 /**

@@ -37,8 +37,8 @@
             preload: "none",
             autoPlay: true
             }) }}
-    <main id="page-main" aria-busy="true" class="mx-auto px-0 md:px-6 lg:px-12 space-y-48 col-span-full grid grid-cols-12">
-      <div id="page-main-content" class="col-span-full space-y-48">
+    <main id="page-main" aria-busy="true" class="mx-auto px-0 md:px-6 lg:px-12 col-span-full grid grid-cols-12">
+      <div id="page-main-content" class="col-span-full">
         {# Note that content values are set in frontmatter #}
         {# The id param has a matching value in SELECTORS.js for consistency w/choreography during runtime #}
         {%- set heroLogo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}

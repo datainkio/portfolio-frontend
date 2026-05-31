@@ -106,7 +106,12 @@ export const BIO_ANIMATION_DEFAULTS = {
   stickySubheadingTopThreshold: 1,
 };
 
-export const BIO_INTRO = {};
+export const BIO_INTRO = {
+  ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("slow")),
+  stagger: motion.stagger("loose"),
+  translateY: -motion.distance("lg"),
+};
 
 /**
  * Organizations Section Animation Defaults
