@@ -5,7 +5,7 @@
 - **Status:** draft
 - **Last reviewed:** 2026-02-19
 - **Scope:** Landing choreography gel layers (`.bg-gel`) reacting to section lifecycle events (`EVENTS.*.enter` / `EVENTS.*.exit`).
-- **Links:** choreography coordinator [../../js/choreography/sequences/landing/LandingSequence.js](../../js/choreography/sequences/landing/LandingSequence.js), event contracts [../../js/choreography/config/contracts/events.js](../../js/choreography/config/contracts/events.js), gel manager [../../js/choreography/managers/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager.js), choreography config [../../js/choreography/config/index.js](../../js/choreography/config/index.js)
+- **Links:** choreography coordinator [../../js/choreography/templates/landing/LandingSequence.js](../../js/choreography/templates/landing/LandingSequence.js), event contracts [../../js/choreography/config/contracts/events.js](../../js/choreography/config/contracts/events.js), gel manager [../../js/choreography/managers/GelAnimationManager/GelAnimationManager.js](../../js/choreography/managers/GelAnimationManager/GelAnimationManager.js), choreography config [../../js/choreography/config/index.js](../../js/choreography/config/index.js)
 
 ## Motion Principles
 

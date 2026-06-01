@@ -344,7 +344,7 @@ export default class Custom extends AbstractSection {
   }
 }
 
-// 3. Register in sections/registry.js and AnimationDirector initialization
+// 3. Register in system/registry.js and AnimationDirector initialization
 this.sections.custom = new Custom({
   bus: this.bus,
   reducedMotionHandler: this.stage?.reducedMotion,
@@ -356,7 +356,7 @@ this.sections.custom = new Custom({
 **Common mistakes that will cause errors:**
 
 - ❌ Don't rely on legacy schema helpers; use Sanity collections instead
-- ❌ Don't reference Splash or Approach sections unless they are added to `js/choreography/sections/registry.js`
+- ❌ Don't reference Splash or Approach sections unless they are added to `js/choreography/system/registry.js`
 - ❌ Don't edit auto-generated files: `styles/colors.css`, `styles/typography/fontFamilies.css` - They're overwritten by `build:design`
 - ❌ Don't call Tailwind CLI directly - Always use npm scripts (`npm run build:css` or `npm run dev:css`)
 - ❌ Don't name sections "Biography" - The actual implementation is "Bio"
@@ -392,7 +392,7 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 - Create a sibling `views/molecules/<name>/<name>.md` Obsidian sidecar describing the template (front matter + purpose + relationships).
 - Use in a page: `{% import "molecules/<name>/<name>.njk" as m %} {{ m.render({ ... }) }}`.
 - Add styles under `styles/` (respect `styles/main.css` order). If using tokens, run `npm run build:design`.
-- If animated, add a section controller under `js/choreography/sections/<name>/<Name>.js` and wire via `AnimationDirector.js` + `sections/registry.js`.
+- If animated, add a section controller under `js/choreography/organisms/<name>/<Name>.js` and wire via `AnimationDirector.js` + `system/registry.js`.
 - Verify DOM IDs/classes expected by controllers exist in the template.
 
 ## Hero Section Hooks

@@ -76,7 +76,7 @@ js/choreography/
 - Boots on `DOMContentLoaded`
 - Creates AnimationBus for event coordination
 - Initializes ScrollEffectsCoordinator for scroll smoothing + background/decoration effects
-- Instantiates section controllers from [sections/registry.js](sections/registry.js): Hero, BackgroundVideo, Bio, Awards, Organizations, Work
+- Instantiates section controllers from [system/registry.js](system/registry.js): Hero, BackgroundVideo, Bio, Awards, Organizations, Work
 - Starts LandingSequence choreography
 - Exposes `window.director` API for debugging and control
 
@@ -160,7 +160,7 @@ section:${id}:scroll:{enter|exit}
 section:${id}:outro:complete
 ```
 
-**Available Sections** (see [sections/registry.js](sections/registry.js)):
+**Available Sections** (see [system/registry.js](system/registry.js)):
 
 - `Hero` - Landing hero with introductory animations
 - `BackgroundVideo` - Background video playback and synchronization
@@ -201,7 +201,7 @@ export class CustomSection extends AbstractSection {
 Orchestrates multi-section animation flow:
 
 ```javascript
-import { LandingSequence } from "./sequences/landing/LandingSequence.js";
+import { LandingSequence } from "./templates/landing/LandingSequence.js";
 
 const sequence = new LandingSequence(bus, sections, gelAnimation);
 sequence.start(); // Begin choreography

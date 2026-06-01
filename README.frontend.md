@@ -1,6 +1,20 @@
+---
+title: "Frontend Workspace Reference"
+description: "Layout, build pipeline, conventions, and choreography quick-reference for the frontend workspace."
+type: reference
+status: stable
+audience:
+  - agents
+tags:
+  - "#frontend"
+  - "#reference"
+  - "#11ty"
+  - "#gsap"
+---
+
 <!-- @format -->
 
-# Frontend Workspace Reference (AIX)
+# Frontend Workspace Reference
 
 This document is the AIX-focused reference for the `frontend/` workspace folder. It complements the GitHub-facing [[dataink.io/frontend/README]] and the agent-oriented [[.github/copilot-instructions]].
 
@@ -74,7 +88,7 @@ Defaults live in [site.json](site.json) under `cms`. See [[docs/sanity-integrati
 
 - ES modules only. Browser paths resolve from `/assets/js/`.
 - Animations use GSAP and respect `prefers-reduced-motion`.
-- The choreography system is event-driven via [AnimationBus](js/choreography/AnimationBus.js). Sections do not call each other directly.
+- The choreography system is event-driven via [AnimationBus](js/choreography/system/AnimationBus.js). Sections do not call each other directly.
 - See [[js/README.js]] and [[js/choreography/README.choreography]].
 
 ### Sanity content
@@ -88,11 +102,11 @@ Defaults live in [site.json](site.json) under `cms`. See [[docs/sanity-integrati
 Key modules in [js/choreography/](js/choreography/):
 
 - [AnimationDirector.js](js/choreography/AnimationDirector.js) — master coordinator, initializes everything on `DOMContentLoaded`.
-- [AnimationBus.js](js/choreography/AnimationBus.js) — pub/sub event system (event names live in [config/contracts/events.js](js/choreography/config/contracts/events.js)).
-- [ScrollEffectsCoordinator.js](js/choreography/ScrollEffectsCoordinator.js) — scroll smoothing + background/decorative effects.
-- [sections/](js/choreography/sections/) — section controllers extending [AbstractSection](js/choreography/sections/abstract-section/AbstractSection.js). Active sections: **Hero, BackgroundVideo, Bio, Awards, Organizations, Work**.
+- [AnimationBus.js](js/choreography/system/AnimationBus.js) — pub/sub event system (event names live in [config/contracts/events.js](js/choreography/config/contracts/events.js)).
+- [ScrollEffectsCoordinator.js](js/choreography/managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js) — scroll smoothing + background/decorative effects.
+- [organisms/](js/choreography/organisms/) — section controllers extending [AbstractSection](js/choreography/system/AbstractSection.js). Active sections: **Hero, BackgroundVideo, Bio, Awards, Organizations, Work**.
 - [managers/](js/choreography/managers/) — single-responsibility helpers: `ReducedMotionHandler`, `ScrollSmootherManager`, `GelAnimationManager`, `LineManager`, `SessionManager`, `RulerIntroManager`.
-- [sequences/landing/LandingSequence.js](js/choreography/sequences/landing/LandingSequence.js) — orchestrates the landing animation flow.
+- [templates/landing/LandingSequence.js](js/choreography/templates/landing/LandingSequence.js) — orchestrates the landing animation flow.
 
 DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, `#hero`, `#overlay-view`, `#bio`, `#awards`, `#organizations`, `#work`. Missing IDs degrade gracefully.
 
@@ -111,7 +125,7 @@ DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, 
 - Docs index: [[docs/README.docs]]
 - Sanity contract: [[docs/sanity-integration]]
 - Choreography: [[js/choreography/README.choreography]]
-- Section controllers: [[js/choreography/sections/README.sections]]
+- Choreography overview: [[js/choreography/README.choreography]]
 - Managers: [[js/choreography/managers/README.managers]]
 - Preloader contract: [[docs/preloader-integration-checklist]]
 - Director init sequence: [[docs/director-initialization-sequence]]

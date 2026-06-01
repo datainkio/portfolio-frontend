@@ -1,29 +1,15 @@
 ---
+title: "Frontend — Claude Code Entrypoint"
+description: "Claude Code workspace entrypoint for the portfolio frontend."
+type: entrypoint
+status: stable
+audience:
+  - agents
 tags:
   - "#frontend"
-  - "#claude"
   - "#entrypoint"
   - "#11ty"
   - "#gsap"
-aix:
-  id: aix.claude.frontend.entrypoint
-  role: Claude Code workspace entrypoint for the portfolio frontend.
-  status: stable
-  surface: internal
-  owner: AIX
-  tags:
-    - "#frontend"
-    - "#claude"
-    - "#entrypoint"
-    - "#11ty"
-    - "#gsap"
-  type: entrypoint
-  scope: frontend
-  audience: agents
-  perf:
-    readPriority: critical
-    cacheSafe: true
-    critical: true
 ---
 
 # Frontend — Claude Code Entrypoint
@@ -35,8 +21,8 @@ Portfolio frontend: Eleventy (11ty) + Nunjucks + Tailwind v4 + GSAP + Sanity.
 Read in this order before starting any task:
 
 1. [`portfolio-frontend.md`](../aix/context/projects/portfolio-frontend.md) — stack constraints, choreography runtime snapshot, common pitfalls
-2. [`constraints.md`](../aix/context/constraints.md) — non-negotiables; never violate
-3. [`current-goals.md`](../aix/context/current-goals.md) — active work
+2. [`constraints.md`](../context/constraints.md) — non-negotiables; never violate
+3. [`current-goals.md`](../context/current-goals.md) — active work
 4. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — repo conventions, do-not-edit files, build order
 
 **Context load tier:**
@@ -68,16 +54,17 @@ npm run scaffold:component  # generate new atomic design component
 
 Project-local agents live in [`.claude/agents/`](.claude/agents/). Workspace agents in [`../aix/.claude/agents/`](../aix/.claude/agents/).
 
-| Agent | Location | Use for |
-|---|---|---|
-| [`gsap`](.claude/agents/gsap.md) | project-local | Section controllers, timelines, ScrollTrigger, AnimationBus wiring, choreography work |
-| [`implementer`](../aix/.claude/agents/implementer.md) | workspace | General code changes, new components, Sanity wiring |
-| [`mechanic`](../aix/.claude/agents/mechanic.md) | workspace | Build failures, 11ty config issues, tooling errors |
-| [`reviewer`](../aix/.claude/agents/reviewer.md) | workspace | Pre-merge checks, diff review, contract compliance |
-| [`planner`](../aix/.claude/agents/planner.md) | workspace | Sequence multi-step work before implementation begins |
-| [`taskmaster`](../aix/.claude/agents/taskmaster.md) | workspace | Embed TODOs aligned with the GitHub Issues workflow |
+Agents live in [`../aix/.claude/agents/`](../aix/.claude/agents/). For GSAP / choreography work, use the skills table below — no dedicated agent exists.
 
-For architecture decisions, tradeoff analysis, or cross-repo concerns: see [`../aix/CLAUDE.md`](../aix/CLAUDE.md) for the full agent roster.
+| Agent | Use for |
+|---|---|
+| [`implementer`](../aix/.claude/agents/implementer.md) | General code changes, new components, Sanity wiring |
+| [`mechanic`](../aix/.claude/agents/mechanic.md) | Build failures, 11ty config issues, tooling errors |
+| [`reviewer`](../aix/.claude/agents/reviewer.md) | Pre-merge checks, diff review, contract compliance |
+| [`planner`](../aix/.claude/agents/planner.md) | Sequence multi-step work before implementation begins |
+| [`taskmaster`](../aix/.claude/agents/taskmaster.md) | Embed TODOs aligned with the GitHub Issues workflow |
+
+For the full agent roster and architecture agents: [`../aix/CLAUDE.md`](../aix/CLAUDE.md).
 
 ## Available Skills
 
@@ -102,6 +89,6 @@ Full choreography context is in the [`gsap` agent](.claude/agents/gsap.md). Fast
 
 - Config barrel: [`js/choreography/config/index.js`](js/choreography/config/index.js)
 - Event contracts: [`js/choreography/config/contracts/events.js`](js/choreography/config/contracts/events.js)
-- Section registry: [`js/choreography/sections/registry.js`](js/choreography/sections/registry.js)
+- Section registry: [`js/choreography/system/registry.js`](js/choreography/system/registry.js)
 - Boot sequence: `director:ready` → `preloader:out` → `LandingSequence` (never bypass)
 - Always emit/listen via `AnimationBus` — never call sections directly

@@ -60,7 +60,7 @@ Overrides (via environment):
 ## AIX Gain Links
 
 - [aix/context/projects/portfolio-frontend.md](../../aix/context/projects/portfolio-frontend.md)
-- [aix/context/constraints.md](../../aix/context/constraints.md)
+- [context/constraints.md](../../../context/constraints.md)
 - [aix/context/project.md](../../aix/context/project.md)
 - [aix/specs/README.md](../../aix/specs/README.md)
 - [frontend/docs/sanity-integration.md](../docs/sanity-integration.md)

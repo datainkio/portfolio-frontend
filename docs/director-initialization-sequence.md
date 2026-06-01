@@ -23,7 +23,7 @@ sequenceDiagram
     end
 
     rect rgb(220, 240, 220)
-        note over AD: 2. Section controllers (from sections/registry.js)
+        note over AD: 2. Section controllers (from system/registry.js)
         AD->>Sections: new Hero / BackgroundVideo / Bio / Awards / Organizations / Work
         Sections-->>AD: Controllers (with bus + reducedMotionHandler)
     end
@@ -50,7 +50,7 @@ sequenceDiagram
 ## Phases
 
 1. **Core systems** — `AnimationDirector` constructs `AnimationBus` (pub/sub) and `ScrollEffectsCoordinator` (scroll smoothing + background/decoration managers).
-2. **Section controllers** — instantiated from `sections/registry.js`. Each extends [AbstractSection](../js/choreography/sections/abstract-section/AbstractSection.js) and receives `{ bus, reducedMotionHandler }`. Active sections: Hero, BackgroundVideo, Bio, Awards, Organizations, Work.
+2. **Section controllers** — instantiated from `system/registry.js`. Each extends [AbstractSection](../js/choreography/system/AbstractSection.js) and receives `{ bus, reducedMotionHandler }`. Active sections: Hero, BackgroundVideo, Bio, Awards, Organizations, Work.
 3. **Sequence wiring** — `LandingSequence` subscribes to section lifecycle events (`section:phase:state`) and orchestrates the landing flow.
 4. **Start** — sequence emits the first event; sections respond via `AnimationBus`.
 5. **Global access** — `window.director` is exposed for debugging.
@@ -82,8 +82,8 @@ window.director.restart?.();
 ## References
 
 - [AnimationDirector.js](../js/choreography/AnimationDirector.js)
-- [AnimationBus.js](../js/choreography/AnimationBus.js)
-- [ScrollEffectsCoordinator.js](../js/choreography/ScrollEffectsCoordinator.js)
-- [sections/registry.js](../js/choreography/sections/registry.js)
-- [sequences/landing/LandingSequence.js](../js/choreography/sequences/landing/LandingSequence.js)
+- [AnimationBus.js](../js/choreography/system/AnimationBus.js)
+- [ScrollEffectsCoordinator.js](../js/choreography/managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js)
+- [system/registry.js](../js/choreography/system/registry.js)
+- [templates/landing/LandingSequence.js](../js/choreography/templates/landing/LandingSequence.js)
 - [config/contracts/events.js](../js/choreography/config/contracts/events.js)

@@ -5,7 +5,7 @@
 - Status: draft
 - Last reviewed: 2026-05-17
 - Scope: Choreography runtime motion behavior across section controllers and card animations, including timeline and ScrollTrigger policy by breakpoint and reduced-motion preference.
-- Links: [js/choreography/config/ix/motion.js](../../js/choreography/config/ix/motion.js), [js/choreography/config/ix/breakpoints.js](../../js/choreography/config/ix/breakpoints.js), [js/choreography/config/ix/scrolltriggers.js](../../js/choreography/config/ix/scrolltriggers.js), [js/choreography/sections/abstract-section/AbstractSection.js](../../js/choreography/sections/abstract-section/AbstractSection.js), [js/choreography/card/Card.js](../../js/choreography/card/Card.js)
+- Links: [js/choreography/config/ix/motion.js](../../js/choreography/config/ix/motion.js), [js/choreography/config/ix/breakpoints.js](../../js/choreography/config/ix/breakpoints.js), [js/choreography/config/ix/scrolltriggers.js](../../js/choreography/config/ix/scrolltriggers.js), [js/choreography/system/AbstractSection.js](../../js/choreography/system/AbstractSection.js), [js/choreography/organisms/card/Card.js](../../js/choreography/organisms/card/Card.js)
 - Diagrams: [AbstractSection responsive lifecycle](abstract-section-responsive-lifecycle.mmd), [Card responsive motion](card-responsive-motion.mmd)
 
 ## Objective
@@ -83,7 +83,7 @@ In [js/choreography/config/ix/motion.js](../../js/choreography/config/ix/motion.
 
 #### AbstractSection lifecycle
 
-Integrate profile resolution in [js/choreography/sections/abstract-section/AbstractSection.js](../../js/choreography/sections/abstract-section/AbstractSection.js):
+Integrate profile resolution in [js/choreography/system/AbstractSection.js](../../js/choreography/system/AbstractSection.js):
 
 - On matchMedia update:
   - Resolve profile key and resolved section profile.
@@ -104,7 +104,7 @@ Keep primitive defaults in [js/choreography/config/ix/scrolltriggers.js](../../j
 
 #### Card system
 
-Use the same resolver strategy in [js/choreography/card/Card.js](../../js/choreography/card/Card.js) so cards follow identical policy semantics as sections.
+Use the same resolver strategy in [js/choreography/organisms/card/Card.js](../../js/choreography/organisms/card/Card.js) so cards follow identical policy semantics as sections.
 
 ### 4) Scroll Trigger Capability Strategy
 
@@ -143,7 +143,7 @@ Use breakpoint capability tiers:
 
 ### Phase 2: Section Integration
 
-- Update [js/choreography/sections/abstract-section/AbstractSection.js](../../js/choreography/sections/abstract-section/AbstractSection.js) to consume resolved profiles.
+- Update [js/choreography/system/AbstractSection.js](../../js/choreography/system/AbstractSection.js) to consume resolved profiles.
 - Route trigger and timeline enablement through resolved profile values.
 
 ### Phase 3: Trigger Composition
@@ -153,7 +153,7 @@ Use breakpoint capability tiers:
 
 ### Phase 4: Card Alignment
 
-- Ensure [js/choreography/card/Card.js](../../js/choreography/card/Card.js) consumes profile resolver output for parity with section policy.
+- Ensure [js/choreography/organisms/card/Card.js](../../js/choreography/organisms/card/Card.js) consumes profile resolver output for parity with section policy.
 
 ### Phase 5: Verification
 
