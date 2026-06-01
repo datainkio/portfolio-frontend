@@ -1,0 +1,18 @@
+---
+id: frontend.js.choreography.managers.linemanager
+role: "Runtime manager — manages LeaderLine connector instances between section socket pairs, with RAF-throttled repositioning."
+status: stable
+surface: internal
+scope: frontend
+runtime: browser
+tags:
+  - "#frontend"
+  - "#js"
+  - "#choreography"
+  - "#manager"
+  - "#LineManager"
+links:
+  - "[[config/displays/leader-lines/leader-lines|config/displays/leader-lines]]"
+backlinks:
+  - "[[AnimationDirector|AnimationDirector]]"
+---

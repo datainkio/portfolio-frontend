@@ -12,11 +12,13 @@ tags:
   - "#atom"
   - "#index"
 links:
-  - "[[fade|fade]]"
-  - "[[slide|slide]]"
-  - "[[scale|scale]]"
-  - "[[clip-reveal|clip-reveal]]"
-  - "[[text-split-reveal|text-split-reveal]]"
-  - "[[stagger-reveal|stagger-reveal]]"
-  - "[[parallax|parallax]]"
+  - "[[atoms/fade/fade|atoms/fade]]"
+  - "[[atoms/slide/slide|atoms/slide]]"
+  - "[[atoms/scale/scale|atoms/scale]]"
+  - "[[atoms/clip-reveal/clip-reveal|atoms/clip-reveal]]"
+  - "[[atoms/text-split-reveal/text-split-reveal|atoms/text-split-reveal]]"
+  - "[[atoms/stagger-reveal/stagger-reveal|atoms/stagger-reveal]]"
+  - "[[atoms/parallax/parallax|atoms/parallax]]"
+backlinks:
+  - "[[index|choreography/index]]"
 ---

@@ -1,6 +1,6 @@
 ---
-id: frontend.js.choreography.managers.sessionmanager.sessionmanager
-role: "Runtime infrastructure — manages session state persistence in sessionStorage, tracking hero intro play status and user interaction history."
+id: frontend.js.choreography.managers.sessionmanager
+role: "Runtime manager — manages session state persistence in sessionStorage, tracking hero intro play status and user interaction history."
 status: stable
 surface: internal
 scope: frontend
@@ -9,7 +9,9 @@ tags:
   - "#frontend"
   - "#js"
   - "#choreography"
-  - "#system"
+  - "#manager"
   - "#SessionManager"
 links: []
+backlinks:
+  - "[[AnimationDirector|AnimationDirector]]"
 ---

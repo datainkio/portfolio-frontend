@@ -21,7 +21,7 @@
  * directly with a full ReducedMotionHandler. This module handles all other pages.
  */
 
-import GlobalHeaderManager from "../choreography/system/GlobalHeaderManager.js";
+import GlobalHeaderManager from "../choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
 
 const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
 const reducedMotionHandler = { isReducedMotion: () => mq.matches };

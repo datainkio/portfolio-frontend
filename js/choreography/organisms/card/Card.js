@@ -7,8 +7,8 @@ import {
   createCardScrollClip,
   createCardScrollFade,
   createCardParallax,
-  createMasterTimeline,
-} from "../../molecules/card-motion.js";
+  createThrowTimeline,
+} from "../../molecules/card-motion/card-motion.js";
 
 const CARD_EL_ATTR = "data-card-el";
 
@@ -16,8 +16,8 @@ const selectCardEl = (root, name) =>
   root?.querySelector(`[${CARD_EL_ATTR}="${name}"]`) ?? null;
 
 const VARIANT_FACTORIES = {
-  motionpath: (card) =>
-    createMasterTimeline({
+  throw: (card) =>
+    createThrowTimeline({
       article: card.root,
       figure: card.figure,
       body: card.body,

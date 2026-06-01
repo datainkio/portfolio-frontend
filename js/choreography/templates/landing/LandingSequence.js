@@ -13,7 +13,7 @@ import {
   SECTION_TO_GEL_ARRANGEMENT,
   SELECTORS,
 } from "../../config/index/index.js";
-import { createGelTransition } from "../../molecules/gel-transition.js";
+import { createGelTransition } from "../../molecules/gel-transition/gel-transition.js";
 
 export class LandingSequence {
   constructor(bus, sections, gelAnimation) {

@@ -24,7 +24,3 @@ export { default as BackgroundVideoTriggers } from "./background/BackgroundVideo
 
 export { default as Card } from "./card/Card.js";
 export { default as CardManager } from "./card/CardManager.js";
-
-export { default as ProjectHeaderManager } from "./project-header/ProjectHeader.js";
-export { default as RulerIntroManager, initRulerIntro, getRulerIntro } from "./ruler-intro/RulerIntro.js";
-export { default as LineManager } from "./line/Line.js";

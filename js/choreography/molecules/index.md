@@ -12,9 +12,12 @@ tags:
   - "#molecule"
   - "#index"
 links:
-  - "[[scroll-reveal-group|scroll-reveal-group]]"
-  - "[[section-header-intro|section-header-intro]]"
-  - "[[card-scroll-clip|card-scroll-clip]]"
-  - "[[video-reveal|video-reveal]]"
-  - "[[gel-transition|gel-transition]]"
+  - "[[molecules/scroll-reveal-group/scroll-reveal-group|molecules/scroll-reveal-group]]"
+  - "[[molecules/section-header-intro/section-header-intro|molecules/section-header-intro]]"
+  - "[[molecules/card-motion/card-motion|molecules/card-motion]]"
+  - "[[molecules/video-reveal/video-reveal|molecules/video-reveal]]"
+  - "[[molecules/gel-transition/gel-transition|molecules/gel-transition]]"
+  - "[[molecules/article-nav-toggle/article-nav-toggle|molecules/article-nav-toggle]]"
+backlinks:
+  - "[[index|choreography/index]]"
 ---

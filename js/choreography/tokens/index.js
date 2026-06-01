@@ -1,1 +1,1 @@
-export { motionTokens } from "./motion.js";
+export { motionTokens } from "./motion/motion.js";

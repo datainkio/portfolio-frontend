@@ -1,5 +1,5 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
-import { createVideoReveal } from "../../molecules/video-reveal.js";
+import { createVideoReveal } from "../../molecules/video-reveal/video-reveal.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { BACKGROUND_ANIMATION_DEFAULTS } from "../../config/ix/motion/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";

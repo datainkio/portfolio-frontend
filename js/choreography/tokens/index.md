@@ -12,5 +12,7 @@ tags:
   - "#token"
   - "#index"
 links:
-  - "[[motion|motion]]"
+  - "[[tokens/motion/motion|tokens/motion]]"
+backlinks:
+  - "[[index|choreography/index]]"
 ---

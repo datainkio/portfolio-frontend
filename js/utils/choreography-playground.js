@@ -195,7 +195,7 @@ async function handleInit() {
 
 async function initDirectorMode() {
   try {
-    const module = await import("/assets/js/choreography/AnimationDirector/AnimationDirector.js");
+    const module = await import("/assets/js/choreography/AnimationDirector.js");
     const AnimationDirector =
       module.default || module.AnimationDirector || module.Director;
     if (!AnimationDirector) throw new Error("AnimationDirector unavailable");

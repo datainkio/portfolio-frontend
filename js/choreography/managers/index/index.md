@@ -1,6 +1,6 @@
 ---
-id: frontend.js.choreography.managers.index.index
-role: "Managers barrel — re-exports manager modules; note that the imported paths reference stale sub-folder locations that no longer exist in the current architecture."
+id: frontend.js.choreography.managers.index
+role: "Managers barrel — re-exports all manager module classes from the managers layer."
 status: stable
 surface: internal
 scope: frontend
@@ -9,7 +9,18 @@ tags:
   - "#frontend"
   - "#js"
   - "#choreography"
-  - "#system"
+  - "#manager"
   - "#index"
-links: []
+links:
+  - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"
+  - "[[managers/ScrollSmootherManager/ScrollSmootherManager|managers/ScrollSmootherManager]]"
+  - "[[managers/GelAnimationManager/GelAnimationManager|managers/GelAnimationManager]]"
+  - "[[managers/GlobalHeaderManager/GlobalHeaderManager|managers/GlobalHeaderManager]]"
+  - "[[managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator|managers/ScrollEffectsCoordinator]]"
+  - "[[managers/RulerIntroManager/RulerIntroManager|managers/RulerIntroManager]]"
+  - "[[managers/LineManager/LineManager|managers/LineManager]]"
+  - "[[managers/ProjectHeaderManager/ProjectHeaderManager|managers/ProjectHeaderManager]]"
+  - "[[managers/SessionManager/SessionManager|managers/SessionManager]]"
+backlinks:
+  - "[[index|choreography/index]]"
 ---

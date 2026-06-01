@@ -4,6 +4,7 @@ export * from "./molecules/index.js";
 export * from "./organisms/index.js";
 export * from "./templates/index.js";
 export * from "./system/index.js";
+export * from "./managers/index/index.js";
 export * from "./config/contracts/events/events.js";
 export * from "./config/contracts/selectors/selectors.js";
 export * from "./config/contracts/timelines/timelines.js";

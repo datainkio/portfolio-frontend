@@ -1,7 +1,7 @@
 export { resolveSectionMotionProfile } from "../profiles/profiles.js";
 import { SECTION_OVERRIDES } from "../profiles/profiles.js";
-export { motionTokens } from "../../../tokens/motion.js";
-import { motionTokens } from "../../../tokens/motion.js";
+export { motionTokens } from "../../../tokens/motion/motion.js";
+import { motionTokens } from "../../../tokens/motion/motion.js";
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
 
 export const motion = {

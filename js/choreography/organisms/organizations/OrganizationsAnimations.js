@@ -1,7 +1,7 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { createSectionHeaderIntro } from "../../molecules/section-header-intro.js";
-import { createScrollRevealGroup } from "../../molecules/scroll-reveal-group.js";
+import { createSectionHeaderIntro } from "../../molecules/section-header-intro/section-header-intro.js";
+import { createScrollRevealGroup } from "../../molecules/scroll-reveal-group/scroll-reveal-group.js";
 import { ORGANIZATIONS_ANIMATION_DEFAULTS } from "../../config/ix/motion/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 
