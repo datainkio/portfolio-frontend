@@ -1,5 +1,8 @@
 import AbstractSection from "../../system/AbstractSection.js";
-import { SELECTORS } from "../../config/index/index.js";
+import {
+  SELECTORS,
+  resolveSectionMotionProfile,
+} from "../../config/index/index.js";
 import BioAnimations from "./BioAnimations.js";
 import BioTriggers from "./BioTriggers.js";
 
@@ -17,5 +20,11 @@ export default class Bio extends AbstractSection {
       bus,
       reducedMotionHandler,
     });
+  }
+
+  _applyResponsiveLifecycle(conditions = {}) {
+    const profile = resolveSectionMotionProfile("bio", conditions);
+    this.animations?.setVariant?.(profile.animation?.variant ?? "sweep");
+    super._applyResponsiveLifecycle(conditions);
   }
 }

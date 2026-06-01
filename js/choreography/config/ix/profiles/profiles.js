@@ -136,6 +136,13 @@ export const SECTION_OVERRIDES = Object.freeze({
     lg: { animation: { variant: "motionpath" } },
     xl: { animation: { variant: "motionpath" } },
   },
+  bio: {
+    base: { animation: { variant: "sweep" } },
+    sm: { animation: { variant: "sweep" } },
+    md: { animation: { variant: "sweep" } },
+    lg: { animation: { variant: "sweep" } },
+    xl: { animation: { variant: "sweep" } },
+  },
 });
 
 /**

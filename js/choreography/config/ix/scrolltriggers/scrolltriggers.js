@@ -48,7 +48,7 @@ export const BIO_TRIGGER = {
   pin: true,
   scrub: true,
   fastScrollEnd: false,
-  toggleActions: "play play none none",
+  toggleActions: "play play play play",
 };
 
 /**
