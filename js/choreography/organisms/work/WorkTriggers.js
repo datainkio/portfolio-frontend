@@ -41,10 +41,19 @@ export default class WorkTriggers extends AbstractSectionTriggers {
     const header = this.view?.querySelector(`[${WORK_EL_ATTR}="header"]`);
     if (!header || !this.view) return;
 
+    // Anchor end to the last project card rather than the section's computed bottom.
+    // The card clip animation (pinSpacing: false) can shift the section's measured height
+    // on refresh; using the last project as endTrigger keeps the pin stable through all cards.
+    const projects = Array.from(
+      this.view.querySelectorAll(`[${WORK_EL_ATTR}="project"]`),
+    );
+    const lastProject = projects.at(-1) ?? null;
+
     this._headerPin = ScrollTrigger.create({
       id: "work-header-pin",
       trigger: this.view,
       start: "top top",
+      endTrigger: lastProject ?? this.view,
       end: "bottom top",
       pin: header,
       pinSpacing: false,
