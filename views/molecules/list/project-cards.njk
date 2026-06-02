@@ -1,12 +1,9 @@
-{% import "molecules/card/project.njk" as ProjectCard %}
+{% import "molecules/card/project.njk" as Card %}
 {% macro render(params = {}) %}
-  {%- set classes = params.classes | default("") -%}
-  {%- set projects = params.projects | default([]) -%}
-  <ul class="{{ classes }}">
-    {% for project in projects %}
-      {% set projectHref = project.url or (project.slug and '/case-studies/' ~ project.slug ~ '/') %}
-      <li class="text-black">
-        {{ ProjectCard.render({ project: project, url: projectHref, headingLevel: 2 }) }}
+  <ul data-projects-el="list" class="{{ params.classes | default("") }}">
+    {% for project in params.projects %}
+      <li data-projects-el="project" class="-z-1">
+        {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first }) }}
       </li>
     {% endfor %}
   </ul>

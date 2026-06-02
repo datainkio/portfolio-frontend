@@ -1,7 +1,8 @@
 {% macro render(params = {}) %}
   {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/card/project.njk" as Card %}
-  {% import "molecules/list/projects-by-industry.njk" as ProjectsByIndustry %}
+  {% import "molecules/list/industry-links.njk" as Industries %}
+  {% import "molecules/section/industry-section.njk" as IndustrySection %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
@@ -25,11 +26,8 @@
       </div>
       <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-full font-display text-2xl sm:text-5xl">{{ heading }}</h2>
       {% if industries | length %}
-        <nav
-          aria-label="Jump to an industry"
-          data-projects-el="jumplinks"
-          class="overflow-hidden col-span-full border-black">
-          {{ ProjectsByIndustry.render({ industries: industries }) }}
+        <nav aria-label="Jump to an industry" data-projects-el="jumplinks" class="overflow-hidden col-span-full border-black">
+          {{ Industries.render({ industries: industries }) }}
         </nav>
       {% endif %}
     </header>
@@ -42,24 +40,7 @@
           {% if industryHeadingIndex < 10 %}
             {% set industryLabelIndex = "0" ~ industryHeadingIndex %}
           {% endif %}
-          <section
-            data-projects-el="industry-group"
-            class="relative z-10 col-span-full"
-            aria-labelledby="industry-{{ industryTitle | slugify }}">
-            <h3
-              id="industry-{{ industryTitle | slugify }}"
-              data-projects-el="industry-heading"
-              class="z-21 arrow-prefix bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold
-                text-xl px-4 mb-4">{{ industryLabelIndex }}
-              {{ industryTitle }}</h3>
-            <ul data-projects-el="list" class="col-span-full">
-              {% for project in projects %}
-                <li data-projects-el="project" class="-z-1">
-                  {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first }) }}
-                </li>
-              {% endfor %}
-            </ul>
-          </section>
+          {{ IndustrySection.render({ industryTitle: industryTitle, industryLabelIndex: industryLabelIndex, projects: projects }) }}
         {% endif %}
       {% endfor %}
     {% else %}
