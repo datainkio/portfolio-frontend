@@ -16,16 +16,19 @@
   <section id="{{ sectionId }}" class="relative col-span-full {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header
       data-projects-el="header"
-      class="relative z-20 bg-white grid grid-cols-6 gap-2 outline outline-1 outline-black outline-offset-[-6px] p-4 pb-8
-        sm:pb-4">
+      class="h-auto overflow-hidden z-20 bg-white grid grid-cols-6 gap-2 outline outline-1 outline-black outline-offset-[-6px]
+        p-4">
       <div
         data-projects-el="context"
         class="gap-1 pb-2 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed">
         {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       </div>
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-full sm:col-span-2 font-display text-2xl sm:text-5xl sm:mt-4 ">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-full font-display text-2xl sm:text-5xl">{{ heading }}</h2>
       {% if industries | length %}
-        <nav aria-label="Jump to an industry" data-projects-el="jumplinks" class="col-span-full sm:col-span-4 sm:border-l-2 border-black pl-4">
+        <nav
+          aria-label="Jump to an industry"
+          data-projects-el="jumplinks"
+          class="overflow-hidden col-span-full border-black">
           {{ ProjectsByIndustry.render({ industries: industries }) }}
         </nav>
       {% endif %}
