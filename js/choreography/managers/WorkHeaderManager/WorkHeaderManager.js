@@ -85,6 +85,7 @@ export default class WorkHeaderManager {
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 0, y: -8, height: 0 });
       gsap.set(this._workHeader, { height: collapsedHeaderHeight });
+      ScrollTrigger.refresh();
       return;
     }
     gsap.to(this._jumplinks, {
@@ -102,6 +103,7 @@ export default class WorkHeaderManager {
       duration: motion.duration("base") / 1000,
       ease: motion.ease("exit"),
       overwrite: true,
+      onUpdate: () => ScrollTrigger.refresh(),
     });
   }
 
@@ -111,6 +113,7 @@ export default class WorkHeaderManager {
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 1, y: 0, height: "auto" });
       gsap.set(this._workHeader, { clearProps: "height,maxHeight" });
+      ScrollTrigger.refresh();
       return;
     }
     gsap.to(this._jumplinks, {
@@ -127,6 +130,7 @@ export default class WorkHeaderManager {
       duration: motion.duration("base") / 1000,
       ease: motion.ease("enter"),
       overwrite: true,
+      onUpdate: () => ScrollTrigger.refresh(),
       // Clear inline height/maxHeight so the pin can re-establish its lock on next refresh.
       onComplete: () => gsap.set(this._workHeader, { clearProps: "height,maxHeight" }),
     });
