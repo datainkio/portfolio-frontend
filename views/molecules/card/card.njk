@@ -97,11 +97,11 @@
           <p class="{{ byline | classes }}">{{ byline_txt }}</p>
         {% endif %}
       </header>
-
-      {% if description_txt %}
-        <p class="{{ description | classes }}">{{ description_txt }}</p>
-      {% endif %}
-
+      {# Hiding this for since can mess shit up layout-wise
+            {% if description_txt %}
+              <p class="{{ description | classes }}">{{ description_txt }}</p>
+            {% endif %}
+      #}
       {% if meta | length %}
         {{ Details.render({ stats: meta, classes: stats | classes }) }}
       {% endif %}

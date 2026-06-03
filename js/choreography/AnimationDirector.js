@@ -96,6 +96,11 @@ export default class AnimationDirector {
     this.bus = new AnimationBus();
     this.stage = new ScrollEffectsCoordinator(this.bus); // Pass bus to ScrollEffectsCoordinator
 
+    // Initialize global card behaviors — must precede sections so throw-variant
+    // pin spacers (pinSpacing: true) are in the DOM before _bindHeaderPin
+    // measures the footer position for the work-header-pin end value.
+    this.cardManager = new CardManager();
+
     // Initialize section controllers from registry
     this.sections = {};
     Object.entries(SECTION_REGISTRY).forEach(([sectionId, SectionClass]) => {
@@ -105,9 +110,6 @@ export default class AnimationDirector {
         gelManager: this.stage?.gelAnimation,
       });
     });
-
-    // Initialize global card behaviors
-    this.cardManager = new CardManager();
 
     // Initialize global header hide/show on scroll
     this.headerManager = new GlobalHeaderManager({

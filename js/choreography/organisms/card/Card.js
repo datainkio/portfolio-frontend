@@ -47,6 +47,12 @@ const VARIANT_FACTORIES = {
 };
 
 const VARIANT_RESET = {
+  throw: (card) => {
+    gsap.set(card.root, { clearProps: "willChange,x,rotation" });
+    if (card.figure)
+      gsap.set(card.figure, { clearProps: "willChange,yPercent" });
+    if (card.body) gsap.set(card.body, { clearProps: "willChange,yPercent" });
+  },
   motionpath: (card) => {
     gsap.set(card.root, { clearProps: "willChange,x,rotation" });
     if (card.figure)

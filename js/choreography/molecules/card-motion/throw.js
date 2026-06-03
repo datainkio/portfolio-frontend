@@ -18,14 +18,13 @@ export function createThrowTimeline({
   }
 
   const tl = gsap.timeline({
-    // duration: motion.duration("slow"),
     scrollTrigger: {
       trigger: article,
       start: "top top",
-      end: "bottom 25%",
+      end: "bottom -=1500px",
       pin: true,
-      // pinSpacing: true,
-      scrub: true,
+      pinSpacing: true,
+      scrub: 0.6,
       invalidateOnRefresh: true,
     },
   });
@@ -56,9 +55,10 @@ function createIntroTimeline(article) {
     // duration: motion.duration("slow"),
     motionPath: {
       path: toViewportPath(VIEWPORT_PATHS.throwIn),
-      curviness: 1.5,
+      curviness: 1,
       autoRotate: 90,
     },
+    ease: "power3.out",
   });
 
   return tl;
@@ -76,14 +76,12 @@ function createInterTimeline(article) {
   const collapseDistance = figureHeight + bodyHeight - articleHeight;
 
   const tl = gsap.timeline();
-  tl.call(() => {
-    gsap.set(body, {
-      position: "absolute",
-      bottom: collapseDistance,
-      left: 0,
-      right: 0,
-      zIndex: 10,
-    });
+  tl.set(body, {
+    position: "absolute",
+    bottom: collapseDistance,
+    left: 0,
+    right: 0,
+    zIndex: 10,
   });
   tl.to(body, {
     y: collapseDistance,

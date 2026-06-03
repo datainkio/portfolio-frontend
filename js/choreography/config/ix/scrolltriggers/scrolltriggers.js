@@ -73,7 +73,6 @@ export const ORGANIZATIONS_TRIGGER = {
 export const WORK_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.work,
-  markers: true,
 };
 
 /**

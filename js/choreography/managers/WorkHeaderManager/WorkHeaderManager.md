@@ -12,6 +12,7 @@ tags:
   - "#manager"
   - "#WorkHeaderManager"
 links:
+  - "[[managers.workheadermanager|WorkHeaderManager.njk]]"
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
@@ -19,3 +20,38 @@ links:
 backlinks:
   - "[[layouts/work-landing-header|work-landing-header.js]]"
 ---
+
+The work section header pin is in [WorkTriggers.js](../../organisms/Work/WorkTriggers.js) (`_bindHeaderPin`). It uses a fixed scroll-distance offset captured once at bind time:
+
+```js
+const scrollDistance =
+  footer.getBoundingClientRect().bottom - this.view.getBoundingClientRect().top;
+
+ScrollTrigger.create({
+  id: "work-header-pin",
+  trigger: this.view,
+  start: "top top",
+  end: `+=${scrollDistance}`,
+  pin: header,
+  pinSpacing: false,
+  invalidateOnRefresh: false,
+});
+```
+
+---
+
+## Critical initialization constraint
+
+**`CardManager` must be initialized before sections in `AnimationDirector`.**
+
+At the `base` breakpoint, cards use the `throw` variant (`SECTION_OVERRIDES.card.base`). `throw.js` creates a ScrollTrigger with `pin: true, pinSpacing: true`. GSAP inserts pin spacers into the DOM immediately on `ScrollTrigger.create()` — each spacer ≈ `card.offsetHeight + 1500px`. With several cards, the work section gains thousands of pixels before the user has scrolled at all.
+
+`_bindHeaderPin` captures `scrollDistance` at section construction time. If `CardManager` has not yet run, the spacers don't exist, the footer appears thousands of pixels higher than it will be at runtime, and `end` is wildly too small. The header pin releases in the first industry group regardless of how `end` is expressed.
+
+The fix — moving `new CardManager()` to before the sections loop in `AnimationDirector` — ensures spacers are in the DOM before any section measures layout. This constraint must be preserved. Do not move `CardManager` back after sections.
+
+---
+
+## What does not fix this
+
+Any approach that modifies how `end` is expressed or when it recalculates — `invalidateOnRefresh`, `ScrollTrigger.refresh()` timing, `endTrigger` vs fixed offset — is working on the wrong problem. The formula is correct. The layout it measures must include card spacers.
