@@ -14,6 +14,7 @@
  */
 /** @type {import('tailwindcss').Config} */
 import typography from "@tailwindcss/typography";
+import extendedShadows from "tailwindcss-extended-shadows";
 
 const SCREENS = {
   sm: "40rem",
@@ -106,7 +107,7 @@ export default {
       },
     },
   },
-  plugins: [typography],
+  plugins: [typography, extendedShadows],
 
   // CSS 4.0 optimizations
   experimental: {

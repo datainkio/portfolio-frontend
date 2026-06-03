@@ -46,7 +46,7 @@ export default class WorkHeaderManager {
     this._trigger = ScrollTrigger.create({
       trigger: this._workSection,
       start: "top top",
-      end: "bottom top",
+      end: "bottom bottom",
       onUpdate: (self) => this._onScrollUpdate(self, reduced),
       markers: false,
     });
@@ -67,6 +67,7 @@ export default class WorkHeaderManager {
   }
 
   _collapse(reduced) {
+    this._trigger?.refresh();
     if (this._isCollapsed) return;
     this._isCollapsed = true;
     this._naturalHeight = this._jumplinks.offsetHeight;
@@ -102,6 +103,7 @@ export default class WorkHeaderManager {
   }
 
   _expand(reduced) {
+    this._trigger?.refresh();
     if (!this._isCollapsed) return;
     this._isCollapsed = false;
 

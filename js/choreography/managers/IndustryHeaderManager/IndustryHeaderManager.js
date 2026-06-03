@@ -17,7 +17,9 @@ export default class IndustryHeaderManager {
     this._workHeader =
       workSection?.querySelector(`[${WORK_EL_ATTR}="header"]`) ?? null;
     this._headings = Array.from(
-      document.querySelectorAll(`[${WORK_EL_ATTR}="${INDUSTRY_HEADING_VALUE}"]`),
+      document.querySelectorAll(
+        `[${WORK_EL_ATTR}="${INDUSTRY_HEADING_VALUE}"]`,
+      ),
     );
     this._reducedMotionHandler = reducedMotionHandler;
 
@@ -44,7 +46,8 @@ export default class IndustryHeaderManager {
       return;
     }
     gsap.to(this._headings, {
-      top: collapsedHeight,
+      top: collapsedHeight - 42,
+      rotate: -5,
       duration: motion.duration("base") / 1000,
       ease: motion.ease("exit"),
       overwrite: true,
@@ -59,6 +62,7 @@ export default class IndustryHeaderManager {
     }
     gsap.to(this._headings, {
       top: naturalHeight,
+      rotate: 0,
       duration: motion.duration("base") / 1000,
       ease: motion.ease("enter"),
       overwrite: true,
