@@ -22,8 +22,9 @@ export function createThrowTimeline({
     scrollTrigger: {
       trigger: article,
       start: "top top",
-      end: "bottom 50px",
+      end: "bottom 25%",
       pin: true,
+      // pinSpacing: true,
       scrub: true,
       invalidateOnRefresh: true,
     },

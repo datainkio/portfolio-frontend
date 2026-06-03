@@ -33,3 +33,4 @@ export { default as RulerIntroManager } from "../RulerIntroManager/RulerIntroMan
 export { default as LineManager } from "../LineManager/LineManager.js";
 export { default as ProjectHeaderManager } from "../ProjectHeaderManager/ProjectHeaderManager.js";
 export { default as SessionManager } from "../SessionManager/SessionManager.js";
+export { default as IndustryHeaderManager } from "../IndustryHeaderManager/IndustryHeaderManager.js";

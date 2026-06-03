@@ -44,6 +44,7 @@ import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.j
 import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
 import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
+import IndustryHeaderManager from "/assets/js/choreography/managers/IndustryHeaderManager/IndustryHeaderManager.js";
 import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
 
 const LOGS = {
@@ -113,9 +114,15 @@ export default class AnimationDirector {
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 
+    // Initialize industry heading sticky-top sync (must precede WorkHeaderManager)
+    this.industryHeaderManager = new IndustryHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
+
     // Initialize work section jumplinks collapse/expand on scroll
     this.workHeaderManager = new WorkHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
+      industryHeaderManager: this.industryHeaderManager,
     });
 
     // Initialize project page hero parallax (no-ops on non-project pages)
@@ -196,6 +203,9 @@ export default class AnimationDirector {
 
     this.headerManager?.kill();
     this.headerManager = null;
+
+    this.industryHeaderManager?.kill();
+    this.industryHeaderManager = null;
 
     this.projectHeaderManager?.kill();
     this.projectHeaderManager = null;

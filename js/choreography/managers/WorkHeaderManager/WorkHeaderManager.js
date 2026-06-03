@@ -5,12 +5,10 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 const WORK_EL_ATTR = "data-projects-el";
 
-// Collapse only after this fraction of the work section has scrolled past.
-// Prevents immediate collapse the instant the header pins.
-const COLLAPSE_GUARD_PROGRESS = 0.04;
+const COLLAPSE_GUARD_PROGRESS = 0;
 
 export default class WorkHeaderManager {
-  constructor({ reducedMotionHandler } = {}) {
+  constructor({ reducedMotionHandler, industryHeaderManager } = {}) {
     this.logger = lumberjack.createScoped("WorkHeaderManager", {
       color: "#F59E0B",
       enabled: true,
@@ -23,6 +21,7 @@ export default class WorkHeaderManager {
     this._workSection = workSection;
     this._workHeader = workHeader;
     this._reducedMotionHandler = reducedMotionHandler;
+    this._industryHeaderManager = industryHeaderManager ?? null;
     this._trigger = null;
     this._isCollapsed = false;
 
@@ -41,7 +40,6 @@ export default class WorkHeaderManager {
     this._jumplinks.dataset.workHeaderJumplinksInit = "1";
 
     gsap.set(this._jumplinks, { autoAlpha: 1, y: 0 });
-    // this._naturalHeight = this._jumplinks.offsetHeight;
 
     const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
 
@@ -49,20 +47,14 @@ export default class WorkHeaderManager {
       trigger: this._workSection,
       start: "top top",
       end: "bottom top",
-      // onLeave: () => this._expand(reduced),
-      // onLeaveBack: () => this._expand(reduced),
       onUpdate: (self) => this._onScrollUpdate(self, reduced),
-      markers: true,
+      markers: false,
     });
 
     this.logger.trace("initialized");
   }
 
   _onScrollUpdate(self, reduced) {
-    console.log("scroll update", {
-      progress: self.progress,
-      direction: self.direction,
-    });
     if (self.progress < COLLAPSE_GUARD_PROGRESS) {
       this._expand(reduced);
       return;
@@ -77,17 +69,22 @@ export default class WorkHeaderManager {
   _collapse(reduced) {
     if (this._isCollapsed) return;
     this._isCollapsed = true;
-    // Re-capture heights in case the viewport changed since init or last expand.
-    // offsetHeight reflects the pin's locked inline height, which is correct here.
     this._naturalHeight = this._jumplinks.offsetHeight;
     this._naturalHeaderHeight = this._workHeader.offsetHeight;
-    const collapsedHeaderHeight = this._naturalHeaderHeight - this._naturalHeight;
+    const collapsedHeaderHeight =
+      this._naturalHeaderHeight - this._naturalHeight;
+
+    this._industryHeaderManager?.onWorkHeaderCollapse({
+      collapsedHeight: collapsedHeaderHeight,
+      reduced,
+    });
+
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 0, y: -8, height: 0 });
       gsap.set(this._workHeader, { height: collapsedHeaderHeight });
-      ScrollTrigger.refresh();
       return;
     }
+
     gsap.to(this._jumplinks, {
       autoAlpha: 0,
       y: -8,
@@ -96,26 +93,29 @@ export default class WorkHeaderManager {
       ease: motion.ease("exit"),
       overwrite: true,
     });
-    // The ScrollTrigger pin sets inline height + max-height on this element.
-    // An explicit tween is the only way to override those locked inline styles.
     gsap.to(this._workHeader, {
       height: collapsedHeaderHeight,
       duration: motion.duration("base") / 1000,
       ease: motion.ease("exit"),
       overwrite: true,
-      onUpdate: () => ScrollTrigger.refresh(),
     });
   }
 
   _expand(reduced) {
     if (!this._isCollapsed) return;
     this._isCollapsed = false;
+
+    this._industryHeaderManager?.onWorkHeaderExpand({
+      naturalHeight: this._naturalHeaderHeight,
+      reduced,
+    });
+
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 1, y: 0, height: "auto" });
       gsap.set(this._workHeader, { clearProps: "height,maxHeight" });
-      ScrollTrigger.refresh();
       return;
     }
+
     gsap.to(this._jumplinks, {
       autoAlpha: 1,
       y: 0,
@@ -130,9 +130,9 @@ export default class WorkHeaderManager {
       duration: motion.duration("base") / 1000,
       ease: motion.ease("enter"),
       overwrite: true,
-      onUpdate: () => ScrollTrigger.refresh(),
-      // Clear inline height/maxHeight so the pin can re-establish its lock on next refresh.
-      onComplete: () => gsap.set(this._workHeader, { clearProps: "height,maxHeight" }),
+      onComplete: () => {
+        gsap.set(this._workHeader, { clearProps: "height,maxHeight" });
+      },
     });
   }
 

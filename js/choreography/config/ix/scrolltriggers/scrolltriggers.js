@@ -73,6 +73,7 @@ export const ORGANIZATIONS_TRIGGER = {
 export const WORK_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.work,
+  markers: true,
 };
 
 /**
@@ -84,7 +85,7 @@ export const WORK_INDUSTRY_HEADER_PIN = {
   ...SCROLL_DEFAULTS,
   id: `${SELECTORS.work}-industry-header-pin`,
   pin: true,
-  pinSpacing: true,
+  // pinSpacing: true,
   // Extra space beneath the pinned Work header.
   // offsetPx: 24,
 };
