@@ -51,7 +51,7 @@ Durable reference docs for the dataink.io frontend. Optimized for the **Concierg
 ### "I want to see the backlog"
 
 - Frontend backlog: [[docs/TODO|docs/TODO]]
-- Repo TODO: [[TODO]]
+- Repo TODO: [[notes/TODO]]
 
 ## Conventions
 

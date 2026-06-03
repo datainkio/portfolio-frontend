@@ -21,8 +21,8 @@ Portfolio frontend: Eleventy (11ty) + Nunjucks + Tailwind v4 + GSAP + Sanity.
 Read in this order before starting any task:
 
 1. [`portfolio-frontend.md`](../aix/context/projects/portfolio-frontend.md) — stack constraints, choreography runtime snapshot, common pitfalls
-2. [`constraints.md`](../context/constraints.md) — non-negotiables; never violate
-3. [`current-goals.md`](../context/current-goals.md) — active work
+2. [`constraints.md`](dataink.io/context/constraints.md) — non-negotiables; never violate
+3. [`current-goals.md`](dataink.io/context/current-goals.md) — active work
 4. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — repo conventions, do-not-edit files, build order
 
 **Context load tier:**

@@ -131,4 +131,4 @@ DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, 
 - Director init sequence: [[docs/director-initialization-sequence]]
 - Storyboards: [[docs/storyboards/README.storyboards]]
 - AI prompts and onboarding: [docs/ai/](docs/ai/)
-- Backlog: [[TODO]], [[docs/TODO]]
+- Backlog: [[dataink.io/frontend/TODO]], [[docs/TODO]]
