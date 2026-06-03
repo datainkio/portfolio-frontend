@@ -40,15 +40,13 @@ export const HERO_TRIGGER = {
  */
 export const BIO_TRIGGER = {
   ...SCROLL_DEFAULTS,
-  id: SELECTORS.bio,
-  once: false,
   start: "top top",
-  end: "bottom center",
-  pinSpacing: true,
+  end: "+=2000px",
+  once: false,
+  scrub: 1,
   pin: true,
-  scrub: true,
-  fastScrollEnd: false,
-  toggleActions: "play play play play",
+  pinSpacing: true,
+  markers: true,
 };
 
 /**

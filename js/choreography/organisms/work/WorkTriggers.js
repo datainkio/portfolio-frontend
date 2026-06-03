@@ -41,7 +41,7 @@ export default class WorkTriggers extends AbstractSectionTriggers {
       pin: header,
       pinSpacing: false,
       invalidateOnRefresh: false,
-      markers: true,
+      markers: false,
     });
   }
 

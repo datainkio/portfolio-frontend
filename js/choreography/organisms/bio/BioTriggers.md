@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.organisms.bio.biotriggers
-role: "Bio triggers module — supplies the BIO_TRIGGER scroll configuration to AbstractSectionTriggers."
+role: "Bio triggers module — supplies BIO_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation property, enabling snap-to-labels."
 status: stable
 surface: internal
 scope: frontend
