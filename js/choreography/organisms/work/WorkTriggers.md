@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.organisms.work.worktriggers
-role: "Work triggers module — creates the work section scroll trigger plus pinned work header and stacked industry heading pins."
+role: "Work triggers module — creates the work section scroll trigger and pinned work header."
 status: stable
 surface: internal
 scope: frontend
