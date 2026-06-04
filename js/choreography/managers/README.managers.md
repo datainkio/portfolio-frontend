@@ -349,7 +349,7 @@ test("StageManager coordinates managers", () => {
 
 ```javascript
 import { ScrollTrigger } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js";
-ScrollTrigger.defaults({ markers: true });
+ScrollTrigger.defaults({ markers: false });
 ```
 
 **Access managers from console**:

@@ -46,7 +46,7 @@ export const BIO_TRIGGER = {
   scrub: 1,
   pin: true,
   pinSpacing: true,
-  markers: true,
+  markers: false,
 };
 
 /**
@@ -98,6 +98,16 @@ export const PROJECTS_TRIGGER = WORK_TRIGGER;
 export const BACKGROUND_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.background,
+};
+
+export const CARD_DEAL_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  start: "top top",
+  end: "bottom -=1500px",
+  pin: true,
+  pinSpacing: true,
+  scrub: 5,
+  invalidateOnRefresh: true,
 };
 
 /**
