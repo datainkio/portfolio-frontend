@@ -1,10 +1,8 @@
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
-import {
-  CARD_FIGURE_CLIP_TRIGGER,
-  CARD_FIGURE_PARALLAX_TRIGGER,
-  motion,
-} from "../../config/index/index.js";
+import { motion } from "../../config/index/index.js";
+import { killST, CLEAR } from "./card-motion.js";
+
 export function createThrowTimeline({
   article,
   body,
@@ -16,6 +14,8 @@ export function createThrowTimeline({
     gsap.set(article, { clearProps: CLEAR.articleBase });
     return { kill() {} };
   }
+
+  const image = article.querySelector('[data-card-el="image"]');
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -52,7 +52,7 @@ function createIntroTimeline(article) {
 
   const tl = gsap.timeline();
   tl.to(figure, {
-    // duration: motion.duration("slow"),
+    duration: motion.duration("slow"),
     motionPath: {
       path: toViewportPath(VIEWPORT_PATHS.throwIn),
       curviness: 1,
@@ -85,18 +85,28 @@ function createInterTimeline(article) {
   });
   tl.to(body, {
     y: collapseDistance,
-    //duration: motion.duration("slow"),
+    duration: motion.duration("slow"),
   });
   tl.to(article, {
     height: bodyHeight * 1.5,
-    // duration: motion.duration("slow"),
+    duration: motion.duration("slow"),
   });
 
   return tl;
 }
 
 function createOutroTimeline(article) {
+  const figure = article.querySelector('[data-card-el="figure"]');
   const tl = gsap.timeline();
+  tl.to(figure, {
+    duration: motion.duration("slow"),
+    motionPath: {
+      path: toViewportPath(VIEWPORT_PATHS.throwOut),
+      curviness: 1,
+      autoRotate: 90,
+    },
+    ease: "power3.in",
+  });
   return tl;
 }
 

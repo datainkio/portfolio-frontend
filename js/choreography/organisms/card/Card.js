@@ -8,6 +8,7 @@ import {
   createCardScrollFade,
   createCardParallax,
   createThrowTimeline,
+  createDealTimeline,
 } from "../../molecules/card-motion/card-motion.js";
 
 const CARD_EL_ATTR = "data-card-el";
@@ -16,6 +17,13 @@ const selectCardEl = (root, name) =>
   root?.querySelector(`[${CARD_EL_ATTR}="${name}"]`) ?? null;
 
 const VARIANT_FACTORIES = {
+  deal: (card) =>
+    createDealTimeline({
+      article: card.root,
+      body: card.body,
+      index: card._index,
+      triggerEl: card.root,
+    }),
   throw: (card) =>
     createThrowTimeline({
       article: card.root,
@@ -47,6 +55,16 @@ const VARIANT_FACTORIES = {
 };
 
 const VARIANT_RESET = {
+  deal: (card) => {
+    gsap.set(card.root, {
+      clearProps: "x,y,height,rotation,transformOrigin,willChange",
+    });
+    if (card.figure) gsap.set(card.figure, { clearProps: "y,willChange" });
+    if (card.body)
+      gsap.set(card.body, {
+        clearProps: "position,bottom,left,right,zIndex,y,willChange",
+      });
+  },
   throw: (card) => {
     gsap.set(card.root, { clearProps: "willChange,x,rotation" });
     if (card.figure)

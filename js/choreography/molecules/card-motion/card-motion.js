@@ -25,12 +25,12 @@ import {
 } from "../../config/index/index.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
-const killST = (tl) => {
+export const killST = (tl) => {
   tl?.scrollTrigger?.kill(true);
   tl?.kill();
 };
 
-const CLEAR = {
+export const CLEAR = {
   figure: "height,overflow,willChange",
   figureImage: "position,top,left,width,height,clipPath,willChange",
   body: "position,top,bottom,left,right,zIndex,y",
@@ -38,7 +38,7 @@ const CLEAR = {
   articleBase: "x,y,rotation,transformOrigin,willChange",
 };
 
-const buildScrollTrigger = (base, index, triggerEl, overrides = {}) => ({
+export const buildScrollTrigger = (base, index, triggerEl, overrides = {}) => ({
   ...base,
   id: `${base.id}-${index}`,
   trigger: triggerEl,
