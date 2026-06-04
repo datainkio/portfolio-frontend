@@ -165,25 +165,25 @@ export class LandingSequence {
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
       // this._applySectionArrangement("bio");
-      this.sections?.bio?.playIntro?.();
       this._pauseBackgroundVideo();
+      this.sections?.bio?.playIntro?.();
     });
 
     on(EVENTS.bio.onEnterBack, () => {
       this.logger.trace(SELECTORS.bio + " entered back");
-      this.sections?.bio?.playIntro?.();
       this._pauseBackgroundVideo();
+      this.sections?.bio?.playIntro?.();
     });
 
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
       this.sections?.bio?.playOutro?.();
-      this._resumeBackgroundVideo();
+      //this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.onLeaveBack, () => {
       this.logger.trace(SELECTORS.bio + " left back");
-      this._resumeBackgroundVideo();
+      // this._resumeBackgroundVideo();
     });
   }
 }
