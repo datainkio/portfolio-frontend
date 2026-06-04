@@ -126,11 +126,11 @@ export const MOTION_PROFILES = Object.freeze({
  *
  * animation channel:
  *   variant - selects which animation implementation to run.
- *             Values are section-defined; Card supports 'clip', 'fade', and 'parallax'.
+ *             Values are section-defined; Card supports 'clip', 'fade', 'parallax', 'throw' and 'deal'.
  */
 export const SECTION_OVERRIDES = Object.freeze({
   card: {
-    base: { animation: { variant: "deal" } },
+    base: { animation: { variant: "parallax" } },
     sm: { animation: { variant: "throw" } },
     md: { animation: { variant: "throw" } },
     lg: { animation: { variant: "throw" } },

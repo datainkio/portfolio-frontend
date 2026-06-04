@@ -8,7 +8,6 @@ import {
   createCardScrollFade,
   createCardParallax,
   createThrowTimeline,
-  createDealTimeline,
 } from "../../molecules/card-motion/card-motion.js";
 
 const CARD_EL_ATTR = "data-card-el";
@@ -17,13 +16,6 @@ const selectCardEl = (root, name) =>
   root?.querySelector(`[${CARD_EL_ATTR}="${name}"]`) ?? null;
 
 const VARIANT_FACTORIES = {
-  deal: (card) =>
-    createDealTimeline({
-      article: card.root,
-      body: card.body,
-      index: card._index,
-      triggerEl: card.root,
-    }),
   throw: (card) =>
     createThrowTimeline({
       article: card.root,

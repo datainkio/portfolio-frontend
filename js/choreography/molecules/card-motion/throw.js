@@ -24,7 +24,7 @@ export function createThrowTimeline({
       end: "bottom -=1500px",
       pin: true,
       pinSpacing: true,
-      scrub: 0.6,
+      scrub: 1,
       invalidateOnRefresh: true,
     },
   });
@@ -51,15 +51,29 @@ function createIntroTimeline(article) {
   gsap.set([figure, body], { y: initialHeight });
 
   const tl = gsap.timeline();
+  tl.set(figure, {
+    // transformOrigin: "center bottom",
+    // willChange: "transform",
+    rotation: -15,
+  });
   tl.to(figure, {
     duration: motion.duration("slow"),
     motionPath: {
       path: toViewportPath(VIEWPORT_PATHS.throwIn),
-      curviness: 1,
-      autoRotate: 90,
+      curviness: 1.25,
     },
-    ease: "power3.out",
+    ease: "power2.out",
   });
+  tl.to(figure, { rotation: 0, duration: motion.duration("slow") }, "<20%");
+  tl.to(
+    body,
+    {
+      y: 0,
+      duration: motion.duration("slow"),
+      ease: "power2.out",
+    },
+    "<10%",
+  );
 
   return tl;
 }
@@ -76,21 +90,21 @@ function createInterTimeline(article) {
   const collapseDistance = figureHeight + bodyHeight - articleHeight;
 
   const tl = gsap.timeline();
-  tl.set(body, {
-    position: "absolute",
-    bottom: collapseDistance,
-    left: 0,
-    right: 0,
-    zIndex: 10,
-  });
-  tl.to(body, {
-    y: collapseDistance,
-    duration: motion.duration("slow"),
-  });
-  tl.to(article, {
-    height: bodyHeight * 1.5,
-    duration: motion.duration("slow"),
-  });
+  // tl.set(body, {
+  //   position: "absolute",
+  //   bottom: collapseDistance,
+  //   left: 0,
+  //   right: 0,
+  //   zIndex: 10,
+  // });
+  // tl.to(body, {
+  //   y: collapseDistance,
+  //   duration: motion.duration("slow"),
+  // });
+  // tl.to(article, {
+  //   height: bodyHeight * 1.5,
+  //   duration: motion.duration("slow"),
+  // });
 
   return tl;
 }
@@ -103,7 +117,7 @@ function createOutroTimeline(article) {
     motionPath: {
       path: toViewportPath(VIEWPORT_PATHS.throwOut),
       curviness: 1,
-      autoRotate: 90,
+      // autoRotate: 90,
     },
     ease: "power3.in",
   });
@@ -112,8 +126,12 @@ function createOutroTimeline(article) {
 
 const VIEWPORT_PATHS = {
   throwIn: [
-    { x: 85, y: 100 },
-    { x: 10, y: 33 },
+    { x: 95, y: 115 },
+    { x: 72, y: 86 },
+    { x: 42, y: 48 },
+    { x: 16, y: 20 },
+    { x: 3, y: 10 },
+    { x: 0, y: 4 },
     { x: 0, y: 0 },
   ],
   throwOut: [
