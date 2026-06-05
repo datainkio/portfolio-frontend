@@ -32,7 +32,7 @@ import { SELECTORS } from "../../config/index.js";
 import {
   GEL_ARRANGEMENTS,
   SECTION_TO_GEL_ARRANGEMENT,
-} from "../../config/arrangements.js";
+} from "../../config/displays/arrangements.js";
 
 const LOGS = {
   description:

@@ -54,5 +54,5 @@ export * from "./displays/ruler.js";
 export * from "./displays/printermarks.js";
 
 export * from "./ix/accessibility.js";
-export * from "./ix/motion.js ";
+export * from "./ix/motion.js";
 export * from "./ix/scrolltriggers.js";
