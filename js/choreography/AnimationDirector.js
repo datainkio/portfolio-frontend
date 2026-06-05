@@ -116,7 +116,8 @@ export default class AnimationDirector {
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 
-    // Initialize industry heading sticky-top sync (must precede WorkHeaderManager)
+    // Initialize industry heading sticky-follow (transform-only; reads the live
+    // work-header height each frame — no ordering dependency on WorkHeaderManager)
     this.industryHeaderManager = new IndustryHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
     });
@@ -124,7 +125,6 @@ export default class AnimationDirector {
     // Initialize work section jumplinks collapse/expand on scroll
     this.workHeaderManager = new WorkHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
-      industryHeaderManager: this.industryHeaderManager,
     });
 
     // Initialize project page hero parallax (no-ops on non-project pages)

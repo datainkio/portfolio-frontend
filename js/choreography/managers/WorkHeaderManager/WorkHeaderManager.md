@@ -25,8 +25,8 @@ backlinks:
 The work section header pin is in [WorkTriggers.js](../../organisms/Work/WorkTriggers.js) (`_bindHeaderPin`). It uses a fixed scroll-distance offset captured once at bind time:
 
 ```js
-const scrollDistance =
-  footer.getBoundingClientRect().bottom - this.view.getBoundingClientRect().top;
+const { top, bottom } = this.view.getBoundingClientRect();
+const scrollDistance = bottom - top;
 
 ScrollTrigger.create({
   id: "work-header-pin",

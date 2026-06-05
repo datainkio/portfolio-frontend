@@ -26,12 +26,10 @@ export default class WorkTriggers extends AbstractSectionTriggers {
     this._headerPin = null;
 
     const header = this.view?.querySelector(`[${WORK_EL_ATTR}="header"]`);
-    const footer = this.view?.querySelector(`[${WORK_EL_ATTR}="footer"]`);
-    if (!header || !footer || !this.view) return;
+    if (!header || !this.view) return;
 
-    const scrollDistance =
-      footer.getBoundingClientRect().bottom -
-      this.view.getBoundingClientRect().top;
+    const { top, bottom } = this.view.getBoundingClientRect();
+    const scrollDistance = bottom - top;
 
     this._headerPin = ScrollTrigger.create({
       id: "work-header-pin",

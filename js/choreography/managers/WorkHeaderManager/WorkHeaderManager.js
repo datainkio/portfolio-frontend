@@ -8,7 +8,7 @@ const WORK_EL_ATTR = "data-projects-el";
 const COLLAPSE_GUARD_PROGRESS = 0;
 
 export default class WorkHeaderManager {
-  constructor({ reducedMotionHandler, industryHeaderManager } = {}) {
+  constructor({ reducedMotionHandler } = {}) {
     this.logger = lumberjack.createScoped("WorkHeaderManager", {
       color: "#F59E0B",
       enabled: true,
@@ -21,7 +21,6 @@ export default class WorkHeaderManager {
     this._workSection = workSection;
     this._workHeader = workHeader;
     this._reducedMotionHandler = reducedMotionHandler;
-    this._industryHeaderManager = industryHeaderManager ?? null;
     this._trigger = null;
     this._isCollapsed = false;
 
@@ -67,18 +66,17 @@ export default class WorkHeaderManager {
   }
 
   _collapse(reduced) {
-    this._trigger?.refresh();
     if (this._isCollapsed) return;
     this._isCollapsed = true;
-    this._naturalHeight = this._jumplinks.offsetHeight;
-    this._naturalHeaderHeight = this._workHeader.offsetHeight;
+    // Capture natural heights only on the first collapse, when elements are
+    // guaranteed to be at their full rendered size. Re-capturing mid-expand
+    // would record intermediate GSAP heights, causing truncated expansion.
+    if (this._naturalHeight == null) {
+      this._naturalHeight = this._jumplinks.offsetHeight;
+      this._naturalHeaderHeight = this._workHeader.offsetHeight;
+    }
     const collapsedHeaderHeight =
       this._naturalHeaderHeight - this._naturalHeight;
-
-    this._industryHeaderManager?.onWorkHeaderCollapse({
-      collapsedHeight: collapsedHeaderHeight,
-      reduced,
-    });
 
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 0, y: -8, height: 0 });
@@ -103,14 +101,8 @@ export default class WorkHeaderManager {
   }
 
   _expand(reduced) {
-    this._trigger?.refresh();
     if (!this._isCollapsed) return;
     this._isCollapsed = false;
-
-    this._industryHeaderManager?.onWorkHeaderExpand({
-      naturalHeight: this._naturalHeaderHeight,
-      reduced,
-    });
 
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 1, y: 0, height: "auto" });
@@ -141,6 +133,9 @@ export default class WorkHeaderManager {
   kill() {
     this._trigger?.kill();
     this._trigger = null;
+    this._naturalHeight = null;
+    this._naturalHeaderHeight = null;
+    this._isCollapsed = false;
     if (this._jumplinks) {
       gsap.killTweensOf(this._jumplinks);
       gsap.set(this._jumplinks, { clearProps: "height,overflow,autoAlpha,y" });
