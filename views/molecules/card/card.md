@@ -9,19 +9,18 @@ templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#component"
-  - "#molecule"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#frontend/eleventy/component"
+  - "#design/atomic-design/molecule"
+  - "#design/atomic-design"
 links:
   - "[heading](../../atoms/heading.md)"
   - "[cta](../../atoms/cta.md)"
   - "[stats](../stats/stats.md)"
   - "[trim-marks](../../atoms/printmarks/trim-marks.md)"
-
 ---
 # Card
 

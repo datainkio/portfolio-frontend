@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#config"
-  - "#index"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#system/config"
+  - "#ux/index"
 links:
   - "[[events|events]]"
   - "[[paths|paths]]"

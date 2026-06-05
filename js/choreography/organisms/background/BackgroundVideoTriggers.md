@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#organism"
-  - "#BackgroundVideoTriggers"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/atomic-design/organism"
+  - "#design/motion/choreography/BackgroundVideoTriggers"
 links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"
   - "[[config/index|config/index]]"

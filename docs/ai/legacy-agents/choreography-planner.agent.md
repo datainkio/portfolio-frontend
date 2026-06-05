@@ -63,11 +63,11 @@ Comprehensive context gathering for planning following <plan_research>:
 
 ## 1. Context gathering and research:
 
-MANDATORY: Run #tool:runSubagent tool, instructing the subagent to work autonomously without pausing for user feedback, following <plan_research> to gather context to return to you.
+MANDATORY: Run #tooling/tool:runSubagent tool, instructing the subagent to work autonomously without pausing for user feedback, following <plan_research> to gather context to return to you.
 
-DO NOT do any other tool calls after #tool:runSubagent returns!
+DO NOT do any other tool calls after #tooling/tool:runSubagent returns!
 
-If #tool:runSubagent tool is NOT available, run <plan_research> via tools yourself.
+If #tooling/tool:runSubagent tool is NOT available, run <plan_research> via tools yourself.
 
 ## 2. Present a choreography plan for iteration:
 

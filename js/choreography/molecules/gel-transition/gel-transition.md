@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#molecule"
-  - "#gel-transition"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/atomic-design/molecule"
+  - "#design/motion/choreography/gel-transition"
 links:
   - "[[config/index/index|config/index]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

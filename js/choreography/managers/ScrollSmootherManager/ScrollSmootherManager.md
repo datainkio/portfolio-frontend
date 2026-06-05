@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#manager"
-  - "#ScrollSmootherManager"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/motion/choreography/manager"
+  - "#design/motion/choreography/ScrollSmootherManager"
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/index/index|config/index]]"

@@ -7,9 +7,9 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#config"
-  - "#printermarks"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#system/config"
+  - "#design/printermarks"
 links: []
 ---

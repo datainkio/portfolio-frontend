@@ -9,18 +9,17 @@ templateRole: component
 atomicLevel: "organism"
 status: active
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#component"
-  - "#organism"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#frontend/eleventy/component"
+  - "#design/atomic-design/organism"
+  - "#design/atomic-design"
 links:
   - "[hanko](../../../atoms/hanko/hanko.md)"
   - "[breadcrumbs-nav](../../navigation/breadcrumbs-nav.md)"
   - "[featured-image](../../../molecules/figure/featured-image.md)"
-
 ---
 # Landing Header
 

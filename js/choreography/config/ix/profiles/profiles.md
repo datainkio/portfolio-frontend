@@ -7,11 +7,11 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#config"
-  - "#profiles"
-  - "#motion-profiles"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#system/config"
+  - "#ux/responsiveness/profiles"
+  - "#ux/responsiveness/motion-profiles"
 links:
   - "[[config/ix/breakpoints/breakpoints|config/ix/breakpoints]]"
 backlinks:

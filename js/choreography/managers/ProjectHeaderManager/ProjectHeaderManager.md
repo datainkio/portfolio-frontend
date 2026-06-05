@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#manager"
-  - "#ProjectHeaderManager"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/motion/choreography/manager"
+  - "#design/motion/choreography/ProjectHeaderManager"
 links:
   - "[[atoms/parallax/parallax|atoms/parallax]]"
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"

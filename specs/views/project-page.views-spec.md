@@ -5,11 +5,11 @@ docType: "reference"
 status: "draft"
 owner: "frontend"
 tags:
-  - spec
-  - views
-  - project
-  - eleventy
-  - sanity
+  - dx/spec
+  - frontend/eleventy/views
+  - content-strategy/project
+  - frontend/eleventy
+  - backend/sanity
   - case study
 permalink: false
 aliases:

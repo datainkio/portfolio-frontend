@@ -9,20 +9,19 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#component"
-  - "#organism"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#frontend/eleventy/component"
+  - "#design/atomic-design/organism"
+  - "#design/atomic-design"
 links:
   - "[organizations](../../molecules/list/organizations.md)"
   - "[roles](../../molecules/list/roles.md)"
   - "[awards](../../molecules/list/awards.md)"
   - "[gallery](../content/gallery.md)"
   - "[project-nav](../../molecules/input/project-nav.md)"
-
 ---
 # Project
 

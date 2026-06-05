@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#organism"
-  - "#index"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/atomic-design/organism"
+  - "#ux/index"
 links:
   - "[[Hero|Hero]]"
   - "[[HeroAnimations|HeroAnimations]]"

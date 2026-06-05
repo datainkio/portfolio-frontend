@@ -9,18 +9,17 @@ templateRole: "page"
 atomicLevel: "page"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#page"
-  - "#project"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#design/atomic-design/page"
+  - "#content-strategy/project"
+  - "#design/atomic-design"
 links:
   - "[base](../../layouts/base.md)"
   - "[project-header](../../organisms/header/project/project-header.md)"
   - "[choreography-script](../../templates/partials/choreography-script.md)"
-
 ---
 
 # Project (single)

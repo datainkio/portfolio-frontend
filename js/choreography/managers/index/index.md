@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#manager"
-  - "#index"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/motion/choreography/manager"
+  - "#ux/index"
 links:
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"
   - "[[managers/ScrollSmootherManager/ScrollSmootherManager|managers/ScrollSmootherManager]]"

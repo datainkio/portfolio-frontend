@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#manager"
-  - "#WorkHeaderManager"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/motion/choreography/manager"
+  - "#design/motion/choreography/WorkHeaderManager"
 links:
   - "[[managers.workheadermanager|WorkHeaderManager.njk]]"
   - "[[system/gsap|system/gsap]]"

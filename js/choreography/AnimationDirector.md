@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
   - "#system"
-  - "#AnimationDirector"
+  - "#design/motion/choreography/AnimationDirector"
 links:
   - "[[AnimationBus|AnimationBus]]"
   - "[[ScrollEffectsCoordinator|ScrollEffectsCoordinator]]"

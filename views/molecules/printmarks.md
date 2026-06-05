@@ -9,19 +9,18 @@ templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#component"
-  - "#molecule"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#frontend/eleventy/component"
+  - "#design/atomic-design/molecule"
+  - "#design/atomic-design"
 links:
   - "[ink-marks](../atoms/printmarks/ink-marks.md)"
   - "[trim-marks](../atoms/printmarks/trim-marks.md)"
   - "[margin-bleed-marks](../atoms/printmarks/margin-bleed-marks.md)"
   - "[registration-marks](../atoms/printmarks/registration-marks.md)"
-
 ---
 # Printmarks
 

@@ -8,9 +8,9 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - "#organisms"
-  - "#atomic-design"
-  - "#nunjucks"
+  - "#design/atomic-design/organisms"
+  - "#design/atomic-design"
+  - "#frontend/nunjucks"
 perf:
   readPriority: medium
   cacheSafe: true

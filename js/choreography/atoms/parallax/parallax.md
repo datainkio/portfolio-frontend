@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#atom"
-  - "#parallax"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/atomic-design/atom"
+  - "#design/motion/choreography/parallax"
 links:
   - "[[system/gsap|system/gsap]]"
 backlinks:

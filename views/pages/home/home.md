@@ -9,12 +9,12 @@ templateRole: "page"
 atomicLevel: "page"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#page"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#design/atomic-design/page"
+  - "#design/atomic-design"
 links:
   - "[SitePreloader](../../organisms/SitePreloader.md)"
   - "[global-header](../../organisms/header/global-header.md)"
@@ -30,7 +30,6 @@ links:
   - "[head](../../templates/partials/head.md)"
   - "[gtm-noscript](../../templates/partials/gtm-noscript.md)"
   - "[choreography-script](../../templates/partials/choreography-script.md)"
-
 ---
 
 # Home

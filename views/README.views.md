@@ -8,11 +8,11 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - "#views"
-  - "#templates"
-  - "#atomic-design"
-  - "#nunjucks"
-  - "#11ty"
+  - "#frontend/eleventy/views"
+  - "#design/atomic-design/templates"
+  - "#design/atomic-design"
+  - "#frontend/nunjucks"
+  - "#ux/accessibility/11ty"
 perf:
   readPriority: high
   cacheSafe: true

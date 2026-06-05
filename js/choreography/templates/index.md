@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#template"
-  - "#index"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#frontend/eleventy/template"
+  - "#ux/index"
 links:
   - "[[LandingSequence|LandingSequence]]"
 ---

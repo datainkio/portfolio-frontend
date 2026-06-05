@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
-  - "#atom"
-  - "#stagger-reveal"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
+  - "#design/atomic-design/atom"
+  - "#design/motion/choreography/stagger-reveal"
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

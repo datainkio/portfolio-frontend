@@ -7,9 +7,9 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
   - "#system"
-  - "#PromiseResolverQueue"
+  - "#design/motion/choreography/PromiseResolverQueue"
 links: []
 ---

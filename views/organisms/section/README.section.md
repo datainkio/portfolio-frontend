@@ -8,11 +8,11 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - "#organisms"
-  - "#section"
-  - "#homepage"
-  - "#macros"
-  - "#a11y"
+  - "#design/atomic-design/organisms"
+  - "#frontend/html/section"
+  - "#frontend/eleventy/homepage"
+  - "#frontend/eleventy/macros"
+  - "#ux/accessibility/a11y"
 perf:
   readPriority: medium
   cacheSafe: true

@@ -9,14 +9,13 @@ templateRole: "layout"
 atomicLevel: "template"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#design/atomic-design"
 links:
   - "[base](../../layouts/base.md)"
-
 ---
 # Case Study
 

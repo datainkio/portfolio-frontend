@@ -5,11 +5,11 @@ docType: "reference"
 status: "active"
 owner: "frontend"
 tags:
-  - sanity
-  - groq
-  - projections
-  - data-layer
-  - reference
+  - backend/sanity
+  - backend/sanity/groq
+  - backend/sanity/groq/projections
+  - backend/sanity/data-layer
+  - aix/reference
   - aix
 permalink: false
 aliases:

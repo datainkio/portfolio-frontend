@@ -1,11 +1,11 @@
 ---
 title: Responsive Testing
 tags:
-  - responsive
+  - ux/responsiveness
   - ux
   - frontend
-  - qa
-  - gsap
+  - production/qa
+  - design/motion/gsap
 ---
 
 # Responsive Testing

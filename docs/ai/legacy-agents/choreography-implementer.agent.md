@@ -69,7 +69,7 @@ Implement the approved interaction choreography plan for the user’s landing pa
 
 ## 6) Validate through tool feedback
 
-- Use #tool:problems and #tool:testFailure to resolve issues.
+- Use #tooling/tool:problems and #tooling/tool:testFailure to resolve issues.
 - Ensure semantics and focus behavior remain correct.
 
 ## 7) Report back clearly

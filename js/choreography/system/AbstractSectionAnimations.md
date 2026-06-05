@@ -7,10 +7,10 @@ scope: frontend
 runtime: browser
 tags:
   - "#frontend"
-  - "#js"
-  - "#choreography"
+  - "#design/motion/js"
+  - "#design/motion/choreography"
   - "#system"
-  - "#AbstractSectionAnimations"
+  - "#design/motion/choreography/AbstractSectionAnimations"
 links:
   - "[[timelines|timelines]]"
   - "[[system/gsap|system/gsap]]"

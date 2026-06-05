@@ -9,16 +9,15 @@ templateRole: "macro"
 atomicLevel: "unknown"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#macro"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#frontend/eleventy/macro"
 links:
   - "[{{ name }}]({{ category }}/{{ name }}.njk)"
   - "[icon](../atoms/icon.md)"
   - "[button](../atoms/button/button.md)"
-
 ---
 # Registry
 

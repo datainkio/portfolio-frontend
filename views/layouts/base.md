@@ -9,18 +9,17 @@ templateRole: "layout"
 atomicLevel: "none"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#layout"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#design/atomic-design/layout"
 links:
   - "[global-header](../organisms/header/global-header.md)"
   - "[global-footer](../organisms/footer/global-footer.md)"
   - "[skip-links-nav](organisms/navigation/skip-links-nav.njk)"
   - "[head](../templates/partials/head.md)"
   - "[gtm-noscript](../templates/partials/gtm-noscript.md)"
-
 ---
 # Base
 

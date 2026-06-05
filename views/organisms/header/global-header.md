@@ -9,16 +9,15 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - "#eleventy"
-  - "#nunjucks"
-  - "#template"
-  - "#obsidian"
-  - "#component"
-  - "#organism"
-  - "#atomic-design"
+  - "#frontend/eleventy"
+  - "#frontend/nunjucks"
+  - "#frontend/eleventy/template"
+  - "#tooling/Obsidian"
+  - "#frontend/eleventy/component"
+  - "#design/atomic-design/organism"
+  - "#design/atomic-design"
 links:
   - "[primary-nav](../navigation/primary-nav.md)"
-
 ---
 # Global Header
 

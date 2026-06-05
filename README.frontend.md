@@ -7,9 +7,9 @@ audience:
   - agents
 tags:
   - "#frontend"
-  - "#reference"
-  - "#11ty"
-  - "#gsap"
+  - "#aix/reference"
+  - "#ux/accessibility/11ty"
+  - "#design/motion/gsap"
 ---
 
 <!-- @format -->

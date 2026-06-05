@@ -7,9 +7,9 @@ audience:
   - agents
 tags:
   - "#frontend"
-  - "#entrypoint"
-  - "#11ty"
-  - "#gsap"
+  - "#ux/navigation/entrypoint"
+  - "#ux/accessibility/11ty"
+  - "#design/motion/gsap"
 ---
 
 # Frontend — Claude Code Entrypoint
