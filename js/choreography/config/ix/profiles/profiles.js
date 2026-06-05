@@ -131,8 +131,8 @@ export const MOTION_PROFILES = Object.freeze({
 export const SECTION_OVERRIDES = Object.freeze({
   card: {
     base: { animation: { variant: "clip" } },
-    sm: { animation: { variant: "throw" } },
-    md: { animation: { variant: "throw" } },
+    sm: { animation: { variant: "clip" } },
+    md: { animation: { variant: "fade-n-lift" } },
     lg: { animation: { variant: "throw" } },
     xl: { animation: { variant: "throw" } },
   },

@@ -22,7 +22,7 @@
 
   {%- set root = {
     "base": "text-current relative isolate w-full overflow-hidden",
-    "md": "grid grid-cols-6 inner-border p-4 mx-auto"
+    "md": "bg-white grid grid-cols-6 inner-border p-4 mx-auto"
   } -%}
 
   {%- set figure = {
@@ -59,13 +59,13 @@
   } -%}
 
   {%- set description = {
-    "base": "description text-sm",
-    "sm": "col-span-4 pb-2 pr-4"
+    "base": "hidden description text-sm w-full overflow-hidden",
+    "sm": "block self-start col-span-4 pb-2 pr-4"
   } -%}
 
   {%- set stats = {
-    "base": "col-span-full grid grid-cols-2",
-    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 grid-cols-1 border-l border-black border-dashed"
+    "base": "col-span-full grid grid-cols-2 gap-x-4",
+    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-black border-dashed"
   } -%}
 
   {%- set footer = {
@@ -97,11 +97,9 @@
           <p class="{{ byline | classes }}">{{ byline_txt }}</p>
         {% endif %}
       </header>
-      {# Hiding this for since can mess shit up layout-wise
-            {% if description_txt %}
-              <p class="{{ description | classes }}">{{ description_txt }}</p>
-            {% endif %}
-      #}
+      {% if description_txt %}
+        <p class="{{ description | classes }}">{{ description_txt }}</p>
+      {% endif %}
       {% if meta | length %}
         {{ Details.render({ stats: meta, classes: stats | classes }) }}
       {% endif %}
