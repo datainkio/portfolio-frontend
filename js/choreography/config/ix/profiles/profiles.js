@@ -130,7 +130,7 @@ export const MOTION_PROFILES = Object.freeze({
  */
 export const SECTION_OVERRIDES = Object.freeze({
   card: {
-    base: { animation: { variant: "parallax" } },
+    base: { animation: { variant: "clip" } },
     sm: { animation: { variant: "throw" } },
     md: { animation: { variant: "throw" } },
     lg: { animation: { variant: "throw" } },

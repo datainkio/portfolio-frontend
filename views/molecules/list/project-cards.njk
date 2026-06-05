@@ -3,7 +3,7 @@
   <ul data-projects-el="list" class="{{ params.classes | default("") }}">
     {% for project in params.projects %}
       <li data-projects-el="project" class="-z-1">
-        {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first }) }}
+        {{ Card.render({ project: project, headingLevel: 4, eager: loop.first and loop.parent.first, classes: "shadow-neutral-950/50 shadow-sm" }) }}
       </li>
     {% endfor %}
   </ul>

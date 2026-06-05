@@ -16,6 +16,7 @@
  */
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
+import { clipRevealOut } from "../../atoms/clip-reveal/clip-reveal.js";
 import {
   CARD_FIGURE_CLIP_TRIGGER,
   CARD_FIGURE_PARALLAX_TRIGGER,
@@ -31,38 +32,32 @@ export function createCardScrollClip({
   const image = figure.querySelector('[data-card-el="image"]');
   if (!image) return { kill() {} };
 
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: figure,
+      start: "top top",
+      end: "bottom -=1500px",
+      pin: true,
+      pinSpacing: false,
+      scrub: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  tl.addLabel("intro");
+  tl.add(createIntroTimeline(figure, image));
+  tl.addLabel("inter");
+  tl.add(createInterTimeline(figure, image));
+  tl.addLabel("outro");
+  tl.add(createOutroTimeline(figure, image));
+
   if (isReducedMotion(reduceMotion)) {
     gsap.set(figure, { clearProps: CLEAR.figure });
     gsap.set(image, { clearProps: CLEAR.figureImage });
     return { kill() {} };
   }
 
-  const initialHeight = getViewport().height;
-  gsap.set(figure, { overflow: "hidden", willChange: "height" });
-  gsap.set(image, {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: initialHeight,
-    clipPath: "inset(0 0 0% 0)",
-    willChange: "clip-path",
-  });
-
-  const tl = gsap.timeline({
-    scrollTrigger: buildScrollTrigger(
-      CARD_FIGURE_CLIP_TRIGGER,
-      index,
-      triggerEl,
-      {
-        end: () => `+=${window.innerHeight}`,
-        invalidateOnRefresh: true,
-      },
-    ),
-  });
-
-  tl.to(figure, { height: 0, ease: "none" }, 0);
-  tl.to(image, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
+  setDefaults(figure, body);
 
   return {
     kill() {
@@ -72,3 +67,45 @@ export function createCardScrollClip({
     },
   };
 }
+
+function setDefaults(figure, body) {
+  const initialHeight = getViewport().height;
+  gsap.set([figure], { y: initialHeight });
+}
+
+function createIntroTimeline(figure, image) {
+  const initialHeight = getViewport().height;
+
+  const tl = gsap.timeline();
+  // tl.to(figure, { height: 0, ease: "none" }, 0);
+  tl.to(figure, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
+  tl.to(image, { scale: 1.1, ease: "none" }, 0);
+  return tl;
+}
+
+function createInterTimeline(figure, image) {
+  const tl = gsap.timeline();
+  return tl;
+  //   const figure = article.querySelector('[data-card-el="figure"]');
+  //   const image = article.querySelector('[data-card-el="image"]');
+  //   const initialHeight = getViewport().height;
+  //   gsap.set([figure, image], { y: initialHeight });
+  //   const tl = gsap.timeline();
+  //   tl.to(figure, { height: 0, ease: "none" }, 0);
+  //   tl.to(image, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
+  //   return tl;
+  // }
+}
+
+function createOutroTimeline(figure, image) {
+  const tl = gsap.timeline();
+  return tl;
+}
+
+const getViewport = () => {
+  const viewport = window.visualViewport;
+  return {
+    width: viewport?.width ?? window.innerWidth,
+    height: viewport?.height ?? window.innerHeight,
+  };
+};

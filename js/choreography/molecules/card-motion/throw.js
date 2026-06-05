@@ -16,6 +16,7 @@ export function createThrowTimeline({
   }
 
   const image = article.querySelector('[data-card-el="image"]');
+  if (!image) return { kill() {} };
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -29,8 +30,11 @@ export function createThrowTimeline({
     },
   });
 
+  tl.addLabel("intro");
   tl.add(createIntroTimeline(article));
+  tl.addLabel("inter");
   tl.add(createInterTimeline(article));
+  tl.addLabel("outro");
   tl.add(createOutroTimeline(article));
 
   return {
