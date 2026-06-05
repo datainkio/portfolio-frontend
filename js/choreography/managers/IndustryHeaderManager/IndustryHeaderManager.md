@@ -1,7 +1,7 @@
 ---
 id: frontend.js.choreography.managers.industryheadermanager
 role: "Runtime manager — keeps each industry section h3 sticky-top value in sync with the work header's expanded/collapsed state. When WorkHeaderManager collapses the jumplinks, IndustryHeaderManager slides all industry headings up to match the new header height; when it expands, they return to their natural position."
-status: stable
+status: development
 surface: internal
 scope: frontend
 runtime: browser
