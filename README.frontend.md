@@ -16,8 +16,6 @@ tags:
 
 # Frontend Workspace Reference
 
-(Just a little test of the staging deploy action. Trying again... And trying again after making TextParty npm package public. And now after making Lumberjack public. And now after adding Sanity secrets to workflow.)
-
 This document is the AIX-focused reference for the `frontend/` workspace folder. It complements the GitHub-facing [[dataink.io/frontend/README]] and the agent-oriented [[.github/copilot-instructions]].
 
 > **Source-of-truth precedence when documents conflict:** implementation → [[.github/copilot-instructions]] → README files → `docs/`. When a doc disagrees with code, update the doc.
