@@ -12,9 +12,17 @@
   /* Quadrant split background using primary, secondary, accent, and success colors */
   .bg-quadrants {
     background:
-      linear-gradient(to right, var(--color-primary-800) 50%, var(--color-accent-400) 50%) top /
-        100% 50% no-repeat,
-      linear-gradient(to right, var(--color-secondary-800) 50%, var(--color-semantic-success) 50%)
+      linear-gradient(
+          to right,
+          var(--color-primary-800) 50%,
+          var(--color-accent-400) 50%
+        )
+        top / 100% 50% no-repeat,
+      linear-gradient(
+          to right,
+          var(--color-secondary-800) 50%,
+          var(--color-semantic-success) 50%
+        )
         bottom / 100% 50% no-repeat;
   }
 }

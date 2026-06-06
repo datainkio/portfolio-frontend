@@ -1,125 +1,89 @@
-# Director Initialization Sequence Diagram
+# AnimationDirector Initialization Sequence
 
-This diagram illustrates the complete initialization flow of the Director animation system.
+How the browser-side choreography system bootstraps after `DOMContentLoaded`.
 
 ```mermaid
 sequenceDiagram
     participant Browser
-    participant DOMContentLoaded Event
-    participant Director Constructor
-    participant AnimationBus
-    participant StageManager
-    participant Hero Section
-    participant Work Section
-    participant Biography Section
-    participant LandingSequence
-    participant Animation System
+    participant DOM as DOMContentLoaded
+    participant AD as AnimationDirector
+    participant Bus as AnimationBus
+    participant SEC as ScrollEffectsCoordinator
+    participant Sections as Section Controllers
+    participant LS as LandingSequence
 
-    Browser->>DOMContentLoaded Event: Page loaded, DOM ready
-    DOMContentLoaded Event->>Director Constructor: Trigger event listener
-    
-    rect rgb(200, 220, 240)
-        note over Director Constructor: 1. Create Core Systems
-        Director Constructor->>AnimationBus: new AnimationBus()
-        AnimationBus-->>Director Constructor: Event bus instance
-        Director Constructor->>StageManager: new StageManager()
-        StageManager-->>Director Constructor: Stage manager instance
-    end
+    Browser->>DOM: Parse complete
+    DOM->>AD: Construct AnimationDirector
 
     rect rgb(200, 220, 240)
-        note over Director Constructor: 2. Get Smoother Reference
-        Director Constructor->>StageManager: getSmoother()
-        StageManager-->>Director Constructor: ScrollSmoother instance
+        note over AD: 1. Core systems
+        AD->>Bus: new AnimationBus()
+        AD->>SEC: new ScrollEffectsCoordinator(bus)
+        SEC-->>AD: Smoother + effect managers ready
     end
 
     rect rgb(220, 240, 220)
-        note over Director Constructor: 3. Initialize Section Controllers
-        Director Constructor->>Hero Section: new Hero(bus, smoother)
-        Hero Section-->>Director Constructor: Hero controller
-        Director Constructor->>Work Section: new Work(bus, smoother)
-        Work Section-->>Director Constructor: Work controller
-        Director Constructor->>Biography Section: new Biography(bus, smoother)
-        Biography Section-->>Director Constructor: Biography controller
+        note over AD: 2. Section controllers (from system/registry.js)
+        AD->>Sections: new Hero / BackgroundVideo / Bio / Awards / Organizations / Work
+        Sections-->>AD: Controllers (with bus + reducedMotionHandler)
     end
 
     rect rgb(240, 220, 220)
-        note over Director Constructor: 4. Create Choreography Sequence
-        Director Constructor->>LandingSequence: new LandingSequence(bus, sections)
-        LandingSequence-->>Director Constructor: Sequence coordinator
+        note over AD: 3. Sequence wiring
+        AD->>LS: new LandingSequence(bus, sections, …)
+        LS->>Bus: subscribe to section lifecycle events
     end
 
     rect rgb(240, 240, 200)
-        note over Director Constructor: 5. Start Animation Flow
-        Director Constructor->>LandingSequence: sequence.start()
-        LandingSequence->>Animation System: Begin animation choreography
-        Animation System-->>Hero Section: Trigger hero intro animations
-        Animation System-->>Work Section: Prepare work section timeline
-        Animation System-->>Biography Section: Prepare biography section timeline
+        note over AD: 4. Start
+        AD->>LS: sequence.start()
+        LS->>Bus: emit EVENTS.video.introStart
+        Bus->>Sections: dispatch to BackgroundVideo
     end
 
     rect rgb(200, 240, 240)
-        note over Director Constructor: 6. Export & Global Access
-        Director Constructor->>Browser: window.director = new Director()
-        Director Constructor-->>Browser: Animation system ready
+        note over AD: 5. Global access
+        AD->>Browser: window.director = director
     end
-
-    Browser->>Browser: User scrolls/interacts
-    Animation System->>Hero Section: Respond to scroll events
-    Animation System->>Work Section: Respond to scroll events
-    Animation System->>Biography Section: Respond to scroll events
 ```
 
-## Key Initialization Phases
+## Phases
 
-### Phase 1: Core Systems (Event Bus & Stage)
-- **AnimationBus** - Creates centralized event coordination system
-- **StageManager** - Initializes scroll smoothing and visual effects
+1. **Core systems** — `AnimationDirector` constructs `AnimationBus` (pub/sub) and `ScrollEffectsCoordinator` (scroll smoothing + background/decoration managers).
+2. **Section controllers** — instantiated from `system/registry.js`. Each extends [AbstractSection](../js/choreography/system/AbstractSection.js) and receives `{ bus, reducedMotionHandler }`. Active sections: Hero, BackgroundVideo, Bio, Awards, Organizations, Work.
+3. **Sequence wiring** — `LandingSequence` subscribes to section lifecycle events (`section:phase:state`) and orchestrates the landing flow.
+4. **Start** — sequence emits the first event; sections respond via `AnimationBus`.
+5. **Global access** — `window.director` is exposed for debugging.
 
-### Phase 2: Section Controllers
-- **Hero** - Homepage hero section animations
-- **Work** - Portfolio work section animations  
-- **Biography** - Biography section animations
+## DOM contract
 
-Each section controller receives:
-- `bus` - AnimationBus instance for event coordination
-- `smoother` - ScrollSmoother reference for scroll-based animations
+The full landing experience expects these IDs to exist. Missing IDs degrade gracefully (the affected section is skipped):
 
-### Phase 3: Choreography Sequence
-- **LandingSequence** - Coordinates animation flow between sections
-- Sets up event listeners to orchestrate when each animation plays
+- `#smooth-wrapper`, `#smooth-content` — required for `ScrollSmoother`
+- `#hero`, `#overlay-view`, `#bio`, `#awards`, `#organizations`, `#work`
 
-### Phase 4: Start Animation
-- Sequence begins, ready to respond to user interactions
-- Animations trigger based on scroll position and events
+GSAP plugins registered globally: `ScrollTrigger`, `ScrollSmoother`.
 
-### Phase 5: Global Access
-- Director instance exposed at `window.director`
-- Enables debugging and external control
-
-## Timing
-
-- **DOMContentLoaded** - Triggered when DOM is fully parsed (fast initialization)
-- **Asset loading** - Gracefully handles assets still loading
-- **First paint** - Animations ready before page fully renders
-
-## Critical Requirements
-
-- DOM elements: `#main-header`, `#work`, `#biography`, `#smooth-wrapper`, `#smooth-content`
-- Background video: `/assets/video/sizzle.mp4`
-- Overlay view molecule in template: `overlay-view.njk`
-- GSAP plugins registered: `ScrollTrigger`, `ScrollSmoother`
-
-## Debug Access
+## Debug access
 
 ```javascript
-// Enable animation event logging
-window.director.enableDebug(true);
+// Enable verbose event logging on the bus
+window.director.enableDebug?.(true);
 
-// Access individual systems
-const sections = window.director.getSections();
-const sequence = window.director.getSequence();
-const stage = window.director.getStage();
+// Inspect runtime
+window.director.getSections?.();
+window.director.getSequence?.();
+window.director.getStage?.(); // ScrollEffectsCoordinator
 
-// Control animations
-window.director.restart();
+// Re-run the landing sequence (for debugging)
+window.director.restart?.();
 ```
+
+## References
+
+- [AnimationDirector.js](../js/choreography/AnimationDirector.js)
+- [AnimationBus.js](../js/choreography/system/AnimationBus.js)
+- [ScrollEffectsCoordinator.js](../js/choreography/managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js)
+- [system/registry.js](../js/choreography/system/registry.js)
+- [templates/landing/LandingSequence.js](../js/choreography/templates/landing/LandingSequence.js)
+- [config/contracts/events.js](../js/choreography/config/contracts/events.js)

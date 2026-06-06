@@ -1,0 +1,18 @@
+{% macro render(params = {}) %}
+  {% set key = params.key %}
+  {% set nav = params.nav or collections.all %}
+  {% if key %}
+    {% set crumbs = nav | eleventyNavigationBreadcrumb(key) %}
+    {% if crumbs and crumbs.length %}
+      <nav aria-label="Breadcrumb">
+        <ol>
+          {% for crumb in crumbs %}
+            <li>
+              <a class="font-display before:mr-2 before:text-neutral-500 before:content-['\2190']" href="{{ crumb.url | url }}">{{ crumb.title }}</a>
+            </li>
+          {% endfor %}
+        </ol>
+      </nav>
+    {% endif %}
+  {% endif %}
+{% endmacro %}

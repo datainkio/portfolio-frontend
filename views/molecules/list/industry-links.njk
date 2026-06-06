@@ -1,0 +1,14 @@
+{% macro render(params = {}) %}
+  {%- set classes = params.classes | default("leading-none") -%}
+  {%- set industries = params.industries | default([]) -%}
+  <ul data-projects-el="industry-links" class="{{ classes }}">
+    {% for industryTitle, projects in industries %}
+      <li class="my-0 leading-none">
+        <a
+          href="#industry-{{ industryTitle | slugify }}"
+          data-projects-el="industry-link"
+          class="block py-0 no-underline font-display text-sm leading-snug">{{ industryTitle }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

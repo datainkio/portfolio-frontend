@@ -31,20 +31,22 @@
  * {{ text | uppercase }}                  {# UPPERCASE TEXT #}
  */
 
-import markdownIt from 'markdown-it';
-import * as cheerio from 'cheerio';
+import markdownIt from "markdown-it";
+import * as cheerio from "cheerio";
 
 export default function (eleventyConfig) {
   /**
    * Convert a string to uppercase.
    */
-  eleventyConfig.addFilter('uppercase', str => {
+  eleventyConfig.addFilter("uppercase", (str) => {
     return str.toUpperCase();
   });
 
-  eleventyConfig.addFilter('truncate', truncate);
-  eleventyConfig.addFilter('markdownify', markdownify);
-  eleventyConfig.addFilter('prettify', prettify);
+  eleventyConfig.addFilter("truncate", truncate);
+  eleventyConfig.addFilter("markdownify", markdownify);
+  eleventyConfig.addFilter("prettify", prettify);
+  eleventyConfig.addFilter("classes", classes);
+  eleventyConfig.addFilter("slugify", slugify);
 }
 
 /**
@@ -58,7 +60,7 @@ export default function (eleventyConfig) {
  * => "This is a ..."
  */
 export function truncate(str, length) {
-  return str.length > length ? str.substring(0, length) + '...' : str;
+  return str.length > length ? str.substring(0, length) + "..." : str;
 }
 
 /**
@@ -102,6 +104,75 @@ export function markdownify(markdownString) {
  */
 export function prettify(markdownString, parClasses) {
   const $ = cheerio.load(markdownify(markdownString));
-  $('p').addClass(parClasses);
+  $("p").addClass(parClasses);
   return $.html();
+}
+
+/**
+ * Flatten a class-variants object into a single space-delimited string.
+ *
+ * Designed for managing Tailwind responsive variants keyed by breakpoint
+ * (e.g. base, sm, md, lg, xl), but accepts any plain object whose values
+ * are strings or arrays of strings. Insertion order is preserved.
+ * Non-string/empty values are skipped, and internal whitespace is
+ * collapsed so the result is safe to drop directly into `class="…"`.
+ *
+ * @param {object|string} variants - Class-variants object, or a string
+ *   (returned trimmed for convenience when callers may pass either).
+ * @returns {string} Space-delimited class string.
+ *
+ * EXAMPLE:
+ * {% set header = {
+ *   "base": "flex items-center",
+ *   "sm":   "sm:gap-4",
+ *   "md":   "md:gap-6",
+ *   "lg":   "",
+ *   "xl":   "xl:gap-10"
+ * } %}
+ * <header class="{{ header | classes }}">
+ * => <header class="flex items-center sm:gap-4 md:gap-6 xl:gap-10">
+ */
+export function classes(variants) {
+  if (variants == null) return "";
+  if (typeof variants === "string") return variants.trim().replace(/\s+/g, " ");
+  if (Array.isArray(variants)) {
+    return variants
+      .map((v) => classes(v))
+      .filter(Boolean)
+      .join(" ");
+  }
+  if (typeof variants !== "object") return "";
+
+  return Object.entries(variants)
+    .map(([key, value]) => {
+      if (!value) return "";
+      const str =
+        typeof value === "string"
+          ? value.trim().replace(/\s+/g, " ")
+          : classes(value);
+      if (!str) return "";
+      if (key === "base") return str;
+      return str
+        .split(" ")
+        .map((cls) => `${key}:${cls}`)
+        .join(" ");
+    })
+    .filter(Boolean)
+    .join(" ");
+}
+
+/**
+ * Convert a string to a URL-safe slug.
+ *
+ * EXAMPLE:
+ * {{ "Getting Started!" | slugify }}
+ * => "getting-started"
+ */
+export function slugify(str) {
+  return String(str ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }

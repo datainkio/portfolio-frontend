@@ -60,23 +60,23 @@
  * @module Painter
  */
 
-import * as Article from './templates/Article.js';
-import * as Basic from './templates/Basic.js';
-import * as Blog from './templates/Blog.js';
-import * as Calendar from './templates/Calendar.js';
-import * as Cart from './templates/Cart.js';
-import * as Chart from './templates/Chart.js';
-import * as Contact from './templates/Contact.js';
-import * as Features from './templates/Features.js';
-import * as Feed from './templates/Feed.js';
-import * as Landing from './templates/Landing.js';
-import * as List from './templates/List.js';
-import * as Login from './templates/Login.js';
-import * as Main from './templates/Main.js';
-import * as Map from './templates/Map.js';
-import * as Project from './templates/Project.js';
-import * as Text from './templates/Text.js';
-import * as Video from './templates/Video.js';
+import * as Article from "./templates/Article.js";
+import * as Basic from "./templates/Basic.js";
+import * as Blog from "./templates/Blog.js";
+import * as Calendar from "./templates/Calendar.js";
+import * as Cart from "./templates/Cart.js";
+import * as Chart from "./templates/Chart.js";
+import * as Contact from "./templates/Contact.js";
+import * as Features from "./templates/Features.js";
+import * as Feed from "./templates/Feed.js";
+import * as Landing from "./templates/Landing.js";
+import * as List from "./templates/List.js";
+import * as Login from "./templates/Login.js";
+import * as Main from "./templates/Main.js";
+import * as Map from "./templates/Map.js";
+import * as Project from "./templates/Project.js";
+import * as Text from "./templates/Text.js";
+import * as Video from "./templates/Video.js";
 
 /**
  * Routes a block element to its appropriate paint function
@@ -129,59 +129,61 @@ import * as Video from './templates/Video.js';
 export function block(blockNode, palette) {
   const type = blockNode.classList[0].toLowerCase();
   switch (type) {
-    case 'article':
+    case "article":
       article(blockNode, palette);
       break;
-    case 'basic':
+    case "basic":
       basic(blockNode, palette);
       break;
-    case 'blog':
+    case "blog":
       blog(blockNode, palette);
       break;
-    case 'calendar':
+    case "calendar":
       calendar(blockNode, palette);
       break;
-    case 'cart':
+    case "cart":
       cart(blockNode, palette);
       break;
-    case 'chart':
+    case "chart":
       chart(blockNode, palette);
       break;
-    case 'contact':
+    case "contact":
       contact(blockNode, palette);
       break;
-    case 'features':
+    case "features":
       features(blockNode, palette);
       break;
-    case 'feed':
+    case "feed":
       feed(blockNode, palette);
       break;
-    case 'landing':
+    case "landing":
       landing(blockNode, palette);
       break;
-    case 'list':
+    case "list":
       list(blockNode, palette);
       break;
-    case 'login':
+    case "login":
       login(blockNode, palette);
       break;
-    case 'map':
+    case "map":
       map(blockNode, palette);
       break;
-    case 'main':
+    case "main":
       main(blockNode, palette);
       break;
-    case 'project':
+    case "project":
       project(blockNode, palette);
       break;
-    case 'text':
+    case "text":
       text(blockNode, palette);
       break;
-    case 'video':
+    case "video":
       video(blockNode, palette);
       break;
     default:
-      console.log("Painter.block does not recognize '" + blockNode.classList + "'");
+      console.log(
+        "Painter.block does not recognize '" + blockNode.classList + "'",
+      );
   }
 }
 
@@ -358,7 +360,7 @@ function paintBlockframe(face, colors) {
   var background = face.querySelector(".background");
   background.style.opacity = .5;
 
-  // var palette = types[Math.floor(Math.random() * types.length)];; // TODO: Select from the collection of palettes (currently in blockline)
+  // var palette = types[Math.floor(Math.random() * types.length)];; // [ ] FEAT: Select palette from blockline collection
   Chrome.paint(face, colors, paintElement);
   paintMe(face, colors);
   // return [stroked, painted];

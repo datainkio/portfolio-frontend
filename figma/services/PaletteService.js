@@ -35,7 +35,7 @@ export class PaletteService {
     console.log(chalk.cyan("\n\tprocessing the color palette...\n"));
     if (!colors || !Array.isArray(colors)) {
       throw new Error(
-        "PaletteService.parseColors: colors must be a valid array"
+        "PaletteService.parseColors: colors must be a valid array",
       );
     }
     // Sort colors by className so the output looks all nice and pretty-like

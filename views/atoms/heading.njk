@@ -1,0 +1,15 @@
+{# This is an atomic component for rendering headings (h1-h6) with customizable properties. It's super useful when you want to maintain proper semantic structure. Which you should always want to do. #}
+{% macro render(props) %}
+  {% set level = props.level | default(2) %}
+  {% set text = props.text %}
+  {% set className = props.class | default("") %}
+  {% set id = props.id | default(null) %}
+
+  {% if level < 1 or level > 6 %}
+    {% set level = 2 %}
+  {% endif %}
+
+  <h{{ level }} {% if id %} id="{{ id }}" {% endif %} {% if className %} class="{{ className }}" {% endif %}>
+    {{ text }}
+  </h{{ level }}>
+{% endmacro %}

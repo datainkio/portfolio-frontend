@@ -1,0 +1,17 @@
+{# UNUSED - No references found in codebase, safe to remove #}
+<!-- Open the modal using ID.showModal() method -->
+  <button
+  type="button"
+  class="btn"
+  aria-label="Open primary navigation"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="global_nav_modal"
+  onclick="global_nav_modal.showModal()"> {% include "atoms/icon/hamburger.njk" %}
+</button>
+<dialog id="global_nav_modal" class="modal bg-modal">
+  {% include "organisms/navigation/mega-menu.njk" %}
+  <div class="modal-action">
+    <form method="dialog">{% include "atoms/button/close.njk" %}</form>
+  </div>
+</dialog>

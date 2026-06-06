@@ -1,0 +1,24 @@
+{% import "atoms/link/site-title.njk" as site_title with context %}
+{% import "molecules/list/main-pages.njk" as main_pages with context %}
+
+{% macro render(params = {}) %}
+  {% set siteName = params.siteName or site.siteName or "data:ink:io" %}
+  {% set eleventyNavItems = collections.all | eleventyNavigation %}
+  {# CMS navigation preserved for future use — currently bypassed in favour of eleventyNavigation frontmatter #}
+  {# {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %} #}
+  {# {% set cmsItems = params.items or cmsNavigation.headerItems or [] %} #}
+  {% set items = params.items or eleventyNavItems %}
+  {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
+  {% set navClasses = {
+    "base": "bg-black p-4",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } %}
+    <nav id="primary-nav" class="{{ navClasses | classes }}" aria-label="Primary navigation"> {{ main_pages.render({ 
+      items: items,
+      logoSvg: params.logoSvg,
+      linkClass: ""}) }}
+  </nav>
+{% endmacro %}

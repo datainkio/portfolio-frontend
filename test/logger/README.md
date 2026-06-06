@@ -152,13 +152,13 @@ Tests custom style functionality:
  * Test Description
  */
 
-import logger from '../../js/utils/logger/index.js';
+import logger from "../../js/utils/logger/index.js";
 
-console.log('\n=== Test Suite Name ===\n');
+console.log("\n=== Test Suite Name ===\n");
 
 // Test cases here
 
-console.log('\n=== Tests Complete ===\n');
+console.log("\n=== Tests Complete ===\n");
 ```
 
 3. Add to test runner in `index.js`:
@@ -166,7 +166,7 @@ console.log('\n=== Tests Complete ===\n');
 ```javascript
 const tests = [
   // ... existing tests
-  { name: 'Feature Name', file: 'feature-name.test.js' },
+  { name: "Feature Name", file: "feature-name.test.js" },
 ];
 ```
 

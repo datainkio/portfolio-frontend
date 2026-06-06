@@ -1,20 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.choreography.animationdirector
- *   role: Frontend runtime module: js/choreography/AnimationDirector.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - choreography
- *     - AnimationDirector.js
- * ---
- */
 /** @format */
 
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
@@ -46,18 +29,23 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * - Enable debug mode: window.director.enableDebug(true)
  * - Access globally: window.director
  *
- * TODO: AnimationDirector intro documentation needs updating to reflect current architecture and responsibilities.
+ * [ ] DOCS: Update AnimationDirector intro to reflect current architecture and responsibilities.
  * @requires AnimationBus - Event coordination system
  * @requires StageManager - Scroll and visual effects
  * @requires Splash, Hero, Work, Biography - Section controllers
  * @requires LandingSequence - Animation choreography
  */
 
-import { AnimationBus } from "/assets/js/choreography/AnimationBus.js";
-import ScrollEffectsCoordinator from "/assets/js/choreography/ScrollEffectsCoordinator.js";
-import { LandingSequence } from "/assets/js/choreography/sequences/landing/LandingSequence.js";
-import { SECTION_REGISTRY } from "/assets/js/choreography/sections/registry.js";
-import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
+import { AnimationBus } from "/assets/js/choreography/system/AnimationBus.js";
+import ScrollEffectsCoordinator from "/assets/js/choreography/managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js";
+import { LandingSequence } from "/assets/js/choreography/templates/landing/LandingSequence.js";
+import { SECTION_REGISTRY } from "/assets/js/choreography/system/registry.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
+import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
+import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
+import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
+import IndustryHeaderManager from "/assets/js/choreography/managers/IndustryHeaderManager/IndustryHeaderManager.js";
+import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
 
 const LOGS = {
   description:
@@ -108,13 +96,40 @@ export default class AnimationDirector {
     this.bus = new AnimationBus();
     this.stage = new ScrollEffectsCoordinator(this.bus); // Pass bus to ScrollEffectsCoordinator
 
+    // Initialize global card behaviors — must precede sections so throw-variant
+    // pin spacers (pinSpacing: true) are in the DOM before _bindHeaderPin
+    // measures the footer position for the work-header-pin end value.
+    this.cardManager = new CardManager();
+
     // Initialize section controllers from registry
     this.sections = {};
     Object.entries(SECTION_REGISTRY).forEach(([sectionId, SectionClass]) => {
       this.sections[sectionId] = new SectionClass({
         bus: this.bus,
         reducedMotionHandler: this.stage?.reducedMotion,
+        gelManager: this.stage?.gelAnimation,
       });
+    });
+
+    // Initialize global header hide/show on scroll
+    this.headerManager = new GlobalHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
+
+    // Initialize industry heading sticky-top sync (must precede WorkHeaderManager)
+    this.industryHeaderManager = new IndustryHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
+
+    // Initialize work section jumplinks collapse/expand on scroll
+    this.workHeaderManager = new WorkHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+      industryHeaderManager: this.industryHeaderManager,
+    });
+
+    // Initialize project page hero parallax (no-ops on non-project pages)
+    this.projectHeaderManager = new ProjectHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
     });
 
     // Initialize choreography sequence
@@ -184,9 +199,21 @@ export default class AnimationDirector {
     });
 
     // Clear references for garbage collection
+
+    this.cardManager?.kill();
+    this.cardManager = null;
+
+    this.headerManager?.kill();
+    this.headerManager = null;
+
+    this.industryHeaderManager?.kill();
+    this.industryHeaderManager = null;
+
+    this.projectHeaderManager?.kill();
+    this.projectHeaderManager = null;
+
     this.bus = null;
     this.stage = null;
-    this.smoother = null;
     this.sections = null;
     this.sequence = null;
   }

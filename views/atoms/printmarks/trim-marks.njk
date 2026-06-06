@@ -1,0 +1,16 @@
+{% macro render(params = {}) %}
+  {% set classes = params.classes | default("") %}
+  {% set inset = params.inset | default("10") %}
+  {% set size = params.size | default("6") %}
+  {% set weight = params.weight | default("1") %}
+  {% set color = params.color | default("black") %}
+  {# TRIM MARKS #}
+  <div
+    aria-hidden="true" class="absolute inset-{{ inset }} grid grid-cols-2 content-between gap-4 {{ classes }}">
+    {# top left, top right, bottom left, bottom right #}
+    <div class="border-t-{{ weight }} border-l-{{ weight }} border-{{ color }} size-{{ size }}"></div>
+    <div class="border-t-{{ weight }} border-r-{{ weight }} border-{{ color }} size-{{ size }} justify-self-end"></div>
+    <div class="border-b-{{ weight }} border-l-{{ weight }} border-{{ color }} size-{{ size }}"></div>
+    <div class="border-b-{{ weight }} border-r-{{ weight }} border-{{ color }} size-{{ size }} justify-self-end"></div>
+  </div>
+{% endmacro %}

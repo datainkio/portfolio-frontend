@@ -1,0 +1,11 @@
+{% set roles = project.roles %}
+{% if roles %}
+  <ul class="flex flex-row list-none p-0 m-0">
+    {% for role in roles %}
+      <li class="p-0 m-0">
+        {{ role.title }}
+        {% if not loop.last %},&nbsp;{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

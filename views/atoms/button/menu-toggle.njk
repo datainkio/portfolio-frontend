@@ -1,0 +1,21 @@
+{# Mobile Menu Toggle Button Atom CRITICAL WARNING: This button is animated by Header.js and StageManager.js DO NOT
+modify DOM structure or classes without testing GSAP choreography #}
+
+<button
+  type="button"
+  .="."
+  class="menu-toggle md:hidden p-2 rounded-md text-neutral-100 hover:text-neutral-300 focus:outline-none focus:ring-2
+    focus:ring-primary-500 focus:ring-offset-2 {{ class }}"
+  id="mobile-menu-toggle"
+  aria-expanded="false"
+  aria-controls="mobile-navigation"
+  .="."
+  aria-label="Toggle mobile navigation menu">
+  {# Hamburger icon - animated by GSAP #}
+  <span class="sr-only">Open main menu</span>
+  <svg class="hamburger-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path class="hamburger-line-1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"/>
+    <path class="hamburger-line-2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"/>
+    <path class="hamburger-line-3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"/>
+  </svg>
+</button>

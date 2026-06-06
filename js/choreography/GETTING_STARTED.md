@@ -135,7 +135,7 @@ Follow this pattern to add a new animated section.
 
 ### Step 1: Create DOM Structure
 
-In your Nunjucks template (`njk/organisms/`):
+In your Nunjucks template (`views/organisms/`):
 
 ```nunjucks
 <section id="my-section" class="my-section">

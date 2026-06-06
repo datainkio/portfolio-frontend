@@ -1,0 +1,24 @@
+{# Create the bottom navigation for the project detail page #}
+{# This will support navigating forward or back through the set of projects currently in view #}
+{# The initial destinations are set based on a given project's position within collections.projects #}
+{# Set the previous and next projects #}
+{% set projectIndex =  collections.projects | findIndexOf(project) %}
+{% set previous = collections.projects[projectIndex - 1] %}
+{% set next = collections.projects[projectIndex + 1] %}
+{# Set responsive styles #}
+{% set base = "absolute inset-0 h-dvh w-full items-end" %}
+{% set md = "md:items-center" %}
+  <div
+  id="project-nav" class="grid grid-cols-2 text-primary-light  {{ base }} {{ md }} z-50 "> {# PREVIOUS #}
+  {% if previous %}
+    {% set sibling = previous %}
+    {% set direction = "previous" %}
+    {% include "molecules/input/prevnext.njk" %}
+  {% endif %}
+  {# NEXT #}
+  {% if next %}
+    {% set sibling = next %}
+    {% set direction = "next" %}
+    {% include "molecules/input/prevnext.njk" %}
+  {% endif %}
+</div>

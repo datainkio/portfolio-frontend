@@ -1,0 +1,7 @@
+{% macro render(params = {}) %}
+  {%- set text = params.text -%}
+  {%- set url = params.url -%}
+  {%- set classes = params.classes -%}
+
+  <a href="{{ url }}" class="cta arrow-prefix {{ classes }}">{{ text }}</a>
+{% endmacro %}

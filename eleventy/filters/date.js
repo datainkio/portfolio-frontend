@@ -23,12 +23,10 @@
  * {{ post.date | postDate }}           {# "Jan 1, 2024" #}
  * {{ project.created | postDate }}     {# Human-readable format #}
  *
- * AIRTABLE INTEGRATION:
- * Airtable date fields come as ISO strings - this filter makes them readable:
- * {{ activity.date | postDate }}       {# Converts ISO → "Jan 15, 2024" #}
+ * Works with JavaScript Date objects and ISO 8601 date strings.
  */
 
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 
 export default function (eleventyConfig) {
   /**
@@ -43,10 +41,9 @@ export default function (eleventyConfig) {
    * {{ event.date | postDate }}       {# Event date in calendar #}
    * {{ activity.created | postDate }} {# Activity timestamp #}
    *
-   * NOTE: Works with both JavaScript Date objects and ISO 8601 date strings
-   * from Airtable API responses.
+   * NOTE: Works with both JavaScript Date objects and ISO 8601 date strings.
    */
-  eleventyConfig.addFilter('postDate', dateObj => {
+  eleventyConfig.addFilter("postDate", (dateObj) => {
     const d = new Date(dateObj);
     return DateTime.fromJSDate(d).toLocaleString(DateTime.DATE_MED);
   });
@@ -63,20 +60,20 @@ export default function (eleventyConfig) {
    * {{ page.date | formatDate('DDD') }}
    * {{ activity.fields.date | formatDate('yyyy LLL dd') }}
    */
-  eleventyConfig.addFilter('formatDate', (dateObj, format = 'DATE_MED') => {
-    if (!dateObj) return '';
+  eleventyConfig.addFilter("formatDate", (dateObj, format = "DATE_MED") => {
+    if (!dateObj) return "";
 
     const jsDate = dateObj instanceof Date ? dateObj : new Date(dateObj);
     const dt = DateTime.fromJSDate(jsDate);
-    if (!dt.isValid) return '';
+    if (!dt.isValid) return "";
 
     // Allow passing a Luxon preset key, e.g. "DATE_MED".
-    if (typeof format === 'string' && format in DateTime) {
+    if (typeof format === "string" && format in DateTime) {
       return dt.toLocaleString(DateTime[format]);
     }
 
     // Treat any other string as a Luxon format string.
-    if (typeof format === 'string') {
+    if (typeof format === "string") {
       return dt.toFormat(format);
     }
 

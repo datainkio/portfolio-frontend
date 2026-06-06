@@ -16,7 +16,7 @@
  * ---
  */
 // src/ThemeColors.js
-import { themeColors } from './theme-colors.js';
+import { themeColors } from "./theme-colors.js";
 
 class ThemeColors {
   constructor() {

@@ -1,0 +1,116 @@
+{% import "atoms/heading.njk" as HeadingBlock %}
+{% import "atoms/cta.njk" as CTA %}
+{% import "molecules/stats/stats.njk" as Details %}
+{% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
+{% macro render(params = {}) %}
+  {# Note that defaults are limited. This gives the caller more control and allows them to pass in empty strings or falsy values if they want to intentionally omit something that might otherwise be pulled from a project object. #}
+  {%- set title = params.title -%}
+  {%- set eyebrow_txt = params.eyebrow -%}
+  {%- set headingLevel = params.headingLevel | default(3) -%}
+  {%- set description_txt = params.description -%}
+  {%- set byline_txt = params.byline -%}
+  {%- set meta = params.meta | default([]) -%}
+  {%- set featured = params.featured | default(false) -%}
+  {%- set image = params.image -%}
+  {%- set url = params.url -%}
+  {%- set classes = params.classes -%}
+  {%- set imageClasses = params.imageClasses -%}
+  {%- set eager = params.eager | default(false) -%}
+
+  {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
+  {%- set imageAlt = image and image.alt or title -%}
+
+  {%- set root = {
+    "base": "text-current relative isolate w-full overflow-hidden",
+    "md": "bg-white grid grid-cols-6 inner-border p-4 mx-auto"
+  } -%}
+
+  {%- set figure = {
+    "base": "bg-black m-0 relative z-0 overflow-hidden w-full h-dvh",
+    "md": "col-span-3 h-auto aspect-square"
+  } -%}
+
+  {%- set image = {
+    "base": "w-full h-full object-cover object-center"
+  } -%}
+
+  {%- set body = {
+    "base": "prose bg-white inner-border p-6 relative z-10",
+    "sm": "grid grid-cols-6 gap-x-2",
+    "md": "col-span-3 inner-border-none"
+  } -%}
+
+  {%- set eyebrow = {
+    "base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"
+  } -%}
+
+  {%- set header = {
+    "base": "header col-span-full",
+    "sm": "col-span-4"
+  } -%}
+
+  {%- set heading = {
+    "base": "heading font-display col-span-full",
+    "sm": "text-2xl"
+  } -%}
+
+  {%- set byline = {
+    "base": "byline text-sm font-thin col-span-full"
+  } -%}
+
+  {%- set description = {
+    "base": "hidden description text-sm w-full overflow-hidden",
+    "sm": "block self-start col-span-4 pb-2 pr-4"
+  } -%}
+
+  {%- set stats = {
+    "base": "col-span-full grid grid-cols-2 gap-x-4",
+    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-black border-dashed"
+  } -%}
+
+  {%- set footer = {
+    "base": "col-span-full text-right py-2",
+    "sm": "border-y border-black border-dashed"
+  } -%}
+
+  {%- set linky = {
+    "base": "font-display inline-block uppercase text-right"
+  } -%}
+
+  <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
+
+    {% if imageSrc %}
+      <figure data-card-el="figure" class="{{ figure | classes }}">
+        {{ TrimMarks.render({ inset: "6", size: "4", weight: "1", color: "white", classes:"invisible sm:visible" }) }}
+        <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="{{ image | classes }} {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
+      </figure>
+    {% endif %}
+
+    <div data-card-el="body" class="{{ body | classes }}">
+
+      <header class="{{ header | classes }}">
+        {% if eyebrow_txt %}
+          <p class="{{ eyebrow | classes }}">{{ eyebrow_txt }}</p>
+        {% endif %}
+        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) ~ (" hover:underline" if url else "") }) }}
+        {% if byline_txt %}
+          <p class="{{ byline | classes }}">{{ byline_txt }}</p>
+        {% endif %}
+      </header>
+      {% if description_txt %}
+        <p class="{{ description | classes }}">{{ description_txt }}</p>
+      {% endif %}
+      {% if meta | length %}
+        {{ Details.render({ stats: meta, classes: stats | classes }) }}
+      {% endif %}
+
+      <footer class="{{ footer | classes }}">
+        {% if url %}
+          {{ CTA.render({ text: "view case study", url: url, classes: linky | classes }) }}
+        {% endif %}
+      </footer>
+
+    </div>
+
+  </article>
+{% endmacro %}

@@ -1,0 +1,53 @@
+{% macro render(params = {}) %}
+  {% import "molecules/section-cap.njk" as SectionCap %}
+  {% import "molecules/card/project.njk" as Card %}
+  {% import "molecules/list/industry-links.njk" as Industries %}
+  {% import "molecules/section/industry-section.njk" as IndustrySection %}
+
+  {%- set sectionId = params.id | default("work") -%}
+  {%- set classes = params.classes | default("") -%}
+  {%- set heading = params.copy.heading | default("Work") -%}
+  {%- set subheading = params.copy.subheading | default("") -%}
+  {%- set body = params.copy.body | default("") -%}
+  {%- set order = params.order | default("") -%}
+  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+  {%- set buildDate = params.buildDate -%}
+  {%- set industries = params.projects | groupBy("industry") | default([]) -%}
+
+  <section id="{{ sectionId }}" class="relative col-span-full {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header
+      data-projects-el="header"
+      class="shadow-neutral-950/50 shadow-md h-auto overflow-hidden z-20 bg-white grid grid-cols-6 gap-2 outline outline-1
+        outline-black outline-offset-[-6px] p-4">
+      <div
+        data-projects-el="context"
+        class="gap-1 pb-2 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed">
+        {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
+      </div>
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-full font-display text-2xl sm:text-5xl">{{ heading }}</h2>
+      {% if industries | length %}
+        <nav aria-label="Jump to an industry" data-projects-el="jumplinks" class="overflow-hidden col-span-full border-black">
+          {{ Industries.render({ industries: industries }) }}
+        </nav>
+      {% endif %}
+    </header>
+    {% if industries | length %}
+      {% set industryHeadingIndex = 0 %}
+      {% for industryTitle, projects in industries %}
+        {% if projects | length %}
+          {% set industryHeadingIndex = industryHeadingIndex + 1 %}
+          {% set industryLabelIndex = industryHeadingIndex %}
+          {% if industryHeadingIndex < 10 %}
+            {% set industryLabelIndex = "0" ~ industryHeadingIndex %}
+          {% endif %}
+          {{ IndustrySection.render({ industryTitle: industryTitle, industryLabelIndex: industryLabelIndex, projects: projects }) }}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p class="col-span-full">No projects found.</p>
+    {% endif %}
+    <footer data-projects-el="footer" class="col-span-full text-xs font-thin pt-4 border-t border-black border-dashed">
+      <p>BADABING BADABOOM</p>
+    </footer>
+  </section>
+{% endmacro %}

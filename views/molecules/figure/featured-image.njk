@@ -1,0 +1,25 @@
+{% macro render(params = {}) %}
+  {%- set image = params.image or {} -%}
+  {%- set url = image.asset.url if image.asset else "" -%}
+  {%- if url -%}
+    {%- set dims = image.asset.metadata.dimensions if image.asset.metadata else {} -%}
+    <figure class="overflow-hidden {{ params.class | default('') }}" {{ params.attrs | default('') | safe }}>
+      <img
+        src="{{ url }}"
+        alt="{{ image.alt | default(params.alt) | default('') }}"
+        {% if dims.width and dims.height %}
+          width="{{ dims.width }}"
+          height="{{ dims.height }}"
+        {% endif %}
+        loading="{{ params.loading | default('eager') }}"
+        decoding="async"
+        class="w-full h-full object-cover"
+      />
+      {%- if image.caption -%}
+        <figcaption class="mt-2 text-sm text-gray-600">
+          {{ image.caption }}
+        </figcaption>
+      {%- endif -%}
+    </figure>
+  {%- endif -%}
+{% endmacro %}

@@ -12,6 +12,8 @@
 @theme {
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-display: "Alexandria", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Big Shoulders Display", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --font-display: "DraftPaper", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    "Big Shoulders Display", ui-monospace, "Cascadia Code", "Source Code Pro",
+    Menlo, Consolas, "DejaVu Sans Mono", monospace;
 }

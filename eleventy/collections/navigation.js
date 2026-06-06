@@ -22,13 +22,13 @@
  * ARCHITECTURE OVERVIEW:
  * - Registers three navigation collections: nav_dirs, nav_projects, nav_primary
  * - nav_dirs: Built from _pages directory structure and frontmatter titles
- * - nav_projects: Built from Airtable projects data
+ * - nav_projects: Built from Sanity projects data
  * - nav_primary: Merges both collections into hierarchical navigation structure
  *
  * CRITICAL DEPENDENCIES:
  * - Requires site.directories.nav configuration in site.json
  * - Depends on NavigationBuilder service for all processing logic
- * - Integration with Airtable collections system via content.js
+ * - Integration with Sanity CMS collections via sanity.js
  * - Used by navigation templates in organisms/navigation/
  * - GSAP animations depend on specific DOM structure this generates
  *
@@ -40,16 +40,16 @@
  * @param {Object} eleventyConfig - 11ty configuration object
  * @param {Object} site - Site configuration from site.json
  */
-import logger, { LumberjackStyle } from '@datainkio/lumberjack';
-import { NavigationBuilder } from '../services/NavigationBuilder.js';
+import logger, { LumberjackStyle } from "@datainkio/lumberjack";
+import { NavigationBuilder } from "../services/NavigationBuilder.js";
 
 logger.enabled = true;
 
 /**
  * Custom Logger Styles for Navigation Operations
  */
-const titleInitStyle = new LumberjackStyle('#EE9B00', '\n🧭');
-const successInitStyle = new LumberjackStyle('#EE9B00', '\n👍');
+const titleInitStyle = new LumberjackStyle("#EE9B00", "\n🧭");
+const successInitStyle = new LumberjackStyle("#EE9B00", "\n👍");
 
 /**
  * CRITICAL WARNING: Main navigation initialization function
@@ -66,12 +66,17 @@ const successInitStyle = new LumberjackStyle('#EE9B00', '\n👍');
  * @param {Object} site - Site configuration containing directories.nav path
  */
 export async function init(eleventyConfig, site) {
-  logger.trace('Registering primary navigation callbacks', null, 'brief', titleInitStyle);
   logger.trace(
-    '',
-    'The navigation scheme merges three different sources to create a single, navigable structure. First, it gets the top-level nav items. These are manually defined and are found in site.json...\n',
-    'brief',
-    'standard'
+    "Registering primary navigation callbacks",
+    null,
+    "brief",
+    titleInitStyle,
+  );
+  logger.trace(
+    "",
+    "The navigation scheme merges three different sources to create a single, navigable structure. First, it gets the top-level nav items. These are manually defined and are found in site.json...\n",
+    "brief",
+    "standard",
   );
 
   // Initialize NavigationBuilder service
@@ -79,50 +84,54 @@ export async function init(eleventyConfig, site) {
 
   // CRITICAL: Register collections in dependency order
   // 1. nav_dirs (no dependencies)
-  // 2. nav_projects (depends on 'projects' from Airtable)
+  // 2. nav_projects (depends on 'projects' from Sanity)
   // 3. nav_primary (depends on nav_dirs and nav_projects)
-  // TODO(cms): Replace nav_projects Airtable dependency with Sanity projects.
 
-  eleventyConfig.addCollection('nav_dirs', function (collectionApi) {
+  eleventyConfig.addCollection("nav_dirs", function (collectionApi) {
     return navigationBuilder.buildDirectoryNavigation(collectionApi);
   });
 
-  eleventyConfig.addCollection('nav_projects', function (collectionApi) {
+  eleventyConfig.addCollection("nav_projects", function (collectionApi) {
     return navigationBuilder.buildProjectNavigation(collectionApi);
   });
 
   // Register nav_primary LAST as it depends on the other two
-  eleventyConfig.addCollection('nav_primary', function (collectionApi) {
+  eleventyConfig.addCollection("nav_primary", function (collectionApi) {
     // Access other collections through the 11ty context
     const allCollections = this.ctx?.collections || {};
     const projects = allCollections.nav_projects || [];
     const directories = allCollections.nav_dirs || [];
 
-    return navigationBuilder.buildPrimaryNavigationFromData(directories, projects);
+    return navigationBuilder.buildPrimaryNavigationFromData(
+      directories,
+      projects,
+    );
   });
 
   logger.trace(
-    'Navigation collection callbacks registered (data builds during 11ty compilation)',
+    "Navigation collection callbacks registered (data builds during 11ty compilation)",
     null,
-    'brief',
-    successInitStyle
+    "brief",
+    successInitStyle,
   );
 }
 
 function addTopLevelNav(eleventyConfig, site) {
   logger.trace(
-    'Registering top-level nav by determining which files become part of the navigation scheme.',
+    "Registering top-level nav by determining which files become part of the navigation scheme.",
     null,
-    'brief',
-    msgInitStyle
+    "brief",
+    msgInitStyle,
   );
-  eleventyConfig.addCollection('nav_dirs', function (collectionApi) {
+  eleventyConfig.addCollection("nav_dirs", function (collectionApi) {
     // Get existing nav items
     const navTop = collectionApi
       .getAll()
-      .filter(item => {
+      .filter((item) => {
         // Exclude drafts or unwanted files
-        return !item.data.draft && item.inputPath.includes(site.directories.nav);
+        return (
+          !item.data.draft && item.inputPath.includes(site.directories.nav)
+        );
       })
       .sort((a, b) => a.inputPath.localeCompare(b.inputPath));
 
@@ -167,33 +176,38 @@ function addTopLevelNav(eleventyConfig, site) {
  * @returns {Array} Array of formatted navigation objects with key, url, parent
  */
 function formatDirectoriesForEleventyNav(items) {
-  logger.trace('Formatting directory navigation data...', null, 'brief', msgInitStyle);
+  logger.trace(
+    "Formatting directory navigation data...",
+    null,
+    "brief",
+    msgInitStyle,
+  );
   const result = items
-    .filter(item => {
+    .filter((item) => {
       // CRITICAL: Filter out items without titles to prevent null keys
       // Missing titles would break navigation template rendering
       if (!item.data.title) {
         logger.trace(
-          'Filtering out navigation item without title:',
+          "Filtering out navigation item without title:",
           item.inputPath,
-          'brief',
-          msgInitStyle
+          "brief",
+          msgInitStyle,
         );
         return false;
       }
       return true;
     })
-    .map(item => ({
+    .map((item) => ({
       key: item.data.title,
       url: item.url,
       // Optional extras:
       parent: getParentFromSlug(item.url),
     }));
   logger.trace(
-    'Directory navigation data built (' + result.length + ' items)',
+    "Directory navigation data built (" + result.length + " items)",
     null,
-    'brief',
-    successInitStyle
+    "brief",
+    successInitStyle,
   );
   return result;
 }
@@ -201,11 +215,10 @@ function formatDirectoriesForEleventyNav(items) {
 /**
  * Projects navigation collection builder
  *
- * Creates nav_projects collection from Airtable projects data.
+ * Creates nav_projects collection from Sanity projects data.
  *
  * DEPENDENCIES:
- * - Requires 'projects' collection from Airtable (registered in content.js)
- * - Must be registered AFTER initAirtable() completes
+ * - Requires 'projects' collection from Sanity (registered in sanity.js)
  *
  * HOW IT WORKS:
  * - Accesses 'projects' collection via this.ctx.collections
@@ -226,14 +239,19 @@ function formatDirectoriesForEleventyNav(items) {
  * @param {Object} eleventyConfig - 11ty config for addCollection
  */
 function addProjectsNav(eleventyConfig) {
-  logger.trace('Registering project navigation based on CMS data...', '', 'brief', msgInitStyle);
+  logger.trace(
+    "Registering project navigation based on CMS data...",
+    "",
+    "brief",
+    msgInitStyle,
+  );
 
-  eleventyConfig.addCollection('nav_projects', function (collectionApi) {
+  eleventyConfig.addCollection("nav_projects", function (collectionApi) {
     logger.trace(
-      'Building individual projects navigation from Airtable data...',
+      "Building individual projects navigation from CMS data...",
       null,
-      'brief',
-      msgInitStyle
+      "brief",
+      msgInitStyle,
     );
 
     // Use proper 11ty Collection API to access the projects collection
@@ -242,32 +260,34 @@ function addProjectsNav(eleventyConfig) {
 
     if (!projects || projects.length === 0) {
       logger.trace(
-        'No individual projects navigation items created (projects accessed via /projects/ page)',
+        "No individual projects navigation items created (projects accessed via /projects/ page)",
         null,
-        'brief',
-        msgInitStyle
+        "brief",
+        msgInitStyle,
       );
       return [];
     }
 
-    const formattedProjects = formatAirtableForEleventyNav(projects);
+    const formattedProjects = formatProjectsForEleventyNav(projects);
     logger.trace(
-      'Individual projects navigation built (' + formattedProjects.length + ' items)',
+      "Individual projects navigation built (" +
+        formattedProjects.length +
+        " items)",
       null,
-      'brief',
-      successInitStyle
+      "brief",
+      successInitStyle,
     );
     return formattedProjects;
   });
 }
 
 /**
- * Airtable projects formatter for navigation
+ * Projects formatter for navigation
  *
- * Transforms Airtable project records into navigation objects.
+ * Transforms CMS project records into navigation objects.
  * Used by addProjectsNav to create nav_projects collection.
  *
- * EXPECTED AIRTABLE STRUCTURE:
+ * EXPECTED STRUCTURE:
  * ```javascript
  * {
  *   title: "Project Name",
@@ -282,27 +302,28 @@ function addProjectsNav(eleventyConfig) {
  * - Provides default weight value if missing
  * - Logs warnings for skipped items
  *
- * @param {Array} items - Array of Airtable project records
+ * @param {Array} items - Array of project records
  * @returns {Array} Array of navigation objects for projects
  */
-function formatAirtableForEleventyNav(items) {
-  logger.trace('Formatting projects nav data...', null, 'brief', msgInitStyle);
+function formatProjectsForEleventyNav(items) {
+  logger.trace("Formatting projects nav data...", null, "brief", msgInitStyle);
 
   const formatted = items
-    .filter(item => {
+    .filter((item) => {
       // CRITICAL: Filter out items without required fields
       if (!item || !item.title || !item.slug) {
         logger.trace(
-          'Filtering out project without title or slug. ID: ' + (item?.id || 'unknown'),
+          "Filtering out project without title or slug. ID: " +
+            (item?.id || "unknown"),
           null,
-          'brief',
-          msgInitStyle
+          "brief",
+          msgInitStyle,
         );
         return false;
       }
       return true;
     })
-    .map(item => ({
+    .map((item) => ({
       key: item.title.toLowerCase(),
       url: item.slug,
       parent: getParentFromSlug(item.slug),
@@ -310,10 +331,10 @@ function formatAirtableForEleventyNav(items) {
     }));
 
   logger.trace(
-    'Formatted ' + formatted.length + ' of ' + items.length + ' projects',
+    "Formatted " + formatted.length + " of " + items.length + " projects",
     null,
-    'brief',
-    msgInitStyle
+    "brief",
+    msgInitStyle,
   );
 
   return formatted;
@@ -345,7 +366,7 @@ function formatAirtableForEleventyNav(items) {
  */
 function getParentFromSlug(slug) {
   // Trim any leading or ending slashes, then split into an array
-  const parts = slug.replace(/^\/|\/$/g, '').split('/');
+  const parts = slug.replace(/^\/|\/$/g, "").split("/");
   return parts.length > 1 ? parts[parts.length - 2] : null;
 }
 
@@ -403,23 +424,28 @@ function getParentFromSlug(slug) {
  * @returns {Array} Hierarchical navigation structure with nested children
  */
 function buildNestedStructure(items) {
-  logger.trace('Building nested navigation structure...', null, 'brief', msgInitStyle);
+  logger.trace(
+    "Building nested navigation structure...",
+    null,
+    "brief",
+    msgInitStyle,
+  );
   const itemMap = new Map();
   const result = [];
 
   // Initialize the map with all items
-  items.forEach(item => {
+  items.forEach((item) => {
     // CRITICAL WARNING: Defensive check for missing or empty key property
     // Some navigation items may have null/null/empty key values
-    if (!item || !item.key || item.key === '' || typeof item.key !== 'string') {
+    if (!item || !item.key || item.key === "" || typeof item.key !== "string") {
       logger.trace(
         'Skipping navigation item with invalid key. Key value: "' +
           item?.key +
           '", type: ' +
           typeof item?.key,
         null,
-        'brief',
-        msgInitStyle
+        "brief",
+        msgInitStyle,
       );
       return;
     }
@@ -427,9 +453,9 @@ function buildNestedStructure(items) {
   });
 
   // Attach children to their respective parents
-  items.forEach(item => {
+  items.forEach((item) => {
     // CRITICAL WARNING: Skip items without valid key to prevent build failures
-    if (!item || !item.key || item.key === '' || typeof item.key !== 'string') {
+    if (!item || !item.key || item.key === "" || typeof item.key !== "string") {
       return;
     }
 
@@ -446,5 +472,5 @@ function buildNestedStructure(items) {
       result.push(item);
     }
   });
-  return Array.from(itemMap.values()).filter(item => !item.parent);
+  return Array.from(itemMap.values()).filter((item) => !item.parent);
 }

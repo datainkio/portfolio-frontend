@@ -69,8 +69,8 @@ export async function write(textFormats, designFile) {
     if (!VALID_WEIGHTS.includes(weight)) {
       console.log(
         chalk.yellow(
-          `\n\t⚠️  Heads-up: Font "${fontFamily}" - weight ${weight} not available`
-        )
+          `\n\t⚠️  Heads-up: Font "${fontFamily}" - weight ${weight} not available`,
+        ),
       );
       return false;
     }

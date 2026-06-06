@@ -4,8 +4,8 @@
 - **Owner(s):** Frontend / Motion System Maintainers
 - **Status:** draft
 - **Last reviewed:** 2026-01-23
-- **Scope:** Organizations section list and empty state (`featured.njk`) wherever rendered (landing page or future routes).
-- **Links:** motion system [choreographer.animation-spec.md](choreographer.animation-spec.md), reduced motion policy [motion-accessibility-policy.md](motion-accessibility-policy.md), tokens/config [config/motion.js](../../js/choreography/config/motion.js), [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs)
+- **Scope:** Organizations section list and empty state in [../../views/organisms/section/organizations.njk](../../views/organisms/section/organizations.njk).
+- **Links:** motion system [choreographer.animation-spec.md](choreographer.animation-spec.md), reduced motion policy [motion-accessibility-policy.md](motion-accessibility-policy.md), tokens/config [ix/motion.js](../../js/choreography/config/ix/motion.js), [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs)
 
 ## Motion Principles
 
@@ -16,13 +16,14 @@
 ## Primitives & Utilities
 
 - Use section timeline in `OrganizationsAnimations` (GSAP).
-- Default timing/easing sourced from `ANIMATION_DEFAULTS` in `js/choreography/config/index.js`.
+- Default timing/easing and item-reveal threshold sourced from `ORGANIZATIONS_ANIMATION_DEFAULTS` in `js/choreography/config/ix/motion.js`.
 - Triggers use `AbstractSectionTriggers` with enter/leave callbacks.
 
 ## Patterns by Component/View
 
-- **Organizations list (`.organizations-list__item`)**: Staggered fade + slight Y translate on intro.
-- **Empty state (`.organizations-list__empty`)**: Single fade + slight Y translate.
+- **Organizations list items (`[data-organizations-el="organization"]`)**: Reveal once when item top crosses `itemRevealViewportRatio * viewportHeight`.
+- **Section content (`context`, `heading`, `body`, `list`)**: Intro/outro timeline driven by section enter/leave.
+- **Empty state**: Single non-animated fallback paragraph when no organizations are available.
 - **Outro**: Reverse intro or explicit fade-out with smaller offset.
 
 ## Performance & Budget

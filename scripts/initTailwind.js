@@ -44,14 +44,14 @@ export function initializeTailwind() {
   const { status } = spawnSync(
     "npx",
     ["tailwindcss", "-i", INPUT, "-o", OUTPUT, "--watch"],
-    { shell: true, stdio: "inherit" }
+    { shell: true, stdio: "inherit" },
   );
 
   console.log(chalk.gray("─".repeat(50)) + "\n");
 
   if (status !== 0) {
     console.error(
-      chalk.red(`Tailwind build process exited with code ${status}`)
+      chalk.red(`Tailwind build process exited with code ${status}`),
     );
     process.exit(1);
   }

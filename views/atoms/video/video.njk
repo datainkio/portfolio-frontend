@@ -1,0 +1,36 @@
+{#
+/**
+ * Video Atom
+ * 
+ * Basic video element with background video defaults.
+ * 
+ * @param {string} src - Video source URL (default: imgur sizzle.mp4)
+ * @param {boolean} autoplay - Auto-play on load (default: false)
+ * @param {boolean} loop - Loop video (default: false)
+ * @param {boolean} muted - Mute audio (default: false)
+ * @param {boolean} playsInline - Play inline on mobile (default: false)
+ * @param {string} poster - Poster image URL (optional)
+ * @param {string} className - Additional CSS classes (optional)
+ * 
+ * USAGE:
+ * {% import "atoms/video/video.njk" as video %}
+ * {{ video.render() }}
+ * {{ video.render({ src: "/assets/video/custom.mp4", autoplay: true }) }}
+ */
+#}
+{% macro render(params = {}) %}
+  {%- set videoSrc = params.src | default('https://imgur.com/2cSaKIt.mp4') -%}
+  {%- set videoPoster = params.poster | default('') -%}
+  {%- set videoPreload = params.preload | default('none') -%}
+  {# Changed default from 'metadata' to 'none' #}
+  {%- set videoAutoplay = params.autoplay | default(false) -%}
+  {%- set videoLoop = params.loop | default(false) -%}
+  {%- set videoMuted = params.muted | default(false) -%}
+  {%- set videoPlaysInline = params.playsInline | default(false) -%}
+  {%- set deferVideo = params.defer | default(true) -%}
+  <video {%- if deferVideo %} data-defer-video data-src="{{ videoSrc }}" {% else %} src="{{ videoSrc }}" {% endif %} preload="{{ videoPreload }}" {%- if videoAutoplay %} autoplay {% endif %} {%- if videoLoop %} loop {% endif %} {%- if videoMuted %} muted {% endif %} {%- if videoPlaysInline %} playsinline {% endif %} {%- if videoPoster %} poster="{{ videoPoster }}" {% endif %} {%- if params.classes %} class="{{ params.classes }}" {% endif %} {%- if params.styles %} style="{{ params.styles }}" {% endif %} loading="lazy" {# Add native lazy loading #}>
+    Uh-oh. It appears that your browser does not support the latest video standards. No worries, though — you can still
+    <a href="{{ videoSrc }}">click here to download the video file</a>
+    and view it locally.
+  </video>
+{% endmacro %}
