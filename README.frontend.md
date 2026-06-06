@@ -16,7 +16,7 @@ tags:
 
 # Frontend Workspace Reference
 
-(Just a little test of the staging deploy action. Trying again...)
+(Just a little test of the staging deploy action. Trying again... And trying again after making TextParty npm package public)
 
 This document is the AIX-focused reference for the `frontend/` workspace folder. It complements the GitHub-facing [[dataink.io/frontend/README]] and the agent-oriented [[.github/copilot-instructions]].
 
