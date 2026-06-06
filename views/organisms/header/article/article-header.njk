@@ -1,0 +1,35 @@
+{% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
+
+{% macro render(params) %}
+  {%- set hanko = {
+    "base": "inline-block mr-0 w-24 text-center text-secondary-700",
+    "sm": "w-32",
+    "md": "w-40",
+    "lg": "w-48",
+    "xl": "w-56"
+  } -%}
+  {%- set heading = {
+    "base": "w-full text-4xl font-display leading-8",
+    "sm": "text-6xl text-left",
+    "md": "w-full text-10xl",
+    "lg": "",
+    "xl": ""
+  } -%}
+  {%- set abstract = {
+    "base": "col-start-4 col-span-8 pl-2",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+  {{ Hanko.render({ svg: params.logoSvg, classes: hanko | classes }) }}
+  <h1 data-landing-header-title class="{{ heading | classes }}">
+    {{ params.title | default('Untitled') }}
+  </h1>
+  {% if params.abstract and params.abstract | length > 0 %}
+    <section data-doc-abstract class="{{ abstract | classes }}">
+      {{ params.abstract | safe }}
+    </section>
+  {% endif %}
+{% endmacro %}

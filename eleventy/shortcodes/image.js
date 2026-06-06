@@ -48,13 +48,13 @@ export function lightbox(
   title = "",
   caption = "",
   peClasses = "",
-  imgClasses = ""
+  imgClasses = "",
 ) {
   const id = "img_" + Math.floor(Math.random() * 10000);
   return `<button onclick="${id}.showModal()">${picture(
     pe,
     peClasses,
-    imgClasses
+    imgClasses,
   )}</button>
 <dialog id="${id}" class="modal">
   <figure class="modal-box shadow-none bg-transparent max-w-none h-full flex flex-col justify-center items-center gap-4">

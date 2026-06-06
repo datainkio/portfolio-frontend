@@ -1,0 +1,35 @@
+{% macro render(params = {}) %}
+  {%- set classes = params.classes | default('') -%}
+  {%- set logoInline = params.logoInline | default(organizationRecord.logo.inline) | default('') -%}
+  {%- set logo = params.logo | default('') -%}
+  {%- set logoAlt = params.logoAlt | default('Award logo') -%}
+  {%- set inlineLooksSvg = '<svg' in logoInline -%}
+  {%- set imageSrc = logo -%}
+  {%- if not imageSrc and logoInline and not inlineLooksSvg -%}
+    {%- set imageSrc = logoInline -%}
+  {%- endif -%}
+  {%- set state = 'svg' if inlineLooksSvg else ('image' if imageSrc else 'hidden') -%}
+  {%- set svgClassList = params.svgClasses | default('awards-list__logo fill-current') -%}
+  {%- if classes %}
+    {%- set svgClassList = svgClassList ~ ' ' ~ classes -%}
+  {%- endif -%}
+  {%- set inlineHasSvgClassDouble = '<svg class="' in logoInline -%}
+  {%- set inlineHasSvgClassSingle = "<svg class='" in logoInline -%}
+  {%- set processedInline = logoInline -%}
+  {%- if state == 'svg' %}
+    {%- if inlineHasSvgClassDouble %}
+      {%- set processedInline = processedInline | replace('<svg class="', '<svg class="' ~ svgClassList ~ ' ') -%}
+    {%- elif inlineHasSvgClassSingle %}
+      {%- set processedInline = processedInline | replace("<svg class='", "<svg class='" ~ svgClassList ~ ' ') -%}
+    {%- else %}
+      {%- set processedInline = processedInline | replace('<svg', '<svg class="' ~ svgClassList | escape ~ '"') -%}
+    {%- endif -%}
+    {%- set processedInline = processedInline | replace('<svg', '<svg role="img" aria-label="' ~ logoAlt | escape ~ '" focusable="false"') -%}
+  {%- endif -%}
+
+  {% if state == 'svg' %}
+    {{ processedInline | safe }}
+  {% elif state == 'image' %}
+    <img src="{{ imageSrc | escape }}" alt="{{ logoAlt | escape }}" loading="lazy" decoding="async" class="{{ classes | escape }}"/>
+  {% endif %}
+{% endmacro %}

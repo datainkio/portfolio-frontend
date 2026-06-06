@@ -42,12 +42,12 @@ function getDirectoryStructure(dir, ignorePatterns = []) {
     return {
       name,
       type: "directory",
-      children
+      children,
     };
   } else if (stats.isFile()) {
     return {
       name,
-      type: "file"
+      type: "file",
     };
   }
 

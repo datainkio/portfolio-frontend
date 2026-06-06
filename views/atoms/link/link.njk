@@ -1,0 +1,16 @@
+{#
+Base Link Atom Component
+Provides consistent link styling across the site
+Supports external links, download links, and accessibility features
+#}
+
+{% set linkUrl = url %}
+{% set linkText = text or title %}
+{% set isExternal = linkUrl and (linkUrl.startsWith('http') or linkUrl.startsWith('mailto:') or linkUrl.startsWith('tel:')) %}
+{% set isDownload = download %}
+
+<a href="{{ linkUrl }}" class="base-link text-current {{ class }}" {% if isExternal %} target="_blank" rel="noopener noreferrer" {% endif %} {% if isDownload %} download {% endif %} {% if ariaLabel %} aria-label="{{ ariaLabel }}" {% endif %} {% if title %} title="{{ title }}" {% endif %}>
+  {{ linkText }}
+  {# External link indicator #}
+  {% include "atoms/icon/external-link.njk" with { isExternal: isExternal } %}
+</a>

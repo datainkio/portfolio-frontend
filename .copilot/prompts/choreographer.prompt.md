@@ -26,7 +26,7 @@ Structured response with: 0) Scorecard (GSAP vs Tailwind points per rubric facto
 
 1. Decision (winner and whether tie-break applied)
 2. Rationale (3–5 bullets mapped to rubric factors)
-3. Integration outline (files/paths, hooks/selectors, token usage with explicit references to config/motion.js and tailwind.motion.config.cjs, lifecycle/teardown expectations)
+3. Integration outline (files/paths, hooks/selectors, token usage with explicit references to config/ix/motion.js and tailwind.motion.config.cjs, lifecycle/teardown expectations)
 4. Reduced-motion behavior (disable/simplify plan)
 5. Performance risks + mitigations (include measurement guidance)
 6. Validation checklist (functional, visual, performance, reduced motion)
@@ -36,7 +36,7 @@ Structured response with: 0) Scorecard (GSAP vs Tailwind points per rubric facto
 ## Inputs to read first
 
 - frontend/specs/animation/choreographer.animation-spec.md (this is the contract)
-- Motion tokens/configs: frontend/js/choreography/config/motion.js, frontend/js/choreography/tailwind.motion.config.cjs
+- Motion tokens/configs: frontend/js/choreography/config/ix/motion.js, frontend/js/choreography/tailwind.motion.config.cjs
 - Motion accessibility: frontend/specs/animation/motion-accessibility-policy.md
 - If provided: page/template references, asset links, user requirements
 
@@ -52,7 +52,7 @@ Structured response with: 0) Scorecard (GSAP vs Tailwind points per rubric facto
 
 - Hooks: data-anim="<scene>" on root; data-anim-item on children; optional data-anim-trigger override
 - GSAP scene files: frontend/js/choreography/sections/<Scene>/<Scene>.js (or sequences/ for multi-section); export init(root, opts)/kill()
-- Registration: via Director/Stage wiring (e.g., Director.js) to centralize lifecycle/bus
+- Registration: via AnimationDirector wiring (e.g., AnimationDirector.js) to centralize lifecycle/bus
 - Shared helpers: frontend/js/choreography/{managers,utils}/ for reduced-motion guards, measurement utilities
 - Tailwind: use motion-safe/motion-reduce utilities emitted by frontend/js/choreography/tailwind.motion.config.cjs; avoid ad-hoc durations/eases
 
@@ -77,7 +77,7 @@ Structured response with: 0) Scorecard (GSAP vs Tailwind points per rubric facto
 ## Acceptance criteria (must include in output)
 
 - Fills the template above (including scorecard and acceptance criteria section).
-- References token sources explicitly: config/motion.js and tailwind.motion.config.cjs.
+- References token sources explicitly: config/ix/motion.js and tailwind.motion.config.cjs.
 - Chooses winner via rubric; states if tie-break was used.
 - Names concrete file paths for scenes/templates (or states “path TBD” if unknown).
 - Includes reduced-motion plan and performance callouts (with measurement guidance).

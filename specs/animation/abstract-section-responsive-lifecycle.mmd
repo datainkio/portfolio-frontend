@@ -1,0 +1,56 @@
+---
+title: AbstractSection — Breakpoint-Aware Responsive Lifecycle
+aix:
+  id: frontend.specs.animation.abstract-section-responsive-lifecycle
+  role: Sequence diagram showing how AbstractSection resolves a motion profile on each matchMedia change and gates ScrollTrigger binding and timeline playback from the result.
+  status: current
+  surface: internal
+  scope: frontend
+  runtime: browser
+  tags:
+    - choreography
+    - motion-profiles
+    - abstract-section
+    - responsive-lifecycle
+    - sequence-diagram
+  related:
+    - specs/animation/breakpoint-motion-profiles.animation-spec.md
+    - js/choreography/sections/abstract-section/AbstractSection.js
+    - js/choreography/config/ix/motion.js
+    - js/choreography/config/ix/breakpoints.js
+---
+sequenceDiagram
+    participant MM as gsap.matchMedia
+    participant AS as AbstractSection
+    participant Resolver as resolveSectionMotionProfile
+    participant Profiles as MOTION_PROFILES
+    participant Triggers as AbstractSectionTriggers
+
+    note over MM: Fires on breakpoint change<br/>or prefers-reduced-motion change
+
+    MM->>AS: _applyResponsiveLifecycle(conditions)
+
+    AS->>Resolver: resolveSectionMotionProfile(sectionKey, conditions)
+    note over Resolver: reduceMotion? → 'reduced'<br/>else getActiveBreakpoint(conditions)<br/>→ 'base' | 'sm' | 'md' | 'lg' | 'xl'
+    Resolver->>Profiles: MOTION_PROFILES[key]
+    Profiles-->>Resolver: { timeline: { enabled }, trigger: { enabled, ... } }
+    Resolver-->>AS: resolved profile
+
+    AS->>AS: _motionProfile = profile
+    AS->>AS: _isLifecycleMotionEnabled = profile.timeline.enabled
+    AS->>AS: _isReducedMotionMode = isReducedMotion
+
+    alt profile.trigger.enabled = true
+        AS->>Triggers: bind({ onEnter, onLeave, onEnterBack, onLeaveBack })
+        Triggers->>Triggers: register ScrollTrigger instance(s)
+    else profile.trigger.enabled = false
+        AS->>Triggers: kill()
+        note over Triggers: all ScrollTriggers removed
+    end
+
+    opt timeline was enabled, now disabled
+        AS->>AS: _applyPostIntroState()
+        note over AS: intro.progress(1, false)<br/>emit sectionKey:intro:complete
+    end
+
+    note over AS: playIntro() / playLanding() gate:<br/>if !_isLifecycleMotionEnabled → skip or<br/>apply static end state immediately

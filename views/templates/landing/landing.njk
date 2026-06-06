@@ -1,0 +1,38 @@
+{% extends "layouts/base.njk" %}
+{% import "organisms/header/landing/landing-header.njk" as LandingHeader %}
+{% set navClasses = "text-neutral-200" %}
+{% set bodyClasses = "bg-primary-950" %}
+
+{%- set article = {
+  "base": [
+    "col-span-full grid grid-cols-12 gap-8",
+    "[&>p]:col-start-4 [&>p]:col-span-8",
+    "[&>h2]:col-start-4 [&>h2]:col-span-8",
+    "[&>ul]:col-start-4 [&>ul]:col-span-8 [&>ol]:col-start-4 [&>ol]:col-span-8"
+]} -%}
+{%- set header = {
+    "base": "col-span-full grid grid-cols-subgrid px-0 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
+    "sm": "px-12 gap-y-12",
+    "md": "px-16 gap-y-14",
+    "lg": "px-24 gap-y-8",
+    "xl": ""
+  } -%}
+{%- set aside = {
+    "base": "pl-8 sticky top-12 row-start-2 row-span-4 col-span-3"
+  } -%}
+
+{% block content %}
+  <header
+    data-landing-header
+    class="col-span-full grid grid-cols-subgrid px-0 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10
+      overflow-hidden text-neutral-100">
+    {{ LandingHeader.render({ title: title | default('Untitled'), abstract: abstract, logoSvg: brandLogoSvg }) }}
+  </header>
+  {% if content %}
+    {{ content | safe }}
+  {% elif not title %}
+    {% loremPars 3 %}
+  {% endif %}
+  <script type="module" src="/assets/js/layouts/landing-header.js"></script>
+  <script type="module" src="/assets/js/layouts/work-landing-header.js"></script>
+{% endblock %}

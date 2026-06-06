@@ -1,0 +1,13 @@
+{% macro render(params = {}) %}
+  {% import "atoms/svg/registration-mark.njk" as RegistrationMark %}
+  {%- set classes = params.classes | default("") -%}
+  {%- set size = "size-" + (params.size | default("6")) -%}
+  <div class="absolute inset-0 flex flex-col items-center justify-between {{ classes }}">
+    {{ RegistrationMark.render({"classes": "flex-none " ~ size}) }}
+    <div class="flex flex-row flex-nowrap justify-between w-full">
+      {{ RegistrationMark.render({"classes": "flex-none " ~ size}) }}
+      {{ RegistrationMark.render({"classes": "flex-none " ~ size}) }}
+    </div>
+    {{ RegistrationMark.render({"classes": "flex-none " ~ size}) }}
+  </div>
+{% endmacro %}

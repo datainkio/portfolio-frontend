@@ -1,4 +1,6 @@
 # MEDIA
+/responsive-testing/screenshots/
+/responsive-testing/recordings/
 # Keep the repo from throwing errors when faced with large files
 *.mp4
 *.wav
@@ -43,7 +45,6 @@ assets/js/choreography/bundle.js
 
 # Generated schema files
 .copilot/*.json
-.copilot/AIRTABLE_SCHEMA.md
 njk/_data/dbSchema.json
 njk/_data/dbSchema.mmd
 

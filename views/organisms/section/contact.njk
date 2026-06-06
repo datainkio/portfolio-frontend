@@ -1,0 +1,37 @@
+{% macro render(params = {}) %}
+  {% import "molecules/section-cap.njk" as SectionCap %}
+  {%- set classes = params.classes | default("") -%}
+  {%- set heading = params.copy.heading | default("Contact") -%}
+  {%- set subheading = params.copy.subheading | default("") -%}
+  {%- set body = params.copy.body | default("Lorem ipsum dolor sit amet, consectetur adipiscing elit.") -%}
+  {%- set order = params.order | default("") -%}
+  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+
+  <section id="{{ sectionId }}" class="bg-slate-950 relative col-span-full grid grid-cols-subgrid p-0 {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header data-contact-el="header" class="col-span-full sticky top-0 z-10 p-4 pt-10 space-y-4">
+      <div data-contact-el="context" class="text-sm col-span-full">
+        {{ SectionCap.render({title: sectionId , count: order}) }}
+      </div>
+      <h2 id="{{ headingId }}" data-contact-el="heading" class="col-span-full">{{ heading }}</h2>
+      <p data-contact-el="body" class="col-span-full">{{ body }}</p>
+    </header>
+    <form class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4 px-4">
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        class="p-2 border border-neutral-700 bg-neutral-900 text-white rounded"/>
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        class="p-2 border border-neutral-700 bg-neutral-900 text-white rounded"/>
+      <textarea
+        name="message"
+        placeholder="Your Message"
+        class="col-span-full p-2 border border-neutral-700 bg-neutral-900 text-white rounded"></textarea>
+      <button type="submit" class="col-span-full bg-primary-900 hover:bg-primary-700 text-white py-2 px-4 rounded">Send
+        Message</button>
+    </form>
+  </section>
+{% endmacro %}

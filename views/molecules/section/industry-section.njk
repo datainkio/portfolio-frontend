@@ -1,0 +1,16 @@
+{% import "molecules/list/project-cards.njk" as ProjectCards %}
+{% macro render(params = {}) %}
+  <section
+    data-projects-el="industry-group"
+    class="z-10 col-span-full"
+    aria-labelledby="industry-{{ params.industryTitle | slugify }}">
+    <h3
+      id="industry-{{ params.industryTitle | slugify }}"
+      data-projects-el="industry-heading"
+      class="sticky top-18 shadow-neutral-950/50 shadow-xl z-20 border-t-1 border-t-neutral-300 relative z-21 arrow-prefix
+        bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold text-xl px-4 my-4">{{ params.industryLabelIndex }}
+      {{ params.industryTitle }}
+    </h3>
+    {{ ProjectCards.render({ projects: params.projects, classes: "col-span-full space-y-48 mt-48" }) }}
+  </section>
+{% endmacro %}

@@ -1,0 +1,25 @@
+<div class="card bg-base-200 shadow-xl">
+  {% lightbox image.file.html, image.title %}
+  <div class="card-body px-4 py-4">
+    <div class="stats stats-vertical shadow-sm">
+      <div class="stat">
+        <div class="stat-title">Filename</div>
+        <div class="stat-desc">{{ image.file.originalFilename or "N/A" }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-title">Type</div>
+        <div class="stat-desc">{{ image.type or "Unknown" }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-title">ID</div>
+        <div class="stat-desc">{{ image.id }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-title">Dimensions</div>
+        <div class="stat-desc">
+          {{ image.width or "?" }}x{{ image.height or "?" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

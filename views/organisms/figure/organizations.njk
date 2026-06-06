@@ -1,0 +1,16 @@
+<figure class="col-span-full grid grid-cols-subgrid gap-4">
+  <figcaption class="block w-full">
+    <h2>Organizations, Clients, & Partners</h2>
+  </figcaption>
+  <p class="basis-1/2">
+    I'm lucky that the nature of my work has allowed me to collaborate with a wide range of organizations, clients, and
+    partners.
+  </p>
+  <ul class="col-span-4 columns-3">
+    {% for industry, orgs in collections.organizations | groupBy("group") %}
+      <li class="break-inside-avoid text-sm">
+        {% include "molecules/list/industry.njk" %}
+      </li>
+    {% endfor %}
+  </ul>
+</figure>

@@ -44,14 +44,14 @@
  * - Figma design token structure
  */
 
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import chalk from 'chalk';
+import { writeFileSync, existsSync, mkdirSync } from "fs";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+import chalk from "chalk";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, '..');
+const projectRoot = resolve(__dirname, "..");
 
 /**
  * Component Templates - Standardized component scaffolding
@@ -217,17 +217,17 @@ ANIMATION COMPATIBILITY:
  */
 function generateComponent(type, category, name) {
   const componentName = name
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   let template;
   let targetDir;
   let filename;
 
-  if (type === 'page') {
+  if (type === "page") {
     template = templates.page(name, componentName);
-    targetDir = resolve(projectRoot, 'njk/_pages');
+    targetDir = resolve(projectRoot, "njk/_pages");
     filename = `${name}.njk`;
   } else {
     template = templates[type](name, componentName);
@@ -245,7 +245,7 @@ function generateComponent(type, category, name) {
   // Check if file already exists
   if (existsSync(filePath)) {
     console.log(chalk.yellow(`⚠️  File already exists: ${filePath}`));
-    console.log(chalk.gray('Use --force to overwrite'));
+    console.log(chalk.gray("Use --force to overwrite"));
     return;
   }
 
@@ -253,36 +253,38 @@ function generateComponent(type, category, name) {
   writeFileSync(filePath, template);
 
   console.log(chalk.green(`✅ Created ${type}: ${filePath}`));
-  console.log(chalk.blue(`📝 Usage: component("${category}", "${name}", { props })`));
+  console.log(
+    chalk.blue(`📝 Usage: component("${category}", "${name}", { props })`),
+  );
 }
 
 /**
  * List available components
  */
 function listComponents() {
-  console.log(chalk.blue.bold('\n📦 AVAILABLE COMPONENTS\n'));
+  console.log(chalk.blue.bold("\n📦 AVAILABLE COMPONENTS\n"));
 
-  console.log(chalk.green('Atoms:'));
-  console.log('  - icon (consolidated icon system)');
-  console.log('  - button/button (UI actions)');
-  console.log('  - avatar, heading, input, field');
-  console.log('  - link/* (navigation)');
-  console.log('  - video/* (media)');
+  console.log(chalk.green("Atoms:"));
+  console.log("  - icon (consolidated icon system)");
+  console.log("  - button/button (UI actions)");
+  console.log("  - avatar, heading, input, field");
+  console.log("  - link/* (navigation)");
+  console.log("  - video/* (media)");
 
-  console.log(chalk.green('\nMolecules:'));
-  console.log('  - (scan molecules/ directory)');
+  console.log(chalk.green("\nMolecules:"));
+  console.log("  - (scan molecules/ directory)");
 
-  console.log(chalk.green('\nOrganisms:'));
-  console.log('  - section/* (page sections)');
+  console.log(chalk.green("\nOrganisms:"));
+  console.log("  - section/* (page sections)");
 
-  console.log(chalk.green('\nTemplates:'));
-  console.log('  - base, blog, documentation, landing, parallax');
+  console.log(chalk.green("\nTemplates:"));
+  console.log("  - base, blog, documentation, landing, parallax");
 
-  console.log(chalk.blue('\n🚀 SCAFFOLDING COMMANDS:'));
-  console.log('  npm run scaffold:component atoms button-group');
-  console.log('  npm run scaffold:component molecules project-card');
-  console.log('  npm run scaffold:component organisms hero-section');
-  console.log('  npm run scaffold:page portfolio');
+  console.log(chalk.blue("\n🚀 SCAFFOLDING COMMANDS:"));
+  console.log("  npm run scaffold:component atoms button-group");
+  console.log("  npm run scaffold:component molecules project-card");
+  console.log("  npm run scaffold:component organisms hero-section");
+  console.log("  npm run scaffold:page portfolio");
 }
 
 /**
@@ -293,54 +295,64 @@ function main() {
   const command = args[0];
 
   if (!command) {
-    console.log(chalk.red('❌ Missing command'));
-    console.log(chalk.blue('Usage: npm run scaffold:component <category> <name>'));
-    console.log(chalk.blue('       npm run scaffold:page <name>'));
-    console.log(chalk.blue('       npm run scaffold:list'));
+    console.log(chalk.red("❌ Missing command"));
+    console.log(
+      chalk.blue("Usage: npm run scaffold:component <category> <name>"),
+    );
+    console.log(chalk.blue("       npm run scaffold:page <name>"));
+    console.log(chalk.blue("       npm run scaffold:list"));
     return;
   }
 
   switch (command) {
-    case 'component':
+    case "component":
       const category = args[1];
       const name = args[2];
 
       if (!category || !name) {
-        console.log(chalk.red('❌ Missing category or name'));
+        console.log(chalk.red("❌ Missing category or name"));
         console.log(
-          chalk.blue('Usage: npm run scaffold:component <atoms|molecules|organisms> <name>')
+          chalk.blue(
+            "Usage: npm run scaffold:component <atoms|molecules|organisms> <name>",
+          ),
         );
         return;
       }
 
-      if (!['atoms', 'molecules', 'organisms'].includes(category)) {
-        console.log(chalk.red('❌ Invalid category. Use: atoms, molecules, organisms'));
+      if (!["atoms", "molecules", "organisms"].includes(category)) {
+        console.log(
+          chalk.red("❌ Invalid category. Use: atoms, molecules, organisms"),
+        );
         return;
       }
 
       const type =
-        category === 'atoms' ? 'atom' : category === 'molecules' ? 'molecule' : 'organism';
+        category === "atoms"
+          ? "atom"
+          : category === "molecules"
+            ? "molecule"
+            : "organism";
 
       generateComponent(type, category, name);
       break;
 
-    case 'page':
+    case "page":
       const pageName = args[1];
       if (!pageName) {
-        console.log(chalk.red('❌ Missing page name'));
-        console.log(chalk.blue('Usage: npm run scaffold:page <name>'));
+        console.log(chalk.red("❌ Missing page name"));
+        console.log(chalk.blue("Usage: npm run scaffold:page <name>"));
         return;
       }
-      generateComponent('page', 'pages', pageName);
+      generateComponent("page", "pages", pageName);
       break;
 
-    case 'list':
+    case "list":
       listComponents();
       break;
 
     default:
       console.log(chalk.red(`❌ Unknown command: ${command}`));
-      console.log(chalk.blue('Available commands: component, page, list'));
+      console.log(chalk.blue("Available commands: component, page, list"));
   }
 }
 

@@ -49,7 +49,7 @@
   }
 
   /* ScrollSmoother Container Setup */
-  #smooth-wrapper {
+  #page-main {
     /* Main wrapper for ScrollSmoother */
     position: fixed;
     top: 0;
@@ -60,7 +60,7 @@
     z-index: 1;
   }
 
-  #smooth-content {
+  #page-main-content {
     /* Content container that gets smoothly scrolled */
     overflow: visible;
     width: 100%;
@@ -134,13 +134,13 @@
       transform: none !important;
     }
 
-    #smooth-wrapper {
+    #page-main {
       /* Disable smooth scrolling for reduced motion */
       position: static;
       overflow: visible;
     }
 
-    #smooth-content {
+    #page-main-content {
       /* Standard scrolling fallback */
       overflow: auto;
     }

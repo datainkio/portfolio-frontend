@@ -1,0 +1,7 @@
+/* styles/components/portable-text.css */
+@layer components {
+  /* Sub-section blocks */
+  .sub-section {
+    @apply px-4;
+  }
+}

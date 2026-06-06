@@ -1,0 +1,30 @@
+<dialog id="modal_{{ project.id }}" class="modal">
+  <figure class="modal-box bg-transparent max-w-none shadow-none content-start relative flex flex-col gap-4 lg:grid lg:grid-cols-3
+      h-full">
+    <figcaption class="content-start lg:col-span-full lg:mb-8">
+      <h3 class="mb-4">{{ project.title }}</h3>
+      {% include "molecules/list/organizations.njk" %}
+      {% include "molecules/list/roles.njk" %}
+      {% include "molecules/list/awards.njk" %}
+    </figcaption>
+    <div>
+      <p class="prose">{{ project.description }}</p>
+      <a class="text-accent font-serif italic text-xl lg:col-start-1 lg:pr-4" href="{{ project.slug }}">View the Case Study</a>
+    </div>
+    {% set gallery = collections.galleries | findRecord(project.galleries) %}
+    {% set gallery = gallery[0] %}
+    {% if gallery %}
+      {% set galleryStyles = "lg:col-start-2 lg:col-span-2" %}
+      {% set galleryNavStyles = "lg:col-start-2 lg:col-span-2" %}
+      <section class="gallery">
+        {% include "organisms/content/gallery.njk" %}
+      </section>
+    {% endif %}
+  </figure>
+  <form method="dialog">
+    <button class="close btn btn-xs btn-circle btn-primary-light absolute right-2 top-2 not-italic">
+      ✕
+    </button>
+  </form>
+  {% include "molecules/input/project-nav.njk" %}
+</dialog>

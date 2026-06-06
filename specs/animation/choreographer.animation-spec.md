@@ -234,6 +234,7 @@ This section documents the recommended architecture for a more performant, maint
 
 - **Scene-first modularity:** One scene per section. Each scene lives in `frontend/js/choreography/sections/<Scene>/<Scene>.js` (or `sequences/` for multi-section flows).
 - **Central lifecycle orchestration:** Register scenes via Director/Stage wiring so lifecycle, bus events, and teardown are centralized.
+- **Cross-section media handoff:** Sequence orchestration (LandingSequence) owns media playback transitions between sections (for example, pausing background video on `bio.enter` and `bio.onEnterBack`, and resuming on `bio.onLeaveBack`).
 - **Token-driven motion:** Use [config/motion.js](../../js/choreography/config/motion.js) for all durations/eases/distances/staggers. No hard-coded values.
 - **Stable hooks:** `data-anim="<scene>"` on the root, `data-anim-item` on children, optional `data-anim-trigger` overrides.
 - **Shared utilities:** Reduced-motion guards + measurement helpers in `frontend/js/choreography/managers/` or `frontend/js/choreography/utils/`.
@@ -254,6 +255,7 @@ This section documents the recommended architecture for a more performant, maint
 
 - Prefer transform/opacity. Avoid layout animation unless required.
 - Minimize ScrollTrigger count; batch when possible.
+- For list sections (for example awards), prefer one section-level trigger plus viewport-threshold checks in `onUpdate` instead of per-item ScrollTriggers.
 - Lazy-init scenes by presence of `data-anim` roots.
 - Measure once per init/refresh and cache values.
 

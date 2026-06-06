@@ -1,0 +1,8 @@
+{% macro render(params = {}) %}
+  {% import "atoms/svg/neutrals.njk" as Neutrals %}
+  {% import "atoms/svg/colors.njk" as Colors %}
+  <div class="flex flex-row flex-nowrap justify-between h-6 {{ params.classes }}">
+    {{ Neutrals.render({"classes": "flex-none"}) }}
+    {{ Colors.render({"classes": "flex-none"}) }}
+  </div>
+{% endmacro %}

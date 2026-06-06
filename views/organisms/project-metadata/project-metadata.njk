@@ -1,0 +1,43 @@
+{% import "molecules/stats/stats.njk" as stats %}
+{% macro render(params = {}) %}
+  {%- set project = params.project -%}
+  {%- set metadataClasses = params.classes -%}
+  {%- set awardsValue %}
+  {% for a in project.awards %}
+    {{ a.title }}
+    {% if not loop.last %},
+    {% endif %}
+  {% endfor %}
+  {% endset -%}
+  {%- set rolesValue %}
+  {% for r in project.roles %}
+    {{ r.title }}
+    {% if not loop.last %},
+    {% endif %}
+  {% endfor %}
+  {% endset -%}
+  {%- set activitiesValue %}
+  {% for a in project.activities %}
+    {{ a.title }}
+    {% if not loop.last %},
+    {% endif %}
+  {% endfor %}
+  {% endset -%}
+  {%- set industryValue = project.industry.title if project.industry else "" -%}
+
+  {%- set metadataStats = [
+      { key: "Awards",     value: awardsValue if project.awards else "" },
+      { key: "Roles",      value: rolesValue if project.roles else "" },
+      { key: "Industry",   value: industryValue },
+      { key: "Activities", value: activitiesValue if project.activities else "" }
+    ] -%}
+
+  {%- set metadataClasses = {
+      "base": "project-page__metadata grid gap-6",
+      "sm":   "",
+      "md":   "grid-cols-2",
+      "lg":   "grid-cols-4",
+      "xl":   ""
+    } -%}
+  {{ stats.render({ stats: metadataStats, classes: metadataClasses | classes, aria: params.aria }) }}
+{% endmacro %}

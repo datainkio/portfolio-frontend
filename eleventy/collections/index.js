@@ -16,42 +16,34 @@
 /** @format */
 
 /**
- * TODO(dx): Update documentation to reflect removal of Airtable CMS.
  * Eleventy Collections Manager
  *
  * Central orchestration point for all Eleventy collections. This module coordinates
- * the initialization of content collections (from Airtable CMS) and navigation
+ * the initialization of content collections (from Sanity CMS) and navigation
  * collections (from file structure).
  *
  * @module eleventy/collections
  *
  * CRITICAL INTEGRATION POINTS:
  * - Loads site.json configuration before initializing collections
- * - Executes collection initializers in specific order (Airtable → Navigation)
+ * - Executes collection initializers in specific order (Sanity → Navigation)
  * - Used by .eleventy.js via eleventyConfig.addPlugin()
  *
  * COLLECTION SOURCES:
- * 1. Airtable CMS (content.js):
- *    - Fetches data from Airtable API
- *    - Creates collections based on site.airtables configuration
- *    - Each table becomes a collection (e.g., 'projects', 'work')
- *
- * 2. Sanity CMS (sanity.js):
+ * 1. Sanity CMS (sanity.js):
  *    - Fetches data from Sanity via GROQ and @sanity/client
- *    - Creates collections defined in cms/queries.js
+ *    - Creates collections defined in data/sanity/queries.js
  *    - Uses site.cms for defaults and caching behavior
  *
- * 3. Navigation (navigation.js):
- *    - Builds navigation structure from njk/_pages/ directory
- *    - TODO(dx): Update navigation source path to reflect ia/ routes.
+ * 2. Navigation (navigation.js):
+ *    - Builds navigation structure from `ia/` routes (Eleventy input dir)
  *    - Creates nav_primary and nav_projects collections
  *    - Respects eleventyNavigation frontmatter
  *
  * EXECUTION ORDER:
  * 1. site.json loaded (synchronously)
- * 2. initAirtable() - Fetches external data (async)
- * 3. initSanity() - Fetches Sanity data (async)
- * 4. initNavigation() - Builds navigation tree (async)
+ * 2. initSanity() - Fetches Sanity data (async)
+ * 3. initNavigation() - Builds navigation tree (async)
  *
  * ERROR HANDLING:
  * - Catches and logs errors from collection initializers
@@ -59,9 +51,8 @@
  * - Uses chalk for error visibility in terminal output
  *
  * CONFIGURATION:
- * Site configuration loaded from njk/_data/site.json must include:
- * TODO(dx): Update site.json path to current location.
- * - site.airtables: Array of Airtable table configurations
+ * Site configuration loaded from site.json must include:
+ * [ ] CHORE: Update site.json path to current location.
  * - site.navigation: Navigation-specific settings
  *
  * @param {Object} eleventyConfig - Eleventy configuration object
@@ -81,9 +72,8 @@ import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { init as initNavigation } from "./navigation.js";
-// import { init as initAirtable } from './content.js';
 import { init as initSanity } from "./sanity.js";
-import { init as initDocumentation } from "./documentation.js";
+// import { init as initDocumentation } from "./documentation.js";
 
 // ESM __dirname equivalent
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -101,9 +91,9 @@ const SITE = JSON.parse(
  * must be registered before collections that depend on them.
  *
  * DEPENDENCY CHAIN:
- * 1. Airtable collections (no dependencies)
+ * 1. Sanity collections (no dependencies)
  *    - projects, work, activities, etc.
- * 2. Navigation collections (depends on Airtable)
+ * 2. Navigation collections (depends on Sanity)
  *    - nav_dirs (no dependencies)
  *    - nav_projects (depends on 'projects' collection)
  *    - nav_primary (depends on nav_dirs and nav_projects)
@@ -117,6 +107,9 @@ export default async function (eleventyConfig) {
   try {
     // Make site.json available to all templates/frontmatter as `site`.
     eleventyConfig.addGlobalData("site", SITE);
+
+    // Just a little thing to display the date of the last build
+    eleventyConfig.addGlobalData("buildDate", () => new Date());
 
     // STEP 1: Initialize Sanity collections
     await initSanity(eleventyConfig, SITE);

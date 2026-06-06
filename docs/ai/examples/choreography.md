@@ -7,7 +7,7 @@
 ## Section lifecycle + reduced motion
 
 - Base lifecycle, event emission, and reduced-motion handling:
-  - [js/choreography/sections/abstract-section/AbstractSection.js](../../../js/choreography/sections/abstract-section/AbstractSection.js)
+  - [js/choreography/system/AbstractSection.js](../../../js/choreography/system/AbstractSection.js)
 
 ## Playground harness
 

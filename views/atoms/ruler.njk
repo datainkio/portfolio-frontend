@@ -1,0 +1,18 @@
+{% macro render(params = {}) %}
+  {%- set classes = params.classes | default("") -%}
+  {%- set className = ("ruler " ~ classes) | trim -%}
+  {%- set intervals = params.intervals | default(12) -%}
+  {%- set subticksPerInterval = params.subticksPerInterval | default(16) -%}
+  <div id="{{ id }}" class="{{ className }}" role="presentation"></div>
+  <script type="module">
+    import {createRuler} from "/assets/js/displays/Ruler.js";
+    const el = document.getElementById("{{ id }}");
+    if (el) {
+      const ruler = createRuler(el, {
+        intervals: {{ intervals }},
+        subticksPerInterval: {{ subticksPerInterval }}
+      });
+      // ruler.setOptions({ intervals: 24 }); ruler.destroy();
+    }
+  </script>
+{% endmacro %}

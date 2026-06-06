@@ -17,12 +17,12 @@
 /** @format */
 
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
-import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
-import { AnimationBus } from "/assets/js/choreography/AnimationBus.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
+import { AnimationBus } from "/assets/js/choreography/system/AnimationBus.js";
 import {
   SECTION_REGISTRY,
   getSectionName,
-} from "/assets/js/choreography/sections/registry.js";
+} from "/assets/js/choreography/sections/registry/registry.js";
 
 const logger = lumberjack.createScoped("ChoreoPlayground", {
   color: "#22d3ee",

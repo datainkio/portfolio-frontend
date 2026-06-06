@@ -40,8 +40,11 @@ export default class GelGeometry {
    */
   setMaskElements(svg, ...nodes) {
     this.svg = svg;
-    this.polygons = nodes.filter(Boolean).filter(node => node.tagName === 'polygon');
-    this.backgroundRect = nodes.find(node => node.tagName === 'rect') || this.backgroundRect;
+    this.polygons = nodes
+      .filter(Boolean)
+      .filter((node) => node.tagName === "polygon");
+    this.backgroundRect =
+      nodes.find((node) => node.tagName === "rect") || this.backgroundRect;
     this.refresh();
   }
 
@@ -51,11 +54,11 @@ export default class GelGeometry {
   updateViewBox() {
     if (!this.svg) return;
     const { width, height } = this._measure();
-    this.svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-    this.svg.setAttribute('preserveAspectRatio', 'none');
+    this.svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    this.svg.setAttribute("preserveAspectRatio", "none");
     if (this.backgroundRect) {
-      this.backgroundRect.setAttribute('width', width);
-      this.backgroundRect.setAttribute('height', height);
+      this.backgroundRect.setAttribute("width", width);
+      this.backgroundRect.setAttribute("height", height);
     }
     return { width, height };
   }
@@ -72,7 +75,7 @@ export default class GelGeometry {
       this.corners.bottomRight,
       this.corners.bottomLeft,
     ].map(({ x, y }) => `${(x / 100) * width},${(y / 100) * height}`);
-    this.polygons.forEach(poly => poly.setAttribute('points', pts.join(' ')));
+    this.polygons.forEach((poly) => poly.setAttribute("points", pts.join(" ")));
   }
 
   /**

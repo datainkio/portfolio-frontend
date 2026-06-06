@@ -1,0 +1,39 @@
+{% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
+{% import "molecules/figure/featured-image.njk" as FeaturedImage %}
+
+{% macro render(params) %}
+  {%- set hanko = {
+    "base": "nav-link block col-span-3 size-24 justify-self-end",
+    "sm": "pt-1",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+  {%- set heading = {
+    "base": "col-start-4 col-span-6 text-12 font-display leading-12",
+    "sm": "leading-18",
+    "md": "w-full leading-20",
+    "lg": "",
+    "xl": ""
+  } -%}
+  {%- set abstract = {
+    "base": "col-start-4 col-span-6 pl-2",
+    "sm": "",
+    "md": "",
+    "lg": "",
+    "xl": ""
+  } -%}
+  {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'col-span-full w-full' }) }}
+  <a href="/" class="{{ hanko | classes }}" aria-label="Home">
+    {{ Hanko.render({ svg: params.logoSvg, classes: "text-secondary-700 w-full" }) }}
+  </a>
+  <h1 data-landing-header-title class="{{ heading | classes }}">
+    {{ params.title | default('Untitled') }}
+  </h1>
+  {% if params.abstract and params.abstract | length > 0 %}
+    <section data-doc-abstract class="{{ abstract | classes }}">
+      {{ params.abstract | safe }}
+    </section>
+  {% endif %}
+{% endmacro %}

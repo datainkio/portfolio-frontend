@@ -127,15 +127,21 @@
     color: var(--section-playback-muted);
   }
 
-  [data-section-playback][data-state='intro'] .section-playback__status {
+  [data-section-playback][data-state="intro"] .section-playback__status {
     color: #34d399;
   }
 
-  [data-section-playback][data-state='outro'] .section-playback__status {
+  [data-section-playback][data-state="outro"] .section-playback__status {
     color: #fca5a5;
   }
 
-  [data-section-playback][data-state='disabled'] {
+  [data-section-playback][data-state="disabled"] {
     opacity: 0.6;
+  }
+
+  /* LeaderLine wrappers are generated at runtime; tune visibility with theme-aware utility values. */
+  .leader-line {
+    @apply pointer-events-none opacity-90;
+    z-index: 40 !important;
   }
 }

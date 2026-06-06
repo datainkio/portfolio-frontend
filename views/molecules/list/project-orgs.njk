@@ -1,0 +1,10 @@
+{% macro render(params = {}) %}
+  {%- set orgs = params.orgs | default([]) -%}
+  {%- if orgs | length -%}
+    {%- for org in orgs -%}
+      {{ org.title }}
+      {%- if not loop.last %},
+      {% endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{% endmacro %}

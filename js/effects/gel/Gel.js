@@ -27,7 +27,7 @@
  */
 
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
-import { gsap } from "/assets/js/choreography/vendor/gsap.js";
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 import GelMask from "./GelMask.js";
 import GelGeometry from "./GelGeometry.js";
 import GelVisualState from "./GelVisualState.js";

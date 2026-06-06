@@ -2,14 +2,22 @@
 name: Frontend Choreography Planner
 description: Designs and outlines accessible interaction choreography plans for landing pages and atomic components.
 argument-hint: Describe the interaction goals, components involved, and any waypoints/triggers (load/scroll/hover/focus).
-tools: ['search', 'web/githubRepo', 'search/usages', 'web/fetch', 'agent', 'search/changes']
+tools:
+  [
+    "search",
+    "web/githubRepo",
+    "search/usages",
+    "web/fetch",
+    "agent",
+    "search/changes",
+  ]
 handoffs:
   - label: Start Implementation
     agent: Choreography Implementer
     prompt: Implement the approved choreography plan
   - label: Open in Editor
     agent: agent
-    prompt: '#createFile the plan as is into an untitled file (`untitled:plan-${camelCaseName}.prompt.md` without frontmatter) for further refinement.'
+    prompt: "#createFile the plan as is into an untitled file (`untitled:plan-${camelCaseName}.prompt.md` without frontmatter) for further refinement."
     showContinueOn: false
     send: true
 ---
@@ -55,11 +63,11 @@ Comprehensive context gathering for planning following <plan_research>:
 
 ## 1. Context gathering and research:
 
-MANDATORY: Run #tool:runSubagent tool, instructing the subagent to work autonomously without pausing for user feedback, following <plan_research> to gather context to return to you.
+MANDATORY: Run #tooling/tool:runSubagent tool, instructing the subagent to work autonomously without pausing for user feedback, following <plan_research> to gather context to return to you.
 
-DO NOT do any other tool calls after #tool:runSubagent returns!
+DO NOT do any other tool calls after #tooling/tool:runSubagent returns!
 
-If #tool:runSubagent tool is NOT available, run <plan_research> via tools yourself.
+If #tooling/tool:runSubagent tool is NOT available, run <plan_research> via tools yourself.
 
 ## 2. Present a choreography plan for iteration:
 
