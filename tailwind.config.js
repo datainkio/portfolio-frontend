@@ -14,7 +14,7 @@
  */
 /** @type {import('tailwindcss').Config} */
 import typography from "@tailwindcss/typography";
-import extendedShadows from "tailwindcss-extended-shadows";
+import extendedShadows from "tailwind-extended-shadows";
 
 const SCREENS = {
   sm: "40rem",
