@@ -16,7 +16,7 @@
 
   {%- set awards = params.awards | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative p-4 bg-white text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="relative px-4 bg-accent-500 text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
 
     <div
       aria-hidden="true"
@@ -40,18 +40,20 @@
         work in design, technology & public impact</p>
     </div>
 
-    <ul data-awards-el="list" class="sm:columns-2 gap-0 border-r-2 border-black">
+    <ul
+      data-awards-el="list"
+      class="pt-8 pb-12 sm:p-0 columns-2 sm:max-md:columns-1 xl:columns-4 gap-0 sm:border-r-2 sm:border-black">
       {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="break-inside-avoid py-2 border-l-2 border-b-2 border-black">
-          <article data-awards-el="group-header" class="relative h-30 flex flex-row gap-4 px-4 py-2">
+        <li data-awards-el="group" class="break-inside-avoid sm:py-2 sm:border-l-2 sm:border-b-2 sm:border-black">
+          <article data-awards-el="group-header" class="relative h-12 sm:h-30 flex flex-row gap-4 px-4 sm:py-2">
             {%- set logo = group.organization.logo.asset.url | default('/assets/images/logos/default.svg') -%}
             {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}
-            {{ InlineSvg.render({classes: "size-20 w-1/4 my-auto", logoInline: group.organization.logo.inline, logo: logo, logoAlt: logoAlt }) }}
-            <div class="w-3/4 h-full p-4 flex flex-col justify-center border-l border-l-2 border-dotted border-black">
-              <h3 class="font-display font-bold text-base leading-none pt-2">{{ group.organization.title }}</h3>
-              <ul class="m-0 mt-0 p-0" data-awards-el="group-list">
+            {{ InlineSvg.render({classes: "size-16 md:size-20 w-1/6 my-0 p-0 sm:my-auto", logoInline: group.organization.logo.inline, logo: logo, logoAlt: logoAlt }) }}
+            <div class="w-5/6 h-auto sm:p-4 flex flex-col justify-center sm:border-l sm:border-l-2 sm:border-dotted border-black">
+              <h3 class="font-display font-bold text-sm sm:text-base leading-none sm:pt-2">{{ group.organization.title }}</h3>
+              <ul class="hidden sm:block m-0 p-0" data-awards-el="group-list">
                 {% for award in group.items %}
-                  <li class="text-xs font-light m-0" data-awards-el="award">
+                  <li class="text-xs font-light m-0 p-0 sm:inline-block" data-awards-el="award">
                     {{ Award.render(award) }}
                   </li>
                 {% endfor %}
