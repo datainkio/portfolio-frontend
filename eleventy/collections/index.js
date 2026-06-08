@@ -68,6 +68,7 @@
  */
 
 import chalk from "chalk";
+import { config as loadEnv } from "dotenv";
 import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -107,6 +108,17 @@ export default async function (eleventyConfig) {
   try {
     // Make site.json available to all templates/frontmatter as `site`.
     eleventyConfig.addGlobalData("site", SITE);
+
+    // Expose the Sanity public config as `env` for the contact form. The write
+    // token is injected into the page at build time and present in deployed
+    // HTML — an accepted tradeoff for this portfolio (see contact form spec §4).
+    loadEnv();
+    eleventyConfig.addGlobalData("env", {
+      SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID || "",
+      SANITY_DATASET: process.env.SANITY_DATASET || "",
+      SANITY_API_VERSION: process.env.SANITY_API_VERSION || "2026-03-01",
+      SANITY_WRITE_TOKEN: process.env.SANITY_WRITE_TOKEN || "",
+    });
 
     // Just a little thing to display the date of the last build
     eleventyConfig.addGlobalData("buildDate", () => new Date());

@@ -13,7 +13,6 @@
 {% import "organisms/section/awards.njk" as awardsSection %}
 {% import "organisms/section/work.njk" as projectsSection %}
 {% import "organisms/section/organizations.njk" as organizationsSection %}
-{% import "organisms/section/contact.njk" as contactSection %}
 
 {%- set projects = cms.home[0].featuredProjects -%}
 {%- set awards = collections.awards -%}
@@ -48,6 +47,7 @@
       {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}
     </div>
     </main>
+    {# Contact form is rendered site-wide by the global footer. #}
     {{ Footer.render() }}
   {% include "templates/partials/choreography-script.njk" %}
 </body></html>

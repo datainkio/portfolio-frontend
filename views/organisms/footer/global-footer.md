@@ -18,6 +18,7 @@ tags:
   - "#design/atomic-design"
 links:
   - "[main-pages](../../molecules/list/main-pages.md)"
+  - "[contact section](../section/contact.md)"
 ---
 # Global Footer
 
@@ -30,7 +31,9 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Encapsulates reusable markup as Nunjucks macros for use by other templates.
+Renders the site-wide footer: the **site-global contact form** (via the
+[contact section](../section/contact.md)), footer navigation, and copyright.
+Because every page renders this footer, the contact form appears site-wide.
 
 ## Role in the System
 
@@ -38,15 +41,23 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Data and Context
 
-- `main_pages` — referenced in the template.
-- `params` — referenced in the template.
+- `main_pages` — footer navigation list molecule.
+- `contactSection` — imported `with context` so the contact macro can resolve
+  the `env` (Sanity config) and `page` globals.
+- `params` — `classes`, `items`, `year`; plus `contact: false` to suppress the
+  contact form on a given page, and `contactOrder` to pass a section-cap order.
+
+The contact form is wrapped in a `grid grid-cols-12` container so its
+`grid-cols-subgrid` has a parent grid outside of `#page-main`.
 
 ## Relationships
 
 - Imports:
   - [[main-pages.njk]]
-- Likely used by:
-  - Unknown
+  - [[contact.njk]]
+- Used by:
+  - [`base.njk`](../../layouts/base.njk) (most pages)
+  - [`home.njk`](../../pages/home/home.njk)
 
 ## Notes for Future Maintenance
 

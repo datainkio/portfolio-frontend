@@ -4,10 +4,19 @@ Reusable footer macro for consistent site-wide footer rendering.
 Part of layout organism category for consistent page structure.
 #}
 {% import "molecules/list/main-pages.njk" as main_pages %}
+{% import "organisms/section/contact.njk" as contactSection with context %}
 {%- set classes = "global-footer col-span-full py-8 px-4 text-center text-sm text-primary-200 bg-primary-950" -%}
 {% macro render(params = {}) %}
   {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
   {% set footerItems = params.items or cmsNavigation.footerItems or [] %}
+  {#- Site-global contact form. Wrapped in a 12-col grid so the section's
+      `grid-cols-subgrid` has a parent grid outside of #page-main. -#}
+  {%- set hideContact = params.contact == false -%}
+  {% if not hideContact %}
+    <div data-contact-region class="mx-auto w-full px-0 md:px-6 lg:px-12 grid grid-cols-12">
+      {{ contactSection.render({ id: "contact", order: params.contactOrder | default("") }) }}
+    </div>
+  {% endif %}
   <footer class="{{ params.classes | default(classes) }}">
     {% if footerItems and footerItems.length %}
       <nav class="mb-6" aria-label="Footer navigation">
