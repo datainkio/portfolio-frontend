@@ -55,7 +55,7 @@ Create a `.env` (see [.env.example](.env.example)). Required for full builds:
 | `FIGMA_FILE_ID`      | Source Figma file                        |
 | `SANITY_PROJECT_ID`  | Sanity project (defaults in `site.json`) |
 | `SANITY_DATASET`     | Sanity dataset (e.g., `production`)      |
-| `SANITY_API_TOKEN`   | Optional; enables drafts, forces no CDN  |
+| `SANITY_READ_TOKEN`  | Optional; enables drafts, forces no CDN  |
 | `SANITY_API_VERSION` | Defaults to `2025-12-26`                 |
 | `SANITY_USE_CDN`     | `true` unless a token is provided        |
 

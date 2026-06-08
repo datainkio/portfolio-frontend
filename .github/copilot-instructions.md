@@ -75,7 +75,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 - `FIGMA_FILE_ID` - Required Figma file ID
 - `SANITY_PROJECT_ID` - Sanity project ID
 - `SANITY_DATASET` - Sanity dataset (e.g., production)
-- `SANITY_API_TOKEN` - Optional; enables drafts and disables CDN
+- `SANITY_READ_TOKEN` - Optional; enables drafts and disables CDN
 - `SANITY_API_VERSION` - API version (default `2025-12-26`)
 - `SANITY_USE_CDN` - `true` unless a token is provided
 
@@ -233,7 +233,7 @@ this.bus.on("hero:intro:complete", () => {
 **Configuration**
 
 - Defaults are configured in `site.json` under `cms` (or `sanity`)
-- Environment variables override defaults (`SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_TOKEN`, `SANITY_API_VERSION`, `SANITY_USE_CDN`)
+- Environment variables override defaults (`SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_READ_TOKEN`, `SANITY_API_VERSION`, `SANITY_USE_CDN`)
 
 **11ty Collections**
 

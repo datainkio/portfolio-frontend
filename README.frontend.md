@@ -66,7 +66,7 @@ Required for full builds (set in `.env`):
 
 - `FIGMA_TOKEN`, `FIGMA_FILE_ID`
 - `SANITY_PROJECT_ID`, `SANITY_DATASET`
-- Optional: `SANITY_API_TOKEN`, `SANITY_API_VERSION`, `SANITY_PERSPECTIVE`, `SANITY_USE_CDN`, `SANITY_PARALLEL`, `SANITY_FORCE_REFRESH`, `SANITY_FORCE_REFRESH_QUERY`
+- Optional: `SANITY_READ_TOKEN`, `SANITY_API_VERSION`, `SANITY_PERSPECTIVE`, `SANITY_USE_CDN`, `SANITY_PARALLEL`, `SANITY_FORCE_REFRESH`, `SANITY_FORCE_REFRESH_QUERY`
 
 Defaults live in [site.json](site.json) under `cms`. See [[docs/sanity-integration]] for the full Sanity contract.
 

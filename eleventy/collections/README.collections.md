@@ -153,7 +153,7 @@ Collections MUST be registered in dependency order:
 
 - `SANITY_PROJECT_ID` - Sanity project ID
 - `SANITY_DATASET` - Sanity dataset
-- `SANITY_API_TOKEN` - Optional; enables drafts and disables CDN
+- `SANITY_READ_TOKEN` - Optional; enables drafts and disables CDN
 - `SANITY_API_VERSION` - API version
 - `SANITY_PARALLEL` - `true` (default) for parallel fetching, `false` for sequential
 
