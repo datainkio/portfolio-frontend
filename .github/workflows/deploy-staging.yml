@@ -42,6 +42,9 @@ jobs:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
           SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
+          # Contact form: injected into the page as a data attribute at build
+          # time (accepted tradeoff, contact form spec §4). Set this repo secret.
+          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
           SANITY_API_VERSION: "2024-06-01"
           SANITY_USE_CDN: "true"
 
