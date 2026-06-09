@@ -1,16 +1,16 @@
 {% import "molecules/list/project-cards.njk" as ProjectCards %}
 {% macro render(params = {}) %}
+  {%- set position = "sticky top-18 relative z-21" -%}
+  {%- set decoration = "shadow-neutral-950/50 shadow-xl border-t-1 border-t-neutral-300 arrow-prefix bg-white outline outline-1 outline-black outline-offset-[-6px]" -%}
+  {%- set layout = "p-4 my-4 max-w-3xl" -%}
+  {%- set typography = "font-display font-bold text-xl" -%}
   <section
     data-projects-el="industry-group"
     class="z-10 col-span-full"
     aria-labelledby="industry-{{ params.industryTitle | slugify }}">
-    <h3
-      id="industry-{{ params.industryTitle | slugify }}"
-      data-projects-el="industry-heading"
-      class="sticky top-18 shadow-neutral-950/50 shadow-xl z-20 border-t-1 border-t-neutral-300 relative z-21 arrow-prefix
-        bg-white outline outline-1 outline-black outline-offset-[-6px] p-4 font-display font-bold text-xl px-4 my-4 max-w-3xl">{{ params.industryLabelIndex }}
+    <h3 id="industry-{{ params.industryTitle | slugify }}" data-projects-el="industry-heading" class="{{ position }} {{ decoration }} {{ layout }} {{ typography }}">{{ params.industryLabelIndex }}
       {{ params.industryTitle }}
     </h3>
-    {{ ProjectCards.render({ projects: params.projects, classes: "col-span-full space-y-48 mt-48 max-w-5xl mx-auto" }) }}
+    {{ ProjectCards.render({ projects: params.projects, classes: "col-span-full space-y-48 mt-48 max-w-5xl mx-4 md:mx-8" }) }}
   </section>
 {% endmacro %}
