@@ -22,6 +22,20 @@
 {% set sharedClasses = "" %}
 {# Note that content values are set in frontmatter #}
 <!DOCTYPE html>
+<!-- Russell S. Lebo — Creative Technologist russell@dataink.io · dataink.io
+
+This portfolio is built end-to-end: content modeled in Sanity Studio (TypeScript schemas), design tokens synced from
+Figma, templates authored in Nunjucks (Eleventy), styling with Tailwind v4, and a custom GSAP choreography system that
+handles scroll animation, section sequencing, and prefers-reduced-motion fallbacks across every animated element.
+
+A few things the source demonstrates: · Semantic HTML with correct heading hierarchy and landmark structure — not
+retrofitted · Progressive enhancement — content and structure are intact without JS; motion enhances · Atomic design
+system (atoms → molecules → organisms → templates → pages) · Documented decisions — ADRs, co-located .md sidecars, and
+a context authority model
+    make intent traceable without asking
+
+If you're a developer or designer reviewing this as part of a hiring decision: the structure, naming, and documentation
+here reflect how I work on a team — clear, explicit, and built for the person who has to maintain it next. -->
 <html lang="en" class="bg-slate-950">
   {% include "templates/partials/head.njk" %}
   <body>

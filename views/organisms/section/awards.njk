@@ -16,7 +16,7 @@
 
   {%- set awards = params.awards | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative max-w-4xl mx-auto my-36 px-4 pb-4 bg-accent-500 text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="relative max-w-4xl mx-auto my-36 px-4 pb-4 text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
 
     <div
       aria-hidden="true"
@@ -31,13 +31,16 @@
       data-awards-el="header"
       class="z-10 border border-black border-2 divide-x-2 divide-black flex flex-row items-center gap-4">
       {{ InlineSvg.render({classes: "p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }}
-      <h2 id="{{ headingId }}" data-awards-el="heading" class="font-display text-5xl">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-awards-el="title" class="font-display text-5xl">{{ heading }}</h2>
     </header>
 
-    <div id="subheading" class="font-display tracking-wide flex flex-row px-4 border-b-2 border-x-2 border-black py-4">
-      <p data-awards-el="subheading" class="font-bold w-5/12 leading-none h-full my-auto">Awards, Fellowship, and Distinctions</p>
-      <p data-awards-el="subheading" class="text-neutral-500 text-sm w-7/12 leading-none my-auto">Selected honors received for
-        work in design, technology & public impact</p>
+    <div
+      data-awards-el="subheading"
+      id="subheading"
+      class="font-display tracking-wide flex flex-row px-4 border-b-2 border-x-2 border-black py-4">
+      <p class="font-bold w-5/12 leading-none h-full my-auto">Awards, Fellowship, and Distinctions</p>
+      <p class="text-neutral-500 text-sm w-7/12 leading-none my-auto">Selected honors received for work in design, technology
+        & public impact</p>
     </div>
 
     <ul
@@ -45,7 +48,7 @@
       class="pt-8 pb-12 sm:p-0 columns-2 sm:max-md:columns-1 xl:columns-2 gap-0 sm:border-r-2 sm:border-black">
       {% for orgId, group in awards | groupByOrg %}
         <li data-awards-el="group" class="break-inside-avoid sm:py-2 sm:border-l-2 sm:border-b-2 sm:border-black">
-          <article data-awards-el="group-header" class="relative h-12 sm:h-30 flex flex-row gap-4 px-4 sm:py-2">
+          <article data-awards-el="organization-card" class="relative h-12 sm:h-30 flex flex-row gap-4 px-4 sm:py-2">
             {%- set logo = group.organization.logo.asset.url | default('/assets/images/logos/default.svg') -%}
             {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}
             {{ InlineSvg.render({classes: "size-16 md:size-20 w-1/6 my-0 p-0 sm:my-auto", logoInline: group.organization.logo.inline, logo: logo, logoAlt: logoAlt }) }}

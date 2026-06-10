@@ -45,3 +45,13 @@ export const BIO_SELECTORS = {
   subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
   subSectionLineKeyAttribute: "data-bio-line-key",
 };
+
+export const AWARD_SELECTORS = {
+  elementAttribute: "data-awards-el",
+  context: "context",
+  header: "header",
+  title: "title",
+  subheading: "subheading",
+  list: "list",
+  organizationCard: "organization-card",
+};

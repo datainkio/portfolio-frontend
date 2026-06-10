@@ -3,7 +3,6 @@
 export const SECTION_TO_GEL_ARRANGEMENT = {
   hero: "hero",
   bio: "bio",
-  awards: "awards",
 };
 
 /**
@@ -118,43 +117,6 @@ export const GEL_ARRANGEMENTS = {
         height: 1,
         origin: "left center",
         blendMode: "darken",
-      },
-    },
-  },
-  awards: {
-    id: "awards",
-    gels: {
-      "bg-gel-0": {
-        x: 0.1,
-        y: 0.0,
-        width: 0.9,
-        height: 1.0,
-        origin: "right center",
-        blendMode: "multiply",
-      },
-      "bg-gel-1": {
-        x: 0.0,
-        y: 0.2,
-        width: 0.85,
-        height: 0.75,
-        origin: "left center",
-        blendMode: "multiply",
-      },
-      "bg-gel-2": {
-        x: 0.4,
-        y: 0.35,
-        width: 0.6,
-        height: 0.6,
-        origin: "right center",
-        blendMode: "multiply",
-      },
-      "bg-gel-3": {
-        x: 0.0,
-        y: 0.0,
-        width: 0.0,
-        height: 1,
-        origin: "left center",
-        blendMode: "multiply",
       },
     },
   },
