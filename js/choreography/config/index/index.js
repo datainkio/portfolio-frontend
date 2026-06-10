@@ -31,7 +31,6 @@ export * from "../contracts/selectors/selectors.js";
 export * from "../contracts/labels/labels.js";
 export * from "../contracts/timelines/timelines.js";
 
-export * from "../displays/arrangements/arrangements.js";
 export * from "../displays/ruler/ruler.js";
 export * from "../displays/printermarks/printermarks.js";
 export * from "../displays/leader-lines/leader-lines.js";

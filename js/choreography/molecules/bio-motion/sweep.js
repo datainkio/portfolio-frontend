@@ -9,7 +9,7 @@ const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
 
 export function createSweepIn(view, gelManager) {
-  const gel = gelManager?.getGel?.("bg-gel-2") ?? null;
+  const gel = gelManager?.getGel?.("gel_bio") ?? null;
   const header = selectBioEl(view, "header");
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
 
@@ -18,18 +18,18 @@ export function createSweepIn(view, gelManager) {
     // immediateRender: false prevents the from-state from stomping on the hero
     // arrangement while Bio is off-screen. overwrite: "auto" kills any competing
     // arrangement tween when the intro actually plays.
+    gsap.set(gel.view, {
+      left: "0%",
+      top: "0%",
+      width: "100%",
+      height: "100%",
+      scaleX: 0,
+      transformOrigin: "left center",
+      immediateRender: false,
+    });
     tl.addLabel("intro");
-    tl.fromTo(
+    tl.to(
       gel.view,
-      {
-        left: "0%",
-        top: "0%",
-        width: "100%",
-        height: "100%",
-        scaleX: 0,
-        transformOrigin: "left center",
-        immediateRender: false,
-      },
       {
         scaleX: 1,
         duration: BIO_INTRO.duration,
@@ -61,7 +61,7 @@ export function createSweepIn(view, gelManager) {
 
 export function createSweepOut(view, gelManager) {
   const header = selectBioEl(view, "header");
-  const gel = gelManager?.getGel?.("bg-gel-2") ?? null;
+  const gel = gelManager?.getGel?.("gel_bio") ?? null;
   const tl = gsap.timeline({ id: TIMELINE_IDS.outro });
   tl.addLabel("outro");
   if (header) {

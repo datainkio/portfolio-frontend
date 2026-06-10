@@ -54,7 +54,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _buildIntro() {
-    const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
+    const gel = this.gelManager?.getGel?.("gel_hero") ?? null;
     const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
 
     if (gel?.view) {
@@ -65,7 +65,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _buildOutro() {
-    const gel = this.gelManager?.getGel?.("bg-gel-0") ?? null;
+    const gel = this.gelManager?.getGel?.("gel_hero") ?? null;
     const tl = gsap.timeline({ id: TIMELINE_IDS.outro });
 
     if (!gel?.view) return tl;

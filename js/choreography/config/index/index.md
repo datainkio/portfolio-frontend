@@ -17,7 +17,6 @@ links:
   - "[[selectors|selectors]]"
   - "[[labels|labels]]"
   - "[[timelines|timelines]]"
-  - "[[arrangements|arrangements]]"
   - "[[ruler|ruler]]"
   - "[[printermarks|printermarks]]"
   - "[[leader-lines|leader-lines]]"

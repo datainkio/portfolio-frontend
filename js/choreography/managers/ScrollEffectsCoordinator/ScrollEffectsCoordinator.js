@@ -11,7 +11,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import ReducedMotionHandler from "../ReducedMotionHandler/ReducedMotionHandler.js";
 import ScrollSmootherManager from "../ScrollSmootherManager/ScrollSmootherManager.js";
 import GelAnimationManager from "../GelAnimationManager/GelAnimationManager.js";
-import { GEL_ARRANGEMENTS, SELECTORS } from "../../config/index/index.js";
+import { SELECTORS } from "../../config/index/index.js";
 
 export default class ScrollEffectsCoordinator {
   /** @param {AnimationBus} bus */
@@ -31,13 +31,6 @@ export default class ScrollEffectsCoordinator {
 
   initialize() {
     this.gelAnimation.initialize();
-
-    const arrangementOrder = Object.keys(GEL_ARRANGEMENTS);
-    const initialArrangementKey = arrangementOrder[0] ?? null;
-    if (initialArrangementKey) {
-      const initialArrangement = GEL_ARRANGEMENTS[initialArrangementKey];
-      this.gelAnimation.applyArrangement(initialArrangement, { immediate: true });
-    }
 
     const smoother = this.scrollSmoother.getSmoother();
     if (!smoother) {

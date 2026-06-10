@@ -9,36 +9,23 @@ const selectAwardEl = (view, name) =>
   view?.querySelector(`[${AWARD_EL_ATTR}="${name}"]`) ?? null;
 
 export function createSlideIn(view, gelManager) {
+  console.log(
+    "Creating slide-in intro timeline for awards section with gel:",
+    gelManager,
+  );
   const gel_backing = gelManager?.getGel?.("gel_awards_backing") ?? null;
   const gel_tint = gelManager?.getGel?.("gel_awards_tint") ?? null;
   const header = selectAwardEl(view, "header");
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
   if (gel_backing?.view) {
-    gsap.set(gel_backing.view, {
-      border: "4px dashed white", // DEBUG
-      mixBlendMode: "normal", // DEBUG
-    });
     tl.addLabel("intro");
-    tl.fromTo(
-      gel_backing.view,
-      {
-        left: "0%",
-        top: "0%",
-        width: "100%",
-        height: "100%",
-        scaleX: 0,
-        transformOrigin: "left center",
-        immediateRender: false,
-      },
-      {
-        scaleX: 1,
-        duration: AWARDS_INTRO.duration,
-        ease: AWARDS_INTRO.ease.out,
-        overwrite: "auto",
-        onStart: () => gel_backing.refresh(),
-      },
-      0,
-    );
+    tl.to(gel_backing.view, {
+      scaleX: 1,
+      duration: AWARDS_INTRO.duration,
+      ease: AWARDS_INTRO.ease.out,
+      overwrite: "auto",
+      onStart: () => gel_backing.refresh(),
+    });
   }
 
   return tl;

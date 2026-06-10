@@ -21,6 +21,11 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     this._buildTimeline();
   }
 
+  _buildLanding() {
+    const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
+    return tl;
+  }
+
   _buildIntro() {
     const { intro } = createVideoReveal(this.view, {
       duration: this.options.duration,

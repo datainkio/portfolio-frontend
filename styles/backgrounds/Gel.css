@@ -15,6 +15,14 @@
   );
 }
 
+.bg-gel-neutral-light {
+  background-image: linear-gradient(
+    to top,
+    var(--color-neutral-200),
+    var(--color-neutral-100)
+  );
+}
+
 /* .bg-gel-primary applies a gradient from primary-900 to primary-400 */
 .bg-gel-primary {
   background-image: linear-gradient(

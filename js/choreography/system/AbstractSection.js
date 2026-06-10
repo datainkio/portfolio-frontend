@@ -98,7 +98,8 @@ export default class AbstractSection {
     this._activeBreakpoint = activeBreakpoint;
 
     const isReducedMotion = Boolean(
-      conditions.reduceMotion ?? this._reducedMotionHandler?.isReducedMotion?.(),
+      conditions.reduceMotion ??
+        this._reducedMotionHandler?.isReducedMotion?.(),
     );
 
     const profile = resolveSectionMotionProfile(this.sectionKey, {
@@ -194,17 +195,26 @@ export default class AbstractSection {
     bindLifecycle(
       TIMELINE_IDS.landing,
       () => this._onLandingStart(),
-      () => { this._onLandingComplete(); this._landing.flush(); },
+      () => {
+        this._onLandingComplete();
+        this._landing.flush();
+      },
     );
     bindLifecycle(
       TIMELINE_IDS.intro,
       () => this._onIntroStart(),
-      () => { this._onIntroComplete(); this._intro.flush(); },
+      () => {
+        this._onIntroComplete();
+        this._intro.flush();
+      },
     );
     bindLifecycle(
       TIMELINE_IDS.outro,
       () => this._onOutroStart(),
-      () => { this._onOutroComplete(); this._outro.flush(); },
+      () => {
+        this._onOutroComplete();
+        this._outro.flush();
+      },
     );
 
     if (!includeTriggers || !this.triggers) {
@@ -228,7 +238,8 @@ export default class AbstractSection {
   }
 
   async playLanding() {
-    if (this.isDisabled || !this._isLifecycleMotionEnabled) return Promise.resolve();
+    if (this.isDisabled || !this._isLifecycleMotionEnabled)
+      return Promise.resolve();
     return this._landing.run(() => this.animations.play(TIMELINE_IDS.landing));
   }
 
@@ -242,12 +253,16 @@ export default class AbstractSection {
   }
 
   async playOutro() {
-    if (this.isDisabled || !this._isLifecycleMotionEnabled) return Promise.resolve();
+    if (this.isDisabled || !this._isLifecycleMotionEnabled)
+      return Promise.resolve();
     return this._outro.run(() => this.animations.play(TIMELINE_IDS.outro));
   }
 
   _applyPostIntroState() {
-    const introTimeline = this._getTimelineOrWarn(TIMELINE_IDS.intro, "_applyPostIntroState");
+    const introTimeline = this._getTimelineOrWarn(
+      TIMELINE_IDS.intro,
+      "_applyPostIntroState",
+    );
     if (!introTimeline) return;
     introTimeline.progress(1, false);
     this._emit(this.events.introComplete, { element: this.view });
@@ -258,7 +273,10 @@ export default class AbstractSection {
     this.isIntroComplete = false;
     this.isOutroComplete = false;
     this.isScrollActive = false;
-    this._emit(`section:${this.id}:reset`, { sectionId: this.id, element: this.view });
+    this._emit(`section:${this.id}:reset`, {
+      sectionId: this.id,
+      element: this.view,
+    });
   }
 
   destroy() {

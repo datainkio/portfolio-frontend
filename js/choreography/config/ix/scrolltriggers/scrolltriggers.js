@@ -55,6 +55,13 @@ export const BIO_TRIGGER = {
 export const AWARDS_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.awards,
+  start: "top top",
+  end: "bottom center",
+  once: false,
+  scrub: 1,
+  pin: true,
+  pinSpacing: true,
+  markers: true,
 };
 
 /**
