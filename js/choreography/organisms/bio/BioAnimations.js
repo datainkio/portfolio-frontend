@@ -18,14 +18,14 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _buildLanding() {
-    gsap.set(this.gelManager?.getGel?.("gel_bio")?.view, {
-      left: "0%",
-      top: "0%",
-      width: "100%",
-      height: "100%",
-      scaleX: 0,
-      transformOrigin: "left center",
-    });
+    // gsap.set(this.gelManager?.getGel?.("gel_bio")?.view, {
+    //   left: "0%",
+    //   top: "0%",
+    //   width: "100%",
+    //   height: "100%",
+    //   scaleX: 0,
+    //   transformOrigin: "left center",
+    // });
 
     const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
     return tl;

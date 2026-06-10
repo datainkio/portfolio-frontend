@@ -14,30 +14,37 @@ export function createSweepIn(view, gelManager) {
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
 
   if (gel?.view) {
-    // Wipe from left: position gel at bio arrangement coords, then grow scaleX 0 → 1.
-    // immediateRender: false prevents the from-state from stomping on the hero
-    // arrangement while Bio is off-screen. overwrite: "auto" kills any competing
-    // arrangement tween when the intro actually plays.
-    gsap.set(gel.view, {
-      left: "0%",
-      top: "0%",
-      width: "100%",
-      height: "100%",
-      scaleX: 0,
-      transformOrigin: "left center",
-      immediateRender: false,
-    });
+    // Debug border so the gel's box is visible while testing.
+    gsap.set(gel.view, { border: "2px dashed white" });
+
     tl.addLabel("intro");
+
+    // Reset the gel to fill the viewport, then rebuild its mask. The gel is
+    // absolute inset-0 inside the fixed inset-0 background, so 0%/0%/100%/100%
+    // resolves to the viewport. This runs as a leading timeline callback (not
+    // at build time) so it lands the moment the intro plays, and refreshes the
+    // polygon while the gel is at full size (scaleY:1) — never mid-scale, since
+    // GelGeometry measures the transformed box.
+    tl.call(() => {
+      gsap.set(gel.view, { left: "0%", top: "0%", width: "100%", height: "100%" });
+      gel.refresh();
+    });
+
+    // Grow from the bottom. startAt + immediateRender:false defers the scaleY:0
+    // start-state to playback so it cannot stomp the hero arrangement while Bio
+    // is off-screen; overwrite:"auto" kills any competing arrangement tween.
     tl.to(
       gel.view,
       {
-        scaleX: 1,
+        startAt: { scaleY: 0, transformOrigin: "bottom center" },
+        scaleY: 1,
+        transformOrigin: "bottom center",
         duration: BIO_INTRO.duration,
         ease: BIO_INTRO.ease.out,
         overwrite: "auto",
-        onStart: () => gel.refresh(),
+        immediateRender: false,
       },
-      0,
+      ">",
     );
   }
 
@@ -68,7 +75,7 @@ export function createSweepOut(view, gelManager) {
     tl.to(header, { opacity: 0, duration: BIO_INTRO.duration });
   }
   if (gel?.view) {
-    tl.to(gel.view, { scaleX: 0, duration: BIO_INTRO.duration });
+    tl.to(gel.view, { scaleY: 0, duration: BIO_INTRO.duration });
   }
   return tl;
 }

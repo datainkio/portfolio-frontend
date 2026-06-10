@@ -18,9 +18,10 @@ export function createSlideIn(view, gelManager) {
   const header = selectAwardEl(view, "header");
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
   if (gel_backing?.view) {
+    gsap.set(gel_backing.view, { transformOrigin: "bottom center", scaleY: 0 });
     tl.addLabel("intro");
     tl.to(gel_backing.view, {
-      scaleX: 1,
+      scaleY: 1,
       duration: AWARDS_INTRO.duration,
       ease: AWARDS_INTRO.ease.out,
       overwrite: "auto",
@@ -37,7 +38,7 @@ export function createSlideOut(view, gelManager) {
   const tl = gsap.timeline({ id: TIMELINE_IDS.outro });
   tl.addLabel("outro");
   if (gel_backing?.view) {
-    tl.to(gel_backing.view, { scaleX: 0, duration: AWARDS_INTRO.duration });
+    tl.to(gel_backing.view, { scaleY: 0, duration: AWARDS_INTRO.duration });
   }
   return tl;
 }

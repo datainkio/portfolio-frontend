@@ -43,10 +43,10 @@ export const BIO_TRIGGER = {
   start: "top top",
   end: "+=2000px",
   once: false,
-  scrub: 1,
+  scrub: true,
   pin: true,
   pinSpacing: true,
-  markers: false,
+  markers: true,
 };
 
 /**
@@ -58,10 +58,10 @@ export const AWARDS_TRIGGER = {
   start: "top top",
   end: "bottom center",
   once: false,
-  scrub: 1,
+  scrub: true,
   pin: true,
   pinSpacing: true,
-  markers: true,
+  markers: false,
 };
 
 /**
