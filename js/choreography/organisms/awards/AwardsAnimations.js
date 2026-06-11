@@ -22,33 +22,16 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
     this._buildTimeline();
   }
 
+  // NOTE: This might be better defined along with the other factory methods in AWARD_VARIANT_FACTORIES
   _buildLanding() {
-    const gel_backing = this.gelManager?.getGel?.("gel_awards_backing") ?? null;
-    const gel_tint = this.gelManager?.getGel?.("gel_awards_tint") ?? null;
-    const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
-    gsap.set(gel_backing?.view, {
-      left: this.view.getBoundingClientRect().left + "px",
-      top: this.view.getBoundingClientRect().top + "px",
-      width: this.view.getBoundingClientRect().width + "px",
-      height: this.view.getBoundingClientRect().height + "px",
-      mixBlendMode: "normal",
-    });
-    gsap.set(gel_tint?.view, {
-      left: this.view.getBoundingClientRect().left + "px",
-      top: this.view.getBoundingClientRect().top + "px",
-      width: this.view.getBoundingClientRect().width + "px",
-      height: this.view.getBoundingClientRect().height + "px",
-      rotation: 15,
-    });
-    // gsap.set(gel_backing?.view, { transformOrigin: "top left", rotation: 9 });
-    gel_backing.refresh();
-    gel_tint.refresh();
-    return tl;
+    const factory =
+      AWARD_VARIANT_FACTORIES[this._variant] ?? AWARD_VARIANT_FACTORIES.slide;
+    return factory.init(this.view, this.gelManager);
   }
 
   _buildIntro() {
     const factory =
-      AWARD_VARIANT_FACTORIES[this._variant] ?? AWARD_VARIANT_FACTORIES.sweep;
+      AWARD_VARIANT_FACTORIES[this._variant] ?? AWARD_VARIANT_FACTORIES.slide;
     return factory.buildIntro(this.view, this.gelManager);
   }
 
@@ -58,7 +41,7 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
 
   _buildOutro() {
     const factory =
-      AWARD_VARIANT_FACTORIES[this._variant] ?? AWARD_VARIANT_FACTORIES.sweep;
+      AWARD_VARIANT_FACTORIES[this._variant] ?? AWARD_VARIANT_FACTORIES.slide;
     return factory.buildOutro(this.view, this.gelManager);
   }
 }

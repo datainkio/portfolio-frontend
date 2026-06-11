@@ -21,10 +21,18 @@ export function init(view, gelManager) {
       width: view.getBoundingClientRect().width + "px",
       left: view.getBoundingClientRect().left + "px",
       scaleY: 1,
-      mixBlendMode: "normal",
+      mixBlendMode: "normal", // default value is "multiply", but we want to start with a solid block for the reveal
     });
     gel_backing.refresh();
     gsap.set(gel_backing.view, { scaleY: 0 });
+    gsap.set(gel_tint.view, {
+      transformOrigin: "bottom center",
+      width: view.getBoundingClientRect().width + "px",
+      left: view.getBoundingClientRect().left + "px",
+      scaleY: 1,
+    });
+    gel_tint.refresh();
+    gsap.set(gel_tint.view, { scaleY: 0 });
   }
 }
 
@@ -47,7 +55,15 @@ export function createSlideIn(view, gelManager) {
       scaleY: 1,
       duration: AWARDS_INTRO.duration,
       ease: "none",
-    });
+    }).to(
+      gel_tint.view,
+      {
+        scaleY: 1,
+        duration: AWARDS_INTRO.duration,
+        ease: "none",
+      },
+      "50%" /* start at same time as backing reveal */,
+    );
   }
 
   return tl;

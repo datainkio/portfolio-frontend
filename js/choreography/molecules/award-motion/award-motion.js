@@ -11,7 +11,7 @@
  */
 
 import { AWARD_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { createSlideIn, createSlideOut } from "./slide.js";
+import { init, createSlideIn, createSlideOut } from "./slide.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
 const AWARD_EL_ATTR = AWARD_SELECTORS.elementAttribute;
@@ -25,7 +25,8 @@ const killST = (tl) => {
 };
 
 export const AWARD_VARIANT_FACTORIES = Object.freeze({
-  sweep: {
+  slide: {
+    init: init,
     buildIntro: createSlideIn,
     buildOutro: createSlideOut,
   },
