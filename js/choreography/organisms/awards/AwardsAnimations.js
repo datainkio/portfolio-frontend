@@ -23,33 +23,33 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   }
 
   _buildLanding() {
-    const gel_backing = this.gelManager?.getGel?.("gel_awards_backing") ?? null;
-    const gel_tint = this.gelManager?.getGel?.("gel_awards_tint") ?? null;
-    if (gel_backing?.view) {
-      gsap.set(gel_backing.view, {
-        left: "0%",
-        top: "0%",
-        width: "100%",
-        height: "100%",
-        scaleX: 0,
-        transformOrigin: "left center",
-        immediateRender: false,
-        opacity: 1,
-        mixBlendMode: "normal",
-      });
-    }
-    if (gel_tint?.view) {
-      gsap.set(gel_tint.view, {
-        left: "0%",
-        top: "0%",
-        width: "100%",
-        height: "100%",
-        scaleX: 0,
-        transformOrigin: "left center",
-        immediateRender: false,
-        mixBlendMode: "multiply",
-      });
-    }
+    // const gel_backing = this.gelManager?.getGel?.("gel_awards_backing") ?? null;
+    // const gel_tint = this.gelManager?.getGel?.("gel_awards_tint") ?? null;
+    // if (gel_backing?.view) {
+    //   gsap.set(gel_backing.view, {
+    //     left: "0%",
+    //     top: "0%",
+    //     width: "100%",
+    //     height: "100%",
+    //     scaleX: 0,
+    //     transformOrigin: "left center",
+    //     immediateRender: false,
+    //     opacity: 1,
+    //     mixBlendMode: "normal",
+    //   });
+    // }
+    // if (gel_tint?.view) {
+    //   gsap.set(gel_tint.view, {
+    //     left: "0%",
+    //     top: "0%",
+    //     width: "100%",
+    //     height: "100%",
+    //     scaleX: 0,
+    //     transformOrigin: "left center",
+    //     immediateRender: false,
+    //     mixBlendMode: "multiply",
+    //   });
+    // }
     const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
     return tl;
   }

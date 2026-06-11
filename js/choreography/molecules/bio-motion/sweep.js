@@ -26,7 +26,12 @@ export function createSweepIn(view, gelManager) {
     // polygon while the gel is at full size (scaleY:1) — never mid-scale, since
     // GelGeometry measures the transformed box.
     tl.call(() => {
-      gsap.set(gel.view, { left: "0%", top: "0%", width: "100%", height: "100%" });
+      gsap.set(gel.view, {
+        left: "0%",
+        top: "0%",
+        width: "100%",
+        height: "100%",
+      });
       gel.refresh();
     });
 
