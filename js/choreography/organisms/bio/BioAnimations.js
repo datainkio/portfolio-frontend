@@ -18,16 +18,17 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _buildLanding() {
-    // gsap.set(this.gelManager?.getGel?.("gel_bio")?.view, {
-    //   left: "0%",
-    //   top: "0%",
-    //   width: "100%",
-    //   height: "100%",
-    //   scaleX: 0,
-    //   transformOrigin: "left center",
-    // });
-
+    const gel = this.gelManager?.getGel?.("gel_bio") ?? null;
     const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
+    gsap.set(gel?.view, {
+      left: this.view.getBoundingClientRect().left + "px",
+      top: this.view.getBoundingClientRect().top + "px",
+      width: this.view.getBoundingClientRect().width + "px",
+      height: this.view.getBoundingClientRect().height + "px",
+      rotation: 15,
+    });
+    // gsap.set(gel_backing?.view, { transformOrigin: "top left", rotation: 9 });
+    gel?.refresh();
     return tl;
   }
 
@@ -42,8 +43,9 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _buildOutro() {
-    const factory =
-      BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildOutro(this.view, this.gelManager);
+    // const factory =
+    //   BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
+    // return factory.buildOutro(this.view, this.gelManager);
+    return gsap.timeline({ id: TIMELINE_IDS.outro });
   }
 }

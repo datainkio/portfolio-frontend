@@ -25,17 +25,6 @@ export function createSlideIn(view, gelManager) {
 
     console.log(view.getBoundingClientRect());
 
-    tl.call(() => {
-      gsap.set([gel_backing.view, gel_tint.view], {
-        left: view.getBoundingClientRect().left + "px",
-        top: view.getBoundingClientRect().top + "px",
-        width: view.getBoundingClientRect().width + "px",
-        height: view.getBoundingClientRect().height + "px",
-        mixBlendMode: "normal",
-      });
-      gel_backing.refresh();
-    });
-
     // Grow from the bottom. startAt + immediateRender:false defers the scaleY:0
     // start-state to playback so it cannot stomp the hero arrangement while Bio
     // is off-screen; overwrite:"auto" kills any competing arrangement tween.

@@ -23,34 +23,26 @@ export default class AwardsAnimations extends AbstractSectionAnimations {
   }
 
   _buildLanding() {
-    // const gel_backing = this.gelManager?.getGel?.("gel_awards_backing") ?? null;
-    // const gel_tint = this.gelManager?.getGel?.("gel_awards_tint") ?? null;
-    // if (gel_backing?.view) {
-    //   gsap.set(gel_backing.view, {
-    //     left: "0%",
-    //     top: "0%",
-    //     width: "100%",
-    //     height: "100%",
-    //     scaleX: 0,
-    //     transformOrigin: "left center",
-    //     immediateRender: false,
-    //     opacity: 1,
-    //     mixBlendMode: "normal",
-    //   });
-    // }
-    // if (gel_tint?.view) {
-    //   gsap.set(gel_tint.view, {
-    //     left: "0%",
-    //     top: "0%",
-    //     width: "100%",
-    //     height: "100%",
-    //     scaleX: 0,
-    //     transformOrigin: "left center",
-    //     immediateRender: false,
-    //     mixBlendMode: "multiply",
-    //   });
-    // }
+    const gel_backing = this.gelManager?.getGel?.("gel_awards_backing") ?? null;
+    const gel_tint = this.gelManager?.getGel?.("gel_awards_tint") ?? null;
     const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
+    gsap.set(gel_backing?.view, {
+      left: this.view.getBoundingClientRect().left + "px",
+      top: this.view.getBoundingClientRect().top + "px",
+      width: this.view.getBoundingClientRect().width + "px",
+      height: this.view.getBoundingClientRect().height + "px",
+      mixBlendMode: "normal",
+    });
+    gsap.set(gel_tint?.view, {
+      left: this.view.getBoundingClientRect().left + "px",
+      top: this.view.getBoundingClientRect().top + "px",
+      width: this.view.getBoundingClientRect().width + "px",
+      height: this.view.getBoundingClientRect().height + "px",
+      rotation: 15,
+    });
+    // gsap.set(gel_backing?.view, { transformOrigin: "top left", rotation: 9 });
+    gel_backing.refresh();
+    gel_tint.refresh();
     return tl;
   }
 

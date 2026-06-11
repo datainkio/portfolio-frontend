@@ -41,8 +41,8 @@ export const HERO_TRIGGER = {
 export const BIO_TRIGGER = {
   ...SCROLL_DEFAULTS,
   start: "top top",
-  end: "+=2000px",
-  once: false,
+  end: "bottom bottom",
+  // once: true,
   scrub: true,
   pin: true,
   pinSpacing: true,
@@ -59,8 +59,8 @@ export const AWARDS_TRIGGER = {
   end: "bottom center",
   once: false,
   scrub: true,
-  pin: true,
-  pinSpacing: true,
+  pin: false,
+  // pinSpacing: true,
   markers: false,
 };
 
