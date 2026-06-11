@@ -3,7 +3,9 @@
 * Assume a relative parent container
 */
 .bg-gel {
-  mix-blend-mode: normal;
+  mix-blend-mode: multiply;
+  contain: content;
+  will-change: transform; /* own compositor layer → decouple paint from sibling gels */
 }
 
 /* .bg-gel-neutral applies a gradient from neutral-900 to neutral-400 */

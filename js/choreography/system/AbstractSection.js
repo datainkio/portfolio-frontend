@@ -249,6 +249,10 @@ export default class AbstractSection {
       this._applyPostIntroState();
       return Promise.resolve();
     }
+    // If the intro timeline is owned by a scrubbed ScrollTrigger, scroll position
+    // drives the playhead. Restarting it here fights the scrub controller for the
+    // same property (jitter). Let the ScrollTrigger own the reveal.
+    if (this.triggers?._getTriggerDefaults?.()?.scrub) return Promise.resolve();
     return this._intro.run(() => this.animations.play(TIMELINE_IDS.intro));
   }
 
