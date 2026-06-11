@@ -52,17 +52,15 @@ npm run scaffold:component  # generate new atomic design component
 
 ## Available Agents
 
-Project-local agents live in [`.claude/agents/`](.claude/agents/). Workspace agents in [`../aix/.claude/agents/`](../aix/.claude/agents/).
-
-Agents live in [`../aix/.claude/agents/`](../aix/.claude/agents/). For GSAP / choreography work, use the skills table below — no dedicated agent exists.
+Workspace agents live in [`../.claude/agents/`](../.claude/agents/). For GSAP / choreography work, use the skills table below — no dedicated agent exists.
 
 | Agent | Use for |
 |---|---|
-| [`implementer`](../aix/.claude/agents/implementer.md) | General code changes, new components, Sanity wiring |
-| [`mechanic`](../aix/.claude/agents/mechanic.md) | Build failures, 11ty config issues, tooling errors |
-| [`reviewer`](../aix/.claude/agents/reviewer.md) | Pre-merge checks, diff review, contract compliance |
-| [`planner`](../aix/.claude/agents/planner.md) | Sequence multi-step work before implementation begins |
-| [`taskmaster`](../aix/.claude/agents/taskmaster.md) | Embed TODOs aligned with the GitHub Issues workflow |
+| [`implementer`](../.claude/agents/implementer.md) | General code changes, new components, Sanity wiring |
+| [`mechanic`](../.claude/agents/mechanic.md) | Build failures, 11ty config issues, tooling errors |
+| [`reviewer`](../.claude/agents/reviewer.md) | Pre-merge checks, diff review, contract compliance |
+| [`planner`](../.claude/agents/planner.md) | Sequence multi-step work before implementation begins |
+| [`taskmaster`](../.claude/agents/taskmaster.md) | Embed TODOs aligned with the GitHub Issues workflow |
 
 For the full agent roster and architecture agents: [`../aix/CLAUDE.md`](../aix/CLAUDE.md).
 
