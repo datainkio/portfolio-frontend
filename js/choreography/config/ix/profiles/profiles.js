@@ -19,6 +19,7 @@
  *   invalidateOnRefresh - recalculate trigger on resize/refresh
  */
 import { getActiveBreakpoint } from "../breakpoints/breakpoints.js";
+import { ACCESSIBILITY_SETTINGS } from "../accessibility/accessibility.js";
 export const MOTION_PROFILES = Object.freeze({
   reduced: {
     timeline: {
@@ -129,6 +130,37 @@ export const MOTION_PROFILES = Object.freeze({
  *             Values are section-defined; Card supports 'clip', 'fade', 'parallax', 'throw' and 'deal'.
  */
 export const SECTION_OVERRIDES = Object.freeze({
+  hero: {
+    base: { animation: { variant: "shutter" } },
+    sm: { animation: { variant: "shutter" } },
+    md: { animation: { variant: "shutter" } },
+    lg: { animation: { variant: "shutter" } },
+    xl: { animation: { variant: "shutter" } },
+    // Reduced motion: run the same `shutter` UX as the breakpoint profiles.
+    // The shutter is driven by the lifecycle landing (timeline) and the gel
+    // scrub trigger (HeroTriggers._gelTrigger), so BOTH channels must be
+    // enabled — the global `reduced` profile disables both. This override
+    // fully replaces those channels via the shallow merge in
+    // resolveSectionMotionProfile. NOTE: this intentionally forgoes a reduced
+    // experience for hero — see the a11y caveat in the handoff.
+    reduced: {
+      animation: { variant: "shutter" },
+      timeline: {
+        enabled: true,
+        durationScale: 1,
+        staggerScale: 1,
+        distanceScale: 1,
+        easePreset: "standard",
+      },
+      trigger: {
+        enabled: true,
+        scrub: true,
+        pin: true,
+        once: false,
+        invalidateOnRefresh: true,
+      },
+    },
+  },
   card: {
     base: { animation: { variant: "clip" } },
     sm: { animation: { variant: "clip" } },
@@ -149,18 +181,26 @@ export const SECTION_OVERRIDES = Object.freeze({
     md: { animation: { variant: "slide" } },
     lg: { animation: { variant: "slide" } },
     xl: { animation: { variant: "slide" } },
+    reduced: {
+      animation: { variant: "reduced" },
+    },
   },
 });
 
 /**
  * Get the active motion profile key from matchMedia conditions.
  *
- * Reduced motion always overrides the breakpoint profile.
+ * Reduced motion always overrides the breakpoint profile. The dev override
+ * ACCESSIBILITY_SETTINGS.testReducedMotion forces the `reduced` profile on
+ * regardless of the OS `prefers-reduced-motion` condition — this is the single
+ * chokepoint every section and card resolves through, so honoring it here makes
+ * the flag effective everywhere (see ReducedMotionHandler for OS-path authority).
  *
  * @param {Object} conditions - Conditions object from gsap.matchMedia context
  * @returns {string} Profile key: 'reduced' | 'base' | 'sm' | 'md' | 'lg' | 'xl'
  */
 export function getActiveMotionProfileKey(conditions = {}) {
+  if (ACCESSIBILITY_SETTINGS.testReducedMotion === true) return "reduced";
   if (conditions.reduceMotion) return "reduced";
   return getActiveBreakpoint(conditions);
 }

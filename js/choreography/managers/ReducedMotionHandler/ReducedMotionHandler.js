@@ -21,7 +21,7 @@ export function isReducedMotion(override) {
 
 export default class ReducedMotionHandler {
   constructor() {
-    this._reducedMotion = ACCESSIBILITY_SETTINGS.prefersReducedMotion;
+    this._reducedMotion = ACCESSIBILITY_SETTINGS.testReducedMotion;
     this._mql = null;
     this._callbacks = [];
     this._setup();
@@ -32,10 +32,18 @@ export default class ReducedMotionHandler {
 
     const query = "(prefers-reduced-motion: reduce)";
     this._mql = window.matchMedia(query);
-    this._reducedMotion = !!this._mql.matches;
+
+    // ACCESSIBILITY_SETTINGS.testReducedMotion acts as a forced-on override
+    // (e.g. for testing): when true, reduced motion stays on regardless of the
+    // OS setting. We only override it from the live media query when it is
+    // false, so the config flag retains authority once set.
+    this._reducedMotion =
+      ACCESSIBILITY_SETTINGS.testReducedMotion === true ||
+      !!this._mql.matches;
 
     const handler = (e) => {
-      this._reducedMotion = !!e.matches;
+      this._reducedMotion =
+        ACCESSIBILITY_SETTINGS.testReducedMotion === true || !!e.matches;
       this._notify();
     };
 
