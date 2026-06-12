@@ -12,6 +12,11 @@
 
 import { AWARD_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { init, createSlideIn, createSlideOut } from "./slide.js";
+import {
+  init as initReduced,
+  buildIntro as buildIntroReduced,
+  buildOutro as buildOutroReduced,
+} from "./reduced.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
 const AWARD_EL_ATTR = AWARD_SELECTORS.elementAttribute;
@@ -29,5 +34,10 @@ export const AWARD_VARIANT_FACTORIES = Object.freeze({
     init: init,
     buildIntro: createSlideIn,
     buildOutro: createSlideOut,
+  },
+  reduced: {
+    init: initReduced,
+    buildIntro: buildIntroReduced,
+    buildOutro: buildOutroReduced,
   },
 });
