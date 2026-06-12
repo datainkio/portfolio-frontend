@@ -28,9 +28,9 @@ export const HERO_TRIGGER = {
   once: false,
   start: "top top",
   end: "bottom top",
-  pinSpacing: false,
+  pinSpacing: true,
   pin: true,
-  scrub: 1.5,
+  scrub: 1,
   fastScrollEnd: false,
   toggleActions: "none none none none",
 };
@@ -55,12 +55,12 @@ export const BIO_TRIGGER = {
 export const AWARDS_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.awards,
-  start: "top bottom",
-  end: "bottom top",
+  start: "top 75%",
+  end: "top center",
   once: false,
-  scrub: 1.5,
-  pin: true,
-  pinSpacing: true,
+  scrub: 1,
+  // pin: true,
+  // pinSpacing: true,
   markers: true,
 };
 
