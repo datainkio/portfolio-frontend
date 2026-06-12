@@ -62,8 +62,13 @@ export default class BackgroundVideo extends AbstractSection {
 
   async playIntro() {
     if (this.isDisabled || !this._isLifecycleMotionEnabled) {
+      // Reduced motion (or disabled): don't autoplay the video, but still
+      // delegate to super so the base snaps the post-intro state and emits
+      // `video.introComplete`. LandingSequence waits on that event to trigger
+      // hero.playLanding() (the tagline split-reveal); returning early here
+      // severs the chain and leaves the hero h1 stuck at autoAlpha:0.
       this.videoEl?.pause?.();
-      return Promise.resolve();
+      return super.playIntro();
     }
 
     await this._ensureVideoReady();
