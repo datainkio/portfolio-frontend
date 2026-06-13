@@ -1,0 +1,14 @@
+/**
+  * Pixelator
+  * This is a simple overlay that adds a pixelated effect to its container. 
+  * It is implemented as an absolutely positioned div that covers the entire view, 
+  * with a pixelated background image and pointer-events set to none to allow 
+  * interactions to pass through it.
+  */
+{% macro render(params = {}) %}
+  {%- set styles = {
+    base: "absolute inset-0 bg-pixelator pointer-events-none"
+  } 
+  -%}
+  <div class="{{ styles | classes }}"></div>
+{% endmacro %}

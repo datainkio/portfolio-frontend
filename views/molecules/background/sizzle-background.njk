@@ -1,5 +1,6 @@
 {% import "atoms/video/video.njk" as videoAtom %}
 {% import "atoms/gel.njk" as Gel %}
+{% import "atoms/pixelator.njk" as Pixelator %}
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
   {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
@@ -18,10 +19,10 @@
       styles: ""
     }) }}
 
-    <div class="absolute inset-0 bg-pixelator pointer-events-none"></div>
+    {{ Pixelator.render() }}
 
     {{ Gel.render({ id: 'gel_hero', color: 'bg-gel-primary' }) }}
-    {# Gel.render({ id: 'gel_bio', color: 'bg-gel-secondary' }) #}
+    {{ Gel.render({ id: 'gel_bio', color: 'bg-gel-secondary' }) }}
     {{ Gel.render({ id: 'gel_awards_backing', color: 'bg-gel-neutral-light' }) }}
     {{ Gel.render({ id: 'gel_awards_tint', color: 'bg-gel-accent' }) }}
   </div>
