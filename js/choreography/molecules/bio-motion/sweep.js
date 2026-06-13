@@ -14,9 +14,6 @@ export function createSweepIn(view, gelManager) {
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
 
   if (gel?.view) {
-    // Debug border so the gel's box is visible while testing.
-    gsap.set(gel.view, { border: "2px dashed white" });
-
     tl.addLabel("intro");
 
     // Reset the gel to fill the viewport, then rebuild its mask. The gel is

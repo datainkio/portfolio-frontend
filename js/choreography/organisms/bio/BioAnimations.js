@@ -10,42 +10,9 @@ export default class BioAnimations extends AbstractSectionAnimations {
     this._variant = options.variant ?? "sweep";
   }
 
-  setVariant(variant) {
-    if (variant === this._variant && this._timelines[TIMELINE_IDS.intro])
-      return;
-    this._variant = variant;
-    this._buildTimeline();
-  }
-
-  _buildLanding() {
-    const gel = this.gelManager?.getGel?.("gel_bio") ?? null;
-    const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
-    gsap.set(gel?.view, {
-      left: this.view.getBoundingClientRect().left + "px",
-      top: this.view.getBoundingClientRect().top + "px",
-      width: this.view.getBoundingClientRect().width + "px",
-      height: this.view.getBoundingClientRect().height + "px",
-      rotation: 15,
-    });
-    // gsap.set(gel_backing?.view, { transformOrigin: "top left", rotation: 9 });
-    gel?.refresh();
-    return tl;
-  }
-
-  _buildIntro() {
-    const factory =
-      BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildIntro(this.view, this.gelManager);
-  }
-
-  _buildIdle() {
-    return gsap.timeline({ id: TIMELINE_IDS.idle });
-  }
-
-  _buildOutro() {
-    // const factory =
-    //   BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    // return factory.buildOutro(this.view, this.gelManager);
-    return gsap.timeline({ id: TIMELINE_IDS.outro });
+  _applyResponsiveLifecycle(conditions = {}) {
+    const profile = resolveSectionMotionProfile("awards", conditions);
+    this.animations?.setVariant?.(profile.animation?.variant ?? "sweep");
+    super._applyResponsiveLifecycle(conditions);
   }
 }
