@@ -19,7 +19,7 @@ const selectAwardEl = (view, name) =>
   view?.querySelector(`[${AWARD_EL_ATTR}="${name}"]`) ?? null;
 
 /**
- * Use init to elements (e.g. gels) that won't work without animation
+ * Use init to style elements that won't work without animation (e.g. gels)
  */
 export function init(view, gelManager) {
   const gel_backing = gelManager?.getGel?.("gel_awards_backing") ?? null;

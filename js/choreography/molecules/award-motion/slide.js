@@ -5,12 +5,7 @@ import { AWARD_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**
  * Award Slide Motion
- * This defines the "sheet of paper sliding across a surface" motion for the awards section.
- * It assumes:
- * - Two gels: a backing sheet and a tint sheet, which together create the reveal effect.
- * - Content elements (context, header, subheading) that ride in on the sheets.
- * The slide-in motion has momentum in and friction out, with overlapping action for a natural feel.
- *
+ * This defines the "sheet of paper sliding across a surface" motion for the awards section. The slide-in motion has momentum in and friction out, with overlapping action for a natural feel.
  */
 
 const AWARD_EL_ATTR = AWARD_SELECTORS.elementAttribute;
