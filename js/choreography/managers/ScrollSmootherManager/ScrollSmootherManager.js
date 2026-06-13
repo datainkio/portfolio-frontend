@@ -46,7 +46,7 @@ export default class ScrollSmootherManager {
       this._smoother = ScrollSmoother.create({
         wrapper: SMOOTH_WRAPPER_SELECTOR,
         content: SMOOTH_CONTENT_SELECTOR,
-        smooth: 0,
+        smooth: 1,
         effects: SMOOTHER_EFFECTS,
         normalizeScroll: true,
         ignoreMobileResize: true,

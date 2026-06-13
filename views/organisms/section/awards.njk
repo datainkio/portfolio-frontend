@@ -16,36 +16,60 @@
 
   {%- set awards = params.awards | default([]) -%}
 
-  <section id="{{ sectionId }}" class="bg-white border-2 border-dotted border-black relative max-w-2xl mx-auto px-4 pb-4 text-black col-span-full prose {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  {%- set sectionCSS = {
+    base: "bg-white border-2 border-dotted border-black relative max-w-2xl mx-auto px-4 pb-4 text-black col-span-full prose"
+    } -%}
 
-    <div
-      aria-hidden="true"
-      data-awards-el="context"
-      class="text-xs font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
-        border-dotted border-black py-4 mb-6">
+  {%- set headerCSS = {
+    base: "z-10 border border-black border-2 divide-x-2 divide-black flex flex-row items-center gap-4"
+    } -%}
+
+  {%- set headingCSS = {
+    base: "font-display text-4xl",
+    sm: "text-5xl",
+    md: "text-6xl",
+    lg: "text-7xl"
+
+    } -%}
+  {%- set subheadingCSS = {
+    base: "font-display tracking-wide flex flex-col px-4 border-b-2 border-x-2 border-black py-4 gap-2",
+    sm: "flex-row"
+    } -%}
+  {%- set subheadingTitleCSS = {
+    base: "font-bold leading-none w-full my-auto",
+    sm: "w-5/12"
+    } -%}
+  {%- set subheadingDescriptionCSS = {
+    base: "text-neutral-500 text-sm w-full leading-none my-auto",
+    sm: "w-7/12"
+    } -%}
+  {%- set contextCSS = {
+    base: "text-xs font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
+        border-dotted border-black py-4 mb-6"
+    } -%}
+
+  {%- set listCSS = {
+    base: "pt-8 pb-12 sm:p-0 columns-2 sm:max-md:columns-1 xl:columns-2 gap-0 sm:border-r-2 sm:border-black"
+    } -%}
+  <section id="{{ sectionId }}" class="{{ sectionCSS | classes }} {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+
+    <div aria-hidden="true" data-awards-el="context" class=" {{ contextCSS | classes }} ">
       {{ Ink.render({classes: "inset-4"}) }}
       {{ SectionCap.render({title: sectionId , count: order}) }}
     </div>
 
-    <header
-      data-awards-el="header"
-      class="z-10 border border-black border-2 divide-x-2 divide-black flex flex-row items-center gap-4">
+    <header data-awards-el="header" class=" {{ headerCSS | classes }} ">
       {{ InlineSvg.render({classes: "p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }}
-      <h2 id="{{ headingId }}" data-awards-el="title" class="font-display text-5xl">{{ heading }}</h2>
+      <h2 id="{{ headingId }}" data-awards-el="title" class=" {{ headingCSS | classes }} ">{{ heading }}</h2>
     </header>
 
-    <div
-      data-awards-el="subheading"
-      id="subheading"
-      class="font-display tracking-wide flex flex-row px-4 border-b-2 border-x-2 border-black py-4">
-      <p class="font-bold w-5/12 leading-none h-full my-auto">Awards, Fellowship, and Distinctions</p>
-      <p class="text-neutral-500 text-sm w-7/12 leading-none my-auto">Selected honors received for work in design, technology
-        & public impact</p>
+    <div data-awards-el="subheading" id="subheading" class=" {{ subheadingCSS | classes }} ">
+      <p class="{{ subheadingTitleCSS | classes }}">Awards, Fellowship, and Distinctions</p>
+      <p class="{{ subheadingDescriptionCSS | classes }}">Selected honors received for work in design, technology & public
+                                        impact</p>
     </div>
 
-    <ul
-      data-awards-el="list"
-      class="pt-8 pb-12 sm:p-0 columns-2 sm:max-md:columns-1 xl:columns-2 gap-0 sm:border-r-2 sm:border-black">
+    <ul data-awards-el="list" class=" {{ listCSS | classes }} ">
       {% for orgId, group in awards | groupByOrg %}
         <li data-awards-el="group" class="break-inside-avoid sm:py-2 sm:border-l-2 sm:border-b-2 sm:border-black">
           <article data-awards-el="organization-card" class="relative h-12 sm:h-30 flex flex-row gap-4 px-4 sm:py-2">

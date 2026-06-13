@@ -82,7 +82,7 @@ export function createSlideIn(view, gelManager) {
     // Backing sheet glides in and settles flat (rotation 0).
     tlBacking.to(
       gel_backing.view,
-      { x: 0, y: 24, ease: "power3.out", duration: GEL_DUR },
+      { x: 0, y: 0, ease: "power3.out", duration: GEL_DUR },
       0,
     );
     tlBacking.to(
@@ -98,7 +98,7 @@ export function createSlideIn(view, gelManager) {
     // Tint sheet trails like a second sheet pushed across after the first,
     tlTint.to(gel_tint.view, {
       x: -12,
-      y: 24,
+      y: 0,
       ease: "power3.out",
       duration: GEL_DUR,
     });
