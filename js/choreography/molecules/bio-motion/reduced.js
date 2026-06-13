@@ -23,8 +23,11 @@ export function init(view, gelManager) {
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
   if (gel?.view) {
     gsap.set(gel.view, {
-      width: view.getBoundingClientRect().width + "px",
-      left: view.getBoundingClientRect().left + "px",
+      autoAlpha: 0,
+      // width: view.getBoundingClientRect().width + "px",
+      // left: view.getBoundingClientRect().left + "px",
+      // transformOrigin: "bottom center",
+      // scaleY: 0,
     });
     gel.refresh();
   }

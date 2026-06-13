@@ -169,6 +169,7 @@ export const SECTION_OVERRIDES = Object.freeze({
     xl: { animation: { variant: "throw" } },
   },
   bio: {
+    reduced: { animation: { variant: "reduced" } },
     base: { animation: { variant: "sweep" } },
     sm: { animation: { variant: "sweep" } },
     md: { animation: { variant: "sweep" } },
