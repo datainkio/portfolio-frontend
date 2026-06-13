@@ -62,32 +62,51 @@ export function init(view, gelManager) {
 export function createSlideIn(view, gelManager) {
   const gel_backing = gelManager?.getGel?.("gel_awards_backing") ?? null;
   const gel_tint = gelManager?.getGel?.("gel_awards_tint") ?? null;
-  const content = [
-    selectAwardEl(view, "context"),
-    selectAwardEl(view, "header"),
-    selectAwardEl(view, "subheading"),
-    selectAwardEl(view, "list"),
-  ].filter(Boolean);
+  const context = selectAwardEl(view, "context");
+  const header = selectAwardEl(view, "header");
+  const subheading = selectAwardEl(view, "subheading");
+  const list = selectAwardEl(view, "list");
 
   const DUR = AWARDS_INTRO.duration;
+  const GEL_DUR = AWARDS_INTRO.gelDuration;
   const STAGGER = AWARDS_INTRO.stagger;
 
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
 
   // BACKING SHEET ANIMATION
+  // Sheets are token-paced via GEL_DUR. Under scrub this sets the gels' share of
+  // the scroll range relative to the content (DUR) — raise GEL_DUR to make the
+  // sheets occupy more scroll and read slower against the content.
   const tlBacking = gsap.timeline();
   if (gel_backing?.view) {
     // Backing sheet glides in and settles flat (rotation 0).
-    tlBacking.to(gel_backing.view, { x: 0, y: 24, ease: "power3.out" }, 0);
-    tlBacking.to(gel_backing.view, { rotation: 0, ease: "power2.out" }, 0);
+    tlBacking.to(
+      gel_backing.view,
+      { x: 0, y: 24, ease: "power3.out", duration: GEL_DUR },
+      0,
+    );
+    tlBacking.to(
+      gel_backing.view,
+      { rotation: 0, ease: "power2.out", duration: GEL_DUR },
+      0,
+    );
   }
 
   // TINT SHEET ANIMATION
   const tlTint = gsap.timeline();
   if (gel_tint?.view) {
     // Tint sheet trails like a second sheet pushed across after the first,
-    tlTint.to(gel_tint.view, { x: -12, y: 24, ease: "power3.out" }, 0);
-    tlTint.to(gel_tint.view, { rotation: -2, ease: "power2.out" }, 0);
+    tlTint.to(gel_tint.view, {
+      x: -12,
+      y: 24,
+      ease: "power3.out",
+      duration: GEL_DUR,
+    });
+    tlTint.to(
+      gel_tint.view,
+      { rotation: -2, ease: "power2.out", duration: GEL_DUR },
+      0,
+    );
   }
 
   // CONTENT ANIMATION
@@ -97,23 +116,33 @@ export function createSlideIn(view, gelManager) {
   // re-reads it on refresh (invalidateOnRefresh) — so it adapts to the section's
   // fluid dimensions. The children are not the trigger element, so there is no
   // pin/trigger-measurement feedback (the problem that made `view` jitter).
-  const tlContent = gsap.timeline();
-  if (content.length) {
-    tlContent.from(content, {
-      x: 144,
-      y: () => window.innerHeight, // start a full viewport below natural — tune for taste
-      rotation: 12,
-      ease: "power3.out",
-      duration: DUR,
-      stagger: STAGGER,
-    });
-  }
+  const slideFrom = {
+    x: 144,
+    y: () => window.innerHeight, // start a full viewport below natural — tune for taste
+    rotation: -25,
+    ease: "power3.out",
+    duration: DUR,
+  };
 
+  // Cascade order: context → masthead (header + subheading) → list.
+  // header and subheading animate in one `from` with no inter-element stagger,
+  // so they translate in lockstep and read as a single rigid block. `<STAGGER`
+  // places each step STAGGER seconds after the previous step's *start*, keeping
+  // the even cascade the single staggered call used to produce.
+  const tlContent = gsap.timeline();
+  const masthead = [header, subheading].filter(Boolean);
+  if (context) tlContent.from(context, slideFrom);
+  if (masthead.length) tlContent.from(masthead, slideFrom, `<${STAGGER}`);
+  if (list) tlContent.from(list, slideFrom, `<${STAGGER}`);
+
+  // Both sheets push across together (tint overlaps backing's start); content
+  // rides in on the tail of the tint sheet. `>-=OVERLAP` starts content OVERLAP
+  // seconds before tint ends — raise CONTENT_TINT_OVERLAP to tighten the seam
+  // (less gap / more overlap), lower it to let the sheets settle first.
+  const OVERLAP = GEL_DUR * 0.95;
   tl.add(tlBacking);
-  tl.add(tlTint);
-  tl.add(tlContent);
-  tl.duration(DUR);
-  tl.stagger = STAGGER;
+  tl.add(tlTint, `>-=${OVERLAP}`);
+  tl.add(tlContent, `>-=${OVERLAP}`);
   return tl;
 }
 

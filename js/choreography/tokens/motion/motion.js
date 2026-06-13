@@ -14,11 +14,11 @@
 
 export const motionTokens = {
   duration: {
-    instant: 80,
-    fast: 150,
-    base: 220,
-    slow: 320,
-    slower: 480,
+    instant: 167,
+    fast: 312,
+    base: 460,
+    slow: 660,
+    slower: 1000,
   },
 
   ease: {

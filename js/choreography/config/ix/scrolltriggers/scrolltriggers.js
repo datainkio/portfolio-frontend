@@ -46,7 +46,7 @@ export const BIO_TRIGGER = {
   scrub: true,
   pin: true,
   pinSpacing: true,
-  markers: true,
+  // markers: true,
 };
 
 /**
@@ -55,12 +55,10 @@ export const BIO_TRIGGER = {
 export const AWARDS_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: SELECTORS.awards,
-  start: "top 75%",
-  end: "top center",
+  start: "top 25%",
+  end: "top top",
   once: false,
-  scrub: 1,
-  // pin: true,
-  // pinSpacing: true,
+  scrub: 1.1,
   markers: true,
 };
 
