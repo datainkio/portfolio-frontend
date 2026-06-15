@@ -17,11 +17,18 @@ export default class BioAnimations extends AbstractSectionAnimations {
     this._buildTimeline();
   }
 
-  // NOTE: This might be better defined along with the other factory methods in AWARD_VARIANT_FACTORIES
+  _factory() {
+    return BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
+  }
+
+  // NOTE: This might be better defined along with the other factory methods in BIO_VARIANT_FACTORIES
   _buildLanding() {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.init(this.view, this.gelManager);
+    // init is variant-specific (reduced-only): it pre-styles the gel resting
+    // state. Variants without it have no landing phase, so return null —
+    // _registerTimeline treats a falsy return as "no timeline for this phase".
+    return factory.init?.(this.view, this.gelManager) ?? null;
   }
 
   _buildIntro() {

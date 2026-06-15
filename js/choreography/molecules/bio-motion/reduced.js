@@ -20,7 +20,7 @@ export function init(view, gelManager) {
   const gel = gelManager?.getGel?.("gel_bio") ?? null;
   const viewportHeight =
     window.innerHeight || document.documentElement.clientHeight;
-  const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
+  const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
   if (gel?.view) {
     gsap.set(gel.view, {
       autoAlpha: 0,

@@ -8,7 +8,7 @@ import { ScrollSmoother } from "/assets/js/choreography/system/gsap.js";
 import { SELECTORS } from "../../config/index/index.js";
 
 const SMOOTHER_EFFECTS = true;
-const SMOOTHER_ENABLED = true;
+const SMOOTHER_ENABLED = false;
 const SMOOTH_WRAPPER_SELECTOR = `#${SELECTORS.smoothWrapper}`;
 const SMOOTH_CONTENT_SELECTOR = `#${SELECTORS.smoothContent}`;
 

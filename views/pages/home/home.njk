@@ -51,17 +51,18 @@ here reflect how I work on a team — clear, explicit, and built for the person 
             autoPlay: true
             }) }}
     <main id="page-main" aria-busy="true" class="mx-auto px-0 md:px-6 lg:px-12 col-span-full grid grid-cols-12">
-      <div id="page-main-content" class="col-span-full">
+      <div
+        id="page-main-content" class="col-span-full">
         {# Note that content values are set in frontmatter #}
-        {# The id param has a matching value in SELECTORS.js for consistency w/choreography during runtime #}
         {%- set heroLogo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
         {{ heroSection.render( { id: "hero", tagline: hero.tagline, logo: heroLogo, classes: sharedClasses}) }}
         {{ bioSection.render({ id: "introduction", copy: value, order: "1/5", classes: sharedClasses, buildDate: buildDate}) }}
-        {# {{ projectsSection.render({ id: "work", copy: work, projects: projects, classes: sharedClasses, order: "3/5", buildDate: buildDate }) }} #}
-      {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}
-    </div>
+        {{ projectsSection.render({ id: "work", copy: work, projects: projects, classes: sharedClasses, order: "3/5", buildDate: buildDate }) }}
+        {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}
+      </div>
     </main>
     {# Contact form is rendered site-wide by the global footer. #}
     {{ Footer.render() }}
-  {% include "templates/partials/choreography-script.njk" %}
-</body></html>
+    {% include "templates/partials/choreography-script.njk" %}
+  </body>
+</html>
