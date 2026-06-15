@@ -18,8 +18,14 @@
  *   once               - fire trigger once vs. on every enter
  *   invalidateOnRefresh - recalculate trigger on resize/refresh
  */
-import { getActiveBreakpoint } from "../breakpoints/breakpoints.js";
-import { ACCESSIBILITY_SETTINGS } from "../accessibility/accessibility.js";
+import { getActiveBreakpoint } from "./breakpoints.js";
+export const ACCESSIBILITY_SETTINGS = {
+  testReducedMotion: true, // dev override: force reduced motion on regardless of OS setting (see ReducedMotionHandler._setup)
+  // TODO: deprecate the above in favor of a query param override, which would be more flexible and less likely to be accidentally left on in dev
+  // reducedMotionDuration: 0.1, // seconds
+  // reducedMotionStagger: 0.05, // seconds
+  // reducedMotionEase: "none", // no easing for reduced motion
+};
 export const MOTION_PROFILES = Object.freeze({
   reduced: {
     timeline: {
@@ -162,6 +168,15 @@ export const SECTION_OVERRIDES = Object.freeze({
     },
   },
   card: {
+    // reduced: { animation: { variant: "reduced" } },
+    base: { animation: { variant: "clip" } },
+    sm: { animation: { variant: "clip" } },
+    md: { animation: { variant: "fade-n-lift" } },
+    lg: { animation: { variant: "throw" } },
+    xl: { animation: { variant: "throw" } },
+  },
+  work: {
+    // reduced: { animation: { variant: "reduced" } },
     base: { animation: { variant: "clip" } },
     sm: { animation: { variant: "clip" } },
     md: { animation: { variant: "fade-n-lift" } },

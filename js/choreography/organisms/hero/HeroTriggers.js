@@ -1,6 +1,24 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
-import { HERO_TRIGGER, TIMELINE_IDS } from "../../config/index/index.js";
+import { TIMELINE_IDS } from "../../config/index/index.js";
+import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
+import { SELECTORS } from "../../config/index/index.js";
+
+/**
+ * Hero Trigger Defaults
+ */
+export const HERO_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: SELECTORS.hero,
+  once: false,
+  start: "top top",
+  end: "bottom top",
+  pinSpacing: true,
+  pin: true,
+  scrub: 1,
+  fastScrollEnd: false,
+  toggleActions: "none none none none",
+};
 
 export default class HeroTriggers extends AbstractSectionTriggers {
   constructor(view) {

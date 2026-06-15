@@ -12,7 +12,7 @@
  *   When omitted, LineManager resolves against its configured root and then document.
  */
 import { SELECTORS } from "../../contracts/selectors/selectors.js";
-import { ANIMATION_DEFAULTS } from "../../ix/motion/motion.js";
+import { ANIMATION_DEFAULTS } from "../../ix/motion.js";
 
 export const SOCKETS = Object.freeze({
   [SELECTORS.hero]: Object.freeze({

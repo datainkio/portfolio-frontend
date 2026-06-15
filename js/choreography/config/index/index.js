@@ -19,23 +19,17 @@
  * - Improves safety: contracts stay stable while IX/display tuning can evolve
  *   without changing shared terminology.
  *
+ * TODO: The complexity of the choreography has grown past what a simple
+ * barrel can effectively manage. Consider breaking this into more focused
+ * barrels or reorganizing the configuration structure to maintain clarity and
+ * ease of use.
+ *
  * Usage pattern:
  * import { EVENTS, motion, RULER_DEFAULTS } from "./index.js";
  *
  * @fileoverview Project-specific choreography runtime configuration exports.
  */
 
-export * from "../contracts/events/events.js";
-export * from "../contracts/paths/paths.js";
-export * from "../contracts/selectors/selectors.js";
-export * from "../contracts/labels/labels.js";
-export * from "../contracts/timelines/timelines.js";
-
-export * from "../displays/ruler/ruler.js";
-export * from "../displays/printermarks/printermarks.js";
-export * from "../displays/leader-lines/leader-lines.js";
-
-export * from "../ix/accessibility/accessibility.js";
-export * from "../ix/breakpoints/breakpoints.js";
-export * from "../ix/motion/motion.js";
-export * from "../ix/scrolltriggers/scrolltriggers.js";
+export * from "../displays/displays.js";
+export * from "../contracts/contracts.js";
+export * from "../ix/ix.js";

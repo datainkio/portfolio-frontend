@@ -1,6 +1,20 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
-import { BIO_TRIGGER } from "../../config/index/index.js";
+import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
+
+/**
+ * Bio Trigger Defaults
+ */
+export const BIO_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  start: "top top",
+  end: "bottom bottom",
+  // once: true,
+  scrub: true,
+  pin: true,
+  pinSpacing: true,
+  // markers: true,
+};
 
 export default class BioTriggers extends AbstractSectionTriggers {
   constructor(view) {

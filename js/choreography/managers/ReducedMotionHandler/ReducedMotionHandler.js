@@ -4,7 +4,7 @@
  * Monitors and responds to user's prefers-reduced-motion setting.
  * Provides central API for checking motion state and registering callbacks.
  */
-import { ACCESSIBILITY_SETTINGS } from "../../config/index/index.js";
+import { ACCESSIBILITY_SETTINGS } from "../../config/ix/ix.js";
 
 /**
  * Standalone reduced-motion guard for spec-compliant GSAP entry points.
@@ -38,8 +38,7 @@ export default class ReducedMotionHandler {
     // OS setting. We only override it from the live media query when it is
     // false, so the config flag retains authority once set.
     this._reducedMotion =
-      ACCESSIBILITY_SETTINGS.testReducedMotion === true ||
-      !!this._mql.matches;
+      ACCESSIBILITY_SETTINGS.testReducedMotion === true || !!this._mql.matches;
 
     const handler = (e) => {
       this._reducedMotion =

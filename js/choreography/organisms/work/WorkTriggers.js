@@ -1,8 +1,38 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
-import { WORK_TRIGGER } from "../../config/index/index.js";
+import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
+import { SELECTORS } from "../../config/index/index.js";
 
 const WORK_EL_ATTR = "data-projects-el";
+
+/**
+ * Work Trigger Defaults
+ */
+export const WORK_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: SELECTORS.work,
+};
+
+/**
+ * Work Industry Header Pin Defaults
+ *
+ * Controls stacked pinning for industry headers beneath the pinned Work header.
+ */
+export const WORK_INDUSTRY_HEADER_PIN = {
+  ...SCROLL_DEFAULTS,
+  id: `${SELECTORS.work}-industry-header-pin`,
+  pin: true,
+  // pinSpacing: true,
+  // Extra space beneath the pinned Work header.
+  // offsetPx: 24,
+};
+
+/**
+ * @deprecated Use WORK_TRIGGER instead.
+ *
+ * TODO: Remove PROJECTS_TRIGGER once all references are updated to WORK_TRIGGER.
+ */
+export const PROJECTS_TRIGGER = WORK_TRIGGER;
 
 export default class WorkTriggers extends AbstractSectionTriggers {
   constructor(view) {

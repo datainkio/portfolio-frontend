@@ -17,12 +17,6 @@ export { createCardScrollClip } from "./clip.js";
 export { createCardParallax } from "./parallax.js";
 export { createCardScrollFade } from "./fade-n-lift.js";
 
-import {
-  CARD_FIGURE_CLIP_TRIGGER,
-  CARD_FIGURE_PARALLAX_TRIGGER,
-  CARD_DEAL_TRIGGER,
-  motion,
-} from "../../config/index/index.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
 export const killST = (tl) => {
