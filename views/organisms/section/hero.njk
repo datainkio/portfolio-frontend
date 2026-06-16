@@ -8,7 +8,7 @@
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
 
   {%- set section = {
-  base: "z-10 h-dvh content-center grid grid-cols-3 gap-4 px-4"
+  base: "z-1 bg-slate-950 h-dvh content-center grid grid-cols-6 gap-4 px-4 w-full overflow-hidden"
   } -%}
 
   {%- set hanko = {
@@ -16,16 +16,14 @@
   } -%}
 
   {%- set heading = {
-    base: "font-display text-5xl/2 text-primary-100 uppercase mt-0 col-start-2 col-span-2 flex flex-col overflow-hidden z-10",
-    sm: "text-6xl",
-    md: "text-7xl",
-    lg: "text-9xl/26"
+    base: "font-display text-4xl font-black text-primary-100 uppercase col-span-5 flex flex-col z-10"
   } -%}
 
   <section id="{{ sectionId }}" class="{{ section | classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
     {{ Hanko.render({svg: params.logo, classes: hanko | classes}) }}
     <h1 id="{{ headingId }}" data-hero-el="tagline" class="{{ heading | classes }}">
-      {{ tagline }}
+      Russell Lebo
+      <span class="text-sm block w-full font-thin">Experience Designer / Creative Technologist</span>
     </h1>
   </section>
 {% endmacro %}

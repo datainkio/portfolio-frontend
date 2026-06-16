@@ -1,6 +1,9 @@
 {% import "molecules/LoaderStack.njk" as LoaderStack %}
 
-{# Usage: {% import "organisms/SitePreloader.njk" as Preloader %} {{ Preloader.render() }} #}
+{# 
+  
+  Usage: {% import "organisms/SitePreloader.njk" as Preloader %} {{ Preloader.render() }}
+#}
 {% macro render(params = {}) -%}
   <div inert id="site-preloader" data-preloader data-preloader-kind="{{ params.kind | default('spinner') }}" data-preloader-message="{{ params.message | default('Loading…') }}" data-gsap-src="{{ params.gsapSrc | default('') }}" data-scroll-smoother="{{ params.scrollSmoother | default('off') }}" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950 text-white pointer-events-auto" role="status" aria-live="polite">
     <div data-preloader-stack class="opacity-100 translate-y-0">

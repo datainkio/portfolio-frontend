@@ -5,11 +5,6 @@ import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**
  * Hero Shutter Motion
- * This defines the "sheet of paper sliding across a surface" motion for the hero section.
- * It assumes:
- * - Two gels: a backing sheet and a tint sheet, which together create the reveal effect.
- * - Content elements (context, header, subheading) that ride in on the sheets.
- * The slide-in motion has momentum in and friction out, with overlapping action for a natural feel.
  *
  */
 

@@ -41,20 +41,19 @@ here reflect how I work on a team — clear, explicit, and built for the person 
   <body>
     {% include "templates/partials/gtm-noscript.njk" %}
     {# {{ SkipLinksNav.render({ items: ["hero", "introduction", "recognition", "work", "organizations", "contact"] }) }} #}
-    {{ Header.render() }}
-    {{ Preloader.render({ kind: "spinner", message: "Lubricating the framistan…" }) }}
-    {{ Background.render({
-            id:"background",
-            videoSrc: hero.videoSrc,
-            defer: false,
-            preload: "none",
-            autoPlay: true
-            }) }}
-    <main
+    {# {{ Header.render() }} #}
+    {{ Preloader.render({ kind: "hanko", message: "Lubricating the framistan…" }) }}
+    {# {{ Background.render({
+                    id:"background",
+                    videoSrc: hero.videoSrc,
+                    defer: false,
+                    preload: "none",
+                    autoPlay: true
+                    }) }} #}
+      <main
       id="page-main"
       aria-busy="true"
-      class="mx-auto px-0 md:px-6 lg:px-12 col-span-full grid grid-cols-12 overflow-hidden">
-      <div
+      class="mx-auto px-0 md:px-6 lg:px-12 col-span-full grid grid-cols-12 w-full overflow-hidden"> <div
         id="page-main-content" class="col-span-full">
         {# Note that content values are set in frontmatter #}
         {%- set heroLogo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}

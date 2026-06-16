@@ -19,6 +19,11 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { HERO_LANDING, HERO_INTRO } from "../../config/ix/motion/motion.js";
 import { ACCESSIBILITY_SETTINGS } from "../../config/ix/accessibility/accessibility.js";
 import { init, createRaiseShutter, createLowerShutter } from "./shutter.js";
+import {
+  init as initSimple,
+  createIntro as createSimpleIntro,
+  createOutro as createSimpleOutro,
+} from "./simple.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
 const HERO_EL_ATTR = "data-hero-el";
@@ -31,6 +36,11 @@ const selectHeroEl = (view, name) =>
 /* ----------------------------------------------------------------- reduced */
 
 export const HERO_VARIANT_FACTORIES = Object.freeze({
+  simple: {
+    init: initSimple,
+    buildIntro: createSimpleIntro,
+    buildOutro: createSimpleOutro,
+  },
   shutter: {
     init: init,
     buildIntro: createRaiseShutter,

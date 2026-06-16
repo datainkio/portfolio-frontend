@@ -137,11 +137,11 @@ export const MOTION_PROFILES = Object.freeze({
  */
 export const SECTION_OVERRIDES = Object.freeze({
   hero: {
-    base: { animation: { variant: "shutter" } },
-    sm: { animation: { variant: "shutter" } },
-    md: { animation: { variant: "shutter" } },
-    lg: { animation: { variant: "shutter" } },
-    xl: { animation: { variant: "shutter" } },
+    base: { animation: { variant: "simple" } },
+    sm: { animation: { variant: "simple" } },
+    md: { animation: { variant: "simple" } },
+    lg: { animation: { variant: "simple" } },
+    xl: { animation: { variant: "simple" } },
     // Reduced motion: run the same `shutter` UX as the breakpoint profiles.
     // The shutter is driven by the lifecycle landing (timeline) and the gel
     // scrub trigger (HeroTriggers._gelTrigger), so BOTH channels must be
