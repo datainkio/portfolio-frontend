@@ -43,20 +43,8 @@ import {
   createFiletypeMessageUpdater,
   startResourceObserver,
 } from "./resource-observer.js";
-import { initRulerIntro } from "/assets/js/choreography/managers/RulerIntroManager/RulerIntroManager.js";
+
 import { ensureScrollSmoother } from "./scroll-smoother.js";
-
-let rulerIntro = null;
-
-const ensureRulerIntro = () => {
-  if (!rulerIntro) {
-    rulerIntro = initRulerIntro();
-    return rulerIntro;
-  }
-
-  rulerIntro.init?.();
-  return rulerIntro;
-};
 
 const createCleanup = ({
   preloader,
@@ -104,8 +92,6 @@ const createCleanup = ({
 };
 
 export const initPreloader = async () => {
-  const ruler = ensureRulerIntro();
-
   if (PRELOADER_ASSET.consoleImageEnabled) {
     showPreloaderConsoleImage(PRELOADER_ASSET);
   }
@@ -115,7 +101,7 @@ export const initPreloader = async () => {
 
   if (!preloader) {
     logger.warn(PRELOADER_CONTROLLER_MESSAGES.noPreloaderElement);
-    ruler?.refresh?.();
+    // ruler?.refresh?.();
     return;
   }
 
@@ -156,7 +142,8 @@ export const initPreloader = async () => {
 
   const directorReady = createDirectorReadyPromise({
     choreographyEnabled,
-    directorReadyEvent: EVENTS.system.directorReady,
+    // TODO: Reenable to advance from the preloader view to the director view
+    // directorReadyEvent: EVENTS.system.directorReady,
     trace: logger.trace,
   });
 
@@ -206,7 +193,7 @@ export const initPreloader = async () => {
         error,
       );
     } finally {
-      ruler?.refresh?.();
+      // uhhh....
     }
   }
 };

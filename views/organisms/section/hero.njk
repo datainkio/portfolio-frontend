@@ -11,8 +11,8 @@
   base: "z-1 bg-slate-950 h-dvh content-center grid grid-cols-6 gap-4 px-4 w-full overflow-hidden"
   } -%}
 
-  {%- set hanko = {
-    base: "hanko justify-self-end block text-secondary-500"
+  {%- set logo = {
+    base: "justify-self-end block text-secondary-500"
   } -%}
 
   {%- set heading = {
@@ -20,7 +20,7 @@
   } -%}
 
   <section id="{{ sectionId }}" class="{{ section | classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    {{ Hanko.render({svg: params.logo, classes: hanko | classes}) }}
+    {{ Hanko.render({svg: params.logo, classes: logo | classes}) }}
     <h1 id="{{ headingId }}" data-hero-el="tagline" class="{{ heading | classes }}">
       Russell Lebo
       <span class="text-sm block w-full font-thin">Experience Designer / Creative Technologist</span>

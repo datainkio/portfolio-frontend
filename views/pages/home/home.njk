@@ -17,9 +17,11 @@
 {%- set projects = cms.home[0].featuredProjects -%}
 {%- set awards = collections.awards -%}
 {%- set organizations = collections.organizations -%}
+{%- set logo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
 
 {# SECTION STYLING #}
 {% set sharedClasses = "" %}
+
 {# Note that content values are set in frontmatter #}
 <!DOCTYPE html>
 <!-- Russell S. Lebo — Creative Technologist russell@dataink.io · dataink.io
@@ -42,22 +44,23 @@ here reflect how I work on a team — clear, explicit, and built for the person 
     {% include "templates/partials/gtm-noscript.njk" %}
     {# {{ SkipLinksNav.render({ items: ["hero", "introduction", "recognition", "work", "organizations", "contact"] }) }} #}
     {# {{ Header.render() }} #}
-    {{ Preloader.render({ kind: "hanko", message: "Lubricating the framistan…" }) }}
+
+    {{ Preloader.render({svg: cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl}) }}
     {# {{ Background.render({
-                    id:"background",
-                    videoSrc: hero.videoSrc,
-                    defer: false,
-                    preload: "none",
-                    autoPlay: true
-                    }) }} #}
+                                                                id:"background",
+                                                                videoSrc: hero.videoSrc,
+                                                                defer: false,
+                                                                preload: "none",
+                                                                autoPlay: true
+                                                                }) }} #}
       <main
       id="page-main"
       aria-busy="true"
       class="mx-auto px-0 md:px-6 lg:px-12 col-span-full grid grid-cols-12 w-full overflow-hidden"> <div
         id="page-main-content" class="col-span-full">
         {# Note that content values are set in frontmatter #}
-        {%- set heroLogo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
-        {{ heroSection.render( { id: "hero", tagline: hero.tagline, logo: heroLogo}) }}
+
+        {{ heroSection.render( { id: "hero", tagline: hero.tagline, logo: logo}) }}
         {{ bioSection.render({ id: "introduction", copy: value, order: "1/3", buildDate: buildDate}) }}
         {{ projectsSection.render({ id: "work", copy: work, projects: projects, order: "2/3", buildDate: buildDate }) }}
         {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "3/3", buildDate: buildDate }) }}

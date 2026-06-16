@@ -46,3 +46,70 @@
 .hanko-mount svg path {
   fill: currentColor;
 }
+
+/* ------------------------------------------------------------------ *
+ * Preloader loading pulse
+ *
+ * The site preloader's hanko mark doubles as the loading indicator: the
+ * four named paths breathe 50% -> 100% -> 50% opacity as a continuous
+ * travelling wave, then the cycle repeats. Pure CSS so it costs nothing
+ * on the critical path — no GSAP, no JS. Scoped to `[data-preloader]` so
+ * the header / hero / footer hanko marks stay static.
+ *
+ * Each path runs the same single-hump keyframe over the full cycle, so a
+ * pulse always spans the whole period and neighbouring paths overlap.
+ * Staggering the four `animation-delay`s by 25% of the cycle offsets
+ * their phase, walking the crest across the mark. The base `opacity: 0.5`
+ * is the resting state — it matches the trough of the pulse and is what
+ * reduced-motion users see, since the global reduced-motion utility
+ * (`styles/utilities/reduced-motion.css`) forces `animation: none` for
+ * them. Tailwind can't scan the runtime SVG (see top of file), so these
+ * target the path IDs directly.
+ * ------------------------------------------------------------------ */
+
+[data-preloader] .hanko-mount {
+  --hanko-pulse-cycle: 1s;
+}
+
+[data-preloader] .hanko-mount :is(#data, #ink, #input, #output) {
+  opacity: 0.5;
+  animation: hanko-loading-pulse var(--hanko-pulse-cycle) ease-in-out infinite;
+}
+
+[data-preloader] .hanko-mount #frame {
+  opacity: 0.75;
+}
+
+[data-preloader] .hanko-mount #data {
+  animation-delay: 0s;
+}
+
+[data-preloader] .hanko-mount #ink {
+  animation-delay: calc(var(--hanko-pulse-cycle) * 0.25);
+}
+
+[data-preloader] .hanko-mount #output {
+  animation-delay: calc(var(--hanko-pulse-cycle) * 0.5);
+}
+
+[data-preloader] .hanko-mount #input {
+  animation-delay: calc(var(--hanko-pulse-cycle) * 0.75);
+}
+
+@keyframes hanko-loading-pulse {
+  0% {
+    opacity: 0.5;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}

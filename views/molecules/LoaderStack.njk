@@ -1,15 +1,11 @@
-{% import "atoms/loader/LoaderMark.njk" as Mark %}
-{% import "atoms/loader/LoaderIndicator.njk" as Indicator %}
-{% import "atoms/loader/LoaderText.njk" as LoaderText %}
+{% import "atoms/hanko/hanko.njk" as Hanko %}
+
+{%- set hanko = {
+    base: "hanko justify-self-end block text-secondary-500 w-full"} -%}
+{%- set svg = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
 
 {% macro render(params = {}) -%}
-  {%- set message = params.message | default("Loading…") -%}
-  {%- set kind = params.kind | default("spinner") -%}
   <div class="flex flex-col items-center text-center gap-1">
-    {{ Mark.render(params.markText or "dataink.io") }}
-    {{ Indicator.render(kind) }}
-    {% if params.showText | default(true) and LoaderText.render %}
-      {{ LoaderText.render(message) }}
-    {% endif %}
+    {{ Hanko.render({svg: svg, classes: hanko | classes}) }}
   </div>
 {%- endmacro %}
