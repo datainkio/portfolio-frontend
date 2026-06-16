@@ -11,7 +11,8 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative h-dvh max-w-3xl content-center bg-tertiary-600 text-white col-span-full prose mx-auto px-4"
+    "base": "relative h-dvh max-w-3xl content-center text-white col-span-full prose mx-auto px-2",
+    "motion-reduced": "bg-tertiary-600"
   } %}
   {% set header = {
     "base": "h-full col-span-full z-10 flex flex-wrap items-center [&>time]:ml-auto"
@@ -27,11 +28,11 @@
   } %}
 
   {# Biography section #}
-  <section class="{{ section | classes }} {{ classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section class="{{ section | classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
     <header class="{{ header | classes }}" data-bio-el="header">
       {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       <h2 class="{{ title | classes }}" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
-      <p class="{{ copy | classes }}" data-bio-el="subheading">{{ subheading }}</p>
+      <div class="{{ copy | classes }}" data-bio-el="subheading">{{ body | safe }}</div>
     </header>
   </section>
 {% endmacro %}

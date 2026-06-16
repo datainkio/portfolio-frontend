@@ -15,7 +15,6 @@ export const AWARDS_TRIGGER = {
   pinSpacing: true,
   once: false,
   scrub: 1,
-  markers: true,
 };
 
 export default class AwardsTriggers extends AbstractSectionTriggers {
