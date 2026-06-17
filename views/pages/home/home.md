@@ -16,7 +16,7 @@ tags:
   - "#design/atomic-design/page"
   - "#design/atomic-design"
 links:
-  - "[SitePreloader](../../organisms/SitePreloader.md)"
+  - "[home-landing](../../organisms/header/home/home-landing.md)"
   - "[global-header](../../organisms/header/global-header.md)"
   - "[global-footer](../../organisms/footer/global-footer.md)"
   - "[skip-links-nav](organisms/navigation/skip-links-nav.njk)"
@@ -68,7 +68,7 @@ Classified as a **page** at the atomic **page** level based on its location unde
   - [[gtm-noscript.njk]]
   - [[choreography-script.njk]]
 - Imports:
-  - [[SitePreloader.njk]]
+  - [[home-landing.njk]]
   - [[global-header.njk]]
   - [[global-footer.njk]]
   - [[skip-links-nav.njk]]

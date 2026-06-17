@@ -46,14 +46,7 @@ import {
 
 import { ensureScrollSmoother } from "./scroll-smoother.js";
 
-const createCleanup = ({
-  preloader,
-  stopObserver,
-  restoreState,
-  main,
-  trace,
-  warn,
-}) => {
+const createCleanup = ({ stopObserver, restoreState, main, trace, warn }) => {
   let cleaned = false;
 
   return () => {
@@ -67,14 +60,10 @@ const createCleanup = ({
       warn(PRELOADER_CONTROLLER_MESSAGES.resourceObserverCleanupFailed, error);
     }
 
-    try {
-      if (preloader && preloader.isConnected) {
-        preloader.remove();
-      }
-      // trace(PRELOADER_CONTROLLER_MESSAGES.preloaderElementRemoved);
-    } catch (error) {
-      warn(PRELOADER_CONTROLLER_MESSAGES.preloaderElementCleanupFailed, error);
-    }
+    // The preloader element is intentionally NOT removed: the landing header
+    // persists as the page hero once its outro has revealed the hgroup. The
+    // CSS outro (data-preloader-state="exit") drops the fixed overlay so the
+    // header settles into normal flow. See styles/components/hanko.css.
 
     try {
       restoreState();
@@ -126,7 +115,6 @@ export const initPreloader = async () => {
   );
 
   const cleanup = createCleanup({
-    preloader,
     stopObserver,
     restoreState,
     main,
@@ -165,8 +153,6 @@ export const initPreloader = async () => {
     //  logger.trace(PRELOADER_CONTROLLER_MESSAGES.directorReady);
     await animateExit({
       preloader,
-      stack,
-      prefersReduce,
       trace: logger.trace,
       onComplete: () => {
         if (typeof window !== "undefined") {
