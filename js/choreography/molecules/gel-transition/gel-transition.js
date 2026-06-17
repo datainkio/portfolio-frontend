@@ -10,7 +10,7 @@
  * await createGelTransition(gelManager, arrangement, { duration: 1.2 });
  */
 
-import { motion } from "../../config/ix/motion/motion.js";
+import { motion } from "../../config/ix/motion.js";
 
 /**
  * @param {object} gelManager - GelAnimationManager instance (must expose applyArrangement)

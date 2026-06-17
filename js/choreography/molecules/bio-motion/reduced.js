@@ -1,6 +1,6 @@
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { BIO_INTRO } from "../../config/ix/motion/motion.js";
+import { BIO_INTRO } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**

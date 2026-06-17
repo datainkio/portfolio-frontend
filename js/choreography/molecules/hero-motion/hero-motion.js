@@ -16,8 +16,8 @@
 
 import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_LANDING, HERO_INTRO } from "../../config/ix/motion/motion.js";
-import { ACCESSIBILITY_SETTINGS } from "../../config/ix/accessibility/accessibility.js";
+import { HERO_LANDING, HERO_INTRO } from "../../config/ix/motion.js";
+import { ACCESSIBILITY_SETTINGS } from "../../config/ix/profiles.js";
 import { init, createRaiseShutter, createLowerShutter } from "./shutter.js";
 import {
   init as initSimple,

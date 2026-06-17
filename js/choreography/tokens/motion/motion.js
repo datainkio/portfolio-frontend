@@ -2,7 +2,7 @@
  * Motion Design Tokens
  *
  * Primitive motion values for the choreography system.
- * All higher-level constants and profiles in config/ix/motion/motion.js derive from these.
+ * All higher-level constants and profiles in config/ix/motion.js derive from these.
  *
  * Units:
  *   duration  — milliseconds (converted to seconds by consumer helpers)

@@ -22,7 +22,7 @@
 
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { staggerReveal } from "../../atoms/stagger-reveal/stagger-reveal.js";
-import { motion } from "../../config/ix/motion/motion.js";
+import { motion } from "../../config/ix/motion.js";
 
 /**
  * @param {Element[]} items

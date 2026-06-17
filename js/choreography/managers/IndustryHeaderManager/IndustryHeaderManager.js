@@ -1,5 +1,5 @@
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { motion } from "../../config/ix/motion/motion.js";
+import { motion } from "../../config/ix/motion.js";
 import { SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
