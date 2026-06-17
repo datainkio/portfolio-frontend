@@ -32,6 +32,7 @@ export default class HomeHeaderManager {
     });
 
     this._el = document.querySelector(SELECTORS.homeHeader);
+    this._hgroup = document.querySelector(SELECTORS.homeHGroup);
     this._reducedMotionHandler = reducedMotionHandler;
     this._trigger = null;
     this._inNavRole = false;
@@ -59,9 +60,16 @@ export default class HomeHeaderManager {
     });
 
     // The header is the topmost element, so on load its top is already at the
-    // viewport top: the trigger is active from scroll 0 and `onEnter` will not
-    // fire on its own. Apply the resting state immediately in that case.
-    if (this._trigger.isActive) {
+    // viewport top: the trigger is active from scroll 0. A plain (unpinned)
+    // ScrollTrigger created while already past its start does NOT fire `onEnter`,
+    // so the `isActive` check below handles the at-top case. `onEnter` remains to
+    // cover loads that start scrolled below the header (e.g. restored scroll),
+    // where the top later crosses going forward. The two paths are mutually
+    // exclusive at load, so this no longer double-fires; the guard in
+    // `_enterNavRole` is kept as cheap insurance. The optional chain covers
+    // `onEnter` firing synchronously during `create()`, which nulls
+    // `this._trigger`.
+    if (this._trigger?.isActive) {
       this._enterNavRole();
     }
 
@@ -69,6 +77,9 @@ export default class HomeHeaderManager {
   }
 
   _enterNavRole() {
+    // Guard first: `_arm()` can reach this via both `onEnter` and the immediate
+    // `isActive` check, and at scroll 0 both fire. Returning early here keeps the
+    // effect (and any logging) exactly-once.
     if (this._inNavRole) return;
     this._inNavRole = true;
 

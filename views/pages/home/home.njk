@@ -12,6 +12,7 @@
 {% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/work.njk" as ProjectsSection %}
 {% import "organisms/section/organizations.njk" as OrganizationsSection %}
+{% import "organisms/section/contact.njk" as ContactSection with context %}
 
 {%- set projects = cms.home[0].featuredProjects -%}
 {%- set awards = collections.awards -%}
@@ -47,9 +48,9 @@ here reflect how I work on a team — clear, explicit, and built for the person 
       {{ BioSection.render({ id: "introduction", copy: value, order: "1/3", buildDate: buildDate}) }}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects, order: "2/3", buildDate: buildDate }) }}
       {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "3/3", buildDate: buildDate }) }}
+      {{ ContactSection.render({ id: "contact", order: "4/3", buildDate: buildDate }) }}
     </main>
-    {# Contact form is rendered site-wide by the global footer. #}
-    {{ GlobalFooter.render() }}
+    {{ GlobalFooter.render({contact: false}) }}
     {% include "templates/partials/choreography-script.njk" %}
   </body>
 </html>

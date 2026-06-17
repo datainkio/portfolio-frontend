@@ -185,11 +185,11 @@ export const SECTION_OVERRIDES = Object.freeze({
   },
   bio: {
     reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "sweep" } },
-    sm: { animation: { variant: "sweep" } },
-    md: { animation: { variant: "sweep" } },
-    lg: { animation: { variant: "sweep" } },
-    xl: { animation: { variant: "sweep" } },
+    base: { animation: { variant: "fade" } },
+    sm: { animation: { variant: "fade" } },
+    md: { animation: { variant: "fade" } },
+    lg: { animation: { variant: "fade" } },
+    xl: { animation: { variant: "fade" } },
   },
   awards: {
     base: { animation: { variant: "slide" } },

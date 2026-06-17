@@ -42,6 +42,20 @@ topmost in-flow element, this is already true at scroll 0 — so the manager bot
 registers `onEnter` (forward crossing) and checks `isActive` immediately after
 creating the trigger to cover the at-top case.
 
+**The two paths are mutually exclusive at load — the trigger must not be
+pinned.** A plain (unpinned) ScrollTrigger created while already past its `start`
+does *not* fire `onEnter`, so at scroll 0 only the `isActive` check fires
+(`onEnter` covers the inverse case: a load that starts scrolled below the header,
+where the top later crosses going forward). An earlier experiment added
+`pin: true`; that forced a refresh which re-crossed the start and fired `onEnter`
+*as well* — producing a redundant `_enterNavRole` call — and the pin's
+fixed/spacer layout both conflicted with the `position: absolute` overlay and
+thrashed layout (a `min-height:100dvh` pin-spacer inserted then removed),
+re-running the CSS context reveal. Pinning was removed. `_enterNavRole()` still
+guards on `_inNavRole` as cheap insurance, and the `isActive` check uses optional
+chaining (`this._trigger?.isActive`) in case `onEnter` fires synchronously during
+`create()` and nulls the trigger.
+
 ## Initial response (current scope)
 
 A single state change: the header is lifted out of normal flow into its resting

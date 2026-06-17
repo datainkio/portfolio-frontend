@@ -8,6 +8,10 @@ const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
 
+export function initFade(view) {
+  gsap.set(view, { autoAlpha: 0.5 });
+}
+
 export function createFadeIn(view) {
   const header = selectBioEl(view, "header");
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
