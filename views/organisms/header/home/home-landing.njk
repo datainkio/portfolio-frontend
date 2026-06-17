@@ -1,4 +1,5 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "organisms/navigation/page-nav.njk" as page_nav %}
 {%- set preloader_styles = "fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950 text-white pointer-events-auto" %}
 {%- set header = { 
         base: "font-display flex gap-2 px-4"
@@ -9,11 +10,12 @@
 {%- set hanko = {
         base: "hanko block text-secondary-500 size-24"} -%}
 {% macro home_landing(params = {}) %}
-  <header data-preloader class="site-hero {{ header | classes }} {{ preloader_styles }}">
+  <header id="overview" data-preloader data-home-header class="site-hero {{ header | classes }} {{ preloader_styles }}">
     {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
     <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
       <h1>Russell Lebo</h1>
       <p class="m-0 p-0">Experience Designer &amp; Creative Technologist</p>
     </hgroup>
+    {{ page_nav.render({init: "display:none;"}) }}
   </header>
 {% endmacro %}
