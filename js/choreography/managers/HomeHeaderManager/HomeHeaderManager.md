@@ -56,14 +56,35 @@ guards on `_inNavRole` as cheap insurance, and the `isActive` check uses optiona
 chaining (`this._trigger?.isActive`) in case `onEnter` fires synchronously during
 `create()` and nulls the trigger.
 
-## Initial response (current scope)
+## Response on entering nav role (`_enterNavRole`)
 
-A single state change: the header is lifted out of normal flow into its resting
-nav state — `position: absolute; top: 0; left: 0` — so page content **rises
-underneath it** (overlay approach). This is a positioning `gsap.set()`, no tween,
-so motion and reduced-motion are identical; a `reduced` branch will be added when
-actual motion is introduced. The trigger is one-shot: it is killed once the state
-is applied.
+On the one-shot trigger, two things happen (the trigger is killed once applied):
+
+1. **Overlay lift (parked).** The header is meant to lift out of normal flow into
+   its resting nav state — `position: absolute; top: 0; left: 0` — so page content
+   rises underneath it. This `gsap.set()` is currently commented out while the
+   nav-role layout is tuned.
+2. **Reverse the hgroup intro** (`_reverseHgroupIntro`). The hgroup's CSS intro is
+   the shared `hanko-enter` keyframe applied under `[data-preloader-state="exit"]`
+   (`opacity 0->1`, `translateY 24 -> -12 -> 0`, ease-out, `both` fill). As the
+   header sheds its hero role, that intro is played **backward** as a clean exit:
+   `opacity 1->0`, `y 0->24`, ease-in, reusing `--hanko-enter-duration` for
+   symmetry (the intro's `-12px` overshoot is intentionally dropped).
+
+### The `both`-fill gotcha
+
+A CSS animation with `both` fill **holds its end frame and overrides inline
+styles**, and the base rule beneath the hgroup hides it (`opacity: 0` under
+`prefers-reduced-motion: no-preference`). So the reversal cannot just `gsap.to()`:
+it first releases the hold with `el.style.animation = "none"`, then uses a
+`fromTo` whose immediate-render `from` pins the visible state inline (inline beats
+the base rule) so there is no flash to hidden.
+
+### Reduced motion
+
+Under reduced motion the CSS intro never runs (its hidden state is gated behind
+`prefers-reduced-motion: no-preference`), so there is nothing to play backward —
+the reversal settles to the hidden end state instantly with `gsap.set()`.
 
 ## DOM contract
 
@@ -76,8 +97,10 @@ is applied.
 
 - Instantiated by [[AnimationDirector|AnimationDirector]] alongside the other
   header managers; no-ops off the home page (hook absent).
-- `kill()` removes the `preloader:out` listener, kills the trigger, and clears
-  the applied position props.
+- `kill()` removes the `preloader:out` listener, kills the trigger, clears the
+  applied header position props, and tears down the hgroup reversal — killing its
+  tween, clearing `opacity/visibility/transform`, and dropping the inline
+  `animation: none` so CSS reclaims ownership of the intro.
 
 ## Notes for future maintenance
 

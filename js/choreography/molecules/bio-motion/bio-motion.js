@@ -11,7 +11,7 @@
  */
 
 import { createSweepIn, createSweepOut } from "./sweep.js";
-import { createFadeIn, createFadeOut } from "./fade.js";
+import { initFade, createFadeIn, createFadeOut } from "./fade.js";
 import {
   init as initReduced,
   buildIntro as buildIntroReduced,
@@ -24,6 +24,7 @@ export const BIO_VARIANT_FACTORIES = Object.freeze({
     buildOutro: createSweepOut,
   },
   fade: {
+    init: initFade,
     buildIntro: createFadeIn,
     buildOutro: createFadeOut,
   },

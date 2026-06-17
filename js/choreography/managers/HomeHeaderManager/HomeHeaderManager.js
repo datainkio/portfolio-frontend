@@ -87,7 +87,11 @@ export default class HomeHeaderManager {
     // document's top-left so page content rises underneath it (overlay).
     // Positioning only — no tween — so motion vs. reduced-motion is identical;
     // a reduced branch will be introduced when motion is added in a later step.
-    gsap.set(this._el, { position: "absolute", top: 0, left: 0 });
+    // gsap.set(this._el, { position: "absolute", top: 0, left: 0 });
+
+    // Shed the hero role: play the hgroup's intro backward as it gives way to
+    // the nav-role layout.
+    this._reverseHgroupIntro();
 
     // One-shot: the trigger's job (detect top-reaches-top) is done and the
     // header is now out of flow, so tear the trigger down.
@@ -95,6 +99,49 @@ export default class HomeHeaderManager {
     this._trigger = null;
 
     this.logger.trace("entered nav role");
+  }
+
+  /**
+   * Reverse the hgroup's CSS intro (the shared `hanko-enter` keyframe) as the
+   * header transitions out of its hero role.
+   *
+   * The intro is a CSS animation with `both` fill, so it HOLDS its end frame
+   * (`opacity: 1; translateY(0)`) — and a filled CSS animation overrides inline
+   * styles, while the base rule beneath it hides the hgroup
+   * (`opacity: 0` under `prefers-reduced-motion: no-preference`). So we first
+   * release the CSS hold (`animation: "none"`), then drive the exit with a
+   * `fromTo` whose immediate-render `from` pins the visible state inline (inline
+   * beats the base rule) so there is no flash to hidden.
+   *
+   * Mirrors the intro: `opacity 1 -> 0`, `y 0 -> 24`, ease-in (mirror of the
+   * intro's ease-out), reusing `--hanko-enter-duration` for symmetry.
+   */
+  _reverseHgroupIntro() {
+    if (!this._hgroup) return;
+
+    const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
+
+    // Under reduced motion the CSS intro never runs (its hidden state is gated
+    // behind `prefers-reduced-motion: no-preference`), so there is nothing to
+    // play backward — settle to the reversed end state instantly.
+    if (reduced) {
+      gsap.set(this._hgroup, { autoAlpha: 0 });
+      return;
+    }
+
+    // Release the CSS animation's `both`-fill hold so GSAP's inline styles win.
+    this._hgroup.style.animation = "none";
+
+    const duration =
+      parseFloat(
+        getComputedStyle(this._el).getPropertyValue("--hanko-enter-duration"),
+      ) || 0.75;
+
+    gsap.fromTo(
+      this._hgroup,
+      { autoAlpha: 1, y: 0 },
+      { autoAlpha: 0, y: 24, duration, ease: "power2.in" },
+    );
   }
 
   kill() {
@@ -110,6 +157,12 @@ export default class HomeHeaderManager {
     if (this._el) {
       gsap.killTweensOf(this._el);
       gsap.set(this._el, { clearProps: "position,top,left" });
+    }
+    if (this._hgroup) {
+      gsap.killTweensOf(this._hgroup);
+      gsap.set(this._hgroup, { clearProps: "opacity,visibility,transform" });
+      // Restore CSS ownership of the intro by dropping the inline `animation: none`.
+      this._hgroup.style.removeProperty("animation");
     }
     this.logger.trace("destroyed");
   }
