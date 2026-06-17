@@ -58,13 +58,15 @@ chaining (`this._trigger?.isActive`) in case `onEnter` fires synchronously durin
 
 ## Response on entering nav role (`_enterNavRole`)
 
-On the one-shot trigger, two things happen (the trigger is killed once applied):
+On the one-shot trigger the trigger is killed once handled. Note that **header
+positioning is CSS-owned, not done here.** The template keeps the header
+`fixed top-0 left-0 h-dvh w-full` and `hanko.css` no longer returns it to flow on
+`data-preloader-state="exit"`, so it persists as a fixed overlay with content
+scrolling underneath. ScrollSmoother does not run on the home page (there is no
+`#page-main-content`), so native `fixed` holds without a ScrollTrigger pin. This
+manager therefore owns only the **behavioural** transition:
 
-1. **Overlay lift (parked).** The header is meant to lift out of normal flow into
-   its resting nav state — `position: absolute; top: 0; left: 0` — so page content
-   rises underneath it. This `gsap.set()` is currently commented out while the
-   nav-role layout is tuned.
-2. **Reverse the hgroup intro** (`_reverseHgroupIntro`). The hgroup's CSS intro is
+1. **Reverse the hgroup intro** (`_reverseHgroupIntro`). The hgroup's CSS intro is
    the shared `hanko-enter` keyframe applied under `[data-preloader-state="exit"]`
    (`opacity 0->1`, `translateY 24 -> -12 -> 0`, ease-out, `both` fill). As the
    header sheds its hero role, that intro is played **backward** as a clean exit:
@@ -97,15 +99,16 @@ the reversal settles to the hidden end state instantly with `gsap.set()`.
 
 - Instantiated by [[AnimationDirector|AnimationDirector]] alongside the other
   header managers; no-ops off the home page (hook absent).
-- `kill()` removes the `preloader:out` listener, kills the trigger, clears the
-  applied header position props, and tears down the hgroup reversal — killing its
-  tween, clearing `opacity/visibility/transform`, and dropping the inline
-  `animation: none` so CSS reclaims ownership of the intro.
+- `kill()` removes the `preloader:out` listener, kills the trigger, and tears
+  down the hgroup reversal — killing its tween, clearing
+  `opacity/visibility/transform`, and dropping the inline `animation: none` so
+  CSS reclaims ownership of the intro. The header's position is CSS-owned, so
+  teardown does not touch it.
 
 ## Notes for future maintenance
 
-- The absolute resting state intentionally leaves width/height as the CSS leaves
-  them; sizing of the nav-role header is a later step, not part of this initial
-  response.
+- The header is a fixed full-viewport overlay (`h-dvh w-full`, opaque
+  `bg-slate-950`); until it is sized/styled for the nav role, it visually covers
+  the content scrolling beneath it. Sizing is a later step.
 - When continuous nav-role behavior is added, the one-shot trigger teardown in
   `_enterNavRole()` will likely be replaced with a persistent observer.

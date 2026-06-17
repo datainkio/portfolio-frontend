@@ -33,6 +33,7 @@ export default class HomeHeaderManager {
 
     this._el = document.querySelector(SELECTORS.homeHeader);
     this._hgroup = document.querySelector(SELECTORS.homeHGroup);
+    this._nav = document.querySelector(SELECTORS.homeNav);
     this._reducedMotionHandler = reducedMotionHandler;
     this._trigger = null;
     this._inNavRole = false;
@@ -83,15 +84,19 @@ export default class HomeHeaderManager {
     if (this._inNavRole) return;
     this._inNavRole = true;
 
-    // Resting nav state: lifted out of normal flow and anchored to the
-    // document's top-left so page content rises underneath it (overlay).
-    // Positioning only — no tween — so motion vs. reduced-motion is identical;
-    // a reduced branch will be introduced when motion is added in a later step.
-    // gsap.set(this._el, { position: "absolute", top: 0, left: 0 });
+    // Resting nav state (position) is CSS-owned: the template keeps the header
+    // `fixed top-0 left-0 h-dvh w-full` and `hanko.css` no longer returns it to
+    // flow on `data-preloader-state="exit"`, so it persists as a fixed overlay
+    // with content scrolling underneath. ScrollSmoother does not run on home
+    // (no `#page-main-content`), so native `fixed` holds without a pin. This
+    // manager therefore does no positioning — it owns the behavioural transition.
 
     // Shed the hero role: play the hgroup's intro backward as it gives way to
     // the nav-role layout.
-    this._reverseHgroupIntro();
+    this._hideHGroup();
+
+    // Show the nav: play the nav's intro as it takes over the layout.
+    this._showNav();
 
     // One-shot: the trigger's job (detect top-reaches-top) is done and the
     // header is now out of flow, so tear the trigger down.
@@ -116,7 +121,7 @@ export default class HomeHeaderManager {
    * Mirrors the intro: `opacity 1 -> 0`, `y 0 -> 24`, ease-in (mirror of the
    * intro's ease-out), reusing `--hanko-enter-duration` for symmetry.
    */
-  _reverseHgroupIntro() {
+  _hideHGroup() {
     if (!this._hgroup) return;
 
     const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
@@ -144,6 +149,12 @@ export default class HomeHeaderManager {
     );
   }
 
+  _showNav() {
+    if (!this._nav) return;
+    console.log("showing nav");
+    gsap.set(this._nav, { autoAlpha: 1 });
+  }
+
   kill() {
     if (this._onPreloaderOut) {
       window.removeEventListener(
@@ -154,10 +165,8 @@ export default class HomeHeaderManager {
     }
     this._trigger?.kill();
     this._trigger = null;
-    if (this._el) {
-      gsap.killTweensOf(this._el);
-      gsap.set(this._el, { clearProps: "position,top,left" });
-    }
+    // The header's position is CSS-owned; this manager only animates the hgroup,
+    // so teardown is scoped to it.
     if (this._hgroup) {
       gsap.killTweensOf(this._hgroup);
       gsap.set(this._hgroup, { clearProps: "opacity,visibility,transform" });

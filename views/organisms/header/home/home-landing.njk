@@ -1,21 +1,29 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
-{%- set preloader_styles = "fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950 text-white pointer-events-auto" %}
 {%- set header = { 
-        base: "font-display flex gap-2 px-4"
-        } -%}
-{%- set hgroup = { 
-        base: "flex-5/6"
+        base: "fixed h-dvh left-0 w-full z-[9999] grid grid-cols-6 items-center gap-2 justify-center bg-slate-950 pointer-events-auto"
         } -%}
 {%- set hanko = {
-        base: "hanko block text-secondary-500 size-24"} -%}
+        base: "hanko text-secondary-500 size-24",
+        md: "size-36"
+        } -%}
+{%- set hgroup = { 
+        base: "col-span-5"
+        } -%}
+{%- set heading = {
+        base: "font-display text-4xl text-white"
+        } -%}
+{%- set subtitle = {
+        base: "m-0 p-0 font-display text-md text-white"
+        } -%}
+
 {% macro home_landing(params = {}) %}
-  <header id="overview" data-preloader data-home-header class="site-hero {{ header | classes }} {{ preloader_styles }}">
+  <header id="overview" data-preloader data-home-header class="site-hero {{ header | classes }}">
     {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
     <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
-      <h1>Russell Lebo</h1>
-      <p class="m-0 p-0">Experience Designer &amp; Creative Technologist</p>
+      <h1 class="{{ heading | classes }}">Russell Lebo</h1>
+      <p class="{{ subtitle | classes }}">Experience Designer &amp; Creative Technologist</p>
     </hgroup>
-    {{ page_nav.render({init: "display:none;"}) }}
+    {{ page_nav.render({classes: "col-start-1"}) }}
   </header>
 {% endmacro %}

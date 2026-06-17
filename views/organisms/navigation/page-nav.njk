@@ -1,17 +1,17 @@
 {%- set page_nav_styles =  {
-      base: "absolute left-0 top-0 w-full bg-slate-950 text-center px-12"
+      base: "w-full font-display text-primary-200"
 } -%}
 {%- set page_nav_ul_styles =  {
-      base: "divide-y divide-slate-800 flex flex-col justify-center my-auto"
+      base: "divide-y divide-slate-700 flex flex-col basis-full my-auto"
 } -%}
 {%- set page_nav_li_styles =  {
-      base: "basis-full flex items-center justify-center"
+      base: ""
 } -%}
 {%- set page_nav_a_styles =  {
-      base: "block w-full h-full py-12 hover:bg-slate-900"
+      base: "block w-full h-full py-12 hover:bg-slate-900 text-center"
 } -%}
 {% macro render(params = {}) %}
-  <nav aria-label="Page sections" style="{{ params.init }}" class="{{ page_nav_styles | classes }}">
+  <nav aria-label="Page sections" style="{{ params.init }}" class="{{ page_nav_styles | classes }} {{ params.classes }}">
     <ul class="{{ page_nav_ul_styles | classes }}">
       <li class="{{ page_nav_li_styles | classes }}">
         <a class="{{ page_nav_a_styles | classes }}" href="#overview">Overview</a>

@@ -222,9 +222,10 @@
  *   2. once it has settled, the hgroup (name + role) animates in reusing
  *      the hanko's own `hanko-enter` keyframe, delayed by the settle
  *      duration so it begins exactly as the mark lands; and
- *   3. the fixed full-screen overlay is dropped so the header sits in
- *      normal flow as a full-viewport hero. Scroll is locked at the top
- *      during the flip, so fixed -> relative is visually seamless.
+ *   3. the header REMAINS a fixed full-viewport overlay — it is NOT returned
+ *      to flow. It persists as the page's navigation device, anchored
+ *      top-0/left-0, with page content scrolling underneath it; only the
+ *      lockup alignment shifts to flex-start.
  *
  * The hgroup is hidden until the outro. Its hidden state lives under
  * `prefers-reduced-motion: no-preference` on purpose: the global
@@ -295,16 +296,15 @@
     var(--hanko-move-duration) both;
 }
 
-/* 3. Drop the fixed full-screen overlay — the header becomes the in-flow,
- *    full-viewport landing hero. `justify-content: flex-start` overrides the
- *    preloader overlay's `justify-center`: once the mark is in flow, the
- *    [mark + hgroup] pair reads as a left-aligned brand lockup rather than a
- *    centred group. `items-center` (from the overlay utilities) is kept, so the
- *    lockup stays vertically centred in the 100dvh hero. */
+/* 3. The header STAYS a fixed full-viewport overlay through the outro and beyond:
+ *    it is not returned to flow. It persists as the page's navigation device,
+ *    out of flow and anchored top-0/left-0 by the template's
+ *    `fixed top-0 left-0 h-dvh w-full`, so page content scrolls underneath it.
+ *    Only the lockup alignment changes here: `justify-content: flex-start`
+ *    overrides the overlay's `justify-center` so that, once the mark is in flow
+ *    within the header, the [mark + hgroup] pair reads as a left-aligned brand
+ *    lockup rather than a centred group. `items-center` (from the overlay
+ *    utilities) is kept, so the lockup stays vertically centred. */
 [data-preloader][data-preloader-state="exit"] {
-  position: relative;
-  inset: auto;
-  z-index: auto;
-  min-height: 100dvh;
   justify-content: flex-start;
 }
