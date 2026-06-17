@@ -74,12 +74,15 @@ this template only declares the **CSS** that responds to the attribute.
 - **Per-role layout:** the `header` class-variants object keys a full layout per
   role under `data-[header-role=…]:` (loader/hero = centred full-width grid lockup;
   menu = `w-1/6` left rail).
-- **Brand text swap:** the `h1` and subtitle each hold two `<span>`s — full text
-  and abbreviation. In the `menu` role CSS hides the full spans
-  (`group-data-[header-role=menu]:hidden`) and shows the abbreviated ones
-  (`RSL` / `UX/DX/AIX`); outside menu the reverse holds. Exactly one span is in flow
-  (and in the a11y tree) per role; the default rendered state (loader) keeps the
-  full text crawlable.
+- **Brand text swap:** the `h1` and subtitle are **empty elements** that carry
+  both strings as data attributes — `data-label` (full) and `data-label-menu`
+  (`RSL` / `UX/DX/AIX`). CSS renders them via a `::before` pseudo-element
+  (`before:content-[attr(data-label)]`), switching to `data-label-menu` in the
+  `menu` role (`group-data-[header-role=menu]:before:content-[attr(data-label-menu)]`).
+  This keeps the DOM free of variant spans. **Tradeoff:** `::before` text is not
+  crawled by search engines and is inconsistently announced by screen readers, so
+  the `h1`'s name (`Russell Lebo`) is no longer in indexable/guaranteed-accessible
+  text — revisit if SEO/a11y of the heading matters.
 - **Nav:** `page-nav` is `hidden` until the `menu` role, revealed via
   `group-data-[header-role=menu]:block` (the `<header>` carries `group`).
 

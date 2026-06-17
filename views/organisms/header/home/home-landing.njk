@@ -1,23 +1,27 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
 {%- set header = {
-        base: "group fixed h-dvh left-0 z-[9999] bg-slate-950 pointer-events-auto w-full grid grid-cols-6 items-center gap-2 justify-center",
-        "data-[header-role=loader]": "w-full",
+        base: "group fixed h-dvh left-0 z-[9999] bg-slate-950 grid grid-cols-6 items-center gap-2 justify-center",
+        "data-[header-role=loader]": "w-full pointer-events-auto",
         "data-[header-role=hero]": "w-full",
-        "data-[header-role=menu]": "w-1/6 grid-cols-1 items-start border-r border-slate-700"
+        "data-[header-role=menu]": "w-48 grid-cols-1 content-start text-center border-r-2 border-slate-700"
         } -%}
 {%- set hanko = {
-        base: "hanko text-secondary-500 size-24 m-4",
-        md: "size-36"
+        base: "hanko text-secondary-500 size-36 p-4 block mx-auto",
+        md: "",
+        "group-data-[header-role=menu]": "justify-self-center"
         } -%}
-{%- set hgroup = { 
-        base: "col-span-5"
+{%- set hgroup = {
+        base: "col-span-5",
+        "group-data-[header-role=menu]": "col-span-full text-center"
         } -%}
 {%- set heading = {
-        base: "font-display text-4xl text-white"
+        base: "font-display text-4xl text-white before:content-[attr(data-label)] group-data-[header-role=menu]:before:content-[attr(data-label-menu)]",
+        "group-data-[header-role=menu]": "block text-2xl"
         } -%}
 {%- set subtitle = {
-        base: "m-0 p-0 font-display text-md text-white"
+        base: "m-0 p-0 font-display text-md text-white before:content-[attr(data-label)] group-data-[header-role=menu]:before:content-[attr(data-label-menu)]",
+        "group-data-[header-role=menu]": "block text-sm"
         } -%}
 
 {% macro home_landing(params = {}) %}
@@ -29,15 +33,9 @@
     class="site-hero {{ header | classes }}">
     {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
     <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
-      <h1 class="{{ heading | classes }}">
-        <span class="group-data-[header-role=menu]:hidden">Russell Lebo</span>
-        <span class="hidden group-data-[header-role=menu]:inline">RSL</span>
-      </h1>
-      <p class="{{ subtitle | classes }}">
-        <span class="group-data-[header-role=menu]:hidden">Experience Designer &amp; Creative Technologist</span>
-        <span class="hidden group-data-[header-role=menu]:inline">UX/DX/AIX</span>
-      </p>
+      <h1 class="{{ heading | classes }}" data-label="Russell Lebo" data-label-menu="RSL"></h1>
+      <p class="{{ subtitle | classes }}" data-label="Experience Designer &amp; Creative Technologist" data-label-menu="UX/DX/AIX"></p>
     </hgroup>
-    {{ page_nav.render({classes: "col-start-1 hidden group-data-[header-role=menu]:block"}) }}
+    {{ page_nav.render({classes: "col-start-1 hidden mx-auto group-data-[header-role=menu]:block"}) }}
   </header>
 {% endmacro %}

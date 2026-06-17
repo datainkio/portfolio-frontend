@@ -120,14 +120,15 @@ filter prefixes each with its `data-[header-role=…]:` variant:
 - **Nav:** `hidden group-data-[header-role=menu]:block` — the header carries the
   `group` class, so the nav reacts to its ancestor's role, flipping
   `display: none → block` only in the `menu` role.
-- **Brand text:** the `h1` and subtitle each hold two `<span>`s — the full text
-  (`Russell Lebo` / `Experience Designer & Creative Technologist`) and the
-  abbreviation (`RSL` / `UX/DX/AIX`). The full spans carry
-  `group-data-[header-role=menu]:hidden`; the abbreviated spans are `hidden` by
-  default with `group-data-[header-role=menu]:inline`. So exactly one is in flow
-  (and in the a11y tree) per role — full text in loader/hero, abbreviation in menu.
-  The default server-rendered state (loader) shows the full text, so it stays
-  crawlable.
+- **Brand text:** the `h1` and subtitle are **empty elements** carrying both
+  strings as data attributes — `data-label` (default: `Russell Lebo` / `Experience
+  Designer & Creative Technologist`) and `data-label-menu` (`RSL` / `UX/DX/AIX`).
+  CSS renders the text through a `::before` pseudo-element: `before:content-[attr(
+  data-label)]` by default, overridden by
+  `group-data-[header-role=menu]:before:content-[attr(data-label-menu)]` in the menu
+  role. No child spans (replaced the earlier dual-span approach to simplify the
+  DOM). **Tradeoff:** pseudo-element text is not indexed by search engines and is
+  inconsistently exposed to assistive tech — see the manager's caller notes.
 
 This keeps all styling in markup (single source of truth, Tailwind-idiomatic) and
 keeps the manager off class names entirely — it satisfies the choreography
