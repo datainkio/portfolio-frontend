@@ -13,19 +13,19 @@
 {% macro render(params = {}) %}
   <nav aria-label="Page sections" style="{{ params.init }}" class="{{ page_nav_styles | classes }} {{ params.classes }}">
     <ul class="{{ page_nav_ul_styles | classes }}">
-      <li class="{{ page_nav_li_styles | classes }}">
+      <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
         <a class="{{ page_nav_a_styles | classes }}" href="#overview">Overview</a>
       </li>
-      <li class="{{ page_nav_li_styles | classes }}">
+      <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
         <a class="{{ page_nav_a_styles | classes }}" href="#introduction">Dossier</a>
       </li>
-      <li class="{{ page_nav_li_styles | classes }}">
+      <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
         <a class="{{ page_nav_a_styles | classes }}" href="#work">Case studies</a>
       </li>
-      <li class="{{ page_nav_li_styles | classes }}">
+      <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
         <a class="{{ page_nav_a_styles | classes }}" href="#recognition">Recognition</a>
       </li>
-      <li class="{{ page_nav_li_styles | classes }}">
+      <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
         <a class="{{ page_nav_a_styles | classes }}" href="#contact">Contact</a>
       </li>
     </ul>

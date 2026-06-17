@@ -19,6 +19,8 @@ export const SELECTORS = {
   homeHeader: "[data-home-header]",
   homeHGroup: "[data-home-header] hgroup",
   homeNav: "[data-home-header] nav",
+  // Page-nav list items — stagger targets for the menu reveal
+  pageNavItem: "[data-page-nav-el='item']",
 
   // Section IDs
   hero: "hero",

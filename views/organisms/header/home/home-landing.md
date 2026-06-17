@@ -63,7 +63,7 @@ no GSAP on this path, to keep the critical-path payload light.
   Under reduced motion (`animation`/`transition` forced off) every step is instant —
   the lockup simply appears in its final in-flow position.
 
-## Header roles & brand text
+## Header roles
 
 After the preloader hands off (`preloader:out`), the header is a **three-role state
 machine** driven by `data-header-role` on the root `<header>`:
@@ -73,18 +73,15 @@ this template only declares the **CSS** that responds to the attribute.
 
 - **Per-role layout:** the `header` class-variants object keys a full layout per
   role under `data-[header-role=…]:` (loader/hero = centred full-width grid lockup;
-  menu = `w-1/6` left rail).
-- **Brand text swap:** the `h1` and subtitle are **empty elements** that carry
-  both strings as data attributes — `data-label` (full) and `data-label-menu`
-  (`RSL` / `UX/DX/AIX`). CSS renders them via a `::before` pseudo-element
-  (`before:content-[attr(data-label)]`), switching to `data-label-menu` in the
-  `menu` role (`group-data-[header-role=menu]:before:content-[attr(data-label-menu)]`).
-  This keeps the DOM free of variant spans. **Tradeoff:** `::before` text is not
-  crawled by search engines and is inconsistently announced by screen readers, so
-  the `h1`'s name (`Russell Lebo`) is no longer in indexable/guaranteed-accessible
-  text — revisit if SEO/a11y of the heading matters.
+  menu = `w-48` single-column left rail). Child elements (hanko, hgroup, heading,
+  subtitle) take `group-data-[header-role=menu]:` classes to position/size for the
+  rail.
 - **Nav:** `page-nav` is `hidden` until the `menu` role, revealed via
   `group-data-[header-role=menu]:block` (the `<header>` carries `group`).
+
+The `h1`/subtitle render their real text in **all** roles (a per-role brand-text
+swap was prototyped via `::before`/`attr()` data attributes, then abandoned — too
+much complexity for the UX, and it cost the heading's crawlable/accessible text).
 
 `data-header-role` is distinct from `data-preloader-state` (below), which the
 preloader runtime owns for the loader's internal phases.

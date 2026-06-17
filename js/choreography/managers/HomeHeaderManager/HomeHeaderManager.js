@@ -43,6 +43,10 @@ export default class HomeHeaderManager {
 
     this._el = document.querySelector(SELECTORS.homeHeader);
     this._nav = document.querySelector(SELECTORS.homeNav);
+    // The nav's list items are the stagger targets for the menu reveal.
+    this._navItems = this._nav
+      ? this._nav.querySelectorAll(SELECTORS.pageNavItem)
+      : null;
     this._reducedMotionHandler = reducedMotionHandler;
     this._trigger = null;
     this._inMenuRole = false;
@@ -143,15 +147,18 @@ export default class HomeHeaderManager {
    * Display is CSS-owned: the template hides the nav with `hidden` and reveals it
    * with `group-data-[header-role=menu]:block`, so flipping `data-header-role` on
    * the header (in `_enterMenuRole`) has already rendered the nav by the time we
-   * get here. This method only adds the GSAP motion on top of that instant reveal,
-   * scaling it open over `--hanko-enter-duration` (ease-out). Per-link staggering
-   * is layered on in a later step.
+   * get here. This method only adds the GSAP motion: the nav's list items
+   * fade-in-and-up in sequence (a staggered `autoAlpha 0->1` + `y 24->0`).
+   *
+   * `gsap.from` with `immediateRender` pins each item at its hidden start frame
+   * the moment the tween is created — so even though the nav is now `display:block`
+   * there is no flash of the items before they animate.
    */
   _showNav() {
-    if (!this._nav) return;
+    if (!this._navItems || !this._navItems.length) return;
 
-    // Under reduced motion the CSS attribute flip is the entire reveal — the nav
-    // is already visible at its resting scale, so there is nothing to animate.
+    // Under reduced motion the CSS attribute flip is the entire reveal — the items
+    // are already visible at their resting position, so there is nothing to animate.
     const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
     if (reduced) return;
 
@@ -160,11 +167,13 @@ export default class HomeHeaderManager {
         getComputedStyle(this._el).getPropertyValue("--hanko-enter-duration"),
       ) || 0.75;
 
-    gsap.fromTo(
-      this._nav,
-      { scaleY: 0 },
-      { scaleY: 1, duration, ease: "power2.out" },
-    );
+    gsap.from(this._navItems, {
+      autoAlpha: 0,
+      y: 24,
+      duration,
+      ease: "power2.out",
+      stagger: 0.08,
+    });
   }
 
   kill() {
@@ -184,10 +193,10 @@ export default class HomeHeaderManager {
     // can't be meaningfully re-entered, so `hero` is the idle resting fallback.)
     if (this._el) this._el.dataset.headerRole = "hero";
 
-    if (this._nav) {
-      gsap.killTweensOf(this._nav);
-      // The reveal animates `scaleY`, so clear the residual transform.
-      gsap.set(this._nav, { clearProps: "transform" });
+    if (this._navItems && this._navItems.length) {
+      gsap.killTweensOf(this._navItems);
+      // The reveal staggers the items' fade-up, so clear what it set.
+      gsap.set(this._navItems, { clearProps: "opacity,visibility,transform" });
     }
     this.logger.trace("destroyed");
   }

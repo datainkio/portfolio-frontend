@@ -7,7 +7,7 @@
         "data-[header-role=menu]": "w-48 grid-cols-1 content-start text-center border-r-2 border-slate-700"
         } -%}
 {%- set hanko = {
-        base: "hanko text-secondary-500 size-36 p-4 block mx-auto",
+        base: "hanko text-secondary-500 size-32 p-4 block mx-auto",
         md: "",
         "group-data-[header-role=menu]": "justify-self-center"
         } -%}
@@ -16,12 +16,12 @@
         "group-data-[header-role=menu]": "col-span-full text-center"
         } -%}
 {%- set heading = {
-        base: "font-display text-4xl text-white before:content-[attr(data-label)] group-data-[header-role=menu]:before:content-[attr(data-label-menu)]",
-        "group-data-[header-role=menu]": "block text-2xl"
+        base: "font-display text-4xl text-primary-100",
+        "group-data-[header-role=menu]": "block text-xl"
         } -%}
 {%- set subtitle = {
-        base: "m-0 p-0 font-display text-md text-white before:content-[attr(data-label)] group-data-[header-role=menu]:before:content-[attr(data-label-menu)]",
-        "group-data-[header-role=menu]": "block text-sm"
+        base: "m-0 p-0 font-display text-md text-primary-200",
+        "group-data-[header-role=menu]": "block text-sm p-4"
         } -%}
 
 {% macro home_landing(params = {}) %}
@@ -33,8 +33,8 @@
     class="site-hero {{ header | classes }}">
     {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
     <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
-      <h1 class="{{ heading | classes }}" data-label="Russell Lebo" data-label-menu="RSL"></h1>
-      <p class="{{ subtitle | classes }}" data-label="Experience Designer &amp; Creative Technologist" data-label-menu="UX/DX/AIX"></p>
+      <h1 class="{{ heading | classes }}">Russell Lebo</h1>
+      <p class="{{ subtitle | classes }}">Experience Designer &amp; Creative Technologist</p>
     </hgroup>
     {{ page_nav.render({classes: "col-start-1 hidden mx-auto group-data-[header-role=menu]:block"}) }}
   </header>

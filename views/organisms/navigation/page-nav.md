@@ -64,7 +64,9 @@ so it can be reused elsewhere without that header coupling.
   links) until the menu role.
 - Links are full-bleed tap targets (`block w-full h-full py-12`) for comfortable
   touch/menu use.
-- The anchors are the natural **stagger targets** for the planned per-link reveal.
+- Each `<li>` carries `data-page-nav-el="item"` — the choreography hook the home
+  header animates (the menu-reveal stagger; see "Choreography integration"). The
+  attribute decouples the JS from the list markup/classes.
 
 ## Navigation targets
 
@@ -85,10 +87,11 @@ these anchors only resolve where those sections are rendered with these IDs.
 In the home header the nav is hidden (`hidden`) and revealed via
 `group-data-[header-role=menu]:block` when
 [[HomeHeaderManager|../../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager]]
-flips the header's `data-header-role` to `menu`. CSS owns the display swap; the
-manager's `_showNav` only adds the open motion (`scaleY 0->1`). Reveal display is
-therefore **not** JS-driven here — the component just needs to be hideable via
-`classes`.
+flips the header's `data-header-role` to `menu`. CSS owns the display swap; on top
+of it the manager's `_showNav` staggers the `<li>` items (`data-page-nav-el="item"`,
+resolved via `SELECTORS.pageNavItem`) into view — each fades in and up
+(`autoAlpha 0->1`, `y 24->0`, ease-out, `stagger 0.08`). Reveal **display** is not
+JS-driven; only the item motion is.
 
 ## Relationships
 
@@ -108,7 +111,8 @@ therefore **not** JS-driven here — the component just needs to be hideable via
 
 ## Open Questions
 
-- Per-link staggered reveal (the anchors are the stagger targets) — still to be
-  wired in `_showNav`.
+- The per-item staggered reveal is wired (`data-page-nav-el="item"` → `_showNav`).
+  Open: should the stagger amount/easing be a shared motion token rather than a
+  literal in the manager?
 - Should this stay home-specific, or take its links/targets as params for true
   reuse across pages?

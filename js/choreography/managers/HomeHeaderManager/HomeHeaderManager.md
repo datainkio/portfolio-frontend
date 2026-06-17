@@ -88,21 +88,22 @@ scrolling underneath. ScrollSmoother does not run on the home page (there is no
 manager therefore owns only the **behavioural** transition:
 
 1. **Flip the role.** `_enterMenuRole` sets `data-header-role="menu"` on the
-   header. The hero → menu layout swap **and** the hgroup's brand-text collapse are
-   both **CSS-owned** off that attribute via Tailwind v4 data-variants (see "The
-   CSS-owned role layouts" below); JS sets only the one attribute, never the
-   utility classes. This also renders the nav (`display: block`) before the reveal
-   animation runs.
+   header. The hero → menu layout swap is **CSS-owned** off that attribute via
+   Tailwind v4 data-variants (see "The CSS-owned role layouts" below); JS sets only
+   the one attribute, never the utility classes. This also renders the nav
+   (`display: block`) before the reveal animation runs.
 2. **Reveal the page nav** (`_showNav`). Display is already handled by step 1's
-   attribute flip, so this method only adds motion: it scales the nav open
-   (`scaleY 0->1`, ease-out, reusing `--hanko-enter-duration`). Per-link staggering
-   is a later step.
+   attribute flip, so this method only adds motion: the nav's list items
+   **fade-in-and-up in sequence** — `gsap.from` the items with `autoAlpha 0->1`,
+   `y 24->0`, ease-out (reusing `--hanko-enter-duration`), `stagger: 0.08`.
+   `immediateRender` pins each item's hidden start frame on creation, so there is
+   no flash before they animate.
 
 The hgroup itself is **not** animated on this transition — it persists into the
-menu rail (held visible by its CSS intro's `both` fill) and CSS swaps its lockup to
-the abbreviated brand. The previous `_hideHGroup` reverse-intro fade was removed
-when the design changed from "header becomes nav (brand disappears)" to "header
-collapses to a brand+nav rail".
+menu rail (held visible by its CSS intro's `both` fill); only its CSS layout/sizing
+changes by role. The previous `_hideHGroup` reverse-intro fade was removed when the
+design changed from "header becomes nav (brand disappears)" to "header collapses to
+a brand+nav rail".
 
 ### The CSS-owned role layouts
 
@@ -113,22 +114,18 @@ filter prefixes each with its `data-[header-role=…]:` variant:
 
 - **Header:** `loader` and `hero` declare `w-full grid grid-cols-6 items-center
   gap-2 justify-center` (centered full-width lockup); `menu` declares
-  `w-1/6 items-start border-r border-slate-700` (a narrow left rail). Each role
-  states its full layout — no base+override, so no orphaned utilities and no
-  reliance on source order. `loader` and `hero` share a layout today but are kept
-  separate so they can diverge.
+  `w-48 grid-cols-1 content-start text-center border-r-2 border-slate-700` (a narrow
+  single-column left rail). Each role states its full layout — no base+override, so
+  no orphaned utilities and no reliance on source order. `loader` and `hero` share a
+  layout today but are kept separate so they can diverge.
 - **Nav:** `hidden group-data-[header-role=menu]:block` — the header carries the
   `group` class, so the nav reacts to its ancestor's role, flipping
   `display: none → block` only in the `menu` role.
-- **Brand text:** the `h1` and subtitle are **empty elements** carrying both
-  strings as data attributes — `data-label` (default: `Russell Lebo` / `Experience
-  Designer & Creative Technologist`) and `data-label-menu` (`RSL` / `UX/DX/AIX`).
-  CSS renders the text through a `::before` pseudo-element: `before:content-[attr(
-  data-label)]` by default, overridden by
-  `group-data-[header-role=menu]:before:content-[attr(data-label-menu)]` in the menu
-  role. No child spans (replaced the earlier dual-span approach to simplify the
-  DOM). **Tradeoff:** pseudo-element text is not indexed by search engines and is
-  inconsistently exposed to assistive tech — see the manager's caller notes.
+- **Children in the rail:** the hanko, hgroup, heading and subtitle each take a
+  `group-data-[header-role=menu]:` set for the rail (e.g. hanko `justify-self-center`,
+  hgroup `col-span-full text-center`, heading `block text-2xl`, subtitle
+  `block text-sm`). The hanko centers via `justify-self` rather than `mx-auto`
+  because `hanko.css` zeroes its margin in the preloader exit state.
 
 This keeps all styling in markup (single source of truth, Tailwind-idiomatic) and
 keeps the manager off class names entirely — it satisfies the choreography
@@ -147,9 +144,9 @@ had to release the animation before it could fade the hgroup out.)
 
 ### Reduced motion (nav)
 
-Under reduced motion the CSS attribute flip **is** the entire reveal — the nav is
-already visible at its resting scale, so `_showNav` returns early and animates
-nothing.
+Under reduced motion the CSS attribute flip **is** the entire reveal — the list
+items are already visible at their resting position, so `_showNav` returns early and
+animates nothing.
 
 ## DOM contract
 
@@ -164,6 +161,9 @@ nothing.
   `data-preloader-state`, which the preloader runtime owns for the loader's
   internal phases. Nav element resolved via `SELECTORS.homeNav`
   (`[data-home-header] nav`).
+- Stagger targets: the nav's list items, hooked with `data-page-nav-el="item"`
+  (`SELECTORS.pageNavItem`) in `page-nav.njk` and queried within the nav at
+  construction. These are what `_showNav` fades up in sequence.
 
 ## Lifecycle
 
@@ -172,9 +172,9 @@ nothing.
 - `kill()` removes the `preloader:out` listener, kills the trigger, resets
   `data-header-role="hero"` (handing the header + nav layout and the nav's hidden
   state back to CSS — no class bookkeeping; `loader` is a one-time boot phase that
-  can't be re-entered, so `hero` is the idle fallback), and tears down the nav tween
-  (clear `transform`, left by the `scaleY` reveal). The header's position and the
-  hgroup are CSS-owned, so teardown does not touch them.
+  can't be re-entered, so `hero` is the idle fallback), and tears down the nav-item
+  tweens (clear `opacity,visibility,transform`, left by the staggered fade-up). The
+  header's position and the hgroup are CSS-owned, so teardown does not touch them.
 
 ## Notes for future maintenance
 
@@ -186,4 +186,6 @@ nothing.
   state, drop the auto-enter and trigger `menu` from an explicit toggle (the
   hamburger-like interaction) — then `_enterMenuRole`/`_inMenuRole` become a
   reversible open/close rather than a one-shot.
-- Per-link staggering of the nav reveal (`_showNav`) is still a later step.
+- The nav reveal staggers the list items (`data-page-nav-el="item"`); if items
+  become dynamic, the manager queries them once at construction — re-query if the
+  list can change after boot.
