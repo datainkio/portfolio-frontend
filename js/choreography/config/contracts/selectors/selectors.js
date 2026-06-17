@@ -15,6 +15,8 @@
 export const SELECTORS = {
   // Layout
   header: "global-header",
+  // Home landing header — nav-role hook (queried via querySelector)
+  homeHeader: "[data-home-header]",
 
   // Section IDs
   hero: "hero",

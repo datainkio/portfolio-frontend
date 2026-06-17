@@ -43,6 +43,7 @@ import { SECTION_REGISTRY } from "/assets/js/choreography/system/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
 import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
+import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
 import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
 import IndustryHeaderManager from "/assets/js/choreography/managers/IndustryHeaderManager/IndustryHeaderManager.js";
 import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
@@ -113,6 +114,11 @@ export default class AnimationDirector {
 
     // Initialize global header hide/show on scroll
     this.headerManager = new GlobalHeaderManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
+
+    // Initialize home landing header nav-role transition (home page only)
+    this.homeHeaderManager = new HomeHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 
@@ -205,6 +211,9 @@ export default class AnimationDirector {
 
     this.headerManager?.kill();
     this.headerManager = null;
+
+    this.homeHeaderManager?.kill();
+    this.homeHeaderManager = null;
 
     this.industryHeaderManager?.kill();
     this.industryHeaderManager = null;
