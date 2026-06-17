@@ -66,12 +66,32 @@ scrolling underneath. ScrollSmoother does not run on the home page (there is no
 `#page-main-content`), so native `fixed` holds without a ScrollTrigger pin. This
 manager therefore owns only the **behavioural** transition:
 
-1. **Reverse the hgroup intro** (`_reverseHgroupIntro`). The hgroup's CSS intro is
+1. **Reverse the hgroup intro** (`_hideHGroup`). The hgroup's CSS intro is
    the shared `hanko-enter` keyframe applied under `[data-preloader-state="exit"]`
    (`opacity 0->1`, `translateY 24 -> -12 -> 0`, ease-out, `both` fill). As the
    header sheds its hero role, that intro is played **backward** as a clean exit:
    `opacity 1->0`, `y 0->24`, ease-in, reusing `--hanko-enter-duration` for
    symmetry (the intro's `-12px` overshoot is intentionally dropped).
+2. **Reveal the page nav** (`_showNav`). The template hides the nav with Tailwind's
+   `hidden` utility (`display: none`); GSAP cannot animate `display`, so the method
+   first drops the `hidden` class (the direct inverse of the template's hidden
+   state) and then fades the nav in: `opacity 0->1`, ease-out, reusing
+   `--hanko-enter-duration`. This is the **opposite direction** of the hgroup exit
+   on the same duration, so the two **crossfade**. Per-link staggering is a later
+   step.
+
+### The `display: none` reveal
+
+`autoAlpha` drives `visibility`/`opacity`, not `display`, so a `display: none`
+element cannot be faded in directly. `_showNav` releases the hide by removing the
+`hidden` class before the `fromTo`. This is the one place the manager touches a
+class name rather than a `data-*` hook — it mirrors the template's own hidden
+state, not element selection (which stays on `SELECTORS.homeNav`).
+
+### Reduced motion (nav)
+
+Under reduced motion the nav skips the fade: drop `hidden` and settle visible
+instantly with `gsap.set(autoAlpha: 1)`.
 
 ### The `both`-fill gotcha
 
@@ -100,9 +120,10 @@ the reversal settles to the hidden end state instantly with `gsap.set()`.
 - Instantiated by [[AnimationDirector|AnimationDirector]] alongside the other
   header managers; no-ops off the home page (hook absent).
 - `kill()` removes the `preloader:out` listener, kills the trigger, and tears
-  down the hgroup reversal — killing its tween, clearing
-  `opacity/visibility/transform`, and dropping the inline `animation: none` so
-  CSS reclaims ownership of the intro. The header's position is CSS-owned, so
+  down both the hgroup reversal and the nav reveal — killing their tweens,
+  clearing `opacity/visibility/transform`, dropping the hgroup's inline
+  `animation: none` (so CSS reclaims the intro), and re-adding the nav's `hidden`
+  class (so CSS reclaims its hidden state). The header's position is CSS-owned, so
   teardown does not touch it.
 
 ## Notes for future maintenance

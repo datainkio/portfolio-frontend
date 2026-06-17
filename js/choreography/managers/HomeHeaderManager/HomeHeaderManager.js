@@ -95,6 +95,8 @@ export default class HomeHeaderManager {
     // the nav-role layout.
     this._hideHGroup();
 
+    this._el.classList.remove("w-full", "grid");
+
     // Show the nav: play the nav's intro as it takes over the layout.
     this._showNav();
 
@@ -149,10 +151,41 @@ export default class HomeHeaderManager {
     );
   }
 
+  /**
+   * Reveal the page nav as the header takes on its nav-role layout.
+   *
+   * The template hides the nav with Tailwind's `hidden` utility (`display: none`),
+   * which GSAP cannot animate — `autoAlpha` drives `visibility`/`opacity`, not
+   * `display`. So we first release the hide by dropping the `hidden` class (the
+   * direct inverse of the template's hidden state), then fade the nav in.
+   *
+   * Mirrors `_hideHGroup`: same `--hanko-enter-duration`, opposite direction
+   * (ease-out, opacity 0 -> 1), so the hgroup's exit and the nav's entrance
+   * crossfade. Per-link staggering is layered on in a later step.
+   */
   _showNav() {
     if (!this._nav) return;
-    console.log("showing nav");
-    gsap.set(this._nav, { autoAlpha: 1 });
+
+    // Release the template's `display: none` so the element can render and fade.
+    // NOTE: GSAP.autoAlpha does not touch `display`, so the nav must be visible to fade it in.
+    this._nav.classList.remove("hidden");
+
+    const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
+    if (reduced) {
+      gsap.set(this._nav, { autoAlpha: 1 });
+      return;
+    }
+
+    const duration =
+      parseFloat(
+        getComputedStyle(this._el).getPropertyValue("--hanko-enter-duration"),
+      ) || 0.75;
+
+    gsap.fromTo(
+      this._nav,
+      { scaleY: 0 },
+      { scaleY: 1, duration, ease: "power2.out" },
+    );
   }
 
   kill() {
@@ -172,6 +205,12 @@ export default class HomeHeaderManager {
       gsap.set(this._hgroup, { clearProps: "opacity,visibility,transform" });
       // Restore CSS ownership of the intro by dropping the inline `animation: none`.
       this._hgroup.style.removeProperty("animation");
+    }
+    if (this._nav) {
+      gsap.killTweensOf(this._nav);
+      gsap.set(this._nav, { clearProps: "opacity,visibility" });
+      // Restore the template's hidden state so CSS reclaims ownership.
+      this._nav.classList.add("hidden");
     }
     this.logger.trace("destroyed");
   }
