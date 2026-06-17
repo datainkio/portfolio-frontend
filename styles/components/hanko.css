@@ -76,12 +76,37 @@
   --hanko-pulse-cycle: 1.75s;
   --hanko-enter-duration: 0.75s;
   --hanko-enter-delay: 1s;
-  /* Outro: how long the mark takes to settle to full opacity before the
-   * hgroup reveal begins (also the hgroup reveal's animation-delay). */
+  /* Outro step 3 — settle: how long the four paths + frame take to ease to
+   * full opacity once the mark stops pulsing. */
   --hanko-settle-duration: 0.4s;
+  /* Outro — FLIP move: the mark travels HORIZONTALLY ONLY (vertical is held
+   * constant — it stays screen-centred throughout the outro). At exit the mark
+   * re-enters normal flow as the FIRST flex child of the hero header; its
+   * resting ("Last") position is left edge at the header's `px-4` padding,
+   * vertically centred by `items-center`. To animate from screen-centre into
+   * that flow slot without a jump we INVERT (the I in FLIP): start the now-in-flow
+   * mark at the centre and tween its transform back to identity. `--hanko-flip-from-x`
+   * is that invert offset = First − Last = (50vw − 50% own-width) − 1rem (px-4).
+   * `50%` resolves against the mark's own width, so this stays correct at any mark
+   * size; the only baked assumption is the header's 1rem (`px-4`) left padding. */
+  --hanko-flip-from-x: calc(50vw - 50% - 1rem);
+  --hanko-move-duration: 0.6s;
+  --hanko-move-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 [data-preloader] .hanko-mount {
+  /*
+   * Centred onscreen for the whole preloader lifecycle. The header is
+   * `fixed inset-0` (and on exit a `position: relative` full-viewport hero),
+   * so it is the mount's positioned ancestor; `inset: 0; margin: auto` centres
+   * the definite (`size-24`) box within it. Centring via inset/margin rather
+   * than `transform` keeps `transform` free for the entrance keyframe and the
+   * exit move-to-default (step 3, below).
+   */
+  position: absolute;
+  inset: 0;
+  margin: auto;
+
   /*
    * Entrance, played once before the idle pulse: the whole mark rises and
    * fades in (with a small overshoot past its resting position), settles,
@@ -232,20 +257,54 @@
   transition: opacity var(--hanko-settle-duration) ease-out;
 }
 
+/* 1b. As it settles, the mark FLIPs from screen-centre into its real in-flow
+ *     resting slot. It leaves absolute centring (`position: absolute; inset: 0;
+ *     margin: auto`) to become the header's first in-flow flex child — so the
+ *     `margin: auto` MUST be cleared: as a flex item, auto margins absorb free
+ *     space and would shove the mark off the left edge of the lockup. The move is
+ *     horizontal only; `hanko-flip-in` starts the now-in-flow mark at screen
+ *     centre (the invert offset) and tweens to identity, landing it in flow with
+ *     zero visual jump. `both` holds the 0% (centre) frame from the first paint,
+ *     so the mark never flashes at its flow position before animating. This
+ *     animation also overrides the base `hanko-enter`, releasing its hold on
+ *     `transform`. Under reduced motion the global utility forces `animation:
+ *     none`, so the mark simply renders at its flow position instantly — still
+ *     correct, just without the slide. */
+[data-preloader][data-preloader-state="exit"] .hanko-mount {
+  position: static;
+  inset: auto;
+  margin: 0;
+  animation: hanko-flip-in var(--hanko-move-duration) var(--hanko-move-ease) both;
+}
+
+@keyframes hanko-flip-in {
+  from {
+    transform: translateX(var(--hanko-flip-from-x));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 /* 2. Once the mark has landed, reveal the hgroup the same way the hanko
- *    entered. The --hanko-settle-duration delay starts it as the mark
- *    settles; `both` holds the hidden 0% frame through the delay (no flash)
- *    and the settled 100% frame after. */
+ *    entered. The --hanko-move-duration delay starts it as the mark lands;
+ *    `both` holds the hidden 0% frame through the delay (no flash) and the
+ *    settled 100% frame after. */
 [data-preloader][data-preloader-state="exit"] [data-preloader-el="hgroup"] {
   animation: hanko-enter var(--hanko-enter-duration) ease-out
-    var(--hanko-settle-duration) both;
+    var(--hanko-move-duration) both;
 }
 
 /* 3. Drop the fixed full-screen overlay — the header becomes the in-flow,
- *    full-viewport landing hero. */
+ *    full-viewport landing hero. `justify-content: flex-start` overrides the
+ *    preloader overlay's `justify-center`: once the mark is in flow, the
+ *    [mark + hgroup] pair reads as a left-aligned brand lockup rather than a
+ *    centred group. `items-center` (from the overlay utilities) is kept, so the
+ *    lockup stays vertically centred in the 100dvh hero. */
 [data-preloader][data-preloader-state="exit"] {
   position: relative;
   inset: auto;
   z-index: auto;
   min-height: 100dvh;
+  justify-content: flex-start;
 }

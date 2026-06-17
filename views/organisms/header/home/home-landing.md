@@ -50,10 +50,18 @@ no GSAP on this path, to keep the critical-path payload light.
   `opacity: 0` until the outro — scoped to `prefers-reduced-motion: no-preference`
   so reduced-motion users see it by default.
 - **Outro:** `js/preloader/animations.js` flips `data-preloader-state="exit"` on the
-  root at readiness. CSS then (1) settles the hanko to full opacity, (2) reveals the
-  hgroup reusing the hanko's `hanko-enter` keyframe, delayed by the settle duration,
-  and (3) drops the fixed overlay so the header sits in normal flow. The hgroup's
-  `animationend` ends the outro and triggers `preloader:out`.
+  root at readiness. Off that single flip, CSS: (1) settles the hanko paths to full
+  opacity; (2) **FLIPs the hanko from screen-centre into real document flow** — it
+  drops absolute centring (`position: absolute; inset: 0; margin: auto`) to become
+  the header's first in-flow flex child, starts at the invert offset
+  (`--hanko-flip-from-x`), and tweens its `transform` to identity, landing as a plain
+  in-flow block with no jump; (3) reveals the hgroup (reusing `hanko-enter`), delayed
+  by `--hanko-move-duration` so it appears as the mark lands; and (4) drops the fixed
+  overlay and switches the header to `justify-content: flex-start`, so the
+  [mark + hgroup] settle into a **left-aligned, vertically-centred hero lockup** in
+  normal flow. The hgroup's `animationend` ends the outro and triggers `preloader:out`.
+  Under reduced motion (`animation`/`transition` forced off) every step is instant —
+  the lockup simply appears in its final in-flow position.
 
 ## Data and Context
 

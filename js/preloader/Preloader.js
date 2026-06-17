@@ -130,8 +130,7 @@ export const initPreloader = async () => {
 
   const directorReady = createDirectorReadyPromise({
     choreographyEnabled,
-    // TODO: Reenable to advance from the preloader view to the director view
-    // directorReadyEvent: EVENTS.system.directorReady,
+    directorReadyEvent: EVENTS.system.directorReady,
     trace: logger.trace,
   });
 

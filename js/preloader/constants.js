@@ -88,8 +88,8 @@ export const PRELOADER_TIMINGS = {
   gsapExitDuration: 1,
   // Fallback for the CSS outro: the hgroup's animationend marks completion,
   // but under prefers-reduced-motion the global utility forces `animation:
-  // none` so it never fires. Must comfortably exceed settle (0.4s) + enter
-  // (0.75s). See styles/components/hanko.css.
+  // none` so it never fires. Must comfortably exceed the hanko move (0.6s)
+  // plus the hgroup enter (0.75s). See styles/components/hanko.css.
   cssOutroFallbackMs: 1600,
 };
 
