@@ -117,7 +117,7 @@ export default class AnimationDirector {
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 
-    // Initialize home landing header nav-role transition (home page only)
+    // Initialize home landing header role state machine (loader/hero/menu; home page only)
     this.homeHeaderManager = new HomeHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
     });

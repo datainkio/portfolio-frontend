@@ -15,7 +15,7 @@
 export const SELECTORS = {
   // Layout
   header: "global-header",
-  // Home landing header — nav-role hook (queried via querySelector)
+  // Home landing header — role state machine hook (queried via querySelector)
   homeHeader: "[data-home-header]",
   homeHGroup: "[data-home-header] hgroup",
   homeNav: "[data-home-header] nav",

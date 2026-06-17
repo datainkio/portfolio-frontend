@@ -63,6 +63,29 @@ no GSAP on this path, to keep the critical-path payload light.
   Under reduced motion (`animation`/`transition` forced off) every step is instant —
   the lockup simply appears in its final in-flow position.
 
+## Header roles & brand text
+
+After the preloader hands off (`preloader:out`), the header is a **three-role state
+machine** driven by `data-header-role` on the root `<header>`:
+`loader` (initial) → `hero` → `menu`. The roles and their behaviour are owned by
+[[HomeHeaderManager|../../../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager]];
+this template only declares the **CSS** that responds to the attribute.
+
+- **Per-role layout:** the `header` class-variants object keys a full layout per
+  role under `data-[header-role=…]:` (loader/hero = centred full-width grid lockup;
+  menu = `w-1/6` left rail).
+- **Brand text swap:** the `h1` and subtitle each hold two `<span>`s — full text
+  and abbreviation. In the `menu` role CSS hides the full spans
+  (`group-data-[header-role=menu]:hidden`) and shows the abbreviated ones
+  (`RSL` / `UX/DX/AIX`); outside menu the reverse holds. Exactly one span is in flow
+  (and in the a11y tree) per role; the default rendered state (loader) keeps the
+  full text crawlable.
+- **Nav:** `page-nav` is `hidden` until the `menu` role, revealed via
+  `group-data-[header-role=menu]:block` (the `<header>` carries `group`).
+
+`data-header-role` is distinct from `data-preloader-state` (below), which the
+preloader runtime owns for the loader's internal phases.
+
 ## Data and Context
 
 - `Hanko` — imported atom; renders the inlined brand SVG into `.hanko-mount`.

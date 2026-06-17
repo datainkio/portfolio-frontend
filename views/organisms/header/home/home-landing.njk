@@ -1,10 +1,13 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
-{%- set header = { 
-        base: "fixed h-dvh left-0 w-full z-[9999] grid grid-cols-6 items-center gap-2 justify-center bg-slate-950 pointer-events-auto"
+{%- set header = {
+        base: "group fixed h-dvh left-0 z-[9999] bg-slate-950 pointer-events-auto w-full grid grid-cols-6 items-center gap-2 justify-center",
+        "data-[header-role=loader]": "w-full",
+        "data-[header-role=hero]": "w-full",
+        "data-[header-role=menu]": "w-1/6 grid-cols-1 items-start border-r border-slate-700"
         } -%}
 {%- set hanko = {
-        base: "hanko text-secondary-500 size-24",
+        base: "hanko text-secondary-500 size-24 m-4",
         md: "size-36"
         } -%}
 {%- set hgroup = { 
@@ -18,12 +21,23 @@
         } -%}
 
 {% macro home_landing(params = {}) %}
-  <header id="overview" data-preloader data-home-header class="site-hero {{ header | classes }}">
+  <header
+    id="overview"
+    data-preloader
+    data-home-header
+    data-header-role="loader"
+    class="site-hero {{ header | classes }}">
     {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
     <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
-      <h1 class="{{ heading | classes }}">Russell Lebo</h1>
-      <p class="{{ subtitle | classes }}">Experience Designer &amp; Creative Technologist</p>
+      <h1 class="{{ heading | classes }}">
+        <span class="group-data-[header-role=menu]:hidden">Russell Lebo</span>
+        <span class="hidden group-data-[header-role=menu]:inline">RSL</span>
+      </h1>
+      <p class="{{ subtitle | classes }}">
+        <span class="group-data-[header-role=menu]:hidden">Experience Designer &amp; Creative Technologist</span>
+        <span class="hidden group-data-[header-role=menu]:inline">UX/DX/AIX</span>
+      </p>
     </hgroup>
-    {{ page_nav.render({classes: "col-start-1 hidden"}) }}
+    {{ page_nav.render({classes: "col-start-1 hidden group-data-[header-role=menu]:block"}) }}
   </header>
 {% endmacro %}

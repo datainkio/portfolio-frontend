@@ -9,7 +9,7 @@ const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
 
 export function initFade(view) {
-  gsap.set(view, { autoAlpha: 0.5 });
+  gsap.set(view, { autoAlpha: 0 });
 }
 
 export function createFadeIn(view) {
