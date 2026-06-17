@@ -11,11 +11,11 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative h-dvh max-w-3xl content-center text-primary-100 col-span-full prose mx-auto px-2",
+    "base": "relative pl-48 text-primary-100 col-span-full w-full",
     "motion-reduced": ""
   } %}
   {% set header = {
-    "base": "h-full col-span-full z-10 flex flex-wrap items-center [&>time]:ml-auto"
+    "base": "h-full col-span-full z-10 flex flex-wrap items-start [&>time]:ml-auto"
   } %}
   {%- set title = {
     "base": "basis-full font-display text-3xl",
@@ -29,10 +29,15 @@
 
   {# Biography section #}
   <section class="{{ section | classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+    <div
+      class="w-full flex gap-4 px-12 border-b-2 border-b-slate-700 py-4 font-display [&>*]:flex-1 [&>*:first-child]:text-left
+        [&>*:nth-child(2)]:text-center [&>*:last-child]:text-right"
+      data-bio-el="section-header">
+      {{ SectionCap.render({title: "manifesto" , count: order, buildDate: buildDate}) }}
+    </div>
     <header class="{{ header | classes }}" data-bio-el="header">
-      {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
       <h2 class="{{ title | classes }}" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
-      <div class="{{ copy | classes }}" data-bio-el="subheading">{{ body | safe }}</div>
     </header>
+    {{ body | safe }}
   </section>
 {% endmacro %}
