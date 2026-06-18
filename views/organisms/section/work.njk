@@ -14,34 +14,30 @@
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
-  {%- set capStyles = {
-  base: "sticky top-0 bg-slate-950 text-white z-10 w-full h-16 py-4 col-span-full flex gap-4 px-12 border-y-2
-        border-y-slate-700 font-display [&>*]:flex-1 [&>*:first-child]:text-left [&>*:nth-child(2)]:text-center
-        [&>*:last-child]:text-right"} -%}
+  {%- set section = {
+    "base": "pl-12 relative text-primary-100 overflow-hidden",
+    "motion-reduced": "",
+    "lg": "pl-48"
+  } %}
 
-  {%- set sectionStyles = {
-  base: "relative pl-48 col-span-full"} -%}
+  {%- set header = {
+  base: "sticky top-0 bg-slate-950 shadow-neutral-950/50 shadow-md h-auto overflow-hidden z-20 gap-8 p-8"} -%}
 
-  {%- set headerStyles = {
-  base: "sticky top-16 bg-slate-950 shadow-neutral-950/50 shadow-md h-auto overflow-hidden z-20 gap-8 p-8"} -%}
-
-  {%- set headingStyles = {
+  {%- set title = {
     base: "col-span-full basis-full text-neutral-100 font-display font-light text-3xl",
     sm: "text-6xl"
   } -%}
 
-  {%- set navStyles = {
-    base: "text-primary-200"
+  {%- set nav = {
+    base: "text-primary-200 text-left"
   } -%}
 
-  <section id="{{ sectionId }}" class="{{ sectionStyles |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <div class="{{ capStyles | classes }}" data-bio-el="section-header">
-      {{ SectionCap.render({title: "work" , count: order, buildDate: buildDate}) }}
-    </div>
-    <header data-projects-el="header" class="{{ headerStyles | classes }}">
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ headingStyles | classes }}">{{ heading }}</h2>
+  <section id="{{ sectionId }}" class="{{ section |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    {{ SectionCap.render({title: "work" , count: order, buildDate: buildDate}) }}
+    <header data-projects-el="header" class="{{ header | classes }}">
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
       {% if industries | length %}
-        <nav aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ navStyles | classes }}">
+        <nav aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
           {{ Industries.render({ industries: industries }) }}
         </nav>
       {% endif %}

@@ -29,7 +29,7 @@
     {#- TODO: Address horizontal scroll on mobile -#}
     <main id="page-main" aria-busy="true" class="mx-auto px-0 col-span-full w-full">
       {{ PageHeader.home_landing({ svg: logo }) }}
-      {{ BioSection.render({ id: "introduction", copy: value, order: "1/4", buildDate: buildDate}) }}
+      {# BioSection.render({ id: "introduction", copy: value, order: "1/4", buildDate: buildDate}) #}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects, order: "2/4", buildDate: buildDate }) }}
       {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "3/4", buildDate: buildDate }) }}
       {{ ContactSection.render({ id: "contact", order: "4/4", buildDate: buildDate }) }}
