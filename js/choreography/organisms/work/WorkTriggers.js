@@ -21,7 +21,7 @@ export const WORK_TRIGGER = {
 export const WORK_INDUSTRY_HEADER_PIN = {
   ...SCROLL_DEFAULTS,
   id: `${SELECTORS.work}-industry-header-pin`,
-  pin: true,
+  // pin: true,
   // pinSpacing: true,
   // Extra space beneath the pinned Work header.
   // offsetPx: 24,
@@ -48,7 +48,8 @@ export default class WorkTriggers extends AbstractSectionTriggers {
 
   bind(callbacks = {}) {
     super.bind(callbacks);
-    this._bindHeaderPin();
+    // Disable the header pin for now, as it may be causing issues with the industry header pinning.
+    // this._bindHeaderPin();
   }
 
   _bindHeaderPin() {

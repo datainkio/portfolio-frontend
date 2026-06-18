@@ -32,7 +32,7 @@ export default class WorkHeaderManager {
       return;
     }
 
-    this._init();
+    // this._init();
   }
 
   _init() {
