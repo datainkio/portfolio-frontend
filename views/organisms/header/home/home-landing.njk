@@ -13,29 +13,27 @@
         } -%}
 {%- set hgroup = {
         base: "col-span-5",
-        "group-data-[header-role=menu]": "col-span-full text-center"
+        "group-data-[header-role=menu]": "hidden"
         } -%}
 {%- set heading = {
-        base: "font-display text-4xl text-primary-100",
-        "group-data-[header-role=menu]": "block text-xl"
+        base: "font-display text-4xl text-primary-100"
         } -%}
 {%- set subtitle = {
-        base: "m-0 p-0 font-display text-md text-primary-200",
-        "group-data-[header-role=menu]": "block text-sm p-4"
+        base: "m-0 p-0 font-display text-md text-primary-200"
         } -%}
 
 {% macro home_landing(params = {}) %}
-  <header
-    id="overview"
-    data-preloader
-    data-home-header
-    data-header-role="loader"
-    class="site-hero {{ header | classes }}">
-    {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
-    <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
-      <h1 class="{{ heading | classes }}">Russell Lebo</h1>
-      <p class="{{ subtitle | classes }}">Experience Designer &amp; Creative Technologist</p>
-    </hgroup>
-    {{ page_nav.render({classes: "col-start-1 hidden mx-auto group-data-[header-role=menu]:block"}) }}
-  </header>
+        <header
+                id="overview"
+                data-preloader
+                data-home-header
+                data-header-role="loader"
+                class="site-hero {{ header | classes }}">
+                {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
+                <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
+                        <h1 class="{{ heading | classes }}">Russell Lebo</h1>
+                        <p class="{{ subtitle | classes }}">Experience Designer &amp; Creative Technologist</p>
+                </hgroup>
+                {{ page_nav.render({classes: "col-start-1 hidden mx-auto group-data-[header-role=menu]:block"}) }}
+        </header>
 {% endmacro %}
