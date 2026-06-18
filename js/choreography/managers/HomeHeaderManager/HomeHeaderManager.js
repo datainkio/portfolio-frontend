@@ -4,6 +4,37 @@ import { EVENTS } from "../../config/contracts/events/events.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 /**
+ * Seam motion tokens.
+ *
+ * The loader-state motion is CSS (it must run before GSAP parses — the
+ * preloading FCP strategy). Its timing lives in CSS custom properties on
+ * `[data-preloader]` (see `styles/components/hanko.css`). The GSAP nav reveal,
+ * which runs AFTER the CSS→GSAP handoff, must share that timing rather than
+ * fork it. So the CSS custom property is the single token authority; JS reads
+ * it once at arm time (post-`preloader:out`, so no FCP cost) — never inlines a
+ * second copy of the value.
+ */
+const SEAM_TOKENS = Object.freeze({
+  navRevealDuration: { cssVar: "--hanko-enter-duration", fallbackSeconds: 0.75 },
+});
+
+/**
+ * Parse a CSS time token to seconds. Handles `s` and `ms`; returns NaN for an
+ * empty/unparseable value so the caller can fail loudly rather than silently
+ * coerce.
+ *
+ * @param {string} raw
+ * @returns {number}
+ */
+function parseCssSeconds(raw) {
+  const value = (raw ?? "").trim();
+  if (!value) return NaN;
+  const n = parseFloat(value);
+  if (Number.isNaN(n)) return NaN;
+  return /ms$/i.test(value) ? n / 1000 : n;
+}
+
+/**
  * HomeHeaderManager
  *
  * Owns the home landing header's role state machine. The header has three roles,
@@ -51,6 +82,8 @@ export default class HomeHeaderManager {
     this._trigger = null;
     this._inMenuRole = false;
     this._onPreloaderOut = null;
+    // Resolved once at arm time from the seam's CSS custom properties.
+    this._seam = null;
 
     if (!this._el) {
       this.logger.trace("element not found; HomeHeaderManager disabled");
@@ -66,6 +99,11 @@ export default class HomeHeaderManager {
 
   _arm() {
     if (this._trigger || this._inMenuRole) return;
+
+    // GSAP is loaded now (post-`preloader:out`), so reading computed style here
+    // costs no FCP. Resolve the shared seam timing once — the CSS custom prop is
+    // the authority; this never inlines a second copy.
+    this._seam = this._readSeamTokens();
 
     // The preloader (loader role) has finished, so the header now rests as the
     // hero. This is the loader -> hero transition.
@@ -92,6 +130,35 @@ export default class HomeHeaderManager {
     }
 
     this.logger.trace("armed");
+  }
+
+  /**
+   * Read the seam's shared motion tokens from the header's CSS custom
+   * properties — the single source of truth shared with the loader-state CSS.
+   * Reads once (called from `_arm`). A missing/unparseable token is a real
+   * misconfiguration (build dropped the var, or wrong element), so it warns
+   * loudly and falls back to the named safety value rather than silently
+   * forking the timing.
+   *
+   * @returns {{ navRevealDuration: number }}
+   */
+  _readSeamTokens() {
+    const styles = getComputedStyle(this._el);
+    const resolve = ({ cssVar, fallbackSeconds }) => {
+      const seconds = parseCssSeconds(styles.getPropertyValue(cssVar));
+      if (Number.isNaN(seconds)) {
+        console.warn(
+          `[HomeHeaderManager] seam token ${cssVar} missing or unparseable; ` +
+            `falling back to ${fallbackSeconds}s. Define it in styles/components/hanko.css.`,
+        );
+        return fallbackSeconds;
+      }
+      return seconds;
+    };
+
+    return {
+      navRevealDuration: resolve(SEAM_TOKENS.navRevealDuration),
+    };
   }
 
   /**
@@ -162,10 +229,9 @@ export default class HomeHeaderManager {
     const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
     if (reduced) return;
 
-    const duration =
-      parseFloat(
-        getComputedStyle(this._el).getPropertyValue("--hanko-enter-duration"),
-      ) || 0.75;
+    // Timing is the seam token resolved once at arm time — shared with the
+    // loader-state CSS, never re-read or re-defaulted here.
+    const duration = this._seam?.navRevealDuration ?? this._readSeamTokens().navRevealDuration;
 
     gsap.from(this._navItems, {
       autoAlpha: 0,
