@@ -11,33 +11,46 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative pl-48 text-primary-100 col-span-full w-full",
+    "base": "relative h-dvh pl-48 grid grid-cols-3 text-primary-100 col-span-full w-full",
     "motion-reduced": ""
   } %}
   {% set header = {
-    "base": "h-full col-span-full z-10 flex flex-wrap items-start [&>time]:ml-auto"
+    "base": "pl-8 col-span-2 border-r-2 border-r-slate-700 z-1 place-self-start"
   } %}
   {%- set title = {
-    "base": "basis-full font-display text-3xl",
-    "sm": "text-4xl"
-  } %}
-  {%- set copy = {
-    "base": "basis-full mt-4 text-lg font-light columns-md",
-    "sm": "text-xl",
-    "md": "text-2xl"
+    "base": "basis-full font-display font-light text-3xl mb-24",
+    "sm": "text-6xl"
   } %}
 
-  {# Biography section #}
   <section class="{{ section | classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
     <div
-      class="w-full flex gap-4 px-12 border-b-2 border-b-slate-700 py-4 font-display [&>*]:flex-1 [&>*:first-child]:text-left
-        [&>*:nth-child(2)]:text-center [&>*:last-child]:text-right"
+      class="sticky top-0 bg-slate-950 z-10 w-full h-16 py-4 col-span-full flex gap-4 px-12 border-b-2 border-b-slate-700
+        font-display [&>*]:flex-1 [&>*:first-child]:text-left [&>*:nth-child(2)]:text-center [&>*:last-child]:text-right"
       data-bio-el="section-header">
       {{ SectionCap.render({title: "manifesto" , count: order, buildDate: buildDate}) }}
     </div>
+
     <header class="{{ header | classes }}" data-bio-el="header">
+      <p class="font-display text-neutral-400 w-full">A Design Philosophy</p>
       <h2 class="{{ title | classes }}" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>
+      <p class="text-xl font-display text-secondary-500 w-full">Experience Designer + Creative Technologist</p>
     </header>
-    {{ body | safe }}
+    <aside class="text-md font-display text-neutral-400 px-12 pt-12 content-start space-y-12" data-bio-el="aside">
+      <h3 class="font-display text-neutral-400 border-b-2 border-neutral-400 border-dotted pb-3 mb-3">Focus Areas</h3>
+      <ul>
+        <li>UX Strategy</li>
+        <li>Interaction Design</li>
+        <li>Information Architecture</li>
+        <li>Research + Insight</li>
+      </ul>
+      <h3 class="font-display text-neutral-400 border-b-2 border-neutral-400 border-dotted pb-3 mb-3 ">
+        Core Beliefs</h3>
+      <ul>
+        <li>People deserve equitable access to goods and services</li>
+        <li>Design should be inclusive and accessible</li>
+        <li>Collaboration drives innovation</li>
+        <li>Continuous learning is essential</li>
+      </ul>
+    </aside>
   </section>
 {% endmacro %}

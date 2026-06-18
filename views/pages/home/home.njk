@@ -43,10 +43,11 @@ here reflect how I work on a team — clear, explicit, and built for the person 
   <body>
     {% include "templates/partials/gtm-noscript.njk" %}
     {#- TODO: Address horizontal scroll on mobile -#}
-    <main id="page-main" aria-busy="true" class="mx-auto px-0 md:px-6 lg:px-12 col-span-full w-full">
+    <main id="page-main" aria-busy="true" class="mx-auto px-0 col-span-full w-full">
       {{ PageHeader.home_landing({ svg: cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl }) }}
       {{ BioSection.render({ id: "introduction", copy: value, order: "1/3", buildDate: buildDate}) }}
-      {{ ProjectsSection.render({ id: "work", copy: work, projects: projects, order: "2/3", buildDate: buildDate }) }}
+
+      {# {{ ProjectsSection.render({ id: "work", copy: work, projects: projects, order: "2/3", buildDate: buildDate }) }} #}
       {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "3/3", buildDate: buildDate }) }}
       {{ ContactSection.render({ id: "contact", order: "4/3", buildDate: buildDate }) }}
     </main>
