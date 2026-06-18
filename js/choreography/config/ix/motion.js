@@ -57,6 +57,35 @@ export const HOME_NAV_REVEAL = {
   ease: "power2.out",
 };
 
+/**
+ * Home Landing Hero Hold + Transition
+ *
+ * The home header rests in its `hero` role for `HOME_HERO_HOLD.delay` seconds,
+ * then auto-plays the deconstruct -> build transition to the `menu` role. Time
+ * is the sole trigger — scroll and tap are inert (see
+ * specs/animation/home-header-hero-to-menu-transition.animation-spec.md). Tune
+ * the hold here; `?heroHold=<seconds>` overrides at runtime for rebuild-free DX,
+ * and reduced motion zeroes it.
+ *
+ * The transition is transform-only (compositor-safe — never width/layout): the
+ * hero panel slides off-stage (`HOME_HERO_OUTRO`) to reveal page content, the
+ * role flips to `menu` while the panel is off-screen, then the now-narrow rail
+ * slides back in (`HOME_HERO_BUILD`). The nav-item reveal is HOME_NAV_REVEAL.
+ */
+export const HOME_HERO_HOLD = { delay: 4 };
+
+export const HOME_HERO_OUTRO = {
+  xPercent: -100, // slide the full-bleed hero off to the left
+  duration: toSeconds(motion.duration("slow")),
+  ease: "power3.inOut",
+};
+
+export const HOME_HERO_BUILD = {
+  xPercent: 0, // rail returns to its resting left edge
+  duration: toSeconds(motion.duration("slow")),
+  ease: "power3.out",
+};
+
 export const THROW_OUT_ANIMATION = {
   duration: toSeconds(motion.duration("slow")),
   xPercent: -100,

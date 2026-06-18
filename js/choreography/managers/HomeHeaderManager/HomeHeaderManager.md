@@ -32,8 +32,8 @@ Owns the home landing header's **role state machine**, expressed as
    preloader runtime (pure CSS, via `data-preloader-state`) owns the visuals here.
 2. **`hero`** — idle state; the header is a hero design element. Entered when the
    manager arms on `preloader:out`.
-3. **`menu`** — the header acts as a navigation menu (hamburger-like). Entered
-   when the header reaches the top of the viewport.
+3. **`menu`** — the header acts as a navigation menu. Entered automatically a
+   tunable hold after `hero`, driven by a timer — never by scroll or tap.
 
 Each role's layout is declared in the template as Tailwind data-variants keyed on
 `data-header-role`, so the manager flips **one attribute** per transition and
@@ -59,53 +59,63 @@ idle hero role. The manager then creates the menu trigger (below).
 
 ## hero → menu (trigger)
 
-Trigger: **the top of the header reaches the top of the viewport**, expressed as a
-ScrollTrigger `start: "top top"`. Because the header is the topmost element, this
-is already true at scroll 0 — so the manager both registers `onEnter` (forward
-crossing) and checks `isActive` immediately after creating the trigger to cover
-the at-top case. (Consequence: at scroll 0 the header passes loader → hero → menu
-in one tick, so `hero` is currently transient. Making `hero` a stable resting
-state would mean entering `menu` from an explicit toggle instead — see Notes.)
+Trigger: **a tunable time hold**, not scroll position. On `_arm()` the header
+enters `hero` and a `gsap.delayedCall` runs for `HOME_HERO_HOLD.delay` seconds;
+when it fires, `_runTransition` plays the deconstruct → build transition to
+`menu`. **Scroll and tap are inert by design** — the previous scroll-gated swap
+(`ScrollTrigger start: "top top"` + an immediate `isActive` check) flipped the
+whole view away on the first scroll, hiding page content behind an interaction
+gate with no forward cue. That ScrollTrigger is removed. See the
+[hero → menu transition spec](../../../../specs/animation/home-header-hero-to-menu-transition.animation-spec.md).
 
-**The two paths are mutually exclusive at load — the trigger must not be
-pinned.** A plain (unpinned) ScrollTrigger created while already past its `start`
-does *not* fire `onEnter`, so at scroll 0 only the `isActive` check fires
-(`onEnter` covers the inverse case: a load that starts scrolled below the header,
-where the top later crosses going forward). An earlier experiment added
-`pin: true`; that forced a refresh which re-crossed the start and fired `onEnter`
-*as well* — producing a redundant `_enterMenuRole` call — and the pin's
-fixed/spacer layout thrashed layout (a `min-height:100dvh` pin-spacer inserted
-then removed), re-running the CSS context reveal. Pinning was removed.
-`_enterMenuRole()` still guards on `_inMenuRole` as cheap insurance, and the
-`isActive` check uses optional chaining (`this._trigger?.isActive`) in case
-`onEnter` fires synchronously during `create()` and nulls the trigger.
+- **Tunability (DX):** the hold lives in the `HOME_HERO_HOLD` motion token
+  (`config/ix/motion.js`). `?heroHold=<seconds>` overrides it at runtime for
+  rebuild-free tuning (`_resolveHold` / `_readHoldOverride`); the token stays the
+  source of truth. Reduced motion zeroes the hold.
+- **Timer primitive:** `gsap.delayedCall` (not `setTimeout`) so the hold is
+  ticker-synced, pausable and killable; the handle is stored as `this._holdCall`.
+- **`hero` is now a real resting state** (it was transient under the scroll-gate),
+  resolving the prior open question.
+
+### The transition (`_runTransition`)
+
+A single master timeline (`this._master`, stored so it stays seekable/killable),
+two labeled phases:
+
+1. **deconstruct (outro)** — `_buildDeconstruct` slides the hero panel off-stage
+   left (`xPercent: -100`, **transform-only / compositor-safe — never
+   width/layout**), revealing page content beneath. The lockup rides the header
+   off, so the hero reads as exiting. Emits `home:outro:start` / `:complete`.
+2. **seam** — a timeline `.call` flips `data-header-role` to `menu` **while the
+   panel is fully off-screen**, so the instant CSS role-rest swap (full-bleed →
+   narrow rail) is invisible and the progressive GSAP slide never fights it (the
+   class of bug the removed `pin: true` experiment hit when a refresh re-ran the
+   CSS reveal).
+3. **build (intro)** — `_buildMenuIn` slides the now-narrow rail back to its
+   resting left edge (`xPercent: 0`, `clearProps: "transform"` so CSS owns the
+   rest) and nests the nav-item reveal (`_showNav`) as its tail.
+
+Under **reduced motion** there is no slide: `_runTransition` emits the outro pair
+instantly, flips the role, and calls `_showNav` (which emits the intro pair
+instantly). `_enterMenuRole()` still guards on `_inMenuRole` as cheap insurance.
 
 ## Response on entering the menu role (`_enterMenuRole`)
 
-The trigger is one-shot — killed once handled (the header stays in the menu role).
-Note that **header positioning is CSS-owned, not done here.** The template keeps
-the header `fixed left-0 h-dvh` and `hanko.css` no longer returns it to flow on
+`_enterMenuRole` is the seam callback fired mid-timeline by `_runTransition` (and
+called directly under reduced motion). It flips state only — it does **not** play
+the nav reveal (that is sequenced as the build-phase tail; see above). Note that
+**header positioning is CSS-owned, not done here.** The template keeps the header
+`fixed left-0 h-dvh` and `hanko.css` no longer returns it to flow on
 `data-preloader-state="exit"`, so it persists as a fixed overlay with content
 scrolling underneath. ScrollSmoother does not run on the home page (there is no
-`#page-main-content`), so native `fixed` holds without a ScrollTrigger pin. This
-manager therefore owns only the **behavioural** transition:
+`#page-main-content`), so native `fixed` holds without a pin. Its responsibilities:
 
 1. **Flip the role.** `_enterMenuRole` sets `data-header-role="menu"` on the
    header. The hero → menu layout swap is **CSS-owned** off that attribute via
    Tailwind v4 data-variants (see "The CSS-owned role layouts" below); JS sets only
    the one attribute, never the utility classes. This also renders the nav
-   (`display: block`) before the reveal animation runs.
-2. **Reveal the page nav** (`_showNav`). Display is already handled by step 1's
-   attribute flip, so this method only adds motion: the nav's list items
-   **fade-in-and-up in sequence** — `autoAlpha 0->1`, `y -> 0`. `immediateRender`
-   pins each item's hidden start frame on creation, so there is no flash before
-   they animate. `_showNav` builds and **stores a GSAP timeline**
-   (`this._navReveal`) and **returns it**, so a larger choreography sequence can
-   nest or `await` the reveal rather than fire-and-forget. The timeline emits
-   `home:intro:start` / `home:intro:complete` on the bus (see "Bus events").
-   Its motion values come from two places — see "Seam motion tokens".
-
-3. **Arm the side-drawer toggle** (base–md only). On small breakpoints the menu
+   (`display: block`).
+2. **Arm the side-drawer toggle** (base–md only). On small breakpoints the menu
    role is a **side drawer**: it rests **collapsed** (a `w-12` left rail) and a
    tap **anywhere in the header** — including on a page-nav link — expands it to
    full-screen; the next tap collapses it. `_enterMenuRole` attaches
@@ -245,25 +255,32 @@ choreography; nothing consumes them yet. `_emit(name, payload)` mirrors
   header managers, now receiving the shared `AnimationBus`; no-ops off the home
   page (hook absent).
 - `kill()` removes the `preloader:out` listener **and the header pointer
-  listeners** (`pointerdown`/`pointerup`/`pointercancel`), kills the trigger **and
-  the stored `_navReveal` timeline**, resets
-  `data-header-role="hero"` and clears `data-drawer` (handing the
-  header + nav layout and the nav's hidden state back to CSS — no class
-  bookkeeping; `loader` is a one-time boot phase that can't be re-entered, so
-  `hero` is the idle fallback), and tears down the nav-item tweens (clear
-  `opacity,visibility,transform`, left by the staggered fade-up). The header's
-  position and the hgroup are CSS-owned, so teardown does not touch them.
+  listeners** (`pointerdown`/`pointerup`/`pointercancel`), kills the **hold timer
+  (`_holdCall`), the master transition timeline (`_master`), and the stored
+  `_navReveal` timeline**, resets `data-header-role="hero"`, clears `data-drawer`,
+  **and clears the header transform** (releasing the slide so CSS owns the resting
+  position) — handing the header + nav layout and the nav's hidden state back to
+  CSS (no class bookkeeping; `loader` is a one-time boot phase that can't be
+  re-entered, so `hero` is the idle fallback). It also tears down the nav-item
+  tweens (clear `opacity,visibility,transform`, left by the staggered fade-up).
+  The header's position and the hgroup are CSS-owned, so teardown does not touch
+  them.
 
 ## Notes for future maintenance
 
 - The header is a fixed full-viewport overlay (`h-dvh`, opaque `bg-slate-950`);
   until it is sized/styled for the `menu` role it visually covers the content
   scrolling beneath it. Sizing is a later step.
-- **`hero` is currently transient.** At scroll 0 the trigger enters `menu`
-  immediately, so the idle hero role is skipped. The hamburger-like open/close now
-  lives **inside** the menu role as the `data-drawer` side drawer (base–md), not as
-  a role transition; making `hero` a stable resting state is still open and would
-  mean dropping the auto-enter so `menu` is reached from an explicit toggle.
+- **`hero` is a real, timed resting state** (`HOME_HERO_HOLD`), no longer
+  transient — the scroll-gated auto-enter that skipped it is gone. The
+  hamburger-like open/close lives **inside** the menu role as the `data-drawer`
+  side drawer (base–md).
+- **Visual tuning is browser-verified follow-up.** The deconstruct/build is a
+  transform-only `xPercent` slide of the **single header element** (no dedicated
+  scrim layer yet); the spec's full scrim/rail two-layer split and the collapsed
+  rail's hanko-handle sizing (`w-8` in the `w-12` rail) need an in-browser pass.
+  The slide is compositor-safe and contract-correct; geometry/feel are the open
+  knobs.
 - The nav reveal staggers the list items (`data-page-nav-el="item"`); if items
   become dynamic, the manager queries them once at construction — re-query if the
   list can change after boot.

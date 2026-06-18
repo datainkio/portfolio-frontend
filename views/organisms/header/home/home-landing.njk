@@ -10,15 +10,16 @@
 {%- set hgroup = {
         base: "font-display w-24 mx-auto my-8",
         "group-data-[header-role=menu]": "w-16",
-        "max-lg:group-data-[header-role=menu]": "hidden",
-        "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "block"
+        "max-lg:group-data-[header-role=menu]": "w-8 my-4"
         } -%}
 {%- set hanko = {
         base: "hanko block text-secondary-500"
         } -%}
 {%- set heading = {
         base: "text-4xl leading-8 text-primary-200 py-6 my-2",
-        "group-data-[header-role=menu]": "text-2xl leading-5 my-2 py-0"
+        "group-data-[header-role=menu]": "text-2xl leading-5 my-2 py-0",
+        "max-lg:group-data-[header-role=menu]": "hidden",
+        "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "block"
         } -%}
 {%- set subtitle = {
         base: "block text-xl tracking-widest w-full text-slate-500 border-2 border-slate-600",

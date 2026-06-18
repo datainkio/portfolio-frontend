@@ -1,7 +1,12 @@
-import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
-import { HOME_NAV_REVEAL } from "../../config/ix/motion.js";
+import {
+  HOME_NAV_REVEAL,
+  HOME_HERO_HOLD,
+  HOME_HERO_OUTRO,
+  HOME_HERO_BUILD,
+} from "../../config/ix/motion.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 /**
@@ -16,7 +21,10 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * second copy of the value.
  */
 const SEAM_TOKENS = Object.freeze({
-  navRevealDuration: { cssVar: "--hanko-enter-duration", fallbackSeconds: 0.75 },
+  navRevealDuration: {
+    cssVar: "--hanko-enter-duration",
+    fallbackSeconds: 0.75,
+  },
 });
 
 /**
@@ -53,17 +61,19 @@ function parseCssSeconds(raw) {
  *      here and ends by dispatching `preloader:out`.
  *   2. `hero`   — idle state; the header is a hero design element. Entered when
  *      the manager arms on `preloader:out` (the CSS -> GSAP ownership seam).
- *   3. `menu`   — the header acts as a navigation menu (hamburger-like). Entered
- *      when the header reaches the top of the viewport.
+ *   3. `menu`   — the header acts as a navigation menu. Entered automatically a
+ *      tunable hold after `hero`, driven by a timer — never by scroll or tap.
  *
  * `preloader:out` is the seam where motion/IX ownership hands off from CSS to
  * GSAP; this manager arms only then — before it, the header is `position: fixed`
  * and CSS-owned, so touching it early would fight the loader outro.
  *
- * Trigger (loader -> ... -> menu): the top of the header reaches the top of the
- * viewport (`start: "top top"`). The header is the topmost element, so this is
- * already true at scroll 0 — hence the immediate `isActive` check below in
- * addition to `onEnter`, which only fires on a forward crossing.
+ * Trigger (hero -> menu): TIME, not interaction. On arm the header enters `hero`
+ * and a `gsap.delayedCall` runs for HOME_HERO_HOLD seconds (zeroed under reduced
+ * motion; overridable at runtime via `?heroHold=<seconds>` for DX). When it
+ * fires, the deconstruct -> build transition plays. Scroll and tap are inert by
+ * design — the previous scroll-gated swap hid content behind an interaction gate
+ * with no cue. See specs/animation/home-header-hero-to-menu-transition.animation-spec.md.
  *
  * The role swap itself is CSS-owned: the template declares each role's layout —
  * and the hgroup's full-vs-abbreviated brand text — as Tailwind data-variants
@@ -89,7 +99,10 @@ export default class HomeHeaderManager {
       ? this._nav.querySelectorAll(SELECTORS.pageNavItem)
       : null;
     this._reducedMotionHandler = reducedMotionHandler;
-    this._trigger = null;
+    // The hero-hold timer (gsap.delayedCall) and the deconstruct->build master
+    // timeline. Both stored so they are killable and the timeline stays seekable.
+    this._holdCall = null;
+    this._master = null;
     this._inMenuRole = false;
     this._onPreloaderOut = null;
     this._onHeaderPointerDown = null;
@@ -115,7 +128,7 @@ export default class HomeHeaderManager {
   }
 
   _arm() {
-    if (this._trigger || this._inMenuRole) return;
+    if (this._holdCall || this._master || this._inMenuRole) return;
 
     // GSAP is loaded now (post-`preloader:out`), so reading computed style here
     // costs no FCP. Resolve the shared seam timing once — the CSS custom prop is
@@ -126,27 +139,122 @@ export default class HomeHeaderManager {
     // hero. This is the loader -> hero transition.
     this._enterHeroRole();
 
-    this._trigger = ScrollTrigger.create({
-      trigger: this._el,
-      start: "top top",
-      onEnter: () => this._enterMenuRole(),
-    });
+    // Time is the sole trigger. `gsap.delayedCall` (not setTimeout) so the timer
+    // is ticker-synced, pausable and killable. Reduced motion zeroes the hold and
+    // the transition resolves instantly.
+    const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
+    const hold = this._resolveHold(reduced);
+    this._holdCall = gsap.delayedCall(hold, () => this._runTransition(reduced));
 
-    // The header is the topmost element, so on load its top is already at the
-    // viewport top: the trigger is active from scroll 0. A plain (unpinned)
-    // ScrollTrigger created while already past its start does NOT fire `onEnter`,
-    // so the `isActive` check below handles the at-top case. `onEnter` remains to
-    // cover loads that start scrolled below the header (e.g. restored scroll),
-    // where the top later crosses going forward. The two paths are mutually
-    // exclusive at load, so this no longer double-fires; the guard in
-    // `_enterMenuRole` is kept as cheap insurance. The optional chain covers
-    // `onEnter` firing synchronously during `create()`, which nulls
-    // `this._trigger`.
-    if (this._trigger?.isActive) {
+    this.logger.trace(`armed; hero holds ${hold}s then auto-transitions`);
+  }
+
+  /**
+   * Resolve the hero hold in seconds. Reduced motion zeroes it. Otherwise an
+   * optional `?heroHold=<seconds>` URL param overrides the HOME_HERO_HOLD token
+   * for rebuild-free DX tuning; the token remains the source of truth.
+   *
+   * @param {boolean} reduced
+   * @returns {number}
+   */
+  _resolveHold(reduced) {
+    if (reduced) return 0;
+    const override = this._readHoldOverride();
+    return Number.isFinite(override) ? override : HOME_HERO_HOLD.delay;
+  }
+
+  /**
+   * Read a non-negative `?heroHold=<seconds>` override, or NaN when absent or
+   * malformed. Wrapped in try/catch so a hostile/locked-down `location` never
+   * throws on arm.
+   *
+   * @returns {number}
+   */
+  _readHoldOverride() {
+    try {
+      const raw = new URLSearchParams(window.location.search).get("heroHold");
+      if (raw == null) return NaN;
+      const n = parseFloat(raw);
+      return Number.isFinite(n) && n >= 0 ? n : NaN;
+    } catch {
+      return NaN;
+    }
+  }
+
+  /**
+   * Play the hero -> menu transition: deconstruct the hero (outro) -> flip the
+   * role at the seam (CSS resets to the rail rest) -> build the menu (intro).
+   *
+   * The role flip is the instant midpoint: it happens while the hero panel is
+   * slid fully off-stage, so the progressive transform-only GSAP slide never
+   * fights the instant CSS role-rest swap (the width change is invisible
+   * off-screen). Under reduced motion there is no slide — the role flips and the
+   * nav resolves instantly, with both event pairs emitted so any coordinating
+   * sequence is not left waiting.
+   *
+   * @param {boolean} reduced
+   */
+  _runTransition(reduced) {
+    this._holdCall = null;
+    if (this._inMenuRole) return;
+
+    if (reduced) {
+      this._emit(this._events?.outroStart);
+      this._emit(this._events?.outroComplete);
       this._enterMenuRole();
+      this._showNav(); // emits intro:start/complete instantly under reduced motion
+      return;
     }
 
-    this.logger.trace("armed");
+    // One master timeline, two labeled phases, stored so it stays seekable and
+    // killable.
+    this._master = gsap.timeline();
+    this._master
+      .add(this._buildDeconstruct(), "deconstruct")
+      .call(() => this._enterMenuRole(), null, "build")
+      .add(this._buildMenuIn(), "build");
+  }
+
+  /**
+   * Deconstruct (outro): the hero panel slides off-stage left, revealing page
+   * content beneath. Transform-only (compositor-safe) — never width/layout. The
+   * lockup rides the header off, so the hero reads as exiting. Emits the outro
+   * pair on the bus.
+   *
+   * @returns {import("gsap").core.Timeline}
+   */
+  _buildDeconstruct() {
+    const tl = gsap.timeline({
+      onStart: () => this._emit(this._events?.outroStart),
+      onComplete: () => this._emit(this._events?.outroComplete),
+    });
+    tl.to(this._el, {
+      xPercent: HOME_HERO_OUTRO.xPercent,
+      duration: HOME_HERO_OUTRO.duration,
+      ease: HOME_HERO_OUTRO.ease,
+    });
+    return tl;
+  }
+
+  /**
+   * Build (intro): the header — flipped to the narrow `menu` rail at the seam
+   * while off-stage — slides back to its resting left edge, and the nav items
+   * reveal in sequence (the nav stagger is the build's tail). The slide clears
+   * its transform on completion so the CSS role-rest owns the final position.
+   *
+   * @returns {import("gsap").core.Timeline}
+   */
+  _buildMenuIn() {
+    const tl = gsap.timeline();
+    tl.to(this._el, {
+      xPercent: HOME_HERO_BUILD.xPercent,
+      duration: HOME_HERO_BUILD.duration,
+      ease: HOME_HERO_BUILD.ease,
+      clearProps: "transform",
+    });
+    const nav = this._showNav();
+    if (nav) tl.add(nav, "<"); // reveal the nav as the rail slides in
+    return tl;
   }
 
   /**
@@ -209,13 +317,13 @@ export default class HomeHeaderManager {
     this._el.dataset.headerRole = "menu";
 
     // The hgroup persists into the menu rail; CSS collapses its lockup to the
-    // abbreviated brand (RSL / UX-DX-AIX) off the same role attribute, so the text
-    // swap needs no JS. (The hgroup stays visible because its CSS intro holds the
-    // end frame via `both` fill — nothing here hides it.)
-
-    // Show the nav: the attribute flip above has already rendered it
-    // (CSS `display: block`), so it can be animated in.
-    this._showNav();
+    // abbreviated brand off the same role attribute, so the text swap needs no
+    // JS. (The hgroup stays visible because its CSS intro holds the end frame via
+    // `both` fill — nothing here hides it.)
+    //
+    // The nav reveal is NOT fired here. `_runTransition` orchestrates it as the
+    // tail of the build phase (so it sequences after the role flip) — or, under
+    // reduced motion, calls `_showNav` directly. This method only flips state.
 
     // Side-drawer toggle (base–md only; CSS gates the width to `max-lg:`). The
     // menu role rests collapsed (a `w-12` left rail); a tap anywhere in the
@@ -250,11 +358,6 @@ export default class HomeHeaderManager {
     this._el.addEventListener("pointerdown", this._onHeaderPointerDown);
     this._el.addEventListener("pointerup", this._onHeaderPointerUp);
     this._el.addEventListener("pointercancel", this._onHeaderPointerCancel);
-
-    // One-shot: the trigger's job (detect top-reaches-top) is done, so tear it
-    // down — the header stays in the menu role.
-    this._trigger?.kill();
-    this._trigger = null;
 
     this.logger.trace("entered menu role");
   }
@@ -346,15 +449,21 @@ export default class HomeHeaderManager {
       if (this._onHeaderPointerUp)
         this._el.removeEventListener("pointerup", this._onHeaderPointerUp);
       if (this._onHeaderPointerCancel)
-        this._el.removeEventListener("pointercancel", this._onHeaderPointerCancel);
+        this._el.removeEventListener(
+          "pointercancel",
+          this._onHeaderPointerCancel,
+        );
     }
     this._onHeaderPointerDown = null;
     this._onHeaderPointerUp = null;
     this._onHeaderPointerCancel = null;
     this._tapOrigin = null;
 
-    this._trigger?.kill();
-    this._trigger = null;
+    this._holdCall?.kill();
+    this._holdCall = null;
+
+    this._master?.kill();
+    this._master = null;
 
     this._navReveal?.kill();
     this._navReveal = null;
@@ -363,9 +472,11 @@ export default class HomeHeaderManager {
     // are CSS-owned off this attribute, so restoring it hands ownership back to
     // CSS — no class bookkeeping needed. (`loader` is a one-time boot phase that
     // can't be meaningfully re-entered, so `hero` is the idle resting fallback.)
+    // Clearing the transform releases the slide so CSS owns the resting position.
     if (this._el) {
       this._el.dataset.headerRole = "hero";
       delete this._el.dataset.drawer;
+      gsap.set(this._el, { clearProps: "transform" });
     }
 
     if (this._navItems && this._navItems.length) {
