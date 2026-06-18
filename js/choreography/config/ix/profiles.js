@@ -12,11 +12,13 @@
  *   easePreset    - named ease from motionTokens (reserved for future use)
  *
  * trigger channel:
- *   enabled            - gates ScrollTrigger binding for sections
- *   scrub              - capability flag; used by composeScrollTrigger
- *   pin                - capability flag; used by composeScrollTrigger
- *   once               - fire trigger once vs. on every enter
- *   invalidateOnRefresh - recalculate trigger on resize/refresh
+ *   enabled            - gates ScrollTrigger binding for sections (CONSUMED — see
+ *                        AbstractSection._applyResponsiveLifecycle)
+ *   scrub              - INERT. Section triggers read scrub/pin/once from their own
+ *   pin                  base configs (e.g. BIO_TRIGGER), not from the profile. These
+ *   once                 keys were only ever read by composeScrollTrigger, which has
+ *   invalidateOnRefresh  been removed. Left here as intent until the profile system
+ *                        either wires them in or drops them.
  */
 import { getActiveBreakpoint } from "./breakpoints.js";
 export const ACCESSIBILITY_SETTINGS = {

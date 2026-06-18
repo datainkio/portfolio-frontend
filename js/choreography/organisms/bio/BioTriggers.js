@@ -10,7 +10,8 @@ export const BIO_TRIGGER = {
   start: "top top",
   end: "bottom bottom",
   // once: true,
-  scrub: true,
+  // scrub disabled — evaluating ScrollTrigger scrub impact on motion complexity
+  scrub: false,
   // pin disabled — evaluating ScrollTrigger pin impact on motion complexity
   pin: false,
   pinSpacing: false,
@@ -29,7 +30,13 @@ export default class BioTriggers extends AbstractSectionTriggers {
   }
 
   bind(options = {}) {
-    const introTl = this.section?.animations?.getTimeline?.(TIMELINE_IDS.intro);
+    // Hand the intro timeline to the ScrollTrigger ONLY when scrubbed; otherwise
+    // the lifecycle (playIntro via onEnter) owns the reveal. Passing it while
+    // unscrubbed double-drives the same timeline. See AbstractSection.playIntro.
+    const scrubbed = Boolean(this._getTriggerDefaults().scrub);
+    const introTl = scrubbed
+      ? this.section?.animations?.getTimeline?.(TIMELINE_IDS.intro)
+      : null;
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
   }
 }

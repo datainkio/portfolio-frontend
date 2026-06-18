@@ -16,7 +16,8 @@ export const HERO_TRIGGER = {
   // pin disabled — evaluating ScrollTrigger pin impact on motion complexity
   pinSpacing: false,
   pin: false,
-  scrub: 1,
+  // scrub disabled — evaluating ScrollTrigger scrub impact on motion complexity
+  scrub: false,
   fastScrollEnd: false,
   toggleActions: "none none none none",
 };
@@ -42,6 +43,10 @@ export default class HeroTriggers extends AbstractSectionTriggers {
 
     this._gelTrigger?.kill();
     this._gelTrigger = null;
+
+    // The gel trigger is intrinsically scrub-driven (outro tied to scroll).
+    // With scrub stripped there is no non-scrub outro path for Hero, so skip it.
+    if (!HERO_TRIGGER.scrub) return;
 
     const outroTimeline =
       this.section?.animations?.getTimeline?.(TIMELINE_IDS.outro) ?? null;

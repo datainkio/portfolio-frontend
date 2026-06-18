@@ -15,7 +15,8 @@ export const AWARDS_TRIGGER = {
   pin: false,
   pinSpacing: false,
   once: false,
-  scrub: 1,
+  // scrub disabled — evaluating ScrollTrigger scrub impact on motion complexity
+  scrub: false,
 };
 
 export default class AwardsTriggers extends AbstractSectionTriggers {
@@ -30,7 +31,13 @@ export default class AwardsTriggers extends AbstractSectionTriggers {
   }
 
   bind(options = {}) {
-    const introTl = this.section?.animations?.getTimeline?.(TIMELINE_IDS.intro);
+    // Hand the intro timeline to the ScrollTrigger ONLY when scrubbed; otherwise
+    // the lifecycle (playIntro via onEnter) owns the reveal. Passing it while
+    // unscrubbed double-drives the same timeline. See AbstractSection.playIntro.
+    const scrubbed = Boolean(this._getTriggerDefaults().scrub);
+    const introTl = scrubbed
+      ? this.section?.animations?.getTimeline?.(TIMELINE_IDS.intro)
+      : null;
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
   }
 }
