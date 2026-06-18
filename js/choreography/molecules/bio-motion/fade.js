@@ -16,16 +16,16 @@ export function createFadeIn(view) {
   const header = selectBioEl(view, "header");
   const tl = gsap.timeline({ id: TIMELINE_IDS.intro });
 
-  if (header) {
-    tl.from(header, {
-      autoAlpha: 0,
-      y: 40,
-      duration: BIO_INTRO.duration,
-      ease: BIO_INTRO.ease.out,
-    });
-  }
+  // if (header) {
+  //   tl.from(header, {
+  //     autoAlpha: 0,
+  //     y: 40,
+  //     duration: BIO_INTRO.duration,
+  //     ease: BIO_INTRO.ease.out,
+  //   });
+  // }
 
-  tl.addPause();
+  // tl.addPause();
   return tl;
 }
 
@@ -33,8 +33,8 @@ export function createFadeOut(view) {
   const header = selectBioEl(view, "header");
   const tl = gsap.timeline({ id: TIMELINE_IDS.outro });
 
-  if (header) {
-    tl.to(header, { autoAlpha: 0, duration: BIO_INTRO.duration });
-  }
+  // if (header) {
+  //   tl.to(header, { autoAlpha: 0, duration: BIO_INTRO.duration });
+  // }
   return tl;
 }

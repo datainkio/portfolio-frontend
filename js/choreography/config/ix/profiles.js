@@ -12,13 +12,13 @@
  *   easePreset    - named ease from motionTokens (reserved for future use)
  *
  * trigger channel:
- *   enabled            - gates ScrollTrigger binding for sections (CONSUMED — see
- *                        AbstractSection._applyResponsiveLifecycle)
- *   scrub              - INERT. Section triggers read scrub/pin/once from their own
- *   pin                  base configs (e.g. BIO_TRIGGER), not from the profile. These
- *   once                 keys were only ever read by composeScrollTrigger, which has
- *   invalidateOnRefresh  been removed. Left here as intent until the profile system
- *                        either wires them in or drops them.
+ *   enabled - gates ScrollTrigger binding for sections (consumed by
+ *             AbstractSection._applyResponsiveLifecycle).
+ *
+ * NOTE: trigger capability flags (scrub/pin/once) are intentionally NOT defined here.
+ * They are owned by each section's base trigger config (e.g. BIO_TRIGGER) and are not
+ * breakpoint-varying. If per-breakpoint capability is ever needed, merge profile.trigger
+ * over _getTriggerDefaults() in AbstractSectionTriggers.bind() and reintroduce them.
  */
 import { getActiveBreakpoint } from "./breakpoints.js";
 export const ACCESSIBILITY_SETTINGS = {
@@ -37,13 +37,7 @@ export const MOTION_PROFILES = Object.freeze({
       distanceScale: 1,
       easePreset: "standard",
     },
-    trigger: {
-      enabled: false,
-      scrub: false,
-      pin: false,
-      once: true,
-      invalidateOnRefresh: true,
-    },
+    trigger: { enabled: false },
   },
   base: {
     timeline: {
@@ -53,13 +47,7 @@ export const MOTION_PROFILES = Object.freeze({
       distanceScale: 1,
       easePreset: "standard",
     },
-    trigger: {
-      enabled: true,
-      scrub: false,
-      pin: false,
-      once: true,
-      invalidateOnRefresh: true,
-    },
+    trigger: { enabled: true },
   },
   sm: {
     timeline: {
@@ -69,13 +57,7 @@ export const MOTION_PROFILES = Object.freeze({
       distanceScale: 1,
       easePreset: "standard",
     },
-    trigger: {
-      enabled: true,
-      scrub: false,
-      pin: false,
-      once: true,
-      invalidateOnRefresh: true,
-    },
+    trigger: { enabled: true },
   },
   md: {
     timeline: {
@@ -85,13 +67,7 @@ export const MOTION_PROFILES = Object.freeze({
       distanceScale: 1,
       easePreset: "standard",
     },
-    trigger: {
-      enabled: true,
-      scrub: false,
-      pin: false,
-      once: true,
-      invalidateOnRefresh: true,
-    },
+    trigger: { enabled: true },
   },
   lg: {
     timeline: {
@@ -101,13 +77,7 @@ export const MOTION_PROFILES = Object.freeze({
       distanceScale: 1,
       easePreset: "standard",
     },
-    trigger: {
-      enabled: true,
-      scrub: true,
-      pin: true,
-      once: false,
-      invalidateOnRefresh: true,
-    },
+    trigger: { enabled: true },
   },
   xl: {
     timeline: {
@@ -117,13 +87,7 @@ export const MOTION_PROFILES = Object.freeze({
       distanceScale: 1,
       easePreset: "standard",
     },
-    trigger: {
-      enabled: true,
-      scrub: true,
-      pin: true,
-      once: false,
-      invalidateOnRefresh: true,
-    },
+    trigger: { enabled: true },
   },
 });
 
@@ -160,13 +124,7 @@ export const SECTION_OVERRIDES = Object.freeze({
         distanceScale: 1,
         easePreset: "standard",
       },
-      trigger: {
-        enabled: true,
-        scrub: true,
-        pin: true,
-        once: false,
-        invalidateOnRefresh: true,
-      },
+      trigger: { enabled: true },
     },
   },
   card: {
