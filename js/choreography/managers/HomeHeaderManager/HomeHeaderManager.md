@@ -13,9 +13,12 @@ tags:
   - "#design/motion/choreography/HomeHeaderManager"
 links:
   - "[[system/gsap|system/gsap]]"
+  - "[[AnimationBus|AnimationBus]]"
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[config/contracts/events/events|config/contracts/events]]"
+  - "[[motion|config/ix/motion]]"
   - "[[home-landing|organisms/header/home/home-landing]]"
+  - "[[hanko|styles/components/hanko]]"
 backlinks:
   - "[[AnimationDirector|AnimationDirector]]"
 ---
@@ -94,10 +97,13 @@ manager therefore owns only the **behavioural** transition:
    (`display: block`) before the reveal animation runs.
 2. **Reveal the page nav** (`_showNav`). Display is already handled by step 1's
    attribute flip, so this method only adds motion: the nav's list items
-   **fade-in-and-up in sequence** — `gsap.from` the items with `autoAlpha 0->1`,
-   `y 24->0`, ease-out (reusing `--hanko-enter-duration`), `stagger: 0.08`.
-   `immediateRender` pins each item's hidden start frame on creation, so there is
-   no flash before they animate.
+   **fade-in-and-up in sequence** — `autoAlpha 0->1`, `y -> 0`. `immediateRender`
+   pins each item's hidden start frame on creation, so there is no flash before
+   they animate. `_showNav` builds and **stores a GSAP timeline**
+   (`this._navReveal`) and **returns it**, so a larger choreography sequence can
+   nest or `await` the reveal rather than fire-and-forget. The timeline emits
+   `home:intro:start` / `home:intro:complete` on the bus (see "Bus events").
+   Its motion values come from two places — see "Seam motion tokens".
 
 The hgroup itself is **not** animated on this transition — it persists into the
 menu rail (held visible by its CSS intro's `both` fill); only its CSS layout/sizing
@@ -145,8 +151,37 @@ had to release the animation before it could fade the hgroup out.)
 ### Reduced motion (nav)
 
 Under reduced motion the CSS attribute flip **is** the entire reveal — the list
-items are already visible at their resting position, so `_showNav` returns early and
-animates nothing.
+items are already visible at their resting position, so `_showNav` animates
+nothing. It still **emits `home:intro:start` + `home:intro:complete` instantly**
+before returning, so a larger sequence coordinating off the reveal is not left
+waiting when motion is off (mirrors `AbstractSection._applyPostIntroState`).
+
+### Seam motion tokens
+
+`_showNav`'s timing is split deliberately, to keep a single source of truth
+across the CSS→GSAP seam:
+
+- **Duration** is the **seam token** `--hanko-enter-duration`, owned by the
+  loader-state CSS in `styles/components/hanko.css` (it must exist there for the
+  FCP-critical CSS loader motion). JS does **not** copy the value — `_arm()`
+  calls `_readSeamTokens()` once (post-`preloader:out`, so GSAP is loaded and the
+  computed-style read costs no FCP), parses it (`parseCssSeconds`, handles
+  `s`/`ms`), and stores it on `this._seam`. A missing/unparseable var
+  `console.warn`s loudly and falls back to a **named** safety value — never a
+  silent inline default.
+- **Distance / stagger / ease** are **GSAP-only** (the loader CSS does not use
+  them), so they are named in [[motion|config/ix/motion]] as `HOME_NAV_REVEAL`.
+  That block intentionally **omits duration** — defining it there would re-fork
+  the seam token.
+
+### Bus events
+
+`HomeHeaderManager` receives the `AnimationBus` from the Director and resolves
+its event names from `EVENTS.home` (`makeSectionEvents("home")`). The nav reveal
+emits `home:intro:start` / `home:intro:complete` (instantly under reduced
+motion). These exist so the reveal is **observable and sequenceable** by other
+choreography; nothing consumes them yet. `_emit(name, payload)` mirrors
+`AbstractSection._emit` (no-ops without a bus or event name).
 
 ## DOM contract
 
@@ -168,13 +203,15 @@ animates nothing.
 ## Lifecycle
 
 - Instantiated by [[AnimationDirector|AnimationDirector]] alongside the other
-  header managers; no-ops off the home page (hook absent).
-- `kill()` removes the `preloader:out` listener, kills the trigger, resets
-  `data-header-role="hero"` (handing the header + nav layout and the nav's hidden
-  state back to CSS — no class bookkeeping; `loader` is a one-time boot phase that
-  can't be re-entered, so `hero` is the idle fallback), and tears down the nav-item
-  tweens (clear `opacity,visibility,transform`, left by the staggered fade-up). The
-  header's position and the hgroup are CSS-owned, so teardown does not touch them.
+  header managers, now receiving the shared `AnimationBus`; no-ops off the home
+  page (hook absent).
+- `kill()` removes the `preloader:out` listener, kills the trigger **and the
+  stored `_navReveal` timeline**, resets `data-header-role="hero"` (handing the
+  header + nav layout and the nav's hidden state back to CSS — no class
+  bookkeeping; `loader` is a one-time boot phase that can't be re-entered, so
+  `hero` is the idle fallback), and tears down the nav-item tweens (clear
+  `opacity,visibility,transform`, left by the staggered fade-up). The header's
+  position and the hgroup are CSS-owned, so teardown does not touch them.
 
 ## Notes for future maintenance
 

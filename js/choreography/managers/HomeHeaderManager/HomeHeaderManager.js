@@ -1,6 +1,7 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
+import { HOME_NAV_REVEAL } from "../../config/ix/motion.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 /**
@@ -66,12 +67,14 @@ function parseCssSeconds(raw) {
  * positioning.
  */
 export default class HomeHeaderManager {
-  constructor({ reducedMotionHandler } = {}) {
+  constructor({ bus = null, reducedMotionHandler } = {}) {
     this.logger = lumberjack.createScoped("HomeHeaderManager", {
       color: "#EC4899",
       enabled: true,
     });
 
+    this._bus = bus;
+    this._events = EVENTS.home;
     this._el = document.querySelector(SELECTORS.homeHeader);
     this._nav = document.querySelector(SELECTORS.homeNav);
     // The nav's list items are the stagger targets for the menu reveal.
@@ -84,6 +87,8 @@ export default class HomeHeaderManager {
     this._onPreloaderOut = null;
     // Resolved once at arm time from the seam's CSS custom properties.
     this._seam = null;
+    // The nav-reveal timeline, stored so a larger sequence can nest/await it.
+    this._navReveal = null;
 
     if (!this._el) {
       this.logger.trace("element not found; HomeHeaderManager disabled");
@@ -222,24 +227,49 @@ export default class HomeHeaderManager {
    * there is no flash of the items before they animate.
    */
   _showNav() {
-    if (!this._navItems || !this._navItems.length) return;
+    if (!this._navItems || !this._navItems.length) return null;
 
     // Under reduced motion the CSS attribute flip is the entire reveal — the items
     // are already visible at their resting position, so there is nothing to animate.
+    // Still emit start+complete (instantly) so a larger sequence coordinating off
+    // this reveal isn't left waiting.
     const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
-    if (reduced) return;
+    if (reduced) {
+      this._emit(this._events?.introStart);
+      this._emit(this._events?.introComplete);
+      return null;
+    }
 
     // Timing is the seam token resolved once at arm time — shared with the
-    // loader-state CSS, never re-read or re-defaulted here.
-    const duration = this._seam?.navRevealDuration ?? this._readSeamTokens().navRevealDuration;
+    // loader-state CSS, never re-read or re-defaulted here. Distance/stagger/ease
+    // are GSAP-only, named in config/ix/motion.js (HOME_NAV_REVEAL).
+    const duration =
+      this._seam?.navRevealDuration ?? this._readSeamTokens().navRevealDuration;
 
-    gsap.from(this._navItems, {
-      autoAlpha: 0,
-      y: 24,
-      duration,
-      ease: "power2.out",
-      stagger: 0.08,
+    // A stored timeline (not a loose tween) so a parent sequence can nest or
+    // await it; bus events mark the reveal boundaries for the same reason.
+    this._navReveal = gsap.timeline({
+      onStart: () => this._emit(this._events?.introStart),
+      onComplete: () => this._emit(this._events?.introComplete),
     });
+    this._navReveal.from(this._navItems, {
+      autoAlpha: 0,
+      y: HOME_NAV_REVEAL.distance,
+      duration,
+      ease: HOME_NAV_REVEAL.ease,
+      stagger: HOME_NAV_REVEAL.stagger,
+    });
+
+    return this._navReveal;
+  }
+
+  /**
+   * Emit on the AnimationBus if both a bus and an event name are present.
+   * Mirrors AbstractSection._emit so managers and sections coordinate uniformly.
+   */
+  _emit(eventName, payload = {}) {
+    if (!this._bus || !eventName) return;
+    this._bus.emit(eventName, { element: this._el, ...payload });
   }
 
   kill() {
@@ -252,6 +282,9 @@ export default class HomeHeaderManager {
     }
     this._trigger?.kill();
     this._trigger = null;
+
+    this._navReveal?.kill();
+    this._navReveal = null;
 
     // Reset to the hero role. The header/nav layout (and the nav's hidden state)
     // are CSS-owned off this attribute, so restoring it hands ownership back to

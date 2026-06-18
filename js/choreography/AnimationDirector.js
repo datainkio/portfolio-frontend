@@ -119,6 +119,7 @@ export default class AnimationDirector {
 
     // Initialize home landing header role state machine (loader/hero/menu; home page only)
     this.homeHeaderManager = new HomeHeaderManager({
+      bus: this.bus,
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 

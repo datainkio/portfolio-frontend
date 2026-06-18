@@ -37,6 +37,26 @@ export const ANIMATION_DEFAULTS = {
   overwrite: "auto",
 };
 
+/**
+ * Home Landing Nav Reveal
+ *
+ * GSAP staggered fade-up of the page-nav items when the home header enters its
+ * `menu` role (HomeHeaderManager._showNav). GSAP-only values — the loader-state
+ * CSS does not consume these, so naming them here forks nothing.
+ *
+ * NOTE: `duration` is intentionally absent. It is the seam token
+ * `--hanko-enter-duration`, shared with the loader CSS and read at runtime in
+ * HomeHeaderManager — defining it here would re-introduce the dual source of
+ * truth this work removed.
+ */
+export const HOME_NAV_REVEAL = {
+  distance: motion.distance("lg"), // 24px fade-up start offset
+  // Sits between the `tight` (0.05) and `base` (0.1) stagger tokens; kept
+  // explicit pending a decision to snap to a token.
+  stagger: 0.08,
+  ease: "power2.out",
+};
+
 export const THROW_OUT_ANIMATION = {
   duration: toSeconds(motion.duration("slow")),
   xPercent: -100,
