@@ -11,8 +11,9 @@ export const BIO_TRIGGER = {
   end: "bottom bottom",
   // once: true,
   scrub: true,
-  pin: true,
-  pinSpacing: true,
+  // pin disabled — evaluating ScrollTrigger pin impact on motion complexity
+  pin: false,
+  pinSpacing: false,
   // markers: true,
 };
 

@@ -13,8 +13,9 @@ export const HERO_TRIGGER = {
   once: false,
   start: "top top",
   end: "bottom top",
-  pinSpacing: true,
-  pin: true,
+  // pin disabled — evaluating ScrollTrigger pin impact on motion complexity
+  pinSpacing: false,
+  pin: false,
   scrub: 1,
   fastScrollEnd: false,
   toggleActions: "none none none none",

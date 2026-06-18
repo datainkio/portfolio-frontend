@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.managers.homeheadermanager
-role: "Runtime manager — drives the home landing header's role state machine (loader -> hero -> menu) via the `data-header-role` attribute, playing the behavioural motion on each transition."
+role: "Runtime manager — drives the home landing header's role state machine (loader -> hero -> menu) via the `data-header-role` attribute, playing the behavioural motion on each transition; in the menu role on small breakpoints it toggles a tap-driven side drawer via `data-drawer`."
 status: active
 surface: internal
 scope: frontend
@@ -105,11 +105,50 @@ manager therefore owns only the **behavioural** transition:
    `home:intro:start` / `home:intro:complete` on the bus (see "Bus events").
    Its motion values come from two places — see "Seam motion tokens".
 
+3. **Arm the side-drawer toggle** (base–md only). On small breakpoints the menu
+   role is a **side drawer**: it rests **collapsed** (a `w-12` left rail) and a
+   tap **anywhere in the header** — including on a page-nav link — expands it to
+   full-screen; the next tap collapses it. `_enterMenuRole` attaches
+   **pointer-event** listeners (`pointerdown`/`pointerup`/`pointercancel`) that
+   detect a tap and call `_toggleDrawer()`, which only flips `data-drawer`
+   (`open` ⇄ absent) on the header. Layout and the nav's visibility are
+   **CSS-owned** off that attribute; JS owns no width. See "Side drawer" below.
+
 The hgroup itself is **not** animated on this transition — it persists into the
 menu rail (held visible by its CSS intro's `both` fill); only its CSS layout/sizing
 changes by role. The previous `_hideHGroup` reverse-intro fade was removed when the
 design changed from "header becomes nav (brand disappears)" to "header collapses to
 a brand+nav rail".
+
+### Side drawer (menu role, base–md)
+
+The drawer is **breakpoint-gated to base–md** (`max-lg:` in the template); at
+**lg+** the attribute is inert and the menu role is a static `w-48` rail. The
+state model **reuses the `menu` role** — there is no separate role-level state
+machine — and adds one boolean on the same element:
+
+- **Collapsed** (default): no `data-drawer`. The menu role rests at `w-12`
+  (`overflow-hidden`, `cursor-pointer`); the nav is `hidden`.
+- **Expanded**: `data-drawer="open"`. `data-[header-role=menu]:data-[drawer=open]`
+  overrides width to `max-lg:w-full` (the extra attribute selector wins on
+  specificity); the nav reveals via `group-data-[header-role=menu]:group-data-[drawer=open]:block`.
+
+JS only flips `data-drawer`; it never reads or writes width/visibility. Because
+the width override is `max-lg:`, toggling the attribute at lg+ is a visual no-op,
+so the listeners are attached unconditionally rather than guarded on breakpoint. A
+tap on a page-nav `<a>` both navigates (anchor jumplink) and collapses the drawer
+(the same tap flips `data-drawer` off) — closing the drawer as it jumps to the
+section.
+
+**Why pointer events, not `click`.** iOS WebKit (Safari/Chrome on iPhone/iPad)
+does not reliably dispatch a `click` on a non-interactive element — the
+`<header>` or its empty area — *even with* `cursor: pointer`, the usual desktop
+workaround. A click-based toggle therefore silently no-ops on iOS while passing
+on desktop. `pointerup` fires on a tap regardless of element type, so the toggle
+listens for `pointerdown` (record origin) → `pointerup` (toggle **iff** travel ≤
+`TAP_MOVE_TOLERANCE_PX`, else it was a scroll of the `overflow-auto` expanded
+drawer) → `pointercancel` (reset). This unifies desktop mouse and touch on one
+path; `cursor: pointer` is kept only as a hint (see the template sidecar note).
 
 ### The CSS-owned role layouts
 
@@ -205,8 +244,10 @@ choreography; nothing consumes them yet. `_emit(name, payload)` mirrors
 - Instantiated by [[AnimationDirector|AnimationDirector]] alongside the other
   header managers, now receiving the shared `AnimationBus`; no-ops off the home
   page (hook absent).
-- `kill()` removes the `preloader:out` listener, kills the trigger **and the
-  stored `_navReveal` timeline**, resets `data-header-role="hero"` (handing the
+- `kill()` removes the `preloader:out` listener **and the header pointer
+  listeners** (`pointerdown`/`pointerup`/`pointercancel`), kills the trigger **and
+  the stored `_navReveal` timeline**, resets
+  `data-header-role="hero"` and clears `data-drawer` (handing the
   header + nav layout and the nav's hidden state back to CSS — no class
   bookkeeping; `loader` is a one-time boot phase that can't be re-entered, so
   `hero` is the idle fallback), and tears down the nav-item tweens (clear
@@ -219,10 +260,10 @@ choreography; nothing consumes them yet. `_emit(name, payload)` mirrors
   until it is sized/styled for the `menu` role it visually covers the content
   scrolling beneath it. Sizing is a later step.
 - **`hero` is currently transient.** At scroll 0 the trigger enters `menu`
-  immediately, so the idle hero role is skipped. To make `hero` a stable resting
-  state, drop the auto-enter and trigger `menu` from an explicit toggle (the
-  hamburger-like interaction) — then `_enterMenuRole`/`_inMenuRole` become a
-  reversible open/close rather than a one-shot.
+  immediately, so the idle hero role is skipped. The hamburger-like open/close now
+  lives **inside** the menu role as the `data-drawer` side drawer (base–md), not as
+  a role transition; making `hero` a stable resting state is still open and would
+  mean dropping the auto-enter so `menu` is reached from an explicit toggle.
 - The nav reveal staggers the list items (`data-page-nav-el="item"`); if items
   become dynamic, the manager queries them once at construction — re-query if the
   list can change after boot.

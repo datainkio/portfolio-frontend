@@ -11,8 +11,9 @@ export const AWARDS_TRIGGER = {
   id: SELECTORS.awards,
   start: "top top",
   end: "+=1500px",
-  pin: true,
-  pinSpacing: true,
+  // pin disabled — evaluating ScrollTrigger pin impact on motion complexity
+  pin: false,
+  pinSpacing: false,
   once: false,
   scrub: 1,
 };

@@ -20,6 +20,13 @@ const SEAM_TOKENS = Object.freeze({
 });
 
 /**
+ * Max pointer travel (px) between pointerdown and pointerup that still counts as
+ * a tap for the drawer toggle. Beyond it the gesture is a scroll/drag of the
+ * expanded drawer (`overflow-auto`) and must not toggle.
+ */
+const TAP_MOVE_TOLERANCE_PX = 10;
+
+/**
  * Parse a CSS time token to seconds. Handles `s` and `ms`; returns NaN for an
  * empty/unparseable value so the caller can fail loudly rather than silently
  * coerce.
@@ -85,6 +92,11 @@ export default class HomeHeaderManager {
     this._trigger = null;
     this._inMenuRole = false;
     this._onPreloaderOut = null;
+    this._onHeaderPointerDown = null;
+    this._onHeaderPointerUp = null;
+    this._onHeaderPointerCancel = null;
+    // Pointerdown coords, used to reject scroll/drag in the pointerup handler.
+    this._tapOrigin = null;
     // Resolved once at arm time from the seam's CSS custom properties.
     this._seam = null;
     // The nav-reveal timeline, stored so a larger sequence can nest/await it.
@@ -205,12 +217,60 @@ export default class HomeHeaderManager {
     // (CSS `display: block`), so it can be animated in.
     this._showNav();
 
+    // Side-drawer toggle (base–md only; CSS gates the width to `max-lg:`). The
+    // menu role rests collapsed (a `w-12` left rail); a tap anywhere in the
+    // header — including on a page-nav link — expands it to full-screen and the
+    // next tap collapses it. JS only flips `data-drawer`; CSS owns the width and
+    // the nav's visibility off that attribute (`data-[drawer=open]` /
+    // `group-data-[drawer=open]`). At lg+ the attribute is inert: the menu role
+    // is a static `w-48` rail and the `max-lg:` width override never matches.
+    //
+    // Pointer events, not `click`: iOS WebKit does not reliably dispatch a
+    // `click` on a non-interactive element (the `<header>` / its empty area),
+    // even with `cursor: pointer`, so a click-based toggle silently no-ops on
+    // iPhone/iPad. `pointerup` fires on a tap regardless of element type. A tap
+    // is a pointerdown→pointerup with little travel; a larger move is a scroll of
+    // the expanded drawer (`overflow-auto`) and must NOT toggle (the
+    // `TAP_MOVE_TOLERANCE_PX` guard). A tap on a nav `<a>` still toggles here AND
+    // navigates via the link's own click — closing the drawer as it jumps.
+    this._onHeaderPointerDown = (e) => {
+      this._tapOrigin = { x: e.clientX, y: e.clientY };
+    };
+    this._onHeaderPointerUp = (e) => {
+      const origin = this._tapOrigin;
+      this._tapOrigin = null;
+      if (!origin) return;
+      const moved = Math.hypot(e.clientX - origin.x, e.clientY - origin.y);
+      if (moved > TAP_MOVE_TOLERANCE_PX) return;
+      this._toggleDrawer();
+    };
+    this._onHeaderPointerCancel = () => {
+      this._tapOrigin = null;
+    };
+    this._el.addEventListener("pointerdown", this._onHeaderPointerDown);
+    this._el.addEventListener("pointerup", this._onHeaderPointerUp);
+    this._el.addEventListener("pointercancel", this._onHeaderPointerCancel);
+
     // One-shot: the trigger's job (detect top-reaches-top) is done, so tear it
     // down — the header stays in the menu role.
     this._trigger?.kill();
     this._trigger = null;
 
     this.logger.trace("entered menu role");
+  }
+
+  /**
+   * Toggle the side drawer between collapsed (the `w-12` rail) and expanded
+   * (full-screen). Collapsed is the absence of `data-drawer`, so the menu role
+   * rests collapsed with no attribute set. Layout/visibility are CSS-owned off
+   * this attribute; this only flips it.
+   */
+  _toggleDrawer() {
+    if (this._el.dataset.drawer === "open") {
+      delete this._el.dataset.drawer;
+    } else {
+      this._el.dataset.drawer = "open";
+    }
   }
 
   /**
@@ -280,6 +340,19 @@ export default class HomeHeaderManager {
       );
       this._onPreloaderOut = null;
     }
+    if (this._el) {
+      if (this._onHeaderPointerDown)
+        this._el.removeEventListener("pointerdown", this._onHeaderPointerDown);
+      if (this._onHeaderPointerUp)
+        this._el.removeEventListener("pointerup", this._onHeaderPointerUp);
+      if (this._onHeaderPointerCancel)
+        this._el.removeEventListener("pointercancel", this._onHeaderPointerCancel);
+    }
+    this._onHeaderPointerDown = null;
+    this._onHeaderPointerUp = null;
+    this._onHeaderPointerCancel = null;
+    this._tapOrigin = null;
+
     this._trigger?.kill();
     this._trigger = null;
 
@@ -290,7 +363,10 @@ export default class HomeHeaderManager {
     // are CSS-owned off this attribute, so restoring it hands ownership back to
     // CSS — no class bookkeeping needed. (`loader` is a one-time boot phase that
     // can't be meaningfully re-entered, so `hero` is the idle resting fallback.)
-    if (this._el) this._el.dataset.headerRole = "hero";
+    if (this._el) {
+      this._el.dataset.headerRole = "hero";
+      delete this._el.dataset.drawer;
+    }
 
     if (this._navItems && this._navItems.length) {
       gsap.killTweensOf(this._navItems);

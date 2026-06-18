@@ -72,12 +72,23 @@ machine** driven by `data-header-role` on the root `<header>`:
 this template only declares the **CSS** that responds to the attribute.
 
 - **Per-role layout:** the `header` class-variants object keys a full layout per
-  role under `data-[header-role=…]:` (loader/hero = centred full-width grid lockup;
-  menu = `w-48` single-column left rail). Child elements (hanko, hgroup, heading,
-  subtitle) take `group-data-[header-role=menu]:` classes to position/size for the
-  rail.
-- **Nav:** `page-nav` is `hidden` until the `menu` role, revealed via
-  `group-data-[header-role=menu]:block` (the `<header>` carries `group`).
+  role under `data-[header-role=…]:` (loader/hero = centred full-width lockup; menu
+  = left rail). Child elements (hanko, hgroup, heading, subtitle) take
+  `group-data-[header-role=menu]:` classes to position/size for the rail.
+- **Menu role is a side drawer at base–md.** The menu role rests **collapsed**
+  (`w-12` left rail, `overflow-hidden`) and expands to full-screen when
+  [[HomeHeaderManager|../../../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager]]
+  flips `data-drawer="open"` (a tap anywhere in the header). The expanded width
+  override is keyed `data-[header-role=menu]:data-[drawer=open]:max-lg:w-full`. The
+  whole drawer is gated `max-lg:`; at **lg+** the menu role is a static `w-48` rail
+  and `data-drawer` is inert. **While collapsed the header content is not
+  displayed** — both the hgroup and the nav are `hidden` (each via
+  `max-lg:group-data-[header-role=menu]…` with a `…:group-data-[drawer=open]:block`
+  override), so the rail is empty until expanded.
+- **Nav:** `page-nav` is `hidden`, revealed in the menu role at lg+
+  (`lg:group-data-[header-role=menu]:block`) and, at base–md, only while the drawer
+  is open (`group-data-[header-role=menu]:group-data-[drawer=open]:block`). The
+  `<header>` carries `group`.
 
 The `h1`/subtitle render their real text in **all** roles (a per-role brand-text
 swap was prototyped via `::before`/`attr()` data attributes, then abandoned — too
@@ -106,6 +117,13 @@ preloader runtime owns for the loader's internal phases.
   Update both sides together.
 - Path IDs (`#data`, `#ink`, `#input`, `#output`, `#frame`) must survive SVG inlining
   for the pulse/settle to work.
+- **Keep `cursor-pointer` on the menu-role drawer in both collapsed and expanded
+  states.** WebKit (iOS Safari/Chrome) only fires a `click` on a non-interactive
+  element when the tapped target computes `cursor: pointer`. The drawer toggle
+  (`HomeHeaderManager`) listens for `click` on the whole `<header>`, so `cursor`
+  must stay `pointer` (it inherits to descendants) for taps in the **expanded**
+  drawer to collapse it on iOS. Do not override it to `cursor-default`/`auto` at
+  `max-lg`.
 
 ## Open Questions
 
