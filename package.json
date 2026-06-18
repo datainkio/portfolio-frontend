@@ -88,6 +88,7 @@
     "_comment_scaffolding": "=== COMPONENT SCAFFOLDING ===",
     "scaffold:component": "node scripts/scaffold.js component",
     "scaffold:page": "node scripts/scaffold.js page",
+    "scaffold:section": "node scripts/scaffold.js section",
     "scaffold:list": "node scripts/scaffold.js list",
     "_comment_diagrams": "=== DIAGRAM EXPORT ===",
     "diagrams:export": "node scripts/exportDiagrams.js",
