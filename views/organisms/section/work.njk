@@ -22,7 +22,7 @@
   } %}
 
   {%- set header = {
-  base: "sticky top-0 bg-slate-950 shadow-neutral-950/50 shadow-md h-auto overflow-hidden z-20 p-6 space-y-6"} -%}
+  base: "sticky top-10 bg-slate-950 h-auto overflow-hidden z-20 p-6 space-y-6"} -%}
 
   {%- set title = {
     base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
@@ -46,7 +46,8 @@
             data-projects-el="nav-toggle"
             aria-expanded="false"
             aria-controls="work-jumplinks"
-            class="group md:hidden shrink-0 p-2 rounded-md text-primary-200 transition-colors hover:text-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+            class="group md:hidden shrink-0 p-2 rounded-md text-primary-200 transition-colors hover:text-neutral-50
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
             <span class="sr-only">Toggle industry list</span>
             {{ Icon.render({ name: "chevron-down", size: "lg", class: "group-aria-[expanded=true]:hidden" }) }}
             {{ Icon.render({ name: "chevron-up", size: "lg", class: "hidden group-aria-[expanded=true]:block" }) }}
