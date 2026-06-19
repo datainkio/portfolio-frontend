@@ -17,7 +17,7 @@ For `#work`, children = industries. Index = the existing sticky header jumplinks
 1. **Sticky header** carries the child index — `data-projects-el="header"`, `sticky top-0`.
 2. **In-page nav** — `<nav data-projects-el="jumplinks" aria-label="Jump to an industry">`, one `<a href="#industry-{slug}" data-projects-el="industry-link">` per child. Native anchors; works with no JS.
 3. **Collapse/expand** — jumplinks collapse on scroll-down, expand on scroll-up (`WorkHeaderManager`). `<h2>` always visible. Decorative; degrades to always-open.
-4. **Scrollspy** (the foundational gap to build) — active child link reflects the child group currently in view. Calm, single-active, no flicker.
+4. **Scrollspy** (the foundational gap to build) — active child link reflects the child group currently in view, via `IntersectionObserver` on the `industry-group` elements. Calm, single-active, no flicker.
 
 ## Reusable contract
 
@@ -41,5 +41,4 @@ Active state set via attribute (e.g. `aria-current="true"`) on the matching link
 
 ## Open questions
 
-- Scrollspy mechanism: `IntersectionObserver` vs ScrollTrigger per group — pick one, document in plan.
-- Active-region rule when two groups straddle the sticky header offset (`top-18`).
+- `IntersectionObserver` `rootMargin`/threshold tuning so the active group resolves against the sticky header offset (`top-18`) when two groups straddle it.
