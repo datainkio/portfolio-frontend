@@ -72,7 +72,7 @@ export const HOME_NAV_REVEAL = {
  * role flips to `menu` while the panel is off-screen, then the now-narrow rail
  * slides back in (`HOME_HERO_BUILD`). The nav-item reveal is HOME_NAV_REVEAL.
  */
-export const HOME_HERO_HOLD = { delay: 4 };
+export const HOME_HERO_HOLD = { delay: 0 }; // seconds
 
 export const HOME_HERO_OUTRO = {
   xPercent: -100, // slide the full-bleed hero off to the left

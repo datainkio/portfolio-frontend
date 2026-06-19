@@ -16,7 +16,7 @@
  */
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
-import { clipRevealOut } from "../../atoms/clip-reveal/clip-reveal.js";
+import { killST, CLEAR } from "./card-motion.js";
 export function createCardScrollClip({
   figure,
   body,
