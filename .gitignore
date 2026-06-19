@@ -93,3 +93,5 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+# Lighthouse audit reports (raw build artifacts)
+.lighthouse/

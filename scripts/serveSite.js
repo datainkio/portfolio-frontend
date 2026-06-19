@@ -38,6 +38,7 @@
 
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
+import { gzipSync } from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { resolve, dirname, normalize, join, extname } from "node:path";
 
@@ -80,6 +81,14 @@ const MIME = {
   ".txt": "text/plain; charset=utf-8",
 };
 
+// GitHub Pages (production host) gzip-compresses text assets on the fly and leaves
+// already-compressed binaries (images, fonts, video) untouched. Mirror that here so
+// Lighthouse / CWV measure the transfer sizes that actually ship, not raw bytes.
+const COMPRESSIBLE = new Set([
+  ".html", ".css", ".js", ".mjs", ".json", ".map",
+  ".webmanifest", ".svg", ".xml", ".txt",
+]);
+
 async function resolvePath(urlPath) {
   // Strip query/hash, decode, and prevent path traversal outside ROOT.
   const clean = decodeURIComponent(urlPath.split("?")[0].split("#")[0]);
@@ -102,8 +111,19 @@ const server = http.createServer(async (req, res) => {
   }
   try {
     const body = await readFile(filePath);
-    const type = MIME[extname(filePath).toLowerCase()] || "application/octet-stream";
-    res.writeHead(200, { "Content-Type": type, "Cache-Control": "no-cache" });
+    const ext = extname(filePath).toLowerCase();
+    const type = MIME[ext] || "application/octet-stream";
+    const headers = { "Content-Type": type, "Cache-Control": "no-cache" };
+    const acceptsGzip = /\bgzip\b/.test(req.headers["accept-encoding"] || "");
+    if (acceptsGzip && COMPRESSIBLE.has(ext)) {
+      const gz = gzipSync(body);
+      headers["Content-Encoding"] = "gzip";
+      headers["Vary"] = "Accept-Encoding";
+      res.writeHead(200, headers);
+      res.end(gz);
+      return;
+    }
+    res.writeHead(200, headers);
     res.end(body);
   } catch {
     res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
