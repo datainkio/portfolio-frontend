@@ -31,7 +31,8 @@ Read in this order before starting any task:
 
 ## Critical Constraints
 
-- Never infer behavior from `_site/` — generated output; does not reflect source truth
+- Page-level diagnosis/optimization starts at the page template — read `views/pages/<name>/<name>.njk` (homepage = `views/pages/home/home.njk`) and confirm the real above-the-fold composition + LCP element before any hypothesis or edit. Never infer page structure from arch docs, `hero.njk`, or frontmatter (`hero:`, `skipLinks`)
+- Never infer *source behavior* from `_site/` — but DO read rendered `_site/<page>.html` to verify output. For an output/perf review, read the rendered artifact first instead of rebuilding or serving in memory; read the file, don't just grep it for your own edits
 - Never hand-edit `styles/colors.css` or `styles/typography/fontFamilies.css` — overwritten by `build:design`
 - Never call Tailwind CLI directly — always use npm scripts
 - Never bypass choreography lifecycle gating (`director:ready` → `preloader:out`)
