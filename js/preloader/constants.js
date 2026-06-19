@@ -81,6 +81,13 @@ export const SCROLL_SMOOTHER_DX_MESSAGES = {
 
 export const PRELOADER_TIMINGS = {
   domReadyTimeoutMs: 1800,
+  // Upper bound on how long the hero reveal will wait for webfonts.
+  // document.fonts.ready is otherwise UNBOUNDED — a slow/failed Google Font
+  // would stall the LCP element indefinitely. All faces use font-display:swap,
+  // so on timeout the hero reveals in the fallback face and swaps in place.
+  // Lower this to favor LCP over first-paint font fidelity; raise it to favor
+  // showing the hero already in its brand face. See js/preloader/readiness.js.
+  fontsReadyTimeoutMs: 2000,
   reducedMotionFallbackMs: 520,
   introFallbackDurationMs: 320,
   exitFallbackDurationMs: 500,
