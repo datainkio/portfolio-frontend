@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.managers.workheadermanager
-role: "Runtime manager — collapses and expands the work section jumplinks nav. Drive mechanism is responsive via gsap.matchMedia(): below md the nav rests closed and an icon button (data-projects-el='nav-toggle', aria-expanded/aria-controls) toggles it on click; at md and up the nav rests open and collapses/expands on scroll direction within the work section (button hidden). The section header (h2) stays visible; only the industry jumplinks animate. Notifies IndustryHeaderManager via callback to keep industry heading sticky-top values in sync on collapse and expand."
+role: "Runtime manager — collapses and expands the work section jumplinks nav. Drive mechanism is responsive via gsap.matchMedia(): below md the nav rests closed and an icon button (data-projects-el='nav-toggle', aria-expanded/aria-controls) toggles it on click; at md and up the nav rests open and collapses/expands on scroll direction within the work section (button hidden). The section header (h2) stays visible; only the industry jumplinks animate. Publishes the --work-header-h CSS var on the work section, tweened in lockstep with the header height, so industry headings (sticky top-[var(--work-header-h)]) stay flush under the header."
 status: stable
 surface: internal
 scope: frontend
@@ -17,7 +17,6 @@ links:
   - "[[config/ix/motion/motion|config/ix/motion]]"
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[organisms/section/work|work.njk]]"
-  - "[[managers/IndustryHeaderManager/IndustryHeaderManager|IndustryHeaderManager]]"
 backlinks:
   - "[[layouts/work-landing-header|work-landing-header.js]]"
 ---
@@ -48,7 +47,7 @@ ScrollTrigger.create({
 - **`(max-width: 47.999rem)` — click mode.** Collapses instantly to a closed resting state (`_collapse(true)`), sets the toggle button to `aria-expanded="false"`, and binds a `click` listener that flips `_collapse`/`_expand`. The work section is below the fold at boot, so the initial collapse is not perceived. Cleanup removes the listener and `_expand(true)` so scroll mode inherits an open nav.
 - **`(min-width: 48rem)` — scroll mode.** Expands to an open resting state, then a `ScrollTrigger` scoped to the work section collapses on scroll-down / expands on scroll-up. The toggle button is hidden in the template (`md:hidden`). Cleanup kills the trigger.
 
-`matchMedia` runs the matching context's setup on boot and swaps setup/cleanup on breakpoint cross, so the two drives never coexist. `kill()` calls `this._mm.kill()` to revert all contexts. `_collapse`/`_expand` are idempotent (guard on `_isCollapsed`), so forcing a resting state on context entry is safe.
+`matchMedia` runs the matching context's setup on boot and swaps setup/cleanup on breakpoint cross, so the two drives never coexist. `kill()` calls `this._mm.kill()` to revert all contexts and removes the `--work-header-h` var from the work section. `AnimationDirector` invokes `kill()` on teardown (`this.workHeaderManager?.kill()`). `_collapse`/`_expand` are idempotent (guard on `_isCollapsed`), so forcing a resting state on context entry is safe.
 
 ## Critical initialization constraint
 
@@ -62,14 +61,14 @@ The fix — moving `new CardManager()` to before the sections loop in `Animation
 
 ---
 
-## IndustryHeaderManager integration
+## Industry heading offset (`--work-header-h`)
 
-`WorkHeaderManager` accepts an optional `industryHeaderManager` instance and calls two callbacks:
+The industry headings (`data-projects-el="industry-heading"`) are `sticky top-[var(--work-header-h,0px)]`. `WorkHeaderManager` owns that var on the work `<section>`:
 
-- `onWorkHeaderCollapse({ collapsedHeight, reduced })` — called at the start of `_collapse`, before the GSAP tweens. Receives the computed collapsed header height so `IndustryHeaderManager` can slide industry headings up to match.
-- `onWorkHeaderExpand({ naturalHeight, reduced })` — called at the start of `_expand`, before the GSAP tweens. Passes the natural header height so headings return to their resting position.
+- `_syncOffset()` — instant `gsap.set` of the var to the current `header.offsetHeight`. Called once in `_bind()` to seed a resting value, since scroll mode boots expanded and `_expand` short-circuits before it would publish.
+- `_publishOffset(px, reduced)` — called at the start of `_collapse` (collapsed header height) and `_expand` (natural header height). Tweens the var with the same `duration`/`ease` as the header-height tween, so headings track the header edge frame for frame. Reduced motion sets it instantly.
 
-Both calls are optional-chained. If `industryHeaderManager` is not provided, collapse and expand animate normally with no heading sync.
+`kill()` removes the var via `style.removeProperty`. This replaces the deprecated `IndustryHeaderManager`, which animated each heading's `top` (plus a `rotate` flourish) per node.
 
 ---
 

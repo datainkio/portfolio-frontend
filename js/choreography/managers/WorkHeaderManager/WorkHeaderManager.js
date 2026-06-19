@@ -6,6 +6,11 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 const WORK_EL_ATTR = "data-projects-el";
 
+// Sticky-top offset for industry headings, published on the work section so the
+// headings (sticky top-[var(--work-header-h)]) stay flush under the header as it
+// collapses/expands. Replaces the deprecated IndustryHeaderManager.
+const HEADER_OFFSET_VAR = "--work-header-h";
+
 // Drive mechanism switches at md: below md the icon button toggles the nav;
 // md and up the nav collapses/expands on scroll direction (original behavior).
 const MEDIA = Object.freeze({
@@ -14,7 +19,7 @@ const MEDIA = Object.freeze({
 });
 
 export default class WorkHeaderManager {
-  constructor({ reducedMotionHandler, industryHeaderManager } = {}) {
+  constructor({ reducedMotionHandler } = {}) {
     this.logger = lumberjack.createScoped("WorkHeaderManager", {
       color: "#F59E0B",
       enabled: true,
@@ -29,7 +34,6 @@ export default class WorkHeaderManager {
     this._workSection = workSection;
     this._workHeader = workHeader;
     this._reducedMotionHandler = reducedMotionHandler;
-    this._industryHeaderManager = industryHeaderManager ?? null;
     this._reduced = reducedMotionHandler?.isReducedMotion?.() ?? false;
     this._isCollapsed = false;
     this._mm = null;
@@ -46,6 +50,11 @@ export default class WorkHeaderManager {
 
   _bind() {
     this._mm = gsap.matchMedia();
+
+    // Seed the heading offset to the natural header height before either drive
+    // forces a resting state (scroll mode boots expanded and short-circuits
+    // _expand, so it never publishes on its own).
+    this._syncOffset();
 
     // Below md: jumplinks rest closed; the icon button toggles them. The work
     // section sits below the fold at boot, so the initial collapse is not
@@ -104,10 +113,7 @@ export default class WorkHeaderManager {
     const collapsedHeaderHeight =
       this._naturalHeaderHeight - this._naturalHeight;
 
-    this._industryHeaderManager?.onWorkHeaderCollapse({
-      collapsedHeight: collapsedHeaderHeight,
-      reduced,
-    });
+    this._publishOffset(collapsedHeaderHeight, reduced);
 
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 0, y: -8, height: 0 });
@@ -135,10 +141,7 @@ export default class WorkHeaderManager {
     if (!this._isCollapsed) return;
     this._isCollapsed = false;
 
-    this._industryHeaderManager?.onWorkHeaderExpand({
-      naturalHeight: this._naturalHeaderHeight,
-      reduced,
-    });
+    this._publishOffset(this._naturalHeaderHeight, reduced);
 
     if (reduced) {
       gsap.set(this._jumplinks, { autoAlpha: 1, y: 0, height: "auto" });
@@ -166,9 +169,39 @@ export default class WorkHeaderManager {
     });
   }
 
+  // Instant snapshot of the current header height into the offset var. Used to
+  // seed a resting state that _expand/_collapse would otherwise skip.
+  _syncOffset() {
+    if (!this._workSection || !this._workHeader) return;
+    gsap.set(this._workSection, {
+      [HEADER_OFFSET_VAR]: `${this._workHeader.offsetHeight}px`,
+    });
+  }
+
+  // Drive the heading sticky-top offset in lockstep with the header-height
+  // tween (same duration/ease), so headings track the header edge frame for
+  // frame. _isCollapsed already reflects the target state when called.
+  _publishOffset(px, reduced) {
+    if (!this._workSection) return;
+    if (reduced) {
+      gsap.set(this._workSection, { [HEADER_OFFSET_VAR]: `${px}px` });
+      return;
+    }
+    gsap.to(this._workSection, {
+      [HEADER_OFFSET_VAR]: `${px}px`,
+      duration: motion.duration("base") / 1000,
+      ease: motion.ease(this._isCollapsed ? "exit" : "enter"),
+      overwrite: true,
+    });
+  }
+
   kill() {
     this._mm?.kill();
     this._mm = null;
+    if (this._workSection) {
+      gsap.killTweensOf(this._workSection);
+      this._workSection.style.removeProperty(HEADER_OFFSET_VAR);
+    }
     if (this._jumplinks) {
       gsap.killTweensOf(this._jumplinks);
       gsap.set(this._jumplinks, { clearProps: "height,overflow,autoAlpha,y" });
