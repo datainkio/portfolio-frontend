@@ -65,6 +65,8 @@
     "build:preview:verbose": "node scripts/buildPreview.js --verbose",
     "fresh": "run-s clean build",
     "quick": "run-s build:js build:11ty build:css",
+    "preview": "run-s quick serve:site",
+    "serve:site": "node scripts/serveSite.js",
     "design": "run-s build:design build:css",
     "_comment_testing": "=== TESTING & VALIDATION ===",
     "test": "run-p test:logger test:choreography",
