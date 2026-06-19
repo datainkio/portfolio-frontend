@@ -3,13 +3,13 @@
   {%- set industries = params.industries | default([]) -%}
   {%- set ulStyles = {
     base: "leading-none",
-    md: "flex flex-row gap-8 justify-center"
+    md: "flex flex-row gap-8 justify-center h-full items-center"
   } -%}
   {%- set liStyles = {
-    base: "my-0 leading-none flex-1"
+    base: "my-0 flex-1"
   } -%}
   {%- set aStyles = {
-    base: "block py-0 no-underline font-display text-md leading-snug text-center"
+    base: "block py-0 no-underline font-display text-md leading-none text-center transition-colors text-primary-200 aria-[current=true]:text-neutral-50 aria-[current=true]:underline aria-[current=true]:underline-offset-4"
   } -%}
 
   <ul data-projects-el="industry-links" class="{{ ulStyles | classes }}">

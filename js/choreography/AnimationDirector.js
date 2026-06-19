@@ -45,6 +45,7 @@ import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
 import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
 import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
+import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
 import IndustryHeaderManager from "/assets/js/choreography/managers/IndustryHeaderManager/IndustryHeaderManager.js";
 import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
 
@@ -134,6 +135,9 @@ export default class AnimationDirector {
       industryHeaderManager: this.industryHeaderManager,
     });
 
+    // Initialize work section local nav scrollspy (active jumplink tracking)
+    this.workNavManager = new WorkNavManager({ bus: this.bus });
+
     // Initialize project page hero parallax (no-ops on non-project pages)
     this.projectHeaderManager = new ProjectHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
@@ -218,6 +222,9 @@ export default class AnimationDirector {
 
     this.industryHeaderManager?.kill();
     this.industryHeaderManager = null;
+
+    this.workNavManager?.kill();
+    this.workNavManager = null;
 
     this.projectHeaderManager?.kill();
     this.projectHeaderManager = null;

@@ -43,6 +43,15 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 - Likely used by:
   - Unknown
 
+## Active-state contract
+
+Each `<a data-projects-el="industry-link">` is a scrollspy target. `WorkNavManager`
+sets `aria-current="true"` on the link whose industry group is currently in view.
+Active styling is **attribute-driven** via `aria-[current=true]:` utilities in the
+anchor base — never a JS-toggled class. See
+[[WorkNavManager|js/choreography/managers/WorkNavManager/WorkNavManager.md]] and
+`specs/animation/work-section-navigation.animation-spec.md`.
+
 ## Notes for Future Maintenance
 
 - Keep this sidecar documentation in sync when the template signature changes.

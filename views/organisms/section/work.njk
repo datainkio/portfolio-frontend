@@ -3,6 +3,7 @@
   {% import "molecules/card/project.njk" as Card %}
   {% import "molecules/list/industry-links.njk" as Industries %}
   {% import "molecules/section/industry-section.njk" as IndustrySection %}
+  {% import "atoms/icon.njk" as Icon %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
@@ -21,23 +22,39 @@
   } %}
 
   {%- set header = {
-  base: "sticky top-0 bg-slate-950 shadow-neutral-950/50 shadow-md h-auto overflow-hidden z-20 gap-8 p-8"} -%}
+  base: "sticky top-0 bg-slate-950 shadow-neutral-950/50 shadow-md h-auto overflow-hidden z-20 p-6 space-y-6"} -%}
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-3xl",
-    sm: "text-6xl"
+    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
+    md: "text-7xl",
+    lg: "text-8xl"
   } -%}
 
   {%- set nav = {
-    base: "text-primary-200 text-left"
+    base: "text-primary-200 border-t-2 border-slate-600 border-dotted p-4",
+    sm: "border-t-3"
   } -%}
 
   <section id="{{ sectionId }}" class="{{ section |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     {{ SectionCap.render({title: "work" , count: order, buildDate: buildDate}) }}
     <header data-projects-el="header" class="{{ header | classes }}">
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
+      <div class="flex items-center justify-between gap-4">
+        <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
+        {% if industries | length %}
+          <button
+            type="button"
+            data-projects-el="nav-toggle"
+            aria-expanded="false"
+            aria-controls="work-jumplinks"
+            class="group md:hidden shrink-0 p-2 rounded-md text-primary-200 transition-colors hover:text-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+            <span class="sr-only">Toggle industry list</span>
+            {{ Icon.render({ name: "chevron-down", size: "lg", class: "group-aria-[expanded=true]:hidden" }) }}
+            {{ Icon.render({ name: "chevron-up", size: "lg", class: "hidden group-aria-[expanded=true]:block" }) }}
+          </button>
+        {% endif %}
+      </div>
       {% if industries | length %}
-        <nav aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
+        <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
           {{ Industries.render({ industries: industries }) }}
         </nav>
       {% endif %}

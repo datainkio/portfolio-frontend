@@ -53,4 +53,9 @@ export const EVENTS = {
   bio: makeSectionEvents("bio"),
   awards: makeSectionEvents("awards"),
   work: makeSectionEvents("work"),
+  // Work section local navigation (WorkNavManager scrollspy). Broadcasts the
+  // active child group so future surfaces (lg rail, sm disclosure) can react.
+  workNav: {
+    activeChange: "work:nav:active",
+  },
 };

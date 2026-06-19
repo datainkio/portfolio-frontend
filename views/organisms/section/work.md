@@ -38,6 +38,10 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **organism** level based on its location under `views/`.
 
+## Header nav toggle
+
+The sticky header carries a `data-projects-el="nav-toggle"` icon button (chevron up/down, `aria-expanded` + `aria-controls="work-jumplinks"`) that opens/closes the industry jumplinks **below `md`** (`md:hidden`). At `md` and up the jumplinks are scroll-driven and the button is hidden. Drive logic lives in [[managers.workheadermanager|WorkHeaderManager]]; see `specs/animation/work-section-navigation.animation-spec.md`.
+
 ## Data and Context
 
 - `Card` — referenced in the template.
