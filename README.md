@@ -12,14 +12,14 @@ npm start          # dev server (Tailwind + 11ty in parallel; no JS bundling)
 npm run build      # full production build
 ```
 
-Default dev mode is `start: npm run dev:nobundle` (raw ESM modules; faster reload). Use `npm run start:bundle` for a bundled dev build.
+Default dev mode is `start: run-s build:css:dev dev` — it builds and watches the minified `bundle.js` (matching production loading). Use `npm run start:nobundle` for the raw ESM modules (faster reload, readable stack traces).
 
 ## Common commands
 
 | Goal                              | Command                      |
 | --------------------------------- | ---------------------------- |
-| Dev (no JS bundle, fastest)       | `npm start`                  |
-| Dev (with JS bundle)              | `npm run start:bundle`       |
+| Dev (bundled, matches prod)       | `npm start`                  |
+| Dev (raw ESM, fastest reload)     | `npm run start:nobundle`     |
 | Full clean build                  | `npm run build`              |
 | Fast build (skip Figma sync)      | `npm run quick`              |
 | Sync Figma tokens + rebuild CSS   | `npm run design`             |
