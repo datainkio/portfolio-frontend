@@ -69,8 +69,11 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 
-    <!-- Cormorant Garamond: loaded here in parallel with styles.css instead of via a CSS @import (removes a serial render-blocking round-trip) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&display=swap"/>
+    <!-- Cormorant Garamond: used only below the fold (case-study modal, prev/next nav), never above the fold.
+         Loaded non-render-blocking (media="print" → "all" onload) so it stays off the FCP/LCP critical path.
+         Lighthouse render-blocking-insight measured the prior render-blocking <link> at ~829ms wasted. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&display=swap" media="print" onload="this.media='all'"/>
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&display=swap"/></noscript>
 
     <!-- Preload the display font (DraftPaper) — drives hero LCP text -->
     <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/DRAFTPAPER.woff2" crossorigin/>
