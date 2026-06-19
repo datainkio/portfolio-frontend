@@ -86,8 +86,8 @@ The [`gsap` agent](.claude/agents/gsap.md) selects the right skill automatically
 
 Full choreography context is in the [`gsap` agent](.claude/agents/gsap.md). Fast-path pointers:
 
-- Config barrel: [`js/choreography/config/index/index.js`](js/choreography/config/index/index.js)
-- Event contracts: [`js/choreography/config/contracts/events/events.js`](js/choreography/config/contracts/events/events.js)
+- Config barrel: [`js/choreography/config/index/index/index.js`](js/choreography/config/index/index.js)
+- Event contracts: [`js/choreography/config/contracts/events/events.js`](js/choreography/config/contracts/events/events/events.js)
 - Section registry: [`js/choreography/system/registry.js`](js/choreography/system/registry.js)
 - Boot sequence: `director:ready` → `preloader:out` → `LandingSequence` (never bypass)
 - Always emit/listen via `AnimationBus` — never call sections directly
