@@ -19,7 +19,6 @@
 
 {# BUNDLE OR NO BUNDLE #}
 {% if enableChoreography %}
-  <script src="/assets/js/vendor/leader-line/leader-line.min.js"></script>
   {% if useBundleJs %}
     <script type="module">
       import ('/assets/js/choreography/bundle.js').catch(() => import ('/assets/js/choreography/AnimationDirector.js'));

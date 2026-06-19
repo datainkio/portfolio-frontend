@@ -145,7 +145,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
   - `AnimationBus.js` - Event system for section coordination
   - `sections/` - Section-specific controllers (Hero, BackgroundVideo, Bio, Awards, Organizations, Work)
   - `sequences/` - Animation choreography (LandingSequence)
-  - `managers/` - Specialized managers (ReducedMotionHandler, ScrollSmootherManager, GelAnimationManager, LineManager, SessionManager, RulerIntroManager)
+  - `managers/` - Specialized managers (ReducedMotionHandler, ScrollSmootherManager, GelAnimationManager, SessionManager, RulerIntroManager)
   - `config/` - Choreography config barrel + modules (`index.js`, `contracts/events.js`, `contracts/selectors.js`, `ix/*`, `displays/*`)
 - `js/utils/lumberjack/` - **Note**: Uses `@datainkio/lumberjack` npm package, not local files
 
@@ -206,7 +206,6 @@ Example macro:
 - `ReducedMotionHandler` - Accessibility and motion preferences
 - `ScrollSmootherManager` - GSAP smooth scrolling (optional, graceful degradation)
 - `GelAnimationManager` - Gel background animations
-- `LineManager` - Decorative/relational line rendering support
 - `SessionManager` - Runtime session state coordination
 - `RulerIntroManager` - Intro ruler display choreography
 

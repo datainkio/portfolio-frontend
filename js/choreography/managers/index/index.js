@@ -30,7 +30,6 @@ export { default as GelAnimationManager } from "../GelAnimationManager/GelAnimat
 export { default as GlobalHeaderManager } from "../GlobalHeaderManager/GlobalHeaderManager.js";
 export { default as ScrollEffectsCoordinator } from "../ScrollEffectsCoordinator/ScrollEffectsCoordinator.js";
 export { default as RulerIntroManager } from "../RulerIntroManager/RulerIntroManager.js";
-export { default as LineManager } from "../LineManager/LineManager.js";
 export { default as ProjectHeaderManager } from "../ProjectHeaderManager/ProjectHeaderManager.js";
 export { default as SessionManager } from "../SessionManager/SessionManager.js";
 // export { default as IndustryHeaderManager } from "../IndustryHeaderManager/IndustryHeaderManager.js";

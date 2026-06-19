@@ -37,7 +37,6 @@ tuned as design evolves. Re-exported together via the `ix.js` barrel.
 
 Defaults for purely decorative display systems.
 
-- `leader-lines.js` -> `SOCKETS` (id-keyed origin/terminus socket pairs with `element`, `x`, `y`, optional `scope`), `LINE_STYLES` (LeaderLine options plus optional `classes` for SVG styling), `BIO_SUB_SECTION_LINE_DEFAULTS` (configured anchors/effect/animOptions for Bio sub-section connectors)
 - `printermarks.js` -> reserved for printer-marks display defaults
 
 ## Placement Rules

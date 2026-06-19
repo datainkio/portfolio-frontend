@@ -105,7 +105,7 @@ Key modules in [js/choreography/](js/choreography/):
 - [AnimationBus.js](js/choreography/system/AnimationBus.js) — pub/sub event system (event names live in [config/contracts/events.js](js/choreography/config/contracts/events.js)).
 - [ScrollEffectsCoordinator.js](js/choreography/managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js) — scroll smoothing + background/decorative effects.
 - [organisms/](js/choreography/organisms/) — section controllers extending [AbstractSection](js/choreography/system/AbstractSection.js). Active sections: **Hero, BackgroundVideo, Bio, Awards, Organizations, Work**.
-- [managers/](js/choreography/managers/) — single-responsibility helpers: `ReducedMotionHandler`, `ScrollSmootherManager`, `GelAnimationManager`, `LineManager`, `SessionManager`, `RulerIntroManager`.
+- [managers/](js/choreography/managers/) — single-responsibility helpers: `ReducedMotionHandler`, `ScrollSmootherManager`, `GelAnimationManager`, `SessionManager`, `RulerIntroManager`.
 - [templates/landing/LandingSequence.js](js/choreography/templates/landing/LandingSequence.js) — orchestrates the landing animation flow.
 
 DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, `#hero`, `#overlay-view`, `#bio`, `#awards`, `#organizations`, `#work`. Missing IDs degrade gracefully.

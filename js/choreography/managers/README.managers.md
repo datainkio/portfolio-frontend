@@ -194,36 +194,6 @@ manager.animate("#smooth-wrapper"); // or undefined for window
 
 ---
 
-### LineManager
-
-**Purpose**: Render and manage decorative LeaderLine connectors from config-defined line objects.
-
-**Responsibilities**:
-
-- Builds lines from `SOCKETS` entries keyed by id, each with `origin` and `terminus` sockets
-- Applies `LINE_STYLES.classes` to generated LeaderLine SVG elements for stroke/fill styling
-- Handles resize/scroll/load reposition updates
-- Exposes imperative APIs so sequences can reveal one line from a socket pair and hide all lines when needed
-- Resolves `origin.element` and `terminus.element` independently (optional per-socket `scope`), so endpoints can live in different DOM regions
-
-**Usage**:
-
-```javascript
-const lineManager = new LineManager();
-lineManager.initialize();
-
-// Reveal a line using the origin socket from one key and terminus socket from another
-lineManager.showLineBySocketPair("hero", "bio");
-
-// Hide all lines immediately
-lineManager.hideAllLines("none");
-
-// Cleanup
-lineManager.destroy();
-```
-
----
-
 ## StageManager Integration
 
 **Before Refactoring** (monolithic):

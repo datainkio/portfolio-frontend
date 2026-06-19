@@ -52,7 +52,6 @@ js/choreography/
 │   ├── ReducedMotionHandler.js   # Accessibility (prefers-reduced-motion)
 │   ├── ScrollSmootherManager.js  # GSAP ScrollSmoother (optional)
 │   ├── GelAnimationManager.js    # Gel background animations
-│   ├── LineManager.js            # Decorative/relational lines (LeaderLine)
 │   ├── SessionManager.js         # Runtime session state
 │   └── RulerIntroManager.js      # Ruler intro display choreography
 ├── sections/
@@ -136,7 +135,6 @@ coordinator.getGels?.(); // Get gel animation controllers (if exposed)
 - ✓ Scroll smoothing (via ScrollSmootherManager)
 - ✓ Reduced-motion accessibility (via ReducedMotionHandler)
 - ✓ Gel animations (via GelAnimationManager)
-- ✓ Decorative/relational lines (via LineManager)
 - ✓ Ruler intro choreography (via RulerIntroManager)
 - ✓ Session state management (via SessionManager)
 
@@ -213,10 +211,8 @@ sequence.destroy(); // Cleanup
 
 1. Listens for intro:complete from Hero
 2. Triggers Work section animation on completion
-3. Initializes `LineManager`, which draws lead lines from `SOCKETS` (id-keyed origin/terminus socket pairs) and applies `LINE_STYLES.classes` to each generated LeaderLine SVG for stroke/fill styling
-4. Keeps lines hidden by default and reveals them as sections emit `intro:complete` via `LineManager.showLineBySocketPair(originSectionId, terminusSectionId)`
-5. Coordinates transitions between sections
-6. Maintains consistent pacing throughout
+3. Coordinates transitions between sections
+4. Maintains consistent pacing throughout
 
 ## Manager Modules
 
@@ -225,7 +221,6 @@ Each manager has single responsibility and can be used independently. See [[js/c
 - **ReducedMotionHandler** — accessibility-first motion preference detection; all animations check this before playing.
 - **ScrollSmootherManager** — initialize and manage GSAP `ScrollSmoother`; gracefully degrades to native scroll when disabled or when the required DOM (`#smooth-wrapper` / `#smooth-content`) is absent.
 - **GelAnimationManager** — gel/blob background animations responding to scroll position.
-- **LineManager** — decorative/relational lines drawn between sockets using LeaderLine; hidden by default and revealed as sections emit `intro:complete`.
 - **SessionManager** — runtime session state used to gate one-time animations and preferences.
 - **RulerIntroManager** — ruler-style intro overlay choreography.
 
