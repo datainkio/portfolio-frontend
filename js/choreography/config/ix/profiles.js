@@ -5,11 +5,7 @@
  * `reduced` always takes precedence over breakpoint profiles.
  *
  * timeline channel:
- *   enabled       - gates timeline playback and scroll trigger binding for sections
- *   durationScale - multiplier for animation durations (reserved for future use)
- *   staggerScale  - multiplier for stagger values (reserved for future use)
- *   distanceScale - multiplier for translate distances (reserved for future use)
- *   easePreset    - named ease from motionTokens (reserved for future use)
+ *   enabled - gates timeline playback and scroll trigger binding for sections
  *
  * trigger channel:
  *   enabled - gates ScrollTrigger binding for sections (consumed by
@@ -30,63 +26,27 @@ export const ACCESSIBILITY_SETTINGS = {
 };
 export const MOTION_PROFILES = Object.freeze({
   reduced: {
-    timeline: {
-      enabled: false,
-      durationScale: 1,
-      staggerScale: 1,
-      distanceScale: 1,
-      easePreset: "standard",
-    },
+    timeline: { enabled: false },
     trigger: { enabled: false },
   },
   base: {
-    timeline: {
-      enabled: true,
-      durationScale: 1,
-      staggerScale: 1,
-      distanceScale: 1,
-      easePreset: "standard",
-    },
+    timeline: { enabled: true },
     trigger: { enabled: true },
   },
   sm: {
-    timeline: {
-      enabled: true,
-      durationScale: 1,
-      staggerScale: 1,
-      distanceScale: 1,
-      easePreset: "standard",
-    },
+    timeline: { enabled: true },
     trigger: { enabled: true },
   },
   md: {
-    timeline: {
-      enabled: true,
-      durationScale: 1,
-      staggerScale: 1,
-      distanceScale: 1,
-      easePreset: "standard",
-    },
+    timeline: { enabled: true },
     trigger: { enabled: true },
   },
   lg: {
-    timeline: {
-      enabled: true,
-      durationScale: 1,
-      staggerScale: 1,
-      distanceScale: 1,
-      easePreset: "standard",
-    },
+    timeline: { enabled: true },
     trigger: { enabled: true },
   },
   xl: {
-    timeline: {
-      enabled: true,
-      durationScale: 1,
-      staggerScale: 1,
-      distanceScale: 1,
-      easePreset: "standard",
-    },
+    timeline: { enabled: true },
     trigger: { enabled: true },
   },
 });
@@ -117,13 +77,7 @@ export const SECTION_OVERRIDES = Object.freeze({
     // experience for hero — see the a11y caveat in the handoff.
     reduced: {
       animation: { variant: "shutter" },
-      timeline: {
-        enabled: true,
-        durationScale: 1,
-        staggerScale: 1,
-        distanceScale: 1,
-        easePreset: "standard",
-      },
+      timeline: { enabled: true },
       trigger: { enabled: true },
     },
   },
