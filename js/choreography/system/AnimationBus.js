@@ -8,7 +8,7 @@
  *
  * QUICK START:
  * import { AnimationBus } from './system/AnimationBus.js';
- * import { EVENTS } from './config/events.js';
+ * import { EVENTS } from 'config/contracts/events/events.js)';
  *
  * // Listen for events
  * AnimationBus.on(EVENTS.hero.introComplete, () => {
