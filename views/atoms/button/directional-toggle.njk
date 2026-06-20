@@ -1,0 +1,14 @@
+{% import "atoms/icon.njk" as Icon %}
+{%- macro render(params = {}) -%}
+  {%- set label = params.label | default("Toggle") -%}
+  {%- set styles = {
+  base: "group shrink-0 p-2 rounded-md text-primary-200 transition-colors hover:text-neutral-50
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+  } -%}
+  {%- set overrides = params.classes | default({}) -%}
+  <button type="button" data-projects-el="nav-toggle" aria-expanded="false" aria-controls="work-jumplinks" class="{{ styles | classes }} {{ overrides }}">
+    <span class="sr-only">{{ label }}</span>
+    {{ Icon.render({ name: "chevron-down", size: "lg", class: "group-aria-[expanded=true]:hidden" }) }}
+    {{ Icon.render({ name: "chevron-up", size: "lg", class: "hidden group-aria-[expanded=true]:block" }) }}
+  </button>
+{%- endmacro -%}

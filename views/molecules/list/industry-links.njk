@@ -1,9 +1,9 @@
 {% macro render(params = {}) %}
-  {%- set classes = params.classes | default("leading-none") -%}
+  {%- set overrides = params.classes | default("leading-none") -%}
   {%- set industries = params.industries | default([]) -%}
   {%- set ulStyles = {
-    base: "leading-none",
-    md: "flex flex-row gap-8 justify-center h-full items-center"
+    base: "leading-none pt-4",
+    md: "flex flex-row gap-8 justify-center items-center"
   } -%}
   {%- set liStyles = {
     base: "my-0 flex-1"
@@ -12,7 +12,7 @@
     base: "block py-0 no-underline font-display text-md leading-none text-center transition-colors text-primary-200 aria-[current=true]:text-neutral-50 aria-[current=true]:underline aria-[current=true]:underline-offset-4"
   } -%}
 
-  <ul data-projects-el="industry-links" class="{{ ulStyles | classes }}">
+  <ul data-projects-el="industry-links" class="{{ ulStyles | classes }} {{ overrides }}">
     {% for industryTitle, projects in industries %}
       <li class="{{ liStyles | classes }}">
         <a href="#industry-{{ industryTitle | slugify }}" data-projects-el="industry-link" class="{{ aStyles | classes }}">{{ industryTitle }}</a>

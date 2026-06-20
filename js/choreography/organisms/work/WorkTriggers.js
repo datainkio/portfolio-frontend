@@ -48,8 +48,7 @@ export default class WorkTriggers extends AbstractSectionTriggers {
 
   bind(callbacks = {}) {
     super.bind(callbacks);
-    // Disable the header pin for now, as it may be causing issues with the industry header pinning.
-    // this._bindHeaderPin();
+    this._bindHeaderPin();
   }
 
   _bindHeaderPin() {

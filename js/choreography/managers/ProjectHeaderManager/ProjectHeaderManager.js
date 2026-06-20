@@ -22,12 +22,12 @@ export default class ProjectHeaderManager {
   }
 
   _init() {
-    this._tween = parallaxScrub(this._image, {
-      yPercent: PROJECT_HEADER_ANIMATION.yPercent,
-      ease: PROJECT_HEADER_ANIMATION.ease,
-      trigger: this._header,
-      ...PROJECT_HEADER_ANIMATION.scrollTrigger,
-    });
+    // this._tween = parallaxScrub(this._image, {
+    //   yPercent: PROJECT_HEADER_ANIMATION.yPercent,
+    //   ease: PROJECT_HEADER_ANIMATION.ease,
+    //   trigger: this._header,
+    //   ...PROJECT_HEADER_ANIMATION.scrollTrigger,
+    // });
 
     this.logger.trace("parallax initialized");
   }

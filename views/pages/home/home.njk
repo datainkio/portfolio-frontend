@@ -5,14 +5,14 @@
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
 
 {#- EYE CANDY -#}
-{% import "molecules/background/sizzle-background.njk" as Background %}
+{# {% import "molecules/background/sizzle-background.njk" as Background %} #}
 
 {#- CONTENT VIEWS -#}
-{% import "organisms/section/bio.njk" as BioSection %}
-{% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/work.njk" as ProjectsSection %}
+{# {% import "organisms/section/bio.njk" as BioSection %}
+{% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/organizations.njk" as OrganizationsSection %}
-{% import "organisms/section/contact.njk" as ContactSection with context %}
+{% import "organisms/section/contact.njk" as ContactSection with context %} #}
 
 {#- CONTENT -#}
 {%- set projects = collections.home[0].featuredProjects -%}
@@ -30,9 +30,9 @@
     <main id="page-main" aria-busy="true" class="mx-auto px-0 col-span-full w-full">
       {{ PageHeader.home_landing({ svg: logo }) }}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects, order: "2/4", buildDate: buildDate }) }}
-      {{ BioSection.render({ id: "introduction", copy: value, order: "1/4", buildDate: buildDate}) }}
-      {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "3/4", buildDate: buildDate }) }}
-      {{ ContactSection.render({ id: "contact", order: "4/4", buildDate: buildDate }) }}
+      {# {{ BioSection.render({ id: "introduction", copy: value, order: "1/4", buildDate: buildDate}) }}
+                              {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "3/4", buildDate: buildDate }) }}
+                              {{ ContactSection.render({ id: "contact", order: "4/4", buildDate: buildDate }) }} #}
     </main>
     {{ GlobalFooter.render({contact: false}) }}
     {% include "templates/partials/choreography-script.njk" %}

@@ -22,11 +22,11 @@
 
   {%- set root = {
     "base": "text-current relative isolate w-full overflow-hidden",
-    "md": "bg-white grid grid-cols-6 inner-border p-4 mx-auto my-auto"
+    "md": "grid grid-cols-6 inner-border p-4 mx-auto my-auto"
   } -%}
 
   {%- set figure = {
-    "base": "bg-black m-0 relative z-0 overflow-hidden w-full h-dvh",
+    "base": "m-0 relative z-0 overflow-hidden w-full h-dvh",
     "md": "col-span-3 h-auto aspect-square"
   } -%}
 
@@ -35,7 +35,7 @@
   } -%}
 
   {%- set body = {
-    "base": "prose bg-white inner-border p-6 relative z-10",
+    "base": "prose inner-border p-6 relative",
     "sm": "grid grid-cols-6 gap-x-2",
     "md": "col-span-3 inner-border-none"
   } -%}
@@ -65,12 +65,13 @@
 
   {%- set stats = {
     "base": "col-span-full grid grid-cols-2 gap-x-4",
-    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-black border-dashed"
+    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-neutral-500
+     border-dashed"
   } -%}
 
   {%- set footer = {
     "base": "col-span-full text-right py-2",
-    "sm": "border-y border-black border-dashed"
+    "sm": "border-y border-neutral-500 border-dashed"
   } -%}
 
   {%- set linky = {

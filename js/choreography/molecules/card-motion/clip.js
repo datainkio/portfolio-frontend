@@ -28,15 +28,15 @@ export function createCardScrollClip({
   if (!image) return { kill() {} };
 
   const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: figure,
-      start: "top top",
-      end: "bottom -=1500px",
-      pin: true,
-      pinSpacing: false,
-      scrub: 1,
-      invalidateOnRefresh: true,
-    },
+    // scrollTrigger: {
+    //   trigger: figure,
+    //   start: "top top",
+    //   end: "bottom -=1500px",
+    //   pin: true,
+    //   pinSpacing: false,
+    //   scrub: 1,
+    //   invalidateOnRefresh: true,
+    // },
   });
 
   tl.addLabel("intro");
@@ -73,8 +73,8 @@ function createIntroTimeline(figure, image) {
 
   const tl = gsap.timeline();
   // tl.to(figure, { height: 0, ease: "none" }, 0);
-  tl.to(figure, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
-  tl.to(image, { scale: 1.1, ease: "none" }, 0);
+  // tl.to(figure, { clipPath: "inset(0 0 100% 0)", ease: "none" }, 0);
+  // tl.to(image, { scale: 1.1, ease: "none" }, 0);
   return tl;
 }
 

@@ -16,18 +16,18 @@ export default class WorkAnimations extends AbstractSectionAnimations {
     super(view);
 
     this.options = {
-      duration: options.duration ?? WORK_ANIMATION_DEFAULTS.duration,
-      stagger: options.stagger ?? WORK_ANIMATION_DEFAULTS.stagger,
-      translateY: options.translateY ?? WORK_ANIMATION_DEFAULTS.translateY,
-      itemTranslateY:
-        options.itemTranslateY ?? WORK_ANIMATION_DEFAULTS.itemTranslateY,
-      itemRevealViewportRatio:
-        options.itemRevealViewportRatio ??
-        WORK_ANIMATION_DEFAULTS.itemRevealViewportRatio,
-      ease: {
-        in: options.ease?.in ?? WORK_ANIMATION_DEFAULTS.ease.in,
-        out: options.ease?.out ?? WORK_ANIMATION_DEFAULTS.ease.out,
-      },
+      // duration: options.duration ?? WORK_ANIMATION_DEFAULTS.duration,
+      // stagger: options.stagger ?? WORK_ANIMATION_DEFAULTS.stagger,
+      // translateY: options.translateY ?? WORK_ANIMATION_DEFAULTS.translateY,
+      // itemTranslateY:
+      //   options.itemTranslateY ?? WORK_ANIMATION_DEFAULTS.itemTranslateY,
+      // itemRevealViewportRatio:
+      //   options.itemRevealViewportRatio ??
+      //   WORK_ANIMATION_DEFAULTS.itemRevealViewportRatio,
+      // ease: {
+      //   in: options.ease?.in ?? WORK_ANIMATION_DEFAULTS.ease.in,
+      //   out: options.ease?.out ?? WORK_ANIMATION_DEFAULTS.ease.out,
+      // },
     };
 
     this.elements = {
@@ -54,7 +54,7 @@ export default class WorkAnimations extends AbstractSectionAnimations {
   }
 
   showAllWorkItems() {
-    this._showAllItems(this.workItems, this.revealedItems);
+    // this._showAllItems(this.workItems, this.revealedItems);
   }
 
   updateWorkReveal() {}

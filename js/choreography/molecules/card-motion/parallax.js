@@ -22,8 +22,8 @@ export function createCardParallax({
   reduceMotion,
 }) {
   if (isReducedMotion(reduceMotion)) {
-    gsap.set(figure, { yPercent: 0, clearProps: "willChange" });
-    if (body) gsap.set(body, { yPercent: 0, clearProps: "willChange" });
+    // gsap.set(figure, { yPercent: 0, clearProps: "willChange" });
+    // if (body) gsap.set(body, { yPercent: 0, clearProps: "willChange" });
     return { kill() {} };
   }
 
@@ -37,13 +37,13 @@ export function createCardParallax({
     ),
   });
 
-  tl.fromTo(body, { yPercent: 0 }, { yPercent: -25, ease: "none" }, 0);
+  // tl.fromTo(body, { yPercent: 0 }, { yPercent: -25, ease: "none" }, 0);
 
   return {
     kill() {
       killST(tl);
-      gsap.set(figure, { clearProps: "willChange" });
-      gsap.set(body, { clearProps: "yPercent,willChange" });
+      // gsap.set(figure, { clearProps: "willChange" });
+      // gsap.set(body, { clearProps: "yPercent,willChange" });
     },
   };
 }
