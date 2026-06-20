@@ -10,7 +10,7 @@ tags:
   - config
   - frontend
   - js
-  - scrolltriggers
+  - scrolltrigger
 links:
   - "[[selectors|selectors]]"
 ---

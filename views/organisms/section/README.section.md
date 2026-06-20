@@ -8,7 +8,7 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - a11y
+  - accessibility
   - homepage
   - macro
   - organism

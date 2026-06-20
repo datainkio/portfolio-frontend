@@ -5,7 +5,7 @@ docType: "reference"
 status: "draft"
 owner: "frontend"
 tags:
-  - case study
+  - case-study
   - eleventy
   - project
   - sanity

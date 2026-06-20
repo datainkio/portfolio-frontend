@@ -8,7 +8,6 @@ tags:
   - choreography
   - frontend
   - home-landing
-  - HomeHeaderManager
 ---
 
 # Home Header — Hero → Menu Timed Transition Spec

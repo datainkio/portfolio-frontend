@@ -8,7 +8,6 @@ runtime: browser
 tags:
   - choreography
   - frontend
-  - HomeHeaderManager
   - js
   - manager
 links:
