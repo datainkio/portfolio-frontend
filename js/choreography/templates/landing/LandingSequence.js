@@ -23,7 +23,6 @@ export class LandingSequence {
     this.state = {
       isStarted: false,
       isComplete: false,
-      heroIntroRequested: false,
     };
 
     this._listeners = [];
@@ -69,7 +68,6 @@ export class LandingSequence {
 
     this.state.isStarted = false;
     this.state.isComplete = false;
-    this.state.heroIntroRequested = false;
   }
 
   destroy() {
@@ -127,7 +125,6 @@ export class LandingSequence {
 
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
-      // this._applySectionArrangement("bio");
       this._pauseBackgroundVideo();
       this.sections?.bio?.playIntro?.();
     });
@@ -141,12 +138,10 @@ export class LandingSequence {
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
       this.sections?.bio?.playOutro?.();
-      //this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.onLeaveBack, () => {
       this.logger.trace(SELECTORS.bio + " left back");
-      // this._resumeBackgroundVideo();
     });
   }
 }
