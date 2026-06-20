@@ -5,34 +5,36 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 /**
  * AnimationDirector - Master Choreography Controller
  *
- * Orchestrates the complete animation system: event bus, section controllers,
- * stage manager, and animation sequences. Automatically initializes on DOMContentLoaded.
+ * Orchestrates the complete animation system: event bus, scroll/visual effects,
+ * section controllers, global managers, and the landing sequence. Boot is
+ * deferred to idle (requestIdleCallback) on DOMContentLoaded.
  *
  * ARCHITECTURE:
  * - AnimationBus: Event-driven coordination between sections
- * - StageManager: Scroll smoothing and visual effects
- * - Section Controllers: Hero, Work, Biography (extend BaseSection)
- * - LandingSequence: Defines animation flow via event listeners
+ * - ScrollEffectsCoordinator (this.stage): Scroll smoothing, gels, ruler, reduced motion
+ * - CardManager: Per-card scroll animations (instantiated before sections)
+ * - Section Controllers (SECTION_REGISTRY): Hero, BackgroundVideo, Bio, Awards, Organizations, Work — extend AbstractSection
+ * - Managers: GlobalHeaderManager, HomeHeaderManager, WorkHeaderManager, WorkNavManager, ProjectHeaderManager
+ * - LandingSequence: Defines animation flow via AnimationBus listeners
  *
  * INITIALIZATION SEQUENCE:
  * 1. AnimationBus created for event coordination
- * 2. StageManager initialized for scroll and visuals
- * 3. Section controllers instantiated (Hero, Work, Biography)
- * 4. LandingSequence choreographs the animation flow
- * 5. Sequence starts, triggering entire choreography
+ * 2. ScrollEffectsCoordinator initialized for scroll and visuals
+ * 3. CardManager initialized (before sections, so pin spacers exist for header-pin measurement)
+ * 4. Section controllers instantiated from SECTION_REGISTRY
+ * 5. Global managers instantiated
+ * 6. LandingSequence choreographs the animation flow
+ * 7. Dispatches window EVENTS.system.directorReady
  *
  * REQUIREMENTS:
- * - DOM elements: #main-header, #work, #biography
  * - ScrollSmoother optional (gracefully degrades to native scroll)
  *
  * DEBUGGING:
- * - Enable debug mode: window.director.enableDebug(true)
- * - Access globally: window.director
+ * - Access globally: window.director (getSections / getSequence / getStage / restart / destroy)
  *
- * [ ] DOCS: Update AnimationDirector intro to reflect current architecture and responsibilities.
  * @requires AnimationBus - Event coordination system
- * @requires StageManager - Scroll and visual effects
- * @requires Splash, Hero, Work, Biography - Section controllers
+ * @requires ScrollEffectsCoordinator - Scroll and visual effects
+ * @requires SECTION_REGISTRY - Section controllers
  * @requires LandingSequence - Animation choreography
  */
 
@@ -53,24 +55,22 @@ const LOGS = {
     "The AnimationDirector is the master controller for the entire animation system. It initializes the AnimationBus, ScrollEffectsCoordinator, Section Controllers, and LandingSequence in a specific order to ensure smooth operation. The AnimationDirector also provides methods to control and debug the animation flow.",
   completion: "Initialized. All systems go. Let's light this candle.",
   methods:
-    "enableDebug(enabled) - Toggle AnimationBus debug logging\n" +
     "getSections() - Get section controller instances\n" +
     "getSequence() - Get LandingSequence instance\n" +
-    "getStage() - Get StageManager instance\n" +
+    "getStage() - Get ScrollEffectsCoordinator instance\n" +
     "restart() - Reset and replay landing sequence\n" +
     "destroy() - Cleanup and remove all event listeners",
 };
 /**
  * AnimationDirector - Master Animation Coordinator
  *
- * Orchestrates the complete animation system including event bus, section controllers,
- * stage manager, and sequence choreography.
+ * Orchestrates the complete animation system including event bus, scroll/visual
+ * effects, section controllers, global managers, and sequence choreography.
  *
  * Public API:
- * - enableDebug(enabled) - Toggle AnimationBus debug logging
  * - getSections() - Get section controller instances
  * - getSequence() - Get LandingSequence instance
- * - getStage() - Get StageManager instance
+ * - getStage() - Get ScrollEffectsCoordinator instance
  * - restart() - Reset and replay landing sequence
  * - destroy() - Cleanup and remove all event listeners
  */
@@ -80,10 +80,10 @@ export default class AnimationDirector {
    *
    * Creates all systems in proper order:
    * 1. AnimationBus for event coordination
-   * 2. StageManager for scroll and visual effects
-   * 3. Section controllers (Hero, Work, Biography)
-   * 4. LandingSequence choreography coordinator
-   * 5. Start animation sequence
+   * 2. ScrollEffectsCoordinator for scroll and visual effects
+   * 3. CardManager, then section controllers from SECTION_REGISTRY
+   * 4. Global managers (header/nav/project)
+   * 5. LandingSequence choreography coordinator, then dispatch directorReady
    */
   constructor() {
     // Create scoped logger for AnimationDirector operations
@@ -167,8 +167,8 @@ export default class AnimationDirector {
   }
 
   /**
-   * Get StageManager instance
-   * @returns {StageManager} Stage manager
+   * Get ScrollEffectsCoordinator instance
+   * @returns {ScrollEffectsCoordinator} Scroll + visual effects coordinator
    */
   getStage() {
     return this.stage;
