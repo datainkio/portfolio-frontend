@@ -277,8 +277,8 @@ export default class AbstractSection {
     this.isIntroComplete = false;
     this.isOutroComplete = false;
     this.isScrollActive = false;
-    this._emit(`section:${this.id}:reset`, {
-      sectionId: this.id,
+    this._emit(`section:${this.sectionKey}:reset`, {
+      sectionId: this.sectionKey,
       element: this.view,
     });
   }
@@ -288,7 +288,9 @@ export default class AbstractSection {
     this._matchMedia = null;
     this.animations?.kill?.();
     this.triggers?.kill?.();
-    this._emit(`section:${this.id}:destroy`, { sectionId: this.id });
+    this._emit(`section:${this.sectionKey}:destroy`, {
+      sectionId: this.sectionKey,
+    });
     this.view = null;
     this.animations = null;
     this.triggers = null;

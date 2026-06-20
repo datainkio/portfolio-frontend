@@ -41,7 +41,6 @@ export class AnimationBus {
     });
     this.logger.trace(LOGS.description);
     this._listeners = new Map();
-    this._debug = false;
     this.logger.trace("initialized");
   }
 
@@ -92,14 +91,6 @@ export class AnimationBus {
         }
       }
     }
-  }
-
-  /**
-   * Enable/disable debug logging
-   * @param {boolean} [enabled=true]
-   */
-  enableDebug(enabled = true) {
-    this._debug = enabled;
   }
 
   /**
