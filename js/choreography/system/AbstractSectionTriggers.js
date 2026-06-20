@@ -26,6 +26,15 @@ export default class AbstractSectionTriggers {
   }
 
   /**
+   * Whether this section's trigger drives its timeline via scrub (scroll position
+   * owns the playhead). Sections check this to avoid restarting a scrubbed intro.
+   * @returns {boolean}
+   */
+  isScrubbed() {
+    return Boolean(this._getTriggerDefaults()?.scrub);
+  }
+
+  /**
    * Bind callbacks to the viewport trigger.
    * Calling bind() multiple times is safe — the previous trigger is killed first.
    */

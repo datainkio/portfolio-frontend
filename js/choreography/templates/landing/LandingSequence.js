@@ -20,11 +20,6 @@ export class LandingSequence {
     this.sections = sections;
     this.gelManager = gelAnimation;
 
-    this.state = {
-      isStarted: false,
-      isComplete: false,
-    };
-
     this._listeners = [];
 
     this.handlePreloaderOut = () => this.start();
@@ -53,7 +48,6 @@ export class LandingSequence {
         "verbose",
         "error",
       );
-      this.state.isStarted = false;
     }
   }
 
@@ -65,9 +59,6 @@ export class LandingSequence {
         section.reset();
       }
     });
-
-    this.state.isStarted = false;
-    this.state.isComplete = false;
   }
 
   destroy() {
