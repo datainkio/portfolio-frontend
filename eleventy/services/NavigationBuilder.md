@@ -1,17 +1,36 @@
 ---
 id: frontend.eleventy.services.navigationbuilder
-role: "NavigationBuilder — context sidecar (auto-created; expand with the file's real responsibility)."
+role: "Service that transforms directory + Sanity data into hierarchical navigation structures, testable outside 11ty."
 status: stable
 surface: internal
 scope: frontend
 runtime: node
+aliases:
+  - "NavigationBuilder"
 tags:
-  - "#frontend"
-  - "#design/motion/js"
+  - "#frontend/eleventy"
+  - "#frontend/eleventy/services"
+links:
+  - "[[README.services]]"
+  - "[[navigation]]"
 ---
+
 # NavigationBuilder
 
-Context sidecar for `eleventy/services/NavigationBuilder.js`.
+All navigation processing, deliberately decoupled from 11ty collection registration so it
+can be unit-tested outside the build. Consumed by [[navigation]].
+
+## Responsibilities
+
+- Build directory navigation from `ia/` route files + frontmatter titles.
+- Transform Sanity projects data into nav items.
+- Assemble the hierarchical `nav_primary` tree for the registration layer.
+
+> [!warning] Known constraints
+> - Defensive null checks guard against `toLowerCase()` crashes; entries missing a
+>   frontmatter title are filtered out to avoid null keys.
+> - Hierarchy building is **O(n²)** — revisit if navigation exceeds ~100 items.
+> - Logging via `@datainkio/lumberjack`, gated by the `DEBUG` env var.
 
 ## Source
 
