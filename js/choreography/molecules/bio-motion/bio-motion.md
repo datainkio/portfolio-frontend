@@ -6,13 +6,13 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/molecule"
-  - "#design/motion/choreography/bio-motion"
-  - "#content-strategy/biography"
-  - "#content-strategy/introduction"
+  - bio-motion
+  - biography
+  - choreography
+  - frontend
+  - introduction
+  - js
+  - molecule
 links:
 backlinks:
 ---

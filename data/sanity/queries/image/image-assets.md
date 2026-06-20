@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Image assets query"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[featuredImageProjection]]"

@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Projects landing query"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[projectsLandingProjection]]"

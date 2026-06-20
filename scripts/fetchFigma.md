@@ -6,8 +6,8 @@ surface: internal
 scope: frontend
 runtime: node
 tags:
-  - "#frontend"
-  - "#design/motion/js"
+  - frontend
+  - js
 ---
 # fetchFigma
 

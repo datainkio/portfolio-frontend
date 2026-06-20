@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Collapsible shortcode"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/shortcodes"
+  - eleventy
+  - shortcodes
 links:
   - "[[README.shortcodes]]"
   - "[[shortcodes]]"

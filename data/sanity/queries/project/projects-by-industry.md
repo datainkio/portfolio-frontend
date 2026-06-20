@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Projects by industry query"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[projectCardProjection]]"

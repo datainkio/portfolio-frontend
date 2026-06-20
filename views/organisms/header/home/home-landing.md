@@ -9,14 +9,14 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#frontend/eleventy/component"
-  - "#design/atomic-design/organism"
-  - "#design/atomic-design"
-  - "#preloader"
+  - atomic-design
+  - component
+  - eleventy
+  - nunjucks
+  - Obsidian
+  - organism
+  - preloader
+  - template
 links:
   - "[hanko](../../../atoms/hanko/hanko.md)"
   - "[home](../../../pages/home/home.md)"

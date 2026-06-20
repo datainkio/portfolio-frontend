@@ -6,11 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#frontend/eleventy/template"
-  - "#design/motion/choreography/LandingSequence"
+  - choreography
+  - frontend
+  - js
+  - template
 links:
   - "[[events|events]]"
   - "[[config/index|config/index]]"

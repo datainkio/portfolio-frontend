@@ -9,13 +9,13 @@ templateRole: "page"
 atomicLevel: "page"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#design/atomic-design/page"
-  - "#content-strategy/project"
-  - "#design/atomic-design"
+  - atomic-design
+  - eleventy
+  - nunjucks
+  - Obsidian
+  - page
+  - project
+  - template
 links:
   - "[base](../../layouts/base.md)"
   - "[project-header](../../organisms/header/project/project-header.md)"

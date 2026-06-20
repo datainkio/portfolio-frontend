@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "taxonomy service"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/services"
+  - cms
+  - services
 links:
   - "[[README.services]]"
 ---

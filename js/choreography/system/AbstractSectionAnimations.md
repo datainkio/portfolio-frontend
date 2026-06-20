@@ -6,11 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system"
-  - "#design/motion/choreography/AbstractSectionAnimations"
+  - choreography
+  - frontend
+  - js
+  - system
 links:
   - "[[timelines|timelines]]"
   - "[[system/gsap|system/gsap]]"

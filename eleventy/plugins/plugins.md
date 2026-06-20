@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Plugins"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/plugins"
+  - eleventy
+  - plugins
 links:
   - "[[README.eleventy]]"
 ---

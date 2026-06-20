@@ -6,10 +6,10 @@ status: stable
 audience:
   - agents
 tags:
-  - "#frontend"
-  - "#ux/navigation/entrypoint"
-  - "#ux/accessibility/11ty"
-  - "#design/motion/gsap"
+  - eleventy
+  - entrypoint
+  - frontend
+  - gsap
 ---
 
 # Frontend — Claude Code Entrypoint

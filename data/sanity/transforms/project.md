@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Project transforms"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/transforms"
+  - cms
+  - transforms
 links:
   - "[[README.transforms]]"
 ---

@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Filters barrel"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/filters"
+  - eleventy
+  - filters
 links:
   - "[[README.filters]]"
   - "[[array]]"

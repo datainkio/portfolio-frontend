@@ -6,11 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/motion/choreography/manager"
-  - "#design/motion/choreography/ReducedMotionHandler"
+  - choreography
+  - frontend
+  - js
+  - manager
 links:
   - "[[config/index/index|config/index]]"
 backlinks:

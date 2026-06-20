@@ -1,10 +1,10 @@
 ---
 title: Pin Release Timing
 tags:
-  - workflow/task/issue
-  - ux/responsiveness
-  - design/motion/gsap
-  - design/motion
+  - gsap
+  - issue
+  - motion
+  - responsiveness
 severity: high
 status: active
 system: case-cards

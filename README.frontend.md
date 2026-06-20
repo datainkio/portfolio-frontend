@@ -6,10 +6,10 @@ status: stable
 audience:
   - agents
 tags:
-  - "#frontend"
-  - "#aix/reference"
-  - "#ux/accessibility/11ty"
-  - "#design/motion/gsap"
+  - eleventy
+  - frontend
+  - gsap
+  - reference
 ---
 
 <!-- @format -->

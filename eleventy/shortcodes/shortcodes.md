@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Shortcodes barrel"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/shortcodes"
+  - eleventy
+  - shortcodes
 links:
   - "[[README.shortcodes]]"
   - "[[loremipsatron]]"

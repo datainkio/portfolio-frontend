@@ -1,9 +1,9 @@
 ---
 title: Motion Checklist
 tags:
-  - dx/checklist
-  - design/motion
-  - design/motion/gsap
+  - checklist
+  - gsap
+  - motion
 ---
 
 # Motion Checklist

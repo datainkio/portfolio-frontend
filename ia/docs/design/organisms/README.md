@@ -4,11 +4,7 @@ description: Reference for section-scale components composed from molecules and 
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #design-system
-  -  #organisms
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 aix:

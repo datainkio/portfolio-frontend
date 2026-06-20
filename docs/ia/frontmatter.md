@@ -4,12 +4,7 @@ description: Canonical frontmatter schema for IA and design-system Markdown in E
 docType: reference
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #frontmatter
-  -  #eleventy
-  -  #obsidian
+tags: []
 permalink: /docs/ia/frontmatter/
 eleventyComputed:
   title: "{{ title }}"

@@ -8,10 +8,10 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - "#design/atomic-design/layouts"
-  - "#design/atomic-design"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy"
+  - atomic-design
+  - eleventy
+  - layout
+  - nunjucks
 perf:
   readPriority: medium
   cacheSafe: true

@@ -9,12 +9,12 @@ templateRole: "partial"
 atomicLevel: "template"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#frontend/nunjucks/partial"
-  - "#design/atomic-design"
+  - atomic-design
+  - eleventy
+  - nunjucks
+  - Obsidian
+  - partial
+  - template
 links:
   - "[gtm-script](gtm-script.md)"
   - "[fonts](fonts.md)"

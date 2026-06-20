@@ -6,8 +6,8 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
+  - frontend
+  - js
 ---
 # contracts
 

@@ -6,11 +6,11 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system/config"
-  - "#design/motion/choreography/scrolltriggers"
+  - choreography
+  - config
+  - frontend
+  - js
+  - scrolltriggers
 links:
   - "[[selectors|selectors]]"
 ---

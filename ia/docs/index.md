@@ -4,9 +4,7 @@ description: Top-level documentation landing page.
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #navigation
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 ---

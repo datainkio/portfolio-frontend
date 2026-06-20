@@ -9,12 +9,12 @@ templateRole: "page"
 atomicLevel: "page"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#design/atomic-design/page"
-  - "#design/atomic-design"
+  - atomic-design
+  - eleventy
+  - nunjucks
+  - Obsidian
+  - page
+  - template
 links:
   - "[landing](../../templates/landing/landing.md)"
   - "[project-cards](../../molecules/list/project-cards.md)"

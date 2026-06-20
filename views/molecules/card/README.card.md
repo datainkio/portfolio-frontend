@@ -8,9 +8,9 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - "#design/atomic-design/molecules"
-  - "#frontend/card"
-  - "#frontend/nunjucks"
+  - card
+  - molecule
+  - nunjucks
 perf:
   readPriority: low
   cacheSafe: true

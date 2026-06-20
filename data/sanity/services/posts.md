@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "posts service"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/services"
+  - cms
+  - services
 links:
   - "[[README.services]]"
 ---

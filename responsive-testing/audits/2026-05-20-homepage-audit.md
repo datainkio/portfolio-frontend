@@ -1,9 +1,9 @@
 ---
 title: Homepage Audit — 2026-05-20
 tags:
-  - content-strategy/audit
-  - ux/responsiveness
-  - frontend/eleventy/homepage
+  - audit
+  - homepage
+  - responsiveness
 date: 2026-05-20
 ---
 

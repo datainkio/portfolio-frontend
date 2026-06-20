@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "User guide query"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[userGuideProjection]]"

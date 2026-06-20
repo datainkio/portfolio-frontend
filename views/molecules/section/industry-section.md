@@ -7,9 +7,9 @@ system: "Eleventy"
 type: "template"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
+  - eleventy
+  - nunjucks
+  - template
 ---
 # industry-section
 

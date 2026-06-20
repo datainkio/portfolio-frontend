@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "sanityService"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/services"
+  - cms
+  - services
 links:
   - "[[README.services]]"
   - "[[fetchSanityData]]"

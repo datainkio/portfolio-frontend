@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Services public API"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/services"
+  - cms
+  - services
 links:
   - "[[README.services]]"
   - "[[sanityService]]"

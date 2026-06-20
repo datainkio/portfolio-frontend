@@ -4,11 +4,7 @@ description: Reference for structural page shells and region-level composition r
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #design-system
-  -  #layouts
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 aix:

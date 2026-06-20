@@ -6,11 +6,11 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/motion/choreography/manager"
-  - "#design/motion/choreography/HomeHeaderManager"
+  - choreography
+  - frontend
+  - HomeHeaderManager
+  - js
+  - manager
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[AnimationBus|AnimationBus]]"

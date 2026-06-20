@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Outcomes query"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[conceptProjection]]"

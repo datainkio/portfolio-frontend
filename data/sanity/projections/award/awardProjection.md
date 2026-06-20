@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Award projection"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/projections"
+  - cms
+  - projections
 links:
   - "[[README.projections]]"
 ---

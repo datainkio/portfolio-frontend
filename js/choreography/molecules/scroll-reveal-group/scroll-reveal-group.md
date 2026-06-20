@@ -6,11 +6,11 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/molecule"
-  - "#design/motion/choreography/scroll-reveal-group"
+  - choreography
+  - frontend
+  - js
+  - molecule
+  - scroll-reveal-group
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[atoms/stagger-reveal/stagger-reveal|atoms/stagger-reveal]]"

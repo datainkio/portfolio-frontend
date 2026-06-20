@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Loremipsatron"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/shortcodes"
+  - eleventy
+  - shortcodes
 links:
   - "[[README.shortcodes]]"
   - "[[shortcodes]]"

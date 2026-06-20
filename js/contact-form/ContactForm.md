@@ -8,11 +8,10 @@ type: "script"
 scriptRole: "controller"
 status: "active"
 tags:
-  - "#frontend/js"
-  - "#frontend/js/module"
-  - "#frontend/html/form"
-  - "#forms"
-  - "#backend/sanity"
+  - form
+  - js
+  - module
+  - sanity
 links:
   - "[contact.njk](../../views/organisms/section/contact.md)"
   - "[contact form spec](../../../specs/contact-form-11ty-sanity-serverless-email-spec.md)"

@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Roles query"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[conceptProjection]]"

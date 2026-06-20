@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Sanity client"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/client"
+  - client
+  - cms
 links:
   - "[[README.sanity]]"
 ---

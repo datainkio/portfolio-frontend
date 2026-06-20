@@ -9,11 +9,11 @@ templateRole: "layout"
 atomicLevel: "none"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#design/atomic-design/layout"
+  - eleventy
+  - layout
+  - nunjucks
+  - Obsidian
+  - template
 links:
   - "[base](base.md)"
   - "[docs-nav](../organisms/navigation/docs-nav.md)"

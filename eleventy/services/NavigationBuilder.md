@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "NavigationBuilder"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/services"
+  - eleventy
+  - services
 links:
   - "[[README.services]]"
   - "[[navigation]]"

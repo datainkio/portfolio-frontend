@@ -8,10 +8,10 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - "#design/atomic-design/molecules"
-  - "#frontend/background"
-  - "#design/motion/gsap"
-  - "#design/motion/scroll"
+  - background
+  - gsap
+  - molecule
+  - scroll
 perf:
   readPriority: low
   cacheSafe: true

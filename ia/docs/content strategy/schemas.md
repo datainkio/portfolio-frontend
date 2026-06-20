@@ -4,11 +4,7 @@ description: Field-level schema definitions for documentation and IA content typ
 docType: reference
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #content-strategy
-  -  #schemas
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 ---

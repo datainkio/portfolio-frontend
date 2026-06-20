@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Featured image projection"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/projections"
+  - cms
+  - projections
 links:
   - "[[README.projections]]"
 ---

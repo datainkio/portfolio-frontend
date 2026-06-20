@@ -6,10 +6,10 @@ surface: public
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system/config"
-  - "#design/motion/choreography/events"
+  - choreography
+  - config
+  - events
+  - frontend
+  - js
 links: []
 ---

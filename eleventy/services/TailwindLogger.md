@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "TailwindLogger"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/services"
+  - eleventy
+  - services
 links:
   - "[[README.services]]"
   - "[[buildCSS]]"

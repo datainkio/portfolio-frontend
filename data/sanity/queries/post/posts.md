@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Posts query"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[postProjection]]"

@@ -6,11 +6,11 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/atom"
-  - "#ux/index"
+  - atom
+  - choreography
+  - frontend
+  - index
+  - js
 links:
   - "[[atoms/fade/fade|atoms/fade]]"
   - "[[atoms/slide/slide|atoms/slide]]"

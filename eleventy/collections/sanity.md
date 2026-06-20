@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Sanity collection"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/collections"
+  - collections
+  - eleventy
 links:
   - "[[README.collections]]"
   - "[[fetchSanityData]]"

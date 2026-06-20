@@ -6,10 +6,9 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system"
-  - "#design/motion/choreography/NullAnimationBus"
+  - choreography
+  - frontend
+  - js
+  - system
 links: []
 ---

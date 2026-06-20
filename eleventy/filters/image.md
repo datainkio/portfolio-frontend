@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Image filter"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/filters"
+  - eleventy
+  - filters
 links:
   - "[[README.filters]]"
   - "[[filters]]"

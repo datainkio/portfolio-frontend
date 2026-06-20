@@ -4,11 +4,11 @@ title: Home Header — Hero → Menu Timed Transition
 status: draft
 owner: Russell Lebo / Frontend Choreography
 tags:
-  - "#frontend"
-  - "#design/motion/choreography"
-  - "#design/motion/choreography/HomeHeaderManager"
-  - "#home-landing"
-  - "#animation-spec"
+  - animation-spec
+  - choreography
+  - frontend
+  - home-landing
+  - HomeHeaderManager
 ---
 
 # Home Header — Hero → Menu Timed Transition Spec

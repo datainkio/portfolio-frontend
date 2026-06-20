@@ -6,11 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/motion/choreography/manager"
-  - "#design/motion/choreography/ProjectHeaderManager"
+  - choreography
+  - frontend
+  - js
+  - manager
 links:
   - "[[atoms/parallax/parallax|atoms/parallax]]"
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"

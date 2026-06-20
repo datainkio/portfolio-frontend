@@ -6,12 +6,12 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system/config"
-  - "#ux/responsiveness/profiles"
-  - "#ux/responsiveness/motion-profiles"
+  - choreography
+  - config
+  - frontend
+  - js
+  - motion-profiles
+  - profiles
 links:
   - "[[config/ix/breakpoints/breakpoints|config/ix/breakpoints]]"
 backlinks:

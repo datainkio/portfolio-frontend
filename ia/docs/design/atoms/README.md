@@ -4,11 +4,7 @@ description: Reference for foundational UI primitives and token-driven component
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #design-system
-  -  #atoms
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 aix:

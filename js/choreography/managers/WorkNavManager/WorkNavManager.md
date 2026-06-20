@@ -6,11 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/motion/choreography/manager"
-  - "#design/motion/choreography/WorkNavManager"
+  - choreography
+  - frontend
+  - js
+  - manager
 links:
   - "[[system/AnimationBus|AnimationBus]]"
   - "[[config/contracts/events/events|config/contracts/events]]"

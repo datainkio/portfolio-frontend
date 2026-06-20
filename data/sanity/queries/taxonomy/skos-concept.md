@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "SKOS concept query factory"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[conceptProjection]]"

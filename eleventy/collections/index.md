@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "Collections index"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/eleventy/collections"
+  - collections
+  - eleventy
 links:
   - "[[README.collections]]"
   - "[[navigation]]"

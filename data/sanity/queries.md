@@ -8,8 +8,8 @@ runtime: node
 aliases:
   - "CMS queries barrel"
 tags:
-  - "#frontend/cms"
-  - "#frontend/cms/queries"
+  - cms
+  - queries
 links:
   - "[[README.queries]]"
   - "[[README.sanity]]"

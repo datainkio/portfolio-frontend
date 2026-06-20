@@ -4,11 +4,7 @@ description: Reference for page-level blueprints that bind layout, content slots
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #design-system
-  -  #templates
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 aix:
