@@ -1,7 +1,8 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "molecules/section-cap.njk" as SectionCap %}
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
 {%- set header = {
-        base: "group fixed h-dvh left-0 z-[9999] bg-slate-950 text-center absolute",
+        base: "group fixed h-dvh top-0 left-0 z-[9999] bg-slate-950 text-center absolute",
         "data-[header-role=loader]": "w-full text-center pointer-events-auto flex items-center",
         "data-[header-role=hero]": "w-full flex items-center",
         "data-[header-role=menu]": "w-12 overflow-hidden shadow-neutral-950/50 shadow-md cursor-pointer border-r-2 border-slate-700 lg:w-48 lg:overflow-visible lg:cursor-auto",
@@ -30,7 +31,13 @@
         lg: "group-data-[header-role=menu]:block"
         } -%}
 
+{%- set cap = {
+        base: "bg-slate-950 sticky top-0 pl-16 h-10 items-center",
+        lg: "pl-52 pr-8"
+        } -%}
+
 {% macro home_landing(params = {}) %}
+        {{ SectionCap.render({title: "work" , count: "0/10", buildDate: buildDate, classes: cap | classes}) }}
         <header
                 id="overview"
                 data-preloader

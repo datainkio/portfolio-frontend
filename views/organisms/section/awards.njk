@@ -1,5 +1,4 @@
 {% macro render(params = {}) %}
-  {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "atoms/award.njk" as Award %}
   {% import "atoms/svg/inline.njk" as InlineSvg %}
   {% import "atoms/printmarks/ink-marks.njk" as Ink %}
@@ -55,7 +54,6 @@
 
     <div aria-hidden="true" data-awards-el="context" class=" {{ contextCSS | classes }} ">
       {{ Ink.render({classes: "inset-4"}) }}
-      {{ SectionCap.render({title: sectionId , count: order}) }}
     </div>
 
     <header data-awards-el="header" class=" {{ headerCSS | classes }} ">
@@ -66,7 +64,7 @@
     <div data-awards-el="subheading" id="subheading" class=" {{ subheadingCSS | classes }} ">
       <p class="{{ subheadingTitleCSS | classes }}">Awards, Fellowship, and Distinctions</p>
       <p class="{{ subheadingDescriptionCSS | classes }}">Selected honors received for work in design, technology & public
-                impact</p>
+                                impact</p>
     </div>
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">

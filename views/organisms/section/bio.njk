@@ -1,5 +1,4 @@
 {% macro render(params = {}) %}
-  {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/printmarks.njk" as PrintMarks %}
   {%- set sectionId = params.id | default("bio") -%}
   {%- set classes = params.classes | default("") -%}
@@ -29,7 +28,6 @@
   } %}
 
   <section class="{{ section | classes }}" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
-    {{ SectionCap.render({title: "manifesto" , count: order, buildDate: buildDate}) }}
     <header class="{{ header | classes }}" data-bio-el="header">
       <p class="font-display text-neutral-400 w-full">A Design Philosophy</p>
       <h2 class="{{ title | classes }}" id="{{ headingId }}" data-bio-el="heading">{{ heading }}</h2>

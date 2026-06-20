@@ -5,10 +5,10 @@
   {%- set title = params.title | default("") -%}
   {%- set buildDate = params.buildDate -%}
   {%- set cap = {
-    base: "text-xs z-10 w-full px-6 py-2 col-span-full border-b-2 border-b-slate-700 grid
+    base: "text-xs z-10 w-full px-6 col-span-full border-b-2 border-b-slate-700 grid
         grid-cols-3"
   } %}
-  <div class="{{ cap | classes }}">
+  <div class="{{ cap | classes }} {{ params.classes }}">
     <span data-current-section-title class="text-secondary-500 justify-self-start">{{ title }}</span>
     <span data-current-section-count class="justify-self-center">{{ prefix }}
       {{ count }}</span>
