@@ -1,18 +1,35 @@
 ---
-id: frontend.data.sanity.services.sanityservice
-role: "sanityService — context sidecar (auto-created; expand with the file's real responsibility)."
+id: frontend.cms.services.sanity
+role: "Build orchestration: client init, iterate CMS_QUERIES, dispatch transforms, register collections."
 status: stable
 surface: internal
 scope: frontend
 runtime: node
+aliases:
+  - "sanityService"
 tags:
-  - "#frontend"
-  - "#design/motion/js"
+  - "#frontend/cms"
+  - "#frontend/cms/services"
+links:
+  - "[[README.services]]"
+  - "[[fetchSanityData]]"
+  - "[[queries]]"
 ---
+
 # sanityService
 
-Context sidecar for `data/sanity/services/sanityService.js`.
+Build orchestration for CMS data. Initializes the client, runs every query in `CMS_QUERIES`,
+dispatches the matching transform, and registers the result as an Eleventy collection.
+
+```js
+export async function init(eleventyConfig, site) { … }
+```
+
+> [!important] Pipeline
+> client init → for each query in [[queries]]: [[fetchSanityData]] → transform → `addCollection`.
 
 ## Source
 
 - Path: `data/sanity/services/sanityService.js`
+
+Related: [[README.services]], [[fetchSanityData]], [[queries]]
