@@ -61,6 +61,17 @@ export const MOTION_PROFILES = Object.freeze({
  *   variant - selects which animation implementation to run.
  *             Values are section-defined; Card supports 'clip', 'fade', 'parallax', 'throw' and 'deal'.
  */
+// "static" = card motion intentionally OFF (development baseline), distinct from
+// the a11y `reduced` state. Both channels disabled so Card.js takes its
+// static-reset branch (clearProps:all) for ALL users — not only those with
+// prefers-reduced-motion. Pair with the `?cardVariant=` live override in
+// resolveSectionMotionProfile to flip a real variant on without editing this file.
+const CARD_STATIC = Object.freeze({
+  animation: { variant: "static" },
+  timeline: { enabled: false },
+  trigger: { enabled: false },
+});
+
 export const SECTION_OVERRIDES = Object.freeze({
   hero: {
     base: { animation: { variant: "simple" } },
@@ -82,12 +93,12 @@ export const SECTION_OVERRIDES = Object.freeze({
     },
   },
   card: {
-    // reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "reduced" } },
-    sm: { animation: { variant: "reduced" } },
-    md: { animation: { variant: "reduced" } },
-    lg: { animation: { variant: "reduced" } },
-    xl: { animation: { variant: "reduced" } },
+    reduced: { animation: { variant: "reduced" } },
+    base: CARD_STATIC,
+    sm: CARD_STATIC,
+    md: CARD_STATIC,
+    lg: CARD_STATIC,
+    xl: CARD_STATIC,
   },
   work: {
     // reduced: { animation: { variant: "reduced" } },
@@ -150,7 +161,35 @@ export function getActiveMotionProfileKey(conditions = {}) {
 export function resolveSectionMotionProfile(sectionKey, conditions = {}) {
   const key = getActiveMotionProfileKey(conditions);
   const baseProfile = MOTION_PROFILES[key] ?? MOTION_PROFILES.base;
+
+  // Dev live-override: `?cardVariant=<variant>` forces a card variant on without
+  // editing this file or rebuilding — the fast loop for tuning card motion.
+  // `?cardVariant=off` (or static/none) forces the static baseline. Card-only so
+  // other sections resolving through this chokepoint are untouched.
+  if (sectionKey === "card") {
+    const forced = getCardVariantOverride();
+    if (forced) {
+      const off = forced === "off" || forced === "static" || forced === "none";
+      return {
+        timeline: { enabled: !off },
+        trigger: { enabled: !off },
+        animation: { variant: off ? "static" : forced },
+      };
+    }
+  }
+
   const override = SECTION_OVERRIDES[sectionKey]?.[key];
   if (!override) return baseProfile;
   return { ...baseProfile, ...override };
+}
+
+/**
+ * Read the `?cardVariant=` dev override from the URL, if present.
+ * Returns the raw variant string (e.g. 'clip', 'throw', 'off') or null.
+ * SSR/build-safe: returns null when there is no window.
+ */
+function getCardVariantOverride() {
+  if (typeof window === "undefined" || !window.location) return null;
+  const v = new URLSearchParams(window.location.search).get("cardVariant");
+  return v ? v.trim() : null;
 }

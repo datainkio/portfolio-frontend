@@ -16,7 +16,6 @@
   {%- set classes = params.classes -%}
   {%- set imageClasses = params.imageClasses -%}
   {%- set eager = params.eager | default(false) -%}
-
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
@@ -26,7 +25,7 @@
   } -%}
 
   {%- set figure = {
-    "base": "m-0 relative z-0 overflow-hidden w-full",
+    "base": "m-0 relative z-0 overflow-hidden w-full h-dvh",
     "md": "col-span-3 h-auto aspect-square"
   } -%}
 
