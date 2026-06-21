@@ -7,4 +7,7 @@
   .arrow-prefix::before {
     content: "\2192\00a0";
   }
+  .arrow-suffix::after {
+    content: "\00a0\2192";
+  }
 }
