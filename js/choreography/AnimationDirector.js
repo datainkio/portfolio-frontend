@@ -128,6 +128,7 @@ export default class AnimationDirector {
     // header (replaces the deprecated IndustryHeaderManager).
     this.workHeaderManager = new WorkHeaderManager({
       reducedMotionHandler: this.stage?.reducedMotion,
+      bus: this.bus,
     });
 
     // Initialize work section local nav scrollspy (active jumplink tracking)

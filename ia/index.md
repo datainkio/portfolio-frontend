@@ -28,5 +28,5 @@ eleventyComputed:
     body: "{{ cms.home[0].recognitionBody }}"
   work:
     heading: "{{ cms.home[0].workHeading }}"
-    body: "{{ cms.home[0].workBodyHtml }}"
+    body: "{{ cms.home[0].workBodyHtml | safe }}"
 ---

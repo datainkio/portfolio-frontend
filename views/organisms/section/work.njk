@@ -14,7 +14,7 @@
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {%- set section = {
-    "base": "pl-12 relative text-primary-100",
+    "base": "pl-12 relative text-primary-100 gap-12 flex flex-col",
     "motion-reduced": "",
     "lg": "pl-48"
   } %}
@@ -29,7 +29,7 @@
   } -%}
 
   {%- set nav = {
-    base: "w-full text-primary-200 sticky top-6",
+    base: "w-full text-primary-200 sticky top-6 z-10",
     sm: ""
   } -%}
 
@@ -40,8 +40,8 @@
     </header>
     {% if industries | length %}
       <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
+        {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden text-white w-full flex justify-start hover:bg-slate-900" }) }}
         {{ Industries.render({ industries: industries }) }}
-        {{ DirectionalToggle.render({ label: "Toggle industry list", classes: "md:hidden text-white w-full flex justify-center hover:bg-slate-900" }) }}
       </nav>
     {% endif %}
     {% if industries | length %}

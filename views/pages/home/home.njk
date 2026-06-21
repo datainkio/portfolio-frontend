@@ -27,7 +27,9 @@
   <body>
     {% include "templates/partials/gtm-noscript.njk" %}
     {#- TODO: Address horizontal scroll on mobile -#}
-    <main id="page-main" aria-busy="true" class="mx-auto px-0 col-span-full w-full">
+    <main id="page-main" aria-busy="true" class="mx-auto px-0 col-span-full w-full overflow-x-hidden">
+      {{ SkipLinksNav.render() }}
+
       {{ PageHeader.home_landing({ svg: logo }) }}
       {{ BioSection.render({ id: "introduction", copy: value }) }}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
