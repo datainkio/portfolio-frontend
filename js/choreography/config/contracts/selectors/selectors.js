@@ -56,6 +56,18 @@ export const BIO_SELECTORS = {
   subSectionLineKeyAttribute: "data-bio-line-key",
 };
 
+export const BUILD_INFO_SELECTORS = {
+  elementAttribute: "data-buildinfo-el",
+  root: "root",
+  toggle: "toggle",
+  list: "list",
+  close: "close",
+  cap: "cap",
+  // Presence attribute toggled on the cap <ul> to drive open-state layout (basis)
+  // via Tailwind group-data variants.
+  openAttribute: "data-open",
+};
+
 export const AWARD_SELECTORS = {
   elementAttribute: "data-awards-el",
   context: "context",

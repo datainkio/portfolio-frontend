@@ -1,0 +1,51 @@
+{% import "atoms/icon.njk" as Icon with context %}
+{% macro render(params = {}) %}
+  <div data-buildinfo-el="root" class="contents flex justify-end text-neutral-400 ">
+    <button
+      type="button"
+      data-buildinfo-el="toggle"
+      aria-expanded="false"
+      aria-controls="build-info-list"
+      class="arrow-suffix cursor-pointer">
+      <time datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
+    </button>
+    <ul
+      id="build-info-list"
+      data-buildinfo-el="list"
+      aria-hidden="true"
+      class="flex items-center mx-4 text-neutral-600 gap-4">
+      <li data-current-git-build class="px-2">
+        git
+        <span class="text-primary-700">
+          {% if buildVersions.git.sha %}
+            {{ buildVersions.git.branch }}@{{ buildVersions.git.sha }}
+            {% if buildVersions.git.dirty %}*{% endif %}
+          {% endif %}
+        </span>
+
+      </li>
+      <li data-current-eleventy-build>
+        11ty
+        <span class="text-secondary-700">v{{ buildVersions.eleventy }}</span>
+      </li>
+      <li data-current-sanity-build>
+        Sanity
+        <span class="text-accent-700">v{{ buildVersions.sanity }}</span>
+      </li>
+      <li data-current-figma-build>
+        {% if buildVersions.figma.fileId %}
+          Figma
+          <span class="text-tertiary-600">fileID.{{ buildVersions.figma.fileId | truncate(12, true, "…") }}</span>
+        {% endif %}
+      </li>
+    </ul>
+    <button
+      type="button"
+      data-buildinfo-el="close"
+      aria-controls="build-info-list"
+      aria-label="Hide build info"
+      class="hidden group-data-[open]/cap:block cursor-pointer border-2 border-slate-700 rounded-xl">
+      {{ Icon.render({ name: "close", size: "sm" }) }}
+    </button>
+  </div>
+{% endmacro %}

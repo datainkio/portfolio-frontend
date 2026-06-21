@@ -49,6 +49,7 @@ import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManage
 import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
 import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
 import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
+import BuildInfoManager from "/assets/js/choreography/managers/BuildInfoManager/BuildInfoManager.js";
 
 const LOGS = {
   description:
@@ -139,6 +140,9 @@ export default class AnimationDirector {
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 
+    // Initialize the section-cap build-info disclosure (click-driven toggle)
+    this.buildInfoManager = new BuildInfoManager();
+
     // Initialize choreography sequence
     this.sequence = new LandingSequence(
       this.bus,
@@ -224,6 +228,9 @@ export default class AnimationDirector {
 
     this.projectHeaderManager?.kill();
     this.projectHeaderManager = null;
+
+    this.buildInfoManager?.kill();
+    this.buildInfoManager = null;
 
     this.bus = null;
     this.stage = null;

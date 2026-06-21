@@ -1,5 +1,5 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
-{% import "molecules/section-cap.njk" as SectionCap %}
+{% import "molecules/section-cap.njk" as SectionCap with context %}
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
 {%- set header = {
         base: "group fixed h-dvh top-0 left-0 z-[9999] bg-slate-950 text-center absolute",
@@ -23,7 +23,7 @@
         "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "block"
         } -%}
 {%- set subtitle = {
-        base: "block text-xl tracking-widest w-full text-slate-500 border-2 border-slate-600",
+        base: "block text-lg tracking-widest p-2  w-full leading-none text-slate-700 border-2 border-slate-700",
         "group-data-[header-role=menu]": "hidden"
         } -%}
 {%- set pageNav = {
@@ -37,7 +37,7 @@
         } -%}
 
 {% macro home_landing(params = {}) %}
-        {{ SectionCap.render({title: "work" , count: "0/10", buildDate: buildDate, classes: cap | classes}) }}
+        {{ SectionCap.render({title: "work" , count: "0/10", classes: cap | classes}) }}
         <header
                 id="overview"
                 data-preloader

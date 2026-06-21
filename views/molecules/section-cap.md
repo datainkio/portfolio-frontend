@@ -43,6 +43,10 @@ No obvious data dependencies identified from the template alone.
 - Likely used by:
   - Unknown
 
+## Open-state layout
+
+The cap `<ul>` is the named flex group `group/cap` and carries `data-buildinfo-el="cap"`. [[BuildInfoManager.js]] toggles a `data-open` presence attribute on it when the build-info disclosure opens. Three items default to `basis-1/3` each; `group-data-[open]/cap:` variants redistribute to **1/6 · 1/6 · 2/3** (title · count · build-info) to make room for the expanded list. Layout is CSS-only — JS just flips the flag.
+
 ## Notes for Future Maintenance
 
 - Keep this sidecar documentation in sync when the template signature changes.

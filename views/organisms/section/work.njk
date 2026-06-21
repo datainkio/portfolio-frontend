@@ -14,13 +14,13 @@
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {%- set section = {
-    "base": "pl-12 relative text-primary-100 gap-12 flex flex-col",
+    "base": "pl-12 py-12 relative text-primary-100 gap-12 flex flex-col",
     "motion-reduced": "",
     "lg": "pl-48"
   } %}
 
   {%- set header = {
-  base: "border-b-2 border-b-slate-700 border-dotted"} -%}
+  base: "border-t-2 border-slate-700"} -%}
 
   {%- set title = {
     base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl p-0 m-0 border-b-2 border-b-slate-700 border-dotted",
