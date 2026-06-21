@@ -47,23 +47,7 @@ const VARIANT_FACTORIES = {
 };
 
 const VARIANT_RESET = {
-  deal: (card) => {
-    gsap.set(card.root, {
-      clearProps: "x,y,height,rotation,transformOrigin,willChange",
-    });
-    if (card.figure) gsap.set(card.figure, { clearProps: "y,willChange" });
-    if (card.body)
-      gsap.set(card.body, {
-        clearProps: "position,bottom,left,right,zIndex,y,willChange",
-      });
-  },
   throw: (card) => {
-    gsap.set(card.root, { clearProps: "willChange,x,rotation" });
-    if (card.figure)
-      gsap.set(card.figure, { clearProps: "willChange,yPercent" });
-    if (card.body) gsap.set(card.body, { clearProps: "willChange,yPercent" });
-  },
-  motionpath: (card) => {
     gsap.set(card.root, { clearProps: "willChange,x,rotation" });
     if (card.figure)
       gsap.set(card.figure, { clearProps: "willChange,yPercent" });
@@ -142,6 +126,7 @@ export default class Card {
     this._profile = profile;
     const variant = profile.animation?.variant ?? "clip";
     const factory = VARIANT_FACTORIES[variant] ?? VARIANT_FACTORIES.clip;
+    // Commenting out the  line below will disable the card motion without breaking things, but the proper way is to do it through the profile config.
     this._motion = factory(this);
   }
 
