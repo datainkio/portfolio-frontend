@@ -13,8 +13,9 @@
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
+  {# TODO: Resolve background image path in production #}
   {%- set section = {
-    base: "pl-12 relative text-primary-100 flex flex-col",
+    base: "pl-12 relative text-primary-100 flex flex-col bg-slate-950 bg-[url('http://localhost:8080/assets/images/tiles/Color/SpoonGraphics-Topographic-Map-8.png')] bg-blend-soft-light bg-fixed",
     "motion-reduced": "",
     lg: "pl-48"
   } %}
