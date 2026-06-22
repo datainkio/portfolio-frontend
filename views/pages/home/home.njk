@@ -30,12 +30,11 @@
     <main id="page-main" aria-busy="true" class="mx-auto px-0 flex flex-col col-span-full w-full overflow-x-hidden">
       {{ SkipLinksNav.render() }}
       {{ PageHeader.home_landing({ svg: logo }) }}
-      {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
-      {{ BioSection.render({ id: "introduction", copy: value }) }}
+      {# ProjectsSection.render({ id: "work", copy: work, projects: projects }) #}
+      {# BioSection.render({ id: "introduction", copy: value }) #}
       {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
-      {{ ContactSection.render({ id: "contact" }) }}
+    {{ ContactSection.render({ id: "contact" }) }}
     </main>
     {{ GlobalFooter.render({contact: false}) }}
-    {% include "templates/partials/choreography-script.njk" %}
-  </body>
-</html>
+  {% include "templates/partials/choreography-script.njk" %}
+</body></html>

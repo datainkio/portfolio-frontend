@@ -16,7 +16,7 @@
   {%- set awards = params.awards | default([]) -%}
 
   {%- set sectionCSS = {
-    base: "relative max-w-2xl mx-auto px-4 pb-4 col-span-full prose"
+    base: "bg-white relative max-w-2xl mx-auto px-4 pb-4 col-span-full prose"
     } -%}
 
   {%- set headerCSS = {
@@ -63,8 +63,7 @@
 
     <div data-awards-el="subheading" id="subheading" class=" {{ subheadingCSS | classes }} ">
       <p class="{{ subheadingTitleCSS | classes }}">Awards, Fellowship, and Distinctions</p>
-      <p class="{{ subheadingDescriptionCSS | classes }}">Selected honors received for work in design, technology & public
-                                impact</p>
+      <p class="{{ subheadingDescriptionCSS | classes }}">Selected honors received for work in design, technology & public impact</p>
     </div>
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">

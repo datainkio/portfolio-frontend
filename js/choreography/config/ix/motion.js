@@ -206,8 +206,8 @@ export const WORK_ANIMATION_DEFAULTS = {
 export const AWARDS_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("slow")),
+  stagger: motion.stagger("loose"),
   translateY: -motion.distance("lg"),
-  itemTranslateY: -motion.distance("md"),
 };
 
 export const AWARDS_INTRO = {
