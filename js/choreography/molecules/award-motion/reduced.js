@@ -22,13 +22,17 @@ const selectAwardEl = (view, name) =>
  * Use init to style elements that won't work without animation (e.g. gels)
  */
 export function init(view, gelManager) {
-  const gel_backing = gelManager?.getGel?.("gel_awards_backing") ?? null;
-  const gel_tint = gelManager?.getGel?.("gel_awards_tint") ?? null;
-  gsap.set(view, { mixBlendMode: "normal" });
-  gsap.set([gel_backing?.view, gel_tint?.view], {
-    display: "none",
-  });
-  return gsap.timeline({ id: TIMELINE_IDS.landing });
+  // const gel_backing = gelManager?.getGel?.("gel_awards_backing") ?? null;
+  // const gel_tint = gelManager?.getGel?.("gel_awards_tint") ?? null;
+  // gsap.set(view, { mixBlendMode: "normal" });
+  // gsap.set([gel_backing?.view, gel_tint?.view], {
+  //   display: "none",
+  // });
+  return gsap.timeline();
+}
+
+export function buildLanding(view, gelManager) {
+  return gsap.timeline();
 }
 
 export function buildIntro(view, gelManager) {
