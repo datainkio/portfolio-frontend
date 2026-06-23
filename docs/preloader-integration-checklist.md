@@ -37,6 +37,7 @@ The goal is to keep startup behavior deterministic, accessible, and aligned with
 ## Template And DOM Contract
 
 - [ ] TODO: Verify `home-landing` renders the required selectors:
+- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/145
   - `[data-preloader]` (root / outro state target)
   - `[data-preloader-el="hgroup"]` (revealed by the outro; its `animationend` ends the exit)
   - `[data-preloader-stack]` / `[data-preloader-text]` are optional now — only used by the legacy resource-observer message path
@@ -55,14 +56,17 @@ The goal is to keep startup behavior deterministic, accessible, and aligned with
 ## Animation And Accessibility
 
 - [ ] TODO: Intro/idle/outro are pure CSS (`styles/components/hanko.css`); the
+- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/144
       outro is driven by `data-preloader-state="exit"` — no GSAP on this path.
 - [ ] TODO: Maintain reduced-motion behavior. The global utility forces
+- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/143
       `animation: none`, so the hgroup hidden state is scoped to
       `prefers-reduced-motion: no-preference` and the JS exit uses a timeout
       fallback (`PRELOADER_TIMINGS.cssOutroFallbackMs`) since `animationend`
       won't fire.
 - [ ] TODO: Keep exit completion idempotent (no double-complete).
 - [ ] TODO: Confirm preloader can finish even if GSAP is unavailable (the
+- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/142
       outro never depends on GSAP).
 
 ## Cleanup Guarantees
@@ -71,6 +75,7 @@ The goal is to keep startup behavior deterministic, accessible, and aligned with
 - [ ] TODO: Always disconnect the resource observer.
 - [ ] TODO: Always restore original document/body overflow and scroll position.
 - [ ] TODO: Do NOT remove the preloader element — the landing header persists
+- \[ \] Issue URL: https://github.com/datainkio/portfolio-frontend/issues/140
       as the page hero; the outro drops its fixed overlay so it settles into
       normal flow.
 - [ ] TODO: Set `main[aria-busy]` to `false` during cleanup.
