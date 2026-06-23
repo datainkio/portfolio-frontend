@@ -1,4 +1,9 @@
 {% macro render(params = {}) %}
+  {{ params | dump | safe }}
+  {%- set sectionId = params.id | default("organizations") -%}
+  {%- set heading = params.copy.heading -%}
+  {%- set body = params.copy.body -%}
+  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
   {%- set logo = params.logo.asset.url | default(params.logoUrl) | default(params.logo) -%}
   {%- set title = params.title | default('Untitled organization') -%}
   {%- set logoAlt = params.logo.alt | default(params.logoAlt) | default(title ~ ' logo') -%}

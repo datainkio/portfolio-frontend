@@ -34,13 +34,10 @@
     <main id="page-main" aria-busy="true" class="{{ main | classes }}">
       {{ SkipLinksNav.render() }}
       {{ PageHeader.home_landing({ svg: logo }) }}
-      {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
       {{ BioSection.render({ id: "introduction", copy: value }) }}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
-
-      {#-
-                  {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
-                  -#}
+      {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
+      {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
     </main>
     {{ GlobalFooter.render({contact: false}) }}
     {% include "templates/partials/choreography-script.njk" %}

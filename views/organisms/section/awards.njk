@@ -1,8 +1,8 @@
 {% macro render(params = {}) %}
 
-  {% import "atoms/award.njk" as Award %}
   {% import "atoms/svg/inline.njk" as InlineSvg %}
   {% import "atoms/printmarks/ink-marks.njk" as Ink %}
+  {% import "molecules/card/award-organization.njk" as AwardOrganization %}
 
   {%- set sectionId = params.id | default("recognition") -%}
   {%- set classes = params.classes | default("") -%}
@@ -17,10 +17,10 @@
   {%- set awards = params.awards | default([]) -%}
 
   {%- set sectionCSS = {
-    base: "relative p-4 col-span-full bg-slate-800 text-neutral-100"
+    base: "relative col-span-full bg-slate-950 text-neutral-100"
     } -%}
   {%- set headerCSS = {
-    base: "z-10 border border-black border-2 divide-x-2 divide-black flex flex-row items-center gap-4"
+    base: "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2"
     } -%}
   {%- set headingCSS = {
     base: "font-display text-4xl",
@@ -33,59 +33,27 @@
     sm: "flex-row"
     } -%}
   {%- set subheadingTitleCSS = {
-    base: "font-bold leading-none w-full my-auto",
-    sm: "w-5/12"
+    base: "font-bold leading-none w-full my-auto"
     } -%}
   {%- set subheadingDescriptionCSS = {
-    base: "text-sm w-full leading-none my-auto",
-    sm: "w-7/12"
+    base: "text-sm w-full leading-none my-auto text-neutral-500"
     } -%}
   {%- set contextCSS = {
     base: "text-xs font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
         border-dotted border-black py-4 mb-6"
     } -%}
   {%- set listCSS = {
-    base: "pt-8 pb-12 columns-1 gap-0",
-    sm: "p-0 max-md:columns-1 border-r-2 border-black",
-    xl: "columns-2"
+    base: "pb-12 columns-1 gap-0 justify-start",
+    md: "mx-12 p-0 columns-2 border-r-2 border-black"
     } -%}
-
-  {%- set cardCSS = {
-    article: {
-      base: "relative grid grid-cols-12 gap-4 px-4",
+  {%- set articleContainer = {
+      base: "py-2 break-inside-avoid",
       sm: ""
-    },
-    logo: { 
-      base: "p-0 size-24 pt-4 pl-2"
-    },
-    contentWrapper: {
-      base: "col-span-11 h-auto flex flex-col justify-center",
-      sm: "border-l border-l-2 border-dotted border-black"
-    },
-    title: {
-      base: "font-display text-sm leading-none", 
-      sm: "pt-2"
-    },
-    list: {
-      base: "m-0 p-0 list-none flex gap-2 justify-start flex-wrap"
-    },
-    articleWrapper: {
-      base: "break-inside-avoid",
-      sm: "py-2"
-    },
-    awardWrapper: {
-      base: "text-xs flex flex-row gap-2",
-      sm: "flex-col"
-    }
-  } -%}
+    } -%}
   <section id="{{ sectionId }}" class="{{ sectionCSS | classes }} text-neutral-100" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
 
-    <div aria-hidden="true" data-awards-el="context" class=" {{ contextCSS | classes }} ">
-      {{ Ink.render({classes: "inset-4"}) }}
-    </div>
-
     <header data-awards-el="header" class=" {{ headerCSS | classes }} ">
-      {{ InlineSvg.render({classes: "fill-secondary-400 p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }}
+      {{ InlineSvg.render({classes: "p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }}
       <h2 id="{{ headingId }}" data-awards-el="title" class=" {{ headingCSS | classes }} ">{{ heading }}</h2>
     </header>
 
@@ -96,22 +64,8 @@
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">
       {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="{{ cardCSS.articleWrapper | classes }} ">
-          <article data-awards-el="organization-card" class="{{ cardCSS.article | classes }} text-white">
-            {%- set logo = group.organization.logo.asset.url | default('/assets/images/logos/default.svg') -%}
-            {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}
-            {{ InlineSvg.render({classes: cardCSS.logo | classes, logoInline: group.organization.logo.inline, logo: logo, logoAlt: logoAlt }) }}
-            <div class="{{ cardCSS.contentWrapper | classes }}">
-              <h3 class="{{ cardCSS.title | classes }}">{{ group.organization.title }}</h3>
-              <ul class="{{ cardCSS.list | classes }}" data-awards-el="group-list">
-                {% for award in group.items %}
-                  <li class="{{ cardCSS.awardWrapper | classes }}" data-awards-el="award">
-                    {{ Award.render(award) }}
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </article>
+        <li data-awards-el="group" class="{{ articleContainer | classes }} ">
+          {{ AwardOrganization.render(group) }}
         </li>
       {% endfor %}
     </ul>
