@@ -29,15 +29,16 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-slate-950">
   {% include "templates/partials/head.njk" %}
+
   <body>
     {% include "templates/partials/gtm-noscript.njk" %}
+    {{ SkipLinksNav.render() }}
     <main id="page-main" aria-busy="true" class="{{ main | classes }}">
-      {{ SkipLinksNav.render() }}
       {{ PageHeader.home_landing({ svg: logo }) }}
+      {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
       {{ BioSection.render({ id: "introduction", copy: value }) }}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
       {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
-      {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
     </main>
     {{ GlobalFooter.render({contact: false}) }}
     {% include "templates/partials/choreography-script.njk" %}
