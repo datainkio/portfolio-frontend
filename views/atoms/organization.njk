@@ -7,9 +7,13 @@
   {%- set logo = params.logo.asset.url | default(params.logoUrl) | default(params.logo) -%}
   {%- set title = params.title | default('Untitled organization') -%}
   {%- set logoAlt = params.logo.alt | default(params.logoAlt) | default(title ~ ' logo') -%}
-  {#- TODO: Pick up from here: dentifying why the organization logo is not rendering. -#}
+
+  {%- set styles = {
+    base: "w-full object-contain"
+  } -%}
+
   {% if logo %}
-    <img src="{{ logo | escape }}" alt="{{ logoAlt | escape }}" loading="lazy" decoding="async" class="h-12 w-auto object-contain"/>
+    <img src="{{ logo | escape }}" alt="{{ logoAlt | escape }}" loading="lazy" decoding="async" class="{{ styles | classes }}"/>
   {% else %}
     {{ title }}
   {% endif %}
