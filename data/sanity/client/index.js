@@ -31,7 +31,7 @@ const clean = (value) =>
 export function resolveSanityConfig() {
   const projectId = clean(process.env.SANITY_PROJECT_ID);
   const dataset = clean(process.env.SANITY_DATASET);
-  const token = clean(process.env.SANITY_API_TOKEN);
+  const token = clean(process.env.SANITY_READ_TOKEN);
   const apiVersion = clean(process.env.SANITY_API_VERSION);
   const cacheDuration = clean(process.env.SANITY_CACHE_DURATION);
   const parallel = clean(process.env.SANITY_PARALLEL);

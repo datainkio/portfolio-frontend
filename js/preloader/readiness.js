@@ -52,9 +52,18 @@ export const waitForPreloaderReadiness = async ({
   directorReady,
   trace = () => {},
 }) => {
+  // Bound the font wait: document.fonts.ready never rejects and never times
+  // out on its own, so a slow webfont would hold the hero (the LCP element)
+  // hidden indefinitely. Race it against a timeout — font-display:swap means a
+  // timed-out reveal shows the fallback face and swaps in place.
   const fontsReady =
     PRELOADER_READINESS.fontsKey in document
-      ? document.fonts.ready
+      ? Promise.race([
+          document.fonts.ready,
+          new Promise((resolve) =>
+            setTimeout(resolve, PRELOADER_TIMINGS.fontsReadyTimeoutMs),
+          ),
+        ])
       : Promise.resolve();
 
   const domReady =

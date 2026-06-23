@@ -12,9 +12,12 @@ export function normalizeLandingRecords(records = []) {
       record?.valuePropRichText,
     );
 
+    const workBodyHtml = serializePortableTextToHtml(record?.workBody);
+
     return {
       ...record,
       valuePropBodyHtml,
+      workBodyHtml,
     };
   });
 }

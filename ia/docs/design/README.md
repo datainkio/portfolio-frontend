@@ -4,11 +4,7 @@ description: Design-system documentation grouped by atomic design levels.
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #design-system
-  -  #atomic-design
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 aix:

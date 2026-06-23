@@ -9,13 +9,13 @@ templateRole: "component"
 atomicLevel: "atom"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#frontend/eleventy/component"
-  - "#design/atomic-design/atom"
-  - "#design/atomic-design"
+  - atom
+  - atomic-design
+  - component
+  - eleventy
+  - nunjucks
+  - Obsidian
+  - template
 ---
 # Heading
 

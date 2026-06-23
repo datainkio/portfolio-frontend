@@ -8,9 +8,9 @@ type: guide
 scope: frontend
 audience: maintainers
 tags:
-  - "#design/atomic-design/templates"
-  - "#frontend/nunjucks/partials"
-  - "#frontend/nunjucks"
+  - nunjucks
+  - partial
+  - template
 perf:
   readPriority: medium
   cacheSafe: true

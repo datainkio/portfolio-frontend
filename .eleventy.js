@@ -41,6 +41,20 @@ export default async function (eleventyConfig) {
       "brief",
       "standard",
     );
+    // Runtime flags shared with the JS build. `bundleJs` must mirror the
+    // default in scripts/buildChoreography.js (BUNDLE_JS env, default true) so
+    // the choreography-script partial loads the minified bundle.js the bundler
+    // emits — rather than the raw ESM import tree — whenever bundling is on.
+    const normalizeBoolean = (value) => {
+      if (value === undefined) return undefined;
+      const normalized = value.toLowerCase();
+      if (["1", "true", "yes", "on"].includes(normalized)) return true;
+      if (["0", "false", "no", "off"].includes(normalized)) return false;
+      return undefined;
+    };
+    const bundleJs = normalizeBoolean(process.env.BUNDLE_JS) ?? true;
+    eleventyConfig.addGlobalData("runtime", { bundleJs });
+
     // Passthrough copy for static assets
     logger.trace("Configuring passthrough copy", null, "brief", msgStyle);
     eleventyConfig.addPassthroughCopy({ "static/robots.txt": "robots.txt" });
@@ -51,9 +65,6 @@ export default async function (eleventyConfig) {
     });
     eleventyConfig.addPassthroughCopy({
       "node_modules/gsap": "assets/js/vendor/gsap",
-    });
-    eleventyConfig.addPassthroughCopy({
-      "node_modules/leader-line": "assets/js/vendor/leader-line",
     });
     // Copy JavaScript files to _site/assets/
     // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });

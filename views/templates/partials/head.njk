@@ -67,7 +67,24 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
     <!-- Preconnects for performance optimization -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/> {{ scripts | safe }}
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+
+    <!-- Cormorant Garamond: used only below the fold (case-study modal, prev/next nav), never above the fold.
+         Loaded non-render-blocking (media="print" → "all" onload) so it stays off the FCP/LCP critical path.
+         Lighthouse render-blocking-insight measured the prior render-blocking <link> at ~829ms wasted. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&display=swap" media="print" onload="this.media='all'"/>
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&display=swap"/></noscript>
+
+    <!-- Preload the display font (DraftPaper) — drives hero LCP text -->
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/DRAFTPAPER.woff2" crossorigin/>
+
+    {% if enableChoreography and runtime and runtime.bundleJs and eleventy.env.runMode == "build" %}
+      <!-- Warm the choreography bundle early; director:ready gates the hero reveal (LCP).
+           Build-mode only: in dev (serve/watch) the bundle is a multi-MB sourcemapped
+           artifact, so eagerly preloading it would slow the dev page, not speed it. -->
+      <link rel="modulepreload" href="/assets/js/choreography/bundle.js"/>
+    {% endif %}
+    {{ scripts | safe }}
     {% block extraHeadContent %}{% endblock %}
   </head>
 </head>

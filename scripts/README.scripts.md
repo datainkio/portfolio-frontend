@@ -100,6 +100,24 @@ Displays a structured outline of the build process steps using `logger.showScrip
 
 ---
 
+### `serveSite.js`
+
+**Triggered by**: `npm run preview` (build + serve), `npm run serve:site` (serve only)
+
+Zero-dependency static file server (Node built-ins only) for the production build output in `_site/`. `npm run preview` runs `quick` (minified bundle + minified CSS + prod 11ty) and then serves the result on `http://localhost:8090/`.
+
+```bash
+npm run preview                          # build then serve _site
+npm run serve:site                       # serve an existing _site build
+node scripts/serveSite.js --port 8091    # custom port (or PORT=8091)
+```
+
+**Measure Lighthouse / Core Web Vitals against this, never the dev server.** `npm start` (:8080) serves a multi-MB sourcemapped, unminified bundle and unminified CSS for debuggability — it scores ~20 points lower than the shipping artifact and is not representative of production.
+
+The server **gzip-compresses text assets** (HTML, CSS, JS, SVG, JSON…) on the fly when the client sends `Accept-Encoding: gzip`, mirroring the production host (GitHub Pages). Binaries (images, fonts, video) are served as-is. This matters: without it, Lighthouse measures uncompressed transfer over throttled bandwidth and reports FCP/LCP — and the Performance score — far worse than what actually ships (observed: 72 uncompressed vs 97–98 gzipped). Run Lighthouse passes one at a time; overlapping runs cause CPU contention and ~20-point outliers.
+
+---
+
 ## Utility Scripts
 
 ### `scaffold.js`

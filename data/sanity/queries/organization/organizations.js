@@ -1,33 +1,11 @@
 /** @format */
+/** Returns all client/partner organizations (i.e. any orgs that are not award-granting) */
 import groq from "groq";
-
+import { ORGANIZATION_PROJECTION } from "../../projections/organization/organizationProjection.js";
 export const organizationsQuery = {
   id: "organizations",
-  description: "Organizations with industry concepts and brand assets",
+  description:
+    "Client and partner organizations (i.e. any orgs that are not award-granting)",
   cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
-  query: groq`*[_type == "organization"]{
-    _id,
-    _updatedAt,
-    featured,
-    organizationType,
-    website,
-    location,
-    "title": page.title,
-    "slug": page.slug.current,
-    "url": select(defined(page.slug.current) => "/organizations/" + page.slug.current + "/", ""),
-    "abstract": page.abstract,
-    "industry": industry->{
-      _id,
-      "title": prefLabel,
-      conceptId,
-      "description": coalesce(definition, scopeNote, "")
-    },
-    logo{
-      alt,
-      asset->{
-        url,
-        metadata{dimensions, lqip}
-      }
-    }
-  } | order(featured desc, title asc)`,
+  query: groq`*[_type == "organization" && organizationType != "awarding-body"]${ORGANIZATION_PROJECTION} | order(title asc)`,
 };

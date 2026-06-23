@@ -1,5 +1,8 @@
 import AbstractSection from "../../system/AbstractSection.js";
-import { SELECTORS } from "../../config/index/index.js";
+import {
+  SELECTORS,
+  resolveSectionMotionProfile,
+} from "../../config/index/index.js";
 import HeroAnimations from "./HeroAnimations.js";
 import HeroTriggers from "./HeroTriggers.js";
 
@@ -17,6 +20,12 @@ export default class Hero extends AbstractSection {
       reducedMotionHandler,
       initialInView: true,
     });
+  }
+
+  _applyResponsiveLifecycle(conditions = {}) {
+    const profile = resolveSectionMotionProfile("hero", conditions);
+    this.animations?.setVariant?.(profile.animation?.variant ?? "shutter");
+    super._applyResponsiveLifecycle(conditions);
   }
 
   playOutro() {

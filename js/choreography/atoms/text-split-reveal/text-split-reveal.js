@@ -16,8 +16,8 @@
  */
 
 import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
-import { motion } from "../../config/ix/motion/motion.js";
-import { HERO_LANDING } from "../../config/ix/motion/motion.js";
+import { motion } from "../../config/ix/motion.js";
+import { HERO_LANDING } from "../../config/ix/motion.js";
 
 /**
  * @param {Element} target - Single element whose text will be split

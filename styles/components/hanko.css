@@ -46,3 +46,147 @@
 .hanko-mount svg path {
   fill: currentColor;
 }
+
+/* ------------------------------------------------------------------ *
+ * Preloader loading pulse
+ *
+ * The site preloader's hanko mark doubles as the loading indicator: the
+ * four named paths breathe 50% -> 100% -> 50% opacity as a continuous
+ * travelling wave, then the cycle repeats. Pure CSS so it costs nothing
+ * on the critical path — no GSAP, no JS. Scoped to `[data-preloader]` so
+ * the header / hero / footer hanko marks stay static.
+ *
+ * Each path runs the same keyframe: a single hump over the first 50% of
+ * the cycle, then a 50% rest at the trough. Staggering the four
+ * `animation-delay`s by 25% of the cycle offsets their phase, walking the
+ * crest clockwise (#data -> #ink -> #output -> #input) across the mark.
+ * The narrow active window keeps only two paths lit at once, so the crest
+ * reads as a tight chase rather than a broad glow; the asymmetric rest
+ * also breaks the antiphase pairing a symmetric hump would create
+ * (#data/#output and #ink/#input pulsing as opposed pairs). The base
+ * `opacity: 0.5`
+ * is the resting state — it matches the trough of the pulse and is what
+ * reduced-motion users see, since the global reduced-motion utility
+ * (`styles/utilities/reduced-motion.css`) forces `animation: none` for
+ * them. Tailwind can't scan the runtime SVG (see top of file), so these
+ * target the path IDs directly.
+ * ------------------------------------------------------------------ */
+
+[data-preloader] {
+  --hanko-pulse-cycle: 1.75s;
+  --hanko-enter-duration: 0.75s;
+  --hanko-enter-delay: 1s;
+  /* Outro step 3 — settle: how long the four paths + frame take to ease to
+   * full opacity once the mark stops pulsing. */
+  --hanko-settle-duration: 0.4s;
+}
+
+[data-preloader] .hanko-mount :is(#data, #ink, #input, #output) {
+  opacity: 0.5;
+  animation: hanko-loading-pulse var(--hanko-pulse-cycle) ease-in-out infinite;
+}
+
+[data-preloader] .hanko-mount #frame {
+  opacity: 0.75;
+}
+
+[data-preloader] .hanko-mount #data {
+  opacity: 0.35;
+  animation-delay: calc(var(--hanko-enter-delay) + var(--hanko-enter-duration));
+}
+
+[data-preloader] .hanko-mount #ink {
+  opacity: 0.35;
+  animation-delay: calc(
+    var(--hanko-enter-delay) + var(--hanko-enter-duration) +
+      var(--hanko-pulse-cycle) * 0.25
+  );
+}
+
+[data-preloader] .hanko-mount #output {
+  opacity: 0.35;
+  animation-delay: calc(
+    var(--hanko-enter-delay) + var(--hanko-enter-duration) +
+      var(--hanko-pulse-cycle) * 0.5
+  );
+}
+
+[data-preloader] .hanko-mount #input {
+  opacity: 0.35;
+  animation-delay: calc(
+    var(--hanko-enter-delay) + var(--hanko-enter-duration) +
+      var(--hanko-pulse-cycle) * 0.75
+  );
+}
+
+@keyframes hanko-loading-pulse {
+  /*
+   * Rise + fall across the first 50% of the cycle, then hold at the trough
+   * for the final 50%. With the 25% stagger between paths, this active
+   * window keeps only two paths lit at once (adjacent ones overlapping by
+   * 25% of the cycle), so the crest reads as a tight clockwise chase rather
+   * than a broad glow. Widen the active window (push the 50% trough later)
+   * for more overlap, narrow it for a more staccato, one-at-a-time chase.
+   * The asymmetric rest also breaks the antiphase pairing a symmetric hump
+   * would create (#data/#output and #ink/#input pulsing as opposed pairs).
+   */
+  0% {
+    opacity: 0.35;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  60% {
+    /* length of the trough */
+    opacity: 0.35;
+  }
+
+  100% {
+    opacity: 0.35;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Preloader outro — hanko settle + hgroup reveal
+ *
+ * The loading splash resolves into the landing hero. When the preloader
+ * is ready to exit, JS flips `data-preloader-state="exit"` on the
+ * `[data-preloader]` header (`js/preloader/animations.js`) and never
+ * removes it — the header persists as the page hero. That single state
+ * change drives the whole outro in CSS:
+ *
+ *   1. the hanko stops pulsing and settles to full opacity — its
+ *      "default", fully-lit state; and
+ *   2. the header REMAINS a fixed full-viewport overlay — it is NOT returned
+ *      to flow. It persists as the page's navigation device, anchored
+ *      top-0/left-0, with page content scrolling underneath it; only the
+ *      lockup alignment shifts to flex-start.
+ *
+ * The hgroup stays visible the whole time — name + role read through the
+ * loading splash alongside the pulsing mark; nothing hides it. (The JS
+ * outro can't depend on `animationend` under reduced motion and falls back
+ * to a timeout.) Layer order (`components` > `base`) lets these rules win
+ * over the inline Tailwind overlay utilities without `!important`.
+ * ------------------------------------------------------------------ */
+
+/* 1. The mark stops pulsing and settles to its fully-lit default. Removing
+ *    the infinite pulse and declaring a transition lets the paths ease from
+ *    their last animated opacity up to 1 (browsers carry the animated value
+ *    into the transition's start). */
+[data-preloader][data-preloader-state="exit"]
+  .hanko-mount
+  :is(#data, #ink, #input, #output),
+[data-preloader][data-preloader-state="exit"] .hanko-mount #frame {
+  animation: none;
+  opacity: 1;
+  transition: opacity var(--hanko-settle-duration) ease-out;
+}
+
+/* 2. The header STAYS a fixed full-viewport overlay through the outro and beyond:
+ *    it is not returned to flow. It persists as the page's navigation device,
+ *    anchored top-0/left-0 by the template's `fixed left-0 h-dvh w-full`, so page
+ *    content scrolls underneath it. Lockup alignment is owned by the
+ *    `data-header-role` layout (the header's `place-items-center` for loader/hero,
+ *    the rail layout for menu) — preloader-state no longer touches it. */

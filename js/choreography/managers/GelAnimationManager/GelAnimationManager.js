@@ -10,7 +10,6 @@
 
 import { Gel } from "/assets/js/effects/gel/index.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { GEL_ARRANGEMENT_TRANSITION } from "../../config/index/index.js";
 
 export default class GelAnimationManager {
   /** @param {ReducedMotionHandler} reducedMotionHandler */
@@ -69,7 +68,9 @@ export default class GelAnimationManager {
     Object.entries(arrangement.gels).forEach(([gelId, rect]) => {
       const gel = this._gelsById.get(gelId);
       if (!gel) {
-        console.warn(`[GelAnimationManager] Unknown gel id in arrangement: ${gelId}`);
+        console.warn(
+          `[GelAnimationManager] Unknown gel id in arrangement: ${gelId}`,
+        );
         return;
       }
 
@@ -80,14 +81,18 @@ export default class GelAnimationManager {
         !this._isNormalizedNumber(width) ||
         !this._isNormalizedNumber(height)
       ) {
-        console.warn(`[GelAnimationManager] Invalid arrangement rect for ${gelId}`, rect);
+        console.warn(
+          `[GelAnimationManager] Invalid arrangement rect for ${gelId}`,
+          rect,
+        );
         return;
       }
 
       const { style } = gel.view;
       style.pointerEvents = "none";
       style.transformOrigin = origin || "center center";
-      style.mixBlendMode = typeof blendMode === "string" && blendMode ? blendMode : "";
+      style.mixBlendMode =
+        typeof blendMode === "string" && blendMode ? blendMode : "";
 
       const nextGeometry = {
         left: `${x * 100}%`,
@@ -100,7 +105,10 @@ export default class GelAnimationManager {
         try {
           gel.refresh();
         } catch (error) {
-          console.warn(`[GelAnimationManager] Failed to refresh gel after arrangement: ${gelId}`, error);
+          console.warn(
+            `[GelAnimationManager] Failed to refresh gel after arrangement: ${gelId}`,
+            error,
+          );
         }
       };
 
@@ -129,15 +137,13 @@ export default class GelAnimationManager {
     const duration =
       typeof options.duration === "number" && Number.isFinite(options.duration)
         ? Math.max(0, options.duration)
-        : GEL_ARRANGEMENT_TRANSITION.duration;
+        : 0;
     const ease =
-      typeof options.ease === "string" && options.ease
-        ? options.ease
-        : GEL_ARRANGEMENT_TRANSITION.ease;
+      typeof options.ease === "string" && options.ease ? options.ease : 0;
     const refreshOnUpdate =
       typeof options.refreshOnUpdate === "boolean"
         ? options.refreshOnUpdate
-        : GEL_ARRANGEMENT_TRANSITION.refreshOnUpdate;
+        : 0;
     return { duration, ease, refreshOnUpdate };
   }
 

@@ -6,11 +6,11 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/organism"
-  - "#content-strategy/awards"
+  - awards
+  - choreography
+  - frontend
+  - js
+  - organism
 links:
   - "[[AbstractSection|AbstractSection]]"
   - "[[config/index|config/index]]"

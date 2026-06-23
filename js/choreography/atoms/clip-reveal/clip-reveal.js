@@ -17,7 +17,7 @@
  */
 
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { motion } from "../../config/ix/motion/motion.js";
+import { motion } from "../../config/ix/motion.js";
 
 const CLIP_HIDDEN = {
   bottom: "inset(0 0 100% 0)",

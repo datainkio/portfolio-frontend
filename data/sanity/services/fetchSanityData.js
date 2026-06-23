@@ -45,7 +45,10 @@ export default async function fetchSanityData({
   const cacheKey = `sanity-${id}-${querySignature}`;
   const asset = new AssetCache(cacheKey);
 
-  const forceRefresh = process.env.SANITY_FORCE_REFRESH === "true";
+  // Fresh-by-default: only an explicit "false" enables the AssetCache. A missing
+  // or unloaded env var must NOT silently serve stale cache — that nondeterminism
+  // was the root cause of intermittent stale builds.
+  const forceRefresh = process.env.SANITY_FORCE_REFRESH !== "false";
 
   if (!forceRefresh && asset.isCacheValid(cacheDuration)) {
     const cached = await asset.getCachedValue();

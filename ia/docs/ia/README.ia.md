@@ -4,11 +4,7 @@ description: Reference for sitemap structure, navigation logic, and frontmatter 
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #sitemap
-  -  #frontmatter
+tags: []
 permalink: /docs/ia/information-architecture/
 eleventyComputed:
   title: "{{ title }}"

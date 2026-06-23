@@ -68,6 +68,8 @@
  */
 
 import chalk from "chalk";
+import { config as loadEnv } from "dotenv";
+import { execSync } from "child_process";
 import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -108,8 +110,73 @@ export default async function (eleventyConfig) {
     // Make site.json available to all templates/frontmatter as `site`.
     eleventyConfig.addGlobalData("site", SITE);
 
+    // Expose the Sanity public config as `env` for the contact form. The write
+    // token is injected into the page at build time and present in deployed
+    // HTML — an accepted tradeoff for this portfolio (see contact form spec §4).
+    loadEnv();
+    eleventyConfig.addGlobalData("env", {
+      SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID || "",
+      SANITY_DATASET: process.env.SANITY_DATASET || "",
+      SANITY_API_VERSION: process.env.SANITY_API_VERSION || "2026-03-01",
+      SANITY_WRITE_TOKEN: process.env.SANITY_WRITE_TOKEN || "",
+    });
+
     // Just a little thing to display the date of the last build
     eleventyConfig.addGlobalData("buildDate", () => new Date());
+
+    // Build-time system versions surfaced in the section-cap (read from
+    // installed package manifests so they reflect the actual build deps).
+    const readPkgVersion = (pkgPath) => {
+      try {
+        return JSON.parse(
+          readFileSync(
+            join(__dirname, "../../node_modules", pkgPath, "package.json"),
+            "utf8",
+          ),
+        ).version;
+      } catch {
+        return "";
+      }
+    };
+    const git = (args) => {
+      try {
+        return execSync(`git ${args}`, {
+          cwd: __dirname,
+          stdio: ["ignore", "pipe", "ignore"],
+        })
+          .toString()
+          .trim();
+      } catch {
+        return "";
+      }
+    };
+    // Figma design-token metadata, parsed from the header that build:design
+    // stamps into the generated styles/colors.css (no API/token needed).
+    const figmaMeta = (() => {
+      try {
+        const css = readFileSync(
+          join(__dirname, "../../styles/colors.css"),
+          "utf8",
+        );
+        return {
+          fileId: css.match(/File ID:\s*(\S+)/)?.[1] || "",
+          modified: css.match(/Last Modified:\s*(.+)/)?.[1]?.trim() || "",
+        };
+      } catch {
+        return { fileId: "", modified: "" };
+      }
+    })();
+
+    eleventyConfig.addGlobalData("buildVersions", {
+      eleventy: readPkgVersion("@11ty/eleventy"),
+      sanity: readPkgVersion("@sanity/client"),
+      figma: figmaMeta,
+      git: {
+        sha: git("rev-parse --short HEAD"),
+        branch: git("rev-parse --abbrev-ref HEAD"),
+        dirty: git("status --porcelain").length > 0,
+      },
+    });
 
     // STEP 1: Initialize Sanity collections
     await initSanity(eleventyConfig, SITE);

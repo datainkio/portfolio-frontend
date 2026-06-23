@@ -10,20 +10,13 @@
  *   fade   — Simple header fade+lift. No gel dependency.
  */
 
-import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { createSweepIn, createSweepOut } from "./sweep.js";
-import { createFadeIn, createFadeOut } from "./fade.js";
-import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
-
-const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
-
-const selectBioEl = (view, name) =>
-  view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
-
-const killST = (tl) => {
-  tl?.scrollTrigger?.kill(true);
-  tl?.kill();
-};
+import { initFade, createFadeIn, createFadeOut } from "./fade.js";
+import {
+  init as initReduced,
+  buildIntro as buildIntroReduced,
+  buildOutro as buildOutroReduced,
+} from "./reduced.js";
 
 export const BIO_VARIANT_FACTORIES = Object.freeze({
   sweep: {
@@ -31,7 +24,13 @@ export const BIO_VARIANT_FACTORIES = Object.freeze({
     buildOutro: createSweepOut,
   },
   fade: {
+    init: initFade,
     buildIntro: createFadeIn,
     buildOutro: createFadeOut,
+  },
+  reduced: {
+    init: initReduced,
+    buildIntro: buildIntroReduced,
+    buildOutro: buildOutroReduced,
   },
 });

@@ -4,11 +4,7 @@ description: Public index for information architecture and atomic design documen
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #atomic-design
-  -  #design-system
+tags: []
 permalink: /docs/ia/
 eleventyComputed:
   title: "{{ title }}"

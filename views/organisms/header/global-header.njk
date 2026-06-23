@@ -2,11 +2,7 @@
 
 {% macro render(params = {}) %}
   {%- set headerClasses = {
-  "base": "fixed w-full text-xs p-0 h-auto z-20 text-white will-change-transform",
-  "sm": "",
-  "md": "",
-  "lg": "",
-  "xl": ""
+  "base": "fixed w-full overflow-hidden text-md bg-black font-display text-primary-200 p-4 h-auto z-20 will-change-transform"
 } -%}
   <header id="global-header" class="{{ headerClasses | classes }} {{ params.classes }}" aria-label="Global Site Header">
     {{ primary_nav.render({ logoSvg: params.logoSvg }) }}

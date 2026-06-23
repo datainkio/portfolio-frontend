@@ -4,10 +4,7 @@ description: Documentation for content modeling, messaging structure, and semant
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #content-strategy
+tags: []
 permalink: /docs/ia/content-strategy/
 eleventyComputed:
   title: "{{ title }}"

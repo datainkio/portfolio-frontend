@@ -6,21 +6,19 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system/config"
-  - "#ux/index"
+  - choreography
+  - config
+  - frontend
+  - index
+  - js
 links:
   - "[[events|events]]"
   - "[[paths|paths]]"
   - "[[selectors|selectors]]"
   - "[[labels|labels]]"
   - "[[timelines|timelines]]"
-  - "[[arrangements|arrangements]]"
   - "[[ruler|ruler]]"
   - "[[printermarks|printermarks]]"
-  - "[[leader-lines|leader-lines]]"
   - "[[accessibility|accessibility]]"
   - "[[breakpoints|breakpoints]]"
   - "[[motion|motion]]"

@@ -1,36 +1,49 @@
 {% macro render(params = {}) %}
-  {% import "molecules/section-cap.njk" as SectionCap %}
   {% import "molecules/card/project.njk" as Card %}
   {% import "molecules/list/industry-links.njk" as Industries %}
   {% import "molecules/section/industry-section.njk" as IndustrySection %}
+  {% import "atoms/button/directional-toggle.njk" as DirectionalToggle %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading | default("Work") -%}
-  {%- set subheading = params.copy.subheading | default("") -%}
-  {%- set body = params.copy.body | default("") -%}
+  {%- set subheading = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
-  <section id="{{ sectionId }}" class="relative col-span-full {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header
-      data-projects-el="header"
-      class="shadow-neutral-950/50 shadow-md h-auto overflow-hidden z-20 bg-white grid grid-cols-6 gap-2 outline outline-1
-        outline-black outline-offset-[-6px] p-4">
-      <div
-        data-projects-el="context"
-        class="gap-1 pb-2 text-xs font-thin col-span-full flex items-center justify-between border-b border-black border-dashed">
-        {{ SectionCap.render({title: sectionId , count: order, buildDate: buildDate}) }}
-      </div>
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="col-span-full font-display text-2xl sm:text-5xl">{{ heading }}</h2>
-      {% if industries | length %}
-        <nav aria-label="Jump to an industry" data-projects-el="jumplinks" class="overflow-hidden col-span-full border-black">
-          {{ Industries.render({ industries: industries }) }}
-        </nav>
-      {% endif %}
+  {# TODO: Resolve background image path in production #}
+  {%- set section = {
+    base: "relative text-primary-100 flex flex-col bg-slate-950 bg-[url('http://localhost:8080/assets/images/tiles/Color/SpoonGraphics-Topographic-Map-8.png')] bg-blend-soft-light bg-fixed",
+    "motion-reduced": ""
+  } %}
+
+  {%- set header = {
+  base: "p-4 flex flex-col gap-4"} -%}
+
+  {%- set title = {
+    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
+    md: "text-7xl",
+    lg: "text-8xl"
+  } -%}
+
+  {%- set nav = {
+    base: "w-full text-primary-200 sticky top-12 z-10",
+    sm: ""
+  } -%}
+
+  <section id="{{ sectionId }}" class="{{ section |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+    <header data-projects-el="header" class="{{ header | classes }}">
+      <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
+      {{ subheading | safe }}
     </header>
+    {% if industries | length %}
+      <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
+        {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden text-white w-full flex justify-start hover:bg-slate-900" }) }}
+        {{ Industries.render({ industries: industries }) }}
+      </nav>
+    {% endif %}
     {% if industries | length %}
       {% set industryHeadingIndex = 0 %}
       {% for industryTitle, projects in industries %}
@@ -46,8 +59,5 @@
     {% else %}
       <p class="col-span-full">No projects found.</p>
     {% endif %}
-    <footer data-projects-el="footer" class="col-span-full text-xs font-thin pt-4 border-t border-black border-dashed">
-      <p>BADABING BADABOOM</p>
-    </footer>
   </section>
 {% endmacro %}

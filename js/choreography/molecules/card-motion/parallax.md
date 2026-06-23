@@ -6,12 +6,12 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/molecule"
-  - "#design/motion/choreography/Card/card-motion"
-  - "#design/motion/choreography/parallax"
+  - card-motion
+  - choreography
+  - frontend
+  - js
+  - molecule
+  - parallax
 links:
   - "[[system/gsap|system/gsap]]"
 backlinks:

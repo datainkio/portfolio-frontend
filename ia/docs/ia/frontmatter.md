@@ -4,10 +4,7 @@ description: Operational frontmatter requirements for IA and design-system docum
 docType: reference
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #frontmatter
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 ---

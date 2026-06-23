@@ -1,7 +1,7 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
 import { createVideoReveal } from "../../molecules/video-reveal/video-reveal.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { BACKGROUND_ANIMATION_DEFAULTS } from "../../config/ix/motion/motion.js";
+import { BACKGROUND_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 
 export default class BackgroundVideoAnimations extends AbstractSectionAnimations {
@@ -19,6 +19,11 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     };
 
     this._buildTimeline();
+  }
+
+  _buildLanding() {
+    const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
+    return tl;
   }
 
   _buildIntro() {

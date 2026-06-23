@@ -1,10 +1,19 @@
 {% macro render(params = {}) %}
+
+  {%- set sectionId = params.id | default("organizations") -%}
+  {%- set heading = params.copy.heading -%}
+  {%- set body = params.copy.body -%}
+  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
   {%- set logo = params.logo.asset.url | default(params.logoUrl) | default(params.logo) -%}
   {%- set title = params.title | default('Untitled organization') -%}
   {%- set logoAlt = params.logo.alt | default(params.logoAlt) | default(title ~ ' logo') -%}
 
+  {%- set styles = {
+    base: "w-full object-contain"
+  } -%}
+
   {% if logo %}
-    <img src="{{ logo | escape }}" alt="{{ logoAlt | escape }}" loading="lazy" decoding="async" class="h-12 w-auto object-contain"/>
+    <img src="{{ logo | escape }}" alt="{{ logoAlt | escape }}" loading="lazy" decoding="async" class="{{ styles | classes }}"/>
   {% else %}
     {{ title }}
   {% endif %}

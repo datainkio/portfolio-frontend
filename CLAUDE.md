@@ -6,10 +6,10 @@ status: stable
 audience:
   - agents
 tags:
-  - "#frontend"
-  - "#ux/navigation/entrypoint"
-  - "#ux/accessibility/11ty"
-  - "#design/motion/gsap"
+  - eleventy
+  - entrypoint
+  - frontend
+  - gsap
 ---
 
 # Frontend — Claude Code Entrypoint
@@ -31,7 +31,8 @@ Read in this order before starting any task:
 
 ## Critical Constraints
 
-- Never infer behavior from `_site/` — generated output; does not reflect source truth
+- Page-level diagnosis/optimization starts at the page template — read `views/pages/<name>/<name>.njk` (homepage = `views/pages/home/home.njk`) and confirm the real above-the-fold composition + LCP element before any hypothesis or edit. Never infer page structure from arch docs, `hero.njk`, or frontmatter (`hero:`, `skipLinks`)
+- Never infer *source behavior* from `_site/` — but DO read rendered `_site/<page>.html` to verify output. For an output/perf review, read the rendered artifact first instead of rebuilding or serving in memory; read the file, don't just grep it for your own edits
 - Never hand-edit `styles/colors.css` or `styles/typography/fontFamilies.css` — overwritten by `build:design`
 - Never call Tailwind CLI directly — always use npm scripts
 - Never bypass choreography lifecycle gating (`director:ready` → `preloader:out`)
@@ -52,17 +53,15 @@ npm run scaffold:component  # generate new atomic design component
 
 ## Available Agents
 
-Project-local agents live in [`.claude/agents/`](.claude/agents/). Workspace agents in [`../aix/.claude/agents/`](../aix/.claude/agents/).
-
-Agents live in [`../aix/.claude/agents/`](../aix/.claude/agents/). For GSAP / choreography work, use the skills table below — no dedicated agent exists.
+Workspace agents live in [`../.claude/agents/`](../.claude/agents/). For GSAP / choreography work, use the skills table below — no dedicated agent exists.
 
 | Agent | Use for |
 |---|---|
-| [`implementer`](../aix/.claude/agents/implementer.md) | General code changes, new components, Sanity wiring |
-| [`mechanic`](../aix/.claude/agents/mechanic.md) | Build failures, 11ty config issues, tooling errors |
-| [`reviewer`](../aix/.claude/agents/reviewer.md) | Pre-merge checks, diff review, contract compliance |
-| [`planner`](../aix/.claude/agents/planner.md) | Sequence multi-step work before implementation begins |
-| [`taskmaster`](../aix/.claude/agents/taskmaster.md) | Embed TODOs aligned with the GitHub Issues workflow |
+| [`implementer`](../.claude/agents/implementer.md) | General code changes, new components, Sanity wiring |
+| [`mechanic`](../.claude/agents/mechanic.md) | Build failures, 11ty config issues, tooling errors |
+| [`reviewer`](../.claude/agents/reviewer.md) | Pre-merge checks, diff review, contract compliance |
+| [`planner`](../.claude/agents/planner.md) | Sequence multi-step work before implementation begins |
+| [`taskmaster`](../.claude/agents/taskmaster.md) | Embed TODOs aligned with the GitHub Issues workflow |
 
 For the full agent roster and architecture agents: [`../aix/CLAUDE.md`](../aix/CLAUDE.md).
 
@@ -87,8 +86,8 @@ The [`gsap` agent](.claude/agents/gsap.md) selects the right skill automatically
 
 Full choreography context is in the [`gsap` agent](.claude/agents/gsap.md). Fast-path pointers:
 
-- Config barrel: [`js/choreography/config/index.js`](js/choreography/config/index.js)
-- Event contracts: [`js/choreography/config/contracts/events.js`](js/choreography/config/contracts/events.js)
+- Config barrel: [`js/choreography/config/index/index/index.js`](js/choreography/config/index/index.js)
+- Event contracts: [`js/choreography/config/contracts/events/events.js`](js/choreography/config/contracts/events/events/events.js)
 - Section registry: [`js/choreography/system/registry.js`](js/choreography/system/registry.js)
 - Boot sequence: `director:ready` → `preloader:out` → `LandingSequence` (never bypass)
 - Always emit/listen via `AnimationBus` — never call sections directly

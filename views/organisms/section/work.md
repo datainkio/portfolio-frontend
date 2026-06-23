@@ -9,13 +9,13 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#frontend/eleventy/component"
-  - "#design/atomic-design/organism"
-  - "#design/atomic-design"
+  - atomic-design
+  - component
+  - eleventy
+  - nunjucks
+  - Obsidian
+  - organism
+  - template
 links:
   - "[section-cap](../../molecules/section-cap.md)"
   - "[project](../../molecules/card/project.md)"
@@ -37,6 +37,12 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 ## Role in the System
 
 Classified as a **component** at the atomic **organism** level based on its location under `views/`.
+
+## Header nav toggle
+
+The sticky header carries a `data-projects-el="nav-toggle"` icon button (chevron up/down, `aria-expanded` + `aria-controls="work-jumplinks"`) that opens/closes the industry jumplinks **below `md`** (`md:hidden`). At `md` and up the jumplinks are scroll-driven and the button is hidden. Drive logic lives in [[managers.workheadermanager|WorkHeaderManager]]; see `specs/animation/work-section-navigation.animation-spec.md`.
+
+**Stacking:** the jumplinks `<nav>` (`sticky top-6 z-10`) needs the explicit `z-10`. Sticky alone creates no winning stacking context, so the positioned industry-section blocks and project cards (shadow/outline, their own stacking) paint over the sticky nav and swallow pointer events on the toggle button — the button looks present but is unclickable. Keep `z-10` (or higher than the cards) on the nav.
 
 ## Data and Context
 

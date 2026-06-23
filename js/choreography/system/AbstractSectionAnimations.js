@@ -108,7 +108,12 @@ export default class AbstractSectionAnimations {
    * Reveal items as they scroll into the viewport threshold.
    * @deprecated Use molecules/scroll-reveal-group.js createScrollRevealGroup().update() instead.
    */
-  _revealItemsOnScroll({ items, revealedItems, revealViewportRatio, buildTween } = {}) {
+  _revealItemsOnScroll({
+    items,
+    revealedItems,
+    revealViewportRatio,
+    buildTween,
+  } = {}) {
     if (
       !Array.isArray(items) ||
       items.length === 0 ||

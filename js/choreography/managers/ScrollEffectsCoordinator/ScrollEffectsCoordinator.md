@@ -6,11 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/motion/choreography/manager"
-  - "#design/motion/choreography/ScrollEffectsCoordinator"
+  - choreography
+  - frontend
+  - js
+  - manager
 links:
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"
   - "[[managers/ScrollSmootherManager/ScrollSmootherManager|managers/ScrollSmootherManager]]"

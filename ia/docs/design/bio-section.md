@@ -4,12 +4,7 @@ description: Design reference for the biography organism and its supporting cont
 docType: pattern
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #design-system
-  -  #organisms
-  -  #bio
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 ---

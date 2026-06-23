@@ -5,11 +5,11 @@ docType: "reference"
 status: "draft"
 owner: "frontend"
 tags:
-  - dx/spec
-  - frontend/eleventy/views
-  - content-strategy/user-guide
-  - frontend/eleventy
-  - backend/sanity
+  - eleventy
+  - sanity
+  - spec
+  - user-guide
+  - view
 permalink: false
 aliases:
   - "User Guide Page Spec"

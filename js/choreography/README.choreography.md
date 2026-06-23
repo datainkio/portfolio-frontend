@@ -38,35 +38,51 @@ AnimationBus (pub/sub event system)
 
 ```plaintext
 js/choreography/
-├── AnimationDirector.js          # Master initialization (boots on DOMContentLoaded)
-├── AnimationBus.js               # Event pub/sub system
-├── NullAnimationBus.js           # No-op bus used when choreography is disabled
-├── ScrollEffectsCoordinator.js   # Scroll smoothing + background/decoration effects
-├── config/                       # Choreography configuration (barrel export)
+├── AnimationDirector.js              # Master initialization (idle-deferred on DOMContentLoaded)
+├── index.js                          # Package barrel
+├── system/                           # Core runtime + base classes
+│   ├── AnimationBus.js               # Event pub/sub system
+│   ├── NullAnimationBus.js           # No-op bus injected when no bus is provided
+│   ├── AbstractSection.js            # Base class for all section controllers
+│   ├── AbstractSectionAnimations.js  # Base class for section timelines
+│   ├── AbstractSectionTriggers.js    # Base class for section ScrollTriggers
+│   ├── PromiseResolverQueue.js       # Lifecycle promise queue
+│   ├── registry.js                   # SECTION_REGISTRY (active sections)
+│   └── gsap.js                       # Single GSAP import + plugin registration
+├── config/                           # Choreography configuration (barrel: config/index/index.js)
 │   ├── contracts/
-│   │   ├── events.js             # Event name definitions (EVENTS)
-│   │   └── selectors.js          # DOM selectors (SELECTORS)
-│   ├── ix/                       # Interaction timing / triggers
-│   └── displays/                 # Display configuration
-├── managers/
-│   ├── ReducedMotionHandler.js   # Accessibility (prefers-reduced-motion)
-│   ├── ScrollSmootherManager.js  # GSAP ScrollSmoother (optional)
-│   ├── GelAnimationManager.js    # Gel background animations
-│   ├── LineManager.js            # Decorative/relational lines (LeaderLine)
-│   ├── SessionManager.js         # Runtime session state
-│   └── RulerIntroManager.js      # Ruler intro display choreography
-├── sections/
-│   ├── abstract-section/
-│   │   └── AbstractSection.js    # Base class for all sections
-│   ├── registry.js               # Active section registry
-│   ├── hero/Hero.js              # Hero section controller
-│   ├── background/BackgroundVideo.js  # Video background
-│   ├── bio/Bio.js                # Biography section
-│   ├── awards/Awards.js          # Awards section
-│   ├── organizations/Organizations.js  # Organizations section
-│   └── work/Work.js              # Work section
-└── sequences/
-    └── landing/LandingSequence.js  # Multi-section orchestration
+│   │   ├── events/events.js          # Event name definitions (EVENTS)
+│   │   ├── selectors/selectors.js    # DOM selectors (SELECTORS)
+│   │   ├── labels/labels.js          # Timeline label constants
+│   │   ├── paths/paths.js            # MotionPath path data
+│   │   └── timelines/timelines.js    # TIMELINE_IDS
+│   ├── ix/                           # breakpoints, motion, profiles, scrolltriggers
+│   └── displays/                     # ruler / printermarks display config
+├── managers/                         # Singleton managers for global behaviors
+│   ├── ScrollEffectsCoordinator/     # Scroll smoothing + background/decoration effects
+│   ├── ReducedMotionHandler/         # Accessibility (prefers-reduced-motion)
+│   ├── ScrollSmootherManager/        # GSAP ScrollSmoother (optional)
+│   ├── GelAnimationManager/          # Gel background animations
+│   ├── SessionManager/               # Runtime session state
+│   ├── RulerIntroManager/            # Ruler intro display choreography
+│   ├── GlobalHeaderManager/          # Global header hide/show on scroll
+│   ├── HomeHeaderManager/            # Home landing header role state machine
+│   ├── WorkHeaderManager/            # Work jumplinks collapse/expand
+│   ├── WorkNavManager/               # Work jumplink scrollspy
+│   └── ProjectHeaderManager/         # Project page hero parallax
+├── organisms/                        # Section controllers (extend AbstractSection)
+│   ├── hero/Hero.js                  # Hero section controller
+│   ├── background/BackgroundVideo.js # Video background
+│   ├── bio/Bio.js                    # Biography section
+│   ├── awards/Awards.js              # Awards section
+│   ├── organizations/Organizations.js # Organizations section
+│   ├── work/Work.js                  # Work section
+│   └── card/                         # Card, CardManager, CardTriggers
+├── atoms/ · molecules/ · tokens/     # Atomic motion layers (tokens → atoms → molecules)
+├── templates/
+│   └── landing/LandingSequence.js    # Multi-section orchestration
+└── pages/
+    └── Project/Project.js            # Project page controller
 ```
 
 ## Core Architecture
@@ -96,8 +112,8 @@ window.director.destroy(); // Cleanup everything
 Tiny pub/sub system enabling loose coupling between animations:
 
 ```javascript
-import { AnimationBus } from "./AnimationBus.js";
-import { EVENTS } from "./config/contracts/events.js";
+import { AnimationBus } from "./system/AnimationBus.js";
+import { EVENTS } from "./config/contracts/events/events.js";
 
 const bus = new AnimationBus();
 
@@ -118,7 +134,7 @@ unsubscribe(); // Remove listener
 
 - `${section}:${phase}:${state}`
 - Example: `hero:intro:start`, `hero:intro:complete`
-- See [config/contracts/events.js](config/contracts/events.js) for the complete event list
+- See [config/contracts/events/events.js](config/contracts/events/events.js) for the complete event list
 
 ### Scroll Effects Coordinator (ScrollEffectsCoordinator.js)
 
@@ -136,7 +152,6 @@ coordinator.getGels?.(); // Get gel animation controllers (if exposed)
 - ✓ Scroll smoothing (via ScrollSmootherManager)
 - ✓ Reduced-motion accessibility (via ReducedMotionHandler)
 - ✓ Gel animations (via GelAnimationManager)
-- ✓ Decorative/relational lines (via LineManager)
 - ✓ Ruler intro choreography (via RulerIntroManager)
 - ✓ Session state management (via SessionManager)
 
@@ -172,8 +187,8 @@ section:${id}:outro:complete
 **Creating New Sections:**
 
 ```javascript
-import AbstractSection from "./abstract-section/AbstractSection.js";
-import { EVENTS } from "../config/contracts/events.js";
+import AbstractSection from "./system/AbstractSection.js";
+import { EVENTS } from "./config/contracts/events/events.js";
 
 export class CustomSection extends AbstractSection {
   constructor({ bus, reducedMotionHandler }) {
@@ -213,10 +228,8 @@ sequence.destroy(); // Cleanup
 
 1. Listens for intro:complete from Hero
 2. Triggers Work section animation on completion
-3. Initializes `LineManager`, which draws lead lines from `SOCKETS` (id-keyed origin/terminus socket pairs) and applies `LINE_STYLES.classes` to each generated LeaderLine SVG for stroke/fill styling
-4. Keeps lines hidden by default and reveals them as sections emit `intro:complete` via `LineManager.showLineBySocketPair(originSectionId, terminusSectionId)`
-5. Coordinates transitions between sections
-6. Maintains consistent pacing throughout
+3. Coordinates transitions between sections
+4. Maintains consistent pacing throughout
 
 ## Manager Modules
 
@@ -225,7 +238,6 @@ Each manager has single responsibility and can be used independently. See [[js/c
 - **ReducedMotionHandler** — accessibility-first motion preference detection; all animations check this before playing.
 - **ScrollSmootherManager** — initialize and manage GSAP `ScrollSmoother`; gracefully degrades to native scroll when disabled or when the required DOM (`#smooth-wrapper` / `#smooth-content`) is absent.
 - **GelAnimationManager** — gel/blob background animations responding to scroll position.
-- **LineManager** — decorative/relational lines drawn between sockets using LeaderLine; hidden by default and revealed as sections emit `intro:complete`.
 - **SessionManager** — runtime session state used to gate one-time animations and preferences.
 - **RulerIntroManager** — ruler-style intro overlay choreography.
 
@@ -276,7 +288,7 @@ window.director.getSequence().enableDebug(true);
 **Issue**: Animations not playing in order
 
 - **Check**: Event names match exactly (case-sensitive)
-- **Fix**: Use `EVENTS` constants from [config/contracts/events.js](config/contracts/events.js)
+- **Fix**: Use `EVENTS` constants from [config/contracts/events/events.js](config/contracts/events/events.js)
 
 **Issue**: ScrollSmoother conflicts with fixed backgrounds
 
@@ -318,8 +330,8 @@ Sections require specific DOM structure in Nunjucks templates:
 
 ## References
 
-- [[js/choreography/managers/README.managers|managers/README.managers]] — detailed manager documentation
-- [[js/choreography/sections/README.sections|sections/README.sections]] — section controller patterns
-- [config/contracts/events.js](config/contracts/events.js) — event naming conventions (`EVENTS`)
-- [config/contracts/selectors.js](config/contracts/selectors.js) — DOM selectors (`SELECTORS`)
-- [config/index.js](config/index.js) — barrel export of choreography configuration
+- [managers/README.managers.md](managers/README.managers.md) — detailed manager documentation
+- [system/registry.js](system/registry.js) — `SECTION_REGISTRY` and section controller patterns
+- [config/contracts/events/events.js](config/contracts/events/events.js) — event naming conventions (`EVENTS`)
+- [config/contracts/selectors/selectors.js](config/contracts/selectors/selectors.js) — DOM selectors (`SELECTORS`)
+- [config/index/index.js](config/index/index.js) — barrel export of choreography configuration

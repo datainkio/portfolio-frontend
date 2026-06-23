@@ -4,11 +4,7 @@ description: Reference for composed UI patterns built from multiple atoms.
 docType: index
 status: active
 owner: frontend
-tags:
-  -  #docs
-  -  #ia
-  -  #design-system
-  -  #molecules
+tags: []
 eleventyComputed:
   title: "{{ title }}"
 aix:

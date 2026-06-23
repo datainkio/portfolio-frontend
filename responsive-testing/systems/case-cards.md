@@ -1,9 +1,9 @@
 ---
 title: Case Cards
 tags:
-  - ux/responsiveness
+  - card
+  - responsiveness
   - system
-  - frontend/card
   - ux
 ---
 

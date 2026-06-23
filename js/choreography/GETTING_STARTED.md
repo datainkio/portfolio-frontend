@@ -40,7 +40,7 @@ When `initDirector()` is called, the following steps occur in order:
    ↓
 2. AnimationBus created (event coordination)
    ↓
-3. StageManager initialized (scroll/visual effects)
+3. ScrollEffectsCoordinator initialized (scroll/visual effects)
    ↓
 4. Section controllers instantiated:
    - Hero section
@@ -64,7 +64,7 @@ When `initDirector()` is called, the following steps occur in order:
   - `#organizations` - Organizations section
 
 - **AnimationBus**: Created early and shared across all components for event coordination
-- **StageManager**: Handles scroll smoothing and background effects (optional, gracefully degrades)
+- **ScrollEffectsCoordinator**: Handles scroll smoothing and background effects (optional, gracefully degrades)
 
 ---
 
@@ -300,7 +300,7 @@ export const EVENTS = {
 
 ### Step 6: Wire into AnimationDirector
 
-Update `js/choreography/Director.js`:
+Update `js/choreography/AnimationDirector.js`:
 
 ```javascript
 import MySection from "./sections/my-section/MySection.js";
@@ -355,10 +355,10 @@ timeline.to(/*...*/, {
 
 ### Pattern 3: Broadcast Events
 
-StageManager listens to all section events and coordinates effects:
+ScrollEffectsCoordinator listens to all section events and coordinates effects:
 
 ```javascript
-// In StageManager
+// In ScrollEffectsCoordinator
 this.bus.on(EVENTS.hero.introStart, () => {
   // Start background effect
   this.gels.animate();

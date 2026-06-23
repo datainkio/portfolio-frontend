@@ -1,6 +1,6 @@
 # Animation Manager Modules
 
-Specialized single-responsibility modules that power the StageManager animation system. Each manager handles a specific aspect of the site's animation architecture.
+Specialized single-responsibility modules that power the ScrollEffectsCoordinator animation system. Each manager handles a specific aspect of the site's animation architecture.
 
 ## Architecture Overview
 
@@ -8,13 +8,13 @@ Specialized single-responsibility modules that power the StageManager animation 
 
 - Each manager has one clear purpose
 - Managers are independent and reusable
-- StageManager coordinates initialization and dependencies
+- ScrollEffectsCoordinator coordinates initialization and dependencies
 - Clean separation enables easier testing and maintenance
 
 **Dependency Flow**:
 
 ```
-StageManager (coordinator)
+ScrollEffectsCoordinator (coordinator)
 ├── ReducedMotionHandler (accessibility foundation)
 ├── BackgroundLayerManager (DOM positioning)
 ├── ScrollSmootherManager (depends on ReducedMotionHandler)
@@ -194,37 +194,7 @@ manager.animate("#smooth-wrapper"); // or undefined for window
 
 ---
 
-### LineManager
-
-**Purpose**: Render and manage decorative LeaderLine connectors from config-defined line objects.
-
-**Responsibilities**:
-
-- Builds lines from `SOCKETS` entries keyed by id, each with `origin` and `terminus` sockets
-- Applies `LINE_STYLES.classes` to generated LeaderLine SVG elements for stroke/fill styling
-- Handles resize/scroll/load reposition updates
-- Exposes imperative APIs so sequences can reveal one line from a socket pair and hide all lines when needed
-- Resolves `origin.element` and `terminus.element` independently (optional per-socket `scope`), so endpoints can live in different DOM regions
-
-**Usage**:
-
-```javascript
-const lineManager = new LineManager();
-lineManager.initialize();
-
-// Reveal a line using the origin socket from one key and terminus socket from another
-lineManager.showLineBySocketPair("hero", "bio");
-
-// Hide all lines immediately
-lineManager.hideAllLines("none");
-
-// Cleanup
-lineManager.destroy();
-```
-
----
-
-## StageManager Integration
+## ScrollEffectsCoordinator Integration
 
 **Before Refactoring** (monolithic):
 
@@ -235,15 +205,15 @@ lineManager.destroy();
 
 **After Refactoring** (modular):
 
-- ~100 lines in StageManager
+- ~100 lines in ScrollEffectsCoordinator
 - 4 focused manager modules (~100 lines each)
 - Clear responsibility boundaries
 - Easy to test and extend
 
-**Example Usage in StageManager**:
+**Example Usage in ScrollEffectsCoordinator**:
 
 ```javascript
-export default class StageManager {
+export default class ScrollEffectsCoordinator {
   constructor() {
     // Initialize managers in dependency order
     this.reducedMotion = new ReducedMotionHandler();
@@ -335,8 +305,8 @@ test("initializes gels from config", () => {
 
 ```javascript
 // Test manager coordination
-test("StageManager coordinates managers", () => {
-  const stage = new StageManager();
+test("ScrollEffectsCoordinator coordinates managers", () => {
+  const stage = new ScrollEffectsCoordinator();
   expect(stage.reducedMotion).toBeDefined();
   expect(stage.gelAnimation).toBeDefined();
   expect(stage.scrollSmoother).toBeDefined();
@@ -426,4 +396,4 @@ export default class CustomManager {
 ---
 
 **Last Updated**: December 2025  
-**Related**: `StageManager.js`, `Director.js`, `choreography/README.md`
+**Related**: `ScrollEffectsCoordinator.js`, `AnimationDirector.js`, `choreography/README.md`

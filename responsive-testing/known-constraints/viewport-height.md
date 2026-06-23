@@ -1,9 +1,9 @@
 ---
 title: Viewport Height Constraints
 tags:
-  - aix/constraints
-  - ux/viewport
-  - production/qa/platform/safari
+  - constraints
+  - safari
+  - viewport
 ---
 
 # Viewport Height Constraints

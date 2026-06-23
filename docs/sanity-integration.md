@@ -24,7 +24,7 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 
 - `SANITY_PROJECT_ID` (required if you override defaults)
 - `SANITY_DATASET` (required if you override defaults)
-- `SANITY_API_TOKEN` (optional; authenticated requests, forces `useCdn=false`)
+- `SANITY_READ_TOKEN` (optional; authenticated requests, forces `useCdn=false`)
 - `SANITY_API_VERSION` (default `2025-12-26`)
 - `SANITY_PERSPECTIVE` (default `published`; set to `drafts` only for preview workflows)
 - `SANITY_USE_CDN` (default `true` when no token, otherwise forced `false`)
@@ -95,7 +95,7 @@ For navigation rendering:
 
 - `SANITY_PROJECT_ID=ofshczbc`
 - `SANITY_DATASET=production`
-- `SANITY_API_TOKEN=<read token from backend/sanity project settings>`
+- `SANITY_READ_TOKEN=<read token from backend/sanity project settings>`
 - (Optional) `SANITY_USE_CDN=false` if you want to be explicit; tokens already disable CDN.
 
 3. Run any 11ty build (`npm run dev` or `npm run build`) – Sanity data is pulled automatically.

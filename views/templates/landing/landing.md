@@ -9,11 +9,11 @@ templateRole: "layout"
 atomicLevel: "template"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#design/atomic-design"
+  - atomic-design
+  - eleventy
+  - nunjucks
+  - Obsidian
+  - template
 links:
   - "[base](../../layouts/base.md)"
   - "[landing-header](../../organisms/header/landing/landing-header.md)"

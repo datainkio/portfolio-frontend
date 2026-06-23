@@ -6,11 +6,11 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/molecule"
-  - "#frontend/article-nav-toggle"
+  - article-nav-toggle
+  - choreography
+  - frontend
+  - js
+  - molecule
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

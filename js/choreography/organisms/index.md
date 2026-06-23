@@ -6,11 +6,11 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/organism"
-  - "#ux/index"
+  - choreography
+  - frontend
+  - index
+  - js
+  - organism
 links:
   - "[[Hero|Hero]]"
   - "[[HeroAnimations|HeroAnimations]]"

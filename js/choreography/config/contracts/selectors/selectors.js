@@ -15,6 +15,12 @@
 export const SELECTORS = {
   // Layout
   header: "global-header",
+  // Home landing header — role state machine hook (queried via querySelector)
+  homeHeader: "[data-home-header]",
+  homeHGroup: "[data-home-header] hgroup",
+  homeNav: "[data-home-header] nav",
+  // Page-nav list items — stagger targets for the menu reveal
+  pageNavItem: "[data-page-nav-el='item']",
 
   // Section IDs
   hero: "hero",
@@ -34,6 +40,10 @@ export const SELECTORS = {
   video: "background",
 };
 
+export const HERO_SELECTORS = {
+  tagline: "tagline",
+};
+
 export const PROJECT_HEADER_SELECTORS = {
   header: "[data-project-header]",
   image: "[data-project-header-image]",
@@ -44,4 +54,26 @@ export const BIO_SELECTORS = {
   subSectionHook: "sub-section",
   subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
   subSectionLineKeyAttribute: "data-bio-line-key",
+};
+
+export const BUILD_INFO_SELECTORS = {
+  elementAttribute: "data-buildinfo-el",
+  root: "root",
+  toggle: "toggle",
+  list: "list",
+  close: "close",
+  cap: "cap",
+  // Presence attribute toggled on the cap <ul> to drive open-state layout (basis)
+  // via Tailwind group-data variants.
+  openAttribute: "data-open",
+};
+
+export const AWARD_SELECTORS = {
+  elementAttribute: "data-awards-el",
+  context: "context",
+  header: "header",
+  title: "title",
+  subheading: "subheading",
+  list: "list",
+  organizationCard: "organization-card",
 };

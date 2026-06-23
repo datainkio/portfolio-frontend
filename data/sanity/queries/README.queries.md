@@ -5,12 +5,12 @@ docType: "reference"
 status: "active"
 owner: "frontend"
 tags:
-  - backend/sanity
-  - backend/sanity/groq
-  - backend/sanity/groq/queries
-  - backend/sanity/data-layer
-  - aix/reference
   - aix
+  - data-layer
+  - groq
+  - queries
+  - reference
+  - sanity
 permalink: false
 aliases:
   - "Queries Reference"

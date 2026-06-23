@@ -6,12 +6,12 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#design/atomic-design/molecule"
-  - "#design/motion/choreography/Card/card-motion"
-  - "#design/motion/choreography/throw"
+  - card-motion
+  - choreography
+  - frontend
+  - js
+  - molecule
+  - throw
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"

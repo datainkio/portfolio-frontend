@@ -1,53 +1,48 @@
-{# FUNCTIONALITY IMPORTS #}
-{% import "organisms/SitePreloader.njk" as Preloader %}
-{% import "organisms/header/global-header.njk" as Header with context %}
-{% import "organisms/footer/global-footer.njk" as Footer with context %}
-
-{# UX IMPORTS #}
+{#- FUNCTIONALITY IMPORTS -#}
+{% import "organisms/header/home/home-landing.njk" as PageHeader with context %}
+{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
+{% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
-{% import "molecules/background/sizzle-background.njk" as Background %}
 
-{# SECTION CONTENT #}
-{% import "organisms/section/hero.njk" as heroSection %}
-{% import "organisms/section/bio.njk" as bioSection %}
-{% import "organisms/section/awards.njk" as awardsSection %}
-{% import "organisms/section/work.njk" as projectsSection %}
-{% import "organisms/section/organizations.njk" as organizationsSection %}
-{% import "organisms/section/contact.njk" as contactSection %}
+{#- CONTENT VIEWS -#}
+{% import "organisms/section/work.njk" as ProjectsSection %}
+{% import "organisms/section/bio.njk" as BioSection %}
+{% import "organisms/section/awards.njk" as AwardsSection %}
+{% import "organisms/section/organizations.njk" as OrganizationsSection %}
+{% import "organisms/section/contact.njk" as ContactSection with context %}
 
-{%- set projects = cms.home[0].featuredProjects -%}
+{#- CONTENT -#}
+{%- set projects = collections.home[0].featuredProjects -%}
 {%- set awards = collections.awards -%}
 {%- set organizations = collections.organizations -%}
+{%- set logo = collections.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
 
-{# SECTION STYLING #}
-{% set sharedClasses = "" %}
+{#- EYE CANDY -#}
+{# {% import "molecules/background/sizzle-background.njk" as Background %} #}
+{#- TODO: Address horizontal scroll on mobile -#}
+{%- set main = {
+      base: "mx-auto pl-12 flex flex-col col-span-full w-full overflow-x-hidden",
+      lg: "pl-48"
+    } -%}
+
 {# Note that content values are set in frontmatter #}
 <!DOCTYPE html>
 <html lang="en" class="bg-slate-950">
   {% include "templates/partials/head.njk" %}
-  <body>
+
+  <body class="bg-slate-950 text-neutral-100" data-scroll-container>
     {% include "templates/partials/gtm-noscript.njk" %}
-    {# {{ SkipLinksNav.render({ items: ["hero", "introduction", "recognition", "work", "organizations", "contact"] }) }} #}
-    {{ Header.render({classes: 'bg-transparent font-display text-white'}) }}
-    {{ Preloader.render({ kind: "spinner", message: "Lubricating the framistan…" }) }}
-    {{ Background.render({
-            id:"background",
-            videoSrc: hero.videoSrc,
-            defer: false,
-            preload: "none",
-            autoPlay: true
-            }) }}
-    <main id="page-main" aria-busy="true" class="mx-auto px-0 md:px-6 lg:px-12 col-span-full grid grid-cols-12">
-      <div id="page-main-content" class="col-span-full">
-        {# Note that content values are set in frontmatter #}
-        {# The id param has a matching value in SELECTORS.js for consistency w/choreography during runtime #}
-        {%- set heroLogo = cms.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
-        {{ heroSection.render( { id: "hero", tagline: hero.tagline, logo: heroLogo, classes: sharedClasses}) }}
-        {{ bioSection.render({ id: "introduction", copy: value, order: "1/5", classes: sharedClasses, buildDate: buildDate}) }}
-        {{ projectsSection.render({ id: "work", copy: work, projects: projects, classes: sharedClasses, order: "3/5", buildDate: buildDate }) }}
-      {{ awardsSection.render({ id: "recognition", copy: recognition, awards: awards, order: "2/5", classes: sharedClasses, buildDate: buildDate }) }}
-    </div>
+    {{ SkipLinksNav.render() }}
+    {{ GlobalHeader.render({ logo: logo }) }}
+
+    <main id="page-main" aria-busy="true" class="{{ main | classes }}">
+      {{ PageHeader.home_landing({ svg: logo }) }}
+      {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
+      {{ BioSection.render({ id: "introduction", copy: value }) }}
+      {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
+      {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
     </main>
-    {{ Footer.render() }}
-  {% include "templates/partials/choreography-script.njk" %}
-</body></html>
+    {{ GlobalFooter.render({contact: false}) }}
+    {% include "templates/partials/choreography-script.njk" %}
+  </body>
+</html>

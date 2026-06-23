@@ -6,10 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system/config"
-  - "#design/motion/ruler"
+  - choreography
+  - config
+  - frontend
+  - js
+  - ruler
 links: []
 ---

@@ -6,17 +6,15 @@ status: stable
 audience:
   - agents
 tags:
-  - "#frontend"
-  - "#aix/reference"
-  - "#ux/accessibility/11ty"
-  - "#design/motion/gsap"
+  - eleventy
+  - frontend
+  - gsap
+  - reference
 ---
 
 <!-- @format -->
 
 # Frontend Workspace Reference
-
-(Just a little test of the staging deploy action. Trying again... And trying again after making TextParty npm package public. And now after making Lumberjack public. And now after adding Sanity secrets to workflow.)
 
 This document is the AIX-focused reference for the `frontend/` workspace folder. It complements the GitHub-facing [[dataink.io/frontend/README]] and the agent-oriented [[.github/copilot-instructions]].
 
@@ -68,7 +66,7 @@ Required for full builds (set in `.env`):
 
 - `FIGMA_TOKEN`, `FIGMA_FILE_ID`
 - `SANITY_PROJECT_ID`, `SANITY_DATASET`
-- Optional: `SANITY_API_TOKEN`, `SANITY_API_VERSION`, `SANITY_PERSPECTIVE`, `SANITY_USE_CDN`, `SANITY_PARALLEL`, `SANITY_FORCE_REFRESH`, `SANITY_FORCE_REFRESH_QUERY`
+- Optional: `SANITY_READ_TOKEN`, `SANITY_API_VERSION`, `SANITY_PERSPECTIVE`, `SANITY_USE_CDN`, `SANITY_PARALLEL`, `SANITY_FORCE_REFRESH`, `SANITY_FORCE_REFRESH_QUERY`
 
 Defaults live in [site.json](site.json) under `cms`. See [[docs/sanity-integration]] for the full Sanity contract.
 
@@ -107,7 +105,7 @@ Key modules in [js/choreography/](js/choreography/):
 - [AnimationBus.js](js/choreography/system/AnimationBus.js) — pub/sub event system (event names live in [config/contracts/events.js](js/choreography/config/contracts/events.js)).
 - [ScrollEffectsCoordinator.js](js/choreography/managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js) — scroll smoothing + background/decorative effects.
 - [organisms/](js/choreography/organisms/) — section controllers extending [AbstractSection](js/choreography/system/AbstractSection.js). Active sections: **Hero, BackgroundVideo, Bio, Awards, Organizations, Work**.
-- [managers/](js/choreography/managers/) — single-responsibility helpers: `ReducedMotionHandler`, `ScrollSmootherManager`, `GelAnimationManager`, `LineManager`, `SessionManager`, `RulerIntroManager`.
+- [managers/](js/choreography/managers/) — single-responsibility helpers: `ReducedMotionHandler`, `ScrollSmootherManager`, `GelAnimationManager`, `SessionManager`, `RulerIntroManager`.
 - [templates/landing/LandingSequence.js](js/choreography/templates/landing/LandingSequence.js) — orchestrates the landing animation flow.
 
 DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, `#hero`, `#overlay-view`, `#bio`, `#awards`, `#organizations`, `#work`. Missing IDs degrade gracefully.

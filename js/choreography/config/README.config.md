@@ -25,15 +25,28 @@ and should be treated as durable contracts.
 ### `ix/` - Interaction design tuning
 
 Constants that shape motion and interaction behavior and are expected to be
-tuned as design evolves.
+tuned as design evolves. Re-exported together via the `ix.js` barrel.
 
-- `accessibility.js` -> `ACCESSIBILITY_SETTINGS`
+- `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
+- `breakpoints.js` -> responsive breakpoint tokens
 - `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
 - `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
+- `profiles.js` -> motion/interaction profiles
+
+### `displays/` - Decorative display configuration
+
+Defaults for purely decorative display systems. Re-exported together via the `ix.js` barrel.
+
+- `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
+- `breakpoints.js` -> responsive breakpoint tokens
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
+- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
+- `profiles.js` -> motion/interaction profiles
 
 ### `displays/` - Decorative display configuration
 
 Defaults for purely decorative display systems.
+
 
 - `leader-lines.js` -> `SOCKETS` (id-keyed origin/terminus socket pairs with `element`, `x`, `y`, optional `scope`), `LINE_STYLES` (LeaderLine options plus optional `classes` for SVG styling), `BIO_SUB_SECTION_LINE_DEFAULTS` (configured anchors/effect/animOptions for Bio sub-section connectors)
 - `printermarks.js` -> reserved for printer-marks display defaults
@@ -67,9 +80,11 @@ flowchart TB
       TML[timelines.js\nTIMELINE_IDS]
     end
     subgraph IX[ix]
-      ACC[accessibility.js\nACCESSIBILITY_SETTINGS]
+      IXB[ix.js\nbarrel export]
+      BRK[breakpoints.js\nbreakpoint tokens]
       MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS\nHERO/BACKGROUND/BIO/ORGANIZATIONS/WORK/AWARDS defaults]
       SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nBIO_TRIGGER\nORGANIZATIONS_TRIGGER\nWORK_TRIGGER\nAWARDS_TRIGGER]
+      PRF[profiles.js\nmotion/interaction profiles]
     end
     subgraph DSP[displays]
       ARR[arrangements.js\nSECTION_TO_GEL_ARRANGEMENT\nGEL_ARRANGEMENTS\nGEL_ARRANGEMENT_TRANSITION]

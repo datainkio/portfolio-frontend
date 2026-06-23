@@ -13,7 +13,7 @@
  */
 
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { motion } from "../../config/ix/motion/motion.js";
+import { motion } from "../../config/ix/motion.js";
 
 /**
  * @param {Element|Element[]} target - Video element(s) to reveal

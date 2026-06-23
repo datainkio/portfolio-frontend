@@ -19,7 +19,7 @@
  */
 
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { motion } from "../../config/ix/motion/motion.js";
+import { motion } from "../../config/ix/motion.js";
 
 /**
  * @param {Element[]} elements - Array of elements to animate (falsy values filtered out)

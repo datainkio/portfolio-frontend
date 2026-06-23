@@ -8,12 +8,7 @@
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
-import {
-  GEL_ARRANGEMENTS,
-  SECTION_TO_GEL_ARRANGEMENT,
-  SELECTORS,
-} from "../../config/index/index.js";
-import { createGelTransition } from "../../molecules/gel-transition/gel-transition.js";
+import { SELECTORS } from "../../config/index/index.js";
 
 export class LandingSequence {
   constructor(bus, sections, gelAnimation) {
@@ -24,18 +19,6 @@ export class LandingSequence {
     this.bus = bus;
     this.sections = sections;
     this.gelManager = gelAnimation;
-
-    const initialArrangementId =
-      typeof this.gelManager?.getActiveArrangementId === "function"
-        ? this.gelManager.getActiveArrangementId()
-        : null;
-
-    this.state = {
-      isStarted: false,
-      isComplete: false,
-      activeGelArrangementId: initialArrangementId,
-      heroIntroRequested: false,
-    };
 
     this._listeners = [];
 
@@ -65,7 +48,6 @@ export class LandingSequence {
         "verbose",
         "error",
       );
-      this.state.isStarted = false;
     }
   }
 
@@ -77,10 +59,6 @@ export class LandingSequence {
         section.reset();
       }
     });
-
-    this.state.isStarted = false;
-    this.state.isComplete = false;
-    this.state.heroIntroRequested = false;
   }
 
   destroy() {
@@ -98,32 +76,6 @@ export class LandingSequence {
     this.sections = null;
     this.gelManager = null;
     this.bus = null;
-  }
-
-  _applySectionArrangement(sectionId) {
-    if (
-      !this.gelManager ||
-      typeof this.gelManager.applyArrangement !== "function"
-    ) {
-      return;
-    }
-
-    const arrangementId = SECTION_TO_GEL_ARRANGEMENT[sectionId];
-    if (!arrangementId) {
-      this.logger.trace(`No gel arrangement mapping for section: ${sectionId}`);
-      return;
-    }
-
-    if (this.state.activeGelArrangementId === arrangementId) return;
-
-    const arrangement = GEL_ARRANGEMENTS[arrangementId];
-    if (!arrangement) {
-      this.logger.trace(`Missing gel arrangement: ${arrangementId}`);
-      return;
-    }
-
-    createGelTransition(this.gelManager, arrangement);
-    this.state.activeGelArrangementId = arrangementId;
   }
 
   _pauseBackgroundVideo() {
@@ -164,7 +116,6 @@ export class LandingSequence {
 
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
-      // this._applySectionArrangement("bio");
       this._pauseBackgroundVideo();
       this.sections?.bio?.playIntro?.();
     });
@@ -178,12 +129,10 @@ export class LandingSequence {
     on(EVENTS.bio.exit, () => {
       this.logger.trace(SELECTORS.bio + " exited");
       this.sections?.bio?.playOutro?.();
-      //this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.onLeaveBack, () => {
       this.logger.trace(SELECTORS.bio + " left back");
-      // this._resumeBackgroundVideo();
     });
   }
 }

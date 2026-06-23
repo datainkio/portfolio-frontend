@@ -6,24 +6,26 @@
  * Publish-subscribe pattern enabling loose coupling between section animations.
  * Sections emit lifecycle events; coordinators listen to sequence animations.
  *
- * QUICK START:
+ * QUICK START (instance-based — one bus is created by AnimationDirector and
+ * injected into sections/managers; there is no static API):
  * import { AnimationBus } from './system/AnimationBus.js';
- * import { EVENTS } from './config/events.js';
+ * import { EVENTS } from '../config/contracts/events/events.js';
+ *
+ * const bus = new AnimationBus();
  *
  * // Listen for events
- * AnimationBus.on(EVENTS.hero.introComplete, () => {
+ * const unsubscribe = bus.on(EVENTS.hero.introComplete, () => {
  *   // Start next animation
  * });
  *
  * // Emit events
- * AnimationBus.emit(EVENTS.hero.outroComplete);
+ * bus.emit(EVENTS.hero.outroComplete);
  *
  * // Cleanup when done
- * const unsubscribe = AnimationBus.on(event, callback);
  * unsubscribe(); // Remove listener
  *
- * EVENT NAMING: Use EVENTS from config/events.js for standardized event names.
- * See config/events.js for full event list and naming conventions.
+ * EVENT NAMING: Use EVENTS from config/contracts/events/events.js for standardized
+ * event names. See that file for the full event list and naming conventions.
  *
  * @fileoverview Central event bus for animation coordination
  */
@@ -31,7 +33,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 const LOGS = {
   description:
-    "AnimationBus is a publish-subscribe pattern enabling loose coupling between section animations. Sections emit lifecycle events; coordinators listen to sequence animations. Use EVENTS from config/events.js for standardized event names.",
+    "AnimationBus is a publish-subscribe pattern enabling loose coupling between section animations. Sections emit lifecycle events; coordinators listen to sequence animations. Use EVENTS from config/contracts/events/events.js for standardized event names.",
   methods: "",
 };
 export class AnimationBus {
@@ -41,7 +43,6 @@ export class AnimationBus {
     });
     this.logger.trace(LOGS.description);
     this._listeners = new Map();
-    this._debug = false;
     this.logger.trace("initialized");
   }
 
@@ -92,14 +93,6 @@ export class AnimationBus {
         }
       }
     }
-  }
-
-  /**
-   * Enable/disable debug logging
-   * @param {boolean} [enabled=true]
-   */
-  enableDebug(enabled = true) {
-    this._debug = enabled;
   }
 
   /**

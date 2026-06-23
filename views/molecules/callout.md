@@ -9,13 +9,13 @@ templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - "#frontend/eleventy"
-  - "#frontend/nunjucks"
-  - "#frontend/eleventy/template"
-  - "#tooling/Obsidian"
-  - "#frontend/eleventy/component"
-  - "#design/atomic-design/molecule"
-  - "#design/atomic-design"
+  - atomic-design
+  - component
+  - eleventy
+  - molecule
+  - nunjucks
+  - Obsidian
+  - template
 links:
   - "[callout](callout.md)"
 ---

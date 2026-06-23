@@ -1,6 +1,26 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
-import { HERO_TRIGGER, TIMELINE_IDS } from "../../config/index/index.js";
+import { TIMELINE_IDS } from "../../config/index/index.js";
+import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
+import { SELECTORS } from "../../config/index/index.js";
+
+/**
+ * Hero Trigger Defaults
+ */
+export const HERO_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: SELECTORS.hero,
+  once: false,
+  start: "top top",
+  end: "bottom top",
+  // pin disabled — evaluating ScrollTrigger pin impact on motion complexity
+  pinSpacing: false,
+  pin: false,
+  // scrub disabled — evaluating ScrollTrigger scrub impact on motion complexity
+  scrub: false,
+  fastScrollEnd: false,
+  toggleActions: "none none none none",
+};
 
 export default class HeroTriggers extends AbstractSectionTriggers {
   constructor(view) {
@@ -23,6 +43,10 @@ export default class HeroTriggers extends AbstractSectionTriggers {
 
     this._gelTrigger?.kill();
     this._gelTrigger = null;
+
+    // The gel trigger is intrinsically scrub-driven (outro tied to scroll).
+    // With scrub stripped there is no non-scrub outro path for Hero, so skip it.
+    if (!HERO_TRIGGER.scrub) return;
 
     const outroTimeline =
       this.section?.animations?.getTimeline?.(TIMELINE_IDS.outro) ?? null;

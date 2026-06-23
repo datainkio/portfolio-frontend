@@ -8,7 +8,7 @@ import { ScrollSmoother } from "/assets/js/choreography/system/gsap.js";
 import { SELECTORS } from "../../config/index/index.js";
 
 const SMOOTHER_EFFECTS = true;
-const SMOOTHER_ENABLED = true;
+const SMOOTHER_ENABLED = false;
 const SMOOTH_WRAPPER_SELECTOR = `#${SELECTORS.smoothWrapper}`;
 const SMOOTH_CONTENT_SELECTOR = `#${SELECTORS.smoothContent}`;
 
@@ -46,7 +46,7 @@ export default class ScrollSmootherManager {
       this._smoother = ScrollSmoother.create({
         wrapper: SMOOTH_WRAPPER_SELECTOR,
         content: SMOOTH_CONTENT_SELECTOR,
-        smooth: 0,
+        smooth: 1,
         effects: SMOOTHER_EFFECTS,
         normalizeScroll: true,
         ignoreMobileResize: true,

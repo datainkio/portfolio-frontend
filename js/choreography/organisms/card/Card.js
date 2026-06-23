@@ -46,24 +46,20 @@ const VARIANT_FACTORIES = {
     }),
 };
 
+// Shared reset for the no-motion states (a11y `reduced` and dev `static`):
+// clear every GSAP-authored inline prop so the card renders from CSS alone.
+const resetCardToCss = (card) => {
+  const els = [
+    card.root,
+    card.figure,
+    card.body,
+    card.figure?.querySelector('[data-card-el="image"]'),
+  ].filter(Boolean);
+  if (els.length) gsap.set(els, { clearProps: "all" });
+};
+
 const VARIANT_RESET = {
-  deal: (card) => {
-    gsap.set(card.root, {
-      clearProps: "x,y,height,rotation,transformOrigin,willChange",
-    });
-    if (card.figure) gsap.set(card.figure, { clearProps: "y,willChange" });
-    if (card.body)
-      gsap.set(card.body, {
-        clearProps: "position,bottom,left,right,zIndex,y,willChange",
-      });
-  },
   throw: (card) => {
-    gsap.set(card.root, { clearProps: "willChange,x,rotation" });
-    if (card.figure)
-      gsap.set(card.figure, { clearProps: "willChange,yPercent" });
-    if (card.body) gsap.set(card.body, { clearProps: "willChange,yPercent" });
-  },
-  motionpath: (card) => {
     gsap.set(card.root, { clearProps: "willChange,x,rotation" });
     if (card.figure)
       gsap.set(card.figure, { clearProps: "willChange,yPercent" });
@@ -87,6 +83,12 @@ const VARIANT_RESET = {
       });
     if (card.body) gsap.set(card.body, { y: 0, clearProps: "willChange" });
   },
+  // Reduced motion (a11y) and `static` (dev baseline, motion intentionally off)
+  // both present the card exactly as its CSS defines it — as if no JS ran. Strip
+  // every inline prop any prior active variant may have left so nothing
+  // GSAP-authored lingers; apply nothing of our own.
+  reduced: resetCardToCss,
+  static: resetCardToCss,
 };
 
 export default class Card {
@@ -117,7 +119,8 @@ export default class Card {
       if (profile.trigger.enabled) {
         this._init(profile);
       } else {
-        this._applyStaticState();
+        this._profile = profile;
+        this._applyStaticState(profile);
       }
       return;
     }
@@ -129,7 +132,8 @@ export default class Card {
 
       if (!profile.trigger.enabled) {
         this.kill();
-        this._applyStaticState();
+        this._profile = profile;
+        this._applyStaticState(profile);
         return;
       }
 
@@ -142,11 +146,12 @@ export default class Card {
     this._profile = profile;
     const variant = profile.animation?.variant ?? "clip";
     const factory = VARIANT_FACTORIES[variant] ?? VARIANT_FACTORIES.clip;
+    // Commenting out the  line below will disable the card motion without breaking things, but the proper way is to do it through the profile config.
     this._motion = factory(this);
   }
 
-  _applyStaticState() {
-    const variant = this._profile?.animation?.variant ?? "clip";
+  _applyStaticState(profile = this._profile) {
+    const variant = profile?.animation?.variant ?? "clip";
     const reset = VARIANT_RESET[variant] ?? VARIANT_RESET.clip;
     reset(this);
   }

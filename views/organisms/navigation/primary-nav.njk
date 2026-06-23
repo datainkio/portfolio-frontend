@@ -10,11 +10,7 @@
   {% set items = params.items or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
   {% set navClasses = {
-    "base": "bg-black p-4",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": ""
   } %}
     <nav id="primary-nav" class="{{ navClasses | classes }}" aria-label="Primary navigation"> {{ main_pages.render({ 
       items: items,

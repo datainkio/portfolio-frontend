@@ -10,7 +10,7 @@ The goal is to keep startup behavior deterministic, accessible, and aligned with
 - Entry point: `views/templates/partials/choreography-script.njk` (module bootstrap)
 - Controller: `js/preloader/Preloader.js`
 - Supporting modules: `js/preloader/*.js`
-- Template contract: `views/organisms/SitePreloader.njk`
+- Template contract: `views/organisms/header/home/home-landing.njk` (the landing header carries `data-preloader`; it is the preloader and persists as the page hero)
 - Bootstrap script wiring: `views/templates/partials/choreography-script.njk`
 
 ## Module Boundaries
@@ -36,10 +36,10 @@ The goal is to keep startup behavior deterministic, accessible, and aligned with
 
 ## Template And DOM Contract
 
-- [ ] TODO: Verify `SitePreloader` renders the required selectors:
-  - `[data-preloader]`
-  - `[data-preloader-stack]`
-  - `[data-preloader-text]`
+- [ ] TODO: Verify `home-landing` renders the required selectors:
+  - `[data-preloader]` (root / outro state target)
+  - `[data-preloader-el="hgroup"]` (revealed by the outro; its `animationend` ends the exit)
+  - `[data-preloader-stack]` / `[data-preloader-text]` are optional now — only used by the legacy resource-observer message path
 - [ ] TODO: Keep `data-scroll-smoother` and `data-gsap-src` support if preloader smoother fallback is required.
 - [ ] TODO: Ensure `<main>` has compatible busy-state semantics with preloader cleanup.
 
@@ -54,17 +54,25 @@ The goal is to keep startup behavior deterministic, accessible, and aligned with
 
 ## Animation And Accessibility
 
-- [ ] TODO: Maintain GSAP path and Web Animations fallback path.
-- [ ] TODO: Maintain reduced-motion behavior for intro and exit.
+- [ ] TODO: Intro/idle/outro are pure CSS (`styles/components/hanko.css`); the
+      outro is driven by `data-preloader-state="exit"` — no GSAP on this path.
+- [ ] TODO: Maintain reduced-motion behavior. The global utility forces
+      `animation: none`, so the hgroup hidden state is scoped to
+      `prefers-reduced-motion: no-preference` and the JS exit uses a timeout
+      fallback (`PRELOADER_TIMINGS.cssOutroFallbackMs`) since `animationend`
+      won't fire.
 - [ ] TODO: Keep exit completion idempotent (no double-complete).
-- [ ] TODO: Confirm preloader can finish even if GSAP is unavailable.
+- [ ] TODO: Confirm preloader can finish even if GSAP is unavailable (the
+      outro never depends on GSAP).
 
 ## Cleanup Guarantees
 
 - [ ] TODO: Ensure cleanup is idempotent.
 - [ ] TODO: Always disconnect the resource observer.
 - [ ] TODO: Always restore original document/body overflow and scroll position.
-- [ ] TODO: Remove the preloader element if connected.
+- [ ] TODO: Do NOT remove the preloader element — the landing header persists
+      as the page hero; the outro drops its fixed overlay so it settles into
+      normal flow.
 - [ ] TODO: Set `main[aria-busy]` to `false` during cleanup.
 - [ ] TODO: Hydrate deferred videos after preloader exit.
 

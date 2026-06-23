@@ -39,7 +39,15 @@ export const homeQuery = {
     recognitionHeading,
     recognitionBody,
     workHeading,
-    workBody,
+    workBody[]{
+      ...,
+      _type == "image" => {
+        ...,
+        "asset": asset->{
+          "url": url
+        }
+      }
+    },
     "featuredProjects": featuredProjects[]->${PROJECT_CARD_PROJECTION},
   }`,
 };

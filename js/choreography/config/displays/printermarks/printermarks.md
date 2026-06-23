@@ -6,10 +6,10 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#frontend"
-  - "#design/motion/js"
-  - "#design/motion/choreography"
-  - "#system/config"
-  - "#design/printermarks"
+  - choreography
+  - config
+  - frontend
+  - js
+  - printermarks
 links: []
 ---
