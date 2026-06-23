@@ -9,7 +9,7 @@
     {%- set imageSrc = logoInline -%}
   {%- endif -%}
   {%- set state = 'svg' if inlineLooksSvg else ('image' if imageSrc else 'hidden') -%}
-  {%- set svgClassList = params.svgClasses | default('awards-list__logo fill-current') -%}
+  {%- set svgClassList = params.svgClasses | default('fill-current') -%}
   {%- if classes %}
     {%- set svgClassList = svgClassList ~ ' ' ~ classes -%}
   {%- endif -%}
