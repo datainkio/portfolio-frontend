@@ -34,7 +34,7 @@
   } -%}
 
   {%- set body = {
-    "base": "prose inner-border p-6 relative",
+    "base": "prose inner-border p-6 relative content-start",
     "sm": "grid grid-cols-6 gap-x-2",
     "md": "col-span-3 inner-border-none"
   } -%}
@@ -45,7 +45,8 @@
 
   {%- set header = {
     "base": "header col-span-full",
-    "sm": "col-span-4"
+    "sm": "col-span-4",
+    "md": "col-span-6"
   } -%}
 
   {%- set heading = {
@@ -54,18 +55,20 @@
   } -%}
 
   {%- set byline = {
-    "base": "byline text-sm font-thin col-span-full"
+    "base": "byline text-sm font-display col-span-full"
   } -%}
 
   {%- set description = {
-    "base": "hidden description text-sm w-full overflow-hidden",
-    "sm": "block self-start col-span-4 pb-2 pr-4"
+    "base": "hidden description text-sm col-span-full ",
+    "sm": "mt-0 block col-span-4",
+    "md": "col-span-full"
   } -%}
 
   {%- set stats = {
     "base": "col-span-full grid grid-cols-2 gap-x-4",
     "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-neutral-500
-     border-dashed"
+     border-dashed",
+     "md": "pl-4 col-start-1 row-span-1 row-start-auto flex flex-row w-full"
   } -%}
 
   {%- set footer = {
