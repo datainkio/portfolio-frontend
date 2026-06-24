@@ -33,7 +33,7 @@
   <body class="bg-slate-950 text-neutral-100" data-scroll-container>
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
-    {{ GlobalHeader.render({ logo: logo }) }}
+    {# {{ GlobalHeader.render({ logo: logo }) }} #}
 
     <main id="page-main" aria-busy="true" class="{{ main | classes }}">
       {{ PageHeader.home_landing({ svg: logo }) }}
