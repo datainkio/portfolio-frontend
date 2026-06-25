@@ -47,6 +47,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("prettify", prettify);
   eleventyConfig.addFilter("classes", classes);
   eleventyConfig.addFilter("slugify", slugify);
+  eleventyConfig.addFilter("clearSVGFills", clearSVGFills);
 }
 
 /**
@@ -175,4 +176,27 @@ export function slugify(str) {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+/**
+ Remove hard-coded fills from any SVG element.
+
+  Removes:
+    fill="#000"
+    fill='red'
+    fill = "#fff"
+
+  Preserves:
+    fill-rule
+    fill-opacity
+    fill-rule="evenodd"
+ * @param {string} source- The SVG string to process
+ * @returns {string} The processed SVG string with styles replaced by classes
+ *
+ * EXAMPLE:
+ * {{ svgString | replaceStylesWithClasses }}
+ * => "<svg class="w-6 h-6 text-gray-500">...</svg>"
+ */
+export function clearSVGFills(source) {
+  return source.replace(/\sfill\s*=\s*["'][^"']*["']/g, "");
 }

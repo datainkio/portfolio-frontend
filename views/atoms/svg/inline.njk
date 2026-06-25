@@ -1,35 +1,93 @@
-{% macro render(params = {}) %}
-  {%- set classes = params.classes | default('') -%}
-  {%- set logoInline = params.logoInline | default(organizationRecord.logo.inline) | default('') -%}
-  {%- set logo = params.logo | default('') -%}
-  {%- set logoAlt = params.logoAlt | default('Award logo') -%}
-  {%- set inlineLooksSvg = '<svg' in logoInline -%}
-  {%- set imageSrc = logo -%}
-  {%- if not imageSrc and logoInline and not inlineLooksSvg -%}
-    {%- set imageSrc = logoInline -%}
-  {%- endif -%}
-  {%- set state = 'svg' if inlineLooksSvg else ('image' if imageSrc else 'hidden') -%}
-  {%- set svgClassList = params.svgClasses | default('fill-current') -%}
-  {%- if classes %}
-    {%- set svgClassList = svgClassList ~ ' ' ~ classes -%}
-  {%- endif -%}
-  {%- set inlineHasSvgClassDouble = '<svg class="' in logoInline -%}
-  {%- set inlineHasSvgClassSingle = "<svg class='" in logoInline -%}
-  {%- set processedInline = logoInline -%}
-  {%- if state == 'svg' %}
-    {%- if inlineHasSvgClassDouble %}
-      {%- set processedInline = processedInline | replace('<svg class="', '<svg class="' ~ svgClassList ~ ' ') -%}
-    {%- elif inlineHasSvgClassSingle %}
-      {%- set processedInline = processedInline | replace("<svg class='", "<svg class='" ~ svgClassList ~ ' ') -%}
-    {%- else %}
-      {%- set processedInline = processedInline | replace('<svg', '<svg class="' ~ svgClassList | escape ~ '"') -%}
-    {%- endif -%}
-    {%- set processedInline = processedInline | replace('<svg', '<svg role="img" aria-label="' ~ logoAlt | escape ~ '" focusable="false"') -%}
-  {%- endif -%}
+{# ============================================================================
+   Render either an inline SVG or an image.
 
-  {% if state == 'svg' %}
-    {{ processedInline | safe }}
-  {% elif state == 'image' %}
-    <img src="{{ imageSrc | escape }}" alt="{{ logoAlt | escape }}" loading="lazy" decoding="async" class="{{ classes | escape }}"/>
-  {% endif %}
-{% endmacro %}
+   Supported params:
+
+   {
+     logoInline: '<svg>...</svg>',
+     logo: '/path/to/image.png',
+     logoAlt: 'Descriptive alt text',
+     classes: 'w-12 h-12',
+     svgClasses: 'text-sky-600'
+   }
+   ========================================================================== #}
+
+{% macro render(params = {}) %}
+
+  {%- set classes = params.classes | default('') -%}
+  {%- set svg = params.svg | default(organizationRecord.logo.inline) | default('') -%}
+  {%- set src = params.src | default('') -%}
+  {%- set alt = params.alt | default('Award logo') -%}
+  {%- set classes = params.classes | default('') -%}
+  {%- set isSvg = '<svg' in svg -%}
+  {%- set imageSrc = src or (svg if not isSvg else '') -%}
+
+  {%- set svgClasses = [
+    'fill-current',
+    params.svgClasses,
+    classes
+  ] | join(' ') | trim -%}
+
+  {% if isSvg %}
+
+    {%- set processedSvg = svg | clearSVGFills -%}
+
+    {# ----------------------------------------------------------------------
+                       Remove hard-coded fills from any SVG element.
+                
+                       Removes:
+                         fill="#000"
+                         fill='red'
+                         fill = "#fff"
+                
+                       Preserves:
+                         fill-rule
+                         fill-opacity
+                         fill-rule="evenodd"
+                       ------------------------------------------------------------------- #}
+
+    {# {%- set processedSvg = processedSvg
+          | replaceRegex('\sfill\s*=\s*"[^"]*"', '')
+          | replaceRegex("\sfill\s*=\s*'[^']*'", '') -%} #}
+
+    {# ----------------------------------------------------------------------
+                       Inject classes onto root svg
+                       ------------------------------------------------------------------- #}
+
+      {%- if '<svg class="' in processedSvg -%}
+
+      {%- set processedSvg = processedSvg
+        | replace(
+          '<svg class="',
+          '<svg class="' ~ svgClasses ~ ' '
+        ) -%}
+
+    {%- else -%}
+
+      {%- set processedSvg = processedSvg
+        | replace(
+          '<svg',
+          '<svg class="' ~ (svgClasses | escape) ~ '"'
+        ) -%}
+
+    {%- endif -%}
+
+    {# ----------------------------------------------------------------------
+                       Accessibility attributes
+                       ------------------------------------------------------------------- #}
+
+    {%- set processedSvg = processedSvg
+      | replace(
+        '<svg',
+        '<svg role="img" aria-label="' ~ (alt | escape) ~ '" focusable="false"'
+      ) -%}
+
+    {{ processedSvg | safe }}
+
+  {% elif imageSrc %}
+
+    <img src="{{ imageSrc | escape }}" alt="{{ alt | escape }}" loading="lazy" decoding="async" class="{{ classes | escape }}">
+
+    {% endif %}
+
+  {% endmacro %}
