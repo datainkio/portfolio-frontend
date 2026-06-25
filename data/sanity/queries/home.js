@@ -38,6 +38,8 @@ export const homeQuery = {
     },
     recognitionHeading,
     recognitionBody,
+    organizationsHeading,
+    organizationsBody,
     workHeading,
     workBody[]{
       ...,
