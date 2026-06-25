@@ -14,7 +14,6 @@
  */
 /** @type {import('tailwindcss').Config} */
 import typography from "@tailwindcss/typography";
-import extendedShadows from "tailwind-extended-shadows";
 
 const SCREENS = {
   sm: "40rem",
@@ -28,6 +27,7 @@ export default {
     "./views/**/*.{njk,md,html,js}",
     "./js/**/*.js",
     "./eleventy/**/*.js",
+    extract,
   ],
   theme: {
     screens: SCREENS,
@@ -44,6 +44,8 @@ export default {
         lg: "32rem",
         xl: "36rem",
         "2xl": "42rem",
+        "3xl": "48rem",
+        "4xl": "56rem",
       },
 
       // Animation timing for GSAP integration
@@ -107,7 +109,7 @@ export default {
       },
     },
   },
-  plugins: [typography, extendedShadows],
+  plugins: [typography],
 
   // CSS 4.0 optimizations
   experimental: {
