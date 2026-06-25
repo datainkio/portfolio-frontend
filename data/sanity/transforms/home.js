@@ -11,7 +11,6 @@ export function normalizeLandingRecords(records = []) {
     const valuePropBodyHtml = serializePortableTextToHtml(
       record?.valuePropRichText,
     );
-
     const workBodyHtml = serializePortableTextToHtml(record?.workBody);
 
     return {
