@@ -52,8 +52,16 @@
     } -%}
   <section id="{{ sectionId }}" class="{{ sectionCSS | classes }} text-neutral-100" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
 
-    <header data-awards-el="header" class=" {{ headerCSS | classes }} ">
-      {{ InlineSvg.render({classes: "p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }}
+    <header
+      data-awards-el="header" class=" {{ headerCSS | classes }} ">
+      {# {{ InlineSvg.render({classes: "p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }} #}
+      {{ InlineSvg.render({
+        svg: headerAwardMedia,
+        src: headerAwardLogo,
+        alt: "Award badge",
+        classes: "p-0 size-24 pt-4 pl-2",
+        svgClasses: ""
+      }) }}
       <h2 id="{{ headingId }}" data-awards-el="title" class=" {{ headingCSS | classes }} ">{{ heading }}</h2>
     </header>
 
