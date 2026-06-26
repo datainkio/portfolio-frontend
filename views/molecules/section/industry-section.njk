@@ -1,7 +1,7 @@
 {% import "molecules/list/project-cards.njk" as ProjectCards %}
 {% macro render(params = {}) %}
   {%- set section = {
-  base: "flex items-start"} -%}
+  base: "flex items-start my-12"} -%}
   {%- set projects = {} -%}
   <section data-projects-el="industry-group" class="{{ section | classes }}" aria-labelledby="industry-{{ params.industryTitle | slugify }}">
     <h3 id="industry-{{ params.industryTitle | slugify }}" data-projects-el="industry-heading" class="sr-only">{{ params.industryLabelIndex }}
