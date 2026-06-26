@@ -12,7 +12,7 @@
   {%- set organizations = params.organizations | default([]) -%}
 
   {%- set header = {
-  base: "p-4 flex flex-col gap-4"} -%}
+  base: "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 px-8 py-12"} -%}
 
   {%- set title = {
     base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
@@ -21,12 +21,13 @@
   } -%}
 
   <section id="{{ sectionId }}" class="my-12 text-neutral-100 relative z-10 col-span-full grid grid-cols-subgrid p-0 overflow-hidden {{ classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+
     <header data-organizations-el="header" class="{{ header | classes }}">
       <h2 id="{{ headingId }}" data-organizations-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
       <p data-organizations-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if organizations | length %}
-      <ul data-organizations-el="list" class="col-span-full grid grid-cols-6 gap-1 p-1">
+      <ul data-organizations-el="list" class="col-span-full grid grid-cols-6 gap-1 p-1 saturate-0 m-12">
         {% for organization in organizations %}
           <li data-organizations-el="organization">
             {{ Organization.render(organization) }}
