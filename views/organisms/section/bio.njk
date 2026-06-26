@@ -10,7 +10,7 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative text-primary-100 col-span-full min-h-dvh flex flex-col justify-center"
+    "base": "relative bg-slate-950 text-primary-100 col-span-full min-h-dvh py-4 flex flex-col justify-center"
   } %}
   {% set header = {
     "base": "z-1 place-self-start p-4 my-6",
@@ -18,11 +18,13 @@
   } %}
   {%- set title = {
     "base": "basis-full font-display font-light text-4xl my-12",
-    "sm": "text-6xl"
+    "sm": "text-5xl",
+    "md": "text-6xl",
+    "lg": "text-7xl"
   } %}
 
   {%- set aside = {
-    "base": "text-md font-display text-neutral-400 content-start space-y-12 px-4 gap-4",
+    "base": "text-md font-display text-neutral-400 content-start space-y-12 px-4 gap-12",
     "md": "columns-2"
   } %}
 
