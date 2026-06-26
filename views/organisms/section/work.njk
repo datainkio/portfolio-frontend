@@ -15,15 +15,15 @@
 
   {# TODO: Resolve background image path in production #}
   {%- set section = {
-    base: "relative text-primary-100 flex flex-col py-12",
+    base: "relative text-primary-100 snap-start",
     "motion-reduced": ""
   } %}
 
   {%- set header = {
-  base: "p-6 flex flex-col gap-4 bg-slate-950"} -%}
+  base: "p-6 h-dvh content-center"} -%}
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
+    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl mb-8",
     md: "text-7xl",
     lg: "text-8xl"
   } -%}
