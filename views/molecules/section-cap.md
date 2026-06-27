@@ -17,7 +17,19 @@ tags:
   - Obsidian
   - template
 ---
+
 # Section Cap
+
+In the current state of the design strategy for the home landing page, the role of this is little view is to communicate context to the user by
+
+- letting them know what section is currently in view, and
+- letting them know where that section sits in terms of their progress on the page.
+
+It contains an instance of BuildInfo - a small view that displays versioning information for the current build.
+
+The SectionCap view stays current by updating itself in response to scroll events. When a section element crosses a given vertical threshold within the viewport the SectionCap view will update to display the title (or id) of the section and its place in relation to the other section elements.
+
+Related files include HomeHeaderManager.js and BuildInfoManager.js. For implementation inspiration, check out WorkNavManager.js
 
 Defines Nunjucks macro: `render`.
 

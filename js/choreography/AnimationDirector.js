@@ -50,6 +50,7 @@ import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManage
 import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
 import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
 import BuildInfoManager from "/assets/js/choreography/managers/BuildInfoManager/BuildInfoManager.js";
+import SectionCapManager from "/assets/js/choreography/managers/SectionCapManager/SectionCapManager.js";
 
 const LOGS = {
   description:
@@ -142,6 +143,9 @@ export default class AnimationDirector {
 
     // Initialize the section-cap build-info disclosure (click-driven toggle)
     this.buildInfoManager = new BuildInfoManager();
+
+    // Initialize the section-cap scrollspy (active section tracking)
+    this.sectionCapManager = new SectionCapManager({ bus: this.bus });
 
     // Initialize choreography sequence
     this.sequence = new LandingSequence(

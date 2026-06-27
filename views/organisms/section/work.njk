@@ -9,13 +9,13 @@
   {%- set heading = params.copy.heading | default("Work") -%}
   {%- set subheading = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
   {%- set order = params.order | default("") -%}
-  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+  {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {# TODO: Resolve background image path in production #}
   {%- set section = {
-    base: "relative text-primary-100 snap-start",
+    base: "text-primary-100",
     "motion-reduced": ""
   } %}
 
@@ -29,7 +29,7 @@
   } -%}
 
   {%- set nav = {
-    base: "w-full text-primary-200 sticky top-8 z-10 border-t-2 border-neutral-400 border-dotted",
+    base: "w-full sticky top-0 bg-primary-700 text-primary-200 z-10 border-t-2 border-neutral-400",
     sm: ""
   } -%}
 
