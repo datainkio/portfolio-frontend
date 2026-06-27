@@ -1,9 +1,10 @@
+{#- Display links targeting subsections (i.e. industry groups) within the work section on the homepage. -#}
 {% macro render(params = {}) %}
   {%- set overrides = params.classes | default("leading-none") -%}
   {%- set industries = params.industries | default([]) -%}
   {%- set ulStyles = {
-    base: "leading-none text-md list-none m-0 divide-y-2 divide-slate-800 w-full border-y-2 border-slate-800",
-    md: "grid grid-flow-col bg-slate-950 divide-y-0 divide-x-2 divide-slate-800"
+    base: "leading-none text-md list-none m-0 divide-y-2 divide-slate-800 w-full",
+    lg: "grid grid-flow-col bg-slate-950 divide-y-0 divide-x-2 divide-slate-800"
   } -%}
   {%- set liStyles = {
     "base": "text-primary-200 bg-slate-950 w-full flex justify-center",

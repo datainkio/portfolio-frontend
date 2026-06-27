@@ -7,10 +7,12 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 const WORK_EL_ATTR = "data-projects-el";
 
-// Drive mechanism switches at md: below md the icon button toggles the nav;
-// md and up the nav collapses/expands on scroll direction (original behavior).
+// Drive mechanism switches at lg: below lg the icon button toggles the nav
+// (base/sm/md share one collapsible behavior); lg and up the nav rests open as a
+// horizontal jumplink bar and collapses/expands on scroll direction. The two
+// queries meet at lg with no gap or overlap.
 const MEDIA = Object.freeze({
-  clickMode: "(max-width: 47.999rem)",
+  clickMode: "(max-width: 63.999rem)",
   scrollMode: `(min-width: ${TAILWIND_BREAKPOINTS.lg})`,
 });
 
@@ -70,11 +72,10 @@ export default class WorkHeaderManager {
       };
     });
 
-    // md and up: jumplinks rest open; collapse/expand follows scroll direction
-    // within the work section. The icon button is hidden at this breakpoint.
+    // lg and up: jumplinks rest open as a horizontal jumplink bar; the icon
+    // button is hidden at this breakpoint. Scroll-direction collapse/expand is
+    // staged but disabled — re-enable the ScrollTrigger block below to restore it.
     this._mm.add(MEDIA.scrollMode, () => {
-      // this._expand(true);
-      // this._setButtonState(true);
       // const trigger = ScrollTrigger.create({
       //   trigger: this._workSection,
       //   start: "top top",
@@ -84,7 +85,7 @@ export default class WorkHeaderManager {
       //     else this._expand(this._reduced);
       //   },
       // });
-      return () => trigger?.kill();
+      return () => {};
     });
 
     // Reflect the in-view industry (WorkNavManager scrollspy) onto the toggle
@@ -98,7 +99,7 @@ export default class WorkHeaderManager {
       );
     }
 
-    this.logger.trace("initialized (click <md, scroll md+)");
+    this.logger.trace("initialized (click <lg, scroll lg+)");
   }
 
   _syncLabel(id) {
