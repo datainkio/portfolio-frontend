@@ -29,7 +29,7 @@
   } -%}
 
   {%- set nav = {
-    base: "w-full sticky inset-8 text-secondary-400 z-10",
+    base: "w-full sticky inset-8 z-10",
     sm: ""
   } -%}
 
@@ -40,7 +40,7 @@
     </header>
     {% if industries | length %}
       <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
-        {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden text-accent-400 w-full flex justify-start hover:bg-slate-900" }) }}
+        {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden w-full flex justify-start hover:bg-slate-900" }) }}
         {{ Industries.render({ industries: industries }) }}
       </nav>
     {% endif %}
