@@ -32,3 +32,4 @@ export { default as ScrollEffectsCoordinator } from "../ScrollEffectsCoordinator
 export { default as RulerIntroManager } from "../RulerIntroManager/RulerIntroManager.js";
 export { default as ProjectHeaderManager } from "../ProjectHeaderManager/ProjectHeaderManager.js";
 export { default as SessionManager } from "../SessionManager/SessionManager.js";
+export { default as SectionCapManager } from "../SectionCapManager/SectionCapManager.js";

@@ -7,7 +7,7 @@
   {%- set subheading = params.copy.subheading -%}
   {%- set body = params.copy.body -%}
   {%- set order = params.order | default("") -%}
-  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+  {%- set headingId = params.headingId | default(sectionId) -%}
 
   {%- set organizations = params.organizations | default([]) -%}
 

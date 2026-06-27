@@ -1,15 +1,15 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
-{% import "molecules/section-cap.njk" as SectionCap with context %}
+
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
 {%- set header = {
-        base: "group fixed h-dvh top-0 left-0 z-[9999] bg-slate-950 text-center absolute",
+        base: "group fixed h-dvh top-8 pt-4 left-0 z-[9999] bg-slate-950 text-center absolute",
         "data-[header-role=loader]": "w-full text-center pointer-events-auto flex items-center",
         "data-[header-role=hero]": "w-full flex items-center",
         "data-[header-role=menu]": "w-12 overflow-hidden shadow-neutral-950/50 shadow-md cursor-pointer border-r-2 border-slate-700 lg:w-48 lg:overflow-visible lg:cursor-auto",
         "data-[header-role=menu]:data-[drawer=open]": "max-lg:w-full max-lg:overflow-auto"
         } -%}
 {%- set hgroup = {
-        base: "font-display w-24 mx-auto my-8",
+        base: "font-display w-24 mx-auto",
         "group-data-[header-role=menu]": "w-16",
         "max-lg:group-data-[header-role=menu]": "w-8 my-4"
         } -%}
@@ -31,12 +31,8 @@
         lg: "group-data-[header-role=menu]:block"
         } -%}
 
-{%- set cap = {
-      base: "sticky top-0 text-xs z-10 w-full px-8 py-2 col-span-full flex items-center border-b-2 border-b-slate-700 text-primary-200 bg-slate-950"
-    } %}
-
 {% macro home_landing(params = {}) %}
-        {{ SectionCap.render({title: "work" , count: "0/10", classes: cap | classes}) }}
+
         <header
                 id="overview"
                 data-preloader

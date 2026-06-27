@@ -5,10 +5,10 @@
   {%- set subheading = params.copy.subheading | default("") -%}
   {%- set body = params.copy.body | default("Have a project in mind? Send a message and I'll get back to you.") -%}
   {%- set order = params.order | default("") -%}
-  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+  {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set submitLabel = params.submitLabel | default("Send message") -%}
   {#- Sanity config + source page resolved from the global `env` context.
-        Requires the importing template to `import ... with context`. -#}
+          Requires the importing template to `import ... with context`. -#}
   {%- set sanityProjectId = params.sanityProjectId | default(env.SANITY_PROJECT_ID) -%}
   {%- set sanityDataset = params.sanityDataset | default(env.SANITY_DATASET) -%}
   {%- set sanityApiVersion = params.sanityApiVersion | default(env.SANITY_API_VERSION) -%}
@@ -22,8 +22,8 @@
     </header>
 
     {#- Browser-write contact form. The Sanity write token is present in this
-            markup as a data attribute — an accepted tradeoff (see contact form spec §4).
-            Submission is JS-dependent (ContactForm.js); the form does not POST on its own. -#}
+                markup as a data attribute — an accepted tradeoff (see contact form spec §4).
+                Submission is JS-dependent (ContactForm.js); the form does not POST on its own. -#}
     <form data-contact-form data-sanity-project="{{ sanityProjectId }}" data-sanity-dataset="{{ sanityDataset }}" data-sanity-api-version="{{ sanityApiVersion }}" data-sanity-write-token="{{ sanityWriteToken }}" class="col-span-full grid grid-cols-1 gap-6 px-4 pb-12 max-w-2xl" novalidate>
       <input
         type="hidden" name="sourcePage" value="{{ sourcePage }}">
@@ -56,7 +56,7 @@
           </form>
         </section>
         {#- Self-contained progressive enhancement: handles submit, validation, and
-              the direct Sanity write. Module imports are deduped by the browser. -#}
+                      the direct Sanity write. Module imports are deduped by the browser. -#}
         <script type="module">
           import "/assets/js/contact-form/ContactForm.js";
         </script>

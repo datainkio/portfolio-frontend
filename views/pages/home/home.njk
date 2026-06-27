@@ -1,5 +1,6 @@
 {#- FUNCTIONALITY IMPORTS -#}
 {% import "organisms/header/home/home-landing.njk" as PageHeader with context %}
+{% import "molecules/section-cap.njk" as SectionCap with context %}
 {% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
@@ -21,8 +22,8 @@
 {# {% import "molecules/background/sizzle-background.njk" as Background %} #}
 {#- TODO: Address horizontal scroll on mobile -#}
 {%- set main = {
-      base: "pl-12 bg-slate-950 bg-graphpaper-sm bg-fixed mx-auto flex flex-col col-span-full w-full overflow-x-hidden",
-      lg: ""
+      base: "relative pl-12 bg-slate-950 bg-graphpaper-sm bg-fixed mx-auto flex flex-col col-span-full w-full",
+      lg: "pl-48"
     } -%}
 
 {# Note that content values are set in frontmatter #}
@@ -30,14 +31,14 @@
 <html lang="en" class="bg-slate-950">
   {% include "templates/partials/head.njk" %}
 
-  <body class="bg-slate-950 text-neutral-100" data-scroll-container>
+  <body class="bg-slate-950 text-neutral-100">
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {# {{ GlobalHeader.render({ logo: logo }) }} #}
-
+    {{ SectionCap.render({title: "renderizoring..."}) }}
     <main id="page-main" aria-busy="true" class="{{ main | classes }}">
       {{ PageHeader.home_landing({ svg: logo }) }}
-      {{ BioSection.render({ id: "introduction", copy: value }) }}
+      {{ BioSection.render({ id: "manifesto", copy: value }) }}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
       {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
       {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
