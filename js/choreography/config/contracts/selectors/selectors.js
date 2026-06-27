@@ -25,7 +25,7 @@ export const SELECTORS = {
   // Section IDs
   hero: "hero",
   organizations: "organizations",
-  bio: "introduction",
+  bio: "manifesto",
   awards: "recognition",
   work: "work",
   contact: "contact",
@@ -33,8 +33,8 @@ export const SELECTORS = {
   // GSAP ScrollSmoother containers
   // [ ] REFACTOR: Remove wrapper requirement from GSAP ScrollSmoother containers [refs=#38]
   // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/38
-  smoothWrapper: "page-main",
-  smoothContent: "page-main-content",
+  // smoothWrapper: "page-main",
+  // smoothContent: "page-main-content",
 
   overlayView: "overlay-view",
   video: "background",

@@ -9,27 +9,31 @@
   {%- set heading = params.copy.heading | default("Work") -%}
   {%- set subheading = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
   {%- set order = params.order | default("") -%}
-  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
+  {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {# TODO: Resolve background image path in production #}
   {%- set section = {
-    base: "relative text-primary-100 flex flex-col py-12",
+    base: "text-primary-100",
     "motion-reduced": ""
   } %}
 
   {%- set header = {
+<<<<<<< HEAD
     base: "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 px-8 py-12"} -%}
+=======
+  base: "p-6 h-dvh content-center"} -%}
+>>>>>>> landing-xd
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
+    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl mb-8",
     md: "text-7xl",
     lg: "text-8xl"
   } -%}
 
   {%- set nav = {
-    base: "w-full text-primary-200 sticky top-8 z-10 border-t-2 border-neutral-400 border-dotted",
+    base: "w-full sticky inset-8 z-10",
     sm: ""
   } -%}
 
@@ -40,7 +44,7 @@
     </header>
     {% if industries | length %}
       <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
-        {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden text-white w-full flex justify-start hover:bg-slate-900" }) }}
+        {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden w-full flex justify-start hover:bg-slate-900" }) }}
         {{ Industries.render({ industries: industries }) }}
       </nav>
     {% endif %}
