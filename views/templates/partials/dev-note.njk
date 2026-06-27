@@ -1,0 +1,21 @@
+{#- SOOPER SEKRIT NOTE TO OTHER NERDS -#}
+{%- set styles = {
+  "border-1": "font-size: .75rem; font-weight: bold; color: #fbbf24;",
+  "border-2": "font-size: 2rem; font-weight: bold; color: #fbbf24;",
+  "title": "font-size: 2rem; font-weight: bold; color: #fbbf24;",
+  "subtitle": "font-size: 1rem; color: #fbbf24;"
+} -%}
+{%- set copy = {
+  "border": "%c◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦",
+  "title": "%cRuss Lebo",
+  "subtitle": "%cExperience Designer, Creative Technologist, Real Hooman",
+  "body": "%cHit me up. Let`s make something beautiful together."
+} -%}
+
+<script type="module">
+  console.log("{{ copy.border }}", "{{ styles['border-2'] }}");
+  console.log("{{ copy.title }}", "{{ styles.title }}");
+  console.log("{{ copy.subtitle }}", "{{ styles.subtitle }}");
+  console.log("\n\n {{ copy.body }}\n\n", "color: #fbbf24;");
+  console.log("{{ copy.border }}", "{{ styles['border-2'] }}");
+</script>

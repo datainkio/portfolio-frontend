@@ -39,8 +39,10 @@
       {{ subheading | safe }}
     </header>
     {% if industries | length %}
-      <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
-        {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden w-full flex justify-start hover:bg-slate-900" }) }}
+      {#- motion strategy for the industry links: fade in and slide up on scroll, but only on medium screens and up -#}
+      {#- see WorkHeaderMManager.js for controlling visibility of the header and industry links as the user scrolls through the projects -#}
+      {#- see WorkNavManager.js for the scrollspy behavior that highlights the current industry link as the user scrolls through the projects -#}
+        <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}"> {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden w-full flex justify-start hover:bg-slate-900" }) }}
         {{ Industries.render({ industries: industries }) }}
       </nav>
     {% endif %}

@@ -11,7 +11,7 @@ const WORK_EL_ATTR = "data-projects-el";
 // md and up the nav collapses/expands on scroll direction (original behavior).
 const MEDIA = Object.freeze({
   clickMode: "(max-width: 47.999rem)",
-  scrollMode: `(min-width: ${TAILWIND_BREAKPOINTS.md})`,
+  scrollMode: `(min-width: ${TAILWIND_BREAKPOINTS.lg})`,
 });
 
 export default class WorkHeaderManager {
@@ -31,9 +31,8 @@ export default class WorkHeaderManager {
     this._toggleBtn =
       workSection?.querySelector(`[${WORK_EL_ATTR}="nav-toggle"]`) ?? null;
     this._toggleLabel =
-      this._toggleBtn?.querySelector(
-        `[${WORK_EL_ATTR}="nav-toggle-label"]`,
-      ) ?? null;
+      this._toggleBtn?.querySelector(`[${WORK_EL_ATTR}="nav-toggle-label"]`) ??
+      null;
     this._workSection = workSection;
     this._bus = bus ?? null;
     this._defaultLabel = this._toggleLabel?.textContent.trim() ?? "Industries";
@@ -74,18 +73,18 @@ export default class WorkHeaderManager {
     // md and up: jumplinks rest open; collapse/expand follows scroll direction
     // within the work section. The icon button is hidden at this breakpoint.
     this._mm.add(MEDIA.scrollMode, () => {
-      this._expand(true);
-      this._setButtonState(true);
-      const trigger = ScrollTrigger.create({
-        trigger: this._workSection,
-        start: "top top",
-        end: "bottom bottom",
-        onUpdate: (self) => {
-          if (self.direction === 1) this._collapse(this._reduced);
-          else this._expand(this._reduced);
-        },
-      });
-      return () => trigger.kill();
+      // this._expand(true);
+      // this._setButtonState(true);
+      // const trigger = ScrollTrigger.create({
+      //   trigger: this._workSection,
+      //   start: "top top",
+      //   end: "bottom bottom",
+      //   onUpdate: (self) => {
+      //     if (self.direction === 1) this._collapse(this._reduced);
+      //     else this._expand(this._reduced);
+      //   },
+      // });
+      return () => trigger?.kill();
     });
 
     // Reflect the in-view industry (WorkNavManager scrollspy) onto the toggle
@@ -104,9 +103,7 @@ export default class WorkHeaderManager {
 
   _syncLabel(id) {
     if (!this._toggleLabel) return;
-    const link = id
-      ? this._jumplinks?.querySelector(`[href="#${id}"]`)
-      : null;
+    const link = id ? this._jumplinks?.querySelector(`[href="#${id}"]`) : null;
     this._toggleLabel.textContent =
       link?.textContent.trim() || this._defaultLabel;
   }
