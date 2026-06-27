@@ -95,6 +95,7 @@ export default class AnimationDirector {
     });
     this.logger.enabled = true;
     this.logger.trace(LOGS.description);
+
     // Initialize core systems
     this.bus = new AnimationBus();
     this.stage = new ScrollEffectsCoordinator(this.bus); // Pass bus to ScrollEffectsCoordinator

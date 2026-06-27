@@ -2,14 +2,6 @@ import { SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
-const WORK_EL_ATTR = "data-projects-el";
-const LINK_VALUE = "industry-link";
-const GROUP_VALUE = "industry-group";
-
-// Active band sits in the top fifth of the viewport. The lowest group whose
-// top has crossed into this band is the one the user is reading.
-const ACTIVE_BAND_ROOT_MARGIN = "0px 0px -80% 0px";
-
 /**
  * WorkNavManager — scrollspy for the work section local in-page nav.
  *
@@ -19,6 +11,14 @@ const ACTIVE_BAND_ROOT_MARGIN = "0px 0px -80% 0px";
  * scroll state. Native anchors keep working with no JS; this only adds the
  * active hint. See specs/animation/work-section-navigation.animation-spec.md.
  */
+
+const WORK_EL_ATTR = "data-projects-el";
+const LINK_VALUE = "industry-link";
+const GROUP_VALUE = "industry-group";
+
+// Active band sits in the top fifth of the viewport. The lowest group whose
+// top has crossed into this band is the one the user is reading.
+const ACTIVE_BAND_ROOT_MARGIN = "0px 0px -80% 0px";
 export default class WorkNavManager {
   constructor({ bus } = {}) {
     this.logger = lumberjack.createScoped("WorkNavManager", {
@@ -30,6 +30,7 @@ export default class WorkNavManager {
     this._observer = null;
     this._activeId = null;
 
+    // Assume that all of this is happening within the work section within the main element on the site
     const workSection = document.getElementById(SELECTORS.work);
     const links = Array.from(
       workSection?.querySelectorAll(`[${WORK_EL_ATTR}="${LINK_VALUE}"]`) ?? [],
