@@ -9,18 +9,19 @@
         "data-[header-role=menu]:data-[drawer=open]": "max-lg:w-full max-lg:overflow-auto"
         } -%}
 {%- set hgroup = {
-        base: "font-display w-24 mx-auto",
+        base: "font-display w-24 mx-auto pt-4",
         "group-data-[header-role=menu]": "w-16",
-        "max-lg:group-data-[header-role=menu]": "w-8 my-4"
+        "max-lg:group-data-[header-role=menu]": "w-8",
+        "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "w-18 my-2"
         } -%}
 {%- set hanko = {
         base: "hanko block text-secondary-500"
         } -%}
 {%- set heading = {
         base: "text-4xl leading-8 text-primary-200 py-6 my-2",
-        "group-data-[header-role=menu]": "text-2xl leading-5 my-2 py-0",
+        "group-data-[header-role=menu]": "text-2xl leading-5 my-2 py-4",
         "max-lg:group-data-[header-role=menu]": "hidden",
-        "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "block"
+        "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "block py-2"
         } -%}
 {%- set subtitle = {
         base: "block text-lg tracking-widest p-2  w-full leading-none text-slate-700 border-2 border-slate-700",
