@@ -33,6 +33,11 @@
     sm: ""
   } -%}
 
+  {%- set toggle = {
+    base: "w-full flex justify-start hover:bg-slate-900",
+    lg: "hidden "
+  } -%}
+
   <section id="{{ sectionId }}" class="{{ section |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
     <header data-projects-el="header" class="{{ header | classes }}">
       <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
@@ -42,7 +47,7 @@
       {#- motion strategy for the industry links: fade in and slide up on scroll, but only on medium screens and up -#}
       {#- see WorkHeaderMManager.js for controlling visibility of the header and industry links as the user scrolls through the projects -#}
       {#- see WorkNavManager.js for the scrollspy behavior that highlights the current industry link as the user scrolls through the projects -#}
-        <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}"> {{ DirectionalToggle.render({ label: "Industries", classes: "md:hidden w-full flex justify-start hover:bg-slate-900" }) }}
+        <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}"> {{ DirectionalToggle.render({ label: "Industries", classes: toggle | classes }) }}
         {{ Industries.render({ industries: industries }) }}
       </nav>
       {% set industryHeadingIndex = 0 %}
