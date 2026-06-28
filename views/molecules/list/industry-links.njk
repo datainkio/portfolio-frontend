@@ -3,16 +3,19 @@
   {%- set overrides = params.classes | default("") -%}
   {%- set industries = params.industries | default({}) -%}
   {%- set ulStyles = {
-    base: "text-md list-none m-0 divide-y-2 divide-slate-800 w-full",
+    base: "flex flex-col overflow-hidden text-md list-none m-0 divide-y-2 divide-slate-800 w-full",
     lg: "grid grid-flow-col bg-slate-950 divide-y-0 divide-x-2"
   } -%}
   {%- set liStyles = {
     base: "text-primary-200 bg-slate-950 w-full flex justify-center",
     hover: "bg-slate-900 text-neutral-50",
-    "lg:has-[[aria-current=true]]": "order-first bg-accent-700 text-slate-950 font-medium"
+    "has-[[aria-current=true]]": "bg-accent-700 text-slate-950 font-medium",
+    "max-lg:has-[[aria-current=true]]": "order-first"
   } -%}
   {%- set aStyles = {
-    base: "h-18 w-full flex items-center justify-center no-underline font-display text-md leading-none transition-colors"
+    base: "h-18 w-full flex items-center justify-center no-underline font-display text-md leading-none transition-colors",
+    "max-lg:aria-[current=true]:after": "content-['▾'] ml-2 inline-block",
+    "max-lg:aria-[expanded=true]:after": "rotate-180"
   } -%}
 
   <ul data-projects-el="industry-links" class="{{ ulStyles | classes }} {{ overrides }}">
