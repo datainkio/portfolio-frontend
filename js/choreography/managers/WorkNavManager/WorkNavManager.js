@@ -62,6 +62,13 @@ export default class WorkNavManager {
     );
     this._visible = new Set();
     this._groups.forEach((group) => this._observer.observe(group));
+
+    // Seed a default active link so the nav never renders all-inactive before
+    // the first IntersectionObserver callback. Default = first group in
+    // document order (top of the work section, the entry reading position).
+    const defaultId = this._groups[0]?.getAttribute("aria-labelledby");
+    if (defaultId) this._setActive(defaultId);
+
     this.logger.trace("initialized");
   }
 
