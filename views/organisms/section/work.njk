@@ -19,10 +19,10 @@
   } %}
 
   {%- set header = {
-  base: "p-6 h-[50dvh] content-end"} -%}
+  base: "px-6 content-end"} -%}
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl mb-8",
+    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
     md: "text-7xl",
     lg: "text-8xl"
   } -%}
@@ -38,25 +38,18 @@
       <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
       {{ subheading | safe }}
     </header>
-    {#- motion strategy for the industry links: fade in and slide up on scroll, but only on medium screens and up -#}
-    {#- see WorkHeaderMManager.js for controlling visibility of the header and industry links as the user scrolls through the projects -#}
-    {#- see WorkNavManager.js for the scrollspy behavior that highlights the current industry link as the user scrolls through the projects -#}
-      <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}"> {{ Industries.render({ industries: industries }) }}
+
+    {#- Display the industry links for jump navigation within the section -#}
+    <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
+      {{ Industries.render({ industries: industries }) }}
     </nav>
-    {% if industries | length %}
-      {% set industryHeadingIndex = 0 %}
-      {% for industryTitle, projects in industries %}
-        {% if projects | length %}
-          {% set industryHeadingIndex = industryHeadingIndex + 1 %}
-          {% set industryLabelIndex = industryHeadingIndex %}
-          {% if industryHeadingIndex < 10 %}
-            {% set industryLabelIndex = "0" ~ industryHeadingIndex %}
-          {% endif %}
-          {{ IndustrySection.render({ industryTitle: industryTitle, industryLabelIndex: industryLabelIndex, projects: projects }) }}
-        {% endif %}
-      {% endfor %}
-    {% else %}
-      <p class="col-span-full">No projects found.</p>
-    {% endif %}
+
+    {#- Display the industry groups and their projects -#}
+    {% for industryTitle, projects in industries %}
+      {% if projects | length %}
+        {{ IndustrySection.render({ industryTitle: industryTitle, projects: projects }) }}
+      {% endif %}
+    {% endfor %}
+
   </section>
 {% endmacro %}

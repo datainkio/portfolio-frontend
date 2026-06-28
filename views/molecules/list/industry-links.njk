@@ -21,7 +21,7 @@
   <ul data-projects-el="industry-links" class="{{ ulStyles | classes }} {{ overrides }}">
     {% for industryTitle, projects in industries %}
       <li class="{{ liStyles | classes }}">
-        <a href="#industry-{{ industryTitle | slugify }}" data-projects-el="industry-link" class="{{ aStyles | classes }}">{{ industryTitle }}</a>
+        <a href="#{{ industryTitle | slugify }}" data-projects-el="industry-link" class="{{ aStyles | classes }}">{{ industryTitle }}</a>
       </li>
     {% endfor %}
   </ul>
