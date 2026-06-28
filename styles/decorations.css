@@ -102,7 +102,18 @@
   }
 }
 
-/* 
+/*
+ * Defined with @utility (not @layer utilities) so Tailwind v4 can compose
+ * variants onto it — e.g. max-lg:aria-[current=true]:arrow-prefix on the
+ * in-view work jumplink.
+ */
+@utility arrow-prefix {
+  &::before {
+    content: "\2192\00a0";
+  }
+}
+
+/*
  * CUSTOM COMPONENT LAYER
  */
 
