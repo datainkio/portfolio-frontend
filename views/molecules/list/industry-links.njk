@@ -1,17 +1,18 @@
 {#- Display links targeting subsections (i.e. industry groups) within the work section on the homepage. -#}
 {% macro render(params = {}) %}
-  {%- set overrides = params.classes | default("leading-none") -%}
-  {%- set industries = params.industries | default([]) -%}
+  {%- set overrides = params.classes | default("") -%}
+  {%- set industries = params.industries | default({}) -%}
   {%- set ulStyles = {
-    base: "leading-none text-md list-none m-0 divide-y-2 divide-slate-800 w-full",
-    lg: "grid grid-flow-col bg-slate-950 divide-y-0 divide-x-2 divide-slate-800"
+    base: "text-md list-none m-0 divide-y-2 divide-slate-800 w-full",
+    lg: "grid grid-flow-col bg-slate-950 divide-y-0 divide-x-2"
   } -%}
   {%- set liStyles = {
-    "base": "text-primary-200 bg-slate-950 w-full flex justify-center",
-     hover: "bg-slate-900 text-neutral-50"
+    base: "text-primary-200 bg-slate-950 w-full flex justify-center",
+    hover: "bg-slate-900 text-neutral-50",
+    "lg:has-[[aria-current=true]]": "order-first bg-accent-700 text-slate-950 font-medium"
   } -%}
   {%- set aStyles = {
-    base: "h-18 flex items-center py-0 no-underline font-display text-md leading-none transition-colors"
+    base: "h-18 w-full flex items-center justify-center no-underline font-display text-md leading-none transition-colors"
   } -%}
 
   <ul data-projects-el="industry-links" class="{{ ulStyles | classes }} {{ overrides }}">

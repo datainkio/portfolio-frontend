@@ -47,8 +47,9 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 Each `<a data-projects-el="industry-link">` is a scrollspy target. `WorkNavManager`
 sets `aria-current="true"` on the link whose industry group is currently in view.
-Active styling is **attribute-driven** via `aria-[current=true]:` utilities in the
-anchor base — never a JS-toggled class. See
+Active styling is **attribute-driven** — never a JS-toggled class. The `aria-current`
+attribute stays on the anchor (the link is the current item); the **`<li>` owns the
+visual** and reacts to its descendant via `has-[[aria-current=true]]:` utilities. See
 [[WorkNavManager|js/choreography/managers/WorkNavManager/WorkNavManager.md]] and
 `specs/animation/work-section-navigation.animation-spec.md`.
 
