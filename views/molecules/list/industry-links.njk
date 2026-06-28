@@ -14,8 +14,7 @@
   } -%}
   {%- set aStyles = {
     base: "h-18 w-full flex items-center justify-center no-underline font-display text-md leading-none transition-colors",
-    "max-lg:aria-[current=true]:after": "content-['▾'] ml-2 inline-block",
-    "max-lg:aria-[expanded=true]:after": "rotate-180"
+    "max-lg:aria-[current=true]": "arrow-prefix"
   } -%}
 
   <ul data-projects-el="industry-links" class="{{ ulStyles | classes }} {{ overrides }}">

@@ -56,10 +56,9 @@ top of the list).
 Below `lg` the current item also **doubles as the disclosure control** — there is no
 separate toggle button. `WorkHeaderManager` collapses the `<ul>` to a single item's
 height (the `<ul>` is `flex flex-col overflow-hidden`), so only the current item shows;
-tapping it expands the rest. The anchor renders a chevron via
-`max-lg:aria-[current=true]:after:content-['▾']`, flipped by
-`max-lg:aria-[expanded=true]:after:rotate-180` when `WorkHeaderManager` sets
-`aria-expanded`. See
+tapping it expands the rest. The anchor is prefixed with an arrow via
+`max-lg:aria-[current=true]:arrow-prefix` (the `arrow-prefix` utility is defined with
+`@utility` in `styles/decorations.css` so Tailwind can compose variants onto it). See
 [[WorkNavManager|js/choreography/managers/WorkNavManager/WorkNavManager.md]] and
 `specs/animation/work-section-navigation.animation-spec.md`.
 
