@@ -49,7 +49,17 @@ Each `<a data-projects-el="industry-link">` is a scrollspy target. `WorkNavManag
 sets `aria-current="true"` on the link whose industry group is currently in view.
 Active styling is **attribute-driven** — never a JS-toggled class. The `aria-current`
 attribute stays on the anchor (the link is the current item); the **`<li>` owns the
-visual** and reacts to its descendant via `has-[[aria-current=true]]:` utilities. See
+visual** and reacts to its descendant via `has-[[aria-current=true]]:` utilities
+(accent fill at all breakpoints; `max-lg:…order-first` floats the current item to the
+top of the list).
+
+Below `lg` the current item also **doubles as the disclosure control** — there is no
+separate toggle button. `WorkHeaderManager` collapses the `<ul>` to a single item's
+height (the `<ul>` is `flex flex-col overflow-hidden`), so only the current item shows;
+tapping it expands the rest. The anchor renders a chevron via
+`max-lg:aria-[current=true]:after:content-['▾']`, flipped by
+`max-lg:aria-[expanded=true]:after:rotate-180` when `WorkHeaderManager` sets
+`aria-expanded`. See
 [[WorkNavManager|js/choreography/managers/WorkNavManager/WorkNavManager.md]] and
 `specs/animation/work-section-navigation.animation-spec.md`.
 

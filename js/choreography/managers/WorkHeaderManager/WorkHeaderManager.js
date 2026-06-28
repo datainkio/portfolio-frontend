@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { motion } from "../../config/ix/motion.js";
 import { TAILWIND_BREAKPOINTS } from "../../config/ix/breakpoints.js";
 import { SELECTORS } from "../../config/contracts/selectors/selectors.js";
@@ -6,11 +6,11 @@ import { EVENTS } from "../../config/contracts/events/events.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 const WORK_EL_ATTR = "data-projects-el";
+const LINK = `[${WORK_EL_ATTR}="industry-link"]`;
 
-// Drive mechanism switches at lg: below lg the icon button toggles the nav
-// (base/sm/md share one collapsible behavior); lg and up the nav rests open as a
-// horizontal jumplink bar and collapses/expands on scroll direction. The two
-// queries meet at lg with no gap or overlap.
+// Drive switches at lg. Below lg the industry list rests collapsed to its current
+// (first) item, which doubles as the disclosure control. At lg and up the list
+// rests open as a horizontal jumplink bar with no toggle.
 const MEDIA = Object.freeze({
   clickMode: "(max-width: 63.999rem)",
   scrollMode: `(min-width: ${TAILWIND_BREAKPOINTS.lg})`,
@@ -24,24 +24,16 @@ export default class WorkHeaderManager {
     });
 
     const workSection = document.getElementById(SELECTORS.work);
-    // jumplinks + toggle live in a <nav> that is a sibling of the header, not a
-    // child — scope these to the section, not the header. The collapsing region
-    // is the industry-links <ul> only; the toggle button is its sibling inside
-    // the nav and must stay visible to reopen the collapsed list.
     this._jumplinks =
       workSection?.querySelector(`[${WORK_EL_ATTR}="industry-links"]`) ?? null;
-    this._toggleBtn =
-      workSection?.querySelector(`[${WORK_EL_ATTR}="nav-toggle"]`) ?? null;
-    this._toggleLabel =
-      this._toggleBtn?.querySelector(`[${WORK_EL_ATTR}="nav-toggle-label"]`) ??
-      null;
-    this._workSection = workSection;
+    this._region = this._jumplinks?.closest("nav") ?? null;
+    this._links = Array.from(this._jumplinks?.querySelectorAll(LINK) ?? []);
     this._bus = bus ?? null;
-    this._defaultLabel = this._toggleLabel?.textContent.trim() ?? "Industries";
-    this._unsubActive = null;
-    this._reducedMotionHandler = reducedMotionHandler;
     this._reduced = reducedMotionHandler?.isReducedMotion?.() ?? false;
     this._isCollapsed = false;
+    this._clickMode = false;
+    this._unsubActive = null;
+    this._onClick = null;
     this._mm = null;
 
     if (!this._jumplinks) {
@@ -57,86 +49,80 @@ export default class WorkHeaderManager {
   _bind() {
     this._mm = gsap.matchMedia();
 
-    // Below md: jumplinks rest closed; the icon button toggles them. The work
-    // section sits below the fold at boot, so the initial collapse is not
-    // perceived. Natural heights are measured while the jumplinks are visible.
+    // Below lg: rest collapsed to the current (first) item; tapping it expands
+    // the rest. Boot collapse is instant (section is below the fold).
     this._mm.add(MEDIA.clickMode, () => {
+      this._clickMode = true;
       this._collapse(true);
-      this._setButtonState(false);
-      const onClick = () => this._toggle();
-      this._toggleBtn?.addEventListener("click", onClick);
+      this._onClick = (e) => this._onListClick(e);
+      this._jumplinks.addEventListener("click", this._onClick);
+
       return () => {
-        this._toggleBtn?.removeEventListener("click", onClick);
-        // Hand off to scroll mode with the nav open.
-        this._expand(true);
+        this._clickMode = false;
+        this._jumplinks.removeEventListener("click", this._onClick);
+        this._onClick = null;
+        this._setControl(false);
+        this._expand(true); // hand off to scroll mode open
       };
     });
 
-    // lg and up: jumplinks rest open as a horizontal jumplink bar; the icon
-    // button is hidden at this breakpoint. Scroll-direction collapse/expand is
-    // staged but disabled — re-enable the ScrollTrigger block below to restore it.
-    this._mm.add(MEDIA.scrollMode, () => {
-      // const trigger = ScrollTrigger.create({
-      //   trigger: this._workSection,
-      //   start: "top top",
-      //   end: "bottom bottom",
-      //   onUpdate: (self) => {
-      //     if (self.direction === 1) this._collapse(this._reduced);
-      //     else this._expand(this._reduced);
-      //   },
-      // });
-      return () => {};
-    });
+    // lg and up: rests open as a horizontal bar; no toggle.
+    this._mm.add(MEDIA.scrollMode, () => () => {});
 
-    // Reflect the in-view industry (WorkNavManager scrollspy) onto the toggle
-    // label, so the collapsed nav names the section currently being read. The
-    // event payload carries the shared `industry-{slug}` id; the matching
-    // jumplink holds the clean title text (no label-index prefix).
-    if (this._bus && this._toggleLabel) {
-      this._unsubActive = this._bus.on(
-        EVENTS.workNav.activeChange,
-        ({ id } = {}) => this._syncLabel(id),
-      );
+    // The disclosure control follows the in-view link as the user scrolls.
+    if (this._bus) {
+      this._unsubActive = this._bus.on(EVENTS.workNav.activeChange, () => {
+        if (this._clickMode) this._setControl(true);
+      });
     }
 
-    this.logger.trace("initialized (click <lg, scroll lg+)");
+    this.logger.trace("initialized (collapse <lg, open lg+)");
   }
 
-  _syncLabel(id) {
-    if (!this._toggleLabel) return;
-    const link = id ? this._jumplinks?.querySelector(`[href="#${id}"]`) : null;
-    this._toggleLabel.textContent =
-      link?.textContent.trim() || this._defaultLabel;
-  }
+  _onListClick(e) {
+    const link = e.target.closest(LINK);
+    if (!link || !this._jumplinks.contains(link)) return;
 
-  _toggle() {
+    // Collapsed: only the current (first) item is reachable; its tap opens the
+    // list. Expanded: the current item is the close toggle; others navigate.
     if (this._isCollapsed) {
+      e.preventDefault();
       this._expand(this._reduced);
-      this._setButtonState(true);
-    } else {
+    } else if (link.getAttribute("aria-current") === "true") {
+      e.preventDefault();
       this._collapse(this._reduced);
-      this._setButtonState(false);
     }
   }
 
-  _setButtonState(expanded) {
-    this._toggleBtn?.setAttribute("aria-expanded", expanded ? "true" : "false");
+  // Disclosure semantics live on the in-view link (aria-current). Identity moves
+  // with the scrollspy, so clear every link then mark the current one.
+  _setControl(on) {
+    this._links.forEach((l) => {
+      l.removeAttribute("role");
+      l.removeAttribute("aria-controls");
+      l.removeAttribute("aria-expanded");
+    });
+    if (!on) return;
+    const link = this._jumplinks.querySelector('[aria-current="true"]');
+    if (!link) return;
+    link.setAttribute("role", "button");
+    if (this._region?.id) link.setAttribute("aria-controls", this._region.id);
+    link.setAttribute("aria-expanded", this._isCollapsed ? "false" : "true");
   }
 
   _collapse(reduced) {
     if (this._isCollapsed) return;
     this._isCollapsed = true;
-    this._naturalHeight = this._jumplinks.offsetHeight;
+    if (this._clickMode) this._setControl(true);
 
+    const firstItem = this._jumplinks.querySelector("li");
+    const height = firstItem ? firstItem.offsetHeight : 0;
     if (reduced) {
-      gsap.set(this._jumplinks, { autoAlpha: 0, y: -8, height: 0 });
+      gsap.set(this._jumplinks, { height });
       return;
     }
-
     gsap.to(this._jumplinks, {
-      autoAlpha: 0,
-      y: -8,
-      height: 0,
+      height,
       duration: motion.duration("base") / 1000,
       ease: motion.ease("exit"),
       overwrite: true,
@@ -146,16 +132,14 @@ export default class WorkHeaderManager {
   _expand(reduced) {
     if (!this._isCollapsed) return;
     this._isCollapsed = false;
+    if (this._clickMode) this._setControl(true);
 
     if (reduced) {
-      gsap.set(this._jumplinks, { autoAlpha: 1, y: 0, height: "auto" });
+      gsap.set(this._jumplinks, { height: "auto" });
       return;
     }
-
     gsap.to(this._jumplinks, {
-      autoAlpha: 1,
-      y: 0,
-      height: this._naturalHeight,
+      height: this._jumplinks.scrollHeight,
       duration: motion.duration("base") / 1000,
       ease: motion.ease("enter"),
       overwrite: true,
@@ -170,8 +154,9 @@ export default class WorkHeaderManager {
     this._mm = null;
     if (this._jumplinks) {
       gsap.killTweensOf(this._jumplinks);
-      gsap.set(this._jumplinks, { clearProps: "height,overflow,autoAlpha,y" });
+      gsap.set(this._jumplinks, { clearProps: "height" });
     }
+    this._setControl(false);
     this.logger.trace("destroyed");
   }
 }

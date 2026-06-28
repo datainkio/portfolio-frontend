@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.managers.workheadermanager
-role: "Runtime manager — collapses and expands the work section jumplinks nav. Drive mechanism is responsive via gsap.matchMedia(): below lg the nav rests closed and an icon button (data-projects-el='nav-toggle', aria-expanded/aria-controls) toggles it on click; at lg and up the nav rests open as a horizontal jumplink bar (button hidden, scroll-direction collapse staged but disabled). The section header (h2) stays visible; only the industry-links <ul> animates (autoAlpha/y/height), with the toggle button held visible as its sibling so a collapsed list can be reopened. Also subscribes to the AnimationBus work:nav:active event (WorkNavManager scrollspy) and reflects the in-view industry title onto the toggle label (data-projects-el='nav-toggle-label'), falling back to the default label when no group is active."
+role: "Runtime manager — collapses and expands the work section industry-links list. Responsive via gsap.matchMedia(): below lg the list rests collapsed to its current (first) item, which doubles as the disclosure control — tapping the in-view link expands the rest, other links navigate; at lg and up the list rests open as a horizontal jumplink bar with no toggle. There is no separate toggle button (the directional-toggle atom was removed). The current link is whichever industry-link carries aria-current=true (set by WorkNavManager scrollspy), floated first via order-first below lg; WorkHeaderManager subscribes to the AnimationBus work:nav:active event to move the disclosure attributes (role=button, aria-controls, aria-expanded) onto the active link as it changes. Animates the <ul> height (auto ↔ single-item) so the current item stays visible; the section header (h2) is untouched."
 status: stable
 surface: internal
 scope: frontend
@@ -39,16 +39,18 @@ ScrollTrigger.create({
 
 ---
 
-## Responsive drive (click `<lg` / scroll `lg+`)
+## Responsive drive (collapse `<lg` / open `lg+`)
 
-`_bind()` registers two `gsap.matchMedia()` contexts keyed on `MEDIA` (`lg` = `64rem`, sourced from `TAILWIND_BREAKPOINTS`). The boundary is `lg` so base/sm/md share one collapsible behavior, matching the `industry-links` `<ul>` (vertical until `lg:`) and the `home-landing` drawer (collapsible `max-lg:`, static rail `lg+`):
+`_bind()` registers two `gsap.matchMedia()` contexts keyed on `MEDIA` (`lg` = `64rem`, sourced from `TAILWIND_BREAKPOINTS`). The boundary is `lg` so base/sm/md share one collapsible behavior, matching the `industry-links` `<ul>` (vertical flex until `lg:` grid):
 
-- **`(max-width: 63.999rem)` — click mode (base/sm/md).** Collapses instantly to a closed resting state (`_collapse(true)`), sets the toggle button to `aria-expanded="false"`, and binds a `click` listener that flips `_collapse`/`_expand`. The work section is below the fold at boot, so the initial collapse is not perceived. Cleanup removes the listener and `_expand(true)` so scroll mode inherits an open nav.
-- **`(min-width: 64rem)` — scroll mode (lg+).** Rests open as a horizontal jumplink bar; the toggle button is hidden in the template (`lg:hidden`). Scroll-direction collapse/expand is staged but disabled — the `ScrollTrigger` block is commented out and cleanup is a no-op. Re-enable that block to restore scroll-driven collapse.
+- **`(max-width: 63.999rem)` — click mode (base/sm/md).** Collapses instantly (`_collapse(true)`) to **single-item height** — the current item (`order-first` below lg) stays visible as the disclosure header. `_applyControl()` stamps `role="button"` + `aria-controls` + `aria-expanded` onto the active link. A delegated `click` listener on the `<ul>`: when collapsed, any tap expands; when expanded, a tap on the `aria-current` link collapses, any other link navigates (default). The work section is below the fold at boot, so the initial collapse is not perceived. Cleanup removes the listener, clears the control attributes, and `_expand(true)` so scroll mode inherits an open list.
+- **`(min-width: 64rem)` — scroll mode (lg+).** Rests open as a horizontal jumplink bar; no toggle (cleanup is a no-op).
 
-`matchMedia` runs the matching context's setup on boot and swaps setup/cleanup on breakpoint cross, so the two drives never coexist. `kill()` calls `this._mm.kill()` to revert all contexts. `AnimationDirector` invokes `kill()` on teardown (`this.workHeaderManager?.kill()`). `_collapse`/`_expand` are idempotent (guard on `_isCollapsed`), so forcing a resting state on context entry is safe.
+The disclosure control identity is dynamic: it follows the scrollspy. `WorkHeaderManager` subscribes to `EVENTS.workNav.activeChange` and, while in click mode, calls `_applyControl()` to move `role`/`aria-controls`/`aria-expanded` off the previous link and onto the new in-view link.
 
-`_collapse`/`_expand` animate only the industry-links `<ul>` (`data-projects-el="industry-links"`) — `autoAlpha`/`y`/`height`. The collapsing region is the list alone; the toggle button is its sibling in the `<nav>` and must stay visible to reopen a collapsed list. The header (`<h2>`) is untouched.
+`matchMedia` runs the matching context's setup on boot and swaps setup/cleanup on breakpoint cross, so the two drives never coexist. `kill()` calls `this._mm.kill()` to revert all contexts and `_clearControl()` to strip the disclosure attributes. `AnimationDirector` invokes `kill()` on teardown (`this.workHeaderManager?.kill()`). `_collapse`/`_expand` are idempotent (guard on `_isCollapsed`).
+
+`_collapse`/`_expand` animate the industry-links `<ul>` (`data-projects-el="industry-links"`) **height** only (single-item ↔ `auto`); the `<ul>` is `overflow-hidden` so non-current items clip away when collapsed. There is no separate toggle button — the current list item is the control, kept visible by collapsing to one item's height rather than to zero. The header (`<h2>`) is untouched.
 
 ## Critical initialization constraint
 
