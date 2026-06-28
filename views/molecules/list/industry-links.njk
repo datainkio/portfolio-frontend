@@ -8,13 +8,14 @@
   } -%}
   {%- set liStyles = {
     base: "text-primary-200 bg-slate-950 w-full flex justify-center",
-    hover: "bg-slate-900 text-neutral-50",
-    "has-[[aria-current=true]]": "bg-accent-700 text-slate-950 font-medium",
-    "max-lg:has-[[aria-current=true]]": "order-first"
+    hover: "bg-slate-900 text-neutral-50 inner-border inner-border-slate-600",
+    "has-[[aria-current=true]]": "bg-slate-900 text-slate-200 font-medium inner-border inner-border-slate-400",
+    "max-lg:has-[[aria-current=true]]": "order-first  pl-8"
   } -%}
   {%- set aStyles = {
-    base: "h-18 w-full flex items-center justify-center no-underline font-display text-md leading-none transition-colors",
-    "max-lg:aria-[current=true]": "arrow-prefix"
+    base: "h-12 w-full flex items-center justify-left no-underline font-display text-md leading-none transition-colors",
+    lg: "h-16 justify-center",
+    "aria-[current=true]": "arrow-prefix"
   } -%}
 
   <ul data-projects-el="industry-links" class="{{ ulStyles | classes }} {{ overrides }}">
