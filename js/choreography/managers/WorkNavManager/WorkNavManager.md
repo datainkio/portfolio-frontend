@@ -48,6 +48,10 @@ moves to the matching link and `work:nav:active` is emitted with `{ id }`.
 Styling is attribute-driven (`aria-[current=true]:` utilities in
 `industry-links.njk`); the manager never touches classes.
 
+At init the first group in document order is seeded active synchronously, so the
+nav never renders all-inactive before the first IntersectionObserver callback.
+The first real callback corrects it if a different group is already in the band.
+
 ## Lifecycle
 
 Instantiated by `AnimationDirector` with the bus. No-ops on pages without work
