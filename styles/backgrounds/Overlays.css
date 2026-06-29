@@ -1,5 +1,3 @@
-@tailwind utilities;
-
 /* Custom Background Graphpaper Patterns */
 @layer components {
   /* Just a simple grid pattern. Particularly useful for hiding the jaggies in low-res video */
