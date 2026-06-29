@@ -1,18 +1,22 @@
 # CSS Architecture & Tailwind Configuration
 
-**NUCLEAR WARNING**: This directory contains the CSS architecture that powers your entire visual design system. These files control the Tailwind CSS v4 configuration, Figma design token integration, and visual effects pipeline. One wrong import order or mistaken edit to auto-generated files and you'll transform your carefully designed site into a visual nightmare that looks like it was styled by a colorblind robot having a seizure.
+This directory holds the Tailwind CSS v4 configuration, Figma design-token
+integration, and the visual-effects pipeline. The import order in `main.css`
+matters — design tokens must be available before utilities are generated.
 
-## Architecture Overview (Touch Nothing Without Understanding Everything)
+## Architecture Overview
 
-This CSS system is a carefully orchestrated combination of:
+This CSS system combines:
 
-- **Tailwind CSS v4**: Using `@tailwindcss/cli` (NOT the legacy `tailwindcss` command)
-- **Enhanced Build System**: Comprehensive logging via `TailwindLogger` service
-- **Figma Integration**: Auto-generated design tokens from `figma/services/`
-- **Custom Components**: Hand-crafted visual effects and background systems
-- **Import Cascade**: CRITICAL order dependency that breaks everything if violated
+- **Tailwind CSS v4**: utilities emitted by `@import "tailwindcss"` in `main.css`
+- **Build System**: compiled via `scripts/buildCSS.js` (`@tailwindcss/cli`) with logging
+- **Figma Integration**: auto-generated design tokens (`colors.css`, `typography/fontFamilies.css`)
+- **Custom Components**: hand-crafted visual effects and background systems
+- **Import Cascade**: ordered so tokens load before the utilities/components that consume them
 
-**ABSOLUTE CRITICAL RULE**: The import order in `main.css` is not a suggestion - it's a divine commandment. Violate it and watch your design system collapse into CSS cascade chaos.
+**Important**: keep the `main.css` import order intact. Do not add a
+`@tailwind utilities` directive in any partial — v4 emits utilities once from
+`@import "tailwindcss"`; re-emitting bloats the output.
 
 ## Enhanced CSS Build System
 
@@ -121,7 +125,6 @@ Impact**: Enables consistent typography application across all content
 **What it does**: Specialized CSS for decorative backgrounds and visual effects
 
 - **`Graphpapers.css`** - Grid and measurement aesthetics for technical content
-- **`PrintMarks.css`** - Professional print industry visual elements
 - **`Geometric.css`** - Abstract shapes and patterns for visual interest
 - **`Overlays.css`** - Modal and interaction state styling
 - **`Gel.css`** - Organic, fluid visual effects
@@ -135,14 +138,16 @@ expression
 **What it does**: Component-specific styling for consistent interaction patterns
 **UX Impact**: Ensures UI elements behave predictably across different contexts
 
-### `/plugins/` - Custom Functionality
+### `/utilities/` - Custom Functionality
 
 **What it does**: Extends Tailwind with project-specific utilities
 
-- **`mask.css`** - Advanced masking and clipping effects
+- **`mask.css`** - Advanced masking and clipping effects (`@utility` + `@theme`)
+- **`text.css`** - Text decoration helpers (arrow affixes, word-per-line)
+- **`reduced-motion.css`** - Global `prefers-reduced-motion` fallback
 
 **UX Impact**: Enables sophisticated visual effects while maintaining
-performance
+performance and honoring motion preferences
 
 ## Design System Workflow
 

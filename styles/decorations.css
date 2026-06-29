@@ -1,15 +1,15 @@
-/* 
+/*
  * DECORATIONS.CSS - VISUAL EFFECTS & BACKGROUND SYSTEMS
- * 
- * WARNING: This file orchestrates complex visual systems. Modify with extreme caution.
- * Each import serves a specific purpose and removal will break visual effects sitewide.
- * The next developer who touches this without reading these comments will cause
- * a cascade failure that makes debugging feel like archaeological excavation.
- * 
- * CRITICAL DEPENDENCY CHAIN (violate this order and face the consequences):
- * 1. Background imports MUST load before @tailwind utilities
- * 2. @layer components MUST come after utilities to override properly  
- * 3. CSS custom properties from colors.css MUST be available before this file loads
+ *
+ * Aggregates the background pattern systems and defines project-specific
+ * decorative utilities/components. Imported by main.css (no layer) after the
+ * theme tokens so colors.css custom properties are available here.
+ *
+ * Notes:
+ *  - Utilities are emitted by `@import "tailwindcss"` in main.css. Do NOT add a
+ *    `@tailwind utilities` directive here or in the background files — it
+ *    re-emits the utility layer and bloats output.
+ *  - colors.css custom properties MUST be available before this file loads.
  */
 
 /* Graphpaper backgrounds - Grid patterns, dot matrices, engineering paper effects
@@ -31,20 +31,6 @@
 /* Media backgrounds - Image treatments, video overlays, responsive media containers
  * REQUIRED for all media display components across the site */
 @import "./backgrounds/Media.css";
-
-/* 
- * TAILWIND UTILITIES INJECTION POINT
- * 
- * ABSOLUTE CRITICAL RULE: This @tailwind directive MUST remain positioned
- * after background imports but BEFORE custom component definitions.
- * 
- * Moving this will destroy the CSS cascade and break Tailwind utility
- * composition throughout the entire design system. You've been warned.
- * 
- * This generates Tailwind v4 utility classes using @tailwindcss/cli and makes
- * them available for composition in the @layer components section below.
- */
-@tailwind utilities;
 
 /*
  * BORDER INSET UTILITIES
@@ -70,10 +56,6 @@
 
 @utility inner-border-inset-* {
   --inner-border-inset: --value(--spacing, [length]);
-}
-
-@utility inner-border-* {
-  --inner-border-size: --value(--border-width, [length]);
 }
 
 @utility inner-border-* {
