@@ -14,20 +14,21 @@
 
   {# TODO: Resolve background image path in production #}
   {%- set section = {
-    base: "text-primary-100",
+    base: "text-primary-100 mx-8",
     "motion-reduced": ""
   } %}
 
   {%- set header = {
-  base: "px-6 content-end"} -%}
+  base: "content-end grid grid-cols-3 gap-8"} -%}
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-6xl",
-    md: "text-7xl",
-    lg: "text-8xl"
+    base: "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
+    md: "text-6xl",
+    lg: "text-7xl"
   } -%}
 
   {%- set nav = {
+    print: "hidden",
     base: "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
     sm: ""
   } -%}
