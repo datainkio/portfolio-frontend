@@ -21,7 +21,16 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
 
 | Export | Purpose |
 | --- | --- |
-| `normalizeLandingRecords(records)` | shape landing records into view models |
+| `normalizeLandingRecords(records)` | shape landing records into view models; serialize value-prop/work Portable Text → HTML, and resolve a `url` on each nested `featuredProjects` entry |
+
+## Featured project URLs
+
+The `home` query embeds `featuredProjects[]` via `PROJECT_CARD_PROJECTION`, which
+emits `slug`/`caseStudyUrl`/`externalLink` but **no `url`**. `normalizeLandingRecords`
+maps each entry through `resolveProjectCardUrl` (from [[project|project.js]]) so the
+homepage card "View More" link resolves to `/case-studies/<slug>/` — the same source
+of truth used by the `projects` / `projectsByIndustry` queries. Without this step the
+card's `{% if url %}` guard is never satisfied and no link renders.
 
 ## Source
 
