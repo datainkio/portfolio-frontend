@@ -108,6 +108,7 @@
       {% endif %}
 
       <footer class="{{ footer | classes }}">
+        {{ params | dump }}
         {% if url %}
           {{ CTA.render({ text: "view case study", url: url, classes: linky | classes }) }}
         {% endif %}
