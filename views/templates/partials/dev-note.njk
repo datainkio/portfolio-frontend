@@ -1,4 +1,8 @@
 {#- SOOPER SEKRIT NOTE TO OTHER NERDS -#}
+{#- [ ] BUG: this partial is included before <head> in home.njk, so the <script>
+    renders as a direct child of <html> (non-conformant). Move mount into <body>
+    or <head>. type="module" also defers the first log. Tracked: Frontend task
+    fix-dev-channel-defects (ADR 0005). Channel outline: dev-note.md. -#}
 {%- set styles = {
   "border-1": "font-size: .75rem; font-weight: bold; color: #fbbf24;",
   "border-2": "font-size: 2rem; font-weight: bold; color: #fbbf24;",

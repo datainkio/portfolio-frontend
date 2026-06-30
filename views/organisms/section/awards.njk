@@ -20,7 +20,7 @@
     base: "relative col-span-full text-neutral-100 my-12"
     } -%}
   {%- set headerCSS = {
-    base: "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 px-8 py-12"
+    base: "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 py-12"
     } -%}
   {%- set headingCSS = {
     base: "font-display text-4xl",
@@ -29,7 +29,7 @@
     lg: "text-7xl"
     } -%}
   {%- set subheadingCSS = {
-    base: "font-display tracking-wide flex flex-col px-4 border-b-2 border-x-2 border-black py-4 gap-2",
+    base: "font-display tracking-wide flex flex-col border-b-2 border-x-2 border-black py-4 gap-2",
     sm: "flex-row"
     } -%}
   {%- set subheadingTitleCSS = {
@@ -50,7 +50,7 @@
       base: "py-2 break-inside-avoid",
       sm: ""
     } -%}
-  <section id="{{ sectionId }}" class="{{ sectionCSS | classes }} text-neutral-100" id="{{ sectionId }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}" class="{{ sectionCSS | classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
 
     <header
       data-awards-el="header" class=" {{ headerCSS | classes }} ">
@@ -77,5 +77,6 @@
         </li>
       {% endfor %}
     </ul>
+
   </section>
 {% endmacro %}

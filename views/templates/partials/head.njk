@@ -2,6 +2,7 @@
 HTML HEAD LAYOUT ORGANISM  
 CRITICAL WARNING: Document head controls SEO, performance, and external integrations
 MOVED FROM: organisms/head.njk -> organisms/layout/head.njk (atomic design reorganization)
+[ ] STALE: actual path is templates/partials/head.njk. Tracked: fix-dev-channel-defects (ADR 0005).
 
 INTEGRATION DEPENDENCIES:
 - Google Tag Manager scripts (gtm-script.njk, gtm-noscript.njk)
@@ -16,7 +17,7 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   {# [ ] BUG: GTM integration breaks page refresh on localhost #}
   {# {% include "atoms/gtm-script.njk" %} #}
-  {# [ ] BUG: Page titles not rendering from frontmatter.eleventyComputed #}
+  {# [x] STALE: titles DO render from frontmatter (verified 2026-06-29). Remove this note. Tracked: fix-dev-channel-defects (ADR 0005). #}
     <title>
   {{ title }}
   </title>
@@ -86,5 +87,6 @@ DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
     {% endif %}
     {{ scripts | safe }}
     {% block extraHeadContent %}{% endblock %}
+  {# [ ] BUG: duplicate </head> below — remove one. Tracked: fix-dev-channel-defects (ADR 0005). #}
   </head>
 </head>
