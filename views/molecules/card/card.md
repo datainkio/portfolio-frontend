@@ -35,6 +35,12 @@ Defines Nunjucks macro: `render`.
 
 Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
+When a truthy `url` param is passed, the card footer renders a **"View More"**
+CTA (via [[cta.njk]]) linking to the associated case study. The guard is
+`{% if url %}`, so callers that omit `url` render no link. For project cards the
+`url` is supplied upstream by the data transforms (see [[home|home.js transform]]
+and `resolveProjectCardUrl`), not built in the template.
+
 ## Role in the System
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
