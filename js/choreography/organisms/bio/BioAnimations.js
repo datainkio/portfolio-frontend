@@ -17,6 +17,17 @@ export default class BioAnimations extends AbstractSectionAnimations {
     this._buildTimeline();
   }
 
+  /**
+   * Force a fresh build of every phase timeline, ignoring setVariant's
+   * unchanged-variant short-circuit. Needed after a matchMedia breakpoint
+   * change reverts (and kills) the previous context's tweens: the retained
+   * timeline references are dead, so the caller must rebuild to replace them.
+   */
+  rebuild(variant) {
+    if (variant) this._variant = variant;
+    this._buildTimeline();
+  }
+
   _factory() {
     return BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
   }
@@ -34,7 +45,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
   _buildIntro() {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildIntro(this.view, this.gelManager);
+    return factory.buildIntro?.(this.view, this.gelManager) ?? null;
   }
 
   _buildIdle() {
@@ -44,6 +55,6 @@ export default class BioAnimations extends AbstractSectionAnimations {
   _buildOutro() {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildOutro(this.view, this.gelManager);
+    return factory.buildOutro?.(this.view, this.gelManager) ?? null;
   }
 }

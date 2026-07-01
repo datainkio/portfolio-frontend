@@ -1,7 +1,7 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 /**
  * Bio Trigger Defaults
  */
@@ -21,6 +21,7 @@ export const BIO_TRIGGER = {
 export default class BioTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
+    gsap.set(view, { autoAlpha: 0 });
     this._revealTrigger = null;
     this._hideTrigger = null;
   }
