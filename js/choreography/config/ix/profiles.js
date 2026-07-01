@@ -20,6 +20,7 @@ import { getActiveBreakpoint } from "./breakpoints.js";
 export const ACCESSIBILITY_SETTINGS = {
   testReducedMotion: false, // dev override: force reduced motion on regardless of OS setting (see ReducedMotionHandler._setup)
   // TODO: deprecate the above in favor of a query param override, which would be more flexible and less likely to be accidentally left on in dev
+  // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/148
   // reducedMotionDuration: 0.1, // seconds
   // reducedMotionStagger: 0.05, // seconds
   // reducedMotionEase: "none", // no easing for reduced motion
@@ -63,6 +64,7 @@ export const MOTION_PROFILES = Object.freeze({
  */
 // "static" = card motion intentionally OFF (development baseline), distinct from
 // the a11y `reduced` state. Both channels disabled so Card.js takes its
+// Issue URL: https://github.com/datainkio/portfolio-frontend/issues/147
 // static-reset branch (clearProps:all) for ALL users — not only those with
 // prefers-reduced-motion. Pair with the `?cardVariant=` live override in
 // resolveSectionMotionProfile to flip a real variant on without editing this file.
@@ -86,6 +88,7 @@ export const SECTION_OVERRIDES = Object.freeze({
     // fully replaces those channels via the shallow merge in
     // resolveSectionMotionProfile. NOTE: this intentionally forgoes a reduced
     // experience for hero — see the a11y caveat in the handoff.
+    // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/146
     reduced: {
       animation: { variant: "shutter" },
       timeline: { enabled: true },
@@ -110,11 +113,11 @@ export const SECTION_OVERRIDES = Object.freeze({
   },
   bio: {
     reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "fade" } },
-    sm: { animation: { variant: "fade" } },
-    md: { animation: { variant: "fade" } },
-    lg: { animation: { variant: "fade" } },
-    xl: { animation: { variant: "fade" } },
+    base: { animation: { variant: "split" } },
+    sm: { animation: { variant: "split" } },
+    md: { animation: { variant: "split" } },
+    lg: { animation: { variant: "split" } },
+    xl: { animation: { variant: "split" } },
   },
   awards: {
     base: { animation: { variant: "reduced" } },

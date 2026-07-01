@@ -31,6 +31,7 @@ export const WORK_INDUSTRY_HEADER_PIN = {
  * @deprecated Use WORK_TRIGGER instead.
  *
  * TODO: Remove PROJECTS_TRIGGER once all references are updated to WORK_TRIGGER.
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/149
  */
 export const PROJECTS_TRIGGER = WORK_TRIGGER;
 
