@@ -21,7 +21,10 @@ export const BIO_TRIGGER = {
 export default class BioTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
-    gsap.set(view, { autoAlpha: 0 });
+    // Pre-reveal hide — paired with the intro reveal (autoAlpha 0→1). Disabled
+    // while the reveal is off; otherwise the section stays hidden with nothing
+    // to restore it. Re-enable together with the intro timeline.
+    // gsap.set(view, { autoAlpha: 0 });
     this._revealTrigger = null;
     this._hideTrigger = null;
   }

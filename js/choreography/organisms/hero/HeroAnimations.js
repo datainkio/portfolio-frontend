@@ -1,5 +1,5 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
-import { gsap } from "/assets/js/choreography/system/gsap.js";
+import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { HERO_VARIANT_FACTORIES } from "../../molecules/hero-motion/hero-motion.js";
 

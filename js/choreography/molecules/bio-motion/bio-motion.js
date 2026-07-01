@@ -6,11 +6,13 @@
  * BioAnimations.js selects the active variant via SECTION_OVERRIDES.bio
  * in config/ix/profiles/profiles.js.
  *
+ *   split  - Use GSAP SplitText to animate the header and subheader. Requires SplitText plugin.
+ *   reduced - Nothing fancy.
  *   sweep  — Gel wipe (scaleX 0→1) followed by header fade+lift. Requires gelManager.
  *   fade   — Simple header fade+lift. No gel dependency.
  */
 
-import { initSplit, createSplitIn } from "./split.js";
+import { intro as introSplit } from "./split.js";
 import { createSweepIn, createSweepOut } from "./sweep.js";
 import { initFade, createFadeIn, createFadeOut } from "./fade.js";
 import {
@@ -21,9 +23,7 @@ import {
 
 export const BIO_VARIANT_FACTORIES = Object.freeze({
   split: {
-    init: initSplit,
-    buildIntro: createSplitIn,
-    buildOutro: createSplitIn,
+    buildIntro: introSplit,
   },
   sweep: {
     buildIntro: createSweepIn,
