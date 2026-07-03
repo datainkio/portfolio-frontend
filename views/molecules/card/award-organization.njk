@@ -1,3 +1,4 @@
+s
 {#- TODO: Properly abstract this into the card component all proper-like. -#}
 {% import "atoms/award.njk" as Award %}
 {% import "atoms/svg/inline.njk" as InlineSvg %}
@@ -8,14 +9,14 @@
 } -%}
 {%- set logoStyle = { 
       base: "col-span-1 w-full h-auto",
-      sm: "pl-1",
+      sm: "pl-1 col-span-2",
       md: "pl-2",
       lg: "pl-3",
       xl: "pl-4"
     } -%}
 {%- set contentWrapper = {
       base: "col-span-11 justify-center",
-      sm: "border-l border-l-2 border-dotted border-black"
+      sm: "col-span-10border-l border-l-2 border-dotted border-black"
     } -%}
 {%- set title = {
       base: "font-display text-sm leading-none", 
@@ -34,8 +35,6 @@
   <article data-awards-el="organization-card" class="{{ article | classes }}">
     {%- set logo = group.organization.logo.asset.url | default('/assets/images/logos/default.svg') -%}
     {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}
-    {# {{ InlineSvg.render({classes: "p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }} #}
-    {# {{ InlineSvg.render({classes: logoStyle | classes, logoInline: group.organization.logo.inline, logo: logo, logoAlt: logoAlt }) }} #}
 
     {{ InlineSvg.render({
         svg: group.organization.logo.inline,
@@ -45,7 +44,8 @@
         svgClasses: ""
       }) }}
 
-      <div class="{{ contentWrapper | classes }}"> <h3 class="{{ title | classes }}">{{ group.organization.title }}</h3>
+    <div class="{{ contentWrapper | classes }}">
+      <h3 class="{{ title | classes }}">{{ group.organization.title }}</h3>
       <ul class="{{ list | classes }}" data-awards-el="group-list">
         {% for award in group.items %}
           <li class="{{ awardContainer | classes }}" data-awards-el="award">

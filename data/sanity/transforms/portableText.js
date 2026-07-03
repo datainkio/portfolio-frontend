@@ -127,7 +127,12 @@ export function serializePortableTextToHtml(blocks) {
         },
       },
       block: {
-        normal: ({ children }) => `<p>${children}</p>`,
+        normal: ({ children }) => {
+          if (!children || !String(children).trim()) {
+            return "";
+          }
+          return `<p>${children}</p>`;
+        },
       },
       marks: {
         link: ({ children, value }) => {

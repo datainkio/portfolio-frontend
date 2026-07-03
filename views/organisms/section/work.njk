@@ -14,12 +14,12 @@
 
   {# TODO: Resolve background image path in production #}
   {%- set section = {
-    base: "text-primary-100 mx-8",
+    base: "text-neutral-200",
     "motion-reduced": ""
   } %}
 
   {%- set header = {
-  base: "content-end grid grid-cols-3 gap-8"} -%}
+  base: "content-end grid grid-cols-1 gap-8"} -%}
 
   {%- set title = {
     base: "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -33,9 +33,13 @@
     sm: ""
   } -%}
 
+  {%- set sub = {
+    "base": "[&>p]:text-2xl [&>p]:font-thin lg:[&>p]:text-3xl"
+  } %}
+
   <section id="{{ sectionId }}" class="{{ section |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
 
-    <header data-projects-el="header" class="{{ header | classes }}">
+    <header data-projects-el="header" class="{{ header | classes }} {{ sub | classes }}">
       <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
       {{ subheading | safe }}
     </header>

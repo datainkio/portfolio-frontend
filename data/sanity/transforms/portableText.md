@@ -30,4 +30,9 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
 
 - Path: `data/sanity/transforms/portableText.js`
 
+## Notes
+
+- `block.normal` skips empty/whitespace-only blocks (blank lines left in Sanity's
+  rich-text editor) so consumers never receive a stray `<p></p>` in the output HTML.
+
 Related: [[README.transforms]]

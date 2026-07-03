@@ -18,10 +18,18 @@ const tokenColor = (name) =>
 
 export function intro(view, gelManager) {
   const title = selectBioEl(view, "heading");
-  const split = new SplitText(title, { type: "words" });
-  const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
+  const context = selectBioEl(view, "context");
+  const subheading = selectBioEl(view, "subheading");
+  const tl = gsap.timeline({
+    id: TIMELINE_IDS.landing,
+    duration: BIO_INTRO.duration,
+  });
+  const split = new SplitText(title, {
+    type: "lines,words,chars",
+    mask: "chars",
+  });
 
-  const keywords = ["more just", "informed", "compassionate world"];
+  const keywords = ["just", "informed", "compassionate"];
   const highlights = [];
 
   // Strip punctuation + case so "just" matches the rendered "just," etc.
@@ -31,14 +39,11 @@ export function intro(view, gelManager) {
       .replace(/[^\w\s]/g, "")
       .trim();
 
-  // Wrap the word's letter-core in a span (leaving any leading/trailing
-  // punctuation outside it) and return that span, so only letters get styled.
   const isolateCore = (word) => {
     const [, lead = "", core = "", trail = ""] =
       word.innerText.match(/^(\W*)(.*?)(\W*)$/) ?? [];
     if (!core) return word;
-    word.innerHTML = `${lead}<span data-bio-highlight>${core}</span>${trail}`;
-    return word.querySelector("[data-bio-highlight]");
+    return word;
   };
 
   // Multi-word keywords tokenize (type:"words" yields single-word elements),
@@ -54,12 +59,17 @@ export function intro(view, gelManager) {
       });
   });
 
-  tl.addLabel("landing");
-  tl.to(
-    highlights,
-    { color: tokenColor("secondary-600"), stagger: 0.05 },
-    "landing",
-  );
+  // Animate the split text into view, then highlight the keywords.
+  tl.from(context, { duration: 0.5, opacity: 0, y: 100 });
+  tl.from(split.chars, {
+    duration: 0.5,
+    opacity: 0,
+    y: 100,
+    rotation: 45,
+    stagger: 0.025,
+  });
+  tl.from(subheading, { duration: 0.5, opacity: 0, y: 100 });
+  tl.to(highlights, { color: tokenColor("secondary-600"), stagger: 0.075 });
   return tl;
 }
 
