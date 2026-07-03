@@ -15,12 +15,13 @@
   } %}
   {% set header = {
     "base": "z-1 place-self-start my-6 font-display col-span-full",
-    "lg": "col-span-full"
+    "lg": "col-span-2"
   } %}
   {%- set title = {
     "base": "font-display text-5xl/12 my-12 tracking-loose",
     "sm": "text-6xl/16",
-    "md": "text-7xl"
+    "md": "text-7xl",
+    "lg": "text-5xl/12"
   } %}
   {%- set copy = {
     "base": "[&>p]:col-span-full [&>p]:font-thin lg:[&>p]:font-light [&>p]:text-2xl [&>p]:px-0 [&>p]:mb-6",
@@ -28,9 +29,9 @@
   } %}
 
   {%- set aside = {
-    "base": "text-xl font-display text-neutral-500 grid grid-cols-1 col-span-full gap-x-4",
+    "base": "text-xl font-display text-neutral-500 items-start grid grid-cols-1 col-span-full gap-x-4",
     "sm": "grid-cols-2 grid-flow-col grid-rows-[auto_auto]",
-    "lg": "row-start-2 col-span-1 col-start-3 grid-cols-1 grid-flow-row gap-x-0"
+    "lg": "items-start row-span-2 row-start-1 col-span-1 col-start-3 grid-cols-1 grid-flow-row gap-x-0"
   } %}
   {%- set asideHeading = {
     "base": "arrow-prefix text-neutral-400 border-b-2 border-neutral-400 border-dotted",
