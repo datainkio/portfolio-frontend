@@ -1,10 +1,11 @@
 {% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as Footer with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinks %}
+{% import "molecules/section-cap.njk" as SectionCap with context %}
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 {%- set bodyClasses = {
-  "base": "bg-white",
+  "base": "bg-slate-950",
   "sm": "",
   "md": "",
   "lg": "",
@@ -33,6 +34,7 @@
 } -%}
 <!DOCTYPE html>
 <html lang="en">
+  {% include "templates/partials/dev-note.njk" %}
   {% include "templates/partials/head.njk" %}
   {% block head %}{% endblock %}
   <body
@@ -42,17 +44,17 @@
     {# SKIP LINKS #}
     {{ SkipLinks.render() }}
     {# GLOBAL PAGE HEADER #}
-    {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
+    {# GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) #}
+    {{ SectionCap.render({title: "renderizoring..."}) }}
+      {% block sidebar_before %}
+        <nav class="{{ sidebarBeforeClasses | classes }}" data-scroll data-scroll-sticky data-scroll-target="main"> Hi there.
+          This is the sidebar content. You can replace this with your own content or remove it if you don't need a sidebar.
+
+      </nav>
+    {% endblock %}
     {# MAIN CONTENT AREA #}
     <main class="{{ mainClasses | classes }}">
-      {% if sidebar_before %}
-        <aside class="{{ sidebarBeforeClasses | classes }}" data-scroll data-scroll-sticky data-scroll-target="main">
-          {% block sidebar_before %}
-            Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
-            sidebar.
-          {% endblock %}
-        </aside>
-      {% endif %}
+
       {% block content %}
         {% if content %}
           {{ content | safe }}
@@ -60,18 +62,19 @@
           {% loremPars 3 %}
         {% endif %}
       {% endblock %}
-      {% if sidebar_after %}
-        <aside class="{{ sidebarAfterClasses | classes }}" data-scroll data-scroll-sticky data-scroll-target="main">
-          {% block sidebar_after %}
-            Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
-            sidebar.
-          {% endblock %}
-        </aside>
-      {% endif %}
+
     </main>
+    {% if sidebar_after %}
+      <aside class="{{ sidebarAfterClasses | classes }}" data-scroll data-scroll-sticky data-scroll-target="main">
+        {% block sidebar_after %}
+          Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
+          sidebar.
+        {% endblock %}
+      </aside>
+    {% endif %}
     {# GLOBAL PAGE FOOTER #}
     {{ Footer.render() }}
     <script type="module" src="/assets/js/layouts/global-header.js"></script>
     {% block scripts %}{% endblock %}
   </body>
-</html>
+</html></body></html>

@@ -31,13 +31,5 @@
       { key: "Industry",   value: industryValue },
       { key: "Activities", value: activitiesValue if project.activities else "" }
     ] -%}
-
-  {%- set metadataClasses = {
-      "base": "project-page__metadata grid gap-6",
-      "sm":   "",
-      "md":   "grid-cols-2",
-      "lg":   "grid-cols-4",
-      "xl":   ""
-    } -%}
   {{ stats.render({ stats: metadataStats, classes: metadataClasses | classes, aria: params.aria }) }}
 {% endmacro %}

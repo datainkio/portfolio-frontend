@@ -27,7 +27,7 @@
     "[&>ul]:col-start-5 [&>ul]:col-span-6 [&>ol]:col-start-5 [&>ol]:col-span-6"
 ]} -%}
 {%- set header = {
-    "base": "w-full col-span-full flex items-end p-4 pb-24 gap-2 h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
+    "base": "w-full col-span-full flex items-end p-4 pb-24 gap-2 h-[90dvh] z-10 overflow-hidden text-neutral-100",
     "sm": "text-left flex flex-row",
     "md": "px-16 gap-y-14",
     "lg": "px-24 gap-y-8",
@@ -54,8 +54,6 @@
     <aside data-article-nav class="{{ aside | classes }}">
       {{ ArticleNavLinks.render({ headings: body | extractHeadings }) }}
     </aside>
-    <div data-article-body class="{{ copy | classes }}">
-      {{ body | safe }}
-    </div>
+    {{ body | safe }}
   </article>
 {% endblock %}

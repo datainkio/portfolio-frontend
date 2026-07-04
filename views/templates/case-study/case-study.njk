@@ -13,9 +13,15 @@
     "[&>ul]:col-start-4 [&>ul]:col-span-8 [&>ol]:col-start-4 [&>ol]:col-span-8"
 ]} -%}
 
+{%- set header = {
+  "base": "col-span-full bg-primary-950"
+} -%}
+
 {% block content %}
   <article data-case-study class="{{ article | classes }}">
-    <header data-article-header class="{{ header|classes }}">{{ ArticleHeader.render({title:project.title|default('Untitled'),abstract:project.abstract,logoSvg:brandLogoSvg}) }}</header>
+    <header data-article-header class="{{ header | classes }}">
+      {{ ArticleHeader.render({title:project.title|default('Untitled'),abstract:project.abstract,logoSvg:brandLogoSvg}) }}
+    </header>
     <aside data-article-nav class="{{ aside | classes }}">{{ ArticleNavLinks.render({headings:body|extractHeadings}) }}</aside>
     {{ project.bodyHtml|safe }}
   </article>

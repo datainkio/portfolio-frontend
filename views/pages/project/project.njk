@@ -10,7 +10,7 @@
   Pattern: content-model/patterns/project-page.md
 #}
 
-{%- set bodyClasses = "bg-white grid grid-cols-12" -%}
+{%- set bodyClasses = "grid grid-cols-12" -%}
 {%- set mainClasses = "col-span-full w-full" -%}
 
 {# ─── Styles ──────────────────────────────────────────────────────────────── #}
@@ -41,48 +41,45 @@
 {%- set externalLinkLabel =
   (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}
 
+{% block sidebar_before %}
+  <nav class="" data-scroll data-scroll-sticky data-scroll-target="main"></nav>
+{% endblock %}
+
+{% block sidebar_after %}
+  {# 5. Outcome (optional, distinct treatment) #}
+  {% if hasOutcomes %}
+    <aside class="{{ aside | classes }}" aria-labelledby="project-outcome-heading">
+      <h2 id="project-outcome-heading" class="{{ outcomeHeading | classes }}">
+        Outcome{% if project.outcomes | length > 1 %}s{% endif %}
+      </h2>
+      <ul class="mt-2 space-y-1 text-lg">
+        {% for outcome in project.outcomes %}
+          <li>{{ outcome.title }}</li>
+        {% endfor %}
+      </ul>
+    </aside>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
-  <article data-project-page class="{{ article | classes }}">
 
-    {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
+  {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
 
-    {# 2. Abstract #}
-    {% if project.abstract %}
-      <p class="{{ abstract | classes }}">
-        {{ project.abstract }}
-      </p>
-    {% endif %}
+  {# 6. Body (Portable Text → HTML, prepared by transform; H2+ only) #}
+  {% if hasBody %}
+    <section class="{{ body | classes }}" aria-label="Project narrative">
+      {{ project.bodyHtml | safe }}
+    </section>
+  {% endif %}
 
-    {# 5. Outcome (optional, distinct treatment) #}
-    {% if hasOutcomes %}
-      <aside class="{{ aside | classes }}" aria-labelledby="project-outcome-heading">
-        <h2 id="project-outcome-heading" class="{{ outcomeHeading | classes }}">
-          Outcome{% if project.outcomes | length > 1 %}s{% endif %}
-        </h2>
-        <ul class="mt-2 space-y-1 text-lg">
-          {% for outcome in project.outcomes %}
-            <li>{{ outcome.title }}</li>
-          {% endfor %}
-        </ul>
-      </aside>
-    {% endif %}
+  {# 7. Link to live project (optional) #}
+  {% if externalLinkHref %}
+    <a href="{{ externalLinkHref }}" rel="noopener noreferrer" target="_blank" class="{{ projectLink | classes }}">
+      {{ externalLinkLabel }}
+    </a>
+  {% endif %}
 
-    {# 6. Body (Portable Text → HTML, prepared by transform; H2+ only) #}
-    {% if hasBody %}
-      <section class="{{ body | classes }}" aria-label="Project narrative">
-        {{ project.bodyHtml | safe }}
-      </section>
-    {% endif %}
-
-    {# 7. Link to live project (optional) #}
-    {% if externalLinkHref %}
-      <a href="{{ externalLinkHref }}" rel="noopener noreferrer" target="_blank" class="{{ projectLink | classes }}">
-        {{ externalLinkLabel }}
-      </a>
-    {% endif %}
-
-    {# 8. End CTA — provided by site-global footer contact form. #}
-    {# Intentionally no inline CTA: conversion handled in global footer. #}
-  </article>
+  {# 8. End CTA — provided by site-global footer contact form. #}
+  {# Intentionally no inline CTA: conversion handled in global footer. #}
   {% include "templates/partials/choreography-script.njk" %}
 {% endblock %}
