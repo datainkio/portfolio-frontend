@@ -2,6 +2,7 @@
 {% macro render(params = {}) %}
   {%- set project = params.project -%}
   {%- set metadataClasses = params.classes -%}
+  {#- Awards -#}
   {%- set awardsValue %}
   {% for a in project.awards %}
     {{ a.title }}
@@ -9,6 +10,7 @@
     {% endif %}
   {% endfor %}
   {% endset -%}
+  {#- Roles -#}
   {%- set rolesValue %}
   {% for r in project.roles %}
     {{ r.title }}
@@ -16,6 +18,7 @@
     {% endif %}
   {% endfor %}
   {% endset -%}
+  {#- Activities -#}
   {%- set activitiesValue %}
   {% for a in project.activities %}
     {{ a.title }}
@@ -23,6 +26,7 @@
     {% endif %}
   {% endfor %}
   {% endset -%}
+  {#- Industry -#}
   {%- set industryValue = project.industry.title if project.industry else "" -%}
 
   {%- set metadataStats = [
