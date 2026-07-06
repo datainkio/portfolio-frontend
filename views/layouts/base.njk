@@ -5,14 +5,14 @@
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 {%- set bodyClasses = {
-  "base": "bg-slate-950",
+  "base": "bg-slate-950 ",
   "sm": "",
   "md": "",
   "lg": "",
   "xl": ""
 } -%}
 {%- set mainClasses = {
-  "base": "grid grid-cols-12 w-full",
+  "base": "",
   "sm": "",
   "md": "",
   "lg": "",

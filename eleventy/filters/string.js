@@ -125,10 +125,10 @@ export function prettify(markdownString, parClasses) {
  * EXAMPLE:
  * {% set header = {
  *   "base": "flex items-center",
- *   "sm":   "sm:gap-4",
- *   "md":   "md:gap-6",
+ *   "sm":   "gap-4",
+ *   "md":   "gap-6",
  *   "lg":   "",
- *   "xl":   "xl:gap-10"
+ *   "xl":   "gap-10"
  * } %}
  * <header class="{{ header | classes }}">
  * => <header class="flex items-center sm:gap-4 md:gap-6 xl:gap-10">
