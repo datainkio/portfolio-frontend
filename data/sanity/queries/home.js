@@ -20,7 +20,8 @@ export const homeQuery = {
       _type == "image" => {
         ...,
         "asset": asset->{
-          "url": url
+          "url": url,
+          "description": description
         }
       },
       _type == "sub_section" => {
@@ -30,7 +31,8 @@ export const homeQuery = {
           _type == "image" => {
             ...,
             "asset": asset->{
-              "url": url
+              "url": url,
+              "description": description
             }
           }
         }
@@ -46,7 +48,8 @@ export const homeQuery = {
       _type == "image" => {
         ...,
         "asset": asset->{
-          "url": url
+          "url": url,
+          "description": description
         }
       }
     },

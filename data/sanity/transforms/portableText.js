@@ -88,7 +88,31 @@ export function serializePortableTextToHtml(blocks) {
           }
 
           const alt = escapeHtml(value?.alt || "");
-          return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />`;
+          // Caption comes from the shared image asset's Description field
+          // (sanity-plugin-media, stored on sanity.imageAsset) rather than a
+          // block-level field — one caption per file, reused everywhere that
+          // asset appears, instead of a separate value per usage.
+          const caption = value?.asset?.description
+            ? escapeHtml(value.asset.description)
+            : "";
+          const figcaptionHtml = caption
+            ? `\n  <figcaption data-lightbox-el="caption" class="mt-2 text-sm text-neutral-600">${caption}</figcaption>`
+            : "";
+          // Same data-lightbox-el contract as views/molecules/lightbox/lightbox.njk,
+          // hand-built here since @portabletext/to-html serializers return raw HTML
+          // strings, not Nunjucks. Lightbox.js is attribute-driven so either source
+          // wires up identically. data-bio-el="body" is preserved for the existing
+          // Bio choreography hook (BIO_SELECTORS.elementAttribute). description is
+          // optional — figcaption is omitted entirely when absent.
+          return `<figure data-lightbox-el="root" class="contents">
+  <button type="button" data-lightbox-el="trigger" class="block cursor-zoom-in" aria-haspopup="dialog">
+    <img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />
+  </button>
+  <dialog data-lightbox-el="dialog" aria-label="${alt || caption || "Image viewer"}" class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80">
+    <button type="button" data-lightbox-el="close" class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
+    <img src="${src}" alt="${alt}" class="block max-w-[90vw] max-h-[75vh] object-contain" />
+  </dialog>${figcaptionHtml}
+</figure><script type="module">import "/assets/js/lightbox/Lightbox.js";</script>`;
         },
         sub_section: ({ value }) => {
           const heading = escapeHtml(value?.heading || "");

@@ -15,7 +15,8 @@ export const USER_GUIDE_PROJECTION = groq`{
     _type == "image" => {
       ...,
       "asset": asset->{
-        url
+        url,
+        description
       }
     },
     _type == "sub_section" => {
@@ -25,7 +26,8 @@ export const USER_GUIDE_PROJECTION = groq`{
         _type == "image" => {
           ...,
           "asset": asset->{
-            url
+            url,
+            description
           }
         }
       }

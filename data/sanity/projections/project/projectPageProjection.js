@@ -25,7 +25,7 @@ export const PROJECT_PAGE_PROJECTION = groq`{
     ...,
     _type == "image" => {
       ...,
-      asset->{url, metadata{dimensions, lqip}}
+      asset->{url, description, metadata{dimensions, lqip}}
     },
     _type == "project_aside" => {
       ...,
