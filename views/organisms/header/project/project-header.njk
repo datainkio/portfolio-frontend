@@ -6,54 +6,47 @@
 {% macro render(params) %}
 
   {%- set header = {
-    "base": "m-4 p-[1px] bg-slate-700 gap-[1px] border-0 relative grid grid-cols-3 col-span-full overflow-hidden text-neutral-100",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "m-4 border-0 relative col-span-full overflow-hidden text-neutral-100 gap-y-[1px] bg-slate-700",
+    "md": "grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] "
   } -%}
 
   {%- set heading = {
-    "base": "px-4 py-6 col-start-1 row-start-2 col-span-2 text-12/12 font-display z-[2] text-neutral-100 bg-slate-950"
+    "base": "py-6 text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950",
+    "md": "px-4 py-8"
   } -%}
 
   {%- set byline = {
-    "base": "bg-slate-950 z-[3] flex text-lg",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "bg-slate-950 z-[3] flex text-lg text-neutral-400"
+  } -%}
+  {%- set abstract = {
+    "base": "px-2 py-8 bg-slate-950 font-thin text-xl"
   } -%}
 
   {%- set image = {
-    "base": "p-4 bg-slate-950 col-start-1 row-start-3 col-span-2 w-full aspect-video object-cover z-[1]",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "p-4 bg-slate-950 col-start-1 row-start-3 col-span-2 w-full aspect-video object-cover z-[1]"
+  } -%}
+
+  {%- set cap = {
+    "base": "py-2 col-span-full bg-slate-950 m-0 font-display text-lg text-neutral-400",
+    "md": "p-4"
   } -%}
 
   {%- set metadata = {
-    "base": "col-start-1 row-start-4 col-span-full p-4 m-0 divide-x divide-slate-700 bg-slate-950 grid grid-cols-4",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "p-2 py-4 col-span-full bg-slate-950",
+    "md": "col-start-2 col-span-2 divide-x divide-slate-700 bg-slate-950"
   } -%}
 
   <header data-project-header class="{{ header | classes }}">
-    <p class="p-4 col-span-2 bg-slate-950 m-0 font-display text-lg" data-project-industry>
+    <p class="{{ cap | classes }}" data-project-industry>
       {{ params.project.industry | default('No industry') }}
     </p>
     <h1 id="case-study-title" data-landing-header-title class="{{ heading | classes }}">
       {{ params.project.title | default('Untitled') }}
       {{ ProjectOrgs.render({ orgs: params.project.organization, class: byline | classes }) }}
     </h1>
-    {{ FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.featuredImageAlt, class: image | classes }) }}
-    <section
-      class="px-4 col-start-3 row-start-1 row-span-3 h-full bg-slate-950 text-lg font-thin text-neutral-100"
-      data-project-abstract>
-      <h2 class="text-lg py-4 mb-4 border-b-2 border-slate-700 border-dotted">Project Summary</h2>
+    {# FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.featuredImageAlt, class: image | classes }) #}
+    <section class="{{ abstract | classes }}" data-project-abstract>
+      <h2 class="text-lg mb-4 border-b-2 border-slate-700 text-neutral-400 border-dotted">Project Summary</h2>
       {{ params.project.abstract | safe }}
     </section>
 

@@ -33,7 +33,7 @@
       { key: "Awards",     value: awardsValue if project.awards else "" },
       { key: "Roles",      value: rolesValue if project.roles else "" },
       { key: "Industry",   value: industryValue },
-      { key: "Activities", value: activitiesValue if project.activities else "" }
+      { key: "Deliverables", value: activitiesValue if project.activities else "" }
     ] -%}
-  {{ stats.render({ stats: metadataStats, classes: metadataClasses | classes, aria: params.aria }) }}
+  {{ stats.render({ stats: metadataStats, classes: metadataClasses, aria: params.aria }) }}
 {% endmacro %}

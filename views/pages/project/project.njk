@@ -29,7 +29,7 @@
         } -%}
 {%- set aside          = { "base": "col-span-2 project-page__outcome border-l-4 border-primary-500 pl-6 py-2" } -%}
 {%- set body           = { 
-  "base": "prose col-span-8 project-page__body prose prose-lg max-w-[68ch] z-10 text-neutral-100 mx-auto" } -%}
+  "base": "prose col-span-8 project-page__body max-w-[68ch] z-10 text-neutral-100 p-8 mx-auto" } -%}
 {%- set projectLink    = { "base": "project-page__external-link underline underline-offset-4" } -%}
 {%- set outcomeHeading = { "base": "project-page__outcome-heading" } -%}
 
@@ -69,7 +69,7 @@
 
   {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
 
-  {# 6. Body (Portable Text → HTML, prepared by transform; H2+ only) #}
+  {# 6. Body (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
   {% if hasBody %}
     <section class="{{ body | classes }}" aria-label="Project narrative">
       {{ project.bodyHtml | safe }}
