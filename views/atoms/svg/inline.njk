@@ -33,26 +33,26 @@
     {%- set processedSvg = svg | clearSVGFills -%}
 
     {# ----------------------------------------------------------------------
-                       Remove hard-coded fills from any SVG element.
-                
-                       Removes:
-                         fill="#000"
-                         fill='red'
-                         fill = "#fff"
-                
-                       Preserves:
-                         fill-rule
-                         fill-opacity
-                         fill-rule="evenodd"
-                       ------------------------------------------------------------------- #}
+          Remove hard-coded fills from any SVG element.
+        
+          Removes:
+            fill="#000"
+            fill='red'
+            fill = "#fff"
+        
+          Preserves:
+            fill-rule
+            fill-opacity
+            fill-rule="evenodd"
+          ------------------------------------------------------------------- #}
 
     {# {%- set processedSvg = processedSvg
-          | replaceRegex('\sfill\s*=\s*"[^"]*"', '')
-          | replaceRegex("\sfill\s*=\s*'[^']*'", '') -%} #}
+                  | replaceRegex('\sfill\s*=\s*"[^"]*"', '')
+                  | replaceRegex("\sfill\s*=\s*'[^']*'", '') -%} #}
 
     {# ----------------------------------------------------------------------
-                       Inject classes onto root svg
-                       ------------------------------------------------------------------- #}
+                               Inject classes onto root svg
+                               ------------------------------------------------------------------- #}
 
       {%- if '<svg class="' in processedSvg -%}
 
@@ -73,8 +73,8 @@
     {%- endif -%}
 
     {# ----------------------------------------------------------------------
-                       Accessibility attributes
-                       ------------------------------------------------------------------- #}
+                               Accessibility attributes
+                               ------------------------------------------------------------------- #}
 
     {%- set processedSvg = processedSvg
       | replace(

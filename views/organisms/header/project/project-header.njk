@@ -1,5 +1,6 @@
 {% import "organisms/navigation/breadcrumbs-nav.njk" as BreadCrumbs with context %}
-{% import "organisms/project-metadata/project-metadata.njk" as ProjectMetadata %}
+{% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
+{% import "molecules/awards.njk" as Awards %}
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
 {% import "molecules/figure/featured-image.njk" as FeaturedImage %}
 
@@ -36,6 +37,11 @@
     "md": "col-start-2 col-span-2 divide-x divide-slate-700 bg-slate-950"
   } -%}
 
+  {%- set awards = {
+    "base": "p-2 py-4 col-span-full bg-slate-950",
+    "md": "col-start-2 col-span-2 divide-x divide-slate-700 bg-slate-950"
+  } -%}
+
   <header data-project-header class="{{ header | classes }}">
     <p class="{{ cap | classes }}" data-project-industry>
       {{ params.project.industry | default('No industry') }}
@@ -49,7 +55,7 @@
       <h2 class="text-lg mb-4 border-b-2 border-slate-700 text-neutral-400 border-dotted">Project Summary</h2>
       {{ params.project.abstract | safe }}
     </section>
-
+    {{ Awards.render({ awards: params.project.awards, class: awards | classes }) }}
     {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
   </header>
 {% endmacro %}
