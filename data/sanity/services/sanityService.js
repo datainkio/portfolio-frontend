@@ -78,7 +78,7 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
     }
 
     if (definition.id === "projectPages") {
-      data = normalizeProjectPageRecords(data);
+      data = await normalizeProjectPageRecords(data);
     }
 
     if (definition.id === "navigation") {

@@ -1,5 +1,6 @@
 /** @format */
 import groq from "groq";
+import { ORGANIZATION_PROJECTION } from "../organization/organizationProjection.js";
 /**
  * Award reference projection (inner shape — excludes field name and traversal operator).
  * Used for awards[] references on project documents.
@@ -14,15 +15,7 @@ export const AWARD_PROJECTION = groq`{
     category,
     url,
     featured,
-    organization->{
-      _id,
-      "title": page.title,
-      "slug": page.slug.current,
-      "logo": logo->{
-        "alt": image.alt,
-        "asset": image.asset->{url, metadata{dimensions, lqip}}
-      }
-    },
+    organization->{...${ORGANIZATION_PROJECTION}},
     project->{
       _id,
       "title": page.title,
