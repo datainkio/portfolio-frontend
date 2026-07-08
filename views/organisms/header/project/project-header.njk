@@ -20,7 +20,7 @@
     "base": "bg-slate-950 z-[3] flex text-lg text-neutral-400"
   } -%}
   {%- set abstract = {
-    "base": "px-2 py-8 bg-slate-950 font-thin text-xl"
+    "base": "p-4 bg-slate-950 font-thin text-xl row-span-2 col-span-2"
   } -%}
 
   {%- set image = {
@@ -34,12 +34,12 @@
 
   {%- set metadata = {
     "base": "p-2 py-4 col-span-full bg-slate-950",
-    "md": "col-start-2 col-span-2 divide-x divide-slate-700 bg-slate-950"
+    "md": "col-start-3 divide-x divide-slate-700 bg-slate-950"
   } -%}
 
   {%- set awards = {
-    "base": "p-2 py-4 col-span-full bg-slate-950",
-    "md": "col-start-2 col-span-2 divide-x divide-slate-700 bg-slate-950"
+    "base": "w-full col-span-full bg-slate-950 p-4 pb-6",
+    "md": ""
   } -%}
 
   <header data-project-header class="{{ header | classes }}">
@@ -55,7 +55,7 @@
       <h2 class="text-lg mb-4 border-b-2 border-slate-700 text-neutral-400 border-dotted">Project Summary</h2>
       {{ params.project.abstract | safe }}
     </section>
-    {{ Awards.render({ awards: params.project.awards, class: awards | classes }) }}
     {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
+    {{ Awards.render({ awards: params.project.awards, class: awards | classes }) }}
   </header>
 {% endmacro %}

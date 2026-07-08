@@ -20,34 +20,37 @@
     base: "relative col-span-full text-neutral-100 my-12"
     } -%}
   {%- set headerCSS = {
-    base: "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 py-12"
+    base: "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 py-8",
+    md: "py-12 px-4 gap-4"
     } -%}
   {%- set headingCSS = {
-    base: "font-display text-4xl",
+    base: "font-display text-5xl",
     sm: "text-5xl",
     md: "text-6xl",
     lg: "text-7xl"
     } -%}
   {%- set subheadingCSS = {
-    base: "font-display tracking-wide flex flex-col border-b-2 border-x-2 border-black py-4 gap-2",
+    base: "font-display tracking-wide flex flex-col content-start border-b-2 border-slate-700 py-6 px-4 gap-2",
     sm: "flex-row"
     } -%}
   {%- set subheadingTitleCSS = {
-    base: "font-bold leading-none w-full my-auto"
+    base: "font-bold leading-none w-full my-auto m-0 p-0"
     } -%}
   {%- set subheadingDescriptionCSS = {
     base: "text-sm w-full leading-none my-auto text-neutral-500"
     } -%}
   {%- set contextCSS = {
     base: "text-xs font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
-        border-dotted border-black py-4 mb-6"
+        border-dotted border-primary-500 py-4 mb-6"
     } -%}
   {%- set listCSS = {
-    base: "pb-12 columns-1 gap-0 justify-start",
-    md: "mx-12 p-0 columns-2 border-r-2 border-black"
+    base: "columns-2 space-y-4 mt-12",
+    md: "p-0 columns-3",
+    lg: "columns-4",
+    xl: "columns-5"
     } -%}
   {%- set articleContainer = {
-      base: "py-2 break-inside-avoid",
+      base: "py-2 break-inside-avoid text-center",
       sm: ""
     } -%}
   <section id="{{ sectionId }}" class="{{ sectionCSS | classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>

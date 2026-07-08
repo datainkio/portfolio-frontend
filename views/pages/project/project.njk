@@ -11,8 +11,6 @@
   Pattern: content-model/patterns/project-page.md
 #}
 
-{%- set mainClasses = "" -%}
-
 {# ─── Styles ──────────────────────────────────────────────────────────────── #}
 
 {%- set article        = { "base": "project-page col-span-full space-y-12" } -%}
@@ -22,14 +20,14 @@
   "md": "grid-cols-2",
   "lg": "grid-cols-4"
 } -%}
-{%- set abstract       = { "base": "project-page__abstract text-xl text-gray-800" } -%}
+{%- set abstract       = { "base": "project-page__abstract text-xl text-neutral-100" } -%}
 {%- set navbar         = {
         base: "col-start-1 hidden mx-auto group-data-[header-role=menu]:group-data-[drawer=open]:block",
         lg: "group-data-[header-role=menu]:block"
         } -%}
 {%- set aside          = { "base": "col-span-2 project-page__outcome border-l-4 border-primary-500 pl-6 py-2" } -%}
 {%- set body           = { 
-  "base": "prose col-span-8 project-page__body max-w-[68ch] z-10 text-neutral-100 p-8 mx-auto" } -%}
+  "base": "prose prose-h2:text-neutral-100 prose-h2:text-4xl col-span-8 project-page__body max-w-[68ch] z-10 text-neutral-100 p-8 mx-auto" } -%}
 {%- set projectLink    = { "base": "project-page__external-link underline underline-offset-4" } -%}
 {%- set outcomeHeading = { "base": "project-page__outcome-heading" } -%}
 
@@ -43,9 +41,7 @@
   (project.externalLink.href if project.externalLink and project.externalLink.href else
     (project.externalLink if project.externalLink is string else "")) -%}
 {%- set externalLinkLabel =
-  (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}
-
-{% block sidebar_before %}
+  (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}{% block sidebar_before %}
   {# page_nav.render({classes: pageNav | classes}) #}
 {% endblock %}
 
