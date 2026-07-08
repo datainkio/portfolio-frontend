@@ -20,6 +20,8 @@ export function intro(view, gelManager) {
   const title = selectBioEl(view, "heading");
   const context = selectBioEl(view, "context");
   const subheading = selectBioEl(view, "subheading");
+  const aside = selectBioEl(view, "aside");
+
   const tl = gsap.timeline({
     id: TIMELINE_IDS.landing,
     duration: BIO_INTRO.duration,
@@ -58,18 +60,21 @@ export function intro(view, gelManager) {
         });
       });
   });
-
-  // Animate the split text into view, then highlight the keywords.
-  tl.from(context, { duration: 0.5, opacity: 0, y: 100 });
-  tl.from(split.chars, {
-    duration: 0.5,
-    opacity: 0,
-    y: 100,
-    rotation: 45,
-    stagger: 0.025,
-  });
-  tl.from(subheading, { duration: 0.5, opacity: 0, y: 100 });
+  // Reading-order cascade: context, title, subheading and aside overlap into
+  // one continuous downward gesture; the keyword ignite punctuates the tail.
+  tl.from(context, { duration: 0.5, opacity: 0, y: 100 }, 0);
+  tl.from(
+    split.chars,
+    { duration: 0.5, opacity: 0, y: 100, rotation: 45, stagger: 0.015 },
+    "-=0.3",
+  );
   tl.to(highlights, { color: tokenColor("secondary-600"), stagger: 0.075 });
+  tl.from(subheading, { duration: 0.5, opacity: 0, y: 100 }, "-=0.4");
+  tl.from(
+    aside?.children ?? [],
+    { duration: 0.5, opacity: 0, y: 100, stagger: BIO_INTRO.stagger },
+    "-=0.3",
+  );
   return tl;
 }
 
