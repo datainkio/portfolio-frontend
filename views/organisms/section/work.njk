@@ -13,39 +13,39 @@
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {# TODO: Resolve background image path in production #}
-  {%- set section = {
-    base: "text-neutral-200 px-4",
-    "motion-reduced": ""
-  } %}
+  {%- set section = {"base": "text-neutral-200 px-4", "motion-reduced": ""} %}
 
-  {%- set header = {
-  base: "content-end grid grid-cols-1 gap-8"} -%}
+  {%- set header = {"base": "content-end grid grid-cols-1 gap-8"} -%}
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
-    md: "text-6xl",
-    lg: "text-7xl"
+    "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
+    "md": "text-6xl",
+    "lg": "text-7xl"
   } -%}
 
   {%- set nav = {
-    print: "hidden",
-    base: "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
-    sm: ""
+    "print": "hidden",
+    "base": "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
+    "sm": ""
   } -%}
 
-  {%- set sub = {
-    "base": "[&>p]:text-2xl [&>p]:font-thin lg:[&>p]:text-3xl"
-  } %}
+  <section id="{{ sectionId }}"
+           class="{{ section |classes }} "
+           aria-labelledby="{{ headingId }}"
+           data-scroll-section>
 
-  <section id="{{ sectionId }}" class="{{ section |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
-
-    <header data-projects-el="header" class="{{ header | classes }} {{ sub | classes }}">
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
+    <header data-projects-el="header" class="{{ header | classes }}">
+      <h2 id="{{ headingId }}"
+          data-projects-el="heading"
+          class="{{ title | classes }}">{{ heading }}</h2>
       {{ subheading | safe }}
     </header>
 
     {#- Display the industry links for jump navigation within the section -#}
-    <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
+    <nav id="work-jumplinks"
+         aria-label="Jump to an industry"
+         data-projects-el="jumplinks"
+         class="{{ nav | classes }}">
       {{ Industries.render({ industries: industries }) }}
     </nav>
 

@@ -40,7 +40,7 @@
 
   {%- set byline = {"base": "byline text-sm font-display"} -%}
 
-  {%- set description = {"base": "block text-md col-span-full text-neutral-950"} -%}
+  {%- set description = {"base": "block col-span-full"} -%}
 
   {%- set stats = {
     "base": "hidden col-span-full grid grid-cols-2 gap-x-4",
@@ -81,7 +81,7 @@
       </header>
 
       {% if description_txt %}
-        <p class="{{ description | classes }}">{{ description_txt }}</p>
+        <p class="{{ description | classes }} font-body">{{ description_txt }}</p>
       {% endif %}
       {% if meta | length %}
         {{ Details.render({ stats: meta, classes: stats | classes }) }}
