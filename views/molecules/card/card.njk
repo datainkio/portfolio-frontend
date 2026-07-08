@@ -36,22 +36,17 @@
 
   {%- set header = {"base": "header col-span-full hover:no-underline"} -%}
 
-  {%- set heading = {"base": "text-neutral-950 text-xl font-display", "sm": "text-2xl"} -%}
+  {%- set heading = {"base": "text-neutral-950 text-2xl/6 font-display py-4", "sm": "text-3xl"} -%}
 
   {%- set byline = {"base": "byline text-sm font-display"} -%}
 
   {%- set description = {"base": "block col-span-full"} -%}
 
-  {%- set stats = {
-    "base": "hidden col-span-full grid grid-cols-2 gap-x-4",
-    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-neutral-500
-    border-dashed",
-    "md": "block pl-0 col-span-3 col-start-1 row-span-1 row-start-auto flex flex-col border-none"
-    } -%}
+  {%- set stats = {"base": "col-span-full text-neutral-950 [&_dt]:sr-only", "sm": "", "md": ""} -%}
 
-  {%- set footer = {"base": "text-right py-2", "sm": "border-l border-neutral-500 border-dotted"} -%}
+  {%- set footer = {"base": "col-span-full text-right py-2"} -%}
 
-  {%- set linky = {"base": "font-display inline-block uppercase text-right"} -%}
+  {%- set linky = {"base": "font-serif text-2xl italic inline-block text-right"} -%}
 
   <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
 
@@ -74,7 +69,7 @@
         {% if eyebrow_txt %}
           <p class="{{ eyebrow | classes }}">{{ eyebrow_txt }}</p>
         {% endif %}
-        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) ~ (" hover:underline" if url else "") }) }}
+        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) }) }}
         {% if byline_txt %}
           <p class="{{ byline | classes }}">{{ byline_txt }}</p>
         {% endif %}

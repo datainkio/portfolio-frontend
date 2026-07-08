@@ -10,8 +10,7 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-3 gap-6 px-4",
-    "lg": "[&>p]:col-span-2"
+    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-3 gap-6 px-4 [&>p]:col-span-3 [&>p]:prose [&>p]:text-neutral-200"
   } %}
   {% set header = {"base": "z-1 place-self-start my-6 font-display col-span-full", "lg": "col-span-2"} %}
   {%- set title = {
@@ -21,7 +20,7 @@
     "lg": "text-5xl/12"
   } %}
   {%- set aside = {
-    "base": "text-xl font-display text-neutral-500 items-start grid grid-cols-1 col-span-full gap-x-4",
+    "base": "text-xl font-display text-neutral-400 items-start grid grid-cols-1 col-span-full gap-x-4",
     "sm": "grid-cols-2 grid-flow-col grid-rows-[auto_auto]",
     "lg": "items-start row-span-2 row-start-1 col-span-1 col-start-3 grid-cols-1 grid-flow-row gap-x-0"
   } %}

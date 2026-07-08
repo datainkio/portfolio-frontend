@@ -1,12 +1,15 @@
 {% macro render(params = {}) %}
   {%- set stats = params.stats | default([]) -%}
   {%- set classes = params.classes | default("") -%}
-  <dl class="{{ classes | default("") }}" aria-label="{{ params.aria | default("Metadata") }}">
+  <dl class="{{ classes | default("") }}"
+      aria-label="{{ params.aria | default("Metadata") }}">
     {% for item in stats %}
       {% if item.value %}
-        <div class="meta-item flex flex-col gap-1 p-2">
-          <dt class="text-neutral-400 uppercase font-display tracking-wide">{{ item.key }}</dt>
-          <dd class="font-thin">{{ item.value }}</dd>
+        <div class="meta-item font-display flex flex-col gap-1 p-2">
+          <dt>{{ item.key }}</dt>
+          <dd class="text-sm">
+            {{ item.value }}
+          </dd>
         </div>
       {% endif %}
     {% endfor %}
