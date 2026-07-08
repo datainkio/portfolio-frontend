@@ -10,6 +10,7 @@
  */
 
 @theme {
+  --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
   --font-display: "DraftPaper", ui-sans-serif, system-ui, sans-serif;
 }

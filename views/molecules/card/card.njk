@@ -21,12 +21,12 @@
 
   {%- set root = {
     "base": "relative text-neutral-950 isolate w-full",
-    "md": "grid grid-cols-6 inner-border p-4 m-auto w-auto"
+    "md": "inner-border p-4 m-auto w-auto"
   } -%}
 
   {%- set figure = {
     "base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh sticky top-0",
-    "md": "col-span-3 h-full block"
+    "md": "h-full block"
   } -%}
 
   {%- set image = {
@@ -34,9 +34,8 @@
   } -%}
 
   {%- set body = {
-    "base": "inner-border -mt-24 p-6 relative content-start bg-neutral-100",
-    "sm": "grid grid-cols-6 gap-x-2",
-    "md": "col-span-3 grid-cols-subgrid inner-border-none"
+    "base": "grid grid-cols-6 inner-border -mt-24 p-6 relative content-start bg-neutral-100",
+    "md": "inner-border-none"
   } -%}
 
   {%- set eyebrow = {
@@ -44,36 +43,32 @@
   } -%}
 
   {%- set header = {
-    "base": "header col-span-full ",
-    "sm": "col-span-4",
-    "md": "col-span-6"
+    "base": "header col-span-full hover:no-underline"
   } -%}
 
   {%- set heading = {
-    "base": "text-neutral-950 text-xl font-display col-span-full",
+    "base": "text-neutral-950 text-xl font-display",
     "sm": "text-2xl"
   } -%}
 
   {%- set byline = {
-    "base": "byline text-sm font-display col-span-full"
+    "base": "byline text-sm font-display"
   } -%}
 
   {%- set description = {
-    "base": "hidden description text-sm col-span-full text-neutral-950",
-    "sm": "mt-0 block col-span-4",
-    "md": "col-span-full"
+    "base": "block text-md col-span-full text-neutral-950"
   } -%}
 
   {%- set stats = {
-    "base": "col-span-full grid grid-cols-2 gap-x-4",
+    "base": "hidden col-span-full grid grid-cols-2 gap-x-4",
     "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-neutral-500
      border-dashed",
-     "md": "pl-0 col-span-3 col-start-1 row-span-1 row-start-auto flex flex-col border-none"
+     "md": "block pl-0 col-span-3 col-start-1 row-span-1 row-start-auto flex flex-col border-none"
   } -%}
 
   {%- set footer = {
-    "base": "col-span-full text-right py-2",
-    "sm": "border-y border-neutral-500 border-dashed"
+    "base": "text-right py-2",
+    "sm": "border-l border-neutral-500 border-dotted"
   } -%}
 
   {%- set linky = {
@@ -100,6 +95,7 @@
           <p class="{{ byline | classes }}">{{ byline_txt }}</p>
         {% endif %}
       </header>
+
       {% if description_txt %}
         <p class="{{ description | classes }}">{{ description_txt }}</p>
       {% endif %}
@@ -109,7 +105,7 @@
 
       <footer class="{{ footer | classes }}">
         {% if url %}
-          {{ CTA.render({ text: "View More", url: url, classes: linky | classes }) }}
+          {{ CTA.render({ text: "View", url: url, classes: linky | classes }) }}
         {% endif %}
       </footer>
 

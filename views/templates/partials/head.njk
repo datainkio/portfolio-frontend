@@ -1,92 +1,66 @@
-{#
-HTML HEAD LAYOUT ORGANISM  
-CRITICAL WARNING: Document head controls SEO, performance, and external integrations
-MOVED FROM: organisms/head.njk -> organisms/layout/head.njk (atomic design reorganization)
-[ ] STALE: actual path is templates/partials/head.njk. Tracked: fix-dev-channel-defects (ADR 0005).
-
-INTEGRATION DEPENDENCIES:
-- Google Tag Manager scripts (gtm-script.njk, gtm-noscript.njk)
-- Figma design tokens CSS imports 
-- Social media meta tags and Open Graph data
-- Font loading and performance optimization
-
-DO NOT MODIFY: GTM integration, meta viewport, or font loading without testing
-#}
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  {# [ ] BUG: GTM integration breaks page refresh on localhost #}
-  {# {% include "atoms/gtm-script.njk" %} #}
-  {# [x] STALE: titles DO render from frontmatter (verified 2026-06-29). Remove this note. Tracked: fix-dev-channel-defects (ADR 0005). #}
-    <title>
-  {{ title }}
-  </title>
-    {% if metaDescription %}
-  <meta name="description" content="{{ metaDescription }}"/> {% endif %}
-  {% if metaKeywords %}
-    <meta name="keywords" content="{{ metaKeywords }}"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }}</title>
+  {% if metaDescription %}
+    <meta name="description" content="{{ metaDescription }}" />
   {% endif %}
-  <meta name="author" content="{{ author | default('Site Author') }}"/>
+  {% if metaKeywords %}
+    <meta name="keywords" content="{{ metaKeywords }}" />
+  {% endif %}
+  <meta name="author" content="{{ author | default("Site Author") }}" />
   {% if canonicalUrl %}
-    <link rel="canonical" href="{{ canonicalUrl }}"/>
+    <link rel="canonical" href="{{ canonicalUrl }}" />
   {% endif %}
 
   {% if ogTitle %}
-    <meta property="og:title" content="{{ ogTitle }}"/>
+    <meta property="og:title" content="{{ ogTitle }}" />
   {% endif %}
   {% if ogDescription %}
-    <meta property="og:description" content="{{ ogDescription }}"/>
+    <meta property="og:description" content="{{ ogDescription }}" />
   {% endif %}
   {% if ogImage %}
-    <meta property="og:image" content="{{ ogImage }}"/>
+    <meta property="og:image" content="{{ ogImage }}" />
   {% endif %}
   {% if ogUrl %}
-    <meta property="og:url" content="{{ ogUrl }}"/>
+    <meta property="og:url" content="{{ ogUrl }}" />
   {% endif %}
 
-  <meta
-  name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:card" content="summary_large_image" />
   {# {% include "molecules/fonts.njk" %} #}
   <link rel="preload" as="style" href="{{ '/assets/styles.css' | url }}">
-    <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}"/>
-    <link rel="manifest" href="/manifest.json"/>
-    <meta name="theme-color" content="{{ site.manifest.theme_color }}"/>
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ site.manifest.theme_color_dark }}"/>
-    <meta name="application-name" content="{{ site.manifest.short_name }}"/>
-    <meta name="mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <meta
-    name="apple-mobile-web-app-title" content="{{ site.manifest.short_name }}"/> <!-- Icons -->
-    <link rel="icon" href="/favicon.ico" sizes="any"/>
-    <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    {% for icon in site.manifest.icons %}
-      <link rel="icon" type="{{ icon.type }}" sizes="{{ icon.sizes }}" href="{{ icon.src }}"/>
-    {% endfor %}
+  <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="{{ site.manifest.theme_color }}" />
+  <meta name="theme-color"
+        media="(prefers-color-scheme: dark)"
+        content="{{ site.manifest.theme_color_dark }}" />
+  <meta name="application-name" content="{{ site.manifest.short_name }}" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title"
+        content="{{ site.manifest.short_name }}" />
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  {% for icon in site.manifest.icons %}
+    <link rel="icon"
+          type="{{ icon.type }}"
+          sizes="{{ icon.sizes }}"
+          href="{{ icon.src }}" />
+  {% endfor %}
 
-    <!-- Preconnects for performance optimization -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  {% include "templates/partials/fonts.njk" %}
 
-    <!-- Cormorant Garamond: used only below the fold (case-study modal, prev/next nav), never above the fold.
-         Loaded non-render-blocking (media="print" → "all" onload) so it stays off the FCP/LCP critical path.
-         Lighthouse render-blocking-insight measured the prior render-blocking <link> at ~829ms wasted. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&display=swap" media="print" onload="this.media='all'"/>
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&display=swap"/></noscript>
-
-    <!-- Preload the display font (DraftPaper) — drives hero LCP text -->
-    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/DRAFTPAPER.woff2" crossorigin/>
-
-    {% if enableChoreography and runtime and runtime.bundleJs and eleventy.env.runMode == "build" %}
-      <!-- Warm the choreography bundle early; director:ready gates the hero reveal (LCP).
-           Build-mode only: in dev (serve/watch) the bundle is a multi-MB sourcemapped
-           artifact, so eagerly preloading it would slow the dev page, not speed it. -->
-      <link rel="modulepreload" href="/assets/js/choreography/bundle.js"/>
-    {% endif %}
-    {{ scripts | safe }}
-    {% block extraHeadContent %}{% endblock %}
-  {# [ ] BUG: duplicate </head> below — remove one. Tracked: fix-dev-channel-defects (ADR 0005). #}
-  </head>
+  {% if enableChoreography and runtime and runtime.bundleJs and eleventy.env.runMode == "build" %}
+    <!-- Warm the choreography bundle early; director:ready gates the hero reveal (LCP).
+             Build-mode only: in dev (serve/watch) the bundle is a multi-MB sourcemapped
+             artifact, so eagerly preloading it would slow the dev page, not speed it. -->
+    <link rel="modulepreload" href="/assets/js/choreography/bundle.js" />
+  {% endif %}
+  {{ scripts | safe }}
+  {% block extraHeadContent %}
+  {% endblock extraHeadContent %}
 </head>
