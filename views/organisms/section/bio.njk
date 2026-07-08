@@ -12,17 +12,16 @@
   {%- set section = {
     "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-3 gap-6 px-4 [&>p]:col-span-3 [&>p]:prose [&>p]:text-neutral-200"
   } %}
-  {% set header = {"base": "z-1 place-self-start my-6 font-display col-span-full", "lg": "col-span-2"} %}
+  {% set header = {"base": "flex flex-col content-center z-1 my-6 font-display col-span-full", "lg": "col-span-2"} %}
   {%- set title = {
     "base": "font-display text-5xl/12 my-12 tracking-loose",
     "sm": "text-6xl/16",
     "md": "text-7xl",
-    "lg": "text-5xl/12"
+    "lg": "text-8xl/22"
   } %}
   {%- set aside = {
-    "base": "text-xl font-display text-neutral-400 items-start grid grid-cols-1 col-span-full gap-x-4",
-    "sm": "grid-cols-2 grid-flow-col grid-rows-[auto_auto]",
-    "lg": "items-start row-span-2 row-start-1 col-span-1 col-start-3 grid-cols-1 grid-flow-row gap-x-0"
+    "base": "col-start-1 row-start-2 col-span-full text-xl font-display text-neutral-400 items-start grid grid-cols-1 gap-x-4",
+    "lg": "grid-cols-2"
   } %}
   {%- set asideHeading = {
     "base": "arrow-prefix text-neutral-400 border-b-2 border-neutral-400 border-dotted",
@@ -44,14 +43,14 @@
     {{ body | safe }}
     <aside class="{{ aside | classes }}" data-bio-el="aside">
       <h3 class="{{ asideHeading | classes }}">Focus Areas</h3>
-      <ul class="pl-6 text-sm self-start mb-12">
+      <ul class="pl-6 text-sm self-start ml-4 mb-12">
         <li>UX Strategy</li>
         <li>Interaction Design</li>
         <li>Information Architecture</li>
         <li>Research + Insight</li>
       </ul>
       <h3 class="{{ asideHeading | classes }}">Core Beliefs</h3>
-      <ul class="pl-6 text-sm self-start mb-6">
+      <ul class="pl-6 text-sm self-start ml-4 mb-12">
         <li>Everyone deserves equitable access to goods and services</li>
         <li>Design should be inclusive and accessible</li>
         <li>Collaboration drives innovation</li>

@@ -13,9 +13,9 @@
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {# TODO: Resolve background image path in production #}
-  {%- set section = {"base": "text-neutral-200 px-4", "motion-reduced": ""} %}
+  {%- set section = {"base": "text-neutral-200", "motion-reduced": ""} %}
 
-  {%- set header = {"base": "content-end grid grid-cols-1 gap-8"} -%}
+  {%- set header = {"base": "content-end grid grid-cols-1 gap-8 px-4"} -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",

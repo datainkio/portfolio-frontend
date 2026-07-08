@@ -5,9 +5,9 @@
       aria-label="{{ params.aria | default("Metadata") }}">
     {% for item in stats %}
       {% if item.value %}
-        <div class="meta-item font-display flex flex-col gap-1 p-2">
-          <dt>{{ item.key }}</dt>
-          <dd class="text-sm">
+        <div class="meta-item font-display text-sm flex flex-col gap-1 p-2">
+          <dt class="text-neutral-300">{{ item.key }}</dt>
+          <dd>
             {{ item.value }}
           </dd>
         </div>
