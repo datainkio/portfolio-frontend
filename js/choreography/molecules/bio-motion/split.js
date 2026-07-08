@@ -68,7 +68,7 @@ export function intro(view, gelManager) {
     { duration: 0.5, opacity: 0, y: 100, rotation: 45, stagger: 0.015 },
     "-=0.3",
   );
-  tl.to(highlights, { color: tokenColor("secondary-600"), stagger: 0.075 });
+  tl.to(highlights, { color: tokenColor("secondary-600"), stagger: 0.85 });
   tl.from(subheading, { duration: 0.5, opacity: 0, y: 100 }, "-=0.4");
   tl.from(
     aside?.children ?? [],
