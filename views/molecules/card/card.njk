@@ -12,6 +12,8 @@
   {%- set meta = params.meta | default([]) -%}
   {%- set featured = params.featured | default(false) -%}
   {%- set image = params.image -%}
+  {%- set width = image and (image.width or image.asset.metadata.dimensions.width) -%}
+  {%- set height = image and (image.height or image.asset.metadata.dimensions.height) -%}
   {%- set url = params.url -%}
   {%- set classes = params.classes -%}
   {%- set imageClasses = params.imageClasses -%}
@@ -19,68 +21,50 @@
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
-  {%- set root = {
-    "base": "relative text-neutral-950 isolate w-full",
-    "md": "inner-border p-4 m-auto w-auto"
-  } -%}
+  {%- set root = {"base": "relative text-neutral-950 isolate w-full", "md": "inner-border p-4 m-auto w-auto"} -%}
 
-  {%- set figure = {
-    "base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh sticky top-0",
-    "md": "h-full block"
-  } -%}
+  {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh sticky top-0", "md": "h-full block"} -%}
 
-  {%- set image = {
-    "base": "w-full h-full object-cover object-center"
-  } -%}
+  {%- set imageCSS = {"base": "w-full h-full object-cover object-center"} -%}
 
   {%- set body = {
     "base": "grid grid-cols-6 inner-border -mt-24 p-6 relative content-start bg-neutral-100",
     "md": "inner-border-none"
   } -%}
 
-  {%- set eyebrow = {
-    "base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"
-  } -%}
+  {%- set eyebrow = {"base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"} -%}
 
-  {%- set header = {
-    "base": "header col-span-full hover:no-underline"
-  } -%}
+  {%- set header = {"base": "header col-span-full hover:no-underline"} -%}
 
-  {%- set heading = {
-    "base": "text-neutral-950 text-xl font-display",
-    "sm": "text-2xl"
-  } -%}
+  {%- set heading = {"base": "text-neutral-950 text-xl font-display", "sm": "text-2xl"} -%}
 
-  {%- set byline = {
-    "base": "byline text-sm font-display"
-  } -%}
+  {%- set byline = {"base": "byline text-sm font-display"} -%}
 
-  {%- set description = {
-    "base": "block text-md col-span-full text-neutral-950"
-  } -%}
+  {%- set description = {"base": "block text-md col-span-full text-neutral-950"} -%}
 
   {%- set stats = {
     "base": "hidden col-span-full grid grid-cols-2 gap-x-4",
     "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-neutral-500
-     border-dashed",
-     "md": "block pl-0 col-span-3 col-start-1 row-span-1 row-start-auto flex flex-col border-none"
-  } -%}
+    border-dashed",
+    "md": "block pl-0 col-span-3 col-start-1 row-span-1 row-start-auto flex flex-col border-none"
+    } -%}
 
-  {%- set footer = {
-    "base": "text-right py-2",
-    "sm": "border-l border-neutral-500 border-dotted"
-  } -%}
+  {%- set footer = {"base": "text-right py-2", "sm": "border-l border-neutral-500 border-dotted"} -%}
 
-  {%- set linky = {
-    "base": "font-display inline-block uppercase text-right"
-  } -%}
+  {%- set linky = {"base": "font-display inline-block uppercase text-right"} -%}
 
   <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
 
     {% if imageSrc %}
       <figure data-card-el="figure" class="{{ figure | classes }}">
-        {{ TrimMarks.render({ inset: "6", size: "4", weight: "1", color: "white", classes:"invisible sm:visible" }) }}
-        <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="{{ image | classes }} {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
+        {{ TrimMarks.render({"inset": "6", "size": "4", "weight": "1", "color": "white", "classes": "invisible sm:visible"}) }}
+        <img data-card-el="image"
+             src="{{ imageSrc }}"
+             alt="{{ imageAlt }}"
+             width="{{ width }}"
+             height="{{ height }}"
+             class="{{ imageCSS | classes }} {{ imageClasses }}"
+             loading="{{ 'eager' if eager else 'lazy' }}" />
       </figure>
     {% endif %}
 
