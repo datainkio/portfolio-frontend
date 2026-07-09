@@ -31,7 +31,7 @@ export function intro(view, gelManager) {
     mask: "chars",
   });
 
-  const keywords = ["just", "informed", "compassionate"];
+  const keywords = ["just", "informed", "engaged"];
   const highlights = [];
 
   // Strip punctuation + case so "just" matches the rendered "just," etc.

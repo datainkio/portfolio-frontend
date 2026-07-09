@@ -10,7 +10,7 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-6 px-4 [&>p]:col-span-full [&>p]:prose [&>p]:text-neutral-200"
+    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-6 px-4 [&>p]:col-span-full [&>p]:prose [&>p]:text-neutral-200 md:[&>p]:col-span-6"
   } %}
   {% set header = {"base": "flex flex-col content-center z-1 my-6 font-display col-span-full"} %}
   {%- set title = {
@@ -20,13 +20,11 @@
     "xl": "text-8xl/22"
   } %}
   {%- set aside = {
-    "base": "col-start-1 row-start-2 col-span-full text-xl font-display text-neutral-400 items-start grid grid-cols-1 gap-x-4",
-    "lg": "grid-rows-2 grid-flow-col grid-cols-2 justify-start"
+    "base": "col-span-9 text-xl font-display text-neutral-400 content-start items-start grid grid-cols-1 gap-x-4",
+    "md": "col-start-8 col-span-5",
+    "xl": "col-span-4"
   } %}
-  {%- set asideHeading = {
-    "base": "arrow-prefix text-neutral-400 border-b-2 border-neutral-400 border-dotted",
-    "sm": "border-b-0 border-t-2"
-  } %}
+  {%- set asideHeading = {"base": "mb-4 arrow-prefix text-neutral-400 border-b-2 border-neutral-400 border-dotted", "sm": ""} %}
 
   <section class="{{ section | classes }} {{ copy | classes }}"
            id="{{ sectionId }}"
@@ -43,14 +41,14 @@
     {{ body | safe }}
     <aside class="{{ aside | classes }}" data-bio-el="aside">
       <h3 class="{{ asideHeading | classes }}">Focus Areas</h3>
-      <ul class="pl-6 text-sm self-start ml-4 mb-12">
+      <ul class="pl-10 text-sm self-start mb-6">
         <li>UX Strategy</li>
         <li>Interaction Design</li>
         <li>Information Architecture</li>
         <li>Research + Insight</li>
       </ul>
       <h3 class="{{ asideHeading | classes }}">Core Beliefs</h3>
-      <ul class="pl-6 text-sm self-start ml-4 mb-12">
+      <ul class="pl-10 text-sm self-start">
         <li>Everyone deserves equitable access to goods and services</li>
         <li>Design should be inclusive and accessible</li>
         <li>Collaboration drives innovation</li>
