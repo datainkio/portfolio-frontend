@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.molecules.bio-motion.split
-role: "Split variant for bio-motion — SplitText word-splits the manifesto title, matches keyword words, and color-highlights their letter-cores (punctuation excluded) via a design-token color."
+role: "Split variant for bio-motion — SplitText word-splits the manifesto title, matches keyword words, and color-highlights their letter-cores (punctuation excluded) via a design-token color. Splits the body copy + aside into a separate scroll-triggered reveal (buildAsideReveal) that fires once when the body <p> enters the viewport, no scrub/pin."
 status: stable
 surface: internal
 scope: frontend

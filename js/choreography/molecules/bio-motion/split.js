@@ -1,4 +1,8 @@
-import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
+import {
+  gsap,
+  SplitText,
+  ScrollTrigger,
+} from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_INTRO } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
@@ -7,6 +11,15 @@ const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 
 const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
+
+// The section's only direct-child <p> is the body copy — the header's <p>s are
+// nested inside <header>. It's injected via `{{ body | safe }}` and carries no
+// data-bio-el hook, so this couples to structure rather than a CSS class.
+const selectBioBody = (view) => view?.querySelector(":scope > p") ?? null;
+
+// Stable id so rebuilds (matchMedia / resize re-invoke the variant) can kill the
+// prior instance instead of stacking duplicate triggers.
+const ASIDE_REVEAL_ST_ID = "bio-aside-reveal";
 
 // Resolve a design-system color token (e.g. "secondary-600") to its hex value
 // by reading the live CSS custom property. Keeps motion in sync with the tokens
@@ -60,8 +73,10 @@ export function intro(view, gelManager) {
         });
       });
   });
-  // Reading-order cascade: context, title, subheading and aside overlap into
-  // one continuous downward gesture; the keyword ignite punctuates the tail.
+  // Reading-order cascade: context, title, and subheading overlap into one
+  // continuous downward gesture; the keyword ignite punctuates the tail. The
+  // aside + body copy are split out into their own scroll-triggered reveal
+  // (buildAsideReveal) so they animate on entry rather than up-front.
   tl.from(context, { duration: 0.5, opacity: 0, y: 100 }, 0);
   tl.from(
     split.chars,
@@ -74,12 +89,44 @@ export function intro(view, gelManager) {
     { duration: 0.25, opacity: 0, y: 100, delay: 1.25 },
     "-=0.3",
   );
-  tl.from(
-    aside?.children ?? [],
-    { duration: 0.5, opacity: 0, y: 100, stagger: BIO_INTRO.stagger },
-    "-=0.3",
-  );
+
+  buildAsideReveal(view, aside);
+
   return tl;
+}
+
+/**
+ * Scroll-triggered reveal for the body copy + aside, separate from the intro
+ * timeline (which plays up-front off the header). Fires once when the body <p>
+ * enters the viewport — no scrub, no pin — with the same fade+lift the header
+ * elements use. Reduced motion is handled upstream by the profile system
+ * swapping to the `reduced` variant, so no reduced branch belongs here.
+ *
+ * @param {HTMLElement|null} view  Section root.
+ * @param {HTMLElement|null} aside Resolved [data-bio-el="aside"] element.
+ * @returns {gsap.core.Tween|null}
+ */
+function buildAsideReveal(view, aside) {
+  const body = selectBioBody(view);
+  const targets = [body, ...(aside?.children ?? [])].filter(Boolean);
+  if (!targets.length) return null;
+
+  // Idempotent across rebuilds: kill the prior trigger before creating a fresh
+  // one so matchMedia/resize re-invocations don't stack duplicates.
+  ScrollTrigger.getById(ASIDE_REVEAL_ST_ID)?.kill();
+
+  return gsap.from(targets, {
+    opacity: 0,
+    y: 100,
+    duration: 0.5,
+    stagger: BIO_INTRO.stagger,
+    scrollTrigger: {
+      id: ASIDE_REVEAL_ST_ID,
+      trigger: body ?? aside,
+      start: "top 80%",
+      once: true,
+    },
+  });
 }
 
 // Reset the gel to fill the viewport, then rebuild its mask. The gel is
