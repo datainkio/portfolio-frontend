@@ -10,9 +10,9 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-6 px-4 [&>p]:col-span-full [&>p]:prose [&>p]:text-neutral-200 md:[&>p]:col-span-6"
+    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-6 px-4 [&>p]:col-span-full [&>p]:prose [&>p]:text-2xl/8 [&>p]:text-neutral-200 md:[&>p]:col-span-7"
   } %}
-  {% set header = {"base": "flex flex-col content-center z-1 my-6 font-display col-span-full"} %}
+  {% set header = {"base": "h-dvh flex flex-col content-center z-1 py-6 font-display col-span-full"} %}
   {%- set title = {
     "base": "font-display text-5xl/12 my-12 tracking-loose",
     "sm": "text-6xl/16",
@@ -35,7 +35,7 @@
       <h2 class="{{ title | classes }}"
           id="{{ headingId }}"
           data-bio-el="heading">{{ heading }}</h2>
-      <p class="text-xl font-display text-secondary-500 w-full"
+      <p class="place-self-end text-xl font-display text-secondary-500 w-full"
          data-bio-el="subheading">{{ subheading }}</p>
     </header>
     {{ body | safe }}

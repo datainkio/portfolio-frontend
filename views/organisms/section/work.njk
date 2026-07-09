@@ -6,14 +6,14 @@
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading | default("Work") -%}
-  {%- set subheading = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
+  {%- set body = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {# TODO: Resolve background image path in production #}
-  {%- set section = {"base": "text-neutral-200", "motion-reduced": ""} %}
+  {%- set section = {"base": "[&>p]:prose [&>p]:text-neutral-200 [&>p]:mx-4 [&>p]:col-span-6", "motion-reduced": ""} -%}
 
   {%- set header = {"base": "content-end grid grid-cols-1 gap-8 px-4"} -%}
 
@@ -38,9 +38,8 @@
       <h2 id="{{ headingId }}"
           data-projects-el="heading"
           class="{{ title | classes }}">{{ heading }}</h2>
-      {{ subheading | safe }}
     </header>
-
+    {{ body | safe }}
     {#- Display the industry links for jump navigation within the section -#}
     <nav id="work-jumplinks"
          aria-label="Jump to an industry"

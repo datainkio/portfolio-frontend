@@ -4,6 +4,8 @@
 {% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
 {% macro render(params = {}) %}
   {# Note that defaults are limited. This gives the caller more control and allows them to pass in empty strings or falsy values if they want to intentionally omit something that might otherwise be pulled from a project object. #}
+
+  {#- Data guards -#}
   {%- set title = params.title -%}
   {%- set eyebrow_txt = params.eyebrow -%}
   {%- set headingLevel = params.headingLevel | default(3) -%}

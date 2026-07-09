@@ -1,8 +1,6 @@
 {% import "molecules/card/project.njk" as Card %}
 {% macro render(params = {}) %}
-  {%- set list = {
-   base: "grid gap-y-12",
-   lg: "grid grid-cols-2"} -%}
+  {%- set list = {"base": "grid gap-y-12", "lg": "grid grid-cols-3"} -%}
   {%- set item = {} -%}
   <ul data-projects-el="list" class="{{ list | classes }}">
     {% for project in params.projects %}
