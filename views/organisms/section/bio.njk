@@ -10,18 +10,18 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {
-    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-3 gap-6 px-4 [&>p]:col-span-3 [&>p]:prose [&>p]:text-neutral-200"
+    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-6 px-4 [&>p]:col-span-full [&>p]:prose [&>p]:text-neutral-200"
   } %}
-  {% set header = {"base": "flex flex-col content-center z-1 my-6 font-display col-span-full", "lg": "col-span-2"} %}
+  {% set header = {"base": "flex flex-col content-center z-1 my-6 font-display col-span-full"} %}
   {%- set title = {
     "base": "font-display text-5xl/12 my-12 tracking-loose",
     "sm": "text-6xl/16",
     "md": "text-7xl",
-    "lg": "text-8xl/22"
+    "xl": "text-8xl/22"
   } %}
   {%- set aside = {
     "base": "col-start-1 row-start-2 col-span-full text-xl font-display text-neutral-400 items-start grid grid-cols-1 gap-x-4",
-    "lg": "grid-cols-2"
+    "lg": "grid-rows-2 grid-flow-col grid-cols-2 justify-start"
   } %}
   {%- set asideHeading = {
     "base": "arrow-prefix text-neutral-400 border-b-2 border-neutral-400 border-dotted",
