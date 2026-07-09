@@ -141,12 +141,11 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 - `js/main.js` - Browser entry point (imports AnimationDirector)
 - `js/choreography/` - Animation system
   - `AnimationDirector.js` - Master coordinator (initializes sections, bus, and runtime gates)
-  - `ScrollEffectsCoordinator.js` - Scroll smoothing & background effects coordinator
-  - `AnimationBus.js` - Event system for section coordination
-  - `sections/` - Section-specific controllers (Hero, BackgroundVideo, Bio, Awards, Organizations, Work)
-  - `sequences/` - Animation choreography (LandingSequence)
-  - `managers/` - Specialized managers (ReducedMotionHandler, ScrollSmootherManager, GelAnimationManager, SessionManager, RulerIntroManager)
-  - `config/` - Choreography config barrel + modules (`index.js`, `contracts/events.js`, `contracts/selectors.js`, `ix/*`, `displays/*`)
+  - `system/` - Base classes and infrastructure (`AbstractSection.js`, `AnimationBus.js`, `registry.js`, `gsap.js`)
+  - `organisms/` - Section-specific controllers (`hero/`, `background/`, `bio/`, `awards/`, `organizations/`, `work/`, `card/`)
+  - `templates/landing/` - Animation choreography (LandingSequence)
+  - `managers/` - Specialized managers (ReducedMotionHandler, ScrollSmootherManager, ScrollEffectsCoordinator, GelAnimationManager, SessionManager, RulerIntroManager, GlobalHeaderManager, WorkHeaderManager)
+  - `config/` - Choreography config barrel + modules (`index/index.js`, `contracts/events/events.js`, `contracts/selectors/selectors.js`, `ix/*`, `displays/*`)
 - `js/utils/lumberjack/` - **Note**: Uses `@datainkio/lumberjack` npm package, not local files
 
 **Content Management**
@@ -190,11 +189,11 @@ Example macro:
 **Architecture Overview**
 
 - `AnimationDirector.js` - Master coordinator that initializes choreography systems
-- `AnimationBus.js` - Event-driven coordination between sections (pub/sub pattern)
-- `ScrollEffectsCoordinator.js` - Scroll smoothing, background effects, and specialized managers
-- `LandingSequence.js` - Choreographs animation flow by listening to events
+- `system/AnimationBus.js` - Event-driven coordination between sections (pub/sub pattern)
+- `managers/ScrollEffectsCoordinator/` - Scroll smoothing, background effects, and specialized managers
+- `templates/landing/LandingSequence.js` - Choreographs animation flow by listening to events
 
-**Section Controllers** (in `js/choreography/sections/`)
+**Section Controllers** (in `js/choreography/organisms/`)
 
 - Each section follows pattern: `<Section>.js`, `<Section>Animations.js`, `<Section>Triggers.js`
 - Active sections: `Hero`, `BackgroundVideo`, `Bio`, `Awards`, `Organizations`, `Work`
@@ -211,9 +210,9 @@ Example macro:
 
 **GSAP Setup**
 
-- Plugins registered globally: `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)`
-- ScrollSmoother requires: `#smooth-wrapper` and `#smooth-content` DOM elements
-- Background effects require: `#overlay-view`, `#sizzle-background` elements
+- Plugins registered in one place: `js/choreography/system/gsap.js` (single GSAP import + registration point)
+- ScrollSmoother container IDs come from `config/contracts/selectors/selectors.js` (`smoothWrapper`/`smoothContent` — currently mid-refactor, see issue #38; check selectors.js, don't hardcode)
+- Background effects require: `#overlay-view` and the background video element (see `SELECTORS.overlayView` / `SELECTORS.video`)
 
 **Event Flow Example**
 
@@ -313,7 +312,7 @@ logger.trace(title, message, verbosity, style);
 **Creating Section Controllers:**
 
 ```javascript
-// 1. Add events to config/contracts/events.js
+// 1. Add events to config/contracts/events/events.js
 export const EVENTS = {
   custom: {
     introStart: "custom:intro:start",
@@ -322,7 +321,7 @@ export const EVENTS = {
 };
 
 // 2. Create section extending AbstractSection
-import AbstractSection from "../abstract-section/AbstractSection.js";
+import AbstractSection from "../../system/AbstractSection.js";
 import CustomAnimations from "./CustomAnimations.js";
 import CustomTriggers from "./CustomTriggers.js";
 
@@ -365,7 +364,7 @@ this.sections.custom = new Custom({
 ## Common Gotchas
 
 - Run `build:design` before 11ty build; stale tokens break styles.
-- GSAP ScrollSmoother enables only if both `#smooth-wrapper` and `#smooth-content` exist.
+- GSAP ScrollSmoother enables only if both container elements exist — IDs defined in `config/contracts/selectors/selectors.js` (mid-refactor, issue #38).
 - Use web-optimized MP4 for background video (Safari issues with MOV).
 - Asset paths in templates are `/assets/...` (site root).
 
@@ -381,7 +380,7 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 - Build fails fetching Figma: Ensure `FIGMA_TOKEN` is set; run `npm run build:design`. Check `figma/services/*` logs.
 - Missing styles/tokens: Verify `styles/main.css` import order (fonts → Tailwind → base → generated). Re-run `build:design`.
 - Sanity data missing: Confirm `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `data/sanity/queries.js`.
-- GSAP animations not running: Confirm `gsap.registerPlugin(ScrollTrigger, ScrollSmoother)` and DOM IDs exist (`#smooth-wrapper`, `#smooth-content`, `#overlay-view`).
+- GSAP animations not running: Confirm plugin registration in `js/choreography/system/gsap.js` and that the DOM IDs from `config/contracts/selectors/selectors.js` exist (`#overlay-view`, smoother containers).
 - Background video not visible: Ensure overlay-view molecule renders before choreography; use MP4 under `/assets/video/`.
 - Tailwind classes missing: Use `@tailwindcss/cli` and check `tailwind.config.js`. Restart `npm start` to refresh watch processes.
 
@@ -396,7 +395,7 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 
 ## Hero Section Hooks
 
-- The hero controller lives at `js/choreography/sections/hero/Hero.js`.
+- The hero controller lives at `js/choreography/organisms/hero/Hero.js`.
 - Expects hero DOM container and any target elements to be present before `AnimationDirector` initialization.
 - Coordinate cross-section timing via `AnimationBus` rather than direct calls.
 - Keep GSAP timelines modular and avoid side effects outside the hero container.
