@@ -1,5 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/printmarks.njk" as PrintMarks %}
+  {% import "atoms/svg/blockframe-basic.njk" as BlockframeBasic %}
   {%- set sectionId = params.id | default("bio") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
@@ -57,5 +58,8 @@
         </li>
       </ul>
     </aside>
+    <div class="col-span-full md:col-span-7" data-bio-el="blockframes" aria-hidden="true">
+      {{ BlockframeBasic.render({ classes: "w-full h-auto text-neutral-400" }) }}
+    </div>
   </section>
 {% endmacro %}

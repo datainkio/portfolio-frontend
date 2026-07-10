@@ -58,7 +58,7 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Notes for Future Maintenance
 
-- `data-bio-el` attributes (`header`, `heading`, `subheading`) are choreography hooks — do not rename without updating `BioAnimations.js` and `selectors.js`.
+- `data-bio-el` attributes (`header`, `heading`, `subheading`, `context`, `aside`, `blockframes`) are choreography hooks — do not rename without updating the bio-motion variants and `selectors.js`. The `blockframes` wrapper holds the inlined `.Basic` SVG ([[blockframe-basic.njk]]) and is animated by `bio-motion/blockframes.js` (`buildBlockframesReveal`).
 - `data-scroll-section` is required for ScrollSmoother section detection.
 - The `<header>` is the flex container (`flex flex-wrap items-center [&>time]:ml-auto`); it positions the SectionCap spans left and the `<time>` right. The `<h2>` and `<p>` use `basis-full` to each occupy their own row.
 - Keep this sidecar in sync when the macro signature or `data-bio-el` hook set changes.
