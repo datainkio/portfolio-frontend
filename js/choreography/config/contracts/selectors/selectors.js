@@ -26,6 +26,7 @@ export const SELECTORS = {
   hero: "hero",
   organizations: "organizations",
   bio: "manifesto",
+  process: "process",
   awards: "recognition",
   work: "work",
   contact: "contact",
@@ -54,6 +55,10 @@ export const BIO_SELECTORS = {
   subSectionHook: "sub-section",
   subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
   subSectionLineKeyAttribute: "data-bio-line-key",
+};
+
+export const PROCESS_SELECTORS = {
+  elementAttribute: "data-process-el",
 };
 
 export const BUILD_INFO_SELECTORS = {

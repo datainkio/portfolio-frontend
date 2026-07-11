@@ -1,26 +1,35 @@
-import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { PROCESS_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
-const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
+const PROCESS_EL_ATTR = PROCESS_SELECTORS.elementAttribute;
+
+// Resolve a design-system color token (e.g. "primary-500") to its hex value by
+// reading the live CSS custom property. Keeps the painted blocks in sync with
+// the tokens in styles/colors.css instead of hardcoding a hex.
+const tokenColor = (name) =>
+  getComputedStyle(document.documentElement)
+    .getPropertyValue(`--color-${name}`)
+    .trim();
 
 /**
- * Fills the hidden cells of the Bio 6x6 Blockframes grid with clones of the
+ * Fills the hidden cells of the Process 6x6 Blockframes grid with clones of the
  * library blocks named by each cell's `data-blockframe-block` attribute. The
- * visible r3c3 cell is inlined at build time (bio.njk) and never touched here;
- * every filled cell sits outside the wrapper's overflow crop and is held at
- * autoAlpha 0 by the reveal timeline until its zoom-out stage, so this is
+ * visible r3c3 cell is inlined at build time (process.njk) and never touched
+ * here; every filled cell sits outside the wrapper's overflow crop and is held
+ * at autoAlpha 0 by the reveal timeline until its zoom-out stage, so this is
  * zero-visual-impact and safe to fire-and-forget — the caller owns the
  * `.catch()`.
  *
  * Idempotent across matchMedia/resize rebuilds: cells that already contain an
  * svg are skipped. Reduced motion never reaches this code (the profile system
- * swaps Bio to the `reduced` variant, which calls no builders), so the CDN
+ * swaps Process to the `reduced` variant, which calls no builders), so the CDN
  * dependencies below never load for reduced-motion visitors.
  *
  * @param {HTMLElement|null} view Section root.
  * @returns {Promise<void>}
  */
 export async function fillBlockframesGrid(view) {
-  const wrapper = view?.querySelector(`[${BIO_EL_ATTR}="blockframes"]`) ?? null;
+  const wrapper =
+    view?.querySelector(`[${PROCESS_EL_ATTR}="blockframes"]`) ?? null;
   if (!wrapper) return;
 
   const cells = [...wrapper.querySelectorAll("[data-blockframe-block]")].filter(
@@ -40,11 +49,31 @@ export async function fillBlockframesGrid(view) {
   await frames.load();
 
   const palette = {
-    primary: { light: "#e0f2fe", base: "#0ea5e9", dark: "#0c4a6e" },
-    secondary: { light: "#fce7f3", base: "#ec4899", dark: "#831843" },
-    neutral: { light: "#f5f5f5", base: "#737373", dark: "#171717" },
-    accent: { light: "#fef3c7", base: "#f59e0b", dark: "#78350f" },
-    semantic: { alert: "#f5f5f5", success: "#737373", fail: "#171717" },
+    primary: {
+      light: tokenColor("primary-100"),
+      base: tokenColor("primary-500"),
+      dark: tokenColor("primary-900"),
+    },
+    secondary: {
+      light: tokenColor("secondary-100"),
+      base: tokenColor("secondary-500"),
+      dark: tokenColor("secondary-900"),
+    },
+    neutral: {
+      light: tokenColor("neutral-100"),
+      base: tokenColor("neutral-500"),
+      dark: tokenColor("neutral-900"),
+    },
+    accent: {
+      light: tokenColor("accent-100"),
+      base: tokenColor("accent-500"),
+      dark: tokenColor("accent-900"),
+    },
+    semantic: {
+      alert: tokenColor("neutral-100"),
+      success: tokenColor("neutral-500"),
+      fail: tokenColor("neutral-900"),
+    },
   };
 
   cells.forEach((cell) => {

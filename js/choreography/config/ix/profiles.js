@@ -119,6 +119,14 @@ export const SECTION_OVERRIDES = Object.freeze({
     lg: { animation: { variant: "split" } },
     xl: { animation: { variant: "split" } },
   },
+  process: {
+    reduced: { animation: { variant: "reduced" } },
+    base: { animation: { variant: "blockframes" } },
+    sm: { animation: { variant: "blockframes" } },
+    md: { animation: { variant: "blockframes" } },
+    lg: { animation: { variant: "blockframes" } },
+    xl: { animation: { variant: "blockframes" } },
+  },
   awards: {
     base: { animation: { variant: "reduced" } },
     sm: { animation: { variant: "reduced" } },

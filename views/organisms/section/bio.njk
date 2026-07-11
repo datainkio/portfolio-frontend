@@ -1,6 +1,5 @@
 {% macro render(params = {}) %}
   {% import "molecules/printmarks.njk" as PrintMarks %}
-  {% import "atoms/svg/blockframe-basic.njk" as BlockframeBasic %}
   {%- set sectionId = params.id | default("bio") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
@@ -58,54 +57,5 @@
         </li>
       </ul>
     </aside>
-    {#
-      6x6 Blockframes grid. Only cell r3c3 (row-major index 14) is visible and
-      holds the build-time-inlined Basic block, pixel-identical to the single-
-      block layout: the wrapper owns the Basic aspect (590/606), the grid is 6x
-      the wrapper in both axes so each cell equals the wrapper box, and the
-      -200% offsets align cell r3c3 with the wrapper. The other 35 cells are
-      invisible placeholders cycling the 17 library block names; they are
-      filled at runtime by choreography/molecules/bio-motion/blockframes-grid.js
-      via [data-blockframe-block]. overflow-hidden keeps the oversized grid
-      from creating horizontal page scroll.
-    #}
-    {%- set blockNames = [
-      "Basic",
-      "Features",
-      "Blog",
-      "Landing",
-      "Chart",
-      "Contact",
-      "Cart",
-      "Calendar",
-      "Login",
-      "Video",
-      "Project",
-      "Article",
-      "Map",
-      "List",
-      "Text",
-      "Main",
-      "Feed"
-    ] -%}
-    <div class="relative col-span-full overflow-hidden aspect-[590/606] w-3/4 mx-auto"
-         data-bio-el="blockframes"
-         aria-hidden="true">
-      <div class="absolute -left-[200%] -top-[200%] grid h-[600%] w-[600%] grid-cols-6 grid-rows-6"
-           data-bio-el="blockframes-grid">
-        {%- for i in range(0, 36) %}
-          {%- if i == 14 %}
-            <div data-bio-el="blockframes-visible">
-              {{ BlockframeBasic.render({"classes": "w-full h-auto text-neutral-100"}) }}
-            </div>
-          {%- else %}
-            {# No hiding class needed: cells are empty until JS fills them,
-               sit outside the wrapper's overflow crop until the zoom-out,
-               and the reveal timeline holds them at autoAlpha 0 until then. #}
-            <div data-blockframe-block="{{ blockNames[i % 17] }}"></div>
-          {%- endif %}
-        {%- endfor %}
-      </div>
-    </div>
   </section>
 {% endmacro %}

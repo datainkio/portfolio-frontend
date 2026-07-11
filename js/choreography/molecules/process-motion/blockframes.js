@@ -1,11 +1,19 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
-import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { PROCESS_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
-const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
+const PROCESS_EL_ATTR = PROCESS_SELECTORS.elementAttribute;
+
+// Resolve a design-system color token (e.g. "primary-500") to its hex value by
+// reading the live CSS custom property. Keeps motion in sync with the tokens in
+// styles/colors.css instead of hardcoding a hex.
+const tokenColor = (name) =>
+  getComputedStyle(document.documentElement)
+    .getPropertyValue(`--color-${name}`)
+    .trim();
 
 // Stable id so rebuilds (matchMedia / resize re-invoke the variant) can kill the
 // prior instance instead of stacking duplicate triggers.
-const BLOCKFRAMES_REVEAL_ST_ID = "bio-blockframes-reveal";
+const BLOCKFRAMES_REVEAL_ST_ID = "process-blockframes-reveal";
 
 /**
  * Scroll-triggered reveal for the inlined `.Basic` Blockframes SVG, separate
@@ -24,12 +32,13 @@ const BLOCKFRAMES_REVEAL_ST_ID = "bio-blockframes-reveal";
  * @returns {gsap.core.Timeline|null}
  */
 export function buildBlockframesReveal(view) {
-  const wrapper = view?.querySelector(`[${BIO_EL_ATTR}="blockframes"]`) ?? null;
+  const wrapper =
+    view?.querySelector(`[${PROCESS_EL_ATTR}="blockframes"]`) ?? null;
   // Scope to the visible cell: the wrapper is a 6x6 grid and the 35 hidden
   // cells gain their own svgs at runtime (blockframes-grid.js), some of which
   // precede the visible cell in DOM order.
   const svg =
-    wrapper?.querySelector(`[${BIO_EL_ATTR}="blockframes-visible"] svg`) ??
+    wrapper?.querySelector(`[${PROCESS_EL_ATTR}="blockframes-visible"] svg`) ??
     null;
   if (!wrapper || !svg) return null;
 
@@ -37,7 +46,7 @@ export function buildBlockframesReveal(view) {
   // one so matchMedia/resize re-invocations don't stack duplicates.
   ScrollTrigger.getById(BLOCKFRAMES_REVEAL_ST_ID)?.kill();
   // Drop any prior connector overlay so rebuilds don't stack SVGs.
-  wrapper.querySelector(`[${BIO_EL_ATTR}="blockframes-line"]`)?.remove();
+  wrapper.querySelector(`[${PROCESS_EL_ATTR}="blockframes-line"]`)?.remove();
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -77,7 +86,7 @@ export function buildBlockframesReveal(view) {
   //    1 -> 1/6 about
   //    origin 40%/40% lands the grid exactly in the wrapper box: the grid
   //    sits at -200%/-200% and 0.4 * 600% * (1 - 1/6) = 200% cancels it.
-  const grid = wrapper.querySelector(`[${BIO_EL_ATTR}="blockframes-grid"]`);
+  const grid = wrapper.querySelector(`[${PROCESS_EL_ATTR}="blockframes-grid"]`);
   if (grid) {
     const hiddenCells = [...grid.querySelectorAll("[data-blockframe-block]")];
     // Pick one; gsap.utils.random(array) returns a random element.
@@ -109,7 +118,7 @@ export function buildBlockframesReveal(view) {
       if (!chosen) return;
 
       const mainEl =
-        wrapper.querySelector(`[${BIO_EL_ATTR}="blockframes-visible"]`) ??
+        wrapper.querySelector(`[${PROCESS_EL_ATTR}="blockframes-visible"]`) ??
         svg.parentElement;
       const chosenEl = chosen;
       if (!mainEl || !chosenEl) return;
@@ -150,7 +159,7 @@ export function buildBlockframesReveal(view) {
       const d = `M ${p0.x},${p0.y} C ${c1.x},${c1.y} ${c2.x},${c2.y} ${p1.x},${p1.y}`;
 
       const overlay = document.createElementNS(SVG_NS, "svg");
-      overlay.setAttribute(BIO_EL_ATTR, "blockframes-line");
+      overlay.setAttribute(PROCESS_EL_ATTR, "blockframes-line");
       overlay.setAttribute("aria-hidden", "true");
       overlay.style.position = "absolute";
       overlay.style.inset = "0";
@@ -163,7 +172,7 @@ export function buildBlockframesReveal(view) {
       path.setAttribute("d", d);
       path.setAttribute("fill", "none");
       // Grid palette primary base — matches the painted blocks.
-      path.setAttribute("stroke", "#0ea5e9");
+      path.setAttribute("stroke", tokenColor("primary-500"));
       path.setAttribute("stroke-width", "2");
       path.setAttribute("stroke-linecap", "round");
       overlay.appendChild(path);

@@ -8,6 +8,7 @@
 {#- CONTENT VIEWS -#}
 {% import "organisms/section/work.njk" as ProjectsSection %}
 {% import "organisms/section/bio.njk" as BioSection %}
+{% import "organisms/section/process.njk" as ProcessSection %}
 {% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/organizations.njk" as OrganizationsSection %}
 {% import "organisms/section/contact.njk" as ContactSection with context %}
@@ -43,6 +44,7 @@
     <main id="page-main" aria-busy="true" class="{{ main | classes }}">
       {{ PageHeader.home_landing({ svg: logo }) }}
       {{ BioSection.render({ id: "manifesto", copy: value }) }}
+      {{ ProcessSection.render({ id: "process" }) }}
       {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
       {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
       {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}

@@ -1,0 +1,89 @@
+---
+title: "Process"
+template: "[[process.njk]]"
+templatePath: "views/organisms/section/process.njk"
+engine: "Nunjucks"
+system: "Eleventy"
+type: "template"
+templateRole: "component"
+atomicLevel: "organism"
+status: "active"
+tags:
+  - "#atomic-design"
+  - "#component"
+  - "#eleventy"
+  - "#nunjucks"
+  - "#Obsidian"
+  - "#organism"
+  - "#template"
+links:
+  - [organizations](organizations.md)
+  - [blockframe-basic](../../atoms/svg/blockframe-basic.md)
+---
+# Process
+
+Defines Nunjucks macro: `render`.
+
+## Template
+
+- Source: [[process.njk]]
+- Path: `views/organisms/section/process.njk`
+
+## Purpose
+
+Process section between Bio and Work. Renders a heading, optional body copy,
+and the 6x6 Blockframes grid (migrated here from the Bio section). Targeted by
+the choreography system via `data-process-el` attributes; the Blockframes
+reveal is driven by `choreography/molecules/process-motion`.
+
+## Role in the System
+
+Classified as a **component** at the atomic **organism** level based on its
+location under `views/`.
+
+## Data and Context
+
+- `params.id` — section id, defaults to `"process"`.
+- `params.copy.heading` — heading text, defaults to `"Process"`.
+- `params.copy.body` — optional body paragraph; omitted entirely if empty.
+- `params.headingId` — id used for `aria-labelledby`, defaults to `sectionId`.
+
+## `data-process-el` Hooks
+
+- `header` — the `<header>` wrapper.
+- `heading` — the `<h2>` heading element.
+- `body` — the optional `<p>` body element (only rendered when `body` is set).
+- `blockframes` — the 6x6 grid wrapper; owns the Basic aspect
+  (`aspect-[590/606]`, `overflow-hidden`).
+- `blockframes-grid` — the inner grid (`w-[600%] h-[600%]` offset
+  `-left-[200%] -top-[200%]`) so cell r3c3 (row-major index 14) aligns with
+  the wrapper box.
+- `blockframes-visible` — the visible cell holding the inlined `.Basic` SVG
+  ([[blockframe-basic.njk]]), animated by `process-motion/blockframes.js`
+  (`buildBlockframesReveal`).
+- The other 35 cells carry `data-blockframe-block="<BlockName>"` (the 17
+  library block names cycled `i % 17`), filled at runtime by
+  `process-motion/blockframes-grid.js` (`fillBlockframesGrid`) and painted
+  with design-token colors.
+
+## Relationships
+
+- Imported by: [[home.njk]] (`views/pages/home/home.njk`), rendered between
+  the Bio section (`id="manifesto"`) and the Work section (`id="work"`).
+- Choreography controller: [[Process|Process]]
+  (`js/choreography/organisms/process/Process.js`).
+
+## Notes for Future Maintenance
+
+- Keep this sidecar documentation in sync when the template signature changes.
+- Preserve semantic HTML and accessibility attributes when editing.
+- Run `npm run build` (or `npm start`) after structural changes to validate
+  the Eleventy build.
+- `data-process-el` hooks are consumed by `process-motion` — do not rename
+  without updating those modules and `selectors.js`.
+
+## Open Questions
+
+- What copy/content model backs this section's heading + body?
+- Will this section need its own Sanity schema, or reuse an existing content
+  type?
