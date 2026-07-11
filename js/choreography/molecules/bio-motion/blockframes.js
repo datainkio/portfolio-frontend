@@ -1,7 +1,4 @@
-import {
-  gsap,
-  ScrollTrigger,
-} from "/assets/js/choreography/system/gsap.js";
+import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
@@ -27,9 +24,13 @@ const BLOCKFRAMES_REVEAL_ST_ID = "bio-blockframes-reveal";
  * @returns {gsap.core.Timeline|null}
  */
 export function buildBlockframesReveal(view) {
-  const wrapper =
-    view?.querySelector(`[${BIO_EL_ATTR}="blockframes"]`) ?? null;
-  const svg = wrapper?.querySelector("svg") ?? null;
+  const wrapper = view?.querySelector(`[${BIO_EL_ATTR}="blockframes"]`) ?? null;
+  // Scope to the visible cell: the wrapper is a 6x6 grid and the 35 hidden
+  // cells gain their own svgs at runtime (blockframes-grid.js), some of which
+  // precede the visible cell in DOM order.
+  const svg =
+    wrapper?.querySelector(`[${BIO_EL_ATTR}="blockframes-visible"] svg`) ??
+    null;
   if (!wrapper || !svg) return null;
 
   // Idempotent across rebuilds: kill the prior trigger before creating a fresh
@@ -40,7 +41,7 @@ export function buildBlockframesReveal(view) {
     scrollTrigger: {
       id: BLOCKFRAMES_REVEAL_ST_ID,
       trigger: wrapper,
-      start: "top center",
+      start: "top 33%",
       once: true,
     },
   });
@@ -67,6 +68,42 @@ export function buildBlockframesReveal(view) {
     { opacity: 0, y: 20, duration: 0.3, stagger: 0.05 },
     "-=0.1",
   );
+
+  // 4. Zoom out: once the Basic fade-in settles, scale the 6x6 grid to fit
+  //    the wrapper while the hidden cells fade in. Scaling 1 -> 1/6 about
+  //    origin 40%/40% lands the grid exactly in the wrapper box: the grid
+  //    sits at -200%/-200% and 0.4 * 600% * (1 - 1/6) = 200% cancels it.
+  const grid = wrapper.querySelector(`[${BIO_EL_ATTR}="blockframes-grid"]`);
+  if (grid) {
+    tl.to(grid, {
+      scale: 1 / 6,
+      transformOrigin: "40% 40%",
+      duration: 0.8,
+      ease: "power2.inOut",
+    });
+    tl.fromTo(
+      grid.querySelectorAll("[data-blockframe-block]"),
+      { autoAlpha: 0 },
+      { autoAlpha: 1, duration: 0.5, stagger: 0.02 },
+      "<",
+    );
+  }
+
+  // tl.to(grid.querySelectorAll("[data-blockframe-block]"), {
+  //   duration: 1,
+  //   scale: 0.1,
+  //   y: 60,
+  //   yoyo: true,
+  //   repeat: 1,
+  //   ease: "power1.inOut",
+  //   stagger: {
+  //     amount: 1.5,
+  //     grid: [6, 6], //stagger based on a grid
+  //     axis: "both", // x, y, or both
+  //     ease: "power1.inOut", // power1.inOut, power2.inOut, etc.
+  //     from: "center", // center, edges, random, 0-35, etc.
+  //   },
+  // });
 
   return tl;
 }
