@@ -36,6 +36,8 @@ export function buildBlockframesReveal(view) {
   // Idempotent across rebuilds: kill the prior trigger before creating a fresh
   // one so matchMedia/resize re-invocations don't stack duplicates.
   ScrollTrigger.getById(BLOCKFRAMES_REVEAL_ST_ID)?.kill();
+  // Drop any prior connector overlay so rebuilds don't stack SVGs.
+  wrapper.querySelector(`[${BIO_EL_ATTR}="blockframes-line"]`)?.remove();
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -70,23 +72,113 @@ export function buildBlockframesReveal(view) {
   );
 
   // 4. Zoom out: once the Basic fade-in settles, scale the 6x6 grid to fit
-  //    the wrapper while the hidden cells fade in. Scaling 1 -> 1/6 about
+  //    the wrapper while one randomly chosen hidden cell fades in (the rest
+  //    stay hidden — leaving the main block + one second block). Scaling
+  //    1 -> 1/6 about
   //    origin 40%/40% lands the grid exactly in the wrapper box: the grid
   //    sits at -200%/-200% and 0.4 * 600% * (1 - 1/6) = 200% cancels it.
   const grid = wrapper.querySelector(`[${BIO_EL_ATTR}="blockframes-grid"]`);
   if (grid) {
+    const hiddenCells = [...grid.querySelectorAll("[data-blockframe-block]")];
+    // Pick one; gsap.utils.random(array) returns a random element.
+    const chosen = gsap.utils.random(hiddenCells);
+
+    // Hold every hidden cell out of view up front; only the chosen one is
+    // revealed. Without this the non-chosen cells render at their native
+    // autoAlpha:1 once stage 4 no longer tweens them from 0.
+    gsap.set(hiddenCells, { autoAlpha: 0 });
+
     tl.to(grid, {
       scale: 1 / 6,
       transformOrigin: "40% 40%",
       duration: 0.8,
       ease: "power2.inOut",
     });
-    tl.fromTo(
-      grid.querySelectorAll("[data-blockframe-block]"),
-      { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 0.5, stagger: 0.02 },
-      "<",
-    );
+    if (chosen) {
+      tl.fromTo(chosen, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 }, "<");
+    }
+
+    // 5. Connector: once both blocks are settled in view (once:true => layout
+    //    is static), draw a curved cubic-Bezier line between the main block and
+    //    the revealed cell. Measured at timeline completion so the endpoints
+    //    reflect post-zoom positions. Decorative overlay (aria-hidden); JS binds
+    //    to the data-attr, never a class.
+    const SVG_NS = "http://www.w3.org/2000/svg";
+
+    const drawConnector = () => {
+      if (!chosen) return;
+
+      const mainEl =
+        wrapper.querySelector(`[${BIO_EL_ATTR}="blockframes-visible"]`) ??
+        svg.parentElement;
+      const chosenEl = chosen;
+      if (!mainEl || !chosenEl) return;
+
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const rectOf = (el) => {
+        const r = el.getBoundingClientRect();
+        if (!r.width || !r.height) return null;
+        return {
+          cx: r.left - wrapperRect.left + r.width / 2,
+          cy: r.top - wrapperRect.top + r.height / 2,
+          hw: r.width / 2,
+          hh: r.height / 2,
+        };
+      };
+
+      const a = rectOf(mainEl);
+      const b = rectOf(chosenEl);
+      if (!a || !b) return;
+
+      const dx = b.cx - a.cx;
+      const dy = b.cy - a.cy;
+
+      // Point where the center-to-center ray exits an axis-aligned box.
+      const edge = (box, vx, vy) => {
+        if (vx === 0 && vy === 0) return { x: box.cx, y: box.cy };
+        const t = 1 / Math.max(Math.abs(vx) / box.hw, Math.abs(vy) / box.hh);
+        return { x: box.cx + vx * t, y: box.cy + vy * t };
+      };
+
+      const p0 = edge(a, dx, dy); // main block edge facing the second block
+      const p1 = edge(b, -dx, -dy); // second block edge facing the main block
+
+      const k = Math.min(Math.hypot(p1.x - p0.x, p1.y - p0.y) / 2, 150);
+      const dir = Math.sign(p1.x - p0.x) || 1;
+      const c1 = { x: p0.x + dir * k, y: p0.y };
+      const c2 = { x: p1.x - dir * k, y: p1.y };
+      const d = `M ${p0.x},${p0.y} C ${c1.x},${c1.y} ${c2.x},${c2.y} ${p1.x},${p1.y}`;
+
+      const overlay = document.createElementNS(SVG_NS, "svg");
+      overlay.setAttribute(BIO_EL_ATTR, "blockframes-line");
+      overlay.setAttribute("aria-hidden", "true");
+      overlay.style.position = "absolute";
+      overlay.style.inset = "0";
+      overlay.style.width = "100%";
+      overlay.style.height = "100%";
+      overlay.style.overflow = "visible";
+      overlay.style.pointerEvents = "none";
+
+      const path = document.createElementNS(SVG_NS, "path");
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "none");
+      // Grid palette primary base — matches the painted blocks.
+      path.setAttribute("stroke", "#0ea5e9");
+      path.setAttribute("stroke-width", "2");
+      path.setAttribute("stroke-linecap", "round");
+      overlay.appendChild(path);
+      wrapper.appendChild(overlay);
+
+      const len = path.getTotalLength();
+      gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+      gsap.to(path, {
+        strokeDashoffset: 0,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    };
+
+    tl.call(drawConnector);
   }
 
   // tl.to(grid.querySelectorAll("[data-blockframe-block]"), {
