@@ -52,7 +52,7 @@ export function buildBlockframesReveal(view) {
     scrollTrigger: {
       id: BLOCKFRAMES_REVEAL_ST_ID,
       trigger: wrapper,
-      start: "top 33%",
+      start: "center center",
       once: true,
     },
   });

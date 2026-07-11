@@ -7,14 +7,20 @@
   {%- set headingId = params.headingId | default(sectionId) -%}
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
-    md: "text-6xl",
-    lg: "text-7xl"
+    "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
+    "md": "text-6xl",
+    "lg": "text-7xl"
   } -%}
 
-  <section id="{{ sectionId }}" class="my-12 text-neutral-100 relative z-10 col-span-full grid grid-cols-subgrid p-0 overflow-hidden" aria-labelledby="{{ headingId }}" data-scroll-section>
-    <header data-process-el="header" class="gap-2 px-8 py-12 z-10 flex flex-row items-center">
-      <h2 id="{{ headingId }}" data-process-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
+  <section id="{{ sectionId }}"
+           class="h-dvh my-12 text-neutral-100 relative z-10 col-span-full grid grid-cols-subgrid p-0 overflow-hidden"
+           aria-labelledby="{{ headingId }}"
+           data-scroll-section>
+    <header data-process-el="header"
+            class="gap-2 px-8 py-12 z-10 flex flex-row items-center">
+      <h2 id="{{ headingId }}"
+          data-process-el="heading"
+          class="{{ title | classes }}">{{ heading }}</h2>
     </header>
     {% if body %}
       <p data-process-el="body" class="col-span-full px-8">{{ body }}</p>
@@ -49,10 +55,10 @@
       "Main",
       "Feed"
     ] -%}
-    <div class="relative col-span-full overflow-hidden aspect-[590/606] w-3/4 mx-auto"
+    <div class="border-2 border-white w-full col-span-full overflow-hidden aspect-[3/1] mx-auto"
          data-process-el="blockframes"
          aria-hidden="true">
-      <div class="absolute -left-[200%] -top-[200%] grid h-[600%] w-[600%] grid-cols-6 grid-rows-6"
+      <div class="border-2 border-blue absolute -left-[200%] -top-[200%] h-[600%] w-[600%] grid grid-cols-6 grid-rows-6"
            data-process-el="blockframes-grid">
         {%- for i in range(0, 36) %}
           {%- if i == 14 %}
@@ -68,5 +74,7 @@
         {%- endfor %}
       </div>
     </div>
+    <p>Most of the projects I work on as an experience designer are the product of a cross-functional team of stakeholders, managers, designers, and developers. Each team member has their own priorities and perspectives. My role is to ensure that everyone has the insight and direction they need to make informed decisions about how to serve the needs of users.</p>
+    <p>This is more than just figuring out where to place a button or how to word a call-to-action. It's about understanding the business goals, the user needs, and the technical constraints, and then finding the best way to balance them.</p>
   </section>
 {% endmacro %}
