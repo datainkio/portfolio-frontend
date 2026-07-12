@@ -89,18 +89,5 @@ export async function fillBlockframesGrid(view) {
     // `.Name` group with its class list intact, so Painter routing still works.
     const placed = cell.querySelector("svg")?.firstElementChild;
     if (placed) frames.paintBlock(placed, palette);
-    // Builder.insert emits the svg without a viewBox, and its scale/move
-    // math leaves content at unpredictable coordinates (library blocks are
-    // drawn at absolute canvas positions, e.g. Blog at x≈1297). Frame the
-    // viewBox on the measured content bbox instead — the svg is in the DOM
-    // by now and getBBox is unaffected by opacity.
-    const svg = cell.querySelector("svg");
-    const bbox = svg?.getBBox();
-    if (bbox?.width && bbox?.height) {
-      svg.setAttribute(
-        "viewBox",
-        `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`,
-      );
-    }
   });
 }

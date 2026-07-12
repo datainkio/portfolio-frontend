@@ -281,8 +281,8 @@ export default class Blockframes {
 
     // Capture dimensions before removal (if viewBox needs to be inferred)
     if (!svg.hasAttribute("viewBox")) {
-      const width = svg.getAttribute("width") || "100";
-      const height = svg.getAttribute("height") || "100";
+      const width = parseFloat(svg.getAttribute("width")) || 100;
+      const height = parseFloat(svg.getAttribute("height")) || 100;
       svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     }
 

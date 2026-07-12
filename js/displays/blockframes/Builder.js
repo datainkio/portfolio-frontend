@@ -65,10 +65,16 @@ import { SVG } from "https://cdn.skypack.dev/@svgdotjs/svg.js@3.1.1";
  * - SVG() - Creates new SVG container
  * - .add() - Adds element to SVG
  * - .first() - Gets first child element
- * - .bbox() - Gets bounding box (x, y, width, height)
+ * - .bbox() - Gets untransformed local bounding box (x, y, width, height);
+ *   used only to compute the fit scale (ignores the element's transform)
  * - .scale() - Applies scale transformation
  * - .move() - Sets position
- * - .node - Accesses native DOM element
+ * - .node - Accesses native DOM element; .node.getBBox() reads the transformed
+ *   content box (includes the child's applied transform) for the viewBox
+ *
+ * VIEWBOX: After scale/move, the wrapper node's native getBBox() (which
+ * reflects the applied transform, unlike elem.bbox()) frames the viewBox on
+ * the content's post-transform box, instead of shipping an unframed viewport.
  *
  * @param {SVGElement} block - The SVG block to insert
  * @param {HTMLElement} container - The DOM container to insert into
@@ -99,19 +105,30 @@ export function insert(block, container, clone) {
   const blockSVG = SVG();
   const cloned = clone ? block.cloneNode(true) : block;
   blockSVG.add(cloned);
+  blockSVG.node.classList.add("w-full", "h-full"); // Let the SVG change size without impacting the size or position of the child elements
+  container.appendChild(blockSVG.node); // Must be in the DOM before measuring (getBBox/bbox() require layout)
 
   const elem = blockSVG.first();
   // elem.untransform(); // Commented: Would remove existing transformations
-  const bbox = elem.bbox();
+  const bbox = elem.bbox(); // untransformed local content size — used for scale only
   const vw = 100;
   const vh = 100;
   const scale = Math.min(vw / bbox.width, vh / bbox.height);
 
   elem.scale(scale, 0, 0);
   elem.move(0, 0);
-  blockSVG.node.classList.add("w-full", "h-full"); // Let the SVG change size without impacting the size or position of the child elements
 
-  container.appendChild(blockSVG.node);
+  // Frame the viewBox on the wrapper's transformed content box. Native
+  // getBBox() on the wrapper node includes the child's applied transform
+  // (unlike SVG.js elem.bbox(), which reports untransformed geometry), so it
+  // reflects the post-scale/move box. Mirrors the measurement the old
+  // downstream re-frame relied on, now done once at the source.
+  const framed = blockSVG.node.getBBox();
+  blockSVG.node.setAttribute(
+    "viewBox",
+    `${framed.x} ${framed.y} ${framed.width} ${framed.height}`,
+  );
+
   return blockSVG;
 }
 
@@ -155,13 +172,16 @@ var SRC, COLOR, BW, COLS, ROWS, SIZE, ANGLE, OPACITY, TYPES, PALETTES;
  * TEMPORARY DOM MOUNTING:
  * - SVGs are added to hidden div for measurement
  * - getBBox() and getBoundingClientRect() require DOM presence
- * - Div is NOT removed (stays in document.body)
- * - [ ] CHORE: Remove temp div after build completes
+ * - Div is removed once all synchronous measurement is complete, just
+ *   before returning (the COLOR/BW SVG.js wrappers retain their nodes,
+ *   so the caller can still re-append them via .node)
  *
  * GLOBAL STATE WARNING:
  * - Uses module-level variables (SRC, COLOR, BW, etc.)
  * - Multiple calls to build() will overwrite these variables
  * - NOT thread-safe or concurrent-call safe
+ * - build() is single-call only: do not invoke it again before the
+ *   previous call's returned SVGs have been consumed
  *
  * @param {Object} blockline - Configuration object
  * @param {SVGElement} blockline.container - Source SVG with template blocks
@@ -193,6 +213,10 @@ var SRC, COLOR, BW, COLS, ROWS, SIZE, ANGLE, OPACITY, TYPES, PALETTES;
  * const colorBwViews = Builder.build(config);
  * document.querySelector('#color-container').appendChild(colorBwViews[0].node);
  * document.querySelector('#bw-container').appendChild(colorBwViews[1].node);
+ *
+ * @remarks Single-call / not concurrency-safe: relies on module-level
+ * globals (SRC, COLOR, BW, etc.); do not call again before the previous
+ * call's returned SVGs have been consumed.
  */
 export function build(blockline) {
   console.log("Builder.build");
@@ -215,7 +239,7 @@ export function build(blockline) {
     .viewbox(`0 0 ${COLS * SIZE} ${ROWS * SIZE} `);
 
   // Add them to a temporary container in the DOM so that we can measure and scale their children
-  // appropriately. We'll remove it later when we call updateView.
+  // appropriately.
   const tmp = document.createElement("div");
   tmp.style.position = "absolute";
   tmp.style.visibility = "hidden";
@@ -256,6 +280,9 @@ export function build(blockline) {
     // Increment so the buildings display properly without overlap
     building_id += 1;
   });
+
+  // All synchronous measurement (getBBox/scaleFace) is complete; safe to detach.
+  tmp.remove();
 
   // Return the populated SVGs
   return [COLOR, BW];
@@ -449,8 +476,9 @@ function roof(color = "#AAA") {
  * 5. Clone entire assembly for BW and COLOR versions
  *
  * BLOCKFRAME TYPES:
- * - Calendar, Article, Landing, Cart, Contact, Map, Timeline
- * - Each type is a template from the source SVG
+ * - Data-driven: any class-named template present in the source SVG is
+ *   supported (looked up via `.${random}`, e.g. Calendar, Article, Landing,
+ *   Cart, Contact, Map, Timeline)
  * - Randomly selected for variety in cityscape
  *
  * DUAL VERSIONS:
@@ -477,7 +505,6 @@ function roof(color = "#AAA") {
  * // leftFace[0] = BW version, leftFace[1] = COLOR version
  */
 function drawFace(s, side) {
-  var type;
   // Every face starts with an instance of Chrome as its foundation
   const block = SRC.querySelector(".Chrome").cloneNode(true);
   block.classList.remove("Chrome");
@@ -485,39 +512,9 @@ function drawFace(s, side) {
 
   var random = TYPES[Math.floor(Math.random() * TYPES.length)];
   // Next we add a randomly selected type of blockframe to add to the chrome
-  switch (random) {
-    case "Calendar":
-      type = SRC.querySelector(".Calendar").cloneNode(true);
-      // paintMe = Calendar.paint;
-      break;
-    case "Article":
-      type = SRC.querySelector(".Article").cloneNode(true);
-      // paintMe = Article.paint;
-      break;
-    case "Landing":
-      type = SRC.querySelector(".Landing").cloneNode(true);
-      // paintMe = Landing.paint;
-      break;
-    case "Cart":
-      type = SRC.querySelector(".Cart").cloneNode(true);
-      // paintMe = Cart.paint;
-      break;
-    case "Contact":
-      type = SRC.querySelector(".Contact").cloneNode(true);
-      // paintMe = Contact.paint;
-      break;
-    case "Map":
-      type = SRC.querySelector(".Map").cloneNode(true);
-      // paintMe = Map.paint;
-      break;
-    case "Timeline":
-      type = SRC.querySelector(".Timeline").cloneNode(true);
-      // paintMe = Timeline.paint;
-      break;
-  }
+  const tpl = SRC.querySelector(`.${random}`);
+  if (tpl) block.appendChild(tpl.cloneNode(true));
   block.classList.add("face-" + random);
-  // Added the selected blockframe on top of the Chrome instance
-  block.appendChild(type);
 
   // Create the two different views of the block
   const stroked = block.cloneNode(true); // BW
