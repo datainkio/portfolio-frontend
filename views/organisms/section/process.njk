@@ -26,13 +26,14 @@
       <p data-process-el="body" class="col-span-full px-8">{{ body }}</p>
     {% endif %}
     {#
-      6x6 Blockframes grid. Only cell r3c3 (row-major index 14) is visible and
-      holds the build-time-inlined Basic block, pixel-identical to the single-
-      block layout: the wrapper owns the Basic aspect (590/606), the grid is 6x
-      the wrapper in both axes so each cell equals the wrapper box, and the
-      -200% offsets align cell r3c3 with the wrapper. The other 35 cells are
-      invisible placeholders cycling the 17 library block names; they are
-      filled at runtime by choreography/molecules/process-motion/blockframes-grid.js
+      12x3 Blockframes grid. The grid is sized 1200% x 300% at offset
+      -500% / -100% so each cell equals the wrapper box. Only row-major
+      index 17 (r1c5) is inlined & visible pre-zoom, holding the build-time
+      Basic block. The reveal choreography uniformly scales the grid to 1/12
+      (fit-to-width), landing all 36 cells as a full-width band ~1/4 the
+      wrapper height, centered vertically. The other 35 cells are invisible
+      placeholders cycling the 17 library block names; they are filled at
+      runtime by choreography/molecules/process-motion/blockframes-grid.js
       via [data-blockframe-block]. overflow-hidden keeps the oversized grid
       from creating horizontal page scroll.
     #}
@@ -55,13 +56,13 @@
       "Main",
       "Feed"
     ] -%}
-    <div class="border-2 border-white w-full col-span-full overflow-hidden aspect-[3/1] mx-auto"
+    <div class="border-2 border-white w-full col-span-full overflow-hidden aspect-video mx-auto"
          data-process-el="blockframes"
          aria-hidden="true">
-      <div class="border-2 border-blue absolute -left-[200%] -top-[200%] h-[600%] w-[600%] grid grid-cols-6 grid-rows-6"
+      <div class="border-2 border-blue absolute -left-[500%] -top-[100%] h-[300%] w-[1200%] grid grid-cols-12 grid-rows-3"
            data-process-el="blockframes-grid">
         {%- for i in range(0, 36) %}
-          {%- if i == 14 %}
+          {%- if i == 17 %}
             <div data-process-el="blockframes-visible">
               {{ BlockframeBasic.render({"classes": "w-full h-auto text-neutral-100"}) }}
             </div>

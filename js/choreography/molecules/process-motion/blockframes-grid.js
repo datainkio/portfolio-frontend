@@ -11,9 +11,9 @@ const tokenColor = (name) =>
     .trim();
 
 /**
- * Fills the hidden cells of the Process 6x6 Blockframes grid with clones of the
+ * Fills the hidden cells of the Process 12×3 Blockframes grid with clones of the
  * library blocks named by each cell's `data-blockframe-block` attribute. The
- * visible r3c3 cell is inlined at build time (process.njk) and never touched
+ * visible r1c5 cell (row-major index 17) is inlined at build time (process.njk) and never touched
  * here; every filled cell sits outside the wrapper's overflow crop and is held
  * at autoAlpha 0 by the reveal timeline until its zoom-out stage, so this is
  * zero-visual-impact and safe to fire-and-forget — the caller owns the

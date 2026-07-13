@@ -34,7 +34,7 @@ const BLOCKFRAMES_REVEAL_ST_ID = "process-blockframes-reveal";
 export function buildBlockframesReveal(view) {
   const wrapper =
     view?.querySelector(`[${PROCESS_EL_ATTR}="blockframes"]`) ?? null;
-  // Scope to the visible cell: the wrapper is a 6x6 grid and the 35 hidden
+  // Scope to the visible cell: the wrapper is a 12×3 grid and the 35 hidden
   // cells gain their own svgs at runtime (blockframes-grid.js), some of which
   // precede the visible cell in DOM order.
   const svg =
@@ -80,12 +80,13 @@ export function buildBlockframesReveal(view) {
     "-=0.1",
   );
 
-  // 4. Zoom out: once the Basic fade-in settles, scale the 6x6 grid to fit
-  //    the wrapper while one randomly chosen hidden cell fades in (the rest
+  // 4. Zoom out: once the Basic fade-in settles, uniformly scale the 12×3
+  //    grid to 1/12 while one randomly chosen hidden cell fades in (the rest
   //    stay hidden — leaving the main block + one second block). Scaling
-  //    1 -> 1/6 about
-  //    origin 40%/40% lands the grid exactly in the wrapper box: the grid
-  //    sits at -200%/-200% and 0.4 * 600% * (1 - 1/6) = 200% cancels it.
+  //    1 -> 1/12 fits the grid to the wrapper width, revealing a full-width
+  //    band ~1/4 the wrapper height; origin 45.4545%/50% (ox=5/11 lands it
+  //    flush-left/full-width since the grid sits at -500%; oy=0.5 centers the
+  //    band vertically).
   const grid = wrapper.querySelector(`[${PROCESS_EL_ATTR}="blockframes-grid"]`);
   if (grid) {
     const hiddenCells = [...grid.querySelectorAll("[data-blockframe-block]")];
@@ -98,8 +99,8 @@ export function buildBlockframesReveal(view) {
     gsap.set(hiddenCells, { autoAlpha: 0 });
 
     tl.to(grid, {
-      scale: 1 / 6,
-      transformOrigin: "40% 40%",
+      scale: 1 / 12,
+      transformOrigin: "45.4545% 50%",
       duration: 0.8,
       ease: "power2.inOut",
     });
