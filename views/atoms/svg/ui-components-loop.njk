@@ -6,8 +6,12 @@
     js/choreography/molecules/process-motion/ui-components-loop.js, which binds
     via data-process-el (never classes). Hook contract:
       - data-process-el="uicomponents"          SVG root (decorative); viewBox is
-                                                 the CHROME bbox so the outer svg
-                                                 crops to the browser window.
+                                                 the CHROME bbox WIDENED symmetrically
+                                                 (center kept at 2766) so the outer
+                                                 svg reveals the preceding/following
+                                                 items peeking in beyond the chrome
+                                                 edges (coverflow). Chrome stays the
+                                                 fixed center focus frame.
       - data-process-el="uicomponents-chrome"   CHROME group — fixed window frame.
       - data-process-el="uicomponents-track"    HERO group — GSAP translates its x.
       - data-process-el="uicomponents-item"     the 7 HERO item children (pars,
@@ -23,7 +27,7 @@
                                                  track harmlessly.
     ASIDE + BODY are fixed mockup content that composes inside the CHROME crop.
   #}
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="2471 548 590 606" preserveAspectRatio="xMidYMid meet" fill="currentColor" data-process-el="uicomponents" aria-hidden="true" focusable="false" class="ui-components-loop {{ classes }}">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="2171 548 1190 606" preserveAspectRatio="xMidYMid meet" fill="currentColor" data-process-el="uicomponents" aria-hidden="true" focusable="false" class="ui-components-loop {{ classes }}">
     <g id="CHROME" data-process-el="uicomponents-chrome">
     <g id="Group" />
     <path id="Path" fill="currentColor" fill-rule="evenodd" stroke="none" opacity="0.25" d="M 2492.070068 548 L 3040.814941 548 C 3047.988037 548 3050.589111 548.993042 3053.210938 550.857056 C 3055.833008 552.720947 3057.891113 555.457031 3059.293945 558.942017 C 3060.696045 562.427002 3061.443115 565.884033 3061.443115 575.418945 L 3061.443115 1126.582031 C 3061.443115 1136.115967 3060.696045 1139.572998 3059.293945 1143.057983 C 3057.891113 1146.543945 3055.833008 1149.279053 3053.210938 1151.143066 C 3050.589111 1153.00708 3047.988037 1154 3040.814941 1154 L 2492.070068 1154 C 2484.897949 1154 2482.297119 1153.00708 2479.675049 1151.143066 C 2477.052002 1149.279053 2474.995117 1146.543945 2473.592041 1143.057983 C 2472.189941 1139.572998 2471.441895 1136.115967 2471.441895 1126.582031 L 2471.441895 575.418945 C 2471.441895 565.884033 2472.189941 562.427002 2473.592041 558.942017 C 2474.993896 555.456055 2477.052002 552.720947 2479.675049 550.857056 C 2482.297119 548.993042 2484.897949 548 2492.070068 548 Z" />

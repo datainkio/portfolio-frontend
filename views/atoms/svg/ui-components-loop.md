@@ -43,22 +43,36 @@ contract in
 | Param | Default | Notes |
 | --- | --- | --- |
 | `classes` | `""` | Extra classes (e.g. `text-neutral-100`). |
-| `items` | `4` | Number of equal-width slot items to render. |
 
 ## Hook contract
 
 | Role | `data-process-el` |
 | --- | --- |
-| SVG root | `uicomponents` |
-| Clipped viewport | `uicomponents-viewport` |
-| Moving track (`data-slot-width`) | `uicomponents-track` |
-| Repeated item (`translate(i * slotWidth, 0)`) | `uicomponents-item` |
-| Fixed highlight | `uicomponents-highlight` |
-| Fixed chrome | `uicomponents-chrome` |
+| SVG root (widened viewBox) | `uicomponents` |
+| Moving track (HERO) | `uicomponents-track` |
+| Item (7 HERO children) | `uicomponents-item` |
+| Invisible dwell/focus marker | `uicomponents-hero-start` |
+| Fixed chrome window frame | `uicomponents-chrome` |
+
+## viewBox (coverflow peek)
+
+`viewBox="2171 548 1190 606"` — the CHROME bbox (`2471 548 590 606`) widened
+symmetrically about center **2766** (x0 = 2766 − 1190/2 = 2171), height/y
+unchanged. The extra ~300 units per side reveal the preceding/following items that
+the runtime re-packs to a uniform pitch, so they peek in beyond the chrome edges
+(where they fade in/out via the JS position-driven opacity — see the JS sidecar).
+`preserveAspectRatio="xMidYMid meet"` keeps the chrome dead-center. Do NOT change
+the Tailwind classes — the stage is height-driven (`h-48`, svg `w-auto`), so a
+wider viewBox renders as a wider box at the same height and items keep their size.
+
+**Tuning knobs** (motion detail in the JS sidecar):
+- Peek amount → viewBox width + x0 (keep center = 2766).
+- Neighbor gap from chrome → pitch `P` (`ITEM_PITCH` in the JS; ≥ 555, since HERO
+  renders atop CHROME).
+- Fade width → `FADE_RANGE` in the JS (distance from focus an item fades 1→0).
 
 ## Status
 
-**Draft / placeholder artwork.** The item bodies are placeholder shapes. Replace
-them with the real frames from `assets/svg/ui-components-anim.svg`, keeping
-equal-width slots and item vertical placement on the viewport offset wrapper so
-the runtime seamless-wrap clones position correctly.
+**Draft / placeholder artwork.** The item bodies are placeholder shapes; the
+motion (uniform-pitch repack + widened viewport peek) works against whatever real
+frames replace them, as long as the `data-process-el` hooks above stay intact.
