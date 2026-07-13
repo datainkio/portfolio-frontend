@@ -1,10 +1,14 @@
 {% macro render(params = {}) %}
   {% import "atoms/svg/blockframe-basic.njk" as BlockframeBasic %}
+  {% import "atoms/svg/ui-components-loop.njk" as UiComponentsLoop %}
   {%- set sectionId = params.id | default("process") -%}
   {%- set copy = params.copy | default({}) -%}
   {%- set heading = copy.heading | default("Process") -%}
   {%- set body = copy.body | default("") -%}
   {%- set headingId = params.headingId | default(sectionId) -%}
+  {#- Opt-in: renders the looping UI-components scene hooks. Pair with the
+      `ui-components-loop` process variant in SECTION_OVERRIDES to activate. -#}
+  {%- set uiComponents = params.uiComponents | default(false) -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -25,56 +29,74 @@
     {% if body %}
       <p data-process-el="body" class="col-span-full px-8">{{ body }}</p>
     {% endif %}
-    {#
-      12x3 Blockframes grid. The grid is sized 1200% x 300% at offset
-      -500% / -100% so each cell equals the wrapper box. Only row-major
-      index 17 (r1c5) is inlined & visible pre-zoom, holding the build-time
-      Basic block. The reveal choreography uniformly scales the grid to 1/12
-      (fit-to-width), landing all 36 cells as a full-width band ~1/4 the
-      wrapper height, centered vertically. The other 35 cells are invisible
-      placeholders cycling the 17 library block names; they are filled at
-      runtime by choreography/molecules/process-motion/blockframes-grid.js
-      via [data-blockframe-block]. overflow-hidden keeps the oversized grid
-      from creating horizontal page scroll.
-    #}
-    {%- set blockNames = [
-      "Basic",
-      "Features",
-      "Blog",
-      "Landing",
-      "Chart",
-      "Contact",
-      "Cart",
-      "Calendar",
-      "Login",
-      "Video",
-      "Project",
-      "Article",
-      "Map",
-      "List",
-      "Text",
-      "Main",
-      "Feed"
-    ] -%}
-    <div class="border-2 border-white w-full col-span-full overflow-hidden aspect-video mx-auto"
-         data-process-el="blockframes"
-         aria-hidden="true">
-      <div class="border-2 border-blue absolute -left-[500%] -top-[100%] h-[300%] w-[1200%] grid grid-cols-12 grid-rows-3"
-           data-process-el="blockframes-grid">
-        {%- for i in range(0, 36) %}
-          {%- if i == 17 %}
-            <div data-process-el="blockframes-visible">
-              {{ BlockframeBasic.render({"classes": "w-full h-auto text-neutral-100"}) }}
-            </div>
-          {%- else %}
-            {# No hiding class needed: cells are empty until JS fills them,
-               sit outside the wrapper's overflow crop until the zoom-out,
-               and the reveal timeline holds them at autoAlpha 0 until then. #}
-            <div data-blockframe-block="{{ blockNames[i % 17] }}"></div>
-          {%- endif %}
-        {%- endfor %}
+    {% if uiComponents %}
+      {# Looping index-and-dwell UI-components scene — the active Process visual
+         across all breakpoints (see SECTION_OVERRIDES["process"]). Replaces the
+         blockframes grid: rendering is one-of, so the retired blockframes markup
+         below never emits when this branch is taken. Decorative; the JS scene
+         (molecules/process-motion/ui-components-loop.js) binds via
+         data-process-el, never a class. #}
+      {# Height-driven, aspect-correct box: the svg's preserveAspectRatio
+         "xMidYMid meet" fits-and-contains the full CHROME viewBox (no vertical
+         crop). Width follows the ~square viewBox aspect (svg h-full w-auto,
+         wrapper w-fit), so there are no letterbox side bands. Nudge the height. #}
+      <div class="col-span-full mx-auto w-fit max-w-full h-48" data-process-el="uicomponents-stage" aria-hidden="true">
+        {{ UiComponentsLoop.render({ "classes": "h-full w-auto max-w-full text-neutral-100" }) }}
       </div>
-    </div>
+    {% else %}
+      {#
+        Legacy 12x3 Blockframes grid. Retired from the live Process section by
+        the ui-components-loop flip; retained as a fallback branch (and the
+        `blockframes` variant still registered in PROCESS_VARIANT_FACTORIES) but
+        not rendered while `uiComponents` is set. The grid is sized 1200% x 300%
+        at offset -500% / -100% so each cell equals the wrapper box. Only
+        row-major index 17 (r1c5) is inlined & visible pre-zoom, holding the
+        build-time Basic block. The reveal choreography uniformly scales the grid
+        to 1/12 (fit-to-width). The other 35 cells are invisible placeholders
+        cycling the 17 library block names; they are filled at runtime by
+        choreography/molecules/process-motion/blockframes-grid.js via
+        [data-blockframe-block]. overflow-hidden keeps the oversized grid from
+        creating horizontal page scroll.
+      #}
+      {%- set blockNames = [
+        "Basic",
+        "Features",
+        "Blog",
+        "Landing",
+        "Chart",
+        "Contact",
+        "Cart",
+        "Calendar",
+        "Login",
+        "Video",
+        "Project",
+        "Article",
+        "Map",
+        "List",
+        "Text",
+        "Main",
+        "Feed"
+      ] -%}
+      <div class="border-2 border-white w-full col-span-full overflow-hidden aspect-video mx-auto"
+           data-process-el="blockframes"
+           aria-hidden="true">
+        <div class="border-2 border-blue absolute -left-[200%] -top-[200%] h-[600%] w-[600%] grid grid-cols-6 grid-rows-6"
+             data-process-el="blockframes-grid">
+          {%- for i in range(0, 36) %}
+            {%- if i == 17 %}
+              <div data-process-el="blockframes-visible">
+                {{ BlockframeBasic.render({"classes": "w-full h-auto text-neutral-100"}) }}
+              </div>
+            {%- else %}
+              {# No hiding class needed: cells are empty until JS fills them,
+                 sit outside the wrapper's overflow crop until the zoom-out,
+                 and the reveal timeline holds them at autoAlpha 0 until then. #}
+              <div data-blockframe-block="{{ blockNames[i % 17] }}"></div>
+            {%- endif %}
+          {%- endfor %}
+        </div>
+      </div>
+    {% endif %}
     <p>Most of the projects I work on as an experience designer are the product of a cross-functional team of stakeholders, managers, designers, and developers. Each team member has their own priorities and perspectives. My role is to ensure that everyone has the insight and direction they need to make informed decisions about how to serve the needs of users.</p>
     <p>This is more than just figuring out where to place a button or how to word a call-to-action. It's about understanding the business goals, the user needs, and the technical constraints, and then finding the best way to balance them.</p>
   </section>

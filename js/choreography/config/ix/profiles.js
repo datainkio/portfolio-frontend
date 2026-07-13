@@ -121,11 +121,11 @@ export const SECTION_OVERRIDES = Object.freeze({
   },
   process: {
     reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "blockframes" } },
-    sm: { animation: { variant: "blockframes" } },
-    md: { animation: { variant: "blockframes" } },
-    lg: { animation: { variant: "blockframes" } },
-    xl: { animation: { variant: "blockframes" } },
+    base: { animation: { variant: "ui-components-loop" } },
+    sm: { animation: { variant: "ui-components-loop" } },
+    md: { animation: { variant: "ui-components-loop" } },
+    lg: { animation: { variant: "ui-components-loop" } },
+    xl: { animation: { variant: "ui-components-loop" } },
   },
   awards: {
     base: { animation: { variant: "reduced" } },
