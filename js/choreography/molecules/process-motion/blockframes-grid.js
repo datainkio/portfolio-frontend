@@ -70,9 +70,9 @@ export async function fillBlockframesGrid(view) {
       dark: tokenColor("accent-900"),
     },
     semantic: {
-      alert: tokenColor("neutral-100"),
-      success: tokenColor("neutral-500"),
-      fail: tokenColor("neutral-900"),
+      alert: tokenColor("tertiary-100"),
+      success: tokenColor("tertiary-500"),
+      fail: tokenColor("tertiary-900"),
     },
   };
 

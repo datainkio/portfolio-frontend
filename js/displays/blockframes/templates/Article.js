@@ -29,6 +29,8 @@ export function paint(elem, palette) {
   chrome.setAttribute("stroke", palette.neutral.dark);
   chrome.setAttribute("stroke-width", 4);
   chrome.setAttribute("fill", palette.primary.DEFAULT);
+  breadcrumb.setAttribute("fill", palette.neutral.dark);
+  intro.setAttribute("fill", palette.neutral.dark);
 }
 
 export function intro(elem) {

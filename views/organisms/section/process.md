@@ -18,7 +18,6 @@ tags:
   - "#template"
 links:
   - [organizations](organizations.md)
-  - [blockframe-basic](../../atoms/svg/blockframe-basic.md)
 ---
 # Process
 
@@ -32,9 +31,12 @@ Defines Nunjucks macro: `render`.
 ## Purpose
 
 Process section between Bio and Work. Renders a heading, optional body copy,
-and the 6x6 Blockframes grid (migrated here from the Bio section). Targeted by
-the choreography system via `data-process-el` attributes; the Blockframes
-reveal is driven by `choreography/molecules/process-motion`.
+and two animated visuals: the looping UI-components scene (opt-in via
+`params.uiComponents`, rendered above the paragraphs) and the 12x3 (WxH)
+Blockframes grid (always rendered, placed after the first hardcoded
+paragraph; migrated here from the Bio section). Targeted by the choreography
+system via `data-process-el` attributes; both are built by the composed
+`ui-components-loop` variant in `choreography/molecules/process-motion`.
 
 ## Role in the System
 
@@ -47,24 +49,25 @@ location under `views/`.
 - `params.copy.heading` — heading text, defaults to `"Process"`.
 - `params.copy.body` — optional body paragraph; omitted entirely if empty.
 - `params.headingId` — id used for `aria-labelledby`, defaults to `sectionId`.
+- `params.uiComponents` — opt-in flag; renders the looping UI-components
+  stage (`uicomponents-stage`) above the paragraphs. Blockframes renders
+  regardless.
 
 ## `data-process-el` Hooks
 
 - `header` — the `<header>` wrapper.
 - `heading` — the `<h2>` heading element.
 - `body` — the optional `<p>` body element (only rendered when `body` is set).
-- `blockframes` — the 6x6 grid wrapper; owns the Basic aspect
-  (`aspect-[590/606]`, `overflow-hidden`).
-- `blockframes-grid` — the inner grid (`w-[600%] h-[600%]` offset
-  `-left-[200%] -top-[200%]`) so cell r3c3 (row-major index 14) aligns with
-  the wrapper box.
-- `blockframes-visible` — the visible cell holding the inlined `.Basic` SVG
-  ([[blockframe-basic.njk]]), animated by `process-motion/blockframes.js`
-  (`buildBlockframesReveal`).
-- The other 35 cells carry `data-blockframe-block="<BlockName>"` (the 17
-  library block names cycled `i % 17`), filled at runtime by
+- `blockframes` — the 12x3 (WxH) grid wrapper (`w-full h-48`,
+  `overflow-hidden`).
+- `blockframes-grid` — the inner grid (`w-full h-full`, `grid-cols-12
+  grid-rows-3`, no gap); fills the wrapper 1:1 so each cell is naturally
+  1/12 the wrapper's width and sits flush against its neighbors.
+- All 36 cells carry `data-blockframe-block="<BlockName>"` (the 17 library
+  block names cycled `i % 17`), filled at runtime by
   `process-motion/blockframes-grid.js` (`fillBlockframesGrid`) and painted
-  with design-token colors.
+  with design-token colors, then revealed by `process-motion/blockframes.js`
+  (`buildBlockframesReveal`).
 
 ## Relationships
 
