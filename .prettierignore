@@ -1,0 +1,2 @@
+# Nunjucks templates are owned by djlint — see .djlintrc and `npm run format:njk`
+*.njk
