@@ -1,5 +1,5 @@
 {% macro render(params = {}) %}
-  {% import "molecules/card/project.njk" as Card %}
+  {% import "molecules/list/project-cards.njk" as ProjectCards %}
   {% import "molecules/list/industry-links.njk" as Industries %}
   {% import "molecules/section/industry-section.njk" as IndustrySection %}
 
@@ -12,10 +12,11 @@
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
-  {# TODO: Resolve background image path in production #}
-  {%- set section = {"base": "[&>p]:prose [&>p]:text-neutral-200 [&>p]:mx-4 [&>p]:col-span-6", "motion-reduced": ""} -%}
+  {%- set groupProjects = params.groupProjects | default(false) -%}
 
-  {%- set header = {"base": "content-end grid grid-cols-1 gap-8 px-4"} -%}
+  {%- set section = {"base": "[&>p]:prose [&>p]:text-neutral-200 [&>p]:mx-4"} -%}
+
+  {%- set header = {"base": "content-end grid grid-cols-1 px-4"} -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -40,20 +41,23 @@
           class="{{ title | classes }}">{{ heading }}</h2>
     </header>
     {{ body | safe }}
-    {#- Display the industry links for jump navigation within the section -#}
-    <nav id="work-jumplinks"
-         aria-label="Jump to an industry"
-         data-projects-el="jumplinks"
-         class="{{ nav | classes }}">
-      {{ Industries.render({ industries: industries }) }}
-    </nav>
 
-    {#- Display the industry groups and their projects -#}
-    {% for industryTitle, projects in industries %}
-      {% if projects | length %}
-        {{ IndustrySection.render({ industryTitle: industryTitle, projects: projects }) }}
-      {% endif %}
-    {% endfor %}
-
+    {% if groupProjects %}
+      {#- Display the industry links for jump navigation within the section -#}
+      <nav id="work-jumplinks"
+           aria-label="Jump to an industry"
+           data-projects-el="jumplinks"
+           class="{{ nav | classes }}">
+        {{ Industries.render({ industries: industries }) }}
+      </nav>
+      {#- Display the industry groups and their projects -#}
+      {% for industryTitle, projects in industries %}
+        {% if projects | length %}
+          {{ IndustrySection.render({ industryTitle: industryTitle, projects: projects }) }}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {{ ProjectCards.render({ projects: params.projects, classes: "w-full" }) }}
+    {% endif %}
   </section>
 {% endmacro %}

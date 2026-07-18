@@ -3,7 +3,6 @@
 {% import "molecules/stats/stats.njk" as Details %}
 {% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
 {% macro render(params = {}) %}
-  {# Note that defaults are limited. This gives the caller more control and allows them to pass in empty strings or falsy values if they want to intentionally omit something that might otherwise be pulled from a project object. #}
 
   {#- Data guards -#}
   {%- set title = params.title -%}
@@ -23,26 +22,30 @@
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
-  {%- set root = {"base": "relative text-neutral-950 isolate w-full", "md": "inner-border p-4 m-auto w-auto"} -%}
+  {#- Styling -#}
 
-  {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh sticky top-0", "md": "h-full block"} -%}
+  {%- set root = {"base": "relative text-neutral-950 isolate w-full", "md": "inner-border p-4"} -%}
+
+  {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh", "md": "h-auto aspect-video"} -%}
 
   {%- set imageCSS = {"base": "w-full h-full object-cover object-center"} -%}
 
-  {%- set body = {
-    "base": "grid grid-cols-6 inner-border -mt-24 p-6 relative content-start bg-neutral-100",
-    "md": "inner-border-none"
-  } -%}
+  {%- set body = {"base": "grid grid-cols-6 inner-border -mt-24 p-6 relative content-start bg-neutral-100", "md": "mt-0"} -%}
 
   {%- set eyebrow = {"base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"} -%}
 
   {%- set header = {"base": "header col-span-full hover:no-underline"} -%}
 
-  {%- set heading = {"base": "text-neutral-950 text-2xl/6 font-display py-4", "sm": "text-3xl"} -%}
+  {%- set heading = {
+    "base": "text-neutral-950 text-2xl/6 font-display py-4",
+    "sm": "text-3xl",
+    "md": "text-xl/6",
+    "xl": "text-2xl/6"
+  } -%}
 
   {%- set byline = {"base": "byline text-sm font-display"} -%}
 
-  {%- set description = {"base": "block col-span-full"} -%}
+  {%- set description = {"base": "sr-only col-span-full"} -%}
 
   {%- set stats = {"base": "col-span-full text-neutral-950 [&_dt]:sr-only", "sm": "", "md": ""} -%}
 

@@ -43,8 +43,8 @@
     {{ SectionCap.render({"title": "initializing..."}) }}
     <main id="page-main" aria-busy="true" class="{{ main | classes }}">
       {{ PageHeader.home_landing({ "svg": logo }) }}
-      {{ BioSection.render({ "id": "manifesto", "copy": value }) }}
-      {{ ProcessSection.render({"id": "process", "uiComponents": true}) }}
+      {# {{ BioSection.render({ "id": "manifesto", "copy": value }) }} #}
+      {# {{ ProcessSection.render({"id": "process", "uiComponents": true}) }} #}
       {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
       {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
       {{ AwardsSection.render({ "id": "recognition", "copy": recognition, "awards": awards}) }}
