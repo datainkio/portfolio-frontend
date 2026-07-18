@@ -26,9 +26,9 @@
     fix-dev-channel-defects (ADR 0005). -#}
 {#- TODO: Address horizontal scroll on mobile -#}
 {%- set main = {
-      base: "relative pl-12 bg-slate-950 bg-graphpaper-sm bg-fixed mx-auto flex flex-col col-span-full w-full",
-      lg: "pl-48"
-    } -%}
+  "base": "relative pl-12 bg-slate-950 bg-graphpaper-sm bg-fixed mx-auto flex flex-col col-span-full w-full",
+  "lg": "pl-48"
+} -%}
 
 {# Note that content values are set in frontmatter #}
 <!DOCTYPE html>
@@ -40,17 +40,17 @@
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {# {{ GlobalHeader.render({ logo: logo }) }} #}
-    {{ SectionCap.render({title: "renderizoring..."}) }}
+    {{ SectionCap.render({"title": "initializing..."}) }}
     <main id="page-main" aria-busy="true" class="{{ main | classes }}">
-      {{ PageHeader.home_landing({ svg: logo }) }}
-      {{ BioSection.render({ id: "manifesto", copy: value }) }}
-      {{ ProcessSection.render({ id: "process", uiComponents: true }) }}
-      {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
-      {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
-      {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
-      {{ ContactSection.render({ id: "contact", copy: contact, contact: contactInfo }) }}
+      {{ PageHeader.home_landing({ "svg": logo }) }}
+      {{ BioSection.render({ "id": "manifesto", "copy": value }) }}
+      {{ ProcessSection.render({"id": "process", "uiComponents": true}) }}
+      {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
+      {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
+      {{ AwardsSection.render({ "id": "recognition", "copy": recognition, "awards": awards}) }}
+      {{ ContactSection.render({ "id": "contact", "copy": contact, "contact": contactInfo }) }}
     </main>
-    {{ GlobalFooter.render({contact: false}) }}
+    {{ GlobalFooter.render({"contact": false}) }}
     {% include "templates/partials/choreography-script.njk" %}
   </body>
 </html>
