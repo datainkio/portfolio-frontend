@@ -75,7 +75,7 @@ Classified as a **page** at the atomic **page** level.
 ## Relationships
 
 - Extends: [[base.njk]]
-- Driven by: [[project.md]] (`frontend/ia/project.md`)
+- Driven by: [[dataink.io/frontend/views/pages/project/project]] (`frontend/ia/project.md`)
 - Spec: [`frontend/specs/views/project-page.views-spec.md`](../../../specs/views/project-page.views-spec.md)
 - Pattern: [`content-model/patterns/project-page.md`](../../../../content-model/patterns/project-page.md)
 
