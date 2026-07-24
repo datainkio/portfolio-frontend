@@ -30,7 +30,7 @@
   "lg": "pl-48"
 } -%}
 
-{# Note that content values are set in frontmatter #}
+{# Note that content values - include title and other metadata - are set in frontmatter #}
 <!DOCTYPE html>
 <html lang="en" class="bg-slate-950">
   {% include "templates/partials/dev-note.njk" %}
@@ -41,16 +41,18 @@
     {{ SkipLinksNav.render() }}
     {# {{ GlobalHeader.render({ logo: logo }) }} #}
     {{ SectionCap.render({"title": "initializing..."}) }}
-    <main id="page-main" aria-busy="true" class="{{ main | classes }}">
-      {{ PageHeader.home_landing({ "svg": logo }) }}
-      {# {{ BioSection.render({ "id": "manifesto", "copy": value }) }} #}
-      {# {{ ProcessSection.render({"id": "process", "uiComponents": true}) }} #}
-      {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
-      {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
-      {{ AwardsSection.render({ "id": "recognition", "copy": recognition, "awards": awards}) }}
-      {{ ContactSection.render({ "id": "contact", "copy": contact, "contact": contactInfo }) }}
-    </main>
-    {{ GlobalFooter.render({"contact": false}) }}
+    <div id="page-main">
+      <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
+        {{ PageHeader.home_landing({ "svg": logo }) }}
+        {# {{ BioSection.render({ "id": "manifesto", "copy": value }) }} #}
+        {# {{ ProcessSection.render({"id": "process", "uiComponents": true}) }} #}
+        {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
+        {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
+        {{ AwardsSection.render({ "id": "recognition", "copy": recognition, "awards": awards}) }}
+        {{ ContactSection.render({ "id": "contact", "copy": contact, "contact": contactInfo }) }}
+      </main>
+      {{ GlobalFooter.render({"contact": false}) }}
+    </div>
     {% include "templates/partials/choreography-script.njk" %}
   </body>
 </html>
