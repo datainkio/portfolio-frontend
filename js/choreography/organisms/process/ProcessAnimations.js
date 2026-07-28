@@ -29,7 +29,7 @@ export default class ProcessAnimations extends AbstractSectionAnimations {
   }
 
   _buildIntro() {
-    return this._factory().buildIntro?.(this.view) ?? null;
+    return this._factory().buildIntro?.(this.view) ?? super._buildIntro();
   }
 
   _buildIdle() {
@@ -37,6 +37,6 @@ export default class ProcessAnimations extends AbstractSectionAnimations {
   }
 
   _buildOutro() {
-    return this._factory().buildOutro?.(this.view) ?? null;
+    return this._factory().buildOutro?.(this.view) ?? super._buildOutro();
   }
 }

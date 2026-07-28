@@ -101,17 +101,6 @@ export class LandingSequence {
 
     on(EVENTS.video.introComplete, () => {
       this.logger.trace("BG Video intro complete");
-      this.sections?.hero?.playLanding?.();
-    });
-
-    on(EVENTS.hero.onEnterBack, () => {
-      this.logger.trace(SELECTORS.hero + " entered back");
-      this._resumeBackgroundVideo();
-    });
-
-    on(EVENTS.hero.exit, () => {
-      this._pauseBackgroundVideo();
-      this.logger.trace(SELECTORS.hero + " exited");
     });
 
     // Bio reveal is time-based, not scroll-based: it plays once the home
@@ -125,12 +114,12 @@ export class LandingSequence {
 
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
-      this._pauseBackgroundVideo();
+      // this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.onEnterBack, () => {
       this.logger.trace(SELECTORS.bio + " entered back");
-      this._pauseBackgroundVideo();
+      // this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.exit, () => {

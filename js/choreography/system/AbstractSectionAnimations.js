@@ -68,6 +68,27 @@ export default class AbstractSectionAnimations {
     return this._timelines;
   }
 
+  // Default phase builders: an empty, id-tagged timeline. Sections that don't
+  // use a given lifecycle phase (e.g. no landing beat) inherit these as-is —
+  // no warning, no-op playback. Override in a subclass to give a phase real
+  // motion; a subclass builder can still fall back to `super._buildX()` when
+  // its own factory/variant doesn't implement that phase.
+  _buildLanding() {
+    return gsap.timeline({ id: TIMELINE_IDS.landing });
+  }
+
+  _buildIntro() {
+    return gsap.timeline({ id: TIMELINE_IDS.intro });
+  }
+
+  _buildIdle() {
+    return gsap.timeline({ id: TIMELINE_IDS.idle });
+  }
+
+  _buildOutro() {
+    return gsap.timeline({ id: TIMELINE_IDS.outro });
+  }
+
   _registerTimeline(timelineId, timeline) {
     if (!timelineId || !Object.hasOwn(this._timelines, timelineId)) return null;
     this._timelines[timelineId]?.kill?.();

@@ -37,15 +37,15 @@ export default class BioAnimations extends AbstractSectionAnimations {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
     // init is variant-specific (reduced-only): it pre-styles the gel resting
-    // state. Variants without it have no landing phase, so return null —
-    // _registerTimeline treats a falsy return as "no timeline for this phase".
-    return factory.init?.(this.view, this.gelManager) ?? null;
+    // state. Variants without it have no landing phase — fall back to the
+    // base class's empty timeline.
+    return factory.init?.(this.view, this.gelManager) ?? super._buildLanding();
   }
 
   _buildIntro() {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildIntro?.(this.view, this.gelManager) ?? null;
+    return factory.buildIntro?.(this.view, this.gelManager) ?? super._buildIntro();
   }
 
   _buildIdle() {
@@ -55,6 +55,6 @@ export default class BioAnimations extends AbstractSectionAnimations {
   _buildOutro() {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildOutro?.(this.view, this.gelManager) ?? null;
+    return factory.buildOutro?.(this.view, this.gelManager) ?? super._buildOutro();
   }
 }
