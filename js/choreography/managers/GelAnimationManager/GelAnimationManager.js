@@ -36,6 +36,13 @@ export default class GelAnimationManager {
       .filter((gel) => gel !== null);
   }
 
+  /**
+   * Every .bg-gel element passes through this method for initialization. This
+   * makes it a good place to handle any setup required for each gel element
+   * before it participates in arrangements.
+   * @param {HTMLElement} el
+   * @returns {Gel|null}
+   */
   _initializeGelFromElement(el) {
     const gelId = el.id;
     if (!gelId) {
@@ -44,6 +51,11 @@ export default class GelAnimationManager {
     }
     const gel = new Gel(el);
     gel.refresh();
+    // Gels stay in the DOM but start hidden — geometry/scale/position are
+    // arranged before anything is revealed, so nothing flashes at its
+    // pre-arrangement rect. autoAlpha (opacity + visibility) is orthogonal to
+    // the left/top/width/height and scale properties arrangements animate.
+    gsap.set(gel.view, { autoAlpha: 0 });
     this._gelsById.set(gelId, gel);
     return gel;
   }

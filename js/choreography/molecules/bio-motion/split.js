@@ -6,6 +6,7 @@ import {
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_INTRO } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { attachHeadingGel } from "./heading-gel.js";
 
 const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 
@@ -91,6 +92,9 @@ export function intro(view, gelManager) {
   );
 
   buildAsideReveal(view, aside);
+  // Full-bleed gel band behind the <h2>. Positioned outside the timeline: it is
+  // a standing background state, not a phase of the reveal.
+  attachHeadingGel(view, gelManager);
 
   return tl;
 }
