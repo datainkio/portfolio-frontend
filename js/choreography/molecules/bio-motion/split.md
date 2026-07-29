@@ -17,6 +17,8 @@ tags:
   - variant
 links:
   - "[[bio-motion]]"
+  - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
+  - "[[molecules/bio-motion/overview-gel|molecules/bio-motion/overview-gel]]"
 backlinks:
   - "[[bio-motion]]"
 ---

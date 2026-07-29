@@ -7,7 +7,7 @@
 
 {#- CONTENT VIEWS -#}
 {% import "organisms/section/work.njk" as ProjectsSection %}
-{% import "organisms/section/bio.njk" as BioSection %}
+{% import "organisms/section/bio.njk" as HeroSection %}
 {% import "organisms/section/process.njk" as ProcessSection %}
 {% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/organizations.njk" as OrganizationsSection %}
@@ -30,11 +30,10 @@
 
 {# Note that content values - include title and other metadata - are set in frontmatter #}
 <!DOCTYPE html>
+{% include "templates/partials/dev-note.njk" %}
 <html lang="en" class="bg-slate-950">
-  {% include "templates/partials/dev-note.njk" %}
   {% include "templates/partials/head.njk" %}
-
-  <body class="bg-slate-950 text-neutral-100">
+  <body class="bg-slate-950 text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ SkipLinksNav.render() }}
@@ -43,7 +42,7 @@
     <div id="page-main">
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
         {{ PageHeader.home_landing({ "svg": logo }) }}
-        {{ BioSection.render({ "id": "manifesto", "copy": value }) }}
+        {{ HeroSection.render({ "id": "manifesto", "copy": value }) }}
         {{ ProcessSection.render({"id": "process", "uiComponents": true}) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}

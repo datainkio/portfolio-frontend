@@ -2,13 +2,14 @@ import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**
- * Bio Heading Gel
+ * Bio Overview Gel
  *
- * Pins the `gel_hero` gel behind the bio section's <h2> as a full-bleed band:
- * viewport width, the heading's own height, at the heading's viewport y.
+ * Pins the `gel_subheading` gel behind the bio section's overview <h3> as a
+ * full-bleed band: viewport width, the overview heading's own height, at its
+ * viewport y. Mirrors heading-gel.js's strategy for the <h2>.
  *
  * The gel lives in `#background` (`fixed inset-0`), so an absolutely positioned
- * child resolves against the viewport — `top` is the heading's raw
+ * child resolves against the viewport — `top` is the overview heading's raw
  * getBoundingClientRect().top, with no scroll offset added. Because the
  * container is fixed, the gel does not scroll with the page on its own; a
  * ScrollTrigger re-syncs `top` as the heading moves through the viewport.
@@ -17,12 +18,12 @@ import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
  * visible is an explicit step here.
  */
 
-const HEADING_GEL_ID = "gel_bio";
-const SYNC_ST_ID = "bio-heading-gel-sync";
-const HEADING_EL = "heading";
+const OVERVIEW_GEL_ID = "gel_subheading";
+const SYNC_ST_ID = "bio-overview-gel-sync";
+const OVERVIEW_EL = "overview";
 
-const selectHeading = (view) =>
-  view?.querySelector(`[${BIO_SELECTORS.elementAttribute}="${HEADING_EL}"]`) ??
+const selectOverview = (view) =>
+  view?.querySelector(`[${BIO_SELECTORS.elementAttribute}="${OVERVIEW_EL}"]`) ??
   null;
 
 /**
@@ -30,16 +31,16 @@ const selectHeading = (view) =>
  * @param {object|null} gelManager GelAnimationManager instance.
  * @returns {ScrollTrigger|null} The sync trigger, or null when unavailable.
  */
-export function attachHeadingGel(view, gelManager) {
-  const gel = gelManager?.getGel?.(HEADING_GEL_ID) ?? null;
-  const heading = selectHeading(view);
-  if (!gel?.view || !heading) return null;
+export function attachOverviewGel(view, gelManager) {
+  const gel = gelManager?.getGel?.(OVERVIEW_GEL_ID) ?? null;
+  const overview = selectOverview(view);
+  if (!gel?.view || !overview) return null;
 
   const el = gel.view;
   let lastHeight = null;
 
   const sync = () => {
-    const rect = heading.getBoundingClientRect();
+    const rect = overview.getBoundingClientRect();
     if (!rect.height) return;
 
     gsap.set(el, {

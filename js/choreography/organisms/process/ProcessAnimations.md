@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.organisms.process.processanimations
-role: "Process animations module — variant-driven intro/idle/outro timeline builder. Selects the active variant from PROCESS_VARIANT_FACTORIES (default `blockframes`) and delegates buildIntro/buildOutro to it; the idle phase is an empty timeline. Mirrors BioAnimations."
+role: "Process animations module — variant-driven intro/idle/outro timeline builder. Selects the active variant from PROCESS_VARIANT_FACTORIES (default `blockframes`) and delegates buildIntro/buildOutro to it, passing through the injected gelManager; the idle phase is an empty timeline. Mirrors BioAnimations."
 status: stable
 surface: internal
 scope: frontend
@@ -31,10 +31,15 @@ variant string (default `"blockframes"`) and resolves it against
   the first build via `_applyResponsiveLifecycle` (the constructor does NOT
   call `_buildTimeline`, matching Bio).
 - `_buildIntro` / `_buildOutro` — delegate to the active factory's
-  `buildIntro` / `buildOutro`; `buildOutro` is currently unused by every
-  variant.
+  `buildIntro` / `buildOutro`, passing `(this.view, this.gelManager)`;
+  `buildOutro` is currently unused by every variant.
 - `_buildIdle` — an empty timeline.
+- `this.gelManager` — set from `options.gelManager` in the constructor (`null`
+  when omitted), mirroring `BioAnimations`. `Process.js` forwards the
+  `GelAnimationManager` instance injected by `AnimationDirector`.
 
 The `blockframes` variant's intro fires the self-driving Blockframes reveal +
-grid fill as side-effects and returns an empty timeline; the `reduced` variant
-returns an empty intro so only the static inlined `.Basic` block shows.
+grid fill + `gel_process` section-gel band (covers the full section) as
+side-effects and returns an empty timeline; the `reduced` variant returns an
+empty intro so only the static inlined `.Basic` block shows (no section-gel —
+the gel stays parked at `autoAlpha: 0`).

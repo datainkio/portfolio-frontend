@@ -6,6 +6,7 @@ import { PROCESS_VARIANT_FACTORIES } from "../../molecules/process-motion/proces
 export default class ProcessAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
+    this.gelManager = options.gelManager ?? null;
     this._variant = options.variant ?? "blockframes";
   }
 
@@ -29,7 +30,10 @@ export default class ProcessAnimations extends AbstractSectionAnimations {
   }
 
   _buildIntro() {
-    return this._factory().buildIntro?.(this.view) ?? super._buildIntro();
+    return (
+      this._factory().buildIntro?.(this.view, this.gelManager) ??
+      super._buildIntro()
+    );
   }
 
   _buildIdle() {

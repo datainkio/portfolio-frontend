@@ -1,45 +1,40 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
-import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**
- * Bio Heading Gel
+ * Process Section Gel
  *
- * Pins the `gel_hero` gel behind the bio section's <h2> as a full-bleed band:
- * viewport width, the heading's own height, at the heading's viewport y.
+ * Pins the `gel_process` gel behind the entire process section as a full-bleed
+ * band: viewport width, the section's own height, at the section's viewport y.
+ * Mirrors bio-motion/heading-gel.js's strategy, scoped to the whole section
+ * root instead of a single heading element.
  *
  * The gel lives in `#background` (`fixed inset-0`), so an absolutely positioned
- * child resolves against the viewport — `top` is the heading's raw
+ * child resolves against the viewport — `top` is the section's raw
  * getBoundingClientRect().top, with no scroll offset added. Because the
  * container is fixed, the gel does not scroll with the page on its own; a
- * ScrollTrigger re-syncs `top` as the heading moves through the viewport.
+ * ScrollTrigger re-syncs `top` as the section moves through the viewport.
  *
  * GelAnimationManager parks every gel at autoAlpha 0 on init, so making this one
  * visible is an explicit step here.
  */
 
-const HEADING_GEL_ID = "gel_bio";
-const SYNC_ST_ID = "bio-heading-gel-sync";
-const HEADING_EL = "heading";
-
-const selectHeading = (view) =>
-  view?.querySelector(`[${BIO_SELECTORS.elementAttribute}="${HEADING_EL}"]`) ??
-  null;
+const SECTION_GEL_ID = "gel_process";
+const SYNC_ST_ID = "process-section-gel-sync";
 
 /**
- * @param {HTMLElement|null} view Bio section root.
+ * @param {HTMLElement|null} view Process section root.
  * @param {object|null} gelManager GelAnimationManager instance.
  * @returns {ScrollTrigger|null} The sync trigger, or null when unavailable.
  */
-export function attachHeadingGel(view, gelManager) {
-  const gel = gelManager?.getGel?.(HEADING_GEL_ID) ?? null;
-  const heading = selectHeading(view);
-  if (!gel?.view || !heading) return null;
+export function attachSectionGel(view, gelManager) {
+  const gel = gelManager?.getGel?.(SECTION_GEL_ID) ?? null;
+  if (!gel?.view || !view) return null;
 
   const el = gel.view;
   let lastHeight = null;
 
   const sync = () => {
-    const rect = heading.getBoundingClientRect();
+    const rect = view.getBoundingClientRect();
     if (!rect.height) return;
 
     gsap.set(el, {

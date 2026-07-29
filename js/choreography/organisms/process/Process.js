@@ -7,9 +7,9 @@ import ProcessAnimations from "./ProcessAnimations.js";
 import ProcessTriggers from "./ProcessTriggers.js";
 
 export default class Process extends AbstractSection {
-  constructor({ bus = null, reducedMotionHandler } = {}) {
+  constructor({ bus = null, reducedMotionHandler, gelManager = null } = {}) {
     const view = document.getElementById(SELECTORS.process);
-    const animations = new ProcessAnimations(view);
+    const animations = new ProcessAnimations(view, { gelManager });
     const triggers = new ProcessTriggers(view);
 
     super({

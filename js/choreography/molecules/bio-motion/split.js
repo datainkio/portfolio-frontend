@@ -7,6 +7,7 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_INTRO } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { attachHeadingGel } from "./heading-gel.js";
+import { attachOverviewGel } from "./overview-gel.js";
 
 const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 
@@ -33,7 +34,6 @@ const tokenColor = (name) =>
 export function intro(view, gelManager) {
   const title = selectBioEl(view, "heading");
   const context = selectBioEl(view, "context");
-  const subheading = selectBioEl(view, "subheading");
   const aside = selectBioEl(view, "aside");
 
   const tl = gsap.timeline({
@@ -74,8 +74,9 @@ export function intro(view, gelManager) {
         });
       });
   });
-  // Reading-order cascade: context, title, and subheading overlap into one
-  // continuous downward gesture; the keyword ignite punctuates the tail. The
+  // Reading-order cascade: context and title overlap into one continuous
+  // downward gesture; the keyword ignite punctuates the tail. The overview
+  // heading now lives outside <header> and is not part of this cascade. The
   // aside + body copy are split out into their own scroll-triggered reveal
   // (buildAsideReveal) so they animate on entry rather than up-front.
   tl.from(context, { duration: 0.5, opacity: 0, y: 100 }, 0);
@@ -85,16 +86,12 @@ export function intro(view, gelManager) {
     "-=0.3",
   );
   tl.to(highlights, { color: tokenColor("secondary-600"), stagger: 1 });
-  tl.from(
-    subheading,
-    { duration: 0.25, opacity: 0, y: 100, delay: 1.25 },
-    "-=0.3",
-  );
 
   buildAsideReveal(view, aside);
-  // Full-bleed gel band behind the <h2>. Positioned outside the timeline: it is
-  // a standing background state, not a phase of the reveal.
+  // Full-bleed gel bands behind the <h2> and overview <h3>. Positioned outside
+  // the timeline: they are standing background states, not phases of the reveal.
   attachHeadingGel(view, gelManager);
+  attachOverviewGel(view, gelManager);
 
   return tl;
 }

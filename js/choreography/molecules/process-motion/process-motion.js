@@ -15,8 +15,8 @@ export const PROCESS_VARIANT_FACTORIES = Object.freeze({
   // rebuilds don't stack triggers. Selected per breakpoint by the process
   // SECTION_OVERRIDES variant.
   "ui-components-loop": {
-    buildIntro: (view) => {
-      introBlockframes(view);
+    buildIntro: (view, gelManager) => {
+      introBlockframes(view, gelManager);
       return introUiComponentsLoop(view);
     },
   },

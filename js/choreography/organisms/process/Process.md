@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.organisms.process.process
-role: "Process section controller — wires the process section into the AbstractSection lifecycle and drives the motion variant per breakpoint. Mirrors Bio.js: `_applyResponsiveLifecycle` resolves the section motion profile and rebuilds the animations with the resolved variant (`blockframes` at every breakpoint, `reduced` under prefers-reduced-motion)."
+role: "Process section controller — wires the process section into the AbstractSection lifecycle and drives the motion variant per breakpoint. Mirrors Bio.js: accepts and forwards `gelManager` to ProcessAnimations (for the gel_process section-gel band, which covers the full section); `_applyResponsiveLifecycle` resolves the section motion profile and rebuilds the animations with the resolved variant (`blockframes` at every breakpoint, `reduced` under prefers-reduced-motion)."
 status: stable
 surface: internal
 scope: frontend
