@@ -4,5 +4,7 @@
   "preserve_blank_lines": true,
   "format_css": false,
   "format_js": false,
-  "extension": "njk"
+  "extension": "njk",
+  "_comment_ignore": "H016/H030/H031 assume <head> content is inline. Every page delegates it to templates/partials/head.njk, which djlint cannot resolve through {% include %}.",
+  "ignore": "H016,H030,H031"
 }
