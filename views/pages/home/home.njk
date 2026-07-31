@@ -40,8 +40,8 @@
     {# {{ GlobalHeader.render({ logo: logo }) }} #}
     {{ SectionCap.render({"title": "initializing..."}) }}
     <div id="page-main">
+      {{ PageHeader.home_landing({ "svg": logo }) }}
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
-        {{ PageHeader.home_landing({ "svg": logo }) }}
         {{ HeroSection.render({ "id": "manifesto", "copy": value }) }}
         {{ ProcessSection.render({"id": "process", "uiComponents": true}) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
