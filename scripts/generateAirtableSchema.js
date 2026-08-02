@@ -19,11 +19,10 @@
  * CMS Schema Generator (deprecated)
  *
  * The CMS query registry is the canonical source of truth.
- * See `frontend/data/sanity/queries/` for data contracts.
+ * See `frontend/cms/queries/` for data contracts.
  */
 
-const message =
-  "Deprecated: CMS schema is defined in frontend/data/sanity/queries.";
+const message = 'Deprecated: CMS schema is defined in frontend/cms/queries.';
 
 function generateSchema() {
   return { message };

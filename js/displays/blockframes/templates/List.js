@@ -25,8 +25,4 @@ export function paint(elem, palette) {
   var header = elem.querySelector(".header");
 
   chrome.setAttribute("fill", palette.secondary.DEFAULT);
-  header.setAttribute("fill", palette.neutral.dark);
-  text.forEach((t) => t.setAttribute("fill", palette.neutral.dark));
-  bullets.forEach((b) => b.setAttribute("fill", palette.primary.DEFAULT));
-  star.setAttribute("fill", palette.accent.DEFAULT);
 }

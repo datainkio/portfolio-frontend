@@ -1,8 +1,56 @@
-export { resolveSectionMotionProfile } from "./profiles.js";
-import { SECTION_OVERRIDES } from "./profiles.js";
-export { motionTokens } from "../../tokens/motion/motion.js";
-import { motionTokens } from "../../tokens/motion/motion.js";
+/**
+ * ---
+ * aix:
+ *   id: frontend.js.choreography.config.motion
+ *   role: Shared motion tokens for frontend choreography and motion tooling.
+ *   status: stable
+ *   surface: internal
+ *   owner: Frontend
+ *   tags:
+ *     - motion
+ *     - tokens
+ *     - animation
+ *   scope: frontend
+ *   runtime: shared
+ *   perf:
+ *     readPriority: low
+ *     cacheSafe: true
+ *     critical: false
+ * ---
+ */
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
+export const motionTokens = {
+  duration: {
+    instant: 80,
+    fast: 150,
+    base: 220,
+    slow: 320,
+    slower: 480,
+  },
+
+  ease: {
+    standard: "cubic-bezier(0.4, 0.0, 0.2, 1)",
+    enter: "cubic-bezier(0.0, 0.0, 0.2, 1)",
+    exit: "cubic-bezier(0.4, 0.0, 1, 1)",
+    emphasis: "cubic-bezier(0.3, 0.0, 0.2, 1.1)",
+    springy: "cubic-bezier(0.2, 0.8, 0.2, 1.4)",
+  },
+
+  distance: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 40,
+  },
+
+  stagger: {
+    none: 0,
+    tight: 0.05,
+    base: 0.1,
+    loose: 0.12,
+  },
+};
 
 export const motion = {
   duration(name = "base") {
@@ -32,74 +80,8 @@ export const ANIMATION_DEFAULTS = {
     out: motion.ease("exit"),
     inOut: motion.ease("standard"),
   },
-  // translateY: -motion.distance("md"),
-  // translateX: -motion.distance("md"),
-  overwrite: "auto",
-};
-
-/**
- * Home Landing Nav Reveal
- *
- * GSAP staggered fade-up of the page-nav items when the home header enters its
- * `menu` role (HomeHeaderManager._showNav). GSAP-only values — the loader-state
- * CSS does not consume these, so naming them here forks nothing.
- *
- * NOTE: `duration` is intentionally absent. It is the seam token
- * `--hanko-enter-duration`, shared with the loader CSS and read at runtime in
- * HomeHeaderManager — defining it here would re-introduce the dual source of
- * truth this work removed.
- */
-export const HOME_NAV_REVEAL = {
-  distance: motion.distance("lg"), // 24px fade-up start offset
-  // Sits between the `tight` (0.05) and `base` (0.1) stagger tokens; kept
-  // explicit pending a decision to snap to a token.
-  stagger: 0.08,
-  ease: "power2.out",
-};
-
-/**
- * Home Landing Hero Hold + Transition
- *
- * The home header rests in its `hero` role for `HOME_HERO_HOLD.delay` seconds,
- * then auto-plays the deconstruct -> build transition to the `menu` role. Time
- * is the sole trigger — scroll and tap are inert (see
- * specs/animation/home-header-hero-to-menu-transition.animation-spec.md). Tune
- * the hold here; `?heroHold=<seconds>` overrides at runtime for rebuild-free DX,
- * and reduced motion zeroes it.
- *
- * The transition is transform-only (compositor-safe — never width/layout): the
- * hero panel slides off-stage (`HOME_HERO_OUTRO`) to reveal page content, the
- * role flips to `menu` while the panel is off-screen, then the now-narrow rail
- * slides back in (`HOME_HERO_BUILD`). The nav-item reveal is HOME_NAV_REVEAL.
- */
-export const HOME_HERO_HOLD = { delay: 0 }; // seconds
-
-export const HOME_HERO_OUTRO = {
-  xPercent: -100, // slide the full-bleed hero off to the left
-  duration: toSeconds(motion.duration("slow")),
-  ease: "power3.inOut",
-};
-
-export const HOME_HERO_BUILD = {
-  xPercent: 0, // rail returns to its resting left edge
-  duration: toSeconds(motion.duration("slow")),
-  ease: "power3.out",
-};
-
-export const THROW_OUT_ANIMATION = {
-  duration: toSeconds(motion.duration("slow")),
-  xPercent: -100,
-  yPercent: -125,
-  rotation: -12,
-  transformOrigin: "50% 66%",
-};
-
-export const THROW_IN_ANIMATION = {
-  duration: toSeconds(motion.duration("slow")),
-  xPercent: 100,
-  yPercent: 125,
-  rotation: 12,
-  transformOrigin: "50% 66%",
+  translateY: -motion.distance("md"),
+  translateX: -motion.distance("md"),
 };
 
 /**
@@ -107,25 +89,9 @@ export const THROW_IN_ANIMATION = {
  *
  * Specific overrides for the Hero section animations.
  */
-export const HERO_LANDING = {
-  from: {
-    autoAlpha: 0,
-    yPercent: 1,
-  },
-  to: {
-    autoAlpha: 1,
-    yPercent: 0,
-    stagger: motionTokens.stagger.base,
-  },
-};
-
-export const HERO_INTRO = {
-  yPercent: 100,
-};
-
-export const HERO_OUTRO = {
-  top: "0%",
-  height: "50%",
+export const HERO_ANIMATION_DEFAULTS = {
+  ...ANIMATION_DEFAULTS,
+  // translateY: -motion.distance("lg"),
 };
 
 /**
@@ -153,13 +119,6 @@ export const BIO_ANIMATION_DEFAULTS = {
   stickySubheadingFadeDuration: ANIMATION_DEFAULTS.duration,
   stickyHeaderCollapseDuration: ANIMATION_DEFAULTS.duration,
   stickySubheadingTopThreshold: 1,
-};
-
-export const BIO_INTRO = {
-  ...ANIMATION_DEFAULTS,
-  duration: toSeconds(motion.duration("slow")),
-  stagger: motion.stagger("loose"),
-  translateY: -motion.distance("lg"),
 };
 
 /**
@@ -201,34 +160,16 @@ export const WORK_ANIMATION_DEFAULTS = {
 /**
  * Awards Section Animation Defaults
  *
+ * Includes per-item reveal behavior tuned for viewport-threshold entry.
  */
-
 export const AWARDS_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
-  duration: toSeconds(motion.duration("slow")),
-  stagger: motion.stagger("loose"),
-  translateY: -motion.distance("lg"),
-};
-
-export const AWARDS_INTRO = {
-  ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("slower")),
-  // Gel sheets get their own knob so they can be paced independently of the
-  // content. Under the scrubbed AWARDS_TRIGGER, what matters is the *ratio* of
-  // gelDuration to duration (relative share of the scroll range), not seconds.
-  gelDuration: toSeconds(motion.duration("slower")),
-};
-
-/**
- * Project Header Section Animation Defaults
- */
-export const PROJECT_HEADER_ANIMATION = {
-  yPercent: -15,
-  ease: "none",
-  scrollTrigger: {
-    start: "top top",
-    end: "bottom top",
-    scrub: true,
-    invalidateOnRefresh: true,
+  translateY: -motion.distance("lg"),
+  itemTranslateY: -motion.distance("md"),
+  itemRevealViewportRatio: 0.5, // Reveal items when they are 50% visible in the viewport
+  ease: {
+    in: motion.ease("exit"),
+    out: motion.ease("enter"),
   },
 };

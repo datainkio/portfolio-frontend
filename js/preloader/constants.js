@@ -20,17 +20,8 @@ export const PRELOADER_SELECTORS = {
   root: "[data-preloader]",
   stack: "[data-preloader-stack]",
   text: "[data-preloader-text]",
-  hgroup: "[data-preloader-el='hgroup']",
   main: "main",
   deferredVideos: "video[data-defer-video][data-src]",
-};
-
-// Outro state flip. JS sets `data-preloader-state="exit"` on the preloader
-// root; the CSS outro (styles/components/hanko.css) settles the hanko, reveals
-// the hgroup, and drops the fixed overlay off that single attribute change.
-export const PRELOADER_STATE = {
-  attribute: "data-preloader-state",
-  exit: "exit",
 };
 
 export const PRELOADER_ATTRIBUTES = {
@@ -81,23 +72,11 @@ export const SCROLL_SMOOTHER_DX_MESSAGES = {
 
 export const PRELOADER_TIMINGS = {
   domReadyTimeoutMs: 1800,
-  // Upper bound on how long the hero reveal will wait for webfonts.
-  // document.fonts.ready is otherwise UNBOUNDED — a slow/failed Google Font
-  // would stall the LCP element indefinitely. All faces use font-display:swap,
-  // so on timeout the hero reveals in the fallback face and swaps in place.
-  // Lower this to favor LCP over first-paint font fidelity; raise it to favor
-  // showing the hero already in its brand face. See js/preloader/readiness.js.
-  fontsReadyTimeoutMs: 2000,
   reducedMotionFallbackMs: 520,
   introFallbackDurationMs: 320,
   exitFallbackDurationMs: 500,
   gsapIntroDuration: 0.35,
   gsapExitDuration: 1,
-  // Fallback for the CSS outro: the hgroup's animationend marks completion,
-  // but under prefers-reduced-motion the global utility forces `animation:
-  // none` so it never fires. Must comfortably exceed the hanko move (0.6s)
-  // plus the hgroup enter (0.75s). See styles/components/hanko.css.
-  cssOutroFallbackMs: 1600,
 };
 
 export const PRELOADER_ANIMATION = {

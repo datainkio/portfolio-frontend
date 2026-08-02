@@ -14,12 +14,8 @@
  * ---
  */
 /**
- * Bundle the choreography runtime into a single ESM file.
+ * Bundle and minify choreography runtime into a single ESM file.
  * Output: assets/js/choreography/bundle.js
- *
- * The watched dev flow (`npm run dev:js` / `npm start`) emits a readable,
- * inline-sourcemapped bundle; the one-off `npm run build:js` minifies for
- * production. Set NODE_ENV=production to force a minified bundle under --watch.
  *
  * Notes:
  * - This bundle is treated as a build artifact and is intentionally git-ignored.
@@ -43,12 +39,6 @@ const outFile = resolve(outDir, "bundle.js");
 
 const args = new Set(process.argv.slice(2));
 const watch = args.has("--watch");
-
-// The watched flow (dev:js → `npm start`) produces a readable, source-mapped
-// bundle for debugging; the one-off build (build:js) minifies for production.
-// NODE_ENV=production forces a production bundle even under --watch.
-const isProduction = process.env.NODE_ENV === "production";
-const devBundle = watch && !isProduction;
 
 const normalizeBoolean = (value) => {
   if (value === undefined) return undefined;
@@ -91,8 +81,8 @@ const buildOptions = {
   format: "esm",
   platform: "browser",
   target: ["es2022"],
-  minify: !devBundle,
-  sourcemap: devBundle ? "inline" : false,
+  minify: true,
+  sourcemap: false,
   outfile: outFile,
   absWorkingDir: projectRoot,
   plugins: [
@@ -126,13 +116,11 @@ const buildOptions = {
   logLevel: "info",
 };
 
-const mode = devBundle ? "dev (sourcemapped)" : "production (minified)";
-
 if (watch) {
   const ctx = await context(buildOptions);
   await ctx.watch();
-  console.log(`[choreography] bundle watching [${mode}] -> ${outFile}`);
+  console.log(`[choreography] bundle watching -> ${outFile}`);
 } else {
   await build(buildOptions);
-  console.log(`[choreography] bundle built [${mode}] -> ${outFile}`);
+  console.log(`[choreography] bundle built -> ${outFile}`);
 }

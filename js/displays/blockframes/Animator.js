@@ -46,9 +46,7 @@
  * // timeline.play();
  */
 
-// jsdelivr +esm build: the cdnjs gsap.min.js is UMD and has no named ESM
-// exports, so importing it from a browser module throws a SyntaxError.
-import { gsap } from "/assets/js/choreography/system/gsap.js";
+import { gsap } from 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
 
 /**
  * Creates a horizontal wipe/marquee animation for a block element
@@ -70,9 +68,12 @@ import { gsap } from "/assets/js/choreography/system/gsap.js";
  * - timeline.pause(); // Stop
  * - timeline.kill();  // Destroy completely
  *
+ * BUG NOTE: Parent height calculation uses width (typo on line ph).
+ * This doesn't affect horizontal wipe but would break vertical animations.
+ *
  * @param {SVGElement} block - The SVG element to animate
  *
- * @returns {gsap.core.Timeline} GSAP timeline for external control
+ * @returns {gsap.core.Timeline|undefined} GSAP timeline (currently commented out)
  *
  * @example
  * const card = blockframes.getBlock('.Card');
@@ -89,14 +90,10 @@ import { gsap } from "/assets/js/choreography/system/gsap.js";
 export function wipe(block) {
   const parent = block.ownerSVGElement;
   const pw = parent.getBoundingClientRect().width;
-  const ph = parent.getBoundingClientRect().height;
+  const ph = parent.getBoundingClientRect().width; // BUG: Should be .height for vertical animations
   const w = block.getBoundingClientRect().width;
   const tl = gsap.timeline({});
-  tl.fromTo(
-    block,
-    { opacity: 0, x: pw },
-    { opacity: 1, x: 0 - w, duration: 2, repeat: -1 },
-  );
+  tl.fromTo(block, { opacity: 0, x: pw }, { opacity: 1, x: 0 - w, duration: 2, repeat: -1 });
   // tl.to(block, { duration: 2, opacity: 0, yoyo: true, repeat: -1 }); // Alternative: fade animation
-  return tl;
+  // return tl; // TODO: Uncomment to enable external timeline control
 }

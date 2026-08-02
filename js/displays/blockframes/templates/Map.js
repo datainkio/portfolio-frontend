@@ -21,14 +21,10 @@ export function paint(elem, palette) {
   var chrome = elem.querySelector(".chrome");
   var text = elem.querySelectorAll(".text");
   var button = elem.querySelector(".button");
-  var background = elem.querySelector(".geo .background");
+  var background = elem.querySelector(".bg");
   var streets = elem.querySelector(".streets");
   var pin = elem.querySelector(".pin");
+  var text = elem.querySelector(".text");
 
   chrome.setAttribute("fill", palette.primary.DEFAULT);
-  background.setAttribute("fill", palette.neutral.light);
-  streets.setAttribute("fill", palette.neutral.dark);
-  pin.setAttribute("fill", palette.semantic.alert);
-  button.setAttribute("fill", palette.secondary.DEFAULT);
-  text.forEach((t) => t.setAttribute("fill", palette.neutral.dark));
 }

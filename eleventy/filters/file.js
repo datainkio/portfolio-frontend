@@ -67,27 +67,14 @@ function injectSvgClass(svgMarkup, className) {
   }
 
   return svgMarkup.replace(/<svg\b([^>]*)>/i, (match, attributes) => {
-    // Strip intrinsic width/height attributes so CSS sizing wins consistently
-    // across browsers (Safari otherwise uses the SVG's intrinsic dimensions
-    // when it's nested inside inline-flex / flex containers, which can hide
-    // the rendered SVG behind ancestor `overflow-hidden`).
-    let normalizedAttributes = attributes.replace(
-      /\s(width|height)=(['"])[^'"]*\2/gi,
-      "",
-    );
-
-    const classMatch = normalizedAttributes.match(/\sclass=(['"])(.*?)\1/i);
+    const classMatch = attributes.match(/\sclass=(['"])(.*?)\1/i);
 
     if (classMatch) {
       const mergedClassName = mergeClasses(classMatch[2], className);
-      normalizedAttributes = normalizedAttributes.replace(
-        classMatch[0],
-        ` class="${mergedClassName}"`,
-      );
-      return `<svg${normalizedAttributes}>`;
+      return match.replace(classMatch[0], ` class="${mergedClassName}"`);
     }
 
-    return `<svg${normalizedAttributes} class="${className}">`;
+    return `<svg${attributes} class="${className}">`;
   });
 }
 

@@ -38,7 +38,7 @@
  * @module Builder
  */
 
-import { SVG } from "https://cdn.skypack.dev/@svgdotjs/svg.js@3.1.1";
+import { SVG } from 'https://cdn.skypack.dev/@svgdotjs/svg.js@3.1.1';
 
 /**
  * Inserts a block into a container with optional cloning and auto-scaling
@@ -65,16 +65,10 @@ import { SVG } from "https://cdn.skypack.dev/@svgdotjs/svg.js@3.1.1";
  * - SVG() - Creates new SVG container
  * - .add() - Adds element to SVG
  * - .first() - Gets first child element
- * - .bbox() - Gets untransformed local bounding box (x, y, width, height);
- *   used only to compute the fit scale (ignores the element's transform)
+ * - .bbox() - Gets bounding box (x, y, width, height)
  * - .scale() - Applies scale transformation
  * - .move() - Sets position
- * - .node - Accesses native DOM element; .node.getBBox() reads the transformed
- *   content box (includes the child's applied transform) for the viewBox
- *
- * VIEWBOX: After scale/move, the wrapper node's native getBBox() (which
- * reflects the applied transform, unlike elem.bbox()) frames the viewBox on
- * the content's post-transform box, instead of shipping an unframed viewport.
+ * - .node - Accesses native DOM element
  *
  * @param {SVGElement} block - The SVG block to insert
  * @param {HTMLElement} container - The DOM container to insert into
@@ -105,30 +99,19 @@ export function insert(block, container, clone) {
   const blockSVG = SVG();
   const cloned = clone ? block.cloneNode(true) : block;
   blockSVG.add(cloned);
-  blockSVG.node.classList.add("w-full", "h-full"); // Let the SVG change size without impacting the size or position of the child elements
-  container.appendChild(blockSVG.node); // Must be in the DOM before measuring (getBBox/bbox() require layout)
 
   const elem = blockSVG.first();
   // elem.untransform(); // Commented: Would remove existing transformations
-  const bbox = elem.bbox(); // untransformed local content size — used for scale only
+  const bbox = elem.bbox();
   const vw = 100;
   const vh = 100;
   const scale = Math.min(vw / bbox.width, vh / bbox.height);
 
   elem.scale(scale, 0, 0);
   elem.move(0, 0);
+  blockSVG.node.classList.add('w-full', 'h-full'); // Let the SVG change size without impacting the size or position of the child elements
 
-  // Frame the viewBox on the wrapper's transformed content box. Native
-  // getBBox() on the wrapper node includes the child's applied transform
-  // (unlike SVG.js elem.bbox(), which reports untransformed geometry), so it
-  // reflects the post-scale/move box. Mirrors the measurement the old
-  // downstream re-frame relied on, now done once at the source.
-  const framed = blockSVG.node.getBBox();
-  blockSVG.node.setAttribute(
-    "viewBox",
-    `${framed.x} ${framed.y} ${framed.width} ${framed.height}`,
-  );
-
+  container.appendChild(blockSVG.node);
   return blockSVG;
 }
 
@@ -172,16 +155,13 @@ var SRC, COLOR, BW, COLS, ROWS, SIZE, ANGLE, OPACITY, TYPES, PALETTES;
  * TEMPORARY DOM MOUNTING:
  * - SVGs are added to hidden div for measurement
  * - getBBox() and getBoundingClientRect() require DOM presence
- * - Div is removed once all synchronous measurement is complete, just
- *   before returning (the COLOR/BW SVG.js wrappers retain their nodes,
- *   so the caller can still re-append them via .node)
+ * - Div is NOT removed (stays in document.body)
+ * - TODO: Remove temp div after build completes
  *
  * GLOBAL STATE WARNING:
  * - Uses module-level variables (SRC, COLOR, BW, etc.)
  * - Multiple calls to build() will overwrite these variables
  * - NOT thread-safe or concurrent-call safe
- * - build() is single-call only: do not invoke it again before the
- *   previous call's returned SVGs have been consumed
  *
  * @param {Object} blockline - Configuration object
  * @param {SVGElement} blockline.container - Source SVG with template blocks
@@ -213,13 +193,9 @@ var SRC, COLOR, BW, COLS, ROWS, SIZE, ANGLE, OPACITY, TYPES, PALETTES;
  * const colorBwViews = Builder.build(config);
  * document.querySelector('#color-container').appendChild(colorBwViews[0].node);
  * document.querySelector('#bw-container').appendChild(colorBwViews[1].node);
- *
- * @remarks Single-call / not concurrency-safe: relies on module-level
- * globals (SRC, COLOR, BW, etc.); do not call again before the previous
- * call's returned SVGs have been consumed.
  */
 export function build(blockline) {
-  console.log("Builder.build");
+  console.log('Builder.build');
   SRC = blockline.container;
   COLS = blockline.cols;
   ROWS = blockline.rows;
@@ -232,17 +208,17 @@ export function build(blockline) {
 
   // Create the SVG objects that will display the blockline
   COLOR = SVG()
-    .size("100%", "100%")
+    .size('100%', '100%')
     .viewbox(`0 0 ${COLS * SIZE} ${ROWS * SIZE} `);
   BW = SVG()
-    .size("100%", "100%")
+    .size('100%', '100%')
     .viewbox(`0 0 ${COLS * SIZE} ${ROWS * SIZE} `);
 
   // Add them to a temporary container in the DOM so that we can measure and scale their children
-  // appropriately.
-  const tmp = document.createElement("div");
-  tmp.style.position = "absolute";
-  tmp.style.visibility = "hidden";
+  // appropriately. We'll remove it later when we call updateView.
+  const tmp = document.createElement('div');
+  tmp.style.position = 'absolute';
+  tmp.style.visibility = 'hidden';
   tmp.style.width = 0;
   tmp.style.height = 0;
 
@@ -253,16 +229,13 @@ export function build(blockline) {
   // Create building objects
   var building_id = 0;
   const b = buildings(ROWS, COLS);
-  b.forEach((height) => {
+  b.forEach(height => {
     // Create an empty group node to represent the building. We'll clone this twice, then remove it
-    let building = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    building.classList.add("building");
+    let building = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    building.classList.add('building');
 
     // Distribute the buildings horizontally along a single value of y
-    building.setAttribute(
-      "transform",
-      `translate(${building_id * SIZE * 2}, 0)`,
-    );
+    building.setAttribute('transform', `translate(${building_id * SIZE * 2}, 0)`);
     let building_color = COLOR.node.appendChild(building.cloneNode());
     let building_bw = BW.node.appendChild(building.cloneNode());
 
@@ -270,19 +243,11 @@ export function build(blockline) {
 
     // For each story in the building (aka value at the given index)
     for (var story = 0; story <= height; story++) {
-      drawStory(
-        [building_bw, building_color],
-        building_id,
-        story,
-        story == height,
-      );
+      drawStory([building_bw, building_color], building_id, story, story == height);
     }
     // Increment so the buildings display properly without overlap
     building_id += 1;
   });
-
-  // All synchronous measurement (getBBox/scaleFace) is complete; safe to detach.
-  tmp.remove();
 
   // Return the populated SVGs
   return [COLOR, BW];
@@ -358,12 +323,12 @@ function buildings(rows, cols) {
  */
 function drawStory(building, b, s, r) {
   // Each story has a neutral and a color version
-  let story_bw = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  story_bw.classList.add("story");
-  story_bw.classList.add("story-" + s);
-  let story_color = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  story_color.classList.add("story");
-  story_color.classList.add("story-" + s);
+  let story_bw = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  story_bw.classList.add('story');
+  story_bw.classList.add('story-' + s);
+  let story_color = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  story_color.classList.add('story');
+  story_color.classList.add('story-' + s);
 
   // Add the story to the building so that we can access its dimensions
   building[0].appendChild(story_bw);
@@ -395,13 +360,13 @@ function drawStory(building, b, s, r) {
   // Size things to suit
   // Style one of the faces to provide a bit of shadow relative to the other
   // face_right[0].setAttribute("opacity", ".5");
-  face_right[1].setAttribute("filter", "url(#brightness)");
+  face_right[1].setAttribute('filter', 'url(#brightness)');
 
   // Set the xy coords for the story to position it within a given building
   let x = SIZE / 2; // makes sure it's in the right building
   let y = (ROWS - s + 1) * SIZE; // places it at the right floor (+1 ensures that the top doesn't get cropped. I don't know why.)
-  story_bw.setAttribute("transform", `translate(${x}, ${y})`);
-  story_color.setAttribute("transform", `translate(${x}, ${y})`);
+  story_bw.setAttribute('transform', `translate(${x}, ${y})`);
+  story_color.setAttribute('transform', `translate(${x}, ${y})`);
 }
 
 /**
@@ -431,12 +396,9 @@ function drawStory(building, b, s, r) {
  * const roofElement = roof('#FF6B6B');
  * story.appendChild(roofElement);
  */
-function roof(color = "#AAA") {
+function roof(color = '#AAA') {
   // Create the rectangle (square) element
-  const poly = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "polygon",
-  );
+  const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
   // Desired width of the diamond
   const width = SIZE * 2;
   // Convert degrees to radians for JavaScript trigonometric functions
@@ -455,13 +417,13 @@ function roof(color = "#AAA") {
   ];
 
   // Create the polygon points string
-  const pointsString = points.map((point) => point.join(",")).join(" ");
+  const pointsString = points.map(point => point.join(',')).join(' ');
 
-  poly.setAttribute("points", pointsString);
+  poly.setAttribute('points', pointsString);
   if (color) {
-    poly.setAttribute("fill", color);
+    poly.setAttribute('fill', color);
   }
-  poly.classList.add("roof");
+  poly.classList.add('roof');
   return poly;
 }
 
@@ -476,9 +438,8 @@ function roof(color = "#AAA") {
  * 5. Clone entire assembly for BW and COLOR versions
  *
  * BLOCKFRAME TYPES:
- * - Data-driven: any class-named template present in the source SVG is
- *   supported (looked up via `.${random}`, e.g. Calendar, Article, Landing,
- *   Cart, Contact, Map, Timeline)
+ * - Calendar, Article, Landing, Cart, Contact, Map, Timeline
+ * - Each type is a template from the source SVG
  * - Randomly selected for variety in cityscape
  *
  * DUAL VERSIONS:
@@ -505,16 +466,47 @@ function roof(color = "#AAA") {
  * // leftFace[0] = BW version, leftFace[1] = COLOR version
  */
 function drawFace(s, side) {
+  var type;
   // Every face starts with an instance of Chrome as its foundation
-  const block = SRC.querySelector(".Chrome").cloneNode(true);
-  block.classList.remove("Chrome");
-  block.classList.add("face");
+  const block = SRC.querySelector('.Chrome').cloneNode(true);
+  block.classList.remove('Chrome');
+  block.classList.add('face');
 
   var random = TYPES[Math.floor(Math.random() * TYPES.length)];
   // Next we add a randomly selected type of blockframe to add to the chrome
-  const tpl = SRC.querySelector(`.${random}`);
-  if (tpl) block.appendChild(tpl.cloneNode(true));
-  block.classList.add("face-" + random);
+  switch (random) {
+    case 'Calendar':
+      type = SRC.querySelector('.Calendar').cloneNode(true);
+      // paintMe = Calendar.paint;
+      break;
+    case 'Article':
+      type = SRC.querySelector('.Article').cloneNode(true);
+      // paintMe = Article.paint;
+      break;
+    case 'Landing':
+      type = SRC.querySelector('.Landing').cloneNode(true);
+      // paintMe = Landing.paint;
+      break;
+    case 'Cart':
+      type = SRC.querySelector('.Cart').cloneNode(true);
+      // paintMe = Cart.paint;
+      break;
+    case 'Contact':
+      type = SRC.querySelector('.Contact').cloneNode(true);
+      // paintMe = Contact.paint;
+      break;
+    case 'Map':
+      type = SRC.querySelector('.Map').cloneNode(true);
+      // paintMe = Map.paint;
+      break;
+    case 'Timeline':
+      type = SRC.querySelector('.Timeline').cloneNode(true);
+      // paintMe = Timeline.paint;
+      break;
+  }
+  block.classList.add('face-' + random);
+  // Added the selected blockframe on top of the Chrome instance
+  block.appendChild(type);
 
   // Create the two different views of the block
   const stroked = block.cloneNode(true); // BW
@@ -567,7 +559,7 @@ function drawFace(s, side) {
  */
 function scaleFace(face, side) {
   // Skew and scale the face (note that we can't do this properly until it has been added to the DOM)
-  face.forEach((f) => {
+  face.forEach(f => {
     const rect = f.getBBox();
     const scaleX = SIZE / rect.width;
     const scaleY = SIZE / rect.height;
@@ -575,10 +567,10 @@ function scaleFace(face, side) {
     const skewYangle = side % 2 === 0 ? ANGLE : ANGLE * -1;
     const x = side === 0 ? 0 : SIZE;
     f.setAttribute(
-      "transform",
+      'transform',
       `translate(${x}, 0) skewY(${skewYangle}) translate(${-SIZE / 2}, ${
         -SIZE / 2
-      }) scale(${scale})`,
+      }) scale(${scale})`
     );
   });
 }

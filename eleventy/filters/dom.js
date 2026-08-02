@@ -13,25 +13,7 @@
  *     - filters
  * ---
  */
-import * as cheerio from "cheerio";
-
 export default function (eleventyConfig) {
-  /**
-   * Extract h2 headings from an HTML string as [{ id, text }] objects.
-   */
-  eleventyConfig.addFilter("extractHeadings", function (html) {
-    if (!html) return [];
-    const $ = cheerio.load(html, { decodeEntities: false });
-    const headings = [];
-    $("h2").each(function () {
-      const id = $(this).attr("id");
-      if (id) {
-        headings.push({ id, text: $(this).text().trim() });
-      }
-    });
-    return headings;
-  });
-
   /**
    * Insert referenced content into text.
    * str: the string containing references to external content; uses format {type, id}

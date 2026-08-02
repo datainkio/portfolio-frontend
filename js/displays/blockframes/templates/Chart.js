@@ -18,6 +18,7 @@
 /** @format */
 
 export function paint(elem, palette) {
+  console.log("Chart", elem);
   const pie = elem.querySelector(".pie");
   const donut = elem.querySelector(".donut");
   const headlines = elem.querySelector(".headlines");

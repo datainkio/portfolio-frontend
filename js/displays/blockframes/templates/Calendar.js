@@ -18,6 +18,7 @@
 /** @format */
 
 export function paint(elem, palette) {
+  console.log("Calendar");
   const pagination = elem.querySelector(".pagination");
   const days = elem.querySelector(".days");
   const background = elem.querySelector(".background");

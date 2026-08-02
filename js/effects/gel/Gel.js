@@ -27,7 +27,7 @@
  */
 
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
-import { gsap } from "/assets/js/choreography/system/gsap.js";
+import { gsap } from "/assets/js/choreography/vendor/gsap.js";
 import GelMask from "./GelMask.js";
 import GelGeometry from "./GelGeometry.js";
 import GelVisualState from "./GelVisualState.js";
@@ -36,7 +36,6 @@ const DEFAULT_COLOR_CLASSES = [
   "bg-gel-primary",
   "bg-gel-secondary",
   "bg-gel-accent",
-  "bg-gel-neutral",
 ];
 const DEFAULT_TRANSFORM_ORIGIN = "top center";
 const MASK_STYLE = {
