@@ -53,7 +53,7 @@ export class TypographyService {
     console.log(chalk.cyan("\n\tprocessing font weights..."));
     writeFontWeights(
       textFormats.filter((format) => format.property === "fontWeight"),
-      designFile
+      designFile,
     );
   }
 
@@ -75,22 +75,22 @@ export class TypographyService {
 
     // Log the count of individual text formats returned by Figma
     console.log(
-      chalk.gray(`\t↳ ${textFormats.length} individual text formats found`)
+      chalk.gray(`\t↳ ${textFormats.length} individual text formats found`),
     );
 
     // Log the count of individual font families
     console.log(
-      chalk.gray(`\t↳ ${Object.keys(formatsByFamily).length} font families`)
+      chalk.gray(`\t↳ ${Object.keys(formatsByFamily).length} font families`),
     );
 
     // LOG WEIGHTS
     // For each font family, log its name and any weight values for that family
     Object.entries(formatsByFamily).forEach(([family, formats]) => {
       const weights = [...new Set(formats.map((f) => f.fontWeight))].sort(
-        (a, b) => a - b
+        (a, b) => a - b,
       );
       console.log(
-        chalk.cyan(`\t  ${family}: `) + chalk.gray(`${weights.join(",")}`)
+        chalk.cyan(`\t  ${family}: `) + chalk.gray(`${weights.join(",")}`),
       );
     });
   }

@@ -34,22 +34,22 @@
  * throughout the project.
  */
 
-import { fileURLToPath } from 'url';
-import { resolve, dirname } from 'path';
-import logger from '@datainkio/lumberjack';
+import { fileURLToPath } from "url";
+import { resolve, dirname } from "path";
+import logger from "@datainkio/lumberjack";
 
 // Enable logger for preview
 logger.enabled = true;
 
 // Get command line arguments
 const args = process.argv.slice(2);
-const isVerbose = args.includes('--verbose');
-const isDev = args.includes('--dev');
+const isVerbose = args.includes("--verbose");
+const isDev = args.includes("--dev");
 
 // Get directory paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, '..');
+const projectRoot = resolve(__dirname, "..");
 
 /**
  * Display full production build process outline
@@ -57,38 +57,42 @@ const projectRoot = resolve(__dirname, '..');
 function showProductionBuild() {
   const productionSequence = [
     {
-      name: 'clean',
-      description: 'Clear build directory preserving content cache',
-      script: 'clearSiteFolder.js',
-      dependencies: ['Node.js fs permissions'],
+      name: "clean",
+      description: "Clear build directory preserving content cache",
+      script: "clearSiteFolder.js",
+      dependencies: ["Node.js fs permissions"],
     },
     {
-      name: 'build:design',
-      description: 'Fetch design tokens from Figma API',
-      script: 'fetchFigma.js',
-      dependencies: ['FIGMA_TOKEN', 'Network access'],
-      triggers: ['CSS token updates', 'buildCSS.js execution'],
+      name: "build:design",
+      description: "Fetch design tokens from Figma API",
+      script: "fetchFigma.js",
+      dependencies: ["FIGMA_TOKEN", "Network access"],
+      triggers: ["CSS token updates", "buildCSS.js execution"],
     },
     {
-      name: 'build:css',
-      description: 'Compile Tailwind CSS with comprehensive logging',
-      script: 'buildCSS.js --minify',
-      dependencies: ['Design tokens', 'tailwind.config.js', 'styles/main.css'],
-      triggers: ['_site/assets/styles.css generation'],
+      name: "build:css",
+      description: "Compile Tailwind CSS with comprehensive logging",
+      script: "buildCSS.js --minify",
+      dependencies: ["Design tokens", "tailwind.config.js", "styles/main.css"],
+      triggers: ["_site/assets/styles.css generation"],
     },
     {
-      name: 'build:11ty',
-      description: 'Generate static site from Nunjucks templates',
-      script: 'eleventy --quiet',
-      dependencies: ['CMS content', 'Compiled CSS'],
-      triggers: ['Static HTML generation', 'Asset copying', 'Site deployment readiness'],
+      name: "build:11ty",
+      description: "Generate static site from Nunjucks templates",
+      script: "eleventy --quiet",
+      dependencies: ["CMS content", "Compiled CSS"],
+      triggers: [
+        "Static HTML generation",
+        "Asset copying",
+        "Site deployment readiness",
+      ],
     },
   ];
 
   logger.showScriptOutline(
-    'Production Build Process',
+    "Production Build Process",
     productionSequence,
-    isVerbose ? 'verbose' : 'brief'
+    isVerbose ? "verbose" : "brief",
   );
 }
 
@@ -98,22 +102,26 @@ function showProductionBuild() {
 function showDevelopmentWorkflow() {
   const devSequence = [
     {
-      name: 'dev:css',
-      description: 'Start Tailwind CSS watch mode for hot reloading',
-      script: 'buildCSS.js --watch',
-      dependencies: ['tailwind.config.js', 'styles/main.css'],
-      triggers: ['CSS hot reloading', 'Browser refresh'],
+      name: "dev:css",
+      description: "Start Tailwind CSS watch mode for hot reloading",
+      script: "buildCSS.js --watch",
+      dependencies: ["tailwind.config.js", "styles/main.css"],
+      triggers: ["CSS hot reloading", "Browser refresh"],
     },
     {
-      name: 'dev:11ty',
-      description: 'Start 11ty development server with live reload',
-      script: 'eleventy --serve --quiet',
-      dependencies: ['CMS content', 'CSS compilation'],
-      triggers: ['HTTP server on localhost:8080', 'Template hot reloading'],
+      name: "dev:11ty",
+      description: "Start 11ty development server with live reload",
+      script: "eleventy --serve --quiet",
+      dependencies: ["CMS content", "CSS compilation"],
+      triggers: ["HTTP server on localhost:8080", "Template hot reloading"],
     },
   ];
 
-  logger.showScriptOutline('Development Workflow', devSequence, isVerbose ? 'verbose' : 'brief');
+  logger.showScriptOutline(
+    "Development Workflow",
+    devSequence,
+    isVerbose ? "verbose" : "brief",
+  );
 }
 
 /**
@@ -122,46 +130,50 @@ function showDevelopmentWorkflow() {
 function showDesignSystemSync() {
   const designSequence = [
     {
-      name: 'fetch-design-file',
-      description: 'Download design file data from Figma API',
-      script: 'figma/services/FileService.js',
-      dependencies: ['FIGMA_TOKEN', 'Figma file access'],
+      name: "fetch-design-file",
+      description: "Download design file data from Figma API",
+      script: "figma/services/FileService.js",
+      dependencies: ["FIGMA_TOKEN", "Figma file access"],
     },
     {
-      name: 'extract-styles',
-      description: 'Extract color and typography style definitions',
-      script: 'figma/services/StyleService.js',
-      dependencies: ['Design file data'],
+      name: "extract-styles",
+      description: "Extract color and typography style definitions",
+      script: "figma/services/StyleService.js",
+      dependencies: ["Design file data"],
     },
     {
-      name: 'process-colors',
-      description: 'Generate CSS custom properties from color tokens',
-      script: 'figma/services/PaletteService.js',
-      triggers: ['styles/colors.css update'],
+      name: "process-colors",
+      description: "Generate CSS custom properties from color tokens",
+      script: "figma/services/PaletteService.js",
+      triggers: ["styles/colors.css update"],
     },
     {
-      name: 'process-typography',
-      description: 'Generate font family utilities from text styles',
-      script: 'figma/services/TypographyService.js',
-      triggers: ['styles/typography/fontFamilies.css update'],
+      name: "process-typography",
+      description: "Generate font family utilities from text styles",
+      script: "figma/services/TypographyService.js",
+      triggers: ["styles/typography/fontFamilies.css update"],
     },
     {
-      name: 'rebuild-css',
-      description: 'Compile CSS with updated design tokens',
-      script: 'scripts/buildCSS.js',
-      triggers: ['_site/assets/styles.css regeneration'],
+      name: "rebuild-css",
+      description: "Compile CSS with updated design tokens",
+      script: "scripts/buildCSS.js",
+      triggers: ["_site/assets/styles.css regeneration"],
     },
   ];
 
-  logger.showScriptOutline('Design System Sync', designSequence, isVerbose ? 'verbose' : 'brief');
+  logger.showScriptOutline(
+    "Design System Sync",
+    designSequence,
+    isVerbose ? "verbose" : "brief",
+  );
 }
 
 /**
  * Main execution function
  */
 function main() {
-  console.log('\n🔍 BUILD PROCESS OVERVIEW');
-  console.log('─'.repeat(70));
+  console.log("\n🔍 BUILD PROCESS OVERVIEW");
+  console.log("─".repeat(70));
 
   if (isDev) {
     showDevelopmentWorkflow();
@@ -169,28 +181,38 @@ function main() {
     showProductionBuild();
 
     if (isVerbose) {
-      console.log('\n');
+      console.log("\n");
       showDesignSystemSync();
     }
   }
 
   // Show execution commands
-  console.log('\n📋 AVAILABLE COMMANDS');
-  console.log('─'.repeat(70));
-  logger.trace('Production build:', 'npm run build', 'brief', 'standard');
-  logger.trace('Development server:', 'npm start', 'brief', 'standard');
-  logger.trace('Design sync only:', 'npm run build:design', 'brief', 'standard');
-  logger.trace('CSS build only:', 'npm run build:css', 'brief', 'standard');
+  console.log("\n📋 AVAILABLE COMMANDS");
+  console.log("─".repeat(70));
+  logger.trace("Production build:", "npm run build", "brief", "standard");
+  logger.trace("Development server:", "npm start", "brief", "standard");
+  logger.trace(
+    "Design sync only:",
+    "npm run build:design",
+    "brief",
+    "standard",
+  );
+  logger.trace("CSS build only:", "npm run build:css", "brief", "standard");
 
   if (isVerbose) {
-    console.log('\n🔧 DEBUG COMMANDS');
-    console.log('─'.repeat(70));
-    logger.trace('Debug build:', 'npm run build:debug', 'brief', 'standard');
-    logger.trace('Force refresh:', 'npm run build:force', 'brief', 'standard');
-    logger.trace('Design debug:', 'npm run build:design:debug', 'brief', 'standard');
+    console.log("\n🔧 DEBUG COMMANDS");
+    console.log("─".repeat(70));
+    logger.trace("Debug build:", "npm run build:debug", "brief", "standard");
+    logger.trace("Force refresh:", "npm run build:force", "brief", "standard");
+    logger.trace(
+      "Design debug:",
+      "npm run build:design:debug",
+      "brief",
+      "standard",
+    );
   }
 
-  console.log('\n');
+  console.log("\n");
 }
 
 // Execute if run directly

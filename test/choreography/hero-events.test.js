@@ -3,6 +3,7 @@
  * aix:
  *   id: frontend.test.choreography.hero-events-test
  *   role: Test module: test/choreography/hero-events.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/43
  *   status: draft
  *   surface: internal
  *   scope: frontend

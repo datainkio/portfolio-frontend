@@ -42,112 +42,132 @@ import AnimationManager from "./AnimationManager.js";
     </script>
  */
 export default class Halftone {
-    constructor(container, settings) {
-        const image = container.querySelector("img");
-        this._canvasManager = new CanvasManager(image, container);
-        this._halftoneEffect = null;
-        this._animationManager = null;
-        this._settings = settings;
+  constructor(container, settings) {
+    const image = container.querySelector("img");
+    this._canvasManager = new CanvasManager(image, container);
+    this._halftoneEffect = null;
+    this._animationManager = null;
+    this._settings = settings;
 
-        image.onload = () => {
-            const canvas = this._canvasManager.initCanvas();
-            this._canvasManager.captureOriginalImageData(); // Store original image data
+    image.onload = () => {
+      const canvas = this._canvasManager.initCanvas();
+      this._canvasManager.captureOriginalImageData(); // Store original image data
 
-            this.refreshHalftone();
+      this.refreshHalftone();
 
-            // Add controls for user interaction
-            // this.addControls(document.getElementById("controls"));
-        };
+      // Add controls for user interaction
+      // this.addControls(document.getElementById("controls"));
+    };
 
-        if (image.complete) {
-            image.onload();
-        }
+    if (image.complete) {
+      image.onload();
+    }
+  }
+
+  refreshHalftone() {
+    console.log("Halftone.refresh");
+    const originalImageData = this._canvasManager.getOriginalImageData();
+    this._halftoneEffect = new HalftoneEffect(
+      originalImageData,
+      this._settings.dotSize,
+      this._settings.gridSize,
+    );
+    this._halftoneEffect.applyEffect();
+
+    if (this._animationManager) {
+      this._animationManager._dots = this._halftoneEffect.dots;
+    } else {
+      this._animationManager = new AnimationManager(
+        this._halftoneEffect.dots,
+        this._canvasManager,
+      );
     }
 
-    refreshHalftone() {
-        console.log("Halftone.refresh");
-        const originalImageData = this._canvasManager.getOriginalImageData();
-        this._halftoneEffect = new HalftoneEffect(originalImageData, this._settings.dotSize, this._settings.gridSize);
-        this._halftoneEffect.applyEffect();
+    this._animationManager.initAnimation();
+    this._animationManager.play();
+  }
 
-        if (this._animationManager) {
-            this._animationManager._dots = this._halftoneEffect.dots;
-        } else {
-            this._animationManager = new AnimationManager(this._halftoneEffect.dots, this._canvasManager);
-        }
+  addControls(elem) {
+    const controls = elem;
+    controls.style.marginTop = "20px";
 
-        this._animationManager.initAnimation();
-        this._animationManager.play();
-    }
+    // Helper function to create sliders
+    const createSlider = (
+      labelText,
+      min,
+      max,
+      step,
+      defaultValue,
+      onChange,
+    ) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.marginBottom = "10px";
 
-    addControls(elem) {
-        const controls = elem;
-        controls.style.marginTop = "20px";
+      const label = document.createElement("label");
+      label.textContent = `${labelText}: `;
 
-        // Helper function to create sliders
-        const createSlider = (labelText, min, max, step, defaultValue, onChange) => {
-            const wrapper = document.createElement("div");
-            wrapper.style.marginBottom = "10px";
+      const valueDisplay = document.createElement("span");
+      valueDisplay.textContent = defaultValue;
 
-            const label = document.createElement("label");
-            label.textContent = `${labelText}: `;
+      const input = document.createElement("input");
+      input.type = "range";
+      input.min = min;
+      input.max = max;
+      input.step = step;
+      input.value = defaultValue;
 
-            const valueDisplay = document.createElement("span");
-            valueDisplay.textContent = defaultValue;
+      input.addEventListener("input", (event) => {
+        const value = parseFloat(event.target.value);
+        valueDisplay.textContent = value;
+        onChange(value);
+      });
 
-            const input = document.createElement("input");
-            input.type = "range";
-            input.min = min;
-            input.max = max;
-            input.step = step;
-            input.value = defaultValue;
+      label.appendChild(valueDisplay);
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
+      controls.appendChild(wrapper);
+    };
 
-            input.addEventListener("input", (event) => {
-                const value = parseFloat(event.target.value);
-                valueDisplay.textContent = value;
-                onChange(value);
-            });
+    // Dot Size Slider
+    createSlider("Dot Size", 1, 100, 1, this._settings.dotSize, (value) => {
+      this._settings.dotSize = value;
+      this.refreshHalftone();
+    });
 
-            label.appendChild(valueDisplay);
-            wrapper.appendChild(label);
-            wrapper.appendChild(input);
-            controls.appendChild(wrapper);
-        };
+    // Grid Size Slider
+    createSlider("Grid Size", 1, 100, 1, this._settings.gridSize, (value) => {
+      this._settings.gridSize = value;
+      this.refreshHalftone();
+    });
 
-        // Dot Size Slider
-        createSlider("Dot Size", 1, 100, 1, this._settings.dotSize, (value) => {
-            this._settings.dotSize = value;
-            this.refreshHalftone();
-        });
+    // Ease Type Dropdown
+    const easeLabel = document.createElement("label");
+    easeLabel.textContent = "Ease Type: ";
 
-        // Grid Size Slider
-        createSlider("Grid Size", 1, 100, 1, this._settings.gridSize, (value) => {
-            this._settings.gridSize = value;
-            this.refreshHalftone();
-        });
+    const easeSelect = document.createElement("select");
+    [
+      "linear",
+      "power1.inOut",
+      "power2.inOut",
+      "elastic.out",
+      "bounce.out",
+    ].forEach((easeType) => {
+      const option = document.createElement("option");
+      option.value = easeType;
+      option.textContent = easeType;
+      easeSelect.appendChild(option);
+    });
 
-        // Ease Type Dropdown
-        const easeLabel = document.createElement("label");
-        easeLabel.textContent = "Ease Type: ";
+    easeSelect.value = "power1.inOut"; // Default ease type
+    easeSelect.addEventListener("change", (event) => {
+      const easeType = event.target.value;
+      this._settings.ease = easeType;
+      this.refreshHalftone();
+    });
 
-        const easeSelect = document.createElement("select");
-        ["linear", "power1.inOut", "power2.inOut", "elastic.out", "bounce.out"].forEach((easeType) => {
-            const option = document.createElement("option");
-            option.value = easeType;
-            option.textContent = easeType;
-            easeSelect.appendChild(option);
-        });
+    easeLabel.appendChild(easeSelect);
+    controls.appendChild(easeLabel);
 
-        easeSelect.value = "power1.inOut"; // Default ease type
-        easeSelect.addEventListener("change", (event) => {
-            const easeType = event.target.value;
-            this._settings.ease = easeType;
-            this.refreshHalftone();
-        });
-
-        easeLabel.appendChild(easeSelect);
-        controls.appendChild(easeLabel);
-
-        // parentElement.appendChild(controls);
-    }
+    // parentElement.appendChild(controls);
+  }
 }

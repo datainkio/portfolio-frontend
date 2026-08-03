@@ -98,7 +98,7 @@ export class Color {
     console.log(
       chalk.hex(this.hex)("  " + swatch) +
         "  " +
-        chalk.gray(`${this.className}`)
+        chalk.gray(`${this.className}`),
     );
   }
 }

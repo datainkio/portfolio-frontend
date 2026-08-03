@@ -17,7 +17,7 @@
  */
 /** @format */
 
-import { gsap } from "/assets/js/choreography/vendor/gsap.js";
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 
 /**
  * GelVisualState - Handles color classes and transform-based scaling.

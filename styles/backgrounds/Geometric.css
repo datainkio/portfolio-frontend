@@ -1,5 +1,3 @@
-@tailwind utilities;
-
 /* Custom Background Graphpaper Patterns */
 @layer components {
   .bg-striped {

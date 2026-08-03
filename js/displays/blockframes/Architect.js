@@ -102,7 +102,7 @@
  */
 function generateGrid() {
   const gridSize = 12;
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const letters = ["A", "B", "C", "D", "E"];
   let grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(null));
 
   /**
@@ -120,7 +120,13 @@ function generateGrid() {
         if (dr === 0 && dc === 0) continue; // Skip self-check
         let r = row + dr,
           c = col + dc;
-        if (r >= 0 && r < gridSize && c >= 0 && c < gridSize && grid[r][c] === letter) {
+        if (
+          r >= 0 &&
+          r < gridSize &&
+          c >= 0 &&
+          c < gridSize &&
+          grid[r][c] === letter
+        ) {
           return false; // Prevent adjacent duplicates
         }
       }

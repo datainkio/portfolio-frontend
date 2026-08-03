@@ -4,6 +4,7 @@
  * aix:
  *   id: frontend.test.logger.enhancements-demo-test
  *   role: Test module: test/logger/enhancements-demo.test.js
+ Issue URL: https://github.com/datainkio/portfolio-frontend/issues/46
  *   status: draft
  *   surface: internal
  *   scope: frontend

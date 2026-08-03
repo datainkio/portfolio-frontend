@@ -34,13 +34,13 @@ function readDirectoryStructure(dir) {
       return {
         name: entry.name,
         type: "directory",
-        children: readDirectoryStructure(fullPath)
+        children: readDirectoryStructure(fullPath),
       };
     } else {
       return {
         name: entry.name,
         type: "file",
-        path: fullPath
+        path: fullPath,
       };
     }
   });

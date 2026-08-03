@@ -27,7 +27,7 @@ export function multiplyBlend(hex1, hex2) {
   const blendedRgb = {
     r: Math.floor((rgb1.r * rgb2.r) / 255),
     g: Math.floor((rgb1.g * rgb2.g) / 255),
-    b: Math.floor((rgb1.b * rgb2.b) / 255)
+    b: Math.floor((rgb1.b * rgb2.b) / 255),
   };
   return rgbToHex(blendedRgb);
 }
@@ -37,7 +37,7 @@ export function hexToRgb(hex) {
   return {
     r: (bigint >> 16) & 255,
     g: (bigint >> 8) & 255,
-    b: bigint & 255
+    b: bigint & 255,
   };
 }
 

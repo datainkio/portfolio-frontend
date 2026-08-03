@@ -43,40 +43,45 @@ export default class GelMask {
     const existingSvg = this.svg;
     if (existingSvg) {
       this.svg = existingSvg;
-      this.polygon = existingSvg.querySelector('polygon');
+      this.polygon = existingSvg.querySelector("polygon");
       this.backgroundRect =
-        existingSvg.querySelector('rect[data-role="gel-mask-bg"]') || this._createBackgroundRect();
-      const maskEl = existingSvg.querySelector('mask');
+        existingSvg.querySelector('rect[data-role="gel-mask-bg"]') ||
+        this._createBackgroundRect();
+      const maskEl = existingSvg.querySelector("mask");
       if (maskEl?.id) {
         this.maskId = maskEl.id;
         this.maskEl = maskEl;
       }
-      this.geometry.setMaskElements(this.svg, this.polygon, this.backgroundRect);
+      this.geometry.setMaskElements(
+        this.svg,
+        this.polygon,
+        this.backgroundRect,
+      );
       this._updateMaskDimensions();
       return;
     }
 
-    const ns = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(ns, 'svg');
-    svg.classList.add('gel-mask');
+    const ns = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(ns, "svg");
+    svg.classList.add("gel-mask");
     Object.assign(svg.style, {
-      position: 'absolute',
-      width: '0',
-      height: '0',
-      overflow: 'hidden',
-      pointerEvents: 'none',
+      position: "absolute",
+      width: "0",
+      height: "0",
+      overflow: "hidden",
+      pointerEvents: "none",
     });
-    const defs = document.createElementNS(ns, 'defs');
-    const mask = document.createElementNS(ns, 'mask');
+    const defs = document.createElementNS(ns, "defs");
+    const mask = document.createElementNS(ns, "mask");
     mask.id = `mask-${this.view.id || Math.random()}`;
-    mask.setAttribute('maskUnits', 'userSpaceOnUse');
-    mask.setAttribute('maskContentUnits', 'userSpaceOnUse');
-    mask.setAttribute('mask-type', 'alpha');
+    mask.setAttribute("maskUnits", "userSpaceOnUse");
+    mask.setAttribute("maskContentUnits", "userSpaceOnUse");
+    mask.setAttribute("mask-type", "alpha");
     this.maskEl = mask;
     this.backgroundRect = this._createBackgroundRect();
     mask.appendChild(this.backgroundRect);
-    const polygon = document.createElementNS(ns, 'polygon');
-    polygon.setAttribute('fill', '#FFFFFF');
+    const polygon = document.createElementNS(ns, "polygon");
+    polygon.setAttribute("fill", "#FFFFFF");
     this.geometry.setMaskElements(svg, polygon, this.backgroundRect);
     mask.appendChild(polygon);
     defs.appendChild(mask);
@@ -95,16 +100,16 @@ export default class GelMask {
    * @private
    */
   _createBackgroundRect() {
-    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    rect.dataset.role = 'gel-mask-bg';
-    rect.setAttribute('x', '0');
-    rect.setAttribute('y', '0');
-    rect.setAttribute('width', '100%');
-    rect.setAttribute('height', '100%');
-    rect.setAttribute('fill', 'black');
-    rect.setAttribute('fill-opacity', '0'); // transparent background by default
-    rect.setAttribute('vector-effect', 'non-scaling-stroke');
-    rect.style.pointerEvents = 'none';
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.dataset.role = "gel-mask-bg";
+    rect.setAttribute("x", "0");
+    rect.setAttribute("y", "0");
+    rect.setAttribute("width", "100%");
+    rect.setAttribute("height", "100%");
+    rect.setAttribute("fill", "black");
+    rect.setAttribute("fill-opacity", "0"); // transparent background by default
+    rect.setAttribute("vector-effect", "non-scaling-stroke");
+    rect.style.pointerEvents = "none";
     return rect;
   }
 
@@ -119,11 +124,11 @@ export default class GelMask {
   _applyPolarity() {
     if (!this.backgroundRect || !this.polygon) return;
     if (this.inverted) {
-      this.backgroundRect.setAttribute('fill-opacity', '1'); // show everything
-      this.polygon.setAttribute('fill-opacity', '0'); // cut out polygon area
+      this.backgroundRect.setAttribute("fill-opacity", "1"); // show everything
+      this.polygon.setAttribute("fill-opacity", "0"); // cut out polygon area
     } else {
-      this.backgroundRect.setAttribute('fill-opacity', '0'); // hide outside
-      this.polygon.setAttribute('fill-opacity', '1'); // show polygon
+      this.backgroundRect.setAttribute("fill-opacity", "0"); // hide outside
+      this.polygon.setAttribute("fill-opacity", "1"); // show polygon
     }
   }
 
@@ -151,11 +156,11 @@ export default class GelMask {
   remove() {
     Object.assign(this.view.style, {
       ...this.maskStyle,
-      maskImage: 'none',
-      WebkitMaskImage: 'none',
-      mask: 'none',
-      WebkitMask: 'none',
-      WebkitMaskImage: 'none',
+      maskImage: "none",
+      WebkitMaskImage: "none",
+      mask: "none",
+      WebkitMask: "none",
+      WebkitMaskImage: "none",
     });
     this._applied = false;
   }
@@ -179,9 +184,9 @@ export default class GelMask {
     const rect = this.view.getBoundingClientRect();
     const width = rect.width || this.view.offsetWidth || 0;
     const height = rect.height || this.view.offsetHeight || 0;
-    this.maskEl.setAttribute('x', 0);
-    this.maskEl.setAttribute('y', 0);
-    this.maskEl.setAttribute('width', width);
-    this.maskEl.setAttribute('height', height);
+    this.maskEl.setAttribute("x", 0);
+    this.maskEl.setAttribute("y", 0);
+    this.maskEl.setAttribute("width", width);
+    this.maskEl.setAttribute("height", height);
   }
 }

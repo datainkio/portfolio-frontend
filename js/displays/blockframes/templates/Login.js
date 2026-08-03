@@ -25,7 +25,5 @@ export function paint(elem, palette) {
   const dropdown = elem.querySelector(".dropdown");
   const header = elem.querySelector(".header");
 
-  console.log(elem);
-
   chrome.setAttribute("fill", palette.neutral.light);
 }

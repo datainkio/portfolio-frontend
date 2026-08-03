@@ -36,15 +36,15 @@
  * this script will need updates. Always check console output for sync failures.
  */
 
-import { promises as fs } from 'fs';
-import path from 'path';
-import chalk from 'chalk';
-import logger from '@datainkio/lumberjack';
+import { promises as fs } from "fs";
+import path from "path";
+import chalk from "chalk";
+import logger from "@datainkio/lumberjack";
 
 logger.enabled = true;
 
-const CACHE_DIR = '.cache';
-const CONTENT_DIR = '_site/content';
+const CACHE_DIR = ".cache";
+const CONTENT_DIR = "_site/content";
 
 /**
  * Get stats for a file/directory
@@ -78,7 +78,7 @@ async function findBufferFiles(dir, fileList = []) {
 
     if (entry.isDirectory()) {
       await findBufferFiles(fullPath, fileList);
-    } else if (entry.name.endsWith('.buffer')) {
+    } else if (entry.name.endsWith(".buffer")) {
       fileList.push(fullPath);
     }
   }
@@ -90,53 +90,56 @@ async function findBufferFiles(dir, fileList = []) {
  * Determine content type from file signature (magic bytes)
  */
 async function detectFileType(filePath) {
-  const fd = await fs.open(filePath, 'r');
+  const fd = await fs.open(filePath, "r");
   const buffer = Buffer.alloc(12);
   await fd.read(buffer, 0, 12, 0);
   await fd.close();
 
   // Check magic bytes for common file types
-  const hex = buffer.toString('hex');
+  const hex = buffer.toString("hex");
 
   // Images
-  if (hex.startsWith('ffd8ff')) return { type: 'image/jpeg', ext: '.jpeg' };
-  if (hex.startsWith('89504e47')) return { type: 'image/png', ext: '.png' };
-  if (hex.startsWith('47494638')) return { type: 'image/gif', ext: '.gif' };
-  if (hex.startsWith('52494646') && hex.includes('57454250'))
-    return { type: 'image/webp', ext: '.webp' };
-  if (hex.startsWith('3c3f786d6c') || hex.startsWith('3c737667'))
-    return { type: 'image/svg+xml', ext: '.svg' };
+  if (hex.startsWith("ffd8ff")) return { type: "image/jpeg", ext: ".jpeg" };
+  if (hex.startsWith("89504e47")) return { type: "image/png", ext: ".png" };
+  if (hex.startsWith("47494638")) return { type: "image/gif", ext: ".gif" };
+  if (hex.startsWith("52494646") && hex.includes("57454250"))
+    return { type: "image/webp", ext: ".webp" };
+  if (hex.startsWith("3c3f786d6c") || hex.startsWith("3c737667"))
+    return { type: "image/svg+xml", ext: ".svg" };
 
   // Videos
-  if (hex.includes('667479706d703432') || hex.includes('6674797069736f6d'))
-    return { type: 'video/mp4', ext: '.mp4' };
-  if (hex.includes('6674797071742020')) return { type: 'video/quicktime', ext: '.mov' };
+  if (hex.includes("667479706d703432") || hex.includes("6674797069736f6d"))
+    return { type: "video/mp4", ext: ".mp4" };
+  if (hex.includes("6674797071742020"))
+    return { type: "video/quicktime", ext: ".mov" };
 
   // PDFs
-  if (hex.startsWith('25504446')) return { type: 'application/pdf', ext: '.pdf' };
+  if (hex.startsWith("25504446"))
+    return { type: "application/pdf", ext: ".pdf" };
 
   // Text
-  if (buffer.every(b => b < 128 || b === 0)) return { type: 'text/plain', ext: '.txt' };
+  if (buffer.every((b) => b < 128 || b === 0))
+    return { type: "text/plain", ext: ".txt" };
 
-  return { type: 'application/octet-stream', ext: '.bin' };
+  return { type: "application/octet-stream", ext: ".bin" };
 }
 
 /**
  * Get destination path for a cached file based on its type
  */
 function getDestinationPath(cacheFile, fileInfo) {
-  const basename = path.basename(cacheFile, '.buffer');
+  const basename = path.basename(cacheFile, ".buffer");
 
-  if (fileInfo.type.startsWith('image/')) {
+  if (fileInfo.type.startsWith("image/")) {
     // Images go to subdirectories by format
-    const format = fileInfo.type.split('/')[1];
-    return path.join(CONTENT_DIR, 'images', format, basename + fileInfo.ext);
-  } else if (fileInfo.type.startsWith('video/')) {
-    return path.join(CONTENT_DIR, 'video', basename + fileInfo.ext);
-  } else if (fileInfo.type === 'application/pdf') {
-    return path.join(CONTENT_DIR, 'pdf', basename + fileInfo.ext);
+    const format = fileInfo.type.split("/")[1];
+    return path.join(CONTENT_DIR, "images", format, basename + fileInfo.ext);
+  } else if (fileInfo.type.startsWith("video/")) {
+    return path.join(CONTENT_DIR, "video", basename + fileInfo.ext);
+  } else if (fileInfo.type === "application/pdf") {
+    return path.join(CONTENT_DIR, "pdf", basename + fileInfo.ext);
   } else {
-    return path.join(CONTENT_DIR, 'txt', basename + fileInfo.ext);
+    return path.join(CONTENT_DIR, "txt", basename + fileInfo.ext);
   }
 }
 
@@ -144,8 +147,17 @@ function getDestinationPath(cacheFile, fileInfo) {
  * Main sync function
  */
 async function syncContent() {
-  console.log(chalk.blue.bold('\n🔄 Starting content sync from .cache to _site/content...'));
-  logger.trace('Starting content sync:', 'Analyzing cache directory...', 'brief', 'headsup');
+  console.log(
+    chalk.blue.bold(
+      "\n🔄 Starting content sync from .cache to _site/content...",
+    ),
+  );
+  logger.trace(
+    "Starting content sync:",
+    "Analyzing cache directory...",
+    "brief",
+    "headsup",
+  );
 
   await logger.group(async () => {
     try {
@@ -155,7 +167,12 @@ async function syncContent() {
       // Find all buffer files in cache
       const bufferFiles = await findBufferFiles(CACHE_DIR);
       console.log(chalk.gray(`Found ${bufferFiles.length} cached files`));
-      logger.trace('Buffer files found:', bufferFiles.length, 'brief', 'standard');
+      logger.trace(
+        "Buffer files found:",
+        bufferFiles.length,
+        "brief",
+        "standard",
+      );
 
       let copied = 0;
       let skipped = 0;
@@ -167,10 +184,10 @@ async function syncContent() {
             // Detect file type
             const fileInfo = await detectFileType(cacheFile);
             logger.trace(
-              'File type detected:',
+              "File type detected:",
               { file: path.basename(cacheFile), type: fileInfo.type },
-              'verbose',
-              'standard'
+              "verbose",
+              "standard",
             );
             const destPath = getDestinationPath(cacheFile, fileInfo);
 
@@ -193,30 +210,43 @@ async function syncContent() {
             }
           } catch (error) {
             errors++;
-            console.error(chalk.red(`Error processing ${cacheFile}: ${error.message}`));
-            logger.trace('File processing error:', error.message, 'brief', 'error');
+            console.error(
+              chalk.red(`Error processing ${cacheFile}: ${error.message}`),
+            );
+            logger.trace(
+              "File processing error:",
+              error.message,
+              "brief",
+              "error",
+            );
           }
         }
       });
 
       console.log(
         chalk.green.bold(
-          `\n✅ Content sync complete: ${copied} copied, ${skipped} skipped, ${errors} errors`
-        )
+          `\n✅ Content sync complete: ${copied} copied, ${skipped} skipped, ${errors} errors`,
+        ),
       );
       logger.trace(
-        'Sync complete:',
+        "Sync complete:",
         { copied, skipped, errors },
-        'brief',
-        errors > 0 ? 'error' : 'success'
+        "brief",
+        errors > 0 ? "error" : "success",
       );
 
       if (errors > 0) {
-        console.log(chalk.yellow(`⚠️  Some files failed to sync. Check error messages above.`));
+        console.log(
+          chalk.yellow(
+            `⚠️  Some files failed to sync. Check error messages above.`,
+          ),
+        );
       }
     } catch (error) {
-      console.error(chalk.red.bold(`\n❌ Content sync failed: ${error.message}`));
-      logger.trace('Sync failed:', error.message, 'verbose', 'error');
+      console.error(
+        chalk.red.bold(`\n❌ Content sync failed: ${error.message}`),
+      );
+      logger.trace("Sync failed:", error.message, "verbose", "error");
       throw error;
     }
   });
@@ -224,7 +254,7 @@ async function syncContent() {
 
 // Run if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {
-  syncContent().catch(error => {
+  syncContent().catch((error) => {
     console.error(error);
     process.exit(1);
   });

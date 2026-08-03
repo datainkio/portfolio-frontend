@@ -22,4 +22,5 @@ export function paint(elem, palette) {
   var text = elem.querySelector(".text");
 
   chrome.setAttribute("fill", palette.secondary.light);
+  text.setAttribute("fill", palette.neutral.dark);
 }

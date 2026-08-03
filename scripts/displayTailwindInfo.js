@@ -25,7 +25,7 @@ async function displayTailwindInfo() {
   try {
     // Read package.json for Tailwind version
     const packageJson = JSON.parse(
-      await readFile(join(__dirname, "../package.json"), "utf8")
+      await readFile(join(__dirname, "../package.json"), "utf8"),
     );
     const tailwindVersion = packageJson.dependencies.tailwindcss;
 
@@ -39,7 +39,7 @@ async function displayTailwindInfo() {
     // Version info
     console.log(
       chalk.blue("\tVersion".padEnd(25)),
-      chalk.white(tailwindVersion)
+      chalk.white(tailwindVersion),
     );
 
     // Plugins

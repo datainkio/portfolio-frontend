@@ -19,6 +19,8 @@
 import {
   PRELOADER_ANIMATION,
   PRELOADER_ANIMATION_MESSAGES,
+  PRELOADER_SELECTORS,
+  PRELOADER_STATE,
   PRELOADER_STYLE_VALUES,
   PRELOADER_TIMINGS,
 } from "./constants.js";
@@ -71,13 +73,20 @@ export const animateIntro = ({ stack, prefersReduce, trace = () => {} }) => {
   );
 };
 
-export const animateExit = ({
-  preloader,
-  stack,
-  prefersReduce,
-  onComplete,
-  trace = () => {},
-}) =>
+/**
+ * The outro is pure CSS (styles/components/hanko.css), driven entirely by a
+ * single state flip on the preloader root. JS does not animate or remove the
+ * element here — the landing header persists as the page hero. Flipping
+ * `data-preloader-state="exit"` triggers, in CSS: the hanko settles to its
+ * fully-lit default, then the hgroup reveals (reusing the hanko intro), then
+ * the fixed overlay is dropped so the header sits in normal flow.
+ *
+ * The hgroup is the last thing to animate, so its `animationend` marks the end
+ * of the outro and resolves the promise. Under `prefers-reduced-motion` the
+ * global utility forces `animation: none`, so no `animationend` fires — the
+ * timeout fallback covers that path.
+ */
+export const animateExit = ({ preloader, onComplete, trace = () => {} }) =>
   new Promise((resolve) => {
     // trace(PRELOADER_ANIMATION_MESSAGES.exitStarted);
     if (!preloader) {
@@ -92,42 +101,11 @@ export const animateExit = ({
       resolve();
     });
 
-    if (typeof window.gsap !== "undefined") {
-      const timeline = window.gsap.timeline({
-        defaults: {
-          duration: PRELOADER_TIMINGS.gsapExitDuration,
-          ease: PRELOADER_ANIMATION.gsapExitEase,
-        },
-      });
-
-      if (stack) {
-        timeline.to(stack, PRELOADER_ANIMATION.stackExitTo, 0);
-      }
-      timeline.to(preloader, { autoAlpha: 0 }, 0).add(finish);
-      return;
+    const hgroup = preloader.querySelector(PRELOADER_SELECTORS.hgroup);
+    if (hgroup) {
+      hgroup.addEventListener("animationend", finish, { once: true });
     }
+    setTimeout(finish, PRELOADER_TIMINGS.cssOutroFallbackMs);
 
-    if (prefersReduce) {
-      // trace(PRELOADER_ANIMATION_MESSAGES.reducedMotionExit);
-      preloader.style.transition =
-        PRELOADER_ANIMATION.reducedMotionExitTransition;
-      preloader.style.opacity = PRELOADER_STYLE_VALUES.opacityHidden;
-      preloader.addEventListener("transitionend", finish, { once: true });
-      setTimeout(finish, PRELOADER_TIMINGS.reducedMotionFallbackMs);
-      return;
-    }
-
-    preloader
-      .animate(
-        [
-          PRELOADER_ANIMATION.exitFallbackFrom,
-          PRELOADER_ANIMATION.exitFallbackTo,
-        ],
-        {
-          duration: PRELOADER_TIMINGS.exitFallbackDurationMs,
-          easing: PRELOADER_ANIMATION.exitFallbackEasing,
-          fill: PRELOADER_ANIMATION.fillModeForwards,
-        },
-      )
-      .addEventListener("finish", finish, { once: true });
+    preloader.setAttribute(PRELOADER_STATE.attribute, PRELOADER_STATE.exit);
   });

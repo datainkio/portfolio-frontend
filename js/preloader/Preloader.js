@@ -16,7 +16,7 @@
  * ---
  */
 
-import { EVENTS } from "/assets/js/choreography/config/contracts/events.js";
+import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
 import { animateExit, animateIntro } from "./animations.js";
 import {
   PRELOADER_ASSET,
@@ -43,29 +43,10 @@ import {
   createFiletypeMessageUpdater,
   startResourceObserver,
 } from "./resource-observer.js";
-import { initRulerIntro } from "/assets/js/choreography/managers/RulerIntroManager.js";
+
 import { ensureScrollSmoother } from "./scroll-smoother.js";
 
-let rulerIntro = null;
-
-const ensureRulerIntro = () => {
-  if (!rulerIntro) {
-    rulerIntro = initRulerIntro();
-    return rulerIntro;
-  }
-
-  rulerIntro.init?.();
-  return rulerIntro;
-};
-
-const createCleanup = ({
-  preloader,
-  stopObserver,
-  restoreState,
-  main,
-  trace,
-  warn,
-}) => {
+const createCleanup = ({ stopObserver, restoreState, main, trace, warn }) => {
   let cleaned = false;
 
   return () => {
@@ -79,14 +60,10 @@ const createCleanup = ({
       warn(PRELOADER_CONTROLLER_MESSAGES.resourceObserverCleanupFailed, error);
     }
 
-    try {
-      if (preloader && preloader.isConnected) {
-        preloader.remove();
-      }
-      // trace(PRELOADER_CONTROLLER_MESSAGES.preloaderElementRemoved);
-    } catch (error) {
-      warn(PRELOADER_CONTROLLER_MESSAGES.preloaderElementCleanupFailed, error);
-    }
+    // The preloader element is intentionally NOT removed: the landing header
+    // persists as the page hero once its outro has revealed the hgroup. The
+    // CSS outro (data-preloader-state="exit") drops the fixed overlay so the
+    // header settles into normal flow. See styles/components/hanko.css.
 
     try {
       restoreState();
@@ -104,8 +81,6 @@ const createCleanup = ({
 };
 
 export const initPreloader = async () => {
-  const ruler = ensureRulerIntro();
-
   if (PRELOADER_ASSET.consoleImageEnabled) {
     showPreloaderConsoleImage(PRELOADER_ASSET);
   }
@@ -115,7 +90,7 @@ export const initPreloader = async () => {
 
   if (!preloader) {
     logger.warn(PRELOADER_CONTROLLER_MESSAGES.noPreloaderElement);
-    ruler?.refresh?.();
+    // ruler?.refresh?.();
     return;
   }
 
@@ -140,7 +115,6 @@ export const initPreloader = async () => {
   );
 
   const cleanup = createCleanup({
-    preloader,
     stopObserver,
     restoreState,
     main,
@@ -178,8 +152,6 @@ export const initPreloader = async () => {
     //  logger.trace(PRELOADER_CONTROLLER_MESSAGES.directorReady);
     await animateExit({
       preloader,
-      stack,
-      prefersReduce,
       trace: logger.trace,
       onComplete: () => {
         if (typeof window !== "undefined") {
@@ -206,7 +178,7 @@ export const initPreloader = async () => {
         error,
       );
     } finally {
-      ruler?.refresh?.();
+      // uhhh....
     }
   }
 };

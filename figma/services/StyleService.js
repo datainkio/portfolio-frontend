@@ -13,12 +13,12 @@
  *     - services
  * ---
  */
-import { FileService } from './FileService.js';
-import { createStyle } from '../utils/styleFactory.js';
-import { Color } from '../models/fills/Color.js';
-import { TextFormat } from '../models/text/TextFormat.js';
-import { Pattern } from '../models/fills/Pattern.js';
-import chalk from 'chalk';
+import { FileService } from "./FileService.js";
+import { createStyle } from "../utils/styleFactory.js";
+import { Color } from "../models/fills/Color.js";
+import { TextFormat } from "../models/text/TextFormat.js";
+import { Pattern } from "../models/fills/Pattern.js";
+import chalk from "chalk";
 
 export class StyleService {
   constructor(client) {
@@ -29,11 +29,11 @@ export class StyleService {
   }
 
   async getStyles(styleIDs) {
-    console.log(chalk.cyan('\tfetching style data...'));
+    console.log(chalk.cyan("\tfetching style data..."));
     const styles = await this.fileService.getStyles(styleIDs);
     const styleDocs = Object.values(styles.nodes)
-    .map(node => node.document)
-    .filter(document => document !== undefined);
+      .map((node) => node.document)
+      .filter((document) => document !== undefined);
 
     /**
      * Style data now looks like this:
@@ -62,8 +62,8 @@ export class StyleService {
       textFormats: [],
       patterns: [],
     };
-    
-    styleDocs.forEach(doc => {
+
+    styleDocs.forEach((doc) => {
       const style = createStyle(doc);
       if (style instanceof Color) {
         groupedStyles.colors.push(style);
@@ -75,9 +75,7 @@ export class StyleService {
     });
 
     // Write styles using the groupedStyles object
-    await Promise.all([
-         console.log(chalk.gray('\t↳ style data fetched'))
-    ]);
+    await Promise.all([console.log(chalk.gray("\t↳ style data fetched"))]);
 
     return groupedStyles;
   }

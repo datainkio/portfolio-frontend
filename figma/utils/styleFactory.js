@@ -13,9 +13,9 @@
  *     - utils
  * ---
  */
-import { Color } from '../models/fills/Color.js';
-import { Pattern } from '../models/fills/Pattern.js';
-import { TextFormat } from '../models/text/TextFormat.js';
+import { Color } from "../models/fills/Color.js";
+import { Pattern } from "../models/fills/Pattern.js";
+import { TextFormat } from "../models/text/TextFormat.js";
 
 /**
  * Factory function to create a style object.
@@ -44,25 +44,22 @@ import { TextFormat } from '../models/text/TextFormat.js';
   },
  */
 export function createStyle(styleDoc) {
-    switch(styleDoc.type) {
-        case 'TEXT':
-            return new TextFormat(styleDoc);
-        case 'RECTANGLE':
-            switch(styleDoc.fills[0].type) {
-                case 'SOLID':
-                    // Create a new color object
-                    return new Color(styleDoc);
-                case 'IMAGE':
-                    // Create a new pattern object
-                    return new Pattern(styleDoc);
-            }
-        case 'FRAME':
-            // Someday we might want to do something with frames, like define grids or something
-            return;
-        default:
-           
-            throw new Error(`Unknown style type: ${styleDoc.type}`);
-    }
+  switch (styleDoc.type) {
+    case "TEXT":
+      return new TextFormat(styleDoc);
+    case "RECTANGLE":
+      switch (styleDoc.fills[0].type) {
+        case "SOLID":
+          // Create a new color object
+          return new Color(styleDoc);
+        case "IMAGE":
+          // Create a new pattern object
+          return new Pattern(styleDoc);
+      }
+    case "FRAME":
+      // Someday we might want to do something with frames, like define grids or something
+      return;
+    default:
+      throw new Error(`Unknown style type: ${styleDoc.type}`);
+  }
 }
-
-

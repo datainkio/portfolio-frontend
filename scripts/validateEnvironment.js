@@ -36,16 +36,16 @@
  * node scripts/validateEnvironment.js
  */
 
-import { existsSync } from 'fs';
-import { resolve } from 'path';
-import chalk from 'chalk';
-import dotenv from 'dotenv';
+import { existsSync } from "fs";
+import { resolve } from "path";
+import chalk from "chalk";
+import dotenv from "dotenv";
 
 // Load environment variables
 dotenv.config();
 
-console.log(chalk.cyan.bold('\n🔍 ENVIRONMENT VALIDATION'));
-console.log(chalk.gray('─'.repeat(50)));
+console.log(chalk.cyan.bold("\n🔍 ENVIRONMENT VALIDATION"));
+console.log(chalk.gray("─".repeat(50)));
 
 let hasErrors = false;
 const warnings = [];
@@ -54,48 +54,54 @@ const warnings = [];
  * Validate required environment variables
  */
 function validateEnvironmentVariables() {
-  console.log(chalk.blue('\n📋 Environment Variables'));
+  console.log(chalk.blue("\n📋 Environment Variables"));
 
   const figmaToken = process.env.FIGMA_TOKEN ?? process.env.FIGMA_ACCESS_TOKEN;
-  const figmaTokenName = process.env.FIGMA_TOKEN ? 'FIGMA_TOKEN' : 'FIGMA_ACCESS_TOKEN';
+  const figmaTokenName = process.env.FIGMA_TOKEN
+    ? "FIGMA_TOKEN"
+    : "FIGMA_ACCESS_TOKEN";
 
   const requiredVars = [
     {
-      name: 'FIGMA_FILE_ID',
-      description: 'Figma file ID for design system sync',
+      name: "FIGMA_FILE_ID",
+      description: "Figma file ID for design system sync",
       critical: true,
     },
     {
-      name: 'SANITY_PROJECT_ID',
-      description: 'CMS project ID (Sanity)',
+      name: "SANITY_PROJECT_ID",
+      description: "CMS project ID (Sanity)",
       critical: true,
     },
     {
-      name: 'SANITY_DATASET',
-      description: 'CMS dataset name (Sanity)',
+      name: "SANITY_DATASET",
+      description: "CMS dataset name (Sanity)",
       critical: true,
     },
   ];
 
   if (!figmaToken) {
-    console.log(chalk.red('  ❌ FIGMA_TOKEN: MISSING (CRITICAL)'));
+    console.log(chalk.red("  ❌ FIGMA_TOKEN: MISSING (CRITICAL)"));
     console.log(
-      chalk.gray('     Personal access token for Figma API (legacy: FIGMA_ACCESS_TOKEN)')
+      chalk.gray(
+        "     Personal access token for Figma API (legacy: FIGMA_ACCESS_TOKEN)",
+      ),
     );
     hasErrors = true;
   } else {
     const maskedValue =
       figmaToken.length > 8
         ? `${figmaToken.substring(0, 4)}...${figmaToken.substring(figmaToken.length - 4)}`
-        : '*'.repeat(figmaToken.length);
+        : "*".repeat(figmaToken.length);
     console.log(chalk.green(`  ✅ ${figmaTokenName}: ${maskedValue}`));
 
     if (!process.env.FIGMA_TOKEN && process.env.FIGMA_ACCESS_TOKEN) {
-      warnings.push('FIGMA_ACCESS_TOKEN is supported but deprecated; prefer FIGMA_TOKEN');
+      warnings.push(
+        "FIGMA_ACCESS_TOKEN is supported but deprecated; prefer FIGMA_TOKEN",
+      );
     }
   }
 
-  requiredVars.forEach(variable => {
+  requiredVars.forEach((variable) => {
     const value = process.env[variable.name];
     if (!value) {
       if (variable.critical) {
@@ -110,7 +116,7 @@ function validateEnvironmentVariables() {
       const maskedValue =
         value.length > 8
           ? `${value.substring(0, 4)}...${value.substring(value.length - 4)}`
-          : '*'.repeat(value.length);
+          : "*".repeat(value.length);
       console.log(chalk.green(`  ✅ ${variable.name}: ${maskedValue}`));
     }
   });
@@ -120,19 +126,19 @@ function validateEnvironmentVariables() {
  * Validate project file structure
  */
 function validateProjectStructure() {
-  console.log(chalk.blue('\n📁 Project Structure'));
+  console.log(chalk.blue("\n📁 Project Structure"));
 
   const requiredPaths = [
-    { path: 'njk/_data/site.json', description: 'Site configuration' },
-    { path: 'styles/main.css', description: 'Main CSS entry point' },
-    { path: 'tailwind.config.js', description: 'Tailwind configuration' },
-    { path: '.eleventy.js', description: '11ty configuration' },
-    { path: 'scripts', description: 'Build scripts directory' },
-    { path: 'figma', description: 'Figma integration services' },
-    { path: 'cms', description: 'CMS integration services' },
+    { path: "njk/_data/site.json", description: "Site configuration" },
+    { path: "styles/main.css", description: "Main CSS entry point" },
+    { path: "tailwind.config.js", description: "Tailwind configuration" },
+    { path: ".eleventy.js", description: "11ty configuration" },
+    { path: "scripts", description: "Build scripts directory" },
+    { path: "figma", description: "Figma integration services" },
+    { path: "cms", description: "CMS integration services" },
   ];
 
-  requiredPaths.forEach(item => {
+  requiredPaths.forEach((item) => {
     const fullPath = resolve(item.path);
     if (existsSync(fullPath)) {
       console.log(chalk.green(`  ✅ ${item.path}`));
@@ -148,10 +154,10 @@ function validateProjectStructure() {
  * Validate Node.js and npm setup
  */
 function validateNodeSetup() {
-  console.log(chalk.blue('\n⚙️ Node.js Environment'));
+  console.log(chalk.blue("\n⚙️ Node.js Environment"));
 
   const nodeVersion = process.version;
-  const majorVersion = parseInt(nodeVersion.slice(1).split('.')[0]);
+  const majorVersion = parseInt(nodeVersion.slice(1).split(".")[0]);
 
   if (majorVersion >= 18) {
     console.log(chalk.green(`  ✅ Node.js: ${nodeVersion}`));
@@ -161,19 +167,19 @@ function validateNodeSetup() {
   }
 
   // Check for package.json
-  if (existsSync('package.json')) {
-    console.log(chalk.green('  ✅ package.json: Found'));
+  if (existsSync("package.json")) {
+    console.log(chalk.green("  ✅ package.json: Found"));
   } else {
-    console.log(chalk.red('  ❌ package.json: Missing'));
+    console.log(chalk.red("  ❌ package.json: Missing"));
     hasErrors = true;
   }
 
   // Check for node_modules
-  if (existsSync('node_modules')) {
-    console.log(chalk.green('  ✅ node_modules: Dependencies installed'));
+  if (existsSync("node_modules")) {
+    console.log(chalk.green("  ✅ node_modules: Dependencies installed"));
   } else {
-    console.log(chalk.yellow('  ⚠️  node_modules: Run npm install'));
-    warnings.push('Dependencies not installed - run npm install');
+    console.log(chalk.yellow("  ⚠️  node_modules: Run npm install"));
+    warnings.push("Dependencies not installed - run npm install");
   }
 }
 
@@ -187,32 +193,32 @@ async function validateEnvironment() {
     validateProjectStructure();
 
     // Summary
-    console.log(chalk.blue('\n📊 Validation Summary'));
-    console.log(chalk.gray('─'.repeat(30)));
+    console.log(chalk.blue("\n📊 Validation Summary"));
+    console.log(chalk.gray("─".repeat(30)));
 
     if (hasErrors) {
-      console.log(chalk.red('❌ Environment validation FAILED'));
-      console.log(chalk.yellow('\nRequired actions:'));
-      console.log('1. Set missing environment variables in .env file');
-      console.log('2. Ensure all required project files exist');
-      console.log('3. Run npm install if dependencies are missing');
-      console.log('\nSee README.md for detailed setup instructions');
+      console.log(chalk.red("❌ Environment validation FAILED"));
+      console.log(chalk.yellow("\nRequired actions:"));
+      console.log("1. Set missing environment variables in .env file");
+      console.log("2. Ensure all required project files exist");
+      console.log("3. Run npm install if dependencies are missing");
+      console.log("\nSee README.md for detailed setup instructions");
       process.exit(1);
     } else {
-      console.log(chalk.green('✅ Environment validation PASSED'));
+      console.log(chalk.green("✅ Environment validation PASSED"));
 
       if (warnings.length > 0) {
         console.log(chalk.yellow(`\n⚠️  ${warnings.length} warnings:`));
-        warnings.forEach(warning => {
+        warnings.forEach((warning) => {
           console.log(chalk.yellow(`   • ${warning}`));
         });
       }
 
-      console.log(chalk.cyan('\n🚀 Ready to start development!'));
-      console.log('Run: npm start');
+      console.log(chalk.cyan("\n🚀 Ready to start development!"));
+      console.log("Run: npm start");
     }
   } catch (error) {
-    console.error(chalk.red('❌ Validation failed:'), error.message);
+    console.error(chalk.red("❌ Validation failed:"), error.message);
     process.exit(1);
   }
 }

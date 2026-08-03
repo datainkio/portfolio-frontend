@@ -6,7 +6,7 @@
     <title>Lumberjack Browser Mode Test</title>
     <style>
       body {
-        font-family: 'Monaco', 'Courier New', monospace;
+        font-family: "Monaco", "Courier New", monospace;
         padding: 20px;
         background: #1e1e1e;
         color: #d4d4d4;
@@ -36,61 +36,88 @@
     <div class="instructions">
       <h2>Browser Console Mode Test</h2>
       <p>
-        Open your browser's Developer Tools Console (F12 or Cmd+Option+I) to see the styled output.
+        Open your browser's Developer Tools Console (F12 or Cmd+Option+I) to see
+        the styled output.
       </p>
       <p>
-        This tests Lumberjack's ability to output styled console messages using CSS
+        This tests Lumberjack's ability to output styled console messages using
+        CSS
         <code>%c</code> directive.
       </p>
-      <p><strong>Expected:</strong> Colored text with emoji prefixes in the browser console.</p>
+      <p>
+        <strong>Expected:</strong> Colored text with emoji prefixes in the
+        browser console.
+      </p>
     </div>
 
     <script type="module">
-      import lumberjack, { Lumberjack } from '@datainkio/lumberjack';
+      import lumberjack, { Lumberjack } from "@datainkio/lumberjack";
 
       // Enable logging
       Lumberjack.configure({ enabled: true });
 
-      console.log('\n=== Browser Mode Test ===\n');
+      console.log("\n=== Browser Mode Test ===\n");
 
       // Test 1: Semantic Styles
-      console.log('Test 1: Semantic Styles');
-      lumberjack.trace('Standard style', 'Default blue text', 'brief', 'standard');
-      lumberjack.trace('Heads up style', 'Important notice', 'brief', 'headsup');
-      lumberjack.trace('Success style', 'Operation completed', 'brief', 'success');
-      lumberjack.trace('Error style', 'Something went wrong', 'brief', 'error');
+      console.log("Test 1: Semantic Styles");
+      lumberjack.trace(
+        "Standard style",
+        "Default blue text",
+        "brief",
+        "standard",
+      );
+      lumberjack.trace(
+        "Heads up style",
+        "Important notice",
+        "brief",
+        "headsup",
+      );
+      lumberjack.trace(
+        "Success style",
+        "Operation completed",
+        "brief",
+        "success",
+      );
+      lumberjack.trace("Error style", "Something went wrong", "brief", "error");
 
       // Test 2: Error auto-detection
-      console.log('\nTest 2: Error Auto-Detection');
-      const testError = new Error('Test error message');
-      lumberjack.trace('Auto-detected error:', testError);
+      console.log("\nTest 2: Error Auto-Detection");
+      const testError = new Error("Test error message");
+      lumberjack.trace("Auto-detected error:", testError);
 
       // Test 3: Display modes
-      console.log('\nTest 3: Display Modes');
-      const testObj = { name: 'John', age: 30, active: true };
-      lumberjack.trace('Brief mode:', testObj, 'brief', 'standard');
-      lumberjack.trace('Verbose mode:', testObj, 'verbose', 'standard');
+      console.log("\nTest 3: Display Modes");
+      const testObj = { name: "John", age: 30, active: true };
+      lumberjack.trace("Brief mode:", testObj, "brief", "standard");
+      lumberjack.trace("Verbose mode:", testObj, "verbose", "standard");
 
       // Test 4: Hierarchical logging
-      console.log('\nTest 4: Hierarchical Output');
+      console.log("\nTest 4: Hierarchical Output");
       await lumberjack.group(async () => {
-        lumberjack.trace('Parent operation', 'Starting...', 'brief', 'headsup');
+        lumberjack.trace("Parent operation", "Starting...", "brief", "headsup");
         lumberjack.indent();
-        lumberjack.trace('Child operation 1', 'Processing...', 'brief', 'standard');
-        lumberjack.trace('Child operation 2', 'Complete', 'brief', 'success');
+        lumberjack.trace(
+          "Child operation 1",
+          "Processing...",
+          "brief",
+          "standard",
+        );
+        lumberjack.trace("Child operation 2", "Complete", "brief", "success");
         lumberjack.outdent();
       });
 
       // Test 5: Script outline
-      console.log('\nTest 5: Script Outline');
-      lumberjack.showScriptOutline('Build Process', [
-        { name: 'Clean', description: 'Remove old files' },
-        { name: 'Compile', description: 'Build assets' },
-        { name: 'Deploy', description: 'Push to server' },
+      console.log("\nTest 5: Script Outline");
+      lumberjack.showScriptOutline("Build Process", [
+        { name: "Clean", description: "Remove old files" },
+        { name: "Compile", description: "Build assets" },
+        { name: "Deploy", description: "Push to server" },
       ]);
 
-      console.log('\n=== All Browser Tests Complete ===\n');
-      console.log('✅ Check above for styled console output with colors and emoji prefixes!');
+      console.log("\n=== All Browser Tests Complete ===\n");
+      console.log(
+        "✅ Check above for styled console output with colors and emoji prefixes!",
+      );
     </script>
   </body>
 </html>

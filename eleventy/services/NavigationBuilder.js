@@ -20,16 +20,18 @@
  * This service follows the Single Responsibility Principle by focusing only on
  * transforming data into navigation structures.
  *
+ * In English: it makes it testable outside of 11ty's build context. :D
+ *
  * ARCHITECTURE OVERVIEW:
  * - Processes directory-based navigation from _pages files
- * - Handles Airtable projects data transformation
+ * - Handles Sanity projects data transformation
  * - Builds hierarchical navigation structures
  * - Provides clean API for 11ty collection registration
  *
  * CRITICAL DEPENDENCIES:
  * - Requires site.directories.nav configuration from site.json
  * - Depends on proper frontmatter titles in _pages/*.njk files
- * - Integration with Airtable collections system
+ * - Integration with Sanity CMS collections
  * - Used by eleventy/collections/navigation.js for collection registration
  *
  * BUG PREVENTION:
@@ -44,15 +46,15 @@
  *
  * @class NavigationBuilder
  */
-import logger, { LumberjackStyle } from '@datainkio/lumberjack';
+import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
 logger.enabled = true;
 
 /**
  * Custom Logger Styles for Navigation Operations
  */
-const msgInitStyle = new LumberjackStyle('#CA6702', '•');
-const successInitStyle = new LumberjackStyle('#EE9B00', '\n👍');
+const msgInitStyle = new LumberjackStyle("#CA6702", "•");
+const successInitStyle = new LumberjackStyle("#EE9B00", "\n👍");
 
 export class NavigationBuilder {
   /**
@@ -79,33 +81,40 @@ export class NavigationBuilder {
    * @returns {Array} Array of formatted navigation objects with key, url, parent
    */
   buildDirectoryNavigation(collectionApi) {
-    logger.trace('Building directory navigation from _pages files...', null, 'brief', msgInitStyle);
+    logger.trace(
+      "Building directory navigation from _pages files...",
+      null,
+      "brief",
+      msgInitStyle,
+    );
 
     // Get all files and filter for navigation directory and non-drafts
     const navItems = collectionApi
       .getAll()
-      .filter(item => {
+      .filter((item) => {
         // Exclude drafts or unwanted files
-        return !item.data.draft && item.inputPath.includes(this.site.directories.nav);
+        return (
+          !item.data.draft && item.inputPath.includes(this.site.directories.nav)
+        );
       })
       .sort((a, b) => a.inputPath.localeCompare(b.inputPath));
 
     const formatted = this.formatDirectoryItems(navItems);
 
     logger.trace(
-      'Directory navigation data built (' + formatted.length + ' items)',
+      "Directory navigation data built (" + formatted.length + " items)",
       null,
-      'brief',
-      successInitStyle
+      "brief",
+      successInitStyle,
     );
 
     return formatted;
   }
 
   /**
-   * Build projects navigation from Airtable data
+   * Build projects navigation from CMS data
    *
-   * Processes Airtable projects collection and creates navigation items.
+   * Processes Sanity projects collection and creates navigation items.
    * Handles missing projects gracefully.
    *
    * @param {Object} collectionApi - 11ty Collection API for accessing collections
@@ -113,10 +122,10 @@ export class NavigationBuilder {
    */
   buildProjectNavigation(collectionApi) {
     logger.trace(
-      'Building individual projects navigation from Airtable data...',
+      "Building individual projects navigation from CMS data...",
       null,
-      'brief',
-      msgInitStyle
+      "brief",
+      msgInitStyle,
     );
 
     // Use proper 11ty Collection API to access the projects collection
@@ -125,10 +134,10 @@ export class NavigationBuilder {
 
     if (!projects || projects.length === 0) {
       logger.trace(
-        'No individual projects navigation items created (projects accessed via /projects/ page)',
+        "No individual projects navigation items created (projects accessed via /projects/ page)",
         null,
-        'brief',
-        msgInitStyle
+        "brief",
+        msgInitStyle,
       );
       return [];
     }
@@ -136,10 +145,12 @@ export class NavigationBuilder {
     const formattedProjects = this.formatProjectItems(projects);
 
     logger.trace(
-      'Individual projects navigation built (' + formattedProjects.length + ' items)',
+      "Individual projects navigation built (" +
+        formattedProjects.length +
+        " items)",
       null,
-      'brief',
-      successInitStyle
+      "brief",
+      successInitStyle,
     );
 
     return formattedProjects;
@@ -155,18 +166,23 @@ export class NavigationBuilder {
    * @returns {Array} Hierarchical navigation structure with nested children
    */
   buildPrimaryNavigation(collectionApi) {
-    logger.trace('Building primary navigation structure...', null, 'brief', msgInitStyle);
+    logger.trace(
+      "Building primary navigation structure...",
+      null,
+      "brief",
+      msgInitStyle,
+    );
 
     // Get the collections using the proper 11ty Collection API
-    const projects = collectionApi.getFilteredByTag('nav_projects') || [];
-    const directories = collectionApi.getFilteredByTag('nav_dirs') || [];
+    const projects = collectionApi.getFilteredByTag("nav_projects") || [];
+    const directories = collectionApi.getFilteredByTag("nav_dirs") || [];
 
     if (projects.length === 0 && directories.length === 0) {
       logger.trace(
-        'No navigation items found in nav_projects or nav_dirs collections',
+        "No navigation items found in nav_projects or nav_dirs collections",
         null,
-        'brief',
-        msgInitStyle
+        "brief",
+        msgInitStyle,
       );
       return [];
     }
@@ -175,10 +191,12 @@ export class NavigationBuilder {
     const nested = this.buildNestedStructure(merged);
 
     logger.trace(
-      'Primary navigation structure built (' + nested.length + ' top-level items)',
+      "Primary navigation structure built (" +
+        nested.length +
+        " top-level items)",
       null,
-      'brief',
-      successInitStyle
+      "brief",
+      successInitStyle,
     );
 
     return nested;
@@ -195,14 +213,19 @@ export class NavigationBuilder {
    * @returns {Array} Hierarchical navigation structure with nested children
    */
   buildPrimaryNavigationFromData(directories, projects) {
-    logger.trace('Building primary navigation structure...', null, 'brief', msgInitStyle);
+    logger.trace(
+      "Building primary navigation structure...",
+      null,
+      "brief",
+      msgInitStyle,
+    );
 
     if (projects.length === 0 && directories.length === 0) {
       logger.trace(
-        'No navigation items found in nav_projects or nav_dirs collections',
+        "No navigation items found in nav_projects or nav_dirs collections",
         null,
-        'brief',
-        msgInitStyle
+        "brief",
+        msgInitStyle,
       );
       return [];
     }
@@ -211,10 +234,12 @@ export class NavigationBuilder {
     const nested = this.buildNestedStructure(merged);
 
     logger.trace(
-      'Primary navigation structure built (' + nested.length + ' top-level items)',
+      "Primary navigation structure built (" +
+        nested.length +
+        " top-level items)",
       null,
-      'brief',
-      successInitStyle
+      "brief",
+      successInitStyle,
     );
 
     return nested;
@@ -252,24 +277,29 @@ export class NavigationBuilder {
    * @returns {Array} Array of formatted navigation objects with key, url, parent
    */
   formatDirectoryItems(items) {
-    logger.trace('Formatting directory navigation data...', null, 'brief', msgInitStyle);
+    logger.trace(
+      "Formatting directory navigation data...",
+      null,
+      "brief",
+      msgInitStyle,
+    );
 
     const result = items
-      .filter(item => {
+      .filter((item) => {
         // CRITICAL: Filter out items without titles to prevent null keys
         // Missing titles would break navigation template rendering
         if (!item.data.title) {
           logger.trace(
-            'Filtering out navigation item without title:',
+            "Filtering out navigation item without title:",
             item.inputPath,
-            'brief',
-            msgInitStyle
+            "brief",
+            msgInitStyle,
           );
           return false;
         }
         return true;
       })
-      .map(item => ({
+      .map((item) => ({
         key: item.data.title,
         url: item.url,
         // Optional extras:
@@ -280,12 +310,12 @@ export class NavigationBuilder {
   }
 
   /**
-   * Airtable projects formatter for navigation
+   * Projects formatter for navigation
    *
-   * Transforms Airtable project records into navigation objects.
+   * Transforms CMS project records into navigation objects.
    * Used by buildProjectNavigation to create nav_projects collection.
    *
-   * EXPECTED AIRTABLE STRUCTURE:
+   * EXPECTED STRUCTURE:
    * ```javascript
    * {
    *   title: "Project Name",
@@ -300,27 +330,33 @@ export class NavigationBuilder {
    * - Provides default weight value if missing
    * - Logs warnings for skipped items
    *
-   * @param {Array} items - Array of Airtable project records
+   * @param {Array} items - Array of project records
    * @returns {Array} Array of navigation objects for projects
    */
   formatProjectItems(items) {
-    logger.trace('Formatting projects nav data...', null, 'brief', msgInitStyle);
+    logger.trace(
+      "Formatting projects nav data...",
+      null,
+      "brief",
+      msgInitStyle,
+    );
 
     const formatted = items
-      .filter(item => {
+      .filter((item) => {
         // CRITICAL: Filter out items without required fields
         if (!item || !item.title || !item.slug) {
           logger.trace(
-            'Filtering out project without title or slug. ID: ' + (item?.id || 'unknown'),
+            "Filtering out project without title or slug. ID: " +
+              (item?.id || "unknown"),
             null,
-            'brief',
-            msgInitStyle
+            "brief",
+            msgInitStyle,
           );
           return false;
         }
         return true;
       })
-      .map(item => ({
+      .map((item) => ({
         key: item.title.toLowerCase(),
         url: item.slug,
         parent: this.getParentFromSlug(item.slug),
@@ -328,10 +364,10 @@ export class NavigationBuilder {
       }));
 
     logger.trace(
-      'Formatted ' + formatted.length + ' of ' + items.length + ' projects',
+      "Formatted " + formatted.length + " of " + items.length + " projects",
       null,
-      'brief',
-      msgInitStyle
+      "brief",
+      msgInitStyle,
     );
 
     return formatted;
@@ -363,7 +399,7 @@ export class NavigationBuilder {
    */
   getParentFromSlug(slug) {
     // Trim any leading or ending slashes, then split into an array
-    const parts = slug.replace(/^\/|\/$/g, '').split('/');
+    const parts = slug.replace(/^\/|\/$/g, "").split("/");
     return parts.length > 1 ? parts[parts.length - 2] : null;
   }
 
@@ -421,22 +457,32 @@ export class NavigationBuilder {
    * @returns {Array} Hierarchical navigation structure with nested children
    */
   buildNestedStructure(items) {
-    logger.trace('Building nested navigation structure...', null, 'brief', msgInitStyle);
+    logger.trace(
+      "Building nested navigation structure...",
+      null,
+      "brief",
+      msgInitStyle,
+    );
     const itemMap = new Map();
 
     // Initialize the map with all items
-    items.forEach(item => {
+    items.forEach((item) => {
       // CRITICAL WARNING: Defensive check for missing or empty key property
       // Some navigation items may have null/undefined/empty key values
-      if (!item || !item.key || item.key === '' || typeof item.key !== 'string') {
+      if (
+        !item ||
+        !item.key ||
+        item.key === "" ||
+        typeof item.key !== "string"
+      ) {
         logger.trace(
           'Skipping navigation item with invalid key. Key value: "' +
             item?.key +
             '", type: ' +
             typeof item?.key,
           null,
-          'brief',
-          msgInitStyle
+          "brief",
+          msgInitStyle,
         );
         return;
       }
@@ -444,9 +490,14 @@ export class NavigationBuilder {
     });
 
     // Attach children to their respective parents
-    items.forEach(item => {
+    items.forEach((item) => {
       // CRITICAL WARNING: Skip items without valid key to prevent build failures
-      if (!item || !item.key || item.key === '' || typeof item.key !== 'string') {
+      if (
+        !item ||
+        !item.key ||
+        item.key === "" ||
+        typeof item.key !== "string"
+      ) {
         return;
       }
 
@@ -461,6 +512,6 @@ export class NavigationBuilder {
     });
 
     // Return only top-level items (items without parents)
-    return Array.from(itemMap.values()).filter(item => !item.parent);
+    return Array.from(itemMap.values()).filter((item) => !item.parent);
   }
 }

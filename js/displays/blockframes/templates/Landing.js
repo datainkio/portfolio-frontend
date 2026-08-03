@@ -18,7 +18,6 @@
 /** @format */
 
 export function paint(elem, palette) {
-  console.log("Landing", elem);
   const cards = elem.querySelectorAll(".card");
   cards.forEach((card) => {
     Card.paint(card, palette.primary.light);

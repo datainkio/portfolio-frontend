@@ -1,7 +1,7 @@
 {
   "siteName": "data:ink:io",
   "author": "Russ Lebo",
-  "year": 2025,
+  "year": 2026,
   "gtmID": "GTM-M2CDZDD7",
   "manifest": {
     "name": "data:ink:io",
@@ -9,7 +9,7 @@
     "description": "The online studio for Russ Lebo",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#ffffff",
+    "background_color": "#000000",
     "theme_color": "#000000",
     "theme_color_dark": "#1a1a1a",
     "orientation": "any",
