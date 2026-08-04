@@ -9,9 +9,7 @@
   {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
 
-  {%- set section = {
-    "base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-8 px-8 [&>p]:col-span-full [&>p]:prose [&>p]:text-2xl/8 [&>p]:text-neutral-200 md:[&>p]:col-span-7"
-  } %}
+  {%- set section = {"base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-8 px-8"} %}
   {% set header = {"base": "h-dvh flex flex-col justify-between z-1 pt-6 pb-48 font-display col-span-full"} %}
   {%- set title = {
     "base": "font-display text-5xl/12 my-12 py-8 tracking-loose",
@@ -19,11 +17,11 @@
     "md": "text-7xl",
     "xl": "text-8xl/22"
   } %}
-  {%- set aside = {
-    "base": "items-center col-span-9 text-xl font-display text-neutral-400 content-start items-start grid grid-cols-1 gap-x-4",
-    "md": "col-start-8 col-span-5",
-    "xl": "col-start-9 col-span-4"
+  {%- set statement = {
+    "base": "h-dvh content-center col-span-full grid grid-cols-subgrid [&>p]:col-span-full [&>p]:prose [&>p]:text-2xl/8 [&>p]:text-neutral-200 md:[&>p]:col-span-7 md:[&>p]:row-start-2 md:[&>p]:col-start-4"
   } %}
+
+  {%- set aside = {"base": "items-center col-start-3 w-full col-span-7 text-xl font-display text-neutral-400"} %}
   {%- set asideHeading = {"base": "mb-4 arrow-prefix text-neutral-400 border-b-2 border-neutral-400 border-dotted", "sm": ""} %}
 
   <section class="{{ section | classes }} {{ copy | classes }}"
@@ -36,9 +34,11 @@
           id="{{ headingId }}"
           data-bio-el="heading">{{ heading }}</h2>
     </header>
-    <h3 class="place-self-end text-xl font-display text-secondary-500 w-full"
-        data-bio-el="overview">{{ subheading }}</h3>
-    {{ body | safe }}
+    <section class="{{ statement | classes }}" data-bio-el="mission-statement">
+      <h3 class="sm:text-4xl md:text-6xl font-display text-secondary-500 col-span-4"
+          data-bio-el="overview">{{ subheading }}</h3>
+      {{ body | safe }}
+    </section>
     <aside class="{{ aside | classes }}" data-bio-el="aside">
       <h3 class="{{ asideHeading | classes }}">Focus Areas</h3>
       <ul class="pl-10 text-sm self-start mb-6">
