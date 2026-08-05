@@ -4,7 +4,7 @@ import {
   ScrollTrigger,
 } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { BIO_INTRO, motion } from "../../config/ix/motion.js";
+import { BIO_INTRO, BIO_OUTRO, motion } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { attachHeadingGel } from "./heading-gel.js";
 import { attachOverviewGel } from "./overview-gel.js";
@@ -23,6 +23,18 @@ const selectBioBody = (view) => view?.querySelector(":scope > p") ?? null;
 // prior instance instead of stacking duplicate triggers.
 const ASIDE_REVEAL_ST_ID = "bio-aside-reveal";
 
+// Rebuilds re-run `intro()` on the same DOM (matchMedia / resize). Without
+// caching + reverting the prior split, `new SplitText` on already-split markup
+// nests garbage and `buildOutro` targets the wrong elements.
+const headingSplits = new WeakMap();
+
+function buildHeadingSplit(view, title) {
+  headingSplits.get(view)?.revert();
+  const split = new SplitText(title, { type: "lines,words,chars", mask: "chars" });
+  headingSplits.set(view, split);
+  return split;
+}
+
 // Resolve a design-system color token (e.g. "secondary-600") to its hex value
 // by reading the live CSS custom property. Keeps motion in sync with the tokens
 // in styles/colors.css instead of hardcoding a hex.
@@ -40,10 +52,7 @@ export function intro(view, gelManager) {
     id: TIMELINE_IDS.landing,
     duration: BIO_INTRO.duration,
   });
-  const split = new SplitText(title, {
-    type: "lines,words,chars",
-    mask: "chars",
-  });
+  const split = buildHeadingSplit(view, title);
 
   const keywords = ["just", "informed", "engaged"];
   const highlights = [];
@@ -106,6 +115,33 @@ export function intro(view, gelManager) {
   attachHeadingGel(view, gelManager);
   attachOverviewGel(view, gelManager);
 
+  return tl;
+}
+
+/**
+ * Bio outro: fades the H2's SplitText lines to opacity 0, last line first.
+ * Scrub-driven — BioTriggers hands this timeline to a dedicated pin trigger,
+ * so playback progress is owned by scroll position, not this function.
+ *
+ * Returns an empty, id-tagged timeline (no children) when the heading hasn't
+ * been split yet (intro not built for this view) — BioTriggers reads that as
+ * "no motion" and skips creating the pin.
+ *
+ * @param {HTMLElement|null} view
+ * @returns {gsap.core.Timeline}
+ */
+export function outro(view) {
+  const tl = gsap.timeline({ id: TIMELINE_IDS.outro });
+  const split = headingSplits.get(view);
+  if (!split?.lines?.length) return tl;
+
+  tl.addLabel("outro");
+  tl.to(split.lines, {
+    opacity: 0,
+    duration: BIO_OUTRO.duration,
+    ease: BIO_OUTRO.ease.out,
+    stagger: { each: BIO_OUTRO.stagger, from: "end" },
+  });
   return tl;
 }
 

@@ -31,7 +31,7 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Renders the biography section of the landing page. Displays a heading, subheading, and body copy within a full-viewport pinned section. Targeted by the choreography system via `data-bio-el` attributes.
+Renders the biography section of the landing page. Displays a heading, subheading, and body copy within a full-viewport `<header>`. Targeted by the choreography system via `data-bio-el` attributes. During scroll-out, the section root is pinned by a dedicated ScrollTrigger (`bio-outro-pin`, see `BioTriggers.md`) while the H2 lines fade out last-to-first; the pin releases when the fade completes.
 
 ## Role in the System
 
@@ -58,9 +58,9 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Notes for Future Maintenance
 
-- `data-bio-el` attributes (`header`, `heading`, `subheading`, `context`, `aside`) are choreography hooks — do not rename without updating the bio-motion variants and `selectors.js`. The Blockframes 6x6 grid (`blockframes`, `blockframes-grid`, `blockframes-visible`) has moved to the Process section ([[process.njk]] / `choreography/molecules/process-motion`) and no longer lives here.
+- `data-bio-el` attributes present in markup: `header`, `context`, `heading`, `mission-statement`, `overview`, `aside` — choreography hooks, do not rename without updating the bio-motion variants and `selectors.js`. The Blockframes 6x6 grid (`blockframes`, `blockframes-grid`, `blockframes-visible`) has moved to the Process section ([[process.njk]] / `choreography/molecules/process-motion`) and no longer lives here.
 - `data-scroll-section` is required for ScrollSmoother section detection.
-- The `<header>` is the flex container (`flex flex-wrap items-center [&>time]:ml-auto`); it positions the SectionCap spans left and the `<time>` right. The `<h2>` and `<p>` use `basis-full` to each occupy their own row.
+- The `<header>` is `h-dvh flex flex-col justify-between`, bottom-anchoring the `context` `<p>` and `heading` `<h2>` — there is no `<time>` element in current markup.
 - Keep this sidecar in sync when the macro signature or `data-bio-el` hook set changes.
 - Preserve semantic HTML and accessibility attributes when editing.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.

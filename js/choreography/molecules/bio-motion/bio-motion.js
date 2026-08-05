@@ -12,7 +12,7 @@
  *   fade   — Simple header fade+lift. No gel dependency.
  */
 
-import { intro as introSplit } from "./split.js";
+import { intro as introSplit, outro as outroSplit } from "./split.js";
 import { createSweepIn, createSweepOut } from "./sweep.js";
 import { initFade, createFadeIn, createFadeOut } from "./fade.js";
 import {
@@ -24,6 +24,7 @@ import {
 export const BIO_VARIANT_FACTORIES = Object.freeze({
   split: {
     buildIntro: introSplit,
+    buildOutro: outroSplit,
   },
   sweep: {
     buildIntro: createSweepIn,

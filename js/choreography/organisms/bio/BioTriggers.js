@@ -1,7 +1,8 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { gsap } from "/assets/js/choreography/system/gsap.js";
+import { BIO_OUTRO } from "../../config/ix/motion.js";
+import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 /**
  * Bio Trigger Defaults
  */
@@ -18,6 +19,11 @@ export const BIO_TRIGGER = {
   // markers: true,
 };
 
+// Separate from BIO_TRIGGER: flipping scrub on the base trigger would hand it
+// the *intro* timeline (see bind()) and pin the full section height via
+// `end: "bottom bottom"`. The outro pin owns its own short scrub range instead.
+export const BIO_OUTRO_PIN_ID = "bio-outro-pin";
+
 export default class BioTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
@@ -27,6 +33,7 @@ export default class BioTriggers extends AbstractSectionTriggers {
     // gsap.set(view, { autoAlpha: 0 });
     this._revealTrigger = null;
     this._hideTrigger = null;
+    this._outroPin = null;
   }
 
   _getTriggerDefaults() {
@@ -42,5 +49,38 @@ export default class BioTriggers extends AbstractSectionTriggers {
       ? this.section?.animations?.getTimeline?.(TIMELINE_IDS.intro)
       : null;
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
+    this._bindOutroPin();
+  }
+
+  // Pins the section root while the outro timeline (H2 lines, last-to-first)
+  // scrubs to completion, then releases. An empty outro (no lines split yet,
+  // or the `reduced` variant) means no motion — skip the pin entirely rather
+  // than lock scroll for nothing.
+  _bindOutroPin() {
+    this._outroPin?.kill();
+    this._outroPin = null;
+    if (!this.view) return;
+
+    const outroTl = this.section?.animations?.getTimeline?.(TIMELINE_IDS.outro);
+    if (!outroTl || !outroTl.getChildren().length) return;
+
+    this._outroPin = ScrollTrigger.create({
+      id: BIO_OUTRO_PIN_ID,
+      trigger: this.view,
+      start: "top top",
+      end: () => `+=${window.innerHeight * BIO_OUTRO.pinRatio}`,
+      pin: true,
+      pinSpacing: true,
+      scrub: true,
+      animation: outroTl,
+      invalidateOnRefresh: true,
+      refreshPriority: 1, // measure ahead of the base BIO_TRIGGER
+    });
+  }
+
+  kill() {
+    this._outroPin?.kill();
+    this._outroPin = null;
+    super.kill();
   }
 }

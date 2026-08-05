@@ -163,6 +163,19 @@ export const BIO_INTRO = {
 };
 
 /**
+ * Bio Outro — H2 line fade
+ *
+ * Scrub-driven exit: lines fade out last-to-first while the section is pinned.
+ * `pinRatio` sets the scroll (scrub) distance as a fraction of viewport height.
+ */
+export const BIO_OUTRO = {
+  ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("base")),
+  stagger: motion.stagger("loose"),
+  pinRatio: 0.75,
+};
+
+/**
  * Organizations Section Animation Defaults
  *
  * Includes per-item reveal behavior tuned for viewport-threshold entry.
