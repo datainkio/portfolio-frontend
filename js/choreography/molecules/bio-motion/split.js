@@ -4,7 +4,7 @@ import {
   ScrollTrigger,
 } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { BIO_INTRO } from "../../config/ix/motion.js";
+import { BIO_INTRO, motion } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { attachHeadingGel } from "./heading-gel.js";
 import { attachOverviewGel } from "./overview-gel.js";
@@ -79,13 +79,26 @@ export function intro(view, gelManager) {
   // heading now lives outside <header> and is not part of this cascade. The
   // aside + body copy are split out into their own scroll-triggered reveal
   // (buildAsideReveal) so they animate on entry rather than up-front.
-  tl.from(context, { duration: 0.5, opacity: 0, y: 100 }, 0);
+  tl.from(
+    context,
+    { duration: motion.duration("base") / 1000, opacity: 0, y: 100 },
+    0,
+  );
   tl.from(
     split.chars,
-    { duration: 0.25, opacity: 0, y: 100, rotation: 45, stagger: 0.05 },
+    {
+      duration: motion.duration("fast") / 1000,
+      opacity: 0,
+      y: 100,
+      rotation: 45,
+      stagger: motion.stagger("tight"),
+    },
     "-=0.3",
   );
-  tl.to(highlights, { color: tokenColor("secondary-600"), stagger: 1 });
+  tl.to(highlights, {
+    color: tokenColor("secondary-600"),
+    stagger: motion.duration("md") / 1000,
+  });
 
   buildAsideReveal(view, aside);
   // Full-bleed gel bands behind the <h2> and overview <h3>. Positioned outside
@@ -119,7 +132,7 @@ function buildAsideReveal(view, aside) {
   return gsap.from(targets, {
     opacity: 0,
     y: 100,
-    duration: 0.5,
+    duration: motion.duration("base") / 1000,
     stagger: BIO_INTRO.stagger,
     scrollTrigger: {
       id: ASIDE_REVEAL_ST_ID,
@@ -129,5 +142,3 @@ function buildAsideReveal(view, aside) {
     },
   });
 }
-
-// Reset the gel to fill the viewport, then rebuild its mask. The gel is

@@ -43,7 +43,6 @@
       {{ PageHeader.home_landing({ "svg": logo }) }}
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
         {{ HeroSection.render({ "id": "manifesto", "copy": value }) }}
-        {{ ProcessSection.render({"id": "process", "uiComponents": true}) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
         {{ AwardsSection.render({ "id": "recognition", "copy": recognition, "awards": awards}) }}
