@@ -17,16 +17,16 @@ tags:
   - template
 links:
   - "[home-landing](../../organisms/header/home/home-landing.md)"
-  - "[global-header](../../organisms/header/global-header.md)"
+  - "[section-cap](../../molecules/section-cap.md)"
   - "[global-footer](../../organisms/footer/global-footer.md)"
-  - "[skip-links-nav](organisms/navigation/skip-links-nav.njk)"
+  - "[skip-links-nav](../../organisms/navigation/skip-links-nav.md)"
   - "[sizzle-background](../../molecules/background/sizzle-background.md)"
-  - "[hero](../../organisms/section/hero.md)"
   - "[bio](../../organisms/section/bio.md)"
   - "[awards](../../organisms/section/awards.md)"
   - "[work](../../organisms/section/work.md)"
   - "[organizations](../../organisms/section/organizations.md)"
   - "[contact](../../organisms/section/contact.md)"
+  - "[dev-note](../../templates/partials/dev-note.md)"
   - "[head](../../templates/partials/head.md)"
   - "[gtm-noscript](../../templates/partials/gtm-noscript.md)"
   - "[choreography-script](../../templates/partials/choreography-script.md)"
@@ -51,29 +51,31 @@ Classified as a **page** at the atomic **page** level based on its location unde
 
 ## Data and Context
 
-- `Background` — referenced in the template.
-- `Footer` — referenced in the template.
-- `Header` — referenced in the template.
-- `Preloader` — referenced in the template.
-- `SkipLinksNav` — referenced in the template.
-- `awardsSection` — referenced in the template.
-- `bioSection` — referenced in the template.
-- `heroSection` — referenced in the template.
-- `projectsSection` — referenced in the template.
+- `Background` — `sizzle-background.njk`, `{id, videoSrc, poster}`.
+- `SkipLinksNav` — `skip-links-nav.njk`, no params.
+- `SectionCap` — `section-cap.njk`, `{title}` (preloader-state cap, not a content section).
+- `PageHeader.home_landing` — `home-landing.njk`, `{svg}` (also the preloader overlay).
+- `HeroSection` — `bio.njk`, `{id, copy}`.
+- `ProjectsSection` — `work.njk`, `{id, copy, projects}`.
+- `OrganizationsSection` — `organizations.njk`, `{id, copy, organizations}`.
+- `AwardsSection` — `awards.njk`, `{id, copy, awards}`.
+- `ContactSection` — `contact.njk`, `{id, copy, contact}`.
+- `GlobalFooter` — `global-footer.njk`, `{contact}`.
+- Computed at page top: `home`, `projects`, `awards`, `organizations`, `logo`, `backgroundVideo`, `backgroundPoster`.
 
 ## Relationships
 
 - Includes:
+  - [[dev-note.njk]]
   - [[head.njk]]
   - [[gtm-noscript.njk]]
   - [[choreography-script.njk]]
 - Imports:
   - [[home-landing.njk]]
-  - [[global-header.njk]]
+  - [[section-cap.njk]]
   - [[global-footer.njk]]
   - [[skip-links-nav.njk]]
   - [[sizzle-background.njk]]
-  - [[hero.njk]]
   - [[bio.njk]]
   - [[awards.njk]]
   - [[work.njk]]
@@ -104,7 +106,7 @@ with the `console.log` channel in [[dev-note.md]] (IXD/motion). The two
 
 Delivered as shipped `<!-- … -->` comments (not `{# … #}`, which compile away),
 anchored at the element each one explains. Audience: a developer reading View
-Source, deciding *"could I maintain this — and will it make me a hero?"*
+Source, deciding _"could I maintain this — and will it make me a hero?"_
 
 ### Content outline
 

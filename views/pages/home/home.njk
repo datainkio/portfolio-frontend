@@ -1,14 +1,12 @@
 {#- FUNCTIONALITY IMPORTS -#}
 {% import "organisms/header/home/home-landing.njk" as PageHeader with context %}
 {% import "molecules/section-cap.njk" as SectionCap with context %}
-{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
 
 {#- CONTENT VIEWS -#}
 {% import "organisms/section/work.njk" as ProjectsSection %}
 {% import "organisms/section/bio.njk" as HeroSection %}
-{% import "organisms/section/process.njk" as ProcessSection %}
 {% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/organizations.njk" as OrganizationsSection %}
 {% import "organisms/section/contact.njk" as ContactSection with context %}
@@ -37,7 +35,6 @@
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ SkipLinksNav.render() }}
-    {# {{ GlobalHeader.render({ logo: logo }) }} #}
     {{ SectionCap.render({"title": "initializing..."}) }}
     <div id="page-main">
       {{ PageHeader.home_landing({ "svg": logo }) }}
@@ -45,7 +42,7 @@
         {{ HeroSection.render({ "id": "manifesto", "copy": value }) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
-        {{ AwardsSection.render({ "id": "recognition", "copy": recognition, "awards": awards}) }}
+        {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
         {{ ContactSection.render({ "id": "contact", "copy": contact, "contact": contactInfo }) }}
       </main>
       {{ GlobalFooter.render({"contact": false}) }}
