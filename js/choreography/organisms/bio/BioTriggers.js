@@ -2,6 +2,10 @@ import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_OUTRO } from "../../config/ix/motion.js";
+import {
+  suspendHeadingGelSync,
+  resumeHeadingGelSync,
+} from "../../molecules/bio-motion/heading-gel.js";
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 /**
  * Bio Trigger Defaults
@@ -52,10 +56,11 @@ export default class BioTriggers extends AbstractSectionTriggers {
     this._bindOutroPin();
   }
 
-  // Pins the section root while the outro timeline (H2 lines, last-to-first)
-  // scrubs to completion, then releases. An empty outro (no lines split yet,
-  // or the `reduced` variant) means no motion — skip the pin entirely rather
-  // than lock scroll for nothing.
+  // Pins the section root while the outro timeline (H2 lines fade, gel
+  // expands, mission statement + aside travel to center) scrubs to
+  // completion, then releases. An empty outro (no lines split yet, or the
+  // `reduced` variant) means no motion — skip the pin entirely rather than
+  // lock scroll for nothing.
   _bindOutroPin() {
     this._outroPin?.kill();
     this._outroPin = null;
@@ -75,12 +80,32 @@ export default class BioTriggers extends AbstractSectionTriggers {
       animation: outroTl,
       invalidateOnRefresh: true,
       refreshPriority: 1, // measure ahead of the base BIO_TRIGGER
+      snap: {
+        snapTo: "labelsDirectional",
+        duration: { min: 0.2, max: 0.6 },
+        delay: 0.05,
+        ease: "power1.inOut",
+      },
+      onToggle: (self) => {
+        if (self.isActive) {
+          suspendHeadingGelSync(this.view);
+        } else {
+          resumeHeadingGelSync(this.view);
+          // The band only re-syncs to heading-height on the next scroll tick;
+          // force it immediately so a scroll-up exit doesn't leave the gel
+          // stuck at full-viewport height until the user scrolls again.
+          ScrollTrigger.getById("bio-heading-gel-sync")?.refresh();
+        }
+      },
     });
   }
 
   kill() {
     this._outroPin?.kill();
     this._outroPin = null;
+    // Guard against a matchMedia teardown mid-pin leaving the gel sync
+    // permanently suspended (onToggle's inactive branch would never fire).
+    resumeHeadingGelSync(this.view);
     super.kill();
   }
 }

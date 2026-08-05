@@ -6,22 +6,13 @@ import {
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_INTRO, BIO_OUTRO, motion } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { attachHeadingGel } from "./heading-gel.js";
+import { attachHeadingGel, getHeadingGelEl } from "./heading-gel.js";
 import { attachOverviewGel } from "./overview-gel.js";
 
 const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 
 const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
-
-// The section's only direct-child <p> is the body copy — the header's <p>s are
-// nested inside <header>. It's injected via `{{ body | safe }}` and carries no
-// data-bio-el hook, so this couples to structure rather than a CSS class.
-const selectBioBody = (view) => view?.querySelector(":scope > p") ?? null;
-
-// Stable id so rebuilds (matchMedia / resize re-invoke the variant) can kill the
-// prior instance instead of stacking duplicate triggers.
-const ASIDE_REVEAL_ST_ID = "bio-aside-reveal";
 
 // Rebuilds re-run `intro()` on the same DOM (matchMedia / resize). Without
 // caching + reverting the prior split, `new SplitText` on already-split markup
@@ -109,7 +100,6 @@ export function intro(view, gelManager) {
     stagger: motion.duration("md") / 1000,
   });
 
-  buildAsideReveal(view, aside);
   // Full-bleed gel bands behind the <h2> and overview <h3>. Positioned outside
   // the timeline: they are standing background states, not phases of the reveal.
   attachHeadingGel(view, gelManager);
@@ -119,62 +109,96 @@ export function intro(view, gelManager) {
 }
 
 /**
- * Bio outro: fades the H2's SplitText lines to opacity 0, last line first.
- * Scrub-driven — BioTriggers hands this timeline to a dedicated pin trigger,
- * so playback progress is owned by scroll position, not this function.
+ * Bio outro: four scrub-driven beats while the section is pinned.
+ * 1. H2's SplitText lines fade to opacity 0, last line first.
+ * 2. The heading gel grows from its own vertical center to fill the viewport.
+ * 3. The mission statement travels up to rest vertically centered.
+ * 4. The aside travels to rest vertically centered, fading its children in.
+ *
+ * BioTriggers hands this timeline to a dedicated pin trigger, so playback
+ * progress is owned by scroll position, not this function. Positional values
+ * are function-based so `invalidateOnRefresh` re-measures them on resize.
  *
  * Returns an empty, id-tagged timeline (no children) when the heading hasn't
  * been split yet (intro not built for this view) — BioTriggers reads that as
  * "no motion" and skips creating the pin.
  *
  * @param {HTMLElement|null} view
+ * @param {object|null} gelManager GelAnimationManager instance.
  * @returns {gsap.core.Timeline}
  */
-export function outro(view) {
+export function outro(view, gelManager) {
   const tl = gsap.timeline({ id: TIMELINE_IDS.outro });
   const split = headingSplits.get(view);
   if (!split?.lines?.length) return tl;
 
+  const mission = selectBioEl(view, "mission-statement");
+  const aside = selectBioEl(view, "aside");
+  const gelEl = getHeadingGelEl(gelManager);
+  const travellers = [mission, aside].filter(Boolean);
+
   tl.addLabel("outro");
+
+  // 1. line fade, last line first
   tl.to(split.lines, {
     opacity: 0,
     duration: BIO_OUTRO.duration,
     ease: BIO_OUTRO.ease.out,
     stagger: { each: BIO_OUTRO.stagger, from: "end" },
   });
+  tl.addLabel("lines-out");
+
+  // 2. gel grows from its own vertical center to fill the viewport.
+  // transformOrigin is already "center center" from attachHeadingGel's sync.
+  if (gelEl) {
+    tl.to(gelEl, {
+      scaleY: () => {
+        const currentScaleY = gsap.getProperty(gelEl, "scaleY") || 1;
+        const unscaledHeight = gelEl.getBoundingClientRect().height / currentScaleY;
+        return window.innerHeight / unscaledHeight;
+      },
+      duration: BIO_OUTRO.gelDuration,
+      ease: BIO_OUTRO.ease.inOut,
+    });
+  }
+  tl.addLabel("gel-open");
+
+  // 3. mission statement travels up to fill the viewport. It is `h-dvh
+  //    content-center` (bio.njk) and sits exactly one viewport below the
+  //    `h-dvh` header, so -100vh lands its box on the viewport with its
+  //    content vertically centered by its own layout.
+  if (mission) {
+    tl.to(travellers, {
+      y: () => -window.innerHeight,
+      duration: BIO_OUTRO.travelDuration,
+      ease: BIO_OUTRO.ease.inOut,
+    });
+  }
+  tl.addLabel("mission-centered");
+
+  // 4. aside travels the rest of the way to its own vertical center, fading
+  //    its children in as it settles.
+  if (aside) {
+    tl.to(
+      travellers,
+      {
+        y: () => {
+          const rect = aside.getBoundingClientRect();
+          const current = gsap.getProperty(aside, "y") || 0;
+          return current - (rect.top - (window.innerHeight - rect.height) / 2);
+        },
+        duration: BIO_OUTRO.travelDuration,
+        ease: BIO_OUTRO.ease.inOut,
+      },
+      "<",
+    );
+    tl.from(
+      aside.children,
+      { opacity: 0, y: 100, stagger: BIO_OUTRO.stagger },
+      "<",
+    );
+  }
+  tl.addLabel("aside-centered");
+
   return tl;
-}
-
-/**
- * Scroll-triggered reveal for the body copy + aside, separate from the intro
- * timeline (which plays up-front off the header). Fires once when the body <p>
- * enters the viewport — no scrub, no pin — with the same fade+lift the header
- * elements use. Reduced motion is handled upstream by the profile system
- * swapping to the `reduced` variant, so no reduced branch belongs here.
- *
- * @param {HTMLElement|null} view  Section root.
- * @param {HTMLElement|null} aside Resolved [data-bio-el="aside"] element.
- * @returns {gsap.core.Tween|null}
- */
-function buildAsideReveal(view, aside) {
-  const body = selectBioBody(view);
-  const targets = [body, ...(aside?.children ?? [])].filter(Boolean);
-  if (!targets.length) return null;
-
-  // Idempotent across rebuilds: kill the prior trigger before creating a fresh
-  // one so matchMedia/resize re-invocations don't stack duplicates.
-  ScrollTrigger.getById(ASIDE_REVEAL_ST_ID)?.kill();
-
-  return gsap.from(targets, {
-    opacity: 0,
-    y: 100,
-    duration: motion.duration("base") / 1000,
-    stagger: BIO_INTRO.stagger,
-    scrollTrigger: {
-      id: ASIDE_REVEAL_ST_ID,
-      trigger: body ?? aside,
-      start: "top 80%",
-      once: true,
-    },
-  });
 }

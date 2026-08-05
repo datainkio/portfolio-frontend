@@ -163,16 +163,22 @@ export const BIO_INTRO = {
 };
 
 /**
- * Bio Outro — H2 line fade
+ * Bio Outro — line fade, gel expand, mission/aside travel
  *
- * Scrub-driven exit: lines fade out last-to-first while the section is pinned.
- * `pinRatio` sets the scroll (scrub) distance as a fraction of viewport height.
+ * Scrub-driven exit, four beats while the section is pinned: H2 lines fade
+ * last-to-first, the heading gel grows from its own vertical center to fill
+ * the viewport, then the mission statement and aside travel up to rest
+ * vertically centered. `pinRatio` sets the scroll (scrub) distance as a
+ * fraction of viewport height; `gelDuration`/`travelDuration` are timeline
+ * seconds for the later beats.
  */
 export const BIO_OUTRO = {
   ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("base")),
   stagger: motion.stagger("loose"),
-  pinRatio: 0.75,
+  pinRatio: 2.5,
+  gelDuration: toSeconds(motion.duration("slow")),
+  travelDuration: toSeconds(motion.duration("slow")),
 };
 
 /**

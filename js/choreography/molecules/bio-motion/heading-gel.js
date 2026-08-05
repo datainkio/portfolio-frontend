@@ -17,13 +17,29 @@ import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
  * visible is an explicit step here.
  */
 
-const HEADING_GEL_ID = "gel_bio";
+export const HEADING_GEL_ID = "gel_bio";
 const SYNC_ST_ID = "bio-heading-gel-sync";
 const HEADING_EL = "heading";
 
 const selectHeading = (view) =>
   view?.querySelector(`[${BIO_SELECTORS.elementAttribute}="${HEADING_EL}"]`) ??
   null;
+
+// The outro pin owns `scaleY` on the gel band during its gel-expand beat.
+// `sync()` runs on every scroll tick across the whole section and would reset
+// scaleY to 1 each time — suspend it while the outro pin is active.
+const suspended = new WeakSet();
+
+export function suspendHeadingGelSync(view) {
+  if (view) suspended.add(view);
+}
+
+export function resumeHeadingGelSync(view) {
+  if (view) suspended.delete(view);
+}
+
+export const getHeadingGelEl = (gelManager) =>
+  gelManager?.getGel?.(HEADING_GEL_ID)?.view ?? null;
 
 /**
  * @param {HTMLElement|null} view Bio section root.
@@ -39,6 +55,7 @@ export function attachHeadingGel(view, gelManager) {
   let lastHeight = null;
 
   const sync = () => {
+    if (suspended.has(view)) return;
     const rect = heading.getBoundingClientRect();
     if (!rect.height) return;
 

@@ -34,9 +34,25 @@ recreated, so matchMedia/resize rebuilds do not stack duplicates.
 `gel.refresh()` (SVG mask re-measure) runs only when the heading height changes,
 not on every scroll tick.
 
+## Suspend during the outro pin
+
+`suspendHeadingGelSync(view)` / `resumeHeadingGelSync(view)` (module-level
+`WeakSet`, keyed on `view`) gate `sync()` with an early return. `BioTriggers`'
+outro pin (`bio-outro-pin`) drives `scaleY` on this gel band directly as one of
+its beats (see `split.md`'s outro section) — without the suspend, `sync()`
+would reset `scaleY: 1` on the very next scroll tick and the expand tween would
+never visibly progress. `BioTriggers` suspends on pin activate, resumes on pin
+deactivate (and in `kill()`, so a matchMedia teardown mid-pin can't leave the
+gel stuck), then force-refreshes the sync trigger by id so a scroll-up exit
+snaps the band back to heading-height immediately rather than waiting for the
+next scroll tick.
+
+`getHeadingGelEl(gelManager)` exports the resolved gel element so the outro
+timeline doesn't duplicate the `gelManager.getGel(HEADING_GEL_ID)` lookup.
+
 Reduced motion: handled upstream — the profile system swaps bio to the `reduced`
-variant, which does not call this. The band itself is a static positioned state,
-not an animation.
+variant, which does not call this. The band itself is a static positioned state
+outside the reduced path.
 
 Visibility caveat: `.bg-gel` sets `mix-blend-mode: multiply`. Against a very dark
 backdrop inside `#background` the band can read as near-invisible; force
