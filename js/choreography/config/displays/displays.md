@@ -32,8 +32,3 @@ re-exports this file in turn.
 export * from "./ruler/ruler.js";
 export * from "./printermarks/printermarks.js";
 ```
-
-## Note
-
-`leader-lines.js` sits in this folder but is deliberately **not** re-exported —
-it is unreferenced dead config. See [[config/displays/leader-lines|leader-lines]].
