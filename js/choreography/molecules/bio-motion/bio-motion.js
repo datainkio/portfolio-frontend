@@ -12,7 +12,7 @@
  *   fade   — Simple header fade+lift. No gel dependency.
  */
 
-import { intro as introSplit, outro as outroSplit } from "./split.js";
+import { intro as introSplit } from "./split.js";
 import { createSweepIn, createSweepOut } from "./sweep.js";
 import { initFade, createFadeIn, createFadeOut } from "./fade.js";
 import {
@@ -24,7 +24,12 @@ import {
 export const BIO_VARIANT_FACTORIES = Object.freeze({
   split: {
     buildIntro: introSplit,
-    buildOutro: outroSplit,
+    // Outro disabled — omitting buildOutro makes BioAnimations._buildOutro fall
+    // back to the base class's empty timeline, which BioTriggers._bindOutroPin
+    // reads as "no motion" and skips the bio-outro-pin entirely (no pin, no
+    // scrub, no heading-gel-sync suspend). split.js `outro()` is left intact.
+    // To re-enable: restore the `outro as outroSplit` import and
+    // `buildOutro: outroSplit,` here.
   },
   sweep: {
     buildIntro: createSweepIn,

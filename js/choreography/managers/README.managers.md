@@ -48,7 +48,10 @@ There is no `BackgroundLayerManager`. Fixed backgrounds are kept out of the Scro
 | `SessionManager`            | ad hoc   | Persisted runtime session state; gates one-time animations                    | —         |
 | `RulerIntroManager`         | ad hoc   | Ruler intro overlay choreography                                              | `destroy` |
 
-`managers/LineManager.js` is currently unreferenced by any runtime module.
+The LeaderLine connector experiment was removed on 2026-08-06 —
+`managers/LineManager.js` and its config dependency
+`config/displays/leader-lines.js` (plus both sidecars). It was never imported,
+never constructed by `AnimationDirector`, and never part of the boot sequence.
 
 ## Effects Managers
 
