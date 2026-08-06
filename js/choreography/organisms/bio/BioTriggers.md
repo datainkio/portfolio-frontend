@@ -27,6 +27,12 @@ Bio degrades cleanly without scrub: discrete intro fires once on enter.
 
 ## Outro pin (`bio-outro-pin`)
 
+**Currently inert.** The active `split` variant no longer supplies a `buildOutro`
+(see [bio-motion.js](../../molecules/bio-motion/bio-motion.js)), so the outro
+timeline is the base class's empty one and `_bindOutroPin()` returns before
+creating the trigger. No pin, no scrub, no gel-sync suspend. The wiring below is
+retained and re-activates the moment a `buildOutro` is restored.
+
 Separate from `BIO_TRIGGER` on purpose: flipping `scrub` on the base trigger would hand it the **intro** timeline (see `bind()` above), and its `end: "bottom bottom"` would pin the full section height, not a short exit beat. `_bindOutroPin()` instead creates its own `ScrollTrigger`:
 
 - `trigger: this.view`, `start: "top top"`, `end: +=viewportHeight * BIO_OUTRO.pinRatio` (now `2.5`, up from `0.75` — the outro grew from one beat to four) — pins the section root (`pin: true, pinSpacing: true`). **The pin target is the bio section root, never the gel.** The gel is only *animated* (`scaleY`) by beat 2; it lives in the fixed-positioned `#sizzle-background` container and is already viewport-positioned, so it is never pinned — see [heading-gel.md](../../molecules/bio-motion/heading-gel.md#never-pinned).
