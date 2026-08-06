@@ -1,8 +1,4 @@
-import {
-  gsap,
-  SplitText,
-  ScrollTrigger,
-} from "/assets/js/choreography/system/gsap.js";
+import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_INTRO, BIO_OUTRO, motion } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
@@ -40,10 +36,9 @@ const tokenColor = (name) =>
 export function intro(view, gelManager) {
   const title = selectBioEl(view, "heading");
   const context = selectBioEl(view, "context");
-  const aside = selectBioEl(view, "aside");
 
   const tl = gsap.timeline({
-    id: TIMELINE_IDS.landing,
+    id: TIMELINE_IDS.intro,
     duration: BIO_INTRO.duration,
   });
   const split = buildHeadingSplit(view, title);
@@ -58,30 +53,23 @@ export function intro(view, gelManager) {
       .replace(/[^\w\s]/g, "")
       .trim();
 
-  const isolateCore = (word) => {
-    const [, lead = "", core = "", trail = ""] =
-      word.innerText.match(/^(\W*)(.*?)(\W*)$/) ?? [];
-    if (!core) return word;
-    return word;
-  };
-
   // Multi-word keywords tokenize (type:"words" yields single-word elements),
-  // so each token is matched independently and its letter-core collected.
+  // so each token is matched independently. The whole word element is
+  // highlighted — `normalize` only strips punctuation for the *match*, not
+  // from the colored target.
   keywords.forEach((keyword) => {
     normalize(keyword)
       .split(/\s+/)
       .forEach((token) => {
         split.words.forEach((word) => {
-          if (normalize(word.innerText) === token)
-            highlights.push(isolateCore(word));
+          if (normalize(word.innerText) === token) highlights.push(word);
         });
       });
   });
   // Reading-order cascade: context and title overlap into one continuous
   // downward gesture; the keyword ignite punctuates the tail. The overview
   // heading now lives outside <header> and is not part of this cascade. The
-  // aside + body copy are split out into their own scroll-triggered reveal
-  // (buildAsideReveal) so they animate on entry rather than up-front.
+  // aside + body copy are not animated here at all.
   tl.from(
     context,
     { duration: motion.duration("base") / 1000, opacity: 0, y: 100 },
@@ -112,11 +100,9 @@ export function intro(view, gelManager) {
 }
 
 /**
- * Bio outro: four scrub-driven beats while the section is pinned.
+ * Bio outro: two scrub-driven beats while the section is pinned.
  * 1. H2's SplitText lines fade to opacity 0, last line first.
  * 2. The heading gel grows from its own vertical center to fill the viewport.
- * 3. The mission statement travels up to rest vertically centered.
- * 4. The aside travels to rest vertically centered, fading its children in.
  *
  * BioTriggers hands this timeline to a dedicated pin trigger, so playback
  * progress is owned by scroll position, not this function. Positional values
@@ -135,10 +121,7 @@ export function outro(view, gelManager) {
   const split = headingSplits.get(view);
   if (!split?.lines?.length) return tl;
 
-  const mission = selectBioEl(view, "mission-statement");
-  const aside = selectBioEl(view, "aside");
   const gelEl = getHeadingGelEl(gelManager);
-  const travellers = [mission, aside].filter(Boolean);
 
   tl.addLabel("outro");
 
@@ -166,43 +149,6 @@ export function outro(view, gelManager) {
     });
   }
   tl.addLabel("gel-open");
-
-  // 3. mission statement travels up to fill the viewport. It is `h-dvh
-  //    content-center` (bio.njk) and sits exactly one viewport below the
-  //    `h-dvh` header, so -100vh lands its box on the viewport with its
-  //    content vertically centered by its own layout.
-  if (mission) {
-    tl.to(travellers, {
-      y: () => -window.innerHeight,
-      duration: BIO_OUTRO.travelDuration,
-      ease: BIO_OUTRO.ease.inOut,
-    });
-  }
-  tl.addLabel("mission-centered");
-
-  // 4. aside travels the rest of the way to its own vertical center, fading
-  //    its children in as it settles.
-  if (aside) {
-    tl.to(
-      travellers,
-      {
-        y: () => {
-          const rect = aside.getBoundingClientRect();
-          const current = gsap.getProperty(aside, "y") || 0;
-          return current - (rect.top - (window.innerHeight - rect.height) / 2);
-        },
-        duration: BIO_OUTRO.travelDuration,
-        ease: BIO_OUTRO.ease.inOut,
-      },
-      "<",
-    );
-    tl.from(
-      aside.children,
-      { opacity: 0, y: 100, stagger: BIO_OUTRO.stagger },
-      "<",
-    );
-  }
-  tl.addLabel("aside-centered");
 
   return tl;
 }

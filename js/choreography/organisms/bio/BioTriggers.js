@@ -57,8 +57,8 @@ export default class BioTriggers extends AbstractSectionTriggers {
   }
 
   // Pins the section root while the outro timeline (H2 lines fade, gel
-  // expands, mission statement + aside travel to center) scrubs to
-  // completion, then releases. An empty outro (no lines split yet, or the
+  // expands to fill the viewport) scrubs to completion, then releases.
+  // An empty outro (no lines split yet, or the
   // `reduced` variant) means no motion — skip the pin entirely rather than
   // lock scroll for nothing.
   _bindOutroPin() {
