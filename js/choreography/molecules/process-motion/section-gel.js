@@ -3,16 +3,17 @@ import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 /**
  * Process Section Gel
  *
- * Pins the `gel_process` gel behind the entire process section as a full-bleed
- * band: viewport width, the section's own height, at the section's viewport y.
- * Mirrors bio-motion/heading-gel.js's strategy, scoped to the whole section
- * root instead of a single heading element.
+ * Anchors the `gel_process` gel behind the entire process section as a
+ * full-bleed band: viewport width, the section's own height, at the section's
+ * viewport y. Mirrors bio-motion/heading-gel.js's strategy, scoped to the whole
+ * section root instead of a single heading element.
  *
- * The gel lives in `#background` (`fixed inset-0`), so an absolutely positioned
- * child resolves against the viewport — `top` is the section's raw
- * getBoundingClientRect().top, with no scroll offset added. Because the
- * container is fixed, the gel does not scroll with the page on its own; a
- * ScrollTrigger re-syncs `top` as the section moves through the viewport.
+ * The gel lives in `#sizzle-background` (`fixed inset-0`), so an absolutely
+ * positioned child resolves against the viewport — `top` is the section's raw
+ * getBoundingClientRect().top, with no scroll offset added. The fixed container
+ * already holds the gel in the viewport, so the gel is never ScrollTrigger-
+ * pinned — a pin would be redundant on an element that cannot scroll. The
+ * ScrollTrigger below only re-syncs `top` as the section moves past it.
  *
  * GelAnimationManager parks every gel at autoAlpha 0 on init, so making this one
  * visible is an explicit step here.

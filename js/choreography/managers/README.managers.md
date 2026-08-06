@@ -1,399 +1,142 @@
+<!-- @format -->
+
 # Animation Manager Modules
 
-Specialized single-responsibility modules that power the ScrollEffectsCoordinator animation system. Each manager handles a specific aspect of the site's animation architecture.
+Single-responsibility modules for global, cross-section behavior. They fall into two groups with different owners, different constructors, and different cleanup methods — the split matters.
 
-## Architecture Overview
+## Two Groups
 
-**Design Philosophy**: Single Responsibility Principle
+**Effects managers** are owned and constructed by `ScrollEffectsCoordinator`, which is itself constructed by `AnimationDirector` as `this.stage`. They implement `destroy()`.
 
-- Each manager has one clear purpose
-- Managers are independent and reusable
-- ScrollEffectsCoordinator coordinates initialization and dependencies
-- Clean separation enables easier testing and maintenance
-
-**Dependency Flow**:
+**Global managers** are constructed directly by `AnimationDirector`, one field each. They implement `kill()`, and `AnimationDirector.destroy()` calls it on every one.
 
 ```
-ScrollEffectsCoordinator (coordinator)
-├── ReducedMotionHandler (accessibility foundation)
-├── BackgroundLayerManager (DOM positioning)
-├── ScrollSmootherManager (depends on ReducedMotionHandler)
-└── GelAnimationManager (depends on ReducedMotionHandler)
+AnimationDirector
+├── ScrollEffectsCoordinator (this.stage)      → destroy()
+│   ├── ReducedMotionHandler                   → destroy()
+│   ├── ScrollSmootherManager                  → destroy()
+│   └── GelAnimationManager                    → destroy()
+├── CardManager (organisms/card/)              → kill()
+├── GlobalHeaderManager                        → kill()
+├── HomeHeaderManager                          → kill()
+├── WorkHeaderManager                          → kill()
+├── WorkNavManager                             → kill()
+├── ProjectHeaderManager                       → kill()
+├── BuildInfoManager                           → kill()
+└── SectionCapManager                          → kill()
 ```
 
-## Manager Modules
+`SessionManager` and `RulerIntroManager` are not constructed by the Director — they are used where needed. `SessionManager` is plain persisted state with no teardown; `RulerIntroManager` implements `destroy()`.
+
+There is no `BackgroundLayerManager`. Fixed backgrounds are kept out of the ScrollSmoother transform context by template placement, not by a runtime manager.
+
+## Roster
+
+| Manager                     | Owner    | Purpose                                                                       | Cleanup   |
+| --------------------------- | -------- | ----------------------------------------------------------------------------- | --------- |
+| `ReducedMotionHandler`      | Stage    | `prefers-reduced-motion` detection + change subscription                      | `destroy` |
+| `ScrollSmootherManager`     | Stage    | GSAP ScrollSmoother lifecycle; degrades to native scroll                      | `destroy` |
+| `GelAnimationManager`       | Stage    | `Gel` controller registry for `.bg-gel` elements; arrangement transitions     | `destroy` |
+| `ScrollEffectsCoordinator`  | Director | Constructs the three above; native-scroll fallback                            | `destroy` |
+| `GlobalHeaderManager`       | Director | Global header hide/show on scroll                                             | `kill`    |
+| `HomeHeaderManager`         | Director | Home landing header role state machine (loader → hero → menu); home page only | `kill`    |
+| `WorkHeaderManager`         | Director | Work jumplinks collapse/expand; publishes the `--work-header-h` offset        | `kill`    |
+| `WorkNavManager`            | Director | Work local-nav scrollspy; emits `work:nav:active`                             | `kill`    |
+| `ProjectHeaderManager`      | Director | Project page hero parallax; no-ops off project pages                          | `kill`    |
+| `BuildInfoManager`          | Director | Section-cap build-info disclosure (click toggle)                              | `kill`    |
+| `SectionCapManager`         | Director | Section-cap scrollspy (active section tracking)                               | `kill`    |
+| `SessionManager`            | ad hoc   | Persisted runtime session state; gates one-time animations                    | —         |
+| `RulerIntroManager`         | ad hoc   | Ruler intro overlay choreography                                              | `destroy` |
+
+`managers/LineManager.js` is currently unreferenced by any runtime module.
+
+## Effects Managers
 
 ### ReducedMotionHandler
 
-**Purpose**: Accessibility-first motion preference detection
-
-**Responsibilities**:
-
-- Monitors `prefers-reduced-motion` media query
-- Provides callback system for real-time preference changes
-- Foundation for all animation decisions
-
-**Usage**:
+Accessibility foundation. Every other animation decision reads from it.
 
 ```javascript
 const handler = new ReducedMotionHandler();
 
-// Check current state
 if (handler.isReducedMotion()) {
-  // Use reduced animations
+  // use reduced path
 }
 
-// React to changes
 const unsubscribe = handler.onChange((enabled) => {
   console.log("Reduced motion:", enabled);
 });
 ```
 
-**Key Features**:
-
-- Auto-detects browser support
-- Graceful fallback for older browsers
-- Real-time preference monitoring
-- Callback cleanup support
-
----
-
-### BackgroundLayerManager
-
-**Purpose**: Fixed background layer positioning
-
-**Problem Solved**:
-ScrollSmoother applies transforms to `#smooth-content`, which breaks `position:fixed` elements inside (they anchor to the transformed element instead of viewport). Background layers must live outside the transformed container.
-
-**Responsibilities**:
-
-- Detects background layers inside ScrollSmoother content
-- Moves them to `#smooth-wrapper` or body
-- Applies proper fixed positioning styles
-- Maintains z-index stacking
-
-**Usage**:
-
-```javascript
-const manager = new BackgroundLayerManager([
-  "overlay-view",
-  "sizzle-background",
-]);
-manager.fix(); // Call after DOM ready
-```
-
-**Key Features**:
-
-- Auto-detects element locations
-- Preserves visual stacking order
-- Handles multiple background layers
-- Works with or without ScrollSmoother
-
----
+Sections do not usually touch this directly — `AbstractSection` resolves motion through `gsap.matchMedia()` and the per-section profiles in [`../config/ix/profiles.js`](../config/ix/profiles.js).
 
 ### ScrollSmootherManager
 
-**Purpose**: GSAP ScrollSmoother lifecycle management
-
-**Responsibilities**:
-
-- Auto-detects DOM requirements (`#smooth-wrapper` + `#smooth-content`)
-- Initializes ScrollSmoother with site-specific config
-- Integrates with ReducedMotionHandler
-- Provides graceful degradation to native scroll
-
-**Usage**:
-
 ```javascript
 const manager = new ScrollSmootherManager(reducedMotionHandler);
-const smoother = manager.getSmoother(); // null if unavailable
 
-// Force enable/disable
+manager.getSmoother(); // ScrollSmoother instance, or null
+manager.isActive(); // boolean
 manager.enable();
 manager.disable();
-
-// Check status
-if (manager.isActive()) {
-  // Smoother is running
-}
+manager.destroy();
 ```
 
-**Key Features**:
-
-- Lazy initialization (creates instance on first access)
-- Respects reduced motion preferences
-- Auto-cleanup on reduced motion change
-- Works without ReducedMotionHandler (standalone)
-
-**Configuration**:
-
-```javascript
-{
-  wrapper: '#smooth-wrapper',
-  content: '#smooth-content',
-  smooth: 1.2,           // Smoothness factor
-  effects: true          // Enable parallax effects
-}
-```
-
----
+Requires both `#smooth-wrapper` and `#smooth-content` in the DOM; returns `null` and lets `ScrollEffectsCoordinator._fallbackToNativeScroll()` reset the wrapper styles when either is missing.
 
 ### GelAnimationManager
 
-**Purpose**: Gel background animation coordination
-
-**Responsibilities**:
-
-- Finds and initializes Gel controller instances
-- Creates scroll-driven animation with staggered timing
-- Manages ScrollTrigger lifecycle
-- Coordinates with ReducedMotionHandler
-
-**Usage**:
+Takes **one** argument — the reduced-motion handler. There is no config object and no per-gel width map; gels are discovered from `.bg-gel` elements and driven by named arrangements.
 
 ```javascript
-// Default configuration (Tailwind grid-aligned)
-const manager = new GelAnimationManager(undefined, reducedMotionHandler);
+const manager = new GelAnimationManager(reducedMotionHandler);
 
-// Custom configuration
-const customConfig = {
-  myGel_1: 1 / 4, // 25% width
-  myGel_2: 1 / 2, // 50% width
-  myGel_3: 3 / 4, // 75% width
-};
-const manager = new GelAnimationManager(customConfig, reducedMotionHandler);
-
-// Initialize and animate
-manager.initialize();
-manager.animate("#smooth-wrapper"); // or undefined for window
+manager.initialize(); // build Gel controllers from the DOM
+manager.applyArrangement(arrangementId, options); // transition to a named arrangement
+manager.getActiveArrangementId();
+manager.getGel(gelId);
+manager.getTween(gelId);
+manager.getGels();
+manager.destroy();
 ```
 
-**Default Configuration** (aligned to Tailwind's 12-column grid):
+Sections receive this instance as the `gelManager` option and pass it into their animations module — see [`../organisms/process/Process.js`](../organisms/process/Process.js).
+
+## Adding a Manager
+
+Global managers follow one shape:
 
 ```javascript
-{
-  bgGel_0: 1/6,    // 2 columns (16.67%)
-  bgGel_1: 7/12,   // 7 columns (58.33%)
-  bgGel_2: 3/4     // 9 columns (75%)
-}
-```
-
-**Animation Logic**:
-
-- Gels start at full width (`xScale: 1`)
-- Scale down to target width on scroll
-- Staggered timing creates cascading effect
-- Scrubbed to scroll position (0-200vh range)
-
-**Key Features**:
-
-- Configurable gel widths
-- Staggered animation timing
-- ScrollTrigger integration
-- Reduced motion support
-
----
-
-## ScrollEffectsCoordinator Integration
-
-**Before Refactoring** (monolithic):
-
-- 280+ lines in single file
-- Complex methods handling multiple concerns
-- Difficult to test individual features
-- Hard to understand initialization order
-
-**After Refactoring** (modular):
-
-- ~100 lines in ScrollEffectsCoordinator
-- 4 focused manager modules (~100 lines each)
-- Clear responsibility boundaries
-- Easy to test and extend
-
-**Example Usage in ScrollEffectsCoordinator**:
-
-```javascript
-export default class ScrollEffectsCoordinator {
-  constructor() {
-    // Initialize managers in dependency order
-    this.reducedMotion = new ReducedMotionHandler();
-    this.backgroundLayers = new BackgroundLayerManager([
-      "overlay-view",
-      "sizzle-background",
-    ]);
-    this.scrollSmoother = new ScrollSmootherManager(this.reducedMotion);
-    this.gelAnimation = new GelAnimationManager(undefined, this.reducedMotion);
-
-    this.initialize();
+export default class CustomManager {
+  constructor({ bus, reducedMotionHandler } = {}) {
+    // resolve DOM; bail quietly if absent
   }
 
-  initialize() {
-    this.backgroundLayers.fix();
-    this.gelAnimation.initialize();
-
-    const scroller = this.scrollSmoother.isActive()
-      ? "#smooth-wrapper"
-      : undefined;
-    this.gelAnimation.animate(scroller);
+  kill() {
+    // kill tweens/ScrollTriggers, remove listeners, null refs
   }
 }
 ```
 
-## Common Patterns
-
-### Reduced Motion Integration
-
-All animation managers accept `ReducedMotionHandler` instance:
-
-```javascript
-const reducedMotion = new ReducedMotionHandler();
-const scrollManager = new ScrollSmootherManager(reducedMotion);
-const gelManager = new GelAnimationManager(config, reducedMotion);
-
-// Managers automatically respond to preference changes
-reducedMotion.onChange((enabled) => {
-  // Managers handle cleanup internally
-});
-```
-
-### Cleanup Pattern
-
-All managers implement `destroy()` for proper cleanup:
-
-```javascript
-gelManager.destroy(); // Kills ScrollTrigger, clears gels
-scrollManager.destroy(); // Kills smoother, unsubscribes
-reducedMotion.destroy(); // Clears callbacks
-```
-
-### Graceful Degradation
-
-Managers handle missing dependencies gracefully:
-
-```javascript
-// Works without ReducedMotionHandler
-const manager = new ScrollSmootherManager(null);
-
-// Works without DOM elements
-const gels = new GelAnimationManager(); // Returns empty array
-
-// Works without ScrollSmoother
-const scroller = undefined; // Falls back to window
-gelManager.animate(scroller);
-```
-
-## Testing Strategy
-
-**Unit Testing** (easier with modular design):
-
-```javascript
-// Test ReducedMotionHandler in isolation
-test("detects prefers-reduced-motion", () => {
-  const handler = new ReducedMotionHandler();
-  expect(handler.isReducedMotion()).toBe(false);
-});
-
-// Test GelAnimationManager without dependencies
-test("initializes gels from config", () => {
-  const manager = new GelAnimationManager(testConfig);
-  manager.initialize();
-  expect(manager.getGels()).toHaveLength(3);
-});
-```
-
-**Integration Testing**:
-
-```javascript
-// Test manager coordination
-test("ScrollEffectsCoordinator coordinates managers", () => {
-  const stage = new ScrollEffectsCoordinator();
-  expect(stage.reducedMotion).toBeDefined();
-  expect(stage.gelAnimation).toBeDefined();
-  expect(stage.scrollSmoother).toBeDefined();
-});
-```
+Then construct it in `AnimationDirector`, add the matching `this.customManager?.kill(); this.customManager = null;` to `destroy()`, and export it from [`index/index.js`](index/index.js). Use `kill()` for Director-owned managers so the teardown loop stays uniform.
 
 ## Debugging
 
-**Enable ScrollTrigger markers**:
-
 ```javascript
-import { ScrollTrigger } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js";
-ScrollTrigger.defaults({ markers: false });
-```
-
-**Access managers from console**:
-
-```javascript
-// Via global Director instance
 const stage = window.director.getStage();
-console.log("Smoother:", stage.scrollSmoother.isActive());
-console.log("Gels:", stage.gelAnimation.getGels());
-console.log("Reduced Motion:", stage.reducedMotion.isReducedMotion());
+stage.scrollSmoother.isActive();
+stage.gelAnimation.getGels();
+stage.reducedMotion.isReducedMotion();
 ```
 
-**Common Issues**:
+There is no `enableDebug()` — the inert `AnimationBus.enableDebug()` was removed. Modules log through scoped `lumberjack` loggers.
 
-1. **ScrollSmoother not working**: Check DOM structure
+**Common issues**
 
-   ```javascript
-   // Must have both elements
-   document.querySelector("#smooth-wrapper");
-   document.querySelector("#smooth-content");
-   ```
-
-2. **Gels not animating**: Verify element IDs
-
-   ```javascript
-   // Check gel elements exist
-   ["bgGel_0", "bgGel_1", "bgGel_2"].forEach((id) => {
-     console.log(id, document.getElementById(id));
-   });
-   ```
-
-3. **Fixed backgrounds not working**: Check transform context
-   ```javascript
-   // Background layers should be outside #smooth-content
-   const overlay = document.getElementById("overlay-view");
-   console.log("Parent:", overlay.parentElement.id); // Should be smooth-wrapper or body
-   ```
-
-## Future Enhancements
-
-**Potential New Managers**:
-
-- `ParallaxManager`: Coordinate parallax effects across sections
-- `VideoManager`: Handle background video lifecycle and controls
-- `PerformanceMonitor`: Track FPS and adjust quality dynamically
-- `TransitionManager`: Page transition coordination
-
-**Extensibility Pattern**:
-
-```javascript
-// New managers follow same pattern
-export default class CustomManager {
-  constructor(reducedMotionHandler) {
-    this._reducedMotionHandler = reducedMotionHandler;
-    // Setup
-  }
-
-  // Public API
-  initialize() {}
-  destroy() {}
-}
-```
-
-## Benefits of Modular Design
-
-✅ **Maintainability**: Each file has clear purpose  
-✅ **Testability**: Test managers in isolation  
-✅ **Reusability**: Use managers in other contexts  
-✅ **Debuggability**: Easier to trace issues  
-✅ **Extensibility**: Add new managers without touching existing code  
-✅ **Readability**: Smaller files with focused responsibilities  
-✅ **Collaboration**: Multiple developers can work on different managers
+1. **ScrollSmoother not working** — confirm `#smooth-wrapper` and `#smooth-content` both exist.
+2. **Gels not animating** — confirm `.bg-gel` elements are present, then check `getGels()` is non-empty.
+3. **Fixed backgrounds drifting** — ScrollSmoother transforms `#smooth-content`, which breaks `position: fixed` inside it. Move the element out of `#smooth-content` in the template.
 
 ---
 
-**Last Updated**: December 2025  
-**Related**: `ScrollEffectsCoordinator.js`, `AnimationDirector.js`, `choreography/README.md`
+**Related**: [`ScrollEffectsCoordinator.js`](ScrollEffectsCoordinator/ScrollEffectsCoordinator.js) · [`../AnimationDirector.js`](../AnimationDirector.js) · [`../README.choreography.md`](../README.choreography.md)

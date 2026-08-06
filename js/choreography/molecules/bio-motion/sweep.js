@@ -8,8 +8,9 @@ const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
 
-// The gel is absolute inset-0 inside the fixed inset-0 #background container,
-// so its left/top/width/height percentages resolve against the viewport.
+// The gel is absolute inset-0 inside the fixed inset-0 #sizzle-background
+// container, so its left/top/width/height percentages resolve against the
+// viewport (which is also why no gel is ever ScrollTrigger-pinned).
 // Convert the bio section's own viewport rect to those same percentages so
 // the sweep is scoped to bio, not a full-viewport wipe that blankets the
 // fixed background video sitting behind it.

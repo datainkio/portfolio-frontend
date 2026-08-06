@@ -28,8 +28,12 @@ export { default as ReducedMotionHandler } from "../ReducedMotionHandler/Reduced
 export { default as ScrollSmootherManager } from "../ScrollSmootherManager/ScrollSmootherManager.js";
 export { default as GelAnimationManager } from "../GelAnimationManager/GelAnimationManager.js";
 export { default as GlobalHeaderManager } from "../GlobalHeaderManager/GlobalHeaderManager.js";
+export { default as HomeHeaderManager } from "../HomeHeaderManager/HomeHeaderManager.js";
 export { default as ScrollEffectsCoordinator } from "../ScrollEffectsCoordinator/ScrollEffectsCoordinator.js";
 export { default as RulerIntroManager } from "../RulerIntroManager/RulerIntroManager.js";
 export { default as ProjectHeaderManager } from "../ProjectHeaderManager/ProjectHeaderManager.js";
 export { default as SessionManager } from "../SessionManager/SessionManager.js";
 export { default as SectionCapManager } from "../SectionCapManager/SectionCapManager.js";
+export { default as WorkHeaderManager } from "../WorkHeaderManager/WorkHeaderManager.js";
+export { default as WorkNavManager } from "../WorkNavManager/WorkNavManager.js";
+export { default as BuildInfoManager } from "../BuildInfoManager/BuildInfoManager.js";

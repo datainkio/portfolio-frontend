@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.molecules.bio-motion.heading-gel
-role: "Bio molecule part — pins the gel_hero gel behind the bio <h2> as a full-bleed band (viewport width, heading height, heading y) and keeps it synced on scroll and resize."
+role: "Bio molecule part — anchors the gel_bio gel behind the bio <h2> as a full-bleed band (viewport width, heading height, heading y) and keeps it synced on scroll and resize. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
 surface: internal
 scope: frontend
@@ -19,17 +19,32 @@ backlinks:
   - "[[molecules/bio-motion/split|molecules/bio-motion/split]]"
 ---
 
-`attachHeadingGel(view, gelManager)` resolves `gel_hero` from the manager and
-`[data-bio-el="heading"]` from the bio section root, then positions the gel to
-`left: 0 / width: 100vw / top: <heading viewport top> / height: <heading height>`
-and reveals it (`autoAlpha: 1` — `GelAnimationManager` parks every gel at 0).
+`attachHeadingGel(view, gelManager)` resolves `gel_bio` (`HEADING_GEL_ID`) from
+the manager and `[data-bio-el="heading"]` from the bio section root, then
+positions the gel to `left: 0 / width: 100vw / top: <heading viewport top> /
+height: <heading height>` and reveals it (`autoAlpha: 1` —
+`GelAnimationManager` parks every gel at 0).
 
-The gel is `absolute` inside `#background`, which is `fixed inset-0`, so its
-coordinates resolve against the viewport and no scroll offset is added to `top`.
-A fixed container does not scroll with the heading, so a ScrollTrigger
+The gel is `absolute` inside `#sizzle-background`, which is `fixed inset-0`, so
+its coordinates resolve against the viewport and no scroll offset is added to
+`top`. A fixed container does not scroll with the heading, so a ScrollTrigger
 (`id: bio-heading-gel-sync`, `top bottom` → `bottom top`) re-syncs on
 `onUpdate` / `onRefresh` / `onToggle`. The trigger is killed by id before being
 recreated, so matchMedia/resize rebuilds do not stack duplicates.
+
+## Never pinned
+
+"Anchors" here is positional language, not `ScrollTrigger`'s `pin`. **No gel is
+ever a ScrollTrigger pin target**, and none should be: every gel is a child of
+`#sizzle-background` (`fixed inset-0`), so it is already positioned against the
+viewport and cannot scroll. Pinning it would be redundant at best, and at worst
+would inject a pin-spacer into the background layer.
+
+`bio-heading-gel-sync` sets no `pin` (defaults `false`) — it exists only to
+rewrite `top`/`height` as the heading passes. The one nearby trigger that *does*
+pin, `bio-outro-pin` ([BioTriggers.md](../../organisms/bio/BioTriggers.md)),
+targets the **bio section root** in normal document flow; it merely *animates*
+this gel's `scaleY` as one of its beats. Do not read that pin as pinning the gel.
 
 `gel.refresh()` (SVG mask re-measure) runs only when the heading height changes,
 not on every scroll tick.
@@ -55,5 +70,5 @@ variant, which does not call this. The band itself is a static positioned state
 outside the reduced path.
 
 Visibility caveat: `.bg-gel` sets `mix-blend-mode: multiply`. Against a very dark
-backdrop inside `#background` the band can read as near-invisible; force
+backdrop inside `#sizzle-background` the band can read as near-invisible; force
 `mixBlendMode: "normal"` on the gel element if that happens.

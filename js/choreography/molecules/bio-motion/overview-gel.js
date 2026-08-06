@@ -4,15 +4,16 @@ import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 /**
  * Bio Overview Gel
  *
- * Pins the `gel_subheading` gel behind the bio section's overview <h3> as a
+ * Anchors the `gel_subheading` gel behind the bio section's overview <h3> as a
  * full-bleed band: viewport width, the overview heading's own height, at its
  * viewport y. Mirrors heading-gel.js's strategy for the <h2>.
  *
- * The gel lives in `#background` (`fixed inset-0`), so an absolutely positioned
- * child resolves against the viewport — `top` is the overview heading's raw
- * getBoundingClientRect().top, with no scroll offset added. Because the
- * container is fixed, the gel does not scroll with the page on its own; a
- * ScrollTrigger re-syncs `top` as the heading moves through the viewport.
+ * The gel lives in `#sizzle-background` (`fixed inset-0`), so an absolutely
+ * positioned child resolves against the viewport — `top` is the overview
+ * heading's raw getBoundingClientRect().top, with no scroll offset added. The
+ * fixed container already holds the gel in the viewport, so the gel is never
+ * ScrollTrigger-pinned — a pin would be redundant on an element that cannot
+ * scroll. The ScrollTrigger below only re-syncs `top` as the heading moves.
  *
  * GelAnimationManager parks every gel at autoAlpha 0 on init, so making this one
  * visible is an explicit step here.
