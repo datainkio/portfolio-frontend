@@ -95,3 +95,14 @@ Temporary Items
 .apdisk
 # Lighthouse audit reports (raw build artifacts)
 .lighthouse/
+
+# graphify knowledge graph (frontend/graphify-out)
+# Committed: graph.json, GRAPH_REPORT.md, manifest.json, .graphify_labels.json,
+# and cache/semantic/ — the expensive content-keyed extraction, portable across
+# machines because the scan root is always `frontend`.
+# Ignored below: machine-specific paths, regenerable output, conflict-prone counters.
+graphify-out/.graphify_python
+graphify-out/.graphify_root
+graphify-out/cache/stat-index.json
+graphify-out/graph.html
+graphify-out/cost.json
