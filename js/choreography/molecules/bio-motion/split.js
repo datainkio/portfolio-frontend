@@ -21,7 +21,10 @@ const headingSplits = new WeakMap();
 
 function buildHeadingSplit(view, title) {
   headingSplits.get(view)?.revert();
-  const split = new SplitText(title, { type: "lines,words,chars", mask: "chars" });
+  const split = new SplitText(title, {
+    type: "lines,words,chars",
+    mask: "chars",
+  });
   headingSplits.set(view, split);
   return split;
 }
@@ -154,7 +157,8 @@ export function outro(view, gelManager) {
     tl.to(gelEl, {
       scaleY: () => {
         const currentScaleY = gsap.getProperty(gelEl, "scaleY") || 1;
-        const unscaledHeight = gelEl.getBoundingClientRect().height / currentScaleY;
+        const unscaledHeight =
+          gelEl.getBoundingClientRect().height / currentScaleY;
         return window.innerHeight / unscaledHeight;
       },
       duration: BIO_OUTRO.gelDuration,

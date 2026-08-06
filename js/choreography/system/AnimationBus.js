@@ -67,7 +67,9 @@ export class AnimationBus {
    */
   emit(event, data = {}) {
     if (this._listeners.has(event)) {
-      this._listeners.get(event).forEach((callback) => {
+      // Iterate a copy: a handler that unsubscribes during dispatch would
+      // otherwise splice the live array mid-forEach and skip the next listener.
+      [...this._listeners.get(event)].forEach((callback) => {
         try {
           callback(data);
         } catch (error) {
