@@ -22762,8 +22762,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "frontend claude code entrypoint",
-      "community_name": "AIX Prompt Modules",
-      "id": "claude"
+      "id": "claude",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Frontend Workspace Reference",
@@ -22776,8 +22776,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "frontend workspace reference",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "readme_frontend"
+      "id": "readme_frontend",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "dataink.io Portfolio README",
@@ -22790,8 +22790,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "dataink.io portfolio readme",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "readme"
+      "id": "readme",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "AIX Manifest (Concierge template)",
@@ -22804,8 +22804,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "aix manifest (concierge template)",
-      "community_name": "AIX Prompt Modules",
-      "id": "aix_manifest"
+      "id": "aix_manifest",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Copilot Prompt Scoping & Authority",
@@ -22818,8 +22818,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "copilot prompt scoping & authority",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_readme"
+      "id": "copilot_readme",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Choreographer Prompt (GSAP vs Tailwind)",
@@ -22832,8 +22832,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "choreographer prompt (gsap vs tailwind)",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_prompts_choreographer"
+      "id": "copilot_prompts_choreographer",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Choreography Implementation Prompt",
@@ -22846,8 +22846,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "choreography implementation prompt",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_prompts_choreography_implementation"
+      "id": "copilot_prompts_choreography_implementation",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Choreography Planning Prompt",
@@ -22860,8 +22860,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "choreography planning prompt",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_prompts_choreography_planning"
+      "id": "copilot_prompts_choreography_planning",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "HTML & Template Maintenance Prompt",
@@ -22874,8 +22874,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "html & template maintenance prompt",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_prompts_display"
+      "id": "copilot_prompts_display",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Portfolio Frontend Domain Prompt",
@@ -22888,8 +22888,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "portfolio frontend domain prompt",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_prompts_domain"
+      "id": "copilot_prompts_domain",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Frontend AIX Prompt Modules Index",
@@ -22902,8 +22902,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "frontend aix prompt modules index",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_prompts_index"
+      "id": "copilot_prompts_index",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "JavaScript Maintenance Prompt",
@@ -22916,8 +22916,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "javascript maintenance prompt",
-      "community_name": "AIX Prompt Modules",
-      "id": "copilot_prompts_js"
+      "id": "copilot_prompts_js",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "Copilot Instructions for dataink.io Portfolio",
@@ -22930,8 +22930,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "copilot instructions for dataink.io portfolio",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "github_copilot_instructions"
+      "id": "github_copilot_instructions",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "Bug Issue Template",
@@ -22944,8 +22944,8 @@
       "contributor": null,
       "community": 139,
       "norm_label": "bug issue template",
-      "community_name": "Bug Issue Template",
-      "id": "github_issue_template_bug"
+      "id": "github_issue_template_bug",
+      "community_name": "Bug Issue Template"
     },
     {
       "label": "Deploy Staging Workflow",
@@ -22958,8 +22958,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "deploy staging workflow",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "github_workflows_deploy_staging"
+      "id": "github_workflows_deploy_staging",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "TODO to Issue Workflow",
@@ -22972,8 +22972,8 @@
       "contributor": null,
       "community": 139,
       "norm_label": "todo to issue workflow",
-      "community_name": "Bug Issue Template",
-      "id": "github_workflows_todo_to_issue"
+      "id": "github_workflows_todo_to_issue",
+      "community_name": "Bug Issue Template"
     },
     {
       "label": "CMS Integration README (data/sanity)",
@@ -22986,8 +22986,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "cms integration readme (data/sanity)",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "data_sanity_readme"
+      "id": "data_sanity_readme",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "Sanity Projections reference",
@@ -23000,8 +23000,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "sanity projections reference",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "data_sanity_projections_readme"
+      "id": "data_sanity_projections_readme",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "CMS_QUERIES",
@@ -23014,8 +23014,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "cms_queries",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_cms_queries_concept"
+      "id": "data_sanity_cms_queries_concept",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "AnimationBus (pub/sub)",
@@ -23028,8 +23028,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "animationbus (pub/sub)",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "choreography_animationbus_concept"
+      "id": "choreography_animationbus_concept",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "AbstractSection base class",
@@ -23042,8 +23042,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "abstractsection base class",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "choreography_abstractsection_concept"
+      "id": "choreography_abstractsection_concept",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "AnimationDirector (master coordinator)",
@@ -23056,8 +23056,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "animationdirector (master coordinator)",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "choreography_animationdirector_concept"
+      "id": "choreography_animationdirector_concept",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "LandingSequence",
@@ -23070,8 +23070,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "landingsequence",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "choreography_landingsequence_concept"
+      "id": "choreography_landingsequence_concept",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "config/index.js (choreography config barrel)",
@@ -23084,8 +23084,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "config/index.js (choreography config barrel)",
-      "community_name": "AIX Prompt Modules",
-      "id": "choreography_config_index_concept"
+      "id": "choreography_config_index_concept",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "config/contracts/events.js (event contracts)",
@@ -23098,8 +23098,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "config/contracts/events.js (event contracts)",
-      "community_name": "AIX Prompt Modules",
-      "id": "choreography_config_events_concept"
+      "id": "choreography_config_events_concept",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "config/contracts/selectors/selectors.js",
@@ -23112,8 +23112,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "config/contracts/selectors/selectors.js",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "choreography_config_selectors_concept"
+      "id": "choreography_config_selectors_concept",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "GSAP plugin registration (system/gsap.js)",
@@ -23126,8 +23126,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "gsap plugin registration (system/gsap.js)",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "choreography_gsap_setup_concept"
+      "id": "choreography_gsap_setup_concept",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "Build pipeline (clean \u2192 build:design \u2192 build:css \u2192 build:js \u2192 build:11ty)",
@@ -23140,8 +23140,8 @@
       "contributor": null,
       "community": 56,
       "norm_label": "build pipeline (clean \u2192 build:design \u2192 build:css \u2192 build:js \u2192 build:11ty)",
-      "community_name": "Architecture Entrypoint Docs",
-      "id": "eleventy_build_pipeline_concept"
+      "id": "eleventy_build_pipeline_concept",
+      "community_name": "Architecture Entrypoint Docs"
     },
     {
       "label": "styles/main.css import order",
@@ -23154,8 +23154,8 @@
       "contributor": null,
       "community": 46,
       "norm_label": "styles/main.css import order",
-      "community_name": "AIX Prompt Modules",
-      "id": "styles_main_css_import_order_concept"
+      "id": "styles_main_css_import_order_concept",
+      "community_name": "AIX Prompt Modules"
     },
     {
       "label": "README Queries",
@@ -23168,8 +23168,8 @@
       "contributor": null,
       "community": 21,
       "norm_label": "readme queries",
-      "community_name": "Taxonomy Projections",
-      "id": "data_sanity_queries_readme_queries"
+      "id": "data_sanity_queries_readme_queries",
+      "community_name": "Taxonomy Projections"
     },
     {
       "label": "skos-concept factory",
@@ -23182,8 +23182,8 @@
       "contributor": null,
       "community": 38,
       "norm_label": "skos-concept factory",
-      "community_name": "Taxonomy Queries",
-      "id": "data_sanity_queries_skos_concept"
+      "id": "data_sanity_queries_skos_concept",
+      "community_name": "Taxonomy Queries"
     },
     {
       "label": "CMS Services README",
@@ -23196,8 +23196,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "cms services readme",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_services_readme_services_readme"
+      "id": "data_sanity_services_readme_services_readme",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "services index (init re-export)",
@@ -23210,8 +23210,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "services index (init re-export)",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_services_index_init"
+      "id": "data_sanity_services_index_init",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "navigation service (placeholder)",
@@ -23224,8 +23224,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "navigation service (placeholder)",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_services_navigation_navigationservice"
+      "id": "data_sanity_services_navigation_navigationservice",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "posts service (placeholder)",
@@ -23238,8 +23238,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "posts service (placeholder)",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_services_posts_postsservice"
+      "id": "data_sanity_services_posts_postsservice",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "project service (placeholder)",
@@ -23252,8 +23252,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "project service (placeholder)",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_services_project_projectservice"
+      "id": "data_sanity_services_project_projectservice",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "taxonomy service (placeholder)",
@@ -23266,8 +23266,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "taxonomy service (placeholder)",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_services_taxonomy_taxonomyservice"
+      "id": "data_sanity_services_taxonomy_taxonomyservice",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "CMS Transforms README",
@@ -23280,8 +23280,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "cms transforms readme",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_transforms_readme_transforms_readme"
+      "id": "data_sanity_transforms_readme_transforms_readme",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "buildAwardCardRecord",
@@ -23294,8 +23294,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "buildawardcardrecord",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_transforms_award_buildawardcardrecord"
+      "id": "data_sanity_transforms_award_buildawardcardrecord",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "normalizeAwardRecords",
@@ -23308,8 +23308,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "normalizeawardrecords",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_transforms_award_normalizeawardrecords"
+      "id": "data_sanity_transforms_award_normalizeawardrecords",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "normalizeOrganizationRecords (placeholder)",
@@ -23322,8 +23322,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "normalizeorganizationrecords (placeholder)",
-      "community_name": "Sanity Client and Queries",
-      "id": "data_sanity_transforms_organization_normalizeorganizationrecords"
+      "id": "data_sanity_transforms_organization_normalizeorganizationrecords",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "Frontend Documentation Index",
@@ -23336,8 +23336,8 @@
       "contributor": null,
       "community": 0,
       "norm_label": "frontend documentation index",
-      "community_name": "Sanity Client and Queries",
-      "id": "docs_readme_docs_frontend_documentation_index"
+      "id": "docs_readme_docs_frontend_documentation_index",
+      "community_name": "Sanity Client and Queries"
     },
     {
       "label": "Frontend Architecture (AIX-focused)",
@@ -23350,8 +23350,8 @@
       "contributor": null,
       "community": 172,
       "norm_label": "frontend architecture (aix-focused)",
-      "community_name": "Frontend Architecture (AIX-focused)",
-      "id": "docs_architecture"
+      "id": "docs_architecture",
+      "community_name": "Frontend Architecture (AIX-focused)"
     },
     {
       "label": "AnimationDirector Initialization Sequence",
@@ -23364,8 +23364,8 @@
       "contributor": null,
       "community": 60,
       "norm_label": "animationdirector initialization sequence",
-      "community_name": "Preloader Boot Gating",
-      "id": "docs_director_initialization_sequence"
+      "id": "docs_director_initialization_sequence",
+      "community_name": "Preloader Boot Gating"
     },
     {
       "label": "AnimationDirector Initialization Sequence (PDF)",
@@ -23378,8 +23378,8 @@
       "contributor": null,
       "community": 60,
       "norm_label": "animationdirector initialization sequence (pdf)",
-      "community_name": "Preloader Boot Gating",
-      "id": "docs_director_initialization_sequence_pdf"
+      "id": "docs_director_initialization_sequence_pdf",
+      "community_name": "Preloader Boot Gating"
     },
     {
       "label": "Plan: Finish Remaining Performance TODOs",
@@ -23392,8 +23392,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "plan: finish remaining performance todos",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_plan_landing_performance_prompt"
+      "id": "docs_plan_landing_performance_prompt",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Plan: Finish Remaining Performance TODOs (AI copy)",
@@ -23406,8 +23406,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "plan: finish remaining performance todos (ai copy)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_plan_landing_performance_prompt"
+      "id": "docs_ai_plan_landing_performance_prompt",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Preloader Integration Checklist",
@@ -23420,8 +23420,8 @@
       "contributor": null,
       "community": 60,
       "norm_label": "preloader integration checklist",
-      "community_name": "Preloader Boot Gating",
-      "id": "docs_preloader_integration_checklist"
+      "id": "docs_preloader_integration_checklist",
+      "community_name": "Preloader Boot Gating"
     },
     {
       "label": "Sanity to 11ty data flow",
@@ -23434,8 +23434,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "sanity to 11ty data flow",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "docs_sanity_integration"
+      "id": "docs_sanity_integration",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "AIX Maintenance Checklist (Copilot-First Repos)",
@@ -23448,8 +23448,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "aix maintenance checklist (copilot-first repos)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_aix_maintenance_checklist"
+      "id": "docs_ai_aix_maintenance_checklist",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "AI Prompts README",
@@ -23462,8 +23462,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "ai prompts readme",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_readme_ai"
+      "id": "docs_ai_readme_ai",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Start Here (Frontend AIX)",
@@ -23476,8 +23476,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "start here (frontend aix)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_start_here"
+      "id": "docs_ai_start_here",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Frontend AI system portability",
@@ -23490,8 +23490,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "frontend ai system portability",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_workspace_portability"
+      "id": "docs_ai_workspace_portability",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "AIX Maintenance Loop (frontend)",
@@ -23504,8 +23504,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "aix maintenance loop (frontend)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_aix_maintenance"
+      "id": "docs_ai_aix_maintenance",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Canonical choreography patterns",
@@ -23518,8 +23518,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "canonical choreography patterns",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_examples_choreography"
+      "id": "docs_ai_examples_choreography",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Canonical JS initialization patterns",
@@ -23532,8 +23532,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "canonical js initialization patterns",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_examples_js_init"
+      "id": "docs_ai_examples_js_init",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Canonical template patterns",
@@ -23546,8 +23546,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "canonical template patterns",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_examples_templates"
+      "id": "docs_ai_examples_templates",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Frontend Choreography Implementer (legacy agent)",
@@ -23560,8 +23560,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "frontend choreography implementer (legacy agent)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_legacy_agents_choreography_implementer_agent"
+      "id": "docs_ai_legacy_agents_choreography_implementer_agent",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Frontend Choreography Planner (legacy agent)",
@@ -23574,8 +23574,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "frontend choreography planner (legacy agent)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ai_legacy_agents_choreography_planner_agent"
+      "id": "docs_ai_legacy_agents_choreography_planner_agent",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "IA Frontmatter Schema",
@@ -23588,8 +23588,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "ia frontmatter schema",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "docs_ia_frontmatter"
+      "id": "docs_ia_frontmatter",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Storyboards README",
@@ -23602,8 +23602,8 @@
       "contributor": null,
       "community": 60,
       "norm_label": "storyboards readme",
-      "community_name": "Preloader Boot Gating",
-      "id": "docs_storyboards_readme_storyboards"
+      "id": "docs_storyboards_readme_storyboards",
+      "community_name": "Preloader Boot Gating"
     },
     {
       "label": "11ty Configuration for UX Designers",
@@ -23616,8 +23616,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "11ty configuration for ux designers",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_readme_eleventy"
+      "id": "eleventy_readme_eleventy",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Eleventy Collections Manager README",
@@ -23630,8 +23630,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "eleventy collections manager readme",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_collections_readme_collections"
+      "id": "eleventy_collections_readme_collections",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Collections index sidecar",
@@ -23644,8 +23644,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "collections index sidecar",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_collections_index_doc"
+      "id": "eleventy_collections_index_doc",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Navigation collection sidecar",
@@ -23658,8 +23658,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "navigation collection sidecar",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_collections_navigation_doc"
+      "id": "eleventy_collections_navigation_doc",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Sanity collection sidecar",
@@ -23672,8 +23672,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "sanity collection sidecar",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_collections_sanity_doc"
+      "id": "eleventy_collections_sanity_doc",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "section registry",
@@ -23686,8 +23686,8 @@
       "contributor": null,
       "community": 82,
       "norm_label": "section registry",
-      "community_name": "AnimationDirector API",
-      "id": "js_choreography_system_registry_registry"
+      "id": "js_choreography_system_registry_registry",
+      "community_name": "AnimationDirector API"
     },
     {
       "label": "choreography event names (config/events.js)",
@@ -23700,8 +23700,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "choreography event names (config/events.js)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "js_choreography_config_events_events"
+      "id": "js_choreography_config_events_events",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Hero section controller",
@@ -23714,8 +23714,8 @@
       "contributor": null,
       "community": 9,
       "norm_label": "hero section controller",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "js_choreography_sections_hero_hero_hero"
+      "id": "js_choreography_sections_hero_hero_hero",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "choreography-script.njk bootstrap partial",
@@ -23728,8 +23728,8 @@
       "contributor": null,
       "community": 60,
       "norm_label": "choreography-script.njk bootstrap partial",
-      "community_name": "Preloader Boot Gating",
-      "id": "views_templates_partials_choreography_script_choreography_script"
+      "id": "views_templates_partials_choreography_script_choreography_script",
+      "community_name": "Preloader Boot Gating"
     },
     {
       "label": "case-study.njk layout",
@@ -23742,8 +23742,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "case-study.njk layout",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "views_layouts_case_study_case_study"
+      "id": "views_layouts_case_study_case_study",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "projects.js query projection",
@@ -23756,8 +23756,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "projects.js query projection",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "data_sanity_queries_projects_projects"
+      "id": "data_sanity_queries_projects_projects",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Sanity client.js",
@@ -23770,8 +23770,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "sanity client.js",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "data_sanity_client_client"
+      "id": "data_sanity_client_client",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "fetchSanityData.js",
@@ -23784,8 +23784,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "fetchsanitydata.js",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "data_sanity_fetchsanitydata_fetchsanitydata"
+      "id": "data_sanity_fetchsanitydata_fetchsanitydata",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "data/sanity/queries.js",
@@ -23798,8 +23798,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "data/sanity/queries.js",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "data_sanity_queries_queries"
+      "id": "data_sanity_queries_queries",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "eleventy/collections/sanity.js",
@@ -23812,8 +23812,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "eleventy/collections/sanity.js",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_collections_sanity_sanity"
+      "id": "eleventy_collections_sanity_sanity",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "eleventy/collections/navigation.js",
@@ -23826,8 +23826,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "eleventy/collections/navigation.js",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_collections_navigation_navigation"
+      "id": "eleventy_collections_navigation_navigation",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "eleventy/collections/index.js",
@@ -23840,8 +23840,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": "eleventy/collections/index.js",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_collections_index_index"
+      "id": "eleventy_collections_index_index",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": ".eleventy.js config entrypoint",
@@ -23854,8 +23854,8 @@
       "contributor": null,
       "community": 29,
       "norm_label": ".eleventy.js config entrypoint",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "eleventy_config"
+      "id": "eleventy_config",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Choreography boot gating (director:ready -> preloader:out -> LandingSequence)",
@@ -23869,8 +23869,8 @@
       "rationale": "Preloader and choreography must never bypass this gating order; preloader event names are imported from choreography config rather than hardcoded to avoid drift.",
       "community": 60,
       "norm_label": "choreography boot gating (director:ready -> preloader:out -> landingsequence)",
-      "community_name": "Preloader Boot Gating",
-      "id": "concept_boot_gating_sequence"
+      "id": "concept_boot_gating_sequence",
+      "community_name": "Preloader Boot Gating"
     },
     {
       "label": "Reduced-motion graceful degradation",
@@ -23884,8 +23884,8 @@
       "rationale": "Motion must preserve intent under prefers-reduced-motion (shorten/simplify/crossfade) rather than disabling all motion, so meaning is not conveyed by motion alone.",
       "community": 9,
       "norm_label": "reduced-motion graceful degradation",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "concept_reduced_motion_graceful_degradation"
+      "id": "concept_reduced_motion_graceful_degradation",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "LCP asset + font preload strategy",
@@ -23899,8 +23899,8 @@
       "rationale": "Preloading the true LCP asset and first hero font, plus deferring choreography JS, targets FCP/LCP on first visit without blocking the parser.",
       "community": 9,
       "norm_label": "lcp asset + font preload strategy",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "concept_lcp_preload_strategy"
+      "id": "concept_lcp_preload_strategy",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "AIX context hygiene principle",
@@ -23914,8 +23914,8 @@
       "rationale": "Generated or stale files actively harm Copilot/AI suggestion accuracy; deletion improves AIX faster than adding rules.",
       "community": 9,
       "norm_label": "aix context hygiene principle",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "concept_context_hygiene_aix"
+      "id": "concept_context_hygiene_aix",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Link, don't fork (AI docs portability)",
@@ -23929,8 +23929,8 @@
       "rationale": "Copying AIX checklists/evaluation prompts between repos causes drift; prefer pointers from an external scaffold into this repo's AI docs.",
       "community": 9,
       "norm_label": "link, don't fork (ai docs portability)",
-      "community_name": "AIX Docs and Agent Prompts",
-      "id": "concept_link_dont_fork"
+      "id": "concept_link_dont_fork",
+      "community_name": "AIX Docs and Agent Prompts"
     },
     {
       "label": "Eleventy service layer pattern",
@@ -23944,8 +23944,8 @@
       "rationale": "Business logic is encapsulated in reusable/testable service classes (NavigationBuilder, TailwindLogger) separated from 11ty collection registration, isolating errors and improving maintainability.",
       "community": 29,
       "norm_label": "eleventy service layer pattern",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "concept_service_layer_pattern"
+      "id": "concept_service_layer_pattern",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Collection initialization dependency order (Sanity before Navigation)",
@@ -23959,8 +23959,8 @@
       "rationale": "11ty processes collections synchronously during build; navigation collections depend on Sanity project data already being present, so Sanity collections must register first.",
       "community": 29,
       "norm_label": "collection initialization dependency order (sanity before navigation)",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "concept_collection_dependency_order"
+      "id": "concept_collection_dependency_order",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "Eleventy Filters README",
@@ -23973,8 +23973,8 @@
       "contributor": null,
       "community": 4,
       "norm_label": "eleventy filters readme",
-      "community_name": "Eleventy Filters",
-      "id": "eleventy_filters_readme_filters"
+      "id": "eleventy_filters_readme_filters",
+      "community_name": "Eleventy Filters"
     },
     {
       "label": "extractHeadings (TOC data source)",
@@ -23987,8 +23987,8 @@
       "contributor": null,
       "community": 4,
       "norm_label": "extractheadings (toc data source)",
-      "community_name": "Eleventy Filters",
-      "id": "eleventy_filters_dom_extractheadings"
+      "id": "eleventy_filters_dom_extractheadings",
+      "community_name": "Eleventy Filters"
     },
     {
       "label": "findRecord (CMS record-join filter)",
@@ -24001,8 +24001,8 @@
       "contributor": null,
       "community": 4,
       "norm_label": "findrecord (cms record-join filter)",
-      "community_name": "Eleventy Filters",
-      "id": "eleventy_filters_filters_findrecord"
+      "id": "eleventy_filters_filters_findrecord",
+      "community_name": "Eleventy Filters"
     },
     {
       "label": "Eleventy Services README",
@@ -24015,8 +24015,8 @@
       "contributor": null,
       "community": 327,
       "norm_label": "eleventy services readme",
-      "community_name": "Eleventy Services README",
-      "id": "eleventy_services_readme_services"
+      "id": "eleventy_services_readme_services",
+      "community_name": "Eleventy Services README"
     },
     {
       "label": "Eleventy Shortcodes README",
@@ -24029,8 +24029,8 @@
       "contributor": null,
       "community": 4,
       "norm_label": "eleventy shortcodes readme",
-      "community_name": "Eleventy Filters",
-      "id": "eleventy_shortcodes_readme_shortcodes"
+      "id": "eleventy_shortcodes_readme_shortcodes",
+      "community_name": "Eleventy Filters"
     },
     {
       "label": "Contact page IA (route frontmatter)",
@@ -24043,8 +24043,8 @@
       "contributor": null,
       "community": 175,
       "norm_label": "contact page ia (route frontmatter)",
-      "community_name": "Contact page IA (route frontmatter)",
-      "id": "ia_contact"
+      "id": "ia_contact",
+      "community_name": "Contact page IA (route frontmatter)"
     },
     {
       "label": "Home page IA (route frontmatter)",
@@ -24057,8 +24057,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "home page ia (route frontmatter)",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "ia_index"
+      "id": "ia_index",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "Project page IA (route frontmatter, paginated)",
@@ -24071,8 +24071,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "project page ia (route frontmatter, paginated)",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "ia_project"
+      "id": "ia_project",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "Case Studies landing IA (route frontmatter)",
@@ -24085,8 +24085,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "case studies landing ia (route frontmatter)",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "ia_projects"
+      "id": "ia_projects",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "User Guide IA (route frontmatter)",
@@ -24099,8 +24099,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "user guide ia (route frontmatter)",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "ia_user_guide"
+      "id": "ia_user_guide",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "Web app manifest.json route",
@@ -24113,8 +24113,8 @@
       "contributor": null,
       "community": 173,
       "norm_label": "web app manifest.json route",
-      "community_name": "Web app manifest.json route",
-      "id": "ia__static_manifest_json"
+      "id": "ia__static_manifest_json",
+      "community_name": "Web app manifest.json route"
     },
     {
       "label": "Manifest Webmanifest Template",
@@ -24127,8 +24127,8 @@
       "contributor": null,
       "community": 174,
       "norm_label": "manifest webmanifest template",
-      "community_name": "Manifest Webmanifest Template",
-      "id": "ia__static_manifest_webmanifest"
+      "id": "ia__static_manifest_webmanifest",
+      "community_name": "Manifest Webmanifest Template"
     },
     {
       "label": "IA Docs Hub",
@@ -24141,8 +24141,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "ia docs hub",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_readme"
+      "id": "ia_docs_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Docs Landing Page",
@@ -24155,8 +24155,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "docs landing page",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_index"
+      "id": "ia_docs_index",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Content Strategy Docs",
@@ -24169,8 +24169,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "content strategy docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_readme"
+      "id": "ia_docs_content_strategy_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Content Graph",
@@ -24183,8 +24183,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "content graph",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_content_graph"
+      "id": "ia_docs_content_strategy_content_graph",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Content Schemas",
@@ -24197,8 +24197,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "content schemas",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas"
+      "id": "ia_docs_content_strategy_schemas",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "PROJECT Schema",
@@ -24211,8 +24211,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "project schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_project"
+      "id": "ia_docs_content_strategy_schemas_project",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "POST Schema",
@@ -24225,8 +24225,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "post schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_post"
+      "id": "ia_docs_content_strategy_schemas_post",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "AWARD Schema",
@@ -24239,8 +24239,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "award schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_award"
+      "id": "ia_docs_content_strategy_schemas_award",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "NUGGET Schema",
@@ -24253,8 +24253,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "nugget schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_nugget"
+      "id": "ia_docs_content_strategy_schemas_nugget",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "INSIGHT Schema",
@@ -24267,8 +24267,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "insight schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_insight"
+      "id": "ia_docs_content_strategy_schemas_insight",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "ORGANIZATION Schema",
@@ -24281,8 +24281,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "organization schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_organization"
+      "id": "ia_docs_content_strategy_schemas_organization",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "IMAGE_ASSET Schema",
@@ -24295,8 +24295,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "image_asset schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_image_asset"
+      "id": "ia_docs_content_strategy_schemas_image_asset",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "PERSON Schema",
@@ -24309,8 +24309,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "person schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_person"
+      "id": "ia_docs_content_strategy_schemas_person",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "LANDING Schema",
@@ -24323,8 +24323,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "landing schema",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_landing"
+      "id": "ia_docs_content_strategy_schemas_landing",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Activity Taxonomy",
@@ -24337,8 +24337,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "activity taxonomy",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_activity"
+      "id": "ia_docs_content_strategy_schemas_activity",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Role Taxonomy",
@@ -24351,8 +24351,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "role taxonomy",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_role"
+      "id": "ia_docs_content_strategy_schemas_role",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Industry Taxonomy",
@@ -24365,8 +24365,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "industry taxonomy",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_industry"
+      "id": "ia_docs_content_strategy_schemas_industry",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Outcome Taxonomy",
@@ -24379,8 +24379,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "outcome taxonomy",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_outcome"
+      "id": "ia_docs_content_strategy_schemas_outcome",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Page Object",
@@ -24393,8 +24393,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "page object",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_page"
+      "id": "ia_docs_content_strategy_schemas_page",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "ProjectMeta Object",
@@ -24407,8 +24407,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "projectmeta object",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_projectmeta"
+      "id": "ia_docs_content_strategy_schemas_projectmeta",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "ImageMeta Object",
@@ -24421,8 +24421,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "imagemeta object",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_imagemeta"
+      "id": "ia_docs_content_strategy_schemas_imagemeta",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "SeoMeta Object",
@@ -24435,8 +24435,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "seometa object",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_seometa"
+      "id": "ia_docs_content_strategy_schemas_seometa",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Activity/PrinterMarks Slug Sync",
@@ -24449,8 +24449,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "activity/printermarks slug sync",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_content_strategy_schemas_printermarks_sync"
+      "id": "ia_docs_content_strategy_schemas_printermarks_sync",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Design Docs",
@@ -24463,8 +24463,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "design docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_readme"
+      "id": "ia_docs_design_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Bio Section Design Reference",
@@ -24477,8 +24477,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "bio section design reference",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_bio_section"
+      "id": "ia_docs_design_bio_section",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Atoms Docs",
@@ -24491,8 +24491,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "atoms docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_atoms_readme"
+      "id": "ia_docs_design_atoms_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Layouts Docs",
@@ -24505,8 +24505,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "layouts docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_layouts_readme"
+      "id": "ia_docs_design_layouts_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Molecules Docs",
@@ -24519,8 +24519,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "molecules docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_molecules_readme"
+      "id": "ia_docs_design_molecules_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Organisms Docs",
@@ -24533,8 +24533,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "organisms docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_organisms_readme"
+      "id": "ia_docs_design_organisms_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Awards + Recognition Section Doc",
@@ -24547,8 +24547,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "awards + recognition section doc",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_organisms_section_awards_readme"
+      "id": "ia_docs_design_organisms_section_awards_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Mission Statement (Bio) Section Doc",
@@ -24561,8 +24561,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "mission statement (bio) section doc",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_organisms_section_bio_readme"
+      "id": "ia_docs_design_organisms_section_bio_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Templates Docs",
@@ -24575,8 +24575,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "templates docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_templates_readme"
+      "id": "ia_docs_design_templates_readme",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "IA Maps And Metadata Docs",
@@ -24589,8 +24589,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "ia maps and metadata docs",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_ia_readme_ia"
+      "id": "ia_docs_ia_readme_ia",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Frontmatter Rules",
@@ -24603,8 +24603,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "frontmatter rules",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_ia_frontmatter"
+      "id": "ia_docs_ia_frontmatter",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "README-to-Directory Permalink Rule",
@@ -24617,8 +24617,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "readme-to-directory permalink rule",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_ia_frontmatter_permalink_rule"
+      "id": "ia_docs_ia_frontmatter_permalink_rule",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "Sitemap",
@@ -24631,8 +24631,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "sitemap",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_ia_sitemap"
+      "id": "ia_docs_ia_sitemap",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "AwardsSection Macro (organisms/section/awards.njk)",
@@ -24645,8 +24645,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "awardssection macro (organisms/section/awards.njk)",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_organisms_section_awards_awardssection"
+      "id": "ia_docs_design_organisms_section_awards_awardssection",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "BioSection Macro (organisms/section/bio.njk)",
@@ -24659,8 +24659,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "biosection macro (organisms/section/bio.njk)",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_organisms_section_bio_biosection"
+      "id": "ia_docs_design_organisms_section_bio_biosection",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "cms.home[0].recognitionHeading",
@@ -24673,8 +24673,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "cms.home[0].recognitionheading",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_organisms_section_awards_recognitionheading"
+      "id": "ia_docs_design_organisms_section_awards_recognitionheading",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "cms.home[0].valuePropHeading",
@@ -24687,8 +24687,8 @@
       "contributor": null,
       "community": 12,
       "norm_label": "cms.home[0].valuepropheading",
-      "community_name": "Sanity Content Schemas",
-      "id": "ia_docs_design_organisms_section_bio_valuepropheading"
+      "id": "ia_docs_design_organisms_section_bio_valuepropheading",
+      "community_name": "Sanity Content Schemas"
     },
     {
       "label": "JS Modules Overview (README.js.md)",
@@ -24701,8 +24701,8 @@
       "contributor": null,
       "community": 81,
       "norm_label": "js modules overview (readme.js.md)",
-      "community_name": "Director Boot and Audit",
-      "id": "js_readme_js"
+      "id": "js_readme_js",
+      "community_name": "Director Boot and Audit"
     },
     {
       "label": "Getting Started with Choreography",
@@ -24715,8 +24715,8 @@
       "contributor": null,
       "community": 81,
       "norm_label": "getting started with choreography",
-      "community_name": "Director Boot and Audit",
-      "id": "js_choreography_getting_started"
+      "id": "js_choreography_getting_started",
+      "community_name": "Director Boot and Audit"
     },
     {
       "label": "Choreography System README",
@@ -24729,8 +24729,8 @@
       "contributor": null,
       "community": 81,
       "norm_label": "choreography system readme",
-      "community_name": "Director Boot and Audit",
-      "id": "js_choreography_readme_choreography"
+      "id": "js_choreography_readme_choreography",
+      "community_name": "Director Boot and Audit"
     },
     {
       "label": "Choreography Package Code Review (audit.md)",
@@ -24743,8 +24743,8 @@
       "contributor": null,
       "community": 81,
       "norm_label": "choreography package code review (audit.md)",
-      "community_name": "Director Boot and Audit",
-      "id": "js_choreography__context_audit"
+      "id": "js_choreography__context_audit",
+      "community_name": "Director Boot and Audit"
     },
     {
       "label": "Choreography Atomic Design Architecture Prompt",
@@ -24757,8 +24757,8 @@
       "contributor": null,
       "community": 81,
       "norm_label": "choreography atomic design architecture prompt",
-      "community_name": "Director Boot and Audit",
-      "id": "js_choreography__context_choreography_atomic"
+      "id": "js_choreography__context_choreography_atomic",
+      "community_name": "Director Boot and Audit"
     },
     {
       "label": "Choreography Config Package README",
@@ -24771,8 +24771,8 @@
       "contributor": null,
       "community": 315,
       "norm_label": "choreography config package readme",
-      "community_name": "Choreography Contracts README",
-      "id": "js_choreography_config_readme_config"
+      "id": "js_choreography_config_readme_config",
+      "community_name": "Choreography Contracts README"
     },
     {
       "label": "Choreography Contracts README",
@@ -24785,8 +24785,8 @@
       "contributor": null,
       "community": 315,
       "norm_label": "choreography contracts readme",
-      "community_name": "Choreography Contracts README",
-      "id": "js_choreography_config_contracts_readme_contracts"
+      "id": "js_choreography_config_contracts_readme_contracts",
+      "community_name": "Choreography Contracts README"
     },
     {
       "label": "scrolltriggers config",
@@ -24799,8 +24799,8 @@
       "contributor": null,
       "community": 355,
       "norm_label": "scrolltriggers config",
-      "community_name": "scrolltriggers config",
-      "id": "js_choreography_config_ix_scrolltriggers_scrolltriggers"
+      "id": "js_choreography_config_ix_scrolltriggers_scrolltriggers",
+      "community_name": "scrolltriggers config"
     },
     {
       "label": "Animation Manager Modules (README)",
@@ -24813,8 +24813,8 @@
       "contributor": null,
       "community": 82,
       "norm_label": "animation manager modules (readme)",
-      "community_name": "AnimationDirector API",
-      "id": "js_choreography_managers_readme_managers"
+      "id": "js_choreography_managers_readme_managers",
+      "community_name": "AnimationDirector API"
     },
     {
       "label": "Reduced-motion variant-swap contract (Awards)",
@@ -24828,8 +24828,8 @@
       "rationale": "The reduced motion profile swaps the entire award-motion variant to reduced.js so the full-motion slide.js is never built and needs no reduced branch of its own \u2014 reduced motion is handled at the variant-selection layer, not inline.",
       "community": 33,
       "norm_label": "reduced-motion variant-swap contract (awards)",
-      "community_name": "Award Motion Variants",
-      "id": "js_choreography_molecules_award_motion_reduced_variant_swap_contract"
+      "id": "js_choreography_molecules_award_motion_reduced_variant_swap_contract",
+      "community_name": "Award Motion Variants"
     },
     {
       "label": "Use `from` not `to` for fluid-dimension content reveals",
@@ -24843,8 +24843,8 @@
       "rationale": "Content uses GSAP `from` so it captures each child's laid-out position as the end state and re-reads it on refresh, avoiding a computed destination and the pin-measurement feedback loop that previously made `view` jitter when children were the trigger element.",
       "community": 33,
       "norm_label": "use `from` not `to` for fluid-dimension content reveals",
-      "community_name": "Award Motion Variants",
-      "id": "js_choreography_molecules_award_motion_slide_from_not_to_pattern"
+      "id": "js_choreography_molecules_award_motion_slide_from_not_to_pattern",
+      "community_name": "Award Motion Variants"
     },
     {
       "label": "Bio fade variant currently inert (commented out)",
@@ -24858,8 +24858,8 @@
       "rationale": "Every factory body is commented out but timelines are still built and tagged with TIMELINE_IDS so AbstractSection can bind lifecycle callbacks and the phase still completes, just playing nothing; distinct from bio reduced.js which is intentionally empty by design rather than by accident.",
       "community": 7,
       "norm_label": "bio fade variant currently inert (commented out)",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_molecules_bio_motion_fade_inert_state"
+      "id": "js_choreography_molecules_bio_motion_fade_inert_state",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "Gels never ScrollTrigger-pinned (fixed background container pattern)",
@@ -24873,8 +24873,8 @@
       "rationale": "Every gel is a child of #sizzle-background (fixed inset-0), so it is already positioned against the viewport and cannot scroll; pinning it would be redundant at best and could inject a pin-spacer into the background layer, so gel-sync ScrollTriggers only rewrite top/height, never pin.",
       "community": 7,
       "norm_label": "gels never scrolltrigger-pinned (fixed background container pattern)",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_molecules_bio_motion_heading_gel_never_pinned_pattern"
+      "id": "js_choreography_molecules_bio_motion_heading_gel_never_pinned_pattern",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "Bio reduced variant hides gel as correct rest state",
@@ -24888,8 +24888,8 @@
       "rationale": "gel_bio exists only as a motion device; without the wipe there is nothing for it to express, and left visible it would sit as an opaque sheet over the fixed background video \u2014 so init sets autoAlpha:0 as the correct rest state, not merely the absence of animation.",
       "community": 7,
       "norm_label": "bio reduced variant hides gel as correct rest state",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_molecules_bio_motion_reduced_hide_gel_rationale"
+      "id": "js_choreography_molecules_bio_motion_reduced_hide_gel_rationale",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "Cache/revert SplitText instance across matchMedia rebuilds",
@@ -24903,8 +24903,8 @@
       "rationale": "_buildTimeline() re-runs intro() on every matchMedia breakpoint crossing against the same already-split DOM; without caching + revert()-ing the prior SplitText instance first, a rebuild would nest split markup inside itself and corrupt both intro chars and outro line targets.",
       "community": 7,
       "norm_label": "cache/revert splittext instance across matchmedia rebuilds",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_molecules_bio_motion_split_split_cache_pattern"
+      "id": "js_choreography_molecules_bio_motion_split_split_cache_pattern",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "bioRectAsViewportPercent conversion pattern",
@@ -24918,8 +24918,8 @@
       "rationale": "gel_bio is absolute inset-0 inside the fixed inset-0 #sizzle-background container, so its percentages resolve against the viewport, not the bio section; bioRectAsViewportPercent converts the bio section's getBoundingClientRect() into viewport percentages so the sweep doesn't blanket the fixed background video.",
       "community": 7,
       "norm_label": "biorectasviewportpercent conversion pattern",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_molecules_bio_motion_sweep_viewport_percent_conversion"
+      "id": "js_choreography_molecules_bio_motion_sweep_viewport_percent_conversion",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "Per-view WeakMap SplitText state tracking",
@@ -24933,8 +24933,8 @@
       "rationale": "Splits are tracked per-view in a module-level WeakMap so revertSplit runs first on rebuild, reverting the prior split rather than nesting wrappers; WeakMap keying means a discarded view is garbage-collected without manual cleanup.",
       "community": 7,
       "norm_label": "per-view weakmap splittext state tracking",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_molecules_hero_motion_shutter_weakmap_split_state"
+      "id": "js_choreography_molecules_hero_motion_shutter_weakmap_split_state",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "Non-literal dynamic import to keep blockframes package out of bundle",
@@ -24948,8 +24948,8 @@
       "rationale": "The js/displays/blockframes package is dynamic-imported with a non-literal specifier so esbuild leaves it out of the choreography bundle, because the package's https CDN imports can't be bundled.",
       "community": 37,
       "norm_label": "non-literal dynamic import to keep blockframes package out of bundle",
-      "community_name": "Process Blockframes Motion",
-      "id": "js_choreography_molecules_process_motion_blockframes_grid_dynamic_import_rationale"
+      "id": "js_choreography_molecules_process_motion_blockframes_grid_dynamic_import_rationale",
+      "community_name": "Process Blockframes Motion"
     },
     {
       "label": "ReducedMotionHandler manager",
@@ -24962,8 +24962,8 @@
       "contributor": null,
       "community": 48,
       "norm_label": "reducedmotionhandler manager",
-      "community_name": "Event Contracts and Managers",
-      "id": "js_choreography_managers_reducedmotionhandler"
+      "id": "js_choreography_managers_reducedmotionhandler",
+      "community_name": "Event Contracts and Managers"
     },
     {
       "label": "ScrollSmootherManager",
@@ -24976,8 +24976,8 @@
       "contributor": null,
       "community": 48,
       "norm_label": "scrollsmoothermanager",
-      "community_name": "Event Contracts and Managers",
-      "id": "js_choreography_managers_scrollsmoothermanager"
+      "id": "js_choreography_managers_scrollsmoothermanager",
+      "community_name": "Event Contracts and Managers"
     },
     {
       "label": "GelAnimationManager",
@@ -24990,8 +24990,8 @@
       "contributor": null,
       "community": 7,
       "norm_label": "gelanimationmanager",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_managers_gelanimationmanager"
+      "id": "js_choreography_managers_gelanimationmanager",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "GlobalHeaderManager",
@@ -25004,8 +25004,8 @@
       "contributor": null,
       "community": 48,
       "norm_label": "globalheadermanager",
-      "community_name": "Event Contracts and Managers",
-      "id": "js_choreography_managers_globalheadermanager"
+      "id": "js_choreography_managers_globalheadermanager",
+      "community_name": "Event Contracts and Managers"
     },
     {
       "label": "ScrollEffectsCoordinator",
@@ -25018,8 +25018,8 @@
       "contributor": null,
       "community": 48,
       "norm_label": "scrolleffectscoordinator",
-      "community_name": "Event Contracts and Managers",
-      "id": "js_choreography_managers_scrolleffectscoordinator"
+      "id": "js_choreography_managers_scrolleffectscoordinator",
+      "community_name": "Event Contracts and Managers"
     },
     {
       "label": "RulerIntroManager",
@@ -25032,8 +25032,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "rulerintromanager",
-      "community_name": "Ruler Display System",
-      "id": "js_choreography_managers_rulerintromanager"
+      "id": "js_choreography_managers_rulerintromanager",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "ProjectHeaderManager",
@@ -25046,8 +25046,8 @@
       "contributor": null,
       "community": 48,
       "norm_label": "projectheadermanager",
-      "community_name": "Event Contracts and Managers",
-      "id": "js_choreography_managers_projectheadermanager"
+      "id": "js_choreography_managers_projectheadermanager",
+      "community_name": "Event Contracts and Managers"
     },
     {
       "label": "SessionManager",
@@ -25060,8 +25060,8 @@
       "contributor": null,
       "community": 48,
       "norm_label": "sessionmanager",
-      "community_name": "Event Contracts and Managers",
-      "id": "js_choreography_managers_sessionmanager"
+      "id": "js_choreography_managers_sessionmanager",
+      "community_name": "Event Contracts and Managers"
     },
     {
       "label": "scroll-reveal-group molecule",
@@ -25074,8 +25074,8 @@
       "contributor": null,
       "community": 2,
       "norm_label": "scroll-reveal-group molecule",
-      "community_name": "Atom Motion Primitives",
-      "id": "js_choreography_molecules_scroll_reveal_group"
+      "id": "js_choreography_molecules_scroll_reveal_group",
+      "community_name": "Atom Motion Primitives"
     },
     {
       "label": "section-header-intro molecule",
@@ -25088,8 +25088,8 @@
       "contributor": null,
       "community": 2,
       "norm_label": "section-header-intro molecule",
-      "community_name": "Atom Motion Primitives",
-      "id": "js_choreography_molecules_section_header_intro"
+      "id": "js_choreography_molecules_section_header_intro",
+      "community_name": "Atom Motion Primitives"
     },
     {
       "label": "video-reveal molecule",
@@ -25102,8 +25102,8 @@
       "contributor": null,
       "community": 2,
       "norm_label": "video-reveal molecule",
-      "community_name": "Atom Motion Primitives",
-      "id": "js_choreography_molecules_video_reveal"
+      "id": "js_choreography_molecules_video_reveal",
+      "community_name": "Atom Motion Primitives"
     },
     {
       "label": "buildBlockframesReveal",
@@ -25116,8 +25116,8 @@
       "contributor": null,
       "community": 37,
       "norm_label": "buildblockframesreveal",
-      "community_name": "Process Blockframes Motion",
-      "id": "js_choreography_molecules_process_motion_reveal_buildblockframesreveal"
+      "id": "js_choreography_molecules_process_motion_reveal_buildblockframesreveal",
+      "community_name": "Process Blockframes Motion"
     },
     {
       "label": "fillBlockframesGrid",
@@ -25130,8 +25130,8 @@
       "contributor": null,
       "community": 37,
       "norm_label": "fillblockframesgrid",
-      "community_name": "Process Blockframes Motion",
-      "id": "js_choreography_molecules_process_motion_reveal_fillblockframesgrid"
+      "id": "js_choreography_molecules_process_motion_reveal_fillblockframesgrid",
+      "community_name": "Process Blockframes Motion"
     },
     {
       "label": "ui-components.animation-spec.md",
@@ -25144,8 +25144,8 @@
       "contributor": null,
       "community": 40,
       "norm_label": "ui-components.animation-spec.md",
-      "community_name": "UI Components Loop",
-      "id": "specs_animation_ui_components_animation_spec"
+      "id": "specs_animation_ui_components_animation_spec",
+      "community_name": "UI Components Loop"
     },
     {
       "label": "ui-components-loop.njk",
@@ -25158,8 +25158,8 @@
       "contributor": null,
       "community": 40,
       "norm_label": "ui-components-loop.njk",
-      "community_name": "UI Components Loop",
-      "id": "views_process_ui_components_loop"
+      "id": "views_process_ui_components_loop",
+      "community_name": "UI Components Loop"
     },
     {
       "label": "AwardsTriggers.bind()",
@@ -25172,8 +25172,8 @@
       "contributor": null,
       "community": 7,
       "norm_label": "awardstriggers.bind()",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_organisms_awards_awardstriggers_bind"
+      "id": "js_choreography_organisms_awards_awardstriggers_bind",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "BACKGROUND_TRIGGER",
@@ -25186,8 +25186,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "background_trigger",
-      "community_name": "Choreography Config Contracts",
-      "id": "js_choreography_organisms_background_backgroundvideotriggers_background_trigger"
+      "id": "js_choreography_organisms_background_backgroundvideotriggers_background_trigger",
+      "community_name": "Choreography Config Contracts"
     },
     {
       "label": "BioTriggers.bind()",
@@ -25200,8 +25200,8 @@
       "contributor": null,
       "community": 7,
       "norm_label": "biotriggers.bind()",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_organisms_bio_biotriggers_bind"
+      "id": "js_choreography_organisms_bio_biotriggers_bind",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "_bindOutroPin()",
@@ -25214,8 +25214,8 @@
       "contributor": null,
       "community": 7,
       "norm_label": "_bindoutropin()",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_organisms_bio_biotriggers_bindoutropin"
+      "id": "js_choreography_organisms_bio_biotriggers_bindoutropin",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "bio-outro-pin ScrollTrigger",
@@ -25228,8 +25228,8 @@
       "contributor": null,
       "community": 7,
       "norm_label": "bio-outro-pin scrolltrigger",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_organisms_bio_biotriggers_bio_outro_pin"
+      "id": "js_choreography_organisms_bio_biotriggers_bio_outro_pin",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "getLastWordBottom()",
@@ -25242,8 +25242,8 @@
       "contributor": null,
       "community": 10,
       "norm_label": "getlastwordbottom()",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "js_choreography_organisms_hero_heroanimations_getlastwordbottom"
+      "id": "js_choreography_organisms_hero_heroanimations_getlastwordbottom",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "HeroTriggers.bind()",
@@ -25256,8 +25256,8 @@
       "contributor": null,
       "community": 7,
       "norm_label": "herotriggers.bind()",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_organisms_hero_herotriggers_bind"
+      "id": "js_choreography_organisms_hero_herotriggers_bind",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "AbstractSection.playIntro",
@@ -25270,8 +25270,8 @@
       "contributor": null,
       "community": 7,
       "norm_label": "abstractsection.playintro",
-      "community_name": "Bio Motion Variants",
-      "id": "js_choreography_system_abstractsection_playintro"
+      "id": "js_choreography_system_abstractsection_playintro",
+      "community_name": "Bio Motion Variants"
     },
     {
       "label": "README.pages (Page Animations)",
@@ -25284,8 +25284,8 @@
       "contributor": null,
       "community": 394,
       "norm_label": "readme.pages (page animations)",
-      "community_name": "README.pages (Page Animations)",
-      "id": "js_choreography_pages_readme_pages"
+      "id": "js_choreography_pages_readme_pages",
+      "community_name": "README.pages (Page Animations)"
     },
     {
       "label": "process-motion (PROCESS_VARIANT_FACTORIES)",
@@ -25298,8 +25298,8 @@
       "contributor": null,
       "community": 10,
       "norm_label": "process-motion (process_variant_factories)",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "molecules_process_motion_process_motion"
+      "id": "molecules_process_motion_process_motion",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "process-motion/blockframes.js",
@@ -25312,8 +25312,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "process-motion/blockframes.js",
-      "community_name": "Choreography Config Contracts",
-      "id": "molecules_process_motion_blockframes"
+      "id": "molecules_process_motion_blockframes",
+      "community_name": "Choreography Config Contracts"
     },
     {
       "label": "AnimationDirector",
@@ -25326,8 +25326,8 @@
       "contributor": null,
       "community": 10,
       "norm_label": "animationdirector",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "js_choreography_system_animationdirector"
+      "id": "js_choreography_system_animationdirector",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "GelAnimationManager",
@@ -25340,8 +25340,8 @@
       "contributor": null,
       "community": 10,
       "norm_label": "gelanimationmanager",
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "id": "js_choreography_system_gelanimationmanager"
+      "id": "js_choreography_system_gelanimationmanager",
+      "community_name": "GSAP Vendor Bundle (minified)"
     },
     {
       "label": "ReducedMotionHandler",
@@ -25354,8 +25354,8 @@
       "contributor": null,
       "community": 18,
       "norm_label": "reducedmotionhandler",
-      "community_name": "Section Controllers and Bus",
-      "id": "js_choreography_system_reducedmotionhandler"
+      "id": "js_choreography_system_reducedmotionhandler",
+      "community_name": "Section Controllers and Bus"
     },
     {
       "label": "ScrollSmootherManager",
@@ -25368,8 +25368,8 @@
       "contributor": null,
       "community": 18,
       "norm_label": "scrollsmoothermanager",
-      "community_name": "Section Controllers and Bus",
-      "id": "js_choreography_system_scrollsmoothermanager"
+      "id": "js_choreography_system_scrollsmoothermanager",
+      "community_name": "Section Controllers and Bus"
     },
     {
       "label": "GlobalHeaderManager",
@@ -25382,8 +25382,8 @@
       "contributor": null,
       "community": 18,
       "norm_label": "globalheadermanager",
-      "community_name": "Section Controllers and Bus",
-      "id": "js_choreography_system_globalheadermanager"
+      "id": "js_choreography_system_globalheadermanager",
+      "community_name": "Section Controllers and Bus"
     },
     {
       "label": "ScrollEffectsCoordinator",
@@ -25396,8 +25396,8 @@
       "contributor": null,
       "community": 18,
       "norm_label": "scrolleffectscoordinator",
-      "community_name": "Section Controllers and Bus",
-      "id": "js_choreography_system_scrolleffectscoordinator"
+      "id": "js_choreography_system_scrolleffectscoordinator",
+      "community_name": "Section Controllers and Bus"
     },
     {
       "label": "BackgroundVideo (section controller)",
@@ -25410,8 +25410,8 @@
       "contributor": null,
       "community": 18,
       "norm_label": "backgroundvideo (section controller)",
-      "community_name": "Section Controllers and Bus",
-      "id": "js_choreography_organisms_backgroundvideo_backgroundvideo"
+      "id": "js_choreography_organisms_backgroundvideo_backgroundvideo",
+      "community_name": "Section Controllers and Bus"
     },
     {
       "label": "contact.njk",
@@ -25424,8 +25424,8 @@
       "contributor": null,
       "community": 17,
       "norm_label": "contact.njk",
-      "community_name": "Contact Form",
-      "id": "views_organisms_section_contact_contact"
+      "id": "views_organisms_section_contact_contact",
+      "community_name": "Contact Form"
     },
     {
       "label": "Contact Form 11ty/Sanity Serverless Email Spec",
@@ -25438,8 +25438,8 @@
       "contributor": null,
       "community": 17,
       "norm_label": "contact form 11ty/sanity serverless email spec",
-      "community_name": "Contact Form",
-      "id": "specs_contact_form_11ty_sanity_serverless_email_spec_spec"
+      "id": "specs_contact_form_11ty_sanity_serverless_email_spec_spec",
+      "community_name": "Contact Form"
     },
     {
       "label": "contactSubmission schema",
@@ -25452,8 +25452,8 @@
       "contributor": null,
       "community": 17,
       "norm_label": "contactsubmission schema",
-      "community_name": "Contact Form",
-      "id": "backend_schematypes_documents_content_contactsubmission_contactsubmission"
+      "id": "backend_schematypes_documents_content_contactsubmission_contactsubmission",
+      "community_name": "Contact Form"
     },
     {
       "label": "Displays Package (decorative & demonstration systems)",
@@ -25466,8 +25466,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "displays package (decorative & demonstration systems)",
-      "community_name": "Ruler Display System",
-      "id": "js_displays_readme_displays_displays"
+      "id": "js_displays_readme_displays_displays",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "PrinterMarks",
@@ -25480,8 +25480,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "printermarks",
-      "community_name": "Ruler Display System",
-      "id": "js_displays_printermarks_printermarks"
+      "id": "js_displays_printermarks_printermarks",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "CompositeDisplay",
@@ -25494,8 +25494,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "compositedisplay",
-      "community_name": "Ruler Display System",
-      "id": "js_displays_compositedisplay_compositedisplay"
+      "id": "js_displays_compositedisplay_compositedisplay",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "DisplayManager",
@@ -25508,8 +25508,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "displaymanager",
-      "community_name": "Ruler Display System",
-      "id": "js_displays_displaymanager_displaymanager"
+      "id": "js_displays_displaymanager_displaymanager",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "Blockframes System Architecture Doc",
@@ -25522,8 +25522,8 @@
       "contributor": null,
       "community": 95,
       "norm_label": "blockframes system architecture doc",
-      "community_name": "Blockframes System Architecture Doc",
-      "id": "js_displays_blockframes_readme_blockframes_blockframes"
+      "id": "js_displays_blockframes_readme_blockframes_blockframes",
+      "community_name": "Blockframes System Architecture Doc"
     },
     {
       "label": "Builder",
@@ -25536,8 +25536,8 @@
       "contributor": null,
       "community": 23,
       "norm_label": "builder",
-      "community_name": "Blockframes Builder",
-      "id": "js_displays_blockframes_builder_builder"
+      "id": "js_displays_blockframes_builder_builder",
+      "community_name": "Blockframes Builder"
     },
     {
       "label": "Painter",
@@ -25550,8 +25550,8 @@
       "contributor": null,
       "community": 95,
       "norm_label": "painter",
-      "community_name": "Blockframes System Architecture Doc",
-      "id": "js_displays_blockframes_painter_painter"
+      "id": "js_displays_blockframes_painter_painter",
+      "community_name": "Blockframes System Architecture Doc"
     },
     {
       "label": "Animator",
@@ -25564,8 +25564,8 @@
       "contributor": null,
       "community": 39,
       "norm_label": "animator",
-      "community_name": "Blockframes Animator",
-      "id": "js_displays_blockframes_animator_animator"
+      "id": "js_displays_blockframes_animator_animator",
+      "community_name": "Blockframes Animator"
     },
     {
       "label": "Architect",
@@ -25578,8 +25578,8 @@
       "contributor": null,
       "community": 178,
       "norm_label": "architect",
-      "community_name": "Architect",
-      "id": "js_displays_blockframes_architect_architect"
+      "id": "js_displays_blockframes_architect_architect",
+      "community_name": "Architect"
     },
     {
       "label": "Blockframes Atoms (atomic design level 1)",
@@ -25592,8 +25592,8 @@
       "contributor": null,
       "community": 95,
       "norm_label": "blockframes atoms (atomic design level 1)",
-      "community_name": "Blockframes System Architecture Doc",
-      "id": "js_displays_blockframes_atoms_readme_atoms_atoms"
+      "id": "js_displays_blockframes_atoms_readme_atoms_atoms",
+      "community_name": "Blockframes System Architecture Doc"
     },
     {
       "label": "Blockframes Layouts (positioning algorithms)",
@@ -25606,8 +25606,8 @@
       "contributor": null,
       "community": 23,
       "norm_label": "blockframes layouts (positioning algorithms)",
-      "community_name": "Blockframes Builder",
-      "id": "js_displays_blockframes_layouts_readme_layouts_layouts"
+      "id": "js_displays_blockframes_layouts_readme_layouts_layouts",
+      "community_name": "Blockframes Builder"
     },
     {
       "label": "Cloud layout",
@@ -25620,8 +25620,8 @@
       "contributor": null,
       "community": 23,
       "norm_label": "cloud layout",
-      "community_name": "Blockframes Builder",
-      "id": "js_displays_blockframes_layouts_cloud_cloud"
+      "id": "js_displays_blockframes_layouts_cloud_cloud",
+      "community_name": "Blockframes Builder"
     },
     {
       "label": "Grid layout",
@@ -25634,8 +25634,8 @@
       "contributor": null,
       "community": 23,
       "norm_label": "grid layout",
-      "community_name": "Blockframes Builder",
-      "id": "js_displays_blockframes_layouts_grid_grid"
+      "id": "js_displays_blockframes_layouts_grid_grid",
+      "community_name": "Blockframes Builder"
     },
     {
       "label": "Blockframes Molecules (atomic design level 2)",
@@ -25648,8 +25648,8 @@
       "contributor": null,
       "community": 95,
       "norm_label": "blockframes molecules (atomic design level 2)",
-      "community_name": "Blockframes System Architecture Doc",
-      "id": "js_displays_blockframes_molecules_readme_molecules_molecules"
+      "id": "js_displays_blockframes_molecules_readme_molecules_molecules",
+      "community_name": "Blockframes System Architecture Doc"
     },
     {
       "label": "Blockframes Organisms (atomic design level 3)",
@@ -25662,8 +25662,8 @@
       "contributor": null,
       "community": 95,
       "norm_label": "blockframes organisms (atomic design level 3)",
-      "community_name": "Blockframes System Architecture Doc",
-      "id": "js_displays_blockframes_organisms_readme_organisms_organisms"
+      "id": "js_displays_blockframes_organisms_readme_organisms_organisms",
+      "community_name": "Blockframes System Architecture Doc"
     },
     {
       "label": "Blockframes Templates (atomic design level 4)",
@@ -25676,8 +25676,8 @@
       "contributor": null,
       "community": 95,
       "norm_label": "blockframes templates (atomic design level 4)",
-      "community_name": "Blockframes System Architecture Doc",
-      "id": "js_displays_blockframes_templates_readme_templates_templates"
+      "id": "js_displays_blockframes_templates_readme_templates_templates",
+      "community_name": "Blockframes System Architecture Doc"
     },
     {
       "label": "Atomic Design Pattern (atoms\u2192molecules\u2192organisms\u2192templates)",
@@ -25691,8 +25691,8 @@
       "rationale": "Blockframes uses atomic design (atoms\u2192molecules\u2192organisms\u2192templates) so wireframe SVG mockups can be composed and recolored consistently, mirroring frontend component structure.",
       "community": 95,
       "norm_label": "atomic design pattern (atoms\u2192molecules\u2192organisms\u2192templates)",
-      "community_name": "Blockframes System Architecture Doc",
-      "id": "atomic_design_pattern"
+      "id": "atomic_design_pattern",
+      "community_name": "Blockframes System Architecture Doc"
     },
     {
       "label": "Effects Package (text, transitions, gel, halftone, parallax)",
@@ -25705,8 +25705,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "effects package (text, transitions, gel, halftone, parallax)",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_readme_effects_effects"
+      "id": "js_effects_readme_effects_effects",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "TextParty",
@@ -25719,8 +25719,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "textparty",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_textparty_textparty_textparty"
+      "id": "js_effects_textparty_textparty_textparty",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "SplitText wrapper",
@@ -25733,8 +25733,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "splittext wrapper",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_textparty_splittext_splittext"
+      "id": "js_effects_textparty_splittext_splittext",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "TransitionManager",
@@ -25747,8 +25747,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "transitionmanager",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_transitions_transitionmanager_transitionmanager"
+      "id": "js_effects_transitions_transitionmanager_transitionmanager",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "HalftoneFilter",
@@ -25761,8 +25761,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "halftonefilter",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_halftone_halftonefilter_halftonefilter"
+      "id": "js_effects_halftone_halftonefilter_halftonefilter",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "ShadowEffect",
@@ -25775,8 +25775,8 @@
       "contributor": null,
       "community": 209,
       "norm_label": "shadoweffect",
-      "community_name": "ShadowEffect",
-      "id": "js_effects_text_effects_shadoweffect_shadoweffect"
+      "id": "js_effects_text_effects_shadoweffect_shadoweffect",
+      "community_name": "ShadowEffect"
     },
     {
       "label": "StaggerEffect",
@@ -25789,8 +25789,8 @@
       "contributor": null,
       "community": 210,
       "norm_label": "staggereffect",
-      "community_name": "StaggerEffect",
-      "id": "js_effects_text_effects_staggereffect_staggereffect"
+      "id": "js_effects_text_effects_staggereffect_staggereffect",
+      "community_name": "StaggerEffect"
     },
     {
       "label": "BlurEffect",
@@ -25803,8 +25803,8 @@
       "contributor": null,
       "community": 208,
       "norm_label": "blureffect",
-      "community_name": "BlurEffect",
-      "id": "js_effects_text_effects_blureffect_blureffect"
+      "id": "js_effects_text_effects_blureffect_blureffect",
+      "community_name": "BlurEffect"
     },
     {
       "label": "ParallaxLayer",
@@ -25817,8 +25817,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "parallaxlayer",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_parallax_parallaxlayer_parallaxlayer"
+      "id": "js_effects_parallax_parallaxlayer_parallaxlayer",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "ParallaxGroup",
@@ -25831,8 +25831,8 @@
       "contributor": null,
       "community": 207,
       "norm_label": "parallaxgroup",
-      "community_name": "ParallaxGroup",
-      "id": "js_effects_parallax_parallaxgroup_parallaxgroup"
+      "id": "js_effects_parallax_parallaxgroup_parallaxgroup",
+      "community_name": "ParallaxGroup"
     },
     {
       "label": "prefers-reduced-motion accessibility pattern",
@@ -25846,8 +25846,8 @@
       "rationale": "All effects check reducedMotionHandler.isReducedMotion() and substitute an instant final gsap.set() state instead of animating, so motion-sensitive users get equivalent end states without vestibular triggers.",
       "community": 75,
       "norm_label": "prefers-reduced-motion accessibility pattern",
-      "community_name": "Gel Manipulator",
-      "id": "reduced_motion_accessibility_pattern"
+      "id": "reduced_motion_accessibility_pattern",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "Gel Effects Doc",
@@ -25860,8 +25860,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "gel effects doc",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_gel_readme_gel_gel"
+      "id": "js_effects_gel_readme_gel_gel",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "gel/index.js public API",
@@ -25874,8 +25874,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "gel/index.js public api",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_gel_index_index"
+      "id": "js_effects_gel_index_index",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "Transitions.js (page/section transition entry point)",
@@ -25888,8 +25888,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "transitions.js (page/section transition entry point)",
-      "community_name": "Gel Manipulator",
-      "id": "js_effects_transitions_transitions_transitions"
+      "id": "js_effects_transitions_transitions_transitions",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "Interstitials README (empty)",
@@ -25902,8 +25902,8 @@
       "contributor": null,
       "community": 211,
       "norm_label": "interstitials readme (empty)",
-      "community_name": "Interstitials README (empty)",
-      "id": "js_interstitials_readme_interstitials_interstitials"
+      "id": "js_interstitials_readme_interstitials_interstitials",
+      "community_name": "Interstitials README (empty)"
     },
     {
       "label": "Layouts package (element positioning scripts)",
@@ -25916,8 +25916,8 @@
       "contributor": null,
       "community": 212,
       "norm_label": "layouts package (element positioning scripts)",
-      "community_name": "Layouts package (element positioning scripts)",
-      "id": "js_layouts_readme_layouts_layouts"
+      "id": "js_layouts_readme_layouts_layouts",
+      "community_name": "Layouts package (element positioning scripts)"
     },
     {
       "label": "lightbox.njk",
@@ -25930,8 +25930,8 @@
       "contributor": null,
       "community": 17,
       "norm_label": "lightbox.njk",
-      "community_name": "Contact Form",
-      "id": "views_molecules_lightbox_lightbox_lightbox"
+      "id": "views_molecules_lightbox_lightbox_lightbox",
+      "community_name": "Contact Form"
     },
     {
       "label": "Progressive enhancement (no-JS fallback) pattern",
@@ -25945,8 +25945,8 @@
       "rationale": "ContactForm and Lightbox both accept that without JavaScript the trigger/form renders but does not activate \u2014 an accepted tradeoff rather than server-rendered fallback behavior.",
       "community": 17,
       "norm_label": "progressive enhancement (no-js fallback) pattern",
-      "community_name": "Contact Form",
-      "id": "progressive_enhancement_pattern"
+      "id": "progressive_enhancement_pattern",
+      "community_name": "Contact Form"
     },
     {
       "label": "preloader animations",
@@ -25959,8 +25959,8 @@
       "contributor": null,
       "community": 115,
       "norm_label": "preloader animations",
-      "community_name": "Preloader",
-      "id": "js_preloader_animations_animations"
+      "id": "js_preloader_animations_animations",
+      "community_name": "Preloader"
     },
     {
       "label": "preloader constants",
@@ -25973,8 +25973,8 @@
       "contributor": null,
       "community": 115,
       "norm_label": "preloader constants",
-      "community_name": "Preloader",
-      "id": "js_preloader_constants_constants"
+      "id": "js_preloader_constants_constants",
+      "community_name": "Preloader"
     },
     {
       "label": "preloader logger",
@@ -25987,8 +25987,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "preloader logger",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_preloader_logger_logger"
+      "id": "js_preloader_logger_logger",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "Vendor README (GSAP local-copy detection note)",
@@ -26001,8 +26001,8 @@
       "contributor": null,
       "community": 115,
       "norm_label": "vendor readme (gsap local-copy detection note)",
-      "community_name": "Preloader",
-      "id": "js_vendor_readme_vendor_vendor"
+      "id": "js_vendor_readme_vendor_vendor",
+      "community_name": "Preloader"
     },
     {
       "label": "GSAP local-copy detection for ScrollSmoother compatibility",
@@ -26016,8 +26016,8 @@
       "rationale": "The preloader checks whether GSAP is already available locally/vendored before the main GSAP + plugin bundle loads at the end of the page, so it can cooperate with ScrollSmoother if present instead of double-loading or conflicting.",
       "community": 115,
       "norm_label": "gsap local-copy detection for scrollsmoother compatibility",
-      "community_name": "Preloader",
-      "id": "gsap_scrollsmoother_local_load_pattern"
+      "id": "gsap_scrollsmoother_local_load_pattern",
+      "community_name": "Preloader"
     },
     {
       "label": "Utils package (Logger, Math, Color, Theme, Diagnostics, Tailwind)",
@@ -26030,8 +26030,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "utils package (logger, math, color, theme, diagnostics, tailwind)",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_readme_utils_utils"
+      "id": "js_utils_readme_utils_utils",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "Logger (utils, singleton)",
@@ -26044,8 +26044,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "logger (utils, singleton)",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_logger_logger_logger"
+      "id": "js_utils_logger_logger_logger",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "LoggerStyle",
@@ -26058,8 +26058,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "loggerstyle",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_logger_loggerstyle_loggerstyle"
+      "id": "js_utils_logger_loggerstyle_loggerstyle",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "LoggerStyles",
@@ -26072,8 +26072,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "loggerstyles",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_logger_loggerstyles_loggerstyles"
+      "id": "js_utils_logger_loggerstyles_loggerstyles",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "Vector2",
@@ -26086,8 +26086,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "vector2",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_math_vector_vector2"
+      "id": "js_utils_math_vector_vector2",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "Vector3",
@@ -26100,8 +26100,8 @@
       "contributor": null,
       "community": 215,
       "norm_label": "vector3",
-      "community_name": "Vector3",
-      "id": "js_utils_math_vector_vector3"
+      "id": "js_utils_math_vector_vector3",
+      "community_name": "Vector3"
     },
     {
       "label": "interpolation (lerp, easing)",
@@ -26114,8 +26114,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "interpolation (lerp, easing)",
-      "community_name": "Gel Manipulator",
-      "id": "js_utils_math_interpolation_interpolation"
+      "id": "js_utils_math_interpolation_interpolation",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "ColorSpace",
@@ -26128,8 +26128,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "colorspace",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_color_colorspace_colorspace"
+      "id": "js_utils_color_colorspace_colorspace",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "ThemeColors (color)",
@@ -26142,8 +26142,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "themecolors (color)",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_color_themecolors_themecolors"
+      "id": "js_utils_color_themecolors_themecolors",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "theme.js (dark/light mode management)",
@@ -26156,8 +26156,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "theme.js (dark/light mode management)",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_theme_theme"
+      "id": "js_utils_theme_theme",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "ScrollBlockedDiagnostic",
@@ -26170,8 +26170,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "scrollblockeddiagnostic",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_diagnostics_scrollblockeddiagnostic_scrollblockeddiagnostic"
+      "id": "js_utils_diagnostics_scrollblockeddiagnostic_scrollblockeddiagnostic",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "AccessibilityAuditor",
@@ -26184,8 +26184,8 @@
       "contributor": null,
       "community": 75,
       "norm_label": "accessibilityauditor",
-      "community_name": "Gel Manipulator",
-      "id": "js_utils_diagnostics_accessibilityauditor_accessibilityauditor"
+      "id": "js_utils_diagnostics_accessibilityauditor_accessibilityauditor",
+      "community_name": "Gel Manipulator"
     },
     {
       "label": "MemoryProfiler",
@@ -26198,8 +26198,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "memoryprofiler",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_diagnostics_memoryprofiler_memoryprofiler"
+      "id": "js_utils_diagnostics_memoryprofiler_memoryprofiler",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "ThemeTokens",
@@ -26212,8 +26212,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "themetokens",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_tailwind_themetokens_themetokens"
+      "id": "js_utils_tailwind_themetokens_themetokens",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "assetPath (getAssetPath/getImagePath/getVideoPath)",
@@ -26226,8 +26226,8 @@
       "contributor": null,
       "community": 24,
       "norm_label": "assetpath (getassetpath/getimagepath/getvideopath)",
-      "community_name": "Utils Package (Logger, Color, Math)",
-      "id": "js_utils_assetpath_assetpath"
+      "id": "js_utils_assetpath_assetpath",
+      "community_name": "Utils Package (Logger, Color, Math)"
     },
     {
       "label": "Build Automation Scripts Doc",
@@ -26240,8 +26240,8 @@
       "contributor": null,
       "community": 8,
       "norm_label": "build automation scripts doc",
-      "community_name": "Build Pipeline Scripts",
-      "id": "scripts_readme_scripts_scripts"
+      "id": "scripts_readme_scripts_scripts",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "buildChoreography.js",
@@ -26254,8 +26254,8 @@
       "contributor": null,
       "community": 8,
       "norm_label": "buildchoreography.js",
-      "community_name": "Build Pipeline Scripts",
-      "id": "scripts_buildchoreography_buildchoreography"
+      "id": "scripts_buildchoreography_buildchoreography",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "buildPreview.js",
@@ -26268,8 +26268,8 @@
       "contributor": null,
       "community": 8,
       "norm_label": "buildpreview.js",
-      "community_name": "Build Pipeline Scripts",
-      "id": "scripts_buildpreview_buildpreview"
+      "id": "scripts_buildpreview_buildpreview",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "serveSite.js",
@@ -26282,8 +26282,8 @@
       "contributor": null,
       "community": 8,
       "norm_label": "servesite.js",
-      "community_name": "Build Pipeline Scripts",
-      "id": "scripts_servesite_servesite"
+      "id": "scripts_servesite_servesite",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "scaffold.js",
@@ -26296,8 +26296,8 @@
       "contributor": null,
       "community": 8,
       "norm_label": "scaffold.js",
-      "community_name": "Build Pipeline Scripts",
-      "id": "scripts_scaffold_scaffold"
+      "id": "scripts_scaffold_scaffold",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "exportDiagrams.js",
@@ -26310,8 +26310,8 @@
       "contributor": null,
       "community": 8,
       "norm_label": "exportdiagrams.js",
-      "community_name": "Build Pipeline Scripts",
-      "id": "scripts_exportdiagrams_exportdiagrams"
+      "id": "scripts_exportdiagrams_exportdiagrams",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "clearCache.js",
@@ -26324,8 +26324,8 @@
       "contributor": null,
       "community": 8,
       "norm_label": "clearcache.js",
-      "community_name": "Build Pipeline Scripts",
-      "id": "scripts_clearcache_clearcache"
+      "id": "scripts_clearcache_clearcache",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "colorUtils.js",
@@ -26338,8 +26338,8 @@
       "contributor": null,
       "community": 217,
       "norm_label": "colorutils.js",
-      "community_name": "colorUtils.js",
-      "id": "scripts_colorutils_colorutils"
+      "id": "scripts_colorutils_colorutils",
+      "community_name": "colorUtils.js"
     },
     {
       "label": "Frontend build order (clean\u2192design\u2192css\u2192js\u2192 11ty)",
@@ -26353,8 +26353,8 @@
       "rationale": "build:design must run before build:css because Tailwind compiles against Figma-generated design tokens (styles/colors.css, fontFamilies.css); build:11ty runs last because it fetches Sanity data and consumes all prepared CSS/JS assets.",
       "community": 8,
       "norm_label": "frontend build order (clean\u2192design\u2192css\u2192js\u2192 11ty)",
-      "community_name": "Build Pipeline Scripts",
-      "id": "build_order_rationale"
+      "id": "build_order_rationale",
+      "community_name": "Build Pipeline Scripts"
     },
     {
       "label": "buildCSS.js sidecar",
@@ -26367,8 +26367,8 @@
       "contributor": null,
       "community": 44,
       "norm_label": "buildcss.js sidecar",
-      "community_name": "CSS Build Script",
-      "id": "scripts_buildcss_buildcss_doc"
+      "id": "scripts_buildcss_buildcss_doc",
+      "community_name": "CSS Build Script"
     },
     {
       "label": "Animation Specs Index",
@@ -26381,8 +26381,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "animation specs index",
-      "community_name": "Motion Specs and Tokens",
-      "id": "specs_animation_readme_animation"
+      "id": "specs_animation_readme_animation",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Awards Gel Intro/Outro Spec",
@@ -26395,8 +26395,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "awards gel intro/outro spec",
-      "community_name": "Motion Specs and Tokens",
-      "id": "specs_animation_awards_gel_intro_outro_animation_spec"
+      "id": "specs_animation_awards_gel_intro_outro_animation_spec",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Two-Gel Backing Composition Pattern",
@@ -26409,8 +26409,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "two-gel backing composition pattern",
-      "community_name": "Motion Specs and Tokens",
-      "id": "awards_gel_intro_outro_two_gel_composition"
+      "id": "awards_gel_intro_outro_two_gel_composition",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "awards.njk",
@@ -26423,8 +26423,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "awards.njk",
-      "community_name": "Project Page Data Flow",
-      "id": "views_organisms_section_awards"
+      "id": "views_organisms_section_awards",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "arrangements.js (displays config)",
@@ -26437,8 +26437,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "arrangements.js (displays config)",
-      "community_name": "Motion Specs and Tokens",
-      "id": "js_choreography_config_displays_arrangements_arrangements"
+      "id": "js_choreography_config_displays_arrangements_arrangements",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Gel.css",
@@ -26451,8 +26451,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "gel.css",
-      "community_name": "Motion Specs and Tokens",
-      "id": "styles_backgrounds_gel"
+      "id": "styles_backgrounds_gel",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Breakpoint Motion Profiles Spec",
@@ -26465,8 +26465,8 @@
       "contributor": null,
       "community": 2,
       "norm_label": "breakpoint motion profiles spec",
-      "community_name": "Atom Motion Primitives",
-      "id": "specs_animation_breakpoint_motion_profiles_animation_spec"
+      "id": "specs_animation_breakpoint_motion_profiles_animation_spec",
+      "community_name": "Atom Motion Primitives"
     },
     {
       "label": "Motion Profile Resolution Layer",
@@ -26479,8 +26479,8 @@
       "contributor": null,
       "community": 2,
       "norm_label": "motion profile resolution layer",
-      "community_name": "Atom Motion Primitives",
-      "id": "breakpoint_motion_profiles_resolution_layer"
+      "id": "breakpoint_motion_profiles_resolution_layer",
+      "community_name": "Atom Motion Primitives"
     },
     {
       "label": "Card Motion Spec",
@@ -26493,8 +26493,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "card motion spec",
-      "community_name": "work.njk",
-      "id": "specs_animation_card_motion_animation_spec"
+      "id": "specs_animation_card_motion_animation_spec",
+      "community_name": "work.njk"
     },
     {
       "label": "Card Dealt/Flicked Fish-River Metaphor",
@@ -26507,8 +26507,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "card dealt/flicked fish-river metaphor",
-      "community_name": "work.njk",
-      "id": "card_motion_dealt_flicked_metaphor"
+      "id": "card_motion_dealt_flicked_metaphor",
+      "community_name": "work.njk"
     },
     {
       "label": "Choreographer Module Spec",
@@ -26521,8 +26521,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "choreographer module spec",
-      "community_name": "Motion Specs and Tokens",
-      "id": "specs_animation_choreographer_animation_spec"
+      "id": "specs_animation_choreographer_animation_spec",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "GSAP vs Tailwind Decision Rubric",
@@ -26535,8 +26535,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "gsap vs tailwind decision rubric",
-      "community_name": "Motion Specs and Tokens",
-      "id": "choreographer_decision_rubric"
+      "id": "choreographer_decision_rubric",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "config/motion.js (token source of truth)",
@@ -26549,8 +26549,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "config/motion.js (token source of truth)",
-      "community_name": "Motion Specs and Tokens",
-      "id": "js_choreography_config_motion"
+      "id": "js_choreography_config_motion",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "tailwind.motion.config.cjs",
@@ -26563,8 +26563,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "tailwind.motion.config.cjs",
-      "community_name": "Motion Specs and Tokens",
-      "id": "js_choreography_tailwind_motion_config_cjs"
+      "id": "js_choreography_tailwind_motion_config_cjs",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Home Header Hero\u2192Menu Transition Spec",
@@ -26577,8 +26577,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "home header hero\u2192menu transition spec",
-      "community_name": "Hero to Menu Seam",
-      "id": "specs_animation_home_header_hero_to_menu_transition_animation_spec"
+      "id": "specs_animation_home_header_hero_to_menu_transition_animation_spec",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Time-Driven Hero-to-Menu Seam Pattern",
@@ -26591,8 +26591,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "time-driven hero-to-menu seam pattern",
-      "community_name": "Hero to Menu Seam",
-      "id": "home_header_time_driven_seam"
+      "id": "home_header_time_driven_seam",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Motion Accessibility Policy",
@@ -26605,8 +26605,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "motion accessibility policy",
-      "community_name": "Motion Specs and Tokens",
-      "id": "specs_animation_motion_accessibility_policy"
+      "id": "specs_animation_motion_accessibility_policy",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Reduced-Motion Default Strategy Mapping",
@@ -26619,8 +26619,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "reduced-motion default strategy mapping",
-      "community_name": "Motion Specs and Tokens",
-      "id": "motion_accessibility_reduced_motion_defaults"
+      "id": "motion_accessibility_reduced_motion_defaults",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Organizations Section Motion Spec",
@@ -26633,8 +26633,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "organizations section motion spec",
-      "community_name": "Motion Specs and Tokens",
-      "id": "specs_animation_organizations_animation_spec"
+      "id": "specs_animation_organizations_animation_spec",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Ruler Display Hybrid Spec",
@@ -26647,8 +26647,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "ruler display hybrid spec",
-      "community_name": "Ruler Display System",
-      "id": "specs_animation_ruler_display_animation_spec"
+      "id": "specs_animation_ruler_display_animation_spec",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "JS-Geometry / CSS-Presentation Hybrid Contract",
@@ -26661,8 +26661,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "js-geometry / css-presentation hybrid contract",
-      "community_name": "Ruler Display System",
-      "id": "ruler_display_hybrid_contract"
+      "id": "ruler_display_hybrid_contract",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "choreography/config/ruler.js",
@@ -26675,8 +26675,8 @@
       "contributor": null,
       "community": 15,
       "norm_label": "choreography/config/ruler.js",
-      "community_name": "Ruler Display System",
-      "id": "js_choreography_config_ruler"
+      "id": "js_choreography_config_ruler",
+      "community_name": "Ruler Display System"
     },
     {
       "label": "Section Gel Arrangements Spec (MVP)",
@@ -26689,8 +26689,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "section gel arrangements spec (mvp)",
-      "community_name": "Motion Specs and Tokens",
-      "id": "specs_animation_section_gel_arrangements_animation_spec"
+      "id": "specs_animation_section_gel_arrangements_animation_spec",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Viewport-Normalized Gel Arrangement Schema",
@@ -26703,8 +26703,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "viewport-normalized gel arrangement schema",
-      "community_name": "Motion Specs and Tokens",
-      "id": "gel_arrangements_viewport_normalized_schema"
+      "id": "gel_arrangements_viewport_normalized_schema",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "config/arrangements.js",
@@ -26717,8 +26717,8 @@
       "contributor": null,
       "community": 54,
       "norm_label": "config/arrangements.js",
-      "community_name": "Motion Specs and Tokens",
-      "id": "js_choreography_config_arrangements"
+      "id": "js_choreography_config_arrangements",
+      "community_name": "Motion Specs and Tokens"
     },
     {
       "label": "Index-and-Dwell Loop Pattern",
@@ -26731,8 +26731,8 @@
       "contributor": null,
       "community": 40,
       "norm_label": "index-and-dwell loop pattern",
-      "community_name": "UI Components Loop",
-      "id": "ui_components_index_and_dwell_pattern"
+      "id": "ui_components_index_and_dwell_pattern",
+      "community_name": "UI Components Loop"
     },
     {
       "label": "ui components anim.svg",
@@ -26745,8 +26745,8 @@
       "contributor": null,
       "community": 40,
       "norm_label": "ui components anim.svg",
-      "community_name": "UI Components Loop",
-      "id": "assets_svg_ui_components_anim"
+      "id": "assets_svg_ui_components_anim",
+      "community_name": "UI Components Loop"
     },
     {
       "label": "Work Section Navigation Spec",
@@ -26759,8 +26759,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "work section navigation spec",
-      "community_name": "work.njk",
-      "id": "specs_animation_work_section_navigation_animation_spec"
+      "id": "specs_animation_work_section_navigation_animation_spec",
+      "community_name": "work.njk"
     },
     {
       "label": "Sticky Local Nav with Scrollspy Pattern",
@@ -26773,8 +26773,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "sticky local nav with scrollspy pattern",
-      "community_name": "work.njk",
-      "id": "work_section_nav_scrollspy_pattern"
+      "id": "work_section_nav_scrollspy_pattern",
+      "community_name": "work.njk"
     },
     {
       "label": "WorkHeaderManager",
@@ -26787,8 +26787,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "workheadermanager",
-      "community_name": "work.njk",
-      "id": "js_choreography_managers_workheadermanager"
+      "id": "js_choreography_managers_workheadermanager",
+      "community_name": "work.njk"
     },
     {
       "label": "work.njk",
@@ -26801,8 +26801,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "work.njk",
-      "community_name": "work.njk",
-      "id": "views_organisms_section_work"
+      "id": "views_organisms_section_work",
+      "community_name": "work.njk"
     },
     {
       "label": "Work Section Motion Spec",
@@ -26815,8 +26815,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "work section motion spec",
-      "community_name": "work.njk",
-      "id": "specs_animation_work_animation_spec"
+      "id": "specs_animation_work_animation_spec",
+      "community_name": "work.njk"
     },
     {
       "label": "Home Page Template Spec",
@@ -26829,8 +26829,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "home page template spec",
-      "community_name": "Project Page Data Flow",
-      "id": "specs_views_home_views_spec"
+      "id": "specs_views_home_views_spec",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "Home Page Sanity-to-Template Data Flow",
@@ -26843,8 +26843,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "home page sanity-to-template data flow",
-      "community_name": "Project Page Data Flow",
-      "id": "specs_views_home_views_spec_data_flow"
+      "id": "specs_views_home_views_spec_data_flow",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "home.njk",
@@ -26857,8 +26857,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "home.njk",
-      "community_name": "Home Page Composition",
-      "id": "views_pages_home_home"
+      "id": "views_pages_home_home",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Single Project Page Template Spec",
@@ -26871,8 +26871,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "single project page template spec",
-      "community_name": "Project Page Data Flow",
-      "id": "specs_views_project_page_views_spec"
+      "id": "specs_views_project_page_views_spec",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "Project Page Sanity-to-Template Data Flow",
@@ -26885,8 +26885,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "project page sanity-to-template data flow",
-      "community_name": "Project Page Data Flow",
-      "id": "project_page_spec_data_flow"
+      "id": "project_page_spec_data_flow",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "project.njk",
@@ -26899,8 +26899,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "project.njk",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "views_pages_project_project"
+      "id": "views_pages_project_project",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "backend project.ts schema",
@@ -26913,8 +26913,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "backend project.ts schema",
-      "community_name": "Project Page Data Flow",
-      "id": "backend_schematypes_documents_content_project"
+      "id": "backend_schematypes_documents_content_project",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "User Guide Page Template Spec (stub)",
@@ -26927,8 +26927,8 @@
       "contributor": null,
       "community": 220,
       "norm_label": "user guide page template spec (stub)",
-      "community_name": "User Guide Page Template Spec (stub)",
-      "id": "specs_views_user_guide_views_spec"
+      "id": "specs_views_user_guide_views_spec",
+      "community_name": "User Guide Page Template Spec (stub)"
     },
     {
       "label": "CSS Architecture README",
@@ -26941,8 +26941,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "css architecture readme",
-      "community_name": "CSS Architecture",
-      "id": "styles_readme_styles"
+      "id": "styles_readme_styles",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "CSS Import Cascade Order Principle",
@@ -26955,8 +26955,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "css import cascade order principle",
-      "community_name": "CSS Architecture",
-      "id": "styles_import_cascade_order"
+      "id": "styles_import_cascade_order",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "main.css",
@@ -26969,8 +26969,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "main.css",
-      "community_name": "CSS Architecture",
-      "id": "styles_main"
+      "id": "styles_main",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "colors.css",
@@ -26983,8 +26983,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "colors.css",
-      "community_name": "CSS Architecture",
-      "id": "styles_colors"
+      "id": "styles_colors",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "typography/fontFamilies.css",
@@ -26997,8 +26997,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "typography/fontfamilies.css",
-      "community_name": "CSS Architecture",
-      "id": "styles_typography_fontfamilies"
+      "id": "styles_typography_fontfamilies",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "decorations.css",
@@ -27011,8 +27011,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "decorations.css",
-      "community_name": "CSS Architecture",
-      "id": "styles_decorations"
+      "id": "styles_decorations",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "base.css",
@@ -27025,8 +27025,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "base.css",
-      "community_name": "CSS Architecture",
-      "id": "styles_base"
+      "id": "styles_base",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "utilities/mask.css",
@@ -27039,8 +27039,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "utilities/mask.css",
-      "community_name": "CSS Architecture",
-      "id": "styles_utilities_mask"
+      "id": "styles_utilities_mask",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "utilities/text.css",
@@ -27053,8 +27053,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "utilities/text.css",
-      "community_name": "CSS Architecture",
-      "id": "styles_utilities_text"
+      "id": "styles_utilities_text",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "utilities/reduced-motion.css",
@@ -27067,8 +27067,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "utilities/reduced-motion.css",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "styles_utilities_reduced_motion"
+      "id": "styles_utilities_reduced_motion",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "TailwindLogger service",
@@ -27081,8 +27081,8 @@
       "contributor": null,
       "community": 78,
       "norm_label": "tailwindlogger service",
-      "community_name": "CSS Architecture",
-      "id": "styles_tailwindlogger_service"
+      "id": "styles_tailwindlogger_service",
+      "community_name": "CSS Architecture"
     },
     {
       "label": "Typography System Architecture README",
@@ -27095,8 +27095,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "typography system architecture readme",
-      "community_name": "Typography and Registry",
-      "id": "styles_typography_readme_typography"
+      "id": "styles_typography_readme_typography",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Typography Font Loading Order",
@@ -27109,8 +27109,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "typography font loading order",
-      "community_name": "Typography and Registry",
-      "id": "styles_typography_font_loading_order"
+      "id": "styles_typography_font_loading_order",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "imports.css",
@@ -27123,8 +27123,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "imports.css",
-      "community_name": "Typography and Registry",
-      "id": "styles_typography_imports_css"
+      "id": "styles_typography_imports_css",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "fontFamilies.css (auto-generated)",
@@ -27137,8 +27137,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "fontfamilies.css (auto-generated)",
-      "community_name": "Typography and Registry",
-      "id": "styles_typography_fontfamilies_css"
+      "id": "styles_typography_fontfamilies_css",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "TypographyService.js",
@@ -27151,8 +27151,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "typographyservice.js",
-      "community_name": "Typography and Registry",
-      "id": "figma_services_typographyservice"
+      "id": "figma_services_typographyservice",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Test Suite README",
@@ -27165,8 +27165,8 @@
       "contributor": null,
       "community": 113,
       "norm_label": "test suite readme",
-      "community_name": "Logger utility (js/utils/logger/index.js)",
-      "id": "test_readme"
+      "id": "test_readme",
+      "community_name": "Logger utility (js/utils/logger/index.js)"
     },
     {
       "label": "Logger Test Suite README",
@@ -27179,8 +27179,8 @@
       "contributor": null,
       "community": 113,
       "norm_label": "logger test suite readme",
-      "community_name": "Logger utility (js/utils/logger/index.js)",
-      "id": "test_logger_readme"
+      "id": "test_logger_readme",
+      "community_name": "Logger utility (js/utils/logger/index.js)"
     },
     {
       "label": "Lumberjack Browser Mode Test",
@@ -27193,8 +27193,8 @@
       "contributor": null,
       "community": 113,
       "norm_label": "lumberjack browser mode test",
-      "community_name": "Logger utility (js/utils/logger/index.js)",
-      "id": "test_lumberjack_browser_mode"
+      "id": "test_lumberjack_browser_mode",
+      "community_name": "Logger utility (js/utils/logger/index.js)"
     },
     {
       "label": "Logger utility (js/utils/logger/index.js)",
@@ -27207,8 +27207,8 @@
       "contributor": null,
       "community": 113,
       "norm_label": "logger utility (js/utils/logger/index.js)",
-      "community_name": "Logger utility (js/utils/logger/index.js)",
-      "id": "js_utils_logger_index"
+      "id": "js_utils_logger_index",
+      "community_name": "Logger utility (js/utils/logger/index.js)"
     },
     {
       "label": "Template Architecture & Component System README",
@@ -27221,8 +27221,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "template architecture & component system readme",
-      "community_name": "Typography and Registry",
-      "id": "views_readme_views"
+      "id": "views_readme_views",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Atomic Design Methodology (Atoms\u2192Molecules\u2192Organisms\u2192Templates\u2192Pages)",
@@ -27235,8 +27235,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "atomic design methodology (atoms\u2192molecules\u2192organisms\u2192templates\u2192pages)",
-      "community_name": "Typography and Registry",
-      "id": "views_atomic_design_methodology"
+      "id": "views_atomic_design_methodology",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Component Registry (_registry.njk)",
@@ -27249,8 +27249,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "component registry (_registry.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views__registry__registry"
+      "id": "views__registry__registry",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "registry macro: component",
@@ -27263,8 +27263,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "registry macro: component",
-      "community_name": "Typography and Registry",
-      "id": "views__registry__registry_component"
+      "id": "views__registry__registry_component",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "registry macro: icon",
@@ -27277,8 +27277,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "registry macro: icon",
-      "community_name": "Typography and Registry",
-      "id": "views__registry__registry_icon"
+      "id": "views__registry__registry_icon",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "registry macro: button",
@@ -27291,8 +27291,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "registry macro: button",
-      "community_name": "Typography and Registry",
-      "id": "views__registry__registry_button"
+      "id": "views__registry__registry_button",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "registry macro: listComponents",
@@ -27305,8 +27305,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "registry macro: listcomponents",
-      "community_name": "Typography and Registry",
-      "id": "views__registry__registry_listcomponents"
+      "id": "views__registry__registry_listcomponents",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "registry macro: validateComponent",
@@ -27319,8 +27319,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "registry macro: validatecomponent",
-      "community_name": "Typography and Registry",
-      "id": "views__registry__registry_validatecomponent"
+      "id": "views__registry__registry_validatecomponent",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "registry macro: designToken",
@@ -27333,8 +27333,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "registry macro: designtoken",
-      "community_name": "Typography and Registry",
-      "id": "views__registry__registry_designtoken"
+      "id": "views__registry__registry_designtoken",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Atoms Directory README",
@@ -27347,8 +27347,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "atoms directory readme",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_readme_atoms"
+      "id": "views_atoms_readme_atoms",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Atom Isolation Rule (atoms must not depend on other atoms/molecules/organisms)",
@@ -27361,8 +27361,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "atom isolation rule (atoms must not depend on other atoms/molecules/organisms)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_atom_isolation_rule"
+      "id": "views_atoms_atom_isolation_rule",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Avatar atom (avatar.njk)",
@@ -27375,8 +27375,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "avatar atom (avatar.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_avatar"
+      "id": "views_atoms_avatar",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Award atom (award.njk)",
@@ -27389,8 +27389,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "award atom (award.njk)",
-      "community_name": "Project Page Data Flow",
-      "id": "views_atoms_award"
+      "id": "views_atoms_award",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "Cta atom (cta.njk)",
@@ -27403,8 +27403,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "cta atom (cta.njk)",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_atoms_cta"
+      "id": "views_atoms_cta",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Field atom (field.njk)",
@@ -27417,8 +27417,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "field atom (field.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_field"
+      "id": "views_atoms_field",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Gel atom (gel.njk)",
@@ -27431,8 +27431,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "gel atom (gel.njk)",
-      "community_name": "Home Page Composition",
-      "id": "views_atoms_gel"
+      "id": "views_atoms_gel",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Heading atom (heading.njk)",
@@ -27445,8 +27445,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "heading atom (heading.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_heading"
+      "id": "views_atoms_heading",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Icon atom (icon.njk)",
@@ -27459,8 +27459,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "icon atom (icon.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_icon"
+      "id": "views_atoms_icon",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Input atom (input.njk)",
@@ -27473,8 +27473,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "input atom (input.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_input"
+      "id": "views_atoms_input",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Organization atom (organization.njk)",
@@ -27487,8 +27487,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "organization atom (organization.njk)",
-      "community_name": "Home Page Composition",
-      "id": "views_atoms_organization"
+      "id": "views_atoms_organization",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Pixelator atom (pixelator.njk)",
@@ -27501,8 +27501,8 @@
       "contributor": null,
       "community": 228,
       "norm_label": "pixelator atom (pixelator.njk)",
-      "community_name": "Pixelator atom (pixelator.njk)",
-      "id": "views_atoms_pixelator"
+      "id": "views_atoms_pixelator",
+      "community_name": "Pixelator atom (pixelator.njk)"
     },
     {
       "label": "Project atom (project.njk)",
@@ -27515,8 +27515,8 @@
       "contributor": null,
       "community": 229,
       "norm_label": "project atom (project.njk)",
-      "community_name": "Project atom (project.njk)",
-      "id": "views_atoms_project"
+      "id": "views_atoms_project",
+      "community_name": "Project atom (project.njk)"
     },
     {
       "label": "Textformat atom (textformat.njk)",
@@ -27529,8 +27529,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "textformat atom (textformat.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_textformat"
+      "id": "views_atoms_textformat",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Button atom (button/button.njk)",
@@ -27543,8 +27543,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "button atom (button/button.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_button_button"
+      "id": "views_atoms_button_button",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Close atom (button/close.njk)",
@@ -27557,8 +27557,8 @@
       "contributor": null,
       "community": 222,
       "norm_label": "close atom (button/close.njk)",
-      "community_name": "Close atom (button/close.njk)",
-      "id": "views_atoms_button_close"
+      "id": "views_atoms_button_close",
+      "community_name": "Close atom (button/close.njk)"
     },
     {
       "label": "Menu Toggle atom (button/menu-toggle.njk)",
@@ -27571,8 +27571,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "menu toggle atom (button/menu-toggle.njk)",
-      "community_name": "Typography and Registry",
-      "id": "views_atoms_button_menu_toggle"
+      "id": "views_atoms_button_menu_toggle",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Sanity Schema debug atom (debug/sanity-schema.njk)",
@@ -27585,8 +27585,8 @@
       "contributor": null,
       "community": 223,
       "norm_label": "sanity schema debug atom (debug/sanity-schema.njk)",
-      "community_name": "Sanity Schema debug atom (debug/sanity-schema.njk)",
-      "id": "views_atoms_debug_sanity_schema"
+      "id": "views_atoms_debug_sanity_schema",
+      "community_name": "Sanity Schema debug atom (debug/sanity-schema.njk)"
     },
     {
       "label": "hanko render macro",
@@ -27599,8 +27599,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "hanko render macro",
-      "community_name": "Hero to Menu Seam",
-      "id": "views_atoms_hanko_hanko_render"
+      "id": "views_atoms_hanko_hanko_render",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Breadcrumb component",
@@ -27613,8 +27613,8 @@
       "contributor": null,
       "community": 224,
       "norm_label": "breadcrumb component",
-      "community_name": "Breadcrumb component",
-      "id": "views_atoms_link_breadcrumb_breadcrumb"
+      "id": "views_atoms_link_breadcrumb_breadcrumb",
+      "community_name": "Breadcrumb component"
     },
     {
       "label": "Link component",
@@ -27627,8 +27627,8 @@
       "contributor": null,
       "community": 165,
       "norm_label": "link component",
-      "community_name": "External Link icon",
-      "id": "views_atoms_link_link_link"
+      "id": "views_atoms_link_link_link",
+      "community_name": "External Link icon"
     },
     {
       "label": "External Link icon",
@@ -27641,8 +27641,8 @@
       "contributor": null,
       "community": 165,
       "norm_label": "external link icon",
-      "community_name": "External Link icon",
-      "id": "views_atoms_icon_external_link"
+      "id": "views_atoms_icon_external_link",
+      "community_name": "External Link icon"
     },
     {
       "label": "nav-link render macro",
@@ -27655,8 +27655,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "nav-link render macro",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_atoms_link_nav_link_render"
+      "id": "views_atoms_link_nav_link_render",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Icon component",
@@ -27669,8 +27669,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "icon component",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_atoms_icon_icon"
+      "id": "views_atoms_icon_icon",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "site-title render macro",
@@ -27683,8 +27683,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "site-title render macro",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_atoms_link_site_title_render"
+      "id": "views_atoms_link_site_title_render",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "LoaderIndicator render macro",
@@ -27697,8 +27697,8 @@
       "contributor": null,
       "community": 225,
       "norm_label": "loaderindicator render macro",
-      "community_name": "LoaderIndicator render macro",
-      "id": "views_atoms_loader_loaderindicator_render"
+      "id": "views_atoms_loader_loaderindicator_render",
+      "community_name": "LoaderIndicator render macro"
     },
     {
       "label": "LoaderMark render macro",
@@ -27711,8 +27711,8 @@
       "contributor": null,
       "community": 226,
       "norm_label": "loadermark render macro",
-      "community_name": "LoaderMark render macro",
-      "id": "views_atoms_loader_loadermark_render"
+      "id": "views_atoms_loader_loadermark_render",
+      "community_name": "LoaderMark render macro"
     },
     {
       "label": "LoaderText render macro",
@@ -27725,8 +27725,8 @@
       "contributor": null,
       "community": 227,
       "norm_label": "loadertext render macro",
-      "community_name": "LoaderText render macro",
-      "id": "views_atoms_loader_loadertext_render"
+      "id": "views_atoms_loader_loadertext_render",
+      "community_name": "LoaderText render macro"
     },
     {
       "label": "ink-marks render macro",
@@ -27739,8 +27739,8 @@
       "contributor": null,
       "community": 135,
       "norm_label": "ink-marks render macro",
-      "community_name": "ink-marks render macro",
-      "id": "views_atoms_printmarks_ink_marks_render"
+      "id": "views_atoms_printmarks_ink_marks_render",
+      "community_name": "ink-marks render macro"
     },
     {
       "label": "neutrals render macro",
@@ -27753,8 +27753,8 @@
       "contributor": null,
       "community": 135,
       "norm_label": "neutrals render macro",
-      "community_name": "ink-marks render macro",
-      "id": "views_atoms_svg_neutrals_render"
+      "id": "views_atoms_svg_neutrals_render",
+      "community_name": "ink-marks render macro"
     },
     {
       "label": "colors render macro",
@@ -27767,8 +27767,8 @@
       "contributor": null,
       "community": 135,
       "norm_label": "colors render macro",
-      "community_name": "ink-marks render macro",
-      "id": "views_atoms_svg_colors_render"
+      "id": "views_atoms_svg_colors_render",
+      "community_name": "ink-marks render macro"
     },
     {
       "label": "margin-bleed-marks render macro",
@@ -27781,8 +27781,8 @@
       "contributor": null,
       "community": 122,
       "norm_label": "margin-bleed-marks render macro",
-      "community_name": "registration-marks render macro",
-      "id": "views_atoms_printmarks_margin_bleed_marks_render"
+      "id": "views_atoms_printmarks_margin_bleed_marks_render",
+      "community_name": "registration-marks render macro"
     },
     {
       "label": "registration-marks render macro",
@@ -27795,8 +27795,8 @@
       "contributor": null,
       "community": 122,
       "norm_label": "registration-marks render macro",
-      "community_name": "registration-marks render macro",
-      "id": "views_atoms_printmarks_registration_marks_render"
+      "id": "views_atoms_printmarks_registration_marks_render",
+      "community_name": "registration-marks render macro"
     },
     {
       "label": "registration-mark render macro",
@@ -27809,8 +27809,8 @@
       "contributor": null,
       "community": 122,
       "norm_label": "registration-mark render macro",
-      "community_name": "registration-marks render macro",
-      "id": "views_atoms_svg_registration_mark_render"
+      "id": "views_atoms_svg_registration_mark_render",
+      "community_name": "registration-marks render macro"
     },
     {
       "label": "trim-marks render macro",
@@ -27823,8 +27823,8 @@
       "contributor": null,
       "community": 122,
       "norm_label": "trim-marks render macro",
-      "community_name": "registration-marks render macro",
-      "id": "views_atoms_printmarks_trim_marks_render"
+      "id": "views_atoms_printmarks_trim_marks_render",
+      "community_name": "registration-marks render macro"
     },
     {
       "label": "blockframe-basic render macro",
@@ -27837,8 +27837,8 @@
       "contributor": null,
       "community": 107,
       "norm_label": "blockframe-basic render macro",
-      "community_name": "blockframe-basic render macro",
-      "id": "views_atoms_svg_blockframe_basic_render"
+      "id": "views_atoms_svg_blockframe_basic_render",
+      "community_name": "blockframe-basic render macro"
     },
     {
       "label": "blockframes.js",
@@ -27851,8 +27851,8 @@
       "contributor": null,
       "community": 107,
       "norm_label": "blockframes.js",
-      "community_name": "blockframe-basic render macro",
-      "id": "js_choreography_molecules_bio_motion_blockframes"
+      "id": "js_choreography_molecules_bio_motion_blockframes",
+      "community_name": "blockframe-basic render macro"
     },
     {
       "label": "bio.njk (Bio organism)",
@@ -27865,8 +27865,8 @@
       "contributor": null,
       "community": 107,
       "norm_label": "bio.njk (bio organism)",
-      "community_name": "blockframe-basic render macro",
-      "id": "views_organisms_bio_bio"
+      "id": "views_organisms_bio_bio",
+      "community_name": "blockframe-basic render macro"
     },
     {
       "label": "assets/svg/blockframes.svg",
@@ -27879,8 +27879,8 @@
       "contributor": null,
       "community": 107,
       "norm_label": "assets/svg/blockframes.svg",
-      "community_name": "blockframe-basic render macro",
-      "id": "assets_svg_blockframes"
+      "id": "assets_svg_blockframes",
+      "community_name": "blockframe-basic render macro"
     },
     {
       "label": "inline render macro",
@@ -27893,8 +27893,8 @@
       "contributor": null,
       "community": 230,
       "norm_label": "inline render macro",
-      "community_name": "inline render macro",
-      "id": "views_atoms_svg_inline_render"
+      "id": "views_atoms_svg_inline_render",
+      "community_name": "inline render macro"
     },
     {
       "label": "ui-components-loop render macro",
@@ -27907,8 +27907,8 @@
       "contributor": null,
       "community": 40,
       "norm_label": "ui-components-loop render macro",
-      "community_name": "UI Components Loop",
-      "id": "views_atoms_svg_ui_components_loop_render"
+      "id": "views_atoms_svg_ui_components_loop_render",
+      "community_name": "UI Components Loop"
     },
     {
       "label": "data-process-el=uicomponents hook family",
@@ -27921,8 +27921,8 @@
       "contributor": null,
       "community": 40,
       "norm_label": "data-process-el=uicomponents hook family",
-      "community_name": "UI Components Loop",
-      "id": "data_process_el_uicomponents"
+      "id": "data_process_el_uicomponents",
+      "community_name": "UI Components Loop"
     },
     {
       "label": "Video Embed component",
@@ -27935,8 +27935,8 @@
       "contributor": null,
       "community": 166,
       "norm_label": "video embed component",
-      "community_name": "video render macro",
-      "id": "views_atoms_video_video_embed_video_embed"
+      "id": "views_atoms_video_video_embed_video_embed",
+      "community_name": "video render macro"
     },
     {
       "label": "video render macro",
@@ -27949,8 +27949,8 @@
       "contributor": null,
       "community": 166,
       "norm_label": "video render macro",
-      "community_name": "video render macro",
-      "id": "views_atoms_video_video_render"
+      "id": "views_atoms_video_video_render",
+      "community_name": "video render macro"
     },
     {
       "label": "README.layouts.md",
@@ -27963,8 +27963,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "readme.layouts.md",
-      "community_name": "Page Layouts",
-      "id": "views_layouts_readme_layouts"
+      "id": "views_layouts_readme_layouts",
+      "community_name": "Page Layouts"
     },
     {
       "label": "base layout",
@@ -27977,8 +27977,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "base layout",
-      "community_name": "Page Layouts",
-      "id": "views_layouts_base_base"
+      "id": "views_layouts_base_base",
+      "community_name": "Page Layouts"
     },
     {
       "label": "global-header organism",
@@ -27991,8 +27991,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "global-header organism",
-      "community_name": "Page Layouts",
-      "id": "views_organisms_header_global_header"
+      "id": "views_organisms_header_global_header",
+      "community_name": "Page Layouts"
     },
     {
       "label": "global-footer organism",
@@ -28005,8 +28005,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "global-footer organism",
-      "community_name": "Home Page Composition",
-      "id": "views_organisms_footer_global_footer"
+      "id": "views_organisms_footer_global_footer",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "breadcrumbs-nav organism",
@@ -28019,8 +28019,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "breadcrumbs-nav organism",
-      "community_name": "Page Layouts",
-      "id": "views_organisms_navigation_breadcrumbs_nav"
+      "id": "views_organisms_navigation_breadcrumbs_nav",
+      "community_name": "Page Layouts"
     },
     {
       "label": "cols-2-after layout",
@@ -28033,8 +28033,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "cols-2-after layout",
-      "community_name": "Page Layouts",
-      "id": "views_layouts_cols_2_after_cols_2_after"
+      "id": "views_layouts_cols_2_after_cols_2_after",
+      "community_name": "Page Layouts"
     },
     {
       "label": "docs-nav organism",
@@ -28047,8 +28047,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "docs-nav organism",
-      "community_name": "Page Layouts",
-      "id": "views_organisms_navigation_docs_nav"
+      "id": "views_organisms_navigation_docs_nav",
+      "community_name": "Page Layouts"
     },
     {
       "label": "cols-2-before layout",
@@ -28061,8 +28061,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "cols-2-before layout",
-      "community_name": "Page Layouts",
-      "id": "views_layouts_cols_2_before_cols_2_before"
+      "id": "views_layouts_cols_2_before_cols_2_before",
+      "community_name": "Page Layouts"
     },
     {
       "label": "Cols 3 Layout",
@@ -28075,8 +28075,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "cols 3 layout",
-      "community_name": "Page Layouts",
-      "id": "views_layouts_cols_3"
+      "id": "views_layouts_cols_3",
+      "community_name": "Page Layouts"
     },
     {
       "label": "Storyboards Layout",
@@ -28089,8 +28089,8 @@
       "contributor": null,
       "community": 231,
       "norm_label": "storyboards layout",
-      "community_name": "Storyboards Layout",
-      "id": "views_layouts_storyboards"
+      "id": "views_layouts_storyboards",
+      "community_name": "Storyboards Layout"
     },
     {
       "label": "Molecules Directory README",
@@ -28103,8 +28103,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "molecules directory readme",
-      "community_name": "Typography and Registry",
-      "id": "views_molecules_readme"
+      "id": "views_molecules_readme",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Callout Molecule",
@@ -28117,8 +28117,8 @@
       "contributor": null,
       "community": 232,
       "norm_label": "callout molecule",
-      "community_name": "Callout Molecule",
-      "id": "views_molecules_callout"
+      "id": "views_molecules_callout",
+      "community_name": "Callout Molecule"
     },
     {
       "label": "Form Molecule",
@@ -28131,8 +28131,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "form molecule",
-      "community_name": "Typography and Registry",
-      "id": "views_molecules_form"
+      "id": "views_molecules_form",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Printmarks Molecule",
@@ -28145,8 +28145,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "printmarks molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_printmarks"
+      "id": "views_molecules_printmarks",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Section Cap Molecule",
@@ -28159,8 +28159,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "section cap molecule",
-      "community_name": "Home Page Composition",
-      "id": "views_molecules_section_cap"
+      "id": "views_molecules_section_cap",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Section Playback Molecule",
@@ -28173,8 +28173,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "section playback molecule",
-      "community_name": "Home Page Composition",
-      "id": "views_molecules_section_playback"
+      "id": "views_molecules_section_playback",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Background Molecule README",
@@ -28187,8 +28187,8 @@
       "contributor": null,
       "community": 142,
       "norm_label": "background molecule readme",
-      "community_name": "StageManager.js",
-      "id": "views_molecules_background_readme"
+      "id": "views_molecules_background_readme",
+      "community_name": "StageManager.js"
     },
     {
       "label": "Sizzle Background Molecule",
@@ -28201,8 +28201,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "sizzle background molecule",
-      "community_name": "Home Page Composition",
-      "id": "views_molecules_background_sizzle_background"
+      "id": "views_molecules_background_sizzle_background",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Card Molecules README",
@@ -28215,8 +28215,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "card molecules readme",
-      "community_name": "Typography and Registry",
-      "id": "views_molecules_card_readme"
+      "id": "views_molecules_card_readme",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Award Card Molecule",
@@ -28229,8 +28229,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "award card molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_card_award"
+      "id": "views_molecules_card_award",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Card Molecule",
@@ -28243,8 +28243,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "card molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_card_card"
+      "id": "views_molecules_card_card",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Category Card Molecule",
@@ -28257,8 +28257,8 @@
       "contributor": null,
       "community": 233,
       "norm_label": "category card molecule",
-      "community_name": "Category Card Molecule",
-      "id": "views_molecules_card_category"
+      "id": "views_molecules_card_category",
+      "community_name": "Category Card Molecule"
     },
     {
       "label": "Image Card Molecule",
@@ -28271,8 +28271,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "image card molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_card_image"
+      "id": "views_molecules_card_image",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Organization Card Molecule",
@@ -28285,8 +28285,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "organization card molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_card_organization"
+      "id": "views_molecules_card_organization",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Project Card Molecule",
@@ -28299,8 +28299,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "project card molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_card_project"
+      "id": "views_molecules_card_project",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Featured Image Molecule",
@@ -28313,8 +28313,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "featured image molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_figure_featured_image"
+      "id": "views_molecules_figure_featured_image",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Nav Item Molecule",
@@ -28327,8 +28327,8 @@
       "contributor": null,
       "community": 234,
       "norm_label": "nav item molecule",
-      "community_name": "Nav Item Molecule",
-      "id": "views_molecules_input_nav_item"
+      "id": "views_molecules_input_nav_item",
+      "community_name": "Nav Item Molecule"
     },
     {
       "label": "Prevnext Molecule",
@@ -28341,8 +28341,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "prevnext molecule",
-      "community_name": "Typography and Registry",
-      "id": "views_molecules_input_prevnext"
+      "id": "views_molecules_input_prevnext",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Project Nav Molecule",
@@ -28355,8 +28355,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "project nav molecule",
-      "community_name": "Typography and Registry",
-      "id": "views_molecules_input_project_nav"
+      "id": "views_molecules_input_project_nav",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Lightbox Molecule",
@@ -28369,8 +28369,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "lightbox molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_lightbox_lightbox"
+      "id": "views_molecules_lightbox_lightbox",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Activities Molecule",
@@ -28383,8 +28383,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "activities molecule",
-      "community_name": "Typography and Registry",
-      "id": "views_molecules_list_activities"
+      "id": "views_molecules_list_activities",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Awards Molecule",
@@ -28397,8 +28397,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "awards molecule",
-      "community_name": "Typography and Registry",
-      "id": "views_molecules_list_awards"
+      "id": "views_molecules_list_awards",
+      "community_name": "Typography and Registry"
     },
     {
       "label": "Cols 2 Before Layout",
@@ -28411,8 +28411,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "cols 2 before layout",
-      "community_name": "Page Layouts",
-      "id": "views_layouts_cols_2_before"
+      "id": "views_layouts_cols_2_before",
+      "community_name": "Page Layouts"
     },
     {
       "label": "Ink Marks Atom",
@@ -28425,8 +28425,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "ink marks atom",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_atoms_printmarks_ink_marks"
+      "id": "views_atoms_printmarks_ink_marks",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Trim Marks Atom",
@@ -28439,8 +28439,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "trim marks atom",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_atoms_printmarks_trim_marks"
+      "id": "views_atoms_printmarks_trim_marks",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Margin Bleed Marks Atom",
@@ -28453,8 +28453,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "margin bleed marks atom",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_atoms_printmarks_margin_bleed_marks"
+      "id": "views_atoms_printmarks_margin_bleed_marks",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "Registration Marks Atom",
@@ -28467,8 +28467,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "registration marks atom",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_atoms_printmarks_registration_marks"
+      "id": "views_atoms_printmarks_registration_marks",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "BuildInfoManager.js",
@@ -28481,8 +28481,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "buildinfomanager.js",
-      "community_name": "Home Page Composition",
-      "id": "js_choreography_organisms_bio_buildinfomanager"
+      "id": "js_choreography_organisms_bio_buildinfomanager",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "HomeHeaderManager.js",
@@ -28495,8 +28495,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "homeheadermanager.js",
-      "community_name": "Home Page Composition",
-      "id": "js_choreography_organisms_homeheadermanager"
+      "id": "js_choreography_organisms_homeheadermanager",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "WorkNavManager.js",
@@ -28509,8 +28509,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "worknavmanager.js",
-      "community_name": "Home Page Composition",
-      "id": "js_choreography_organisms_worknavmanager"
+      "id": "js_choreography_organisms_worknavmanager",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "StageManager.js",
@@ -28523,8 +28523,8 @@
       "contributor": null,
       "community": 142,
       "norm_label": "stagemanager.js",
-      "community_name": "StageManager.js",
-      "id": "js_choreography_stagemanager"
+      "id": "js_choreography_stagemanager",
+      "community_name": "StageManager.js"
     },
     {
       "label": "Video Atom",
@@ -28537,8 +28537,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "video atom",
-      "community_name": "Home Page Composition",
-      "id": "views_atoms_video_video"
+      "id": "views_atoms_video_video",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Stats Molecule",
@@ -28551,8 +28551,8 @@
       "contributor": null,
       "community": 50,
       "norm_label": "stats molecule",
-      "community_name": "Printmarks and Section Atoms",
-      "id": "views_molecules_stats_stats"
+      "id": "views_molecules_stats_stats",
+      "community_name": "Printmarks and Section Atoms"
     },
     {
       "label": "BuildInfo.render macro",
@@ -28565,8 +28565,8 @@
       "contributor": null,
       "community": 11,
       "norm_label": "buildinfo.render macro",
-      "community_name": "Sanity to 11ty Collections",
-      "id": "views_molecules_list_build_info_render"
+      "id": "views_molecules_list_build_info_render",
+      "community_name": "Sanity to 11ty Collections"
     },
     {
       "label": "Child Pages component",
@@ -28579,8 +28579,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "child pages component",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_molecules_list_child_pages"
+      "id": "views_molecules_list_child_pages",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Design Pages component",
@@ -28593,8 +28593,8 @@
       "contributor": null,
       "community": 235,
       "norm_label": "design pages component",
-      "community_name": "Design Pages component",
-      "id": "views_molecules_list_design_pages"
+      "id": "views_molecules_list_design_pages",
+      "community_name": "Design Pages component"
     },
     {
       "label": "Projects By Industry render macro",
@@ -28607,8 +28607,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "projects by industry render macro",
-      "community_name": "Hero to Menu Seam",
-      "id": "views_molecules_list_industry_links_render"
+      "id": "views_molecules_list_industry_links_render",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Main Pages render macro",
@@ -28621,8 +28621,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "main pages render macro",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_molecules_list_main_pages_render"
+      "id": "views_molecules_list_main_pages_render",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Organizations component",
@@ -28635,8 +28635,8 @@
       "contributor": null,
       "community": 136,
       "norm_label": "organizations component",
-      "community_name": "Project Details component",
-      "id": "views_molecules_list_organizations"
+      "id": "views_molecules_list_organizations",
+      "community_name": "Project Details component"
     },
     {
       "label": "Project Cards render macro",
@@ -28649,8 +28649,8 @@
       "contributor": null,
       "community": 236,
       "norm_label": "project cards render macro",
-      "community_name": "Project Cards render macro",
-      "id": "views_molecules_list_project_cards_render"
+      "id": "views_molecules_list_project_cards_render",
+      "community_name": "Project Cards render macro"
     },
     {
       "label": "Project Details component",
@@ -28663,8 +28663,8 @@
       "contributor": null,
       "community": 136,
       "norm_label": "project details component",
-      "community_name": "Project Details component",
-      "id": "views_molecules_list_project_details"
+      "id": "views_molecules_list_project_details",
+      "community_name": "Project Details component"
     },
     {
       "label": "ProjectOrgs.render macro",
@@ -28677,8 +28677,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "projectorgs.render macro",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "views_molecules_list_project_orgs_render"
+      "id": "views_molecules_list_project_orgs_render",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "Roles component",
@@ -28691,8 +28691,8 @@
       "contributor": null,
       "community": 136,
       "norm_label": "roles component",
-      "community_name": "Project Details component",
-      "id": "views_molecules_list_roles"
+      "id": "views_molecules_list_roles",
+      "community_name": "Project Details component"
     },
     {
       "label": "Project Metadata Band render macro",
@@ -28705,8 +28705,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "project metadata band render macro",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "views_molecules_project_metadata_project_metadata_render"
+      "id": "views_molecules_project_metadata_project_metadata_render",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "industry-section template",
@@ -28719,8 +28719,8 @@
       "contributor": null,
       "community": 237,
       "norm_label": "industry-section template",
-      "community_name": "industry-section template",
-      "id": "views_molecules_section_industry_section"
+      "id": "views_molecules_section_industry_section",
+      "community_name": "industry-section template"
     },
     {
       "label": "Stats.render macro",
@@ -28733,8 +28733,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "stats.render macro",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "views_molecules_stats_stats_render"
+      "id": "views_molecules_stats_stats_render",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "Organisms Directory README",
@@ -28747,8 +28747,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "organisms directory readme",
-      "community_name": "Page Layouts",
-      "id": "views_organisms_readme_organisms"
+      "id": "views_organisms_readme_organisms",
+      "community_name": "Page Layouts"
     },
     {
       "label": "Global Footer render macro",
@@ -28761,8 +28761,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "global footer render macro",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_organisms_footer_global_footer_render"
+      "id": "views_organisms_footer_global_footer_render",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Global Header render macro",
@@ -28775,8 +28775,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "global header render macro",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_organisms_header_global_header_render"
+      "id": "views_organisms_header_global_header_render",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Article Header render macro",
@@ -28789,8 +28789,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "article header render macro",
-      "community_name": "Hero to Menu Seam",
-      "id": "views_organisms_header_article_article_header_render"
+      "id": "views_organisms_header_article_article_header_render",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Landing Header render macro",
@@ -28803,8 +28803,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "landing header render macro",
-      "community_name": "Hero to Menu Seam",
-      "id": "views_organisms_header_landing_landing_header_render"
+      "id": "views_organisms_header_landing_landing_header_render",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Project Header render macro",
@@ -28817,8 +28817,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "project header render macro",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "views_organisms_header_project_project_header_render"
+      "id": "views_organisms_header_project_project_header_render",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "Skip Links Nav render macro",
@@ -28831,8 +28831,8 @@
       "contributor": null,
       "community": 238,
       "norm_label": "skip links nav render macro",
-      "community_name": "Skip Links Nav render macro",
-      "id": "views_organisms_navigation_article_nav_render"
+      "id": "views_organisms_navigation_article_nav_render",
+      "community_name": "Skip Links Nav render macro"
     },
     {
       "label": "Breadcrumbs Nav render macro",
@@ -28845,8 +28845,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "breadcrumbs nav render macro",
-      "community_name": "Hero to Menu Seam",
-      "id": "views_organisms_navigation_breadcrumbs_nav_render"
+      "id": "views_organisms_navigation_breadcrumbs_nav_render",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Page Nav render macro",
@@ -28859,8 +28859,8 @@
       "contributor": null,
       "community": 47,
       "norm_label": "page nav render macro",
-      "community_name": "Hero to Menu Seam",
-      "id": "views_organisms_navigation_page_nav_render"
+      "id": "views_organisms_navigation_page_nav_render",
+      "community_name": "Hero to Menu Seam"
     },
     {
       "label": "Primary Nav render macro",
@@ -28873,8 +28873,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "primary nav render macro",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_organisms_navigation_primary_nav_render"
+      "id": "views_organisms_navigation_primary_nav_render",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "README.section (organisms/section)",
@@ -28887,8 +28887,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "readme.section (organisms/section)",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_organisms_section_readme"
+      "id": "views_organisms_section_readme",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Bio",
@@ -28901,8 +28901,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "bio",
-      "community_name": "Home Page Composition",
-      "id": "views_organisms_section_bio"
+      "id": "views_organisms_section_bio",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Contact",
@@ -28915,8 +28915,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "contact",
-      "community_name": "Home Page Composition",
-      "id": "views_organisms_section_contact"
+      "id": "views_organisms_section_contact",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Hero",
@@ -28929,8 +28929,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "hero",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_organisms_section_hero"
+      "id": "views_organisms_section_hero",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Robots.txt page",
@@ -28943,8 +28943,8 @@
       "contributor": null,
       "community": 239,
       "norm_label": "robots.txt page",
-      "community_name": "Robots.txt page",
-      "id": "views_pages__static_robots_txt"
+      "id": "views_pages__static_robots_txt",
+      "community_name": "Robots.txt page"
     },
     {
       "label": "Projects page",
@@ -28957,8 +28957,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "projects page",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_pages_projects_projects"
+      "id": "views_pages_projects_projects",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "README.templates",
@@ -28971,8 +28971,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "readme.templates",
-      "community_name": "Page Layouts",
-      "id": "views_templates_readme"
+      "id": "views_templates_readme",
+      "community_name": "Page Layouts"
     },
     {
       "label": "Blog layout",
@@ -28985,8 +28985,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "blog layout",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_templates_blog_blog"
+      "id": "views_templates_blog_blog",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Case Study layout",
@@ -28999,8 +28999,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "case study layout",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_templates_case_study_case_study"
+      "id": "views_templates_case_study_case_study",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Landing layout",
@@ -29013,8 +29013,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "landing layout",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_templates_landing_landing"
+      "id": "views_templates_landing_landing",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "Choreography Script partial",
@@ -29027,8 +29027,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "choreography script partial",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "views_templates_partials_choreography_script"
+      "id": "views_templates_partials_choreography_script",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "Dev Note (console channel)",
@@ -29041,8 +29041,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "dev note (console channel)",
-      "community_name": "Home Page Composition",
-      "id": "views_templates_partials_dev_note"
+      "id": "views_templates_partials_dev_note",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "Fonts partial",
@@ -29055,8 +29055,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "fonts partial",
-      "community_name": "Page Layouts",
-      "id": "views_templates_partials_fonts"
+      "id": "views_templates_partials_fonts",
+      "community_name": "Page Layouts"
     },
     {
       "label": "GTM Script partial",
@@ -29069,8 +29069,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "gtm script partial",
-      "community_name": "Page Layouts",
-      "id": "views_templates_partials_gtm_script"
+      "id": "views_templates_partials_gtm_script",
+      "community_name": "Page Layouts"
     },
     {
       "label": "Robots partial",
@@ -29083,8 +29083,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "robots partial",
-      "community_name": "Page Layouts",
-      "id": "views_templates_partials_robots"
+      "id": "views_templates_partials_robots",
+      "community_name": "Page Layouts"
     },
     {
       "label": "inline svg atom",
@@ -29097,8 +29097,8 @@
       "contributor": null,
       "community": 55,
       "norm_label": "inline svg atom",
-      "community_name": "Project Page Data Flow",
-      "id": "views_atoms_svg_inline"
+      "id": "views_atoms_svg_inline",
+      "community_name": "Project Page Data Flow"
     },
     {
       "label": "contact form spec",
@@ -29111,8 +29111,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "contact form spec",
-      "community_name": "Home Page Composition",
-      "id": "specs_contact_form_11ty_sanity_serverless_email_spec"
+      "id": "specs_contact_form_11ty_sanity_serverless_email_spec",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "contactSubmission schema",
@@ -29125,8 +29125,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "contactsubmission schema",
-      "community_name": "Home Page Composition",
-      "id": "backend_schematypes_documents_content_contactsubmission"
+      "id": "backend_schematypes_documents_content_contactsubmission",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "hanko atom",
@@ -29139,8 +29139,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "hanko atom",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_atoms_hanko_hanko"
+      "id": "views_atoms_hanko_hanko",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "projects-by-industry molecule",
@@ -29153,8 +29153,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "projects-by-industry molecule",
-      "community_name": "work.njk",
-      "id": "views_molecules_list_projects_by_industry"
+      "id": "views_molecules_list_projects_by_industry",
+      "community_name": "work.njk"
     },
     {
       "label": "WorkHeaderManager",
@@ -29167,8 +29167,8 @@
       "contributor": null,
       "community": 100,
       "norm_label": "workheadermanager",
-      "community_name": "work.njk",
-      "id": "js_managers_workheadermanager"
+      "id": "js_managers_workheadermanager",
+      "community_name": "work.njk"
     },
     {
       "label": "ADR 0005 dev-channel narrative",
@@ -29181,8 +29181,8 @@
       "contributor": null,
       "community": 70,
       "norm_label": "adr 0005 dev-channel narrative",
-      "community_name": "Home Page Composition",
-      "id": "aix_docs_decisions_0005_dev_channel_narrative"
+      "id": "aix_docs_decisions_0005_dev_channel_narrative",
+      "community_name": "Home Page Composition"
     },
     {
       "label": "base layout",
@@ -29195,8 +29195,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "base layout",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_layouts_base"
+      "id": "views_layouts_base",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "project-header organism",
@@ -29209,8 +29209,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "project-header organism",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "views_organisms_header_project_project_header"
+      "id": "views_organisms_header_project_project_header",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "content-model project-page pattern",
@@ -29223,8 +29223,8 @@
       "contributor": null,
       "community": 61,
       "norm_label": "content-model project-page pattern",
-      "community_name": "Page IA Route Frontmatter",
-      "id": "content_model_patterns_project_page"
+      "id": "content_model_patterns_project_page",
+      "community_name": "Page IA Route Frontmatter"
     },
     {
       "label": "project-cards molecule",
@@ -29237,8 +29237,8 @@
       "contributor": null,
       "community": 89,
       "norm_label": "project-cards molecule",
-      "community_name": "Page Templates and Layouts",
-      "id": "views_molecules_list_project_cards"
+      "id": "views_molecules_list_project_cards",
+      "community_name": "Page Templates and Layouts"
     },
     {
       "label": "choreography/Director.js",
@@ -29251,8 +29251,8 @@
       "contributor": null,
       "community": 80,
       "norm_label": "choreography/director.js",
-      "community_name": "Page Layouts",
-      "id": "js_choreography_director"
+      "id": "js_choreography_director",
+      "community_name": "Page Layouts"
     }
   ],
   "links": [
@@ -63083,14 +63083,14 @@
     },
     {
       "relation": "references",
-      "confidence": "EXTRACTED",
+      "confidence": "AMBIGUOUS",
       "source_file": "views/organisms/section/process.md",
-      "source_location": "L20",
+      "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 0.2,
       "source": "views_organisms_section_process",
-      "target": "views_organisms_section_organizations",
-      "confidence_score": 1.0
+      "target": "views_organisms_section_organizations"
     },
     {
       "relation": "references",
@@ -68619,5 +68619,5 @@
       "source_file": "views/templates/partials/dev-note.md"
     }
   ],
-  "built_at_commit": "f39defff7411481376bf292e7ed78b1875515ba8"
+  "built_at_commit": "eeef4209b62aff20c2e00bb5d18706f23ee1234e"
 }

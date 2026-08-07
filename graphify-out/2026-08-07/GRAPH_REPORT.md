@@ -1,7 +1,7 @@
-# Graph Report - frontend  (2026-08-07)
+# Graph Report - frontend  (2026-08-06)
 
 ## Corpus Check
-- 750 files · ~209,953 words
+- 750 files · ~209,835 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f39defff`
+- Built from commit: `eeef4209`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -809,6 +809,8 @@ Nodes (3): CARD_DEAL_TRIGGER, CARD_FIGURE_CLIP_TRIGGER, CARD_FIGURE_PARALLAX_TRI
   data/sanity/transforms/portableText.md · relation: references
 - `bio-motion/fade.js` → `bio-motion/reduced.js`  [AMBIGUOUS]
   js/choreography/molecules/bio-motion/fade.md · relation: conceptually_related_to
+- `section/organizations.md` → `process.md`  [AMBIGUOUS]
+  views/organisms/section/process.md · relation: references
 - `CMS Services README` → `Frontend Documentation Index`  [AMBIGUOUS]
   docs/README.docs.md · relation: conceptually_related_to
 - `Blockframes Layouts (positioning algorithms)` → `Blockframes Templates (atomic design level 4)`  [AMBIGUOUS]
@@ -834,11 +836,11 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: references) - confidence is low._
 - **What is the exact relationship between `bio-motion/fade.js` and `bio-motion/reduced.js`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
+- **What is the exact relationship between `section/organizations.md` and `process.md`?**
+  _Edge tagged AMBIGUOUS (relation: references) - confidence is low._
 - **What is the exact relationship between `CMS Services README` and `Frontend Documentation Index`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
 - **What is the exact relationship between `Blockframes Layouts (positioning algorithms)` and `Blockframes Templates (atomic design level 4)`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
 - **What is the exact relationship between `video render macro` and `video render macro`?**
   _Edge tagged AMBIGUOUS (relation: references) - confidence is low._
-- **What is the exact relationship between `Image Card Molecule` and `Lightbox Molecule`?**
-  _Edge tagged AMBIGUOUS (relation: semantically_similar_to) - confidence is low._
