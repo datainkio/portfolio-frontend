@@ -1,0 +1,12 @@
+# graphify scan exclusions — gitignore syntax, anchored at this dir (the scan root).
+# Always run graphify from frontend/; the scan root is fixed (cache keys are
+# salted with the path relative to it).
+
+# Minified third-party bundles. ~105 unreadable symbols (Ad(), Bd(), ...) polluting
+# communities 10/29/34/43/77 with no analytical value.
+js/vendor/
+
+# Excluded ad-hoc in the 2026-08-06 build; recorded here so --update stays reproducible.
+figma/
+assets/
+responsive-testing/
