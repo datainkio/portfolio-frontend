@@ -1,3 +1,25 @@
+---
+title: Choreography atomic layering — original generation brief
+status: "#historical"
+tags:
+  - "#choreography"
+  - "#historical"
+  - "#prompt"
+---
+
+> [!warning] Historical prompt — not documentation, not authority.
+> This is the brief used to *generate* the atomic motion layering, kept for
+> provenance. It describes an intended design, not the system that was built,
+> and parts of it were never implemented. Two known divergences:
+>
+> - It prescribes `data-choreo="..."` hooks. The real contract is
+>   `data-<section>-el` attributes (see `config/contracts/selectors/selectors.js`).
+> - It prescribes `registry.register(name, fn)`. The real registry is a
+>   `SECTION_REGISTRY` map in `system/registry.js`.
+>
+> For how the system actually works, read `README.choreography.md` and
+> `GETTING_STARTED.md`. Do not treat anything below as current.
+
 ````md
 # ROLE
 
