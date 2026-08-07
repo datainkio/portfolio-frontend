@@ -20,51 +20,51 @@ The choreography system initializes in a specific sequence to ensure proper coor
 
 ### Automatic Initialization
 
-The system boots automatically on page load via `window.addEventListener('DOMContentLoaded')` in `main.js`:
+`AnimationDirector.js` self-boots when imported — there is nothing to call and nothing exported for booting. The module tail schedules itself, deferring construction to idle so first paint stays CSS-only:
 
 ```javascript
-// From main.js
-import { initDirector } from "./AnimationDirector.js";
-
-window.addEventListener("DOMContentLoaded", () => {
-  initDirector(); // Triggers complete choreography initialization
-});
+// Tail of AnimationDirector.js — not something you invoke
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", scheduleInit, { once: true });
+} else {
+  scheduleInit(); // → requestIdleCallback(initDirector, { timeout: 150 })
+}
 ```
+
+`initDirector` is module-local and guards against double-construction via `window.director instanceof AnimationDirector`.
 
 ### Initialization Sequence
 
-When `initDirector()` is called, the following steps occur in order:
-
 ```
-1. AnimationDirector instance created
+1. DOMContentLoaded → requestIdleCallback (setTimeout fallback)
    ↓
 2. AnimationBus created (event coordination)
    ↓
 3. ScrollEffectsCoordinator initialized (scroll/visual effects)
    ↓
-4. Section controllers instantiated:
-   - Hero section
-   - BackgroundVideo section
-   - Bio section
-   - Organizations section
+4. CardManager initialized — MUST precede sections, so throw-variant pin
+   spacers exist before the work-header pin measures the footer position
    ↓
-5. LandingSequence created (orchestrates section timing)
+5. Section controllers instantiated from SECTION_REGISTRY:
+   Hero · BackgroundVideo · Bio · Process · Awards · Organizations · Work
    ↓
-6. LandingSequence starts (plays intro animations)
+6. Global managers: GlobalHeader, HomeHeader, WorkHeader, WorkNav,
+   ProjectHeader, BuildInfo, SectionCap
    ↓
-7. Choreography active (scroll-driven animations begin)
+7. LandingSequence created (orchestrates section timing)
+   ↓
+8. window dispatches EVENTS.system.directorReady ("director:ready")
+   ↓
+9. Preloader exits → "preloader:out" → LandingSequence.start()
 ```
+
+Boot gating is `director:ready` → `preloader:out` → `LandingSequence` — never bypass it.
 
 ### Key Configuration
 
-- **DOM Requirements**: Section controllers require specific DOM elements:
-  - `#main-header` - Hero section
-  - `#sizzle-background` - Background video
-  - `#bio` - Bio section
-  - `#organizations` - Organizations section
-
-- **AnimationBus**: Created early and shared across all components for event coordination
-- **ScrollEffectsCoordinator**: Handles scroll smoothing and background effects (optional, gracefully degrades)
+- **DOM Requirements**: each section resolves its view by `id` through `SELECTORS` — see [config/contracts/selectors/selectors.js](config/contracts/selectors/selectors.js) for the current map. A section whose element is absent sets `isDisabled` and no-ops rather than throwing.
+- **AnimationBus**: created first and injected into every section; sections that receive no bus fall back to `NullAnimationBus`.
+- **ScrollEffectsCoordinator**: scroll smoothing, gels, reduced motion (optional, gracefully degrades to native scroll).
 
 ---
 
@@ -113,19 +113,25 @@ hero.destroy();
 
 ### Accessibility: Reduced Motion
 
-When the user prefers reduced motion (`prefers-reduced-motion: reduce`):
+Reduced motion is not a constructor branch — it is resolved per breakpoint through `gsap.matchMedia()`. `_setupResponsiveLifecycle()` registers `BREAKPOINT_MATCH_MEDIA_CONDITIONS`, and each match calls `_applyResponsiveLifecycle(conditions)`, which:
 
 ```javascript
-// Instead of playing animation timeline:
-// _applyPostIntroState() is called in constructor
+// 1. Resolves the motion profile for this section + breakpoint + reduceMotion
+const profile = resolveSectionMotionProfile(this.sectionKey, conditions);
 
-// This:
-// 1. Jumps timeline to end (progress = 1)
-// 2. Emits 'section:intro:complete' event
-// 3. Allows dependent sections to proceed
+// 2. Gates the lifecycle on that profile
+this._isLifecycleMotionEnabled = profile.timeline.enabled;
+
+// 3. Rebinds callbacks, skipping ScrollTriggers when the profile disables them
+this._bindCallbacks({ includeTriggers: profile.trigger.enabled });
+
+// 4. If motion just turned off, snaps to the post-intro state
+if (!profile.timeline.enabled && wasLifecycleMotionEnabled) {
+  this._applyPostIntroState(); // intro.progress(1, false) + emit introComplete
+}
 ```
 
-The section appears immediately in its final state without animation.
+`playLanding()` / `playIntro()` / `playOutro()` all early-return a resolved promise while `_isLifecycleMotionEnabled` is false, so dependent sections still proceed. The section appears immediately in its final state without animation.
 
 ---
 
@@ -146,38 +152,26 @@ In your Nunjucks template (`views/organisms/`):
 
 ### Step 2: Create Section Controller
 
-Create `js/choreography/sections/my-section/MySection.js`:
+Sections live in `js/choreography/organisms/<name>/`. `AbstractSection` takes one options object and owns the lifecycle — it resolves events from `EVENTS[sectionKey]`, so the key is the contract:
+
+Create `js/choreography/organisms/my-section/MySection.js`:
 
 ```javascript
-/**
- * MySection - Custom section animation controller
- *
- * Extends AbstractSection with custom animations for the my-section element.
- */
-
-import AbstractSection from "../abstract-section/AbstractSection.js";
+import AbstractSection from "../../system/AbstractSection.js";
+import { SELECTORS } from "../../config/index/index.js";
 import MyAnimations from "./MyAnimations.js";
 import MyTriggers from "./MyTriggers.js";
-import { EVENTS } from "../../config/events.js";
 
 export default class MySection extends AbstractSection {
-  /**
-   * Initialize section controller
-   *
-   * @param {Object} options - Configuration object
-   * @param {AnimationBus} options.bus - Event bus for coordination
-   * @param {ReducedMotionHandler} options.reducedMotionHandler - Motion preference handler
-   */
-  constructor({ bus, reducedMotionHandler } = {}) {
-    // Find DOM element
-    const elem = document.getElementById("my-section");
+  constructor({ bus = null, reducedMotionHandler, gelManager = null } = {}) {
+    const view = document.getElementById(SELECTORS.mySection);
 
-    // Create animation and trigger modules
-    const animations = new MyAnimations(elem);
-    const triggers = new MyTriggers(elem);
-
-    // Call parent constructor
-    super(elem, animations, triggers, EVENTS.mySection, bus, {
+    super({
+      view,
+      animations: new MyAnimations(view, { gelManager }),
+      triggers: new MyTriggers(view),
+      sectionKey: "mySection", // must match an EVENTS key
+      bus,
       reducedMotionHandler,
     });
   }
@@ -186,137 +180,89 @@ export default class MySection extends AbstractSection {
 
 ### Step 3: Create Animations Module
 
-Create `js/choreography/sections/my-section/MyAnimations.js`:
+Override the four phase builders. Each returns one GSAP timeline that the base class registers, pauses at 0, and plays by `TIMELINE_IDS`. Do not build a shared `this.timeline` — that pattern no longer exists. Unimplemented phases inherit an empty id-tagged timeline and no-op.
+
+Create `js/choreography/organisms/my-section/MyAnimations.js`:
 
 ```javascript
-/**
- * MyAnimations - GSAP timeline definitions
- *
- * Extends AbstractSectionAnimations to define intro and outro timelines.
- */
-
-import AbstractSectionAnimations from "../abstract-section/AbstractSectionAnimations.js";
-import { gsap } from "../../vendor/gsap.js";
+import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
+import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
+import { gsap } from "../../system/gsap.js";
 
 export default class MyAnimations extends AbstractSectionAnimations {
-  /**
-   * Define intro animation
-   *
-   * @returns {gsap.core.Timeline}
-   */
-  intro() {
-    // Build timeline
-    const tl = gsap.timeline();
-
-    tl.from(this.view, {
+  _buildIntro() {
+    return gsap.timeline({ id: TIMELINE_IDS.intro }).from(this.view, {
       opacity: 0,
       duration: 0.5,
       ease: "power2.out",
     });
-
-    // Add to shared timeline for coordination
-    this.timeline.add(tl, 0);
-
-    return this.timeline;
   }
 
-  /**
-   * Define outro animation
-   *
-   * @returns {gsap.core.Timeline}
-   */
-  outro() {
-    // Build reverse animation
-    const tl = gsap.timeline();
-
-    tl.to(this.view, {
+  _buildOutro() {
+    return gsap.timeline({ id: TIMELINE_IDS.outro }).to(this.view, {
       opacity: 0,
       duration: 0.5,
       ease: "power2.in",
     });
-
-    // Add to shared timeline
-    this.timeline.add(tl, 0);
-
-    return this.timeline;
   }
+
+  // _buildLanding() / _buildIdle() inherited as empty no-ops
 }
 ```
 
 ### Step 4: Create Triggers Module (Optional)
 
-Create `js/choreography/sections/my-section/MyTriggers.js`:
+`AbstractSectionTriggers.bind()` already creates the ScrollTrigger and wires every callback; `AbstractSection` calls it for you. Subclass only to change the trigger config via `_getTriggerDefaults()`:
+
+Create `js/choreography/organisms/my-section/MyTriggers.js`:
 
 ```javascript
-/**
- * MyTriggers - ScrollTrigger definitions
- *
- * Extends AbstractSectionTriggers to define scroll-based triggers.
- */
-
-import AbstractSectionTriggers from "../abstract-section/AbstractSectionTriggers.js";
-import { gsap, ScrollTrigger } from "../../vendor/gsap.js";
+import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 
 export default class MyTriggers extends AbstractSectionTriggers {
-  /**
-   * Create scroll-based animation triggers
-   *
-   * @param {Object} callbacks - Lifecycle callbacks
-   * @param {Function} callbacks.onEnter - Fired when section enters viewport
-   * @param {Function} callbacks.onLeave - Fired when section leaves viewport
-   */
-  bind(callbacks) {
-    ScrollTrigger.create({
-      trigger: this.view,
+  _getTriggerDefaults() {
+    return {
+      ...super._getTriggerDefaults(),
       start: "top center",
       end: "bottom center",
-      onEnter: callbacks.onEnter,
-      onLeave: callbacks.onLeave,
-      onEnterBack: callbacks.onEnterBack,
-      onLeaveBack: callbacks.onLeaveBack,
-      markers: false, // Set to true for debugging
-    });
+    };
   }
 }
 ```
 
-### Step 5: Register in Constants
+Sections that scrub should say so through the config — `AbstractSection` reads `triggers.isScrubbed()` to decide whether the landing beat auto-chains into intro.
 
-Update `js/choreography/config/events.js`:
+### Step 5: Register the Contracts
+
+Three files, all required — the section boots but stays mute if you skip the first:
 
 ```javascript
+// config/contracts/events/events.js
 export const EVENTS = {
-  // ... existing events
-  mySection: {
-    enter: "mySection:enter",
-    exit: "mySection:exit",
-    introStart: "mySection:intro:start",
-    introComplete: "mySection:intro:complete",
-    outroStart: "mySection:outro:start",
-    outroComplete: "mySection:outro:complete",
-  },
+  // ...
+  mySection: makeSectionEvents("mySection"), // never hand-type the ten keys
+};
+
+// config/contracts/selectors/selectors.js
+export const SELECTORS = {
+  // ...
+  mySection: "my-section", // the id your template renders
+};
+
+// system/registry.js
+import MySection from "../organisms/my-section/MySection.js";
+
+export const SECTION_REGISTRY = {
+  // ...
+  mySection: MySection,
 };
 ```
 
-### Step 6: Wire into AnimationDirector
+Also add a label to `getSectionName()` in the same file.
 
-Update `js/choreography/AnimationDirector.js`:
+### Step 6: Nothing to Wire
 
-```javascript
-import MySection from "./sections/my-section/MySection.js";
-
-export default class AnimationDirector {
-  constructor() {
-    // ... existing code ...
-
-    // Initialize new section
-    this.sections.mySection = new MySection({
-      bus: this.bus,
-      reducedMotionHandler: this.stage?.reducedMotion,
-    });
-  }
-}
-```
+`AnimationDirector` iterates `SECTION_REGISTRY` and constructs every entry with `{ bus, reducedMotionHandler, gelManager }`. Registering in Step 5 is the whole wiring — do not add a hand-rolled `this.sections.mySection = ...` line.
 
 ---
 
@@ -372,12 +318,16 @@ this.bus.on(EVENTS.hero.introComplete, () => {
 
 ### Event Naming Convention
 
-```
-[section]:[phase]:[status]
+All ten names per section come from `makeSectionEvents(key)` — never hand-typed:
 
-section = hero, bio, video, organizations, mySection
-phase = intro, outro, enter, exit
-status = start, complete
+```
+${key}:${phase}:${status}     phase = landing | intro | outro
+                              status = start | complete
+
+${key}:enter / ${key}:exit                 forward scroll pass
+${key}:onEnterBack / ${key}:onLeaveBack    reverse pass (camelCase, historical)
+
+key = hero, video, home, bio, process, awards, organizations, work
 
 Examples:
 - hero:intro:start (hero animation started)
@@ -386,24 +336,20 @@ Examples:
 - bio:outro:complete (bio animation finished reversing)
 ```
 
+There is no `section:` prefix and no `scroll:` segment. A section key with no `EVENTS` entry emits nothing — `_emit()` drops undefined names silently.
+
 ---
 
 ## Debugging
 
-### Enable Debug Mode
-
-```javascript
-// In browser console
-window.director.enableDebug(true); // Enable AnimationBus logging
-window.director.enableDebug(false); // Disable
-```
-
 ### Access Director API
+
+There is no `enableDebug()` — the inert `AnimationBus.enableDebug()` was removed. Modules log through scoped `lumberjack` loggers; inspect live state instead:
 
 ```javascript
 // Get section instances
 window.director.getSections();
-// → { hero, video, bio, organizations, ... }
+// → { hero, video, bio, process, awards, organizations, work }
 
 // Access specific section
 window.director.getSections().hero;
@@ -459,13 +405,13 @@ await hero.playIntro();
 ### Conditional Animation Based on Motion Preference
 
 ```javascript
-// AbstractSection constructor automatically detects:
-if (this._reducedMotionHandler?.isReducedMotion()) {
-  // Skip animation, jump to end state
-  this._applyPostIntroState();
-  return;
-}
+// Handled for you in _applyResponsiveLifecycle() — re-evaluated on every
+// breakpoint/preference change, not once in the constructor.
+const profile = resolveSectionMotionProfile(this.sectionKey, conditions);
+this._isLifecycleMotionEnabled = profile.timeline.enabled;
 ```
+
+Per-section, per-breakpoint motion profiles live in [config/ix/profiles.js](config/ix/profiles.js). Prefer declaring a reduced variant there over branching inside a timeline builder.
 
 ### Adding Custom Logic to Section Lifecycle
 
@@ -483,9 +429,9 @@ _onIntroComplete() {
 
 ## Next Steps
 
-1. **Study Existing Sections**: Review Hero, Bio, BackgroundVideo for reference implementations
+1. **Study Existing Sections**: Review Hero, Bio, Process for reference implementations
 2. **Test DOM Requirements**: Verify your section's DOM element exists before initialization
 3. **Use Events**: Listen to section events instead of tight coupling
-4. **Respect Accessibility**: Always implement reduced motion support via `_applyPostIntroState()`
+4. **Respect Accessibility**: Declare a reduced variant in [config/ix/profiles.js](config/ix/profiles.js) — the base class handles the snap-to-end via `_applyPostIntroState()`
 
-For more details, see [README.md](./README.md)
+For more details, see [README.choreography.md](./README.choreography.md)

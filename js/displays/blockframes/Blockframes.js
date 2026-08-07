@@ -65,7 +65,9 @@
  * timeline.play();
  */
 
-import { gsap } from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js";
+// jsdelivr +esm build: the cdnjs gsap.min.js is UMD and has no named ESM
+// exports, so importing it from a browser module throws a SyntaxError.
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 import * as Builder from "./Builder.js";
 import * as Painter from "./Painter.js";
 import * as Animator from "./Animator.js";
@@ -279,8 +281,8 @@ export default class Blockframes {
 
     // Capture dimensions before removal (if viewBox needs to be inferred)
     if (!svg.hasAttribute("viewBox")) {
-      const width = svg.getAttribute("width") || "100";
-      const height = svg.getAttribute("height") || "100";
+      const width = parseFloat(svg.getAttribute("width")) || 100;
+      const height = parseFloat(svg.getAttribute("height")) || 100;
       svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     }
 

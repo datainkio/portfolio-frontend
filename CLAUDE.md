@@ -21,8 +21,8 @@ Portfolio frontend: Eleventy (11ty) + Nunjucks + Tailwind v4 + GSAP + Sanity.
 Read in this order before starting any task:
 
 1. [`portfolio-frontend.md`](../aix/context/projects/portfolio-frontend.md) — stack constraints, choreography runtime snapshot, common pitfalls
-2. [`constraints.md`](dataink.io/context/constraints.md) — non-negotiables; never violate
-3. [`current-goals.md`](dataink.io/context/current-goals.md) — active work
+2. [`constraints.md`](../context/constraints.md) — non-negotiables; never violate
+3. [`current-goals.md`](../context/current-goals.md) — active work
 4. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — repo conventions, do-not-edit files, build order
 
 **Context load tier:**
@@ -53,10 +53,11 @@ npm run scaffold:component  # generate new atomic design component
 
 ## Available Agents
 
-Workspace agents live in [`../.claude/agents/`](../.claude/agents/). For GSAP / choreography work, use the skills table below — no dedicated agent exists.
+Workspace agents live in [`../.claude/agents/`](../.claude/agents/).
 
 | Agent | Use for |
 |---|---|
+| [`choreographer`](../.claude/agents/choreographer.md) | Motion, GSAP choreography, ScrollTrigger, scroll behavior, reduced-motion |
 | [`implementer`](../.claude/agents/implementer.md) | General code changes, new components, Sanity wiring |
 | [`mechanic`](../.claude/agents/mechanic.md) | Build failures, 11ty config issues, tooling errors |
 | [`reviewer`](../.claude/agents/reviewer.md) | Pre-merge checks, diff review, contract compliance |
@@ -80,14 +81,28 @@ GSAP skills are installed globally at `~/.claude/skills/`. Load only the skill t
 | `/gsap-react` | React / Next.js animation (not used in this project) |
 | `/gsap-frameworks` | Vue / Svelte / Nuxt (not used in this project) |
 
-The [`gsap` agent](.claude/agents/gsap.md) selects the right skill automatically based on task type.
+The [`choreographer` agent](../.claude/agents/choreographer.md) selects the right skill automatically based on task type.
+
+## Model Selection
+
+Frontend task tiers — applied via Agent tool `model` param when dispatching subagents:
+
+| Task type | Model |
+|---|---|
+| Choreography/motion implementation, page-level planning | `opus` (motion-timing + LCP judgment) |
+| Template/component implementation, Sanity wiring | `sonnet` |
+| Copy tweaks, sidecar docs, formatting | `haiku` |
+
+## Current Goals
+
+Domain goals: maintain [Frontend.md](../context/goals/Frontend.md) — implementation steps specific to this domain. Every goal MUST reference its parent goal in [current-goals.md](../context/current-goals.md). Update the domain file as steps complete; never fork or restate root goals locally — link to them. Root `context/current-goals.md` is the authority.
 
 ## Choreography Quick Reference
 
-Full choreography context is in the [`gsap` agent](.claude/agents/gsap.md). Fast-path pointers:
+Full choreography context is in the [`choreographer` agent](../.claude/agents/choreographer.md). Fast-path pointers:
 
-- Config barrel: [`js/choreography/config/index/index/index.js`](js/choreography/config/index/index.js)
-- Event contracts: [`js/choreography/config/contracts/events/events.js`](js/choreography/config/contracts/events/events/events.js)
+- Config barrel: [`js/choreography/config/index/index.js`](js/choreography/config/index/index.js)
+- Event contracts: [`js/choreography/config/contracts/events/events.js`](js/choreography/config/contracts/events/events.js)
 - Section registry: [`js/choreography/system/registry.js`](js/choreography/system/registry.js)
 - Boot sequence: `director:ready` → `preloader:out` → `LandingSequence` (never bypass)
 - Always emit/listen via `AnimationBus` — never call sections directly

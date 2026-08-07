@@ -23,14 +23,17 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const heroPath = join(__dirname, "../../js/choreography/sections/hero/Hero.js");
+const heroPath = join(
+  __dirname,
+  "../../js/choreography/organisms/hero/Hero.js",
+);
 const abstractSectionPath = join(
   __dirname,
-  "../../js/choreography/sections/abstract-section/AbstractSection.js",
+  "../../js/choreography/system/AbstractSection.js",
 );
 const eventsPath = join(
   __dirname,
-  "../../js/choreography/config/contracts/events.js",
+  "../../js/choreography/config/contracts/events/events.js",
 );
 
 const [heroSource, abstractSectionSource, eventsSource] = await Promise.all([
@@ -47,7 +50,7 @@ const requiredMarkers = [
   'sectionKey: "hero"',
   "this.events = EVENTS?.[sectionKey] ?? {};",
   "this.bus.emit(eventName, payload);",
-  "hero: {",
+  'hero: makeSectionEvents("hero")',
   "introStart:",
   "introComplete:",
   "outroStart:",

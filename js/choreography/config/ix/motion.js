@@ -163,6 +163,23 @@ export const BIO_INTRO = {
 };
 
 /**
+ * Bio Outro — line fade, gel expand
+ *
+ * Scrub-driven exit, two beats while the section is pinned: H2 lines fade
+ * last-to-first, then the heading gel grows from its own vertical center to
+ * fill the viewport. `pinRatio` sets the scroll (scrub) distance as a
+ * fraction of viewport height; `gelDuration` is timeline seconds for the
+ * gel beat.
+ */
+export const BIO_OUTRO = {
+  ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("fast")),
+  stagger: motion.stagger("tight"),
+  pinRatio: 1, //2.5,
+  gelDuration: toSeconds(motion.duration("slow")),
+};
+
+/**
  * Organizations Section Animation Defaults
  *
  * Includes per-item reveal behavior tuned for viewport-threshold entry.

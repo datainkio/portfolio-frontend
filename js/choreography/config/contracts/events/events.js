@@ -51,6 +51,7 @@ export const EVENTS = {
   hero: makeSectionEvents("hero"),
   organizations: makeSectionEvents("organizations"),
   bio: makeSectionEvents("bio"),
+  process: makeSectionEvents("process"),
   awards: makeSectionEvents("awards"),
   work: makeSectionEvents("work"),
   // Work section local navigation (WorkNavManager scrollspy). Broadcasts the

@@ -36,3 +36,7 @@ links:
   - "[[RulerIntro|RulerIntro]]"
   - "[[Line|Line]]"
 ---
+
+## Animation responsiveness
+
+On a resize that crosses a breakpoint, matchMedia reverts+kills that context, stripping the revealed inline styles, and the reveal only fires once (off the header intro) so it never re-applies.

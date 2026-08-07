@@ -19,9 +19,9 @@
 @font-face {
   font-family: "DraftPaper";
   src:
-    url("/assets/fonts/DRAFTPAPER.woff2") format("woff2"),
-    url("/assets/fonts/DRAFTPAPER.woff") format("woff"),
-    url("/assets/fonts/DRAFTPAPER.otf") format("opentype");
+    url("/assets/fonts/DRAFTPAPER/DRAFTPAPER.woff2") format("woff2"),
+    url("/assets/fonts/DRAFTPAPER/DRAFTPAPER.woff") format("woff"),
+    url("/assets/fonts/DRAFTPAPER/DRAFTPAPER.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;

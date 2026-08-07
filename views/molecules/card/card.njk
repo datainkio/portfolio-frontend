@@ -3,7 +3,8 @@
 {% import "molecules/stats/stats.njk" as Details %}
 {% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
 {% macro render(params = {}) %}
-  {# Note that defaults are limited. This gives the caller more control and allows them to pass in empty strings or falsy values if they want to intentionally omit something that might otherwise be pulled from a project object. #}
+
+  {#- Data guards -#}
   {%- set title = params.title -%}
   {%- set eyebrow_txt = params.eyebrow -%}
   {%- set headingLevel = params.headingLevel | default(3) -%}
@@ -12,6 +13,8 @@
   {%- set meta = params.meta | default([]) -%}
   {%- set featured = params.featured | default(false) -%}
   {%- set image = params.image -%}
+  {%- set width = image and (image.width or image.asset.metadata.dimensions.width) -%}
+  {%- set height = image and (image.height or image.asset.metadata.dimensions.height) -%}
   {%- set url = params.url -%}
   {%- set classes = params.classes -%}
   {%- set imageClasses = params.imageClasses -%}
@@ -19,73 +22,49 @@
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
-  {%- set root = {
-    "base": "text-neutral-950 bg-neutral-100 relative isolate w-full overflow-hidden isolate",
-    "md": "grid grid-cols-6 inner-border p-4 m-auto"
-  } -%}
+  {#- Styling -#}
 
-  {%- set figure = {
-    "base": "bg-black m-0 relative z-0 overflow-hidden w-full h-3/4 sticky top-0",
-    "md": "col-span-3 h-full"
-  } -%}
+  {%- set root = {"base": "relative text-neutral-950 isolate w-full", "md": "inner-border p-4"} -%}
 
-  {%- set image = {
-    "base": "w-full h-full object-cover object-center"
-  } -%}
+  {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh", "md": "h-auto aspect-video"} -%}
 
-  {%- set body = {
-    "base": "prose inner-border p-6 relative content-start bg-neutral-100",
-    "sm": "grid grid-cols-6 gap-x-2",
-    "md": "col-span-3 grid-cols-subgrid inner-border-none"
-  } -%}
+  {%- set imageCSS = {"base": "w-full h-full object-cover object-center"} -%}
 
-  {%- set eyebrow = {
-    "base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"
-  } -%}
+  {%- set body = {"base": "grid grid-cols-6 inner-border -mt-24 p-6 relative content-start bg-neutral-100", "md": "mt-0"} -%}
 
-  {%- set header = {
-    "base": "header col-span-full",
-    "sm": "col-span-4",
-    "md": "col-span-6"
-  } -%}
+  {%- set eyebrow = {"base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"} -%}
+
+  {%- set header = {"base": "header col-span-full hover:no-underline"} -%}
 
   {%- set heading = {
-    "base": "heading font-display col-span-full",
-    "sm": "text-2xl"
+    "base": "text-neutral-950 text-2xl/6 font-display py-4",
+    "sm": "text-3xl",
+    "md": "text-xl/6",
+    "xl": "text-2xl/6"
   } -%}
 
-  {%- set byline = {
-    "base": "byline text-sm font-display col-span-full"
-  } -%}
+  {%- set byline = {"base": "byline text-sm font-display"} -%}
 
-  {%- set description = {
-    "base": "hidden description text-sm col-span-full ",
-    "sm": "mt-0 block col-span-4",
-    "md": "col-span-full"
-  } -%}
+  {%- set description = {"base": "sr-only col-span-full"} -%}
 
-  {%- set stats = {
-    "base": "col-span-full grid grid-cols-2 gap-x-4",
-    "sm": "pl-2 row-span-2 row-start-1 col-start-5 col-span-2 flex flex-col border-l border-neutral-500
-     border-dashed",
-     "md": "pll-0 col-span-3 col-start-1 row-span-1 row-start-auto flex flex-col border-none"
-  } -%}
+  {%- set stats = {"base": "col-span-full text-neutral-950 [&_dt]:sr-only", "sm": "", "md": ""} -%}
 
-  {%- set footer = {
-    "base": "col-span-full text-right py-2",
-    "sm": "border-y border-neutral-500 border-dashed"
-  } -%}
+  {%- set footer = {"base": "col-span-full text-right py-2"} -%}
 
-  {%- set linky = {
-    "base": "font-display inline-block uppercase text-right"
-  } -%}
+  {%- set linky = {"base": "font-serif text-2xl italic inline-block text-right"} -%}
 
   <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
 
     {% if imageSrc %}
       <figure data-card-el="figure" class="{{ figure | classes }}">
-        {{ TrimMarks.render({ inset: "6", size: "4", weight: "1", color: "white", classes:"invisible sm:visible" }) }}
-        <img data-card-el="image" src="{{ imageSrc }}" alt="{{ imageAlt }}" class="{{ image | classes }} {{ imageClasses }}" loading="{{ 'eager' if eager else 'lazy' }}"/>
+        {{ TrimMarks.render({"inset": "6", "size": "4", "weight": "1", "color": "white", "classes": "invisible sm:visible"}) }}
+        <img data-card-el="image"
+             src="{{ imageSrc }}"
+             alt="{{ imageAlt }}"
+             width="{{ width }}"
+             height="{{ height }}"
+             class="{{ imageCSS | classes }} {{ imageClasses }}"
+             loading="{{ 'eager' if eager else 'lazy' }}" />
       </figure>
     {% endif %}
 
@@ -95,13 +74,14 @@
         {% if eyebrow_txt %}
           <p class="{{ eyebrow | classes }}">{{ eyebrow_txt }}</p>
         {% endif %}
-        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) ~ (" hover:underline" if url else "") }) }}
+        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) }) }}
         {% if byline_txt %}
           <p class="{{ byline | classes }}">{{ byline_txt }}</p>
         {% endif %}
       </header>
+
       {% if description_txt %}
-        <p class="{{ description | classes }}">{{ description_txt }}</p>
+        <p class="{{ description | classes }} font-body">{{ description_txt }}</p>
       {% endif %}
       {% if meta | length %}
         {{ Details.render({ stats: meta, classes: stats | classes }) }}
@@ -109,7 +89,7 @@
 
       <footer class="{{ footer | classes }}">
         {% if url %}
-          {{ CTA.render({ text: "View More", url: url, classes: linky | classes }) }}
+          {{ CTA.render({ text: "View", url: url, classes: linky | classes }) }}
         {% endif %}
       </footer>
 

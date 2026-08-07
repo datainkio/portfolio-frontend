@@ -8,6 +8,26 @@ const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
 
+// The gel is absolute inset-0 inside the fixed inset-0 #sizzle-background
+// container, so its left/top/width/height percentages resolve against the
+// viewport (which is also why no gel is ever ScrollTrigger-pinned).
+// Convert the bio section's own viewport rect to those same percentages so
+// the sweep is scoped to bio, not a full-viewport wipe that blankets the
+// fixed background video sitting behind it.
+const bioRectAsViewportPercent = (view) => {
+  const rect = view?.getBoundingClientRect?.();
+  if (!rect) return null;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  if (!vw || !vh) return null;
+  return {
+    left: `${(rect.left / vw) * 100}%`,
+    top: `${(rect.top / vh) * 100}%`,
+    width: `${(rect.width / vw) * 100}%`,
+    height: `${(rect.height / vh) * 100}%`,
+  };
+};
+
 export function createSweepIn(view, gelManager) {
   const gel = gelManager?.getGel?.("gel_bio") ?? null;
   const header = selectBioEl(view, "header");
@@ -16,19 +36,14 @@ export function createSweepIn(view, gelManager) {
   if (gel?.view) {
     tl.addLabel("intro");
 
-    // Reset the gel to fill the viewport, then rebuild its mask. The gel is
-    // absolute inset-0 inside the fixed inset-0 background, so 0%/0%/100%/100%
-    // resolves to the viewport. This runs as a leading timeline callback (not
-    // at build time) so it lands the moment the intro plays, and refreshes the
-    // polygon while the gel is at full size (scaleY:1) — never mid-scale, since
-    // GelGeometry measures the transformed box.
+    // Reset the gel to fill the bio section's own bounds, then rebuild its
+    // mask. This runs as a leading timeline callback (not at build time) so
+    // it lands the moment the intro plays and reads bio's current rect, and
+    // refreshes the polygon while the gel is at full size (scaleY:1) — never
+    // mid-scale, since GelGeometry measures the transformed box.
     tl.call(() => {
-      gsap.set(gel.view, {
-        left: "0%",
-        top: "0%",
-        width: "100%",
-        height: "100%",
-      });
+      const geometry = bioRectAsViewportPercent(view);
+      if (geometry) gsap.set(gel.view, geometry);
       gel.refresh();
     });
 

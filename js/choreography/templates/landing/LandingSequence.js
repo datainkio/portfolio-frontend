@@ -101,34 +101,30 @@ export class LandingSequence {
 
     on(EVENTS.video.introComplete, () => {
       this.logger.trace("BG Video intro complete");
-      this.sections?.hero?.playLanding?.();
     });
 
-    on(EVENTS.hero.onEnterBack, () => {
-      this.logger.trace(SELECTORS.hero + " entered back");
-      this._resumeBackgroundVideo();
-    });
-
-    on(EVENTS.hero.exit, () => {
-      this._pauseBackgroundVideo();
-      this.logger.trace(SELECTORS.hero + " exited");
+    // Bio reveal is time-based, not scroll-based: it plays once the home
+    // PageHeader (HomeHeaderManager) finishes its own intro. The bio
+    // ScrollTrigger still fires enter/exit for video + outro side effects,
+    // but no longer drives the reveal.
+    on(EVENTS.home.introComplete, () => {
+      this.logger.trace(SELECTORS.bio + " intro (after header intro)");
+      this.sections?.bio?.playIntro?.();
     });
 
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
-      this._pauseBackgroundVideo();
-      this.sections?.bio?.playIntro?.();
+      // this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.onEnterBack, () => {
       this.logger.trace(SELECTORS.bio + " entered back");
-      this._pauseBackgroundVideo();
-      this.sections?.bio?.playIntro?.();
+      // this._pauseBackgroundVideo();
     });
 
     on(EVENTS.bio.exit, () => {
+      // Bio playback is disengaged from scroll — no outro on scroll-out.
       this.logger.trace(SELECTORS.bio + " exited");
-      this.sections?.bio?.playOutro?.();
     });
 
     on(EVENTS.bio.onLeaveBack, () => {

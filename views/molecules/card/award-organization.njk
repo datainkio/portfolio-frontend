@@ -3,40 +3,29 @@
 {% import "atoms/svg/inline.njk" as InlineSvg %}
 
 {%- set article = {
-      base: "relative grid grid-cols-12 gap-2 px-4",
+      base: "relative flex flex-col justify-center text-center gap-2 px-4 font-display text-neutral-100",
       sm: ""
 } -%}
 {%- set logoStyle = { 
-      base: "col-span-1 w-full h-auto",
-      sm: "pl-1",
-      md: "pl-2",
-      lg: "pl-3",
-      xl: "pl-4"
-    } -%}
-{%- set contentWrapper = {
-      base: "col-span-11 justify-center",
-      sm: "border-l border-l-2 border-dotted border-black"
+      base: "size-18 mx-auto"
     } -%}
 {%- set title = {
-      base: "font-display text-sm leading-none", 
+      base: "font-display text-lg leading-none m-0", 
       sm: "pt-2"
     } -%}
 {%- set list = {
-      base: "text-xs font-light leading-none",
-      sm: "pt-2"
+      base: "",
+      sm: ""
     } -%}
 {%- set awardContainer = {
-      base: "text-xs flex flex-row gap-2 text-neutral-400",
-      sm: "flex-col"
+      base: "flex flex-col leading-snug text-neutral-400",
+      sm: ""
     } -%}
 
 {%- macro render(group) -%}
   <article data-awards-el="organization-card" class="{{ article | classes }}">
-    {%- set logo = group.organization.logo.asset.url | default('/assets/images/logos/default.svg') -%}
+    {%- set logo = group.organization.logo.asset | default('/assets/images/logos/default.svg') -%}
     {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}
-    {# {{ InlineSvg.render({classes: "p-0 size-24 pt-4 pl-2", logoInline: headerAwardMedia, logo: headerAwardLogo, logoAlt: "Award badge" }) }} #}
-    {# {{ InlineSvg.render({classes: logoStyle | classes, logoInline: group.organization.logo.inline, logo: logo, logoAlt: logoAlt }) }} #}
-
     {{ InlineSvg.render({
         svg: group.organization.logo.inline,
         src: logo,
@@ -44,15 +33,14 @@
         classes: logoStyle | classes,
         svgClasses: ""
       }) }}
+    <h3 class="{{ title | classes }}">{{ group.organization.title }}</h3>
+    <ul class="{{ list | classes }}" data-awards-el="group-list">
+      {% for award in group.items %}
+        <li class="{{ awardContainer | classes }}" data-awards-el="award">
+          {{ Award.render(award) }}
+        </li>
+      {% endfor %}
+    </ul>
 
-      <div class="{{ contentWrapper | classes }}"> <h3 class="{{ title | classes }}">{{ group.organization.title }}</h3>
-      <ul class="{{ list | classes }}" data-awards-el="group-list">
-        {% for award in group.items %}
-          <li class="{{ awardContainer | classes }}" data-awards-el="award">
-            {{ Award.render(award) }}
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
   </article>
 {%- endmacro -%}

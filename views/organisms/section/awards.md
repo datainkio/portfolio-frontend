@@ -17,11 +17,10 @@ tags:
   - organism
   - template
 links:
-  - "[section-cap](../../molecules/section-cap.md)"
   - "[award](../../atoms/award.md)"
   - "[inline](../../atoms/svg/inline.md)"
-  - "[ink-marks](../../atoms/printmarks/ink-marks.md)"
 ---
+
 # Awards
 
 Defines Nunjucks macro: `render`.
@@ -42,18 +41,14 @@ Classified as a **component** at the atomic **organism** level based on its loca
 ## Data and Context
 
 - `Award` — referenced in the template.
-- `Ink` — referenced in the template.
 - `InlineSvg` — referenced in the template.
-- `SectionCap` — referenced in the template.
 - `group` — referenced in the template.
 
 ## Relationships
 
 - Imports:
-  - [[section-cap.njk]]
   - [[award.njk]]
   - [[inline.njk]]
-  - [[ink-marks.njk]]
 - Likely used by:
   - Unknown
 

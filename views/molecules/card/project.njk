@@ -11,10 +11,8 @@
   {%- set activities = params.activities | default((project.activityTitles or []) | join(", ")) -%}
   {%- set client = (project.organization or []) | join(", ", "title") -%}
   {%- set meta = params.meta | default([
-    { key: "industries", value: industries },
-    { key: "roles", value: roles },
-    { key: "activities", value: activities }
-  ]) -%}
+    { key: "Deliverables", value: activities }
+    ]) -%}
 
   {{ Card.render({
     title: title,
@@ -23,10 +21,9 @@
     byline: client,
     description: description,
     meta: meta,
-    featured: params.featured | default(false),
-    classes: params.classes,
-    imageClasses: params.imageClasses,
-    showTitle: params.showTitle,
-    eager: params.eager
+    featured: params.featured | default(false) ,
+  imageClasses: params.imageClasses,
+  showTitle: params.showTitle,
+  eager: params.eager
   }) }}
 {% endmacro %}

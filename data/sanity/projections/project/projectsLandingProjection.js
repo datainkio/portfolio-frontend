@@ -15,6 +15,7 @@ export const PROJECTS_LANDING_PROJECTION = groq`{
       ...,
       "asset": asset->{
         url,
+        description,
         metadata{dimensions, lqip}
       }
     },
@@ -26,6 +27,7 @@ export const PROJECTS_LANDING_PROJECTION = groq`{
           ...,
           "asset": asset->{
             url,
+            description,
             metadata{dimensions, lqip}
           }
         }

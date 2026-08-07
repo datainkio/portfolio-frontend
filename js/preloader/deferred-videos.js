@@ -39,7 +39,11 @@ export const hydrateDeferredVideos = (warn = () => {}) => {
       video.src = src;
       video.removeAttribute(PRELOADER_ATTRIBUTES.dataSrc);
       video.removeAttribute(PRELOADER_ATTRIBUTES.dataDeferVideo);
-      // Avoid load() so autoplay/play promises are not interrupted.
+      // load() required here: WebKit (iOS Safari/Brave) doesn't reliably
+      // pick up a bare .src reassignment on an already-initialized <video>.
+      // Safe at this point — hydration runs before any play() is issued,
+      // so there's no in-flight play promise to interrupt.
+      video.load();
     } catch (error) {
       warn(PRELOADER_DEFERRED_VIDEO_MESSAGES.hydrateFailed, error);
     }

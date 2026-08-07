@@ -1,0 +1,27 @@
+{% macro render(params = {}) %}
+  {%- set src = params.src -%}
+  {%- set alt = params.alt | default("") -%}
+  {%- set caption = params.caption -%}
+  {%- set imgClasses = params.imgClasses | default("w-full h-full object-cover") -%}
+
+  {%- if src -%}
+    <figure data-lightbox-el="root" class="contents">
+      <button type="button" data-lightbox-el="trigger" class="block w-full h-full cursor-zoom-in" aria-haspopup="dialog">
+        <img src="{{ src }}" alt="{{ alt }}" class="{{ imgClasses }}" loading="lazy" />
+      </button>
+
+      <dialog data-lightbox-el="dialog" aria-label="{{ alt | default(caption) | default('Image viewer') }}" class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80">
+        <button type="button" data-lightbox-el="close" class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
+        <img src="{{ src }}" alt="{{ alt }}" class="block max-w-[90vw] max-h-[75vh] object-contain" />
+      </dialog>
+      {% if caption %}
+        <figcaption data-lightbox-el="caption" class="mt-2 text-sm text-neutral-600">{{ caption }}</figcaption>
+      {% endif %}
+    </figure>
+
+    {#- Self-contained progressive enhancement: wires open/close on the dialog above. Module imports are deduped by the browser. -#}
+    <script type="module">
+      import "/assets/js/lightbox/Lightbox.js";
+    </script>
+  {%- endif -%}
+{% endmacro %}

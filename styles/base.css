@@ -18,21 +18,18 @@
   body {
     @apply overflow-x-hidden;
   }
-  main {
-    /* @apply relative; */ /* Disabled to support GSAP ScrollSmoother */
-  }
   h1 {
-    @apply font-display text-5xl hover:no-underline 
-    tracking-tight;
+    @apply font-display text-5xl text-neutral-100 hover:no-underline tracking-tight;
   }
   h2 {
-    @apply text-4xl font-sans font-bold hover:no-underline;
+    @apply font-display text-4xl text-neutral-100 hover:no-underline tracking-tight;
   }
   h3 {
-    @apply text-xl font-sans font-medium leading-tight hover:no-underline;
+    @apply font-display text-3xl text-neutral-100 leading-tight hover:no-underline tracking-tight;
   }
+
   h4 {
-    @apply text-2xl font-sans leading-tight hover:no-underline;
+    @apply font-display text-2xl text-neutral-100 leading-tight hover:no-underline tracking-tight;
   }
   figcaption {
     @apply hover:no-underline text-balance leading-tight my-0 col-span-full;
@@ -44,7 +41,7 @@
     @apply max-w-none;
   }
   p {
-    @apply hover:no-underline mb-4 text-base leading-relaxed md:text-lg;
+    @apply font-body hover:no-underline mb-4 text-lg;
   }
   a {
     @apply font-medium;

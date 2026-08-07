@@ -13,7 +13,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * - AnimationBus: Event-driven coordination between sections
  * - ScrollEffectsCoordinator (this.stage): Scroll smoothing, gels, ruler, reduced motion
  * - CardManager: Per-card scroll animations (instantiated before sections)
- * - Section Controllers (SECTION_REGISTRY): Hero, BackgroundVideo, Bio, Awards, Organizations, Work — extend AbstractSection
+ * - Section Controllers (SECTION_REGISTRY): Hero, BackgroundVideo, Bio, Process, Awards, Organizations, Work — extend AbstractSection
  * - Managers: GlobalHeaderManager, HomeHeaderManager, WorkHeaderManager, WorkNavManager, ProjectHeaderManager
  * - LandingSequence: Defines animation flow via AnimationBus listeners
  *
@@ -237,6 +237,9 @@ export default class AnimationDirector {
     this.buildInfoManager?.kill();
     this.buildInfoManager = null;
 
+    this.sectionCapManager?.kill();
+    this.sectionCapManager = null;
+
     this.bus = null;
     this.stage = null;
     this.sections = null;
@@ -252,7 +255,7 @@ export default class AnimationDirector {
  *
  * GLOBAL ACCESS:
  * - window.director provides access to AnimationDirector instance
- * - Use for debugging: window.director.enableDebug(true)
+ * - Use for inspection: window.director.getSections() / getSequence() / getStage()
  * - Use for control: window.director.restart()
  */
 const initDirector = () => {

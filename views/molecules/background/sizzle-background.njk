@@ -5,25 +5,30 @@
   {%- set bgID = params.id | default('sizzle-background') -%}
   {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
   {%- set containerStyles = params.styles | default('') -%}
-  <div id="{{ bgID }}" style="{{ containerStyles }}" class="{{ containerClasses }}" aria-hidden="true" inert>
+  <div id="{{ bgID }}"
+       style="{{ containerStyles }}"
+       class="{{ containerClasses }}"
+       aria-hidden="true"
+       inert>
     {{ videoAtom.render({
-      src: params.videoSrc,
-      defer: params.defer | default(true),
-      poster: params.poster | default(''),
-      autoplay: params.autoPlay | default(false),
-      loop: params.loop | default(true),
-      muted: params.muted | default(true),
-      playsInline: params.playsInline | default(true),
-      preload: params.preload | default("metadata"),
-      classes: "absolute inset-0 w-full h-full object-cover object-center -z-10 pointer-events-none gsap-element gsap-fade",
-      styles: ""
+        src: params.videoSrc,
+        defer: params.defer | default(true) ,
+    poster: params.poster | default(''),
+    autoplay: params.autoPlay | default(false),
+    loop: params.loop | default(true),
+    muted: params.muted | default(true),
+    playsInline: params.playsInline | default(true),
+    preload: params.preload | default("metadata"),
+    classes: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
+    styles: ""
     }) }}
 
     {{ Pixelator.render() }}
 
-    {{ Gel.render({ id: 'gel_hero', color: 'bg-gel-primary' }) }}
-    {{ Gel.render({ id: 'gel_bio', color: 'bg-gel-secondary' }) }}
-    {{ Gel.render({ id: 'gel_awards_backing', color: 'bg-gel-neutral-light' }) }}
-    {{ Gel.render({ id: 'gel_awards_tint', color: 'bg-gel-accent' }) }}
+    {{ Gel.render({"id": "gel_bio", "color": "bg-gel-primary"}) }}
+    {{ Gel.render({"id": "gel_subheading", "color": "bg-gel-primary"}) }}
+    {{ Gel.render({"id": "gel_process", "color": "bg-gel-primary"}) }}
+    {{ Gel.render({"id": "gel_awards_backing", "color": "bg-gel-accent"}) }}
+    {{ Gel.render({"id": "gel_awards_tint", "color": "bg-gel-accent"}) }}
   </div>
 {% endmacro %}

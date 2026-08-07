@@ -27,7 +27,7 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
 
 The `home` query embeds `featuredProjects[]` via `PROJECT_CARD_PROJECTION`, which
 emits `slug`/`caseStudyUrl`/`externalLink` but **no `url`**. `normalizeLandingRecords`
-maps each entry through `resolveProjectCardUrl` (from [[project|project.js]]) so the
+maps each entry through `resolveProjectCardUrl` (from [[dataink.io/frontend/data/sanity/transforms/project|project.js]]) so the
 homepage card "View More" link resolves to `/case-studies/<slug>/` — the same source
 of truth used by the `projects` / `projectsByIndustry` queries. Without this step the
 card's `{% if url %}` guard is never satisfied and no link renders.

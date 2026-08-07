@@ -7,6 +7,9 @@
 /* Tailwind CSS must come before everything else - Base utilities and components need to be defined first */
 @import "tailwindcss" layer(base);
 
+/* Typography plugin - prose classes for PortableText body copy (project.njk) */
+@plugin "@tailwindcss/typography";
+
 /* Base styles - Global resets and fundamental styling that builds on Tailwind's preflight */
 @import "./base.css" layer(base);
 @import "./sizes.css" layer(theme);

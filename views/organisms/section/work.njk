@@ -1,56 +1,63 @@
 {% macro render(params = {}) %}
-  {% import "molecules/card/project.njk" as Card %}
+  {% import "molecules/list/project-cards.njk" as ProjectCards %}
   {% import "molecules/list/industry-links.njk" as Industries %}
   {% import "molecules/section/industry-section.njk" as IndustrySection %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading | default("Work") -%}
-  {%- set subheading = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
+  {%- set body = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
-  {# TODO: Resolve background image path in production #}
-  {%- set section = {
-    base: "text-primary-100 mx-8",
-    "motion-reduced": ""
-  } %}
+  {%- set groupProjects = params.groupProjects | default(false) -%}
 
-  {%- set header = {
-  base: "content-end grid grid-cols-3 gap-8"} -%}
+  {%- set section = {"base": "[&>p]:prose [&>p]:text-neutral-200 [&>p]:mx-4"} -%}
+
+  {%- set header = {"base": "content-end grid grid-cols-1 px-4"} -%}
 
   {%- set title = {
-    base: "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
-    md: "text-6xl",
-    lg: "text-7xl"
+    "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
+    "md": "text-6xl",
+    "lg": "text-7xl"
   } -%}
 
   {%- set nav = {
-    print: "hidden",
-    base: "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
-    sm: ""
+    "print": "hidden",
+    "base": "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
+    "sm": ""
   } -%}
 
-  <section id="{{ sectionId }}" class="{{ section |classes }} " aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}"
+           class="{{ section |classes }} "
+           aria-labelledby="{{ headingId }}"
+           data-scroll-section>
 
     <header data-projects-el="header" class="{{ header | classes }}">
-      <h2 id="{{ headingId }}" data-projects-el="heading" class="{{ title | classes }}">{{ heading }}</h2>
-      {{ subheading | safe }}
+      <h2 id="{{ headingId }}"
+          data-projects-el="heading"
+          class="{{ title | classes }}">{{ heading }}</h2>
     </header>
+    {{ body | safe }}
 
-    {#- Display the industry links for jump navigation within the section -#}
-    <nav id="work-jumplinks" aria-label="Jump to an industry" data-projects-el="jumplinks" class="{{ nav | classes }}">
-      {{ Industries.render({ industries: industries }) }}
-    </nav>
-
-    {#- Display the industry groups and their projects -#}
-    {% for industryTitle, projects in industries %}
-      {% if projects | length %}
-        {{ IndustrySection.render({ industryTitle: industryTitle, projects: projects }) }}
-      {% endif %}
-    {% endfor %}
-
+    {% if groupProjects %}
+      {#- Display the industry links for jump navigation within the section -#}
+      <nav id="work-jumplinks"
+           aria-label="Jump to an industry"
+           data-projects-el="jumplinks"
+           class="{{ nav | classes }}">
+        {{ Industries.render({ industries: industries }) }}
+      </nav>
+      {#- Display the industry groups and their projects -#}
+      {% for industryTitle, projects in industries %}
+        {% if projects | length %}
+          {{ IndustrySection.render({ industryTitle: industryTitle, projects: projects }) }}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {{ ProjectCards.render({ projects: params.projects, classes: "w-full" }) }}
+    {% endif %}
   </section>
 {% endmacro %}

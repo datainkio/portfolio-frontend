@@ -26,15 +26,14 @@ export const SELECTORS = {
   hero: "hero",
   organizations: "organizations",
   bio: "manifesto",
+  process: "process",
   awards: "recognition",
   work: "work",
   contact: "contact",
 
   // GSAP ScrollSmoother containers
-  // [ ] REFACTOR: Remove wrapper requirement from GSAP ScrollSmoother containers [refs=#38]
-  // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/38
-  // smoothWrapper: "page-main",
-  // smoothContent: "page-main-content",
+  smoothWrapper: "page-main",
+  smoothContent: "page-main-content",
 
   overlayView: "overlay-view",
   video: "background",
@@ -54,6 +53,10 @@ export const BIO_SELECTORS = {
   subSectionHook: "sub-section",
   subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
   subSectionLineKeyAttribute: "data-bio-line-key",
+};
+
+export const PROCESS_SELECTORS = {
+  elementAttribute: "data-process-el",
 };
 
 export const BUILD_INFO_SELECTORS = {

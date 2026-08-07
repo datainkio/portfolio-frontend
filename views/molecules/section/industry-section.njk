@@ -1,16 +1,14 @@
 {% import "molecules/list/project-cards.njk" as ProjectCards %}
 {% macro render(params = {}) %}
-  {%- set section = {
-    base: "flex flex-col items-start my-12"
-  } -%}
-  {%- set heading = {
-    base: "font-display text-4xl"} -%}
-  {%- set projects = {
-    base:  "w-full" } -%}
-  <section data-projects-el="industry-group" class="{{ section | classes }}" aria-labelledby="{{ params.industryTitle | slugify }}">
-    <h3 id="{{ params.industryTitle | slugify }}" class="{{ heading | classes }}" data-projects-el="industry-heading">
-      {{ params.industryTitle }}
-    </h3>
-    {{ ProjectCards.render({ projects: params.projects, classes: "{{ projects | classes }}" }) }}
+  {%- set section = {"base": "grid grid-cols-1 items-start my-12"} -%}
+  {%- set heading = {"base": "font-display text-4xl pl-4"} -%}
+  {%- set projects = {"base": "w-full"} -%}
+  <section data-projects-el="industry-group"
+           class="{{ section | classes }}"
+           aria-labelledby="{{ params.industryTitle | slugify }}">
+    <h3 id="{{ params.industryTitle | slugify }}"
+        class="{{ heading | classes }}"
+        data-projects-el="industry-heading">{{ params.industryTitle }}</h3>
+    {{ ProjectCards.render({ projects: params.projects, classes: projects | classes }) }}
   </section>
 {% endmacro %}

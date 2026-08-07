@@ -1,46 +1,61 @@
 {% import "organisms/navigation/breadcrumbs-nav.njk" as BreadCrumbs with context %}
-{% import "organisms/project-metadata/project-metadata.njk" as ProjectMetadata %}
+{% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
+{% import "molecules/awards.njk" as Awards %}
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
 {% import "molecules/figure/featured-image.njk" as FeaturedImage %}
 
 {% macro render(params) %}
 
   {%- set header = {
-    "base": "relative col-span-full h-dvh inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent overflow-hidden text-neutral-100",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+    "base": "m-4 border-0 relative col-span-full overflow-hidden text-neutral-100 gap-y-[1px] bg-slate-700",
+    "md": "grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] "
   } -%}
 
   {%- set heading = {
-    "base": "relative text-12 font-display leading-12",
-    "sm": "leading-18",
-    "md": "w-full leading-20",
-    "lg": "",
-    "xl": ""
+    "base": "py-6 text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950",
+    "md": "px-4 py-8"
   } -%}
 
-  {%- set gradient = {
-    "base": "absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-[1]",
-    "sm": "",
-    "md": "",
-    "lg": "",
-    "xl": ""
+  {%- set byline = {
+    "base": "bg-slate-950 z-[3] flex text-lg text-neutral-400"
+  } -%}
+  {%- set abstract = {
+    "base": "p-4 bg-slate-950 font-thin text-xl row-span-2 col-span-2"
   } -%}
 
-  <header
-    data-project-header class="{{ header | classes }}">
-    {# Image layer: 130% tall so yPercent parallax travel never exhausts the image #}
-    {{ FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.title, class: "absolute inset-x-0 top-0 h-[130%] w-full", attrs: "data-project-header-image" }) }}
-    {# Content overlay: anchored to the bottom of the hero #}
-    <div class="{{ gradient | classes }} z-[2] flex flex-col justify-end h-full px-12 sm:px-16 lg:px-24 pb-12 sm:pb-14 lg:pb-16 gap-y-4">
-      {{ BreadCrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key), nav: collections.all, classes: 'w-full' }) }}
-      <h1 data-landing-header-title class="{{ heading | classes }}">
-        {{ params.project.title | default('Untitled') }}
-      </h1>
+  {%- set image = {
+    "base": "p-4 bg-slate-950 col-start-1 row-start-3 col-span-2 w-full aspect-video object-cover z-[1]"
+  } -%}
+
+  {%- set cap = {
+    "base": "py-2 col-span-full bg-slate-950 m-0 font-display text-lg text-neutral-400",
+    "md": "p-4"
+  } -%}
+
+  {%- set metadata = {
+    "base": "p-2 py-4 col-span-full bg-slate-950",
+    "md": "col-start-3 divide-x divide-slate-700 bg-slate-950"
+  } -%}
+
+  {%- set awards = {
+    "base": "w-full col-span-full bg-slate-950 p-4 pb-6",
+    "md": ""
+  } -%}
+
+  <header data-project-header class="{{ header | classes }}">
+    <p class="{{ cap | classes }}" data-project-industry>
+      {{ params.project.industry | default('No industry') }}
+    </p>
+    <h1 id="case-study-title" data-landing-header-title class="{{ heading | classes }}">
+      {{ params.project.title | default('Untitled') }}
       {{ ProjectOrgs.render({ orgs: params.project.organization, class: byline | classes }) }}
-      {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
-    </div>
+    </h1>
+    {# FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.featuredImageAlt, class: image | classes }) #}
+    <section class="{{ abstract | classes }}" data-project-abstract>
+      <h2 class="text-lg mb-4 border-b-2 border-slate-700 text-neutral-400 border-dotted">Project Summary</h2>
+      {{ params.project.abstract | safe }}
+    </section>
+    {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
+    {{ Awards.render({ awards: params.project.awards, class: awards | classes }) }}
   </header>
 {% endmacro %}

@@ -1,54 +1,52 @@
 {#- FUNCTIONALITY IMPORTS -#}
 {% import "organisms/header/home/home-landing.njk" as PageHeader with context %}
 {% import "molecules/section-cap.njk" as SectionCap with context %}
-{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
 
 {#- CONTENT VIEWS -#}
 {% import "organisms/section/work.njk" as ProjectsSection %}
-{% import "organisms/section/bio.njk" as BioSection %}
+{% import "organisms/section/bio.njk" as HeroSection %}
 {% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/organizations.njk" as OrganizationsSection %}
 {% import "organisms/section/contact.njk" as ContactSection with context %}
 
 {#- CONTENT -#}
-{%- set projects = collections.home[0].featuredProjects -%}
+{%- set home = collections.home[0] -%}
+{%- set projects = home.featuredProjects -%}
 {%- set awards = collections.awards -%}
 {%- set organizations = collections.organizations -%}
 {%- set logo = collections.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
+{%- set backgroundVideo = home.videoSrc | default('') -%}
+{%- set backgroundPoster = home.videoPoster | default('') -%}
 
 {#- EYE CANDY -#}
-{# {% import "molecules/background/sizzle-background.njk" as Background %} #}
-{#- [ ] CLEANUP: dead sizzle-background import above + stale home.md sidecar
-    links (hero/Preloader/Background no longer used). Tracked: Frontend task
-    fix-dev-channel-defects (ADR 0005). -#}
+{% import "molecules/background/sizzle-background.njk" as Background %}
 {#- TODO: Address horizontal scroll on mobile -#}
-{%- set main = {
-      base: "relative pl-12 bg-slate-950 bg-graphpaper-sm bg-fixed mx-auto flex flex-col col-span-full w-full",
-      lg: "pl-48"
-    } -%}
+{#- bg-slate-950 bg-graphpaper-sm bg-fixed -#}
+{%- set main = {"base": "relative pl-12 mx-auto flex flex-col col-span-full w-full", "lg": "pl-48"} -%}
 
-{# Note that content values are set in frontmatter #}
+{# Note that content values - include title and other metadata - are set in frontmatter #}
 <!DOCTYPE html>
+{% include "templates/partials/dev-note.njk" %}
 <html lang="en" class="bg-slate-950">
-  {% include "templates/partials/dev-note.njk" %}
   {% include "templates/partials/head.njk" %}
-
-  <body class="bg-slate-950 text-neutral-100">
+  <body class="bg-slate-950 text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript.njk" %}
+    {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ SkipLinksNav.render() }}
-    {# {{ GlobalHeader.render({ logo: logo }) }} #}
-    {{ SectionCap.render({title: "renderizoring..."}) }}
-    <main id="page-main" aria-busy="true" class="{{ main | classes }}">
-      {{ PageHeader.home_landing({ svg: logo }) }}
-      {{ BioSection.render({ id: "manifesto", copy: value }) }}
-      {{ ProjectsSection.render({ id: "work", copy: work, projects: projects }) }}
-      {{ OrganizationsSection.render({ id: "organizations", copy: organizationsCopy, organizations: organizations }) }}
-      {{ AwardsSection.render({ id: "recognition", copy: recognition, awards: awards}) }}
-      {{ ContactSection.render({ id: "contact", copy: contact, contact: contactInfo }) }}
-    </main>
-    {{ GlobalFooter.render({contact: false}) }}
+    {{ SectionCap.render({"title": "initializing..."}) }}
+    <div id="page-main">
+      {{ PageHeader.home_landing({ "svg": logo }) }}
+      <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
+        {{ HeroSection.render({ "id": "manifesto", "copy": value }) }}
+        {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
+        {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
+        {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
+        {{ ContactSection.render({ "id": "contact", "copy": contact, "contact": contactInfo }) }}
+      </main>
+      {{ GlobalFooter.render({"contact": false}) }}
+    </div>
     {% include "templates/partials/choreography-script.njk" %}
   </body>
 </html>
