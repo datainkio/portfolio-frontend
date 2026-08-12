@@ -36,6 +36,12 @@ const REVEAL_ST_ID = "bio-mission-reveal";
 const selectBioEl = (view, name) =>
   view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
 
+// Whether this view's reveal has already been asked to play. A breakpoint
+// crossing re-runs `split.js`'s `intro()`, which calls back in here — without
+// this, the rebuild would re-hide copy the reader has already read and re-arm a
+// trigger they have already passed, leaving the statement blank for good.
+const revealed = new WeakSet();
+
 /**
  * @param {HTMLElement|null} view Bio section root.
  * @param {object|null} gelManager GelAnimationManager instance.
@@ -51,9 +57,23 @@ export function attachMissionStatement(view, gelManager) {
   const paragraphs = Array.from(mission.querySelectorAll(":scope > p"));
 
   // Position the band first: the wipe below scales it, so it needs its resting
-  // geometry (and its mask) resolved before anything animates.
+  // geometry (and its mask) resolved before anything animates. This also re-runs
+  // on every rebuild, which is what re-measures the band at the new viewport.
   attachOverviewGel(view, gelManager);
   const gelEl = getOverviewGelEl(gelManager);
+
+  // Already played (a rebuild, not a first attach): the band has just been
+  // re-measured above, so all that is left is to make sure nothing stays hidden
+  // or suspended. Clear the reveal's inline start-frame props and hand the band
+  // back to its own sync — do NOT rebuild the timeline or re-arm the trigger.
+  if (revealed.has(view)) {
+    resumeOverviewGelSync(view);
+    const targets = [overview, ...paragraphs].filter(Boolean);
+    if (targets.length) {
+      gsap.set(targets, { clearProps: "opacity,visibility,transform" });
+    }
+    return null;
+  }
 
   // Reduced motion: everything rests at its natural state. Nothing is hidden, so
   // there is no start frame to undo and no trigger to bind — `attachOverviewGel`
@@ -133,6 +153,11 @@ export function attachMissionStatement(view, gelManager) {
     trigger: mission,
     start: BIO_MISSION_REVEAL.start,
     once: true,
-    onEnter: () => tl.play(),
+    onEnter: () => {
+      // Marked on request, not on completion — a rebuild mid-play must also take
+      // the "already revealed" path rather than restarting from hidden.
+      revealed.add(view);
+      tl.play();
+    },
   });
 }

@@ -51,6 +51,14 @@ export default class GelAnimationManager {
     }
     const gel = new Gel(el);
     gel.refresh();
+    // Keep the SVG mask polygon in sync with the element box for the life of the
+    // gel. `Gel` has always supported this (via `initialize({autoRefresh:true})`)
+    // but nothing ever switched it on, so mask geometry only updated when a
+    // caller happened to call `refresh()` — leaving masks stale after a viewport
+    // resize. Calling `enableAutoRefresh` directly rather than `initialize()`
+    // keeps this to the observer alone, with no mask-application side effects.
+    // The observer is disconnected in `Gel.destroy()`.
+    gel.enableAutoRefresh();
     // Gels stay in the DOM but start hidden — geometry/scale/position are
     // arranged before anything is revealed, so nothing flashes at its
     // pre-arrangement rect. autoAlpha (opacity + visibility) is orthogonal to

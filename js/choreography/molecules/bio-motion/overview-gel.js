@@ -30,15 +30,25 @@ const selectOverview = (view) =>
 
 // The mission-statement reveal owns `scaleX`/`autoAlpha` on the band while it
 // wipes in. `sync()` would reset both on the next scroll tick — suspend it for
-// the duration. Mirrors heading-gel.js's suspend contract.
+// the duration. Mirrors heading-gel.js's suspend contract, deferral included:
+// this band stays suspended from intro build until the reader scrolls far
+// enough to trigger the wipe, so any resize in between must be owed rather than
+// dropped or the band keeps its load-time geometry forever.
 const suspended = new WeakSet();
+const pending = new WeakSet();
+// view -> the live `sync` closure, so `resume` can run the owed sync.
+const syncs = new WeakMap();
 
 export function suspendOverviewGelSync(view) {
   if (view) suspended.add(view);
 }
 
 export function resumeOverviewGelSync(view) {
-  if (view) suspended.delete(view);
+  if (!view) return;
+  suspended.delete(view);
+  if (!pending.has(view)) return;
+  pending.delete(view);
+  syncs.get(view)?.();
 }
 
 export const getOverviewGelEl = (gelManager) =>
@@ -58,7 +68,11 @@ export function attachOverviewGel(view, gelManager) {
   let lastHeight = null;
 
   const sync = () => {
-    if (suspended.has(view)) return;
+    if (suspended.has(view)) {
+      // Owed, not dropped — `resumeOverviewGelSync` will run it.
+      pending.add(view);
+      return;
+    }
     const rect = overview.getBoundingClientRect();
     if (!rect.height) return;
 
@@ -86,6 +100,9 @@ export function attachOverviewGel(view, gelManager) {
       gel.refresh();
     }
   };
+
+  // Register before the first call so a suspended sync has somewhere to be owed.
+  syncs.set(view, sync);
 
   // Idempotent across rebuilds (matchMedia / resize re-invoke the variant): kill
   // the prior trigger before creating a fresh one so they don't stack.

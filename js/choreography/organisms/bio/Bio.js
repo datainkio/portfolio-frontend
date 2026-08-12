@@ -30,6 +30,16 @@ export default class Bio extends AbstractSection {
 
   // Bio's reveal is time-based: it fires once off the home header intro, not on
   // scroll. Track that the reveal has been requested so a resize can re-assert it.
+  //
+  // Landing is tracked separately from intro because they are requested at
+  // different moments (LandingSequence awaits playLanding, *then* calls
+  // playIntro) — a resize in the gap must settle the landing without asserting
+  // an intro that has not been asked for yet.
+  playLanding() {
+    this._landingRequested = true;
+    return super.playLanding();
+  }
+
   playIntro() {
     this._introRequested = true;
     return super.playIntro();
@@ -52,21 +62,35 @@ export default class Bio extends AbstractSection {
     this._emit(this.events.onEnterBack, { element: this.view });
   }
 
-  // Jump the reveal to its finished state and stop. Idempotent: once at the end
-  // it no-ops, so repeated resize events are cheap.
+  // Jump the played phases to their finished state and stop. Idempotent: once at
+  // the end each no-ops, so repeated resize events are cheap.
+  //
+  // Landing is settled as well as intro: a breakpoint-crossing resize rebuilds
+  // both timelines, and the landing rebuild re-parks the heading gel offscreen
+  // at its entrance start frame. Nothing replays it (LandingSequence fired once),
+  // so without settling it here the band stays offscreen permanently. Settling
+  // does not suppress events, so the entrance's `onComplete` still fires and
+  // hands the band back to its sync.
   _settleRevealToEnd() {
-    if (!this._introRequested) return;
-    const intro = this.animations?.getTimeline?.(TIMELINE_IDS.intro);
-    if (!intro || intro.progress() >= 1) return;
-    intro.progress(1, false).pause();
+    const phases = [
+      [TIMELINE_IDS.landing, this._landingRequested],
+      [TIMELINE_IDS.intro, this._introRequested],
+    ];
+    phases.forEach(([timelineId, requested]) => {
+      if (!requested) return;
+      const timeline = this.animations?.getTimeline?.(timelineId);
+      if (!timeline || timeline.progress() >= 1) return;
+      timeline.progress(1, false).pause();
+    });
   }
 
   _applyResponsiveLifecycle(conditions = {}) {
     // A breakpoint-crossing resize makes matchMedia revert (and kill) the prior
     // context's tweens, stripping bio's revealed inline styles. Rebuild the
-    // timelines, then settle the reveal to its end so the section stays visible
-    // (the reveal itself only fires once, off the header intro).
-    const revealRequested = this._introRequested === true;
+    // timelines, then settle the played phases to their end so the section stays
+    // visible (they only fire once, off the landing chain).
+    const revealRequested =
+      this._introRequested === true || this._landingRequested === true;
 
     const profile = resolveSectionMotionProfile("bio", conditions);
     this.animations?.rebuild?.(profile.animation?.variant ?? "sweep");

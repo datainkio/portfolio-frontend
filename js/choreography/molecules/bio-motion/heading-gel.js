@@ -31,14 +31,28 @@ const SYNC_ST_ID = "bio-heading-gel-sync";
 // The outro pin owns `scaleY` on the gel band during its gel-expand beat, and
 // the entrance below owns x/y/rotation. `sync()` would reset those — suspend it
 // while either is driving the band.
+//
+// Suspension DEFERS, it does not discard. A suspended `sync()` records that one
+// was owed (`pending`) and `resume` runs it immediately, because the suspend
+// windows here are long and open-ended — the entrance holds one from page load
+// until it plays. Dropping resizes across that window froze the band's geometry
+// at whatever the viewport was at load.
 const suspended = new WeakSet();
+const pending = new WeakSet();
+// view -> the live `sync` closure, so `resume` can run the owed sync without the
+// caller having to know which trigger to poke.
+const syncs = new WeakMap();
 
 export function suspendHeadingGelSync(view) {
   if (view) suspended.add(view);
 }
 
 export function resumeHeadingGelSync(view) {
-  if (view) suspended.delete(view);
+  if (!view) return;
+  suspended.delete(view);
+  if (!pending.has(view)) return;
+  pending.delete(view);
+  syncs.get(view)?.();
 }
 
 export const getHeadingGelEl = (gelManager) =>
@@ -57,7 +71,11 @@ export function attachHeadingGel(view, gelManager) {
   let lastHeight = null;
 
   const sync = () => {
-    if (suspended.has(view)) return;
+    if (suspended.has(view)) {
+      // Owed, not dropped — `resumeHeadingGelSync` will run it.
+      pending.add(view);
+      return;
+    }
     const height = window.innerHeight;
     if (!height) return;
 
@@ -86,6 +104,9 @@ export function attachHeadingGel(view, gelManager) {
       gel.refresh();
     }
   };
+
+  // Register before the first call so a suspended sync has somewhere to be owed.
+  syncs.set(view, sync);
 
   // Idempotent across rebuilds (matchMedia / resize re-invoke the variant): kill
   // the prior trigger before creating a fresh one so they don't stack.

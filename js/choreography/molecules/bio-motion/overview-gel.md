@@ -43,11 +43,18 @@ per-tick `getBoundingClientRect()` is the cost of that.
 ## Suspend contract
 
 `suspendOverviewGelSync(view)` / `resumeOverviewGelSync(view)` (module-level
-`WeakSet`, keyed on `view`) gate `sync()` with an early return, mirroring
-`heading-gel.js`. [mission-statement.js](mission-statement.md) uses them: its
-reveal wipes the band in (`scaleX 0 → 1`) and `sync()` would reset both `scaleX`
-and `autoAlpha` on the next scroll tick. It suspends before building, and the
-wipe's own `onComplete` resumes and force-refreshes by `OVERVIEW_SYNC_ST_ID`.
+`WeakSet`, keyed on `view`) gate `sync()`, mirroring `heading-gel.js`.
+[mission-statement.js](mission-statement.md) uses them: its reveal wipes the band
+in (`scaleX 0 → 1`) and `sync()` would reset both `scaleX` and `autoAlpha` on the
+next scroll tick. It suspends before building, and the wipe's own `onComplete`
+resumes and force-refreshes by `OVERVIEW_SYNC_ST_ID`.
+
+**Suspension defers, it does not discard.** A `sync()` called while suspended
+records that one is owed (a `pending` `WeakSet`) and `resume` runs it immediately
+via the live closure in a `syncs` `WeakMap`. This band is suspended from intro
+build until the reader scrolls far enough to trigger the wipe — potentially the
+whole session. Dropping resizes across that window left the band pinned to its
+load-time geometry permanently.
 
 `getOverviewGelEl(gelManager)` exports the resolved element so callers don't
 duplicate the `getGel(OVERVIEW_GEL_ID)` lookup.

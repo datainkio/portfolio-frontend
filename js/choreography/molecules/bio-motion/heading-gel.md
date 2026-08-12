@@ -76,7 +76,15 @@ the **bio section root** in normal document flow; it merely *animates* this gel'
 ## Suspend during the outro pin
 
 `suspendHeadingGelSync(view)` / `resumeHeadingGelSync(view)` (module-level
-`WeakSet`, keyed on `view`) gate `sync()` with an early return. `BioTriggers`'
+`WeakSet`, keyed on `view`) gate `sync()`. **Suspension defers, it does not
+discard:** a `sync()` called while suspended records that one is owed (a `pending`
+`WeakSet`) and `resume` runs it immediately, using the live closure held in a
+`syncs` `WeakMap`. That matters because the suspend windows here are long and
+open-ended — the entrance holds one from page load until it plays. When suspension
+simply dropped calls, every resize across that window was lost and the band kept
+its load-time geometry for good.
+
+`BioTriggers`'
 outro pin (`bio-outro-pin`) drives `scaleY` on this gel band directly as one of
 its beats (see `split.md`'s outro section), and the entrance below owns
 `x`/`y`/`rotation` — without the suspend, `sync()` would reset those the next

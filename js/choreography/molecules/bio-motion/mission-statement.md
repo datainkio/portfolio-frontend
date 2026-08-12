@@ -68,6 +68,22 @@ force-refreshes it by id (`OVERVIEW_SYNC_ST_ID`), handing resting geometry back.
 This is the same contract `heading-gel.js` uses for its entrance — the suspend
 `WeakSet` and its two exports were added to `overview-gel.js` to match.
 
+## Rebuilds (viewport resize across a breakpoint)
+
+A breakpoint crossing runs `Bio._applyResponsiveLifecycle` → `animations.rebuild()`
+→ `split.js` `intro()`, which calls back in here. A naive re-attach would re-hide
+copy the reader has already read and re-arm a trigger they have already scrolled
+past — leaving the statement blank permanently, since the reveal only ever plays
+once.
+
+A module-level `revealed` `WeakSet` guards that. It is marked in the trigger's
+`onEnter` — **on request, not on completion** — so a rebuild landing mid-play
+also takes the already-revealed path rather than restarting from hidden. On that
+path the function re-attaches the overview gel (which is what re-measures the
+band at the new viewport), resumes its sync, clears the reveal's inline
+start-frame props off the copy, and returns without building a timeline or
+binding a trigger.
+
 ## Reduced motion
 
 Everything rests at its natural state: no start frame is applied, no trigger is

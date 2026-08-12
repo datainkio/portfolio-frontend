@@ -20,10 +20,6 @@
   {%- set statement = {
     "base": "h-dvh content-center col-span-full grid grid-cols-subgrid gap-y-12 [&>p]:col-span-full [&>p]:prose [&>p]:text-2xl/8 [&>p]:text-neutral-200 md:[&>p]:col-span-7 md:[&>p]:row-start-2 md:[&>p]:col-start-4"
   } %}
-
-  {%- set aside = {"base": "items-center col-start-3 w-full col-span-7 text-xl font-display text-neutral-400"} %}
-  {%- set asideHeading = {"base": "mb-4 arrow-prefix text-neutral-400 border-b-2 border-neutral-400 border-dotted", "sm": ""} %}
-
   <section class="{{ section | classes }} {{ copy | classes }}"
            id="{{ sectionId }}"
            aria-labelledby="{{ headingId }}"
@@ -34,7 +30,7 @@
           data-bio-el="heading">{{ heading }}</h2>
     </header>
     <section class="{{ statement | classes }}" data-bio-el="mission-statement">
-      <h3 class="sm:text-4xl md:text-6xl font-display text-secondary-500 col-span-full md:col-span-4"
+      <h3 class="sm:text-4xl md:text-5xl font-display text-secondary-500 col-span-full md:col-span-4"
           data-bio-el="overview">{{ subheading }}</h3>
       {{ body | safe }}
     </section>
