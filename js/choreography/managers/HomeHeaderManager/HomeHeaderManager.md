@@ -125,6 +125,35 @@ intro pair instantly) when the bio cue lands. Bio's gated profile still emits
 never stranded. `_enterMenuRole()` still guards on `_inMenuRole` as cheap
 insurance.
 
+## Resize settle (`_settleToCurrentRole`)
+
+The header's resting position is CSS-owned, but the slide leaves an inline
+`translate(-100%)` on it for the whole stretch between the hero's exit and the
+menu rail's arrival — and `xPercent` is a percentage of a width a resize changes.
+That window is long now that the rail waits on Bio, so a resize lands in it
+easily.
+
+A debounced `window.resize` listener (`HOME_RESIZE_SETTLE.delay`, via
+`gsap.delayedCall` so it is ticker-synced and killable) re-asserts the correct
+inline state for whichever role the header is resting in. Debounced rather than
+per-frame because the brief is "correct when the resize completes" — re-asserting
+on every frame of a drag-resize fights the drag.
+
+Three cases, and confusing them is exactly what makes the header vanish:
+
+| State | Treatment |
+| --- | --- |
+| Not armed yet (`!_deconstructed`) | **Touch nothing.** The loader/hero rest is entirely CSS-owned; writing a transform here would fight the loader outro. |
+| Parked off-stage (`_deconstructed`, awaiting the bio cue) | Re-assert `xPercent: HOME_HERO_OUTRO.xPercent`, so "off-stage" still means off-stage at the new width. |
+| Menu rail at rest (`_inMenuRole`) | `clearProps: "transform"` — hand position back to the CSS role-rest, as `_buildMenuIn` does on complete. |
+
+Mid-flight timelines are skipped (`_master`/`_menuIn` `isActive()`): they clear up
+after themselves, and overwriting their targets mid-tween is precisely what
+strands an element off-stage.
+
+`_deconstructed` is set in `_runTransition` (both the normal and reduced paths)
+and reset in `kill()`.
+
 ## Response on entering the menu role (`_enterMenuRole`)
 
 `_enterMenuRole` is the seam callback, fired by `_playMenuIn` when the

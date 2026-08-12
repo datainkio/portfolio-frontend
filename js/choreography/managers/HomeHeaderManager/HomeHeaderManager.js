@@ -6,6 +6,7 @@ import {
   HOME_HERO_HOLD,
   HOME_HERO_OUTRO,
   HOME_HERO_BUILD,
+  HOME_RESIZE_SETTLE,
 } from "../../config/ix/motion.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
@@ -129,6 +130,13 @@ export default class HomeHeaderManager {
     this._menuIn = null;
     this._menuInStarted = false;
     this._offBioIntro = null;
+    // True once the hero has slid off-stage. Distinguishes "parked off-stage
+    // waiting for the bio cue" from "not armed yet", which need opposite resize
+    // treatment — the former must re-assert its park, the latter is CSS-owned
+    // and must not be touched at all.
+    this._deconstructed = false;
+    this._onWindowResize = null;
+    this._resizeSettle = null;
 
     if (!this._el) {
       this.logger.trace("element not found; HomeHeaderManager disabled");
@@ -142,6 +150,21 @@ export default class HomeHeaderManager {
     this._offBioIntro =
       this._bus?.on?.(EVENTS.bio.introComplete, () => this._playMenuIn()) ??
       null;
+
+    // Re-assert the header's inline transform once a resize settles. The header
+    // is a fixed overlay whose resting position is CSS-owned, but the slide
+    // leaves an inline `translate(-100%)` on it for the whole stretch between
+    // the hero's exit and the menu rail's arrival — a percentage of a width that
+    // a resize changes. Debounced: correct when the resize completes, not fought
+    // during every frame of a drag.
+    this._onWindowResize = () => {
+      this._resizeSettle?.kill();
+      this._resizeSettle = gsap.delayedCall(HOME_RESIZE_SETTLE.delay, () => {
+        this._resizeSettle = null;
+        this._settleToCurrentRole();
+      });
+    };
+    window.addEventListener("resize", this._onWindowResize);
 
     // CSS owns the header until the outro completes; arm only at the handoff.
     this._onPreloaderOut = () => this._arm();
@@ -226,6 +249,8 @@ export default class HomeHeaderManager {
     this._holdCall = null;
     if (this._inMenuRole) return;
 
+    this._deconstructed = true;
+
     if (reduced) {
       this._emit(this._events?.outroStart);
       this._emit(this._events?.outroComplete);
@@ -235,6 +260,40 @@ export default class HomeHeaderManager {
     // Stored so it stays seekable and killable.
     this._master = gsap.timeline();
     this._master.add(this._buildDeconstruct(), "deconstruct");
+  }
+
+  /**
+   * Put the header back in the correct inline state for whatever role it is
+   * resting in. Called on a debounced resize; idempotent, so repeat calls are
+   * cheap.
+   *
+   * Each role needs different treatment, and getting them confused is what makes
+   * the header vanish:
+   *
+   * - **Not armed yet** — the loader/hero rest is entirely CSS-owned. Touch
+   *   nothing; writing a transform here would fight the loader outro.
+   * - **Parked off-stage** (deconstructed, awaiting `bio:intro:complete`) —
+   *   re-assert the park. `xPercent: -100` is a percentage of the element's
+   *   width, so a resize changes what "off-stage" means; without this the header
+   *   can land partly on screen, or drift fully out of reach.
+   * - **Menu rail at rest** — clear the transform so the CSS role-rest owns the
+   *   position again, exactly as `_buildMenuIn`'s `clearProps` does on complete.
+   *
+   * Mid-flight timelines are left alone: they clear up after themselves, and
+   * overwriting their targets mid-tween is what strands an element off-stage.
+   */
+  _settleToCurrentRole() {
+    if (!this._el) return;
+    if (this._master?.isActive() || this._menuIn?.isActive()) return;
+
+    if (this._inMenuRole) {
+      gsap.set(this._el, { clearProps: "transform" });
+      return;
+    }
+
+    if (this._deconstructed) {
+      gsap.set(this._el, { xPercent: HOME_HERO_OUTRO.xPercent });
+    }
   }
 
   /**
@@ -494,6 +553,13 @@ export default class HomeHeaderManager {
     this._offBioIntro?.();
     this._offBioIntro = null;
 
+    if (this._onWindowResize) {
+      window.removeEventListener("resize", this._onWindowResize);
+      this._onWindowResize = null;
+    }
+    this._resizeSettle?.kill();
+    this._resizeSettle = null;
+
     if (this._onPreloaderOut) {
       window.removeEventListener(
         EVENTS.system.preloaderOut,
@@ -526,6 +592,7 @@ export default class HomeHeaderManager {
     this._menuIn?.kill();
     this._menuIn = null;
     this._menuInStarted = false;
+    this._deconstructed = false;
 
     this._navReveal?.kill();
     this._navReveal = null;

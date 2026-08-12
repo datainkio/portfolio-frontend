@@ -111,6 +111,16 @@ export const BIO_GEL_ENTRANCE = {
   ease: "power2.out",
 };
 
+/**
+ * Home Header Resize Settle
+ *
+ * Debounce (seconds) before the home header re-asserts its inline transform for
+ * whichever role it is resting in. The brief is "correct when the resize
+ * completes", not "correct during every intermediate frame" — a drag-resize
+ * fires continuously, and re-asserting per frame would fight the drag.
+ */
+export const HOME_RESIZE_SETTLE = { delay: 0.15 }; // seconds
+
 export const HOME_HERO_OUTRO = {
   xPercent: -100, // slide the full-bleed hero off to the left
   duration: toSeconds(motion.duration("slow")),
