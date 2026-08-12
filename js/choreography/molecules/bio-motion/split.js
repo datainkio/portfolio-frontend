@@ -3,7 +3,7 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_INTRO, BIO_OUTRO, motion } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { attachHeadingGel, getHeadingGelEl } from "./heading-gel.js";
-import { attachOverviewGel } from "./overview-gel.js";
+import { attachMissionStatement } from "./mission-statement.js";
 
 const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 
@@ -91,10 +91,13 @@ export function intro(view, gelManager) {
     stagger: motion.duration("md") / 1000,
   });
 
-  // Full-bleed gel bands behind the <h2> and overview <h3>. Positioned outside
-  // the timeline: they are standing background states, not phases of the reveal.
+  // Both positioned outside the timeline — standing behaviours, not phases of
+  // this reveal. The heading's band is a full-bleed backdrop; the mission
+  // statement owns its own scroll-cued arrival (it sits an `h-dvh` below the
+  // header, so anything sequenced here would play off-screen) and attaches the
+  // overview band itself as that arrival's first beat.
   attachHeadingGel(view, gelManager);
-  attachOverviewGel(view, gelManager);
+  attachMissionStatement(view, gelManager);
 
   return tl;
 }

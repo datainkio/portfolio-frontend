@@ -1,5 +1,5 @@
 import AbstractSection from "../../system/AbstractSection.js";
-import { SELECTORS } from "../../config/index/index.js";
+import { SELECTORS, VIDEO_SELECTORS } from "../../config/index/index.js";
 import BackgroundVideoAnimations from "./BackgroundVideoAnimations.js";
 import BackgroundVideoTriggers from "./BackgroundVideoTriggers.js";
 
@@ -18,7 +18,7 @@ export default class BackgroundVideo extends AbstractSection {
       reducedMotionHandler,
     });
 
-    this.videoEl = this.view?.querySelector("video") ?? null;
+    this.videoEl = this.view?.querySelector(VIDEO_SELECTORS.media) ?? null;
     this._videoReadyPromise = null;
   }
 
@@ -64,9 +64,7 @@ export default class BackgroundVideo extends AbstractSection {
     if (this.isDisabled || !this._isLifecycleMotionEnabled) {
       // Reduced motion (or disabled): don't autoplay the video, but still
       // delegate to super so the base snaps the post-intro state and emits
-      // `video.introComplete`. LandingSequence waits on that event to trigger
-      // hero.playLanding() (the tagline split-reveal); returning early here
-      // severs the chain and leaves the hero h1 stuck at autoAlpha:0.
+      // `video.introComplete`.
       this.videoEl?.pause?.();
       return super.playIntro();
     }

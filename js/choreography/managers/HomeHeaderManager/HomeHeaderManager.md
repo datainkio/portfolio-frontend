@@ -58,10 +58,19 @@ idle hero role. The manager then creates the menu trigger (below).
 
 ## hero → menu (trigger)
 
-Trigger: **a tunable time hold**, not scroll position. On `_arm()` the header
-enters `hero` and a `gsap.delayedCall` runs for `HOME_HERO_HOLD.delay` seconds;
-when it fires, `_runTransition` plays the deconstruct → build transition to
-`menu`. **Scroll and tap are inert by design** — the previous scroll-gated swap
+The transition is **split across two cues**, neither of them interaction:
+
+| Half | Method | Cue |
+| --- | --- | --- |
+| deconstruct (hero exits) | `_runTransition` | a tunable time hold, `HOME_HERO_HOLD.delay` |
+| build (menu rail arrives) | `_playMenuIn` | `bio:intro:complete`, on the bus |
+
+On `_arm()` the header enters `hero` and a `gsap.delayedCall` runs for
+`HOME_HERO_HOLD.delay` seconds; when it fires, the hero panel slides off-stage
+and `home:outro:complete` emits. The rail does **not** follow it in. It waits out
+the page's landing narrative — video intro → gel entrance → bio intro — and
+builds only once Bio has had its say. **Scroll and tap are inert by design** —
+the previous scroll-gated swap
 (`ScrollTrigger start: "top top"` + an immediate `isActive` check) flipped the
 whole view away on the first scroll, hiding page content behind an interaction
 gate with no forward cue. That ScrollTrigger is removed. See the
@@ -76,33 +85,52 @@ gate with no forward cue. That ScrollTrigger is removed. See the
 - **`hero` is now a real resting state** (it was transient under the scroll-gate),
   resolving the prior open question.
 
-### The transition (`_runTransition`)
+### The transition, in two halves
 
-A single master timeline (`this._master`, stored so it stays seekable/killable),
-two labeled phases:
+1. **deconstruct (outro)** — `_runTransition` → `_buildDeconstruct` slides the
+   hero panel off-stage left (`xPercent: -100`, **transform-only /
+   compositor-safe — never width/layout**), revealing page content beneath. The
+   lockup rides the header off, so the hero reads as exiting. Emits
+   `home:outro:start` / `:complete`. Held on `this._master`, stored so it stays
+   seekable/killable.
 
-1. **deconstruct (outro)** — `_buildDeconstruct` slides the hero panel off-stage
-   left (`xPercent: -100`, **transform-only / compositor-safe — never
-   width/layout**), revealing page content beneath. The lockup rides the header
-   off, so the hero reads as exiting. Emits `home:outro:start` / `:complete`.
-2. **seam** — a timeline `.call` flips `data-header-role` to `menu` **while the
-   panel is fully off-screen**, so the instant CSS role-rest swap (full-bleed →
-   narrow rail) is invisible and the progressive GSAP slide never fights it (the
-   class of bug the removed `pin: true` experiment hit when a refresh re-ran the
-   CSS reveal).
+   *…the page's landing narrative plays out here — see*
+   [LandingSequence.md](../../templates/landing/LandingSequence.md) *…*
+
+2. **seam** — `_playMenuIn` flips `data-header-role` to `menu` **while the panel
+   is still fully off-screen** (the deconstruct left it there and nothing has
+   brought it back), so the instant CSS role-rest swap (full-bleed → narrow rail)
+   is invisible and the progressive GSAP slide never fights it — the class of bug
+   the removed `pin: true` experiment hit when a refresh re-ran the CSS reveal.
+   The seam property is unchanged by the split; only the wall-clock gap widened.
 3. **build (intro)** — `_buildMenuIn` slides the now-narrow rail back to its
    resting left edge (`xPercent: 0`, `clearProps: "transform"` so CSS owns the
-   rest) and nests the nav-item reveal (`_showNav`) as its tail.
+   rest) and nests the nav-item reveal (`_showNav`) as its tail. Held on
+   `this._menuIn`.
+
+**Why the split, and the cycle it creates.** `LandingSequence` cues the video
+intro off `home:outro:complete` rather than `home:intro:complete` precisely
+because of this: the rail waits on Bio, so cueing Bio's chain off the rail's
+intro would deadlock. The header opens the landing and closes it. Anything added
+to that chain has to respect the cycle.
+
+`_playMenuIn` is **once-only** (`_menuInStarted`) — scrolling back up re-enters
+bio and can emit `bio:intro:complete` again — and no-ops until `_master` exists,
+so an early cue cannot flip the header to `menu` mid-loader.
 
 Under **reduced motion** there is no slide: `_runTransition` emits the outro pair
-instantly, flips the role, and calls `_showNav` (which emits the intro pair
-instantly). `_enterMenuRole()` still guards on `_inMenuRole` as cheap insurance.
+instantly, and `_playMenuIn` flips the role and calls `_showNav` (which emits the
+intro pair instantly) when the bio cue lands. Bio's gated profile still emits
+`bio:intro:complete` (`AbstractSection._applyPostIntroState`), so the rail is
+never stranded. `_enterMenuRole()` still guards on `_inMenuRole` as cheap
+insurance.
 
 ## Response on entering the menu role (`_enterMenuRole`)
 
-`_enterMenuRole` is the seam callback fired mid-timeline by `_runTransition` (and
-called directly under reduced motion). It flips state only — it does **not** play
-the nav reveal (that is sequenced as the build-phase tail; see above). Note that
+`_enterMenuRole` is the seam callback, fired by `_playMenuIn` when the
+`bio:intro:complete` cue lands (in both the normal and reduced paths). It flips
+state only — it does **not** play the nav reveal (that is sequenced as the
+build-phase tail; see above). Note that
 **header positioning is CSS-owned, not done here.** The template keeps the header
 `fixed left-0 h-dvh` and `hanko.css` no longer returns it to flow on
 `data-preloader-state="exit"`, so it persists as a fixed overlay with content

@@ -10,7 +10,7 @@
   {%- set buildDate = params.buildDate -%}
 
   {%- set section = {"base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-8 px-8"} %}
-  {% set header = {"base": "h-dvh flex flex-col justify-between z-1 pt-6 pb-48 font-display col-span-full"} %}
+  {% set header = {"base": "h-dvh flex flex-col justify-center z-1 pt-6 pb-48 font-display col-span-full"} %}
   {%- set title = {
     "base": "font-display text-5xl/12 my-12 py-8 tracking-loose",
     "sm": "text-6xl/16",
@@ -29,7 +29,6 @@
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
     <header class="{{ header | classes }}" data-bio-el="header">
-      <p class="font-display text-neutral-400 w-full" data-bio-el="context">A Design Philosophy</p>
       <h2 class="{{ title | classes }}"
           id="{{ headingId }}"
           data-bio-el="heading">{{ heading }}</h2>
@@ -39,23 +38,5 @@
           data-bio-el="overview">{{ subheading }}</h3>
       {{ body | safe }}
     </section>
-    <aside class="{{ aside | classes }}" data-bio-el="aside">
-      <h3 class="{{ asideHeading | classes }}">Focus Areas</h3>
-      <ul class="pl-10 text-sm self-start mb-6">
-        <li>UX Strategy</li>
-        <li>Interaction Design</li>
-        <li>Information Architecture</li>
-        <li>Research + Insight</li>
-      </ul>
-      <h3 class="{{ asideHeading | classes }}">Core Beliefs</h3>
-      <ul class="pl-10 text-sm self-start">
-        <li>Everyone deserves equitable access to goods and services</li>
-        <li>Design should be inclusive and accessible</li>
-        <li>Collaboration drives innovation</li>
-        <li>
-          Details matte<span class="inline-block -scale-x-100">r</span>
-        </li>
-      </ul>
-    </aside>
   </section>
 {% endmacro %}

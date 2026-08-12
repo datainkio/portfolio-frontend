@@ -7,8 +7,10 @@
  */
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
-import { SELECTORS } from "../../config/index/index.js";
+import { BIO_INTRO_HOLD, SELECTORS } from "../../config/index/index.js";
+import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
 export class LandingSequence {
   constructor(bus, sections, gelAnimation) {
@@ -21,6 +23,9 @@ export class LandingSequence {
     this.gelManager = gelAnimation;
 
     this._listeners = [];
+    // The beat between video:intro:complete and bio.playIntro(). gsap.delayedCall
+    // (not setTimeout) so the timer is ticker-synced, pausable and killable.
+    this._bioHoldCall = null;
 
     this.handlePreloaderOut = () => this.start();
     window.addEventListener(
@@ -32,7 +37,7 @@ export class LandingSequence {
     this._registerListeners();
   }
 
-  start() {
+  async start() {
     this.logger.trace("Starting landing sequence");
     window.removeEventListener(
       EVENTS.system.preloaderOut,
@@ -40,10 +45,14 @@ export class LandingSequence {
     );
 
     try {
-      this.sections?.video?.playIntro?.();
+      // Landing only: the background video's hidden resting state. The intro
+      // that fades it into view is deferred until the home header finishes its
+      // own intro (see _registerListeners) — the header leads, the video
+      // follows, then Bio. Playing the intro here would race the header.
+      await this.sections?.video?.playLanding?.();
     } catch (error) {
       this.logger.trace(
-        "Error starting video intro",
+        "Error staging video landing state",
         error,
         "verbose",
         "error",
@@ -71,11 +80,65 @@ export class LandingSequence {
 
     this.logger.trace("Destroying sequence", null, "brief", "standard");
 
+    this._bioHoldCall?.kill();
+    this._bioHoldCall = null;
+
     this._listeners.forEach((unsubscribe) => unsubscribe());
     this._listeners = [];
     this.sections = null;
     this.gelManager = null;
     this.bus = null;
+  }
+
+  /**
+   * Fade the background video in, cued by the home header's intro completing.
+   *
+   * `BackgroundVideo.playIntro()` awaits `_ensureVideoReady()` first. By this
+   * point the preloader has long since hydrated the deferred source, so that
+   * await is a safety net rather than a wait.
+   */
+  async _startVideoIntro() {
+    try {
+      await this.sections?.video?.playIntro?.();
+    } catch (error) {
+      this.logger.trace(
+        "Error starting video intro",
+        error,
+        "verbose",
+        "error",
+      );
+    }
+  }
+
+  /**
+   * Hold a beat after the background video's intro, then bring the gel band in
+   * and — once it lands — play Bio's intro.
+   *
+   * The gel entrance is bio's `landing` phase (the `split` variant's `init`; see
+   * molecules/bio-motion/heading-gel.js). Awaiting `playLanding()` is what gates
+   * the reveal: its promise resolves on the landing timeline's `onComplete`, so
+   * the intro cannot start over a band that is still flying in.
+   *
+   * Reduced motion zeroes the hold rather than skipping the call — the video
+   * still emits `video:intro:complete` under a gated profile (AbstractSection
+   * jumps the intro to progress(1) and emits), so this chain must stay intact.
+   * `playLanding()` likewise resolves immediately when the profile gates motion
+   * off, so the await never stalls the chain.
+   */
+  _armBioIntro() {
+    if (this._bioHoldCall) return;
+
+    const hold = isReducedMotion() ? 0 : BIO_INTRO_HOLD.delay;
+
+    this._bioHoldCall = gsap.delayedCall(hold, async () => {
+      this._bioHoldCall = null;
+      this.logger.trace(SELECTORS.bio + " gel entrance (after video intro)");
+      await this.sections?.bio?.playLanding?.();
+      this.logger.trace(SELECTORS.bio + " intro (after gel entrance)");
+      this.sections?.bio?.playIntro?.();
+    });
+
+    this.logger.trace(`BG Video intro complete; bio holds ${hold}s`);
   }
 
   _pauseBackgroundVideo() {
@@ -99,17 +162,29 @@ export class LandingSequence {
       this._listeners.push(off);
     };
 
-    on(EVENTS.video.introComplete, () => {
-      this.logger.trace("BG Video intro complete");
+    // The landing runs as one serial chain, and it is now a loop that closes on
+    // the header rather than a line that starts there:
+    //
+    //   home header OUTRO (hero slides off)
+    //     -> background video intro
+    //       -> (beat) -> bio gel entrance -> bio intro
+    //         -> home header INTRO (menu rail builds)
+    //
+    // The cue is the header's outro, not its intro. That is load-bearing: the
+    // menu rail now waits for `bio:intro:complete` (HomeHeaderManager
+    // ._playMenuIn), so cueing the video off `home:intro:complete` would
+    // deadlock — the rail waiting on Bio, Bio waiting on the rail. The hero
+    // exiting is the earlier, unblocked cue.
+    //
+    // The bio ScrollTrigger still fires enter/exit for side effects, but no
+    // longer drives the reveal.
+    on(EVENTS.home.outroComplete, () => {
+      this.logger.trace("Home hero exited; starting video intro");
+      this._startVideoIntro();
     });
 
-    // Bio reveal is time-based, not scroll-based: it plays once the home
-    // PageHeader (HomeHeaderManager) finishes its own intro. The bio
-    // ScrollTrigger still fires enter/exit for video + outro side effects,
-    // but no longer drives the reveal.
-    on(EVENTS.home.introComplete, () => {
-      this.logger.trace(SELECTORS.bio + " intro (after header intro)");
-      this.sections?.bio?.playIntro?.();
+    on(EVENTS.video.introComplete, () => {
+      this._armBioIntro();
     });
 
     on(EVENTS.bio.enter, () => {

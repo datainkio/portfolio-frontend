@@ -1,16 +1,16 @@
-# Graph Report - frontend  (2026-08-11)
+# Graph Report - frontend  (2026-08-07)
 
 ## Corpus Check
-- 750 files · ~210,244 words
+- 750 files · ~209,953 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2498 nodes · 3503 edges · 417 communities (261 shown, 156 thin omitted)
+- 2494 nodes · 3485 edges · 407 communities (255 shown, 152 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 101 edges (avg confidence: 0.75)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f51fbfdb`
+- Built from commit: `f39defff`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -282,23 +282,13 @@
 - Eleventy Services README
 - scrolltriggers config
 - README.pages (Page Animations)
-- engines
-- repository
-- @11ty/eleventy-img
-- cheerio
-- @datainkio/lumberjack
-- @datainkio/textparty
-- gsap
-- opentype.js
-- @svgdotjs/svg.js
-- tailwindcss
 
 ## God Nodes (most connected - your core abstractions)
 1. `scripts` - 69 edges
 2. `AbstractSection` - 34 edges
-3. `TIMELINE_IDS` - 26 edges
-4. `motion` - 26 edges
-5. `init()` - 25 edges
+3. `motion` - 26 edges
+4. `init()` - 25 edges
+5. `TIMELINE_IDS` - 25 edges
 6. `AbstractSectionAnimations` - 24 edges
 7. `SELECTORS` - 21 edges
 8. `home.njk` - 21 edges
@@ -310,16 +300,16 @@
   data/sanity/transforms/portableText.js → views/molecules/lightbox/lightbox.md
 - `exportDiagrams.js` --semantically_similar_to--> `exportStoryboards()`  [INFERRED] [semantically similar]
   scripts/README.scripts.md → scripts/diagrams/exportStoryboards.js
+- `IA Frontmatter Schema` --semantically_similar_to--> `Eleventy Collections Manager README`  [INFERRED] [semantically similar]
+  docs/ia/frontmatter.md → eleventy/collections/README.collections.md
 - `buildChoreography.js` --references--> `AnimationDirector`  [EXTRACTED]
   scripts/README.scripts.md → js/choreography/AnimationDirector.js
 - `section registry` --references--> `AbstractSection`  [EXTRACTED]
   docs/director-initialization-sequence.md → js/choreography/system/AbstractSection.js
-- `ThemeColors (color)` --semantically_similar_to--> `ThemeColors`  [INFERRED] [semantically similar]
-  js/utils/README.utils.md → js/utils/tailwind/ThemeColors.js
 
 ## Import Cycles
-- 2-file cycle: `js/choreography/molecules/card-motion/card-motion.js -> js/choreography/molecules/card-motion/throw.js -> js/choreography/molecules/card-motion/card-motion.js`
 - 2-file cycle: `js/choreography/molecules/card-motion/card-motion.js -> js/choreography/molecules/card-motion/clip.js -> js/choreography/molecules/card-motion/card-motion.js`
+- 2-file cycle: `js/choreography/molecules/card-motion/card-motion.js -> js/choreography/molecules/card-motion/throw.js -> js/choreography/molecules/card-motion/card-motion.js`
 
 ## Hyperedges (group relationships)
 - **Choreography prompt module routing (decision → planning → implementation)** — copilot_prompts_choreographer, copilot_prompts_choreography_planning, copilot_prompts_choreography_implementation, copilot_prompts_index [EXTRACTED 1.00]
@@ -350,7 +340,7 @@
 - **Home page composes homepage organism sections** — views_pages_home_home, views_organisms_section_bio, views_organisms_section_work, views_organisms_section_organizations, views_organisms_section_awards, views_organisms_section_contact [EXTRACTED 1.00]
 - **Two-channel developer narrative (console + HTML comments)** — views_templates_partials_dev_note, views_pages_home_home, aix_docs_decisions_0005_dev_channel_narrative [EXTRACTED 1.00]
 
-## Communities (417 total, 156 thin omitted)
+## Communities (407 total, 152 thin omitted)
 
 ### Community 0 - "Sanity Client and Queries"
 Cohesion: 0.06
@@ -361,8 +351,8 @@ Cohesion: 0.03
 Nodes (69): scripts, build, build:11ty, build:css, build:css:dev, build:debug, build:design, build:design:debug (+61 more)
 
 ### Community 2 - "Atom Motion Primitives"
-Cohesion: 0.17
-Nodes (14): Motion Profile Resolution Layer, CLIP_HIDDEN, clipRevealIn(), clipRevealOut(), fadeIn(), fadeOut(), scaleCollapse(), scaleReveal() (+6 more)
+Cohesion: 0.09
+Nodes (21): Motion Profile Resolution Layer, CLIP_HIDDEN, clipRevealIn(), clipRevealOut(), fadeIn(), fadeOut(), scaleCollapse(), scaleReveal() (+13 more)
 
 ### Community 3 - "Preloader System"
 Cohesion: 0.07
@@ -373,28 +363,28 @@ Cohesion: 0.06
 Nodes (15): NOTE: Works with both single values and array values (uses first item), hexToRgb(), multiplyBlend(), rgbToHex(), NOTE: Works with both JavaScript Date objects and ISO 8601 date strings., extractHeadings (TOC data source), injectSvgClass(), mergeClasses() (+7 more)
 
 ### Community 5 - "Choreography Config Contracts"
-Cohesion: 0.15
-Nodes (14): SELECTORS, TIMELINE_IDS, TODO: The complexity of the choreography has grown past what a simple, resolveSectionMotionProfile(), SCROLL_DEFAULTS, NOTE: This might be better defined along with the other factory methods in AWARD, AWARDS_TRIGGER, NOTE: This might be better defined along with the other factory methods in BIO_V (+6 more)
+Cohesion: 0.11
+Nodes (14): SELECTORS, TODO: The complexity of the choreography has grown past what a simple, BACKGROUND_TRIGGER, SCROLL_DEFAULTS, AWARDS_TRIGGER, BACKGROUND_TRIGGER, BackgroundVideoTriggers, HERO_TRIGGER (+6 more)
 
 ### Community 6 - "Reduced Motion and Card Motion"
 Cohesion: 0.08
-Nodes (26): BREAKPOINT_MATCH_MEDIA_CONDITIONS, isReducedMotion(), ReducedMotionHandler, CLEAR, killST(), createCardScrollClip(), createInterTimeline(), createIntroTimeline() (+18 more)
+Nodes (26): ACCESSIBILITY_SETTINGS, isReducedMotion(), ReducedMotionHandler, CLEAR, killST(), createCardScrollClip(), createInterTimeline(), createIntroTimeline() (+18 more)
 
 ### Community 7 - "Bio Motion Variants"
-Cohesion: 0.16
-Nodes (18): BIO_SELECTORS, BIO_OUTRO, GelAnimationManager, attachHeadingGel(), getHeadingGelEl(), Gels never ScrollTrigger-pinned (fixed background container pattern), selectHeading(), suspended (+10 more)
+Cohesion: 0.06
+Nodes (43): BIO_SELECTORS, BIO_INTRO, BIO_OUTRO, GelAnimationManager, BIO_VARIANT_FACTORIES, createFadeIn(), createFadeOut(), Bio fade variant currently inert (commented out) (+35 more)
 
 ### Community 8 - "Build Pipeline Scripts"
 Cohesion: 0.12
 Nodes (15): Frontend build order (clean→design→css→js→ 11ty), buildChoreography.js, buildPreview.js, clearCache.js, clearSiteFolder(), preserveDirs, siteFolder, exportDiagrams.js (+7 more)
 
 ### Community 9 - "AIX Docs and Agent Prompts"
-Cohesion: 0.16
-Nodes (4): AbstractSection, fibonacci(), onComplete(), onStart()
+Cohesion: 0.07
+Nodes (31): AIX context hygiene principle, LCP asset + font preload strategy, Link, don't fork (AI docs portability), Reduced-motion graceful degradation, AIX Maintenance Loop (frontend), AIX Maintenance Checklist (Copilot-First Repos), Canonical choreography patterns, Canonical JS initialization patterns (+23 more)
 
 ### Community 10 - "GSAP Vendor Bundle (minified)"
-Cohesion: 0.18
-Nodes (16): BIO_INTRO, BIO_VARIANT_FACTORIES, createFadeIn(), createFadeOut(), Bio fade variant currently inert (commented out), initFade(), selectBioEl(), buildIntro() (+8 more)
+Cohesion: 0.16
+Nodes (11): TIMELINE_IDS, AWARD_VARIANT_FACTORIES, PROCESS_VARIANT_FACTORIES, createSectionHeaderIntro(), NOTE: This might be better defined along with the other factory methods in AWARD, NOTE: This might be better defined along with the other factory methods in BIO_V, BIO_TRIGGER, getLastWordBottom() (+3 more)
 
 ### Community 11 - "Sanity to 11ty Collections"
 Cohesion: 0.12
@@ -405,8 +395,8 @@ Cohesion: 0.08
 Nodes (40): Content Graph, Content Strategy Docs, Content Schemas, Activity Taxonomy, AWARD Schema, IMAGE_ASSET Schema, ImageMeta Object, Industry Taxonomy (+32 more)
 
 ### Community 13 - "NPM Dependencies"
-Cohesion: 0.10
-Nodes (21): @11ty/eleventy, @11ty/eleventy-fetch, @11ty/eleventy-navigation, dotenv, groq, dependencies, @11ty/eleventy, @11ty/eleventy-fetch (+13 more)
+Cohesion: 0.05
+Nodes (37): @11ty/eleventy, @11ty/eleventy-fetch, @11ty/eleventy-img, @11ty/eleventy-navigation, cheerio, @datainkio/lumberjack, @datainkio/textparty, dotenv (+29 more)
 
 ### Community 14 - "Typography and Registry"
 Cohesion: 0.07
@@ -414,7 +404,7 @@ Nodes (31): TypographyService.js, Typography Font Loading Order, fontFamilies.cs
 
 ### Community 15 - "Ruler Display System"
 Cohesion: 0.07
-Nodes (21): RULER_DEFAULTS, RULER_INTRO_DEFAULTS, choreography/config/ruler.js, RulerIntroManager, initRulerIntro(), RulerIntroManager, applyClasses(), GEOMETRY_CSS_VAR (+13 more)
+Nodes (25): RULER_DEFAULTS, RULER_INTRO_DEFAULTS, choreography/config/ruler.js, RulerIntroManager, initRulerIntro(), RulerIntroManager, CompositeDisplay, DisplayManager (+17 more)
 
 ### Community 16 - "Blockframes Canvas Animation"
 Cohesion: 0.10
@@ -436,10 +426,6 @@ Nodes (15): article(), basic(), block(), blog(), calendar(), cart(), chart(), co
 Cohesion: 0.22
 Nodes (8): ACTIVITY_PROJECTION, AWARD_PROJECTION, ORGANIZATION_PROJECTION, PROJECT_PAGE_PROJECTION, ROLE_PROJECTION, awardsQuery, organizationsQuery, projectPagesQuery
 
-### Community 22 - "Process Section"
-Cohesion: 0.15
-Nodes (6): Process, ProcessAnimations, AnimationDirector, GelAnimationManager, process-motion/blockframes.js, process-motion (PROCESS_VARIANT_FACTORIES)
-
 ### Community 23 - "Blockframes Builder"
 Cohesion: 0.12
 Nodes (5): Builder, BlockLine, Cloud layout, Grid layout, Blockframes Layouts (positioning algorithms)
@@ -453,28 +439,24 @@ Cohesion: 0.07
 Nodes (31): ansi-colors, chalk, cli-progress, djlint, lightbox(), picture(), loremChars(), loremPars() (+23 more)
 
 ### Community 26 - "Breakpoints and Motion Profiles"
-Cohesion: 0.21
-Nodes (10): BREAKPOINT_PRIORITY, getActiveBreakpoint(), ACCESSIBILITY_SETTINGS, CARD_STATIC, getActiveMotionProfileKey(), getCardVariantOverride(), MOTION_PROFILES, NOTE: trigger capability flags (scrub/pin/once) are intentionally NOT defined he (+2 more)
+Cohesion: 0.12
+Nodes (13): BREAKPOINT_MATCH_MEDIA_CONDITIONS, BREAKPOINT_PRIORITY, getActiveBreakpoint(), CARD_STATIC, getActiveMotionProfileKey(), getCardVariantOverride(), MOTION_PROFILES, NOTE: trigger capability flags (scrub/pin/once) are intentionally NOT defined he (+5 more)
 
 ### Community 27 - "Hero Motion Variants"
-Cohesion: 0.16
-Nodes (15): splitWordReveal(), HERO_SELECTORS, HERO_INTRO, HERO_LANDING, HERO_VARIANT_FACTORIES, createLowerShutter(), createRaiseShutter(), init() (+7 more)
+Cohesion: 0.09
+Nodes (25): HERO_SELECTORS, ANIMATION_DEFAULTS, AWARDS_ANIMATION_DEFAULTS, BACKGROUND_ANIMATION_DEFAULTS, BIO_ANIMATION_DEFAULTS, HERO_INTRO, HERO_LANDING, HERO_OUTRO (+17 more)
 
 ### Community 29 - "GSAP Vendor Bundle (minified)"
-Cohesion: 0.07
-Nodes (44): Collection initialization dependency order (Sanity before Navigation), AIX context hygiene principle, LCP asset + font preload strategy, Link, don't fork (AI docs portability), Reduced-motion graceful degradation, Eleventy service layer pattern, Sanity client.js, fetchSanityData.js (+36 more)
+Cohesion: 0.21
+Nodes (17): Collection initialization dependency order (Sanity before Navigation), Eleventy service layer pattern, Sanity client.js, fetchSanityData.js, projects.js query projection, data/sanity/queries.js, Sanity to 11ty data flow, Collections index sidecar (+9 more)
 
 ### Community 31 - "AbstractSectionAnimations Base"
 Cohesion: 0.15
 Nodes (3): AbstractSectionAnimations, EMPTY_TIMELINES(), TIMELINE_BUILDERS
 
-### Community 32 - "Gel Core"
-Cohesion: 0.06
-Nodes (4): GelAnimationManager, ScrollSmootherManager, SessionManager, Gel
-
 ### Community 33 - "Award Motion Variants"
-Cohesion: 0.21
-Nodes (12): AWARD_SELECTORS, AWARDS_INTRO, AWARD_VARIANT_FACTORIES, buildIntro(), buildOutro(), init(), Reduced-motion variant-swap contract (Awards), createSlideIn() (+4 more)
+Cohesion: 0.23
+Nodes (11): AWARD_SELECTORS, AWARDS_INTRO, buildIntro(), buildOutro(), init(), Reduced-motion variant-swap contract (Awards), createSlideIn(), createSlideOut() (+3 more)
 
 ### Community 34 - "GSAP Vendor Bundle (minified)"
 Cohesion: 0.13
@@ -485,19 +467,19 @@ Cohesion: 0.22
 Nodes (10): display11tyInfo(), getEleventyVersion(), displayEnvironmentInfo(), main(), __dirname, displayTailwindInfo(), main(), init11ty() (+2 more)
 
 ### Community 37 - "Process Blockframes Motion"
-Cohesion: 0.21
-Nodes (9): PROCESS_SELECTORS, buildBlockframesReveal(), Non-literal dynamic import to keep blockframes package out of bundle, tokenColor(), PROCESS_VARIANT_FACTORIES, buildBlockframesReveal, fillBlockframesGrid, intro() (+1 more)
+Cohesion: 0.24
+Nodes (8): PROCESS_SELECTORS, buildBlockframesReveal(), Non-literal dynamic import to keep blockframes package out of bundle, tokenColor(), buildBlockframesReveal, fillBlockframesGrid, intro(), attachSectionGel()
 
 ### Community 38 - "Taxonomy Queries"
 Cohesion: 0.19
 Nodes (10): activitiesQuery, CMS_QUERIES, imageAssetsQuery, industriesQuery, navigationQuery, outcomesQuery, postsQuery, rolesQuery (+2 more)
 
 ### Community 39 - "Blockframes Animator"
-Cohesion: 0.13
-Nodes (9): Atomic Design Pattern (atoms→molecules→organisms→templates), fillBlockframesGrid(), Animator, Blockframes, Blockframes System Architecture Doc, CompositeDisplay, DisplayManager, PrinterMarks (+1 more)
+Cohesion: 0.18
+Nodes (3): fillBlockframesGrid(), Animator, Blockframes
 
 ### Community 40 - "UI Components Loop"
-Cohesion: 0.24
+Cohesion: 0.23
 Nodes (14): ui components anim.svg, data-process-el=uicomponents hook family, buildUiComponentsLoop(), buildUiComponentsReduced(), fadeOpacity(), intro(), introReduced(), measure() (+6 more)
 
 ### Community 42 - "Work Section"
@@ -525,12 +507,12 @@ Cohesion: 0.12
 Nodes (17): Time-Driven Hero-to-Menu Seam Pattern, Home Header Hero→Menu Transition Spec, hanko render macro, Projects By Industry render macro, Article Header render macro, Data and Context, Header roles, Home Landing (+9 more)
 
 ### Community 48 - "Event Contracts and Managers"
-Cohesion: 0.15
-Nodes (5): BACKGROUND_TRIGGER, BACKGROUND_TRIGGER, BackgroundVideoTriggers, ProcessTriggers, AbstractSectionTriggers
+Cohesion: 0.25
+Nodes (6): GlobalHeaderManager, ProjectHeaderManager, ReducedMotionHandler manager, ScrollEffectsCoordinator, ScrollSmootherManager, SessionManager
 
 ### Community 49 - "GelAnimationManager API"
-Cohesion: 0.13
-Nodes (12): EVENTS, BUILD_INFO_SELECTORS, VIDEO_SELECTORS, TAILWIND_BREAKPOINTS, GlobalHeaderManager, ProjectHeaderManager, ReducedMotionHandler manager, ScrollEffectsCoordinator (+4 more)
+Cohesion: 0.24
+Nodes (4): EVENTS, BUILD_INFO_SELECTORS, TAILWIND_BREAKPOINTS, MEDIA
 
 ### Community 50 - "Printmarks and Section Atoms"
 Cohesion: 0.12
@@ -585,8 +567,8 @@ Cohesion: 0.36
 Nodes (8): ensureDir(), exportStoryboards(), extractMermaidBlocks(), INPUT_DIR, OUTPUT_DIR, runMmdc(), TMP_DIR, writeTempMermaid()
 
 ### Community 66 - "Package Metadata"
-Cohesion: 0.14
-Nodes (13): browserslist, bugs, url, description, homepage, license, name, packageManager (+5 more)
+Cohesion: 0.10
+Nodes (19): browserslist, bugs, url, description, engines, node, npm, homepage (+11 more)
 
 ### Community 67 - "Package Keywords"
 Cohesion: 0.18
@@ -605,7 +587,7 @@ Cohesion: 0.15
 Nodes (17): ADR 0005 dev-channel narrative, contactSubmission schema, BuildInfoManager.js, HomeHeaderManager.js, WorkNavManager.js, contact form spec, Gel atom (gel.njk), Organization atom (organization.njk) (+9 more)
 
 ### Community 71 - "GlobalHeader Scroll Hide"
-Cohesion: 0.29
+Cohesion: 0.27
 Nodes (3): GlobalHeaderManager, mq, reducedMotionHandler
 
 ### Community 74 - "Projects Alternate Grid"
@@ -619,10 +601,6 @@ Nodes (18): DEFAULT_COLOR_CLASSES, MASK_STYLE, GelGeometry, GelManipulator, GelM
 ### Community 76 - "Gel Mask"
 Cohesion: 0.22
 Nodes (9): Data and Context, `data-process-el` Hooks, Notes for Future Maintenance, Open Questions, Process, Purpose, Relationships, Role in the System (+1 more)
-
-### Community 77 - "GSAP Vendor Bundle (minified)"
-Cohesion: 0.14
-Nodes (12): BACKGROUND_ANIMATION_DEFAULTS, createArticleNavToggle(), createGelTransition(), scroll-reveal-group molecule, section-header-intro molecule, createSectionHeaderIntro(), video-reveal molecule, buildVideoIntro() (+4 more)
 
 ### Community 78 - "CSS Architecture"
 Cohesion: 0.20
@@ -652,10 +630,6 @@ Nodes (4): parallaxScrub(), PROJECT_HEADER_SELECTORS, PROJECT_HEADER_ANIMATION, 
 Cohesion: 0.32
 Nodes (7): buildCollection(), directoryToProcess, fs, outputFile, path, readDirectoryStructure(), writeCollectionToFile()
 
-### Community 85 - "SessionManager State"
-Cohesion: 0.19
-Nodes (9): resumeHeadingGelSync(), suspendHeadingGelSync(), AwardsTriggers.bind(), BioTriggers.bind(), _bindOutroPin(), bio-outro-pin ScrollTrigger, BioTriggers, HeroTriggers.bind() (+1 more)
-
 ### Community 87 - "Grid Generator Script"
 Cohesion: 0.39
 Nodes (7): drawCircle(), drawGrid(), drawOppositeCircles(), generateLittleBlock(), generateNewGrid(), getTwoColors(), init()
@@ -681,8 +655,8 @@ Cohesion: 0.25
 Nodes (7): abstractSectionPath, __dirname, eventsPath, __filename, heroPath, missing, requiredMarkers
 
 ### Community 95 - "Blockframes System Architecture Doc"
-Cohesion: 0.60
-Nodes (5): Blockframes Atoms (atomic design level 1), Blockframes Molecules (atomic design level 2), Blockframes Organisms (atomic design level 3), Painter, Blockframes Templates (atomic design level 4)
+Cohesion: 0.38
+Nodes (7): Atomic Design Pattern (atoms→molecules→organisms→templates), Blockframes Atoms (atomic design level 1), Blockframes Molecules (atomic design level 2), Blockframes Organisms (atomic design level 3), Painter, Blockframes System Architecture Doc, Blockframes Templates (atomic design level 4)
 
 ### Community 96 - "TailwindLogger.js"
 Cohesion: 0.29
@@ -753,8 +727,8 @@ Cohesion: 0.50
 Nodes (4): margin-bleed-marks render macro, registration-marks render macro, trim-marks render macro, registration-mark render macro
 
 ### Community 124 - "HomeHeaderManager.js"
-Cohesion: 0.14
-Nodes (15): ANIMATION_DEFAULTS, AWARDS_ANIMATION_DEFAULTS, BIO_ANIMATION_DEFAULTS, HERO_OUTRO, HOME_HERO_BUILD, HOME_HERO_HOLD, HOME_HERO_OUTRO, HOME_NAV_REVEAL (+7 more)
+Cohesion: 0.29
+Nodes (6): HOME_HERO_BUILD, HOME_HERO_HOLD, HOME_HERO_OUTRO, HOME_NAV_REVEAL, parseCssSeconds(), SEAM_TOKENS
 
 ### Community 125 - "BuildInfoManager"
 Cohesion: 0.29
@@ -828,14 +802,6 @@ Nodes (3): Card states, Channels (post-Drop), profiles
 Cohesion: 0.50
 Nodes (3): CARD_DEAL_TRIGGER, CARD_FIGURE_CLIP_TRIGGER, CARD_FIGURE_PARALLAX_TRIGGER
 
-### Community 407 - "engines"
-Cohesion: 0.67
-Nodes (3): engines, node, npm
-
-### Community 408 - "repository"
-Cohesion: 0.67
-Nodes (3): repository, type, url
-
 ## Ambiguous Edges - Review These
 - `serializePortableTextToHtml()` → `Lightbox`  [AMBIGUOUS]
   data/sanity/transforms/portableText.md · relation: references
@@ -857,7 +823,7 @@ Nodes (3): repository, type, url
 ## Knowledge Gaps
 - **692 isolated node(s):** `titleStyle`, `msgStyle`, `successStyle`, `infoStyle`, `errorStyle` (+687 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **156 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **152 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_

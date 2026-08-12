@@ -68,12 +68,22 @@ function parseCssSeconds(raw) {
  * GSAP; this manager arms only then — before it, the header is `position: fixed`
  * and CSS-owned, so touching it early would fight the loader outro.
  *
- * Trigger (hero -> menu): TIME, not interaction. On arm the header enters `hero`
- * and a `gsap.delayedCall` runs for HOME_HERO_HOLD seconds (zeroed under reduced
- * motion; overridable at runtime via `?heroHold=<seconds>` for DX). When it
- * fires, the deconstruct -> build transition plays. Scroll and tap are inert by
- * design — the previous scroll-gated swap hid content behind an interaction gate
- * with no cue. See specs/animation/home-header-hero-to-menu-transition.animation-spec.md.
+ * Trigger (hero -> menu): the transition is split across TWO cues, and neither
+ * is interaction. Scroll and tap are inert by design — the previous scroll-gated
+ * swap hid content behind an interaction gate with no cue. See
+ * specs/animation/home-header-hero-to-menu-transition.animation-spec.md.
+ *
+ *   1. Deconstruct (`_runTransition`) — TIME. On arm the header enters `hero`
+ *      and a `gsap.delayedCall` runs for HOME_HERO_HOLD seconds (zeroed under
+ *      reduced motion; overridable via `?heroHold=<seconds>` for DX). When it
+ *      fires, the hero panel slides off-stage and `home:outro:complete` emits.
+ *   2. Build (`_playMenuIn`) — the BUS, on `bio:intro:complete`. The menu rail
+ *      does not follow its own exit; it waits out the page's landing narrative
+ *      (video intro -> gel entrance -> bio intro) and arrives after it.
+ *
+ * The split is why `LandingSequence` cues the video intro off this header's
+ * *outro*, not its intro: the rail waits on Bio, so cueing Bio's chain off the
+ * rail would deadlock. The header opens the landing and closes it.
  *
  * The role swap itself is CSS-owned: the template declares each role's layout —
  * and the hgroup's full-vs-abbreviated brand text — as Tailwind data-variants
@@ -114,11 +124,24 @@ export default class HomeHeaderManager {
     this._seam = null;
     // The nav-reveal timeline, stored so a larger sequence can nest/await it.
     this._navReveal = null;
+    // The menu-in (build) timeline and its once-only guard. The build no longer
+    // runs off the hero-hold timer — it waits for `bio:intro:complete`.
+    this._menuIn = null;
+    this._menuInStarted = false;
+    this._offBioIntro = null;
 
     if (!this._el) {
       this.logger.trace("element not found; HomeHeaderManager disabled");
       return;
     }
+
+    // The menu rail's cue comes from another section, so it arrives on the bus
+    // like any other cross-section coordination. Subscribed in the constructor
+    // rather than at deconstruct time so the cue can never land in a window
+    // where nobody is listening.
+    this._offBioIntro =
+      this._bus?.on?.(EVENTS.bio.introComplete, () => this._playMenuIn()) ??
+      null;
 
     // CSS owns the header until the outro completes; arm only at the handoff.
     this._onPreloaderOut = () => this._arm();
@@ -182,15 +205,20 @@ export default class HomeHeaderManager {
   }
 
   /**
-   * Play the hero -> menu transition: deconstruct the hero (outro) -> flip the
-   * role at the seam (CSS resets to the rail rest) -> build the menu (intro).
+   * Play the hero's exit: deconstruct the hero panel off-stage (outro).
    *
-   * The role flip is the instant midpoint: it happens while the hero panel is
-   * slid fully off-stage, so the progressive transform-only GSAP slide never
-   * fights the instant CSS role-rest swap (the width change is invisible
-   * off-screen). Under reduced motion there is no slide — the role flips and the
-   * nav resolves instantly, with both event pairs emitted so any coordinating
-   * sequence is not left waiting.
+   * This used to be the whole hero -> menu transition, deconstruct and build in
+   * one master timeline. The build half now has a different cue and lives in
+   * `_playMenuIn` — the two are no longer one gesture:
+   *
+   *   hero hold -> deconstruct -> ...the page's landing plays out...
+   *                                   -> bio:intro:complete -> menu rail builds
+   *
+   * So the hero exits on its timer, the landing narrative runs against the bare
+   * page, and the menu rail only arrives once Bio has had its say.
+   *
+   * Under reduced motion there is no slide — the outro pair is still emitted so
+   * the sequence downstream of it is not left waiting.
    *
    * @param {boolean} reduced
    */
@@ -201,18 +229,45 @@ export default class HomeHeaderManager {
     if (reduced) {
       this._emit(this._events?.outroStart);
       this._emit(this._events?.outroComplete);
-      this._enterMenuRole();
-      this._showNav(); // emits intro:start/complete instantly under reduced motion
       return;
     }
 
-    // One master timeline, two labeled phases, stored so it stays seekable and
-    // killable.
+    // Stored so it stays seekable and killable.
     this._master = gsap.timeline();
-    this._master
-      .add(this._buildDeconstruct(), "deconstruct")
-      .call(() => this._enterMenuRole(), null, "build")
-      .add(this._buildMenuIn(), "build");
+    this._master.add(this._buildDeconstruct(), "deconstruct");
+  }
+
+  /**
+   * Build the menu rail — the second half of the hero -> menu transition, cued
+   * by `bio:intro:complete` rather than by the hero-hold timer.
+   *
+   * The role flip stays the instant midpoint of the gesture: it happens while
+   * the hero panel is still slid fully off-stage (the deconstruct cleared it and
+   * nothing has brought it back), so the progressive transform-only GSAP slide
+   * never fights the instant CSS role-rest swap — the width change is invisible
+   * off-screen, exactly as when the two halves were one timeline.
+   *
+   * Once-only: `_menuInStarted` guards a repeat `bio:intro:complete` (a scroll
+   * back up re-enters bio and can emit again).
+   */
+  _playMenuIn() {
+    if (this._menuInStarted || this._inMenuRole) return;
+    // Nothing to build until the hero has actually armed and deconstructed —
+    // otherwise an early cue would flip the header to `menu` mid-loader.
+    if (!this._master) return;
+    this._menuInStarted = true;
+
+    this._enterMenuRole();
+
+    const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
+    if (reduced) {
+      // Emits intro:start/complete instantly under reduced motion.
+      this._showNav();
+      return;
+    }
+
+    this._menuIn = this._buildMenuIn();
+    this.logger.trace("bio intro complete; menu rail building");
   }
 
   /**
@@ -436,6 +491,9 @@ export default class HomeHeaderManager {
   }
 
   kill() {
+    this._offBioIntro?.();
+    this._offBioIntro = null;
+
     if (this._onPreloaderOut) {
       window.removeEventListener(
         EVENTS.system.preloaderOut,
@@ -464,6 +522,10 @@ export default class HomeHeaderManager {
 
     this._master?.kill();
     this._master = null;
+
+    this._menuIn?.kill();
+    this._menuIn = null;
+    this._menuInStarted = false;
 
     this._navReveal?.kill();
     this._navReveal = null;

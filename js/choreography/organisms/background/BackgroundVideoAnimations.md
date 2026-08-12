@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.organisms.background.backgroundvideoanimations
-role: "Background video animations module — builds a fade-and-clip-path intro timeline for the fullscreen background video."
+role: "Background video animations module — builds the hidden landing timeline and the fade-in intro timeline for the fullscreen background <video> element."
 status: stable
 surface: internal
 scope: frontend

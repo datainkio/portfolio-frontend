@@ -18,7 +18,7 @@ tags:
 links:
   - "[[bio-motion]]"
   - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
-  - "[[molecules/bio-motion/overview-gel|molecules/bio-motion/overview-gel]]"
+  - "[[molecules/bio-motion/mission-statement|molecules/bio-motion/mission-statement]]"
 backlinks:
   - "[[bio-motion]]"
 ---

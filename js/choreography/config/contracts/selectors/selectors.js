@@ -43,6 +43,15 @@ export const HERO_SELECTORS = {
   tagline: "tagline",
 };
 
+/**
+ * Background video (`SELECTORS.video` root). The media element is resolved by
+ * tag inside that root — the reveal animates the <video> only, never the root,
+ * which also holds the gels and the pixelator.
+ */
+export const VIDEO_SELECTORS = {
+  media: "video",
+};
+
 export const PROJECT_HEADER_SELECTORS = {
   header: "[data-project-header]",
   image: "[data-project-header-image]",

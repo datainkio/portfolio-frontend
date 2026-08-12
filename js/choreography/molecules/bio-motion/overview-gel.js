@@ -19,13 +19,30 @@ import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
  * visible is an explicit step here.
  */
 
-const OVERVIEW_GEL_ID = "gel_subheading";
-const SYNC_ST_ID = "bio-overview-gel-sync";
+export const OVERVIEW_GEL_ID = "gel_subheading";
+export const OVERVIEW_SYNC_ST_ID = "bio-overview-gel-sync";
+const SYNC_ST_ID = OVERVIEW_SYNC_ST_ID;
 const OVERVIEW_EL = "overview";
 
 const selectOverview = (view) =>
   view?.querySelector(`[${BIO_SELECTORS.elementAttribute}="${OVERVIEW_EL}"]`) ??
   null;
+
+// The mission-statement reveal owns `scaleX`/`autoAlpha` on the band while it
+// wipes in. `sync()` would reset both on the next scroll tick — suspend it for
+// the duration. Mirrors heading-gel.js's suspend contract.
+const suspended = new WeakSet();
+
+export function suspendOverviewGelSync(view) {
+  if (view) suspended.add(view);
+}
+
+export function resumeOverviewGelSync(view) {
+  if (view) suspended.delete(view);
+}
+
+export const getOverviewGelEl = (gelManager) =>
+  gelManager?.getGel?.(OVERVIEW_GEL_ID)?.view ?? null;
 
 /**
  * @param {HTMLElement|null} view Bio section root.
@@ -41,6 +58,7 @@ export function attachOverviewGel(view, gelManager) {
   let lastHeight = null;
 
   const sync = () => {
+    if (suspended.has(view)) return;
     const rect = overview.getBoundingClientRect();
     if (!rect.height) return;
 

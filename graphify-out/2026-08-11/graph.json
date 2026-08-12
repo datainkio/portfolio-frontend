@@ -3145,8 +3145,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_atoms_text_split_reveal_text_split_reveal_js_js_choreography_atoms_text_split_reveal_text_split_reveal",
-      "community": 27,
-      "community_name": "Hero Motion Variants",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "text-split-reveal.js"
     },
     {
@@ -3156,8 +3156,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "js_choreography_atoms_text_split_reveal_text_split_reveal_splitwordreveal",
-      "community": 27,
-      "community_name": "Hero Motion Variants",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "splitwordreveal()"
     },
     {
@@ -3282,21 +3282,10 @@
       "norm_label": "hero_selectors"
     },
     {
-      "label": "VIDEO_SELECTORS",
-      "file_type": "code",
-      "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L51",
-      "_origin": "ast",
-      "id": "js_choreography_config_contracts_selectors_selectors_video_selectors",
-      "community": 49,
-      "community_name": "GelAnimationManager API",
-      "norm_label": "video_selectors"
-    },
-    {
       "label": "PROJECT_HEADER_SELECTORS",
       "file_type": "code",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L55",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "js_choreography_config_contracts_selectors_selectors_project_header_selectors",
       "community": 83,
@@ -3307,7 +3296,7 @@
       "label": "BIO_SELECTORS",
       "file_type": "code",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L60",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "js_choreography_config_contracts_selectors_selectors_bio_selectors",
       "community": 7,
@@ -3318,7 +3307,7 @@
       "label": "PROCESS_SELECTORS",
       "file_type": "code",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L67",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "js_choreography_config_contracts_selectors_selectors_process_selectors",
       "community": 37,
@@ -3329,7 +3318,7 @@
       "label": "BUILD_INFO_SELECTORS",
       "file_type": "code",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L71",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "js_choreography_config_contracts_selectors_selectors_build_info_selectors",
       "community": 49,
@@ -3340,7 +3329,7 @@
       "label": "AWARD_SELECTORS",
       "file_type": "code",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L83",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "js_choreography_config_contracts_selectors_selectors_award_selectors",
       "community": 33,
@@ -3354,8 +3343,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_config_contracts_timelines_timelines_js_js_choreography_config_contracts_timelines_timelines",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "timelines.js"
     },
     {
@@ -3365,8 +3354,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "js_choreography_config_contracts_timelines_timelines_timeline_ids",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "timeline_ids"
     },
     {
@@ -3475,8 +3464,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "js_choreography_config_ix_breakpoints_breakpoint_match_media_conditions",
-      "community": 6,
-      "community_name": "Reduced Motion and Card Motion",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": "breakpoint_match_media_conditions"
     },
     {
@@ -3519,8 +3508,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_js_js_choreography_config_ix_motion",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "ix/motion.js"
     },
     {
@@ -3530,8 +3519,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_toseconds",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "toseconds()"
     },
     {
@@ -3552,8 +3541,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_animation_defaults",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "animation_defaults"
     },
     {
@@ -3607,8 +3596,8 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_throw_out_animation",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "throw_out_animation"
     },
     {
@@ -3618,8 +3607,8 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_throw_in_animation",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "throw_in_animation"
     },
     {
@@ -3651,8 +3640,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_hero_outro",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "hero_outro"
     },
     {
@@ -3662,8 +3651,8 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_background_animation_defaults",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "background_animation_defaults"
     },
     {
@@ -3673,8 +3662,8 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_bio_animation_defaults",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "bio_animation_defaults"
     },
     {
@@ -3684,8 +3673,8 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_bio_intro",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "bio_intro"
     },
     {
@@ -3706,8 +3695,8 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_organizations_animation_defaults",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "organizations_animation_defaults"
     },
     {
@@ -3717,8 +3706,8 @@
       "source_location": "L205",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_work_animation_defaults",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "work_animation_defaults"
     },
     {
@@ -3728,8 +3717,8 @@
       "source_location": "L223",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_awards_animation_defaults",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "awards_animation_defaults"
     },
     {
@@ -3761,8 +3750,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "js_choreography_config_ix_motion_rationale_47",
-      "community": 124,
-      "community_name": "HomeHeaderManager.js",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "note: `duration` is intentionally absent. it is the seam token"
     },
     {
@@ -3783,8 +3772,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "js_choreography_config_ix_profiles_accessibility_settings",
-      "community": 26,
-      "community_name": "Breakpoints and Motion Profiles",
+      "community": 6,
+      "community_name": "Reduced Motion and Card Motion",
       "norm_label": "accessibility_settings"
     },
     {
@@ -3838,8 +3827,8 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "js_choreography_config_ix_profiles_resolvesectionmotionprofile",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": "resolvesectionmotionprofile()"
     },
     {
@@ -3915,8 +3904,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "js_choreography_config_ix_scrolltriggers_background_trigger",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "background_trigger"
     },
     {
@@ -3970,8 +3959,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_js_js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "buildinfomanager"
     },
     {
@@ -3981,8 +3970,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager_constructor",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": ".constructor()"
     },
     {
@@ -3992,8 +3981,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager_onclick",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "._onclick()"
     },
     {
@@ -4003,8 +3992,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager_init",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "._init()"
     },
     {
@@ -4014,8 +4003,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager_handleclick",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "._handleclick()"
     },
     {
@@ -4025,8 +4014,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager_open",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": ".open()"
     },
     {
@@ -4036,8 +4025,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager_close",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": ".close()"
     },
     {
@@ -4047,8 +4036,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "js_choreography_managers_buildinfomanager_buildinfomanager_buildinfomanager_kill",
-      "community": 92,
-      "community_name": "ScrollSmootherManager",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": ".kill()"
     },
     {
@@ -4201,8 +4190,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_managers_globalheadermanager_globalheadermanager_js_js_choreography_managers_globalheadermanager_globalheadermanager",
-      "community": 49,
-      "community_name": "GelAnimationManager API",
+      "community": 71,
+      "community_name": "GlobalHeader Scroll Hide",
       "norm_label": "globalheadermanager.js"
     },
     {
@@ -4773,8 +4762,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_managers_scrolleffectscoordinator_scrolleffectscoordinator_js_js_choreography_managers_scrolleffectscoordinator_scrolleffectscoordinator",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "scrolleffectscoordinator.js"
     },
     {
@@ -4872,8 +4861,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_js_js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "scrollsmoothermanager.js"
     },
     {
@@ -4883,8 +4872,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": "scrollsmoothermanager"
     },
     {
@@ -4894,8 +4883,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager_constructor",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": ".constructor()"
     },
     {
@@ -4905,8 +4894,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager_checkavailability",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": "._checkavailability()"
     },
     {
@@ -4916,8 +4905,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager_enable",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": ".enable()"
     },
     {
@@ -4927,8 +4916,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager_disable",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": ".disable()"
     },
     {
@@ -4938,8 +4927,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager_getsmoother",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": ".getsmoother()"
     },
     {
@@ -4949,8 +4938,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager_isactive",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": ".isactive()"
     },
     {
@@ -4960,8 +4949,8 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "js_choreography_managers_scrollsmoothermanager_scrollsmoothermanager_scrollsmoothermanager_destroy",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 92,
+      "community_name": "ScrollSmootherManager",
       "norm_label": ".destroy()"
     },
     {
@@ -5048,8 +5037,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_js_js_choreography_managers_sessionmanager_sessionmanager",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 48,
+      "community_name": "Event Contracts and Managers",
       "norm_label": "sessionmanager.js"
     },
     {
@@ -5059,8 +5048,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": "sessionmanager"
     },
     {
@@ -5070,8 +5059,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager_constructor",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": ".constructor()"
     },
     {
@@ -5081,8 +5070,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager_loadstate",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": ".loadstate()"
     },
     {
@@ -5092,8 +5081,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager_getdefaultstate",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": ".getdefaultstate()"
     },
     {
@@ -5103,8 +5092,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager_savestate",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": ".savestate()"
     },
     {
@@ -5114,8 +5103,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager_hasherointroplayed",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": ".hasherointroplayed()"
     },
     {
@@ -5125,8 +5114,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager_markherointroplayed",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": ".markherointroplayed()"
     },
     {
@@ -5136,8 +5125,8 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "js_choreography_managers_sessionmanager_sessionmanager_sessionmanager_reset",
-      "community": 32,
-      "community_name": "Gel Core",
+      "community": 85,
+      "community_name": "SessionManager State",
       "norm_label": ".reset()"
     },
     {
@@ -5334,8 +5323,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_managers_index_index",
-      "community": 49,
-      "community_name": "GelAnimationManager API",
+      "community": 48,
+      "community_name": "Event Contracts and Managers",
       "norm_label": "managers/index/index.js"
     },
     {
@@ -5345,8 +5334,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_article_nav_toggle_article_nav_toggle_js_js_choreography_molecules_article_nav_toggle_article_nav_toggle",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "article-nav-toggle.js"
     },
     {
@@ -5356,8 +5345,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "js_choreography_molecules_article_nav_toggle_article_nav_toggle_createarticlenavtoggle",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "createarticlenavtoggle()"
     },
     {
@@ -5378,8 +5367,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "js_choreography_molecules_award_motion_award_motion_award_variant_factories",
-      "community": 33,
-      "community_name": "Award Motion Variants",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "award_variant_factories"
     },
     {
@@ -5510,8 +5499,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_bio_motion_js_js_choreography_molecules_bio_motion_bio_motion",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "bio-motion.js"
     },
     {
@@ -5521,8 +5510,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_bio_motion_bio_variant_factories",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "bio_variant_factories"
     },
     {
@@ -5532,8 +5521,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_fade",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "bio-motion/fade.js"
     },
     {
@@ -5543,8 +5532,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_fade_selectbioel",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "selectbioel()"
     },
     {
@@ -5554,8 +5543,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_fade_initfade",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "initfade()"
     },
     {
@@ -5565,8 +5554,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_fade_createfadein",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "createfadein()"
     },
     {
@@ -5576,8 +5565,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_fade_createfadeout",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "createfadeout()"
     },
     {
@@ -5620,8 +5609,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_heading_gel_suspendheadinggelsync",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "suspendheadinggelsync()"
     },
     {
@@ -5631,8 +5620,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_heading_gel_resumeheadinggelsync",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "resumeheadinggelsync()"
     },
     {
@@ -5697,8 +5686,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_reduced",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "bio-motion/reduced.js"
     },
     {
@@ -5708,8 +5697,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_reduced_selectbioel",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "selectbioel()"
     },
     {
@@ -5719,8 +5708,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_reduced_init",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "init()"
     },
     {
@@ -5730,8 +5719,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_reduced_buildintro",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "buildintro()"
     },
     {
@@ -5741,8 +5730,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_reduced_buildoutro",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "buildoutro()"
     },
     {
@@ -5829,8 +5818,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_sweep",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "sweep.js"
     },
     {
@@ -5840,8 +5829,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_sweep_selectbioel",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "selectbioel()"
     },
     {
@@ -5851,8 +5840,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_sweep_biorectasviewportpercent",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "biorectasviewportpercent()"
     },
     {
@@ -5862,8 +5851,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_sweep_createsweepin",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "createsweepin()"
     },
     {
@@ -5873,8 +5862,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "js_choreography_molecules_bio_motion_sweep_createsweepout",
-      "community": 10,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "createsweepout()"
     },
     {
@@ -6137,8 +6126,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_gel_transition_gel_transition_js_js_choreography_molecules_gel_transition_gel_transition",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "gel-transition.js"
     },
     {
@@ -6148,8 +6137,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "js_choreography_molecules_gel_transition_gel_transition_creategeltransition",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "creategeltransition()"
     },
     {
@@ -6335,8 +6324,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_index",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 2,
+      "community_name": "Atom Motion Primitives",
       "norm_label": "molecules/index.js"
     },
     {
@@ -6401,8 +6390,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_process_motion_process_motion_js_js_choreography_molecules_process_motion_process_motion",
-      "community": 37,
-      "community_name": "Process Blockframes Motion",
+      "community": 40,
+      "community_name": "UI Components Loop",
       "norm_label": "process-motion.js"
     },
     {
@@ -6412,8 +6401,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "js_choreography_molecules_process_motion_process_motion_process_variant_factories",
-      "community": 37,
-      "community_name": "Process Blockframes Motion",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "process_variant_factories"
     },
     {
@@ -6588,7 +6577,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_molecules_section_header_intro_section_header_intro_js_js_choreography_molecules_section_header_intro_section_header_intro",
-      "community": 77,
+      "community": 10,
       "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "section-header-intro.js"
     },
@@ -6599,7 +6588,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "js_choreography_molecules_section_header_intro_section_header_intro_createsectionheaderintro",
-      "community": 77,
+      "community": 10,
       "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "createsectionheaderintro()"
     },
@@ -6615,43 +6604,10 @@
       "norm_label": "video-reveal.js"
     },
     {
-      "label": "toTargets()",
-      "file_type": "code",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L26",
-      "_origin": "ast",
-      "id": "js_choreography_molecules_video_reveal_video_reveal_totargets",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "norm_label": "totargets()"
-    },
-    {
-      "label": "initVideoReveal()",
-      "file_type": "code",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L35",
-      "_origin": "ast",
-      "id": "js_choreography_molecules_video_reveal_video_reveal_initvideoreveal",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "norm_label": "initvideoreveal()"
-    },
-    {
-      "label": "buildVideoIntro()",
-      "file_type": "code",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L53",
-      "_origin": "ast",
-      "id": "js_choreography_molecules_video_reveal_video_reveal_buildvideointro",
-      "community": 77,
-      "community_name": "GSAP Vendor Bundle (minified)",
-      "norm_label": "buildvideointro()"
-    },
-    {
       "label": "createVideoReveal()",
       "file_type": "code",
       "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L76",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "js_choreography_molecules_video_reveal_video_reveal_createvideoreveal",
       "community": 77,
@@ -6731,8 +6687,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_awards_awardsanimations_js_js_choreography_organisms_awards_awardsanimations",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "awardsanimations.js"
     },
     {
@@ -6742,8 +6698,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "js_choreography_organisms_awards_awardsanimations_selectawardsel",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "selectawardsel()"
     },
     {
@@ -6830,8 +6786,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "js_choreography_organisms_awards_awardsanimations_rationale_25",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "note: this might be better defined along with the other factory methods in award"
     },
     {
@@ -7028,7 +6984,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
-      "community": 77,
+      "community": 10,
       "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "backgroundvideoanimations.js"
     },
@@ -7036,7 +6992,7 @@
       "label": "BackgroundVideoAnimations",
       "file_type": "code",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L11",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations",
       "community": 77,
@@ -7047,7 +7003,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L12",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations_constructor",
       "community": 77,
@@ -7058,7 +7014,7 @@
       "label": "._buildLanding()",
       "file_type": "code",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L32",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations_buildlanding",
       "community": 77,
@@ -7069,7 +7025,7 @@
       "label": "._buildIntro()",
       "file_type": "code",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L36",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations_buildintro",
       "community": 77,
@@ -7080,7 +7036,7 @@
       "label": "._buildIdle()",
       "file_type": "code",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L43",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations_buildidle",
       "community": 77,
@@ -7091,7 +7047,7 @@
       "label": "._buildOutro()",
       "file_type": "code",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L47",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations_buildoutro",
       "community": 77,
@@ -7105,8 +7061,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideotriggers",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "backgroundvideotriggers.js"
     },
     {
@@ -7116,8 +7072,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideotriggers_backgroundvideotriggers",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "backgroundvideotriggers"
     },
     {
@@ -7127,8 +7083,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideotriggers_backgroundvideotriggers_constructor",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": ".constructor()"
     },
     {
@@ -7138,8 +7094,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "js_choreography_organisms_background_backgroundvideotriggers_backgroundvideotriggers_gettriggerdefaults",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "._gettriggerdefaults()"
     },
     {
@@ -7149,8 +7105,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_bio_js_js_choreography_organisms_bio_bio",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "bio.js"
     },
     {
@@ -7259,8 +7215,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_bioanimations_js_js_choreography_organisms_bio_bioanimations",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "bioanimations.js"
     },
     {
@@ -7369,8 +7325,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_bioanimations_rationale_35",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "note: this might be better defined along with the other factory methods in bio_v"
     },
     {
@@ -7380,8 +7336,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "biotriggers.js"
     },
     {
@@ -7391,8 +7347,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers_bio_trigger",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "bio_trigger"
     },
     {
@@ -7402,8 +7358,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers_biotriggers",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "biotriggers"
     },
     {
@@ -7413,8 +7369,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers_biotriggers_constructor",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": ".constructor()"
     },
     {
@@ -7424,8 +7380,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers_biotriggers_gettriggerdefaults",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "._gettriggerdefaults()"
     },
     {
@@ -7435,8 +7391,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers_biotriggers_bind",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": ".bind()"
     },
     {
@@ -7446,8 +7402,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers_biotriggers_bindoutropin",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": "._bindoutropin()"
     },
     {
@@ -7457,8 +7413,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "js_choreography_organisms_bio_biotriggers_biotriggers_kill",
-      "community": 85,
-      "community_name": "SessionManager State",
+      "community": 7,
+      "community_name": "Bio Motion Variants",
       "norm_label": ".kill()"
     },
     {
@@ -7699,8 +7655,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "js_choreography_organisms_hero_hero_hero",
-      "community": 51,
-      "community_name": "Hero Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": "hero"
     },
     {
@@ -7710,8 +7666,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "js_choreography_organisms_hero_hero_hero_constructor",
-      "community": 51,
-      "community_name": "Hero Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": ".constructor()"
     },
     {
@@ -7721,8 +7677,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "js_choreography_organisms_hero_hero_hero_applyresponsivelifecycle",
-      "community": 51,
-      "community_name": "Hero Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": "._applyresponsivelifecycle()"
     },
     {
@@ -7732,8 +7688,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "js_choreography_organisms_hero_hero_hero_playoutro",
-      "community": 51,
-      "community_name": "Hero Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": ".playoutro()"
     },
     {
@@ -7743,8 +7699,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_hero_heroanimations",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "heroanimations.js"
     },
     {
@@ -7776,8 +7732,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "js_choreography_organisms_hero_heroanimations_heroanimations_setvariant",
-      "community": 51,
-      "community_name": "Hero Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": ".setvariant()"
     },
     {
@@ -7930,8 +7886,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_index_js_js_choreography_organisms_index",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "organisms/index.js"
     },
     {
@@ -8007,8 +7963,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_organizations_organizationsanimations_js_js_choreography_organisms_organizations_organizationsanimations",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "organizationsanimations.js"
     },
     {
@@ -8018,8 +7974,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "js_choreography_organisms_organizations_organizationsanimations_selectorganizationsel",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "selectorganizationsel()"
     },
     {
@@ -8128,8 +8084,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_process",
-      "community": 22,
-      "community_name": "Process Section",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "process.js"
     },
     {
@@ -8139,8 +8095,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_process_process",
-      "community": 22,
-      "community_name": "Process Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": "process"
     },
     {
@@ -8150,8 +8106,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_process_process_constructor",
-      "community": 22,
-      "community_name": "Process Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": ".constructor()"
     },
     {
@@ -8161,8 +8117,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_process_process_applyresponsivelifecycle",
-      "community": 22,
-      "community_name": "Process Section",
+      "community": 26,
+      "community_name": "Breakpoints and Motion Profiles",
       "norm_label": "._applyresponsivelifecycle()"
     },
     {
@@ -8172,8 +8128,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_processanimations",
-      "community": 22,
-      "community_name": "Process Section",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "processanimations.js"
     },
     {
@@ -8271,8 +8227,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_processtriggers_js_js_choreography_organisms_process_processtriggers",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "processtriggers.js"
     },
     {
@@ -8282,8 +8238,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_processtriggers_js_js_choreography_organisms_process_processtriggers_processtriggers",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "processtriggers"
     },
     {
@@ -8293,8 +8249,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "js_choreography_organisms_process_processtriggers_processtriggers_constructor",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": ".constructor()"
     },
     {
@@ -8370,8 +8326,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_organisms_work_workanimations_js_js_choreography_organisms_work_workanimations",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "workanimations.js"
     },
     {
@@ -8909,8 +8865,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_system_abstractsectionanimations_js_js_choreography_system_abstractsectionanimations",
-      "community": 5,
-      "community_name": "Choreography Config Contracts",
+      "community": 10,
+      "community_name": "GSAP Vendor Bundle (minified)",
       "norm_label": "abstractsectionanimations.js"
     },
     {
@@ -9129,8 +9085,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "js_choreography_system_abstractsectiontriggers_abstractsectiontriggers",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "abstractsectiontriggers"
     },
     {
@@ -9140,8 +9096,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "js_choreography_system_abstractsectiontriggers_abstractsectiontriggers_constructor",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": ".constructor()"
     },
     {
@@ -9151,8 +9107,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "js_choreography_system_abstractsectiontriggers_abstractsectiontriggers_gettriggerdefaults",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": "._gettriggerdefaults()"
     },
     {
@@ -9162,8 +9118,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "js_choreography_system_abstractsectiontriggers_abstractsectiontriggers_isscrubbed",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": ".isscrubbed()"
     },
     {
@@ -9173,8 +9129,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "js_choreography_system_abstractsectiontriggers_abstractsectiontriggers_bind",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": ".bind()"
     },
     {
@@ -9184,8 +9140,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "js_choreography_system_abstractsectiontriggers_abstractsectiontriggers_kill",
-      "community": 48,
-      "community_name": "Event Contracts and Managers",
+      "community": 5,
+      "community_name": "Choreography Config Contracts",
       "norm_label": ".kill()"
     },
     {
@@ -9481,8 +9437,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_templates_index_js_js_choreography_templates_index",
-      "community": 41,
-      "community_name": "LandingSequence and Arrangements",
+      "community": 49,
+      "community_name": "GelAnimationManager API",
       "norm_label": "templates/index.js"
     },
     {
@@ -9492,8 +9448,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_templates_landing_landingsequence_js_js_choreography_templates_landing_landingsequence",
-      "community": 41,
-      "community_name": "LandingSequence and Arrangements",
+      "community": 49,
+      "community_name": "GelAnimationManager API",
       "norm_label": "landingsequence.js"
     },
     {
@@ -9544,7 +9500,7 @@
       "label": ".reset()",
       "file_type": "code",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L59",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "js_choreography_templates_landing_landingsequence_landingsequence_reset",
       "community": 41,
@@ -9555,7 +9511,7 @@
       "label": ".destroy()",
       "file_type": "code",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L69",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "js_choreography_templates_landing_landingsequence_landingsequence_destroy",
       "community": 41,
@@ -9566,7 +9522,7 @@
       "label": "._pauseBackgroundVideo()",
       "file_type": "code",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L86",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "js_choreography_templates_landing_landingsequence_landingsequence_pausebackgroundvideo",
       "community": 41,
@@ -9577,7 +9533,7 @@
       "label": "._resumeBackgroundVideo()",
       "file_type": "code",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L91",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "js_choreography_templates_landing_landingsequence_landingsequence_resumebackgroundvideo",
       "community": 41,
@@ -9588,7 +9544,7 @@
       "label": "._registerListeners()",
       "file_type": "code",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L99",
+      "source_location": "L94",
       "_origin": "ast",
       "id": "js_choreography_templates_landing_landingsequence_landingsequence_registerlisteners",
       "community": 41,
@@ -9602,8 +9558,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_tokens_index_js_js_choreography_tokens_index",
-      "community": 49,
-      "community_name": "GelAnimationManager API",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "tokens/index.js"
     },
     {
@@ -9613,8 +9569,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "js_choreography_tokens_motion_motion_js_js_choreography_tokens_motion_motion",
-      "community": 49,
-      "community_name": "GelAnimationManager API",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "motion/motion.js"
     },
     {
@@ -9624,8 +9580,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "js_choreography_tokens_motion_motion_motiontokens",
-      "community": 49,
-      "community_name": "GelAnimationManager API",
+      "community": 27,
+      "community_name": "Hero Motion Variants",
       "norm_label": "motiontokens"
     },
     {
@@ -13903,8 +13859,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "package_repository",
-      "community": 408,
-      "community_name": "repository",
+      "community": 66,
+      "community_name": "Package Metadata",
       "norm_label": "repository"
     },
     {
@@ -13914,8 +13870,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "package_repository_type",
-      "community": 408,
-      "community_name": "repository",
+      "community": 66,
+      "community_name": "Package Metadata",
       "norm_label": "type"
     },
     {
@@ -13925,8 +13881,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "package_repository_url",
-      "community": 408,
-      "community_name": "repository",
+      "community": 66,
+      "community_name": "Package Metadata",
       "norm_label": "url"
     },
     {
@@ -14079,8 +14035,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "package_engines",
-      "community": 407,
-      "community_name": "engines",
+      "community": 66,
+      "community_name": "Package Metadata",
       "norm_label": "engines"
     },
     {
@@ -14090,8 +14046,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "package_engines_node",
-      "community": 407,
-      "community_name": "engines",
+      "community": 66,
+      "community_name": "Package Metadata",
       "norm_label": "node"
     },
     {
@@ -14101,8 +14057,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "package_engines_npm",
-      "community": 407,
-      "community_name": "engines",
+      "community": 66,
+      "community_name": "Package Metadata",
       "norm_label": "npm"
     },
     {
@@ -14959,8 +14915,8 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "package_dependencies_11ty_eleventy_img",
-      "community": 409,
-      "community_name": "@11ty/eleventy-img",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@11ty/eleventy-img"
     },
     {
@@ -14970,8 +14926,8 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "11ty_eleventy_img",
-      "community": 409,
-      "community_name": "@11ty/eleventy-img",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@11ty/eleventy-img"
     },
     {
@@ -15003,8 +14959,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "package_dependencies_datainkio_lumberjack",
-      "community": 411,
-      "community_name": "@datainkio/lumberjack",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@datainkio/lumberjack"
     },
     {
@@ -15014,8 +14970,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "datainkio_lumberjack",
-      "community": 411,
-      "community_name": "@datainkio/lumberjack",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@datainkio/lumberjack"
     },
     {
@@ -15025,8 +14981,8 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "package_dependencies_datainkio_textparty",
-      "community": 412,
-      "community_name": "@datainkio/textparty",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@datainkio/textparty"
     },
     {
@@ -15036,8 +14992,8 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "datainkio_textparty",
-      "community": 412,
-      "community_name": "@datainkio/textparty",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@datainkio/textparty"
     },
     {
@@ -15113,8 +15069,8 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "package_dependencies_svgdotjs_svg_js",
-      "community": 415,
-      "community_name": "@svgdotjs/svg.js",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@svgdotjs/svg.js"
     },
     {
@@ -15124,8 +15080,8 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "svgdotjs_svg_js",
-      "community": 415,
-      "community_name": "@svgdotjs/svg.js",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "@svgdotjs/svg.js"
     },
     {
@@ -15135,8 +15091,8 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "package_dependencies_cheerio",
-      "community": 410,
-      "community_name": "cheerio",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "cheerio"
     },
     {
@@ -15146,8 +15102,8 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "cheerio",
-      "community": 410,
-      "community_name": "cheerio",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "cheerio"
     },
     {
@@ -15201,8 +15157,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "package_dependencies_gsap",
-      "community": 413,
-      "community_name": "gsap",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "gsap"
     },
     {
@@ -15212,8 +15168,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "gsap",
-      "community": 413,
-      "community_name": "gsap",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "gsap"
     },
     {
@@ -15245,8 +15201,8 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "package_dependencies_opentype_js",
-      "community": 414,
-      "community_name": "opentype.js",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "opentype.js"
     },
     {
@@ -15256,8 +15212,8 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "opentype_js",
-      "community": 414,
-      "community_name": "opentype.js",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "opentype.js"
     },
     {
@@ -15311,8 +15267,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "package_dependencies_tailwindcss",
-      "community": 416,
-      "community_name": "tailwindcss",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "tailwindcss"
     },
     {
@@ -15322,8 +15278,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "tailwindcss",
-      "community": 416,
-      "community_name": "tailwindcss",
+      "community": 13,
+      "community_name": "NPM Dependencies",
       "norm_label": "tailwindcss"
     },
     {
@@ -22703,8 +22659,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "views_templates_partials_head_head",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "head"
     },
     {
@@ -22714,8 +22670,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "views_templates_partials_head_template",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "template"
     },
     {
@@ -22725,8 +22681,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "views_templates_partials_head_purpose",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "purpose"
     },
     {
@@ -22736,8 +22692,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "views_templates_partials_head_role_in_the_system",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "role in the system"
     },
     {
@@ -22747,8 +22703,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "views_templates_partials_head_data_and_context",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "data and context"
     },
     {
@@ -22758,8 +22714,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "views_templates_partials_head_relationships",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "relationships"
     },
     {
@@ -22769,8 +22725,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "views_templates_partials_head_notes_for_future_maintenance",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "notes for future maintenance"
     },
     {
@@ -22780,8 +22736,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "views_templates_partials_head_open_questions",
-      "community": 29,
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community": 9,
+      "community_name": "AIX Docs and Agent Prompts",
       "norm_label": "open questions"
     },
     {
@@ -23434,9 +23390,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "plan: finish remaining performance todos",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_plan_landing_performance_prompt"
     },
     {
@@ -23448,9 +23404,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "plan: finish remaining performance todos (ai copy)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_plan_landing_performance_prompt"
     },
     {
@@ -23490,9 +23446,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "aix maintenance checklist (copilot-first repos)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_aix_maintenance_checklist"
     },
     {
@@ -23504,9 +23460,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "ai prompts readme",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_readme_ai"
     },
     {
@@ -23518,9 +23474,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "start here (frontend aix)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_start_here"
     },
     {
@@ -23532,9 +23488,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "frontend ai system portability",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_workspace_portability"
     },
     {
@@ -23546,9 +23502,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "aix maintenance loop (frontend)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_aix_maintenance"
     },
     {
@@ -23560,9 +23516,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "canonical choreography patterns",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_examples_choreography"
     },
     {
@@ -23574,9 +23530,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "canonical js initialization patterns",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_examples_js_init"
     },
     {
@@ -23588,9 +23544,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "canonical template patterns",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_examples_templates"
     },
     {
@@ -23602,9 +23558,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "frontend choreography implementer (legacy agent)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_legacy_agents_choreography_implementer_agent"
     },
     {
@@ -23616,9 +23572,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "frontend choreography planner (legacy agent)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ai_legacy_agents_choreography_planner_agent"
     },
     {
@@ -23630,9 +23586,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "ia frontmatter schema",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "docs_ia_frontmatter"
     },
     {
@@ -23742,9 +23698,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "choreography event names (config/events.js)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "js_choreography_config_events_events"
     },
     {
@@ -23756,9 +23712,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 29,
+      "community": 9,
       "norm_label": "hero section controller",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "js_choreography_sections_hero_hero_hero"
     },
     {
@@ -23926,9 +23882,9 @@
       "author": null,
       "contributor": null,
       "rationale": "Motion must preserve intent under prefers-reduced-motion (shorten/simplify/crossfade) rather than disabling all motion, so meaning is not conveyed by motion alone.",
-      "community": 29,
+      "community": 9,
       "norm_label": "reduced-motion graceful degradation",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "concept_reduced_motion_graceful_degradation"
     },
     {
@@ -23941,9 +23897,9 @@
       "author": null,
       "contributor": null,
       "rationale": "Preloading the true LCP asset and first hero font, plus deferring choreography JS, targets FCP/LCP on first visit without blocking the parser.",
-      "community": 29,
+      "community": 9,
       "norm_label": "lcp asset + font preload strategy",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "concept_lcp_preload_strategy"
     },
     {
@@ -23956,9 +23912,9 @@
       "author": null,
       "contributor": null,
       "rationale": "Generated or stale files actively harm Copilot/AI suggestion accuracy; deletion improves AIX faster than adding rules.",
-      "community": 29,
+      "community": 9,
       "norm_label": "aix context hygiene principle",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "concept_context_hygiene_aix"
     },
     {
@@ -23971,9 +23927,9 @@
       "author": null,
       "contributor": null,
       "rationale": "Copying AIX checklists/evaluation prompts between repos causes drift; prefer pointers from an external scaffold into this repo's AI docs.",
-      "community": 29,
+      "community": 9,
       "norm_label": "link, don't fork (ai docs portability)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "AIX Docs and Agent Prompts",
       "id": "concept_link_dont_fork"
     },
     {
@@ -24900,9 +24856,9 @@
       "author": null,
       "contributor": null,
       "rationale": "Every factory body is commented out but timelines are still built and tagged with TIMELINE_IDS so AbstractSection can bind lifecycle callbacks and the phase still completes, just playing nothing; distinct from bio reduced.js which is intentionally empty by design rather than by accident.",
-      "community": 10,
+      "community": 7,
       "norm_label": "bio fade variant currently inert (commented out)",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_molecules_bio_motion_fade_inert_state"
     },
     {
@@ -24930,9 +24886,9 @@
       "author": null,
       "contributor": null,
       "rationale": "gel_bio exists only as a motion device; without the wipe there is nothing for it to express, and left visible it would sit as an opaque sheet over the fixed background video \u2014 so init sets autoAlpha:0 as the correct rest state, not merely the absence of animation.",
-      "community": 10,
+      "community": 7,
       "norm_label": "bio reduced variant hides gel as correct rest state",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_molecules_bio_motion_reduced_hide_gel_rationale"
     },
     {
@@ -24960,9 +24916,9 @@
       "author": null,
       "contributor": null,
       "rationale": "gel_bio is absolute inset-0 inside the fixed inset-0 #sizzle-background container, so its percentages resolve against the viewport, not the bio section; bioRectAsViewportPercent converts the bio section's getBoundingClientRect() into viewport percentages so the sweep doesn't blanket the fixed background video.",
-      "community": 10,
+      "community": 7,
       "norm_label": "biorectasviewportpercent conversion pattern",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_molecules_bio_motion_sweep_viewport_percent_conversion"
     },
     {
@@ -25004,9 +24960,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 49,
+      "community": 48,
       "norm_label": "reducedmotionhandler manager",
-      "community_name": "GelAnimationManager API",
+      "community_name": "Event Contracts and Managers",
       "id": "js_choreography_managers_reducedmotionhandler"
     },
     {
@@ -25018,9 +24974,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 49,
+      "community": 48,
       "norm_label": "scrollsmoothermanager",
-      "community_name": "GelAnimationManager API",
+      "community_name": "Event Contracts and Managers",
       "id": "js_choreography_managers_scrollsmoothermanager"
     },
     {
@@ -25046,9 +25002,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 49,
+      "community": 48,
       "norm_label": "globalheadermanager",
-      "community_name": "GelAnimationManager API",
+      "community_name": "Event Contracts and Managers",
       "id": "js_choreography_managers_globalheadermanager"
     },
     {
@@ -25060,9 +25016,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 49,
+      "community": 48,
       "norm_label": "scrolleffectscoordinator",
-      "community_name": "GelAnimationManager API",
+      "community_name": "Event Contracts and Managers",
       "id": "js_choreography_managers_scrolleffectscoordinator"
     },
     {
@@ -25088,9 +25044,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 49,
+      "community": 48,
       "norm_label": "projectheadermanager",
-      "community_name": "GelAnimationManager API",
+      "community_name": "Event Contracts and Managers",
       "id": "js_choreography_managers_projectheadermanager"
     },
     {
@@ -25102,9 +25058,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 49,
+      "community": 48,
       "norm_label": "sessionmanager",
-      "community_name": "GelAnimationManager API",
+      "community_name": "Event Contracts and Managers",
       "id": "js_choreography_managers_sessionmanager"
     },
     {
@@ -25116,9 +25072,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 77,
+      "community": 2,
       "norm_label": "scroll-reveal-group molecule",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "Atom Motion Primitives",
       "id": "js_choreography_molecules_scroll_reveal_group"
     },
     {
@@ -25130,9 +25086,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 77,
+      "community": 2,
       "norm_label": "section-header-intro molecule",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "Atom Motion Primitives",
       "id": "js_choreography_molecules_section_header_intro"
     },
     {
@@ -25144,9 +25100,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 77,
+      "community": 2,
       "norm_label": "video-reveal molecule",
-      "community_name": "GSAP Vendor Bundle (minified)",
+      "community_name": "Atom Motion Primitives",
       "id": "js_choreography_molecules_video_reveal"
     },
     {
@@ -25214,9 +25170,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 85,
+      "community": 7,
       "norm_label": "awardstriggers.bind()",
-      "community_name": "SessionManager State",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_organisms_awards_awardstriggers_bind"
     },
     {
@@ -25228,9 +25184,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 48,
+      "community": 5,
       "norm_label": "background_trigger",
-      "community_name": "Event Contracts and Managers",
+      "community_name": "Choreography Config Contracts",
       "id": "js_choreography_organisms_background_backgroundvideotriggers_background_trigger"
     },
     {
@@ -25242,9 +25198,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 85,
+      "community": 7,
       "norm_label": "biotriggers.bind()",
-      "community_name": "SessionManager State",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_organisms_bio_biotriggers_bind"
     },
     {
@@ -25256,9 +25212,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 85,
+      "community": 7,
       "norm_label": "_bindoutropin()",
-      "community_name": "SessionManager State",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_organisms_bio_biotriggers_bindoutropin"
     },
     {
@@ -25270,9 +25226,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 85,
+      "community": 7,
       "norm_label": "bio-outro-pin scrolltrigger",
-      "community_name": "SessionManager State",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_organisms_bio_biotriggers_bio_outro_pin"
     },
     {
@@ -25284,9 +25240,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 10,
       "norm_label": "getlastwordbottom()",
-      "community_name": "Choreography Config Contracts",
+      "community_name": "GSAP Vendor Bundle (minified)",
       "id": "js_choreography_organisms_hero_heroanimations_getlastwordbottom"
     },
     {
@@ -25298,9 +25254,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 85,
+      "community": 7,
       "norm_label": "herotriggers.bind()",
-      "community_name": "SessionManager State",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_organisms_hero_herotriggers_bind"
     },
     {
@@ -25312,9 +25268,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 85,
+      "community": 7,
       "norm_label": "abstractsection.playintro",
-      "community_name": "SessionManager State",
+      "community_name": "Bio Motion Variants",
       "id": "js_choreography_system_abstractsection_playintro"
     },
     {
@@ -25340,9 +25296,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 22,
+      "community": 10,
       "norm_label": "process-motion (process_variant_factories)",
-      "community_name": "Process Section",
+      "community_name": "GSAP Vendor Bundle (minified)",
       "id": "molecules_process_motion_process_motion"
     },
     {
@@ -25354,9 +25310,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 22,
+      "community": 5,
       "norm_label": "process-motion/blockframes.js",
-      "community_name": "Process Section",
+      "community_name": "Choreography Config Contracts",
       "id": "molecules_process_motion_blockframes"
     },
     {
@@ -25368,9 +25324,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 22,
+      "community": 10,
       "norm_label": "animationdirector",
-      "community_name": "Process Section",
+      "community_name": "GSAP Vendor Bundle (minified)",
       "id": "js_choreography_system_animationdirector"
     },
     {
@@ -25382,9 +25338,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 22,
+      "community": 10,
       "norm_label": "gelanimationmanager",
-      "community_name": "Process Section",
+      "community_name": "GSAP Vendor Bundle (minified)",
       "id": "js_choreography_system_gelanimationmanager"
     },
     {
@@ -25508,9 +25464,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 39,
+      "community": 15,
       "norm_label": "displays package (decorative & demonstration systems)",
-      "community_name": "Blockframes Animator",
+      "community_name": "Ruler Display System",
       "id": "js_displays_readme_displays_displays"
     },
     {
@@ -25522,9 +25478,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 39,
+      "community": 15,
       "norm_label": "printermarks",
-      "community_name": "Blockframes Animator",
+      "community_name": "Ruler Display System",
       "id": "js_displays_printermarks_printermarks"
     },
     {
@@ -25536,9 +25492,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 39,
+      "community": 15,
       "norm_label": "compositedisplay",
-      "community_name": "Blockframes Animator",
+      "community_name": "Ruler Display System",
       "id": "js_displays_compositedisplay_compositedisplay"
     },
     {
@@ -25550,9 +25506,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 39,
+      "community": 15,
       "norm_label": "displaymanager",
-      "community_name": "Blockframes Animator",
+      "community_name": "Ruler Display System",
       "id": "js_displays_displaymanager_displaymanager"
     },
     {
@@ -25564,9 +25520,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 39,
+      "community": 95,
       "norm_label": "blockframes system architecture doc",
-      "community_name": "Blockframes Animator",
+      "community_name": "Blockframes System Architecture Doc",
       "id": "js_displays_blockframes_readme_blockframes_blockframes"
     },
     {
@@ -25733,9 +25689,9 @@
       "author": null,
       "contributor": null,
       "rationale": "Blockframes uses atomic design (atoms\u2192molecules\u2192organisms\u2192templates) so wireframe SVG mockups can be composed and recolored consistently, mirroring frontend component structure.",
-      "community": 39,
+      "community": 95,
       "norm_label": "atomic design pattern (atoms\u2192molecules\u2192organisms\u2192templates)",
-      "community_name": "Blockframes Animator",
+      "community_name": "Blockframes System Architecture Doc",
       "id": "atomic_design_pattern"
     },
     {
@@ -34862,7 +34818,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L83",
+      "source_location": "L74",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
@@ -34873,7 +34829,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L60",
+      "source_location": "L51",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
@@ -34884,7 +34840,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L71",
+      "source_location": "L62",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
@@ -34906,7 +34862,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L67",
+      "source_location": "L58",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
@@ -34917,7 +34873,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L55",
+      "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
@@ -34933,17 +34889,6 @@
       "_origin": "ast",
       "source": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
       "target": "js_choreography_config_contracts_selectors_selectors_selectors",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/config/contracts/selectors/selectors.js",
-      "source_location": "L51",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
-      "target": "js_choreography_config_contracts_selectors_selectors_video_selectors",
       "confidence_score": 1.0
     },
     {
@@ -35211,18 +35156,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
-      "target": "js_choreography_config_contracts_selectors_selectors_js_js_choreography_config_contracts_selectors_selectors",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -35484,30 +35417,6 @@
       "_origin": "ast",
       "source": "js_choreography_molecules_hero_motion_simple_js_js_choreography_molecules_hero_motion_simple",
       "target": "js_choreography_config_contracts_selectors_selectors_hero_selectors",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/organisms/background/BackgroundVideo.js",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_organisms_background_backgroundvideo_js_js_choreography_organisms_background_backgroundvideo",
-      "target": "js_choreography_config_contracts_selectors_selectors_video_selectors",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
-      "target": "js_choreography_config_contracts_selectors_selectors_video_selectors",
       "confidence_score": 1.0
     },
     {
@@ -35825,18 +35734,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
-      "target": "js_choreography_config_contracts_timelines_timelines_js_js_choreography_config_contracts_timelines_timelines",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/awards/AwardsAnimations.js",
       "source_location": "L3",
       "weight": 1.0,
@@ -35862,7 +35759,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L9",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
@@ -36101,18 +35998,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
-      "target": "js_choreography_config_contracts_timelines_timelines_timeline_ids",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/awards/AwardsAnimations.js",
       "source_location": "L3",
       "weight": 1.0,
@@ -36138,7 +36023,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L9",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
@@ -37393,7 +37278,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L23",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
@@ -37405,7 +37290,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L7",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
@@ -37601,7 +37486,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L23",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
@@ -37785,7 +37670,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L7",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
@@ -41109,7 +40994,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L14",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_index",
@@ -41121,7 +41006,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L14",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_index",
@@ -42969,7 +42854,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L13",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_index",
@@ -42981,7 +42866,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L13",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_index",
@@ -43390,19 +43275,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_index",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_buildvideointro",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L8",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_index",
@@ -43411,22 +43284,10 @@
     },
     {
       "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_index",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_initvideoreveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/index.js",
-      "source_location": "L8",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_index",
@@ -44141,56 +44002,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L53",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_buildvideointro",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L76",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_createvideoreveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_initvideoreveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
       "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_totargets",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L23",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_js_js_choreography_molecules_video_reveal_video_reveal",
-      "target": "js_choreography_tokens_motion_motion_motiontokens",
+      "target": "js_choreography_molecules_video_reveal_video_reveal_createvideoreveal",
       "confidence_score": 1.0
     },
     {
@@ -44209,85 +44025,13 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L54",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_buildvideointro",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_totargets",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L36",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_initvideoreveal",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_totargets",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L78",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_createvideoreveal",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_initvideoreveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L33",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations_buildlanding",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_initvideoreveal"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_initvideoreveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "js/choreography/molecules/video-reveal/video-reveal.js",
-      "source_location": "L79",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "js_choreography_molecules_video_reveal_video_reveal_createvideoreveal",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_buildvideointro",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L37",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations_buildintro",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_buildvideointro"
+      "target": "js_choreography_molecules_video_reveal_video_reveal_createvideoreveal"
     },
     {
       "relation": "imports",
@@ -44298,7 +44042,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
-      "target": "js_choreography_molecules_video_reveal_video_reveal_buildvideointro",
+      "target": "js_choreography_molecules_video_reveal_video_reveal_createvideoreveal",
       "confidence_score": 1.0
     },
     {
@@ -44969,7 +44713,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L11",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_js_js_choreography_organisms_background_backgroundvideoanimations",
@@ -45016,7 +44760,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L43",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations",
@@ -45027,7 +44771,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L36",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations",
@@ -45038,7 +44782,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L32",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations",
@@ -45049,7 +44793,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L47",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations",
@@ -45060,7 +44804,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/organisms/background/BackgroundVideoAnimations.js",
-      "source_location": "L12",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_organisms_background_backgroundvideoanimations_backgroundvideoanimations",
@@ -49564,7 +49308,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L69",
+      "source_location": "L64",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_templates_landing_landingsequence_landingsequence",
@@ -49586,7 +49330,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L86",
+      "source_location": "L81",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_templates_landing_landingsequence_landingsequence",
@@ -49597,7 +49341,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L99",
+      "source_location": "L94",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_templates_landing_landingsequence_landingsequence",
@@ -49608,7 +49352,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L59",
+      "source_location": "L54",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_templates_landing_landingsequence_landingsequence",
@@ -49619,7 +49363,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "js/choreography/templates/landing/LandingSequence.js",
-      "source_location": "L91",
+      "source_location": "L86",
       "weight": 1.0,
       "_origin": "ast",
       "source": "js_choreography_templates_landing_landingsequence_landingsequence",
@@ -68875,5 +68619,5 @@
       "source_file": "views/templates/partials/dev-note.md"
     }
   ],
-  "built_at_commit": "f51fbfdb08da5f0c3aeb9ee41d472d5b02a939a0"
+  "built_at_commit": "f39defff7411481376bf292e7ed78b1875515ba8"
 }

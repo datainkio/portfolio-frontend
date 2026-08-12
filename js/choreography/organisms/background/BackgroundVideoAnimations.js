@@ -1,7 +1,11 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
-import { createVideoReveal } from "../../molecules/video-reveal/video-reveal.js";
+import {
+  initVideoReveal,
+  buildVideoIntro,
+} from "../../molecules/video-reveal/video-reveal.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { BACKGROUND_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
+import { VIDEO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 
 export default class BackgroundVideoAnimations extends AbstractSectionAnimations {
@@ -18,19 +22,22 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
       },
     };
 
+    // The reveal animates the <video> only — the section root also holds the
+    // gels and the pixelator, which have their own lifecycles.
+    this.media = this.view?.querySelector(VIDEO_SELECTORS.media) ?? null;
+
     this._buildTimeline();
   }
 
   _buildLanding() {
-    const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
-    return tl;
+    return initVideoReveal(this.media);
   }
 
   _buildIntro() {
-    const { intro } = createVideoReveal(this.view, {
+    return buildVideoIntro(this.media, {
       duration: this.options.duration,
+      ease: this.options.ease.in,
     });
-    return intro;
   }
 
   _buildIdle() {

@@ -74,6 +74,43 @@ export const HOME_NAV_REVEAL = {
  */
 export const HOME_HERO_HOLD = { delay: 0 }; // seconds
 
+/**
+ * Bio Intro Hold
+ *
+ * The beat between the background video's intro completing and Bio playing its
+ * own intro. Bio's reveal is chained to `video:intro:complete` (see
+ * LandingSequence), not to the home header — the video finishing is the cue.
+ *
+ * `gsap.delayedCall` consumes this, so it is in seconds like HOME_HERO_HOLD.
+ * Reduced motion zeroes it: the chain still runs, just without the pause.
+ */
+export const BIO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
+
+/**
+ * Bio Heading Gel Entrance
+ *
+ * The gel band's arrival, played as bio's `landing` phase once the background
+ * video's intro has completed and `BIO_INTRO_HOLD.delay` has elapsed. It gates
+ * the bio intro: LandingSequence awaits `bio.playLanding()` before calling
+ * `bio.playIntro()` (see molecules/bio-motion/heading-gel.js).
+ *
+ * The band starts fully offscreen — one viewport height below the fold, offset
+ * right by `xViewportRatio` of the viewport width — with a slight tilt, then
+ * resolves to its synced resting geometry. Short and eased-out: it is an
+ * arrival, not a gesture with its own narrative.
+ *
+ * Both offsets are fractions of the viewport rather than distance tokens: they
+ * are measured at play time against `window.innerWidth`/`innerHeight`, so there
+ * is no fixed px value to fork.
+ */
+export const BIO_GEL_ENTRANCE = {
+  xViewportRatio: 0.33, // start x offset, as a fraction of viewport width
+  yViewportRatio: 1.2, // start y offset below the fold, as a fraction of viewport height
+  rotation: -16, // degrees; resolves to 0
+  duration: toSeconds(motion.duration("slower")), // seconds; longer than the intro to gate it
+  ease: "power2.out",
+};
+
 export const HOME_HERO_OUTRO = {
   xPercent: -100, // slide the full-bleed hero off to the left
   duration: toSeconds(motion.duration("slow")),
@@ -160,6 +197,37 @@ export const BIO_INTRO = {
   duration: toSeconds(motion.duration("slow")),
   stagger: motion.stagger("loose"),
   translateY: -motion.distance("lg"),
+};
+
+/**
+ * Bio Mission Statement — gel-led arrival
+ *
+ * The mission statement's reveal, cued by its own ScrollTrigger rather than by
+ * bio's intro timeline: it sits a full `h-dvh` below the header, so it is
+ * off-screen when the intro plays and anything sequenced there would play
+ * unseen.
+ *
+ * Three overlapping beats — the `gel_subheading` band wipes in from the left,
+ * the overview <h3> rides in behind its tail, then the body copy staggers up.
+ * The band leading is the point: it rhymes with the heading gel's arrival so the
+ * two headings read as the same gesture at different scales.
+ *
+ * `staggerAmount` is a TOTAL, not a per-item delay — the body paragraph count
+ * comes from Sanity and is variable, so a per-item `each` would let a long
+ * statement drag. GSAP distributes the total across however many there are.
+ */
+export const BIO_MISSION_REVEAL = {
+  gelDuration: toSeconds(motion.duration("slow")),
+  duration: toSeconds(motion.duration("base")),
+  distance: motion.distance("lg"),
+  staggerAmount: motion.stagger("loose") * 2, // total spread across all paragraphs
+  ease: "power2.out",
+  // Fraction of the gel wipe the text overlaps into, so the beats read as one
+  // gesture rather than three queued ones. Mirrors sweep.js's 0.2 overlap.
+  overlap: 0.2,
+  // ScrollTrigger start: fire while the section is comfortably in view, not at
+  // the very edge — the reveal should land before the reader arrives at it.
+  start: "top 70%",
 };
 
 /**

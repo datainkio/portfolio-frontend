@@ -91,9 +91,10 @@ export default class BioTriggers extends AbstractSectionTriggers {
           suspendHeadingGelSync(this.view);
         } else {
           resumeHeadingGelSync(this.view);
-          // The band only re-syncs to heading-height on the next scroll tick;
-          // force it immediately so a scroll-up exit doesn't leave the gel
-          // stuck at full-viewport height until the user scrolls again.
+          // The band's sync is a resize hook only (it no longer tracks scroll),
+          // so nothing would restore its resting geometry on its own after the
+          // pin released. Force it here so a scroll-up exit doesn't leave the
+          // gel stuck at the scaleY the outro drove it to.
           ScrollTrigger.getById("bio-heading-gel-sync")?.refresh();
         }
       },
