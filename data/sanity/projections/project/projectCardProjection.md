@@ -23,6 +23,15 @@ documents. Extracted into its own file so queries stay thin and shapes compose c
 | --- | --- |
 | `PROJECT_CARD_PROJECTION` | project card fields |
 
+## Media fields
+
+The card resolves two media fields, and the still is never optional:
+
+- `featuredImage` — dereferenced `imageAsset`. Always present (schema-required on `project`). Supplies the `<img>` in the default case and the `poster` attribute when a video is present.
+- `featuredVideo` — dereferenced `videoAsset`, optional. Flattens the file asset to `url` + `mimeType`, carries `videoUrl` for externally hosted video, and resolves its own optional `poster` image. Playback defaults (`loop`, `muted`, `autoplay`) come through as booleans; the card treats anything other than an explicit `false` as on.
+
+Poster precedence in the template is `featuredVideo.poster.url` → `featuredImage` asset URL.
+
 ## Source
 
 - Path: `data/sanity/projections/project/projectCardProjection.js`

@@ -4,6 +4,7 @@
   {%- set project = params.project or {} -%}
   {%- set title = params.title | default(project.title) | default("Untitled project") -%}
   {%- set image = params.image | default(project.featuredImage) -%}
+  {%- set video = params.video | default(project.featuredVideo) -%}
   {%- set url = params.url | default(project.url) | default("") -%}
   {%- set description = params.description | default(project.abstract) | default("") -%}
   {%- set industries = params.eyebrow | default((project.industries or []) | join(", ")) -%}
@@ -17,6 +18,7 @@
   {{ Card.render({
     title: title,
     image: image,
+    video: video,
     url: url,
     byline: client,
     description: description,

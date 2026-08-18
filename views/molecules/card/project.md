@@ -39,6 +39,8 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 ## Data and Context
 
 - `Card` — referenced in the template.
+- `project.featuredImage` — mapped to the card's `image` param.
+- `project.featuredVideo` — mapped to the card's `video` param. Optional; when absent the card renders the still. Both are passed through, because the card needs the image as the video's poster.
 
 ## Relationships
 

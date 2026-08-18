@@ -25,6 +25,20 @@ export const PROJECT_CARD_PROJECTION = groq`{
     "caption": image.caption,
     "asset": image.asset->{url, metadata{dimensions, lqip}}
   },
+  "featuredVideo": featuredVideo->{
+    alt,
+    caption,
+    videoUrl,
+    "url": video.asset->url,
+    "mimeType": video.asset->mimeType,
+    "poster": poster->{
+      "url": image.asset->url,
+      "alt": image.alt
+    },
+    loop,
+    muted,
+    autoplay
+  },
   externalLink,
   caseStudyUrl
 }`;

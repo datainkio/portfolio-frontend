@@ -22,6 +22,13 @@
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
 
+  {#- Optional card video. The still is never discarded: it supplies the poster
+      frame, and remains the sole media for no-JS and reduced-motion visitors. -#}
+  {%- set video = params.video -%}
+  {%- set videoSrc = video and (video.url or video.videoUrl) -%}
+  {%- set posterSrc = (video and video.poster and video.poster.url) or imageSrc -%}
+  {%- set hasMedia = imageSrc or videoSrc -%}
+
   {#- Styling -#}
 
   {%- set root = {"base": "relative text-neutral-950 isolate w-full", "md": "inner-border p-4"} -%}
@@ -55,16 +62,38 @@
 
   <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
 
-    {% if imageSrc %}
+    {% if hasMedia %}
       <figure data-card-el="figure" class="{{ figure | classes }}">
         {{ TrimMarks.render({"inset": "6", "size": "4", "weight": "1", "color": "white", "classes": "invisible sm:visible"}) }}
-        <img data-card-el="image"
-             src="{{ imageSrc }}"
-             alt="{{ imageAlt }}"
-             width="{{ width }}"
-             height="{{ height }}"
-             class="{{ imageCSS | classes }} {{ imageClasses }}"
-             loading="{{ 'eager' if eager else 'lazy' }}" />
+        {% if videoSrc %}
+          {#- Decorative: the card heading carries the accessible name, so the
+              video is hidden from AT. `data-motion-optional` tells the
+              preloader to leave it unhydrated under prefers-reduced-motion,
+              which leaves the poster standing in. -#}
+          <video data-card-el="video"
+                 data-defer-video
+                 data-motion-optional
+                 data-src="{{ videoSrc }}"
+                 poster="{{ posterSrc }}"
+                 width="{{ width }}"
+                 height="{{ height }}"
+                 class="{{ imageCSS | classes }} {{ imageClasses }}"
+                 preload="none"
+                 aria-hidden="true"
+                 tabindex="-1"
+                 playsinline
+                 {% if video.muted != false %}muted{% endif %}
+                 {% if video.loop != false %}loop{% endif %}
+                 {% if video.autoplay != false %}autoplay{% endif %}></video>
+        {% else %}
+          <img data-card-el="image"
+               src="{{ imageSrc }}"
+               alt="{{ imageAlt }}"
+               width="{{ width }}"
+               height="{{ height }}"
+               class="{{ imageCSS | classes }} {{ imageClasses }}"
+               loading="{{ 'eager' if eager else 'lazy' }}" />
+        {% endif %}
       </figure>
     {% endif %}
 

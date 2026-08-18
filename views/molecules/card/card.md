@@ -41,6 +41,21 @@ CTA (via [[cta.njk]]) linking to the associated case study. The guard is
 `url` is supplied upstream by the data transforms (see [[home|home.js transform]]
 and `resolveProjectCardUrl`), not built in the template.
 
+## Card media: image, or video over image
+
+The `<figure>` renders one of two elements, never both:
+
+- **`video` param absent** — an `<img>` from `image`, exactly as before.
+- **`video` param present** — a `<video>` whose `poster` is `video.poster.url` if the asset carries its own still, otherwise the `image` param. The image is therefore always required, even for video cards; it is the poster and the fallback, not a redundant second asset.
+
+Both elements share the same `width`/`height` (taken from the image dimensions) and the same classes, so the aspect ratio and layout stability are identical across the two branches.
+
+The video is **decorative**: `aria-hidden="true"`, `tabindex="-1"`, no `controls`, always `playsinline`. The accessible name for the card comes from the heading. Playback attributes (`muted`, `loop`, `autoplay`) render unless the data explicitly says `false`.
+
+### Reduced motion
+
+The `<video>` ships with no `src` — only `data-src` plus `data-defer-video`, hydrated later by [[deferred-videos]]. It is additionally marked `data-motion-optional`, which tells that hydrator to skip it entirely when `prefers-reduced-motion: reduce` matches. With no source ever assigned the element renders its poster and stays still, so the reduced-motion fallback is the absence of an action rather than an extra code path. Videos without `data-motion-optional` (e.g. the sizzle background) hydrate as they always have.
+
 ## Role in the System
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.

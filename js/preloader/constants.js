@@ -23,6 +23,10 @@ export const PRELOADER_SELECTORS = {
   hgroup: "[data-preloader-el='hgroup']",
   main: "main",
   deferredVideos: "video[data-defer-video][data-src]",
+  // Opt-in marker for videos whose playback is decorative. Under
+  // prefers-reduced-motion these are left unhydrated so their poster stands
+  // in. Videos WITHOUT this attribute hydrate as before.
+  motionOptional: "[data-motion-optional]",
 };
 
 // Outro state flip. JS sets `data-preloader-state="exit"` on the preloader
