@@ -16,6 +16,7 @@ export { createThrowTimeline } from "./throw.js";
 export { createCardScrollClip } from "./clip.js";
 export { createCardParallax } from "./parallax.js";
 export { createCardScrollFade } from "./fade-n-lift.js";
+export { createCardSticky } from "./sticky.js";
 
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 

@@ -41,23 +41,6 @@
           class="{{ title | classes }}">{{ heading }}</h2>
     </header>
     {{ body | safe }}
-
-    {% if groupProjects %}
-      {#- Display the industry links for jump navigation within the section -#}
-      <nav id="work-jumplinks"
-           aria-label="Jump to an industry"
-           data-projects-el="jumplinks"
-           class="{{ nav | classes }}">
-        {{ Industries.render({ industries: industries }) }}
-      </nav>
-      {#- Display the industry groups and their projects -#}
-      {% for industryTitle, projects in industries %}
-        {% if projects | length %}
-          {{ IndustrySection.render({ industryTitle: industryTitle, projects: projects }) }}
-        {% endif %}
-      {% endfor %}
-    {% else %}
-      {{ ProjectCards.render({ projects: params.projects, classes: "w-full" }) }}
-    {% endif %}
+    {{ ProjectCards.render({ projects: params.projects, classes: "w-full" }) }}
   </section>
 {% endmacro %}

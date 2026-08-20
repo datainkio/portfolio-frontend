@@ -8,6 +8,7 @@ import {
   createCardScrollFade,
   createCardParallax,
   createThrowTimeline,
+  createCardSticky,
 } from "../../molecules/card-motion/card-motion.js";
 
 const CARD_EL_ATTR = "data-card-el";
@@ -33,6 +34,13 @@ const VARIANT_FACTORIES = {
     }),
   fade: (card) =>
     createCardScrollFade({
+      figure: card.figure,
+      index: card._index,
+      triggerEl: card.root,
+    }),
+  sticky: (card) =>
+    createCardSticky({
+      article: card.root,
       figure: card.figure,
       index: card._index,
       triggerEl: card.root,
@@ -74,6 +82,9 @@ const VARIANT_RESET = {
   fade: (card) => {
     if (card.figure)
       gsap.set(card.figure, { autoAlpha: 1, y: 0, clearProps: "willChange" });
+  },
+  sticky: (card) => {
+    if (card.figure) gsap.set(card.figure, { clearProps: "y,willChange" });
   },
   clip: (card) => {
     if (card.figure)
