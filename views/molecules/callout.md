@@ -8,14 +8,6 @@ type: "template"
 templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
-tags:
-  - atomic-design
-  - component
-  - eleventy
-  - molecule
-  - nunjucks
-  - Obsidian
-  - template
 links:
   - "[callout](callout.md)"
 ---

@@ -5,12 +5,12 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "organism"
 tags:
   - choreography
   - frontend
   - index
   - js
-  - organism
 links:
   - "[[Hero|Hero]]"
   - "[[HeroAnimations|HeroAnimations]]"

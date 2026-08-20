@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "atom"
+animation:
+  - text-split-reveal
 tags:
-  - atom
   - choreography
   - frontend
   - js
-  - text-split-reveal
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

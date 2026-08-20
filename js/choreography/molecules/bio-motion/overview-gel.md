@@ -5,13 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
   - choreography
   - frontend
   - bio-motion
   - gel
   - js
-  - molecule
 links:
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"

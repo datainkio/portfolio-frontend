@@ -9,14 +9,7 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - atomic-design
-  - component
-  - eleventy
   - navigation
-  - nunjucks
-  - Obsidian
-  - organism
-  - template
 links:
   - "[home-landing](../header/home/home-landing.md)"
   - "[home](../../pages/home/home.md)"

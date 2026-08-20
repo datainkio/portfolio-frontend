@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "atom"
+animation:
+  - slide
 tags:
-  - atom
   - choreography
   - frontend
   - js
-  - slide
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

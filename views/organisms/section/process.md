@@ -8,16 +8,8 @@ type: "template"
 templateRole: "component"
 atomicLevel: "organism"
 status: "active"
-tags:
-  - "#atomic-design"
-  - "#component"
-  - "#eleventy"
-  - "#nunjucks"
-  - "#Obsidian"
-  - "#organism"
-  - "#template"
 links:
-  - [organizations](organizations.md)
+  - "[organizations](organizations.md)"
 ---
 # Process
 

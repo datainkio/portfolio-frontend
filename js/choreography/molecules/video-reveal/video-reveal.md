@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
+animation:
+  - video-reveal
 tags:
   - choreography
   - frontend
   - js
-  - molecule
-  - video-reveal
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

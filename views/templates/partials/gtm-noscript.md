@@ -9,12 +9,6 @@ templateRole: "partial"
 atomicLevel: "template"
 status: "active"
 tags:
-  - atomic-design
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - partial
-  - template
 ---
 # Gtm Noscript
 

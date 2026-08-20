@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
-tags:
+atomicLevel: "molecule"
+animation:
   - article-nav-toggle
+tags:
   - choreography
   - frontend
   - js
-  - molecule
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

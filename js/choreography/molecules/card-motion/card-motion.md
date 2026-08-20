@@ -5,12 +5,12 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
   - card-motion
   - choreography
   - frontend
   - js
-  - molecule
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/index/index|config/index]]"

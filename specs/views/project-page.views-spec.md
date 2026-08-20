@@ -4,9 +4,9 @@ description: "File inventory and structural spec for the single-project detail p
 docType: "reference"
 status: "draft"
 owner: "frontend"
+system: "Eleventy"
 tags:
   - case-study
-  - eleventy
   - project
   - sanity
   - spec

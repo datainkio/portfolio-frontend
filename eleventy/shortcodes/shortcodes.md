@@ -7,8 +7,8 @@ scope: frontend
 runtime: node
 aliases:
   - "Shortcodes barrel"
+system: "Eleventy"
 tags:
-  - eleventy
   - shortcodes
 links:
   - "[[README.shortcodes]]"

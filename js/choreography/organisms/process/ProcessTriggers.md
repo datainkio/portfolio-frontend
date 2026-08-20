@@ -5,12 +5,12 @@ status: "placeholder"
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "organism"
 tags:
-  - "#choreography"
-  - "#frontend"
-  - "#js"
-  - "#organism"
-  - "#placeholder"
+  - choreography
+  - frontend
+  - js
+  - placeholder
 links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"
   - "[[config/index|config/index]]"

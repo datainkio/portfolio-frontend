@@ -5,11 +5,11 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+templateRole: "page"
 tags:
   - choreography
   - frontend
   - js
-  - page
   - project
 links: []
 ---

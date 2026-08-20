@@ -7,10 +7,10 @@ owner: Template Steward
 type: guide
 scope: frontend
 audience: maintainers
+atomicLevel: "molecule"
 tags:
   - background
   - gsap
-  - molecule
   - scroll
 perf:
   readPriority: low

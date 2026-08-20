@@ -5,11 +5,11 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+type: "template"
 tags:
   - choreography
   - frontend
   - js
-  - template
 links:
   - "[[events|events]]"
   - "[[config/index|config/index]]"
@@ -75,4 +75,6 @@ flowchart TD
 
 ### Known drift
 
-`BackgroundVideo.playIntro()`'s comment says `LandingSequence` waits on `video:intro:complete` to trigger `hero.playLanding()`. It triggers `bio.playIntro()` — the comment predates the current chain.
+None outstanding.
+
+**Resolved 2026-08-20.** A prior note here flagged `BackgroundVideo.playIntro()`'s comment for claiming `LandingSequence` waits on `video:intro:complete` to trigger `hero.playLanding()`. That comment no longer exists — `playIntro()` now carries only a reduced-motion note, and `hero.playLanding` appears nowhere in `organisms/background/` or `templates/landing/`. The chain has always triggered `bio.playIntro()`; the diagram above (`VIC` → `BEAT` → `GEL` → `BIO`) is the accurate account.

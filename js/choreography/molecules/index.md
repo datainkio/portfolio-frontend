@@ -5,12 +5,12 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
   - choreography
   - frontend
   - index
   - js
-  - molecule
 links:
   - "[[molecules/scroll-reveal-group/scroll-reveal-group|molecules/scroll-reveal-group]]"
   - "[[molecules/section-header-intro/section-header-intro|molecules/section-header-intro]]"

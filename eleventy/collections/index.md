@@ -7,9 +7,9 @@ scope: frontend
 runtime: node
 aliases:
   - "Collections index"
+system: "Eleventy"
 tags:
-  - collections
-  - eleventy
+  - collection
 links:
   - "[[README.collections]]"
   - "[[navigation]]"

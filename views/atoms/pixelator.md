@@ -6,10 +6,6 @@ engine: "Nunjucks"
 system: "Eleventy"
 type: "template"
 status: "active"
-tags:
-  - eleventy
-  - nunjucks
-  - template
 ---
 # pixelator
 

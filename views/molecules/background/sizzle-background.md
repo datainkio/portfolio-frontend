@@ -8,14 +8,6 @@ type: "template"
 templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
-tags:
-  - atomic-design
-  - component
-  - eleventy
-  - molecule
-  - nunjucks
-  - Obsidian
-  - template
 links:
   - "[video](../../atoms/video/video.md)"
   - "[gel](../../atoms/gel.md)"

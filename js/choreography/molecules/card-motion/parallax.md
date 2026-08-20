@@ -5,13 +5,14 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
+animation:
+  - parallax
 tags:
   - card-motion
   - choreography
   - frontend
   - js
-  - molecule
-  - parallax
 links:
   - "[[system/gsap|system/gsap]]"
 backlinks:

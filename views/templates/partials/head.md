@@ -8,13 +8,6 @@ type: "template"
 templateRole: "partial"
 atomicLevel: "template"
 status: "active"
-tags:
-  - atomic-design
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - partial
-  - template
 links:
   - "[gtm-script](gtm-script.md)"
   - "[fonts](fonts.md)"

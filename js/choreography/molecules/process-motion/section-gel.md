@@ -5,14 +5,14 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
-  - "#[choreography]"
-  - "#[frontend]"
-  - "#[process-motion]"
-  - "#[process]"
-  - "#[gel]"
-  - "#[js]"
-  - "#[molecule]"
+  - choreography
+  - frontend
+  - process-motion
+  - process
+  - gel
+  - js
 links:
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
   - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"

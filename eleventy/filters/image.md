@@ -7,8 +7,8 @@ scope: frontend
 runtime: node
 aliases:
   - "Image filter"
+system: "Eleventy"
 tags:
-  - eleventy
   - filters
 links:
   - "[[README.filters]]"

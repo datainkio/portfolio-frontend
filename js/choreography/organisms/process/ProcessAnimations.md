@@ -5,11 +5,11 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "organism"
 tags:
-  - "#choreography"
-  - "#frontend"
-  - "#js"
-  - "#organism"
+  - choreography
+  - frontend
+  - js
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[system/gsap|system/gsap]]"

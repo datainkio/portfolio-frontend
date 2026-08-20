@@ -8,13 +8,6 @@ type: "template"
 templateRole: "page"
 atomicLevel: "page"
 status: "active"
-tags:
-  - atomic-design
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - page
-  - template
 links:
   - "[home-landing](../../organisms/header/home/home-landing.md)"
   - "[section-cap](../../molecules/section-cap.md)"
@@ -100,7 +93,7 @@ Classified as a **page** at the atomic **page** level based on its location unde
 
 This page is the host for the **HTML-comment channel** — the templating half of
 the two-channel narrative defined in
-[ADR 0005](../../../../aix/docs/decisions/0005-dev-channel-narrative.md). Pairs
+[ADR 0005](../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md). Pairs
 with the `console.log` channel in [[dev-note.md]] (IXD/motion). The two
 **cross-reference, never duplicate**.
 

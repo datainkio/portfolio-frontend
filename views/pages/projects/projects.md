@@ -8,13 +8,6 @@ type: "template"
 templateRole: "page"
 atomicLevel: "page"
 status: "active"
-tags:
-  - atomic-design
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - page
-  - template
 links:
   - "[landing](../../templates/landing/landing.md)"
   - "[project-cards](../../molecules/list/project-cards.md)"

@@ -6,14 +6,14 @@ surface: internal
 scope: frontend
 runtime: browser
 tags:
-  - "#[process-motion]"
-  - "#[process]"
-  - "#[blockframes]"
-  - "#[choreography]"
-  - "#[frontend]"
-  - "#[js]"
-  - "#[scrolltrigger]"
-  - "#[svg]"
+  - process-motion
+  - process
+  - blockframes
+  - choreography
+  - frontend
+  - js
+  - scrolltrigger
+  - svg
 links:
   - "[[process-motion]]"
   - "[[blockframe-basic]]"

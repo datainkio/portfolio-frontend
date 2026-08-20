@@ -11,7 +11,7 @@ tags:
   - frontend
   - js
   - motion-profiles
-  - profiles
+  - profile
 links:
   - "[[config/ix/breakpoints/breakpoints|config/ix/breakpoints]]"
 backlinks:

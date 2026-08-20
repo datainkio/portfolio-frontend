@@ -7,11 +7,9 @@ owner: Template Steward
 type: guide
 scope: frontend
 audience: maintainers
-tags:
-  - atomic-design
-  - eleventy
-  - layout
-  - nunjucks
+system: "Eleventy"
+templateRole: "layout"
+engine: "Nunjucks"
 perf:
   readPriority: medium
   cacheSafe: true

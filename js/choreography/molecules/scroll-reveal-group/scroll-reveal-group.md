@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
+animation:
+  - scroll-reveal-group
 tags:
   - choreography
   - frontend
   - js
-  - molecule
-  - scroll-reveal-group
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[atoms/stagger-reveal/stagger-reveal|atoms/stagger-reveal]]"

@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
+animation:
+  - gel-transition
 tags:
   - choreography
   - frontend
-  - gel-transition
   - js
-  - molecule
 links:
   - "[[config/ix/motion/motion|config/ix/motion]]"
 backlinks:

@@ -8,12 +8,6 @@ type: "template"
 templateRole: "layout"
 atomicLevel: "none"
 status: "active"
-tags:
-  - eleventy
-  - layout
-  - nunjucks
-  - Obsidian
-  - template
 links:
   - "[cols-2-before](cols-2-before.md)"
   - "[docs-nav](../organisms/navigation/docs-nav.md)"

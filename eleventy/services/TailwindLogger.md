@@ -7,8 +7,8 @@ scope: frontend
 runtime: node
 aliases:
   - "TailwindLogger"
+system: "Eleventy"
 tags:
-  - eleventy
   - services
 links:
   - "[[README.services]]"

@@ -5,13 +5,14 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
+animation:
+  - throw
 tags:
   - card-motion
   - choreography
   - frontend
   - js
-  - molecule
-  - throw
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"

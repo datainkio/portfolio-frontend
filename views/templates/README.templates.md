@@ -7,9 +7,9 @@ owner: Template Steward
 type: guide
 scope: frontend
 audience: maintainers
+engine: "Nunjucks"
+templateRole: "partial"
 tags:
-  - nunjucks
-  - partial
   - template
 perf:
   readPriority: medium

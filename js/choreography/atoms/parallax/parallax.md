@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "atom"
+animation:
+  - parallax
 tags:
-  - atom
   - choreography
   - frontend
   - js
-  - parallax
 links:
   - "[[system/gsap|system/gsap]]"
 backlinks:

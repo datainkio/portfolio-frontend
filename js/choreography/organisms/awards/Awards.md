@@ -5,12 +5,12 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "organism"
 tags:
   - awards
   - choreography
   - frontend
   - js
-  - organism
 links:
   - "[[AbstractSection|AbstractSection]]"
   - "[[config/index|config/index]]"

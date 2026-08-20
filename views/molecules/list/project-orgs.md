@@ -9,13 +9,7 @@ templateRole: "macro"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - atomic-design
   - component
-  - eleventy
-  - molecule
-  - nunjucks
-  - Obsidian
-  - template
 ---
 # Project Orgs
 

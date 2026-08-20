@@ -7,11 +7,11 @@ owner: Template Steward
 type: guide
 scope: frontend
 audience: maintainers
+atomicLevel: "organism"
 tags:
   - accessibility
   - homepage
   - macro
-  - organism
   - section
 perf:
   readPriority: medium

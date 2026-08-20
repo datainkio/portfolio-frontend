@@ -5,14 +5,14 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
-  - "#[process-motion]"
-  - "#[process]"
-  - "#[blockframes]"
-  - "#[choreography]"
-  - "#[frontend]"
-  - "#[js]"
-  - "#[molecule]"
+  - process-motion
+  - process
+  - blockframes
+  - choreography
+  - frontend
+  - js
 links:
   - "[[reveal]]"
   - "[[blockframes]]"

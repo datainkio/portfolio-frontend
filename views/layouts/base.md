@@ -8,12 +8,6 @@ type: "template"
 templateRole: "layout"
 atomicLevel: "none"
 status: "active"
-tags:
-  - eleventy
-  - layout
-  - nunjucks
-  - Obsidian
-  - template
 links:
   - "[global-header](../organisms/header/global-header.md)"
   - "[global-footer](../organisms/footer/global-footer.md)"

@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "atom"
+animation:
+  - stagger-reveal
 tags:
-  - atom
   - choreography
   - frontend
   - js
-  - stagger-reveal
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"

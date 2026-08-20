@@ -8,14 +8,6 @@ type: template
 templateRole: component
 atomicLevel: "organism"
 status: active
-tags:
-  - atomic-design
-  - component
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - organism
-  - template
 links:
   - "[breadcrumbs-nav](../../navigation/breadcrumbs-nav.md)"
   - "[project-metadata](../../project-metadata/project-metadata.md)"

@@ -2,9 +2,9 @@
 title: Choreography atomic layering — original generation brief
 status: "#historical"
 tags:
-  - "#choreography"
-  - "#historical"
-  - "#prompt"
+  - choreography
+  - historical
+  - prompt
 ---
 
 > [!warning] Historical prompt — not documentation, not authority.

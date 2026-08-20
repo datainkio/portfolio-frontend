@@ -7,10 +7,10 @@ owner: Template Steward
 type: guide
 scope: frontend
 audience: maintainers
+atomicLevel: "molecule"
+engine: "Nunjucks"
 tags:
   - card
-  - molecule
-  - nunjucks
 perf:
   readPriority: low
   cacheSafe: true

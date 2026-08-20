@@ -5,11 +5,11 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "organism"
 tags:
   - choreography
   - frontend
   - js
-  - organism
 links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"
   - "[[config/index|config/index]]"

@@ -8,9 +8,9 @@ type: "script"
 scriptRole: "controller"
 status: "active"
 tags:
-  - "#js"
-  - "#module"
-  - "#lightbox"
+  - js
+  - module
+  - lightbox
 links:
   - "[lightbox.njk](../../views/molecules/lightbox/lightbox.md)"
 ---

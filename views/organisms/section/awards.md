@@ -8,14 +8,6 @@ type: "template"
 templateRole: "component"
 atomicLevel: "organism"
 status: "active"
-tags:
-  - atomic-design
-  - component
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - organism
-  - template
 links:
   - "[award](../../atoms/award.md)"
   - "[inline](../../atoms/svg/inline.md)"

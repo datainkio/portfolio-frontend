@@ -5,12 +5,12 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+type: "template"
 tags:
   - choreography
   - frontend
   - index
   - js
-  - template
 links:
   - "[[LandingSequence|LandingSequence]]"
 ---

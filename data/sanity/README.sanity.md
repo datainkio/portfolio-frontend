@@ -59,9 +59,9 @@ Overrides (via environment):
 
 ## AIX Gain Links
 
-- [aix/context/projects/portfolio-frontend.md](../../aix/context/projects/portfolio-frontend.md)
+- [context/project.md](../../../context/project.md)
 - [context/constraints.md](dataink.io/context/constraints.md)
-- [aix/context/project.md](../../aix/context/project.md)
-- [aix/specs/README.md](../../aix/specs/README.md)
+- [context/constraints.md](../../../context/constraints.md)
+- [specs/](../../../specs/)
 - [frontend/docs/sanity-integration.md](../docs/sanity-integration.md)
 - [frontend/.github/copilot-instructions.md](../.github/copilot-instructions.md)

@@ -4,10 +4,10 @@ title: Looping horizontal index-and-dwell UI-components sequence
 status: draft
 owner: Russell Lebo / Frontend Choreography
 tags:
-  - "#animation-spec"
-  - "#choreography"
-  - "#frontend"
-  - "#home-landing"
+  - animation-spec
+  - choreography
+  - frontend
+  - home-landing
 ---
 
 # UI Components Animation — Motion Spec

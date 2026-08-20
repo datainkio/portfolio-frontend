@@ -5,13 +5,14 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
+animation:
+  - fade-n-lift
 tags:
   - card-motion
   - choreography
-  - fade-n-lift
   - frontend
   - js
-  - molecule
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"

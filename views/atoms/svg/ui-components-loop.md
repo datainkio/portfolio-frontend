@@ -9,15 +9,8 @@ templateRole: "component"
 atomicLevel: "atom"
 status: "draft"
 tags:
-  - "#[atom]"
-  - "#[atomic-design]"
-  - "#[component]"
-  - "#[eleventy]"
-  - "#[nunjucks]"
-  - "#[Obsidian]"
-  - "#[svg]"
-  - "#[template]"
-  - "#[ui-components]"
+  - svg
+  - ui-components
 ---
 
 # UI Components Loop

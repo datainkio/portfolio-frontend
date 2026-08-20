@@ -5,12 +5,13 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+animation:
+  - highlight
 tags:
   - bio-motion
   - biography
   - choreography
   - frontend
-  - highlight
   - introduction
   - js
   - splittext

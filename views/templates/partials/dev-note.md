@@ -9,21 +9,17 @@ templateRole: "partial"
 atomicLevel: "template"
 status: "active"
 tags:
-  - eleventy
-  - nunjucks
-  - partial
   - dev-channel
   - console
-  - Obsidian
 links:
   - "[home](../../pages/home/home.md)"
-  - "[ADR 0005](../../../../aix/docs/decisions/0005-dev-channel-narrative.md)"
+  - "[ADR 0005](../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md)"
 ---
 
 # Dev Note (console channel)
 
 Emits the **developer-facing `console.log` narrative** — the IXD/motion half of
-the two-channel system defined in [ADR 0005](../../../../aix/docs/decisions/0005-dev-channel-narrative.md).
+the two-channel system defined in [ADR 0005](../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md).
 Audience: a designer/developer who opened DevTools and is watching the page boot.
 The implicit question to answer: *"will working with this person make me a hero
 to my bosses?"* — answered here with evidence of runtime discipline.

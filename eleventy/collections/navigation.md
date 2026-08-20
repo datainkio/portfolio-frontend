@@ -7,9 +7,9 @@ scope: frontend
 runtime: node
 aliases:
   - "Navigation collection"
+system: "Eleventy"
 tags:
-  - collections
-  - eleventy
+  - collection
 links:
   - "[[README.collections]]"
   - "[[NavigationBuilder]]"

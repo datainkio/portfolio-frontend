@@ -9,12 +9,6 @@ templateRole: "page"
 atomicLevel: "page"
 status: "active"
 tags:
-  - atomic-design
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - page
-  - template
 ---
 # Robots.txt
 

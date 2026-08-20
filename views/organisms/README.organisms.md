@@ -7,10 +7,8 @@ owner: Template Steward
 type: guide
 scope: frontend
 audience: maintainers
-tags:
-  - atomic-design
-  - nunjucks
-  - organism
+engine: "Nunjucks"
+atomicLevel: "organism"
 perf:
   readPriority: medium
   cacheSafe: true

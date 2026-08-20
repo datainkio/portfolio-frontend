@@ -5,6 +5,7 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
   - award-motion
   - awards
@@ -12,7 +13,6 @@ tags:
   - frontend
   - gel
   - js
-  - molecule
 links:
   - "[[molecules/award-motion/award-motion|molecules/award-motion/award-motion]]"
   - "[[molecules/award-motion/reduced|molecules/award-motion/reduced]]"

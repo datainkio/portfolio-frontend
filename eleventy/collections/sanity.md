@@ -7,9 +7,9 @@ scope: frontend
 runtime: node
 aliases:
   - "Sanity collection"
+system: "Eleventy"
 tags:
-  - collections
-  - eleventy
+  - collection
 links:
   - "[[README.collections]]"
   - "[[fetchSanityData]]"

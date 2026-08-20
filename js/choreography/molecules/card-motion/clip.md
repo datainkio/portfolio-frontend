@@ -5,13 +5,14 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
+animation:
+  - clip
 tags:
   - card-motion
   - choreography
-  - clip
   - frontend
   - js
-  - molecule
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"

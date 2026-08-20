@@ -8,14 +8,6 @@ type: "template"
 templateRole: "component"
 atomicLevel: "atom"
 status: "active"
-tags:
-  - atom
-  - atomic-design
-  - component
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - template
 links:
   - "[neutrals](../svg/neutrals.md)"
   - "[colors](../svg/colors.md)"

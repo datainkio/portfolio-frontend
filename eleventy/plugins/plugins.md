@@ -7,9 +7,9 @@ scope: frontend
 runtime: node
 aliases:
   - "Plugins"
+system: "Eleventy"
 tags:
-  - eleventy
-  - plugins
+  - plugin
 links:
   - "[[README.eleventy]]"
 ---

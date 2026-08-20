@@ -5,6 +5,7 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
   - bio-motion
   - biography
@@ -12,7 +13,6 @@ tags:
   - frontend
   - introduction
   - js
-  - molecule
 links:
 backlinks:
 ---

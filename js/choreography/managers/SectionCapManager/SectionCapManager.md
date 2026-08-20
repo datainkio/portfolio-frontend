@@ -5,13 +5,14 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+animation:
+  - scrollspy
+  - section-cap
 tags:
   - choreography
   - frontend
   - js
   - manager
-  - scrollspy
-  - section-cap
 links:
   - "[[AnimationDirector|AnimationDirector]]"
   - "[[config/contracts/events/events|config/contracts/events/events]]"

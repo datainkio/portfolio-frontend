@@ -9,14 +9,7 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - atomic-design
-  - component
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - organism
   - preloader
-  - template
 links:
   - "[hanko](../../../atoms/hanko/hanko.md)"
   - "[home](../../../pages/home/home.md)"

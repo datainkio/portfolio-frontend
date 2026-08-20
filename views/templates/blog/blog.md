@@ -8,12 +8,6 @@ type: "template"
 templateRole: "layout"
 atomicLevel: "template"
 status: "active"
-tags:
-  - atomic-design
-  - eleventy
-  - nunjucks
-  - Obsidian
-  - template
 links:
   - "[base](../../layouts/base.md)"
 ---

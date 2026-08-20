@@ -9,14 +9,7 @@ templateRole: "component"
 atomicLevel: "organism"
 status: "active"
 tags:
-  - atomic-design
-  - component
-  - eleventy
   - form
-  - nunjucks
-  - Obsidian
-  - organism
-  - template
 links:
   - "[section-cap](../../molecules/section-cap.md)"
   - "[ContactForm.js](../../../js/contact-form/ContactForm.md)"

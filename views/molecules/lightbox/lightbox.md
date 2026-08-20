@@ -9,12 +9,7 @@ templateRole: "component"
 atomicLevel: "molecule"
 status: "active"
 tags:
-  - "#molecule"
-  - "#atomic-design"
-  - "#component"
-  - "#eleventy"
-  - "#nunjucks"
-  - "#lightbox"
+  - lightbox
 links:
   - "[Lightbox.js](../../../js/lightbox/Lightbox.md)"
 ---

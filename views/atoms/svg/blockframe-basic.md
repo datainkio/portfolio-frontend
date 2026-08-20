@@ -9,14 +9,7 @@ templateRole: "component"
 atomicLevel: "atom"
 status: "active"
 tags:
-  - "#[atom]"
-  - "#[atomic-design]"
-  - "#[component]"
-  - "#[eleventy]"
-  - "#[nunjucks]"
-  - "#[Obsidian]"
-  - "#[svg]"
-  - "#[template]"
+  - svg
 ---
 # Blockframe Basic
 

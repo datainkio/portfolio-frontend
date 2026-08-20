@@ -5,8 +5,8 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "atom"
 tags:
-  - atom
   - choreography
   - frontend
   - index

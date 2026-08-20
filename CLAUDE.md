@@ -5,8 +5,8 @@ type: entrypoint
 status: stable
 audience:
   - agents
+system: "Eleventy"
 tags:
-  - eleventy
   - entrypoint
   - frontend
   - gsap
@@ -20,9 +20,9 @@ Portfolio frontend: Eleventy (11ty) + Nunjucks + Tailwind v4 + GSAP + Sanity.
 
 Read in this order before starting any task:
 
-1. [`portfolio-frontend.md`](../aix/context/projects/portfolio-frontend.md) — stack constraints, choreography runtime snapshot, common pitfalls
+1. [`project.md`](../context/project.md) — stack constraints, choreography runtime snapshot, common pitfalls
 2. [`constraints.md`](../context/constraints.md) — non-negotiables; never violate
-3. [`current-goals.md`](../context/current-goals.md) — active work
+3. [`Frontend.md`](../../goals/Frontend.md) — the Frontend project note in the **vault-root** `goals/` folder, a sibling of `dataink.io/`. Its tasks live in [`Frontend_tasks/`](../../goals/Frontend_tasks/); task frontmatter is the source of truth, and `status: "in-progress"` marks active work
 4. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — repo conventions, do-not-edit files, build order
 
 **Context load tier:**
@@ -64,7 +64,7 @@ Workspace agents live in [`../.claude/agents/`](../.claude/agents/).
 | [`planner`](../.claude/agents/planner.md) | Sequence multi-step work before implementation begins |
 | [`taskmaster`](../.claude/agents/taskmaster.md) | Embed TODOs aligned with the GitHub Issues workflow |
 
-For the full agent roster and architecture agents: [`../aix/CLAUDE.md`](../aix/CLAUDE.md).
+For the full agent roster and architecture agents: [`../CLAUDE.md`](../CLAUDE.md).
 
 ## Available Skills
 
@@ -95,7 +95,13 @@ Frontend task tiers — applied via Agent tool `model` param when dispatching su
 
 ## Current Goals
 
-Domain goals: maintain [Frontend.md](../context/goals/Frontend.md) — implementation steps specific to this domain. Every goal MUST reference its parent goal in [current-goals.md](../context/current-goals.md). Update the domain file as steps complete; never fork or restate root goals locally — link to them. Root `context/current-goals.md` is the authority.
+Goals and tasks live in Obsidian's **Project Manager** plugin at the **vault root** — [`goals/`](../../goals/), a sibling of the `dataink.io/` directory, not inside this repo. Frontend work is the [`Frontend.md`](../../goals/Frontend.md) project note (`pm-project: true`), with its tasks and subtasks in [`Frontend_tasks/`](../../goals/Frontend_tasks/) (`pm-task: true`).
+
+A project note's `taskIds` and `## Tasks` checklist are plugin-generated and drift — **task frontmatter is the source of truth**. `type: subtask` tasks are nested under a parent and are deliberately absent from the top-level checklist. Start at [`README.goals.md`](../../goals/README.goals.md) for the Dataview dashboard across all projects.
+
+Update task frontmatter as work completes; never fork or restate goals into this repo — link to them.
+
+**`frontend/context/current-goals.md` and `frontend/context/goals/` do not exist.** Earlier revisions of this file routed there; both were removed when goals migrated to the vault root. Do not recreate them.
 
 ## Choreography Quick Reference
 

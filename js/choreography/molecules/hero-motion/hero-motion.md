@@ -5,12 +5,12 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
+atomicLevel: "molecule"
 tags:
   - choreography
   - frontend
   - hero-motion
   - js
-  - molecule
   - reduced-motion
 links:
   - "[[organisms/hero/HeroAnimations|organisms/hero/HeroAnimations]]"

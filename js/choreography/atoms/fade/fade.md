@@ -5,10 +5,11 @@ status: stable
 surface: internal
 scope: frontend
 runtime: browser
-tags:
-  - atom
-  - choreography
+atomicLevel: "atom"
+animation:
   - fade
+tags:
+  - choreography
   - frontend
   - js
 links:

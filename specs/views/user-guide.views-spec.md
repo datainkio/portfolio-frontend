@@ -4,8 +4,8 @@ description: "A singleton page focused on communicating how I work best."
 docType: "reference"
 status: "draft"
 owner: "frontend"
+system: "Eleventy"
 tags:
-  - eleventy
   - sanity
   - spec
   - user-guide

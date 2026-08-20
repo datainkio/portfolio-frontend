@@ -7,8 +7,8 @@ scope: frontend
 runtime: node
 aliases:
   - "NavigationBuilder"
+system: "Eleventy"
 tags:
-  - eleventy
   - services
 links:
   - "[[README.services]]"

@@ -4,10 +4,10 @@ description: "Composition and data-flow spec for the site home page (route /)."
 docType: "reference"
 status: "draft"
 owner: "frontend"
+system: "Eleventy"
+engine: "Nunjucks"
 tags:
   - home
-  - eleventy
-  - nunjucks
   - sanity
   - choreography
   - spec

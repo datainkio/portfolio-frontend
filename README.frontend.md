@@ -5,8 +5,8 @@ type: reference
 status: stable
 audience:
   - agents
+system: "Eleventy"
 tags:
-  - eleventy
   - frontend
   - gsap
   - reference
