@@ -14,7 +14,19 @@ export const BIO_TRIGGER = {
   ...SCROLL_DEFAULTS,
   start: "top top",
   end: "bottom bottom",
-  // once: true,
+  // Overrides SCROLL_DEFAULTS' `once: true`. Bio's enter/exit pair is a live
+  // gate, not a one-shot cue: LandingSequence uses it to pause the background
+  // video when Bio leaves and resume it when Bio returns, so the trigger must
+  // survive the first pass and keep reporting in both scroll directions.
+  // `once: true` killed the trigger after one enter/leave, which meant
+  // `onEnterBack` never fired and the video, once paused, stayed paused.
+  //
+  // Safe because nothing here is scroll-driven: `scrub` is false, so
+  // BioTriggers.bind() passes no `animation` and `toggleActions` has no
+  // timeline to play/pause on re-entry; and Bio overrides `_onEnter` /
+  // `_onEnterBack` to emit their events WITHOUT calling playIntro, so repeat
+  // firing cannot restart the reveal.
+  once: false,
   // scrub disabled — evaluating ScrollTrigger scrub impact on motion complexity
   scrub: false,
   // pin disabled — evaluating ScrollTrigger pin impact on motion complexity

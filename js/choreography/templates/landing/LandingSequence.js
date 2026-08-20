@@ -26,6 +26,13 @@ export class LandingSequence {
     // The beat between video:intro:complete and bio.playIntro(). gsap.delayedCall
     // (not setTimeout) so the timer is ticker-synced, pausable and killable.
     this._bioHoldCall = null;
+    // Gates the scroll-driven resume below. Until the video's own intro has
+    // completed, playback belongs to the landing chain and nothing else may
+    // start it.
+    this._videoIntroComplete = false;
+    // Set for exactly one `bio:exit`, by the `bio:onLeaveBack` that precedes it.
+    // See the exit listener in _registerListeners for why this is needed.
+    this._bioLeftBackwards = false;
 
     this.handlePreloaderOut = () => this.start();
     window.addEventListener(
@@ -82,6 +89,8 @@ export class LandingSequence {
 
     this._bioHoldCall?.kill();
     this._bioHoldCall = null;
+    this._videoIntroComplete = false;
+    this._bioLeftBackwards = false;
 
     this._listeners.forEach((unsubscribe) => unsubscribe());
     this._listeners = [];
@@ -141,12 +150,36 @@ export class LandingSequence {
     this.logger.trace(`BG Video intro complete; bio holds ${hold}s`);
   }
 
+  /**
+   * Background video playback is scoped to Bio.
+   *
+   * The video is the subject of the landing and of Bio, and backdrop for
+   * everything below it. Rather than ask "is the video covered" — which is
+   * unanswerable here, since every section sits over it transparently by
+   * design and the sections tile the page contiguously — the cue is simply
+   * whether Bio is on screen. Bio is in view at load, so the video plays from
+   * the landing through the manifesto, then pauses for the rest of the page.
+   *
+   * The video keeps its fixed positioning, size, layer and visibility
+   * throughout: only play/pause changes. That is load-bearing — the gels in
+   * `#sizzle-background` blend against the video's painted frame, so a paused
+   * video holds its last frame and the composite is unchanged, while hiding or
+   * unmounting it would visibly alter the page.
+   */
   _pauseBackgroundVideo() {
     const videoEl = this.sections?.video?.videoEl ?? null;
     videoEl?.pause?.();
   }
 
   _resumeBackgroundVideo() {
+    // Reduced motion never autoplays the video (BackgroundVideo.playIntro
+    // pauses instead), so a scroll-driven resume must not start it either.
+    if (isReducedMotion()) return;
+    // Before the video's intro completes, the landing chain owns playback —
+    // Bio's ScrollTrigger fires `enter` at load, and resuming on it would start
+    // the video underneath its own reveal.
+    if (!this._videoIntroComplete) return;
+
     const videoEl = this.sections?.video?.videoEl ?? null;
     const playPromise = videoEl?.play?.();
     if (playPromise?.catch) {
@@ -184,26 +217,47 @@ export class LandingSequence {
     });
 
     on(EVENTS.video.introComplete, () => {
+      this._videoIntroComplete = true;
       this._armBioIntro();
     });
 
+    // Bio's enter/exit pair gates background video playback (see
+    // _resumeBackgroundVideo). Both scroll directions are wired so the gate is
+    // symmetric: enter/onEnterBack resume, exit/onLeaveBack pause.
     on(EVENTS.bio.enter, () => {
       this.logger.trace(SELECTORS.bio + " entered.");
-      // this._pauseBackgroundVideo();
+      this._bioLeftBackwards = false;
+      this._resumeBackgroundVideo();
     });
 
     on(EVENTS.bio.onEnterBack, () => {
       this.logger.trace(SELECTORS.bio + " entered back");
-      // this._pauseBackgroundVideo();
+      this._bioLeftBackwards = false;
+      this._resumeBackgroundVideo();
+    });
+
+    on(EVENTS.bio.onLeaveBack, () => {
+      this.logger.trace(SELECTORS.bio + " left back");
+      // Leaving Bio *backwards* means scrolling up above its start — which is
+      // the landing, where the video is the subject. Keep playing. The flag is
+      // consumed by the `exit` listener below.
+      this._bioLeftBackwards = true;
+      this._resumeBackgroundVideo();
     });
 
     on(EVENTS.bio.exit, () => {
       // Bio playback is disengaged from scroll — no outro on scroll-out.
       this.logger.trace(SELECTORS.bio + " exited");
-    });
-
-    on(EVENTS.bio.onLeaveBack, () => {
-      this.logger.trace(SELECTORS.bio + " left back");
+      // `exit` is not directional. AbstractSection._onLeaveBack emits
+      // `onLeaveBack` and then routes through `_onLeave`, which emits `exit` —
+      // so this fires when scrolling up above Bio as well as down past it, and
+      // only the downward case means "past Bio". The listener above ran first
+      // (bus dispatch is synchronous) and flags the upward case.
+      if (this._bioLeftBackwards) {
+        this._bioLeftBackwards = false;
+        return;
+      }
+      this._pauseBackgroundVideo();
     });
   }
 }
