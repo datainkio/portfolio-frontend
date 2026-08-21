@@ -40,7 +40,6 @@
           data-projects-el="heading"
           class="{{ title | classes }}">{{ heading }}</h2>
     </header>
-    {{ body | safe }}
     {{ ProjectCards.render({ projects: params.projects, classes: "w-full" }) }}
   </section>
 {% endmacro %}

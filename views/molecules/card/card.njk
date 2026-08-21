@@ -1,7 +1,6 @@
 {% import "atoms/heading.njk" as HeadingBlock %}
 {% import "atoms/cta.njk" as CTA %}
 {% import "molecules/stats/stats.njk" as Details %}
-{% import "atoms/printmarks/trim-marks.njk" as TrimMarks %}
 {% macro render(params = {}) %}
 
   {#- Data guards -#}
@@ -31,40 +30,38 @@
 
   {#- Styling -#}
 
-  {%- set root = {"base": "relative text-neutral-950 isolate w-full pb-[25dvh]", "lg": "inner-border p-4 pb-4"} -%}
+  {%- set root = {"base": "relative text-neutral-950 isolate w-full pb-[25dvh]", "lg": "p-4"} -%}
 
   {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh", "lg": "h-auto aspect-video"} -%}
 
   {%- set imageCSS = {"base": "w-full h-full object-cover object-center"} -%}
 
-  {%- set body = {"base": "grid grid-cols-6 inner-border -mt-24 p-6 relative z-10 content-start bg-neutral-100", "lg": "mt-0"} -%}
+  {%- set body = {"base": "grid grid-cols-6 inner-border px-6 py-6 m-4 mb-8 relative z-10 content-start bg-neutral-100"} -%}
 
-  {%- set eyebrow = {"base": "eyebrow text-xs text-current uppercase tracking-wide col-span-full"} -%}
+  {%- set eyebrow = {"base": "eyebrow text-xs uppercase tracking-wide col-span-full m-0", "lg": "text-sm"} -%}
 
-  {%- set header = {"base": "header col-span-full hover:no-underline"} -%}
+  {%- set header = {"base": "header col-span-5 pb-2 hover:no-underline border-dotted border-r-3 border-neutral-600"} -%}
 
   {%- set heading = {
-    "base": "text-neutral-950 text-2xl/6 font-display py-4",
+    "base": "text-neutral-950 text-xl leading-6 font-display mt-1",
     "sm": "text-3xl",
-    "md": "text-xl/6",
-    "xl": "text-2xl/6"
+    "md": "text-xl leading-6",
+    "xl": "text-2xl leading-6"
   } -%}
 
   {%- set byline = {"base": "byline text-sm font-display"} -%}
 
   {%- set description = {"base": "sr-only col-span-full"} -%}
 
-  {%- set stats = {"base": "col-span-full text-neutral-950 [&_dt]:sr-only", "sm": "", "md": ""} -%}
+  {%- set stats = {"base": "col-span-full text-neutral-950 sr-only"} -%}
 
-  {%- set footer = {"base": "col-span-full text-right py-2"} -%}
+  {%- set footer = {"base": "my-auto px-4"} -%}
 
-  {%- set linky = {"base": "font-serif text-2xl italic inline-block text-right"} -%}
+  {%- set linky = {"base": "font-serif text-2xl italic inline-block"} -%}
 
   <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
-
     {% if hasMedia %}
       <figure data-card-el="figure" class="{{ figure | classes }}">
-        {{ TrimMarks.render({"inset": "6", "size": "4", "weight": "1", "color": "white", "classes": "invisible sm:visible"}) }}
         {% if videoSrc %}
           {#- Decorative: the card heading carries the accessible name, so the
               video is hidden from AT. `data-motion-optional` tells the
@@ -84,7 +81,8 @@
                  playsinline
                  {% if video.muted != false %}muted{% endif %}
                  {% if video.loop != false %}loop{% endif %}
-                 {% if video.autoplay != false %}autoplay{% endif %}></video>
+                 {% if video.autoplay != false %}autoplay{% endif %}>
+          </video>
         {% else %}
           <img data-card-el="image"
                src="{{ imageSrc }}"
@@ -100,13 +98,11 @@
     <div data-card-el="body" class="{{ body | classes }}">
 
       <header class="{{ header | classes }}">
-        {% if eyebrow_txt %}
-          <p class="{{ eyebrow | classes }}">{{ eyebrow_txt }}</p>
+        {% if byline_txt %}
+          <p class="{{ eyebrow | classes }}">{{ byline_txt }}</p>
         {% endif %}
         {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) }) }}
-        {% if byline_txt %}
-          <p class="{{ byline | classes }}">{{ byline_txt }}</p>
-        {% endif %}
+
       </header>
 
       {% if description_txt %}
