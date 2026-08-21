@@ -9,14 +9,17 @@
  * body up by a full viewport at pin start). A y-translate leaves layout
  * untouched, so the body keeps following native scroll.
  *
- * Travel is `article.offsetHeight - figure.offsetHeight`, recomputed on every
- * refresh. With the card's base `pb-[25dvh]`, that lands the release exactly
- * where the spec asks: body bottom at 75% of the viewport, figure bottom at
- * the fold, next card still below it.
+ * Travel is measured from the body's own bottom border, recomputed on every
+ * refresh: `body.offsetTop + body.offsetHeight - 25vh`. The hold therefore
+ * releases when that border passes 25% down from the top of the viewport,
+ * whatever the card's height or the base `pb-[25dvh]` happens to be.
+ * Without a body element it falls back to `article.offsetHeight -
+ * figure.offsetHeight` (release with the figure bottom at the fold).
  *
  * @param {{
  *   article: Element,
  *   figure: Element,
+ *   body?: Element,
  *   index?: number,
  *   triggerEl?: Element,
  *   reduceMotion?: boolean
@@ -26,6 +29,10 @@
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 import { killST, buildScrollTrigger } from "./card-motion.js";
+
+// Release point for the held figure, as a fraction of viewport height measured
+// down from the top: the body's bottom border lands here when the hold ends.
+const BODY_BOTTOM_RELEASE = 0.25;
 
 const CARD_STICKY_TRIGGER = {
   id: "card-sticky",
@@ -37,6 +44,7 @@ const CARD_STICKY_TRIGGER = {
 export function createCardSticky({
   article,
   figure,
+  body,
   index = 0,
   triggerEl,
   reduceMotion,
@@ -48,8 +56,18 @@ export function createCardSticky({
     return { kill() {} };
   }
 
+  const viewportHeight = () =>
+    window.visualViewport?.height ?? window.innerHeight;
+
   const travel = () =>
-    Math.max(0, article.offsetHeight - figure.offsetHeight);
+    body
+      ? Math.max(
+          0,
+          body.offsetTop +
+            body.offsetHeight -
+            viewportHeight() * BODY_BOTTOM_RELEASE,
+        )
+      : Math.max(0, article.offsetHeight - figure.offsetHeight);
 
   gsap.set(figure, { willChange: "transform" });
 

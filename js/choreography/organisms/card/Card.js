@@ -42,6 +42,7 @@ const VARIANT_FACTORIES = {
     createCardSticky({
       article: card.root,
       figure: card.figure,
+      body: card.body,
       index: card._index,
       triggerEl: card.root,
     }),
