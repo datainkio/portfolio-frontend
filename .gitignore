@@ -106,3 +106,4 @@ graphify-out/.graphify_root
 graphify-out/cache/stat-index.json
 graphify-out/graph.html
 graphify-out/cost.json
+.codegraphy/*
