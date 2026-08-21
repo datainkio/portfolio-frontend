@@ -118,3 +118,32 @@
     min-height: 100vh;
   }
 }
+
+/*
+ * DIRECTIONAL SHADOW TOKENS
+ *
+ * Tailwind v4 has no JS config — theme values are declared as CSS custom
+ * properties in the --shadow-* namespace, which generates shadow-t-sm,
+ * shadow-b-md, shadow-l-sm, etc. (plus their variants).
+ */
+@theme {
+  --shadow-sm: 0 0 4px 0 rgb(0 0 0 / 0.5);
+  --shadow-md: 0 0 8px 0 rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 0 12px 0 rgb(0 0 0 / 0.5);
+  /* TOP */
+  --shadow-t-sm: 0 -1px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-t-md: 0 -4px 8px -1px rgb(0 0 0 / 0.5);
+  --shadow-t-lg: 0 -10px 12px -3px rgb(0 0 0 / 0.1);
+  /* BOTTOM */
+  --shadow-b-sm: 0 1px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-b-md: 0 4px 8px -1px rgb(0 0 0 / 0.1);
+  --shadow-b-lg: 0 10px 12px -3px rgb(0 0 0 / 0.1);
+  /* LEFT */
+  --shadow-l-sm: -1px 0 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-l-md: -4px 0 8px -1px rgb(0 0 0 / 0.1);
+  --shadow-l-lg: -10px 0 12px -3px rgb(0 0 0 / 0.1);
+  /* RIGHT */
+  --shadow-r-sm: 1px 0 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-r-md: 4px 0 8px -1px rgb(0 0 0 / 0.1);
+  --shadow-r-lg: 10px 0 12px -3px rgb(0 0 0 / 0.1);
+}

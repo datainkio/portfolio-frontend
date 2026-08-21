@@ -32,11 +32,13 @@
 
   {%- set root = {"base": "relative text-neutral-950 isolate w-full pb-[25dvh]", "lg": "p-4"} -%}
 
-  {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh", "lg": "h-auto aspect-video"} -%}
+  {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh", "lg": "h-auto aspect-video shadow-md"} -%}
 
   {%- set imageCSS = {"base": "w-full h-full object-cover object-center"} -%}
 
-  {%- set body = {"base": "grid grid-cols-6 inner-border px-6 py-6 m-4 mb-8 relative z-10 content-start bg-neutral-100"} -%}
+  {%- set body = {
+    "base": "shadow-lg grid grid-cols-6 inner-border px-6 py-6 m-4 mb-8 relative z-10 content-start bg-neutral-100"
+  } -%}
 
   {%- set eyebrow = {"base": "eyebrow text-xs uppercase tracking-wide col-span-full m-0", "lg": "text-sm"} -%}
 
