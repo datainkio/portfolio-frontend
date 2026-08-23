@@ -3,24 +3,13 @@
 {% import "atoms/svg/inline.njk" as InlineSvg %}
 
 {%- set article = {
-      base: "relative flex flex-col justify-center text-center gap-2 px-4 font-display text-neutral-100",
-      sm: ""
+  "base": "relative flex flex-col justify-center text-center gap-2 px-4 font-display text-neutral-100",
+  "sm": ""
 } -%}
-{%- set logoStyle = { 
-      base: "size-18 mx-auto"
-    } -%}
-{%- set title = {
-      base: "font-display text-lg leading-none m-0", 
-      sm: "pt-2"
-    } -%}
-{%- set list = {
-      base: "",
-      sm: ""
-    } -%}
-{%- set awardContainer = {
-      base: "flex flex-col leading-snug text-neutral-400",
-      sm: ""
-    } -%}
+{%- set logoStyle = {"base": "size-18 mx-auto"} -%}
+{%- set title = {"base": "sr-only ont-display text-lg leading-none m-0", "sm": "pt-2"} -%}
+{%- set list = {"base": "sr-only"} -%}
+{%- set awardContainer = {"base": "flex flex-col leading-snug text-neutral-400", "sm": ""} -%}
 
 {%- macro render(group) -%}
   <article data-awards-el="organization-card" class="{{ article | classes }}">
@@ -32,13 +21,11 @@
         alt: logoAlt,
         classes: logoStyle | classes,
         svgClasses: ""
-      }) }}
+        }) }}
     <h3 class="{{ title | classes }}">{{ group.organization.title }}</h3>
     <ul class="{{ list | classes }}" data-awards-el="group-list">
       {% for award in group.items %}
-        <li class="{{ awardContainer | classes }}" data-awards-el="award">
-          {{ Award.render(award) }}
-        </li>
+        <li class="{{ awardContainer | classes }}" data-awards-el="award">{{ Award.render(award) }}</li>
       {% endfor %}
     </ul>
 
