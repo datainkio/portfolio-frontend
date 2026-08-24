@@ -58,8 +58,7 @@ flowchart TD
         WORK["work"]
     end
 
-    BIOST["bio ScrollTrigger:<br/>enter / exit / onEnterBack / onLeaveBack"] -->|"reveal disengaged from scroll;<br/>gates background video playback"| LSOBS["LandingSequence listeners"]
-    LSOBS -->|"play / pause"| VID2["BackgroundVideo.videoEl"]
+    BIOST["bio ScrollTrigger:<br/>enter / exit / onEnterBack / onLeaveBack"] -.->|"log only — reveal is disengaged from scroll"| LSOBS["LandingSequence listeners"]
 
     RM["Reduced motion"] -.->|"holds zero, timelines jump to progress 1,<br/>events still emit — chain stays intact"| chain
 ```
@@ -72,13 +71,6 @@ flowchart TD
 - **Reduced motion zeroes holds rather than skipping links.** A gated profile still emits `…:intro:complete` (`AbstractSection` jumps the intro to `progress(1)`), so the chain completes without motion instead of stalling.
 - **Timers are `gsap.delayedCall`, never `setTimeout`** — ticker-synced, pausable, killable in `destroy()`.
 - **Bio is disengaged from scroll.** Its ScrollTrigger still fires enter/exit for side effects, but the reveal is owned by this chain.
-- **Bio's enter/exit pair gates background video playback.** The video is the subject of the landing and of Bio, and backdrop for everything below, so the cue is simply whether Bio is on screen. The video keeps its fixed positioning, size, layer and visibility throughout — only `play()`/`pause()` change, which matters because the gels in `#sizzle-background` blend against the video's painted frame: a paused video holds its last frame and the composite is unchanged.
-
-  Three things make this correct, and each one was a bug first:
-
-  1. **`exit` is not directional.** `AbstractSection._onLeaveBack` emits `onLeaveBack` and *then* routes through `_onLeave`, so `bio:exit` fires when scrolling up above Bio as well as down past it. Only the downward case means "past Bio" — above Bio is the landing, where the video should play. The `onLeaveBack` listener sets `_bioLeftBackwards` (bus dispatch is synchronous, so it always runs first) and the `exit` listener consumes it.
-  2. **`BIO_TRIGGER` must set `once: false`.** It inherits `once: true` from `SCROLL_DEFAULTS`, which killed the trigger after one enter/leave — `onEnterBack` never fired and the video, once paused, stayed paused. See [BioTriggers.md](../../organisms/bio/BioTriggers.md).
-  3. **Resume is gated twice.** It no-ops under reduced motion (`BackgroundVideo.playIntro` deliberately does not autoplay there) and before `video:intro:complete` (Bio's trigger fires `enter` at load, which would otherwise start the video underneath its own reveal).
 - **The gel entrance gates the bio intro.** `bio.playLanding()` is awaited, not fired-and-forgotten — the heading band has to land before the SplitText reveal starts over it. See [heading-gel.md](../../molecules/bio-motion/heading-gel.md); the promise resolves via `AbstractSection`'s `PromiseResolverQueue`, and resolves immediately under a gated profile so the await can never stall the chain.
 
 ### Known drift

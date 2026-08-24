@@ -97,7 +97,7 @@ export function intro(view, gelManager) {
   // header, so anything sequenced here would play off-screen) and attaches the
   // overview band itself as that arrival's first beat.
   attachHeadingGel(view, gelManager);
-  attachMissionStatement(view, gelManager);
+  //attachMissionStatement(view, gelManager);
 
   return tl;
 }

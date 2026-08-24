@@ -25,19 +25,6 @@ To re-enable scrub: flip `scrub: true` in `BIO_TRIGGER` — the `animation` hand
 
 Bio degrades cleanly without scrub: discrete intro fires once on enter.
 
-`BIO_TRIGGER` sets **`once: false`**, overriding `SCROLL_DEFAULTS`. The enter/exit
-pair is a live gate rather than a one-shot cue: `LandingSequence` uses it to pause
-the background video when Bio leaves and resume it when Bio returns, so the
-trigger has to survive the first pass and keep reporting in both scroll
-directions. Under the inherited `once: true` the trigger killed itself after one
-enter/leave, `onEnterBack` never fired, and the video stayed paused for the rest
-of the session.
-
-Repeat firing is safe here for two independent reasons: `scrub` is `false`, so
-`bind()` passes no `animation` and `toggleActions` has no timeline to play/pause
-on re-entry; and `Bio` overrides `_onEnter` / `_onEnterBack` to emit their events
-*without* calling `playIntro`, so re-entry cannot restart the reveal.
-
 ## Outro pin (`bio-outro-pin`)
 
 **Currently inert.** The active `split` variant no longer supplies a `buildOutro`
