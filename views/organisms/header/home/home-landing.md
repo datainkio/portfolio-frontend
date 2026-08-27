@@ -90,6 +90,27 @@ much complexity for the UX, and it cost the heading's crawlable/accessible text)
 `data-header-role` is distinct from `data-preloader-state` (below), which the
 preloader runtime owns for the loader's internal phases.
 
+## Repeat-visit pre-paint check
+
+A synchronous, non-module `<script>` sits right after `</header>` in the macro.
+On a repeat visit this session (`sessionStorage["dataink_session"].visited ===
+true`, written by [[SessionManager|../../../../js/choreography/managers/SessionManager/SessionManager]]),
+it sets `data-preloader-state="exit"` before first paint, so the
+`hanko-loading-pulse` CSS animation — which starts automatically on paint, no JS
+required — never becomes visible. [[Preloader.js|../../../../js/preloader/Preloader]]'s
+own `initPreloader()` makes the same check and skips the loading choreography on
+a repeat visit, but that runs from a deferred `type="module"` script — after
+this one, and after first paint — so it alone isn't enough to prevent a flash.
+This script re-checks/re-sets the same attribute Preloader.js does, so either
+one running is sufficient; it's pure belt-and-suspenders.
+
+**Duplication warning:** this script can't import the `SessionManager` module
+(must run synchronously, pre-paint), so it re-implements the sessionStorage key
+name and shape inline, plus the `data-preloader-state`/`"exit"` pair from
+`js/preloader/constants.js`'s `PRELOADER_STATE`. If the storage key, the
+`visited` field name, or the state attribute/value change in either of those
+files, update this script to match.
+
 ## Data and Context
 
 - `Hanko` — imported atom; renders the inlined brand SVG into `.hanko-mount`.

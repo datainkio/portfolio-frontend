@@ -43,4 +43,30 @@
                 </hgroup>
                 {{ page_nav.render({classes: pageNav | classes}) }}
         </header>
+        {# Synchronous, non-module, pre-paint: js/preloader/Preloader.js already
+           skips the loading choreography on a repeat visit (SessionManager's
+           visited flag), but that check runs from a deferred `type="module"`
+           script — after HTML parsing, i.e. after first paint. The pulsing
+           `hanko-loading-pulse` animation (styles/components/hanko.css) is
+           CSS-only and starts on paint with no JS required, so without this it
+           can still flash before the module script gets a chance to run. This
+           duplicates the sessionStorage key ("dataink_session") and shape
+           (SessionManager.js) and the attribute/value pair (PRELOADER_STATE in
+           js/preloader/constants.js) because a synchronous pre-paint check
+           can't import an ES module — keep both in sync if either changes. #}
+        <script>
+                (function () {
+                        try {
+                                var raw = sessionStorage.getItem("dataink_session");
+                                var state = raw ? JSON.parse(raw) : null;
+                                if (state && state.visited === true) {
+                                        var el = document.querySelector("[data-preloader]");
+                                        if (el) el.setAttribute("data-preloader-state", "exit");
+                                }
+                        } catch (e) {
+                                // Storage unavailable (private mode, disabled, etc.) — fall
+                                // through to the normal first-visit loading sequence.
+                        }
+                })();
+        </script>
 {% endmacro %}

@@ -190,16 +190,15 @@ for reduced motion's `playIntro()` restart-jitter problem.
    running by default from first paint with no JS required to start it. So
    there's a real (likely sub-~300ms, unmeasured) window where the pulse could
    still flash before the module script sets `data-preloader-state="exit"`.
-   Fully closing this needs a synchronous (non-module) inline script placed
-   right after the `[data-preloader]` header markup in
-   `views/organisms/header/home/home-landing.njk`, reading `sessionStorage`
-   directly (duplicating the `dataink_session`/`visited` key+shape, since an
-   ES module can't run synchronously pre-paint) to set the exit state before
-   the browser's first paint — the standard dark-mode-flash-prevention
-   pattern. Not implemented: it touches page markup on the LCP-adjacent
-   critical path, which wasn't asked for and didn't seem proportionate before
-   confirming whether the JS-only fix already fixed what was visible in
-   practice.
+   **Closed.** Added a synchronous, non-module inline `<script>` immediately
+   after `</header>` in `views/organisms/header/home/home-landing.njk` (see
+   that file's sidecar, "Repeat-visit pre-paint check"). It re-checks
+   `sessionStorage["dataink_session"].visited` directly (can't import the
+   `SessionManager` module — must run synchronously, pre-paint) and sets
+   `data-preloader-state="exit"` before first paint if true. Duplicates the
+   storage key/shape and the `PRELOADER_STATE` attribute/value from
+   `js/preloader/constants.js` by necessity; both call sites note the other
+   and must be kept in sync if either changes.
 4. **Reset/debug affordance.** `SessionManager.reset()` already exists. Worth
    deciding whether to expose a dev console hook (mirroring `window.__scrollSmoother`
    in `js/preloader/preferences.js`) for QA to clear session-played state without
