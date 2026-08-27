@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.system.abstractsection
-role: "Runtime infrastructure — foundation class providing lifecycle management, responsive breakpoint handling, bus event emission, and animation playback gates for all section controllers."
+role: "Runtime infrastructure — foundation class providing lifecycle management, responsive breakpoint handling, bus event emission, and animation playback gates (reduced-motion and session-played, both scrub-exempt) for all section controllers."
 status: stable
 surface: internal
 scope: frontend
@@ -19,4 +19,5 @@ links:
   - "[[config/index|config/index]]"
   - "[[PromiseResolverQueue|PromiseResolverQueue]]"
   - "[[system/gsap|system/gsap]]"
+  - "[[managers/SessionManager/SessionManager|managers/SessionManager]]"
 ---

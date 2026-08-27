@@ -37,6 +37,7 @@ Durable reference docs for the dataink.io frontend. Optimized for the **Concierg
 - Director init sequence diagram: [[docs/director-initialization-sequence|director-initialization-sequence]]
 - Preloader contract and smoke tests: [[docs/preloader-integration-checklist|preloader-integration-checklist]]
 - Landing performance plan: [[docs/ai/plan-landing-performance.prompt|plan-landing-performance]]
+- Session-gated motion plan: [[docs/ai/plan-session-gated-motion.prompt|plan-session-gated-motion]]
 
 ### "I'm working on styling / design tokens"
 

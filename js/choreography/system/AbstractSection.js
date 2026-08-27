@@ -18,6 +18,7 @@ import {
 import PromiseResolverQueue from "./PromiseResolverQueue.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "./gsap.js";
+import { getSessionManager } from "../managers/SessionManager/SessionManager.js";
 
 export default class AbstractSection {
   /**
@@ -49,6 +50,7 @@ export default class AbstractSection {
     this.isDisabled = !view;
     this.bus = bus ?? new NullAnimationBus();
     this._reducedMotionHandler = reducedMotionHandler;
+    this._sessionManager = getSessionManager();
     this._matchMedia = null;
     this._isLifecycleMotionEnabled = true;
     this._isReducedMotionMode = null;
@@ -102,10 +104,30 @@ export default class AbstractSection {
         this._reducedMotionHandler?.isReducedMotion?.(),
     );
 
-    const profile = resolveSectionMotionProfile(this.sectionKey, {
+    let profile = resolveSectionMotionProfile(this.sectionKey, {
       ...conditions,
       reduceMotion: isReducedMotion,
     });
+
+    // Session-gated replay: once a (non-scrubbed) section's entrance animation
+    // has played this session, force it straight to its end state on every
+    // later viewport entry instead of replaying. Scrubbed sections are exempt —
+    // their ScrollTrigger owns the playhead, and forcing an end-state jump here
+    // would fight it the same way playIntro()'s restart bypass avoids (see
+    // AbstractSectionTriggers.isScrubbed). Only the timeline channel is gated;
+    // trigger stays whatever reduceMotion/breakpoint resolved, so scroll-driven
+    // side effects (e.g. Bio's video pause/resume) keep working on repeat visits.
+    if (
+      profile.timeline.enabled &&
+      !this.triggers?.isScrubbed?.() &&
+      this._sessionManager?.hasPlayed?.(this.sectionKey)
+    ) {
+      profile = {
+        ...profile,
+        timeline: { ...profile.timeline, enabled: false },
+      };
+    }
+
     const wasLifecycleMotionEnabled = this._isLifecycleMotionEnabled;
 
     this._isReducedMotionMode = isReducedMotion;
@@ -161,6 +183,7 @@ export default class AbstractSection {
   }
 
   _onIntroComplete() {
+    this._sessionManager?.markPlayed?.(this.sectionKey);
     this._emit(this.events.introComplete, { element: this.view });
   }
 
@@ -238,8 +261,11 @@ export default class AbstractSection {
   }
 
   async playLanding() {
-    if (this.isDisabled || !this._isLifecycleMotionEnabled)
+    if (this.isDisabled) return Promise.resolve();
+    if (!this._isLifecycleMotionEnabled) {
+      this._applyPostLandingState();
       return Promise.resolve();
+    }
     return this._landing.run(() => this.animations.play(TIMELINE_IDS.landing));
   }
 
@@ -270,6 +296,23 @@ export default class AbstractSection {
     if (!introTimeline) return;
     introTimeline.progress(1, false);
     this._emit(this.events.introComplete, { element: this.view });
+  }
+
+  // Symmetric with _applyPostIntroState. Without this, a section gated off
+  // before playLanding() ever runs (session-played on cold load, same as
+  // reduced motion) leaves the landing timeline paused at its initial —
+  // usually pre-reveal — frame instead of the settled state playIntro()
+  // expects to build on. LandingSequence awaits playLanding() before chaining
+  // into playIntro(), so this has to resolve to the same end state a played
+  // landing would.
+  _applyPostLandingState() {
+    const landingTimeline = this._getTimelineOrWarn(
+      TIMELINE_IDS.landing,
+      "_applyPostLandingState",
+    );
+    if (!landingTimeline) return;
+    landingTimeline.progress(1, false);
+    this._emit(this.events.landingComplete, { element: this.view });
   }
 
   reset() {

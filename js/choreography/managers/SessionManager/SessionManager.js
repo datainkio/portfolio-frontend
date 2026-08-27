@@ -1,4 +1,4 @@
-import lumberjack from "../../utils/lumberjack/lumberjack.js";
+import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 /** @format */
 
@@ -39,7 +39,8 @@ class SessionManager {
    */
   getDefaultState() {
     return {
-      heroIntroPlayed: false,
+      visited: false,
+      played: {},
       lastVisit: Date.now(),
       interactions: {},
     };
@@ -62,26 +63,58 @@ class SessionManager {
   }
 
   /**
-   * Check if hero intro has been played this session
+   * Whether a section's entrance animation has already played this session.
+   * @param {string} sectionKey
    * @returns {boolean}
    */
-  get hasHeroIntroPlayed() {
-    return this.state.heroIntroPlayed === true;
+  hasPlayed(sectionKey) {
+    return this.state.played?.[sectionKey] === true;
   }
 
   /**
-   * Mark hero intro as played
+   * Mark a section's entrance animation as played this session.
+   *
+   * Re-reads sessionStorage before merging so a stale in-memory snapshot never
+   * clobbers another section's already-recorded played state.
+   * @param {string} sectionKey
    */
-  markHeroIntroPlayed() {
-    this.state.heroIntroPlayed = true;
+  markPlayed(sectionKey) {
+    const fresh = this.loadState();
+    this.state = {
+      ...fresh,
+      played: { ...fresh.played, [sectionKey]: true },
+    };
     this.saveState();
 
     lumberjack.trace(
       "SessionManager",
-      "Hero intro marked as played",
+      `${sectionKey} marked as played`,
       "brief",
       "success",
     );
+  }
+
+  /**
+   * Whether the preloader has already run once this session — i.e. this is a
+   * repeat visit to the site within the same tab session, distinct from any
+   * single section's played state (a visitor can leave before anything
+   * finishes animating and still have "visited").
+   * @returns {boolean}
+   */
+  hasVisited() {
+    return this.state.visited === true;
+  }
+
+  /**
+   * Mark that the preloader has run once this session. Re-reads sessionStorage
+   * first for the same reason markPlayed() does.
+   */
+  markVisited() {
+    const fresh = this.loadState();
+    this.state = { ...fresh, visited: true };
+    this.saveState();
+
+    lumberjack.trace("SessionManager", "Session marked as visited", "brief", "success");
   }
 
   /**
@@ -96,3 +129,21 @@ class SessionManager {
 }
 
 export default SessionManager;
+
+let singleton = null;
+
+/**
+ * Get the shared SessionManager instance, creating it on first call.
+ *
+ * A single shared instance (mirrors the RulerIntroManager ad hoc singleton
+ * pattern) means every section's hasPlayed()/markPlayed() call reads and
+ * writes the same in-memory state, so no independent per-instance snapshot
+ * can clobber another section's already-recorded played state on save.
+ * @returns {SessionManager}
+ */
+export function getSessionManager() {
+  if (!singleton) {
+    singleton = new SessionManager();
+  }
+  return singleton;
+}

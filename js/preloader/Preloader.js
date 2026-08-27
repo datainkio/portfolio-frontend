@@ -17,12 +17,14 @@
  */
 
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
+import { getSessionManager } from "/assets/js/choreography/managers/SessionManager/SessionManager.js";
 import { animateExit, animateIntro } from "./animations.js";
 import {
   PRELOADER_ASSET,
   PRELOADER_CONTROLLER_MESSAGES,
   PRELOADER_GLOBAL_FLAGS,
   PRELOADER_MEDIA_QUERIES,
+  PRELOADER_STATE,
 } from "./constants.js";
 import { hydrateDeferredVideos } from "./deferred-videos.js";
 import {
@@ -103,16 +105,25 @@ export const initPreloader = async () => {
   //   `${PRELOADER_CONTROLLER_MESSAGES.reducedMotionPreferencePrefix}${prefersReduce}`,
   // );
 
-  const restoreState = lockScrollAndCaptureState();
+  // Repeat visit this session: the loading splash already played once, and
+  // sections are independently gated to their end states (see
+  // AbstractSection's session-played channel). Showing the splash again would
+  // be re-running the one remaining piece of "the same sequence twice."
+  // Nothing here needs to lock scroll or observe resource loads for a
+  // filetype message the visitor will never see.
+  const sessionManager = getSessionManager();
+  const isReturnVisit = sessionManager.hasVisited();
+  sessionManager.markVisited();
+
+  const restoreState = isReturnVisit ? () => {} : lockScrollAndCaptureState();
 
   const scrollSmootherEnabled = readScrollSmootherPreference(preloader);
   exposeScrollSmootherDXHooks(scrollSmootherEnabled);
 
   const updateFiletypeMessage = createFiletypeMessageUpdater(textEl);
-  const stopObserver = startResourceObserver(
-    updateFiletypeMessage,
-    logger.trace,
-  );
+  const stopObserver = isReturnVisit
+    ? () => {}
+    : startResourceObserver(updateFiletypeMessage, logger.trace);
 
   const cleanup = createCleanup({
     stopObserver,
@@ -137,11 +148,18 @@ export const initPreloader = async () => {
   try {
     // logger.trace(PRELOADER_CONTROLLER_MESSAGES.initializationComplete);
 
-    animateIntro({
-      stack,
-      prefersReduce,
-      trace: logger.trace,
-    });
+    if (isReturnVisit) {
+      // Already settled — a synchronous pre-paint check in the page markup
+      // sets this before first render so the loading pulse never flashes;
+      // this is a harmless no-op re-assertion if that check didn't run.
+      preloader.setAttribute(PRELOADER_STATE.attribute, PRELOADER_STATE.exit);
+    } else {
+      animateIntro({
+        stack,
+        prefersReduce,
+        trace: logger.trace,
+      });
+    }
 
     // logger.trace(PRELOADER_CONTROLLER_MESSAGES.loadingReadiness);
     await waitForPreloaderReadiness({
@@ -150,15 +168,24 @@ export const initPreloader = async () => {
     });
 
     //  logger.trace(PRELOADER_CONTROLLER_MESSAGES.directorReady);
-    await animateExit({
-      preloader,
-      trace: logger.trace,
-      onComplete: () => {
-        if (typeof window !== "undefined") {
-          window.dispatchEvent(new Event(EVENTS.system.preloaderOut));
-        }
-      },
-    });
+    if (isReturnVisit) {
+      // No CSS transition to wait out — state was already settled above (or
+      // before paint). Dispatch directly instead of routing through
+      // animateExit()'s animationend/timeout promise, which would otherwise
+      // hold preloaderOut for its ~1.6s no-op fallback with nothing to wait
+      // for the second time around.
+      window.dispatchEvent(new Event(EVENTS.system.preloaderOut));
+    } else {
+      await animateExit({
+        preloader,
+        trace: logger.trace,
+        onComplete: () => {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new Event(EVENTS.system.preloaderOut));
+          }
+        },
+      });
+    }
 
     // logger.trace(PRELOADER_CONTROLLER_MESSAGES.exitComplete);
   } catch (error) {
