@@ -1,29 +1,23 @@
-{%- set page_nav_styles =  {
-      base: "w-full font-display text-primary-200"
-} -%}
-{%- set page_nav_ul_styles =  {
-      base: "divide-y divide-slate-700 flex flex-col basis-full my-auto"
-} -%}
-{%- set page_nav_li_styles =  {
-      base: ""
-} -%}
-{%- set page_nav_a_styles =  {
-      base: "block w-full h-full py-12 hover:bg-slate-900 text-center"
-} -%}
+{%- set page_nav_styles = {"base": "w-full font-display text-primary-200"} -%}
+{%- set page_nav_ul_styles = {"base": "divide-y divide-slate-700 flex flex-col basis-full my-auto"} -%}
+{%- set page_nav_li_styles = {"base": ""} -%}
+{%- set page_nav_a_styles = {"base": "block w-full h-full py-8 hover:bg-slate-900 text-center"} -%}
 {% macro render(params = {}) %}
-  <nav aria-label="Page sections" style="{{ params.init }}" class="{{ page_nav_styles | classes }} {{ params.classes }}">
+  <nav aria-label="Page sections"
+       style="{{ params.init }}"
+       class="{{ page_nav_styles | classes }} {{ params.classes }}">
     <ul class="{{ page_nav_ul_styles | classes }}">
       <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
-        <a class="{{ page_nav_a_styles | classes }}" href="#overview">Overview</a>
+        <a class="{{ page_nav_a_styles | classes }}" href="#manifesto">Manifesto</a>
       </li>
       <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
-        <a class="{{ page_nav_a_styles | classes }}" href="#introduction">Dossier</a>
+        <a class="{{ page_nav_a_styles | classes }}" href="#work">Dossier</a>
       </li>
       <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
-        <a class="{{ page_nav_a_styles | classes }}" href="#work">Case studies</a>
+        <a class="{{ page_nav_a_styles | classes }}" href="#organizations">Organizations</a>
       </li>
       <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
-        <a class="{{ page_nav_a_styles | classes }}" href="#recognition">Recognition</a>
+        <a class="{{ page_nav_a_styles | classes }}" href="#awards">Recognition</a>
       </li>
       <li class="{{ page_nav_li_styles | classes }}" data-page-nav-el="item">
         <a class="{{ page_nav_a_styles | classes }}" href="#contact">Contact</a>
