@@ -2,19 +2,17 @@
 {% import "atoms/award.njk" as Award %}
 {% import "atoms/svg/inline.njk" as InlineSvg %}
 
-{%- set article = {
-  "base": "relative flex flex-col justify-center text-center gap-2 px-4 font-display text-neutral-100",
-  "sm": ""
-} -%}
-{%- set logoStyle = {"base": "size-18 mx-auto"} -%}
+{%- set article = {"base": "relative flex flex-col justify-center text-center gap-2 font-display text-neutral-100", "sm": ""} -%}
 {%- set title = {"base": "sr-only ont-display text-lg leading-none m-0", "sm": "pt-2"} -%}
 {%- set list = {"base": "sr-only"} -%}
 {%- set awardContainer = {"base": "flex flex-col leading-snug text-neutral-400", "sm": ""} -%}
 
-{%- macro render(group) -%}
+{%- macro render(group, size) -%}
   <article data-awards-el="organization-card" class="{{ article | classes }}">
+    {% set logoSize = size | default("size-10") %}
     {%- set logo = group.organization.logo.asset | default('/assets/images/logos/default.svg') -%}
     {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}
+    {%- set logoStyle = {"base": "mx-auto " ~ logoSize} -%}
     {{ InlineSvg.render({
         svg: group.organization.logo.inline,
         src: logo,

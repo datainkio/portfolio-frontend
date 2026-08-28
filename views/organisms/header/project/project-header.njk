@@ -8,54 +8,36 @@
 
   {%- set header = {
     "base": "m-4 border-0 relative col-span-full overflow-hidden text-neutral-100 gap-y-[1px] bg-slate-700",
-    "md": "grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] "
+    "md": "m-0 grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] "
   } -%}
 
-  {%- set heading = {
-    "base": "py-6 text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950",
-    "md": "px-4 py-8"
-  } -%}
+  {%- set heading = {"base": "py-6 text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950", "md": "px-4 py-8"} -%}
 
-  {%- set byline = {
-    "base": "bg-slate-950 z-[3] flex text-lg text-neutral-400"
-  } -%}
-  {%- set abstract = {
-    "base": "p-4 bg-slate-950 font-thin text-xl row-span-2 col-span-2"
-  } -%}
+  {%- set byline = {"base": "bg-slate-950 z-[3] flex text-lg text-neutral-400"} -%}
+  {%- set abstract = {"base": "p-4 bg-slate-950 font-thin text-xl row-span-2 col-span-2"} -%}
 
-  {%- set image = {
-    "base": "p-4 bg-slate-950 col-start-1 row-start-3 col-span-2 w-full aspect-video object-cover z-[1]"
-  } -%}
+  {%- set image = {"base": "p-4 bg-slate-950 col-start-1 row-start-3 col-span-2 w-full aspect-video object-cover z-[1]"} -%}
 
-  {%- set cap = {
-    "base": "py-2 col-span-full bg-slate-950 m-0 font-display text-lg text-neutral-400",
-    "md": "p-4"
-  } -%}
+  {%- set cap = {"base": "py-2 col-span-full bg-slate-950 m-0 font-display text-lg text-neutral-400", "md": "p-4"} -%}
 
-  {%- set metadata = {
-    "base": "p-2 py-4 col-span-full bg-slate-950",
-    "md": "col-start-3 divide-x divide-slate-700 bg-slate-950"
-  } -%}
+  {%- set metadata = {"base": "p-2 col-span-full bg-slate-950 text-neutral-500", "md": "col-start-3 row-span-2"} -%}
 
-  {%- set awards = {
-    "base": "w-full col-span-full bg-slate-950 p-4 pb-6",
-    "md": ""
-  } -%}
+  {%- set awards = {"base": "w-full col-span-full bg-slate-950 p-4 pb-6", "md": ""} -%}
 
   <header data-project-header class="{{ header | classes }}">
-    <p class="{{ cap | classes }}" data-project-industry>
-      {{ params.project.industry | default('No industry') }}
-    </p>
-    <h1 id="case-study-title" data-landing-header-title class="{{ heading | classes }}">
-      {{ params.project.title | default('Untitled') }}
+    <p class="{{ cap | classes }}" data-project-industry>{{ params.project.industry | default("No industry") }}</p>
+    <h1 id="case-study-title"
+        data-landing-header-title
+        class="{{ heading | classes }}">
+      {{ params.project.title | default("Untitled") }}
       {{ ProjectOrgs.render({ orgs: params.project.organization, class: byline | classes }) }}
     </h1>
     {# FeaturedImage.render({ image: params.project.featuredImage, alt: params.project.featuredImageAlt, class: image | classes }) #}
     <section class="{{ abstract | classes }}" data-project-abstract>
-      <h2 class="text-lg mb-4 border-b-2 border-slate-700 text-neutral-400 border-dotted">Project Summary</h2>
+      <h2 class="pb-2 text-lg mb-4 border-b-2 border-slate-700 text-neutral-400 border-dotted">Project Summary</h2>
       {{ params.project.abstract | safe }}
     </section>
     {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
-    {{ Awards.render({ awards: params.project.awards, class: awards | classes }) }}
+    {{ Awards.render({ awards: params.project.awards, class: awards | classes, size: "size-18" }) }}
   </header>
 {% endmacro %}

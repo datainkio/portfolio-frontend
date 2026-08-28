@@ -13,42 +13,39 @@
 
 {# ─── Styles ──────────────────────────────────────────────────────────────── #}
 
-{%- set article        = { "base": "project-page col-span-full space-y-12" } -%}
-{%- set title          = { "base": "project-page__title" } -%}
-{%- set metadata       = {
-  "base": "project-page__metadata grid gap-6",
-  "md": "grid-cols-2",
-  "lg": "grid-cols-4"
+{%- set article = {"base": "project-page col-span-full space-y-12"} -%}
+{%- set title = {"base": "project-page__title"} -%}
+{%- set metadata = {"base": "project-page__metadata grid gap-6", "md": "grid-cols-2", "lg": "grid-cols-4"} -%}
+{%- set abstract = {"base": "project-page__abstract text-xl text-neutral-100"} -%}
+{%- set navbar = {
+  "base": "col-start-1 hidden mx-auto group-data-[header-role=menu]:group-data-[drawer=open]:block",
+  "lg": "group-data-[header-role=menu]:block"
 } -%}
-{%- set abstract       = { "base": "project-page__abstract text-xl text-neutral-100" } -%}
-{%- set navbar         = {
-        base: "col-start-1 hidden mx-auto group-data-[header-role=menu]:group-data-[drawer=open]:block",
-        lg: "group-data-[header-role=menu]:block"
-        } -%}
-{%- set aside          = { "base": "col-span-2 project-page__outcome border-l-4 border-primary-500 pl-6 py-2" } -%}
-{%- set body           = { 
-  "base": "prose prose-h2:text-neutral-100 prose-h2:text-4xl col-span-8 project-page__body max-w-[68ch] z-10 text-neutral-100 p-8 mx-auto" } -%}
-{%- set projectLink    = { "base": "project-page__external-link underline underline-offset-4" } -%}
-{%- set outcomeHeading = { "base": "project-page__outcome-heading" } -%}
+{%- set aside = {"base": "col-span-2 project-page__outcome border-l-4 border-primary-500 pl-6 py-2"} -%}
+{%- set body = {
+  "base": "prose prose-h2:text-neutral-100 prose-h2:text-4xl col-span-8 project-page__body max-w-[68ch] z-10 text-neutral-100 p-8 mx-auto"
+} -%}
+{%- set projectLink = {"base": "project-page__external-link underline underline-offset-4"} -%}
+{%- set outcomeHeading = {"base": "project-page__outcome-heading"} -%}
 
 {# ─── Data guards ─────────────────────────────────────────────────────────── #}
 
-{%- set orgs             = project.organization or [] -%}
-{%- set hasByline        = orgs | length -%}
-{%- set hasOutcomes      = project.outcomes and project.outcomes | length -%}
-{%- set hasBody          = project.bodyHtml | length > 0 -%}
-{%- set externalLinkHref =
-  (project.externalLink.href if project.externalLink and project.externalLink.href else
-    (project.externalLink if project.externalLink is string else "")) -%}
-{%- set externalLinkLabel =
-  (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}{% block sidebar_before %}
+{%- set orgs = project.organization or [] -%}
+{%- set hasByline = orgs | length -%}
+{%- set hasOutcomes = project.outcomes and project.outcomes | length -%}
+{%- set hasBody = project.bodyHtml | length > 0 -%}
+{%- set externalLinkHref = (project.externalLink.href if project.externalLink and project.externalLink.href else
+(project.externalLink if project.externalLink is string else "")) -%}
+{%- set externalLinkLabel = (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}
+
+{% block sidebar_before %}
   {# page_nav.render({classes: pageNav | classes}) #}
-{% endblock %}
+{% endblock sidebar_before %}
 
 {% block sidebar_after %}
-  {# 5. Outcome (optional, distinct treatment) #}
   {% if hasOutcomes %}
-    <aside class="{{ aside | classes }}" aria-labelledby="project-outcome-heading">
+    <aside class="{{ aside | classes }}"
+           aria-labelledby="project-outcome-heading">
       <h2 id="project-outcome-heading" class="{{ outcomeHeading | classes }}">
         Outcome{% if project.outcomes | length > 1 %}s{% endif %}
       </h2>
@@ -59,27 +56,28 @@
       </ul>
     </aside>
   {% endif %}
-{% endblock %}
+{% endblock sidebar_after %}
 
 {% block content %}
 
   {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
 
-  {# 6. Body (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
+  {# Body (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
   {% if hasBody %}
     <section class="{{ body | classes }}" aria-label="Project narrative">
       {{ project.bodyHtml | safe }}
     </section>
   {% endif %}
 
-  {# 7. Link to live project (optional) #}
+  {# Link to live project (optional) #}
   {% if externalLinkHref %}
-    <a href="{{ externalLinkHref }}" rel="noopener noreferrer" target="_blank" class="{{ projectLink | classes }}">
-      {{ externalLinkLabel }}
-    </a>
+    <a href="{{ externalLinkHref }}"
+       rel="noopener noreferrer"
+       target="_blank"
+       class="{{ projectLink | classes }}">{{ externalLinkLabel }}</a>
   {% endif %}
 
-  {# 8. End CTA — provided by site-global footer contact form. #}
+  {# End CTA — provided by site-global footer contact form. #}
   {# Intentionally no inline CTA: conversion handled in global footer. #}
   {% include "templates/partials/choreography-script.njk" %}
-{% endblock %}
+{% endblock content %}

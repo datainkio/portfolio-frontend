@@ -27,27 +27,27 @@
     "base": "font-display tracking-wide flex flex-col content-start border-b-2 border-slate-700 py-6 px-4 gap-2",
     "sm": "flex-row"
   } -%}
-  {%- set subheadingTitleCSS = {"base": "font-bold leading-none w-full my-auto m-0 p-0"} -%}
-  {%- set subheadingDescriptionCSS = {"base": "text-sm w-full leading-none my-auto text-neutral-500"} -%}
+  {%- set subheadingTitleCSS = {"base": "text-neutral-500 font-bold leading-none w-full my-auto m-0 p-0"} -%}
+  {%- set subheadingDescriptionCSS = {"base": "text-sm w-full leading-none my-auto"} -%}
   {%- set contextCSS = {
     base: "text-xs font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
     border-dotted border-primary-500 py-4 mb-6"
     } -%}
-  {%- set listCSS = {"base": "columns-2 space-y-4 mt-12", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
-  {%- set articleContainer = {"base": "py-2 break-inside-avoid text-center", "sm": ""} -%}
+  {%- set listCSS = {"base": "columns-8 space-y-2 mt-4 p-0", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
+  {%- set articleContainer = {"base": "break-inside-avoid text-center", "sm": ""} -%}
   <section id="{{ sectionId }}"
            class="{{ sectionCSS | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 
     <header data-awards-el="header" class=" {{ headerCSS | classes }} ">
-      {{ InlineSvg.render({
+      {# {{ InlineSvg.render({
             svg: headerAwardMedia,
             src: headerAwardLogo,
             alt: "Award badge",
             classes: "p-0 size-24 pt-4 pl-2",
             svgClasses: ""
-            }) }}
+            }) }} #}
       <h2 id="{{ headingId }}"
           data-awards-el="title"
           class=" {{ headingCSS | classes }} ">{{ heading }}</h2>
@@ -62,7 +62,7 @@
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">
       {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render(group) }}</li>
+        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render(group, "size-18") }}</li>
       {% endfor %}
     </ul>
 
