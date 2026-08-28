@@ -2,23 +2,15 @@
 {% macro render(params = {}) %}
   {% set awards = params.awards %}
   {% set styles = params.class %}
-  {%- set articleContainer = {
-    "base": "",
-    "md": "divide-x divide-slate-700 bg-slate-950"
-  } -%}
-  {%- set listCSS = {
-    "base": "grid grid-cols-3 gap-0",
-    "lg": "grid-cols-4",
-    "xl": "grid-cols-5"
-  } -%}
+  {% set size = params.size | default("size-10") %}
+  {%- set articleContainer = {"base": "", "md": "divide-x divide-slate-700 bg-slate-950"} -%}
+  {%- set listCSS = {"base": "flex", "lg": "", "xl": ""} -%}
   {% if awards | length %}
-    <section class="{{ styles | default('') }}" aria-label="Awards">
-      <h2 class="text-lg mb-4 border-b-2 border-slate-700 text-neutral-400 border-dotted">Awards</h2>
+    <section class="{{ styles | default("") }}" aria-label="Awards">
+      <h2 class="text-lg mb-4 pb-2 border-b-2 border-slate-700 text-neutral-400 border-dotted">Awards</h2>
       <ul data-awards-el="list" class="{{ listCSS | classes }}">
         {% for orgId, group in awards | groupByOrg %}
-          <li data-awards-el="group" class="{{ articleContainer | classes }} ">
-            {{ AwardOrganization.render(group) }}
-          </li>
+          <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render(group, size) }}</li>
         {% endfor %}
       </ul>
     </section>
