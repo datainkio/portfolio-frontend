@@ -195,19 +195,16 @@ export class LandingSequence {
       this._listeners.push(off);
     };
 
-    // The landing runs as one serial chain, and it is now a loop that closes on
-    // the header rather than a line that starts there:
+    // The landing runs as one serial chain, opened by the header and carried by
+    // the page from there:
     //
-    //   home header OUTRO (hero slides off)
+    //   home header OUTRO (hero slides off, header dismissed)
     //     -> background video intro
     //       -> (beat) -> bio gel entrance -> bio intro
-    //         -> home header INTRO (menu rail builds)
     //
-    // The cue is the header's outro, not its intro. That is load-bearing: the
-    // menu rail now waits for `bio:intro:complete` (HomeHeaderManager
-    // ._playMenuIn), so cueing the video off `home:intro:complete` would
-    // deadlock — the rail waiting on Bio, Bio waiting on the rail. The hero
-    // exiting is the earlier, unblocked cue.
+    // The cue is the header's outro because that is the only cue it gives: once
+    // its exit finishes the header is dismissed and takes no further part in the
+    // page, so it emits no intro. The chain terminates at `bio:intro:complete`.
     //
     // The bio ScrollTrigger still fires enter/exit for side effects, but no
     // longer drives the reveal.

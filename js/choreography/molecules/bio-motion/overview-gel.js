@@ -4,9 +4,9 @@ import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 /**
  * Bio Overview Gel
  *
- * Anchors the `gel_subheading` gel behind the bio section's overview <h3> as a
+ * Anchors the `gel_subheading` gel behind the bio section's overview <h2> as a
  * full-bleed band: viewport width, the overview heading's own height, at its
- * viewport y. Mirrors heading-gel.js's strategy for the <h2>.
+ * viewport y. Mirrors heading-gel.js's strategy for the <h1>.
  *
  * The gel lives in `#sizzle-background` (`fixed inset-0`), so an absolutely
  * positioned child resolves against the viewport — `top` is the overview

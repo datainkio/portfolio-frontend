@@ -1,33 +1,16 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
 
-{% import "organisms/navigation/page-nav.njk" as page_nav %}
 {%- set header = {
         "base": "group fixed h-dvh top-8 pt-4 left-0 z-[9999] bg-slate-950 text-center absolute",
         "data-[header-role=loader]": "w-full text-center pointer-events-auto flex items-center",
         "data-[header-role=hero]": "w-full flex items-center",
-        "data-[header-role=menu]": "w-12 overflow-hidden shadow-neutral-950/50 shadow-md cursor-pointer border-r-2 border-slate-700 lg:w-48 lg:overflow-visible lg:cursor-auto",
-        "data-[header-role=menu]:data-[drawer=open]": "max-lg:w-full max-lg:overflow-auto"
+        "data-[header-role=dismissed]": "hidden"
 } -%}
-{%- set hgroup = {
-        "base": "font-display w-24 mx-auto pt-4",
-        "group-data-[header-role=menu]": "w-16",
-        "max-lg:group-data-[header-role=menu]": "w-8",
-        "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "w-18 my-2"
-} -%}
+{%- set hgroup = {"base": "font-display w-24 mx-auto pt-4"} -%}
 {%- set hanko = {"base": "hanko block text-secondary-500"} -%}
-{%- set heading = {
-        "base": "text-4xl leading-8 text-primary-200 py-6 my-2",
-        "group-data-[header-role=menu]": "text-2xl leading-5 my-2 py-4",
-        "max-lg:group-data-[header-role=menu]": "hidden",
-        "max-lg:group-data-[header-role=menu]:group-data-[drawer=open]": "block py-2"
-} -%}
+{%- set heading = {"base": "text-4xl leading-8 text-primary-200 py-6 my-2"} -%}
 {%- set subtitle = {
-        "base": "block text-lg tracking-widest p-2  w-full leading-none text-slate-700 border-2 border-slate-700",
-        "group-data-[header-role=menu]": "hidden"
-} -%}
-{%- set pageNav = {
-        "base": "col-start-1 hidden mx-auto group-data-[header-role=menu]:group-data-[drawer=open]:block",
-        "lg": "group-data-[header-role=menu]:block"
+        "base": "block text-lg tracking-widest p-2  w-full leading-none text-slate-700 border-2 border-slate-700"
 } -%}
 
 {% macro home_landing(params = {}) %}
@@ -38,10 +21,9 @@
                 class="site-hero {{ header | classes }}">
                 <hgroup data-preloader-el="hgroup" class="{{ hgroup | classes }}">
                         {{ Hanko.render({svg: params.svg, classes: hanko | classes}) }}
-                        <h1 class="{{ heading | classes }}">Russ Lebo</h1>
+                        <p class="{{ heading | classes }}">Russ Lebo</p>
                         <span class="{{ subtitle | classes }}">UX IXD AIX DX</span>
                 </hgroup>
-                {{ page_nav.render({classes: pageNav | classes}) }}
         </header>
         {# Synchronous, non-module, pre-paint: js/preloader/Preloader.js already
            skips the loading choreography on a repeat visit (SessionManager's

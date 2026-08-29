@@ -38,39 +38,17 @@ export const ANIMATION_DEFAULTS = {
 };
 
 /**
- * Home Landing Nav Reveal
- *
- * GSAP staggered fade-up of the page-nav items when the home header enters its
- * `menu` role (HomeHeaderManager._showNav). GSAP-only values — the loader-state
- * CSS does not consume these, so naming them here forks nothing.
- *
- * NOTE: `duration` is intentionally absent. It is the seam token
- * `--hanko-enter-duration`, shared with the loader CSS and read at runtime in
- * HomeHeaderManager — defining it here would re-introduce the dual source of
- * truth this work removed.
- */
-export const HOME_NAV_REVEAL = {
-  distance: motion.distance("lg"), // 24px fade-up start offset
-  // Sits between the `tight` (0.05) and `base` (0.1) stagger tokens; kept
-  // explicit pending a decision to snap to a token.
-  stagger: 0.08,
-  ease: "power2.out",
-};
-
-/**
- * Home Landing Hero Hold + Transition
+ * Home Landing Hero Hold + Exit
  *
  * The home header rests in its `hero` role for `HOME_HERO_HOLD.delay` seconds,
- * then auto-plays the deconstruct -> build transition to the `menu` role. Time
- * is the sole trigger — scroll and tap are inert (see
- * specs/animation/home-header-hero-to-menu-transition.animation-spec.md). Tune
- * the hold here; `?heroHold=<seconds>` overrides at runtime for rebuild-free DX,
- * and reduced motion zeroes it.
+ * then auto-plays its exit and is dismissed. Time is the sole trigger — scroll
+ * and tap are inert. Tune the hold here; `?heroHold=<seconds>` overrides at
+ * runtime for rebuild-free DX, and reduced motion zeroes it.
  *
- * The transition is transform-only (compositor-safe — never width/layout): the
- * hero panel slides off-stage (`HOME_HERO_OUTRO`) to reveal page content, the
- * role flips to `menu` while the panel is off-screen, then the now-narrow rail
- * slides back in (`HOME_HERO_BUILD`). The nav-item reveal is HOME_NAV_REVEAL.
+ * The exit is transform-only (compositor-safe — never width/layout): the hero
+ * panel slides off-stage (`HOME_HERO_OUTRO`) to reveal page content, then the
+ * header is hidden for good. Its `home:outro:complete` is what cues the rest of
+ * the landing narrative — see LandingSequence.
  */
 export const HOME_HERO_HOLD = { delay: 0 }; // seconds
 
@@ -111,26 +89,10 @@ export const BIO_GEL_ENTRANCE = {
   ease: "power2.out",
 };
 
-/**
- * Home Header Resize Settle
- *
- * Debounce (seconds) before the home header re-asserts its inline transform for
- * whichever role it is resting in. The brief is "correct when the resize
- * completes", not "correct during every intermediate frame" — a drag-resize
- * fires continuously, and re-asserting per frame would fight the drag.
- */
-export const HOME_RESIZE_SETTLE = { delay: 0.15 }; // seconds
-
 export const HOME_HERO_OUTRO = {
   xPercent: -100, // slide the full-bleed hero off to the left
   duration: toSeconds(motion.duration("slow")),
   ease: "power3.inOut",
-};
-
-export const HOME_HERO_BUILD = {
-  xPercent: 0, // rail returns to its resting left edge
-  duration: toSeconds(motion.duration("slow")),
-  ease: "power3.out",
 };
 
 export const THROW_OUT_ANIMATION = {
@@ -218,7 +180,7 @@ export const BIO_INTRO = {
  * unseen.
  *
  * Three overlapping beats — the `gel_subheading` band wipes in from the left,
- * the overview <h3> rides in behind its tail, then the body copy staggers up.
+ * the overview <h2> rides in behind its tail, then the body copy staggers up.
  * The band leading is the point: it rhymes with the heading gel's arrival so the
  * two headings read as the same gesture at different scales.
  *
@@ -243,7 +205,7 @@ export const BIO_MISSION_REVEAL = {
 /**
  * Bio Outro — line fade, gel expand
  *
- * Scrub-driven exit, two beats while the section is pinned: H2 lines fade
+ * Scrub-driven exit, two beats while the section is pinned: H1 lines fade
  * last-to-first, then the heading gel grows from its own vertical center to
  * fill the viewport. `pinRatio` sets the scroll (scrub) distance as a
  * fraction of viewport height; `gelDuration` is timeline seconds for the
