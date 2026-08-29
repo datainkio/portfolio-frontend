@@ -1,14 +1,6 @@
 ---
-title: "Section Cap"
-template: "[[section-cap.njk]]"
-templatePath: "views/molecules/section-cap.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: "In the current state of the design strategy for the home landing page, the role of this is little view is to communicate context to the user by"
+type: template
 ---
 
 # Section Cap

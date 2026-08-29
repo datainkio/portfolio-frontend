@@ -1,16 +1,10 @@
 ---
-title: "Blockframe Basic"
-template: "[[blockframe-basic.njk]]"
-templatePath: "views/atoms/svg/blockframe-basic.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 tags:
   - svg
 ---
+
 # Blockframe Basic
 
 Defines Nunjucks macro: `render`.

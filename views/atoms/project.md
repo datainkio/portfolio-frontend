@@ -1,15 +1,8 @@
 ---
-title: "Project"
-template: "[[project.njk]]"
-templatePath: "views/atoms/project.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Project
 
 Defines Nunjucks macro: `render`.

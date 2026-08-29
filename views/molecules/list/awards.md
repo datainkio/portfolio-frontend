@@ -1,15 +1,8 @@
 ---
-title: "Awards"
-template: "[[awards.njk]]"
-templatePath: "views/molecules/list/awards.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Awards
 
 Reusable presentational component.

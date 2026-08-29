@@ -1,15 +1,8 @@
 ---
-title: "Section Playback"
-template: "[[section-playback.njk]]"
-templatePath: "views/molecules/section-playback.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Section Playback
 
 Defines Nunjucks macro: `render`.

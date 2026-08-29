@@ -1,19 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.test.logger.error-detection-test
- *   role: Test module: test/logger/error-detection.test.js
- Issue URL: https://github.com/datainkio/portfolio-frontend/issues/48
- *   status: draft
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - test
- *     - logger
- * ---
- */
 /** @format */
 
 /**

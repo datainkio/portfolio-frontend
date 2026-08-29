@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.readiness
- *   role: Frontend runtime module: js/preloader/readiness.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - readiness
- * ---
- */
-
 import {
   PRELOADER_READINESS,
   PRELOADER_READINESS_MESSAGES,

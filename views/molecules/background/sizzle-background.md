@@ -1,17 +1,11 @@
 ---
-title: "Sizzle Background"
-template: "[[sizzle-background.njk]]"
-templatePath: "views/molecules/background/sizzle-background.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[video](../../atoms/video/video.md)"
   - "[gel](../../atoms/gel.md)"
 ---
+
 # Sizzle Background
 
 Defines Nunjucks macro: `render`.

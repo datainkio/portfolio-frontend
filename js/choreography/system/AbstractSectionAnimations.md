@@ -1,14 +1,8 @@
 ---
-id: frontend.js.choreography.system.abstractsectionanimations
-role: "Runtime infrastructure — shared foundation for section animation modules, providing a four-phase timeline registry (landing, intro, idle, outro) with lifecycle helpers."
+description: "Runtime infrastructure — shared foundation for section animation modules, providing a four-phase timeline registry (landing, intro, idle, outro) with lifecycle helpers."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - choreography
-  - frontend
-  - js
   - system
 links:
   - "[[timelines|timelines]]"

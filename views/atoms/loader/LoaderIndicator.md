@@ -1,15 +1,8 @@
 ---
-title: "Loader Indicator"
-template: "[[LoaderIndicator.njk]]"
-templatePath: "views/atoms/loader/LoaderIndicator.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Loader Indicator
 
 Defines Nunjucks macro: `render`.

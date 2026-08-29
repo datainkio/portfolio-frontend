@@ -1,15 +1,8 @@
 ---
-title: "Margin Bleed Marks"
-template: "[[margin-bleed-marks.njk]]"
-templatePath: "views/atoms/printmarks/margin-bleed-marks.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Margin Bleed Marks
 
 Defines Nunjucks macro: `render`.

@@ -1,0 +1,193 @@
+{
+  "label": "after",
+  "generated": "2026-08-29",
+  "totals": {
+    "markdownFiles": 453,
+    "markdownWithFrontmatter": 453,
+    "markdownWithoutFrontmatter": 0,
+    "distinctKeys": 23,
+    "sourceFiles": 461,
+    "missingSidecar": 157,
+    "inlineDialectFiles": 0
+  },
+  "coverage": {
+    "description": 453,
+    "title": 85,
+    "descriptionPct": 100,
+    "titlePct": 18.8,
+    "sidecarPct": 65.9,
+    "taggedFiles": 218,
+    "hashFormattedTagFiles": 0
+  },
+  "bytes": {
+    "markdownFrontmatter": 104831,
+    "inlineJsdoc": 0,
+    "keep": 105284,
+    "drop": 0,
+    "dropPct": 0,
+    "removableTotal": 0
+  },
+  "dialects": {
+    "sidecar-md": 429,
+    "eleventy-md": 24,
+    "inline-jsdoc": 0,
+    "none": 0
+  },
+  "enums": {
+    "status": {
+      "stable": 193,
+      "draft": 30,
+      "historical": 3
+    },
+    "statusIllegal": 0,
+    "type": {
+      "template": 109,
+      "index": 52,
+      "reference": 42,
+      "guide": 20,
+      "spec": 18,
+      "script": 9,
+      "plan": 1
+    },
+    "typeIllegal": 0
+  },
+  "tags": {
+    "distinct": 99,
+    "nullTagInstances": 0,
+    "top": {
+      "choreography": 112,
+      "cms": 49,
+      "queries": 19,
+      "projections": 16,
+      "config": 14,
+      "manager": 14,
+      "system": 11,
+      "services": 9,
+      "index": 9,
+      "bio-motion": 9,
+      "transforms": 8,
+      "filters": 8,
+      "gel": 8,
+      "frontmatter": 7,
+      "gsap": 7
+    }
+  },
+  "keys": {
+    "description": {
+      "files": 453,
+      "bytes": 55366,
+      "verdict": "keep-core"
+    },
+    "type": {
+      "files": 251,
+      "bytes": 3497,
+      "verdict": "keep-core"
+    },
+    "status": {
+      "files": 226,
+      "bytes": 3372,
+      "verdict": "keep-core"
+    },
+    "tags": {
+      "files": 218,
+      "bytes": 7724,
+      "verdict": "keep-core"
+    },
+    "links": {
+      "files": 211,
+      "bytes": 26198,
+      "verdict": "keep-core"
+    },
+    "title": {
+      "files": 85,
+      "bytes": 2892,
+      "verdict": "keep-core"
+    },
+    "aliases": {
+      "files": 73,
+      "bytes": 2412,
+      "verdict": "keep-core"
+    },
+    "eleventyComputed": {
+      "files": 23,
+      "bytes": 2125,
+      "verdict": "keep-functional"
+    },
+    "permalink": {
+      "files": 10,
+      "bytes": 301,
+      "verdict": "keep-functional"
+    },
+    "layout": {
+      "files": 7,
+      "bytes": 179,
+      "verdict": "keep-functional"
+    },
+    "templateEngineOverride": {
+      "files": 4,
+      "bytes": 112,
+      "verdict": "keep-functional"
+    },
+    "eleventyNavigation": {
+      "files": 4,
+      "bytes": 261,
+      "verdict": "keep-functional"
+    },
+    "metaDescription": {
+      "files": 4,
+      "bytes": 186,
+      "verdict": "keep-functional"
+    },
+    "canonicalUrl": {
+      "files": 4,
+      "bytes": 175,
+      "verdict": "keep-functional"
+    },
+    "enableChoreography": {
+      "files": 3,
+      "bytes": 75,
+      "verdict": "keep-functional"
+    },
+    "eleventyExcludeFromCollections": {
+      "files": 2,
+      "bytes": 74,
+      "verdict": "keep-functional"
+    },
+    "metaKeywords": {
+      "files": 2,
+      "bytes": 120,
+      "verdict": "keep-functional"
+    },
+    "skipLinks": {
+      "files": 2,
+      "bytes": 72,
+      "verdict": "keep-functional"
+    },
+    "pagination": {
+      "files": 1,
+      "bytes": 72,
+      "verdict": "keep-functional"
+    },
+    "severity": {
+      "files": 1,
+      "bytes": 15,
+      "verdict": "keep-domain"
+    },
+    "viewport-width": {
+      "files": 1,
+      "bytes": 20,
+      "verdict": "keep-domain"
+    },
+    "viewport-height": {
+      "files": 1,
+      "bytes": 21,
+      "verdict": "keep-domain"
+    },
+    "priority": {
+      "files": 1,
+      "bytes": 15,
+      "verdict": "keep-domain"
+    }
+  },
+  "inlineFiles": []
+}

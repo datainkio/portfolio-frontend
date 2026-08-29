@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.scripts.synccontent
- *   role: Build/utility script: scripts/syncContent.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - syncContent.js
- * ---
- */
 /** @format */
 
 /**

@@ -1,10 +1,6 @@
 ---
-title: Sitemap
 description: Route and hierarchy reference for documentation and IA navigation.
-docType: reference
-status: active
-owner: frontend
-tags: []
+type: reference
 eleventyComputed:
   title: "{{ title }}"
 ---

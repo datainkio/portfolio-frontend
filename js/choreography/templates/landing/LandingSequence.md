@@ -1,15 +1,9 @@
 ---
-id: frontend.js.choreography.templates.landing.landingsequence
-role: "Page narrative flow — choreographs the complete landing page animation sequence by listening to AnimationBus events and coordinating section transitions."
+description: "Page narrative flow — choreographs the complete landing page animation sequence by listening to AnimationBus events and coordinating section transitions."
+type: template
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-type: "template"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[events|events]]"
   - "[[config/index|config/index]]"

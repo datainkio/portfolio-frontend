@@ -1,22 +1,12 @@
 ---
-id: frontend.views.readme
-role: Architecture overview for the views/ template system using Atomic Design principles.
-status: stable
-surface: internal
-owner: Template Steward
+description: Architecture overview for the views/ template system using Atomic Design principles.
 type: guide
-scope: frontend
-audience: maintainers
-system: "Eleventy"
-engine: "Nunjucks"
+status: stable
 tags:
   - template
   - view
-perf:
-  readPriority: high
-  cacheSafe: true
-  critical: false
 ---
+
 <!-- @format -->
 
 # Template Architecture & Component System

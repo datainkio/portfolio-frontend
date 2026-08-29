@@ -65,7 +65,8 @@ const fadeOpacity = (screenCenterX, focusX) =>
  * }}
  */
 function measure(view) {
-  const svg = view?.querySelector(`[${PROCESS_EL_ATTR}="uicomponents"]`) ?? null;
+  const svg =
+    view?.querySelector(`[${PROCESS_EL_ATTR}="uicomponents"]`) ?? null;
   const track =
     svg?.querySelector(`[${PROCESS_EL_ATTR}="uicomponents-track"]`) ?? null;
   const heroStart =
@@ -232,7 +233,11 @@ export function buildUiComponentsLoop(view) {
   gsap.set(track, { x: firstTarget });
   applyOpacity();
 
-  const tl = gsap.timeline({ repeat: -1, paused: true, onUpdate: applyOpacity });
+  const tl = gsap.timeline({
+    repeat: -1,
+    paused: true,
+    onUpdate: applyOpacity,
+  });
   // Advance through each subsequent item; `+=dwell` inserts the dwell before the
   // move, so the item currently at hero-start holds first, then slides out.
   for (let k = 1; k < targets.length; k += 1) {

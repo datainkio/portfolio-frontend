@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.scripts.logdirectorystructure
- *   role: Build/utility script: scripts/logDirectoryStructure.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - logDirectoryStructure.js
- * ---
- */
 /** @format */
 
 import { statSync, readdirSync, writeFileSync } from "fs";

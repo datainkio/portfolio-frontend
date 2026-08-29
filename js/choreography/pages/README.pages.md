@@ -1,3 +1,9 @@
+---
+title: Page Animations
+description: "Use for animations that don't fit section controllers."
+type: index
+---
+
 # Page Animations
 
 Use for animations that don't fit section controllers.

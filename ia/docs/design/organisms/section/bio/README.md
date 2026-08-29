@@ -1,12 +1,12 @@
 ---
-title: "Mission Statement"
-# Keep Nunjucks-only rendering here so Markdown does not inject empty <p></p> wrappers around the awards section's inline HTML output.
-templateEngineOverride: njk
+title: Mission Statement
+description: '{% import "organisms/section/bio.njk" as BioSection %}'
 eleventyComputed:
   value:
     heading: "{{ cms.home[0].valuePropHeading }}"
     subheading: "{{ cms.home[0].valuePropSubHeading }}"
     body: "{{ cms.home[0].valuePropBodyHtml | safe }}"
+templateEngineOverride: njk
 ---
 
 {% import "organisms/section/bio.njk" as BioSection %}

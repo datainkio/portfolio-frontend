@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.scripts.displayenvironmentinfo
- *   role: Build/utility script: scripts/displayEnvironmentInfo.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - displayEnvironmentInfo.js
- * ---
- */
 import chalk from "chalk";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";

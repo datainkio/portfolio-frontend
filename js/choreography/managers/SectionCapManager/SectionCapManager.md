@@ -1,24 +1,13 @@
 ---
-id: frontend.js.choreography.managers.sectioncapmanager
-role: "Section-cap scrollspy — tracks which `main > section` is at the current reading position and writes its label into the section-cap title display."
+description: "Section-cap scrollspy — tracks which `main > section` is at the current reading position and writes its label into the section-cap title display."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-animation:
-  - scrollspy
-  - section-cap
 tags:
   - choreography
-  - frontend
-  - js
   - manager
 links:
   - "[[AnimationDirector|AnimationDirector]]"
   - "[[config/contracts/events/events|config/contracts/events/events]]"
   - "[[managers/WorkNavManager/WorkNavManager|managers/WorkNavManager/WorkNavManager]]"
-backlinks:
-  - "[[AnimationDirector|AnimationDirector]]"
 ---
 
 ## Role

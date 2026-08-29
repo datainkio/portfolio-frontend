@@ -1,15 +1,8 @@
 ---
-title: "Loader Mark"
-template: "[[LoaderMark.njk]]"
-templatePath: "views/atoms/loader/LoaderMark.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Loader Mark
 
 Defines Nunjucks macro: `render`.

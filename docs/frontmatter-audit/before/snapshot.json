@@ -1,0 +1,497 @@
+{
+  "label": "before",
+  "generated": "2026-08-29",
+  "totals": {
+    "markdownFiles": 446,
+    "markdownWithFrontmatter": 354,
+    "markdownWithoutFrontmatter": 92,
+    "distinctKeys": 46,
+    "sourceFiles": 459,
+    "missingSidecar": 159,
+    "inlineDialectFiles": 185
+  },
+  "coverage": {
+    "description": 23,
+    "title": 146,
+    "descriptionPct": 6.5,
+    "titlePct": 41.2,
+    "sidecarPct": 65.4,
+    "taggedFiles": 293,
+    "hashFormattedTagFiles": 0
+  },
+  "bytes": {
+    "markdownFrontmatter": 137465,
+    "inlineJsdoc": 58245,
+    "keep": 56509,
+    "drop": 81310,
+    "dropPct": 59,
+    "removableTotal": 139555
+  },
+  "dialects": {
+    "sidecar-md": 324,
+    "eleventy-md": 30,
+    "inline-jsdoc": 185,
+    "none": 92
+  },
+  "enums": {
+    "status": {
+      "stable": 193,
+      "active": 129,
+      "draft": 7,
+      "planned": 5,
+      "#historical": 1,
+      "placeholder": 1,
+      "superseded": 1
+    },
+    "statusIllegal": 4,
+    "type": {
+      "template": 109,
+      "guide": 9,
+      "script": 2,
+      "entrypoint": 1,
+      "reference": 1,
+      "module": 1
+    },
+    "typeIllegal": 2
+  },
+  "tags": {
+    "distinct": 98,
+    "nullTagInstances": 257,
+    "top": {
+      "frontend": 129,
+      "js": 126,
+      "choreography": 112,
+      "cms": 49,
+      "queries": 19,
+      "projections": 16,
+      "config": 14,
+      "manager": 14,
+      "system": 11,
+      "services": 9,
+      "index": 9,
+      "bio-motion": 9,
+      "transforms": 8,
+      "filters": 8,
+      "gel": 8
+    }
+  },
+  "keys": {
+    "status": {
+      "files": 337,
+      "bytes": 5295,
+      "verdict": "keep-core"
+    },
+    "tags": {
+      "files": 293,
+      "bytes": 10581,
+      "verdict": "keep-core"
+    },
+    "links": {
+      "files": 227,
+      "bytes": 26483,
+      "verdict": "keep-core"
+    },
+    "id": {
+      "files": 202,
+      "bytes": 9699,
+      "verdict": "drop-derivable"
+    },
+    "aix": {
+      "files": 201,
+      "bytes": 49954,
+      "verdict": "drop-redundant"
+    },
+    "role": {
+      "files": 200,
+      "bytes": 32491,
+      "verdict": "migrate"
+    },
+    "surface": {
+      "files": 200,
+      "bytes": 3586,
+      "verdict": "drop-derivable"
+    },
+    "scope": {
+      "files": 200,
+      "bytes": 3200,
+      "verdict": "drop-derivable"
+    },
+    "runtime": {
+      "files": 191,
+      "bytes": 3025,
+      "verdict": "drop-derivable"
+    },
+    "atomicLevel": {
+      "files": 168,
+      "bytes": 3815,
+      "verdict": "drop-derivable"
+    },
+    "title": {
+      "files": 146,
+      "bytes": 3464,
+      "verdict": "keep-core"
+    },
+    "system": {
+      "files": 136,
+      "bytes": 2582,
+      "verdict": "drop-derivable"
+    },
+    "type": {
+      "files": 123,
+      "bytes": 2033,
+      "verdict": "keep-core"
+    },
+    "engine": {
+      "files": 117,
+      "bytes": 2223,
+      "verdict": "drop-derivable"
+    },
+    "template": {
+      "files": 108,
+      "bytes": 3291,
+      "verdict": "drop-derivable"
+    },
+    "templatePath": {
+      "files": 108,
+      "bytes": 5457,
+      "verdict": "drop-derivable"
+    },
+    "templateRole": {
+      "files": 108,
+      "bytes": 2720,
+      "verdict": "drop-derivable"
+    },
+    "aliases": {
+      "files": 72,
+      "bytes": 2510,
+      "verdict": "keep-core"
+    },
+    "backlinks": {
+      "files": 57,
+      "bytes": 4797,
+      "verdict": "drop-redundant"
+    },
+    "owner": {
+      "files": 32,
+      "bytes": 650,
+      "verdict": "drop-redundant"
+    },
+    "eleventyComputed": {
+      "files": 24,
+      "bytes": 2166,
+      "verdict": "keep-functional"
+    },
+    "description": {
+      "files": 23,
+      "bytes": 2125,
+      "verdict": "keep-core"
+    },
+    "docType": {
+      "files": 21,
+      "bytes": 367,
+      "verdict": "migrate"
+    },
+    "animation": {
+      "files": 18,
+      "bytes": 497,
+      "verdict": "drop-derivable"
+    },
+    "permalink": {
+      "files": 16,
+      "bytes": 419,
+      "verdict": "keep-functional"
+    },
+    "audience": {
+      "files": 11,
+      "bytes": 240,
+      "verdict": "drop-redundant"
+    },
+    "perf": {
+      "files": 9,
+      "bytes": 577,
+      "verdict": "drop-redundant"
+    },
+    "layout": {
+      "files": 7,
+      "bytes": 179,
+      "verdict": "keep-functional"
+    },
+    "templateEngineOverride": {
+      "files": 4,
+      "bytes": 112,
+      "verdict": "keep-functional"
+    },
+    "metaDescription": {
+      "files": 4,
+      "bytes": 186,
+      "verdict": "keep-functional"
+    },
+    "canonicalUrl": {
+      "files": 4,
+      "bytes": 175,
+      "verdict": "keep-functional"
+    },
+    "eleventyNavigation": {
+      "files": 4,
+      "bytes": 261,
+      "verdict": "keep-functional"
+    },
+    "enableChoreography": {
+      "files": 3,
+      "bytes": 75,
+      "verdict": "keep-functional"
+    },
+    "eleventyExcludeFromCollections": {
+      "files": 2,
+      "bytes": 74,
+      "verdict": "keep-functional"
+    },
+    "metaKeywords": {
+      "files": 2,
+      "bytes": 120,
+      "verdict": "keep-functional"
+    },
+    "skipLinks": {
+      "files": 2,
+      "bytes": 72,
+      "verdict": "keep-functional"
+    },
+    "module": {
+      "files": 2,
+      "bytes": 55,
+      "verdict": "drop-derivable"
+    },
+    "modulePath": {
+      "files": 2,
+      "bytes": 83,
+      "verdict": "drop-derivable"
+    },
+    "scriptRole": {
+      "files": 2,
+      "bytes": 50,
+      "verdict": "drop-derivable"
+    },
+    "pagination": {
+      "files": 1,
+      "bytes": 72,
+      "verdict": "keep-functional"
+    },
+    "date": {
+      "files": 1,
+      "bytes": 17,
+      "verdict": "keep-functional"
+    },
+    "severity": {
+      "files": 1,
+      "bytes": 15,
+      "verdict": "keep-domain"
+    },
+    "viewport": {
+      "files": 1,
+      "bytes": 19,
+      "verdict": "keep-functional"
+    },
+    "viewport-width": {
+      "files": 1,
+      "bytes": 20,
+      "verdict": "keep-domain"
+    },
+    "viewport-height": {
+      "files": 1,
+      "bytes": 21,
+      "verdict": "keep-domain"
+    },
+    "priority": {
+      "files": 1,
+      "bytes": 15,
+      "verdict": "keep-domain"
+    }
+  },
+  "inlineFiles": [
+    ".eleventy.js",
+    "data/sanity/client/index.js",
+    "data/sanity/queries.js",
+    "data/sanity/services/fetchSanityData.js",
+    "data/sanity/services/index.js",
+    "data/sanity/services/sanityService.js",
+    "eleventy/collections/index.js",
+    "eleventy/collections/navigation.js",
+    "eleventy/collections/sanity.js",
+    "eleventy/filters/array.js",
+    "eleventy/filters/color.js",
+    "eleventy/filters/date.js",
+    "eleventy/filters/dom.js",
+    "eleventy/filters/file.js",
+    "eleventy/filters/filters.js",
+    "eleventy/filters/image.js",
+    "eleventy/filters/string.js",
+    "eleventy/plugins/plugins.js",
+    "eleventy/services/NavigationBuilder.js",
+    "eleventy/services/TailwindLogger.js",
+    "eleventy/shortcodes/collapsible.js",
+    "eleventy/shortcodes/image.js",
+    "eleventy/shortcodes/loremipsatron.js",
+    "eleventy/shortcodes/shortcodes.js",
+    "figma/api/FigmaClient.js",
+    "figma/api/endpoints.js",
+    "figma/index.js",
+    "figma/models/DesignFile.js",
+    "figma/models/fills/Color.js",
+    "figma/models/fills/Pattern.js",
+    "figma/models/text/TextFormat.js",
+    "figma/services/FileService.js",
+    "figma/services/PaletteService.js",
+    "figma/services/StyleService.js",
+    "figma/services/TypographyService.js",
+    "figma/utils/styleFactory.js",
+    "figma/utils/writeTypographyJS.js",
+    "figma/views/eleventy/FontImportsFile.js",
+    "figma/views/tailwind/BaseStylesFile.js",
+    "figma/views/tailwind/FontFamilyFile.js",
+    "figma/views/tailwind/FontImportsFile.js",
+    "figma/views/tailwind/FontSizeFile.js",
+    "figma/views/tailwind/FontWeightFile.js",
+    "figma/views/tailwind/LineHeightFile.js",
+    "figma/views/tailwind/PaletteFile.js",
+    "js/choreography/managers/index/index.js",
+    "js/displays/Ruler.js",
+    "js/displays/blockframes/Animator.js",
+    "js/displays/blockframes/Architect.js",
+    "js/displays/blockframes/Blockframes.js",
+    "js/displays/blockframes/Builder.js",
+    "js/displays/blockframes/Painter.js",
+    "js/displays/blockframes/atoms/Avatar.js",
+    "js/displays/blockframes/atoms/Bullet.js",
+    "js/displays/blockframes/atoms/Button.js",
+    "js/displays/blockframes/atoms/Donut.js",
+    "js/displays/blockframes/atoms/Image.js",
+    "js/displays/blockframes/atoms/Operator.js",
+    "js/displays/blockframes/atoms/Pie.js",
+    "js/displays/blockframes/atoms/Pin.js",
+    "js/displays/blockframes/atoms/Play.js",
+    "js/displays/blockframes/atoms/Star.js",
+    "js/displays/blockframes/atoms/Streets.js",
+    "js/displays/blockframes/atoms/Text.js",
+    "js/displays/blockframes/atoms/Textfield.js",
+    "js/displays/blockframes/layouts/BlockLine.js",
+    "js/displays/blockframes/layouts/Cloud.js",
+    "js/displays/blockframes/layouts/Grid.js",
+    "js/displays/blockframes/molecules/Card.js",
+    "js/displays/blockframes/molecules/Chrome.js",
+    "js/displays/blockframes/molecules/Dropdown.js",
+    "js/displays/blockframes/molecules/Map.js",
+    "js/displays/blockframes/molecules/Module.js",
+    "js/displays/blockframes/molecules/Sidebar.js",
+    "js/displays/blockframes/molecules/Teaser.js",
+    "js/displays/blockframes/molecules/TextBlock.js",
+    "js/displays/blockframes/molecules/TextInput.js",
+    "js/displays/blockframes/molecules/Video.js",
+    "js/displays/blockframes/organisms/Card.js",
+    "js/displays/blockframes/organisms/Cart Item.js",
+    "js/displays/blockframes/organisms/Form.js",
+    "js/displays/blockframes/organisms/Image.js",
+    "js/displays/blockframes/templates/Article.js",
+    "js/displays/blockframes/templates/Basic.js",
+    "js/displays/blockframes/templates/Blog.js",
+    "js/displays/blockframes/templates/Calendar.js",
+    "js/displays/blockframes/templates/Cart.js",
+    "js/displays/blockframes/templates/Chart.js",
+    "js/displays/blockframes/templates/Contact.js",
+    "js/displays/blockframes/templates/Features.js",
+    "js/displays/blockframes/templates/Feed.js",
+    "js/displays/blockframes/templates/Landing.js",
+    "js/displays/blockframes/templates/List.js",
+    "js/displays/blockframes/templates/Login.js",
+    "js/displays/blockframes/templates/Main.js",
+    "js/displays/blockframes/templates/Map.js",
+    "js/displays/blockframes/templates/Project.js",
+    "js/displays/blockframes/templates/Text.js",
+    "js/displays/blockframes/templates/Timeline.js",
+    "js/displays/blockframes/templates/Video.js",
+    "js/displays/blockframes/templates/chrome.js",
+    "js/displays/circle-packing.js",
+    "js/displays/fibonacci.js",
+    "js/displays/gen-grid.js",
+    "js/effects/Transitions.js",
+    "js/effects/gel/Gel.js",
+    "js/effects/gel/GelGeometry.js",
+    "js/effects/gel/GelManipulator.js",
+    "js/effects/gel/GelMask.js",
+    "js/effects/gel/GelVisualState.js",
+    "js/effects/gel/index.js",
+    "js/effects/image/halftone/AnimationManager.js",
+    "js/effects/image/halftone/CanvasManager.js",
+    "js/effects/image/halftone/Halftone.js",
+    "js/effects/image/halftone/HalftoneEffect.js",
+    "js/effects/layout/parallax.js",
+    "js/interstitials/text.js",
+    "js/layouts/global-header.js",
+    "js/layouts/landing-header.js",
+    "js/layouts/projects-alternate-grid.js",
+    "js/layouts/work-landing-header.js",
+    "js/preloader/Preloader.js",
+    "js/preloader/animations.js",
+    "js/preloader/constants.js",
+    "js/preloader/deferred-videos.js",
+    "js/preloader/dom.js",
+    "js/preloader/logger.js",
+    "js/preloader/preferences.js",
+    "js/preloader/readiness.js",
+    "js/preloader/resource-observer.js",
+    "js/preloader/scroll-smoother.js",
+    "js/user-guide.js",
+    "js/utils/color.js",
+    "js/utils/diagnostics/scroll-blocked.js",
+    "js/utils/gsap-test.js",
+    "js/utils/math.js",
+    "js/utils/tailwind/ThemeColors.js",
+    "js/utils/tailwind/theme-colors.js",
+    "js/utils/tailwind/theme-tokens.js",
+    "postcss.config.js",
+    "scripts/buildCSS.js",
+    "scripts/buildChoreography.js",
+    "scripts/buildDirectoryNav.js",
+    "scripts/buildPreview.js",
+    "scripts/clearCache.js",
+    "scripts/clearSiteFolder.js",
+    "scripts/colorUtils.js",
+    "scripts/diagrams/exportStoryboards.js",
+    "scripts/display11tyInfo.js",
+    "scripts/displayEnvironmentInfo.js",
+    "scripts/displayTailwindInfo.js",
+    "scripts/exportDiagrams.js",
+    "scripts/fetchFigma.js",
+    "scripts/generateAirtableSchema.js",
+    "scripts/init.js",
+    "scripts/init11ty.js",
+    "scripts/initTailwind.js",
+    "scripts/install-git-hooks.mjs",
+    "scripts/logDirectoryStructure.js",
+    "scripts/quickRef.js",
+    "scripts/scaffold.js",
+    "scripts/serveSite.js",
+    "scripts/showAvailableWorkflows.js",
+    "scripts/syncContent.js",
+    "scripts/systemCheck.js",
+    "scripts/validateEnvironment.js",
+    "scripts/validateProjectSetup.js",
+    "tailwind.config.js",
+    "test/airtable-styles-preview.js",
+    "test/choreography/animation-bus-flow.test.js",
+    "test/choreography/hero-events.test.js",
+    "test/figma-outline.test.js",
+    "test/logger/custom-styles.test.js",
+    "test/logger/enhancements-demo.test.js",
+    "test/logger/enhancements.test.js",
+    "test/logger/error-detection.test.js",
+    "test/logger/errors.test.js",
+    "test/logger/index.js",
+    "test/logger/optional-parameter.test.js",
+    "test/logger/real-world.test.js",
+    "test/logger/script-outline.test.js",
+    "test/logger/simple-enhancements.test.js",
+    "test/logger/styles.test.js",
+    "test/lumberjack-default-disabled.test.js",
+    "test/lumberjack-dual-mode.test.js"
+  ]
+}

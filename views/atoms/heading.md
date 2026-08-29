@@ -1,15 +1,8 @@
 ---
-title: "Heading"
-template: "[[heading.njk]]"
-templatePath: "views/atoms/heading.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Heading
 
 Defines Nunjucks macro: `render`.

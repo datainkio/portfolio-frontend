@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries
-role: "Queries aggregator"
+description: "Barrel that aggregates every query definition into CMS_QUERIES, the array the service layer iterates to build Eleventy collections."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "CMS queries barrel"
 tags:
   - cms
   - queries
+aliases:
+  - CMS queries barrel
 links:
   - "[[README.queries]]"
   - "[[README.sanity]]"
@@ -21,7 +17,9 @@ Aggregates every query definition into `CMS_QUERIES`, the array the service laye
 build Eleventy collections.
 
 ```js
-export const CMS_QUERIES = [ /* one entry per query in queries/ */ ];
+export const CMS_QUERIES = [
+  /* one entry per query in queries/ */
+];
 ```
 
 > [!note] Query id → collection name

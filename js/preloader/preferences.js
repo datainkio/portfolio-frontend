@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.preferences
- *   role: Frontend runtime module: js/preloader/preferences.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - preferences
- * ---
- */
-
 import {
   SCROLL_SMOOTHER_DX_MESSAGES,
   SCROLL_SMOOTHER_QUERY_PARAM,

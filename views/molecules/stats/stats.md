@@ -1,15 +1,8 @@
 ---
-title: "Stats"
-template: "[[stats.njk]]"
-templatePath: "views/molecules/stats/stats.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Stats
 
 Defines Nunjucks macro: `render`.

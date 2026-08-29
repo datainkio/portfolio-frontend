@@ -1,3 +1,9 @@
+---
+title: "📦 Blockframes"
+description: "Blockframes is a sophisticated system for loading, manipulating, and animating SVG-based wireframe layouts."
+type: index
+---
+
 <!-- @format -->
 
 # 📦 Blockframes

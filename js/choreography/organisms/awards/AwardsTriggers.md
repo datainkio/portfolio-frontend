@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.awards.awardstriggers
-role: "Awards triggers module — supplies AWARDS_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal."
+description: "Awards triggers module — supplies AWARDS_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"
   - "[[config/index|config/index]]"

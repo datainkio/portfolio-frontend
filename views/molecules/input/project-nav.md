@@ -1,16 +1,10 @@
 ---
-title: "Project Nav"
-template: "[[project-nav.njk]]"
-templatePath: "views/molecules/input/project-nav.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: Reusable presentational component.
+type: template
 links:
   - "[prevnext](prevnext.md)"
 ---
+
 # Project Nav
 
 Reusable presentational component.

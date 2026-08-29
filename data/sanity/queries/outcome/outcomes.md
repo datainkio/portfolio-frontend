@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.outcomes
-role: "GROQ query definition registered as an Eleventy collection (Outcomes)."
+description: GROQ query definition registered as an Eleventy collection (Outcomes).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Outcomes query"
 tags:
   - cms
   - queries
+aliases:
+  - Outcomes query
 links:
   - "[[README.queries]]"
   - "[[conceptProjection]]"
@@ -21,9 +17,10 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`outcomes`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
-| `outcomesQuery` | `outcomes` |
+| Export          | Collection id |
+| --------------- | ------------- |
+| `outcomesQuery` | `outcomes`    |
+
 - Projection: [[conceptProjection]]
 
 > [!note] SKOS taxonomy concept

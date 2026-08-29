@@ -1,14 +1,7 @@
 ---
-title: "Lightbox"
-module: "[[Lightbox.js]]"
-modulePath: "js/lightbox/Lightbox.js"
-engine: "Browser ESM"
-system: "Eleventy"
-type: "script"
-scriptRole: "controller"
-status: "active"
+description: Browser-side controller for the lightbox.njk molecule.
+type: script
 tags:
-  - js
   - module
   - lightbox
 links:

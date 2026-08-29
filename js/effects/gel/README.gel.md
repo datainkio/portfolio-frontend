@@ -1,3 +1,9 @@
+---
+title: Gel Effects
+description: Liquid-style background and transition primitives used by the effects system.
+type: index
+---
+
 <!-- @format -->
 
 # Gel Effects

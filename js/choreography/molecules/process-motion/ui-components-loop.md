@@ -1,17 +1,11 @@
 ---
-id: frontend.js.choreography.molecules.process-motion.ui-components-loop
-role: "Looping horizontal index-and-dwell (coverflow) scene for the Process section's UI-components SVG. Self-driving like blockframes: owns one repeating (`repeat: -1`) paused GSAP timeline plus one ScrollTrigger keyed by the stable id `process-uicomponents-loop`, so the loop plays only while the section is in view (start `top bottom` / end `bottom top`) and resets to the first item on leave in both scroll directions. Resolves hooks via `data-process-el` (`uicomponents` root, `uicomponents-chrome`, `uicomponents-track`, `uicomponents-item`, `uicomponents-hero-start`). The authored items sit at scattered, non-uniform x, so `measure()` re-packs them to a UNIFORM pitch `P` (const `ITEM_PITCH`, 560) with a one-time per-item `translate` (item k → bbox x `heroStartX + k*P`), making neighbors spatially adjacent so the preceding/following items peek in beyond the chrome edges. Track target for item k is `-k*P` (monotonically decreasing → every item enters from the right, no direction change); `firstTarget = 0`, `cycle = N*P`. Seamless wrap: one clone of item 0 placed at slot N (`translate(heroStartX - authoredX0 + cycle, 0)`, marked `data-uicomponents-clone`, ids stripped); track advancing to `bridgeTarget = -N*P` lands it under hero-start, pixel-identical to item 0, so the repeat reset to `firstTarget` shows no jump. Transform (`x` on track) plus position-driven per-item opacity — each item and the bridge clone fade with distance from focus (`fadeOpacity`, tent 1→0 over `FADE_RANGE`, default = `ITEM_PITCH`), applied every tick from the timeline `onUpdate` via one `quickSetter` per element, so items fade in approaching from the right, hold full opacity at the dwell, and fade out exiting left; index duration from `duration.base`, dwell from `duration.slow`, ease `ease.standard` (via the `motion.*` helpers). Reduced motion handled upstream by the `reduced` variant swap (which also runs `measure()`, so the repack applies statically). Idempotent across rebuilds: kills the prior trigger by id, drops prior clones, and strips each item's prior repack transform before re-measuring. `intro()` builds the scene and returns an empty intro timeline (scroll-owned). Invoked via the `ui-components-loop` variant in process-motion.js."
+description: "Looping horizontal index-and-dwell (coverflow) scene for the Process section's UI-components SVG. Self-driving like blockframes: owns one repeating (`repeat: -1`) paused GSAP timeline plus one ScrollTrigger keyed by the stable id `process-uicomponents-loop`, so the loop plays only while the section is in view (start `top bottom` / end `bottom top`) and resets to the first item on leave in both scroll directions. Resolves hooks via `data-process-el` (`uicomponents` root, `uicomponents-chrome`, `uicomponents-track`, `uicomponents-item`, `uicomponents-hero-start`). The authored items sit at scattered, non-uniform x, so `measure()` re-packs them to a UNIFORM pitch `P` (const `ITEM_PITCH`, 560) with a one-time per-item `translate` (item k → bbox x `heroStartX + k*P`), making neighbors spatially adjacent so the preceding/following items peek in beyond the chrome edges. Track target for item k is `-k*P` (monotonically decreasing → every item enters from the right, no direction change); `firstTarget = 0`, `cycle = N*P`. Seamless wrap: one clone of item 0 placed at slot N (`translate(heroStartX - authoredX0 + cycle, 0)`, marked `data-uicomponents-clone`, ids stripped); track advancing to `bridgeTarget = -N*P` lands it under hero-start, pixel-identical to item 0, so the repeat reset to `firstTarget` shows no jump. Transform (`x` on track) plus position-driven per-item opacity — each item and the bridge clone fade with distance from focus (`fadeOpacity`, tent 1→0 over `FADE_RANGE`, default = `ITEM_PITCH`), applied every tick from the timeline `onUpdate` via one `quickSetter` per element, so items fade in approaching from the right, hold full opacity at the dwell, and fade out exiting left; index duration from `duration.base`, dwell from `duration.slow`, ease `ease.standard` (via the `motion.*` helpers). Reduced motion handled upstream by the `reduced` variant swap (which also runs `measure()`, so the repack applies statically). Idempotent across rebuilds: kills the prior trigger by id, drops prior clones, and strips each item's prior repack transform before re-measuring. `intro()` builds the scene and returns an empty intro timeline (scroll-owned). Invoked via the `ui-components-loop` variant in process-motion.js."
 status: draft
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - process-motion
   - process
   - ui-components
   - choreography
-  - frontend
-  - js
   - scrolltrigger
   - svg
 links:
@@ -21,8 +15,6 @@ links:
   - "[[timelines|timelines]]"
   - "[[selectors|selectors]]"
   - "[[motion|ix/motion]]"
-backlinks:
-  - "[[process-motion]]"
 ---
 
 # ui-components-loop
@@ -59,11 +51,11 @@ coords.
 
 ### Tuning knobs
 
-| Knob | Where | Effect |
-| --- | --- | --- |
-| Peek amount | `.njk` `viewBox` width + x0 (keep center = 2766) | How much of each neighbor is revealed beyond chrome. Current `viewBox="2171 548 1190 606"` reveals ~300 units each side. |
-| Neighbor gap from chrome | `ITEM_PITCH` const (`P`) | Distance of neighbors from the chrome frame. Keep `P ≥ ~555`: HERO renders ON TOP of CHROME (last group), so a smaller `P` would let a neighbor overlap the chrome frame. |
-| Fade width | `FADE_RANGE` const (default `ITEM_PITCH`) | Distance from focus over which an item fades 1→0. Larger = neighbors stay visible longer / fade more gently; smaller = tighter spotlight on the focused item. |
+| Knob                     | Where                                            | Effect                                                                                                                                                                    |
+| ------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Peek amount              | `.njk` `viewBox` width + x0 (keep center = 2766) | How much of each neighbor is revealed beyond chrome. Current `viewBox="2171 548 1190 606"` reveals ~300 units each side.                                                  |
+| Neighbor gap from chrome | `ITEM_PITCH` const (`P`)                         | Distance of neighbors from the chrome frame. Keep `P ≥ ~555`: HERO renders ON TOP of CHROME (last group), so a smaller `P` would let a neighbor overlap the chrome frame. |
+| Fade width               | `FADE_RANGE` const (default `ITEM_PITCH`)        | Distance from focus over which an item fades 1→0. Larger = neighbors stay visible longer / fade more gently; smaller = tighter spotlight on the focused item.             |
 
 ## Behavior
 
@@ -107,12 +99,12 @@ height — items keep their size. No separate `uicomponents-viewport` clipPath.
 
 ## Hooks (`data-process-el`)
 
-| Role | Attribute |
-| --- | --- |
-| SVG root (viewBox = CHROME bbox) | `uicomponents` |
-| Fixed window frame (CHROME) | `uicomponents-chrome` |
-| Moving track (HERO) | `uicomponents-track` |
-| Item (7 HERO children) | `uicomponents-item` |
+| Role                               | Attribute                 |
+| ---------------------------------- | ------------------------- |
+| SVG root (viewBox = CHROME bbox)   | `uicomponents`            |
+| Fixed window frame (CHROME)        | `uicomponents-chrome`     |
+| Moving track (HERO)                | `uicomponents-track`      |
+| Item (7 HERO children)             | `uicomponents-item`       |
 | Invisible dwell/destination marker | `uicomponents-hero-start` |
 
 ## Reduced motion

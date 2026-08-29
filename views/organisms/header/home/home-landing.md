@@ -1,13 +1,6 @@
 ---
-title: "Home Landing"
-template: "[[home-landing.njk]]"
-templatePath: "views/organisms/header/home/home-landing.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: homelanding."
+type: template
 tags:
   - preloader
 links:

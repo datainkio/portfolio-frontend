@@ -1,3 +1,9 @@
+---
+title: 11ty Configuration for UX Designers
+description: This directory contains the 11ty (Eleventy) static site generator configuration
+type: index
+---
+
 <!-- @format -->
 
 # 11ty Configuration for UX Designers

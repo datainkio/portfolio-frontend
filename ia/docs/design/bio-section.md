@@ -1,10 +1,6 @@
 ---
-title: Bio Section
 description: Design reference for the biography organism and its supporting content structure.
-docType: pattern
-status: active
-owner: frontend
-tags: []
+type: reference
 eleventyComputed:
   title: "{{ title }}"
 ---

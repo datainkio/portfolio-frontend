@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.projections.featuredImageProjection
-role: "GROQ projection fragment — reusable field shape for Featured image documents."
+description: "GROQ projection fragment — reusable field shape for Featured image documents."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Featured image projection"
 tags:
   - cms
   - projections
+aliases:
+  - Featured image projection
 links:
   - "[[README.projections]]"
 ---
@@ -19,8 +15,8 @@ links:
 GROQ projection fragment — the reusable `{ ... }` field shape selected for **featured image**
 documents. Extracted into its own file so queries stay thin and shapes compose consistently.
 
-| Export | Shape of |
-| --- | --- |
+| Export                      | Shape of              |
+| --------------------------- | --------------------- |
 | `FEATURED_IMAGE_PROJECTION` | featured image fields |
 
 ## Source

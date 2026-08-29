@@ -1,3 +1,9 @@
+---
+title: "JavaScript Modules - Interactive & Animation Systems"
+description: "This directory contains all client-side JavaScript for interactive features, animations, and visual effects."
+type: index
+---
+
 <!-- @format -->
 
 # JavaScript Modules - Interactive & Animation Systems

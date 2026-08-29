@@ -1,13 +1,9 @@
 ---
-title: "Frontend Workspace Reference"
+title: Frontend Workspace Reference
 description: "Layout, build pipeline, conventions, and choreography quick-reference for the frontend workspace."
 type: reference
 status: stable
-audience:
-  - agents
-system: "Eleventy"
 tags:
-  - frontend
   - gsap
   - reference
 ---

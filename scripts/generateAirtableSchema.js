@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.scripts.generatecmsschema
- *   role: Build/utility script: scripts/generateCmsSchema.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - cms
- * ---
- */
 /** @format */
 
 /**

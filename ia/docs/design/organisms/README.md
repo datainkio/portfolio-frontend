@@ -1,18 +1,9 @@
 ---
 title: Organisms Docs
 description: Reference for section-scale components composed from molecules and atoms.
-docType: index
-status: active
-owner: frontend
-tags: []
+type: index
 eleventyComputed:
   title: "{{ title }}"
-aix:
-  intent: component-doc
-  audience:
-    - design
-    - frontend
-  canonical: true
 ---
 
 Organisms are feature-complete sections that assemble molecules and atoms into meaningful blocks of a page.

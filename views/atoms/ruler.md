@@ -1,15 +1,8 @@
 ---
-title: "Ruler"
-template: "[[ruler.njk]]"
-templatePath: "views/atoms/ruler.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Ruler
 
 Defines Nunjucks macro: `render`.

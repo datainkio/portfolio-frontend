@@ -1,14 +1,6 @@
 ---
-title: "Hanko"
-template: "[[hanko.njk]]"
-templatePath: "views/atoms/hanko/hanko.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
 
 # Hanko

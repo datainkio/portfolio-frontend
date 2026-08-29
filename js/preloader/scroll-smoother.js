@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.scroll-smoother
- *   role: Frontend runtime module: js/preloader/scroll-smoother.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - scroll
- * ---
- */
-
 import {
   PRELOADER_SCROLL_SMOOTHER_MESSAGES,
   SCROLL_SMOOTHER_SETTINGS,

@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.home
-role: "GROQ query definition registered as an Eleventy collection (Home)."
+description: GROQ query definition registered as an Eleventy collection (Home).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Home query"
 tags:
   - cms
   - queries
+aliases:
+  - Home query
 links:
   - "[[README.queries]]"
 ---
@@ -19,9 +15,9 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`home`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
-| `homeQuery` | `home` |
+| Export      | Collection id |
+| ----------- | ------------- |
+| `homeQuery` | `home`        |
 
 ## Source
 

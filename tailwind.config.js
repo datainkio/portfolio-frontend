@@ -1,17 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.tailwind-config
- *   role: Tailwind configuration for the frontend build.
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - tailwind.config.js
- * ---
- */
 /** @type {import('tailwindcss').Config} */
 import typography from "@tailwindcss/typography";
 

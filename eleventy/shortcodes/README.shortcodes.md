@@ -1,3 +1,9 @@
+---
+title: Shortcodes - Reusable Template Components
+description: "Shortcodes are convenient macros that encapsulate common patterns, allowing templates to use powerful functionality with simple, readable syntax."
+type: index
+---
+
 <!-- @format -->
 
 # Shortcodes - Reusable Template Components

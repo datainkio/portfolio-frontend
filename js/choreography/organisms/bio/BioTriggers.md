@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.bio.biotriggers
-role: "Bio triggers module — supplies BIO_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal. bind() also creates a second, dedicated ScrollTrigger (bio-outro-pin) that pins the section root for BIO_OUTRO.pinRatio × viewport height and scrubs the four-beat outro timeline (line fade, gel expand, mission/aside travel) to completion, snapping to each beat's label and suspending the heading-gel sync trigger while active."
+description: "Bio triggers module — supplies BIO_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal. bind() also creates a second, dedicated ScrollTrigger (bio-outro-pin) that pins the section root for BIO_OUTRO.pinRatio × viewport height and scrubs the four-beat outro timeline (line fade, gel expand, mission/aside travel) to completion, snapping to each beat's label and suspending the heading-gel sync trigger while active."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"
   - "[[config/index|config/index]]"
@@ -35,7 +28,7 @@ retained and re-activates the moment a `buildOutro` is restored.
 
 Separate from `BIO_TRIGGER` on purpose: flipping `scrub` on the base trigger would hand it the **intro** timeline (see `bind()` above), and its `end: "bottom bottom"` would pin the full section height, not a short exit beat. `_bindOutroPin()` instead creates its own `ScrollTrigger`:
 
-- `trigger: this.view`, `start: "top top"`, `end: +=viewportHeight * BIO_OUTRO.pinRatio` (now `2.5`, up from `0.75` — the outro grew from one beat to four) — pins the section root (`pin: true, pinSpacing: true`). **The pin target is the bio section root, never the gel.** The gel is only *animated* (`scaleY`) by beat 2; it lives in the fixed-positioned `#sizzle-background` container and is already viewport-positioned, so it is never pinned — see [heading-gel.md](../../molecules/bio-motion/heading-gel.md#never-pinned).
+- `trigger: this.view`, `start: "top top"`, `end: +=viewportHeight * BIO_OUTRO.pinRatio` (now `2.5`, up from `0.75` — the outro grew from one beat to four) — pins the section root (`pin: true, pinSpacing: true`). **The pin target is the bio section root, never the gel.** The gel is only _animated_ (`scaleY`) by beat 2; it lives in the fixed-positioned `#sizzle-background` container and is already viewport-positioned, so it is never pinned — see [heading-gel.md](../../molecules/bio-motion/heading-gel.md#never-pinned).
 - `animation: outroTl`, `scrub: true` — scroll position drives the four-beat outro timeline (`split.js` `outro()`): H2 lines fade, the heading gel expands to full viewport height, then the mission statement and aside travel up to rest vertically centered. Pin releases automatically when the scrub range ends.
 - `snap: { snapTo: "labelsDirectional", duration: { min: 0.2, max: 0.6 }, delay: 0.05, ease: "power1.inOut" }` — settles scroll onto the nearest beat label (`outro`, `lines-out`, `gel-open`) in the direction of travel, rather than resting mid-beat. First `snap` usage in the repo — `SCROLL_DEFAULTS.snap` is `false` everywhere else.
 - `onToggle` suspends `bio-heading-gel-sync` (via `suspendHeadingGelSync`/`resumeHeadingGelSync` in `heading-gel.js`) while the pin is active, since the outro's gel-expand beat owns `scaleY` on the same element the sync trigger writes to every scroll tick. On deactivate it resumes the sync and force-`refresh()`s it by id so a scroll-up exit snaps the band back to heading-height immediately.

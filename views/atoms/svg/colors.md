@@ -1,15 +1,8 @@
 ---
-title: "Colors"
-template: "[[colors.njk]]"
-templatePath: "views/atoms/svg/colors.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Colors
 
 Defines Nunjucks macro: `render`.

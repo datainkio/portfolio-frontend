@@ -1,5 +1,7 @@
 ---
 title: Motion Checklist
+description: "Responsive testing checklist for motion — scroll behaviour, pin durations, and reduced-motion coverage."
+type: reference
 tags:
   - checklist
   - gsap

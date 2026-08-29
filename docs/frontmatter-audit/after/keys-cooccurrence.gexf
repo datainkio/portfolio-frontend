@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gexf xmlns="http://www.gexf.net/1.2draft" xmlns:viz="http://www.gexf.net/1.2draft/viz" version="1.2">
+  <meta lastmodifieddate="2026-08-29">
+    <creator>scripts/auditFrontmatter.js</creator>
+    <description>Frontmatter key co-occurrence (after). Clusters are schema profiles.</description>
+  </meta>
+  <graph mode="static" defaultedgetype="undirected">
+    <attributes class="node">
+      <attribute id="0" title="files" type="integer"/>
+      <attribute id="1" title="verdict" type="string"/>
+      <attribute id="2" title="bytes" type="integer"/>
+    </attributes>
+    <nodes>
+      <node id="0" label="title">
+        <attvalues>
+          <attvalue for="0" value="85"/>
+          <attvalue for="1" value="keep-core"/>
+          <attvalue for="2" value="2892"/>
+        </attvalues>
+        <viz:size value="28"/>
+      </node>
+      <node id="1" label="description">
+        <attvalues>
+          <attvalue for="0" value="453"/>
+          <attvalue for="1" value="keep-core"/>
+          <attvalue for="2" value="55366"/>
+        </attvalues>
+        <viz:size value="64"/>
+      </node>
+      <node id="2" label="type">
+        <attvalues>
+          <attvalue for="0" value="251"/>
+          <attvalue for="1" value="keep-core"/>
+          <attvalue for="2" value="3497"/>
+        </attvalues>
+        <viz:size value="48"/>
+      </node>
+      <node id="3" label="tags">
+        <attvalues>
+          <attvalue for="0" value="218"/>
+          <attvalue for="1" value="keep-core"/>
+          <attvalue for="2" value="7724"/>
+        </attvalues>
+        <viz:size value="44"/>
+      </node>
+      <node id="4" label="links">
+        <attvalues>
+          <attvalue for="0" value="211"/>
+          <attvalue for="1" value="keep-core"/>
+          <attvalue for="2" value="26198"/>
+        </attvalues>
+        <viz:size value="44"/>
+      </node>
+      <node id="5" label="aliases">
+        <attvalues>
+          <attvalue for="0" value="73"/>
+          <attvalue for="1" value="keep-core"/>
+          <attvalue for="2" value="2412"/>
+        </attvalues>
+        <viz:size value="26"/>
+      </node>
+      <node id="6" label="status">
+        <attvalues>
+          <attvalue for="0" value="226"/>
+          <attvalue for="1" value="keep-core"/>
+          <attvalue for="2" value="3372"/>
+        </attvalues>
+        <viz:size value="45"/>
+      </node>
+      <node id="7" label="layout">
+        <attvalues>
+          <attvalue for="0" value="7"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="179"/>
+        </attvalues>
+        <viz:size value="8"/>
+      </node>
+      <node id="8" label="permalink">
+        <attvalues>
+          <attvalue for="0" value="10"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="301"/>
+        </attvalues>
+        <viz:size value="9"/>
+      </node>
+      <node id="9" label="eleventyComputed">
+        <attvalues>
+          <attvalue for="0" value="23"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="2125"/>
+        </attvalues>
+        <viz:size value="14"/>
+      </node>
+      <node id="10" label="eleventyExcludeFromCollections">
+        <attvalues>
+          <attvalue for="0" value="2"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="74"/>
+        </attvalues>
+        <viz:size value="4"/>
+      </node>
+      <node id="11" label="templateEngineOverride">
+        <attvalues>
+          <attvalue for="0" value="4"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="112"/>
+        </attvalues>
+        <viz:size value="6"/>
+      </node>
+      <node id="12" label="eleventyNavigation">
+        <attvalues>
+          <attvalue for="0" value="4"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="261"/>
+        </attvalues>
+        <viz:size value="6"/>
+      </node>
+      <node id="13" label="metaDescription">
+        <attvalues>
+          <attvalue for="0" value="4"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="186"/>
+        </attvalues>
+        <viz:size value="6"/>
+      </node>
+      <node id="14" label="canonicalUrl">
+        <attvalues>
+          <attvalue for="0" value="4"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="175"/>
+        </attvalues>
+        <viz:size value="6"/>
+      </node>
+      <node id="15" label="metaKeywords">
+        <attvalues>
+          <attvalue for="0" value="2"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="120"/>
+        </attvalues>
+        <viz:size value="4"/>
+      </node>
+      <node id="16" label="skipLinks">
+        <attvalues>
+          <attvalue for="0" value="2"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="72"/>
+        </attvalues>
+        <viz:size value="4"/>
+      </node>
+      <node id="17" label="enableChoreography">
+        <attvalues>
+          <attvalue for="0" value="3"/>
+          <attvalue for="1" value="keep-functional"/>
+          <attvalue for="2" value="75"/>
+        </attvalues>
+        <viz:size value="5"/>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="0" source="1" target="3" weight="218"/>
+      <edge id="1" source="1" target="0" weight="85"/>
+      <edge id="2" source="1" target="2" weight="251"/>
+      <edge id="3" source="3" target="0" weight="19"/>
+      <edge id="4" source="3" target="2" weight="43"/>
+      <edge id="5" source="0" target="2" weight="81"/>
+      <edge id="6" source="1" target="4" weight="211"/>
+      <edge id="7" source="4" target="3" weight="171"/>
+      <edge id="8" source="4" target="2" weight="55"/>
+      <edge id="9" source="5" target="1" weight="73"/>
+      <edge id="10" source="5" target="3" weight="73"/>
+      <edge id="11" source="5" target="0" weight="6"/>
+      <edge id="12" source="5" target="2" weight="6"/>
+      <edge id="13" source="1" target="6" weight="226"/>
+      <edge id="14" source="6" target="3" weight="188"/>
+      <edge id="15" source="6" target="0" weight="9"/>
+      <edge id="16" source="6" target="2" weight="37"/>
+      <edge id="17" source="5" target="4" weight="67"/>
+      <edge id="18" source="5" target="6" weight="70"/>
+      <edge id="19" source="4" target="6" weight="157"/>
+      <edge id="20" source="1" target="9" weight="23"/>
+      <edge id="21" source="1" target="7" weight="7"/>
+      <edge id="22" source="1" target="8" weight="10"/>
+      <edge id="23" source="1" target="11" weight="4"/>
+      <edge id="24" source="9" target="7" weight="6"/>
+      <edge id="25" source="9" target="8" weight="9"/>
+      <edge id="26" source="9" target="11" weight="4"/>
+      <edge id="27" source="7" target="8" weight="7"/>
+      <edge id="28" source="14" target="1" weight="4"/>
+      <edge id="29" source="14" target="12" weight="4"/>
+      <edge id="30" source="14" target="7" weight="4"/>
+      <edge id="31" source="14" target="13" weight="4"/>
+      <edge id="32" source="14" target="8" weight="4"/>
+      <edge id="33" source="1" target="12" weight="4"/>
+      <edge id="34" source="1" target="13" weight="4"/>
+      <edge id="35" source="12" target="7" weight="4"/>
+      <edge id="36" source="12" target="13" weight="4"/>
+      <edge id="37" source="12" target="8" weight="4"/>
+      <edge id="38" source="7" target="13" weight="4"/>
+      <edge id="39" source="13" target="8" weight="4"/>
+      <edge id="40" source="9" target="0" weight="14"/>
+      <edge id="41" source="9" target="2" weight="15"/>
+      <edge id="42" source="8" target="0" weight="3"/>
+      <edge id="43" source="8" target="2" weight="3"/>
+      <edge id="44" source="14" target="9" weight="3"/>
+      <edge id="45" source="1" target="17" weight="3"/>
+      <edge id="46" source="9" target="12" weight="3"/>
+      <edge id="47" source="9" target="17" weight="3"/>
+      <edge id="48" source="9" target="13" weight="3"/>
+      <edge id="49" source="17" target="7" weight="3"/>
+      <edge id="50" source="17" target="8" weight="3"/>
+    </edges>
+  </graph>
+</gexf>

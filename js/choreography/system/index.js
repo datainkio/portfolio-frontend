@@ -1,4 +1,10 @@
-export { gsap, ScrollTrigger, ScrollSmoother, SplitText, Draggable } from "./gsap.js";
+export {
+  gsap,
+  ScrollTrigger,
+  ScrollSmoother,
+  SplitText,
+  Draggable,
+} from "./gsap.js";
 export { AnimationBus } from "./AnimationBus.js";
 export { default as NullAnimationBus } from "./NullAnimationBus.js";
 export { default as PromiseResolverQueue } from "./PromiseResolverQueue.js";

@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.bio.bioanimations
-role: "Bio animations module — builds the intro timeline for the biography section using BIO_INTRO motion defaults."
+description: "Bio animations module — builds the intro timeline for the biography section using BIO_INTRO motion defaults."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[system/gsap|system/gsap]]"

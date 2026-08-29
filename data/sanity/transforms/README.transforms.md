@@ -1,21 +1,5 @@
 ---
-aix:
-  id: frontend.data.sanity.transforms
-  role: Domain-scoped data normalization layer between raw Sanity records and Eleventy collections.
-  status: stable
-  surface: internal
-  tags:
-    -  #frontend
-    -  #cms
-    -  #transforms
-    -  #normalization
-  type: guide
-  scope: frontend
-  audience: maintainers
-  perf:
-    readPriority: medium
-    cacheSafe: true
-    critical: false
+description: "Pure, stateless functions that normalize raw Sanity query results into shaped records consumed by Eleventy collections."
 ---
 
 # CMS Transforms (frontend/data/sanity/transforms)

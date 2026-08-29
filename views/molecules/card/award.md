@@ -1,16 +1,10 @@
 ---
-title: "Award"
-template: "[[award.njk]]"
-templatePath: "views/molecules/card/award.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[card](card.md)"
 ---
+
 # Award
 
 Defines Nunjucks macro: `render`.

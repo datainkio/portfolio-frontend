@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.transforms.organization
-role: "Reserved domain transforms for organizations."
-status: planned
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Organization transforms"
+description: Reserved domain transforms for organizations.
+status: draft
 tags:
   - cms
   - transforms
+aliases:
+  - Organization transforms
 links:
   - "[[README.transforms]]"
 ---

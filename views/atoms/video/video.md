@@ -1,16 +1,8 @@
 ---
-title: "Video"
-template: "[[video.njk]]"
-templatePath: "views/atoms/video/video.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-links:
-  - "[video](video.md)"
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Video
 
 Defines Nunjucks macro: `render`.

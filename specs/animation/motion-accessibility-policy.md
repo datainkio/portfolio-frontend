@@ -1,3 +1,9 @@
+---
+title: Motion Accessibility Policy (Portfolio Frontend)
+description: 1. Respect user motion preferences (system settings) and reduce vestibular triggers.
+type: spec
+---
+
 # Motion Accessibility Policy (Portfolio Frontend)
 
 **Status:** Draft v1  

@@ -1,20 +1,9 @@
 ---
-id: frontend.js.choreography.atoms.clip-reveal
-role: "Pure GSAP factory — reveals or conceals a target using a GPU-composited CSS clip-path inset wipe."
+description: "Pure GSAP factory — reveals or conceals a target using a GPU-composited CSS clip-path inset wipe."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "atom"
-animation:
-  - clip-reveal
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"
-backlinks:
-  - "[[atoms/index|atoms/index]]"
 ---

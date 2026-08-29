@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.projections.projectPageProjection
-role: "GROQ projection fragment — reusable field shape for Project page documents."
+description: "GROQ projection fragment — reusable field shape for Project page documents."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Project page projection"
 tags:
   - cms
   - projections
+aliases:
+  - Project page projection
 links:
   - "[[README.projections]]"
 ---
@@ -19,8 +15,8 @@ links:
 GROQ projection fragment — the reusable `{ ... }` field shape selected for **project page**
 documents. Extracted into its own file so queries stay thin and shapes compose consistently.
 
-| Export | Shape of |
-| --- | --- |
+| Export                    | Shape of            |
+| ------------------------- | ------------------- |
 | `PROJECT_PAGE_PROJECTION` | project page fields |
 
 ## Source

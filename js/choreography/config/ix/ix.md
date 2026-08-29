@@ -1,15 +1,9 @@
 ---
-id: frontend.js.choreography.config.ix.ix
-role: "Barrel — re-exports the ix/ interaction-design tuning modules (breakpoints, motion, scrolltriggers, profiles) as a single import surface."
+description: "Barrel — re-exports the ix/ interaction-design tuning modules (breakpoints, motion, scrolltriggers, profiles) as a single import surface."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - choreography
   - config
-  - frontend
-  - js
   - motion
 links:
   - "[[breakpoints|breakpoints]]"

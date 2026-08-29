@@ -1,15 +1,8 @@
 ---
-title: "Award"
-template: "[[award.njk]]"
-templatePath: "views/atoms/award.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Award
 
 Defines Nunjucks macro: `render`.

@@ -1,0 +1,21 @@
+---
+title: Frontmatter dialects (before)
+---
+flowchart TB
+    R["Tracked files"]
+
+    R --> D1["Dialect 1 — sidecar markdown YAML<br/><b>324 files</b>"]
+    R --> D2["Dialect 2 — inline YAML in JSDoc<br/><b>185 files</b>"]
+    R --> D3["Dialect 3 — Eleventy-rendered markdown<br/><b>30 files</b>"]
+    R --> D4["No frontmatter<br/><b>92 files</b>"]
+
+    D1 --> READ1["Obsidian · agents"]
+    D2 --> READ2["nothing reads this"]
+    D3 --> READ3["Eleventy build"]
+    D4 --> READ4["undiscoverable"]
+
+    classDef ok fill:#1b4332,stroke:#40916c,color:#d8f3dc
+    classDef bad fill:#4a1c1c,stroke:#9b2226,color:#ffdada
+    classDef warn fill:#4a3c11,stroke:#bb9457,color:#ffeccc
+    class D1,D3,READ1,READ3 ok
+    class D2,READ2,D4,READ4 bad

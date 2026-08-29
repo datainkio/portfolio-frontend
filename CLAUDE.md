@@ -1,14 +1,10 @@
 ---
 title: "Frontend — Claude Code Entrypoint"
 description: "Claude Code workspace entrypoint for the portfolio frontend."
-type: entrypoint
+type: index
 status: stable
-audience:
-  - agents
-system: "Eleventy"
 tags:
   - entrypoint
-  - frontend
   - gsap
 ---
 
@@ -26,13 +22,14 @@ Read in this order before starting any task:
 4. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — repo conventions, do-not-edit files, build order
 
 **Context load tier:**
+
 - Fast path (single-file edit, template lookup, quick question): `portfolio-frontend.md` + `copilot-instructions.md` only
 - Full path (implementation, choreography, architecture, multi-file): all four above
 
 ## Critical Constraints
 
 - Page-level diagnosis/optimization starts at the page template — read `views/pages/<name>/<name>.njk` (homepage = `views/pages/home/home.njk`) and confirm the real above-the-fold composition + LCP element before any hypothesis or edit. Never infer page structure from arch docs, `hero.njk`, or frontmatter (`hero:`, `skipLinks`)
-- Never infer *source behavior* from `_site/` — but DO read rendered `_site/<page>.html` to verify output. For an output/perf review, read the rendered artifact first instead of rebuilding or serving in memory; read the file, don't just grep it for your own edits
+- Never infer _source behavior_ from `_site/` — but DO read rendered `_site/<page>.html` to verify output. For an output/perf review, read the rendered artifact first instead of rebuilding or serving in memory; read the file, don't just grep it for your own edits
 - Never hand-edit `styles/colors.css` or `styles/typography/fontFamilies.css` — overwritten by `build:design`
 - Never call Tailwind CLI directly — always use npm scripts
 - Never bypass choreography lifecycle gating (`director:ready` → `preloader:out`)
@@ -51,47 +48,47 @@ npm run validate       # format check + tests + preview build
 npm run scaffold:component  # generate new atomic design component
 ```
 
-## Available Agents
-
-Workspace agents live in [`../.claude/agents/`](../.claude/agents/).
-
-| Agent | Use for |
-|---|---|
-| [`choreographer`](../.claude/agents/choreographer.md) | Motion, GSAP choreography, ScrollTrigger, scroll behavior, reduced-motion |
-| [`implementer`](../.claude/agents/implementer.md) | General code changes, new components, Sanity wiring |
-| [`mechanic`](../.claude/agents/mechanic.md) | Build failures, 11ty config issues, tooling errors |
-| [`reviewer`](../.claude/agents/reviewer.md) | Pre-merge checks, diff review, contract compliance |
-| [`planner`](../.claude/agents/planner.md) | Sequence multi-step work before implementation begins |
-| [`taskmaster`](../.claude/agents/taskmaster.md) | Embed TODOs aligned with the GitHub Issues workflow |
-
-For the full agent roster and architecture agents: [`../CLAUDE.md`](../CLAUDE.md).
-
 ## Available Skills
 
-GSAP skills are installed globally at `~/.claude/skills/`. Load only the skill the task needs — do not load all by default.
+**Named subagents are retired.** `.claude/agents/` no longer exists; routing goes
+through skills, symlinked into [`../.claude/skills/`](../.claude/skills/) from the
+`skillet` repo. Load only the skill the task needs — do not load all by default.
 
-| Skill | Load for |
-|---|---|
-| `/gsap-core` | Tweens, easing, stagger, `gsap.matchMedia()`, reduced motion |
-| `/gsap-timeline` | Timeline sequencing, position parameter, LandingSequence |
-| `/gsap-scrolltrigger` | ScrollTrigger, pinning, scrub, scroll-linked animation |
-| `/gsap-plugins` | SplitText, Flip, Draggable, ScrollSmoother |
-| `/gsap-performance` | Compositor properties, `quickTo`, `will-change`, batching |
-| `/gsap-utils` | `clamp`, `mapRange`, `distribute`, `snap`, `toArray` |
-| `/gsap-react` | React / Next.js animation (not used in this project) |
-| `/gsap-frameworks` | Vue / Svelte / Nuxt (not used in this project) |
+| Skill                                   | Load for                                                               |
+| --------------------------------------- | ---------------------------------------------------------------------- |
+| `/choreography`                         | This project's GSAP motion system — topology, boot sequence, contracts |
+| `/eleventy`                             | 11ty config, collections, filters, shortcodes, build failures          |
+| `/tailwindcss`                          | Tailwind v4 utilities, theme layer, CSS import order                   |
+| `/ixd`, `/ixd-development`              | Interaction design and its implementation                              |
+| `/accessibility`                        | Semantic structure, ARIA, keyboard support, reduced motion             |
+| `/core-web-vitals`, `/performance`      | LCP/CLS/INP diagnosis and budgets                                      |
+| `/best-practices`                       | General frontend review and contract compliance                        |
+| `/frontmatter-lint`, `/drift-check`     | Workspace hygiene — sidecar and frontmatter presence, doc drift        |
+| `/graphify`                             | Query the knowledge graph at [`graphify-out/`](graphify-out/)          |
+| `/obsidian-markdown`, `/obsidian-bases` | Sidecar and vault authoring conventions                                |
 
-The [`choreographer` agent](../.claude/agents/choreographer.md) selects the right skill automatically based on task type.
+GSAP API skills — load alongside `/choreography` for the specific technique:
+
+| Skill                 | Load for                                                     |
+| --------------------- | ------------------------------------------------------------ |
+| `/gsap-core`          | Tweens, easing, stagger, `gsap.matchMedia()`, reduced motion |
+| `/gsap-timeline`      | Timeline sequencing, position parameter, LandingSequence     |
+| `/gsap-scrolltrigger` | ScrollTrigger, pinning, scrub, scroll-linked animation       |
+| `/gsap-plugins`       | SplitText, Flip, Draggable, ScrollSmoother                   |
+| `/gsap-performance`   | Compositor properties, `quickTo`, `will-change`, batching    |
+| `/gsap-utils`         | `clamp`, `mapRange`, `distribute`, `snap`, `toArray`         |
+
+`/gsap-react` and `/gsap-frameworks` cover React and Vue/Svelte — neither is used here.
 
 ## Model Selection
 
-Frontend task tiers — applied via Agent tool `model` param when dispatching subagents:
+Frontend task tiers — applied via the Agent tool's `model` param when delegating:
 
-| Task type | Model |
-|---|---|
+| Task type                                               | Model                                 |
+| ------------------------------------------------------- | ------------------------------------- |
 | Choreography/motion implementation, page-level planning | `opus` (motion-timing + LCP judgment) |
-| Template/component implementation, Sanity wiring | `sonnet` |
-| Copy tweaks, sidecar docs, formatting | `haiku` |
+| Template/component implementation, Sanity wiring        | `sonnet`                              |
+| Copy tweaks, sidecar docs, formatting                   | `haiku`                               |
 
 ## Current Goals
 
@@ -105,7 +102,7 @@ Update task frontmatter as work completes; never fork or restate goals into this
 
 ## Choreography Quick Reference
 
-Full choreography context is in the [`choreographer` agent](../.claude/agents/choreographer.md). Fast-path pointers:
+Full choreography context is in the `/choreography` skill. Fast-path pointers:
 
 - Config barrel: [`js/choreography/config/index/index.js`](js/choreography/config/index/index.js)
 - Event contracts: [`js/choreography/config/contracts/events/events.js`](js/choreography/config/contracts/events/events.js)

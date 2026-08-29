@@ -1,21 +1,11 @@
 ---
-id: frontend.views.templates.readme
-role: Documents the templates/ directory — partials and the readme documentation renderer.
-status: stable
-surface: internal
-owner: Template Steward
+description: "Documents the templates/ directory — partials and the readme documentation renderer."
 type: guide
-scope: frontend
-audience: maintainers
-engine: "Nunjucks"
-templateRole: "partial"
+status: stable
 tags:
   - template
-perf:
-  readPriority: medium
-  cacheSafe: true
-  critical: false
 ---
+
 <!-- @format -->
 
 # Templates Directory - Page Layout Templates

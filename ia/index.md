@@ -1,15 +1,7 @@
 ---
+description: "Route definition for the home page (/), composing the home template from the Sanity home singleton."
 layout: pages/home/home.njk
 permalink: /
-metaDescription: "no metaDescription defined"
-metaKeywords: "user experience, eleventy, sanity, tailwind"
-canonicalUrl: "https://dataink.io"
-skipLinks:
-  - hero
-  - bio
-  - awards
-  - projects
-enableChoreography: true
 eleventyNavigation:
   key: home
   title: data:ink:io
@@ -29,4 +21,13 @@ eleventyComputed:
   work:
     heading: "{{ cms.home[0].workHeading }}"
     body: "{{ cms.home[0].workBodyHtml | safe }}"
+metaDescription: "no metaDescription defined"
+metaKeywords: "user experience, eleventy, sanity, tailwind"
+canonicalUrl: "https://dataink.io"
+skipLinks:
+  - hero
+  - bio
+  - awards
+  - projects
+enableChoreography: true
 ---

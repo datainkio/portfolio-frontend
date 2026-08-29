@@ -1,16 +1,10 @@
 ---
-title: "Project"
-template: "[[project.njk]]"
-templatePath: "views/molecules/card/project.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[card](card.md)"
 ---
+
 # Project
 
 Defines Nunjucks macro: `render`.

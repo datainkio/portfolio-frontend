@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.filters.file
-role: "File/asset filters: size reporting, type tallies, cache age, and async inline-SVG fetching."
+description: "File/asset filters: size reporting, type tallies, cache age, and async inline-SVG fetching."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "File filters"
-system: "Eleventy"
 tags:
   - filters
+aliases:
+  - File filters
 links:
   - "[[README.filters]]"
   - "[[filters]]"
@@ -19,13 +14,13 @@ links:
 
 Asset metadata + inline-SVG filters for templates.
 
-| Filter | Purpose |
-| --- | --- |
-| `filesize` | human-readable byte size |
-| `uniqueTypes` | distinct asset types |
-| `countByType` | tally assets per type |
-| `totalSize` | sum of sizes |
-| `lastCacheUpdate` | cache freshness timestamp |
+| Filter                         | Purpose                         |
+| ------------------------------ | ------------------------------- |
+| `filesize`                     | human-readable byte size        |
+| `uniqueTypes`                  | distinct asset types            |
+| `countByType`                  | tally assets per type           |
+| `totalSize`                    | sum of sizes                    |
+| `lastCacheUpdate`              | cache freshness timestamp       |
 | `inlineSvgFromUrl(url, class)` | **async** fetch + inline an SVG |
 
 > [!warning] Module-scope SVG cache — migration pending

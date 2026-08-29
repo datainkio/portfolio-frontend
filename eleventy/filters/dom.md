@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.filters.dom
-role: "HTML-processing filters (Cheerio): extract h2 headings and expand referenced content."
+description: "HTML-processing filters (Cheerio): extract h2 headings and expand referenced content."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "DOM filters"
-system: "Eleventy"
 tags:
   - filters
+aliases:
+  - DOM filters
 links:
   - "[[README.filters]]"
   - "[[filters]]"
@@ -19,10 +14,10 @@ links:
 
 Server-side HTML processing with [Cheerio](https://cheerio.js.org/).
 
-| Filter | Purpose |
-| --- | --- |
+| Filter                  | Purpose                                                          |
+| ----------------------- | ---------------------------------------------------------------- |
 | `extractHeadings(html)` | collect `<h2 id>` as `[{ id, text }]` (drives in-page nav / TOC) |
-| `expand(str, ds)` | inline referenced `{type, id}` content from a datasource |
+| `expand(str, ds)`       | inline referenced `{type, id}` content from a datasource         |
 
 > [!note] Feeds in-page navigation
 > `extractHeadings` is the data source for section/TOC links — see the

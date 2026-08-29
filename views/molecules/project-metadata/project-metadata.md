@@ -1,13 +1,7 @@
 ---
-title: "Project Metadata Band"
-template: "[[project-metadata.njk]]"
-templatePath: "views/organisms/project-metadata/project-metadata.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+title: Project Metadata Band
+description: Encapsulates the project metadata band as a reusable Nunjucks macro for project/case study pages.
+type: template
 links:
   - "[stats](../../molecules/stats/stats.md)"
 ---

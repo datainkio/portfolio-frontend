@@ -1,18 +1,9 @@
 ---
 title: Templates Docs
 description: Reference for page-level blueprints that bind layout, content slots, and component regions.
-docType: index
-status: active
-owner: frontend
-tags: []
+type: index
 eleventyComputed:
   title: "{{ title }}"
-aix:
-  intent: pattern
-  audience:
-    - design
-    - frontend
-  canonical: true
 ---
 
 Templates specify how pages are assembled for concrete use cases while remaining content-driven.

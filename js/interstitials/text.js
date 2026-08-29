@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.interstitials.text
- *   role: Frontend runtime module: js/interstitials/text.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - interstitials
- *     - text.js
- * ---
- */
-
 export function introLines(elem) {
   // var elem = document.getElementById(id);
   var st = new SplitText(elem, { type: "lines" });

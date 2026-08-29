@@ -1,27 +1,17 @@
 ---
 title: "Spec: Home Page Template"
 description: "Composition and data-flow spec for the site home page (route /)."
-docType: "reference"
-status: "draft"
-owner: "frontend"
-system: "Eleventy"
-engine: "Nunjucks"
+type: spec
+status: draft
 tags:
   - home
   - sanity
   - choreography
   - spec
   - view
-permalink: false
 aliases:
-  - "Home Page Spec"
-  - "Home View Spec"
-aix:
-  intent: "view-spec"
-  audience:
-    - frontend
-    - content
-  canonical: true
+  - Home Page Spec
+  - Home View Spec
 ---
 
 # Spec: Home Page Template
@@ -69,40 +59,40 @@ views/pages/home/home.njk  (composes section macros in <main>)
 
 The template imports section macros and renders them, in order, inside a single `<main id="page-main" aria-busy="true">`. `aria-busy` is set true until choreography boots (`director:ready` → `preloader:out`). Order is authored in `home.njk`, **not** derivable from the stale `skipLinks` frontmatter.
 
-| Order | Region        | Macro / import                                  | `id`            | Key inputs                                              |
-| ----- | ------------- | ----------------------------------------------- | --------------- | ------------------------------------------------------ |
-| —     | Skip links    | `organisms/navigation/skip-links-nav.njk`       | —               | (no params)                                            |
-| —     | Section cap   | `molecules/section-cap.njk`                     | —               | `title: "renderizoring..."` (render-state placeholder) |
-| 1     | Landing/hero  | `organisms/header/home/home-landing.njk`        | (landing)       | `svg: logo`                                             |
-| 2     | Bio/manifesto | `organisms/section/bio.njk`                     | `manifesto`     | `copy: value`                                           |
-| 3     | Process       | `organisms/section/process.njk`                 | `process`       | `uiComponents: true` (ui-components-loop coverflow)     |
-| 4     | Work          | `organisms/section/work.njk`                    | `work`          | `copy: work`, `projects: projects`                     |
-| 5     | Organizations | `organisms/section/organizations.njk`           | `organizations` | `copy: organizationsCopy`, `organizations`             |
-| 6     | Recognition   | `organisms/section/awards.njk`                  | `recognition`   | `copy: recognition`, `awards`                          |
-| 7     | Contact       | `organisms/section/contact.njk`                 | `contact`       | `copy: contact`, `contact: contactInfo`                |
-| —     | Footer        | `organisms/footer/global-footer.njk`            | —               | `contact: false` (rendered outside `<main>`)           |
-| —     | Choreography  | `templates/partials/choreography-script.njk`    | —               | module bundle (gated boot)                              |
+| Order | Region        | Macro / import                               | `id`            | Key inputs                                             |
+| ----- | ------------- | -------------------------------------------- | --------------- | ------------------------------------------------------ |
+| —     | Skip links    | `organisms/navigation/skip-links-nav.njk`    | —               | (no params)                                            |
+| —     | Section cap   | `molecules/section-cap.njk`                  | —               | `title: "renderizoring..."` (render-state placeholder) |
+| 1     | Landing/hero  | `organisms/header/home/home-landing.njk`     | (landing)       | `svg: logo`                                            |
+| 2     | Bio/manifesto | `organisms/section/bio.njk`                  | `manifesto`     | `copy: value`                                          |
+| 3     | Process       | `organisms/section/process.njk`              | `process`       | `uiComponents: true` (ui-components-loop coverflow)    |
+| 4     | Work          | `organisms/section/work.njk`                 | `work`          | `copy: work`, `projects: projects`                     |
+| 5     | Organizations | `organisms/section/organizations.njk`        | `organizations` | `copy: organizationsCopy`, `organizations`             |
+| 6     | Recognition   | `organisms/section/awards.njk`               | `recognition`   | `copy: recognition`, `awards`                          |
+| 7     | Contact       | `organisms/section/contact.njk`              | `contact`       | `copy: contact`, `contact: contactInfo`                |
+| —     | Footer        | `organisms/footer/global-footer.njk`         | —               | `contact: false` (rendered outside `<main>`)           |
+| —     | Choreography  | `templates/partials/choreography-script.njk` | —               | module bundle (gated boot)                             |
 
 Head/body partials included directly: `templates/partials/dev-note.njk`, `head.njk`, `gtm-noscript.njk`.
 
 ### Data bindings (template top)
 
-| Local var  | Source                                                          |
-| ---------- | -------------------------------------------------------------- |
-| `projects` | `collections.home[0].featuredProjects`                         |
-| `awards`   | `collections.awards`                                           |
-| `organizations` | `collections.organizations`                              |
-| `logo`     | `collections.siteSettings[0].brand.logo.asset.url \| inlineSvgFromUrl` |
+| Local var       | Source                                                                 |
+| --------------- | ---------------------------------------------------------------------- |
+| `projects`      | `collections.home[0].featuredProjects`                                 |
+| `awards`        | `collections.awards`                                                   |
+| `organizations` | `collections.organizations`                                            |
+| `logo`          | `collections.siteSettings[0].brand.logo.asset.url \| inlineSvgFromUrl` |
 
 ### Content mapping (from `ia/index.md` `eleventyComputed`)
 
-| Template var  | Sanity source (`cms.home[0]`)                              |
-| ------------- | ---------------------------------------------------------- |
-| `title`       | `pageTitle`                                                |
-| `hero`        | `{ tagline, videoSrc, videoPoster }`                       |
+| Template var  | Sanity source (`cms.home[0]`)                                                             |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| `title`       | `pageTitle`                                                                               |
+| `hero`        | `{ tagline, videoSrc, videoPoster }`                                                      |
 | `value`       | `{ heading: valuePropHeading, subheading: valuePropSubHeading, body: valuePropBodyHtml }` |
-| `recognition` | `{ heading: recognitionHeading, body: recognitionBody }`   |
-| `work`        | `{ heading: workHeading, body: workBodyHtml }`             |
+| `recognition` | `{ heading: recognitionHeading, body: recognitionBody }`                                  |
+| `work`        | `{ heading: workHeading, body: workBodyHtml }`                                            |
 
 ## Developer contract
 
@@ -116,7 +106,7 @@ Head/body partials included directly: `templates/partials/dev-note.njk`, `head.n
 
 ## UX
 
-The home page is the portfolio's front door. Its job is to let recruiters, hiring managers, prospective clients, and peer practitioners quickly answer *"Is this someone I can work with?"* through a curated scroll: identity (landing) → point of view (manifesto) → how the work gets made (process) → proof (featured work) → credibility (organizations, recognition) → conversion (contact).
+The home page is the portfolio's front door. Its job is to let recruiters, hiring managers, prospective clients, and peer practitioners quickly answer _"Is this someone I can work with?"_ through a curated scroll: identity (landing) → point of view (manifesto) → how the work gets made (process) → proof (featured work) → credibility (organizations, recognition) → conversion (contact).
 
 - **Audiences:** recruiters, hiring managers, prospective clients, peer practitioners.
 - **CTA:** the contact section closes the page; the global footer renders with `contact: false` (contact is a first-class section, not a footer form, on home).

@@ -1,21 +1,11 @@
 ---
-id: frontend.views.molecules.card.readme
-role: Documents card molecule components for displaying content types across the portfolio.
-status: stable
-surface: internal
-owner: Template Steward
+description: Documents card molecule components for displaying content types across the portfolio.
 type: guide
-scope: frontend
-audience: maintainers
-atomicLevel: "molecule"
-engine: "Nunjucks"
+status: stable
 tags:
   - card
-perf:
-  readPriority: low
-  cacheSafe: true
-  critical: false
 ---
+
 # Card Molecules
 
 Card components for displaying various content types across the portfolio site.

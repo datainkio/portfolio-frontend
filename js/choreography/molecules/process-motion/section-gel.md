@@ -1,23 +1,14 @@
 ---
-id: frontend.js.choreography.molecules.process-motion.section-gel
-role: "Process molecule part — anchors the gel_process gel behind the entire process section as a full-bleed band (viewport width, section height, section y) and keeps it synced on scroll and resize. Mirrors bio-motion/heading-gel.js's strategy, scoped to the whole section root rather than a single element. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
+description: "Process molecule part — anchors the gel_process gel behind the entire process section as a full-bleed band (viewport width, section height, section y) and keeps it synced on scroll and resize. Mirrors bio-motion/heading-gel.js's strategy, scoped to the whole section root rather than a single element. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - choreography
-  - frontend
   - process-motion
   - process
   - gel
-  - js
 links:
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
   - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
-backlinks:
-  - "[[molecules/process-motion/reveal|molecules/process-motion/reveal]]"
 ---
 
 `attachSectionGel(view, gelManager)` resolves `gel_process` from the manager,

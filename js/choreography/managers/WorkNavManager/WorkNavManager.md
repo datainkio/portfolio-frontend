@@ -1,14 +1,8 @@
 ---
-id: frontend.js.choreography.managers.worknavmanager
-role: "Runtime manager — scrollspy for the work section local in-page nav. Observes the industry groups with IntersectionObserver and reflects the group currently in view onto its jumplink via aria-current=\"true\". Broadcasts the active group id on AnimationBus (work:nav:active) so later breakpoint surfaces can react. Native anchors keep working with no JS; this only adds the active hint."
+description: "Runtime manager — scrollspy for the work section local in-page nav. Observes the industry groups with IntersectionObserver and reflects the group currently in view onto its jumplink via aria-current=\\\"true\\\". Broadcasts the active group id on AnimationBus (work:nav:active) so later breakpoint surfaces can react. Native anchors keep working with no JS; this only adds the active hint."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - choreography
-  - frontend
-  - js
   - manager
 links:
   - "[[system/AnimationBus|AnimationBus]]"
@@ -17,8 +11,6 @@ links:
   - "[[organisms/section/work|work.njk]]"
   - "[[molecules/list/industry-links|industry-links.njk]]"
   - "[[managers/WorkHeaderManager/WorkHeaderManager|WorkHeaderManager]]"
-backlinks:
-  - "[[AnimationDirector|AnimationDirector.js]]"
 ---
 
 Implements the **scrollspy** half of the work section navigation spec

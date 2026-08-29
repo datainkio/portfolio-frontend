@@ -1,20 +1,4 @@
 /**
- * ---
- * aix:
- *   id: frontend.test.lumberjack-dual-mode-test
- *   role: Test module: test/lumberjack-dual-mode.test.js
- Issue URL: https://github.com/datainkio/portfolio-frontend/issues/57
- *   status: draft
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - test
- *     - lumberjack-dual-mode.test.js
- * ---
- */
-/**
  * Test Lumberjack dual-mode functionality
  * Tests both terminal (Node.js) and browser environments
  */

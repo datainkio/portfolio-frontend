@@ -1,3 +1,9 @@
+---
+title: Start here (Frontend AIX)
+description: Use this page as the single entrypoint for AI-assisted work in this repo.
+type: guide
+---
+
 # Start here (Frontend AIX)
 
 Use this page as the **single entrypoint** for AI-assisted work in this repo.

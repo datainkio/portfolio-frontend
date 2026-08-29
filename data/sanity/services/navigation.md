@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.services.navigation
-role: "Reserved domain service for navigation (currently empty)."
-status: planned
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "navigation service"
+description: Reserved domain service for navigation (currently empty).
+status: draft
 tags:
   - cms
   - services
+aliases:
+  - navigation service
 links:
   - "[[README.services]]"
 ---

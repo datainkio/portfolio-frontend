@@ -1,15 +1,8 @@
 ---
-title: "Site Title"
-template: "[[site-title.njk]]"
-templatePath: "views/atoms/link/site-title.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Site Title
 
 Defines Nunjucks macro: `render`.

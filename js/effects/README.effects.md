@@ -1,3 +1,9 @@
+---
+title: "Effects - Visual & Typographic Transformation Systems"
+description: "Collection of reusable visual effects for text, transitions, and gel animations."
+type: index
+---
+
 <!-- @format -->
 
 # Effects - Visual & Typographic Transformation Systems

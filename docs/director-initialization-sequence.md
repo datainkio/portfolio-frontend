@@ -1,3 +1,9 @@
+---
+title: AnimationDirector Initialization Sequence
+description: How the browser-side choreography system bootstraps after DOMContentLoaded.
+type: guide
+---
+
 # AnimationDirector Initialization Sequence
 
 How the browser-side choreography system bootstraps after `DOMContentLoaded`.

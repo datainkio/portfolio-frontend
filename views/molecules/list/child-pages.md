@@ -1,16 +1,10 @@
 ---
-title: "Child Pages"
-template: "[[child-pages.njk]]"
-templatePath: "views/molecules/list/child-pages.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: Reusable presentational component.
+type: template
 links:
   - "[nav-link](../../atoms/link/nav-link.md)"
 ---
+
 # Child Pages
 
 Reusable presentational component.

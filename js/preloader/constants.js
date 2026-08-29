@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.constants
- *   role: Frontend runtime module: js/preloader/constants.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - constants
- * ---
- */
-
 export const PRELOADER_SELECTORS = {
   root: "[data-preloader]",
   stack: "[data-preloader-stack]",

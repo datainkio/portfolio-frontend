@@ -1,3 +1,9 @@
+---
+title: Typography System Architecture
+description: "The typography system is a precisely orchestrated combination of:"
+type: index
+---
+
 # Typography System Architecture
 
 **TYPOGRAPHICAL ARMAGEDDON WARNING**: This directory contains the typography system that controls every piece of text on your website. These files manage font loading, Figma design token integration, and Tailwind utility generation. Mess with the wrong file or ignore the loading order and watch your carefully crafted typography degrade into a typographical disaster that looks like it was designed by someone who thinks Comic Sans is a legitimate business font.

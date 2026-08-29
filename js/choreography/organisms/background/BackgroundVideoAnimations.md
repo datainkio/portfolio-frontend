@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.background.backgroundvideoanimations
-role: "Background video animations module — builds the hidden landing timeline and the fade-in intro timeline for the fullscreen background <video> element."
+description: "Background video animations module — builds the hidden landing timeline and the fade-in intro timeline for the fullscreen background <video> element."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[video-reveal|video-reveal]]"

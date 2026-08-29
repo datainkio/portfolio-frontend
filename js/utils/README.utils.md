@@ -1,3 +1,9 @@
+---
+title: Utils - Shared Utility Classes and Functions
+description: "Collection of reusable JavaScript utilities powering the portfolio site's interactive features."
+type: index
+---
+
 <!-- @format -->
 
 # Utils - Shared Utility Classes and Functions

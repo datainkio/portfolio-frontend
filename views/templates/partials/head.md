@@ -1,17 +1,11 @@
 ---
-title: "Head"
-template: "[[head.njk]]"
-templatePath: "views/templates/partials/head.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "partial"
-atomicLevel: "template"
-status: "active"
+description: Reusable partial included by layouts or pages.
+type: template
 links:
   - "[gtm-script](gtm-script.md)"
   - "[fonts](fonts.md)"
 ---
+
 # Head
 
 Reusable partial included by layouts or pages.

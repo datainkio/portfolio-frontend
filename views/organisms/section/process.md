@@ -1,16 +1,10 @@
 ---
-title: "Process"
-template: "[[process.njk]]"
-templatePath: "views/organisms/section/process.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[organizations](organizations.md)"
 ---
+
 # Process
 
 Defines Nunjucks macro: `render`.
@@ -53,7 +47,7 @@ location under `views/`.
 - `blockframes` — the 12x3 (WxH) grid wrapper (`w-full h-48`,
   `overflow-hidden`).
 - `blockframes-grid` — the inner grid (`w-full h-full`, `grid-cols-12
-  grid-rows-3`, no gap); fills the wrapper 1:1 so each cell is naturally
+grid-rows-3`, no gap); fills the wrapper 1:1 so each cell is naturally
   1/12 the wrapper's width and sits flush against its neighbors.
 - All 36 cells carry `data-blockframe-block="<BlockName>"` (the 17 library
   block names cycled `i % 17`), filled at runtime by

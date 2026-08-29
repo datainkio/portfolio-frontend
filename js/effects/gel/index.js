@@ -1,20 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.effects.gel.index
- *   role: Frontend runtime module: js/effects/gel/index.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - effects
- *     - gel
- * ---
- */
 /** @format */
 
 export { default as Gel } from "./Gel.js";

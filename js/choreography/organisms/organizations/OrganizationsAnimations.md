@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.organizations.organizationsanimations
-role: "Organizations animations module — builds section-header intro/outro timelines and a scroll-threshold reveal group for organization items."
+description: "Organizations animations module — builds section-header intro/outro timelines and a scroll-threshold reveal group for organization items."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[system/gsap|system/gsap]]"

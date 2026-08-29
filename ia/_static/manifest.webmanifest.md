@@ -1,10 +1,11 @@
 ---
+description: "{{ manifestpayload | safe }}"
 layout: null
 permalink: /manifest.webmanifest
-eleventyExcludeFromCollections: true
-templateEngineOverride: njk
 eleventyComputed:
   manifest_payload: "{{ (site.manifest or {}) | dump | safe }}"
+eleventyExcludeFromCollections: true
+templateEngineOverride: njk
 ---
 
 {{ manifest_payload | safe }}

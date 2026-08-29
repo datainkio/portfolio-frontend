@@ -1,3 +1,9 @@
+---
+title: Choreography Contracts
+description: Canonical shared terms for choreography runtime.
+type: index
+---
+
 # Choreography Contracts
 
 Canonical shared terms for choreography runtime.

@@ -1,15 +1,8 @@
 ---
-title: "Organization"
-template: "[[organization.njk]]"
-templatePath: "views/atoms/organization.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Organization
 
 Defines Nunjucks macro: `render`.

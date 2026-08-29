@@ -1,3 +1,9 @@
+---
+title: Animation Specs
+description: "This folder defines motion principles and reusable patterns so the portfolio frontend and developers apply consistent, performant animation."
+type: spec
+---
+
 # Animation Specs
 
 This folder defines motion principles and reusable patterns so the portfolio frontend and developers apply consistent, performant animation.

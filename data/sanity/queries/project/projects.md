@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.projects
-role: "GROQ query definition registered as an Eleventy collection (Projects)."
+description: GROQ query definition registered as an Eleventy collection (Projects).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Projects query"
 tags:
   - cms
   - queries
+aliases:
+  - Projects query
 links:
   - "[[README.queries]]"
   - "[[projectCardProjection]]"
@@ -20,9 +16,10 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`projects`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
-| `projectsQuery` | `projects` |
+| Export          | Collection id |
+| --------------- | ------------- |
+| `projectsQuery` | `projects`    |
+
 - Projection: [[projectCardProjection]]
 
 ## Source

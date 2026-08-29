@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.siteSettings
-role: "GROQ query definition registered as an Eleventy collection (Site settings)."
+description: GROQ query definition registered as an Eleventy collection (Site settings).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Site settings query"
 tags:
   - cms
   - queries
+aliases:
+  - Site settings query
 links:
   - "[[README.queries]]"
   - "[[siteSettingsProjection]]"
@@ -20,9 +16,10 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`siteSettings`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
+| Export              | Collection id  |
+| ------------------- | -------------- |
 | `siteSettingsQuery` | `siteSettings` |
+
 - Projection: [[siteSettingsProjection]]
 
 ## Source

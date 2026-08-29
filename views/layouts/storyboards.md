@@ -1,15 +1,8 @@
 ---
-title: "Storyboards"
-template: "[[storyboards.njk]]"
-templatePath: "views/layouts/storyboards.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "layout"
-atomicLevel: "none"
-status: "active"
-tags:
+description: "Provides a reusable page shell used by other templates via {% extends %}."
+type: template
 ---
+
 # Storyboards
 
 Provides a reusable page shell used by other templates via `{% extends %}`.

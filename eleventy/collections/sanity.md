@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.collections.cms
-role: "Re-exports the Sanity CMS collection initializer (init) from the data layer."
+description: Re-exports the Sanity CMS collection initializer (init) from the data layer.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Sanity collection"
-system: "Eleventy"
 tags:
   - collection
+aliases:
+  - Sanity collection
 links:
   - "[[README.collections]]"
   - "[[fetchSanityData]]"

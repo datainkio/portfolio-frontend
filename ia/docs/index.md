@@ -1,10 +1,7 @@
 ---
 title: Docs
 description: Top-level documentation landing page.
-docType: index
-status: active
-owner: frontend
-tags: []
+type: index
 eleventyComputed:
   title: "{{ title }}"
 ---

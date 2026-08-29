@@ -1,3 +1,9 @@
+---
+title: "AIX Maintenance Checklist (Copilot‑First Repos)"
+description: "This checklist is designed for 11ty + browser‑first JavaScript + Nunjucks projects that rely heavily on GitHub Copilot."
+type: guide
+---
+
 # AIX Maintenance Checklist (Copilot‑First Repos)
 
 This checklist is designed for **11ty + browser‑first JavaScript + Nunjucks** projects that rely heavily on **GitHub Copilot**.  

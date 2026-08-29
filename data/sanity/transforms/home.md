@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.transforms.home
-role: "Normalize landing-section records for the homepage."
+description: Normalize landing-section records for the homepage.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Home transforms"
 tags:
   - cms
   - transforms
+aliases:
+  - Home transforms
 links:
   - "[[README.transforms]]"
 ---
@@ -19,8 +15,8 @@ links:
 Pure, stateless normalization between raw Sanity results and Eleventy collections — the semantic
 work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inline SVG, safe defaults).
 
-| Export | Purpose |
-| --- | --- |
+| Export                             | Purpose                                                                                                                                             |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `normalizeLandingRecords(records)` | shape landing records into view models; serialize value-prop/work Portable Text → HTML, and resolve a `url` on each nested `featuredProjects` entry |
 
 ## Featured project URLs

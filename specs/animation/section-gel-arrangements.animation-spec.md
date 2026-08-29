@@ -1,3 +1,9 @@
+---
+title: "Section Gel Arrangements — MVP Spec"
+description: "Create a dedicated constants file:"
+type: spec
+---
+
 # Section Gel Arrangements — MVP Spec
 
 - **Title:** Section Gel Arrangements — Event-Driven Layout Mapping (MVP)

@@ -1,24 +1,4 @@
 /**
- * ---
- * aix:
- *   id: frontend.js.layouts.landing-header
- *   role: Frontend runtime module: js/layouts/landing-header.js
- *   status: draft
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - layouts
- *     - landing
- *     - scroll
- *     - gsap
- * ---
- */
-
-/**
  * Landing layout header scroll choreography.
  *
  * Approach (no GSAP pin, no CSS sticky — those two fight each other):

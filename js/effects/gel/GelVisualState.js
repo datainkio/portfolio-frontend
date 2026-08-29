@@ -1,20 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.effects.gel.gelvisualstate
- *   role: Frontend runtime module: js/effects/gel/GelVisualState.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - effects
- *     - gel
- * ---
- */
 /** @format */
 
 import { gsap } from "/assets/js/choreography/system/gsap.js";

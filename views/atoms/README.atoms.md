@@ -1,19 +1,9 @@
 ---
-id: frontend.views.atoms.readme
-role: Documents the atoms/ layer — foundational UI building blocks of the design system.
-status: stable
-surface: internal
-owner: Template Steward
+description: "Documents the atoms/ layer — foundational UI building blocks of the design system."
 type: guide
-scope: frontend
-audience: maintainers
-atomicLevel: "atom"
-engine: "Nunjucks"
-perf:
-  readPriority: medium
-  cacheSafe: true
-  critical: false
+status: stable
 ---
+
 <!-- @format -->
 
 # Atoms Directory - Foundational UI Components

@@ -1,13 +1,6 @@
 ---
-title: "Contact"
-template: "[[contact.njk]]"
-templatePath: "views/organisms/section/contact.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: Site-global contact section.
+type: template
 tags:
   - form
 links:

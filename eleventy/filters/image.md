@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.filters.image
-role: "Template filter to resolve an image record by id from a collection."
+description: Template filter to resolve an image record by id from a collection.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Image filter"
-system: "Eleventy"
 tags:
   - filters
+aliases:
+  - Image filter
 links:
   - "[[README.filters]]"
   - "[[filters]]"
@@ -19,8 +14,8 @@ links:
 
 Lookup filter that resolves an image record from a collection by id (null-safe).
 
-| Filter | Purpose |
-| --- | --- |
+| Filter                      | Purpose                                     |
+| --------------------------- | ------------------------------------------- |
 | `findImage(id, collection)` | return the matching image record, or `null` |
 
 > [!note] Filter vs shortcode

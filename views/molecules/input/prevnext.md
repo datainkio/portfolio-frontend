@@ -1,16 +1,10 @@
 ---
-title: "Prevnext"
-template: "[[prevnext.njk]]"
-templatePath: "views/molecules/input/prevnext.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: Reusable presentational component.
+type: template
 links:
   - "[icon](../../atoms/icon.md)"
 ---
+
 # Prevnext
 
 Reusable presentational component.

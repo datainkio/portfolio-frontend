@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.hero.herotriggers
-role: "Hero triggers module — supplies HERO_TRIGGER to AbstractSectionTriggers; pin and scrub are currently off, so the main trigger creates no pin and the scrub-linked gel outro is skipped. Hero is static after the landing shutter (not implemented — no non-scrub fallback)."
+description: "Hero triggers module — supplies HERO_TRIGGER to AbstractSectionTriggers; pin and scrub are currently off, so the main trigger creates no pin and the scrub-linked gel outro is skipped. Hero is static after the landing shutter (not implemented — no non-scrub fallback)."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"
   - "[[system/gsap|system/gsap]]"

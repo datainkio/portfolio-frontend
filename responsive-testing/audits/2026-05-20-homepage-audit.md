@@ -1,10 +1,11 @@
 ---
-title: Homepage Audit — 2026-05-20
+title: "Homepage Audit — 2026-05-20"
+description: "Homepage responsive audit of 2026-05-20, recording per-viewport findings across the tested breakpoints."
+type: reference
 tags:
   - audit
   - homepage
   - responsiveness
-date: 2026-05-20
 ---
 
 # Homepage Audit — 2026-05-20

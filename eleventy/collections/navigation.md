@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.collections.navigation
-role: "Registers the navigation collections with 11ty and delegates all processing to the NavigationBuilder service."
+description: Registers the navigation collections with 11ty and delegates all processing to the NavigationBuilder service.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Navigation collection"
-system: "Eleventy"
 tags:
   - collection
+aliases:
+  - Navigation collection
 links:
   - "[[README.collections]]"
   - "[[NavigationBuilder]]"
@@ -24,11 +19,11 @@ stays separate from business logic).
 
 ## Registers
 
-| Collection | Built from |
-| --- | --- |
-| `nav_dirs` | `ia/` route structure + frontmatter titles |
-| `nav_projects` | Sanity projects data |
-| `nav_primary` | merge of the two into a hierarchical tree |
+| Collection     | Built from                                 |
+| -------------- | ------------------------------------------ |
+| `nav_dirs`     | `ia/` route structure + frontmatter titles |
+| `nav_projects` | Sanity projects data                       |
+| `nav_primary`  | merge of the two into a hierarchical tree  |
 
 > [!warning] Downstream coupling
 > GSAP choreography and the navigation organisms read the specific DOM structure this

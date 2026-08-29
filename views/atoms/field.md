@@ -1,15 +1,8 @@
 ---
-title: "Field"
-template: "[[field.njk]]"
-templatePath: "views/atoms/field.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Field
 
 Reusable presentational component.

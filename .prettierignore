@@ -1,2 +1,7 @@
 # Nunjucks templates are owned by djlint — see .djlintrc and `npm run format:njk`
 *.njk
+
+# Generated output — never hand-formatted, and reformatting churns huge diffs
+_site/
+graphify-out/
+docs/frontmatter-audit/*/*.svg

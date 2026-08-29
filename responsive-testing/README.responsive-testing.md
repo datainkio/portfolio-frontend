@@ -1,7 +1,8 @@
 ---
 title: Responsive Testing
+description: "Index for the responsive testing vault — viewport profiles, per-system notes, checklists, audits, and known constraints."
+type: index
 tags:
-  - frontend
   - gsap
   - qa
   - responsiveness

@@ -1,15 +1,8 @@
 ---
-title: "Trim Marks"
-template: "[[trim-marks.njk]]"
-templatePath: "views/atoms/printmarks/trim-marks.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Trim Marks
 
 Defines Nunjucks macro: `render`.

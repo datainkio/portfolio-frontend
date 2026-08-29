@@ -1,13 +1,6 @@
 ---
-title: "Registry"
-template: "[[_registry.njk]]"
-templatePath: "views/_registry.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "macro"
-atomicLevel: "unknown"
-status: "active"
+description: "Defines Nunjucks macros: component, icon, button, listComponents, validateComponent, designToken."
+type: template
 tags:
   - macro
 links:
@@ -15,6 +8,7 @@ links:
   - "[icon](../atoms/icon.md)"
   - "[button](../atoms/button/button.md)"
 ---
+
 # Registry
 
 Defines Nunjucks macros: `component`, `icon`, `button`, `listComponents`, `validateComponent`, `designToken`.

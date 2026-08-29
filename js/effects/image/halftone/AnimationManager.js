@@ -1,20 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.effects.image.halftone.animationmanager
- *   role: Frontend runtime module: js/effects/image/halftone/AnimationManager.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - effects
- *     - image
- * ---
- */
 const { gasp } = window;
 gsap.registerPlugin(Physics2DPlugin);
 export default class AnimationManager {

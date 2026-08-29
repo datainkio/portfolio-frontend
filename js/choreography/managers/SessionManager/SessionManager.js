@@ -114,7 +114,12 @@ class SessionManager {
     this.state = { ...fresh, visited: true };
     this.saveState();
 
-    lumberjack.trace("SessionManager", "Session marked as visited", "brief", "success");
+    lumberjack.trace(
+      "SessionManager",
+      "Session marked as visited",
+      "brief",
+      "success",
+    );
   }
 
   /**

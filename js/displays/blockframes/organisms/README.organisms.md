@@ -1,3 +1,9 @@
+---
+title: "🦠 Organisms"
+description: "Organisms are complex UI components that combine molecules and atoms into distinct, functional sections of an interface."
+type: index
+---
+
 <!-- @format -->
 
 # 🦠 Organisms

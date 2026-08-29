@@ -1,19 +1,13 @@
 ---
-title: "Card"
-template: "[[card.njk]]"
-templatePath: "views/molecules/card/card.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[heading](../../atoms/heading.md)"
   - "[cta](../../atoms/cta.md)"
   - "[stats](../stats/stats.md)"
   - "[trim-marks](../../atoms/printmarks/trim-marks.md)"
 ---
+
 # Card
 
 Defines Nunjucks macro: `render`.

@@ -1,18 +1,9 @@
 ---
 title: Atoms Docs
 description: Reference for foundational UI primitives and token-driven component units.
-docType: index
-status: active
-owner: frontend
-tags: []
+type: index
 eleventyComputed:
   title: "{{ title }}"
-aix:
-  intent: component-doc
-  audience:
-    - design
-    - frontend
-  canonical: true
 ---
 
 Atoms are the smallest reusable UI units, including tokenized typography, color, spacing, iconography, and basic controls.

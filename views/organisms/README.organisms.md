@@ -1,19 +1,9 @@
 ---
-id: frontend.views.organisms.readme
-role: Documents the organisms/ layer — complex UI assemblies composed of molecules and atoms.
-status: stable
-surface: internal
-owner: Template Steward
+description: "Documents the organisms/ layer — complex UI assemblies composed of molecules and atoms."
 type: guide
-scope: frontend
-audience: maintainers
-engine: "Nunjucks"
-atomicLevel: "organism"
-perf:
-  readPriority: medium
-  cacheSafe: true
-  critical: false
+status: stable
 ---
+
 <!-- @format -->
 
 # Organisms Directory - Complex UI Assemblies

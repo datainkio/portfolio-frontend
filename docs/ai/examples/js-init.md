@@ -1,3 +1,8 @@
+---
+description: "Canonical JS initialization patterns — idempotent boot-once setup and the choreography boot sequence."
+type: reference
+---
+
 # Canonical JS initialization patterns
 
 ## Idempotent “boot once” initialization

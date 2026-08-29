@@ -36,7 +36,7 @@
 
 /* Force generation of dynamic utility classes used in Nunjucks macros */
 /* TODO: Is this still necessary? Tailwind should pick up these classes from the HTML output. */
-/\* Issue URL: https://github.com/datainkio/portfolio-frontend/issues/162 \*/
+/* Issue URL: https://github.com/datainkio/portfolio-frontend/issues/162 */
 @source inline("border-{t,r,b,l}-{1,2,3,4,5,6,7,8,10,12,14,16}");
 @source inline("size-{1,2,3,4,5,6,7,8,10,12,14,16}");
 @source inline("inset-{1,2,3,4,5,6,7,8,10,12,14,16}");

@@ -1,3 +1,9 @@
+---
+title: Frontend Documentation Index
+description: Durable reference docs for the dataink.io frontend.
+type: index
+---
+
 <!-- @format -->
 
 # Frontend Documentation Index

@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.services.project
-role: "Reserved domain service for project (currently empty)."
-status: planned
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "project service"
+description: Reserved domain service for project (currently empty).
+status: draft
 tags:
   - cms
   - services
+aliases:
+  - project service
 links:
   - "[[README.services]]"
 ---

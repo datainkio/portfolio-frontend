@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.work.work
-role: "Work section controller — manages lifecycle and triggers reveal updates for the work/projects section."
+description: "Work section controller — manages lifecycle and triggers reveal updates for the work/projects section."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
   - work
 links:
   - "[[AbstractSection|AbstractSection]]"

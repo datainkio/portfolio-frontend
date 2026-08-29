@@ -1,3 +1,9 @@
+---
+title: Choreography System - Event-Driven Animation Coordination
+description: Master coordination system for all page animations using GSAP and a publish/subscribe event bus for loose coupling between sections.
+type: index
+---
+
 <!-- @format -->
 
 # Choreography System - Event-Driven Animation Coordination

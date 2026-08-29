@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.resource-observer
- *   role: Frontend runtime module: js/preloader/resource-observer.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - performance
- * ---
- */
-
 import {
   PRELOADER_RESOURCE_MESSAGES,
   PRELOADER_RESOURCE_OBSERVER,

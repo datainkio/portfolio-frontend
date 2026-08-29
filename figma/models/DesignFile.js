@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.figma.models.designfile
- *   role: Figma tooling module: figma/models/DesignFile.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - figma
- *     - models
- * ---
- */
 import chalk from "chalk";
 import { ENDPOINTS } from "../api/endpoints.js";
 export class DesignFile {

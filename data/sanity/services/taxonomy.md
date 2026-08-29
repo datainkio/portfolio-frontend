@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.services.taxonomy
-role: "Reserved domain service for taxonomy (currently empty)."
-status: planned
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "taxonomy service"
+description: Reserved domain service for taxonomy (currently empty).
+status: draft
 tags:
   - cms
   - services
+aliases:
+  - taxonomy service
 links:
   - "[[README.services]]"
 ---

@@ -1,34 +1,25 @@
 ---
-id: frontend.js.choreography.molecules.bio-motion.reduced
-role: "Bio `reduced` variant — low-vestibular fallback. Hides the bio gel outright and returns empty intro/outro timelines."
+description: "Bio `reduced` variant — low-vestibular fallback. Hides the bio gel outright and returns empty intro/outro timelines."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - bio-motion
   - biography
   - choreography
-  - frontend
   - gel
-  - js
   - reduced-motion
 links:
   - "[[molecules/bio-motion/bio-motion|molecules/bio-motion/bio-motion]]"
   - "[[molecules/bio-motion/sweep|molecules/bio-motion/sweep]]"
   - "[[config/ix/profiles|config/ix/profiles]]"
-backlinks:
-  - "[[molecules/bio-motion/bio-motion|molecules/bio-motion/bio-motion]]"
 ---
 
 ## Exports
 
-| Export | Bound to | Returns |
-| --- | --- | --- |
-| `init(view, gelManager)` | variant `init` | landing timeline (empty) |
-| `buildIntro(view, gelManager)` | variant `buildIntro` | empty timeline |
-| `buildOutro(view, gelManager)` | variant `buildOutro` | empty timeline |
+| Export                         | Bound to             | Returns                  |
+| ------------------------------ | -------------------- | ------------------------ |
+| `init(view, gelManager)`       | variant `init`       | landing timeline (empty) |
+| `buildIntro(view, gelManager)` | variant `buildIntro` | empty timeline           |
+| `buildOutro(view, gelManager)` | variant `buildOutro` | empty timeline           |
 
 Registered as `BIO_VARIANT_FACTORIES.reduced` in
 [[molecules/bio-motion/bio-motion|bio-motion.js]].

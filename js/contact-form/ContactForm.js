@@ -87,7 +87,10 @@ export class ContactForm {
     const errors = {};
     if (!email) {
       errors.email = "Please enter your email address.";
-    } else if (email.length > LIMITS.emailMax || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    } else if (
+      email.length > LIMITS.emailMax ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
       errors.email = "Please enter a valid email address.";
     }
 

@@ -1,16 +1,10 @@
 ---
-title: "Featured Image"
-template: "[[featured-image.njk]]"
-templatePath: "views/molecules/figure/featured-image.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "macro"
-atomicLevel: "molecule"
-status: "active"
+description: "Macro that renders a Sanity-sourced image inside a <figure>, with intrinsic dimensions and an optional <figcaption>."
+type: template
 tags:
   - component
 ---
+
 # Featured Image
 
 Macro that renders a Sanity-sourced image inside a `<figure>`, with intrinsic dimensions and an optional `<figcaption>`. Renders nothing when the asset URL is absent.
@@ -31,12 +25,12 @@ Encapsulates the featured image pattern — `<figure>` + `<img>` with intrinsic 
 {{ FeaturedImage.render({ image: project.featuredImage, alt: project.title, class: "my-class" }) }}
 ```
 
-| Param | Type | Required | Description |
-|-------|------|----------|-------------|
-| `image` | `SanityImageObject` | No | Sanity image object with `asset.url`, `asset.metadata.dimensions`, `alt`, and `caption`. Renders nothing when `image.asset.url` is absent. |
-| `alt` | `string` | No | Fallback alt text used when `image.alt` is empty (typically the project title). |
-| `class` | `string` | No | CSS class string applied to the `<figure>`. |
-| `loading` | `string` | No | `loading` attribute for the `<img>`. Defaults to `"eager"`. |
+| Param     | Type                | Required | Description                                                                                                                                |
+| --------- | ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `image`   | `SanityImageObject` | No       | Sanity image object with `asset.url`, `asset.metadata.dimensions`, `alt`, and `caption`. Renders nothing when `image.asset.url` is absent. |
+| `alt`     | `string`            | No       | Fallback alt text used when `image.alt` is empty (typically the project title).                                                            |
+| `class`   | `string`            | No       | CSS class string applied to the `<figure>`.                                                                                                |
+| `loading` | `string`            | No       | `loading` attribute for the `<img>`. Defaults to `"eager"`.                                                                                |
 
 ## Role in the System
 

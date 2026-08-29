@@ -1,19 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.test.logger.optional-parameter-test
- *   role: Test module: test/logger/optional-parameter.test.js
- Issue URL: https://github.com/datainkio/portfolio-frontend/issues/51
- *   status: draft
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - test
- *     - logger
- * ---
- */
 /** @format */
 
 import logger from "@datainkio/lumberjack";

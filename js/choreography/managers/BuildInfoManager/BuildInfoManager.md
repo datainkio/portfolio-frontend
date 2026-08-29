@@ -1,16 +1,12 @@
 ---
-title: "BuildInfoManager"
-template: "[[BuildInfoManager.js]]"
-templatePath: "js/choreography/managers/BuildInfoManager/BuildInfoManager.js"
-system: "Choreography"
-type: "module"
-templateRole: "manager"
-status: "active"
+description: "Singleton manager for the section-cap build-info disclosure — a click-driven toggle that reveals/hides the build details (build-info.njk) beside the always-visible build <time>."
+type: script
 tags:
   - choreography
   - manager
   - interaction
 ---
+
 # BuildInfoManager
 
 Singleton manager for the section-cap **build-info disclosure** — a click-driven toggle that reveals/hides the build details ([[build-info.njk]]) beside the always-visible build `<time>`.
@@ -53,4 +49,4 @@ None. The list toggles in/out of view via inline `display` (`none` ↔ `""`), wh
 
 - Animation was intentionally removed to address how the list's size change impacts the section-cap layout. Resolve the layout behavior first; reintroduce motion (if any) only after placement is settled.
 - If the disclosure needs to coordinate with other sections, promote the local state to `AnimationBus` events (`EVENTS`) rather than calling across managers.
-- Accessibility: the toggle is a real `<button>` (keyboard opens *and* closes); `aria-expanded`/`aria-hidden` track state. Preserve these if the markup is restructured.
+- Accessibility: the toggle is a real `<button>` (keyboard opens _and_ closes); `aria-expanded`/`aria-hidden` track state. Preserve these if the markup is restructured.

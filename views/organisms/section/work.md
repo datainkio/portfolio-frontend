@@ -1,18 +1,12 @@
 ---
-title: "Work"
-template: "[[work.njk]]"
-templatePath: "views/organisms/section/work.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[section-cap](../../molecules/section-cap.md)"
   - "[project](../../molecules/card/project.md)"
   - "[projects-by-industry](../../molecules/list/projects-by-industry.md)"
 ---
+
 # Work
 
 Defines Nunjucks macro: `render`.

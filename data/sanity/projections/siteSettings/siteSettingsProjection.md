@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.projections.siteSettingsProjection
-role: "GROQ projection fragment — reusable field shape for Site settings documents."
+description: "GROQ projection fragment — reusable field shape for Site settings documents."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Site settings projection"
 tags:
   - cms
   - projections
+aliases:
+  - Site settings projection
 links:
   - "[[README.projections]]"
 ---
@@ -19,8 +15,8 @@ links:
 GROQ projection fragment — the reusable `{ ... }` field shape selected for **site settings**
 documents. Extracted into its own file so queries stay thin and shapes compose consistently.
 
-| Export | Shape of |
-| --- | --- |
+| Export                     | Shape of             |
+| -------------------------- | -------------------- |
 | `SITE_SETTINGS_PROJECTION` | site settings fields |
 
 ## Source

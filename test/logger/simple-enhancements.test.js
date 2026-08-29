@@ -1,20 +1,4 @@
 #!/usr/bin/env node
-/**
- * ---
- * aix:
- *   id: frontend.test.logger.simple-enhancements-test
- *   role: Test module: test/logger/simple-enhancements.test.js
- Issue URL: https://github.com/datainkio/portfolio-frontend/issues/54
- *   status: draft
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - test
- *     - logger
- * ---
- */
 /** @format */
 
 /**

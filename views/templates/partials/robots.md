@@ -1,15 +1,8 @@
 ---
-title: "Robots"
-template: "[[robots.njk]]"
-templatePath: "views/templates/partials/robots.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "partial"
-atomicLevel: "template"
-status: "active"
-tags:
+description: Reusable partial included by layouts or pages.
+type: template
 ---
+
 # Robots
 
 Reusable partial included by layouts or pages.

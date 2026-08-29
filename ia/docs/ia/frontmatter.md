@@ -1,33 +1,44 @@
 ---
 title: Frontmatter Rules
-description: Operational frontmatter requirements for IA and design-system documentation pages.
-docType: reference
-status: active
-owner: frontend
-tags: []
+description: Published summary of the frontmatter contract; the authority is specs/frontmatter.spec.md.
+type: reference
 eleventyComputed:
   title: "{{ title }}"
 ---
 
-This page captures the frontmatter contract applied to IA and design-system markdown pages.
+This page summarises the frontmatter contract for markdown in this repo. It is a
+**summary, not the authority** — the specification is
+`specs/frontmatter.spec.md`, and `npm run lint:frontmatter` enforces it.
 
-## Focus
+## The governing rule
 
-- required metadata fields
-- publication and permalink controls
-- tagging and ownership conventions
+Frontmatter carries only what the path, filename, and extension cannot. A field
+that restates location costs tokens on every read and drifts the moment a file
+moves.
 
-## Permalink Behavior
+## Required
 
-Do **not** define `permalink` in frontmatter for docs pages. URLs are derived from two sources:
+- `description` — one sentence, specific enough to tell this file from its
+  siblings. The only unconditionally required field.
 
-- **Leaf pages** (e.g. `bio-section.md`) — Eleventy uses the filename as the slug automatically.
-- **Section indexes** (`README.md`) — A global computed permalink in `.eleventy.js` rewrites `README.md` to the parent directory URL (e.g. `docs/design/README.md` → `/docs/design/`). This preserves README.md as the entry point for GitHub and Obsidian browsing while producing clean directory-index URLs in the built site.
+## Conditional
 
-### Decision rationale
+- `title` — only when it adds something over the filename.
+- `type` — `template · script · spec · guide · reference · index · plan · handoff`
+- `status` — `draft · active · stable · deprecated · historical`. Omit when `active`.
+- `tags` — controlled vocabulary, **no `#` prefix**. Tags naming the whole repo
+  (`frontend`, `js`) discriminate nothing and are rejected.
+- `aliases`, `links` — optional, and both feed Obsidian's quick-switcher and graph.
 
-Explicit `permalink` fields were removed in favor of this rule because:
+## Eleventy-rendered pages only
 
-1. They duplicated path information already expressed by the file hierarchy and `eleventyNavigation`.
-2. Manual permalinks drift from actual paths over time and require two-place edits on every rename or move.
-3. The computed rule is zero-config per file — adding a new README.md to any docs directory automatically gets a correct index URL.
+Files under `ia/` may additionally carry `permalink`, `layout`,
+`eleventyComputed`, `eleventyNavigation`, `pagination`, and the meta fields. A
+`permalink` anywhere else implies a route that does not exist.
+
+## Retired
+
+`id`, `scope`, `surface`, `system`, `engine`, `runtime`, `atomicLevel`,
+`template*`, `module*`, `scriptRole`, `animation`, `backlinks`, `owner`,
+`audience`, `perf`, and the whole `aix:` namespace. `role` migrated into
+`description`; `docType` migrated into `type`.

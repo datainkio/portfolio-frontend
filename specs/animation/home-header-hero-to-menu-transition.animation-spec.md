@@ -1,12 +1,11 @@
 ---
-id: spec.animation.home-header.hero-to-menu-transition
-title: Home Header — Hero → Menu Timed Transition
-status: superseded
-owner: Russell Lebo / Frontend Choreography
+title: "Home Header — Hero → Menu Timed Transition"
+description: "The hero view holds long enough to be consumed, then automatically animates itself out to reveal page content, resolving into the persistent menu rail."
+type: spec
+status: historical
 tags:
   - animation-spec
   - choreography
-  - frontend
   - home-landing
 ---
 
@@ -25,6 +24,7 @@ tags:
 > [HomeHeaderManager](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js).
 > Everything describing the rail, the build phase, the nav reveal, or the side
 > drawer is historical. Do not implement from it.
+
 - **Scope:** The `hero → menu` role transition in [HomeHeaderManager](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js) — trigger model, two-phase timeline, CSS/GSAP seam, tunability, reduced motion. The in-`menu` side drawer (base–md) is unchanged.
 - **Links:** [HomeHeaderManager.js](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js) + [sidecar](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.md), [home-landing.njk](../../views/organisms/header/home/home-landing.njk), [config/ix/motion.js](../../js/choreography/config/ix/motion.js), [events.js](../../js/choreography/config/contracts/events/events.js), [motion-accessibility-policy.md](motion-accessibility-policy.md), handoff [2026-06-18-home-header-side-drawer.md](../../../context/handoffs/2026-06-18-home-header-side-drawer.md).
 
@@ -36,13 +36,13 @@ This replaces the current `hero → menu` swap (ScrollTrigger `start: "top top"`
 
 ### State model
 
-| State | User perception | Implementation |
-| --- | --- | --- |
-| **hero (hold)** | Full-bleed hero; nothing demanded. | `data-header-role="hero"`; CSS-owned overlay at rest. Tunable hold timer runs. |
-| **deconstruct (outro)** | Hero comes apart and clears, uncovering content. | GSAP animates the hero layer **out of** rest. |
-| **(seam)** | — | `data-header-role` flips `hero → menu` in one tick, hero already gone; CSS resets to rail rest. |
-| **build (intro)** | Rail and nav assemble. | GSAP animates the menu layer **into** rest; `_showNav` stagger is the tail. |
-| **menu (rest)** | Persistent left rail; content scrolls beneath. | `data-header-role="menu"`; CSS-owned. Side drawer unchanged. |
+| State                   | User perception                                  | Implementation                                                                                  |
+| ----------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **hero (hold)**         | Full-bleed hero; nothing demanded.               | `data-header-role="hero"`; CSS-owned overlay at rest. Tunable hold timer runs.                  |
+| **deconstruct (outro)** | Hero comes apart and clears, uncovering content. | GSAP animates the hero layer **out of** rest.                                                   |
+| **(seam)**              | —                                                | `data-header-role` flips `hero → menu` in one tick, hero already gone; CSS resets to rail rest. |
+| **build (intro)**       | Rail and nav assemble.                           | GSAP animates the menu layer **into** rest; `_showNav` stagger is the tail.                     |
+| **menu (rest)**         | Persistent left rail; content scrolls beneath.   | `data-header-role="menu"`; CSS-owned. Side drawer unchanged.                                    |
 
 ## Motion Principles
 

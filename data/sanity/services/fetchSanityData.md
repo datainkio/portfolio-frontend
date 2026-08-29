@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.fetchdata
-role: "Single-query transport: cache-key hashing, AssetCache read/write, force-refresh, error fallback."
+description: "Single-query transport: cache-key hashing, AssetCache read/write, force-refresh, error fallback."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "fetchSanityData"
 tags:
   - cms
   - services
+aliases:
+  - fetchSanityData
 links:
   - "[[README.services]]"
   - "[[sanityService]]"
@@ -20,12 +16,12 @@ links:
 Single-query transport. Executes one GROQ request with Eleventy's `AssetCache` and graceful
 error recovery.
 
-| Concern | Behavior |
-| --- | --- |
-| Cache key | hashed from the query |
-| Cache store | `AssetCache` read/write |
-| Force refresh | honors `SANITY_FORCE_REFRESH` |
-| Failure | returns a safe fallback rather than breaking the build |
+| Concern       | Behavior                                               |
+| ------------- | ------------------------------------------------------ |
+| Cache key     | hashed from the query                                  |
+| Cache store   | `AssetCache` read/write                                |
+| Force refresh | honors `SANITY_FORCE_REFRESH`                          |
+| Failure       | returns a safe fallback rather than breaking the build |
 
 ```js
 export default async function fetchSanityData({ /* query, cache opts */ }) { … }

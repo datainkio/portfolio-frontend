@@ -1,12 +1,8 @@
 ---
-title: "pixelator"
-template: "[[pixelator.njk]]"
-templatePath: "views/atoms/pixelator.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-status: "active"
+description: Context sidecar for pixelator.njk (views/atoms/pixelator.njk).
+type: template
 ---
+
 # pixelator
 
 Context sidecar for [[pixelator.njk]] (`views/atoms/pixelator.njk`).

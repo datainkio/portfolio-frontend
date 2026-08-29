@@ -1,13 +1,6 @@
 ---
-title: "Home"
-template: "[[home.njk]]"
-templatePath: "views/pages/home/home.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "page"
-atomicLevel: "page"
-status: "active"
+description: Renders a top-level Eleventy page.
+type: template
 links:
   - "[home-landing](../../organisms/header/home/home-landing.md)"
   - "[section-cap](../../molecules/section-cap.md)"

@@ -1,13 +1,6 @@
 ---
-title: "Blog"
-template: "[[blog.njk]]"
-templatePath: "views/templates/blog/blog.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "layout"
-atomicLevel: "template"
-status: "active"
+description: "Provides a reusable page shell used by other templates via {% extends %}."
+type: template
 links:
   - "[base](../../layouts/base.md)"
 ---

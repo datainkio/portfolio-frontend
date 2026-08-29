@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.services.sanity
-role: "Build orchestration: client init, iterate CMS_QUERIES, dispatch transforms, register collections."
+description: "Build orchestration: client init, iterate CMS_QUERIES, dispatch transforms, register collections."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "sanityService"
 tags:
   - cms
   - services
+aliases:
+  - sanityService
 links:
   - "[[README.services]]"
   - "[[fetchSanityData]]"

@@ -1,3 +1,9 @@
+---
+title: Getting Started with Choreography
+description: "A comprehensive guide to the animation system, including initialization flow, section lifecycle, and how to create new section controllers."
+type: script
+---
+
 <!-- @format -->
 
 # Getting Started with Choreography

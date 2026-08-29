@@ -1,23 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.cms.services.sanity
- *   role: Orchestrates CMS client initialization, query execution, and collection registration for Eleventy.
- *   status: stable
- *   surface: internal
- *   tags:
- *     - frontend
- *     - cms
- *     - services
- *   type: module
- *   scope: frontend
- *   audience: maintainers
- *   perf:
- *     readPriority: high
- *     cacheSafe: false
- *     critical: true
- * ---
- */
 /** @format */
 
 import fetchSanityData from "./fetchSanityData.js";

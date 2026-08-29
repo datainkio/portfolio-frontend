@@ -1,3 +1,9 @@
+---
+title: CMS Integration (frontend/data/sanity)
+description: Build-time CMS data access for the frontend.
+type: index
+---
+
 # CMS Integration (frontend/data/sanity)
 
 Build-time CMS data access for the frontend. This folder is the **single entrypoint** for fetching and shaping CMS content that becomes Eleventy collections.

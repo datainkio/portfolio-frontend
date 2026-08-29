@@ -1,15 +1,9 @@
 ---
-title: "Projects By Industry"
-template: "[[projects-by-industry.njk]]"
-templatePath: "views/molecules/list/projects-by-industry.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+title: Projects By Industry
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Projects By Industry
 
 Defines Nunjucks macro: `render`.

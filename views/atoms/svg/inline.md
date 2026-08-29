@@ -1,15 +1,8 @@
 ---
-title: "Inline"
-template: "[[inline.njk]]"
-templatePath: "views/atoms/svg/inline.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Inline
 
 Defines Nunjucks macro: `render`.

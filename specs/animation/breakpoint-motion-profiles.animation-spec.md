@@ -1,3 +1,9 @@
+---
+title: Breakpoint Motion Profiles Spec
+description: "Maintain user engagement and design impact across the full experience by applying different motion styles per breakpoint, instead of relying on a binary motion/static toggle."
+type: spec
+---
+
 # Breakpoint Motion Profiles Spec
 
 - Title: Breakpoint-Aware Motion Profiles for Choreography

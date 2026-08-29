@@ -30,7 +30,13 @@ import Draggable from "/assets/js/vendor/gsap/Draggable.js";
 import MotionPathPlugin from "/assets/js/vendor/gsap/MotionPathPlugin.js";
 import { ANIMATION_DEFAULTS } from "../config/index/index.js";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, Draggable, MotionPathPlugin);
+gsap.registerPlugin(
+  ScrollTrigger,
+  ScrollSmoother,
+  SplitText,
+  Draggable,
+  MotionPathPlugin,
+);
 
 // Only pass GSAP-global properties here; section-level values like stagger/translateY stay local.
 gsap.defaults({
@@ -39,4 +45,11 @@ gsap.defaults({
   overwrite: ANIMATION_DEFAULTS.overwrite,
 });
 
-export { gsap, ScrollTrigger, ScrollSmoother, SplitText, Draggable, MotionPathPlugin };
+export {
+  gsap,
+  ScrollTrigger,
+  ScrollSmoother,
+  SplitText,
+  Draggable,
+  MotionPathPlugin,
+};

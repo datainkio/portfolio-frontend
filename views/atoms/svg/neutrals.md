@@ -1,15 +1,8 @@
 ---
-title: "Neutrals"
-template: "[[neutrals.njk]]"
-templatePath: "views/atoms/svg/neutrals.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Neutrals
 
 Defines Nunjucks macro: `render`.

@@ -1,16 +1,10 @@
 ---
-title: "Registration Marks"
-template: "[[registration-marks.njk]]"
-templatePath: "views/atoms/printmarks/registration-marks.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[registration-mark](../svg/registration-mark.md)"
 ---
+
 # Registration Marks
 
 Defines Nunjucks macro: `render`.

@@ -43,7 +43,7 @@ export function clipRevealIn(target, opts = {}) {
       ease: opts.ease ?? motion.ease("enter"),
       delay: opts.delay ?? 0,
       overwrite: "auto",
-    }
+    },
   );
 }
 

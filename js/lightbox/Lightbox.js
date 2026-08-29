@@ -35,7 +35,9 @@ export class Lightbox {
 }
 
 export function initLightboxes(root = document) {
-  root.querySelectorAll('[data-lightbox-el="root"]').forEach((el) => new Lightbox(el));
+  root
+    .querySelectorAll('[data-lightbox-el="root"]')
+    .forEach((el) => new Lightbox(el));
 }
 
 if (typeof document !== "undefined") {

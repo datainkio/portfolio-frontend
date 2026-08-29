@@ -1,15 +1,8 @@
 ---
-title: "Robots.txt"
-template: "[[robots.txt.njk]]"
-templatePath: "views/pages/_static/robots.txt.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "page"
-atomicLevel: "page"
-status: "active"
-tags:
+description: Renders a top-level Eleventy page.
+type: template
 ---
+
 # Robots.txt
 
 Renders a top-level Eleventy page.

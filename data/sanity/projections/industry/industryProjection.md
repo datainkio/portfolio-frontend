@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.projections.industryProjection
-role: "GROQ projection fragment — reusable field shape for Industry documents."
+description: "GROQ projection fragment — reusable field shape for Industry documents."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Industry projection"
 tags:
   - cms
   - projections
+aliases:
+  - Industry projection
 links:
   - "[[README.projections]]"
 ---
@@ -19,8 +15,8 @@ links:
 GROQ projection fragment — the reusable `{ ... }` field shape selected for **industry**
 documents. Extracted into its own file so queries stay thin and shapes compose consistently.
 
-| Export | Shape of |
-| --- | --- |
+| Export                | Shape of        |
+| --------------------- | --------------- |
 | `INDUSTRY_PROJECTION` | industry fields |
 
 ## Source

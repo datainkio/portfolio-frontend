@@ -1,14 +1,8 @@
 ---
-id: frontend.js.choreography.managers.workheadermanager
-role: "Runtime manager — collapses and expands the work section industry-links list. Responsive via gsap.matchMedia(): below lg the list rests collapsed to its current (first) item, which doubles as the disclosure control — tapping the in-view link expands the rest, other links navigate; at lg and up the list rests open as a horizontal jumplink bar with no toggle. There is no separate toggle button (the directional-toggle atom was removed). The current link is whichever industry-link carries aria-current=true (set by WorkNavManager scrollspy), floated first via order-first below lg; WorkHeaderManager subscribes to the AnimationBus work:nav:active event to move the disclosure attributes (role=button, aria-controls, aria-expanded) onto the active link as it changes. Animates the <ul> height (auto ↔ single-item) so the current item stays visible; the section header (h2) is untouched."
+description: "Runtime manager — collapses and expands the work section industry-links list. Responsive via gsap.matchMedia(): below lg the list rests collapsed to its current (first) item, which doubles as the disclosure control — tapping the in-view link expands the rest, other links navigate; at lg and up the list rests open as a horizontal jumplink bar with no toggle. There is no separate toggle button (the directional-toggle atom was removed). The current link is whichever industry-link carries aria-current=true (set by WorkNavManager scrollspy), floated first via order-first below lg; WorkHeaderManager subscribes to the AnimationBus work:nav:active event to move the disclosure attributes (role=button, aria-controls, aria-expanded) onto the active link as it changes. Animates the <ul> height (auto ↔ single-item) so the current item stays visible; the section header (h2) is untouched."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - choreography
-  - frontend
-  - js
   - manager
 links:
   - "[[managers.workheadermanager|WorkHeaderManager.njk]]"
@@ -16,8 +10,6 @@ links:
   - "[[config/ix/motion/motion|config/ix/motion]]"
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[organisms/section/work|work.njk]]"
-backlinks:
-  - "[[layouts/work-landing-header|work-landing-header.js]]"
 ---
 
 The work section header pin is in [WorkTriggers.js](../../organisms/Work/WorkTriggers.js) (`_bindHeaderPin`). It uses a fixed scroll-distance offset captured once at bind time:

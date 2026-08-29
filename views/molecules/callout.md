@@ -1,16 +1,8 @@
 ---
-title: "Callout"
-template: "[[callout.njk]]"
-templatePath: "views/molecules/callout.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-links:
-  - "[callout](callout.md)"
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Callout
 
 Defines Nunjucks macro: `render`.

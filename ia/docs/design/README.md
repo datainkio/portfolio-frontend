@@ -1,18 +1,9 @@
 ---
 title: Design Docs
 description: Design-system documentation grouped by atomic design levels.
-docType: index
-status: active
-owner: frontend
-tags: []
+type: index
 eleventyComputed:
   title: "{{ title }}"
-aix:
-  intent: component-doc
-  audience:
-    - design
-    - frontend
-  canonical: true
 ---
 
 This directory is the design-system reference area for component behavior and composition rules.

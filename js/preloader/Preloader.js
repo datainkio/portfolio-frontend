@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.controller
- *   role: Frontend runtime module: js/preloader/controller.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - controller
- * ---
- */
-
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
 import { getSessionManager } from "/assets/js/choreography/managers/SessionManager/SessionManager.js";
 import { animateExit, animateIntro } from "./animations.js";

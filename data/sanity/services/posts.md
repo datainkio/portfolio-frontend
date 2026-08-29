@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.services.posts
-role: "Reserved domain service for posts (currently empty)."
-status: planned
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "posts service"
+description: Reserved domain service for posts (currently empty).
+status: draft
 tags:
   - cms
   - services
+aliases:
+  - posts service
 links:
   - "[[README.services]]"
 ---
