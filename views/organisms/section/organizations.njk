@@ -11,7 +11,7 @@
 
   {%- set organizations = params.organizations | default([]) -%}
 
-  {%- set header = {"base": "gap-2 px-8 py-12 z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center"} -%}
+  {%- set header = {"base": "gap-2 py-12 z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center"} -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -20,7 +20,7 @@
   } -%}
 
   <section id="{{ sectionId }}"
-           class="my-12 text-neutral-100 relative z-10 col-span-full grid grid-cols-subgrid p-0 overflow-hidden"
+           class="max-w-screen-lg mx-auto my-12 text-neutral-100 relative z-10 col-span-full grid grid-cols-subgrid p-0 overflow-hidden"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 
