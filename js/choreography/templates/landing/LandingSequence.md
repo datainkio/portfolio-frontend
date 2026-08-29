@@ -27,7 +27,7 @@ flowchart TD
     PO --> LS["LandingSequence.start<br/>video.playLanding — hidden resting state"]
     PO --> ARM["HomeHeaderManager._arm<br/>loader role to hero role"]
 
-    subgraph chain["Serial landing chain — the header opens it, t, then leaves"]
+    subgraph chain["Serial landing chain — the header opens it, then leaves"]
         direction TB
         ARM --> HOLD["HOME_HERO_HOLD.delay<br/>gsap.delayedCall, time is the sole trigger"]
         HOLD --> DECON["HomeHeaderManager._runTransition<br/>hero panel slides off-stage, header dismissed"]
@@ -68,13 +68,6 @@ flowchart TD
 ### Known drift
 
 None outstanding.
-
-**Updated 2026-08-28.** The chain previously ended by bringing the header back as a
-`menu` navigation rail, cued off `bio:intro:complete`. The sidenav was removed from
-the homepage UX strategy; the header is now dismissed after its exit and the chain
-ends at `bio:intro:complete`. This also retired the deadlock hazard the old note
-described — there is no longer a cycle to respect, because the header never
-re-enters the chain.
 
 **Updated 2026-08-28.** The chain previously ended by bringing the header back as a
 `menu` navigation rail, cued off `bio:intro:complete`. The sidenav was removed from
