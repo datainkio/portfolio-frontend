@@ -13,9 +13,9 @@ import {
 /**
  * Bio Mission Statement — gel-led arrival
  *
- * The section's turn: the <h2> states the philosophy, this states what it means.
+ * The section's turn: the <h1> states the philosophy, this states what it means.
  * Three overlapping beats — the `gel_subheading` band wipes in from the left,
- * the overview <h3> rides in behind its tail, then the body copy staggers up.
+ * the overview <h2> rides in behind its tail, then the body copy staggers up.
  *
  * **Why this has its own ScrollTrigger rather than living on bio's intro
  * timeline:** the mission statement sits a full `h-dvh` below the header, so it

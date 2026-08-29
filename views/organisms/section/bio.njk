@@ -25,13 +25,13 @@
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
     <header class="{{ header | classes }}" data-bio-el="header">
-      <h2 class="{{ title | classes }}"
+      <h1 class="{{ title | classes }}"
           id="{{ headingId }}"
-          data-bio-el="heading">{{ heading }}</h2>
+          data-bio-el="heading">{{ heading }}</h1>
     </header>
     <section class="{{ statement | classes }}" data-bio-el="mission-statement">
-      <h3 class="sm:text-4xl md:text-5xl font-display text-secondary-500 col-span-full md:col-span-4"
-          data-bio-el="overview">{{ subheading }}</h3>
+      <h2 class="sm:text-4xl md:text-5xl font-display text-secondary-500 col-span-full md:col-span-4"
+          data-bio-el="overview">{{ subheading }}</h2>
       {{ body | safe }}
     </section>
   </section>

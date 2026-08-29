@@ -33,10 +33,10 @@ flowchart TD
     PO --> LS["LandingSequence.start<br/>video.playLanding — hidden resting state"]
     PO --> ARM["HomeHeaderManager._arm<br/>loader role to hero role"]
 
-    subgraph chain["Serial landing chain — the header opens it and closes it"]
+    subgraph chain["Serial landing chain — the header opens it, then leaves"]
         direction TB
         ARM --> HOLD["HOME_HERO_HOLD.delay<br/>gsap.delayedCall, time is the sole trigger"]
-        HOLD --> DECON["HomeHeaderManager._runTransition<br/>deconstruct: hero panel slides off-stage"]
+        HOLD --> DECON["HomeHeaderManager._runTransition<br/>hero panel slides off-stage, header dismissed"]
         DECON --> HOC{{"bus: home:outro:complete"}}
         HOC --> VID["LandingSequence._startVideoIntro<br/>video.playIntro, awaits _ensureVideoReady"]
         VID --> VIC{{"bus: video:intro:complete"}}
@@ -44,9 +44,7 @@ flowchart TD
         BEAT --> GEL["await bio.playLanding<br/>gel band flies in from below the fold — BIO_GEL_ENTRANCE"]
         GEL --> GLC{{"landing timeline onComplete<br/>resolves the playLanding promise"}}
         GLC --> BIO["bio.playIntro"]
-        BIO --> BIC{{"bus: bio:intro:complete"}}
-        BIC --> MENU["HomeHeaderManager._playMenuIn<br/>role flip to menu at the seam, off-screen,<br/>then rail slides in + nav stagger reveal"]
-        MENU --> HIC{{"bus: home:intro:complete"}}
+        BIO --> BIC{{"bus: bio:intro:complete — chain ends"}}
     end
 
     subgraph scroll["Out of band — self-driven by their own ScrollTriggers"]
@@ -65,8 +63,8 @@ flowchart TD
 
 ### Why it is shaped this way
 
-- **The header opens the landing and closes it.** Its hero exit is the page's first statement; the video reveal answers it; Bio follows a beat later; and the menu rail arrives last, once Bio has had its say. Playing the video intro at `preloader:out` would race the header, so `start()` only stages the video's landing state.
-- **The video is cued off `home:outro:complete`, not `home:intro:complete` — and that is load-bearing.** The menu rail's build now waits for `bio:intro:complete` (`HomeHeaderManager._playMenuIn`), so cueing Bio's chain off the rail's *intro* would deadlock: the rail waiting on Bio, Bio waiting on the rail. The hero *exiting* is the earlier, unblocked cue. Anything later added to this chain must respect that cycle.
+- **The header opens the landing, then leaves.** Its hero exit is the page's first statement; the video reveal answers it; Bio follows a beat later and closes the chain. Playing the video intro at `preloader:out` would race the header, so `start()` only stages the video's landing state.
+- **The video is cued off `home:outro:complete`.** That is the header's only outward cue — it emits no intro events, because after its exit it is dismissed and gone from the page. The chain now terminates at `bio:intro:complete`; nothing consumes that event today, so it is the natural extension point for anything added later.
 - **Every link is an event, not a call.** Cross-section coordination goes through `AnimationBus` with `EVENTS` constants — `LandingSequence` never reaches into an organism's internals beyond its public `play*` methods.
 - **Reduced motion zeroes holds rather than skipping links.** A gated profile still emits `…:intro:complete` (`AbstractSection` jumps the intro to `progress(1)`), so the chain completes without motion instead of stalling.
 - **Timers are `gsap.delayedCall`, never `setTimeout`** — ticker-synced, pausable, killable in `destroy()`.
@@ -76,5 +74,12 @@ flowchart TD
 ### Known drift
 
 None outstanding.
+
+**Updated 2026-08-28.** The chain previously ended by bringing the header back as a
+`menu` navigation rail, cued off `bio:intro:complete`. The sidenav was removed from
+the homepage UX strategy; the header is now dismissed after its exit and the chain
+ends at `bio:intro:complete`. This also retired the deadlock hazard the old note
+described — there is no longer a cycle to respect, because the header never
+re-enters the chain.
 
 **Resolved 2026-08-20.** A prior note here flagged `BackgroundVideo.playIntro()`'s comment for claiming `LandingSequence` waits on `video:intro:complete` to trigger `hero.playLanding()`. That comment no longer exists — `playIntro()` now carries only a reduced-motion note, and `hero.playLanding` appears nowhere in `organisms/background/` or `templates/landing/`. The chain has always triggered `bio.playIntro()`; the diagram above (`VIC` → `BEAT` → `GEL` → `BIO`) is the accurate account.

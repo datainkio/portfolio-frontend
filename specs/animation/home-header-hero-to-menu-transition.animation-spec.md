@@ -1,7 +1,7 @@
 ---
 id: spec.animation.home-header.hero-to-menu-transition
 title: Home Header — Hero → Menu Timed Transition
-status: draft
+status: superseded
 owner: Russell Lebo / Frontend Choreography
 tags:
   - animation-spec
@@ -12,7 +12,19 @@ tags:
 
 # Home Header — Hero → Menu Timed Transition Spec
 
-- **Status:** draft · **Last reviewed:** 2026-06-18
+- **Status:** superseded (2026-08-28) · **Last reviewed:** 2026-06-18
+
+> [!warning] Superseded — retained as prior art only
+> The `menu` role this spec designs **no longer exists.** The sidenav was removed
+> from the homepage UX strategy on 2026-08-28: the header now runs
+> `loader → hero → dismissed`, sliding off-stage and hiding for good, and the
+> homepage has no in-page section navigation. The parts of this spec that survive
+> are the **trigger model** (time is the sole trigger; scroll and tap are inert)
+> and the **CSS/GSAP seam discipline** (CSS owns each role's rest layout, GSAP
+> animates only the transitions between them) — both still govern
+> [HomeHeaderManager](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js).
+> Everything describing the rail, the build phase, the nav reveal, or the side
+> drawer is historical. Do not implement from it.
 - **Scope:** The `hero → menu` role transition in [HomeHeaderManager](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js) — trigger model, two-phase timeline, CSS/GSAP seam, tunability, reduced motion. The in-`menu` side drawer (base–md) is unchanged.
 - **Links:** [HomeHeaderManager.js](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js) + [sidecar](../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager.md), [home-landing.njk](../../views/organisms/header/home/home-landing.njk), [config/ix/motion.js](../../js/choreography/config/ix/motion.js), [events.js](../../js/choreography/config/contracts/events/events.js), [motion-accessibility-policy.md](motion-accessibility-policy.md), handoff [2026-06-18-home-header-side-drawer.md](../../../context/handoffs/2026-06-18-home-header-side-drawer.md).
 

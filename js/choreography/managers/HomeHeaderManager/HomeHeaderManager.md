@@ -1,6 +1,6 @@
 ---
 id: frontend.js.choreography.managers.homeheadermanager
-role: "Runtime manager — drives the home landing header's role state machine (loader -> hero -> menu) via the `data-header-role` attribute, playing the behavioural motion on each transition; in the menu role on small breakpoints it toggles a tap-driven side drawer via `data-drawer`."
+role: "Runtime manager — drives the home landing header's role state machine (loader -> hero -> dismissed) via the `data-header-role` attribute, playing the hero's exit on the transition."
 status: active
 surface: internal
 scope: frontend
@@ -31,13 +31,13 @@ Owns the home landing header's **role state machine**, expressed as
    preloader runtime (pure CSS, via `data-preloader-state`) owns the visuals here.
 2. **`hero`** — idle state; the header is a hero design element. Entered when the
    manager arms on `preloader:out`.
-3. **`menu`** — the header acts as a navigation menu. Entered automatically a
-   tunable hold after `hero`, driven by a timer — never by scroll or tap.
+3. **`dismissed`** — the hero has played and cleared. The header is `hidden` and
+   takes no further part in the page.
 
 Each role's layout is declared in the template as Tailwind data-variants keyed on
 `data-header-role`, so the manager flips **one attribute** per transition and
-never couples to utility-class names (see "The CSS-owned role layouts"). On top of
-each instant CSS swap it plays the behavioural motion.
+never couples to utility-class names. On top of each instant CSS swap it plays the
+one piece of behavioural motion it owns: the hero's exit.
 
 ## Ownership seam
 
@@ -54,27 +54,18 @@ necessarily in layout — the visible difference is driven by the preloader CSS.
 
 When `_arm()` runs on `preloader:out`, `_enterHeroRole()` sets
 `data-header-role="hero"` — the loader is finished and the header settles into its
-idle hero role. The manager then creates the menu trigger (below).
+idle hero role. The manager then arms the hold timer.
 
-## hero → menu (trigger)
+## hero → dismissed
 
-The transition is **split across two cues**, neither of them interaction:
+The trigger is **time, and nothing else**. On `_arm()` the header enters `hero`
+and a `gsap.delayedCall` runs for `HOME_HERO_HOLD.delay` seconds; when it fires,
+`_runTransition` slides the hero panel off-stage left and the header is dismissed.
 
-| Half | Method | Cue |
-| --- | --- | --- |
-| deconstruct (hero exits) | `_runTransition` | a tunable time hold, `HOME_HERO_HOLD.delay` |
-| build (menu rail arrives) | `_playMenuIn` | `bio:intro:complete`, on the bus |
-
-On `_arm()` the header enters `hero` and a `gsap.delayedCall` runs for
-`HOME_HERO_HOLD.delay` seconds; when it fires, the hero panel slides off-stage
-and `home:outro:complete` emits. The rail does **not** follow it in. It waits out
-the page's landing narrative — video intro → gel entrance → bio intro — and
-builds only once Bio has had its say. **Scroll and tap are inert by design** —
-the previous scroll-gated swap
+**Scroll and tap are inert by design** — an earlier scroll-gated swap
 (`ScrollTrigger start: "top top"` + an immediate `isActive` check) flipped the
 whole view away on the first scroll, hiding page content behind an interaction
-gate with no forward cue. That ScrollTrigger is removed. See the
-[hero → menu transition spec](../../../../specs/animation/home-header-hero-to-menu-transition.animation-spec.md).
+gate with no forward cue. That ScrollTrigger is removed.
 
 - **Tunability (DX):** the hold lives in the `HOME_HERO_HOLD` motion token
   (`config/ix/motion.js`). `?heroHold=<seconds>` overrides it at runtime for
@@ -82,211 +73,71 @@ gate with no forward cue. That ScrollTrigger is removed. See the
   source of truth. Reduced motion zeroes the hold.
 - **Timer primitive:** `gsap.delayedCall` (not `setTimeout`) so the hold is
   ticker-synced, pausable and killable; the handle is stored as `this._holdCall`.
-- **`hero` is now a real resting state** (it was transient under the scroll-gate),
-  resolving the prior open question.
+- **`hero` is a real resting state**, not a transient one.
 
-### The transition, in two halves
+### The exit, and why it is load-bearing
 
-1. **deconstruct (outro)** — `_runTransition` → `_buildDeconstruct` slides the
-   hero panel off-stage left (`xPercent: -100`, **transform-only /
-   compositor-safe — never width/layout**), revealing page content beneath. The
-   lockup rides the header off, so the hero reads as exiting. Emits
-   `home:outro:start` / `:complete`. Held on `this._master`, stored so it stays
-   seekable/killable.
+`_buildDeconstruct` slides the hero panel off-stage left (`xPercent: -100`,
+**transform-only / compositor-safe — never width/layout**), revealing page content
+beneath. The lockup rides the header off, so the hero reads as exiting. Held on
+`this._master`, stored so it stays seekable/killable.
 
-   *…the page's landing narrative plays out here — see*
-   [LandingSequence.md](../../templates/landing/LandingSequence.md) *…*
+On completion it calls `_dismiss()` **before** emitting `home:outro:complete`, so
+no listener can observe a half-gone header.
 
-2. **seam** — `_playMenuIn` flips `data-header-role` to `menu` **while the panel
-   is still fully off-screen** (the deconstruct left it there and nothing has
-   brought it back), so the instant CSS role-rest swap (full-bleed → narrow rail)
-   is invisible and the progressive GSAP slide never fights it — the class of bug
-   the removed `pin: true` experiment hit when a refresh re-ran the CSS reveal.
-   The seam property is unchanged by the split; only the wall-clock gap widened.
-3. **build (intro)** — `_buildMenuIn` slides the now-narrow rail back to its
-   resting left edge (`xPercent: 0`, `clearProps: "transform"` so CSS owns the
-   rest) and nests the nav-item reveal (`_showNav`) as its tail. Held on
-   `this._menuIn`.
+`home:outro:complete` is the cue the rest of the landing hangs off:
+`LandingSequence` starts the background video's intro there, which chains to the
+gel entrance and the bio intro. **The header opens the landing and then leaves.**
+Anything added to that chain must not expect the header to still be present.
 
-**Why the split, and the cycle it creates.** `LandingSequence` cues the video
-intro off `home:outro:complete` rather than `home:intro:complete` precisely
-because of this: the rail waits on Bio, so cueing Bio's chain off the rail's
-intro would deadlock. The header opens the landing and closes it. Anything added
-to that chain has to respect the cycle.
+Under **reduced motion** there is no slide: `_runTransition` emits `outro:start`,
+dismisses, and emits `outro:complete` — all instantly — so the chain downstream is
+never left waiting.
 
-`_playMenuIn` is **once-only** (`_menuInStarted`) — scrolling back up re-enters
-bio and can emit `bio:intro:complete` again — and no-ops until `_master` exists,
-so an early cue cannot flip the header to `menu` mid-loader.
+## Dismissal (`_dismiss`)
 
-Under **reduced motion** there is no slide: `_runTransition` emits the outro pair
-instantly, and `_playMenuIn` flips the role and calls `_showNav` (which emits the
-intro pair instantly) when the bio cue lands. Bio's gated profile still emits
-`bio:intro:complete` (`AbstractSection._applyPostIntroState`), so the rail is
-never stranded. `_enterMenuRole()` still guards on `_inMenuRole` as cheap
-insurance.
+Sets `data-header-role="dismissed"`, which the template styles as `hidden`, and
+clears the inline transform the slide left behind (the element is hidden, so the
+cleared transform is never seen).
 
-## Resize settle (`_settleToCurrentRole`)
+Retiring the header matters: left parked off-stage it would be a full-viewport
+opaque `fixed z-[9999] h-dvh` overlay sitting just outside the viewport — still in
+the accessibility tree, and able to widen the scrollable area on mobile. `_dismiss`
+is idempotent (`_dismissed` guards it).
 
-The header's resting position is CSS-owned, but the slide leaves an inline
-`translate(-100%)` on it for the whole stretch between the hero's exit and the
-menu rail's arrival — and `xPercent` is a percentage of a width a resize changes.
-That window is long now that the rail waits on Bio, so a resize lands in it
-easily.
+Because the header is retired the moment its exit finishes, there is **no long
+"parked off-stage" window** — which is why this manager no longer carries a
+debounced resize-settle pass. An `xPercent` park is a percentage of a width a
+resize changes, so a durable park would need re-asserting; a dismissal does not.
 
-A debounced `window.resize` listener (`HOME_RESIZE_SETTLE.delay`, via
-`gsap.delayedCall` so it is ticker-synced and killable) re-asserts the correct
-inline state for whichever role the header is resting in. Debounced rather than
-per-frame because the brief is "correct when the resize completes" — re-asserting
-on every frame of a drag-resize fights the drag.
-
-Three cases, and confusing them is exactly what makes the header vanish:
-
-| State | Treatment |
-| --- | --- |
-| Not armed yet (`!_deconstructed`) | **Touch nothing.** The loader/hero rest is entirely CSS-owned; writing a transform here would fight the loader outro. |
-| Parked off-stage (`_deconstructed`, awaiting the bio cue) | Re-assert `xPercent: HOME_HERO_OUTRO.xPercent`, so "off-stage" still means off-stage at the new width. |
-| Menu rail at rest (`_inMenuRole`) | `clearProps: "transform"` — hand position back to the CSS role-rest, as `_buildMenuIn` does on complete. |
-
-Mid-flight timelines are skipped (`_master`/`_menuIn` `isActive()`): they clear up
-after themselves, and overwriting their targets mid-tween is precisely what
-strands an element off-stage.
-
-`_deconstructed` is set in `_runTransition` (both the normal and reduced paths)
-and reset in `kill()`.
-
-## Response on entering the menu role (`_enterMenuRole`)
-
-`_enterMenuRole` is the seam callback, fired by `_playMenuIn` when the
-`bio:intro:complete` cue lands (in both the normal and reduced paths). It flips
-state only — it does **not** play the nav reveal (that is sequenced as the
-build-phase tail; see above). Note that
-**header positioning is CSS-owned, not done here.** The template keeps the header
-`fixed left-0 h-dvh` and `hanko.css` no longer returns it to flow on
-`data-preloader-state="exit"`, so it persists as a fixed overlay with content
-scrolling underneath. ScrollSmoother does not run on the home page (there is no
-`#page-main-content`), so native `fixed` holds without a pin. Its responsibilities:
-
-1. **Flip the role.** `_enterMenuRole` sets `data-header-role="menu"` on the
-   header. The hero → menu layout swap is **CSS-owned** off that attribute via
-   Tailwind v4 data-variants (see "The CSS-owned role layouts" below); JS sets only
-   the one attribute, never the utility classes. This also renders the nav
-   (`display: block`).
-2. **Arm the side-drawer toggle** (base–md only). On small breakpoints the menu
-   role is a **side drawer**: it rests **collapsed** (a `w-12` left rail) and a
-   tap **anywhere in the header** — including on a page-nav link — expands it to
-   full-screen; the next tap collapses it. `_enterMenuRole` attaches
-   **pointer-event** listeners (`pointerdown`/`pointerup`/`pointercancel`) that
-   detect a tap and call `_toggleDrawer()`, which only flips `data-drawer`
-   (`open` ⇄ absent) on the header. Layout and the nav's visibility are
-   **CSS-owned** off that attribute; JS owns no width. See "Side drawer" below.
-
-The hgroup itself is **not** animated on this transition — it persists into the
-menu rail (held visible by its CSS intro's `both` fill); only its CSS layout/sizing
-changes by role. The previous `_hideHGroup` reverse-intro fade was removed when the
-design changed from "header becomes nav (brand disappears)" to "header collapses to
-a brand+nav rail".
-
-### Side drawer (menu role, base–md)
-
-The drawer is **breakpoint-gated to base–md** (`max-lg:` in the template); at
-**lg+** the attribute is inert and the menu role is a static `w-48` rail. The
-state model **reuses the `menu` role** — there is no separate role-level state
-machine — and adds one boolean on the same element:
-
-- **Collapsed** (default): no `data-drawer`. The menu role rests at `w-12`
-  (`overflow-hidden`, `cursor-pointer`); the nav is `hidden`.
-- **Expanded**: `data-drawer="open"`. `data-[header-role=menu]:data-[drawer=open]`
-  overrides width to `max-lg:w-full` (the extra attribute selector wins on
-  specificity); the nav reveals via `group-data-[header-role=menu]:group-data-[drawer=open]:block`.
-
-JS only flips `data-drawer`; it never reads or writes width/visibility. Because
-the width override is `max-lg:`, toggling the attribute at lg+ is a visual no-op,
-so the listeners are attached unconditionally rather than guarded on breakpoint. A
-tap on a page-nav `<a>` both navigates (anchor jumplink) and collapses the drawer
-(the same tap flips `data-drawer` off) — closing the drawer as it jumps to the
-section.
-
-**Why pointer events, not `click`.** iOS WebKit (Safari/Chrome on iPhone/iPad)
-does not reliably dispatch a `click` on a non-interactive element — the
-`<header>` or its empty area — *even with* `cursor: pointer`, the usual desktop
-workaround. A click-based toggle therefore silently no-ops on iOS while passing
-on desktop. `pointerup` fires on a tap regardless of element type, so the toggle
-listens for `pointerdown` (record origin) → `pointerup` (toggle **iff** travel ≤
-`TAP_MOVE_TOLERANCE_PX`, else it was a scroll of the `overflow-auto` expanded
-drawer) → `pointercancel` (reset). This unifies desktop mouse and touch on one
-path; `cursor: pointer` is kept only as a hint (see the template sidecar note).
-
-### The CSS-owned role layouts
+## The CSS-owned role layouts
 
 Each role's layout lives entirely in the template as Tailwind classes gated by
 `data-header-role` on the header — JS flips one attribute, CSS owns the styling.
 The header config (`home-landing.njk`) keys a class set per role; the `classes`
 filter prefixes each with its `data-[header-role=…]:` variant:
 
-- **Header:** `loader` and `hero` declare `w-full grid grid-cols-6 items-center
-  gap-2 justify-center` (centered full-width lockup); `menu` declares
-  `w-48 grid-cols-1 content-start text-center border-r-2 border-slate-700` (a narrow
-  single-column left rail). Each role states its full layout — no base+override, so
-  no orphaned utilities and no reliance on source order. `loader` and `hero` share a
-  layout today but are kept separate so they can diverge.
-- **Nav:** `hidden group-data-[header-role=menu]:block` — the header carries the
-  `group` class, so the nav reacts to its ancestor's role, flipping
-  `display: none → block` only in the `menu` role.
-- **Children in the rail:** the hanko, hgroup, heading and subtitle each take a
-  `group-data-[header-role=menu]:` set for the rail (e.g. hanko `justify-self-center`,
-  hgroup `col-span-full text-center`, heading `block text-2xl`, subtitle
-  `block text-sm`). The hanko centers via `justify-self` rather than `mx-auto`
-  because `hanko.css` zeroes its margin in the preloader exit state.
+- **`loader` / `hero`:** `w-full flex items-center` (centred full-width lockup).
+  They share a layout today but are kept separate so they can diverge.
+- **`dismissed`:** `hidden`.
 
 This keeps all styling in markup (single source of truth, Tailwind-idiomatic) and
 keeps the manager off class names entirely — it satisfies the choreography
-decoupling rule (`data-*`, never CSS classes) instead of fighting it. `_showNav`
-therefore does **not** touch `display`; it assumes the role flip already rendered
-the nav.
+decoupling rule (`data-*`, never CSS classes) instead of fighting it.
 
-### Why the hgroup stays visible in `menu`
+## Bus events
 
-The hgroup's CSS intro (the shared `hanko-enter` keyframe under
-`[data-preloader-state="exit"]`) uses `both` fill, so it **holds its end frame**
-(`opacity: 1; translateY(0)`) indefinitely. Nothing in this manager hides the
-hgroup, so it simply remains visible through hero → menu while CSS swaps its text.
-(This `both`-fill hold is also why the earlier, now-removed `_hideHGroup` reversal
-had to release the animation before it could fade the hgroup out.)
+`HomeHeaderManager` receives the `AnimationBus` from the Director and resolves its
+event names from `EVENTS.home` (`makeSectionEvents("home")`). It emits
+`home:outro:start` / `home:outro:complete` around the hero's exit.
 
-### Reduced motion (nav)
+It emits **no intro events** — there is no longer anything for the header to
+introduce. `EVENTS.home.introStart` / `.introComplete` still exist (they come from
+the shared `makeSectionEvents` factory) but are unused; do not wire new work to
+them expecting this manager to fire them.
 
-Under reduced motion the CSS attribute flip **is** the entire reveal — the list
-items are already visible at their resting position, so `_showNav` animates
-nothing. It still **emits `home:intro:start` + `home:intro:complete` instantly**
-before returning, so a larger sequence coordinating off the reveal is not left
-waiting when motion is off (mirrors `AbstractSection._applyPostIntroState`).
-
-### Seam motion tokens
-
-`_showNav`'s timing is split deliberately, to keep a single source of truth
-across the CSS→GSAP seam:
-
-- **Duration** is the **seam token** `--hanko-enter-duration`, owned by the
-  loader-state CSS in `styles/components/hanko.css` (it must exist there for the
-  FCP-critical CSS loader motion). JS does **not** copy the value — `_arm()`
-  calls `_readSeamTokens()` once (post-`preloader:out`, so GSAP is loaded and the
-  computed-style read costs no FCP), parses it (`parseCssSeconds`, handles
-  `s`/`ms`), and stores it on `this._seam`. A missing/unparseable var
-  `console.warn`s loudly and falls back to a **named** safety value — never a
-  silent inline default.
-- **Distance / stagger / ease** are **GSAP-only** (the loader CSS does not use
-  them), so they are named in [[motion|config/ix/motion]] as `HOME_NAV_REVEAL`.
-  That block intentionally **omits duration** — defining it there would re-fork
-  the seam token.
-
-### Bus events
-
-`HomeHeaderManager` receives the `AnimationBus` from the Director and resolves
-its event names from `EVENTS.home` (`makeSectionEvents("home")`). The nav reveal
-emits `home:intro:start` / `home:intro:complete` (instantly under reduced
-motion). These exist so the reveal is **observable and sequenceable** by other
-choreography; nothing consumes them yet. `_emit(name, payload)` mirrors
-`AbstractSection._emit` (no-ops without a bus or event name).
+`_emit(name, payload)` mirrors `AbstractSection._emit` (no-ops without a bus or
+event name).
 
 ## DOM contract
 
@@ -295,48 +146,33 @@ choreography; nothing consumes them yet. `_emit(name, payload)` mirrors
   `SELECTORS.homeHeader`. The choreography decouples from the element's `id`
   (`#overview`) and from `data-preloader`, which belongs to the preloader domain.
 - State attribute: `data-header-role` on the same `<header>`, values
-  `loader` (initial, set in the template) → `hero` → `menu`. JS owns the value; the
-  template owns the styling that responds to it (`data-[header-role=…]:` on the
-  header, plus `group`/`group-data-[header-role=menu]:` for the nav). Distinct from
+  `loader` (initial, set in the template) → `hero` → `dismissed`. JS owns the
+  value; the template owns the styling that responds to it. Distinct from
   `data-preloader-state`, which the preloader runtime owns for the loader's
-  internal phases. Nav element resolved via `SELECTORS.homeNav`
-  (`[data-home-header] nav`).
-- Stagger targets: the nav's list items, hooked with `data-page-nav-el="item"`
-  (`SELECTORS.pageNavItem`) in `page-nav.njk` and queried within the nav at
-  construction. These are what `_showNav` fades up in sequence.
+  internal phases.
 
 ## Lifecycle
 
 - Instantiated by [[AnimationDirector|AnimationDirector]] alongside the other
-  header managers, now receiving the shared `AnimationBus`; no-ops off the home
-  page (hook absent).
-- `kill()` removes the `preloader:out` listener **and the header pointer
-  listeners** (`pointerdown`/`pointerup`/`pointercancel`), kills the **hold timer
-  (`_holdCall`), the master transition timeline (`_master`), and the stored
-  `_navReveal` timeline**, resets `data-header-role="hero"`, clears `data-drawer`,
-  **and clears the header transform** (releasing the slide so CSS owns the resting
-  position) — handing the header + nav layout and the nav's hidden state back to
-  CSS (no class bookkeeping; `loader` is a one-time boot phase that can't be
-  re-entered, so `hero` is the idle fallback). It also tears down the nav-item
-  tweens (clear `opacity,visibility,transform`, left by the staggered fade-up).
-  The header's position and the hgroup are CSS-owned, so teardown does not touch
-  them.
+  header managers, receiving the shared `AnimationBus`; no-ops off the home page
+  (hook absent).
+- `kill()` removes the `preloader:out` listener, kills the **hold timer
+  (`_holdCall`)** and the **exit timeline (`_master`)**, resets
+  `data-header-role="hero"` and **clears the header transform** (releasing the
+  slide so CSS owns the resting position). `loader` is a one-time boot phase that
+  can't be re-entered, so `hero` is the idle fallback. The header's position and
+  the hgroup are CSS-owned, so teardown does not touch them.
 
 ## Notes for future maintenance
 
-- The header is a fixed full-viewport overlay (`h-dvh`, opaque `bg-slate-950`);
-  until it is sized/styled for the `menu` role it visually covers the content
-  scrolling beneath it. Sizing is a later step.
-- **`hero` is a real, timed resting state** (`HOME_HERO_HOLD`), no longer
-  transient — the scroll-gated auto-enter that skipped it is gone. The
-  hamburger-like open/close lives **inside** the menu role as the `data-drawer`
-  side drawer (base–md).
-- **Visual tuning is browser-verified follow-up.** The deconstruct/build is a
-  transform-only `xPercent` slide of the **single header element** (no dedicated
-  scrim layer yet); the spec's full scrim/rail two-layer split and the collapsed
-  rail's hanko-handle sizing (`w-8` in the `w-12` rail) need an in-browser pass.
-  The slide is compositor-safe and contract-correct; geometry/feel are the open
-  knobs.
-- The nav reveal staggers the list items (`data-page-nav-el="item"`); if items
-  become dynamic, the manager queries them once at construction — re-query if the
-  list can change after boot.
+- The header carries **no heading**. The page's `<h1>` is the bio section's
+  headline (`views/organisms/section/bio.njk`); the header's brand text is a
+  plain `<p>`. Do not reintroduce an `<h1>` here — it would give the page two.
+- The header is a fixed full-viewport overlay (`h-dvh`, opaque `bg-slate-950`)
+  while in `loader`/`hero`, and hidden thereafter.
+- **The side drawer and the `menu` rail were removed** when the sidenav left the
+  homepage UX strategy. The page has no in-page section navigation; sections are
+  reached by scroll, by heading (AT), or by anchor deep-link. If navigation
+  returns it should be designed fresh, not restored from this manager's history.
+- **Visual tuning is browser-verified follow-up.** The exit is a transform-only
+  `xPercent` slide of the single header element; geometry/feel are the open knobs.
