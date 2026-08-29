@@ -12,7 +12,6 @@
 #}
 
 {# ─── Styles ──────────────────────────────────────────────────────────────── #}
-
 {%- set article = {"base": "project-page col-span-full space-y-12"} -%}
 {%- set title = {"base": "project-page__title"} -%}
 {%- set metadata = {"base": "project-page__metadata grid gap-6", "md": "grid-cols-2", "lg": "grid-cols-4"} -%}
@@ -77,7 +76,4 @@
        class="{{ projectLink | classes }}">{{ externalLinkLabel }}</a>
   {% endif %}
 
-  {# End CTA — provided by site-global footer contact form. #}
-  {# Intentionally no inline CTA: conversion handled in global footer. #}
-  {% include "templates/partials/choreography-script.njk" %}
 {% endblock content %}
