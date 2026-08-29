@@ -13,57 +13,80 @@
   {%- set sanityWriteToken = params.sanityWriteToken | default(env.SANITY_WRITE_TOKEN) -%}
   {%- set sourcePage = params.sourcePage | default(page.url) -%}
 
-  {%- set sectionStyles = {
-    base: "relative col-span-full grid grid-cols-subgrid p-0 "
-  } -%}
-  {%- set headerStyles = {
-  base: "col-span-full sticky top-0 z-10 p-4 pt-10 space-y-4"
-  } -%}
-  {%- set headingStyles = {
-    base: "font-display text-4xl"
-  } -%}
-  {%- set fieldStyles = "p-2 border border-neutral-700 bg-neutral-900 text-white rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 aria-[invalid=true]:border-red-500" -%}
+  {%- set sectionStyles = {"base": "relative col-span-full grid grid-cols-subgrid p-0 "} -%}
+  {%- set headerStyles = {"base": "col-span-full sticky top-0 z-10 p-4 pt-10 space-y-4"} -%}
+  {%- set headingStyles = {"base": "font-display text-4xl"} -%}
+  {%- set fieldStyles = "p-2 border border-neutral-700 bg-slate-900 text-white rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 aria-[invalid=true]:border-red-500" -%}
 
-  <section id="{{ sectionId }}" class="{{ sectionStyles | classes }}" aria-labelledby="{{ headingId }}" data-scroll-section>
+  <section id="{{ sectionId }}"
+           class="{{ sectionStyles | classes }}"
+           aria-labelledby="{{ headingId }}"
+           data-scroll-section>
     <header data-contact-el="header" class="{{ headerStyles | classes }}">
-      <h2 id="{{ headingId }}" data-contact-el="heading" class="{{ headingStyles | classes }}">{{ heading }}</h2>
+      <h2 id="{{ headingId }}"
+          data-contact-el="heading"
+          class="{{ headingStyles | classes }}">{{ heading }}</h2>
       <p data-contact-el="body" class="col-span-full">{{ body }}</p>
     </header>
 
     {#- Browser-write contact form. The Sanity write token is present in this markup as a data attribute — an accepted tradeoff (see contact form spec §4). Submission is JS-dependent (ContactForm.js); the form does not POST on its own. -#}
-    <form data-contact-form data-sanity-project="{{ sanityProjectId }}" data-sanity-dataset="{{ sanityDataset }}" data-sanity-api-version="{{ sanityApiVersion }}" data-sanity-write-token="{{ sanityWriteToken }}" class="col-span-full grid grid-cols-1 gap-6 px-4 pb-12 max-w-2xl" novalidate>
-      <input
-        type="hidden" name="sourcePage" value="{{ sourcePage }}">
+    <form data-contact-form
+          data-sanity-project="{{ sanityProjectId }}"
+          data-sanity-dataset="{{ sanityDataset }}"
+          data-sanity-api-version="{{ sanityApiVersion }}"
+          data-sanity-write-token="{{ sanityWriteToken }}"
+          class="col-span-full grid grid-cols-1 gap-6 px-4 pb-12 max-w-2xl"
+          novalidate>
+      <input type="hidden" name="sourcePage" value="{{ sourcePage }}">
 
-        {#- Honeypot: hidden from users and assistive tech; bots that fill it are dropped. -#}
-        <div class="hidden" aria-hidden="true">
-          <label for="{{ sectionId }}-bot-field">Leave this field empty</label>
-          <input id="{{ sectionId }}-bot-field" name="botField" type="text" tabindex="-1" autocomplete="off"></div>
+      {#- Honeypot: hidden from users and assistive tech; bots that fill it are dropped. -#}
+      <div class="hidden" aria-hidden="true">
+        <label for="{{ sectionId }}-bot-field">Leave this field empty</label>
+        <input id="{{ sectionId }}-bot-field"
+               name="botField"
+               type="text"
+               tabindex="-1"
+               autocomplete="off">
+      </div>
 
-          <div class="grid gap-2">
-            <label for="{{ sectionId }}-email" class="text-sm font-medium text-white">Email</label>
-            <input id="{{ sectionId }}-email" name="email" type="email" autocomplete="email" required aria-describedby="{{ sectionId }}-email-error" class="{{ fieldStyles }}">
-              <p id="{{ sectionId }}-email-error" class="text-sm text-red-400" data-field-error="email" hidden></p>
-            </div>
+      <div class="grid gap-2">
+        <label for="{{ sectionId }}-email" class="text-sm font-medium text-white">Email</label>
+        <input id="{{ sectionId }}-email"
+               name="email"
+               type="email"
+               autocomplete="email"
+               required
+               aria-describedby="{{ sectionId }}-email-error"
+               class="{{ fieldStyles }}">
+        <p id="{{ sectionId }}-email-error"
+           class="text-sm text-red-400"
+           data-field-error="email"
+           hidden></p>
+      </div>
 
-            <div class="grid gap-2">
-              <label for="{{ sectionId }}-message" class="text-sm font-medium text-white">Message</label>
-              <textarea id="{{ sectionId }}-message" name="message" rows="8" required aria-describedby="{{ sectionId }}-message-error {{ sectionId }}-message-help" class="{{ fieldStyles }}"></textarea>
-              <p id="{{ sectionId }}-message-help" class="text-sm text-primary-200">Share enough context for a useful reply.</p>
-              <p id="{{ sectionId }}-message-error" class="text-sm text-red-400" data-field-error="message" hidden></p>
-            </div>
+      <div class="grid gap-2">
+        <label for="{{ sectionId }}-message" class="text-sm font-medium text-white">Message</label>
+        <textarea id="{{ sectionId }}-message"
+                  name="message"
+                  rows="8"
+                  required
+                  aria-describedby="{{ sectionId }}-message-error {{ sectionId }}-message-help"
+                  class="{{ fieldStyles }}"></textarea>
+        <p id="{{ sectionId }}-message-help" class="text-sm text-primary-200">Share enough context for a useful reply.</p>
+        <p id="{{ sectionId }}-message-error"
+           class="text-sm text-red-400"
+           data-field-error="message"
+           hidden></p>
+      </div>
 
-            <div data-contact-form-status aria-live="polite" class="text-sm empty:hidden"></div>
+      <div data-contact-form-status
+           aria-live="polite"
+           class="text-sm empty:hidden"></div>
 
-            <button
-              type="submit"
-              class="justify-self-start bg-primary-900 hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed text-white
-                py-2 px-4 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-                focus-visible:outline-primary-500">{{ submitLabel }}</button>
-          </form>
-        </section>
-        {#- Self-contained progressive enhancement: handles submit, validation, and the direct Sanity write. Module imports are deduped by the browser. -#}
-        <script type="module">
-          import "/assets/js/contact-form/ContactForm.js";
-        </script>
-      {% endmacro %}
+      <button type="submit"
+              class="justify-self-start bg-primary-900 hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed text-white py-2 px-4 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">{{ submitLabel }}</button>
+    </form>
+  </section>
+  {#- Self-contained progressive enhancement: handles submit, validation, and the direct Sanity write. Module imports are deduped by the browser. -#}
+  <script type="module">import "/assets/js/contact-form/ContactForm.js";</script>
+{% endmacro %}
