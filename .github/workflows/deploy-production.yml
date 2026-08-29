@@ -1,0 +1,57 @@
+name: Deploy production site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: pages-production
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Eleventy site
+        run: npm run quick
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
+          # Contact form: injected into the page as a data attribute at build
+          # time (accepted tradeoff, contact form spec §4). Set this repo secret.
+          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
+          SANITY_API_VERSION: "2024-06-01"
+          SANITY_USE_CDN: "true"
+
+      # datainkio/dataink.io owns the dataink.io custom domain in its own
+      # Pages settings. This repo can't also claim that domain (GitHub Pages
+      # allows one custom domain per repo, and staging.dataink.io already
+      # occupies this repo's slot), so production ships by pushing the built
+      # _site/ into that repo's default branch instead of deploying here.
+      - name: Publish to datainkio/dataink.io
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.DATAINK_IO_DEPLOY_KEY }}
+          external_repository: datainkio/dataink.io
+          publish_branch: main
+          publish_dir: ./_site
+          cname: dataink.io
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: "deploy: ${{ github.sha }}"
