@@ -1,12 +1,8 @@
 ---
-title: "skip-links-nav"
-template: "[[skip-links-nav.njk]]"
-templatePath: "views/organisms/navigation/skip-links-nav.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-status: "active"
+description: Context sidecar for skip-links-nav.njk (views/organisms/navigation/skip-links-nav.njk).
+type: template
 ---
+
 # skip-links-nav
 
 Context sidecar for [[skip-links-nav.njk]] (`views/organisms/navigation/skip-links-nav.njk`).

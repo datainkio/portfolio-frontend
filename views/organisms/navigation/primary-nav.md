@@ -1,17 +1,11 @@
 ---
-title: "Primary Nav"
-template: "[[primary-nav.njk]]"
-templatePath: "views/organisms/navigation/primary-nav.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[site-title](../../atoms/link/site-title.md)"
   - "[main-pages](../../molecules/list/main-pages.md)"
 ---
+
 # Primary Nav
 
 Defines Nunjucks macro: `render`.

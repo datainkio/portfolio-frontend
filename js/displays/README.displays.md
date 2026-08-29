@@ -1,3 +1,9 @@
+---
+title: "Displays - Decorative & Demonstration Systems"
+description: "Visual ornamentation, debugging tools, and interactive demonstrations."
+type: index
+---
+
 <!-- @format -->
 
 # Displays - Decorative & Demonstration Systems

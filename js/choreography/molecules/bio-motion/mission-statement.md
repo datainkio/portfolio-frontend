@@ -1,23 +1,14 @@
 ---
-id: frontend.js.choreography.molecules.bio-motion.mission-statement
-role: "Bio molecule part — the mission statement's gel-led arrival: the gel_subheading band wipes in from the left, the overview <h3> rides in behind its tail, then the body copy staggers up. Cued by its own ScrollTrigger (once), not by bio's intro timeline, because the section sits an h-dvh below the header and is off-screen when the intro plays."
+description: "Bio molecule part — the mission statement's gel-led arrival: the gel_subheading band wipes in from the left, the overview <h3> rides in behind its tail, then the body copy staggers up. Cued by its own ScrollTrigger (once), not by bio's intro timeline, because the section sits an h-dvh below the header and is off-screen when the intro plays."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - choreography
-  - frontend
   - bio-motion
   - gel
-  - js
 links:
   - "[[molecules/bio-motion/overview-gel|molecules/bio-motion/overview-gel]]"
   - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
   - "[[config/ix/motion|config/ix/motion]]"
-backlinks:
-  - "[[molecules/bio-motion/split|molecules/bio-motion/split]]"
 ---
 
 `attachMissionStatement(view, gelManager)` builds the reveal for
@@ -42,7 +33,7 @@ positioned outside the lifecycle timelines, as standing behaviours.
 ## The three beats
 
 1. **Band wipe** — `gel_subheading` `fromTo` `scaleX: 0 → 1`, `transformOrigin:
-   "left center"`. The band leads deliberately: it rhymes with the heading gel's
+"left center"`. The band leads deliberately: it rhymes with the heading gel's
    entrance ([heading-gel.md](heading-gel.md)) so the two headings read as one
    gesture at two scales.
 2. **Overview `<h3>`** — `from` `autoAlpha: 0` + `y: distance`, starting

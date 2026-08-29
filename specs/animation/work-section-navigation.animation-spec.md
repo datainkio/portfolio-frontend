@@ -1,3 +1,9 @@
+---
+title: Work Section Navigation Spec
+description: "Each parent section owns a local child-section index: visible information scent + direct anchor access."
+type: spec
+---
+
 # Work Section Navigation Spec
 
 - **Title:** Sticky local in-page nav with scrollspy
@@ -27,14 +33,14 @@ For `#work`, children = industries. Index = the existing sticky header jumplinks
 
 Pattern keys on `data-*`, never classes:
 
-| Attr | Role |
-|---|---|
-| `data-projects-el="header"` | sticky index container |
-| `data-projects-el="jumplinks"` | `<nav>` wrapper; `id="work-jumplinks"` = current link's `aria-controls` |
-| `data-projects-el="industry-links"` | `<ul>` collapse target (height-animated; `overflow-hidden`) |
-| `data-projects-el="industry-link"` | anchor → child group; carries active state; the in-view one is the disclosure control below `lg` (`role="button"` + `aria-expanded` set by JS) |
-| `data-projects-el="industry-group"` | scroll target / scrollspy observed unit |
-| `data-projects-el="industry-heading"` | `id` = anchor destination |
+| Attr                                  | Role                                                                                                                                           |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data-projects-el="header"`           | sticky index container                                                                                                                         |
+| `data-projects-el="jumplinks"`        | `<nav>` wrapper; `id="work-jumplinks"` = current link's `aria-controls`                                                                        |
+| `data-projects-el="industry-links"`   | `<ul>` collapse target (height-animated; `overflow-hidden`)                                                                                    |
+| `data-projects-el="industry-link"`    | anchor → child group; carries active state; the in-view one is the disclosure control below `lg` (`role="button"` + `aria-expanded` set by JS) |
+| `data-projects-el="industry-group"`   | scroll target / scrollspy observed unit                                                                                                        |
+| `data-projects-el="industry-heading"` | `id` = anchor destination                                                                                                                      |
 
 Active state set via attribute (e.g. `aria-current="true"`) on the matching link; styling reacts to the attribute. All coordination via `AnimationBus` event constant — no direct calls, no hardcoded strings.
 

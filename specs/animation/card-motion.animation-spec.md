@@ -1,3 +1,9 @@
+---
+title: Card Motion
+description: "Given: A card has a single timeline containing three tweens in this order: intro, interstitial, and outro."
+type: spec
+---
+
 # Card Motion
 
 **Status:** Draft v1

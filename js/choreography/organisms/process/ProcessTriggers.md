@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.process.processtriggers
-role: "Process triggers module — EMPTY PLACEHOLDER inheriting SCROLL_DEFAULTS from AbstractSectionTriggers; no custom scroll trigger config."
-status: "placeholder"
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
+description: "Process triggers module — EMPTY PLACEHOLDER inheriting SCROLL_DEFAULTS from AbstractSectionTriggers; no custom scroll trigger config."
+status: draft
 tags:
   - choreography
-  - frontend
-  - js
   - placeholder
 links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"

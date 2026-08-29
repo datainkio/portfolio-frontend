@@ -1,16 +1,8 @@
 ---
-title: "Gel"
-template: "[[gel.njk]]"
-templatePath: "views/atoms/gel.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-links:
-  - "[gel](gel.md)"
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Gel
 
 Defines Nunjucks macro: `render`.

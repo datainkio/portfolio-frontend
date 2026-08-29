@@ -1,15 +1,8 @@
 ---
-title: "ContactForm"
-module: "[[ContactForm.js]]"
-modulePath: "js/contact-form/ContactForm.js"
-engine: "Browser ESM"
-system: "Eleventy"
-type: "script"
-scriptRole: "controller"
-status: "active"
+description: Browser-side controller for the site-global contact form.
+type: script
 tags:
   - form
-  - js
   - module
   - sanity
 links:
@@ -46,12 +39,12 @@ tradeoff, spec §9).
 
 ## Validation Rules (spec §12)
 
-| Field | Rule |
-| --- | --- |
-| `email` | required, trimmed, lowercased, RFC-ish pattern, ≤ 254 chars |
-| `message` | required, trimmed, 20–5000 chars |
-| `sourcePage` | optional, ≤ 500 chars |
-| `botField` | must be empty (honeypot) |
+| Field        | Rule                                                        |
+| ------------ | ----------------------------------------------------------- |
+| `email`      | required, trimmed, lowercased, RFC-ish pattern, ≤ 254 chars |
+| `message`    | required, trimmed, 20–5000 chars                            |
+| `sourcePage` | optional, ≤ 500 chars                                       |
+| `botField`   | must be empty (honeypot)                                    |
 
 ## Security Notes
 

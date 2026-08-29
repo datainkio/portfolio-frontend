@@ -1,3 +1,9 @@
+---
+title: Choreography Config Package
+description: "Centralized configuration for choreography runtime behavior, with one barrel"
+type: index
+---
+
 # Choreography Config Package
 
 Centralized configuration for choreography runtime behavior, with one barrel
@@ -46,7 +52,6 @@ Defaults for purely decorative display systems. Re-exported together via the `ix
 ### `displays/` - Decorative display configuration
 
 Defaults for purely decorative display systems.
-
 
 - `printermarks.js` -> reserved for printer-marks display defaults
 

@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.transforms.user_guide
-role: "Normalize user-guide records."
+description: Normalize user-guide records.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "User guide transforms"
 tags:
   - cms
   - transforms
+aliases:
+  - User guide transforms
 links:
   - "[[README.transforms]]"
 ---
@@ -19,8 +15,8 @@ links:
 Pure, stateless normalization between raw Sanity results and Eleventy collections — the semantic
 work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inline SVG, safe defaults).
 
-| Export | Purpose |
-| --- | --- |
+| Export                               | Purpose                  |
+| ------------------------------------ | ------------------------ |
 | `normalizeUserGuideRecords(records)` | shape user-guide records |
 
 ## Source

@@ -1,15 +1,8 @@
 ---
-title: "Design Pages"
-template: "[[design-pages.njk]]"
-templatePath: "views/molecules/list/design-pages.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Design Pages
 
 Reusable presentational component.

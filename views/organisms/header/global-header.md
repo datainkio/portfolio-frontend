@@ -1,16 +1,10 @@
 ---
-title: "Global Header"
-template: "[[global-header.njk]]"
-templatePath: "views/organisms/header/global-header.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[primary-nav](../navigation/primary-nav.md)"
 ---
+
 # Global Header
 
 Defines Nunjucks macro: `render`.

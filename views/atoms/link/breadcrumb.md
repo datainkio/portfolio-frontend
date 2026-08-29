@@ -1,15 +1,8 @@
 ---
-title: "Breadcrumb"
-template: "[[breadcrumb.njk]]"
-templatePath: "views/atoms/link/breadcrumb.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Breadcrumb
 
 Reusable presentational component.

@@ -1,3 +1,9 @@
+---
+title: Build Automation Scripts
+description: "Node.js scripts that coordinate Figma design token sync, JS bundling, Tailwind CSS compilation, 11ty static generation, and various development utilities."
+type: index
+---
+
 # Build Automation Scripts
 
 Node.js scripts that coordinate Figma design token sync, JS bundling, Tailwind CSS compilation, 11ty static generation, and various development utilities.

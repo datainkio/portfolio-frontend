@@ -1,34 +1,25 @@
 ---
-id: frontend.js.choreography.molecules.award-motion.slide
-role: "Awards `slide` variant — two gel sheets pushed across a surface, with the section content riding in on their tail. The full-motion default for the awards section."
+description: "Awards `slide` variant — two gel sheets pushed across a surface, with the section content riding in on their tail. The full-motion default for the awards section."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - award-motion
   - awards
   - choreography
-  - frontend
   - gel
-  - js
 links:
   - "[[molecules/award-motion/award-motion|molecules/award-motion/award-motion]]"
   - "[[molecules/award-motion/reduced|molecules/award-motion/reduced]]"
   - "[[organisms/awards/AwardsAnimations|organisms/awards/AwardsAnimations]]"
   - "[[config/ix/motion|config/ix/motion]]"
-backlinks:
-  - "[[molecules/award-motion/award-motion|molecules/award-motion/award-motion]]"
 ---
 
 ## Exports
 
-| Export | Bound to | Returns |
-| --- | --- | --- |
-| `init(view, gelManager)` | variant `init` | — (sets start state only) |
-| `createSlideIn(view, gelManager)` | variant `buildIntro` | intro timeline |
-| `createSlideOut(view, gelManager)` | variant `buildOutro` | outro timeline |
+| Export                             | Bound to             | Returns                   |
+| ---------------------------------- | -------------------- | ------------------------- |
+| `init(view, gelManager)`           | variant `init`       | — (sets start state only) |
+| `createSlideIn(view, gelManager)`  | variant `buildIntro` | intro timeline            |
+| `createSlideOut(view, gelManager)` | variant `buildOutro` | outro timeline            |
 
 Registered as `AWARD_VARIANT_FACTORIES.slide` in
 [[molecules/award-motion/award-motion|award-motion.js]].

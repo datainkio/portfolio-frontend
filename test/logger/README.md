@@ -1,3 +1,9 @@
+---
+title: Logger Test Suite
+description: Comprehensive test suite for the Logger utility package.
+type: reference
+---
+
 <!-- @format -->
 
 # Logger Test Suite

@@ -1,3 +1,8 @@
+---
+description: "Motion spec for the Organizations section — intro and outro timing, triggers, and reduced-motion behaviour."
+type: spec
+---
+
 # Organizations Section — Motion Spec
 
 - **Title:** Organizations Section — Intro/Outro Motion

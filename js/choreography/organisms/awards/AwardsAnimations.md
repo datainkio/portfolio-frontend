@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.awards.awardsanimations
-role: "Awards animations module — builds section-header intro/outro timelines, a two-gel backing composition with full-page scroll track, and a scroll-threshold reveal group for award items."
+description: "Awards animations module — builds section-header intro/outro timelines, a two-gel backing composition with full-page scroll track, and a scroll-threshold reveal group for award items."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[system/gsap|system/gsap]]"
@@ -60,6 +53,7 @@ flowchart TB
 ```
 
 **Key constraints:**
+
 - `top` / `left` / `width` / `height` are layout properties — set only at init and on `ScrollTrigger.refresh()`, never during scrub.
 - `y` (transform) is the only property animated per scroll frame.
 - Rotation (`−5°`) is state, not motion — set at init and never tweened.

@@ -1,17 +1,11 @@
 ---
-title: "Organizations"
-template: "[[organizations.njk]]"
-templatePath: "views/organisms/section/organizations.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[section-cap](../../molecules/section-cap.md)"
   - "[organization](../../atoms/organization.md)"
 ---
+
 # Organizations
 
 Defines Nunjucks macro: `render`.

@@ -1,17 +1,11 @@
 ---
-title: "Form"
-template: "[[form.njk]]"
-templatePath: "views/molecules/form.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: Reusable presentational component.
+type: template
 links:
   - "[input](../atoms/input.md)"
   - "[button](../atoms/button/button.md)"
 ---
+
 # Form
 
 Reusable presentational component.

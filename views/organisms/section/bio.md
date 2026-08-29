@@ -1,17 +1,11 @@
 ---
-title: "Bio"
-template: "[[bio.njk]]"
-templatePath: "views/organisms/section/bio.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[section-cap](../../molecules/section-cap.md)"
   - "[printmarks](../../molecules/printmarks.md)"
 ---
+
 # Bio
 
 Defines Nunjucks macro: `render`.

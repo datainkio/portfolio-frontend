@@ -1,3 +1,9 @@
+---
+title: Eleventy Filters - Template Data Processing
+description: Central registry and documentation for all 11ty filters used in Nunjucks templates.
+type: index
+---
+
 <!-- @format -->
 
 # Eleventy Filters - Template Data Processing

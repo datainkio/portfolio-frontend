@@ -1,16 +1,10 @@
 ---
-title: "Hero"
-template: "[[hero.njk]]"
-templatePath: "views/organisms/section/hero.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[hanko](../../atoms/hanko/hanko.md)"
 ---
+
 # Hero
 
 Defines Nunjucks macro: `render`.

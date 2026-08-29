@@ -1,3 +1,8 @@
+---
+description: "Implementation guidance:"
+type: spec
+---
+
 - **Title:** Choreographer Module — GSAP/Tailwind Motion Implementation & Selection
 - **Owner(s):** Frontend / Motion System Maintainers
 - **Status:** draft

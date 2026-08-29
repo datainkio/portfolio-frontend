@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.bio.bio
-role: "Bio section controller — manages lifecycle and bus coordination for the biography/introduction section."
+description: "Bio section controller — manages lifecycle and bus coordination for the biography/introduction section."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSection|AbstractSection]]"
   - "[[config/index|config/index]]"
@@ -35,7 +28,7 @@ Because the reveal fires once and never again, a resize that strips or re-parks
 its inline styles would leave the section stuck. Two paths guard that:
 
 - A plain `window.resize` listener → `_settleRevealToEnd()`. `matchMedia` only
-  fires on breakpoint *crossings*, so an ordinary resize needs its own listener.
+  fires on breakpoint _crossings_, so an ordinary resize needs its own listener.
 - `_applyResponsiveLifecycle` rebuilds the timelines (a crossing makes matchMedia
   revert and kill the prior context's tweens) and then settles again.
 

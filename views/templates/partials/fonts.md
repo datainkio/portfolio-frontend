@@ -1,15 +1,8 @@
 ---
-title: "Fonts"
-template: "[[fonts.njk]]"
-templatePath: "views/templates/partials/fonts.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "partial"
-atomicLevel: "template"
-status: "active"
-tags:
+description: Reusable partial included by layouts or pages.
+type: template
 ---
+
 # Fonts
 
 Reusable partial included by layouts or pages.

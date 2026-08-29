@@ -1,10 +1,7 @@
 ---
 title: Content Schemas
 description: Field-level schema definitions for documentation and IA content types.
-docType: reference
-status: active
-owner: frontend
-tags: []
+type: reference
 eleventyComputed:
   title: "{{ title }}"
 ---

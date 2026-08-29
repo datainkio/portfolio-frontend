@@ -1,13 +1,6 @@
 ---
-title: "Lightbox"
-template: "[[lightbox.njk]]"
-templatePath: "views/molecules/lightbox/lightbox.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 tags:
   - lightbox
 links:
@@ -32,12 +25,12 @@ image needs a click-to-enlarge view.
 
 ## Params
 
-| Param | Required | Description |
-| --- | --- | --- |
-| `src` | yes | Image URL, reused at both thumbnail and full size (spec decision: no separate full-res field). |
-| `alt` | no | Alt text; also used as the dialog's accessible label. |
-| `caption` | no | Optional caption; rendered as a `<figcaption>` under the thumbnail (visible in normal flow, not just inside the dialog). |
-| `imgClasses` | no | Override classes for the thumbnail `<img>`; defaults to `w-full h-full object-cover`. |
+| Param        | Required | Description                                                                                                              |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `src`        | yes      | Image URL, reused at both thumbnail and full size (spec decision: no separate full-res field).                           |
+| `alt`        | no       | Alt text; also used as the dialog's accessible label.                                                                    |
+| `caption`    | no       | Optional caption; rendered as a `<figcaption>` under the thumbnail (visible in normal flow, not just inside the dialog). |
+| `imgClasses` | no       | Override classes for the thumbnail `<img>`; defaults to `w-full h-full object-cover`.                                    |
 
 ## Role in the System
 

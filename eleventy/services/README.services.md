@@ -1,3 +1,9 @@
+---
+title: Eleventy Services Directory
+description: This directory contains service classes that encapsulate complex business logic for the 11ty static site generator.
+type: index
+---
+
 # Eleventy Services Directory
 
 This directory contains **service classes** that encapsulate complex business logic for the 11ty static site generator. Services follow the Single Responsibility Principle and provide clean, testable APIs for data processing operations.

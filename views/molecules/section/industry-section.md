@@ -1,12 +1,8 @@
 ---
-title: "industry-section"
-template: "[[industry-section.njk]]"
-templatePath: "views/molecules/section/industry-section.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-status: "active"
+description: Context sidecar for industry-section.njk (views/molecules/section/industry-section.njk).
+type: template
 ---
+
 # industry-section
 
 Context sidecar for [[industry-section.njk]] (`views/molecules/section/industry-section.njk`).

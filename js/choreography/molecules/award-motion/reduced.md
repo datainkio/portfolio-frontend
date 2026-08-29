@@ -1,31 +1,22 @@
 ---
-id: frontend.js.choreography.molecules.award-motion.reduced
-role: "Awards `reduced` variant — low-vestibular fallback. Returns empty timelines for every lifecycle phase so the section renders at its CSS rest state with no gel motion."
+description: "Awards `reduced` variant — low-vestibular fallback. Returns empty timelines for every lifecycle phase so the section renders at its CSS rest state with no gel motion."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - award-motion
   - awards
   - choreography
-  - frontend
-  - js
   - reduced-motion
 links:
   - "[[molecules/award-motion/award-motion|molecules/award-motion/award-motion]]"
   - "[[molecules/award-motion/slide|molecules/award-motion/slide]]"
   - "[[config/ix/profiles|config/ix/profiles]]"
-backlinks:
-  - "[[molecules/award-motion/award-motion|molecules/award-motion/award-motion]]"
 ---
 
 ## Exports
 
-| Export | Bound to | Returns |
-| --- | --- | --- |
-| `init(view, gelManager)` | variant `init` | empty timeline |
+| Export                         | Bound to             | Returns        |
+| ------------------------------ | -------------------- | -------------- |
+| `init(view, gelManager)`       | variant `init`       | empty timeline |
 | `buildIntro(view, gelManager)` | variant `buildIntro` | empty timeline |
 | `buildOutro(view, gelManager)` | variant `buildOutro` | empty timeline |
 
@@ -48,7 +39,7 @@ built and needs no reduced branch of its own.
 `slide` variant's `init` is what parks the gels offscreen and flips
 `mixBlendMode`; because that never runs under `reduced`, the gels stay wherever
 CSS leaves them. If a future change gives the gels a start state that is only
-correct *after* JS setup, that reset belongs here — that is the documented
+correct _after_ JS setup, that reset belongs here — that is the documented
 purpose of `init` in this variant shape ("style elements that won't work without
 animation").
 

@@ -1,18 +1,9 @@
 ---
 title: Layouts Docs
 description: Reference for structural page shells and region-level composition rules.
-docType: index
-status: active
-owner: frontend
-tags: []
+type: index
 eleventyComputed:
   title: "{{ title }}"
-aix:
-  intent: pattern
-  audience:
-    - design
-    - frontend
-  canonical: true
 ---
 
 Layouts define macro structure: global framing, region boundaries, and how organisms are arranged across breakpoints.

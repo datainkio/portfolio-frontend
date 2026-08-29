@@ -1,3 +1,9 @@
+---
+title: AI Prompts
+description: This folder holds AI-facing prompt files and experiment briefs that guide Copilot or other assistants.
+type: index
+---
+
 # AI Prompts
 
 This folder holds AI-facing prompt files and experiment briefs that guide Copilot or other assistants.

@@ -1,15 +1,8 @@
 ---
-title: "Input"
-template: "[[input.njk]]"
-templatePath: "views/atoms/input.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Input
 
 Reusable presentational component.

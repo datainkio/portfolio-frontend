@@ -1,3 +1,9 @@
+---
+title: Eleventy Collections Manager
+description: Central orchestration for all 11ty collections.
+type: index
+---
+
 <!-- @format -->
 
 # Eleventy Collections Manager

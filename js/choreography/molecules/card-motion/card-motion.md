@@ -1,16 +1,9 @@
 ---
-id: frontend.js.choreography.molecules.card-motion
-role: "Card-Motion Molecule — composes clip, fade-n-lift, parallax, and throw sub-factories; top-level API for scroll-driven project card animation variants."
+description: "Card-Motion Molecule — composes clip, fade-n-lift, parallax, and throw sub-factories; top-level API for scroll-driven project card animation variants."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - card-motion
   - choreography
-  - frontend
-  - js
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/index/index|config/index]]"
@@ -19,7 +12,4 @@ links:
   - "[[molecules/card-motion/fade-n-lift|molecules/card-motion/fade-n-lift]]"
   - "[[molecules/card-motion/parallax|molecules/card-motion/parallax]]"
   - "[[molecules/card-motion/throw|molecules/card-motion/throw]]"
-backlinks:
-  - "[[molecules/index|molecules/index]]"
-  - "[[organisms/card/Card|organisms/card/Card]]"
 ---

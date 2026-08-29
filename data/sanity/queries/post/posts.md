@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.posts
-role: "GROQ query definition registered as an Eleventy collection (Posts)."
+description: GROQ query definition registered as an Eleventy collection (Posts).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Posts query"
 tags:
   - cms
   - queries
+aliases:
+  - Posts query
 links:
   - "[[README.queries]]"
   - "[[postProjection]]"
@@ -20,9 +16,10 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`posts`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
-| `postsQuery` | `posts` |
+| Export       | Collection id |
+| ------------ | ------------- |
+| `postsQuery` | `posts`       |
+
 - Projection: [[postProjection]]
 
 ## Source

@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.scripts.colorutils
- *   role: Build/utility script: scripts/colorUtils.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - colorUtils.js
- * ---
- */
 /** @format */
 
 export function multiplyBlend(hex1, hex2) {

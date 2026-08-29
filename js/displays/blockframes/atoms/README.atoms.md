@@ -1,3 +1,9 @@
+---
+title: "⚛️ Atoms"
+description: Atoms are the smallest functional units in the Blockframes design system.
+type: index
+---
+
 <!-- @format -->
 
 # ⚛️ Atoms

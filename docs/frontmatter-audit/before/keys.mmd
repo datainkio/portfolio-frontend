@@ -1,0 +1,84 @@
+---
+title: Every frontmatter key, classified (before)
+---
+flowchart TB
+    subgraph k_keepcore["Keep — carries signal — 7 keys · 1221 uses"]
+        direction LR
+        k_status["status<br/><b>337</b>"]
+        k_tags["tags<br/><b>293</b>"]
+        k_links["links<br/><b>227</b>"]
+        k_title["title<br/><b>146</b>"]
+        k_type["type<br/><b>123</b>"]
+        k_aliases["aliases<br/><b>72</b>"]
+        k_description["description<br/><b>23</b>"]
+    end
+
+    subgraph k_keepfunctional["Keep — Eleventy consumes — 14 keys · 75 uses"]
+        direction LR
+        k_eleventyComputed["eleventyComputed<br/><b>24</b>"]
+        k_permalink["permalink<br/><b>16</b>"]
+        k_layout["layout<br/><b>7</b>"]
+        k_templateEngineOverride["templateEngineOverride<br/><b>4</b>"]
+        k_metaDescription["metaDescription<br/><b>4</b>"]
+        k_canonicalUrl["canonicalUrl<br/><b>4</b>"]
+        k_eleventyNavigation["eleventyNavigation<br/><b>4</b>"]
+        k_enableChoreography["enableChoreography<br/><b>3</b>"]
+        k_eleventyExcludeFromCollections["eleventyExcludeFromCollections<br/><b>2</b>"]
+        k_metaKeywords["metaKeywords<br/><b>2</b>"]
+        k_skipLinks["skipLinks<br/><b>2</b>"]
+        k_pagination["pagination<br/><b>1</b>"]
+        k_date["date<br/><b>1</b>"]
+        k_viewport["viewport<br/><b>1</b>"]
+    end
+
+    subgraph k_keepdomain["Keep — local domain vocabulary — 4 keys · 4 uses"]
+        direction LR
+        k_severity["severity<br/><b>1</b>"]
+        k_viewportwidth["viewport-width<br/><b>1</b>"]
+        k_viewportheight["viewport-height<br/><b>1</b>"]
+        k_priority["priority<br/><b>1</b>"]
+    end
+
+    subgraph k_migrate["Migrate — content moves — 2 keys · 221 uses"]
+        direction LR
+        k_role["role<br/><b>200</b>"]
+        k_docType["docType<br/><b>21</b>"]
+    end
+
+    subgraph k_dropderivable["Drop — derivable from path — 14 keys · 1562 uses"]
+        direction LR
+        k_id["id<br/><b>202</b>"]
+        k_surface["surface<br/><b>200</b>"]
+        k_scope["scope<br/><b>200</b>"]
+        k_runtime["runtime<br/><b>191</b>"]
+        k_atomicLevel["atomicLevel<br/><b>168</b>"]
+        k_system["system<br/><b>136</b>"]
+        k_engine["engine<br/><b>117</b>"]
+        k_template["template<br/><b>108</b>"]
+        k_templatePath["templatePath<br/><b>108</b>"]
+        k_templateRole["templateRole<br/><b>108</b>"]
+        k_animation["animation<br/><b>18</b>"]
+        k_module["module<br/><b>2</b>"]
+        k_modulePath["modulePath<br/><b>2</b>"]
+        k_scriptRole["scriptRole<br/><b>2</b>"]
+    end
+
+    subgraph k_dropredundant["Drop — redundant or retired — 5 keys · 310 uses"]
+        direction LR
+        k_aix["aix<br/><b>201</b>"]
+        k_backlinks["backlinks<br/><b>57</b>"]
+        k_owner["owner<br/><b>32</b>"]
+        k_audience["audience<br/><b>11</b>"]
+        k_perf["perf<br/><b>9</b>"]
+    end
+
+    classDef keep fill:#1b4332,stroke:#40916c,color:#d8f3dc
+    classDef drop fill:#4a1c1c,stroke:#9b2226,color:#ffdada
+    classDef mig fill:#4a3c11,stroke:#bb9457,color:#ffeccc
+    classDef rev fill:#2b2b3a,stroke:#6c6c8a,color:#dcdcf0
+    class k_status,k_tags,k_links,k_title,k_type,k_aliases,k_description keep
+    class k_eleventyComputed,k_permalink,k_layout,k_templateEngineOverride,k_metaDescription,k_canonicalUrl,k_eleventyNavigation,k_enableChoreography,k_eleventyExcludeFromCollections,k_metaKeywords,k_skipLinks,k_pagination,k_date,k_viewport keep
+    class k_severity,k_viewportwidth,k_viewportheight,k_priority keep
+    class k_role,k_docType mig
+    class k_id,k_surface,k_scope,k_runtime,k_atomicLevel,k_system,k_engine,k_template,k_templatePath,k_templateRole,k_animation,k_module,k_modulePath,k_scriptRole drop
+    class k_aix,k_backlinks,k_owner,k_audience,k_perf drop

@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.industries
-role: "GROQ query definition registered as an Eleventy collection (Industries)."
+description: GROQ query definition registered as an Eleventy collection (Industries).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Industries query"
 tags:
   - cms
   - queries
+aliases:
+  - Industries query
 links:
   - "[[README.queries]]"
   - "[[conceptProjection]]"
@@ -21,9 +17,10 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`industries`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
-| `industriesQuery` | `industries` |
+| Export            | Collection id |
+| ----------------- | ------------- |
+| `industriesQuery` | `industries`  |
+
 - Projection: [[conceptProjection]]
 
 > [!note] SKOS taxonomy concept

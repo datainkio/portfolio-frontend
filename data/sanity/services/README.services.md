@@ -1,20 +1,5 @@
 ---
-aix:
-  id: frontend.data.sanity.services
-  role: CMS fetch and cache layer for build-time Sanity data access.
-  status: stable
-  surface: internal
-  tags:
-    -  #frontend
-    -  #cms
-    -  #services
-  type: guide
-  scope: frontend
-  audience: maintainers
-  perf:
-    readPriority: medium
-    cacheSafe: true
-    critical: false
+description: Build-time data-fetch layer.
 ---
 
 # CMS Services (frontend/data/sanity/services)

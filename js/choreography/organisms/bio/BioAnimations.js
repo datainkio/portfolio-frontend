@@ -45,7 +45,9 @@ export default class BioAnimations extends AbstractSectionAnimations {
   _buildIntro() {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildIntro?.(this.view, this.gelManager) ?? super._buildIntro();
+    return (
+      factory.buildIntro?.(this.view, this.gelManager) ?? super._buildIntro()
+    );
   }
 
   _buildIdle() {
@@ -55,6 +57,8 @@ export default class BioAnimations extends AbstractSectionAnimations {
   _buildOutro() {
     const factory =
       BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
-    return factory.buildOutro?.(this.view, this.gelManager) ?? super._buildOutro();
+    return (
+      factory.buildOutro?.(this.view, this.gelManager) ?? super._buildOutro()
+    );
   }
 }

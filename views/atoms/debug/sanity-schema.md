@@ -1,15 +1,8 @@
 ---
-title: "Sanity Schema"
-template: "[[sanity-schema.njk]]"
-templatePath: "views/atoms/debug/sanity-schema.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Sanity Schema
 
 Defines Nunjucks macro: `render`.

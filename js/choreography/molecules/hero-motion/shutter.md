@@ -1,35 +1,26 @@
 ---
-id: frontend.js.choreography.molecules.hero-motion.shutter
-role: "Hero `shutter` variant — tagline word split-reveal as the landing, plus a gel raised and lowered like a shutter for intro/outro. Driven by the pinned scrub trigger."
+description: "Hero `shutter` variant — tagline word split-reveal as the landing, plus a gel raised and lowered like a shutter for intro/outro. Driven by the pinned scrub trigger."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - choreography
-  - frontend
   - gel
   - hero
   - hero-motion
-  - js
   - splittext
 links:
   - "[[molecules/hero-motion/hero-motion|molecules/hero-motion/hero-motion]]"
   - "[[molecules/hero-motion/simple|molecules/hero-motion/simple]]"
   - "[[organisms/hero/HeroAnimations|organisms/hero/HeroAnimations]]"
   - "[[config/ix/motion|config/ix/motion]]"
-backlinks:
-  - "[[molecules/hero-motion/hero-motion|molecules/hero-motion/hero-motion]]"
 ---
 
 ## Exports
 
-| Export | Bound to | Returns |
-| --- | --- | --- |
-| `init(view)` | variant `init` | landing timeline |
-| `createRaiseShutter(view, gelManager)` | variant `buildIntro` | intro timeline |
-| `createLowerShutter(view, gelManager)` | variant `buildOutro` | outro timeline |
+| Export                                 | Bound to             | Returns          |
+| -------------------------------------- | -------------------- | ---------------- |
+| `init(view)`                           | variant `init`       | landing timeline |
+| `createRaiseShutter(view, gelManager)` | variant `buildIntro` | intro timeline   |
+| `createLowerShutter(view, gelManager)` | variant `buildOutro` | outro timeline   |
 
 Consumed by [[molecules/hero-motion/hero-motion|hero-motion.js]], which composes
 the `HERO_VARIANT_FACTORIES` map.

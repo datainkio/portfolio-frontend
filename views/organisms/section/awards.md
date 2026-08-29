@@ -1,13 +1,6 @@
 ---
-title: "Awards"
-template: "[[awards.njk]]"
-templatePath: "views/organisms/section/awards.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[award](../../atoms/award.md)"
   - "[inline](../../atoms/svg/inline.md)"

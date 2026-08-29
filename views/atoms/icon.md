@@ -1,15 +1,8 @@
 ---
-title: "Icon"
-template: "[[icon.njk]]"
-templatePath: "views/atoms/icon.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Icon
 
 Defines Nunjucks macro: `render`.

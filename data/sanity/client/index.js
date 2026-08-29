@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.cms.client
- *   role: CMS integration module: data/sanity/client/index.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - cms
- *     - client.js
- * ---
- */
 /** @format */
 
 import { config as loadEnv } from "dotenv";

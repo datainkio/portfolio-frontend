@@ -1,32 +1,23 @@
 ---
-id: frontend.js.choreography.molecules.bio-motion.sweep
-role: "Bio `sweep` variant — gel wipe scoped to the bio section's own rect, growing from the bottom, with the header fading in over its last 20%."
+description: "Bio `sweep` variant — gel wipe scoped to the bio section's own rect, growing from the bottom, with the header fading in over its last 20%."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - bio-motion
   - biography
   - choreography
-  - frontend
   - gel
-  - js
 links:
   - "[[molecules/bio-motion/bio-motion|molecules/bio-motion/bio-motion]]"
   - "[[molecules/bio-motion/split|molecules/bio-motion/split]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|managers/GelAnimationManager/GelAnimationManager]]"
   - "[[config/ix/motion|config/ix/motion]]"
-backlinks:
-  - "[[molecules/bio-motion/bio-motion|molecules/bio-motion/bio-motion]]"
 ---
 
 ## Exports
 
-| Export | Bound to | Returns |
-| --- | --- | --- |
-| `createSweepIn(view, gelManager)` | variant `buildIntro` | intro timeline |
+| Export                             | Bound to             | Returns        |
+| ---------------------------------- | -------------------- | -------------- |
+| `createSweepIn(view, gelManager)`  | variant `buildIntro` | intro timeline |
 | `createSweepOut(view, gelManager)` | variant `buildOutro` | outro timeline |
 
 Registered as `BIO_VARIANT_FACTORIES.sweep` in
@@ -47,7 +38,7 @@ sitting behind the section.
 
 ## Intro sequence
 
-1. **`tl.call(...)`** — a *leading callback*, not build-time work. It applies the
+1. **`tl.call(...)`** — a _leading callback_, not build-time work. It applies the
    converted geometry and calls `gel.refresh()` at the moment the intro plays, so
    it reads bio's current rect and rebuilds the mask polygon while the gel is at
    `scaleY: 1`. `GelGeometry` measures the transformed box, so refreshing

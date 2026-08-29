@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.services.index
-role: "services"
+description: "Public surface of the CMS services layer — the single import point Eleventy uses to fetch Sanity content."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Services public API"
 tags:
   - cms
   - services
+aliases:
+  - Services public API
 links:
   - "[[README.services]]"
   - "[[sanityService]]"

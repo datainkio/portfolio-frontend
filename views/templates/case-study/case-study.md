@@ -1,16 +1,10 @@
 ---
-title: "Case Study"
-template: "[[case-study.njk]]"
-templatePath: "views/layouts/case-study.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "layout"
-atomicLevel: "template"
-status: "active"
+description: "Provides a reusable page shell used by other templates via {% extends %}."
+type: template
 links:
   - "[base](../../layouts/base.md)"
 ---
+
 # Case Study
 
 Provides a reusable page shell used by other templates via `{% extends %}`.

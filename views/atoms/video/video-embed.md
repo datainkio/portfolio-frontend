@@ -1,15 +1,8 @@
 ---
-title: "Video Embed"
-template: "[[video-embed.njk]]"
-templatePath: "views/atoms/video/video-embed.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Video Embed
 
 Reusable presentational component.

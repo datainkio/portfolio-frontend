@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.deferred-videos
- *   role: Frontend runtime module: js/preloader/deferred-videos.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - video
- * ---
- */
-
 import {
   PRELOADER_ATTRIBUTES,
   PRELOADER_DEFERRED_VIDEO_MESSAGES,
@@ -36,7 +18,10 @@ export const hydrateDeferredVideos = (warn = () => {}) => {
     // Decorative videos never get a src under reduced motion. With no source
     // the element renders its poster and nothing moves — which is the whole
     // fallback. Videos not marked motion-optional are unaffected.
-    if (prefersReducedMotion && video.matches(PRELOADER_SELECTORS.motionOptional)) {
+    if (
+      prefersReducedMotion &&
+      video.matches(PRELOADER_SELECTORS.motionOptional)
+    ) {
       video.removeAttribute(PRELOADER_ATTRIBUTES.dataDeferVideo);
       return;
     }

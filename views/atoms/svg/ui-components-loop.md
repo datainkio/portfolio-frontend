@@ -1,13 +1,7 @@
 ---
-title: "UI Components Loop"
-template: "[[ui-components-loop.njk]]"
-templatePath: "views/atoms/svg/ui-components-loop.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "draft"
+description: "Defines Nunjucks macro: render."
+type: template
+status: draft
 tags:
   - svg
   - ui-components
@@ -33,19 +27,19 @@ contract in
 
 ## Params
 
-| Param | Default | Notes |
-| --- | --- | --- |
-| `classes` | `""` | Extra classes (e.g. `text-neutral-100`). |
+| Param     | Default | Notes                                    |
+| --------- | ------- | ---------------------------------------- |
+| `classes` | `""`    | Extra classes (e.g. `text-neutral-100`). |
 
 ## Hook contract
 
-| Role | `data-process-el` |
-| --- | --- |
-| SVG root (widened viewBox) | `uicomponents` |
-| Moving track (HERO) | `uicomponents-track` |
-| Item (7 HERO children) | `uicomponents-item` |
+| Role                         | `data-process-el`         |
+| ---------------------------- | ------------------------- |
+| SVG root (widened viewBox)   | `uicomponents`            |
+| Moving track (HERO)          | `uicomponents-track`      |
+| Item (7 HERO children)       | `uicomponents-item`       |
 | Invisible dwell/focus marker | `uicomponents-hero-start` |
-| Fixed chrome window frame | `uicomponents-chrome` |
+| Fixed chrome window frame    | `uicomponents-chrome`     |
 
 ## viewBox (coverflow peek)
 
@@ -59,6 +53,7 @@ the Tailwind classes — the stage is height-driven (`h-48`, svg `w-auto`), so a
 wider viewBox renders as a wider box at the same height and items keep their size.
 
 **Tuning knobs** (motion detail in the JS sidecar):
+
 - Peek amount → viewBox width + x0 (keep center = 2766).
 - Neighbor gap from chrome → pitch `P` (`ITEM_PITCH` in the JS; ≥ 555, since HERO
   renders atop CHROME).

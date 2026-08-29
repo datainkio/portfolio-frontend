@@ -1,22 +1,13 @@
 ---
-id: frontend.js.choreography.molecules.hero-motion
-role: "Hero-Motion Molecule — variant factories (reveal, reduced) for the hero section; top-level API selected by SECTION_OVERRIDES.hero. Mirrors the award-motion pattern."
+description: "Hero-Motion Molecule — variant factories (reveal, reduced) for the hero section; top-level API selected by SECTION_OVERRIDES.hero. Mirrors the award-motion pattern."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - choreography
-  - frontend
   - hero-motion
-  - js
   - reduced-motion
 links:
   - "[[organisms/hero/HeroAnimations|organisms/hero/HeroAnimations]]"
   - "[[config/ix/profiles/profiles|config/ix/profiles/profiles]]"
-backlinks:
-  - "[[organisms/hero/HeroAnimations|organisms/hero/HeroAnimations]]"
 ---
 
 ## Variants

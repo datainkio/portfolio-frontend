@@ -1,20 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.effects.gel.gelmanipulator
- *   role: Frontend runtime module: js/effects/gel/GelManipulator.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - effects
- *     - gel
- * ---
- */
 /** @format */
 
 /**

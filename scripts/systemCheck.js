@@ -1,19 +1,4 @@
 #!/usr/bin/env node
-/**
- * ---
- * aix:
- *   id: frontend.scripts.systemcheck
- *   role: Build/utility script: scripts/systemCheck.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - systemCheck.js
- * ---
- */
 /** @format */
 
 /**

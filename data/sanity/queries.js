@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.cms.queries
- *   role: CMS integration module: data/sanity/queries.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - cms
- *     - queries.js
- * ---
- */
 /** @format */
 
 import { activitiesQuery } from "./queries/activity/activities.js";

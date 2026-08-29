@@ -1,3 +1,9 @@
+---
+title: "🧬 Molecules"
+description: Molecules are the first level of component composition in the Blockframes system.
+type: index
+---
+
 <!-- @format -->
 
 # 🧬 Molecules

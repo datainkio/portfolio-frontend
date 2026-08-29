@@ -1,27 +1,17 @@
 ---
-id: frontend.js.choreography.molecules.bio-motion.split
-role: "Split variant for bio-motion — SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by BioTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
+description: "Split variant for bio-motion — SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by BioTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-animation:
-  - highlight
 tags:
   - bio-motion
   - biography
   - choreography
-  - frontend
   - introduction
-  - js
   - splittext
   - variant
 links:
   - "[[bio-motion]]"
   - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
   - "[[molecules/bio-motion/mission-statement|molecules/bio-motion/mission-statement]]"
-backlinks:
-  - "[[bio-motion]]"
 ---
 
 ## Heading split lifecycle

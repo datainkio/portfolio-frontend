@@ -1,3 +1,8 @@
+---
+description: "Frontend architecture overview for agents — repo boundaries, build order, and where source authority lives."
+type: guide
+---
+
 # Frontend Architecture (AIX-focused)
 
 > Source is the authority. Generated assets (\_site/) are never committed; builds always run from source.

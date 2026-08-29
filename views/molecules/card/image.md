@@ -1,15 +1,8 @@
 ---
-title: "Image"
-template: "[[image.njk]]"
-templatePath: "views/molecules/card/image.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Image
 
 Reusable presentational component.

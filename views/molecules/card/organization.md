@@ -1,16 +1,10 @@
 ---
-title: "Organization"
-template: "[[organization.njk]]"
-templatePath: "views/molecules/card/organization.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[card](card.md)"
 ---
+
 # Organization
 
 Defines Nunjucks macro: `render`.

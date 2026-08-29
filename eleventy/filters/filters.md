@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.filters.filters
-role: "Barrel that registers every filter module with 11ty, plus the datatype filter."
+description: "Barrel that registers every filter module with 11ty, plus the datatype filter."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Filters barrel"
-system: "Eleventy"
 tags:
   - filters
+aliases:
+  - Filters barrel
 links:
   - "[[README.filters]]"
   - "[[array]]"

@@ -1,3 +1,8 @@
+---
+description: "Motion spec for the Work section — intro and outro timing, triggers, and reduced-motion behaviour."
+type: spec
+---
+
 # Work Section - Motion Spec
 
 - **Title:** Work Section - Intro/Outro Motion

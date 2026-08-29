@@ -1,13 +1,6 @@
 ---
-title: "Page Nav"
-template: "[[page-nav.njk]]"
-templatePath: "views/organisms/navigation/page-nav.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 tags:
   - navigation
 links:
@@ -52,7 +45,7 @@ so it can be reused elsewhere without that header coupling.
 - Root is a `<nav>` landmark with `aria-label="Page sections"` (distinguishes it
   from other navs in the a11y tree).
 - An `<ul>` of `<li>` items, one `<a>` each. `divide-y divide-slate-700` draws a
-  rule between rows; **note** this means a *visible* `<ul>` with invisible links
+  rule between rows; **note** this means a _visible_ `<ul>` with invisible links
   still paints divider lines, so the home caller hides the whole `<nav>` (not the
   links) until the menu role.
 - Links are full-bleed tap targets (`block w-full h-full py-12`) for comfortable
@@ -63,13 +56,13 @@ so it can be reused elsewhere without that header coupling.
 
 ## Navigation targets
 
-| Label        | href            | Resolves to (section)              |
-| ------------ | --------------- | --------------------------------- |
+| Label        | href            | Resolves to (section)                 |
+| ------------ | --------------- | ------------------------------------- |
 | Overview     | `#overview`     | home landing `<header id="overview">` |
-| Dossier      | `#introduction` | Bio section                       |
-| Case studies | `#work`         | Projects section                  |
-| Recognition  | `#recognition`  | Awards section                    |
-| Contact      | `#contact`      | Contact section                   |
+| Dossier      | `#introduction` | Bio section                           |
+| Case studies | `#work`         | Projects section                      |
+| Recognition  | `#recognition`  | Awards section                        |
+| Contact      | `#contact`      | Contact section                       |
 
 The four section IDs are **injected on the home page** by `home.njk` (each
 `*Section.render({ id: … })` call), not hard-coded on the section components — so
@@ -97,7 +90,7 @@ JS-driven; only the item motion is.
 
 - Keep the navigation-targets table in sync with the `id`s passed in `home.njk`; an
   href here is a **dead link** unless a matching `id` is rendered on the page.
-- Labels intentionally differ from section IDs (e.g. *Dossier* → `#introduction`).
+- Labels intentionally differ from section IDs (e.g. _Dossier_ → `#introduction`).
   Change copy here, not the anchor.
 - If the component gains an active/current state, prefer `aria-current="page"` (or
   a scroll-spy hook) over a styling-only class.

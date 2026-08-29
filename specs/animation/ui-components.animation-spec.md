@@ -1,12 +1,11 @@
 ---
-id: spec.animation.ui-components
 title: Looping horizontal index-and-dwell UI-components sequence
+description: "Create a decorative, seamlessly looping horizontal sequence of UI components from the inlined SVG (../../assets/svg/ui components anim.svg(../../assets/svg/ui"
+type: spec
 status: draft
-owner: Russell Lebo / Frontend Choreography
 tags:
   - animation-spec
   - choreography
-  - frontend
   - home-landing
 ---
 
@@ -25,7 +24,7 @@ tags:
 
 Create a decorative, seamlessly looping horizontal sequence of UI components from the inlined SVG ([../../assets/svg/ui components anim.svg](../../assets/svg/ui%20components%20anim.svg)) shown inside the Process section.
 
-> **Replacement, not additive.** `process` variants are mutually exclusive (one-of-N; `Process.js` resolves a single `variant` per breakpoint). Selecting `ui-components-loop` therefore **replaces** the `blockframes` visual at the breakpoints it is wired to — the two cannot coexist in the same profile. If the intent is ever to show this loop *alongside* blockframes, the variant channel is the wrong lever and a second, independently-registered scene hook would be required — do not attempt it through `SECTION_OVERRIDES`.
+> **Replacement, not additive.** `process` variants are mutually exclusive (one-of-N; `Process.js` resolves a single `variant` per breakpoint). Selecting `ui-components-loop` therefore **replaces** the `blockframes` visual at the breakpoints it is wired to — the two cannot coexist in the same profile. If the intent is ever to show this loop _alongside_ blockframes, the variant channel is the wrong lever and a second, independently-registered scene hook would be required — do not attempt it through `SECTION_OVERRIDES`.
 
 The sequence uses an index-and-dwell pattern:
 
@@ -71,14 +70,22 @@ The real artwork is a composite browser-window mockup (Pixelmator export), **not
 
 ```html
 <!-- viewBox is the CHROME bbox → the outer svg's own overflow clip is the crop -->
-<svg data-process-el="uicomponents" viewBox="2471 548 590 606"
-     aria-hidden="true" focusable="false">
-  <g data-process-el="uicomponents-chrome">...</g>   <!-- CHROME: fixed window frame -->
+<svg
+  data-process-el="uicomponents"
+  viewBox="2471 548 590 606"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g data-process-el="uicomponents-chrome">...</g>
+  <!-- CHROME: fixed window frame -->
 
-  <g data-process-el="uicomponents-track">           <!-- HERO: GSAP translates its x -->
-    <g data-process-el="uicomponents-item">...</g>   <!-- 7 HERO item children -->
+  <g data-process-el="uicomponents-track">
+    <!-- HERO: GSAP translates its x -->
+    <g data-process-el="uicomponents-item">...</g>
+    <!-- 7 HERO item children -->
     <!-- ...pars, image-card, title-and-abstract, cards, map, charts, team... -->
-    <g data-process-el="uicomponents-hero-start" opacity="0">...</g> <!-- dwell/destination marker -->
+    <g data-process-el="uicomponents-hero-start" opacity="0">...</g>
+    <!-- dwell/destination marker -->
   </g>
 
   <!-- ASIDE + BODY: fixed mockup content composed inside the CHROME crop -->

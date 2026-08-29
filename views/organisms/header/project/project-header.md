@@ -1,19 +1,13 @@
 ---
-title: Project Header
-template: [[project-header.njk]]
-templatePath: views/organisms/header/project/project-header.njk
-engine: Nunjucks
-system: Eleventy
+description: "Defines Nunjucks macro: render."
 type: template
-templateRole: component
-atomicLevel: "organism"
-status: active
 links:
   - "[breadcrumbs-nav](../../navigation/breadcrumbs-nav.md)"
   - "[project-metadata](../../project-metadata/project-metadata.md)"
   - "[project-orgs](../../../molecules/list/project-orgs.md)"
   - "[featured-image](../../../molecules/figure/featured-image.md)"
 ---
+
 # Project Header
 
 Defines Nunjucks macro: `render`.

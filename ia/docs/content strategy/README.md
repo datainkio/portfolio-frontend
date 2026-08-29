@@ -1,20 +1,10 @@
 ---
 title: Content Strategy Docs
 description: Documentation for content modeling, messaging structure, and semantic consistency.
-docType: index
-status: active
-owner: frontend
-tags: []
+type: index
 permalink: /docs/ia/content-strategy/
 eleventyComputed:
   title: "{{ title }}"
-aix:
-  intent: taxonomy
-  audience:
-    - content
-    - design
-    - frontend
-  canonical: true
 ---
 
 This directory defines how content is structured so components and pages remain coherent as the system scales.

@@ -1,15 +1,8 @@
 ---
-title: "Menu Toggle"
-template: "[[menu-toggle.njk]]"
-templatePath: "views/atoms/button/menu-toggle.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Menu Toggle
 
 Reusable presentational component.

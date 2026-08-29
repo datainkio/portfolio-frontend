@@ -1,17 +1,11 @@
 ---
-title: Article Header
-template: [[article-header.njk]]
-templatePath: views/organisms/header/article/article-header.njk
-engine: Nunjucks
-system: Eleventy
+description: "Defines Nunjucks macro: render."
 type: template
-templateRole: component
-atomicLevel: "organism"
-status: active
 links:
   - "[hanko](../../../atoms/hanko/hanko.md)"
   - "[breadcrumbs-nav](../../navigation/breadcrumbs-nav.md)"
 ---
+
 # Article Header
 
 Defines Nunjucks macro: `render`.

@@ -1,19 +1,13 @@
 ---
-title: "Printmarks"
-template: "[[printmarks.njk]]"
-templatePath: "views/molecules/printmarks.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[ink-marks](../atoms/printmarks/ink-marks.md)"
   - "[trim-marks](../atoms/printmarks/trim-marks.md)"
   - "[margin-bleed-marks](../atoms/printmarks/margin-bleed-marks.md)"
   - "[registration-marks](../atoms/printmarks/registration-marks.md)"
 ---
+
 # Printmarks
 
 Defines Nunjucks macro: `render`.

@@ -1,20 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.displays.blockframes.templates.article
- *   role: Frontend runtime module: js/displays/blockframes/templates/Article.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - displays
- *     - blockframes
- * ---
- */
 import * as Image from "../organisms/Image.js";
 export function paint(elem, palette) {
   const image = elem.querySelector(".image");

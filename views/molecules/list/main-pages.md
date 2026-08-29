@@ -1,17 +1,11 @@
 ---
-title: "Main Pages"
-template: "[[main-pages.njk]]"
-templatePath: "views/molecules/list/main-pages.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[nav-link](../../atoms/link/nav-link.md)"
   - "[hanko](../../atoms/hanko/hanko.md)"
 ---
+
 # Main Pages
 
 Defines Nunjucks macro: `render`.

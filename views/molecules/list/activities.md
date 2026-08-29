@@ -1,15 +1,8 @@
 ---
-title: "Activities"
-template: "[[activities.njk]]"
-templatePath: "views/molecules/list/activities.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Activities
 
 Reusable presentational component.

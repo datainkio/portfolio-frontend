@@ -1,16 +1,9 @@
 ---
-id: frontend.js.choreography.organisms.index
-role: "Organisms barrel — re-exports all section controllers, animation modules, trigger modules, and organism utilities."
+description: "Organisms barrel — re-exports all section controllers, animation modules, trigger modules, and organism utilities."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
   - index
-  - js
 links:
   - "[[Hero|Hero]]"
   - "[[HeroAnimations|HeroAnimations]]"

@@ -1,16 +1,10 @@
 ---
-title: "Cols 2 Before"
-template: "[[cols-2-before.njk]]"
-templatePath: "views/layouts/cols-2-before.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "layout"
-atomicLevel: "none"
-status: "active"
+description: "Provides a reusable page shell used by other templates via {% extends %}."
+type: template
 links:
   - "[base](base.md)"
 ---
+
 # Cols 2 Before
 
 Provides a reusable page shell used by other templates via `{% extends %}`.

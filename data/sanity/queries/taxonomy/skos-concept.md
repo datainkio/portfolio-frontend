@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.skos_concept
-role: "Factory that builds standard SKOS taxonomy-concept queries."
+description: Factory that builds standard SKOS taxonomy-concept queries.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "SKOS concept query factory"
 tags:
   - cms
   - queries
+aliases:
+  - SKOS concept query factory
 links:
   - "[[README.queries]]"
   - "[[conceptProjection]]"
@@ -20,8 +16,8 @@ links:
 Factory that builds a standard taxonomy-concept query from a config object, so the SKOS-backed
 collections share one shape.
 
-| Export | Purpose |
-| --- | --- |
+| Export                                                            | Purpose                                          |
+| ----------------------------------------------------------------- | ------------------------------------------------ |
 | `makeSkosConceptQuery({ id, description, cacheDuration, query })` | produce a query object for a SKOS concept scheme |
 
 Consumed by the [[activities]], [[industries]], [[outcomes]], and [[roles]] queries.

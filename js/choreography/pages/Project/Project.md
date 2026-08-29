@@ -1,15 +1,7 @@
 ---
-id: frontend.js.choreography.pages.project.project
-role: "Page controller — plays intro and reverse-outro GSAP timeline animations for project page entry and link-click exit transitions."
+description: "Page controller — plays intro and reverse-outro GSAP timeline animations for project page entry and link-click exit transitions."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-templateRole: "page"
 tags:
   - choreography
-  - frontend
-  - js
   - project
-links: []
 ---

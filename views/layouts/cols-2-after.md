@@ -1,17 +1,11 @@
 ---
-title: "Cols 2 After"
-template: "[[cols-2-after.njk]]"
-templatePath: "views/layouts/cols-2-after.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "layout"
-atomicLevel: "none"
-status: "active"
+description: "Provides a reusable page shell used by other templates via {% extends %}."
+type: template
 links:
   - "[base](base.md)"
   - "[docs-nav](../organisms/navigation/docs-nav.md)"
 ---
+
 # Cols 2 After
 
 Provides a reusable page shell used by other templates via `{% extends %}`.

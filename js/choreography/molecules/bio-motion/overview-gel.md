@@ -1,23 +1,14 @@
 ---
-id: frontend.js.choreography.molecules.bio-motion.overview-gel
-role: "Bio molecule part — anchors the gel_subheading gel behind the bio overview <h3> as a full-bleed band (viewport width, heading height, heading y) and keeps it synced on scroll and resize. Mirrors heading-gel.js for the <h2>. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
+description: "Bio molecule part — anchors the gel_subheading gel behind the bio overview <h3> as a full-bleed band (viewport width, heading height, heading y) and keeps it synced on scroll and resize. Mirrors heading-gel.js for the <h2>. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - choreography
-  - frontend
   - bio-motion
   - gel
-  - js
 links:
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
   - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
-backlinks:
-  - "[[molecules/bio-motion/split|molecules/bio-motion/split]]"
 ---
 
 `attachOverviewGel(view, gelManager)` resolves `gel_subheading` from the

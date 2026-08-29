@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.services.tailwindlogger
-role: "Build-transparency service that instruments the Tailwind CSS v4 build with metrics and diagnostics."
+description: Build-transparency service that instruments the Tailwind CSS v4 build with metrics and diagnostics.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "TailwindLogger"
-system: "Eleventy"
 tags:
   - services
+aliases:
+  - TailwindLogger
 links:
   - "[[README.services]]"
   - "[[buildCSS]]"

@@ -1,25 +1,16 @@
 ---
-title: "Sanity Queries"
+title: Sanity Queries
 description: "Reference guide for Sanity GROQ query files: query object shape, inline vs. referenced projection patterns, singleton vs. collection conventions, and directory layout."
-docType: "reference"
-status: "active"
-owner: "frontend"
+type: reference
 tags:
-  - aix
   - data-layer
   - groq
   - queries
   - reference
   - sanity
-permalink: false
 aliases:
-  - "Queries Reference"
-  - "GROQ Queries"
-aix:
-  intent: "reference"
-  audience:
-    - frontend
-  canonical: true
+  - Queries Reference
+  - GROQ Queries
 ---
 
 <!-- @format -->

@@ -1,15 +1,8 @@
 ---
-title: "Gtm Script"
-template: "[[gtm-script.njk]]"
-templatePath: "views/templates/partials/gtm-script.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "partial"
-atomicLevel: "template"
-status: "active"
-tags:
+description: Reusable partial included by layouts or pages.
+type: template
 ---
+
 # Gtm Script
 
 Reusable partial included by layouts or pages.

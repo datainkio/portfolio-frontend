@@ -1,3 +1,9 @@
+---
+title: Test Suite
+description: Automated tests for the Portfolio project components.
+type: reference
+---
+
 <!-- @format -->
 
 # Test Suite

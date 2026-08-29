@@ -1,15 +1,8 @@
 ---
-title: "Organizations"
-template: "[[organizations.njk]]"
-templatePath: "views/molecules/list/organizations.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Organizations
 
 Reusable presentational component.

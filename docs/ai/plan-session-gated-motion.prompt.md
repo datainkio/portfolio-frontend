@@ -1,3 +1,8 @@
+---
+description: "TL;DR: Reuse the exact mechanism reduced-motion already uses to skip animation and jump"
+type: guide
+---
+
 ## Plan: Session-Gated Motion Playback
 
 TL;DR: Reuse the exact mechanism reduced-motion already uses to skip animation and jump
@@ -13,9 +18,9 @@ for reduced motion's `playIntro()` restart-jitter problem.
 ### Findings — how the existing system already almost does this
 
 - **Single chokepoint already exists.** `resolveSectionMotionProfile(sectionKey,
-  conditions)` in `js/choreography/config/ix/profiles.js` is the one place every
+conditions)` in `js/choreography/config/ix/profiles.js` is the one place every
   section resolves `{ timeline: { enabled }, trigger: { enabled }, animation:
-  { variant } }` from. `getActiveMotionProfileKey()` picks `'reduced'` over the
+{ variant } }` from. `getActiveMotionProfileKey()` picks `'reduced'` over the
   breakpoint key when `conditions.reduceMotion` is true. This is the natural third
   input: add `conditions.sessionPlayed` (or similar) alongside `reduceMotion`.
 - **End-state jump already exists.** `AbstractSection._applyResponsiveLifecycle()`
@@ -34,7 +39,7 @@ for reduced motion's `playIntro()` restart-jitter problem.
 - **The scrub exception is already coded — for reduced motion.**
   `AbstractSectionTriggers.isScrubbed()` reports whether a section's ScrollTrigger
   drives the timeline via scroll position. `AbstractSection.playIntro()` checks it
-  *after* the lifecycle-enabled check and bails without touching the timeline,
+  _after_ the lifecycle-enabled check and bails without touching the timeline,
   specifically to avoid "fighting the scrub controller for the same property
   (jitter)." Session-gating must respect the same bypass, and for the same reason:
   forcing `_applyPostIntroState()` on a scrubbed section would fight its
@@ -47,7 +52,7 @@ for reduced motion's `playIntro()` restart-jitter problem.
   `js/choreography/managers/SessionManager/SessionManager.js` reads/writes
   `sessionStorage['dataink_session']` and already exposes `hasHeroIntroPlayed` /
   `markHeroIntroPlayed()` / `reset()`. `js/choreography/managers/README.managers.md`
-  documents it as: *"Persisted runtime session state; gates one-time animations"* —
+  documents it as: _"Persisted runtime session state; gates one-time animations"_ —
   this is its stated purpose. But it is never imported by `AnimationDirector.js` or
   any section — only re-exported from the managers barrel. It needs generalizing
   from one hardcoded boolean to a per-section map, and wiring in.
@@ -117,7 +122,7 @@ for reduced motion's `playIntro()` restart-jitter problem.
    `config/ix/` for the current list) and manually verify their scroll-driven
    behavior is unchanged on a repeat-session load.
 5. Verify the reduced-motion path is untouched: with `prefers-reduced-motion:
-   reduce` (or `ACCESSIBILITY_SETTINGS.testReducedMotion`), confirm sections still
+reduce` (or `ACCESSIBILITY_SETTINGS.testReducedMotion`), confirm sections still
    resolve through the existing `'reduced'` profile key exactly as before —
    session-gating is additive, not a replacement of that branch.
 6. Manual QA pass across breakpoints (`base`/`sm`/`md`/`lg`/`xl`) since
@@ -156,7 +161,7 @@ for reduced motion's `playIntro()` restart-jitter problem.
 2. ~~`playLanding()` has no end-state jump.~~ **Fixed during implementation.**
    This was flagged here as a pre-existing reduced-motion-only gap, then hit
    immediately in practice: session-gating makes the cold-start-disabled case
-   the *common* path (every repeat visit, not just `prefers-reduced-motion`),
+   the _common_ path (every repeat visit, not just `prefers-reduced-motion`),
    and `LandingSequence.start()`'s first call is `video.playLanding()` — so the
    landing timeline never settling meant the very first post-preloader beat
    looked stuck. Added `_applyPostLandingState()` to `AbstractSection.js`
@@ -166,7 +171,7 @@ for reduced motion's `playIntro()` restart-jitter problem.
    registered sections are homepage-scoped; `AbstractSection` self-disables via
    `isDisabled = !view` on pages where a section's element doesn't exist, so this
    naturally doesn't touch project/work-listing pages.
-3a. ~~Preloader out of scope.~~ **In scope as of implementation** — user
+   3a. ~~Preloader out of scope.~~ **In scope as of implementation** — user
    confirmed the preloader itself must not display at all on repeat visits, not
    just settle instantly. `js/preloader/Preloader.js`'s `initPreloader()` isn't
    part of `SECTION_REGISTRY`/`AbstractSection` (preloader is intentionally

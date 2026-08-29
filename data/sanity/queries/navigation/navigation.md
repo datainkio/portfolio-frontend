@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.navigation
-role: "GROQ query definition registered as an Eleventy collection (Navigation)."
+description: GROQ query definition registered as an Eleventy collection (Navigation).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Navigation query"
 tags:
   - cms
   - queries
+aliases:
+  - Navigation query
 links:
   - "[[README.queries]]"
 ---
@@ -19,9 +15,9 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`navigation`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
-| `navigationQuery` | `navigation` |
+| Export            | Collection id |
+| ----------------- | ------------- |
+| `navigationQuery` | `navigation`  |
 
 ## Source
 

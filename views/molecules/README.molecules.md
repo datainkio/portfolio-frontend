@@ -1,19 +1,9 @@
 ---
-id: frontend.views.molecules.readme
-role: Documents the molecules/ layer — composite UI groups composed of atoms.
-status: stable
-surface: internal
-owner: Template Steward
+description: "Documents the molecules/ layer — composite UI groups composed of atoms."
 type: guide
-scope: frontend
-audience: maintainers
-atomicLevel: "molecule"
-engine: "Nunjucks"
-perf:
-  readPriority: medium
-  cacheSafe: true
-  critical: false
+status: stable
 ---
+
 <!-- @format -->
 
 # Molecules Directory - Composite UI Components

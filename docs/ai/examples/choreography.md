@@ -1,3 +1,8 @@
+---
+description: "Canonical choreography patterns — the event contract, section registration, and reduced-motion branching."
+type: reference
+---
+
 # Canonical choreography patterns
 
 ## Event contract (single source)

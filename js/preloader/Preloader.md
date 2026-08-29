@@ -1,14 +1,8 @@
 ---
-id: frontend.js.preloader.preloader
-role: "Preloader — context sidecar (auto-created; expand with the file's real responsibility)."
+description: "Preloader — context sidecar (auto-created; expand with the file's real responsibility)."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-tags:
-  - frontend
-  - js
 ---
+
 # Preloader
 
 Context sidecar for `js/preloader/Preloader.js`.

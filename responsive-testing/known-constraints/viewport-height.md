@@ -1,5 +1,7 @@
 ---
 title: Viewport Height Constraints
+description: "Known constraint: short and dynamically-resizing viewport heights compress pinned regions; records problems and mitigations."
+type: reference
 tags:
   - constraints
   - safari

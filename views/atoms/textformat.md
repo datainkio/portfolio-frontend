@@ -1,15 +1,8 @@
 ---
-title: "Textformat"
-template: "[[textformat.njk]]"
-templatePath: "views/atoms/textformat.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Textformat
 
 Reusable presentational component.

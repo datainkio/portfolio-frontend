@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.process.processanimations
-role: "Process animations module — variant-driven intro/idle/outro timeline builder. Selects the active variant from PROCESS_VARIANT_FACTORIES (default `blockframes`) and delegates buildIntro/buildOutro to it, passing through the injected gelManager; the idle phase is an empty timeline. Mirrors BioAnimations."
+description: "Process animations module — variant-driven intro/idle/outro timeline builder. Selects the active variant from PROCESS_VARIANT_FACTORIES (default `blockframes`) and delegates buildIntro/buildOutro to it, passing through the injected gelManager; the idle phase is an empty timeline. Mirrors BioAnimations."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[system/gsap|system/gsap]]"

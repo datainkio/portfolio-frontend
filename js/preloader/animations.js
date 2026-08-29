@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.animations
- *   role: Frontend runtime module: js/preloader/animations.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - animation
- * ---
- */
-
 import {
   PRELOADER_ANIMATION,
   PRELOADER_ANIMATION_MESSAGES,

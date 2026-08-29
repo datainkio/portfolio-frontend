@@ -1,6 +1,7 @@
 ---
-title: Choreography atomic layering — original generation brief
-status: "#historical"
+title: "Choreography atomic layering — original generation brief"
+description: "The choreography system should include:"
+status: historical
 tags:
   - choreography
   - historical
@@ -8,7 +9,7 @@ tags:
 ---
 
 > [!warning] Historical prompt — not documentation, not authority.
-> This is the brief used to *generate* the atomic motion layering, kept for
+> This is the brief used to _generate_ the atomic motion layering, kept for
 > provenance. It describes an intended design, not the system that was built,
 > and parts of it were never implemented. Two known divergences:
 >

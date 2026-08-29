@@ -1,14 +1,8 @@
 ---
-id: frontend.js.choreography.animationdirector
-role: "Master choreography controller — initializes and coordinates AnimationBus, ScrollEffectsCoordinator, section controllers, CardManager, GlobalHeaderManager, HomeHeaderManager (bus-injected), WorkHeaderManager, ProjectHeaderManager, and LandingSequence."
+description: "Master choreography controller — initializes and coordinates AnimationBus, ScrollEffectsCoordinator, section controllers, CardManager, GlobalHeaderManager, HomeHeaderManager (bus-injected), WorkHeaderManager, ProjectHeaderManager, and LandingSequence."
 status: stable
-surface: public
-scope: frontend
-runtime: browser
 tags:
   - choreography
-  - frontend
-  - js
   - system
 links:
   - "[[AnimationBus|AnimationBus]]"

@@ -1,15 +1,8 @@
 ---
-title: "Loader Text"
-template: "[[LoaderText.njk]]"
-templatePath: "views/atoms/loader/LoaderText.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Loader Text
 
 Defines Nunjucks macro: `render`.

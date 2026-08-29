@@ -1,25 +1,16 @@
 ---
-title: "Sanity Projections"
+title: Sanity Projections
 description: "Reference guide for GROQ projection files: when to extract, anatomy, composition, and directory conventions."
-docType: "reference"
-status: "active"
-owner: "frontend"
+type: reference
 tags:
-  - aix
   - data-layer
   - groq
   - projections
   - reference
   - sanity
-permalink: false
 aliases:
-  - "Projections Reference"
-  - "GROQ Projections"
-aix:
-  intent: "reference"
-  audience:
-    - frontend
-  canonical: true
+  - Projections Reference
+  - GROQ Projections
 ---
 
 <!-- @format -->

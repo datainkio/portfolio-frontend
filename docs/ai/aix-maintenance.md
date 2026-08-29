@@ -1,3 +1,9 @@
+---
+title: AIX maintenance loop (frontend)
+description: This repo already includes a checklist at docs/ai/AIXMaintenanceChecklist.md(AIXMaintenanceChecklist.md).
+type: guide
+---
+
 # AIX maintenance loop (frontend)
 
 This repo already includes a checklist at [docs/ai/AIX_Maintenance_Checklist.md](AIX_Maintenance_Checklist.md). This page adds a lightweight “loop” to keep AIX quality high without expanding prompt sprawl.

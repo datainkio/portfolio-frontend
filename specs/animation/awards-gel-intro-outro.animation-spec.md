@@ -1,3 +1,9 @@
+---
+title: "Awards / Recognition Section — Gel Intro & Outro Spec"
+description: "From the user's perspective the section reads as a light card that, on entry, gains a second colored panel slipping into place slightly askew behind it."
+type: spec
+---
+
 # Awards / Recognition Section — Gel Intro & Outro Spec
 
 - **Title:** Awards / Recognition — Two-Gel Backing Intro/Outro Sequence
@@ -13,11 +19,11 @@ From the user's perspective the section reads as a light card that, on entry, ga
 
 ### State model
 
-| State | User perception | Implementation |
-| --- | --- | --- |
-| **init** | Section content on a light background. | Section background is transparent. **Backing gel** (neutral gradient) sits beneath the section, matching its position and dimensions. **Accent gel** (accent gradient) sits offscreen to the **bottom-right**, rotated `-5°`, with a z-index one step above the backing gel. |
-| **intro** | A second panel slides in and settles slightly askew behind the card. | Accent gel animates from bottom-right to align with the section's position and dimensions — but **retains its `-5°` rotation**. End state: two stacked gels behind the section, the upper one askew. |
-| **outro** | The askew panel retreats offscreen. | Intro reverses: accent gel returns to its offscreen bottom-right, rotated start. Backing gel is unchanged. |
+| State     | User perception                                                      | Implementation                                                                                                                                                                                                                                                               |
+| --------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **init**  | Section content on a light background.                               | Section background is transparent. **Backing gel** (neutral gradient) sits beneath the section, matching its position and dimensions. **Accent gel** (accent gradient) sits offscreen to the **bottom-right**, rotated `-5°`, with a z-index one step above the backing gel. |
+| **intro** | A second panel slides in and settles slightly askew behind the card. | Accent gel animates from bottom-right to align with the section's position and dimensions — but **retains its `-5°` rotation**. End state: two stacked gels behind the section, the upper one askew.                                                                         |
+| **outro** | The askew panel retreats offscreen.                                  | Intro reverses: accent gel returns to its offscreen bottom-right, rotated start. Backing gel is unchanged.                                                                                                                                                                   |
 
 ## Motion Principles
 

@@ -1,3 +1,8 @@
+---
+description: "Canonical Nunjucks template patterns — macro render, component composition, and data access."
+type: reference
+---
+
 # Canonical template patterns
 
 ## Macro render pattern (preferred)

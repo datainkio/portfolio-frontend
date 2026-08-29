@@ -1,15 +1,8 @@
 ---
-title: "Category"
-template: "[[category.njk]]"
-templatePath: "views/molecules/card/category.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Category
 
 Defines Nunjucks macro: `render`.

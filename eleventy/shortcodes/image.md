@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.shortcodes.image
-role: "Shortcodes that post-process picture/img markup with classes and wrap images in a lightbox modal."
+description: Shortcodes that post-process picture/img markup with classes and wrap images in a lightbox modal.
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Image shortcode"
-system: "Eleventy"
 tags:
   - shortcodes
+aliases:
+  - Image shortcode
 links:
   - "[[README.shortcodes]]"
   - "[[shortcodes]]"
@@ -19,10 +14,10 @@ links:
 
 Cheerio-based shortcodes for rendering responsive images.
 
-| Shortcode | Purpose |
-| --- | --- |
+| Shortcode                                   | Purpose                                                                          |
+| ------------------------------------------- | -------------------------------------------------------------------------------- |
 | `picture(html, pictureClasses, imgClasses)` | add classes to `<picture>`/`<img>`, strip `width`/`height` to avoid CSS clipping |
-| `lightbox(html, title, caption, …)` | wrap an image in a `<dialog>` modal trigger |
+| `lightbox(html, title, caption, …)`         | wrap an image in a `<dialog>` modal trigger                                      |
 
 > [!note] Shortcode vs filter
 > This renders markup. Resolving an image **record by id** is the

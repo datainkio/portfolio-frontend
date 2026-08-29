@@ -1,15 +1,8 @@
 ---
-title: "Breadcrumbs Nav"
-template: "[[breadcrumbs-nav.njk]]"
-templatePath: "views/organisms/navigation/breadcrumbs-nav.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Breadcrumbs Nav
 
 Defines Nunjucks macro: `render`.

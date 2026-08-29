@@ -1,3 +1,8 @@
+---
+description: "Geometry tokens used by JS (provided via root utility classes):"
+type: spec
+---
+
 - **Title:** Ruler Display - Hybrid JS Geometry and CSS Presentation
 - **Owner(s):** Frontend / Choreography Maintainers
 - **Status:** draft

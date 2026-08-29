@@ -1,15 +1,8 @@
 ---
-title: "Build Info"
-template: "[[build-info.njk]]"
-templatePath: "views/molecules/list/build-info.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Build Info
 
 Defines Nunjucks macro: `render`.

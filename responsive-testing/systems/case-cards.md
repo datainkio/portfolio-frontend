@@ -1,5 +1,6 @@
 ---
-title: Case Cards
+description: "Responsive testing notes for the case-card system — components, breakpoint behaviour, and known issues."
+type: reference
 tags:
   - card
   - responsiveness

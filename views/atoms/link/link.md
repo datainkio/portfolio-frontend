@@ -1,16 +1,10 @@
 ---
-title: "Link"
-template: "[[link.njk]]"
-templatePath: "views/atoms/link/link.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
+description: Reusable presentational component.
+type: template
 links:
   - "[external-link](atoms/icon/external-link.njk)"
 ---
+
 # Link
 
 Reusable presentational component.

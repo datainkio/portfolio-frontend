@@ -1,13 +1,7 @@
 ---
-title: "Dev Note (console channel)"
-template: "[[dev-note.njk]]"
-templatePath: "views/templates/partials/dev-note.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "partial"
-atomicLevel: "template"
-status: "active"
+title: Dev Note (console channel)
+description: "Emits the developer-facing console.log narrative — the IXD/motion half of"
+type: template
 tags:
   - dev-channel
   - console
@@ -21,8 +15,8 @@ links:
 Emits the **developer-facing `console.log` narrative** — the IXD/motion half of
 the two-channel system defined in [ADR 0005](../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md).
 Audience: a designer/developer who opened DevTools and is watching the page boot.
-The implicit question to answer: *"will working with this person make me a hero
-to my bosses?"* — answered here with evidence of runtime discipline.
+The implicit question to answer: _"will working with this person make me a hero
+to my bosses?"_ — answered here with evidence of runtime discipline.
 
 ## Channel contract
 
@@ -40,7 +34,7 @@ the sequence unfold rather than reading a wall of text.
 1. **Branded banner** — Russ Lebo / Creative Technologist. "Made you look —
    here's how it works." Sets expectation that the logs narrate the choreography.
 2. **The boot contract** — `DOMContentLoaded → director:ready → preloader:out →
-   LandingSequence`. One styled line per beat *as it fires*. Why gated, not
+LandingSequence`. One styled line per beat _as it fires_. Why gated, not
    raced: the hero reveal (LCP) is deterministic, never bypassed.
 3. **Director architecture** — `AnimationDirector` single coordinator;
    `AnimationBus` pub/sub; no rogue globals; `SECTION_REGISTRY` lifecycle
@@ -52,8 +46,8 @@ the sequence unfold rather than reading a wall of text.
    per-breakpoint scroll variants. Motion is authored per breakpoint, not patched.
 6. **Accessibility / reduced-motion** — detect `prefers-reduced-motion`; log
    which branch ran (full vs reduced `gsap.set`). Every ScrollTrigger has a
-   reduced branch — prove it at runtime. *(This is the line that wins the
-   boss-question.)*
+   reduced branch — prove it at runtime. _(This is the line that wins the
+   boss-question.)_
 7. **Performance discipline** — compositor-only props (transform/opacity),
    ScrollSmoother wrapper/content, idle-deferred boot. Optionally log measured
    boot ms (observability as a selling point).
@@ -64,7 +58,7 @@ the sequence unfold rather than reading a wall of text.
 
 See ADR 0005 scope boundary + `context/goals/Frontend_tasks/fix-dev-channel-defects.md`.
 
-- **Mount placement:** included in `home.njk` *before* `<head>`, so the
+- **Mount placement:** included in `home.njk` _before_ `<head>`, so the
   `<script>` renders as a direct child of `<html>` (non-conformant). Move the
   mount inside `<body>` (or `<head>`) before expanding this channel.
 - **`type="module"` defers** the first log; acceptable for now, revisit if banner

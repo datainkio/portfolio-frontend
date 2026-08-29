@@ -1,16 +1,10 @@
 ---
-title: "Project Orgs"
-template: "[[project-orgs.njk]]"
-templatePath: "views/molecules/list/project-orgs.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "macro"
-atomicLevel: "molecule"
-status: "active"
+description: "Macro that renders a comma-separated list of organization titles inside a <p> element."
+type: template
 tags:
   - component
 ---
+
 # Project Orgs
 
 Macro that renders a comma-separated list of organization titles inside a `<p>` element.
@@ -31,10 +25,10 @@ Encapsulates the byline pattern — a comma-delimited list of organizations — 
 {{ ProjectOrgs.render({ orgs: orgs, class: "some-class" }) }}
 ```
 
-| Param | Type | Required | Description |
-|-------|------|----------|-------------|
-| `orgs` | `Array<{ title: string }>` | No | List of organization objects. Renders nothing when empty or omitted. |
-| `class` | `string` | No | CSS class string applied to the wrapping `<p>`. |
+| Param   | Type                       | Required | Description                                                          |
+| ------- | -------------------------- | -------- | -------------------------------------------------------------------- |
+| `orgs`  | `Array<{ title: string }>` | No       | List of organization objects. Renders nothing when empty or omitted. |
+| `class` | `string`                   | No       | CSS class string applied to the wrapping `<p>`.                      |
 
 ## Role in the System
 

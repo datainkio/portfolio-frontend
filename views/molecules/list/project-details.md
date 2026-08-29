@@ -1,17 +1,11 @@
 ---
-title: "Project Details"
-template: "[[project-details.njk]]"
-templatePath: "views/molecules/list/project-details.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
+description: Reusable presentational component.
+type: template
 links:
   - "[organizations](organizations.md)"
   - "[roles](roles.md)"
 ---
+
 # Project Details
 
 Reusable presentational component.

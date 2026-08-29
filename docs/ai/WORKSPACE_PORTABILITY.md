@@ -1,3 +1,9 @@
+---
+title: Frontend AI system portability
+description: "The AI assets in this repo (agents, prompts, and AIX docs) should travel with the frontend and remain effective when this repo is:"
+type: guide
+---
+
 # Frontend AI system portability
 
 ## Goal

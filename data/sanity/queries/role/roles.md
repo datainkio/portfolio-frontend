@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.queries.roles
-role: "GROQ query definition registered as an Eleventy collection (Roles)."
+description: GROQ query definition registered as an Eleventy collection (Roles).
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Roles query"
 tags:
   - cms
   - queries
+aliases:
+  - Roles query
 links:
   - "[[README.queries]]"
   - "[[conceptProjection]]"
@@ -21,9 +17,10 @@ links:
 GROQ query definition fetched by the service layer and registered as the **`roles`** Eleventy
 collection.
 
-| Export | Collection id |
-| --- | --- |
-| `rolesQuery` | `roles` |
+| Export       | Collection id |
+| ------------ | ------------- |
+| `rolesQuery` | `roles`       |
+
 - Projection: [[conceptProjection]]
 
 > [!note] SKOS taxonomy concept

@@ -1,15 +1,8 @@
 ---
-id: frontend.js.choreography.organisms.hero.heroanimations
-role: "Hero animations delegator — selects a hero-motion variant (reveal | reduced) and delegates landing/intro/outro timeline building to it. Retains getLastWordBottom() for HeroTriggers. Mirrors AwardsAnimations."
+description: "Hero animations delegator — selects a hero-motion variant (reveal | reduced) and delegates landing/intro/outro timeline building to it. Retains getLastWordBottom() for HeroTriggers. Mirrors AwardsAnimations."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "organism"
 tags:
   - choreography
-  - frontend
-  - js
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[molecules/hero-motion/hero-motion|molecules/hero-motion]]"

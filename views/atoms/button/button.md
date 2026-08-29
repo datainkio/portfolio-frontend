@@ -1,15 +1,8 @@
 ---
-title: "Button"
-template: "[[button.njk]]"
-templatePath: "views/atoms/button/button.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Button
 
 Reusable presentational component.

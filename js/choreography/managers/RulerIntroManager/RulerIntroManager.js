@@ -1,7 +1,4 @@
-import {
-  motion,
-  RULER_INTRO_DEFAULTS,
-} from "../../config/index/index.js";
+import { motion, RULER_INTRO_DEFAULTS } from "../../config/index/index.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";

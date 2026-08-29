@@ -1,19 +1,4 @@
 #!/usr/bin/env node
-/**
- * ---
- * aix:
- *   id: frontend.scripts.servesite
- *   role: Build/utility script: scripts/serveSite.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - serveSite.js
- * ---
- */
 /** @format */
 
 /**
@@ -85,8 +70,16 @@ const MIME = {
 // already-compressed binaries (images, fonts, video) untouched. Mirror that here so
 // Lighthouse / CWV measure the transfer sizes that actually ship, not raw bytes.
 const COMPRESSIBLE = new Set([
-  ".html", ".css", ".js", ".mjs", ".json", ".map",
-  ".webmanifest", ".svg", ".xml", ".txt",
+  ".html",
+  ".css",
+  ".js",
+  ".mjs",
+  ".json",
+  ".map",
+  ".webmanifest",
+  ".svg",
+  ".xml",
+  ".txt",
 ]);
 
 async function resolvePath(urlPath) {
@@ -133,7 +126,9 @@ const server = http.createServer(async (req, res) => {
 
 server.on("error", (err) => {
   if (err.code === "EADDRINUSE") {
-    console.error(`\n  ✗ Port ${PORT} is already in use. Try: PORT=8091 npm run preview\n`);
+    console.error(
+      `\n  ✗ Port ${PORT} is already in use. Try: PORT=8091 npm run preview\n`,
+    );
   } else {
     console.error(err);
   }
@@ -143,6 +138,8 @@ server.on("error", (err) => {
 server.listen(PORT, () => {
   console.log(`\n  ▶ Preview (production build) serving ${ROOT}`);
   console.log(`    http://localhost:${PORT}/\n`);
-  console.log(`    Measure Lighthouse / CWV against THIS, not the dev server (:8080).`);
+  console.log(
+    `    Measure Lighthouse / CWV against THIS, not the dev server (:8080).`,
+  );
   console.log(`    Ctrl+C to stop.\n`);
 });

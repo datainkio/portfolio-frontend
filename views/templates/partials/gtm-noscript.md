@@ -1,15 +1,8 @@
 ---
-title: "Gtm Noscript"
-template: "[[gtm-noscript.njk]]"
-templatePath: "views/templates/partials/gtm-noscript.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "partial"
-atomicLevel: "template"
-status: "active"
-tags:
+description: Reusable partial included by layouts or pages.
+type: template
 ---
+
 # Gtm Noscript
 
 Reusable partial included by layouts or pages.

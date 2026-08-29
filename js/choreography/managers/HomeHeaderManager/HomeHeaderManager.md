@@ -1,14 +1,7 @@
 ---
-id: frontend.js.choreography.managers.homeheadermanager
-role: "Runtime manager — drives the home landing header's role state machine (loader -> hero -> dismissed) via the `data-header-role` attribute, playing the hero's exit on the transition."
-status: active
-surface: internal
-scope: frontend
-runtime: browser
+description: "Runtime manager — drives the home landing header's role state machine (loader -> hero -> dismissed) via the `data-header-role` attribute, playing the hero's exit on the transition."
 tags:
   - choreography
-  - frontend
-  - js
   - manager
 links:
   - "[[system/gsap|system/gsap]]"
@@ -18,8 +11,6 @@ links:
   - "[[motion|config/ix/motion]]"
   - "[[home-landing|organisms/header/home/home-landing]]"
   - "[[hanko|styles/components/hanko]]"
-backlinks:
-  - "[[AnimationDirector|AnimationDirector]]"
 ---
 
 # HomeHeaderManager

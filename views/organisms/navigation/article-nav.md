@@ -1,15 +1,9 @@
 ---
-title: "Skip Links Nav"
-template: "[[skip-links-nav.njk]]"
-templatePath: "views/organisms/navigation/skip-links-nav.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
-tags:
+title: Skip Links Nav
+description: "Defines Nunjucks macro: render."
+type: template
 ---
+
 # Skip Links Nav
 
 Defines Nunjucks macro: `render`.

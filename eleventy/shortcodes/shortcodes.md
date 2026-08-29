@@ -1,15 +1,10 @@
 ---
-id: frontend.eleventy.shortcodes.shortcodes
-role: "Barrel that registers all shortcodes (lorem generators + image picture/lightbox) with 11ty."
+description: "Barrel that registers all shortcodes (lorem generators + image picture/lightbox) with 11ty."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Shortcodes barrel"
-system: "Eleventy"
 tags:
   - shortcodes
+aliases:
+  - Shortcodes barrel
 links:
   - "[[README.shortcodes]]"
   - "[[loremipsatron]]"
@@ -21,10 +16,10 @@ Single registration surface for shortcodes; imported by [[.eleventy]].
 
 ## Registers
 
-| Shortcode | Source |
-| --- | --- |
-| `loremChars`, `loremPars` | [[loremipsatron]] |
-| `picture`, `lightbox` | [[image\|shortcodes/image]] |
+| Shortcode                 | Source                      |
+| ------------------------- | --------------------------- |
+| `loremChars`, `loremPars` | [[loremipsatron]]           |
+| `picture`, `lightbox`     | [[image\|shortcodes/image]] |
 
 ## Source
 

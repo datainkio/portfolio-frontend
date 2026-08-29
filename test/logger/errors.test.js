@@ -1,19 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.test.logger.errors-test
- *   role: Test module: test/logger/errors.test.js
- Issue URL: https://github.com/datainkio/portfolio-frontend/issues/49
- *   status: draft
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - test
- *     - logger
- * ---
- */
 /** @format */
 
 import logger from "@datainkio/lumberjack";

@@ -1,26 +1,17 @@
 ---
 title: "Spec: Single Project Page Template"
 description: "File inventory and structural spec for the single-project detail page template."
-docType: "reference"
-status: "draft"
-owner: "frontend"
-system: "Eleventy"
+type: spec
+status: draft
 tags:
   - case-study
   - project
   - sanity
   - spec
   - view
-permalink: false
 aliases:
-  - "Project Page Spec"
-  - "Single Project Page Template Spec"
-aix:
-  intent: "view-spec"
-  audience:
-    - frontend
-    - content
-  canonical: true
+  - Project Page Spec
+  - Single Project Page Template Spec
 ---
 
 # Spec: Single Project Page Template

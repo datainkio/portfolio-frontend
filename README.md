@@ -1,3 +1,9 @@
+---
+title: dataink.io Portfolio
+description: "Personal portfolio site for dataink.io(https://dataink.io) — built with Eleventy (11ty), Tailwind CSS v4, Sanity (content), Figma (design tokens), and a GSAP-based choreography system."
+type: reference
+---
+
 <!-- @format -->
 
 # dataink.io Portfolio

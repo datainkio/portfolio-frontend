@@ -1,15 +1,9 @@
 ---
-id: frontend.js.choreography.managers.index
-role: "Managers barrel — re-exports all manager module classes from the managers layer."
+description: "Managers barrel — re-exports all manager module classes from the managers layer."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - choreography
-  - frontend
   - index
-  - js
   - manager
 links:
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"
@@ -20,6 +14,4 @@ links:
   - "[[managers/RulerIntroManager/RulerIntroManager|managers/RulerIntroManager]]"
   - "[[managers/ProjectHeaderManager/ProjectHeaderManager|managers/ProjectHeaderManager]]"
   - "[[managers/SessionManager/SessionManager|managers/SessionManager]]"
-backlinks:
-  - "[[index|choreography/index]]"
 ---

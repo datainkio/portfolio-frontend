@@ -1,13 +1,6 @@
 ---
-title: "Project"
-template: "[[project.njk]]"
-templatePath: "views/pages/project/project.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "page"
-atomicLevel: "page"
-status: "active"
+description: Renders one Eleventy page per project document.
+type: template
 tags:
   - project
 links:

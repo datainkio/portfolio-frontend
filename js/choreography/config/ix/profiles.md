@@ -1,21 +1,13 @@
 ---
-id: frontend.js.choreography.config.ix.profiles
-role: "Motion profiles config — defines per-breakpoint timeline and trigger capability profiles plus section-specific overrides; resolved at runtime via resolveSectionMotionProfile."
+description: "Motion profiles config — defines per-breakpoint timeline and trigger capability profiles plus section-specific overrides; resolved at runtime via resolveSectionMotionProfile."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - choreography
   - config
-  - frontend
-  - js
   - motion-profiles
   - profile
 links:
   - "[[config/ix/breakpoints/breakpoints|config/ix/breakpoints]]"
-backlinks:
-  - "[[config/index/index|config/index]]"
 ---
 
 # profiles

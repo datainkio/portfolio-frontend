@@ -1,15 +1,8 @@
 ---
-title: "Roles"
-template: "[[roles.njk]]"
-templatePath: "views/molecules/list/roles.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "molecule"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Roles
 
 Reusable presentational component.

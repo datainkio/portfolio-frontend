@@ -1,3 +1,9 @@
+---
+title: "CSS Architecture & Tailwind Configuration"
+description: "This directory holds the Tailwind CSS v4 configuration, Figma design-token"
+type: index
+---
+
 # CSS Architecture & Tailwind Configuration
 
 This directory holds the Tailwind CSS v4 configuration, Figma design-token

@@ -1,3 +1,9 @@
+---
+title: Storyboards
+description: Author animation storyboards in Markdown with Mermaid.
+type: index
+---
+
 # Storyboards
 
 Author animation storyboards in Markdown with Mermaid.

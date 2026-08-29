@@ -1,16 +1,10 @@
 ---
-title: "Nav Link"
-template: "[[nav-link.njk]]"
-templatePath: "views/atoms/link/nav-link.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[icon](../icon.md)"
 ---
+
 # Nav Link
 
 Defines Nunjucks macro: `render`.

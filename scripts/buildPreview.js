@@ -1,19 +1,4 @@
 #!/usr/bin/env node
-/**
- * ---
- * aix:
- *   id: frontend.scripts.buildpreview
- *   role: Build/utility script: scripts/buildPreview.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - buildPreview.js
- * ---
- */
 /** @format */
 
 /**

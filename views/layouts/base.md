@@ -1,13 +1,6 @@
 ---
-title: "Base"
-template: "[[base.njk]]"
-templatePath: "views/layouts/base.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "layout"
-atomicLevel: "none"
-status: "active"
+description: "Provides a reusable page shell used by other templates via {% extends %}."
+type: template
 links:
   - "[global-header](../organisms/header/global-header.md)"
   - "[global-footer](../organisms/footer/global-footer.md)"
@@ -15,6 +8,7 @@ links:
   - "[head](../templates/partials/head.md)"
   - "[gtm-noscript](../templates/partials/gtm-noscript.md)"
 ---
+
 # Base
 
 Provides a reusable page shell used by other templates via `{% extends %}`.

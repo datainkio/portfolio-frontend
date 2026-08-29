@@ -1,31 +1,22 @@
 ---
-id: frontend.js.choreography.molecules.bio-motion.fade
-role: "Bio `fade` variant — the no-gel fallback shape (header fade + lift). Currently fully commented out: all three factories are inert."
+description: "Bio `fade` variant — the no-gel fallback shape (header fade + lift). Currently fully commented out: all three factories are inert."
 status: draft
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - bio-motion
   - biography
   - choreography
-  - frontend
-  - js
 links:
   - "[[molecules/bio-motion/bio-motion|molecules/bio-motion/bio-motion]]"
   - "[[molecules/bio-motion/sweep|molecules/bio-motion/sweep]]"
   - "[[config/ix/motion|config/ix/motion]]"
-backlinks:
-  - "[[molecules/bio-motion/bio-motion|molecules/bio-motion/bio-motion]]"
 ---
 
 ## Exports
 
-| Export | Bound to | Returns |
-| --- | --- | --- |
-| `initFade(view)` | variant `init` | — |
-| `createFadeIn(view)` | variant `buildIntro` | empty intro timeline |
+| Export                | Bound to             | Returns              |
+| --------------------- | -------------------- | -------------------- |
+| `initFade(view)`      | variant `init`       | —                    |
+| `createFadeIn(view)`  | variant `buildIntro` | empty intro timeline |
 | `createFadeOut(view)` | variant `buildOutro` | empty outro timeline |
 
 Registered as `BIO_VARIANT_FACTORIES.fade` in
@@ -52,4 +43,4 @@ The commented-out shape is the intended one:
 
 Selecting `fade` via `SECTION_OVERRIDES.bio` today yields a bio section that
 never reveals. Uncomment before using it as a live variant. Distinct from
-[[molecules/bio-motion/reduced|reduced]], which is *intentionally* empty.
+[[molecules/bio-motion/reduced|reduced]], which is _intentionally_ empty.

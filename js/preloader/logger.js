@@ -1,21 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.preloader.logger
- *   role: Frontend runtime module: js/preloader/logger.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - preloader
- *     - logging
- * ---
- */
-
 import { PRELOADER_ASSET, PRELOADER_LOGGER } from "./constants.js";
 
 const getPositive = (value, fallback) => {

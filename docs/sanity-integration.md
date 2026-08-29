@@ -1,3 +1,9 @@
+---
+title: "Sanity → 11ty data flow"
+description: "This repo fetches Sanity content with the official client + GROQ during the 11ty build."
+type: guide
+---
+
 # Sanity → 11ty data flow
 
 This repo fetches Sanity content with the official client + GROQ during the 11ty build. Sanity helpers live in `data/sanity/` (client, fetcher, queries) and are wired in via `eleventy/collections/sanity.js`.

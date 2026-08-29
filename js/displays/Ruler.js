@@ -1,20 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.js.displays.ruler
- *   role: Frontend runtime module: js/displays/Ruler.js
- *   status: stable
- *   surface: public
- *   scope: frontend
- *   runtime: browser
- *   tags:
- *     - frontend
- *     - js
- *     - runtime
- *     - displays
- *     - Ruler.js
- * ---
- */
 // ruler.js
 import { RULER_DEFAULTS } from "../choreography/config/displays/ruler/ruler.js";
 

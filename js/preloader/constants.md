@@ -1,14 +1,8 @@
 ---
-id: frontend.js.preloader.constants
-role: "constants — context sidecar (auto-created; expand with the file's real responsibility)."
+description: "constants — context sidecar (auto-created; expand with the file's real responsibility)."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-tags:
-  - frontend
-  - js
 ---
+
 # constants
 
 Context sidecar for `js/preloader/constants.js`.

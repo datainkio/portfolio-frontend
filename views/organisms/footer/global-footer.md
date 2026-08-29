@@ -1,17 +1,11 @@
 ---
-title: "Global Footer"
-template: "[[global-footer.njk]]"
-templatePath: "views/organisms/footer/global-footer.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "organism"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[main-pages](../../molecules/list/main-pages.md)"
   - "[contact section](../section/contact.md)"
 ---
+
 # Global Footer
 
 Defines Nunjucks macro: `render`.

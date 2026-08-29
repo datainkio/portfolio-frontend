@@ -1,18 +1,3 @@
-/**
- * ---
- * aix:
- *   id: frontend.eleventy.filters.dom
- *   role: Eleventy module: eleventy/filters/dom.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - eleventy
- *     - filters
- * ---
- */
 import * as cheerio from "cheerio";
 
 export default function (eleventyConfig) {

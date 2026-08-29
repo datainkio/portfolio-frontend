@@ -1,13 +1,6 @@
 ---
-title: "Projects"
-template: "[[projects.njk]]"
-templatePath: "views/pages/projects/projects.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "page"
-atomicLevel: "page"
-status: "active"
+description: Renders a top-level Eleventy page.
+type: template
 links:
   - "[landing](../../templates/landing/landing.md)"
   - "[project-cards](../../molecules/list/project-cards.md)"

@@ -1,32 +1,23 @@
 ---
-id: frontend.js.choreography.molecules.hero-motion.simple
-role: "Hero `simple` variant — a no-op baseline. All three factories return correctly tagged but empty timelines, giving the hero a fully static rendering."
+description: "Hero `simple` variant — a no-op baseline. All three factories return correctly tagged but empty timelines, giving the hero a fully static rendering."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - choreography
-  - frontend
   - hero
   - hero-motion
-  - js
 links:
   - "[[molecules/hero-motion/hero-motion|molecules/hero-motion/hero-motion]]"
   - "[[molecules/hero-motion/shutter|molecules/hero-motion/shutter]]"
   - "[[config/ix/profiles|config/ix/profiles]]"
-backlinks:
-  - "[[molecules/hero-motion/hero-motion|molecules/hero-motion/hero-motion]]"
 ---
 
 ## Exports
 
-| Export | Bound to | Returns |
-| --- | --- | --- |
-| `init(view)` | variant `init` | empty landing timeline |
-| `createIntro(view)` | variant `buildIntro` | empty intro timeline |
-| `createOutro(view)` | variant `buildOutro` | empty outro timeline |
+| Export              | Bound to             | Returns                |
+| ------------------- | -------------------- | ---------------------- |
+| `init(view)`        | variant `init`       | empty landing timeline |
+| `createIntro(view)` | variant `buildIntro` | empty intro timeline   |
+| `createOutro(view)` | variant `buildOutro` | empty outro timeline   |
 
 Registered as `HERO_VARIANT_FACTORIES.simple` in
 [[molecules/hero-motion/hero-motion|hero-motion.js]].

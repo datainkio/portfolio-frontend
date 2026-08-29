@@ -1,17 +1,11 @@
 ---
-title: "Ink Marks"
-template: "[[ink-marks.njk]]"
-templatePath: "views/atoms/printmarks/ink-marks.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
+description: "Defines Nunjucks macro: render."
+type: template
 links:
   - "[neutrals](../svg/neutrals.md)"
   - "[colors](../svg/colors.md)"
 ---
+
 # Ink Marks
 
 Defines Nunjucks macro: `render`.

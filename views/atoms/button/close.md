@@ -1,15 +1,8 @@
 ---
-title: "Close"
-template: "[[close.njk]]"
-templatePath: "views/atoms/button/close.njk"
-engine: "Nunjucks"
-system: "Eleventy"
-type: "template"
-templateRole: "component"
-atomicLevel: "atom"
-status: "active"
-tags:
+description: Reusable presentational component.
+type: template
 ---
+
 # Close
 
 Reusable presentational component.

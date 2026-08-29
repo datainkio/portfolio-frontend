@@ -38,7 +38,15 @@ export default class AbstractSectionTriggers {
    * Bind callbacks to the viewport trigger.
    * Calling bind() multiple times is safe — the previous trigger is killed first.
    */
-  bind({ onEnter, onLeave, onEnterBack, onLeaveBack, onUpdate, onRefresh, animation } = {}) {
+  bind({
+    onEnter,
+    onLeave,
+    onEnterBack,
+    onLeaveBack,
+    onUpdate,
+    onRefresh,
+    animation,
+  } = {}) {
     if (!this.view) {
       this.logger.trace("No view available to bind triggers");
       return;
@@ -52,7 +60,8 @@ export default class AbstractSectionTriggers {
     const toggleActions = String(triggerDefaults.toggleActions ?? "")
       .trim()
       .split(/\s+/);
-    const [enterAction, leaveAction, enterBackAction, leaveBackAction] = toggleActions;
+    const [enterAction, leaveAction, enterBackAction, leaveBackAction] =
+      toggleActions;
     const resolveCallback = (action, callback, fallback) =>
       String(action ?? "").toLowerCase() === "none"
         ? undefined
@@ -63,8 +72,16 @@ export default class AbstractSectionTriggers {
       trigger: this.view,
       onEnter: resolveCallback(enterAction, onEnter, triggerDefaults.onEnter),
       onLeave: resolveCallback(leaveAction, onLeave, triggerDefaults.onLeave),
-      onEnterBack: resolveCallback(enterBackAction, onEnterBack, triggerDefaults.onEnterBack),
-      onLeaveBack: resolveCallback(leaveBackAction, onLeaveBack, triggerDefaults.onLeaveBack),
+      onEnterBack: resolveCallback(
+        enterBackAction,
+        onEnterBack,
+        triggerDefaults.onEnterBack,
+      ),
+      onLeaveBack: resolveCallback(
+        leaveBackAction,
+        onLeaveBack,
+        triggerDefaults.onLeaveBack,
+      ),
       onUpdate: onUpdate ?? triggerDefaults.onUpdate,
       onRefresh: onRefresh ?? triggerDefaults.onRefresh,
       ...(animation ? { animation } : {}),

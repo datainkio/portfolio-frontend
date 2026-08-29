@@ -1,0 +1,32 @@
+---
+title: Frontmatter authority vs. reality (after)
+---
+flowchart LR
+    subgraph AUTH["Authority"]
+        A1["specs/frontmatter.spec.md<br/><i>single authority</i>"]
+        A2["docs/ia/frontmatter.md<br/><i>stub → spec</i>"]
+        A3["ia/docs/ia/frontmatter.md<br/><i>summary → spec</i>"]
+    end
+
+    subgraph REALITY["Measured reality"]
+        R0["description required<br/><b>453/453 present</b>"]
+        R1["status within enum<br/><b>0 illegal · stable=193</b>"]
+        R2["aix: namespace retired<br/><b>0 files carry it</b>"]
+        R3["tags discriminate<br/><b>0 repo-wide tags</b>"]
+    end
+
+    A1 --> R0
+    A1 --> R1
+    A1 --> R2
+    A1 --> R3
+    A2 -.->|defers to| A1
+    A3 -.->|defers to| A1
+
+    classDef ok fill:#1b4332,stroke:#40916c,color:#d8f3dc
+    classDef bad fill:#4a1c1c,stroke:#9b2226,color:#ffdada
+    classDef auth fill:#1d3557,stroke:#457b9d,color:#e8f1f8
+    class A1,A2,A3 auth
+    class R0 ok
+    class R1 ok
+    class R2 ok
+    class R3 ok

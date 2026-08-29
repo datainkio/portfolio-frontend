@@ -1,19 +1,4 @@
 #!/usr/bin/env node
-/**
- * ---
- * aix:
- *   id: frontend.scripts.scaffold
- *   role: Build/utility script: scripts/scaffold.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - scripts
- *     - scaffold.js
- * ---
- */
 /** @format */
 
 /**
@@ -237,7 +222,10 @@ const toCamelCase = (name) => {
  * choreography skill's "Add a variant" recipe.
  */
 const sectionTemplates = {
-  controller: (Name, key) => `import AbstractSection from "../../system/AbstractSection.js";
+  controller: (
+    Name,
+    key,
+  ) => `import AbstractSection from "../../system/AbstractSection.js";
 import { SELECTORS } from "../../config/index/index.js";
 import ${Name}Animations from "./${Name}Animations.js";
 import ${Name}Triggers from "./${Name}Triggers.js";
@@ -267,7 +255,10 @@ export default class ${Name} extends AbstractSection {
 }
 `,
 
-  animations: (Name, key) => `import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
+  animations: (
+    Name,
+    key,
+  ) => `import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
@@ -311,7 +302,10 @@ export default class ${Name}Animations extends AbstractSectionAnimations {
 }
 `,
 
-  triggers: (Name, key) => `import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
+  triggers: (
+    Name,
+    key,
+  ) => `import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { SELECTORS } from "../../config/index/index.js";
 
@@ -370,10 +364,7 @@ links:
 function generateSection(name) {
   const Name = toPascalCase(name);
   const key = toCamelCase(name);
-  const targetDir = resolve(
-    projectRoot,
-    `js/choreography/organisms/${name}`,
-  );
+  const targetDir = resolve(projectRoot, `js/choreography/organisms/${name}`);
 
   if (!existsSync(targetDir)) {
     mkdirSync(targetDir, { recursive: true });
@@ -406,7 +397,9 @@ function generateSection(name) {
   }
 
   console.log(
-    chalk.blue.bold(`\n🔌 Wire "${key}" into the contracts (each is one edit):\n`),
+    chalk.blue.bold(
+      `\n🔌 Wire "${key}" into the contracts (each is one edit):\n`,
+    ),
   );
   console.log(
     `  1. config/contracts/events/events.js   →  ${key}: makeSectionEvents("${key}"),`,
@@ -565,9 +558,7 @@ function main() {
       const sectionName = args[1];
       if (!sectionName) {
         console.log(chalk.red("❌ Missing section name"));
-        console.log(
-          chalk.blue("Usage: npm run scaffold:section <kebab-name>"),
-        );
+        console.log(chalk.blue("Usage: npm run scaffold:section <kebab-name>"));
         return;
       }
       generateSection(sectionName);

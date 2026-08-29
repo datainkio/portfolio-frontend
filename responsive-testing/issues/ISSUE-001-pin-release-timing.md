@@ -1,14 +1,12 @@
 ---
 title: Pin Release Timing
+description: Pinned image releases before metadata section completes.
 tags:
   - gsap
   - issue
   - motion
   - responsiveness
 severity: high
-status: active
-system: case-cards
-viewport: 1024x768
 ---
 
 # ISSUE-001 — Pin Release Timing

@@ -1,3 +1,9 @@
+---
+title: Figma API Integration Services
+description: "The Figma integration consists of orchestrated services that fetch design tokens and write CSS files:"
+type: index
+---
+
 # Figma API Integration Services
 
 **APOCALYPTIC WARNING**: This directory contains the automated Figma-to-CSS pipeline that keeps your design system in sync. These services directly manipulate CSS files based on Figma API responses. One wrong move and you'll break the entire design system, causing a cascade failure that will make debugging feel like archaeological excavation.

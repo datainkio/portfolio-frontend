@@ -1,19 +1,4 @@
 /**
- * ---
- * aix:
- *   id: frontend.eleventy.filters.date
- *   role: Eleventy module: eleventy/filters/date.js
- *   status: stable
- *   surface: internal
- *   scope: frontend
- *   runtime: node
- *   tags:
- *     - frontend
- *     - eleventy
- *     - filters
- * ---
- */
-/**
  * Date Filters for Eleventy
  *
  * Provides human-readable date formatting for template rendering.

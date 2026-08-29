@@ -1,15 +1,11 @@
 ---
-id: frontend.cms.projections.awardProjection
-role: "GROQ projection fragment — reusable field shape for Award documents."
+description: "GROQ projection fragment — reusable field shape for Award documents."
 status: stable
-surface: internal
-scope: frontend
-runtime: node
-aliases:
-  - "Award projection"
 tags:
   - cms
   - projections
+aliases:
+  - Award projection
 links:
   - "[[README.projections]]"
 ---
@@ -19,8 +15,8 @@ links:
 GROQ projection fragment — the reusable `{ ... }` field shape selected for **award**
 documents. Extracted into its own file so queries stay thin and shapes compose consistently.
 
-| Export | Shape of |
-| --- | --- |
+| Export             | Shape of     |
+| ------------------ | ------------ |
 | `AWARD_PROJECTION` | award fields |
 
 ## Source

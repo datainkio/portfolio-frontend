@@ -1,22 +1,13 @@
 ---
-id: frontend.js.choreography.molecules.bio-motion.heading-gel
-role: "Bio molecule part — holds the gel_bio gel as a full-bleed band filling the viewport (left/top 0, 100vw x 100vh), decoupled from scroll and re-measured only on resize, plus the band's landing-phase entrance that gates the bio intro. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
+description: "Bio molecule part — holds the gel_bio gel as a full-bleed band filling the viewport (left/top 0, 100vw x 100vh), decoupled from scroll and re-measured only on resize, plus the band's landing-phase entrance that gates the bio intro. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
-atomicLevel: "molecule"
 tags:
   - choreography
-  - frontend
   - bio-motion
   - gel
-  - js
 links:
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
-backlinks:
-  - "[[molecules/bio-motion/split|molecules/bio-motion/split]]"
 ---
 
 `attachHeadingGel(view, gelManager)` resolves `gel_bio` (`HEADING_GEL_ID`) from
@@ -34,7 +25,7 @@ This replaces two earlier revisions in the same tuning arc: the band was first
 anchored to the `<h2>`'s box (a text-height stripe), then to the `[data-bio-el="header"]`
 block (`h-dvh`, hence full-bleed). Both re-read `getBoundingClientRect()` on every
 scroll tick and rewrote `top` so the band tracked the element up the page. That
-tracking is gone. Since the header is `h-dvh` the resting *size* is unchanged —
+tracking is gone. Since the header is `h-dvh` the resting _size_ is unchanged —
 what changed is that the band no longer moves.
 
 Two consequences worth knowing:
@@ -66,9 +57,9 @@ viewport and cannot scroll. Pinning it would be redundant at best, and at worst
 would inject a pin-spacer into the background layer.
 
 `bio-heading-gel-sync` sets no `pin` (defaults `false`) — it exists only to
-re-fill the viewport on resize. The one nearby trigger that *does* pin,
+re-fill the viewport on resize. The one nearby trigger that _does_ pin,
 `bio-outro-pin` ([BioTriggers.md](../../organisms/bio/BioTriggers.md)), targets
-the **bio section root** in normal document flow; it merely *animates* this gel's
+the **bio section root** in normal document flow; it merely _animates_ this gel's
 `scaleY` as one of its beats. Do not read that pin as pinning the gel.
 
 `gel.refresh()` (SVG mask re-measure) runs only when the viewport height changes.

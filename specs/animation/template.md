@@ -1,3 +1,9 @@
+---
+description: "Blank template for authoring a new animation spec — copy this and fill the bracketed fields."
+type: spec
+status: draft
+---
+
 # Animation Spec Template
 
 - **Title:** {{feature or area}}

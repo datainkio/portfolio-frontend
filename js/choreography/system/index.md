@@ -1,15 +1,9 @@
 ---
-id: frontend.js.choreography.system.index
-role: "System barrel — re-exports all runtime infrastructure classes and utilities from the system layer."
+description: "System barrel — re-exports all runtime infrastructure classes and utilities from the system layer."
 status: stable
-surface: internal
-scope: frontend
-runtime: browser
 tags:
   - choreography
-  - frontend
   - index
-  - js
   - system
 links:
   - "[[system/gsap|system/gsap]]"

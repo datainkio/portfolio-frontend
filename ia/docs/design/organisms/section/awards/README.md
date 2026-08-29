@@ -1,13 +1,12 @@
 ---
 title: "Awards + Recognition"
-# Keep Nunjucks-only rendering here so Markdown does not inject empty <p></p>
-# wrappers around the awards section's inline HTML output.
-templateEngineOverride: njk
+description: '{% import "organisms/section/awards.njk" as AwardsSection %}'
 eleventyComputed:
   title: "{{ title }}"
   recognition:
     heading: "{{ cms.home[0].recognitionHeading }}"
     body: "{{ cms.home[0].recognitionBody }}"
+templateEngineOverride: njk
 ---
 
 {% import "organisms/section/awards.njk" as AwardsSection %}
