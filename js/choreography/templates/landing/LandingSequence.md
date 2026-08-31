@@ -28,6 +28,7 @@ flowchart TD
     PO --> ARM["HomeHeaderManager._arm<br/>loader role to hero role"]
 
     subgraph chain["Serial landing chain — the header opens it, then leaves"]
+    subgraph chain["Serial landing chain — the header opens it, t, then leaves"]
         direction TB
         ARM --> HOLD["HOME_HERO_HOLD.delay<br/>gsap.delayedCall, time is the sole trigger"]
         HOLD --> DECON["HomeHeaderManager._runTransition<br/>hero panel slides off-stage, header dismissed"]
@@ -76,4 +77,28 @@ ends at `bio:intro:complete`. This also retired the deadlock hazard the old note
 described — there is no longer a cycle to respect, because the header never
 re-enters the chain.
 
-**Resolved 2026-08-20.** A prior note here flagged `BackgroundVideo.playIntro()`'s comment for claiming `LandingSequence` waits on `video:intro:complete` to trigger `hero.playLanding()`. That comment no longer exists — `playIntro()` now carries only a reduced-motion note, and `hero.playLanding` appears nowhere in `organisms/background/` or `templates/landing/`. The chain has always triggered `bio.playIntro()`; the diagram above (`VIC` → `BEAT` → `GEL` → `BIO`) is the accurate account.
+**Updated 2026-08-28.** The chain previously ended by bringing the header back as a
+`menu` navigation rail, cued off `bio:intro:complete`. The sidenav was removed from
+the homepage UX strategy; the header is now dismissed after its exit and the chain
+ends at `bio:intro:complete`. This also retired the deadlock hazard the old note
+described — there is no longer a cycle to respect, because the header never
+re-enters the chain.
+
+**Updated 2026-08-28.** The chain previously ended by bringing the header back as a
+`menu` navigation rail, cued off `bio:intro:complete`. The sidenav was removed from
+the homepage UX strategy; the header is now dismissed after its exit and the chain
+ends at `bio:intro:complete`. This also retired the deadlock hazard the old note
+described — there is no longer a cycle to respect, because the header never
+re-enters the chain.
+
+# <<<<<<< HEAD
+
+**Updated 2026-08-28.** The chain previously ended by bringing the header back as a
+`menu` navigation rail, cued off `bio:intro:complete`. The sidenav was removed from
+the homepage UX strategy; the header is now dismissed after its exit and the chain
+ends at `bio:intro:complete`. This also retired the deadlock hazard the old note
+described — there is no longer a cycle to respect, because the header never
+re-enters the chain.
+
+> > > > > > > staging
+> > > > > > > **Resolved 2026-08-20.** A prior note here flagged `BackgroundVideo.playIntro()`'s comment for claiming `LandingSequence` waits on `video:intro:complete` to trigger `hero.playLanding()`. That comment no longer exists — `playIntro()` now carries only a reduced-motion note, and `hero.playLanding` appears nowhere in `organisms/background/` or `templates/landing/`. The chain has always triggered `bio.playIntro()`; the diagram above (`VIC` → `BEAT` → `GEL` → `BIO`) is the accurate account.
