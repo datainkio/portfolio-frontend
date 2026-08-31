@@ -9,6 +9,9 @@
     {
       "path": "../../goals",
     },
+    {
+      "path": "../content-model",
+    },
   ],
   "settings": {
     "workbench.colorCustomizations": {
