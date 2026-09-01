@@ -2,15 +2,13 @@
 {% macro render(params = {}) %}
   {%- set prefix = params.prefix | default("doc") -%}
   {%- set count = params.count | default("") -%}
-  {%- set title = params.title | default("") -%}`
+  {%- set title = params.title | default("") -%}
   {%- set ul = {
-      base: "fixed top-0 h-8 gap-8 text-xs z-12 w-full flex items-center border-b-2 border-b-slate-700 text-primary-200 bg-slate-950"
-    } %}
+    "base": "fixed top-0 left-20 right-0 gap-8 p-2 text-xs z-10 justify-between flex items-center border-l-1 border-b-1 border-slate-700 bg-slate-950"
+  } %}
   <ul data-buildinfo-el="cap" class="{{ ul | classes }} group/cap">
-    <li class="h-full w-12 lg:w-48 border-r-2 border-slate-700 flex items-center justify-center">
-      <span class="text-lg tracking-widest text-neutral-400">:::</span>
-    </li>
-    <li data-current-section-title class="font-display text-secondary-500 text-left group-data-[open]/cap:basis-1/6">{{ title }}</li>
+    <li data-current-section-title
+        class="font-display text-secondary-500 text-left group-data-[open]/cap:basis-1/6">{{ title }}</li>
     <li class="flex-grow text-right group-data-[open]/cap:basis-2/3">{{ BuildInfo.render() }}</li>
   </ul>
 {% endmacro %}

@@ -1,4 +1,44 @@
 /* Custom Background Graphpaper Patterns */
+
+/* Design tokens — halftone dot pattern */
+@theme {
+  --background-image-halftone: radial-gradient(10px at center, black, white);
+  --background-size-halftone-size: 20px 20px;
+}
+
+@utility bg-halftone-size {
+  background-size: var(--background-size-halftone-size);
+}
+
+/* Checkerboard pattern — square size (spacing scale) and fill color (theme palette)
+   are independent functional utilities, e.g. bg-checkerboard-4 bg-checkerboard-slate-950 */
+@utility bg-checkerboard-* {
+  --checkerboard-square: --spacing(--value(integer));
+  background-size: calc(var(--checkerboard-square) * 2) calc(var(--checkerboard-square) * 2);
+  background-position: 0 0, var(--checkerboard-square) var(--checkerboard-square);
+}
+
+@utility bg-checkerboard-* {
+  --checkerboard-color: --value(--color-*, [color]);
+  background-image:
+    linear-gradient(
+      45deg,
+      var(--checkerboard-color) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--checkerboard-color) 75%,
+      var(--checkerboard-color)
+    ),
+    linear-gradient(
+      45deg,
+      var(--checkerboard-color) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--checkerboard-color) 75%,
+      var(--checkerboard-color)
+    );
+}
+
 @layer components {
   .bg-striped {
     background-image: linear-gradient(

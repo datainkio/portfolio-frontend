@@ -9,9 +9,7 @@
 {%- set hgroup = {"base": "font-display w-24 mx-auto pt-4"} -%}
 {%- set hanko = {"base": "hanko block text-secondary-500"} -%}
 {%- set heading = {"base": "text-4xl leading-8 text-primary-200 py-6 my-2"} -%}
-{%- set subtitle = {
-        "base": "block text-lg tracking-widest p-2  w-full leading-none text-slate-700 border-2 border-slate-700"
-} -%}
+{%- set subtitle = {"base": "block text-lg tracking-widest p-2  w-full leading-none text-slate-700 border-2 border-slate-700"} -%}
 
 {% macro home_landing(params = {}) %}
         <header id="overview"
@@ -25,17 +23,6 @@
                         <span class="{{ subtitle | classes }}">UX IXD AIX DX</span>
                 </hgroup>
         </header>
-        {# Synchronous, non-module, pre-paint: js/preloader/Preloader.js already
-           skips the loading choreography on a repeat visit (SessionManager's
-           visited flag), but that check runs from a deferred `type="module"`
-           script — after HTML parsing, i.e. after first paint. The pulsing
-           `hanko-loading-pulse` animation (styles/components/hanko.css) is
-           CSS-only and starts on paint with no JS required, so without this it
-           can still flash before the module script gets a chance to run. This
-           duplicates the sessionStorage key ("dataink_session") and shape
-           (SessionManager.js) and the attribute/value pair (PRELOADER_STATE in
-           js/preloader/constants.js) because a synchronous pre-paint check
-           can't import an ES module — keep both in sync if either changes. #}
         <script>
                 (function () {
                         try {
