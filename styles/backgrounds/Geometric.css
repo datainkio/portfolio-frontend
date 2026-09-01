@@ -1,21 +1,116 @@
 /* Custom Background Graphpaper Patterns */
 
-/* Design tokens — halftone dot pattern */
+/* Halftone dot pattern — dot size (spacing scale), the gap between dots (named
+   scale), dot color (theme palette), and dot edge blur (spacing scale) are
+   independent functional utilities, e.g. bg-halftone-4 bg-halftone-lg
+   bg-halftone-slate-950 bg-halftone-blur-1. Unset area is transparent. Each
+   utility redeclares the full pattern so any single axis renders sensibly on
+   its own (currentColor / 1rem dot / gap-sm / no blur defaults). */
 @theme {
-  --background-image-halftone: radial-gradient(10px at center, black, white);
-  --background-size-halftone-size: 20px 20px;
+  --halftone-gap-xs: calc(var(--spacing) * 0.25);
+  --halftone-gap-sm: calc(var(--spacing) * 0.5);
+  --halftone-gap-md: calc(var(--spacing) * 1);
+  --halftone-gap-lg: calc(var(--spacing) * 2);
+  --halftone-gap-xl: calc(var(--spacing) * 4);
 }
 
-@utility bg-halftone-size {
-  background-size: var(--background-size-halftone-size);
+@utility bg-halftone-* {
+  --halftone-dot: --spacing(--value(integer));
+  background-size: calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    )
+    calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    );
+  background-image: radial-gradient(
+    circle,
+    var(--halftone-color, currentColor) 0,
+    var(--halftone-color, currentColor)
+      calc(
+        var(--halftone-dot, calc(var(--spacing) * 4)) / 2 -
+          var(--halftone-blur, 0px)
+      ),
+    transparent calc(var(--halftone-dot, calc(var(--spacing) * 4)) / 2)
+  );
+}
+
+@utility bg-halftone-* {
+  --halftone-gap: --value(--halftone-gap-*);
+  background-size: calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    )
+    calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    );
+  background-image: radial-gradient(
+    circle,
+    var(--halftone-color, currentColor) 0,
+    var(--halftone-color, currentColor)
+      calc(
+        var(--halftone-dot, calc(var(--spacing) * 4)) / 2 -
+          var(--halftone-blur, 0px)
+      ),
+    transparent calc(var(--halftone-dot, calc(var(--spacing) * 4)) / 2)
+  );
+}
+
+@utility bg-halftone-* {
+  --halftone-color: --value(--color-*, [color]);
+  background-size: calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    )
+    calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    );
+  background-image: radial-gradient(
+    circle,
+    var(--halftone-color, currentColor) 0,
+    var(--halftone-color, currentColor)
+      calc(
+        var(--halftone-dot, calc(var(--spacing) * 4)) / 2 -
+          var(--halftone-blur, 0px)
+      ),
+    transparent calc(var(--halftone-dot, calc(var(--spacing) * 4)) / 2)
+  );
+}
+
+@utility bg-halftone-blur-* {
+  --halftone-blur: --spacing(--value(integer));
+  background-size: calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    )
+    calc(
+      var(--halftone-dot, calc(var(--spacing) * 4)) +
+        var(--halftone-gap, var(--halftone-gap-sm))
+    );
+  background-image: radial-gradient(
+    circle,
+    var(--halftone-color, currentColor) 0,
+    var(--halftone-color, currentColor)
+      calc(
+        var(--halftone-dot, calc(var(--spacing) * 4)) / 2 -
+          var(--halftone-blur, 0px)
+      ),
+    transparent calc(var(--halftone-dot, calc(var(--spacing) * 4)) / 2)
+  );
 }
 
 /* Checkerboard pattern — square size (spacing scale) and fill color (theme palette)
    are independent functional utilities, e.g. bg-checkerboard-4 bg-checkerboard-slate-950 */
 @utility bg-checkerboard-* {
   --checkerboard-square: --spacing(--value(integer));
-  background-size: calc(var(--checkerboard-square) * 2) calc(var(--checkerboard-square) * 2);
-  background-position: 0 0, var(--checkerboard-square) var(--checkerboard-square);
+  background-size: calc(var(--checkerboard-square) * 2)
+    calc(var(--checkerboard-square) * 2);
+  background-position:
+    0 0,
+    var(--checkerboard-square) var(--checkerboard-square);
 }
 
 @utility bg-checkerboard-* {
@@ -39,25 +134,68 @@
     );
 }
 
-@layer components {
-  .bg-striped {
-    background-image: linear-gradient(
-      45deg,
-      var(--color-neutral-50) 0%,
-      var(--color-neutral-50) 37.5%,
-      var(--color-primary-200) 37.5%,
-      var(--color-primary-200) 50%,
-      var(--color-neutral-50) 50%,
-      var(--color-neutral-50) 87.5%,
-      var(--color-primary-200) 87.5%,
-      var(--color-primary-200) 100%
-    );
-    background-size: 8px 8px;
-    background-repeat: repeat;
-    background-position: 0 0;
-    background-attachment: fixed;
-  }
+/* Striped pattern — line width (spacing scale), the gap between lines (named
+   scale), and line color (theme palette) are independent functional utilities,
+   e.g. bg-striped-2 bg-striped-lg bg-striped-slate-950. Unset lines are
+   transparent. Each utility redeclares the full gradient so any single axis
+   renders sensibly on its own (currentColor / 1 spacing unit / gap-sm defaults). */
+@theme {
+  --stripe-gap-xs: calc(var(--spacing) * 0.5);
+  --stripe-gap-sm: calc(var(--spacing) * 1);
+  --stripe-gap-md: calc(var(--spacing) * 2);
+  --stripe-gap-lg: calc(var(--spacing) * 4);
+  --stripe-gap-xl: calc(var(--spacing) * 8);
+}
 
+@utility bg-striped-* {
+  --stripe-width: --spacing(--value(integer));
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--stripe-color, currentColor) 0,
+    var(--stripe-color, currentColor)
+      var(--stripe-width, calc(var(--spacing) * 0.5)),
+    transparent var(--stripe-width, calc(var(--spacing) * 0.5)),
+    transparent
+      calc(
+        var(--stripe-width, calc(var(--spacing) * 0.5)) +
+          var(--stripe-gap, var(--stripe-gap-sm))
+      )
+  );
+}
+
+@utility bg-striped-* {
+  --stripe-gap: --value(--stripe-gap-*);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--stripe-color, currentColor) 0,
+    var(--stripe-color, currentColor)
+      var(--stripe-width, calc(var(--spacing) * 0.5)),
+    transparent var(--stripe-width, calc(var(--spacing) * 0.5)),
+    transparent
+      calc(
+        var(--stripe-width, calc(var(--spacing) * 0.5)) +
+          var(--stripe-gap, var(--stripe-gap-sm))
+      )
+  );
+}
+
+@utility bg-striped-* {
+  --stripe-color: --value(--color-*, [color]);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--stripe-color, currentColor) 0,
+    var(--stripe-color, currentColor)
+      var(--stripe-width, calc(var(--spacing) * 0.5)),
+    transparent var(--stripe-width, calc(var(--spacing) * 0.5)),
+    transparent
+      calc(
+        var(--stripe-width, calc(var(--spacing) * 0.5)) +
+          var(--stripe-gap, var(--stripe-gap-sm))
+      )
+  );
+}
+
+@layer components {
   .bg-fibonacci {
     background-size: cover;
     background-repeat: no-repeat;

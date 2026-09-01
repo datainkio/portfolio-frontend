@@ -8,25 +8,25 @@
   {%- set liClasses = {"base": ""} -%}
   {%- set hankoWrapperClasses = {"base": "bg-slate-950 inline-block w-auto px-4 pt-4 pb-2"} -%}
   {%- set hankoClasses = {"base": "block w-24 text-secondary-700"} -%}
-  {%- set navLinkClasses = {"base": "inline-block font-display text-lg pt-8 text-primary-200 whitespace-nowrap"} -%}
+  {%- set navLinkClasses = {"base": "inline-block font-display text-sm pt-8 text-primary-300 whitespace-nowrap", "md": "text-lg pt-8"} -%}
   <ul class="{{ ulClasses | classes }}" role="list">
+    {%- if logoSvg -%}
+      <li class="{{ hankoWrapperClasses | classes }}">
+        <a href="/" aria-label="Home">{{ Hanko.render({ svg: logoSvg }) }}</a>
+      </li>
+    {%- endif -%}
     {%- for entry in items -%}
       {%- set hasHref = entry and (entry.url or entry.href) -%}
       {%- set entryHref = entry.url or entry.href -%}
       {%- set isCurrent = entryHref == page.url -%}
       {%- if hasHref and (entry.title or entry.key) -%}
-        {%- if loop.first -%}
-          <li class="{{ hankoWrapperClasses | classes }}">
-            <a href="/" aria-label="Home">{{ Hanko.render({ svg: logoSvg }) }}</a>
-          </li>
-        {%- elif isCurrent -%}
+        {%- if isCurrent -%}
           <li class="{{ liClasses | classes }}">
             <span class="{{ navLinkClasses | classes }}" aria-current="page">{{ entry.title or entry.key }}</span>
           </li>
         {%- else -%}
           <li class="{{ liClasses | classes }}">{{ nav_link.render({ entry: entry, class: navLinkClasses | classes }) }}</li>
         {%- endif -%}
-
       {%- endif -%}
     {%- endfor -%}
   </ul>
