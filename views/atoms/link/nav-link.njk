@@ -8,9 +8,10 @@
   {% set hasChildren = entry.children and entry.children.length > 0 %}
   {% set linkDescription = entry.description or params.description %}
 
-  <a href="{{ linkUrl }}" class="nav-link {{ linkClasses }}" {% if isCurrent %} aria-current="page" {% endif %} {% if linkDescription %} title="{{ linkDescription }}" {% endif %}>
-    {{ linkTitle }}
-  </a>
+  <a href="{{ linkUrl }}"
+     class="nav_link {{ linkClasses }} "
+     {% if isCurrent %}aria-current="page"{% endif %}
+     {% if linkDescription %}title="{{ linkDescription }}"{% endif %}>{{ linkTitle }}</a>
 {% endmacro %}
 
 {# Backward compatibility: render immediately when included directly #}
@@ -21,5 +22,5 @@
     title: title,
     class: class,
     description: description
-  }) }}
+    }) }}
 {% endif %}

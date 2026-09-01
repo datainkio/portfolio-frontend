@@ -20,8 +20,7 @@
     {# SKIP LINKS #}
     {{ SkipLinks.render() }}
     {# GLOBAL PAGE HEADER #}
-    {# GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) #}
-    {{ SectionCap.render({"title": "renderizoring..."}) }}
+    {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
     {% block sidebar_before %}
       <nav class="{{ sidebarBeforeClasses | classes }}"
            data-scroll

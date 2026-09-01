@@ -9,12 +9,14 @@
   {# {% set cmsItems = params.items or cmsNavigation.headerItems or [] %} #}
   {% set items = params.items or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
-  {% set navClasses = {
-    "base": ""
-  } %}
-    <nav id="primary-nav" class="{{ navClasses | classes }}" aria-label="Primary navigation"> {{ main_pages.render({ 
-      items: items,
-      logoSvg: params.logoSvg,
-      linkClass: ""}) }}
+  {% set navClasses = {"base": "fixed w-full bg-checkerboard-1 bg-checkerboard-slate-950"} %}
+  <nav id="primary-nav"
+       class="{{ navClasses | classes }}"
+       aria-label="Primary navigation">
+    {{ main_pages.render({
+        items: items,
+        logoSvg: params.logoSvg,
+        linkClass: ""}) }}
   </nav>
 {% endmacro %}
+St

@@ -1,5 +1,6 @@
 {#- FUNCTIONALITY IMPORTS -#}
 {% import "organisms/header/home/home-landing.njk" as PageHeader with context %}
+{% import "organisms/navigation/primary-nav.njk" as PrimaryNav with context %}
 {% import "molecules/section-cap.njk" as SectionCap with context %}
 {% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
@@ -33,9 +34,10 @@
   {% include "templates/partials/head.njk" %}
   <body class="bg-slate-950 text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript.njk" %}
-    {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ SkipLinksNav.render() }}
+    {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ SectionCap.render({"title": "initializing..."}) }}
+    {{ PrimaryNav.render({ "logoSvg": logo }) }}
     <div id="page-main">
       {{ PageHeader.home_landing({ "svg": logo }) }}
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
