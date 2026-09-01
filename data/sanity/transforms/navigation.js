@@ -25,26 +25,7 @@ export function resolveNavigationHref(item) {
 
 export function resolveNavigationLabel(item) {
   const label = typeof item?.label === "string" ? item.label.trim() : "";
-  if (label) {
-    return label;
-  }
-
-  switch (item?._type) {
-    case "home":
-      return "Home";
-    case "projects":
-      return "Projects";
-    case "contact":
-      return "Contact";
-    case "project":
-      return "Case Study";
-    case "post":
-      return "Post";
-    case "documentation":
-      return "Documentation";
-    default:
-      return "Untitled";
-  }
+  return label || "Untitled";
 }
 
 export function normalizeNavigationItems(items = []) {

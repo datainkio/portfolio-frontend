@@ -1,6 +1,18 @@
 /** @format */
 import groq from "groq";
 
+// Referenced documents expose their title/slug under different field names
+// depending on type (root `pageTitle`/`title`/`slug`, or nested `page.title`/
+// `page.slug`) — coalesce across them instead of branching on `_type`, so any
+// document type added to navigation.ts's reference list resolves without a
+// query change.
+const navigationItemProjection = groq`{
+  _id,
+  _type,
+  "label": coalesce(pageTitle, page.title, title, "Untitled"),
+  "slug": coalesce(slug.current, page.slug.current, null)
+}`;
+
 export const navigationQuery = {
   id: "navigation",
   description: "Navigation singleton with header and footer reference items",
@@ -8,41 +20,7 @@ export const navigationQuery = {
   query: groq`*[_type == "navigation"] | order(_updatedAt desc)[0...1]{
     _id,
     _updatedAt,
-    "headerItems": header.items[]->{
-      _id,
-      _type,
-      "label": select(
-        _type == "home" => coalesce(pageTitle, "Home"),
-        _type == "projects" => coalesce(pageTitle, "Projects"),
-        _type == "contact" => coalesce(pageTitle, "Contact"),
-        _type == "project" => coalesce(page.title, "Project"),
-        _type == "post" => coalesce(page.title, "Post"),
-        _type == "documentation" => coalesce(pageTitle, "Documentation"),
-        "Untitled"
-      ),
-      "slug": select(
-        _type == "project" => page.slug.current,
-        _type == "post" => page.slug.current,
-        null
-      )
-    },
-    "footerItems": footer.items[]->{
-      _id,
-      _type,
-      "label": select(
-        _type == "home" => coalesce(pageTitle, "Home"),
-        _type == "projects" => coalesce(pageTitle, "Projects"),
-        _type == "contact" => coalesce(pageTitle, "Contact"),
-        _type == "project" => coalesce(page.title, "Project"),
-        _type == "post" => coalesce(page.title, "Post"),
-        _type == "documentation" => coalesce(pageTitle, "Documentation"),
-        "Untitled"
-      ),
-      "slug": select(
-        _type == "project" => page.slug.current,
-        _type == "post" => page.slug.current,
-        null
-      )
-    }
+    "headerItems": header.items[]->${navigationItemProjection},
+    "footerItems": footer.items[]->${navigationItemProjection}
   }`,
 };
