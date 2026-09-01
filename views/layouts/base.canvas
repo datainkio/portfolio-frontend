@@ -1,0 +1,23 @@
+{
+	"nodes":[
+		{"id":"cbcc7428611218d2","type":"group","x":-160,"y":640,"width":1008,"height":3000,"label":"HTML"},
+		{"id":"3b1d584ee197625a","type":"group","x":-140,"y":1520,"width":968,"height":2100,"label":"BODY"},
+		{"id":"aa94bc66d66a7f4c","type":"group","x":-119,"y":2400,"width":927,"height":180,"label":"MAIN"},
+		{"id":"7933c65a977ca4fe","type":"group","x":-119,"y":2680,"width":927,"height":180,"label":"ASIDE"},
+		{"id":"ba23db05302c4dd7","x":-1400,"y":80,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/layouts/base.njk"},
+		{"id":"b38a79ec842b0e4b","x":-1280,"y":636,"width":943,"height":2984,"type":"file","file":"dataink.io/frontend/views/layouts/base.md"},
+		{"id":"e204e3a63684ff65","type":"file","file":"dataink.io/frontend/views/templates/partials/head.md","x":-120,"y":896,"width":927,"height":160},
+		{"id":"df9309601f510b4c","type":"file","file":"dataink.io/frontend/views/templates/partials/gtm-noscript.md","x":-119,"y":1540,"width":927,"height":160,"color":"3"},
+		{"id":"8edade0e876bdd83","type":"file","file":"dataink.io/frontend/views/organisms/navigation/skip-links-nav.md","x":-120,"y":1740,"width":927,"height":160},
+		{"id":"98ac84780c68b862","type":"file","file":"dataink.io/frontend/views/molecules/section-cap.md","x":-119,"y":1940,"width":927,"height":160,"color":"2"},
+		{"id":"9a52239a9bf7d12d","type":"file","file":"dataink.io/frontend/views/templates/partials/dev-note.md","x":-119,"y":660,"width":927,"height":156},
+		{"id":"4fb268fe54e72a75","type":"text","text":"block: head","x":-120,"y":1140,"width":927,"height":140,"color":"4"},
+		{"id":"3b01082db719c0d9","type":"text","text":"block: sidebar-before","x":-119,"y":2140,"width":927,"height":160,"color":"4"},
+		{"id":"64b7a6323d0c603c","type":"file","file":"dataink.io/frontend/views/organisms/footer/global-footer.md","x":-120,"y":2980,"width":927,"height":160},
+		{"id":"72e11fbe4e846d49","type":"file","file":"dataink.io/frontend/js/layouts/global-header.md","x":-119,"y":3260,"width":927,"height":160,"color":"3"},
+		{"id":"0466b88342b11ca7","type":"text","text":"block: scripts","x":-120,"y":3460,"width":927,"height":140,"color":"4"},
+		{"id":"643ae33ada49a852","type":"text","text":"block: content","x":-86,"y":2420,"width":860,"height":140,"color":"4"},
+		{"id":"4bc51150d94c9bda","type":"text","text":"block: sidebar-after","x":-86,"y":2699,"width":860,"height":140,"color":"4"}
+	],
+	"edges":[]
+}
