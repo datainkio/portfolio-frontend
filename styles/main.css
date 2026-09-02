@@ -25,7 +25,7 @@
 
 /* Mask utilities plugin - Custom Tailwind plugin for mask-image and mask-size utilities */
 @import "./utilities/mask.css";
-@import "./utilities/text.css" layer(utilities);
+@import "./utilities/text.css";
 @import "./utilities/reduced-motion.css" layer(utilities);
 
 @import "./components/portable-text.css" layer(components);
