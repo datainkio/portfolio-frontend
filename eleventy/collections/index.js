@@ -37,7 +37,6 @@
  *
  * CONFIGURATION:
  * Site configuration loaded from site.json must include:
- * [ ] CHORE: Update site.json path to current location.
  * - site.navigation: Navigation-specific settings
  *
  * @param {Object} eleventyConfig - Eleventy configuration object
@@ -137,20 +136,37 @@ export default async function (eleventyConfig) {
     };
     // Figma design-token metadata, parsed from the header that build:design
     // stamps into the generated styles/colors.css (no API/token needed).
-    const figmaMeta = (() => {
+    const colorsCss = (() => {
       try {
-        const css = readFileSync(
+        return readFileSync(
           join(__dirname, "../../styles/colors.css"),
           "utf8",
         );
-        return {
-          fileId: css.match(/File ID:\s*(\S+)/)?.[1] || "",
-          modified: css.match(/Last Modified:\s*(.+)/)?.[1]?.trim() || "",
-        };
       } catch {
-        return { fileId: "", modified: "" };
+        return "";
       }
     })();
+    const figmaMeta = {
+      fileId: colorsCss.match(/File ID:\s*(\S+)/)?.[1] || "",
+      modified: colorsCss.match(/Last Modified:\s*(.+)/)?.[1]?.trim() || "",
+    };
+
+    // Design-token bridge: styles/colors.css is the single source of truth
+    // for color tokens (Tailwind's own color core plugin is disabled — see
+    // tailwind.config.js), so anything needing a raw value outside a `class`
+    // (inline <style>, console.log("%c...") strings, SVG fill/stroke, GSAP
+    // color values) has no other canonical source. Parses `--color-<family>-
+    // <shade>: #hex;` into `{ family: { shade: "#hex" } }`, e.g.
+    // `colors.primary["500"]`.
+    const colors = (() => {
+      const out = {};
+      const re = /--color-([a-z]+)-([a-z0-9]+):\s*(#[0-9a-fA-F]{3,8})/g;
+      for (const [, family, shade, hex] of colorsCss.matchAll(re)) {
+        (out[family] ??= {})[shade] = hex;
+      }
+      return out;
+    })();
+    eleventyConfig.addGlobalData("colors", colors);
 
     eleventyConfig.addGlobalData("buildVersions", {
       eleventy: readPkgVersion("@11ty/eleventy"),

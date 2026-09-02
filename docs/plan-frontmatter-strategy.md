@@ -45,7 +45,7 @@ Measured across the `portfolio-frontend` repo at `ixd` (453 tracked `.md`, 457
 **Fragmentation — three frontmatter dialects, no shared schema.**
 
 1. `.md` sidecar YAML (356 files, 50 keys)
-2. Inline pseudo-frontmatter in JSDoc comments (183 `.js` files, incl. `.eleventy.js`)
+2. Inline pseudo-frontmatter in JSDoc comments (183 `.js` files, incl. `eleventy.config.js`)
 3. Eleventy-functional YAML in the 27 `.md` files 11ty actually renders
 
 No tool reads dialect 2. Nothing reconciles the three. Parallel key families do

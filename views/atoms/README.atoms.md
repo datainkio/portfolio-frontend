@@ -19,6 +19,21 @@ Atoms represent the most basic, indivisible UI elements in the atomic design sys
 - **SHOULD accept data** only through Nunjucks parameters and global data
 - **MUST follow consistent** naming and parameter conventions
 
+## Component Invocation Contract
+
+**Required pattern for every atom (and molecule/organism):**
+
+```nunjucks
+{% import "atoms/heading.njk" as Heading %}
+{{ Heading.render({ level: 2, text: "Section Title" }) }}
+```
+
+Every component wraps its markup in `{% macro render(params = {}) %}...{% endmacro %}`, and callers `{% import ... as X %}` then call `X.render({...})`. Params are namespaced under `params.*` — explicit, self-contained, and the component's parameter list is readable at a glance from its `render()` signature.
+
+**Don't** write a component that reads bare top-level variables from whatever scope happens to be in effect on include (relying on Nunjucks's automatic parent-scope inheritance). That pattern used to be common here and is being migrated away from: it has no explicit parameter list, a variable-name collision between caller and component scope silently produces wrong output instead of an error, and it tempted a few atoms (`icon.njk`, `link/nav-link.njk`) into maintaining *both* patterns in the same file to paper over the ambiguity — don't add a third file to that list.
+
+**Also don't** reach for `{% include "x.njk" with { key: value } %}` as a way to pass params to a non-macro template — that clause is Jinja2-only and **is not valid Nunjucks** in this project's Nunjucks version. It parses without error in some contexts and just silently does nothing, which makes it an easy, hard-to-detect mistake. Several older doc comments in this codebase demonstrate it — they're wrong; use the import+macro pattern above instead.
+
 ## Flat vs. Nested: When to Use a Subdirectory
 
 `atoms/` mixes two shapes and the rule is implicit, not written down elsewhere — this section is the canonical statement of it.

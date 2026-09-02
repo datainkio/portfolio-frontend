@@ -1,12 +1,12 @@
 ---
-description: ".eleventy — context sidecar (auto-created; expand with the file's real responsibility)."
+description: "eleventy.config.js — context sidecar (auto-created; expand with the file's real responsibility)."
 status: stable
 ---
 
-# .eleventy
+# eleventy.config
 
-Context sidecar for `.eleventy.js`.
+Context sidecar for `eleventy.config.js`.
 
 ## Source
 
-- Path: `.eleventy.js`
+- Path: `eleventy.config.js`

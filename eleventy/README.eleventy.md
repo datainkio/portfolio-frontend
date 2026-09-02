@@ -86,15 +86,16 @@ between content
 **Available Shortcodes**:
 
 - **`picture`** - Responsive image with CSS class application
-- **`lightbox`** - Image display with modal dialog overlay
 - **`loremChars`** - Placeholder text generation (character-level)
 - **`loremPars`** - Placeholder text generation (paragraph-level)
+
+For a modal image viewer, use the `molecules/lightbox/lightbox.njk` component
+instead — see [shortcodes/README.md](./shortcodes/README.md).
 
 **Usage in Templates**:
 
 ```nunjucks
 {% picture imageHTML, "w-full shadow-lg", "object-cover" %}
-{% lightbox imageHTML, "Image Title", "Optional caption" %}
 {% loremPars 3 %}   {# Generate 3 paragraphs of placeholder text #}
 ```
 
@@ -129,9 +130,10 @@ Navigation automatically updates when content changes through a clean service la
 
 ### 2. **Smart Image Handling**
 
-```javascript
-// Responsive images with lightbox functionality
-{% lightbox imageData, "Alt text", "Caption" %}
+```nunjucks
+{# Responsive images with a lightbox #}
+{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
+{{ Lightbox.render({ picture: imageData, alt: "Alt text", caption: "Caption" }) }}
 ```
 
 Images automatically optimize for different screen sizes and provide accessible

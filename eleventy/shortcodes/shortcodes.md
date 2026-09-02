@@ -1,5 +1,5 @@
 ---
-description: "Barrel that registers all shortcodes (lorem generators + image picture/lightbox) with 11ty."
+description: "Barrel that registers all shortcodes (lorem generators + image picture) with 11ty."
 status: stable
 tags:
   - shortcodes
@@ -12,14 +12,14 @@ links:
 
 # Shortcodes barrel
 
-Single registration surface for shortcodes; imported by [[.eleventy]].
+Single registration surface for shortcodes; imported by [[eleventy.config]].
 
 ## Registers
 
 | Shortcode                 | Source                      |
 | ------------------------- | --------------------------- |
 | `loremChars`, `loremPars` | [[loremipsatron]]           |
-| `picture`, `lightbox`     | [[image\|shortcodes/image]] |
+| `picture`                 | [[image\|shortcodes/image]] |
 
 ## Source
 

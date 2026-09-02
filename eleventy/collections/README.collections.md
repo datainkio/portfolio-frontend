@@ -13,11 +13,11 @@ Central orchestration for all 11ty collections. This directory manages the regis
 ## Architecture Overview
 
 **Purpose**: Coordinate collection initialization in correct dependency order
-**Entry Point**: `index.js` - Imported by `.eleventy.js` as a plugin
+**Entry Point**: `index.js` - Imported by `eleventy.config.js` as a plugin
 **Pattern**: Async initialization with error isolation per collection type
 
 ```javascript
-// In .eleventy.js
+// In eleventy.config.js
 import collections from "./eleventy/collections/index.js";
 
 export default async function (eleventyConfig) {
@@ -102,6 +102,12 @@ Collections MUST be registered in dependency order:
 - Calls initializers in correct dependency order
 - Catches and logs errors without breaking build
 - Uses chalk for colored terminal output
+- Registers global data available to every template:
+  - `site` — the parsed `site.json`
+  - `env` — public Sanity config (`SANITY_PROJECT_ID`, etc.)
+  - `buildDate`, `buildVersions` — build-time metadata (eleventy/sanity versions, Figma file info, git sha)
+  - `runtime` — `{ bundleJs }`, mirrors the `BUNDLE_JS` env flag used by `scripts/buildChoreography.js`
+  - `colors` — design-token bridge: parses `styles/colors.css`'s `--color-<family>-<shade>` custom properties into `{ family: { shade: "#hex" } }` (e.g. `colors.primary["500"]`). Use this — not a hardcoded hex — for the rare case that needs a raw color value outside a Tailwind `class` (inline `<style>`, SVG `fill`/`stroke` set as an attribute, GSAP color values). It does **not** cover one-off decorative colors that were never meant to track the brand palette (see `views/layouts/storyboards.njk` and `views/templates/partials/dev-note.njk`, both documented exceptions for exactly that reason).
 
 ### `sanity.js`
 

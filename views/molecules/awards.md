@@ -32,8 +32,8 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 - Imports:
   - [[award-organization.njk|molecules/card/award-organization.njk]]
-- Likely used by:
-  - Unknown
+- Used by:
+  - [[project-header.njk|organisms/header/project/project-header.njk]]
 
 ## Notes for Future Maintenance
 
@@ -44,4 +44,3 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 ## Open Questions
 
 - Are the inferred data dependencies complete, or are some supplied indirectly (front matter, computed data, Sanity)?
-- `views/molecules/list/awards.njk` appears to be a separate, similarly-named component — confirm both are intentionally distinct and not duplicative.

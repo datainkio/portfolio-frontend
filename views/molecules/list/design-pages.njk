@@ -5,7 +5,11 @@ Accessible navigation with ARIA labels and semantic structure
 #}
 
 {% import "atoms/link/link.njk" as Link %}
-{% set designNav = collections.all | eleventyNavigation("Design") %}
+{#- Accepts an optional `designNav` (pre-filtered eleventyNavigation entries) so
+    this can be reused with different data; falls back to computing it from
+    collections.all for convenience, matching organisms/navigation/breadcrumbs-nav.njk's
+    `params.nav or collections.all` pattern for the same class of sitewide-nav data. -#}
+{% set designNav = designNav | default(collections.all | eleventyNavigation("Design")) %}
 
 {% if designNav.length %}
   <nav

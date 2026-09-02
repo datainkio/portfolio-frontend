@@ -96,7 +96,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
   - `pages/` - Page-level templates
   - `templates/partials/` - Shared partials (head, fonts, GTM, choreography script)
   - `_registry.njk` - Central component registry
-- `.eleventy.js` - 11ty config (plugins, collections, filters, shortcodes)
+- `eleventy.config.js` - 11ty config (plugins, collections, filters, shortcodes)
 - `eleventy/` - Modular 11ty configuration
   - `collections/` - Collection definitions (Sanity-driven)
   - `filters/` - Nunjucks filters

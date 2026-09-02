@@ -53,61 +53,15 @@ Modern responsive images need flexible sizing controlled by CSS, not HTML attrib
 
 ---
 
-### `lightbox` - Modal Image Viewer
-
-Creates an interactive image that opens in a modal dialog when clicked.
-
-**Signature**:
-
-```javascript
-lightbox(
-  htmlString,
-  (title = ""),
-  (caption = ""),
-  (pictureClasses = ""),
-  (imgClasses = ""),
-);
-```
-
-**Parameters**:
-
-- `htmlString` - The `<picture>` or `<img>` HTML element as a string
-- `title` - Title text for the modal (optional)
-- `caption` - Caption/description shown below the image (optional)
-- `pictureClasses` - CSS classes for the `<picture>` element
-- `imgClasses` - CSS classes for the `<img>` element
-
-**Usage in Templates**:
-
-```nunjucks
-{# Lightbox with caption #}
-{% lightbox imageElement, "Gallery Image", "Photography by Jane Doe" %}
-
-{# Just title, no caption #}
-{% lightbox imageElement, "Project Screenshot" %}
-
-{# No title or caption - just the image #}
-{% lightbox imageElement %}
-
-{# With responsive styling #}
-{% lightbox imageElement, "Featured", "Click to enlarge", "rounded-lg shadow", "object-cover" %}
-```
-
-**What It Does**:
-
-- Wraps the image in a clickable button
-- Creates a hidden `<dialog>` element containing the modal
-- Shows a close button (✕) in the top-right corner
-- Centers the image vertically and horizontally in the modal
-- Displays optional caption text below the image
-- Uses DaisyUI modal styling for consistent appearance
-
-**Accessibility**:
-
-- Dialog element provides native browser accessibility
-- Focus is automatically managed
-- Users can close with Escape key or close button
-- Screen readers announce the modal appropriately
+For a modal image viewer, use the [[lightbox|molecules/lightbox/lightbox]] molecule
+(`views/molecules/lightbox/lightbox.njk`) instead of a shortcode — it composes
+`{% import "molecules/lightbox/lightbox.njk" as Lightbox %}` +
+`{{ Lightbox.render({ picture: imageHtml, caption: "..." }) }}`, uses a native
+`<dialog>` with `data-lightbox-el` attributes and a real `Lightbox.js` module
+(no inline `onclick`, no DaisyUI dependency). The `lightbox` shortcode that used
+to live here was removed — it duplicated this component with a more brittle
+implementation (inline `onclick="id.showModal()"` relying on implicit
+global-by-element-id).
 
 ---
 
@@ -203,19 +157,20 @@ loremPars((paragraphCount = 1));
 Shortcodes work seamlessly with Sanity-sourced content:
 
 ```nunjucks
-{# Example: Display project images with lightbox #}
+{# Example: Display project images with a lightbox #}
+{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
 {% set images = collections.images | findRecord(project.gallery) %}
 
 {% for image in images %}
   <div class="gallery-item">
-    {% lightbox image.html, image.title, image.credit, "rounded-lg" %}
+    {{ Lightbox.render({ picture: image.html, caption: image.title }) }}
   </div>
 {% endfor %}
 ```
 
 ## Performance Notes
 
-- **`picture` and `lightbox`** use Cheerio for DOM manipulation (minimal overhead)
+- **`picture`** uses Cheerio for DOM manipulation (minimal overhead)
 - **`loremChars` and `loremPars`** generate text at build time (no runtime cost)
 - All shortcodes are registered once during 11ty initialization
 - Output is cached during builds for consistent results
@@ -225,9 +180,10 @@ Shortcodes work seamlessly with Sanity-sourced content:
 ### Responsive Gallery
 
 ```nunjucks
+{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   {% for image in galleryImages %}
-    {% lightbox image.html, image.alt %}
+    {{ Lightbox.render({ picture: image.html, alt: image.alt }) }}
   {% endfor %}
 </div>
 ```

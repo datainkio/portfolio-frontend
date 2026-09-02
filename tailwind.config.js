@@ -1,12 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import typography from "@tailwindcss/typography";
-
-const SCREENS = {
-  sm: "40rem",
-  md: "48rem",
-  lg: "64rem",
-  xl: "80rem",
-};
+import { SCREENS } from "./breakpoints.config.js";
 
 export default {
   content: [

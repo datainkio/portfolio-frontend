@@ -6,7 +6,7 @@
  *
  * ARCHITECTURE OVERVIEW:
  * - Registers three navigation collections: nav_dirs, nav_projects, nav_primary
- * - nav_dirs: Built from _pages directory structure and frontmatter titles
+ * - nav_dirs: Built from the ia/ input directory structure and frontmatter titles
  * - nav_projects: Built from Sanity projects data
  * - nav_primary: Merges both collections into hierarchical navigation structure
  *
@@ -82,10 +82,13 @@ export async function init(eleventyConfig, site) {
 
   // Register nav_primary LAST as it depends on the other two
   eleventyConfig.addCollection("nav_primary", function (collectionApi) {
-    // Access other collections through the 11ty context
-    const allCollections = this.ctx?.collections || {};
-    const projects = allCollections.nav_projects || [];
-    const directories = allCollections.nav_dirs || [];
+    // Eleventy doesn't expose one custom collection's already-built output
+    // inside another collection's callback (there is no `this.ctx` here —
+    // that was never a real API and always evaluated to `{}`, so this
+    // recomputes directories/projects the same way nav_dirs/nav_projects do,
+    // from the same collectionApi both of those receive).
+    const directories = navigationBuilder.buildDirectoryNavigation(collectionApi);
+    const projects = navigationBuilder.buildProjectNavigation(collectionApi);
 
     return navigationBuilder.buildPrimaryNavigationFromData(
       directories,

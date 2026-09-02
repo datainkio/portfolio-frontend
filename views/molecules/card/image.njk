@@ -1,25 +1,26 @@
-<div class="card bg-base-200 shadow-xl">
-  {% lightbox image.file.html, image.title %}
-  <div class="card-body px-4 py-4">
-    <div class="stats stats-vertical shadow-sm">
-      <div class="stat">
-        <div class="stat-title">Filename</div>
-        <div class="stat-desc">{{ image.file.originalFilename or "N/A" }}</div>
+{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
+<div class="rounded-lg bg-neutral-100 shadow-xl overflow-hidden">
+  {{ Lightbox.render({ picture: image.file.html, caption: image.title }) }}
+  <div class="px-4 py-4">
+    <dl class="divide-y divide-neutral-200 shadow-sm rounded border border-neutral-200">
+      <div class="flex justify-between px-3 py-2">
+        <dt class="text-sm text-neutral-600">Filename</dt>
+        <dd class="text-sm text-neutral-800">{{ image.file.originalFilename or "N/A" }}</dd>
       </div>
-      <div class="stat">
-        <div class="stat-title">Type</div>
-        <div class="stat-desc">{{ image.type or "Unknown" }}</div>
+      <div class="flex justify-between px-3 py-2">
+        <dt class="text-sm text-neutral-600">Type</dt>
+        <dd class="text-sm text-neutral-800">{{ image.type or "Unknown" }}</dd>
       </div>
-      <div class="stat">
-        <div class="stat-title">ID</div>
-        <div class="stat-desc">{{ image.id }}</div>
+      <div class="flex justify-between px-3 py-2">
+        <dt class="text-sm text-neutral-600">ID</dt>
+        <dd class="text-sm text-neutral-800">{{ image.id }}</dd>
       </div>
-      <div class="stat">
-        <div class="stat-title">Dimensions</div>
-        <div class="stat-desc">
+      <div class="flex justify-between px-3 py-2">
+        <dt class="text-sm text-neutral-600">Dimensions</dt>
+        <dd class="text-sm text-neutral-800">
           {{ image.width or "?" }}x{{ image.height or "?" }}
-        </div>
+        </dd>
       </div>
-    </div>
+    </dl>
   </div>
 </div>

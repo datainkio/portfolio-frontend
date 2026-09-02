@@ -3,18 +3,18 @@ description: "Reusable partial included by layouts or pages."
 type: template
 ---
 
-# Icon (favicon links)
+# Favicon
 
 Reusable partial included by layouts or pages.
 
 ## Template
 
-- Source: [[icon.njk]]
-- Path: `views/templates/partials/icon.njk`
+- Source: [[favicon.njk]]
+- Path: `views/templates/partials/favicon.njk`
 
 ## Purpose
 
-Emits `<link>` tags for the site's favicon and app icons, including the sized icon set from `site.manifest.icons`. Distinct from the `atoms/icon.njk` SVG icon component — this partial is head-level favicon markup only.
+Emits `<link>` tags for the site's favicon and app icons, including the sized icon set from `site.manifest.icons`. Distinct from the `atoms/icon.njk` SVG icon component — this partial is head-level favicon markup only (renamed from `icon.njk` to remove that naming collision).
 
 ## Role in the System
 
@@ -33,8 +33,6 @@ Classified as a **partial** at the atomic **template** level based on its locati
 
 - Keep this sidecar documentation in sync when the template signature changes.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
-- Naming collides with [[icon.njk|atoms/icon.njk]] (unrelated component) — the atomic-design docs should note the distinction to avoid confusion when scaffolding.
-
 ## Open Questions
 
 - Are the inferred data dependencies complete, or are some supplied indirectly (front matter, computed data, Sanity)?

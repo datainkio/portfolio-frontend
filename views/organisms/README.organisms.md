@@ -8,264 +8,60 @@ status: stable
 
 # Organisms Directory - Complex UI Assemblies
 
-**CRITICAL WARNING**: Organisms represent complete interface sections with complex internal logic. Changes here directly affect page layouts and user workflows. These components often contain state management and business logic that can break entire site sections.
+**CRITICAL WARNING**: Organisms combine molecules and atoms into complete interface sections. Changes here directly affect page layouts. Map page-template dependencies before editing.
 
 ## Architecture Overview
 
-Organisms combine molecules and atoms into complete, functional interface sections. These components:
+Organisms represent substantial, page-section-level interface pieces. These components:
 
-- **CONTROL complex user interactions** with internal state management
-- **ORCHESTRATE multiple molecules** to create cohesive experiences
-- **IMPLEMENT business logic** for content display and user workflows
-- **MANAGE data integration** from CMS, APIs, and site collections
+- **ORCHESTRATE multiple molecules and atoms** into a cohesive section
+- **MAY depend on molecules, atoms, and other organisms** — organism-to-organism composition is the norm here, not an exception (e.g. `footer/global-footer.njk` imports `section/contact.njk`; every header variant imports `navigation/breadcrumbs-nav.njk`)
+- **ACCEPT data** via Nunjucks parameters from the page/template that includes them
+- **MANAGE section-level interaction state** where relevant (e.g. navigation toggles)
 
-## Component Categories
+## Directory Structure
 
-### Navigation Organisms (`navigation/`)
+Four real subdirectories exist under `views/organisms/`:
 
-Complete navigation systems that control site-wide user movement.
+### `header/` - Page Header Variants
 
-**CRITICAL DEPENDENCY**: Integrates with `eleventy/collections/navigation.js` and GSAP choreography system for dropdown animations.
+- **`global-header.njk`** - shared header shell
+- **`home/home-landing.njk`** - homepage-specific header
+- **`landing/landing-header.njk`** - landing-page header (also used by project/article pages, per its imports)
+- **`project/project-header.njk`** - project detail page header (composes `molecules/awards.njk`)
+- **`article/article-header.njk`** - article page header
 
-**WARNING**: Navigation changes affect SEO, analytics tracking, and user experience metrics. Test thoroughly before deployment.
+### `footer/` - Site Footer
 
-### Layout Organisms (`layout/`)
+- **`global-footer.njk`** - shared footer, used across all page types
 
-Page structure components that define content areas and responsive behavior.
+### `navigation/` - Site-Wide Navigation Systems
 
-- Header assemblies with navigation and branding
-- Footer systems with sitemap and contact information
-- Sidebar configurations for content filtering
+- **`primary-nav.njk`** - main site navigation
+- **`breadcrumbs-nav.njk`** - breadcrumb trail
+- **`page-nav.njk`** - in-page prev/next or section navigation
+- **`skip-links-nav.njk`** - accessibility skip-links, included in `layouts/base.njk` on every page
 
-**INTEGRATION RISK**: Layout organisms control CSS Grid and Flexbox structures. Changes can break responsive design across all breakpoints.
+### `section/` - Homepage/Landing Content Sections
 
-### Content Organisms (`content/`)
+- **`hero.njk`**, **`bio.njk`**, **`work.njk`**, **`organizations.njk`**, **`awards.njk`**, **`process.njk`**, **`contact.njk`** - one file per homepage section, each with its own choreography/GSAP integration
 
-Dynamic content display systems for CMS-driven content.
+**Note**: `organisms/section/awards.njk` and `molecules/awards.njk` both render an award list grouped by organization (`groupByOrg` + `card/award-organization.njk`) but the organism reimplements the list-rendering inline rather than composing the molecule, since the molecule bundles its own `<section>`/heading wrapper. Worth consolidating if this file is touched again.
 
-**DATA DEPENDENCY**: Expects specific Sanity collection structures and field mappings. Schema changes in CMS require organism updates.
-
-### Interactive Organisms (`interactive/`)
-
-Complex user interaction patterns with state management.
-
-- Modal systems with focus management
-- Filtering interfaces with URL state synchronization
-- Search components with real-time results
-
-**PERFORMANCE WARNING**: Interactive organisms can impact Core Web Vitals if not properly optimized for main thread blocking.
-
-### Section Organisms (`section/`)
-
-Page section assemblies that combine content with layout patterns.
-
-- Hero sections with animation choreography
-- Portfolio grids with filtering and pagination
-- Biography sections with media integration
-
-### Figure Organisms (`figure/`)
-
-Media display systems with responsive behavior and accessibility features.
-
-**MEDIA DEPENDENCY**: Requires proper image processing pipeline and responsive image generation.
-
-### Modal Organisms (`modal/`)
-
-Overlay interface systems with complex focus management and accessibility requirements.
-
-**ACCESSIBILITY CRITICAL**: Modal components must implement proper ARIA attributes, focus trapping, and escape key handling.
-
-## Usage Guidelines
-
-### Template Integration
+## Usage
 
 ```nunjucks
-{# Correct organism usage #}
-{% include "organisms/navigation/header.njk" with {
-  navigation: collections.nav_primary,
-  site: site,
-  currentUrl: page.url,
-  isHomepage: page.url == "/"
-} %}
+{% import "organisms/section/hero.njk" as Hero %}
+{{ Hero.render({ heading: "Featured Projects", content: projectList }) }}
 ```
 
-### Data Management
+Prefer `{% import ... as X %} + {{ X.render({...}) }}` — `{% include "x.njk" with {...} %}` is **not valid Nunjucks** in this project's Nunjucks version (it silently does nothing); several older doc comments in this codebase demonstrate it incorrectly.
 
-Organisms should:
+## Data Flow
 
-1. **Accept high-level data** from page templates or global context
-2. **Transform and distribute** data to child molecules and atoms
-3. **Handle error states** when data is missing or malformed
-4. **Implement caching strategies** for expensive data operations
-5. **Manage user interaction state** within the component boundary
+Organisms receive data from the page template that includes them (via `params`), and pass subsets down to the molecules/atoms they compose. They don't fetch their own data from `collections.*` as a rule — **three navigation organisms are a documented, intentional exception**: `navigation/breadcrumbs-nav.njk` (`params.nav or collections.all`), `navigation/primary-nav.njk`, and `header/landing/landing-header.njk` all read `collections.all` for site-wide navigation structure. This is accepted because it's structural sitewide data, not page-specific content — the same category of data an organism is expected to receive as "high-level context" per this file's own contract, not a case of a component quietly coupling itself to one page's content. Molecules that self-fetched *specific content records* (awards, organization lists, project siblings) were fixed to accept that data as parameters instead — see the Frontend project's "Audit direct collections.* access in molecules/organisms" task for what changed.
 
-### Integration Dependencies
+## Integration Notes
 
-**Animation Choreography**: Organisms coordinate with `js/choreography/Director.js` for complex animation sequences. CSS classes and data attributes must remain consistent.
-
-**CMS Collections**: Content organisms depend on Sanity data processed through `eleventy/collections/sanity.js`. Field name changes break data binding.
-
-**Navigation System**: Navigation organisms integrate with `eleventyNavigation` plugin and custom collection processing. URL structure changes affect navigation generation.
-
-**Responsive Design**: Layout organisms control Tailwind CSS Grid and Flexbox systems. Breakpoint changes require organism updates.
-
-## Development Warnings
-
-### Component Creation
-
-When creating new organisms:
-
-1. **DESIGN comprehensive data contracts** with clear parameter documentation
-2. **IMPLEMENT error boundaries** for graceful failure handling
-3. **PLAN animation integration** with site-wide choreography system
-4. **BUILD responsive behavior** with mobile-first design principles
-5. **VALIDATE accessibility** with screen readers, keyboard navigation, and automated testing
-
-### Modification Guidelines
-
-Before editing existing organisms:
-
-1. **MAP page template dependencies** - identify which pages use this organism
-2. **AUDIT animation choreography** - check GSAP timeline integration points
-3. **VERIFY CMS data compatibility** - ensure Sanity field mappings remain valid
-4. **TEST responsive breakpoints** - validate mobile through desktop behavior
-5. **RUN accessibility audit** - screen reader testing and keyboard navigation
-6. **PERFORMANCE PROFILE** - measure impact on Core Web Vitals
-
-### Common Gotchas
-
-- **Animation sequence conflicts**: Multiple organisms animating simultaneously can cause jank
-- **Data structure assumptions**: Organisms often expect specific CMS field structures
-- **Modal focus management**: Complex focus trapping can break with DOM changes
-- **Responsive image loading**: Organisms with media need proper `srcset` and `sizes` attributes
-- **State synchronization**: Interactive organisms may conflict with browser back/forward navigation
-
-## Browser Compatibility
-
-All organisms must support:
-
-- **Modern browsers**: Chrome 120+, Firefox 121+, Safari 17+, Edge 120+
-- **Mobile devices**: iOS Safari 17+, Android Chrome 120+, responsive design from 320px to 4K displays
-- **Accessibility tools**: Screen readers, keyboard navigation, voice control, high contrast mode
-- **Performance constraints**: 60fps animations, <2.5s LCP, <100ms FID
-
-## Testing Strategy
-
-### Component Integration
-
-- End-to-end user workflow testing
-- Cross-browser compatibility validation
-- Animation performance profiling
-- Accessibility compliance verification
-- SEO impact analysis for navigation changes
-
-### User Experience
-
-- Usability testing for complex interactions
-- Mobile device testing across screen sizes
-- Performance testing under slow network conditions
-- Edge case handling for missing or malformed data
-
-### Technical Validation
-
-- Bundle size impact measurement
-- Animation frame rate monitoring
-- Memory leak detection for interactive components
-- Focus management validation for modal systems
-
-## Enhancement Opportunities
-
-### Performance Optimization
-
-- Implement lazy loading for non-critical organisms
-- Add intersection observer for animation triggering
-- Optimize GSAP timeline coordination
-- Bundle splitting for page-specific organisms
-
-### Accessibility Improvements
-
-- Enhanced keyboard navigation patterns
-- Screen reader optimization for dynamic content
-- Focus management for complex interactions
-- Color contrast validation across all variants
-
-### Developer Experience
-
-- Component documentation with realistic usage examples
-- Storybook integration for isolated organism testing
-- TypeScript interfaces for data contracts
-- Automated visual regression testing
-- Performance budgets for organism complexity
-
-## Technical Debt
-
-### Known Issues
-
-- Navigation organism complexity makes maintenance difficult
-- Modal focus management inconsistent across different modal types
-- Section organisms tightly coupled to specific CMS data structures
-- Animation coordination between organisms can cause conflicts
-
-### Migration Priorities
-
-1. Standardize organism data contract patterns
-2. Implement consistent modal accessibility patterns
-3. Decouple organisms from specific CMS field structures
-4. Create unified animation coordination system
-
-### Integration Risks
-
-**Animation System**: GSAP choreography system changes affect multiple organisms simultaneously. Version updates require careful coordination testing.
-
-**CMS Schema Evolution**: Sanity schema changes can silently break multiple organisms that depend on specific field structures.
-
-**CSS Framework Updates**: Tailwind CSS updates may deprecate utility classes used extensively in layout organisms.
-
-**Navigation Logic Changes**: Modifications to `eleventy/collections/navigation.js` affect multiple navigation organisms and can break site-wide navigation.
-
-## Debugging Guidelines
-
-### Common Issues
-
-1. **Missing or malformed data**: Check CMS field mappings and collection processing
-2. **Animation conflicts**: Verify GSAP timeline coordination between organisms
-3. **Responsive breakage**: Test CSS Grid/Flexbox behavior across all breakpoints
-4. **Accessibility violations**: Use automated tools and manual testing with assistive technology
-5. **Performance degradation**: Profile animation performance and bundle size impact
-
-### Debugging Tools
-
-- Chrome DevTools Performance tab for animation profiling
-- Lighthouse for accessibility and performance auditing
-- GSAP timeline debugging for animation coordination
-- 11ty debug mode for data flow inspection
-- Accessibility testing tools (axe-core, WAVE, screen readers)
-
-### Error Recovery
-
-Organisms should implement graceful degradation:
-
-- **Fallback content** when CMS data is unavailable
-- **Progressive enhancement** for JavaScript-dependent features
-- **Error boundaries** to prevent complete page failure
-- **Loading states** for async data fetching
-- **Accessibility fallbacks** when interactive features fail
-
-## State Management
-
-### Data Flow Patterns
-
-1. **Page-level data** flows down through organisms to molecules and atoms
-2. **User interaction state** managed within organism boundaries
-3. **Global state changes** (theme, navigation) handled through event systems
-4. **URL state synchronization** for filterable and searchable organisms
-
-### Performance Considerations
-
-- Minimize re-renders in data-heavy organisms
-- Implement virtual scrolling for large lists
-- Use intersection observer for lazy loading
-- Cache expensive data transformations
-- Debounce user input handling
-
-**REMEMBER**: Organisms are the complex brain centers of the design system. They coordinate multiple molecules, manage state, and implement business logic. Changes here have the highest risk and highest impact. Always test comprehensively and consider rollback strategies for production deployments.
+- **Animation**: Section organisms integrate with the choreography system in `js/choreography/` — CSS classes and `data-*` attributes must stay in sync with what the relevant manager expects.
+- **CMS data**: Content organisms expect specific Sanity field shapes; a schema change requires a template update.

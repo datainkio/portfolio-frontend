@@ -20,7 +20,7 @@ never opens (accepted tradeoff — same pattern as `ContactForm.js`).
 - Path: `js/lightbox/Lightbox.js`
 - Loaded via: `<script type="module">` at the end of
   [`lightbox.njk`](../../views/molecules/lightbox/lightbox.md). Passed through
-  to `/assets/js/lightbox/Lightbox.js` by `.eleventy.js`'s `{ js: "assets/js" }`
+  to `/assets/js/lightbox/Lightbox.js` by `eleventy.config.js`'s `{ js: "assets/js" }`
   passthrough copy.
 
 ## Responsibilities

@@ -84,8 +84,6 @@ export default async function (eleventyConfig) {
     // Wait for all data to be fetched (either in parallel or sequential mode) before continuing with the build
     await collections(eleventyConfig);
 
-    // Make Tailwind theme data available globally
-    // eleventyConfig.addGlobalData("styles", tailwindConfig.theme.extend);
     logger.outdent();
     logger.trace(
       "11ty configuration complete. Ready to build.",
