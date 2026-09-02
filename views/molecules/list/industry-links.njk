@@ -22,6 +22,11 @@
       class="{{ ulStyles | classes }} {{ overrides }}">
     {% for industryTitle, projects in industries %}
       <li class="{{ liStyles | classes }}">
+        {#- Kept as raw markup: this anchor is a documented WorkNavManager
+            scrollspy target (see industry-links.md "Active-state contract") —
+            the data-projects-el attribute and JS-driven aria-current wiring
+            aren't things atoms/link/link.njk supports, and this drives live
+            homepage navigation. -#}
         <a href="#{{ industryTitle | slugify }}"
            data-projects-el="industry-link"
            class="{{ aStyles | classes }}">{{ industryTitle }}</a>

@@ -17,6 +17,10 @@
     </div>
 
     <div class="section-playback__controls mt-3 flex flex-wrap items-center gap-2" aria-live="polite">
+      {#- Kept as raw markup: this is a dev-only choreography debug tool
+          (no live callers), single-purpose triggers with no reuse case —
+          routing through atoms/button.njk would add indirection without
+          benefit. -#}
       <button
         type="button"
         class="section-playback__btn section-playback__btn--intro rounded-full border border-emerald-500/70 bg-emerald-900/50

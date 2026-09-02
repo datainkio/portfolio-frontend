@@ -30,6 +30,13 @@
     </header>
 
     {#- Browser-write contact form. The Sanity write token is present in this markup as a data attribute — an accepted tradeoff (see contact form spec §4). Submission is JS-dependent (ContactForm.js); the form does not POST on its own. -#}
+    {#- The <input>/<textarea>/<button> below are kept as raw markup: atoms/input.njk
+        is a two-param primitive (type/placeholder) with no support for the
+        native-validation attributes (required, autocomplete, aria-describedby),
+        labels, or per-field error slots this form needs; atoms/button.njk is
+        similarly too thin for a submit control with disabled-state styling.
+        This is a live, spec-governed form (contact form spec §4) — not the
+        place to retrofit an under-specified atom. -#}
     <form data-contact-form
           data-sanity-project="{{ sanityProjectId }}"
           data-sanity-dataset="{{ sanityDataset }}"

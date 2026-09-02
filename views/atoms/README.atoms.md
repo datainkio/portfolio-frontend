@@ -15,9 +15,20 @@ status: stable
 Atoms represent the most basic, indivisible UI elements in the atomic design system. These components:
 
 - **MUST remain stateless and pure** - no internal logic or data manipulation
-- **CANNOT import or depend on** other atoms, molecules, or organisms
+- **CANNOT import or depend on** other atoms, molecules, or organisms — **with one documented exception**: `atoms/icon.njk` and the `atoms/svg/*` primitives may be imported by other atoms. Both are pure, dependency-free leaf nodes (SVG markup only, no further imports), so importing them doesn't create the kind of cross-atom coupling this rule exists to prevent. Current users of the exception: `atoms/link/link.njk`, `atoms/link/nav-link.njk`, `atoms/printmarks/registration-marks.njk`, `atoms/printmarks/ink-marks.njk`. Don't extend the exception to any other atom pair without updating this note.
 - **SHOULD accept data** only through Nunjucks parameters and global data
 - **MUST follow consistent** naming and parameter conventions
+
+## Flat vs. Nested: When to Use a Subdirectory
+
+`atoms/` mixes two shapes and the rule is implicit, not written down elsewhere — this section is the canonical statement of it.
+
+- **Flat file** (`heading.njk`, `icon.njk`, `cta.njk`, ...): use when the atom is a single component with no distinct sub-parts or size/shape variants. 13 atoms currently use this shape.
+- **Directory** (`button/`, `link/`, `loader/`, `svg/`, `printmarks/`, `video/`): use when the atom has multiple variants or sub-parts that each need their own `.njk`/`.md` pair — e.g. `link/` holds `link.njk`, `nav-link.njk`, `breadcrumb.njk`, `site-title.njk`; `printmarks/` holds four distinct mark types.
+
+**Known exceptions**: `debug/` (`sanity-schema.njk`) and `hanko/` (`hanko.njk`) are directories containing a single file each — they don't fit the variants rule above. Treat them as historical exceptions, not precedent; don't nest a new single-file atom to match them. If touching either, consider flattening it to match the rule.
+
+When scaffolding a new atom, default to a flat file. Only create a subdirectory once a second variant or sub-part is added — don't nest speculatively.
 
 ## Component Categories
 

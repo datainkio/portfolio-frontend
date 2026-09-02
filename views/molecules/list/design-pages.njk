@@ -4,6 +4,7 @@ Uses eleventyNavigation to display Design section and its children
 Accessible navigation with ARIA labels and semantic structure
 #}
 
+{% import "atoms/link/link.njk" as Link %}
 {% set designNav = collections.all | eleventyNavigation("Design") %}
 
 {% if designNav.length %}
@@ -14,30 +15,36 @@ Accessible navigation with ARIA labels and semantic structure
     <ul class="space-y-2" role="list">
       {% for item in designNav %}
         <li class="text-sm">
-          <a href="{{ item.url }}" class="block py-1 px-2 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1{% if item.url == page.url %}bg-primary-100
-                        text-primary-900 font-medium{% endif %}" {% if item.url == page.url %} aria-current="page" {% endif %}>
-            {{ item.title }}
-          </a>
+          {{ Link.render({
+            url: item.url,
+            text: item.title,
+            ariaCurrent: "page" if item.url == page.url else "",
+            class: "block py-1 px-2 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1" + (" bg-primary-100 text-primary-900 font-medium" if item.url == page.url else "")
+          }) }}
 
           {# Display children if they exist #}
           {% if item.children.length %}
             <ul class="mt-2 ml-4 space-y-1 border-l border-neutral-100 pl-3" role="list">
               {% for child in item.children %}
                 <li class="text-xs">
-                  <a href="{{ child.url }}" class="block py-1 px-2 text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1{% if child.url == page.url %}bg-primary-50
-                                        text-primary-800 font-medium{% endif %}" {% if child.url == page.url %} aria-current="page" {% endif %}>
-                    {{ child.title }}
-                  </a>
+                  {{ Link.render({
+                    url: child.url,
+                    text: child.title,
+                    ariaCurrent: "page" if child.url == page.url else "",
+                    class: "block py-1 px-2 text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1" + (" bg-primary-50 text-primary-800 font-medium" if child.url == page.url else "")
+                  }) }}
 
                   {# Display grandchildren if they exist (third level) #}
                   {% if child.children.length %}
                     <ul class="mt-1 ml-3 space-y-1 border-l border-neutral-100 pl-2" role="list">
                       {% for grandchild in child.children %}
                         <li class="text-xs">
-                          <a href="{{ grandchild.url }}" class="block py-0.5 px-2 text-neutral-500 hover:text-neutral-700 hover:bg-neutral-50 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1{% if grandchild.url == page.url %}bg-primary-50
-                                                        text-primary-700 font-medium{% endif %}" {% if grandchild.url == page.url %} aria-current="page" {% endif %}>
-                            {{ grandchild.title }}
-                          </a>
+                          {{ Link.render({
+                            url: grandchild.url,
+                            text: grandchild.title,
+                            ariaCurrent: "page" if grandchild.url == page.url else "",
+                            class: "block py-0.5 px-2 text-neutral-500 hover:text-neutral-700 hover:bg-neutral-50 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1" + (" bg-primary-50 text-primary-700 font-medium" if grandchild.url == page.url else "")
+                          }) }}
                         </li>
                       {% endfor %}
                     </ul>
