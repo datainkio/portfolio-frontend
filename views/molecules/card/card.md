@@ -42,6 +42,16 @@ The video is **decorative**: `aria-hidden="true"`, `tabindex="-1"`, no `controls
 
 The `<video>` ships with no `src` — only `data-src` plus `data-defer-video`, hydrated later by [[deferred-videos]]. It is additionally marked `data-motion-optional`, which tells that hydrator to skip it entirely when `prefers-reduced-motion: reduce` matches. With no source ever assigned the element renders its poster and stays still, so the reduced-motion fallback is the absence of an action rather than an extra code path. Videos without `data-motion-optional` (e.g. the sizzle background) hydrate as they always have.
 
+## Motion
+
+Card motion is choreographed and responsive to breakpoint:
+
+- **base–md**: sticky figure (sticky.js) — the figure pins to the viewport while the body scrolls over it
+- **lg+**: parallax (parallax.js) — subtle vertical parallax between body and figure, body moves 12% upward on scroll while figure remains at default speed
+- **reduced motion**: all motion disabled; card renders from CSS alone
+
+See [[Card.js]] for the organism controller and [[card-motion.js]] for the motion factories.
+
 ## Role in the System
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.

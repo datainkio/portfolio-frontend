@@ -80,6 +80,12 @@ const CARD_STICKY = Object.freeze({
   trigger: { enabled: true },
 });
 
+const CARD_PARALLAX = Object.freeze({
+  animation: { variant: "parallax" },
+  timeline: { enabled: true },
+  trigger: { enabled: true },
+});
+
 export const SECTION_OVERRIDES = Object.freeze({
   hero: {
     base: { animation: { variant: "simple" } },
@@ -104,13 +110,13 @@ export const SECTION_OVERRIDES = Object.freeze({
   card: {
     // Variant 01 (below lg): figure sticks to the viewport top while the body
     // scrolls over it. See specs/animation/project-card-responsiveness.md.
-    // Variant 02 (lg+): motion intentionally off — the CARD_STATIC baseline.
+    // Variant 02 (lg+): body parallax — subtle vertical offset as card scrolls.
     reduced: { animation: { variant: "reduced" } },
     base: CARD_STICKY,
     sm: CARD_STICKY,
     md: CARD_STICKY,
-    lg: CARD_STATIC,
-    xl: CARD_STATIC,
+    lg: CARD_PARALLAX,
+    xl: CARD_PARALLAX,
   },
   work: {
     // reduced: { animation: { variant: "reduced" } },
