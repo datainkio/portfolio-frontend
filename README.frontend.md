@@ -38,7 +38,7 @@ This document is the AIX-focused reference for the `frontend/` workspace folder.
 | [assets/](assets/)           | Source assets passthrough-copied into `_site/assets/`                     |
 | [docs/](docs/)               | Project documentation                                                     |
 | [site.json](site.json)       | Site config + CMS defaults                                                |
-| [.eleventy.js](.eleventy.js) | 11ty entry config                                                         |
+| [eleventy.config.js](eleventy.config.js) | 11ty entry config                                                         |
 | `_site/`, `.cache/`, `logs/` | Generated output (gitignored, never edited)                               |
 
 Sanity Studio is **not** in this repo — it lives in the sibling [`backend/`](../backend/) workspace.

@@ -1,5 +1,5 @@
 ---
-description: Shortcodes that post-process picture/img markup with classes and wrap images in a lightbox modal.
+description: Shortcode that post-processes picture/img markup with classes.
 status: stable
 tags:
   - shortcodes
@@ -12,12 +12,13 @@ links:
 
 # Image shortcode
 
-Cheerio-based shortcodes for rendering responsive images.
+Cheerio-based shortcode for rendering responsive images.
 
 | Shortcode                                   | Purpose                                                                          |
 | ------------------------------------------- | -------------------------------------------------------------------------------- |
 | `picture(html, pictureClasses, imgClasses)` | add classes to `<picture>`/`<img>`, strip `width`/`height` to avoid CSS clipping |
-| `lightbox(html, title, caption, …)`         | wrap an image in a `<dialog>` modal trigger                                      |
+
+For a lightbox/modal image viewer, use the [[lightbox|molecules/lightbox/lightbox]] molecule instead — the `lightbox` shortcode was removed (it duplicated that component with a more brittle implementation).
 
 > [!note] Shortcode vs filter
 > This renders markup. Resolving an image **record by id** is the

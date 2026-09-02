@@ -1,2 +1,3 @@
-<!-- _includes/atoms/breadcrumb.njk -->
-<a href="{{ url }}" class="font-semibold">{{ label }}</a>
+{% macro render(params = {}) %}
+  <a href="{{ params.url }}" class="font-semibold">{{ params.label }}</a>
+{% endmacro %}

@@ -30,7 +30,7 @@ type: guide
 ## Rules of placement
 
 - Runtime code (templates, JS, CSS) stays in `views/`, `js/`, `styles/`. Do not place runtime code in `scripts/` or `docs/`.
-- Tooling stays in `scripts/`, `eleventy/`, and root config files (`.eleventy.js`, `tailwind.config.js`, `postcss.config.js`).
+- Tooling stays in `scripts/`, `eleventy/`, and root config files (`eleventy.config.js`, `tailwind.config.js`, `postcss.config.js`).
 - Generated outputs are ignored and never edited: `_site/`, `.cache/`, `logs/`, `styles/colors.css`, `styles/typography/fontFamilies.css`.
 - Experiments/prompts belong in `docs/ai/` and should be short-lived.
 

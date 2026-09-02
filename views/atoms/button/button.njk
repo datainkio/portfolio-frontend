@@ -1,3 +1,5 @@
-<button class="btn btn-{{ type | default('primary') }} {{ btnStyles }}" {% if disabled %} disabled {% endif %} {% if onclick %} onclick="{{ onclick }}" {% endif %}>
-  {{ label | default('Button') }}
-</button>
+{% macro render(params = {}) %}
+  <button class="inline-flex items-center justify-center py-2 px-4 rounded text-white disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 {% if params.type == 'secondary' %}bg-secondary-900 hover:bg-secondary-700{% elif params.type == 'accent' %}bg-accent-600 hover:bg-accent-500{% elif params.type == 'neutral' %}bg-neutral-800 hover:bg-neutral-700{% else %}bg-primary-900 hover:bg-primary-700{% endif %} {{ params.btnStyles }}" {% if params.disabled %} disabled {% endif %} {% if params.onclick %} onclick="{{ params.onclick }}" {% endif %}>
+    {{ params.label | default('Button') }}
+  </button>
+{% endmacro %}

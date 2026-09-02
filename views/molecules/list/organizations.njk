@@ -1,4 +1,6 @@
-{% set orgs = collections.organizations | findRecord(project.organizations) %}
+{#- Expects `orgs` (pre-resolved organization records) to already be set by the
+    caller, e.g. `{% set orgs = collections.organizations | findRecord(project.organizations) %}` —
+    kept presentational rather than resolving its own data. -#}
 {% if orgs %}
   <ul class="flex flex-row list-none p-0 m-0">
     {% for org in orgs %}

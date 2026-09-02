@@ -23,7 +23,7 @@ tradeoff, spec §9).
 - Path: `js/contact-form/ContactForm.js`
 - Loaded via: `<script type="module">` at the end of
   [`contact.njk`](../../views/organisms/section/contact.md). Passed through to
-  `/assets/js/contact-form/ContactForm.js` by `.eleventy.js`.
+  `/assets/js/contact-form/ContactForm.js` by `eleventy.config.js`.
 
 ## Responsibilities
 

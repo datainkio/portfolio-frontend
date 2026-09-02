@@ -14,10 +14,10 @@ Central registry and documentation for all 11ty filters used in Nunjucks templat
 
 **Entry Point**: `filters.js` - Imports and registers all filter modules
 **Pattern**: Each module exports a default function that registers its filters
-**Loading**: Imported by `.eleventy.js` configuration
+**Loading**: Imported by `eleventy.config.js` configuration
 
 ```javascript
-// In .eleventy.js
+// In eleventy.config.js
 import filters from "./eleventy/filters/filters.js";
 export default async function (eleventyConfig) {
   filters(eleventyConfig);
@@ -324,7 +324,7 @@ console.assert(result === "Long text ...");
 
 ## Related Files
 
-- **Configuration**: `.eleventy.js` - Loads filter system
+- **Configuration**: `eleventy.config.js` - Loads filter system
 - **Collections**: `eleventy/collections/` - Data source for filters
 - **Templates**: `views/` - Filter usage examples
 - **Config**: `site.json` - CMS defaults

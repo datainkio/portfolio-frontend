@@ -9,8 +9,8 @@ Defines Nunjucks macro: `render`.
 
 ## Template
 
-- Source: [[LoaderIndicator.njk]]
-- Path: `views/atoms/loader/LoaderIndicator.njk`
+- Source: [[loader-indicator.njk]]
+- Path: `views/atoms/loader/loader-indicator.njk`
 
 ## Purpose
 

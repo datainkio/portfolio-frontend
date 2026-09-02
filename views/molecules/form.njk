@@ -1,4 +1,8 @@
-<form action="{{ action }}" method="POST" class="form-control">
-  {% include "atoms/input.njk" with { placeholder: "Your Name" } %}
-  {% include "atoms/button.njk" with { label: "Submit", type: "success" } %}
-</form>
+{% import "atoms/input.njk" as Input %}
+{% import "atoms/button/button.njk" as Button %}
+{% macro render(params = {}) %}
+  <form action="{{ params.action }}" method="POST" class="form-control">
+    {{ Input.render({ placeholder: "Your Name" }) }}
+    {{ Button.render({ label: "Submit", type: "primary" }) }}
+  </form>
+{% endmacro %}

@@ -1,3 +1,5 @@
-<button class="close btn btn-xs btn-circle btn-primary-light not-italic absolute right-2 top-2">
-  x
-</button>
+{% macro render(params = {}) %}
+  <button class="close not-italic absolute right-2 top-2 flex items-center justify-center h-6 w-6 rounded-full text-white bg-neutral-900 hover:bg-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+    x
+  </button>
+{% endmacro %}

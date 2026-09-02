@@ -10,8 +10,9 @@
 {% endmacro %}
 
 {# Button Helper - Shorthand for button components #}
+{% import "atoms/button/button.njk" as Button %}
 {% macro button(label, type="primary", btnStyles="", disabled=false, onclick="") %}
-  {% include "atoms/button/button.njk" %}
+  {{ Button.render({ label: label, type: type, btnStyles: btnStyles, disabled: disabled, onclick: onclick }) }}
 {% endmacro %}
 
 {# Component List Generator - For development and documentation #}

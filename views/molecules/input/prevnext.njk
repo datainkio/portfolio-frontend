@@ -1,7 +1,9 @@
-{# 
+{#
     Provides a link for navigating to a given project's sibling (i.e. a project either immediately before or after the given project).
     The layout and show/hide animation is determined by the sibling's position relative to the given project (i.e. "direction").
-    Assume that "direction" has been defined. The value determines the layout of the container and how it shows/hides its content.
+    Assume that "direction" and "sibling" have been defined. "sibling" should carry a pre-resolved
+    `organizations` array (e.g. `collections.organizations | findRecord(sibling.organizations)`) —
+    this component stays presentational and doesn't resolve its own data.
     Layout above sm is a little tricky as it relies on a fixed width.
 #}
 {% set placement = "items-end justify-self-end flex-row" %}
@@ -37,10 +39,9 @@
     </span>
     {# Display the title and client info for the sibling #}
     <h4 class="hidden md:block text-sm font-light">{{ sibling.name }}</h4>
-    {% set orgs = collections.organizations | findRecord(sibling.organizations) %}
-    {% if orgs %}
+    {% if sibling.organizations %}
       <ul class="hidden md:flex flex-row text-xs">
-        {% for org in orgs %}
+        {% for org in sibling.organizations %}
           <li class="font-thin">
             {{ org.name }}
             {% if not loop.last %},&nbsp;{% endif %}

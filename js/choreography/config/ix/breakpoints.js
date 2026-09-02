@@ -1,17 +1,25 @@
-// Keep these values aligned with tailwind.config.js screens.
-export const TAILWIND_BREAKPOINTS = Object.freeze({
-  sm: "40rem",
-  md: "48rem",
-  lg: "64rem",
-  xl: "80rem",
+import { SCREENS } from "../../../../breakpoints.config.js";
+
+export const TAILWIND_BREAKPOINTS = Object.freeze({ ...SCREENS });
+
+// Derive min/max matchMedia condition strings from the shared breakpoint
+// values instead of hardcoding a second, parallel set of numbers.
+const ORDER = ["sm", "md", "lg", "xl"];
+const remValue = (token) => parseFloat(token);
+const justUnder = (token) => (remValue(token) - 0.001).toFixed(3) + "rem";
+
+const conditions = {
+  base: `(max-width: ${justUnder(SCREENS.sm)})`,
+};
+ORDER.forEach((key, i) => {
+  const next = ORDER[i + 1];
+  conditions[key] = next
+    ? `(min-width: ${SCREENS[key]}) and (max-width: ${justUnder(SCREENS[next])})`
+    : `(min-width: ${SCREENS[key]})`;
 });
 
 export const BREAKPOINT_MATCH_MEDIA_CONDITIONS = Object.freeze({
-  base: "(max-width: 39.999rem)",
-  sm: "(min-width: 40rem) and (max-width: 47.999rem)",
-  md: "(min-width: 48rem) and (max-width: 63.999rem)",
-  lg: "(min-width: 64rem) and (max-width: 79.999rem)",
-  xl: "(min-width: 80rem)",
+  ...conditions,
   reduceMotion: "(prefers-reduced-motion: reduce)",
   motionOk: "(prefers-reduced-motion: no-preference)",
 });

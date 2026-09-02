@@ -1,1 +1,3 @@
-<input type="{{ type | default('text') }}" placeholder="{{ placeholder | default('Enter text') }}" class="input input-bordered"/>
+{% macro render(params = {}) %}
+  <input type="{{ params.type | default('text') }}" placeholder="{{ params.placeholder | default('Enter text') }}" class="input input-bordered"/>
+{% endmacro %}

@@ -1,25 +1,28 @@
 {% import "atoms/link/link.njk" as Link %}
 {% if item.children.length > 0 %}
-  <li class="collapse collapse-plus md:collapse-open ">
-    {#- Behavioral toggle, not a data input: DaisyUI's CSS-only accordion
-        relies on a bare radio's :checked sibling-selector state. atoms/input.njk
-        is a form-data primitive (type/placeholder) and doesn't fit this role,
-        so this stays raw markup by design. -#}
-    <input type="radio" name="{{ accordionName }}"/>
-    <div class="collapse-title text-xl font-medium">{{ item.key }}</div>
-    <ul class="collapse-content">
-      <li class="pb-2 italic">
-        {{ Link.render({ url: item.url, text: "Introduction" }) }}
-      </li>
-      {% for child in item.children %}
-        <li>
-          {{ Link.render({ url: child.url, text: child.key }) }}
+  <li>
+    {#- Native <details>/<summary> disclosure — accessible and keyboard-operable
+        with no JS or extra markup. Replaces a prior DaisyUI radio+CSS accordion
+        that depended on a library this project never installed. -#}
+    <details open name="{{ accordionName }}" class="group">
+      <summary class="text-xl font-medium cursor-pointer list-none flex items-center justify-between">
+        {{ item.key }}
+        <span class="text-sm transition-transform group-open:rotate-180" aria-hidden="true">▾</span>
+      </summary>
+      <ul class="mt-2 ml-4">
+        <li class="pb-2 italic">
+          {{ Link.render({ url: item.url, text: "Introduction" }) }}
         </li>
-      {% endfor %}
-    </ul>
+        {% for child in item.children %}
+          <li>
+            {{ Link.render({ url: child.url, text: child.key }) }}
+          </li>
+        {% endfor %}
+      </ul>
+    </details>
   </li>
 {% else %}
-  <li class="collapse-title text-xl">
+  <li class="text-xl font-medium">
     {{ Link.render({ url: item.url, text: item.key }) }}
   </li>
 {% endif %}
