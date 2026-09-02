@@ -47,7 +47,12 @@ export function createCardParallax({
     ),
   });
 
-  tl.fromTo(body, { yPercent: 0 }, { yPercent: CARD_PARALLAX.bodyYPercent, ease: "none" }, 0);
+  tl.fromTo(
+    body,
+    { yPercent: CARD_PARALLAX.bodyYOrigin },
+    { yPercent: CARD_PARALLAX.bodyYPercent, ease: "none" },
+    0,
+  );
 
   return {
     kill() {
