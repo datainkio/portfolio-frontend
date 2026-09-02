@@ -1,13 +1,12 @@
+{% import "atoms/link/link.njk" as Link %}
 {% macro render(params = {}) %}
   {%- if items and items | length -%}
-    <a href="#page-main" class="sr-only" aria-label="Skip to main content">Skip to main content</a>
+    {{ Link.render({ url: "#page-main", text: "Skip to main content", class: "sr-only", ariaLabel: "Skip to main content" }) }}
     <nav class="skip-links sr-only " aria-label="Skip links">
       <ul role="list">
         {%- for id in items -%}
           <li>
-            <a href="#{{ id }}">
-              {{ id | replace("-", " ") | capitalize }}
-            </a>
+            {{ Link.render({ url: "#" + id, text: id | replace("-", " ") | capitalize }) }}
           </li>
         {%- endfor -%}
       </ul>

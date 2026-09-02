@@ -5,6 +5,10 @@
   {%- set imgClasses = params.imgClasses | default("w-full h-full object-cover") -%}
 
   {%- if src -%}
+    {#- Both buttons below kept as raw markup: they're dialog controls
+        (aria-haspopup="dialog", the open/close pair wired to a native
+        <dialog>) that atoms/button/button.njk's label/type/onclick shape
+        doesn't cover — this is a live component on every project image. -#}
     <figure data-lightbox-el="root" class="contents">
       <button type="button" data-lightbox-el="trigger" class="block w-full h-full cursor-zoom-in" aria-haspopup="dialog">
         <img src="{{ src }}" alt="{{ alt }}" class="{{ imgClasses }}" loading="lazy" />

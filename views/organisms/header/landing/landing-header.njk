@@ -13,6 +13,9 @@
   } -%}
   {%- set abstract = {"base": "col-start-4 col-span-6 pl-2", "sm": "", "md": "", "lg": "", "xl": ""} -%}
   {{ breadcrumbs.render({ key: breadcrumbKey or (eleventyNavigation and eleventyNavigation.key) , nav: collections.all, classes: 'col-span-full w-full' }) }}
+  {#- Kept as raw markup: same Hanko-SVG-wrapping case as molecules/list/main-pages.njk
+      (atoms/link/link.njk takes text, not an HTML slot). Live on every landing,
+      project, and article page header — not touching without a visual check. -#}
   <a href="/" class="{{ hanko | classes }}" aria-label="Home">
     {{ Hanko.render({ svg: params.logoSvg, classes: "text-secondary-700 w-full" }) }}
   </a>

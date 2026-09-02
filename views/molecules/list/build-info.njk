@@ -1,6 +1,10 @@
 {% import "atoms/icon.njk" as Icon with context %}
 {% macro render(params = {}) %}
   <div data-buildinfo-el="root" class="contents flex justify-end text-neutral-400 ">
+    {#- Toggle/close buttons kept as raw markup: same disclosure-control
+        shape as article-nav-links.njk (aria-expanded/aria-controls,
+        JS-wired), which atoms/button/button.njk doesn't support. Live in
+        section-cap. -#}
     <button
       type="button"
       data-buildinfo-el="toggle"

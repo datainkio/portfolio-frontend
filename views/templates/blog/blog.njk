@@ -1,4 +1,5 @@
 {% extends "layouts/base.njk" %}
+{% import "atoms/link/link.njk" as Link %}
 
 {% block content %}
   <article class="prose lg:prose-xl">
@@ -11,10 +12,10 @@
 
   <nav class="mt-8 flex justify-between">
     {% if previousPost %}
-      <a href="{{ previousPost.url }}" class="text-blue-500 hover:underline">← {{ previousPost.title }}</a>
+      {{ Link.render({ url: previousPost.url, text: "← " + previousPost.title, class: "text-blue-500 hover:underline" }) }}
     {% endif %}
     {% if nextPost %}
-      <a href="{{ nextPost.url }}" class="text-blue-500 hover:underline">{{ nextPost.title }} →</a>
+      {{ Link.render({ url: nextPost.url, text: nextPost.title + " →", class: "text-blue-500 hover:underline" }) }}
     {% endif %}
   </nav>
 {% endblock %}

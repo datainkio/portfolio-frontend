@@ -36,6 +36,10 @@
   } %}
   {% if headings and headings.length %}
     <nav data-article-nav-links class="{{ classes }} py-4" aria-label="On this page">
+      {#- Kept as raw markup: this button is a JS-wired disclosure control
+          (aria-expanded/aria-controls state toggled by article-nav-toggle.js,
+          data-chevron SVG child) — atoms/button/button.njk (label/type/onclick
+          only) has no support for that contract. Live on the article template. -#}
       <button type="button" data-article-nav-toggle aria-expanded="false" aria-controls="article-nav-list" class="{{ buttonClasses | classes }}">
         <svg data-chevron class="{{ iconClasses | classes }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>

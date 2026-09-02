@@ -15,6 +15,8 @@
  *   node scripts/auditFrontmatter.js --label before
  *   node scripts/auditFrontmatter.js --label after
  *   node scripts/auditFrontmatter.js --label after --compare before
+ *   node scripts/auditFrontmatter.js --check   # CI gate: exit 1 on a NEW missing sidecar vs. scripts/.sidecar-baseline.json
+ *   node scripts/auditFrontmatter.js --check --update-baseline   # accept current missing sidecars as the new baseline
  *
  * OUTPUT (docs/frontmatter-audit/<label>/):
  *   snapshot.json          all metrics, machine-readable
@@ -54,6 +56,9 @@ const readFlag = (name, fallback = null) => {
 };
 const label = readFlag("label", "current");
 const compareWith = readFlag("compare");
+const checkOnly = args.includes("--check");
+const updateBaseline = args.includes("--update-baseline");
+const SIDECAR_BASELINE_PATH = "scripts/.sidecar-baseline.json";
 
 const OUT_ROOT = "docs/frontmatter-audit";
 const OUT_DIR = join(OUT_ROOT, label);
@@ -210,6 +215,54 @@ const needsSidecar = sources.filter((f) => /\.(js|njk)$/.test(f));
 const missingSidecar = needsSidecar.filter(
   (f) => !markdownSet.has(f.replace(/\.[^.]+$/, ".md")),
 );
+
+if (checkOnly) {
+  // Zero-tolerance isn't viable yet — 100+ pre-existing gaps sit outside
+  // views/, mostly in scripts/ and test/. Gate on regressions instead: fail
+  // only when a file goes missing its sidecar that the baseline didn't
+  // already know about, so new orphans (the failure mode this gate exists
+  // for) get caught without blocking on unrelated legacy debt.
+  if (updateBaseline) {
+    writeFileSync(
+      SIDECAR_BASELINE_PATH,
+      JSON.stringify({ missing: missingSidecar.sort() }, null, 2) + "\n",
+    );
+    console.log(
+      chalk.green(
+        `  ✓ baseline updated: ${missingSidecar.length} known-missing sidecars recorded in ${SIDECAR_BASELINE_PATH}`,
+      ),
+    );
+    process.exit(0);
+  }
+
+  const baseline = existsSync(SIDECAR_BASELINE_PATH)
+    ? new Set(
+        JSON.parse(readFileSync(SIDECAR_BASELINE_PATH, "utf8")).missing,
+      )
+    : new Set();
+  const newlyMissing = missingSidecar.filter((f) => !baseline.has(f));
+
+  if (newlyMissing.length) {
+    console.log(
+      chalk.red(
+        `\n  ✖ ${newlyMissing.length} new .js/.njk file(s) missing a .md sidecar:\n`,
+      ),
+    );
+    for (const f of newlyMissing) console.log(`    ${f}`);
+    console.log(
+      chalk.dim(
+        `\n  (${baseline.size} pre-existing gaps outside the baseline are not gated — see ${SIDECAR_BASELINE_PATH})\n`,
+      ),
+    );
+    process.exit(1);
+  }
+  console.log(
+    chalk.green(
+      `  ✓ no new sidecar gaps (${missingSidecar.length} pre-existing, tracked in baseline)`,
+    ),
+  );
+  process.exit(0);
+}
 
 // Byte accounting against the target schema.
 let keepBytes = 0;

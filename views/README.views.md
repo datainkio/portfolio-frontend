@@ -113,7 +113,7 @@ enables efficient collaboration.
 
 ## Directory Structure & Component Hierarchy
 
-### Component Library (atoms/, molecules/, organisms/, templates/)
+### Component Library (atoms/, molecules/, organisms/, templates/, layouts/)
 
 #### `/atoms/` - Fundamental Building Blocks
 
@@ -126,9 +126,10 @@ Ensures consistency in basic interactive elements across the entire experience
   validation
 - **`button/`** - Interactive button states and variants
 - **`link/`** - Navigation and action links with proper ARIA labels
-- **`icon/`** - SVG icon system with consistent sizing
+- **`icon/`**, **`svg/`** - SVG icon system with consistent sizing
 - **`input.njk`** - Form field components with validation states
-- **`gtm-script.njk`**, **`gtm-noscript.njk`** - Analytics tracking
+- **`loader/`**, **`video/`**, **`hanko/`**, **`printmarks/`**, **`debug/`** -
+  additional single-purpose atoms, each with its own subdirectory
 
 **Example Usage:**
 
@@ -148,7 +149,9 @@ contexts
 - **`form.njk`** - Complete form layouts with validation
 - **`input/`** - Complex input patterns (search, filters, navigation controls)
 - **`list/`** - Organized content lists with various display patterns
-- **`award-organization.njk`** - Recognition and affiliation displays
+- **`navigation/`** - Navigation-scoped molecular patterns (e.g. article nav links)
+- **`background/`**, **`figure/`**, **`lightbox/`**, **`project-metadata/`**,
+  **`section/`**, **`stats/`** - additional molecule groupings
 
 **Example: Project Card**
 
@@ -167,19 +170,18 @@ paradigms
 
 **Key Organisms:**
 
-- **`header.njk`** - Site header with responsive navigation
-- **`footer.njk`** - Site footer with links and metadata
-- **`primary-nav.njk`** - Main navigation system with hierarchy
-- **`mega-menu.njk`** - Expandable navigation for complex structures
-- **`gallery.njk`** - Image and media galleries with lightbox
-- **`section/`** - Content section patterns (hero, testimonials, features)
-- **`modal/`** - Dialog and overlay interaction patterns
-- **`pagination.njk`** - Multi-page content navigation
+- **`header/`** - `global-header.njk` plus page-scoped header variants
+  (`home/`, `landing/`, `project/`, `article/`)
+- **`footer/`** - `global-footer.njk` - site footer with links and metadata
+- **`navigation/`** - `primary-nav.njk`, `breadcrumbs-nav.njk`, `page-nav.njk`,
+  `article-nav.njk`, `skip-links-nav.njk` - the site's navigation systems
+- **`section/`** - Content section patterns (hero, bio, work, process,
+  organizations, awards, contact)
 
 **Example: Section with Background**
 
 ```nunjucks
-{% include "organisms/section.njk" with {
+{% include "organisms/section/hero.njk" with {
   heading: "Featured Projects",
   content: projectList,
   background: "bg-primary-50"
@@ -188,65 +190,71 @@ paradigms
 
 #### `/templates/` - Page Layout Structures
 
-**What they are**: Complete page scaffolds that define overall layout patterns
-**UX Impact**: Ensures consistent page structure and navigation across site
-sections
+**What they are**: Complete page compositions built from organisms and
+molecules via `{% include %}` **UX Impact**: Ensures consistent page structure
+and navigation across site sections
 
 **Available Templates:**
 
-- **`base.njk`** - Master layout with header, main, footer structure
-- **`landing.njk`** - Homepage and landing page layouts
-- **`blog.njk`** - Article and content-focused layouts
-- **`documentation.njk`** - Technical content with navigation
-- **`parallax.njk`** - Scroll-based narrative experiences
+- **`landing/`** - Homepage and landing page layouts
+- **`blog/`** - Article and content-focused layouts
+- **`case-study/`** - Project/case-study page layouts
+- **`article.njk`** - Standalone article template
+- **`partials/`** - Shared template fragments (`gtm-script.njk`,
+  `gtm-noscript.njk`, `icon.njk`, `manifest.njk`, `social.njk`,
+  `choreography-script.njk`, and others)
 
 **Example Page Using Template:**
 
 ```nunjucks
 ---
-layout: templates/base.njk
+layout: layouts/base.njk
 title: "About"
 bodyStyles: "bg-neutral-50"
 ---
 <section>Your content here</section>
 ```
 
-### `/_pages/` - Actual Website Pages
+#### `/layouts/` - Base Page Shells
+
+**What they are**: Base page shells extended by templates via `{% extends %}`
+(as opposed to `templates/`, which composes via `{% include %}`) **UX Impact**:
+Defines the outermost HTML/head/body scaffold shared by every page
+
+**Available Layouts:**
+
+- **`base.njk`** - Master layout with head, header, main, footer structure
+- **`cols-2-before.njk`**, **`cols-2-after.njk`**, **`cols-3.njk`** - column
+  shell variants
+- **`storyboards.njk`** - storyboard/narrative page shell
+- Each layout ships with an Obsidian `.canvas` inheritance diagram - see
+  [`views/layouts/README.layouts.md`](layouts/README.layouts.md)
+
+### `/pages/` - Actual Website Pages
 
 **What it is**: The content and configuration for each URL on the site **UX
 Impact**: Defines information architecture and user journey structure
 
 **Page Organization:**
 
-- **`index.njk`** - Homepage with scroll choreography
-- **`/about/`** - About section pages
-- **`/projects/`** - Individual project detail pages
-- **`/lab/`** - Experimental and interactive features
-- **`/design/`** - Design system documentation
-- **`/_static/`** - Static pages (robots.txt, manifest.json, manifest.webmanifest)
+- **`home/`** - Homepage with scroll choreography
+- **`project/`** - Individual project detail page
+- **`projects/`** - Project index/listing page
+- **`_static/`** - Static pages (robots.txt, manifest.json, manifest.webmanifest)
 
 **Page Anatomy:**
 
 ```nunjucks
 ---
-layout: templates/base.njk        # Which template scaffold to use
+layout: layouts/base.njk           # Which base shell to extend
 title: "Page Title"                # Browser tab and SEO
 metaDescription: "..."             # SEO description
 bodyStyles: "bg-graphpaper-dark"   # Page-specific styling
 scripts: >                         # Page-specific JavaScript
   <script src="/assets/js/..."></script>
 ---
-{# Page content using organisms and molecules #}
+{# Page content using templates, organisms, and molecules #}
 ```
-
-### `/_data/` - Global Configuration
-
-**What it is**: Site-wide settings and content available to all templates **UX
-Impact**: Centralizes brand information and CMS configuration
-
-- **`site.json`** - Site metadata, manifest, CMS configuration,
-  navigation settings
-- **`introduction.json`** - Global content snippets and messaging
 
 ## Content Flow Architecture
 

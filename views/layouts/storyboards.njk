@@ -4,6 +4,13 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>{{ title or page.title or "Storyboards" }}</title>
+    {#- This is a standalone internal diagram-viewer shell (built by
+    scripts/diagrams/exportStoryboards.js), not part of the public site. It
+    intentionally does not draw from styles/colors.css: the palette below
+    (Tailwind's default slate scale) has no equivalent in the Figma-generated
+    brand tokens, and one-off tokens for a single internal tool aren't
+    warranted. Route through styles/colors.css instead if this shell ever
+    becomes user-facing. -#}
     <style>
       body {
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";

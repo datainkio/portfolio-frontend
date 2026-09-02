@@ -3,6 +3,10 @@
     renders as a direct child of <html> (non-conformant). Move mount into <body>
     or <head>. type="module" also defers the first log. Tracked: Frontend task
     fix-dev-channel-defects (ADR 0005). Channel outline: dev-note.md. -#}
+{#- The hex values below are devtools console.log("%c...") format strings, not
+    page CSS — they style browser-console output, not the DOM, so
+    styles/colors.css tokens (a CSS-only mechanism) don't apply here. Kept as
+    literal hex intentionally. -#}
 {%- set styles = {
   "border-1": "font-size: .75rem; font-weight: bold; color: #fbbf24;",
   "border-2": "font-size: 2rem; font-weight: bold; color: #fbbf24;",

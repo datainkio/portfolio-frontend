@@ -11,6 +11,10 @@
   {%- set navLinkClasses = {"base": "inline-block font-display text-sm pt-8 text-primary-300 whitespace-nowrap", "md": "text-lg pt-8"} -%}
   <ul class="{{ ulClasses | classes }}" role="list">
     {%- if logoSvg -%}
+      {#- Kept as raw markup: wraps Hanko SVG output, not text — atoms/link/link.njk
+          only accepts a text/title string, not an HTML slot. Live in primary-nav
+          and global-footer; not worth risking a visual regression to extend the
+          atom for one wrapping case. -#}
       <li class="{{ hankoWrapperClasses | classes }}">
         <a href="/" aria-label="Home">{{ Hanko.render({ svg: logoSvg }) }}</a>
       </li>

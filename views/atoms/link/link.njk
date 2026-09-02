@@ -2,15 +2,22 @@
 Base Link Atom Component
 Provides consistent link styling across the site
 Supports external links, download links, and accessibility features
+
+Params: url, text (or title), class, ariaLabel, download,
+        ariaCurrent (e.g. "page" — set aria-current for nav "you are here" state)
 #}
+{% import "atoms/icon.njk" as Icon %}
+{% macro render(params = {}) %}
+  {%- set linkUrl = params.url -%}
+  {%- set linkText = params.text or params.title -%}
+  {%- set isExternal = linkUrl and (linkUrl.startsWith('http') or linkUrl.startsWith('mailto:') or linkUrl.startsWith('tel:')) -%}
+  {%- set isDownload = params.download -%}
 
-{% set linkUrl = url %}
-{% set linkText = text or title %}
-{% set isExternal = linkUrl and (linkUrl.startsWith('http') or linkUrl.startsWith('mailto:') or linkUrl.startsWith('tel:')) %}
-{% set isDownload = download %}
-
-<a href="{{ linkUrl }}" class="base-link text-current {{ class }}" {% if isExternal %} target="_blank" rel="noopener noreferrer" {% endif %} {% if isDownload %} download {% endif %} {% if ariaLabel %} aria-label="{{ ariaLabel }}" {% endif %} {% if title %} title="{{ title }}" {% endif %}>
-  {{ linkText }}
-  {# External link indicator #}
-  {% include "atoms/icon/external-link.njk" with { isExternal: isExternal } %}
-</a>
+  <a href="{{ linkUrl }}" class="base-link text-current {{ params.class }}" {% if isExternal %} target="_blank" rel="noopener noreferrer" {% endif %} {% if isDownload %} download {% endif %} {% if params.ariaLabel %} aria-label="{{ params.ariaLabel }}" {% endif %} {% if params.title %} title="{{ params.title }}" {% endif %} {% if params.ariaCurrent %} aria-current="{{ params.ariaCurrent }}" {% endif %}>
+    {{ linkText }}
+    {# External link indicator #}
+    {% if isExternal %}
+      {{ Icon.render({ name: "external-link", size: "xs", className: "inline-block ml-1" }) }}
+    {% endif %}
+  </a>
+{% endmacro %}
