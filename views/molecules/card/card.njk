@@ -37,7 +37,8 @@
   {%- set imageCSS = {"base": "w-full h-full object-cover object-center"} -%}
 
   {%- set body = {
-    "base": "shadow-lg grid grid-cols-6 inner-border px-6 py-6 m-4 mb-8 relative z-10 content-start bg-neutral-100"
+    "base": "shadow-lg grid grid-cols-6 inner-border px-6 py-6 m-4 mb-8 relative z-10 content-end bg-neutral-100",
+    "md": "max-w-lg  ml-auto"
   } -%}
 
   {%- set eyebrow = {"base": "eyebrow text-xs uppercase tracking-wide col-span-full m-0", "lg": "text-sm"} -%}
@@ -57,9 +58,9 @@
 
   {%- set stats = {"base": "col-span-full text-neutral-950 sr-only"} -%}
 
-  {%- set footer = {"base": "my-auto px-4"} -%}
+  {%- set footer = {"base": "my-auto px-4", "md": "px-2"} -%}
 
-  {%- set linky = {"base": "font-serif text-2xl italic inline-block"} -%}
+  {%- set linky = {"base": "font-serif text-2xl italic inline-block cta", "sm": "arrow-suffix"} -%}
 
   <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
     {% if hasMedia %}

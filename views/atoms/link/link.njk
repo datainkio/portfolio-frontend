@@ -13,11 +13,17 @@ Params: url, text (or title), class, ariaLabel, download,
   {%- set isExternal = linkUrl and (linkUrl.startsWith('http') or linkUrl.startsWith('mailto:') or linkUrl.startsWith('tel:')) -%}
   {%- set isDownload = params.download -%}
 
-  <a href="{{ linkUrl }}" class="base-link text-current {{ params.class }}" {% if isExternal %} target="_blank" rel="noopener noreferrer" {% endif %} {% if isDownload %} download {% endif %} {% if params.ariaLabel %} aria-label="{{ params.ariaLabel }}" {% endif %} {% if params.title %} title="{{ params.title }}" {% endif %} {% if params.ariaCurrent %} aria-current="{{ params.ariaCurrent }}" {% endif %}>
+  <a href="{{ linkUrl }}"
+     class="base-link text-current {{ params.class }}"
+     {% if isExternal %}target="_blank" rel="noopener noreferrer"{% endif %}
+     {% if isDownload %}download{% endif %}
+     {% if params.ariaLabel %}aria-label="{{ params.ariaLabel }}"{% endif %}
+     {% if params.title %}title="{{ params.title }}"{% endif %}
+     {% if params.ariaCurrent %}aria-current="{{ params.ariaCurrent }}"{% endif %}>
     {{ linkText }}
     {# External link indicator #}
     {% if isExternal %}
-      {{ Icon.render({ name: "external-link", size: "xs", className: "inline-block ml-1" }) }}
+      {{ Icon.render({"name": "external-link", "size": "xs", "className": "inline-block ml-1"}) }}
     {% endif %}
   </a>
 {% endmacro %}
