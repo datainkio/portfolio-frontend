@@ -1,19 +1,29 @@
 /**
- * Creates the scroll-scrubbed parallax variant for md+ breakpoints.
+ * Creates the scroll-scrubbed parallax variant for lg+ breakpoints.
  *
- * Body drifts upward as the card scrolls through the viewport, creating
- * a depth separation between the image and text layers. Both elements are
- * GPU-promoted via willChange.
+ * Body drifts upward faster than the figure as the card scrolls through
+ * the viewport, creating a subtle depth separation. Figure remains at
+ * default speed (no movement), while body moves with a slight upward offset.
+ * Both elements are GPU-promoted via willChange.
+ *
+ * Timing: Starts when body enters viewport (top bottom), ends when bottom
+ * of body passes top of figure or card leaves viewport (bottom top).
+ * Reverses on scroll-back (once: false).
  *
  * @param {{
  *   figure: Element,
  *   body: Element,
  *   index?: number,
- *   triggerEl?: Element
+ *   triggerEl?: Element,
+ *   reduceMotion?: boolean
  * }} param0
  * @returns {{ kill(): void }}
  */
 import { gsap } from "/assets/js/choreography/system/gsap.js";
+import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
+import { killST, buildScrollTrigger } from "./card-motion.js";
+import { CARD_FIGURE_PARALLAX_TRIGGER } from "../../organisms/card/CardTriggers.js";
+
 export function createCardParallax({
   figure,
   body,
@@ -22,8 +32,7 @@ export function createCardParallax({
   reduceMotion,
 }) {
   if (isReducedMotion(reduceMotion)) {
-    // gsap.set(figure, { yPercent: 0, clearProps: "willChange" });
-    // if (body) gsap.set(body, { yPercent: 0, clearProps: "willChange" });
+    gsap.set([figure, body], { yPercent: 0, clearProps: "willChange" });
     return { kill() {} };
   }
 
@@ -37,13 +46,12 @@ export function createCardParallax({
     ),
   });
 
-  // tl.fromTo(body, { yPercent: 0 }, { yPercent: -25, ease: "none" }, 0);
+  tl.fromTo(body, { yPercent: 0 }, { yPercent: -12, ease: "none" }, 0);
 
   return {
     kill() {
       killST(tl);
-      // gsap.set(figure, { clearProps: "willChange" });
-      // gsap.set(body, { clearProps: "yPercent,willChange" });
+      gsap.set([figure, body], { yPercent: 0, clearProps: "willChange" });
     },
   };
 }

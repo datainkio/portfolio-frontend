@@ -1,3 +1,5 @@
+import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
+
 export const CARD_DEAL_TRIGGER = {
   ...SCROLL_DEFAULTS,
   start: "top top",
