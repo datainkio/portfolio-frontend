@@ -118,7 +118,8 @@ export const THROW_IN_ANIMATION = {
  * Figure remains at default speed (yPercent: 0), body drifts up by this offset.
  */
 export const CARD_PARALLAX = {
-  bodyYPercent: -12, // subtle upward drift
+  bodyYPercent: -600, // subtle upward drift
+  bodyYOrigin: 300, // start body offset below the fold
 };
 
 /**
