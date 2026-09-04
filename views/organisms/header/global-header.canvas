@@ -1,0 +1,11 @@
+{
+	"nodes":[
+		{"id":"ab440200b0c18631","x":265,"y":-85,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/organisms/navigation/primary-nav.md"},
+		{"id":"dadaebba944e49ba","x":-440,"y":220,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/organisms/header/global-header.md"},
+		{"id":"3a8ff105fb3cf63d","x":284,"y":489,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/molecules/section-cap.md"}
+	],
+	"edges":[
+		{"id":"4064dad3d4d9a5a7","fromNode":"dadaebba944e49ba","fromSide":"right","toNode":"ab440200b0c18631","toSide":"left","label":"1"},
+		{"id":"6f405ff7c6f071af","fromNode":"dadaebba944e49ba","fromSide":"right","toNode":"3a8ff105fb3cf63d","toSide":"left","label":"1"}
+	]
+}
