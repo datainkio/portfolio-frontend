@@ -1,6 +1,5 @@
-{% import "atoms/link/site-title.njk" as site_title with context %}
-{% import "molecules/list/main-pages.njk" as main_pages with context %}
 
+{% import "molecules/list/main-pages.njk" as main_pages with context %}
 {% macro render(params = {}) %}
   {% set siteName = params.siteName or site.siteName or "data:ink:io" %}
   {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}

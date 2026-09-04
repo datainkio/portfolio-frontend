@@ -1,0 +1,13 @@
+{
+	"nodes":[
+		{"id":"6eafdb986b6d7864","type":"file","file":"dataink.io/frontend/views/molecules/list/main-pages.md","x":340,"y":-280,"width":400,"height":400},
+		{"id":"826493e158b32820","type":"file","file":"dataink.io/frontend/views/organisms/navigation/primary-nav.md","x":-360,"y":-280,"width":400,"height":400},
+		{"id":"c4d87107895afee8","type":"file","file":"dataink.io/frontend/views/atoms/hanko/hanko.md","x":980,"y":-620,"width":400,"height":400},
+		{"id":"e0d3e2364fbabcf8","type":"file","file":"dataink.io/frontend/views/atoms/link/nav-link.md","x":980,"y":60,"width":400,"height":400}
+	],
+	"edges":[
+		{"id":"ecd2d24fae9a1e4b","fromNode":"826493e158b32820","fromSide":"right","toNode":"6eafdb986b6d7864","toSide":"left","label":"Contains"},
+		{"id":"cc20f5a735d4db03","fromNode":"6eafdb986b6d7864","fromSide":"right","toNode":"c4d87107895afee8","toSide":"left","label":"1"},
+		{"id":"18cf6c87629333ff","fromNode":"6eafdb986b6d7864","fromSide":"right","toNode":"e0d3e2364fbabcf8","toSide":"left","label":"*"}
+	]
+}
