@@ -1,7 +1,6 @@
 {#- FUNCTIONALITY IMPORTS -#}
 {% import "organisms/header/home/home-landing.njk" as PageHeader with context %}
-{% import "organisms/navigation/primary-nav.njk" as PrimaryNav with context %}
-{% import "molecules/section-cap.njk" as SectionCap with context %}
+{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
 
@@ -25,7 +24,7 @@
 {% import "molecules/background/sizzle-background.njk" as Background %}
 {#- TODO: Address horizontal scroll on mobile -#}
 {#- bg-slate-950 bg-graphpaper-sm bg-fixed -#}
-{%- set main = {"base": "relative mx-auto flex flex-col col-span-full w-full"} -%}
+{%- set main = {"base": "relative flex flex-col col-span-full"} -%}
 
 {# Note that content values - include title and other metadata - are set in frontmatter #}
 <!DOCTYPE html>
@@ -36,8 +35,7 @@
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
-    {{ SectionCap.render({"title": "initializing..."}) }}
-    {{ PrimaryNav.render({ "logoSvg": logo }) }}
+    {{ GlobalHeader.render({ logoSvg: logo }) }}
     <div id="page-main">
       {{ PageHeader.home_landing({ "svg": logo }) }}
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">

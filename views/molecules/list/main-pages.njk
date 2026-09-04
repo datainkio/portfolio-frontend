@@ -4,11 +4,11 @@
   {%- set items = params.items | default([]) -%}
   {%- set logoSvg = params.logoSvg -%}
 
-  {%- set ulClasses = {"base": "w-full flex list-none gap-2 items-center"} %}
-  {%- set liClasses = {"base": ""} -%}
-  {%- set hankoWrapperClasses = {"base": "bg-slate-950 inline-block w-auto px-4 pt-4 pb-2"} -%}
+  {%- set ulClasses = {"base": "flex list-none pr-4 h-20 items-end justify-end gap-6 divide-slate-700"} %}
+  {%- set liClasses = {"base": "py-2"} -%}
+  {%- set hankoWrapperClasses = {"base": "bg-slate-900 inline-block w-auto px-4 pt-4 pb-2 mr-auto  border-r-1 border-slate-700"} -%}
   {%- set hankoClasses = {"base": "block w-24 text-secondary-700"} -%}
-  {%- set navLinkClasses = {"base": "inline-block font-display text-sm pt-8 text-primary-300 whitespace-nowrap", "md": "text-lg pt-8"} -%}
+  {%- set navLinkClasses = {"base": "inline-block font-display text-sm text-primary-300 whitespace-nowrap", "md": "text-lg"} -%}
   <ul class="{{ ulClasses | classes }}" role="list">
     {%- if logoSvg -%}
       {#- Kept as raw markup: wraps Hanko SVG output, not text — atoms/link/link.njk

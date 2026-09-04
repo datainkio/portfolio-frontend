@@ -17,7 +17,7 @@
 
   {%- set awards = params.awards | default([]) -%}
 
-  {%- set sectionCSS = {"base": "mx-auto max-w-screen-lg relative col-span-full text-neutral-100 my-12"} -%}
+  {%- set sectionCSS = {"base": "relative max-w-screen-lg mx-auto w-full col-span-full text-neutral-100 my-12"} -%}
   {%- set headerCSS = {
     "base": "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 py-8",
     "md": "py-12 px-4 gap-4"
@@ -27,10 +27,10 @@
     "base": "font-display tracking-wide flex flex-col content-start border-b-2 border-slate-700 py-6 px-4 gap-2",
     "sm": "flex-row"
   } -%}
-  {%- set subheadingTitleCSS = {"base": "text-neutral-500 font-bold leading-none w-full my-auto m-0 p-0"} -%}
-  {%- set subheadingDescriptionCSS = {"base": "text-sm w-full leading-none my-auto"} -%}
+  {%- set subheadingTitleCSS = {"base": "text-2xl font-display leading-none w-full my-auto m-0 p-0"} -%}
+  {%- set subheadingDescriptionCSS = {"base": "text-xl w-full leading-none my-auto"} -%}
   {%- set contextCSS = {
-    base: "text-xs font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
+    base: "font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
     border-dotted border-primary-500 py-4 mb-6"
     } -%}
   {%- set listCSS = {"base": "columns-8 space-y-2 mt-4 p-0", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
