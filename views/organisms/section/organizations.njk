@@ -11,7 +11,8 @@
 
   {%- set organizations = params.organizations | default([]) -%}
 
-  {%- set header = {"base": "gap-2 py-12 z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center"} -%}
+  {%- set section = {"base": "w-full max-w-screen-lg mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden"} -%}
+  {%- set header = {"base": "gap-2 py-12 z-10 w-full border-y border-slate-600 divide-neutral-600 flex flex-row items-center"} -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -20,7 +21,7 @@
   } -%}
 
   <section id="{{ sectionId }}"
-           class="max-w-screen-lg mx-auto my-12 text-neutral-100 relative z-10 col-span-full grid grid-cols-subgrid p-0 overflow-hidden"
+           class="{{ section | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 
@@ -31,8 +32,7 @@
       <p data-organizations-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if organizations | length %}
-      <ul data-organizations-el="list"
-          class="col-span-full columns-2 gap-1 mx-4">
+      <ul data-organizations-el="list" class="col-span-full columns-2 gap-1">
         {% for organization in organizations %}
           <li data-organizations-el="organization">{{ Organization.render(organization) }}</li>
         {% endfor %}

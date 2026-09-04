@@ -8,7 +8,7 @@
   {% set eleventyNavItems = collections.all | eleventyNavigation %}
   {% set items = params.items or (cmsItems.length and cmsItems) or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
-  {% set navClasses = {"base": "z-50 fixed w-full bg-slate-950/50"} %}
+  {% set navClasses = {"base": "z-50 fixed w-full"} %}
   <nav id="primary-nav"
        class="{{ navClasses | classes }}"
        aria-label="Primary navigation">

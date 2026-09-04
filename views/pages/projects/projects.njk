@@ -1,11 +1,10 @@
 {% extends "templates/landing/landing.njk" %}
-{% import "molecules/list/project-cards.njk" as ProjectCards %}
-{%- set list = {
-  "base": "col-span-full grid grid-cols-1 gap-8",
-  "sm": "bg-primary-950 space-y-12",
-  "md": "",
-  "lg": "",
-  "xl": ""
+{% import "molecules/list/industry-links.njk" as Industries %}
+{% import "molecules/section/industry-section.njk" as IndustrySection %}
+{%- set jumplinks = {
+  "print": "hidden",
+  "base": "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
+  "sm": ""
 } -%}
 {%- set article = {
   "base": [
@@ -26,7 +25,20 @@
 {% block content %}
   {{ super() }}
   {% if collections.projects and collections.projects.length %}
-    {{ ProjectCards.render({ projects: collections.projects, classes: list | classes }) }}
+    {%- set industries = collections.projects | groupBy("industry") | dictsort -%}
+    <div id="work" data-scroll-section>
+      <header data-projects-el="header">
+        <nav data-projects-el="jumplinks"
+             id="work-jumplinks"
+             aria-label="Jump to an industry"
+             class="{{ jumplinks | classes }}">
+          {{ Industries.render({ industries: industries }) }}
+        </nav>
+      </header>
+      {%- for industryTitle, industryProjects in industries -%}
+        {{ IndustrySection.render({ industryTitle: industryTitle, projects: industryProjects }) }}
+      {%- endfor -%}
+    </div>
   {% else %}
     <p>No projects found.</p>
   {% endif %}

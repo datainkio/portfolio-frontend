@@ -5,7 +5,7 @@
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 {%- set bodyClasses = {"base": "bg-slate-950 ", "sm": "", "md": "", "lg": "", "xl": ""} -%}
-{%- set mainClasses = {"base": "mx-auto max-w-[1280px]", "sm": "", "md": "", "lg": "", "xl": ""} -%}
+{%- set mainClasses = {"base": "mx-24 max-w-[1280px]", "sm": "", "md": "", "lg": "", "xl": ""} -%}
 {%- set sidebarBeforeClasses = {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} -%}
 {%- set sidebarAfterClasses = {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} -%}
 <!DOCTYPE html>

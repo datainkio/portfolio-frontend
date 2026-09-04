@@ -9,30 +9,38 @@
   {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
 
-  {%- set section = {"base": "relative pb-12 text-neutral-200 col-span-full content-center grid grid-cols-12 gap-8 px-8"} %}
-  {% set header = {"base": "h-dvh flex flex-col justify-center z-1 pt-6 pb-48 font-display col-span-full"} %}
-  {%- set title = {
-    "base": "font-display text-5xl/12 my-12 py-8 tracking-loose",
-    "sm": "text-6xl/16",
-    "md": "text-7xl",
-    "xl": "text-8xl/22"
-  } %}
-  {%- set statement = {
-    "base": "h-dvh content-center col-span-full grid grid-cols-subgrid gap-y-12 [&>p]:col-span-full [&>p]:prose [&>p]:text-2xl/8 [&>p]:text-neutral-200 md:[&>p]:col-span-7 md:[&>p]:row-start-2 md:[&>p]:col-start-4"
-  } %}
-  <section class="{{ section | classes }} {{ copy | classes }}"
+  {#- SECTION -#}
+  {%- set section_styles = {
+    "base": "relative text-neutral-200 col-span-full grid grid-cols-12 px-4",
+    "sm": "px-8",
+    "md": "px-12",
+    "lg": "px-24"
+  } -%}
+  {#- HERO VIEW -#}
+  {%- set header_styles = {
+    "base": "h-dvh flex flex-col justify-end z-1 font-display col-span-full",
+    "lg": "col-span-10",
+    "xl": "col-span-8"
+  } -%}
+  {%- set title_styles = {"base": "font-display text-5xl/12 my-12 py-8 tracking-loose", "sm": "text-6xl/16", "md": "text-7xl"} -%}
+  {#- MISSION STATEMENT -#}
+  {%- set statement_styles = {"base": "h-dvh content-center col-span-full gap-y-12"} -%}
+  {%- set subheading_styles = {"base": "sm:text-4xl md:text-5xl font-display text-secondary-500", "md": "col-span-4"} -%}
+  {%- set body_styles = {"base": "col-span-full prose prose-xl prose-slate-200"} -%}
+
+  <section class="{{ section_styles | classes }}"
            id="{{ sectionId }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
-    <header class="{{ header | classes }}" data-bio-el="header">
-      <h1 class="{{ title | classes }}"
+    <header class="{{ header_styles | classes }}" data-bio-el="header">
+      <h1 class="{{ title_styles | classes }}"
           id="{{ headingId }}"
           data-bio-el="heading">{{ heading }}</h1>
     </header>
-    <section class="{{ statement | classes }}" data-bio-el="mission-statement">
-      <h2 class="sm:text-4xl md:text-5xl font-display text-secondary-500 col-span-full md:col-span-4"
-          data-bio-el="overview">{{ subheading }}</h2>
-      {{ body | safe }}
+    <section class="{{ statement_styles | classes }}"
+             data-bio-el="mission-statement">
+      <h2 class="{{ subheading_styles | classes }}" data-bio-el="subheading">{{ subheading }}</h2>
+      <div data-bio-el="body" class="{{ body_styles | classes }}">{{ body | safe }}</div>
     </section>
   </section>
 {% endmacro %}

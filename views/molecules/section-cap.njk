@@ -4,7 +4,7 @@
   {%- set count = params.count | default("") -%}
   {%- set title = params.title | default("") -%}
   {%- set ul = {
-    "base": "fixed top-0 left-20 right-0 gap-8 p-2 text-xs z-10 justify-between flex items-center border-l-1 border-b-1 border-slate-700 bg-slate-950"
+    "base": "fixed top-0 left-20 right-0 gap-8 p-2 text-xs z-10 justify-between flex items-center border-b-1 border-slate-700"
   } %}
   <ul data-buildinfo-el="cap" class="{{ ul | classes }} group/cap">
     <li data-current-section-title
