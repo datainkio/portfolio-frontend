@@ -39,7 +39,7 @@
     <div id="page-main">
       {{ PageHeader.home_landing({ "svg": logo }) }}
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
-        {{ HeroSection.render({ "id": "manifesto", "copy": value }) }}
+        {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
         {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}

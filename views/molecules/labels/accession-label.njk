@@ -1,0 +1,12 @@
+{% macro render(params = {}) %}
+  {%- set index = params.index | default("00") -%}
+  {%- set title = params.title | default("") -%}
+  {%- set description = params.description | default("") -%}
+  {%- set scope = params.scope | default("") -%}
+  <dl class="font-display text-primary-200 px-2 max-w-screen-sm">
+    <dt class="border-b border-current py-1">DOC {{ index }} / {{ title }}</dt>
+    <dd class="flex justify-between py-2">
+      <span>{{ description }}</span><span>{{ scope }}</span>
+    </dd>
+  </dl>
+{% endmacro %}
