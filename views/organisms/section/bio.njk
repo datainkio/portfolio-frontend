@@ -1,5 +1,5 @@
 {% macro render(params = {}) %}
-  {% import "molecules/printmarks.njk" as PrintMarks %}
+  {% import "molecules/labels/accession-label.njk" as Label %}
   {%- set sectionId = params.id | default("bio") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
@@ -18,11 +18,11 @@
   } -%}
   {#- HERO VIEW -#}
   {%- set header_styles = {
-    "base": "h-dvh flex flex-col justify-end z-1 font-display col-span-full",
+    "base": "h-dvh flex flex-col justify-end z-1 font-display col-span-full gap-y-6 py-12",
     "lg": "col-span-10",
     "xl": "col-span-8"
   } -%}
-  {%- set title_styles = {"base": "font-display text-5xl/12 my-12 py-8 tracking-loose", "sm": "text-6xl/16", "md": "text-7xl"} -%}
+  {%- set title_styles = {"base": "font-display text-5xl/12 tracking-loose", "sm": "text-6xl/16", "md": "text-7xl"} -%}
   {#- MISSION STATEMENT -#}
   {%- set statement_styles = {"base": "h-dvh content-center col-span-full gap-y-12"} -%}
   {%- set subheading_styles = {"base": "sm:text-4xl md:text-5xl font-display text-secondary-500", "md": "col-span-4"} -%}
@@ -33,6 +33,12 @@
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
     <header class="{{ header_styles | classes }}" data-bio-el="header">
+      {{ Label.render({
+            index: "01",
+            title: "Manifesto",
+            description: "Russell Lebo / Selected Works Archive",
+            scope: "2008-" + (buildDate | formatDate("yyyy") )
+      }) }}
       <h1 class="{{ title_styles | classes }}"
           id="{{ headingId }}"
           data-bio-el="heading">{{ heading }}</h1>
