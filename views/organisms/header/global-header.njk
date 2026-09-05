@@ -8,8 +8,17 @@
 
 {#- container for the global header -#}
 {%- set headerClasses = {
-  "base": "fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-slate-700 z-20 py-2 px-2 gap-2 inner-border bg-slate-900 font-display text-primary-200 will-change-transform"
+  "base": "fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-slate-700 z-20 py-2 px-2 gap-2 inner-border font-display text-primary-200 will-change-transform"
 } -%}
+
+{#- header's own base background, as a stacked layer rather than the header's
+    native background-color: a background-color on <header> itself always
+    paints beneath every descendant (negative z-index included), so the
+    build-info drawer (build-info.njk, -z-20) could never tuck behind it.
+    This backdrop sits at -z-10 — below the header's unpositioned content
+    (logo/dt/dd/toggle, which stack above any negative z-index layer
+    regardless), but above the drawer. -#}
+{%- set headerBackdropClasses = {"base": "absolute inset-0 -z-10 bg-slate-900 pointer-events-none"} -%}
 
 {#- link to home -#}
 {%- set logoClasses = {"base": "flex justify-center items-center w-full min-w-10 h-full p-2"} -%}
@@ -32,6 +41,8 @@
   <header id="global-header"
           class="{{ headerClasses | classes }} {{ params.classes }}"
           aria-label="Global Site Header">
+
+    <div class="{{ headerBackdropClasses | classes }}" aria-hidden="true"></div>
 
     {#- HOME LINK -#}
     <a class="{{ logoClasses | classes }}" href="/" aria-label="Home">
@@ -58,10 +69,13 @@
         {{ params.sectionTitle | default("Initializing...") }}
       </dd>
 
-      {#- BUILD INFO -#}
+      {#-
+        BUILD INFO
+        Includes show/hide IX for the build details. See js/choreography/managers/BuildInfoManager.js.
+      -#}
       <dt class="{{ dtClasses | classes }} col-span-4 lg:col-span-3">Build Info</dt>
       <dd class="{{ ddClasses | classes }} col-span-4 lg:col-span-3 group-data-[open]/cap:basis-1/6 text-neutral-500 text-xs self-center">
-        {{ BuildInfo.render() }}
+        {{ BuildInfo.render({"class": "w-full"}) }}
       </dd>
 
     </dl>

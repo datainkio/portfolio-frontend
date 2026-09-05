@@ -35,7 +35,7 @@ Reads from the global data object `buildVersions` and `buildDate`, registered in
 ## Disclosure controls
 
 - `data-buildinfo-el="toggle"` — the `<button>` wrapping `<time>`; opens the disclosure.
-- `data-buildinfo-el="close"` — icon button ([[icon.njk]] `close`) after the list; closes it. Hidden in the closed state (`hidden group-data-[open]/cap:block`), shown only when the cap carries `data-open`.
+- `data-buildinfo-el="close"` — icon button ([[icon.njk]] `close`); closes the disclosure. Lives inside the drawer (`data-buildinfo-el="list"`) as a flex sibling of the `<dl>`, pinned to the far right via `ml-auto`, so it rides the same GSAP slide as the rest of the drawer — no separate show/hide class of its own.
 
 Click behavior is wired in [[BuildInfoManager.js]] (open = toggle, close = close button). Keep these hooks if the markup is restructured.
 
