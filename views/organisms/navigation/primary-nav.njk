@@ -7,13 +7,12 @@
   {% set eleventyNavItems = collections.all | eleventyNavigation %}
   {% set items = params.items or (cmsItems.length and cmsItems) or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
-  {% set navClasses = {"base": "z-50 fixed w-full"} %}
+  {% set navClasses = params.classes or {"base": "w-full"} %}
   <nav id="primary-nav"
        class="{{ navClasses | classes }}"
        aria-label="Primary navigation">
     {{ main_pages.render({
         items: items,
-        logoSvg: params.logoSvg,
         linkClass: ""}) }}
   </nav>
 {% endmacro %}

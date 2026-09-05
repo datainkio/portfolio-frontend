@@ -1,24 +1,12 @@
 {% import "atoms/link/nav-link.njk" as nav_link with context %}
-{% import "atoms/hanko/hanko.njk" as Hanko %}
 {% macro render(params = {}) %}
   {%- set items = params.items | default([]) -%}
-  {%- set logoSvg = params.logoSvg -%}
 
-  {%- set ulClasses = {"base": "flex list-none pr-4 h-20 items-end justify-end gap-6 divide-slate-700"} %}
-  {%- set liClasses = {"base": "py-2"} -%}
-  {%- set hankoWrapperClasses = {"base": "bg-slate-900 inline-block w-auto px-4 pt-4 pb-2 mr-auto  border-r-1 border-slate-700"} -%}
-  {%- set hankoClasses = {"base": "block w-24 text-secondary-700"} -%}
-  {%- set navLinkClasses = {"base": "inline-block font-display text-sm text-primary-300 whitespace-nowrap", "md": "text-lg"} -%}
+  {%- set ulClasses = {"base": "flex list-none justify-stretch divide-x divide-slate-700"} %}
+  {%- set liClasses = {"base": "py-2 w-full text-center"} -%}
+
+  {%- set navLinkClasses = {"base": "inline-block text-sm text-primary-300 whitespace-nowrap", "md": "text-lg"} -%}
   <ul class="{{ ulClasses | classes }}" role="list">
-    {%- if logoSvg -%}
-      {#- Kept as raw markup: wraps Hanko SVG output, not text — atoms/link/link.njk
-          only accepts a text/title string, not an HTML slot. Live in primary-nav
-          and global-footer; not worth risking a visual regression to extend the
-          atom for one wrapping case. -#}
-      <li class="{{ hankoWrapperClasses | classes }}">
-        <a href="/" aria-label="Home">{{ Hanko.render({ svg: logoSvg }) }}</a>
-      </li>
-    {%- endif -%}
     {%- for entry in items -%}
       {%- set hasHref = entry and (entry.url or entry.href) -%}
       {%- set entryHref = entry.url or entry.href -%}

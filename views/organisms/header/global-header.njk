@@ -1,14 +1,47 @@
 {% import "organisms/navigation/primary-nav.njk" as primary_nav with context %}
-{% import "molecules/section-cap.njk" as SectionCap with context %}
+{% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "molecules/list/build-info.njk" as BuildInfo with context %}
 
+{%- set headerClasses = {
+  "base": "p-4 inner-border fixed w-full grid grid-cols-12 items-center bg-slate-900 font-display text-primary-200 z-20 will-change-transform divide-x divide-slate-700"
+} -%}
+{%- set hankoWrapperClasses = {"base": "flex justify-center items-center w-full h-full py-2"} -%}
+{%- set hankoClasses = {"base": "block w-24 text-secondary-700"} -%}
 {% macro render(params = {}) %}
-  {%- set headerClasses = {
-    "base": "fixed w-full overflow-hidden text-md bg-slate-900 font-display text-primary-200 h-20 z-20 will-change-transform"
-  } -%}
+  {%- set logoSvg = params.logoSvg -%}
   <header id="global-header"
           class="{{ headerClasses | classes }} {{ params.classes }}"
           aria-label="Global Site Header">
-    {{ primary_nav.render({ logoSvg: params.logoSvg }) }}
-    {{ SectionCap.render({ title: params.sectionTitle | default("initializing...") }) }}
+    {#- HOME LINK -#}
+    <a class="{{ hankoWrapperClasses | classes }}"
+       href="/"
+       aria-label="Home">
+      {%- if logoSvg -%}
+        {{ Hanko.render({ svg: logoSvg }) }}
+      {%- else -%}
+        Home
+      {%- endif -%}
+    </a>
+    {#- INFO -#}
+    {%- set dtClasses = "px-2 text-neutral-500 text-xs content-end h-full bg-slate-900" -%}
+    {%- set ddClasses = "px-2 row-start-2 text-neutral-300 h-full content-center bg-slate-900" -%}
+    <dl class="col-span-8 grid grid-cols-subgrid grid-rows-2 h-full bg-slate-700 gap-px">
+      <dt class="{{ dtClasses }}">Doc No.</dt>
+      <dd class="{{ ddClasses }}">
+        DOC {{ params.docNo | default("000") }}
+      </dd>
+      <dt class="{{ dtClasses }} col-span-5">Section</dt>
+      <dd data-current-section-title
+          class="{{ ddClasses }} text-secondary-500 col-span-5">
+        {{ params.sectionTitle | default("Initializing...") }}
+      </dd>
+      <dt class="{{ dtClasses }} col-span-2">Build Info</dt>
+      <dd class="{{ ddClasses }} col-span-2 group-data-[open]/cap:basis-1/6 text-neutral-500 text-xs self-center">
+        {{ BuildInfo.render() }}
+      </dd>
+    </dl>
+    {#- PRIMARY LINKS -#}
+    {%- set navParams = {"classes": "w-full col-span-3 items-center mx-auto"} -%}
+    {{ primary_nav.render(navParams) }}
   </header>
 {% endmacro %}
