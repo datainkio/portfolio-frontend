@@ -1,23 +1,27 @@
 {% import "atoms/link/nav-link.njk" as nav_link with context %}
 {% macro render(params = {}) %}
+
+  {#- DATA GUARDS -#}
   {%- set items = params.items | default([]) -%}
 
-  {%- set ulClasses = {"base": "flex list-none justify-stretch divide-x divide-slate-700"} %}
-  {%- set liClasses = {"base": "py-2 w-full text-center"} -%}
+  {#- STYLES -#}
+  {%- set ulClasses = params.ulClasses -%}
+  {%- set liClasses = params.liClasses -%}
+  {%- set aClasses = params.aClasses -%}
 
-  {%- set navLinkClasses = {"base": "inline-block text-sm text-primary-300 whitespace-nowrap", "md": "text-lg"} -%}
-  <ul class="{{ ulClasses | classes }}" role="list">
+  {#- DISPLAY -#}
+  <ul class="{{ ulClasses }}" role="list">
     {%- for entry in items -%}
       {%- set hasHref = entry and (entry.url or entry.href) -%}
       {%- set entryHref = entry.url or entry.href -%}
       {%- set isCurrent = entryHref == page.url -%}
       {%- if hasHref and (entry.title or entry.key) -%}
         {%- if isCurrent -%}
-          <li class="{{ liClasses | classes }}">
-            <span class="{{ navLinkClasses | classes }}" aria-current="page">{{ entry.title or entry.key }}</span>
+          <li class="{{ liClasses }}">
+            <span class="{{ aClasses }}" aria-current="page">{{ entry.title or entry.key }}</span>
           </li>
         {%- else -%}
-          <li class="{{ liClasses | classes }}">{{ nav_link.render({ entry: entry, class: navLinkClasses | classes }) }}</li>
+          <li class="{{ liClasses }}">{{ nav_link.render({ entry: entry, class: aClasses }) }}</li>
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
