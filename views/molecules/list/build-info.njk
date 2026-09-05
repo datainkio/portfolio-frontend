@@ -1,6 +1,7 @@
 {% import "atoms/icon.njk" as Icon with context %}
 {% macro render(params = {}) %}
-  <div data-buildinfo-el="root" class="contents flex">
+  <div data-buildinfo-el="root"
+       class="contents flex {{ params.class | default("") }}">
     {#- Toggle/close buttons kept as raw markup: same disclosure-control
         shape as article-nav-links.njk (aria-expanded/aria-controls,
         JS-wired), which atoms/button/button.njk doesn't support. Live in
@@ -12,41 +13,53 @@
             class="arrow-suffix cursor-pointer">
       <time datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
     </button>
-    <ul id="build-info-list"
-        data-buildinfo-el="list"
-        aria-hidden="true"
-        class="flex items-center mx-4 text-neutral-600 gap-4">
-      <li data-current-git-build class="px-2">
-        git
-        <span class="text-primary-700">
+
+    {#- -z-20: beneath the header's own backdrop (global-header.njk, -z-10),
+        which is itself beneath the header's unpositioned content (logo/dt/dd/
+        toggle) — so the drawer tucks fully behind the header plate when
+        closed or mid-slide. Drawer is the flex row (dl + close button) so the
+        close button rides the same slide, pinned to the far right. -#}
+    {%- set drawerStyles = "absolute flex top-full right-0 -z-20 w-full bg-slate-950 h-auto px-4 py-2" %}
+    {%- set dlStyles = "grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-2 justify-stretch gap-x-4" %}
+    {%- set dtStyles = "self-end w-auto" %}
+    {%- set ddStyles = "w-auto row-start-2 max-w-[12ch] truncate" %}
+    {%- set closeStyles = "self-center ml-auto mr-2 cursor-pointer border-2 border-slate-700 rounded-xl" %}
+    <div id="build-info-list"
+         data-buildinfo-el="list"
+         aria-hidden="true"
+         class="{{ drawerStyles }}">
+      <dl class="{{ dlStyles }}">
+        <dt data-current-git-build class="{{ dtStyles }}">git</dt>
+        <dd data-current-git-build class="{{ ddStyles }} text-primary-700 ">
           {% if buildVersions.git.sha %}
             {{ buildVersions.git.branch }}@{{ buildVersions.git.sha }}
             {% if buildVersions.git.dirty %}*{% endif %}
           {% endif %}
-        </span>
-
-      </li>
-      <li data-current-eleventy-build>
-        11ty
-        <span class="text-secondary-700">v{{ buildVersions.eleventy }}</span>
-      </li>
-      <li data-current-sanity-build>
-        Sanity
-        <span class="text-accent-700">v{{ buildVersions.sanity }}</span>
-      </li>
-      <li data-current-figma-build>
-        {% if buildVersions.figma.fileId %}
-          Figma
-          <span class="text-tertiary-600">fileID.{{ buildVersions.figma.fileId | truncate(12, true, "…") }}</span>
-        {% endif %}
-      </li>
-    </ul>
-    <button type="button"
-            data-buildinfo-el="close"
-            aria-controls="build-info-list"
-            aria-label="Hide build info"
-            class="hidden group-data-[open]/cap:block cursor-pointer border-2 border-slate-700 rounded-xl">
-      {{ Icon.render({"name": "close", "size": "sm"}) }}
-    </button>
+        </dd>
+        <dt data-current-eleventy-build class="{{ dtStyles }}">11ty</dt>
+        <dd data-current-eleventy-build class="text-secondary-700 {{ ddStyles }}">
+          v{{ buildVersions.eleventy }}
+        </dd>
+        <dt data-current-sanity-build class="{{ dtStyles }}">Sanity</dt>
+        <dd data-current-sanity-build class="text-accent-700 {{ ddStyles }}">
+          v{{ buildVersions.sanity }}
+        </dd>
+        <dt data-current-figma-build class="{{ dtStyles }}">Figma</dt>
+        <dd data-current-figma-build class="text-tertiary-600 {{ ddStyles }}">
+          {% if buildVersions.figma.fileId %}
+            fileID.{{ buildVersions.figma.fileId | truncate(12, true, "…") }}
+          {% endif %}
+        </dd>
+        <dt class="{{ dtStyles }}">FPS</dt>
+        <dd data-current-fps-build class="text-tertiary-600 {{ ddStyles }}">
+          —
+        </dd>
+      </dl>
+      <button type="button"
+              data-buildinfo-el="close"
+              aria-controls="build-info-list"
+              aria-label="Hide build info"
+              class="{{ closeStyles }}">{{ Icon.render({"name": "close", "size": "sm"}) }}</button>
+    </div>
   </div>
 {% endmacro %}

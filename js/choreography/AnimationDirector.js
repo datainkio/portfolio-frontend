@@ -143,7 +143,9 @@ export default class AnimationDirector {
     });
 
     // Initialize the section-cap build-info disclosure (click-driven toggle)
-    this.buildInfoManager = new BuildInfoManager();
+    this.buildInfoManager = new BuildInfoManager({
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
 
     // Initialize the section-cap scrollspy (active section tracking)
     this.sectionCapManager = new SectionCapManager({ bus: this.bus });
