@@ -1,7 +1,7 @@
 {% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as Footer with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinks %}
-{% import "molecules/section-cap.njk" as SectionCap with context %}
+
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 {%- set bodyClasses = {"base": "bg-slate-950 ", "sm": "", "md": "", "lg": "", "xl": ""} -%}
