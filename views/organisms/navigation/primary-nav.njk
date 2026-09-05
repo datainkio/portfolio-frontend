@@ -1,19 +1,30 @@
 
 {% import "molecules/list/main-pages.njk" as main_pages with context %}
 {% macro render(params = {}) %}
+
+  {#- DATA GUARDS -#}
   {% set siteName = params.siteName or site.siteName or "data:ink:io" %}
   {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
   {% set cmsItems = cmsNavigation.headerItems or [] %}
   {% set eleventyNavItems = collections.all | eleventyNavigation %}
   {% set items = params.items or (cmsItems.length and cmsItems) or eleventyNavItems %}
   {% set siteTitleId = params.siteTitleId or "primary-site-title" %}
+
+  {#- STYLES -#}
   {% set navClasses = params.classes or {"base": "w-full"} %}
+  {% set ulClasses = {"base": "flex flex-row list-none justify-stretch divide-x divide-slate-700"} %}
+  {% set liClasses = {"base": "text-center w-full"} %}
+  {% set aClasses = {"base": "inline-block text-sm text-primary-300 whitespace-nowrap", "md": "text-lg"} %}
+
+  {#- DISPLAY -#}
   <nav id="primary-nav"
        class="{{ navClasses | classes }}"
        aria-label="Primary navigation">
     {{ main_pages.render({
         items: items,
-        linkClass: ""}) }}
+        ulClasses: ulClasses | classes,
+        liClasses: liClasses | classes,
+        aClasses: aClasses | classes
+        }) }}
   </nav>
 {% endmacro %}
-St
