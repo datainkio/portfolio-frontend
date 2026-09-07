@@ -11,12 +11,13 @@
   {%- set sanityWriteToken = params.sanityWriteToken | default(env.SANITY_WRITE_TOKEN) -%}
   {%- set sourcePage = params.sourcePage | default(page.url) -%}
   {%- set sectionId = params.sectionId | default("contact") -%}
+  {%- set styles = {"base": "col-span-full grid grid-cols-1 gap-6 px-4 pb-12 max-w-2xl"} -%}
   <form data-contact-form
         data-sanity-project="{{ sanityProjectId }}"
         data-sanity-dataset="{{ sanityDataset }}"
         data-sanity-api-version="{{ sanityApiVersion }}"
         data-sanity-write-token="{{ sanityWriteToken }}"
-        class="col-span-full grid grid-cols-1 gap-6 px-4 pb-12 max-w-2xl"
+        class="{{ styles.base | classes }}"
         novalidate>
     <input type="hidden" name="sourcePage" value="{{ sourcePage }}">
 
@@ -37,7 +38,6 @@
         name: "message",
         type: "textarea",
         label: "Message",
-        help: "Share enough context for a useful reply.",
         required: true,
         fieldStyles: params.fieldStyles
         }) }}
