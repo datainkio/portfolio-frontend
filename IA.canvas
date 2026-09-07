@@ -1,6 +1,13 @@
 {
-	"nodes":[],
-	"edges":[],
+	"nodes":[
+		{"id":"ab9b173acf7c00f2","type":"file","file":"goals/Frontend_tasks/complete-projects-page.md","subpath":"#Proposal","x":0,"y":-249,"width":400,"height":329},
+		{"id":"9cdb492174db8847","type":"file","file":"goals/Frontend_tasks/complete-contact-page.md","subpath":"#Proposal","x":520,"y":-249,"width":400,"height":329},
+		{"id":"44c39d805e180e85","type":"file","file":"visual design/pages/Home Page.md","x":240,"y":-760,"width":400,"height":280}
+	],
+	"edges":[
+		{"id":"b4e1e84c4d6ea48c","fromNode":"44c39d805e180e85","fromSide":"bottom","toNode":"ab9b173acf7c00f2","toSide":"top"},
+		{"id":"c4b8b06692d7cdae","fromNode":"44c39d805e180e85","fromSide":"bottom","toNode":"9cdb492174db8847","toSide":"top"}
+	],
 	"metadata":{
 		"version":"1.0-1.0",
 		"frontmatter":{}
