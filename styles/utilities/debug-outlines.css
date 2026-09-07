@@ -1,0 +1,28 @@
+@layer utilities {
+  /*
+    Layout-building aid: outlines every element so component/template authors
+    can see box boundaries without affecting the actual layout.
+
+    Uses `outline` rather than `border` on purpose — outline is drawn outside
+    the box model and never adds to an element's size or shifts flow/spacing,
+    so what you see while this is on matches what renders when it's off.
+    `outline-offset: -1px` pulls it inward slightly so nested elements each
+    show their own line instead of merging into one thick edge.
+
+    Toggle: set DEBUG_OUTLINES=true in .env and restart the dev server (see
+    eleventy.config.js `runtime.debugOutlines`, mirrors the BUNDLE_JS pattern).
+    That adds `debug-outlines` to <html>. For a no-rebuild toggle, add/remove
+    the `debug-outlines` class on <html> directly in devtools.
+
+    Note: while active, this overrides focus-visible outlines project-wide
+    (same !important approach as reduced-motion.css) — expected for a dev-only
+    layout aid, but worth knowing if focus rings look off during a debug pass.
+  */
+  .debug-outlines,
+  .debug-outlines *,
+  .debug-outlines *::before,
+  .debug-outlines *::after {
+    outline: 1px solid var(--debug-outline-color, oklch(63% 0.24 29)) !important;
+    outline-offset: -1px !important;
+  }
+}

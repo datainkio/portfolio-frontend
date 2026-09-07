@@ -39,7 +39,11 @@ export default async function (eleventyConfig) {
       return undefined;
     };
     const bundleJs = normalizeBoolean(process.env.BUNDLE_JS) ?? true;
-    eleventyConfig.addGlobalData("runtime", { bundleJs });
+    // Outlines every element (see styles/utilities/debug-outlines.css) to aid
+    // building layouts/templates. Off by default; set DEBUG_OUTLINES=true in
+    // .env and restart the dev server to turn on.
+    const debugOutlines = normalizeBoolean(process.env.DEBUG_OUTLINES) ?? false;
+    eleventyConfig.addGlobalData("runtime", { bundleJs, debugOutlines });
 
     // Passthrough copy for static assets
     logger.trace("Configuring passthrough copy", null, "brief", msgStyle);

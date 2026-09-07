@@ -9,7 +9,7 @@
 {%- set sidebarBeforeClasses = {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} -%}
 {%- set sidebarAfterClasses = {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} -%}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ 'debug-outlines' if runtime.debugOutlines }}">
   {% include "templates/partials/dev-note.njk" %}
   {% include "templates/partials/head.njk" %}
   {% block head %}

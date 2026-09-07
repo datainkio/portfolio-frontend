@@ -27,6 +27,7 @@
 @import "./utilities/mask.css";
 @import "./utilities/text.css";
 @import "./utilities/reduced-motion.css" layer(utilities);
+@import "./utilities/debug-outlines.css" layer(utilities);
 
 @import "./components/portable-text.css" layer(components);
 @import "./components/hanko.css" layer(components);
