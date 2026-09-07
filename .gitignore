@@ -103,7 +103,7 @@ Temporary Items
 # Ignored below: machine-specific paths, regenerable output, conflict-prone counters.
 graphify-out/.graphify_python
 graphify-out/.graphify_root
-graphify-out/cache/stat-index.json
+graphify-out/cache/
 graphify-out/graph.html
 graphify-out/cost.json
 .codegraphy/*
