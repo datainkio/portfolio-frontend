@@ -56,6 +56,17 @@ export default async function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy({
       "node_modules/gsap": "assets/js/vendor/gsap",
     });
+    // Shared breakpoint values (single source for Tailwind's theme AND the
+    // browser runtime). js/choreography/config/ix/breakpoints.js imports this
+    // file via a path relative to its own location; once js/ is copied to
+    // assets/js/, that import resolves to /assets/breakpoints.config.js. This
+    // entry is what makes that URL actually exist — without it, any page that
+    // runs the raw-ESM (unbundled) code path (e.g. work-landing-header.js on
+    // the Work page, or the AnimationDirector fallback when bundle.js fails
+    // to load) 404s on it. See breakpoints.config.md for the file itself.
+    eleventyConfig.addPassthroughCopy({
+      "breakpoints.config.js": "assets/breakpoints.config.js",
+    });
     // Copy JavaScript files to _site/assets/
     // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
     // Copy video files for background video in StageManager

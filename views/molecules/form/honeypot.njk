@@ -1,0 +1,11 @@
+{%- macro render(params = {}) -%}
+  {%- set sectionId = params.sectionId | default("contact") -%}
+  <div class="hidden" aria-hidden="true">
+    <label for="{{ sectionId }}-bot-field">Leave this field empty</label>
+    <input id="{{ sectionId }}-bot-field"
+           name="botField"
+           type="text"
+           tabindex="-1"
+           autocomplete="off">
+  </div>
+{%- endmacro -%}

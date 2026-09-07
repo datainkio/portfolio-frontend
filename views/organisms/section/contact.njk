@@ -12,7 +12,6 @@
   {%- set sectionStyles = {"base": "relative col-span-full grid grid-cols-subgrid p-0 "} -%}
   {%- set headerStyles = {"base": "col-span-full sticky top-0 z-10 p-4 pt-10 space-y-4"} -%}
   {%- set headingStyles = {"base": "font-display text-4xl"} -%}
-  {%- set fieldStyles = "p-2 border border-neutral-700 bg-slate-900 text-white rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 aria-[invalid=true]:border-red-500" -%}
 
   <section id="{{ sectionId }}"
            class="{{ sectionStyles | classes }}"
@@ -25,8 +24,7 @@
       <p data-contact-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {{ contactForm.render({
-        sectionId: sectionId,
-        fieldStyles: fieldStyles
+        sectionId: sectionId
         }) }}
   </section>
 {% endmacro %}
