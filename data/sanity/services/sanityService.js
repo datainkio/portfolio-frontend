@@ -10,6 +10,7 @@ import { CMS_QUERIES } from "../queries.js";
 import { hydrateAwardInlineLogos } from "../transforms/award.js";
 import { normalizeLandingRecords } from "../transforms/home.js";
 import { normalizeProjectsLandingRecords } from "../transforms/projectsLanding.js";
+import { normalizeContactRecords } from "../transforms/contact.js";
 import {
   addProjectUrls,
   addUrlsToProjectsByIndustry,
@@ -47,6 +48,10 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "projectsLanding") {
       data = normalizeProjectsLandingRecords(data);
+    }
+
+    if (definition.id === "contact") {
+      data = normalizeContactRecords(data);
     }
 
     if (definition.id === "projects") {

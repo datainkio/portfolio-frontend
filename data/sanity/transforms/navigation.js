@@ -44,6 +44,7 @@ export function normalizeNavigationItems(items = []) {
       return {
         title,
         key: title,
+        pageNavLabel: title,
         url,
       };
     })

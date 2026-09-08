@@ -10,7 +10,7 @@ export function normalizeLandingRecords(records = []) {
 
   return records.map((record) => {
     const valuePropBodyHtml = serializePortableTextToHtml(
-      record?.valuePropRichText,
+      record?.pageBody,
     );
     const workBodyHtml = serializePortableTextToHtml(record?.workBody);
 

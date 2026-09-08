@@ -6,27 +6,12 @@
   "base": "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
   "sm": ""
 } -%}
-{%- set article = {
-  "base": [
-    "col-span-full grid grid-cols-12 gap-8",
-    "[&>p]:col-start-4 [&>p]:col-span-8",
-    "[&>h2]:col-start-4 [&>h2]:col-span-8",
-    "[&>ul]:col-start-4 [&>ul]:col-span-8 [&>ol]:col-start-4 [&>ol]:col-span-8"
-  ]
-} -%}
-{%- set header = {
-  "base": "col-span-full grid grid-cols-subgrid px-0 gap-x-4 gap-y-10 p-8 pb-24 content-end h-[90dvh] bg-black z-10 overflow-hidden text-neutral-100",
-  "sm": "px-12 gap-y-12",
-  "md": "px-16 gap-y-14",
-  "lg": "px-24 gap-y-8",
-  "xl": ""
-} -%}
 
 {% block content %}
   {{ super() }}
   {% if collections.projects and collections.projects.length %}
     {%- set industries = collections.projects | groupBy("industry") | dictsort -%}
-    <div id="work" data-scroll-section>
+    <section id="work" class="col-span-full" data-scroll-section>
       <header data-projects-el="header">
         <nav data-projects-el="jumplinks"
              id="work-jumplinks"
@@ -38,9 +23,10 @@
       {%- for industryTitle, industryProjects in industries -%}
         {{ IndustrySection.render({ industryTitle: industryTitle, projects: industryProjects }) }}
       {%- endfor -%}
-    </div>
+    </section>
   {% else %}
     <p>No projects found.</p>
   {% endif %}
   {% include "templates/partials/choreography-script.njk" %}
+  <script type="module" src="/assets/js/layouts/work-landing-header.js"></script>
 {% endblock content %}

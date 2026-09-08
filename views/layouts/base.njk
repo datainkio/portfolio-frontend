@@ -4,25 +4,27 @@
 
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
-{%- set bodyClasses = {"base": "bg-slate-950 ", "sm": "", "md": "", "lg": "", "xl": ""} -%}
-{%- set mainClasses = {"base": "mx-24 max-w-[1280px]", "sm": "", "md": "", "lg": "", "xl": ""} -%}
-{%- set sidebarBeforeClasses = {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} -%}
-{%- set sidebarAfterClasses = {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} -%}
+
 <!DOCTYPE html>
 <html lang="en" class="{{ 'debug-outlines' if runtime.debugOutlines }}">
   {% include "templates/partials/dev-note.njk" %}
   {% include "templates/partials/head.njk" %}
   {% block head %}
   {% endblock head %}
-  <body class="{{ bodyClasses | classes }}">
+  <body class="{% block bodyStyles %}{{ {"base": "bg-slate-950 ", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}{% endblock bodyStyles %}">
+
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
+
     {# SKIP LINKS #}
     {{ SkipLinks.render() }}
+
     {# GLOBAL PAGE HEADER #}
     {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
+
+    {#- SIDEBAR BEFORE -#}
     {% block sidebar_before %}
-      <nav class="{{ sidebarBeforeClasses | classes }}"
+      <nav class="{% block sidebarBeforeStyles %}{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}{% endblock sidebarBeforeStyles %}"
            data-scroll
            data-scroll-sticky
            data-scroll-target="main">
@@ -31,8 +33,10 @@
 
       </nav>
     {% endblock sidebar_before %}
+
+
     {# MAIN CONTENT AREA #}
-    <main class="{{ mainClasses | classes }}">
+    <main class="{% block mainStyles %}{{ {"base": " max-w-[1280px] mx-2", "sm": "mx-4", "md": "mx-8", "lg": "mx-24", "xl": ""} | classes }}{% endblock mainStyles %}">
 
       {% block content %}
         {% if content %}
@@ -43,8 +47,10 @@
       {% endblock content %}
 
     </main>
+
+    {#- SIDEBAR AFTER -#}
     {% if sidebar_after %}
-      <aside class="{{ sidebarAfterClasses | classes }}"
+      <aside class="{% block sidebarAfterStyles %}{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}{% endblock sidebarAfterStyles %}"
              data-scroll
              data-scroll-sticky
              data-scroll-target="main">
@@ -54,9 +60,13 @@
         {% endblock sidebar_after %}
       </aside>
     {% endif %}
+
     {# GLOBAL PAGE FOOTER #}
     {{ Footer.render() }}
+
+    {#- SCRIPTS -#}
     <script type="module" src="/assets/js/layouts/global-header.js"></script>
+
     {% block scripts %}
     {% endblock scripts %}
   </body>

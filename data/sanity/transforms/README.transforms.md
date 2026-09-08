@@ -26,6 +26,7 @@ Centralizing this work in a dedicated module layer means:
 | `award.js`        | `buildAwardCardRecord`, `fetchSvgMarkup`, `hydrateAwardInlineLogos`, `normalizeAwardRecords`                       | Build award card records; async SVG hydration with in-memory cache; normalize award arrays                             |
 | `navigation.js`   | `resolveNavigationHref`, `resolveNavigationLabel`, `normalizeNavigationItems`, `normalizeNavigationRecords`        | Resolve nav item hrefs and labels from internal/external references; normalize nav tree records                        |
 | `home.js`         | `normalizeLandingRecords`                                                                                          | Normalize landing page records for the home collection                                                                 |
+| `contact.js`      | `normalizeContactRecords`                                                                                          | Normalize contact page records; serializes `pageBody` to `pageBodyHtml`                                                |
 
 ## Usage
 

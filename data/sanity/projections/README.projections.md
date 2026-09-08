@@ -72,6 +72,8 @@ projections/
     projectCardProjection.js       → PROJECT_CARD_PROJECTION
     projectPageProjection.js       → PROJECT_PAGE_PROJECTION
     projectsLandingProjection.js   → PROJECTS_LANDING_PROJECTION
+  contact/
+    contactProjection.js           → CONTACT_PROJECTION
   userGuide/
     userGuideProjection.js         → USER_GUIDE_PROJECTION
   organization/
@@ -89,5 +91,6 @@ projections/
 | `PROJECT_PAGE_PROJECTION`     | `project/projectPageProjection.js`     | `project/project-pages.js`                                             |
 | `PROJECTS_LANDING_PROJECTION` | `project/projectsLandingProjection.js` | `project/projects-landing.js`                                          |
 | `USER_GUIDE_PROJECTION`       | `userGuide/userGuideProjection.js`     | `user-guide.js`                                                        |
+| `CONTACT_PROJECTION`          | `contact/contactProjection.js`         | `contact.js`                                                           |
 
 > Keep this table up to date when adding projections.

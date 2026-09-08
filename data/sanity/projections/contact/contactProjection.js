@@ -2,10 +2,10 @@
 import groq from "groq";
 
 /**
- * Projects landing page projection (inner shape — excludes field name and traversal operator).
- * Used for the projects listing/landing page singleton.
+ * Contact page projection (inner shape — excludes field name and traversal operator).
+ * Used for the contact page singleton.
  */
-export const PROJECTS_LANDING_PROJECTION = groq`{
+export const CONTACT_PROJECTION = groq`{
   _id,
   _updatedAt,
   pageTitle,

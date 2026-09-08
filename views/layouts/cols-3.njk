@@ -1,7 +1,7 @@
 {% extends "./cols-2-before.njk" %}
 {% import "organisms/navigation/docs-nav.njk" as docsNav %}
-{%- set bodyClasses = "grid grid-cols-12 gap-6 px-4" -%}
-{%- set mainClasses = "col-span-8 col-start-3" -%}
+{% block bodyStyles %}grid grid-cols-12 gap-6 px-4{% endblock bodyStyles %}
+{% block mainStyles %}col-span-8 col-start-3{% endblock mainStyles %}
 {%- set sidebarBeforeClasses = "" -%}
 {%- set sidebarAfterClasses = "" -%}
 

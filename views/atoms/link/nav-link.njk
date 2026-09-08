@@ -2,7 +2,7 @@
 {% macro render(params = {}) %}
   {% set entry = params.entry or {} %}
   {% set linkUrl = entry.url or entry.href or params.url or params.href %}
-  {% set linkTitle = entry.title or entry.key or params.title %}
+  {% set linkTitle = entry.pageNavLabel or entry.key or params.title %}
   {% set linkClasses = (entry.class or params.class or "") %}
   {% set isCurrent = (linkUrl == page.url) %}
   {% set hasChildren = entry.children and entry.children.length > 0 %}

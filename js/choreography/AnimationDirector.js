@@ -46,6 +46,7 @@ import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.j
 import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
 import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
+import ContactHeaderManager from "/assets/js/choreography/managers/ContactHeaderManager/ContactHeaderManager.js";
 import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
 import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
 import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
@@ -122,6 +123,12 @@ export default class AnimationDirector {
 
     // Initialize home landing header role state machine (loader/hero/menu; home page only)
     this.homeHeaderManager = new HomeHeaderManager({
+      bus: this.bus,
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
+
+    // Initialize contact landing header role state machine (loader/hero/menu; contact page only)
+    this.contactHeaderManager = new ContactHeaderManager({
       bus: this.bus,
       reducedMotionHandler: this.stage?.reducedMotion,
     });
@@ -226,6 +233,9 @@ export default class AnimationDirector {
 
     this.homeHeaderManager?.kill();
     this.homeHeaderManager = null;
+
+    this.contactHeaderManager?.kill();
+    this.contactHeaderManager = null;
 
     this.workHeaderManager?.kill();
     this.workHeaderManager = null;

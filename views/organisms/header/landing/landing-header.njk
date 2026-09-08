@@ -1,18 +1,22 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "molecules/labels/accession-label.njk" as Label %}
 {% macro render(params) %}
-  {%- set hanko = {"base": "nav-link block col-span-3 size-24 justify-self-end", "sm": "pt-1", "md": "", "lg": "", "xl": ""} -%}
-  {%- set heading = {
-    "base": "col-start-4 col-span-6 text-12 font-display leading-12",
-    "sm": "leading-18",
-    "md": "w-full leading-20",
+  {%- set headerStyles = {"base": "col-span-6 content-end gap-8", "sm": "", "md": "", "lg": "", "xl": ""} -%}
+  {%- set headingStyles = {
+    "base": "col-start-1 font-display text-5xl/12 tracking-loose",
+    "sm": "text-6xl/16",
+    "md": "text-7xl",
     "lg": "",
     "xl": ""
   } -%}
-  {%- set abstract = {"base": "col-start-4 col-span-6 pl-2", "sm": "", "md": "", "lg": "", "xl": ""} -%}
-  <h1 data-landing-header-title class="{{ heading | classes }}">{{ params.title | default("Untitled") }}</h1>
-  {% if params.abstract and params.abstract | length > 0 %}
-    <section data-doc-abstract class="{{ abstract | classes }}">
-      {{ params.abstract | safe }}
-    </section>
-  {% endif %}
+
+  <header data-landing-header class="{{ headerStyles | classes }}">
+    {{ Label.render({
+        index: "03",
+        title: "Contact",
+        description: "Russ Lebo / Selected Works Archive",
+        scope: "2008-" + (buildDate | formatDate("yyyy") )
+    }) }}
+    <h1 data-landing-header-title class="{{ headingStyles | classes }}">{{ params.title | default("Untitled") }}</h1>
+  </header>
 {% endmacro %}

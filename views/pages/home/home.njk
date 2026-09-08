@@ -9,7 +9,7 @@
 {% import "organisms/section/bio.njk" as HeroSection %}
 {% import "organisms/section/awards.njk" as AwardsSection %}
 {% import "organisms/section/organizations.njk" as OrganizationsSection %}
-{% import "organisms/section/contact.njk" as ContactSection with context %}
+
 
 {#- CONTENT -#}
 {%- set home = collections.home[0] -%}
@@ -43,7 +43,6 @@
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
         {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
-        {{ ContactSection.render({ "id": "contact", "copy": contact, "contact": contactInfo }) }}
       </main>
       {{ GlobalFooter.render({"contact": false}) }}
     </div>

@@ -15,7 +15,7 @@ export const homeQuery = {
     "videoPoster": backgroundPoster.asset->url,
     valuePropHeading,
     valuePropSubHeading,
-    valuePropRichText[]{
+    pageBody[]{
       ...,
       _type == "image" => {
         ...,

@@ -91,7 +91,7 @@ Defaults live in [site.json](site.json) under `cms`. See [[docs/sanity-integrati
 
 - Queries live in [data/sanity/queries.js](data/sanity/queries.js) and load through [data/sanity/fetchSanityData.js](data/sanity/fetchSanityData.js).
 - Collections are registered by [eleventy/collections/sanity.js](eleventy/collections/sanity.js) and accessed in templates as `collections.<queryId>`.
-- Portable Text (`valuePropRichText`, project `body`) is serialized to HTML at build time; templates render the resulting `*BodyHtml` / `bodyHtml` fields.
+- Portable Text (`pageBody`, project `body`) is serialized to HTML at build time; templates render the resulting `*BodyHtml` / `bodyHtml` fields.
 
 ## Choreography (browser runtime)
 

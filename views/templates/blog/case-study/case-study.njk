@@ -1,6 +1,6 @@
 {% extends "layouts/base.njk" %}
-{%- set bodyClasses = "" -%}
-{%- set mainClasses = "col-span-full mx-auto w-full max-w-6xl px-4 py-12 md:px-8" -%}
+{% block bodyStyles %}{% endblock bodyStyles %}
+{% block mainStyles %}col-span-full mx-auto w-full max-w-6xl px-4 py-12 md:px-8{% endblock mainStyles %}
 {%- set hasImage = project and project.featuredImage and project.featuredImage.asset and project.featuredImage.asset.url -%}
 {%- set hasCaseStudyLink = project and project.caseStudyUrl -%}
 {%- set hasExternalLink = project and project.externalLink -%}

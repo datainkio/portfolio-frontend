@@ -18,7 +18,7 @@
       {%- if hasHref and (entry.title or entry.key) -%}
         {%- if isCurrent -%}
           <li class="{{ liClasses }}">
-            <span class="{{ aClasses }}" aria-current="page">{{ entry.title or entry.key }}</span>
+            <span class="{{ aClasses }}" aria-current="page">{{ entry.pageNavLabel or entry.key }}</span>
           </li>
         {%- else -%}
           <li class="{{ liClasses }}">{{ nav_link.render({ entry: entry, class: aClasses }) }}</li>

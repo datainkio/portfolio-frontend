@@ -76,6 +76,7 @@ Flat files for singletons; a subdirectory for document types with multiple query
 ```
 queries/
   home.js                          → collections.home (singleton)
+  contact.js                       → collections.contact (singleton)
   user-guide.js                    → collections.userGuide (singleton)
   project/
     projects.js                    → collections.projects (card list)
@@ -92,6 +93,7 @@ queries/
 | Export                    | File                              | Collection key       | Projection source                  |
 | ------------------------- | --------------------------------- | -------------------- | ---------------------------------- |
 | `homeQuery`               | `home.js`                         | `home`               | inline + `PROJECT_CARD_PROJECTION` |
+| `contactQuery`            | `contact.js`                      | `contact`            | `CONTACT_PROJECTION`               |
 | `userGuideQuery`          | `user-guide.js`                   | `userGuide`          | `USER_GUIDE_PROJECTION`            |
 | `projectsQuery`           | `project/projects.js`             | `projects`           | `PROJECT_CARD_PROJECTION`          |
 | `projectPagesQuery`       | `project/project-pages.js`        | `projectPages`       | `PROJECT_PAGE_PROJECTION`          |

@@ -1,0 +1,81 @@
+{%- import "molecules/form/field.njk" as Field -%}
+{%- import "molecules/form/honeypot.njk" as Honeypot -%}
+{%- import "atoms/button.njk" as Button -%}
+
+{%- macro render(params = {}) -%}
+    {#- Browser-write contact form. The Sanity write token is present in this markup as a data attribute — an accepted tradeoff (see contact form spec §4). Submission is JS-dependent (ContactForm.js); the form does not POST on its own. -#}
+
+    {#- DATA GUARDS -#}
+    {%- set submitLabel = params.submitLabel | default("Send message") -%}
+    {%- set sanityProjectId = params.sanityProjectId | default(env.SANITY_PROJECT_ID) -%}
+    {%- set sanityDataset = params.sanityDataset | default(env.SANITY_DATASET) -%}
+    {%- set sanityApiVersion = params.sanityApiVersion | default(env.SANITY_API_VERSION) -%}
+    {%- set sanityWriteToken = params.sanityWriteToken | default(env.SANITY_WRITE_TOKEN) -%}
+    {%- set sourcePage = params.sourcePage | default(page.url) -%}
+    {%- set sectionId = params.sectionId | default("contact") -%}
+
+    {#- STYLES -#}
+    {%- set formStyles = {"base": "bg-accent-100 inner-border inner-border-slate-900 grid grid-cols-6 p-2 " ~ params.formStyles } -%}
+
+    <form data-contact-form
+          data-sanity-project="{{ sanityProjectId }}"
+          data-sanity-dataset="{{ sanityDataset }}"
+          data-sanity-api-version="{{ sanityApiVersion }}"
+          data-sanity-write-token="{{ sanityWriteToken }}"
+          aria-describedby="{{ sectionId }}-description"
+          class="{{ formStyles.base | classes }}"
+          novalidate>
+        <input type="hidden" name="sourcePage" value="{{ sourcePage }}">
+
+        {{ Honeypot.render({ sectionId: sectionId }) }}
+
+        <header class="border-b border-slate-950 col-span-full grid grid-cols-subgrid pl-4">
+            <p class="m-0 mt-2 text-primary-950 col-span-5/6 font-display text-xs">Section 03</p>
+            <h2 class="text-primary-950 col-span-5/6 col-start-1 row-span-2">Transmission</h2>
+            <ul class="row-span-3 font-display grid grid-cols-1 text-xs row-start-1 row-span-2 col-start-6 col-span-1 divide-y divide-slate-950 border-l border-slate-950">
+                <li class="p-1">DOC 03A</li>
+                <li class="p-1">Form 3.14</li>
+                <li class="p-1">Sheet 1 of 1</li>
+            </ul>
+        </header>
+        <p id="{{ sectionId }}-description"
+           class="font-display pl-5 m-0 border-b border-slate-950 col-span-full">Reach out. I'd like to hear from you.</p>
+        <ol class="col-span-full grid grid-cols-1 items-start ml-18 border-l border-slate-950 list-decimal list-outside marker:h-full marker:font-display marker:text-xl marker:text-left marker:text-primary-950">
+            <li class="border-b border-slate-950 px-4 pb-4 pt-0">
+                {{ Field.render({
+                                id: sectionId + "-email",
+                                name: "email",
+                                type: "email",
+                                label: "Email",
+                                autocomplete: "email",
+                                required: true
+                                }) }}
+            </li>
+            <li class="px-4 pb-4 pt-0">
+                {{ Field.render({
+                                id: sectionId + "-message",
+                                name: "message",
+                                type: "textarea",
+                                label: "Message",
+                                required: true
+                                }) }}
+            </li>
+        </ol>
+        <footer class="col-span-full grid grid-cols-subgrid items-center border-t border-slate-950">
+            <p data-contact-form-status
+               aria-live="polite"
+               class="text-sm empty:hidden col-span-full"></p>
+
+            {{ Button.render({ type: "submit", label: submitLabel, classes: "m-4 col-span-2" }) }}
+            <p class="col-span-3 border-l border-slate-950 font-display text-sm my-auto py-4 pl-6">No spam. Just me.</p>
+            <dl class="font-display text-xs border-l border-slate-950 px-2 flex flex-col items-center justify-center h-full">
+                <dt class="border-b border-slate-950">revision</dt>
+                <dd>
+                    09.04.26
+                </dd>
+            </dl>
+        </footer>
+    </form>
+    {#- Self-contained progressive enhancement: handles submit, validation, and the direct Sanity write. Module imports are deduped by the browser. -#}
+    <script type="module">import "/assets/js/contact-form/ContactForm.js";</script>
+{%- endmacro -%}

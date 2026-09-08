@@ -23,19 +23,5 @@
                         <span class="{{ subtitle | classes }}">UX IXD AIX DX</span>
                 </hgroup>
         </header>
-        <script>
-                (function () {
-                        try {
-                                var raw = sessionStorage.getItem("dataink_session");
-                                var state = raw ? JSON.parse(raw) : null;
-                                if (state && state.visited === true) {
-                                        var el = document.querySelector("[data-preloader]");
-                                        if (el) el.setAttribute("data-preloader-state", "exit");
-                                }
-                        } catch (e) {
-                                // Storage unavailable (private mode, disabled, etc.) — fall
-                                // through to the normal first-visit loading sequence.
-                        }
-                })();
-        </script>
+        {% include "templates/partials/session-management-script.njk" %}
 {% endmacro %}

@@ -25,6 +25,7 @@ AnimationDirector
 ├── CardManager (organisms/card/)              → kill()
 ├── GlobalHeaderManager                        → kill()
 ├── HomeHeaderManager                          → kill()
+├── ContactHeaderManager                       → kill()
 ├── WorkHeaderManager                          → kill()
 ├── WorkNavManager                             → kill()
 ├── ProjectHeaderManager                       → kill()
@@ -32,7 +33,7 @@ AnimationDirector
 └── SectionCapManager                          → kill()
 ```
 
-`SessionManager` and `RulerIntroManager` are not constructed by the Director — they are used where needed. `SessionManager` is plain persisted state with no teardown; `RulerIntroManager` implements `destroy()`.
+`SessionManager` is not constructed by the Director — it is used where needed. `SessionManager` is plain persisted state with no teardown.
 
 There is no `BackgroundLayerManager`. Fixed backgrounds are kept out of the ScrollSmoother transform context by template placement, not by a runtime manager.
 
@@ -46,6 +47,7 @@ There is no `BackgroundLayerManager`. Fixed backgrounds are kept out of the Scro
 | `ScrollEffectsCoordinator` | Director | Constructs the three above; native-scroll fallback                            | `destroy` |
 | `GlobalHeaderManager`      | Director | Global header hide/show on scroll                                             | `kill`    |
 | `HomeHeaderManager`        | Director | Home landing header role state machine (loader → hero → menu); home page only | `kill`    |
+| `ContactHeaderManager`     | Director | Contact page header motion strategy                                           | `kill`    |
 | `WorkHeaderManager`        | Director | Work jumplinks collapse/expand; publishes the `--work-header-h` offset        | `kill`    |
 | `WorkNavManager`           | Director | Work local-nav scrollspy; emits `work:nav:active`                             | `kill`    |
 | `ProjectHeaderManager`     | Director | Project page hero parallax; no-ops off project pages                          | `kill`    |

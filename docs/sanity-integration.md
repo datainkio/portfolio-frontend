@@ -22,7 +22,7 @@ This repo fetches Sanity content with the official client + GROQ during the 11ty
 - `posts` – published posts with relationships and metadata
 - `navigation` – navigation singleton content with normalized `headerItems[]` and `footerItems[]` link data for templates
 - `imageAssets` – published image assets with metadata
-- `home` – home-page singleton content (hero, value, recognition). `valuePropRichText` is serialized to `valuePropBodyHtml` during build. Legacy `valuePropBody` has been removed from schema and is no longer consumed by frontend rendering.
+- `home` – home-page singleton content (hero, value, recognition). `pageBody` is serialized to `valuePropBodyHtml` during build. Legacy `valuePropBody` has been removed from schema and is no longer consumed by frontend rendering.
 
 ## Configuration
 
@@ -43,10 +43,10 @@ Defaults live in `site.json` under `cms` (projectId, dataset, apiVersion, cache)
 - Runs inside `eleventy/collections/sanity.js` before navigation collections.
 - Helpers reside in `data/sanity/client.js`, `data/sanity/fetchSanityData.js`, and `data/sanity/queries.js`.
 - Caches responses with `@11ty/eleventy-fetch` (respecting `cache` duration in `site.json` or per-query).
-- Serializes home-page Portable Text (`valuePropRichText`) to HTML using `@portabletext/to-html` and stores it on each home record as `valuePropBodyHtml`.
+- Serializes home-page Portable Text (`pageBody`) to HTML using `@portabletext/to-html` and stores it on each home record as `valuePropBodyHtml`.
 - Serializes project Portable Text (`body`) to HTML as `bodyHtml` during collection hydration.
 - Normalizes navigation references from Sanity into accessible link-ready records (`title`, `url`, `key`) for header and footer rendering.
-- Supports `sub_section` custom blocks in `valuePropRichText` during serialization, including nested Portable Text body content and image asset URL expansion.
+- Supports `sub_section` custom blocks in `pageBody` during serialization, including nested Portable Text body content and image asset URL expansion.
 - Supports `project_aside` custom blocks in project `body` during serialization, rendering semantic `<aside>` elements with optional heading, narrative copy, and resource links.
 - Keeps serializer output semantic for `project_aside` (structural class hooks only) and applies Tailwind presentation in the Nunjucks view layer.
 - Resolves legacy taxonomy collection ids (`activities`, `roles`, `outcomes`, `industries`) from `skosConcept` records scoped by concept scheme so existing Eleventy collection names remain stable.

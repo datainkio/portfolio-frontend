@@ -9,7 +9,7 @@ import groq from "groq";
 const navigationItemProjection = groq`{
   _id,
   _type,
-  "label": coalesce(pageTitle, page.title, title, "Untitled"),
+  "label": coalesce(pageNavLabel, pageTitle, page.title, title, "Untitled"),
   "slug": coalesce(slug.current, page.slug.current, null)
 }`;
 

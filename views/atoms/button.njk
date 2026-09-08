@@ -1,9 +1,13 @@
 {%- macro render(params = {}) -%}
   {%- set type = params.type | default("button") -%}
   {%- set label = params.label | default("Button") -%}
+
+  {%- set default = "m-4 py-2 px-4 justify-self-start text-neutral-100 font-display bg-secondary-600 hover:bg-secondary-800" -%}
+  {%- set disabled = "disabled:opacity-60 disabled:cursor-not-allowed" -%}
+  {%- set focused = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500" -%}
   {%- set styles = {
-    "base": "justify-self-start bg-primary-900 hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed text-white py-2 px-4 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-  } -%}
+    "base": default ~ " " ~ disabled ~ " " ~ focused ~ " " ~ params.classes
+    } -%}
   {%- set buttonStyles = params.buttonStyles | default(styles.base) -%}
   <button type="{{ type }}" class="{{ buttonStyles | classes }}">{{ label }}</button>
 {%- endmacro -%}
