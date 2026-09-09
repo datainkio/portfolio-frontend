@@ -1,0 +1,29 @@
+{#-
+Social Account Molecule
+Renders one socialAccount object (title, logo, url) as an external profile link.
+Params: account { title, logo.url, url }, classes
+-#}
+{%- macro render(params = {}) -%}
+
+  {#- DATA GUARDS -#}
+  {%- set account = params.account -%}
+
+  {#- STYLES -#}
+  {%- set linkClasses = {"base": "inline-flex items-center justify-center", "sm": params.classes} -%}
+  {%- set logoClasses = {"base": "h-full w-full object-contain"} -%}
+
+  {#- DISPLAY -#}
+  {%- if account and account.url -%}
+    <a href="{{ account.url }}"
+       class="{{ linkClasses | classes }}"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="{{ account.title }}">
+      {%- if account.logo and account.logo.url -%}
+        <img src="{{ account.logo.url }}" alt="" class="{{ logoClasses | classes }}" loading="lazy" decoding="async">
+      {%- else -%}
+        {{ account.title }}
+      {%- endif -%}
+    </a>
+  {%- endif -%}
+{%- endmacro -%}

@@ -1,9 +1,14 @@
 {% extends "templates/landing/landing.njk" %}
 {% import "organisms/forms/contact-form.njk" as contact_form %}
+{% import "molecules/list/social-accounts-list.njk" as social_accounts with context %}
+
+{% set socialStyles = "" %}
+{% set formStyles = "row-span-3 self-center" %}
 
 {% block content %}
   {{ super() }}
-  {{ contact_form.render({"formStyles": "col-span-6 col-start-7 row-span-2 row-start-1 self-center"}) }}
+  {{ contact_form.render({"formStyles": formStyles}) }}
+  {{ social_accounts.render({"classes": socialStyles | classes}) }}
   {% include "templates/partials/choreography-script.njk" %}
   <script type="module" src="/assets/js/layouts/contact-landing-header.js"></script>
 {% endblock content %}

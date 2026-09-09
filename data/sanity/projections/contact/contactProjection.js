@@ -34,5 +34,13 @@ export const CONTACT_PROJECTION = groq`{
         }
       }
     }
+  },
+  socialAccounts[]{
+    title,
+    "logo": logo.asset->{
+      url,
+      metadata{dimensions, lqip}
+    },
+    url
   }
 }`;

@@ -1,12 +1,22 @@
 {% extends "layouts/base.njk" %}
 {% import "organisms/header/landing/landing-header.njk" as LandingHeader %}
 
-{% block mainStyles %}{{ {"base": "pt-24 grid grid-cols-12 gap-8 max-w-[1280px] min-h-dvh mx-auto"} | classes }}{% endblock mainStyles %}
-{%- set abstractStyles = {"base": "prose text-primary-500 col-start-1 col-span-6 pl-2", "sm": "", "md": "", "lg": "", "xl": ""} -%}
+{% block mainStyles %}
+  {{ {"base": "mx-auto my-8", "sm": "", "md": "", "lg": "grid grid-cols-2 gap-8", "xl": ""} | classes }}
+{% endblock mainStyles %}
+
+{%- set abstractStyles = {
+  "base": "prose text-primary-500 self-start pl-2",
+  "sm": "",
+  "md": "",
+  "lg": "col-start-1 row-start-2",
+  "xl": ""
+} -%}
 
 {% block content %}
 
-  {{ LandingHeader.render({ title: title | default('Untitled') , abstract: abstract}) }}
+  {{ LandingHeader.render({ title: title | default('Untitled') }) }}
+
   {% if abstract and abstract | length > 0 %}
     <section data-doc-abstract class="{{ abstractStyles | classes }}">
       {{ abstract | safe }}

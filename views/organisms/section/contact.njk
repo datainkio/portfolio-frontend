@@ -1,4 +1,4 @@
-{%- import "organisms/forms/contact.njk" as contactForm -%}
+{% import "organisms/forms/contact-form.njk" as contactForm %}
 {% macro render(params = {}) %}
   {%- set sectionId = params.id | default("contact") -%}
   {%- set classes = params.classes | default("") -%}

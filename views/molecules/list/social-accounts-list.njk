@@ -1,0 +1,17 @@
+{%- import "molecules/social-account/social-account.njk" as social_account -%}
+{%- macro render(params = {}) -%}
+
+  {%- set socialAccounts = (cms and cms.contact and cms.contact[0] and cms.contact[0].socialAccounts) or [] -%}
+  {%- set classes = params.classes | default("") -%}
+  {%- set itemStyles = {"base": "size-full content-center", "md": "gap-4", "lg": "p-0"} -%}
+  {% if socialAccounts | length > 0 %}
+    <ul class="grid grid-cols-8 items-center justify-center gap-4 py-8 mx-auto {{ classes }}"
+        role="list">
+      {% for account in socialAccounts %}
+        <li class="{{ itemStyles | classes }}">{{ social_account.render({ account: account }) }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No social accounts available</p>
+  {% endif %}
+{%- endmacro -%}

@@ -11,7 +11,7 @@
   {% include "templates/partials/head.njk" %}
   {% block head %}
   {% endblock head %}
-  <body class="{% block bodyStyles %}{{ {"base": "bg-slate-950 ", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}{% endblock bodyStyles %}">
+  <body class="{{ {"base": "bg-slate-950", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
 
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
@@ -24,19 +24,18 @@
 
     {#- SIDEBAR BEFORE -#}
     {% block sidebar_before %}
-      <nav class="{% block sidebarBeforeStyles %}{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}{% endblock sidebarBeforeStyles %}"
+      <nav class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarBeforeStyles %}{% endblock sidebarBeforeStyles %}"
            data-scroll
            data-scroll-sticky
            data-scroll-target="main">
         Hi there.
         This is the sidebar content. You can replace this with your own content or remove it if you don't need a sidebar.
-
       </nav>
     {% endblock sidebar_before %}
 
 
     {# MAIN CONTENT AREA #}
-    <main class="{% block mainStyles %}{{ {"base": " max-w-[1280px] mx-2", "sm": "mx-4", "md": "mx-8", "lg": "mx-24", "xl": ""} | classes }}{% endblock mainStyles %}">
+    <main class="{{ {"base": "max-w-[1280px] pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
 
       {% block content %}
         {% if content %}
@@ -50,7 +49,7 @@
 
     {#- SIDEBAR AFTER -#}
     {% if sidebar_after %}
-      <aside class="{% block sidebarAfterStyles %}{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}{% endblock sidebarAfterStyles %}"
+      <aside class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarAfterStyles %}{% endblock sidebarAfterStyles %}"
              data-scroll
              data-scroll-sticky
              data-scroll-target="main">

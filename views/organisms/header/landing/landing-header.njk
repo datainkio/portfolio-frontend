@@ -1,13 +1,12 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
 {% import "molecules/labels/accession-label.njk" as Label %}
 {% macro render(params) %}
-  {%- set headerStyles = {"base": "col-span-6 content-end gap-8", "sm": "", "md": "", "lg": "", "xl": ""} -%}
+  {%- set headerStyles = {"base": "space-y-6", "sm": "", "md": "", "lg": "", "xl": ""} -%}
   {%- set headingStyles = {
-    "base": "col-start-1 font-display text-5xl/12 tracking-loose",
-    "sm": "text-6xl/16",
-    "md": "text-7xl",
-    "lg": "",
-    "xl": ""
+    "base": "pl-1 font-display text-6xl leading-12 tracking-loose",
+    "sm": "text-7xl leading-14",
+    "md": "",
+    "xl": "text-8xl leading-20"
   } -%}
 
   <header data-landing-header class="{{ headerStyles | classes }}">
