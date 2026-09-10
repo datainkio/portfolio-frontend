@@ -10,6 +10,8 @@ eleventyNavigation:
 eleventyComputed:
   title: "{{ cms.contact[0].pageTitle | safe }}"
   abstract: "{{ cms.contact[0].pageBodyHtml | safe }}"
+  mailto: "{{cms.contact[0].mailto | safe }}"
+  location: "{{ cms.contact[0].location | safe }}"
 metaDescription: "Get in touch"
 canonicalUrl: "https://dataink.io/contact/"
 enableChoreography: true

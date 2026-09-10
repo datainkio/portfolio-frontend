@@ -1,7 +1,11 @@
 {%- import "molecules/social-account/social-account.njk" as social_account -%}
+{%- import "atoms/link/link.njk" as Link -%}
 {%- macro render(params = {}) -%}
 
-  {%- set socialAccounts = (cms and cms.contact and cms.contact[0] and cms.contact[0].socialAccounts) or [] -%}
+  {%- set contact = (cms and cms.contact and cms.contact[0]) or {} -%}
+  {%- set socialAccounts = contact.socialAccounts or [] -%}
+  {%- set mailto = contact.mailto -%}
+  {%- set location = contact.location -%}
   {%- set classes = params.classes | default("") -%}
   {%- set itemStyles = {"base": "size-full content-center", "md": "gap-4", "lg": "p-0"} -%}
   {% if socialAccounts | length > 0 %}

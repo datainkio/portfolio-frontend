@@ -26,7 +26,7 @@ Params: account { title, logo.url, url }, classes
         {%- set logoSize = size | default("size-10") -%}
         {%- set logo = account.logo.url | default('/assets/images/logos/default.svg') -%}
         {%- set logoAlt = account.logo.alt | default(account.title) -%}
-        {%- set logoStyle = {"base": "mx-auto text-primary-200 fill-primary-200 " ~ logoSize} -%}
+        {%- set logoStyle = {"base": "mx-auto text-primary-400 " ~ logoSize} -%}
         {{ InlineSvg.render({
                 svg: account.logo.inline,
                 src: logo,

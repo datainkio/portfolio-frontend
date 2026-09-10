@@ -42,5 +42,7 @@ export const CONTACT_PROJECTION = groq`{
       metadata{dimensions, lqip}
     },
     url
-  }
+  },
+  mailto,
+  location
 }`;
