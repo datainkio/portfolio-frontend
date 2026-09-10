@@ -2,14 +2,14 @@
 {% import "organisms/header/landing/landing-header.njk" as LandingHeader %}
 
 {% block mainStyles %}
-  {{ {"base": "mx-auto my-8", "sm": "", "md": "", "lg": "grid grid-cols-2 gap-8", "xl": ""} | classes }}
+  {{ {"base": "mx-auto my-8 grid grid-cols-12 gap-x-8", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}
 {% endblock mainStyles %}
 
 {%- set abstractStyles = {
-  "base": "prose text-primary-500 self-start pl-2",
+  "base": "col-span-full prose text-primary-500 content-start h-auto m-0 mb-6 self-start pl-2",
   "sm": "",
   "md": "",
-  "lg": "col-start-1 row-start-2",
+  "lg": "col-span-4 col-start-1 row-start-2",
   "xl": ""
 } -%}
 

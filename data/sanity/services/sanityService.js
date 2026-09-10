@@ -51,7 +51,7 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
     }
 
     if (definition.id === "contact") {
-      data = normalizeContactRecords(data);
+      data = await normalizeContactRecords(data);
     }
 
     if (definition.id === "projects") {

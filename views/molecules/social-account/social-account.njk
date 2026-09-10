@@ -3,6 +3,8 @@ Social Account Molecule
 Renders one socialAccount object (title, logo, url) as an external profile link.
 Params: account { title, logo.url, url }, classes
 -#}
+{% import "atoms/svg/inline.njk" as InlineSvg %}
+
 {%- macro render(params = {}) -%}
 
   {#- DATA GUARDS -#}
@@ -19,8 +21,19 @@ Params: account { title, logo.url, url }, classes
        target="_blank"
        rel="noopener noreferrer"
        aria-label="{{ account.title }}">
+
       {%- if account.logo and account.logo.url -%}
-        <img src="{{ account.logo.url }}" alt="" class="{{ logoClasses | classes }}" loading="lazy" decoding="async">
+        {%- set logoSize = size | default("size-10") -%}
+        {%- set logo = account.logo.url | default('/assets/images/logos/default.svg') -%}
+        {%- set logoAlt = account.logo.alt | default(account.title) -%}
+        {%- set logoStyle = {"base": "mx-auto text-primary-200 fill-primary-200 " ~ logoSize} -%}
+        {{ InlineSvg.render({
+                svg: account.logo.inline,
+                src: logo,
+                alt: logoAlt,
+                classes: logoStyle | classes,
+                svgClasses: ""
+                }) }}
       {%- else -%}
         {{ account.title }}
       {%- endif -%}

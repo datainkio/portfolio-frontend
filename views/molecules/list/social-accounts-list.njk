@@ -5,7 +5,7 @@
   {%- set classes = params.classes | default("") -%}
   {%- set itemStyles = {"base": "size-full content-center", "md": "gap-4", "lg": "p-0"} -%}
   {% if socialAccounts | length > 0 %}
-    <ul class="grid grid-cols-8 items-center justify-center gap-4 py-8 mx-auto {{ classes }}"
+    <ul class="flex w-full items-center justify-center gap-4 py-8 {{ classes }}"
         role="list">
       {% for account in socialAccounts %}
         <li class="{{ itemStyles | classes }}">{{ social_account.render({ account: account }) }}</li>

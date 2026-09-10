@@ -1,7 +1,8 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
 {% import "molecules/labels/accession-label.njk" as Label %}
 {% macro render(params) %}
-  {%- set headerStyles = {"base": "space-y-6", "sm": "", "md": "", "lg": "", "xl": ""} -%}
+  {%- set headerStyles = {"base": "col-span-full", "sm": "", "md": "", "lg": "col-span-6 space-y-8", "xl": ""} -%}
+  {%- set headerStyleOverrides = params.headerStyles | default({}) -%}
   {%- set headingStyles = {
     "base": "pl-1 font-display text-6xl leading-12 tracking-loose",
     "sm": "text-7xl leading-14",
@@ -9,7 +10,8 @@
     "xl": "text-8xl leading-20"
   } -%}
 
-  <header data-landing-header class="{{ headerStyles | classes }}">
+  <header data-landing-header
+          class="{{ headerStyles | classes }} {{ headerStyleOverrides | classes }}">
     {{ Label.render({
         index: "03",
         title: "Contact",

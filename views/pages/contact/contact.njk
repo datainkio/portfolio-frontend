@@ -2,13 +2,16 @@
 {% import "organisms/forms/contact-form.njk" as contact_form %}
 {% import "molecules/list/social-accounts-list.njk" as social_accounts with context %}
 
-{% set socialStyles = "" %}
-{% set formStyles = "row-span-3 self-center" %}
+{% set socialStyles = {"base": "col-span-full", "lg": "col-span-6 self-start"} %}
+{% set formStyles = {
+  "base": "col-span-full grid grid-cols-subgrid",
+  "lg": "col-span-6 col-start-7 row-start-1 row-span-3 self-center"
+} %}
 
 {% block content %}
   {{ super() }}
-  {{ contact_form.render({"formStyles": formStyles}) }}
   {{ social_accounts.render({"classes": socialStyles | classes}) }}
+  {{ contact_form.render({"formStyles": formStyles | classes}) }}
   {% include "templates/partials/choreography-script.njk" %}
   <script type="module" src="/assets/js/layouts/contact-landing-header.js"></script>
 {% endblock content %}

@@ -1,6 +1,5 @@
 {% macro render(params = {}) %}
 
-  {% import "atoms/svg/inline.njk" as InlineSvg %}
   {% import "molecules/card/award-organization.njk" as AwardOrganization %}
 
   {%- set sectionId = params.id | default("recognition") -%}
@@ -41,13 +40,6 @@
            data-scroll-section>
 
     <header data-awards-el="header" class=" {{ headerCSS | classes }} ">
-      {# {{ InlineSvg.render({
-            svg: headerAwardMedia,
-            src: headerAwardLogo,
-            alt: "Award badge",
-            classes: "p-0 size-24 pt-4 pl-2",
-            svgClasses: ""
-            }) }} #}
       <h2 id="{{ headingId }}"
           data-awards-el="title"
           class=" {{ headingCSS | classes }} ">{{ heading }}</h2>
