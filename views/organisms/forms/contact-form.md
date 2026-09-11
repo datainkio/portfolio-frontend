@@ -77,7 +77,7 @@ The `<form>` is meant to read as a sheet laid on the drafting surface, not a pan
 
 - `bg-accent-100 bg-graphpaper-primary-950` — paper with the site's faint graph grid, ruled in navy.
 - `inner-border inner-border-2 inner-border-primary-950` — the ruled sheet edge (`::after`, inset 8px).
-- `registration-marks` — 10px × 1px corner ticks in `currentColor` (`::before`, at the outer corners, outside the ruled edge). Utility lives in `styles/decorations.css` beside `inner-border`.
+- `registration-marks registration-marks-primary-100` — 10px × 1px corner ticks (`::before`, at the outer corners, outside the ruled edge). The bare class draws in `currentColor`; `registration-marks-<color>[/<opacity>]` recolours, same pairing rule as `inner-border`. Utility lives in `styles/decorations.css`.
 - `shadow-[3px_3px_0_0_color-mix(…primary-950 35%…)]` — hard offset shadow, no blur.
 
 Both pseudo-elements are spoken for; anything else decorative needs real markup.

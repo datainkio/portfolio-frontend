@@ -111,17 +111,21 @@
  * Four short L-shaped ticks at the element's outer corners, drawn with eight
  * no-repeat gradients on a ::before layer. Pairs with inner-border (::after,
  * inset 8px) so the ticks sit just outside the sheet's ruled edge, the way
- * registration marks sit outside a drawing's border. Colour follows
- * currentColor unless --registration-mark-color is set.
+ * registration marks sit outside a drawing's border. Bare
+ * `registration-marks` draws in currentColor; see the colour form below.
  */
 @utility registration-marks {
   position: relative;
   &::before {
     content: "";
     position: absolute;
-    inset: 0;
+    /* Positive offset pushes the marks outward past the element's edge,
+       negative pulls them inward; 0 sits them on the corner. */
+    inset: calc(-1 * var(--registration-mark-offset, 0px));
     pointer-events: none;
-    z-index: 10;
+    /* Above inner-border's ::after (z 10): when pulled inward the marks
+       cross the ruled edge and must paint over it, not under its shadow. */
+    z-index: 11;
     --rm-c: var(--registration-mark-color, currentColor);
     --rm-l: var(--registration-mark-length, 10px);
     --rm-w: var(--registration-mark-width, 1px);
@@ -156,8 +160,41 @@
   }
 }
 
+/*
+ * registration-marks-<color>[/<opacity>] — sets the mark colour from a theme
+ * colour or arbitrary [color], with Tailwind's colour-opacity modifier
+ * (registration-marks-primary-950/60). Like inner-border-<color>, this only
+ * sets the variable: pair it with the bare `registration-marks` class, which
+ * draws the marks. (A self-drawing form via @apply is a circular dependency
+ * in Tailwind v4, so the pairing is deliberate.)
+ */
+/*
+ * registration-marks-offset-<n | [length]> — distance from the default corner
+ * position. Positive moves the marks outward, negative (leading dash:
+ * -registration-marks-offset-2) inward. Integers use the spacing scale.
+ */
+@utility registration-marks-offset-* {
+  --registration-mark-offset: calc(--value(integer) * var(--spacing));
+  --registration-mark-offset: --value([length]);
+}
+
+@utility -registration-marks-offset-* {
+  --registration-mark-offset: calc(--value(integer) * var(--spacing) * -1);
+  --registration-mark-offset: calc(--value([length]) * -1);
+}
+
 @utility registration-marks-* {
-  --registration-mark-color: --value(--color, [color]);
+  --registration-mark-color: --value(--color-*, [color]);
+  --registration-mark-color: color-mix(
+    in oklab,
+    --value(--color-*, [color]) calc(--modifier(integer) * 1%),
+    transparent
+  );
+  --registration-mark-color: color-mix(
+    in oklab,
+    --value(--color-*, [color]) --modifier([percentage]),
+    transparent
+  );
 }
 
 /*
