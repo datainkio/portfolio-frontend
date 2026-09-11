@@ -17,7 +17,14 @@
     {%- set docTitle = params.docTitle | default("Contact") -%}
 
     {#- STYLES -#}
-    {%- set formStyles = {"base": "bg-accent-100 inner-border inner-border-primary-950 [--inner-border-size:2px] grid grid-cols-subgrid p-2 mb-0 " ~ params.formStyles } -%}
+    {#- Drafting sheet: faint graph grid on the paper, 2px ruled edge (inner-border), registration ticks outside the corners, and a hard offset shadow so the sheet reads as laid on the drafting surface rather than as a panel. -#}
+    {%- set formStyles = {"base": "bg-accent-100 bg-graphpaper-sm text-primary-950 inner-border inner-border-primary-950 [--inner-border-size:2px] registration-marks shadow-[3px_3px_0_0_color-mix(in_oklab,var(--color-primary-950)_35%,transparent)] grid grid-cols-subgrid p-2 mb-0 " ~ params.formStyles } -%}
+
+    {#- Fields are drawn into the paper: no inset, paper-toned fill, one light navy rule (text) or a light rectangle (textarea). Strong contrast is reserved for focus (orange-red stamp) and invalid states. -#}
+    {%- set fieldBase = "w-full bg-accent-50 text-primary-950 rounded-none px-2 py-1 border-primary-950/30 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-secondary-500 focus-visible:border-secondary-500 aria-[invalid=true]:border-red-600" -%}
+    {%- set lineFieldStyles = fieldBase ~ " border-0 border-b" -%}
+    {%- set boxFieldStyles = fieldBase ~ " border" -%}
+    {%- set labelStyles = "text-xs font-display uppercase tracking-wider text-primary-950/80 block w-full mb-1" -%}
 
 
     <form data-contact-form
@@ -51,7 +58,9 @@
                                 type: "email",
                                 label: "Email",
                                 autocomplete: "email",
-                                required: true
+                                required: true,
+                                fieldStyles: lineFieldStyles,
+                                labelStyles: labelStyles
                                 }) }}
             </li>
             <li class="px-4 pb-4 pt-0">
@@ -60,7 +69,9 @@
                                 name: "message",
                                 type: "textarea",
                                 label: "Message",
-                                required: true
+                                required: true,
+                                fieldStyles: boxFieldStyles,
+                                labelStyles: labelStyles
                                 }) }}
             </li>
         </ol>

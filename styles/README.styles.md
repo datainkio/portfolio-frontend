@@ -107,6 +107,8 @@ classes
 **UX Impact**: Provides rich visual language for brand expression and user
 delight
 
+Also defines the `@utility` decorations: `inner-border[-*]` (ruled edge on `::after`) and `registration-marks[-*]` (corner ticks on `::before`) — the drafting-sheet vocabulary used by the contact form.
+
 ### `/typography/` - Text System Implementation
 
 #### `imports.css` - Font Loading

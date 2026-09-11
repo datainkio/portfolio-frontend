@@ -54,6 +54,53 @@
   }
 }
 
+/*
+ * REGISTRATION MARKS
+ *
+ * Four short L-shaped ticks at the element's outer corners, drawn with eight
+ * no-repeat gradients on a ::before layer. Pairs with inner-border (::after,
+ * inset 8px) so the ticks sit just outside the sheet's ruled edge, the way
+ * registration marks sit outside a drawing's border. Colour follows
+ * currentColor unless --registration-mark-color is set.
+ */
+@utility registration-marks {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+    --rm-c: var(--registration-mark-color, currentColor);
+    --rm-l: var(--registration-mark-length, 10px);
+    --rm-w: var(--registration-mark-width, 1px);
+    background-image:
+      linear-gradient(var(--rm-c), var(--rm-c)),
+      linear-gradient(var(--rm-c), var(--rm-c)),
+      linear-gradient(var(--rm-c), var(--rm-c)),
+      linear-gradient(var(--rm-c), var(--rm-c)),
+      linear-gradient(var(--rm-c), var(--rm-c)),
+      linear-gradient(var(--rm-c), var(--rm-c)),
+      linear-gradient(var(--rm-c), var(--rm-c)),
+      linear-gradient(var(--rm-c), var(--rm-c));
+    background-repeat: no-repeat;
+    background-size:
+      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l),
+      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l),
+      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l),
+      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l);
+    background-position:
+      top left, top left,
+      top right, top right,
+      bottom left, bottom left,
+      bottom right, bottom right;
+  }
+}
+
+@utility registration-marks-* {
+  --registration-mark-color: --value(--color, [color]);
+}
+
 @utility inner-border-inset-* {
   --inner-border-inset: --value(--spacing, [length]);
 }

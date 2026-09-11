@@ -9,6 +9,8 @@ links:
 
 # Field
 
+`render(params)` also accepts `fieldStyles` (classes on the control) and `labelStyles` (classes on the `<label>`; default `text-sm font-display block w-full`). Both are full replacements, not merges, so a caller restyling one must restate the accessibility-relevant classes (focus ring, invalid state).
+
 Renders one accessible form field: `<label>`, an `<input>` or `<textarea>`,
 an optional help paragraph, and a hidden error paragraph wired for
 `aria-describedby`. Extracted from `organisms/forms/contact.njk` to remove the

@@ -69,7 +69,29 @@ The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint n
 | Field dividers | `border-primary-950/50`, `divide-primary-950/50` | description rule, `<ol>` left, between fields, header `<ul>` rows |
 | Micro-label rules | `border-primary-950/30` | footer note left, revision `<dl>` left and `<dt>` |
 
-Corner registration marks belong to the paper-artifact treatment, not this table.
+Corner registration marks belong to the paper-artifact treatment below, not this table.
+
+## Paper Artifact
+
+The `<form>` is meant to read as a sheet laid on the drafting surface, not a panel:
+
+- `bg-accent-100 bg-graphpaper-sm` — paper with the site's faint graph grid.
+- `inner-border inner-border-primary-950 [--inner-border-size:2px]` — the ruled sheet edge (`::after`, inset 8px).
+- `registration-marks` — 10px × 1px corner ticks in `currentColor` (`::before`, at the outer corners, outside the ruled edge). Utility lives in `styles/decorations.css` beside `inner-border`.
+- `shadow-[3px_3px_0_0_color-mix(…primary-950 35%…)]` — hard offset shadow, no blur.
+
+Both pseudo-elements are spoken for; anything else decorative needs real markup.
+
+## Fields
+
+Fields are drawn into the paper via `field.njk`'s `fieldStyles` / `labelStyles` params (the molecule's defaults are untouched):
+
+- `fieldBase` — `bg-accent-50` fill, no outline at rest, `border-primary-950/30` rule colour, `rounded-none`.
+- `lineFieldStyles` (email) — `border-0 border-b`: a single underline.
+- `boxFieldStyles` (message) — `border`: a light rectangle.
+- Focus — `focus-visible:outline-2 outline-secondary-500` plus `border-secondary-500`: the orange-red stamp is the only strong contrast at rest-to-active.
+- Invalid — `aria-[invalid=true]:border-red-600`; the error `<p>` remains the primary signal.
+- Labels — `text-xs uppercase tracking-wider text-primary-950/80`.
 
 ## Notes for Future Maintenance
 

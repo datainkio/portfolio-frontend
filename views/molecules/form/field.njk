@@ -4,8 +4,9 @@
   {%- set type = params.type | default("text") -%}
   {%- set required = params.required | default(false) -%}
   {%- set fieldStyles = params.fieldStyles | default("w-full text-primary-950 outline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 aria-[invalid=true]:border-red-500") -%}
+  {%- set labelStyles = params.labelStyles | default("text-sm font-display block w-full") -%}
   {%- set describedBy = id + "-error" + (" " + id + "-help" if params.help else "") -%}
-  <label for="{{ id }}" class="text-sm font-display block w-full">{{ params.label }}</label>
+  <label for="{{ id }}" class="{{ labelStyles }}">{{ params.label }}</label>
   {%- if type == "textarea" %}
     <textarea id="{{ id }}"
               name="{{ name }}"
