@@ -249,7 +249,7 @@ Impact**: Defines information architecture and user journey structure
 layout: layouts/base.njk           # Which base shell to extend
 title: "Page Title"                # Browser tab and SEO
 metaDescription: "..."             # SEO description
-bodyStyles: "bg-graphpaper-dark"   # Page-specific styling
+bodyStyles: "bg-graphpaper-neutral-500"   # Page-specific styling
 scripts: >                         # Page-specific JavaScript
   <script src="/assets/js/..."></script>
 ---

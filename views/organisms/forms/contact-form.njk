@@ -18,7 +18,7 @@
 
     {#- STYLES -#}
     {#- Drafting sheet: faint graph grid on the paper, 2px ruled edge (inner-border), registration ticks outside the corners, and a hard offset shadow so the sheet reads as laid on the drafting surface rather than as a panel. -#}
-    {%- set formStyles = {"base": "bg-accent-100 bg-graphpaper-sm text-primary-950 inner-border inner-border-3 inner-border-primary-950 grid grid-cols-subgrid p-2 mb-0 " ~ params.formStyles } -%}
+    {%- set formStyles = {"base": "bg-accent-100 text-primary-950 inner-border inner-border-3 inner-border-primary-950 grid grid-cols-subgrid p-2 mb-0 " ~ params.formStyles } -%}
 
     {#- Fields are drawn into the paper: no inset, paper-toned fill, one light navy rule (text) or a light rectangle (textarea). Strong contrast is reserved for focus (orange-red stamp) and invalid states. -#}
     {%- set fieldBase = "w-full bg-accent-50 text-primary-950 rounded-none px-2 py-1 border-primary-950/30 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-secondary-500 focus-visible:border-secondary-500 aria-[invalid=true]:border-red-600" -%}
@@ -39,7 +39,7 @@
 
         {{ Honeypot.render({ sectionId: sectionId }) }}
 
-        <header class="border-b border-primary-950/85 col-span-full grid grid-cols-subgrid pl-4">
+        <header class="border-b border-b-2 border-primary-950/85 col-span-full grid grid-cols-subgrid pl-4">
             <p class="m-0 mt-2 text-primary-950 col-span-8 lg:col-span-4 font-display text-xs">Doc {{ docNo }} / {{ docTitle }}</p>
             <h2 class="text-4xl text-primary-950 col-span-8 lg:col-span-4 col-start-1 row-span-2">Transmission</h2>
             <ul class="row-span-3 font-display grid grid-cols-1 text-xs row-start-1 row-span-3 col-start-9 lg:col-start-5 col-span-4 lg:col-span-2 divide-y divide-primary-950/50 border-l border-primary-950/85">

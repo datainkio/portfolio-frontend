@@ -12,8 +12,8 @@
  *  - colors.css custom properties MUST be available before this file loads.
  */
 
-/* Graphpaper backgrounds - Grid patterns, dot matrices, engineering paper effects
- * DO NOT remove - used by portfolio grid layouts and technical documentation displays */
+/* Graphpaper background - bg-graphpaper-<color>[/<strength>] engineering grid
+ * Used by the base layout body and the contact form sheet */
 @import "./backgrounds/Graphpapers.css";
 
 /* Geometric patterns - Shapes, tessellations, mathematical constructs

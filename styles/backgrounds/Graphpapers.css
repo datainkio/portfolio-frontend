@@ -1,35 +1,45 @@
-/* Custom Background Graphpaper Patterns */
-@layer components {
-  .bg-graphpaper-sm {
-    background-image:
-      linear-gradient(to right, rgba(128, 128, 128, 0.04) 1px, transparent 1px),
-      linear-gradient(
-        to bottom,
-        rgba(128, 128, 128, 0.04) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
-    background-size:
-      1rem 1rem,
-      1rem 1rem,
-      4rem 4rem,
-      4rem 4rem;
-    background-repeat: repeat;
-  }
-
-  .bg-graphpaper-lg {
-    background-image:
-      linear-gradient(to right, rgba(128, 128, 128, 0.15) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(128, 128, 128, 0.15) 1px, transparent 1px);
-    background-size: 2rem 2rem;
-  }
-
-  .bg-graphpaper-dark {
-    background-color: black;
-  }
-
-  .bg-graphpaper-light {
-    background: blue;
-  }
+/*
+ * GRAPHPAPER BACKGROUND
+ *
+ * One functional utility: bg-graphpaper-<color>[/<opacity>] draws an
+ * engineering grid (1rem minor, 4rem major) in the given theme colour or
+ * arbitrary [color].
+ *
+ * Opacity follows the same modifier syntax as Tailwind's colour utilities:
+ *   bg-graphpaper-primary-950        minor 4%, major 5% (defaults)
+ *   bg-graphpaper-primary-950/10     minor 10%, major 12.5%
+ *   bg-graphpaper-primary-950/[7.5%] any percentage
+ *   bg-graphpaper-[#f00]/20          arbitrary colour + opacity
+ * The modifier sets the minor grid's opacity; the major grid is always
+ * 1.25× the minor so the hierarchy survives any setting.
+ *
+ * Pair with a background-color utility for the paper itself; this only
+ * paints the lines. Defined with @utility so variants compose
+ * (lg:bg-graphpaper-…).
+ */
+@utility bg-graphpaper-* {
+  --graphpaper-line: --value(--color-*, [color]);
+  --graphpaper-opacity: calc(--modifier(integer) * 1%);
+  --graphpaper-opacity: --modifier([percentage]);
+  --graphpaper-minor-line: color-mix(
+    in oklab,
+    var(--graphpaper-line) var(--graphpaper-opacity, 4%),
+    transparent
+  );
+  --graphpaper-major-line: color-mix(
+    in oklab,
+    var(--graphpaper-line) calc(var(--graphpaper-opacity, 4%) * 1.25),
+    transparent
+  );
+  background-image:
+    linear-gradient(to right, var(--graphpaper-minor-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--graphpaper-minor-line) 1px, transparent 1px),
+    linear-gradient(to right, var(--graphpaper-major-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--graphpaper-major-line) 1px, transparent 1px);
+  background-size:
+    1rem 1rem,
+    1rem 1rem,
+    4rem 4rem,
+    4rem 4rem;
+  background-repeat: repeat;
 }

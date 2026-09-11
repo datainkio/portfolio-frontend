@@ -75,7 +75,7 @@ Corner registration marks belong to the paper-artifact treatment below, not this
 
 The `<form>` is meant to read as a sheet laid on the drafting surface, not a panel:
 
-- `bg-accent-100 bg-graphpaper-sm` — paper with the site's faint graph grid.
+- `bg-accent-100 bg-graphpaper-primary-950` — paper with the site's faint graph grid, ruled in navy.
 - `inner-border inner-border-2 inner-border-primary-950` — the ruled sheet edge (`::after`, inset 8px).
 - `registration-marks` — 10px × 1px corner ticks in `currentColor` (`::before`, at the outer corners, outside the ruled edge). Utility lives in `styles/decorations.css` beside `inner-border`.
 - `shadow-[3px_3px_0_0_color-mix(…primary-950 35%…)]` — hard offset shadow, no blur.
