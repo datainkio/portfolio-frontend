@@ -5,7 +5,10 @@
 {% import "atoms/svg/location.njk" as location_icon %}
 {% import "atoms/svg/globe.njk" as social_icon %}
 
-{% set socialStyles = {"base": "text-primary-400"} %}
+{% set ulStyles = {"base": "col-span-full w-full text-primary-200 font-display w-md grid grid-cols-6"} %}
+{% set liStyles = {"base": "flex items-start col-span-full grid grid-cols-subgrid"} %}
+{% set iconStyles = {"base": "size-10 m-4"} %}
+{% set valueStyles = {"base": "col-span-5 text-primary-400 py-2 px-4 not-italic border-l h-full"} %}
 {% set formStyles = {
   "base": "col-span-full grid grid-cols-subgrid",
   "lg": "col-span-6 col-start-7 row-start-1 row-span-3 self-center"
@@ -13,22 +16,25 @@
 
 {% block content %}
   {{ super() }}
-  <ul class="col-span-full w-full text-primary-200 font-display flex flex-col max-w-md">
-    <li class="flex items-center">
-      {{ email_icon.render({"styles": "size-10"}) }}
-      <address class="border-l px-4 ml-4 py-4  not-italic">
+  <ul class="{{ ulStyles | classes }}">
+    <li class="{{ liStyles | classes }}">
+      {{ email_icon.render({"styles": iconStyles | classes}) }}
+      <address class="{{ valueStyles | classes }} content-center">
         <span class="block text-xs text-neutral-400">Email</span>
         <a class="text-primary-400" href="mailto:{{ mailto }}">{{ mailto }}</a>
       </address>
     </li>
-    <li class="flex items-center border-y">
-      {{ location_icon.render({"styles": "size-10"}) }}
-      <address class="border-l px-4 ml-4 py-4 not-italic">
+    <li class="{{ liStyles | classes }} border-y">
+      {{ location_icon.render({"styles": iconStyles | classes}) }}
+      <address class="{{ valueStyles | classes }} content-center">
         <span class="block text-xs text-neutral-400">Based In</span>
         <span class="text-primary-400">{{ location }}</span>
       </address>
     </li>
-    <li class="flex items-center">{{ social_accounts.render({"classes": socialStyles | classes}) }}</li>
+    <li class="{{ liStyles | classes }}">
+      {{ social_icon.render({"styles": iconStyles | classes}) }}
+      {{ social_accounts.render({"classes": valueStyles | classes ~ " content-start grid grid-cols-3"}) }}
+    </li>
   </ul>
   {{ contact_form.render({"formStyles": formStyles | classes, "docNo": docNo, "docTitle": eleventyNavigation.title}) }}
   {% include "templates/partials/choreography-script.njk" %}

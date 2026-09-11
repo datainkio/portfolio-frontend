@@ -9,6 +9,7 @@ Params: account { title, logo.url, url }, classes
 
   {#- DATA GUARDS -#}
   {%- set account = params.account -%}
+  {%- set format = params.format | default("icon") -%}
 
   {#- STYLES -#}
   {%- set linkClasses = {"base": "inline-flex items-center justify-center", "sm": params.classes} -%}
@@ -22,8 +23,8 @@ Params: account { title, logo.url, url }, classes
        rel="noopener noreferrer"
        aria-label="{{ account.title }}">
 
-      {%- if account.logo and account.logo.url -%}
-        {%- set logoSize = size | default("size-10") -%}
+      {%- if format == "icon" and account.logo and account.logo.url -%}
+        {%- set logoSize = params.size | default("size-10") -%}
         {%- set logo = account.logo.url | default('/assets/images/logos/default.svg') -%}
         {%- set logoAlt = account.logo.alt | default(account.title) -%}
         {%- set logoStyle = {"base": "mx-auto text-primary-400 " ~ logoSize} -%}

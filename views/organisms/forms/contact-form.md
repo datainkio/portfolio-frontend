@@ -64,7 +64,7 @@ The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint n
 
 | Tier | Utility | Where |
 | --- | --- | --- |
-| Outer border | `inner-border-primary-950 [--inner-border-size:2px]` on `<form>` | sheet edge |
+| Outer border | `inner-border-2 inner-border-primary-950` on `<form>` | sheet edge |
 | Title-block dividers | `border-primary-950/85` | `<header>` bottom, header `<ul>` left, `<footer>` top |
 | Field dividers | `border-primary-950/50`, `divide-primary-950/50` | description rule, `<ol>` left, between fields, header `<ul>` rows |
 | Micro-label rules | `border-primary-950/30` | footer note left, revision `<dl>` left and `<dt>` |
@@ -76,7 +76,7 @@ Corner registration marks belong to the paper-artifact treatment below, not this
 The `<form>` is meant to read as a sheet laid on the drafting surface, not a panel:
 
 - `bg-accent-100 bg-graphpaper-sm` — paper with the site's faint graph grid.
-- `inner-border inner-border-primary-950 [--inner-border-size:2px]` — the ruled sheet edge (`::after`, inset 8px).
+- `inner-border inner-border-2 inner-border-primary-950` — the ruled sheet edge (`::after`, inset 8px).
 - `registration-marks` — 10px × 1px corner ticks in `currentColor` (`::before`, at the outer corners, outside the ruled edge). Utility lives in `styles/decorations.css` beside `inner-border`.
 - `shadow-[3px_3px_0_0_color-mix(…primary-950 35%…)]` — hard offset shadow, no blur.
 

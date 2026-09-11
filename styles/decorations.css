@@ -47,10 +47,61 @@
     content: "";
     position: absolute;
     inset: var(--inner-border-inset, 8px);
-    outline: var(--inner-border-size, 1px) var(--inner-border-style, solid)
+    /* The solid rule is a box-shadow spread, not an outline: Chrome snaps
+       outline-width (and border-width) to whole CSS px, so 0.5px and 1.5px
+       both paint as 1px. Spread honours fractions at DPR >= 2, which is what
+       inner-border-[0.5px] hairlines need. dashed / dotted / double have no
+       box-shadow equivalent, so those utilities switch back to outline
+       (and inherit its snapping). */
+    box-shadow: var(
+      --inner-border-shadow,
+      0 0 0 var(--inner-border-size, 1px)
+        var(--inner-border-color, var(--color-neutral-800))
+    );
+    outline: var(--inner-border-size, 1px) var(--inner-border-style, none)
       var(--inner-border-color, var(--color-neutral-800));
     pointer-events: none;
     z-index: 10;
+  }
+}
+
+@utility inner-border-inset-* {
+  --inner-border-inset: --value(--spacing, [length]);
+}
+
+@utility inner-border-* {
+  --inner-border-color: --value(--color, [color]);
+}
+
+/* inner-border-2 → 2px; inner-border-[0.5px] → as written */
+@utility inner-border-* {
+  --inner-border-size: calc(--value(integer) * 1px);
+  --inner-border-size: --value([length]);
+}
+
+@utility inner-border-solid {
+  --inner-border-style: none;
+  --inner-border-shadow: initial;
+}
+
+@utility inner-border-dashed {
+  --inner-border-style: dashed;
+  --inner-border-shadow: none;
+}
+
+@utility inner-border-dotted {
+  --inner-border-style: dotted;
+  --inner-border-shadow: none;
+}
+
+@utility inner-border-double {
+  --inner-border-style: double;
+  --inner-border-shadow: none;
+}
+
+@utility inner-border-none {
+  &::after {
+    content: none;
   }
 }
 
@@ -85,50 +136,28 @@
       linear-gradient(var(--rm-c), var(--rm-c));
     background-repeat: no-repeat;
     background-size:
-      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l),
-      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l),
-      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l),
-      var(--rm-l) var(--rm-w), var(--rm-w) var(--rm-l);
+      var(--rm-l) var(--rm-w),
+      var(--rm-w) var(--rm-l),
+      var(--rm-l) var(--rm-w),
+      var(--rm-w) var(--rm-l),
+      var(--rm-l) var(--rm-w),
+      var(--rm-w) var(--rm-l),
+      var(--rm-l) var(--rm-w),
+      var(--rm-w) var(--rm-l);
     background-position:
-      top left, top left,
-      top right, top right,
-      bottom left, bottom left,
-      bottom right, bottom right;
+      top left,
+      top left,
+      top right,
+      top right,
+      bottom left,
+      bottom left,
+      bottom right,
+      bottom right;
   }
 }
 
 @utility registration-marks-* {
   --registration-mark-color: --value(--color, [color]);
-}
-
-@utility inner-border-inset-* {
-  --inner-border-inset: --value(--spacing, [length]);
-}
-
-@utility inner-border-* {
-  --inner-border-color: --value(--color, [color]);
-}
-
-@utility inner-border-solid {
-  --inner-border-style: solid;
-}
-
-@utility inner-border-dashed {
-  --inner-border-style: dashed;
-}
-
-@utility inner-border-dotted {
-  --inner-border-style: dotted;
-}
-
-@utility inner-border-double {
-  --inner-border-style: double;
-}
-
-@utility inner-border-none {
-  &::after {
-    content: none;
-  }
 }
 
 /*
