@@ -1,10 +1,9 @@
 {% extends "templates/landing/landing.njk" %}
 {% import "molecules/list/industry-links.njk" as Industries %}
 {% import "molecules/section/industry-section.njk" as IndustrySection %}
-{%- set headerStyles = {
-  "print": "hidden",
-  "base": "fixed left-0 z-10 w-64 flex flex-col justify-center bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)] max-md:top-8 max-md:bottom-0 md:top-0 md:h-dvh"
-} -%}
+{%- set headerStyles = {"print": "hidden", "base": "fixed left-0 z-10 flex flex-col justify-center w-56", "md": "top-0 h-dvh"} -%}
+
+{%- set navStyles = {"base": "w-full shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"} -%}
 {%- set drawerToggleStyles = {
   "base": "md:hidden absolute top-1/2 -right-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-slate-950 text-primary-200 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"
 } -%}
@@ -21,7 +20,8 @@
       <header data-projects-el="header" class="{{ headerStyles | classes }}">
         <nav data-projects-el="jumplinks"
              id="work-jumplinks"
-             aria-label="Jump to an industry">
+             aria-label="Jump to an industry"
+             class="{{ navStyles | classes }}">
           <button type="button"
                   data-projects-el="drawer-toggle"
                   aria-expanded="false"
