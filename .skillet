@@ -11,3 +11,5 @@ gsap-performance
 gsap-scrolltrigger
 choreography
 atomic-design
+gsap-core
+gsap-timeline

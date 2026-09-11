@@ -25,7 +25,6 @@ AnimationDirector
 ├── CardManager (organisms/card/)              → kill()
 ├── GlobalHeaderManager                        → kill()
 ├── HomeHeaderManager                          → kill()
-├── ContactHeaderManager                       → kill()
 ├── WorkHeaderManager                          → kill()
 ├── WorkNavManager                             → kill()
 ├── ProjectHeaderManager                       → kill()
@@ -47,8 +46,7 @@ There is no `BackgroundLayerManager`. Fixed backgrounds are kept out of the Scro
 | `ScrollEffectsCoordinator` | Director | Constructs the three above; native-scroll fallback                            | `destroy` |
 | `GlobalHeaderManager`      | Director | Global header hide/show on scroll                                             | `kill`    |
 | `HomeHeaderManager`        | Director | Home landing header role state machine (loader → hero → menu); home page only | `kill`    |
-| `ContactHeaderManager`     | Director | Contact page header motion strategy                                           | `kill`    |
-| `WorkHeaderManager`        | Director | Work jumplinks collapse/expand; publishes the `--work-header-h` offset        | `kill`    |
+| `WorkHeaderManager`        | Director | Work industry-nav drawer (below `md`) / rail (`md`+)                          | `kill`    |
 | `WorkNavManager`           | Director | Work local-nav scrollspy; emits `work:nav:active`                             | `kill`    |
 | `ProjectHeaderManager`     | Director | Project page hero parallax; no-ops off project pages                          | `kill`    |
 | `BuildInfoManager`         | Director | Section-cap build-info disclosure (click toggle)                              | `kill`    |

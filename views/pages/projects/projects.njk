@@ -1,22 +1,35 @@
 {% extends "templates/landing/landing.njk" %}
 {% import "molecules/list/industry-links.njk" as Industries %}
 {% import "molecules/section/industry-section.njk" as IndustrySection %}
-{%- set jumplinks = {
+{%- set headerStyles = {
   "print": "hidden",
-  "base": "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
-  "sm": ""
+  "base": "fixed left-0 z-10 w-64 flex flex-col justify-center bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)] max-md:top-8 max-md:bottom-0 md:top-0 md:h-dvh"
 } -%}
+{%- set drawerToggleStyles = {
+  "base": "md:hidden absolute top-1/2 -right-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-slate-950 text-primary-200 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"
+} -%}
+
+{% block mainStyles %}
+  {{ { "base": "mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64" } | classes }}
+{% endblock mainStyles %}
 
 {% block content %}
   {{ super() }}
   {% if collections.projects and collections.projects.length %}
     {%- set industries = collections.projects | groupBy("industry") | dictsort -%}
     <section id="work" class="col-span-full" data-scroll-section>
-      <header data-projects-el="header">
+      <header data-projects-el="header" class="{{ headerStyles | classes }}">
         <nav data-projects-el="jumplinks"
              id="work-jumplinks"
-             aria-label="Jump to an industry"
-             class="{{ jumplinks | classes }}">
+             aria-label="Jump to an industry">
+          <button type="button"
+                  data-projects-el="drawer-toggle"
+                  aria-expanded="false"
+                  aria-controls="work-jumplinks"
+                  aria-label="Toggle industry navigation"
+                  class="{{ drawerToggleStyles | classes }}">
+            <span aria-hidden="true">&#9776;</span>
+          </button>
           {{ Industries.render({ industries: industries }) }}
         </nav>
       </header>
@@ -27,6 +40,4 @@
   {% else %}
     <p>No projects found.</p>
   {% endif %}
-  {% include "templates/partials/choreography-script.njk" %}
-  <script type="module" src="/assets/js/layouts/work-landing-header.js"></script>
 {% endblock content %}
