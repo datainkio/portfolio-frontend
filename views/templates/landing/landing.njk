@@ -9,13 +9,13 @@
   "base": "col-span-full prose text-primary-500 content-start h-auto m-0 mb-6 self-start pl-2",
   "sm": "",
   "md": "",
-  "lg": "col-span-4 col-start-1 row-start-2",
+  "lg": "col-span-6 col-start-1 row-start-2",
   "xl": ""
 } -%}
 
 {% block content %}
 
-  {{ LandingHeader.render({ title: title | default('Untitled'), docNo: docNo, docTitle: eleventyNavigation.title }) }}
+  {{ LandingHeader.render({ title: title | default('Untitled') , docNo: docNo, docTitle: eleventyNavigation.title }) }}
 
   {% if abstract and abstract | length > 0 %}
     <section data-doc-abstract class="{{ abstractStyles | classes }}">
