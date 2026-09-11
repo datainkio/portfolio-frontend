@@ -58,6 +58,19 @@ directly by pages — always imported and called by
 - Loads: [[ContactForm.js]]
 - Used by: [`organisms/section/contact.njk`](../section/contact.md)
 
+## Stroke Hierarchy
+
+The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint navy — never pure black or `slate-*`) at one of four weights, so new rules must pick a tier rather than invent a fifth:
+
+| Tier | Utility | Where |
+| --- | --- | --- |
+| Outer border | `inner-border-primary-950 [--inner-border-size:2px]` on `<form>` | sheet edge |
+| Title-block dividers | `border-primary-950/85` | `<header>` bottom, header `<ul>` left, `<footer>` top |
+| Field dividers | `border-primary-950/50`, `divide-primary-950/50` | description rule, `<ol>` left, between fields, header `<ul>` rows |
+| Micro-label rules | `border-primary-950/30` | footer note left, revision `<dl>` left and `<dt>` |
+
+Corner registration marks belong to the paper-artifact treatment, not this table.
+
 ## Notes for Future Maintenance
 
 - Keep this sidecar in sync when the form fields or data contract change.
