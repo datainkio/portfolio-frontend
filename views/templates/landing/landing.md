@@ -29,6 +29,7 @@ Classified as a **layout** at the atomic **none** level based on its location un
 - `body` — referenced in the template.
 - `content` — referenced in the template.
 - `title` — referenced in the template.
+- `docNo`, `eleventyNavigation.title` — forwarded to `landing-header.njk` as `docNo` / `docTitle` for the accession label. Set `docNo` in the route's frontmatter (`ia/projects.md` = `02`, `ia/contact.md` = `03`).
 
 ## Relationships
 

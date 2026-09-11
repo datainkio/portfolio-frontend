@@ -15,7 +15,7 @@
 
 {% block content %}
 
-  {{ LandingHeader.render({ title: title | default('Untitled') }) }}
+  {{ LandingHeader.render({ title: title | default('Untitled'), docNo: docNo, docTitle: eleventyNavigation.title }) }}
 
   {% if abstract and abstract | length > 0 %}
     <section data-doc-abstract class="{{ abstractStyles | classes }}">

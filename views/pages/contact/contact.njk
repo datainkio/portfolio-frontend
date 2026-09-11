@@ -30,6 +30,6 @@
     </li>
     <li class="flex items-center">{{ social_accounts.render({"classes": socialStyles | classes}) }}</li>
   </ul>
-  {{ contact_form.render({"formStyles": formStyles | classes}) }}
+  {{ contact_form.render({"formStyles": formStyles | classes, "docNo": docNo, "docTitle": eleventyNavigation.title}) }}
   {% include "templates/partials/choreography-script.njk" %}
 {% endblock content %}

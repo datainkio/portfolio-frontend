@@ -59,14 +59,14 @@
       {#- DOC ID -#}
       <dt class="{{ dtClasses | classes }} sr-only lg:not-sr-only">Doc No.</dt>
       <dd class="{{ ddClasses | classes }} sr-only lg:not-sr-only">
-        DOC {{ params.docNo | default("000") }}
+        DOC {{ params.docNo | default(docNo) | default("00") }}
       </dd>
 
       {#- SECTION TITLE -#}
       <dt class="{{ dtClasses | classes }} col-span-3">Section</dt>
       <dd data-current-section-title
           class="{{ ddClasses | classes }} col-span-3 text-secondary-500 ">
-        {{ params.sectionTitle | default("Initializing...") }}
+        {{ params.sectionTitle | default(eleventyNavigation.title) | default(title) }}
       </dd>
 
       {#-

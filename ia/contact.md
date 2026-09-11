@@ -3,6 +3,7 @@ title: "Contact"
 description: "Route definition for /contact/ — static contact page on the base layout."
 layout: pages/contact/contact.njk
 permalink: "/contact/"
+docNo: "03"
 eleventyNavigation:
   key: contact
   title: Contact

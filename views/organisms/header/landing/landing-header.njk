@@ -13,8 +13,8 @@
   <header data-landing-header
           class="{{ headerStyles | classes }} {{ headerStyleOverrides | classes }}">
     {{ Label.render({
-        index: "03",
-        title: "Contact",
+        index: params.docNo | default("00"),
+        title: params.docTitle | default(params.title) | default("Untitled"),
         description: "Russ Lebo / Selected Works Archive",
         scope: "2008-" + (buildDate | formatDate("yyyy") )
     }) }}

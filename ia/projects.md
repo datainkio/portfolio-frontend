@@ -2,6 +2,7 @@
 description: "Route definition for the /work/ landing page, driven by the Sanity projectsLanding singleton."
 layout: pages/projects/projects.njk
 permalink: "/work/"
+docNo: "02"
 eleventyNavigation:
   key: work
   title: Work

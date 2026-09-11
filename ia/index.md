@@ -2,6 +2,7 @@
 description: "Route definition for the home page (/), composing the home template from the Sanity home singleton."
 layout: pages/home/home.njk
 permalink: /
+docNo: "01"
 eleventyNavigation:
   key: home
   title: data:ink:io
