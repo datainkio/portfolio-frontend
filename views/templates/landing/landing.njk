@@ -1,32 +1,49 @@
 {% extends "layouts/base.njk" %}
-{% import "organisms/header/landing/landing-header.njk" as LandingHeader %}
+{% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "molecules/labels/accession-label.njk" as Label %}
 
 {% block mainStyles %}
   {{ {"base": "mx-auto my-8 grid grid-cols-12 gap-x-8", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}
 {% endblock mainStyles %}
 
-{%- set abstractStyles = {
-  "base": "col-span-full prose text-primary-500 content-start h-auto m-0 mb-6 self-start pl-2",
-  "sm": "",
-  "md": "",
-  "lg": "col-span-6 col-start-1 row-start-2",
-  "xl": ""
-} -%}
-
 {% block content %}
 
-  {{ LandingHeader.render({ title: title | default('Untitled') , docNo: docNo, docTitle: eleventyNavigation.title }) }}
+  {%- set headerStyles = {"base": "col-span-full", "sm": "", "md": "", "lg": "col-span-6 space-y-8", "xl": ""} -%}
+  {%- set headerStyleOverrides = params.headerStyles | default({}) -%}
+  {%- set headingStyles = {
+    "base": "pl-1 font-display text-6xl leading-12 tracking-loose",
+    "sm": "text-7xl leading-14",
+    "md": "",
+    "xl": "text-8xl leading-20"
+  } -%}
+  {%- set abstractStyles = {
+    "base": "col-span-full prose text-primary-500 content-start h-auto m-0 mb-6 self-start pl-2",
+    "sm": "",
+    "md": "",
+    "lg": "col-span-6 col-start-1 row-start-2",
+    "xl": ""
+  } -%}
+  <header data-landing-header
+          class="{{ headerStyles | classes }} {{ headerStyleOverrides | classes }}">
+    {{ Label.render({
+        index: docNo | default("00") ,
+    title: params.docTitle | default(eleventyNavigation.title) | default("Untitled"),
+    description: "Russ Lebo / Selected Works Archive",
+    scope: "2008-" + (buildDate | formatDate("yyyy") )
+    }) }}
 
-  {% if abstract and abstract | length > 0 %}
+    <h1 data-landing-header-title class="{{ headingStyles | classes }}">{{ title | default("Untitled") }}</h1>    {% if abstract and abstract | length > 0 %}
     <section data-doc-abstract class="{{ abstractStyles | classes }}">
       {{ abstract | safe }}
     </section>
   {% endif %}
-  {% if content %}
-    {{ content | safe }}
-  {% elif not title %}
-    {% loremPars 3 %}
-  {% endif %}
+</header>
 
-  {% include "templates/partials/choreography-script.njk" %}
+{% if content %}
+  {{ content | safe }}
+{% elif not title %}
+  {% loremPars 3 %}
+{% endif %}
+
+{% include "templates/partials/choreography-script.njk" %}
 {% endblock content %}

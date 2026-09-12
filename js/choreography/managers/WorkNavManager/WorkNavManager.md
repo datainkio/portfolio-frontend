@@ -35,14 +35,22 @@ The shared id is the single join key between a group and its link.
 `IntersectionObserver` with `rootMargin: "0px 0px -80% 0px"` creates a thin
 active band in the top fifth of the viewport. Active = the **lowest visible
 group in document order**, i.e. the reading position. On change, `aria-current`
-moves to the matching link and `work:nav:active` is emitted with `{ id }`.
+moves to the matching link and `work:nav:active` is emitted with `{ id, seeded }`.
+When no group is in the band (above the first group, or past the last),
+`aria-current` stays where it was — the rail keeps the last position — but
+`work:nav:active` is emitted once with `{ id: null }` so subscribers know the
+reader is outside every group; re-entering the same group re-emits its id.
 
 Styling is attribute-driven (`aria-[current=true]:` utilities in
 `industry-links.njk`); the manager never touches classes.
 
 At init the first group in document order is seeded active synchronously, so the
 nav never renders all-inactive before the first IntersectionObserver callback.
-The first real callback corrects it if a different group is already in the band.
+That emit carries `seeded: true` so subscribers (`WorkHeaderManager`'s handle
+readout) can ignore it — it is a boot default, not a reading position. The first
+real callback re-emits the same id with `seeded: false` when the reader actually
+reaches that group (the usual same-id dedupe is suspended while seeded), or
+corrects it if a different group is already in the band.
 
 ## Lifecycle
 

@@ -128,6 +128,7 @@ export default class AnimationDirector {
 
     // Initialize the work section industry-nav drawer (below md) / rail (md+).
     this.workHeaderManager = new WorkHeaderManager({
+      bus: this.bus,
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 

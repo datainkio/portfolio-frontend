@@ -1,7 +1,7 @@
 {% import "molecules/list/project-cards.njk" as ProjectCards %}
 {% macro render(params = {}) %}
-  {%- set section = {"base": "grid grid-cols-1 items-start my-12"} -%}
-  {%- set heading = {"base": "font-display text-4xl pl-4"} -%}
+  {%- set section = {"base": "grid grid-cols-1 items-start my-48"} -%}
+  {%- set heading = {"base": "font-display text-5xl pl-2 mb-12"} -%}
   {%- set projects = {"base": "w-full"} -%}
   <section data-projects-el="industry-group"
            class="{{ section | classes }}"

@@ -28,7 +28,12 @@ export default class WorkNavManager {
 
     this._bus = bus ?? null;
     this._observer = null;
+    // _activeId owns aria-current and is sticky (the rail keeps the last
+    // position). _confirmed is false while that id is only the boot seed or
+    // the reader has scrolled out of every group, so the next real sighting
+    // of the same id still emits.
     this._activeId = null;
+    this._confirmed = false;
 
     // Assume that all of this is happening within the work section within the main element on the site
     const workSection = document.getElementById(SELECTORS.work);
@@ -66,8 +71,10 @@ export default class WorkNavManager {
     // Seed a default active link so the nav never renders all-inactive before
     // the first IntersectionObserver callback. Default = first group in
     // document order (top of the work section, the entry reading position).
+    // Tagged `seeded` so subscribers can tell it apart from a real reading
+    // position derived from scroll.
     const defaultId = this._groups[0]?.getAttribute("aria-labelledby");
-    if (defaultId) this._setActive(defaultId);
+    if (defaultId) this._setActive(defaultId, { seeded: true });
 
     this.logger.trace("initialized");
   }
@@ -83,24 +90,36 @@ export default class WorkNavManager {
     for (const group of this._groups) {
       if (this._visible.has(group)) active = group;
     }
-    if (!active) return;
+    if (!active) {
+      this._leaveGroups();
+      return;
+    }
 
     const id = active.getAttribute("aria-labelledby");
     if (id) this._setActive(id);
   }
 
-  _setActive(id) {
-    if (id === this._activeId) return;
+  // No group in the band: aria-current stays put, but subscribers learn the
+  // reader is outside every group.
+  _leaveGroups() {
+    if (!this._confirmed) return;
+    this._confirmed = false;
+    this._bus?.emit(EVENTS.workNav.activeChange, { id: null, seeded: false });
+  }
+
+  _setActive(id, { seeded = false } = {}) {
+    if (id === this._activeId && this._confirmed) return;
     const link = this._linkById.get(id);
     if (!link) return;
 
-    if (this._activeId) {
+    if (this._activeId && this._activeId !== id) {
       this._linkById.get(this._activeId)?.removeAttribute("aria-current");
     }
     link.setAttribute("aria-current", "true");
     this._activeId = id;
+    this._confirmed = !seeded;
 
-    this._bus?.emit(EVENTS.workNav.activeChange, { id });
+    this._bus?.emit(EVENTS.workNav.activeChange, { id, seeded });
   }
 
   kill() {
@@ -108,6 +127,7 @@ export default class WorkNavManager {
     this._observer = null;
     this._linkById.forEach((link) => link.removeAttribute("aria-current"));
     this._activeId = null;
+    this._confirmed = false;
     this.logger.trace("destroyed");
   }
 }

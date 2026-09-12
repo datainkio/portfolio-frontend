@@ -1,17 +1,22 @@
 {% extends "templates/landing/landing.njk" %}
 {% import "molecules/list/industry-links.njk" as Industries %}
 {% import "molecules/section/industry-section.njk" as IndustrySection %}
-{%- set headerStyles = {"print": "hidden", "base": "fixed left-0 top-0 z-10 flex h-dvh flex-col justify-center w-56"} -%}
+{%- set headerStyles = {
+  "print": "hidden",
+  "base": "fixed inset-x-0 bottom-0 z-10 w-full pointer-events-none",
+  "md": "inset-x-auto right-auto bottom-auto left-0 top-0 flex h-dvh w-56 flex-col justify-center pointer-events-auto"
+} -%}
 
 {%- set navStyles = {
-  "base": "registration-marks registration-marks-offset-[-8px] registration-marks-slate-700 w-full bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"
+  "base": "pointer-events-auto registration-marks registration-marks-offset-[-8px] registration-marks-slate-700 w-full bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"
 } -%}
 {%- set drawerToggleStyles = {
-  "base": "md:hidden absolute top-1/2 -right-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-slate-950 text-primary-200 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"
+  "base": "group cursor-pointer pl-4 flex items-center gap-x-4 divide-x divide-slate-700 w-full text-left",
+  "md": "pointer-events-none cursor-default"
 } -%}
 
 {% block mainStyles %}
-  {{ { "base": "mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64" } | classes }}
+  {{ { "base": "pb-24 mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64" } | classes }}
 {% endblock mainStyles %}
 
 {% block content %}
@@ -24,17 +29,16 @@
              id="work-jumplinks"
              aria-label="Jump to an industry"
              class="{{ navStyles | classes }}">
-          <header class="p-4 pt-6 border-t border-x border-slate-700">
-            <h2 class="text-primary-200/50 text-2xl">Industries</h2>
+          <header data-projects-el="drawer-handle"
+                  class="p-4 pt-6 border-t border-x border-slate-700">
+            <h2 class="text-primary-200 text-2xl">
+              <button type="button"
+                      data-projects-el="drawer-toggle"
+                      aria-expanded="false"
+                      aria-controls="work-jumplinks"
+                      class="{{ drawerToggleStyles | classes }}"><span class="text-primary-200 pr-4 transition-colors group-hover:text-secondary-400">Industries</span><span data-projects-el="drawer-title" class="text-sm text-secondary-400"></span></button>
+            </h2>
           </header>
-          <button type="button"
-                  data-projects-el="drawer-toggle"
-                  aria-expanded="false"
-                  aria-controls="work-jumplinks"
-                  aria-label="Toggle industry navigation"
-                  class="{{ drawerToggleStyles | classes }}">
-            <span aria-hidden="true">&#9776;</span>
-          </button>
           {{ Industries.render({ industries: industries }) }}
           <footer class="font-display text-primary-200/40 grid grid-cols-3 border-b border-x border-slate-700 items-center gap-2">
             <dl class="border-r border-slate-700 text-base text-left p-4 pb-3 col-span-2">
