@@ -1,7 +1,6 @@
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { motion } from "../../config/ix/motion.js";
 import { TAILWIND_BREAKPOINTS } from "../../config/ix/breakpoints.js";
-import { SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
@@ -17,6 +16,12 @@ const TITLE = `[${WORK_EL_ATTR}="drawer-title"]`;
 // slides as one unit, and when closed it sits translated down so only the
 // handle bar peeks above the viewport's bottom edge. At md and up it rests
 // open, fixed flush to the viewport's left edge as a vertical rail.
+//
+// The <header> is position: fixed via Tailwind and lives OUTSIDE
+// #page-main-content (base.njk `afterMain` slot) — ScrollSmoother transforms
+// <main>, and a fixed element inside a transformed ancestor is positioned
+// against that ancestor instead of the viewport. Nothing here positions the
+// header; this manager only slides the <nav> inside it.
 const MD_REM = parseFloat(TAILWIND_BREAKPOINTS.md);
 const MEDIA = Object.freeze({
   drawerMode: `(max-width: ${(MD_REM - 0.001).toFixed(3)}rem)`,
@@ -30,14 +35,13 @@ export default class WorkHeaderManager {
       enabled: true,
     });
 
-    const workSection = document.getElementById(SELECTORS.work);
-    // The <header> is the fixed/positioned box (bottom-0 below md, left-0/
-    // top-0 rail at md+). The <nav> inside it slides as one unit; its first
-    // child is the handle bar (heading rendered as the toggle <button>),
-    // whose height sets how far the closed nav peeks above the viewport edge.
-    this._header =
-      workSection?.querySelector(`[${WORK_EL_ATTR}="header"]`) ?? null;
-    this._nav = this._header?.querySelector(NAV) ?? null;
+    // The <nav> is the slide target; the fixed <header> that contains it is
+    // resolved upward from it, because the header renders outside the #work
+    // section (see the module note above). The <nav>'s first child is the
+    // handle bar (heading rendered as the toggle <button>), whose height sets
+    // how far the closed nav peeks above the viewport edge.
+    this._nav = document.querySelector(NAV);
+    this._header = this._nav?.closest(`[${WORK_EL_ATTR}="header"]`) ?? null;
     this._handle = this._nav?.querySelector(HANDLE) ?? null;
     this._toggle = this._handle?.querySelector(TOGGLE) ?? null;
     this._title = this._toggle?.querySelector(TITLE) ?? null;

@@ -49,6 +49,12 @@ const CARD_STICKY_TRIGGER = {
   start: "top top",
   scrub: true,
   invalidateOnRefresh: true,
+  // Unlike the other card triggers (clip/parallax/throw), this one doesn't
+  // spread SCROLL_DEFAULTS, so it was missing fastScrollEnd: true — without
+  // it, a fast flick-scroll (the dominant gesture at sm and below) makes the
+  // scrub tween visibly "catch up" through the hold/release instead of
+  // snapping to the scroll-matched state, which reads as stutter.
+  fastScrollEnd: true,
 };
 
 export function createCardSticky({

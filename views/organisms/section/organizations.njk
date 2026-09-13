@@ -11,7 +11,12 @@
 
   {%- set organizations = params.organizations | default([]) -%}
 
-  {%- set section = {"base": "w-full max-w-screen-lg mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden"} -%}
+  {%- set sectionStyles = {
+    "base": "w-full max-w-screen-lg mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden px-4",
+    "sm": "px-8",
+    "md": "px-12",
+    "lg": "px-24"
+  } -%}
   {%- set header = {"base": "gap-2 py-12 z-10 w-full border-y border-slate-600 divide-neutral-600 flex flex-row items-center"} -%}
 
   {%- set title = {
@@ -21,7 +26,7 @@
   } -%}
 
   <section id="{{ sectionId }}"
-           class="{{ section | classes }}"
+           class="{{ sectionStyles | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 

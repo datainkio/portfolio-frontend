@@ -1,0 +1,10 @@
+{
+	"nodes":[
+		{"id":"dadaebba944e49ba","type":"file","file":"dataink.io/frontend/views/organisms/header/global-header.md","x":-440,"y":220,"width":400,"height":400},
+		{"id":"ab440200b0c18631","type":"file","file":"dataink.io/frontend/views/organisms/navigation/primary-nav.md","x":240,"y":220,"width":400,"height":400},
+		{"id":"bbeb3d54d12d3e92","x":-440,"y":800,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/organisms/header/project/project-header.md"}
+	],
+	"edges":[
+		{"id":"4064dad3d4d9a5a7","fromNode":"dadaebba944e49ba","fromSide":"right","toNode":"ab440200b0c18631","toSide":"left","label":"1"}
+	]
+}

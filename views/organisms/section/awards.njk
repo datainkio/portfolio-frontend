@@ -16,7 +16,12 @@
 
   {%- set awards = params.awards | default([]) -%}
 
-  {%- set sectionCSS = {"base": "relative max-w-screen-lg mx-auto w-full col-span-full text-neutral-100 my-12"} -%}
+  {%- set sectionStyles = {
+    "base": "relative max-w-screen-lg mx-auto w-full col-span-full text-neutral-100 my-12 px-4",
+    "sm": "px-8",
+    "md": "px-12",
+    "lg": "px-24"
+  } -%}
   {%- set headerCSS = {
     "base": "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 py-8",
     "md": "py-12 px-4 gap-4"
@@ -32,10 +37,10 @@
     base: "font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
     border-dotted border-primary-500 py-4 mb-6"
     } -%}
-  {%- set listCSS = {"base": "columns-8 space-y-2 mt-4 p-0", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
-  {%- set articleContainer = {"base": "break-inside-avoid text-center", "sm": ""} -%}
+  {%- set listCSS = {"base": "px-2 py-4 columns-6 ", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
+  {%- set articleContainer = {"base": "py-2 break-inside-avoid text-center", "sm": ""} -%}
   <section id="{{ sectionId }}"
-           class="{{ sectionCSS | classes }}"
+           class="{{ sectionStyles | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 
@@ -54,7 +59,7 @@
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">
       {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render(group, "size-18") }}</li>
+        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render(group, "size-12") }}</li>
       {% endfor %}
     </ul>
 

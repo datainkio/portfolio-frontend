@@ -22,6 +22,17 @@
     {# GLOBAL PAGE HEADER #}
     {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
 
+    {#- SCROLLSMOOTHER WRAPPER (opt-in) — a template sets `smoothScroll = true`
+        to get the same #page-main / #page-main-content pair home.njk builds by
+        hand. ScrollSmootherManager only mounts when both ids exist; without
+        them the page runs native scroll and scrub-driven motion (card
+        sticky/parallax) can't be frame-locked to the compositor on mobile.
+        Opt-in rather than default because article.njk renders `sticky top-0`
+        inside <main>, which breaks inside the smoothed content. Everything
+        that must stay position: fixed (skip links, global header, and any
+        `afterMain` content) sits outside #page-main-content. -#}
+    {% if smoothScroll %}<div id="page-main">{% endif %}
+
     {#- SIDEBAR BEFORE -#}
     {% block sidebar_before %}
       <nav class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarBeforeStyles %}{% endblock sidebarBeforeStyles %}"
@@ -35,7 +46,7 @@
 
 
     {# MAIN CONTENT AREA #}
-    <main class="{{ {"base": "max-w-[1280px] pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
+    <main {% if smoothScroll %}id="page-main-content"{% endif %} class="{{ {"base": "max-w-[1280px] pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
 
       {% block content %}
         {% if content %}
@@ -46,6 +57,11 @@
       {% endblock content %}
 
     </main>
+
+    {#- AFTER MAIN — inside #page-main, outside #page-main-content. The slot for
+        anything that must stay position: fixed while ScrollSmoother transforms
+        <main> (see the wrapper note above). -#}
+    {% block afterMain %}{% endblock afterMain %}
 
     {#- SIDEBAR AFTER -#}
     {% if sidebar_after %}
@@ -62,6 +78,8 @@
 
     {# GLOBAL PAGE FOOTER #}
     {{ Footer.render() }}
+
+    {% if smoothScroll %}</div>{% endif %}
 
     {#- SCRIPTS -#}
     <script type="module" src="/assets/js/layouts/global-header.js"></script>

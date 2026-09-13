@@ -14,9 +14,9 @@
 
   {%- set groupProjects = params.groupProjects | default(false) -%}
 
-  {%- set section = {"base": "max-w-screen-lg mx-auto [&>p]:prose [&>p]:text-neutral-200 [&>p]:mx-4"} -%}
+  {%- set sectionStyles = {"base": "max-w-screen-lg mx-auto [&>p]:prose [&>p]:text-neutral-200"} -%}
 
-  {%- set header = {"base": "content-end grid grid-cols-1 px-4"} -%}
+  {%- set header = {"base": "content-end grid grid-cols-1 px-4", "sm": "px-4"} -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -31,7 +31,7 @@
   } -%}
 
   <section id="{{ sectionId }}"
-           class="{{ section |classes }} "
+           class="{{ sectionStyles | classes }} "
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 

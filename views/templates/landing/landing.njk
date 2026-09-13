@@ -2,12 +2,20 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
 {% import "molecules/labels/accession-label.njk" as Label %}
 
+{#- Landing pages run under ScrollSmoother, matching home.njk. base.njk builds
+    the #page-main / #page-main-content wrapper when this is set. Nothing a
+    landing page renders inside <main> may be position: fixed or sticky — put
+    such elements in `block afterMain`. -#}
+{% set smoothScroll = true %}
+
 {% block mainStyles %}
+  {#- STYLES -#}
   {{ {"base": "mx-auto my-8 grid grid-cols-12 gap-x-8", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}
 {% endblock mainStyles %}
 
 {% block content %}
 
+  {#- STYLES -#}
   {%- set headerStyles = {"base": "col-span-full", "sm": "", "md": "", "lg": "col-span-6 space-y-8", "xl": ""} -%}
   {%- set headerStyleOverrides = params.headerStyles | default({}) -%}
   {%- set headingStyles = {
@@ -23,6 +31,8 @@
     "lg": "col-span-6 col-start-1 row-start-2",
     "xl": ""
   } -%}
+
+  {#- HEADER -#}
   <header data-landing-header
           class="{{ headerStyles | classes }} {{ headerStyleOverrides | classes }}">
     {{ Label.render({
@@ -32,18 +42,19 @@
     scope: "2008-" + (buildDate | formatDate("yyyy") )
     }) }}
 
-    <h1 data-landing-header-title class="{{ headingStyles | classes }}">{{ title | default("Untitled") }}</h1>    {% if abstract and abstract | length > 0 %}
-    <section data-doc-abstract class="{{ abstractStyles | classes }}">
-      {{ abstract | safe }}
-    </section>
+    <h1 data-landing-header-title class="{{ headingStyles | classes }}">{{ title | default("Untitled") }}</h1>
+    {% if abstract and abstract | length > 0 %}
+      <section data-doc-abstract class="{{ abstractStyles | classes }}">
+        {{ abstract | safe }}
+      </section>
+    {% endif %}
+  </header>
+
+  {% if content %}
+    {{ content | safe }}
+  {% elif not title %}
+    {% loremPars 3 %}
   {% endif %}
-</header>
 
-{% if content %}
-  {{ content | safe }}
-{% elif not title %}
-  {% loremPars 3 %}
-{% endif %}
-
-{% include "templates/partials/choreography-script.njk" %}
+  {% include "templates/partials/choreography-script.njk" %}
 {% endblock content %}
