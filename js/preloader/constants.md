@@ -1,12 +1,12 @@
 ---
-description: "constants — context sidecar (auto-created; expand with the file's real responsibility)."
-status: stable
+description: "Preloader selectors, the exit-state attribute pair, the choreography flag name, and the three timing bounds (fonts, director, hanko settle) with the reasoning for each."
+type: script
+tags:
+  - preloader
+links:
+  - "[[Preloader|preloader/Preloader]]"
+  - "[[hanko|hanko.css]]"
 ---
 
-# constants
-
-Context sidecar for `js/preloader/constants.js`.
-
-## Source
-
-- Path: `js/preloader/constants.js`
+`PRELOADER_TIMINGS.settleFallbackMs` is coupled to `--hanko-settle-duration`
+in `styles/components/hanko.css` — it must exceed it. Change them together.

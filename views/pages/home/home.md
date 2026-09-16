@@ -18,9 +18,9 @@ links:
   - "[choreography-script](../../templates/partials/choreography-script.md)"
 ---
 
-# Home
+# home.njk
 
-Renders a top-level Eleventy page.
+Renders a top-level Eleventy page. Parses header.data-preloader, first-paints, runs scripts, and owns scroll lock / aria-busy state as part of the #preloader strategy ^203e9d
 
 ## Template
 
@@ -34,6 +34,14 @@ Generates a routed page in the Eleventy build.
 ## Role in the System
 
 Classified as a **page** at the atomic **page** level based on its location under `views/`.
+
+### Preloading Roles
+1. parse header value data-preloader ^559504
+2. first paint (CSS-only preload animation) ^a9caea
+3. run inline session management script ^cfcf23
+4. load AnimationDirector.js ^60f6f2
+5. load Preloader.js ^ecb8b3
+6. initialize preloader (initPreloader()) ^3c1561
 
 ## Data and Context
 

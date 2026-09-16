@@ -3,15 +3,42 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 /** @format */
 
 /**
+ * Session gating switch. When false, every visit is treated as a first visit:
+ * the preloader splash replays, every section replays its intro, and the
+ * `visited` / `played` flags are neither read nor written. The pre-paint
+ * return-visit script (session-management-script.njk) needs no mirror of this
+ * flag — it keys off `visited`, which is never persisted while gating is off,
+ * and any stale `visited` from a gated session is cleared on construction.
+ */
+export const SESSION_GATING_ENABLED = true;
+
+/**
  * SessionManager
  * Manages session state and user interaction history
  */
 class SessionManager {
   constructor() {
+    // Mirrored by hand in views/templates/partials/session-management-script.njk
+    // (pre-paint, can't import). Rename both together.
     this.sessionKey = "dataink_session";
     this.state = this.loadState();
 
-    lumberjack.trace("SessionManager", "Initialized", "brief", "standard");
+    if (
+      !SESSION_GATING_ENABLED &&
+      (this.state.visited || Object.keys(this.state.played ?? {}).length)
+    ) {
+      // Gating was on earlier this session; drop the flags so the pre-paint
+      // script stops short-circuiting the splash.
+      this.state = { ...this.state, visited: false, played: {} };
+      this.saveState();
+    }
+
+    lumberjack.trace(
+      "SessionManager",
+      `Initialized (gating ${SESSION_GATING_ENABLED ? "on" : "off"})`,
+      "brief",
+      "standard",
+    );
   }
 
   /**
@@ -68,6 +95,7 @@ class SessionManager {
    * @returns {boolean}
    */
   hasPlayed(sectionKey) {
+    if (!SESSION_GATING_ENABLED) return false;
     return this.state.played?.[sectionKey] === true;
   }
 
@@ -79,6 +107,7 @@ class SessionManager {
    * @param {string} sectionKey
    */
   markPlayed(sectionKey) {
+    if (!SESSION_GATING_ENABLED) return;
     const fresh = this.loadState();
     this.state = {
       ...fresh,
@@ -102,6 +131,7 @@ class SessionManager {
    * @returns {boolean}
    */
   hasVisited() {
+    if (!SESSION_GATING_ENABLED) return false;
     return this.state.visited === true;
   }
 
@@ -110,6 +140,7 @@ class SessionManager {
    * first for the same reason markPlayed() does.
    */
   markVisited() {
+    if (!SESSION_GATING_ENABLED) return;
     const fresh = this.loadState();
     this.state = { ...fresh, visited: true };
     this.saveState();

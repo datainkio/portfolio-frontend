@@ -1,3 +1,10 @@
+{# Pre-paint return-visit check. Runs synchronously right after the landing
+   header so a repeat visit this session never flashes the loading pulse.
+   Duplicates, by necessity (no imports before paint):
+     - the sessionStorage key + `visited` shape from
+       js/choreography/managers/SessionManager/SessionManager.js
+     - the `data-preloader-state` / "exit" pair from js/preloader/constants.js
+   Change any of those and change this. #}
 <script>
   (function () {
           try {

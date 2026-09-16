@@ -3,9 +3,9 @@ description: Reusable partial included by layouts or pages.
 type: template
 ---
 
-# Fonts
+# fonts.njk
 
-Reusable partial included by layouts or pages.
+Reusable partial included by layouts or pages. Supplies the inline pre-paint script as part of the #preloader strategy; on return visits (gating on) reads sessionStorage.dataink_session.visited and sets data-preloader-state="exit" before first paint. ^79a140
 
 ## Template
 

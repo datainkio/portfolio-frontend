@@ -13,7 +13,9 @@ links:
   - "[[hanko|styles/components/hanko]]"
 ---
 
-# HomeHeaderManager
+# HomeHeaderManager.js
+
+^797357
 
 Owns the home landing header's **role state machine**, expressed as
 `data-header-role` on the `<header>`. The header has three roles:

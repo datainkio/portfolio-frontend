@@ -1,8 +1,8 @@
 export const PRELOADER_SELECTORS = {
   root: "[data-preloader]",
-  stack: "[data-preloader-stack]",
-  text: "[data-preloader-text]",
-  hgroup: "[data-preloader-el='hgroup']",
+  // The hanko mark inside the preloader. Its paths carry the CSS settle
+  // transition whose `transitionend` marks the end of the outro.
+  hankoMount: ".hanko-mount",
   main: "main",
   deferredVideos: "video[data-defer-video][data-src]",
   // Opt-in marker for videos whose playback is decorative. Under
@@ -12,203 +12,33 @@ export const PRELOADER_SELECTORS = {
 };
 
 // Outro state flip. JS sets `data-preloader-state="exit"` on the preloader
-// root; the CSS outro (styles/components/hanko.css) settles the hanko, reveals
-// the hgroup, and drops the fixed overlay off that single attribute change.
+// root; the CSS outro (styles/components/hanko.css) settles the hanko off that
+// single attribute change.
 export const PRELOADER_STATE = {
   attribute: "data-preloader-state",
   exit: "exit",
 };
 
-export const PRELOADER_ATTRIBUTES = {
-  ariaBusy: "aria-busy",
-  ariaBusyReady: "false",
-  dataSrc: "data-src",
-  dataDeferVideo: "data-defer-video",
-  preload: "preload",
-  preloadMetadata: "metadata",
-};
-
-export const PRELOADER_STYLE_VALUES = {
-  hiddenOverflow: "hidden",
-  scrollBehaviorInstant: "instant",
-  scrollBehaviorAuto: "auto",
-  opacityVisible: "1",
-  opacityHidden: "0",
-};
-
-export const PRELOADER_MEDIA_QUERIES = {
-  reducedMotion: "(prefers-reduced-motion: reduce)",
-};
-
-export const PRELOADER_GLOBAL_FLAGS = {
-  enableChoreography: "__enableChoreography",
-};
-
-export const SCROLL_SMOOTHER_STORAGE_KEY = "scrollSmoother";
-
-export const SCROLL_SMOOTHER_QUERY_PARAM = "scrollSmoother";
-
-export const SCROLL_SMOOTHER_STORAGE_VALUES = {
-  enabled: "on",
-  disabled: "off",
-};
-
-export const SCROLL_SMOOTHER_TRUE_VALUES = ["on", "true", "1", "enabled"];
-
-export const SCROLL_SMOOTHER_SETTINGS = {
-  smooth: 1,
-  effects: true,
-};
-
-export const SCROLL_SMOOTHER_DX_MESSAGES = {
-  enabled: "ScrollSmoother enabled. Reload to apply.",
-  disabled: "ScrollSmoother disabled. Reload to apply.",
-};
+// Set by views/templates/partials/choreography-script.njk before this module
+// runs. When false, the director gate resolves immediately.
+export const CHOREOGRAPHY_FLAG = "__enableChoreography";
 
 export const PRELOADER_TIMINGS = {
-  domReadyTimeoutMs: 1800,
   // Upper bound on how long the hero reveal will wait for webfonts.
   // document.fonts.ready is otherwise UNBOUNDED — a slow/failed Google Font
   // would stall the LCP element indefinitely. All faces use font-display:swap,
   // so on timeout the hero reveals in the fallback face and swaps in place.
   // Lower this to favor LCP over first-paint font fidelity; raise it to favor
-  // showing the hero already in its brand face. See js/preloader/readiness.js.
+  // showing the hero already in its brand face.
   fontsReadyTimeoutMs: 2000,
-  reducedMotionFallbackMs: 520,
-  introFallbackDurationMs: 320,
-  exitFallbackDurationMs: 500,
-  gsapIntroDuration: 0.35,
-  gsapExitDuration: 1,
-  // Fallback for the CSS outro: the hgroup's animationend marks completion,
-  // but under prefers-reduced-motion the global utility forces `animation:
-  // none` so it never fires. Must comfortably exceed the hanko move (0.6s)
-  // plus the hgroup enter (0.75s). See styles/components/hanko.css.
-  cssOutroFallbackMs: 1600,
-};
-
-export const PRELOADER_ANIMATION = {
-  gsapIntroEase: "power2.out",
-  gsapExitEase: "power2.inOut",
-  introFrom: { autoAlpha: 0, y: 12, scale: 0.985 },
-  introTo: { autoAlpha: 1, y: 0, scale: 1 },
-  introFallbackFrom: {
-    opacity: 0,
-    transform: "translateY(12px) scale(0.985)",
-  },
-  introFallbackTo: {
-    opacity: 1,
-    transform: "translateY(0px) scale(1)",
-  },
-  reducedMotionIntroTransform: "translateY(0)",
-  reducedMotionExitTransition: "opacity 500ms ease",
-  exitFallbackFrom: { opacity: 1, transform: "translateY(0)" },
-  exitFallbackTo: { opacity: 0, transform: "translateY(-8px)" },
-  introFallbackEasing: "cubic-bezier(0.22,0.61,0.36,1)",
-  exitFallbackEasing: "cubic-bezier(0.4,0.0,0.2,1)",
-  fillModeForwards: "forwards",
-  stackExitTo: { autoAlpha: 0.9, y: -6 },
-};
-
-export const PRELOADER_ASSET = {
-  consoleImageEnabled: false,
-  consoleImageUrl: "/assets/images/console-test.jpg",
-  consoleImageScale: 0.2,
-  consoleImageWidth: 768,
-  consoleImageHeight: 94,
-};
-
-export const PRELOADER_LOGGER = {
-  prefix: "[Preloader]",
-  color: "color: #5e99d9",
-  styleToken: "%c ",
-  fallbackScale: 1,
-  fallbackWidth: 768,
-  fallbackHeight: 94,
-  description:
-    "\nA good preloader reduces the *perceived* time from when a given page is requested to when the initial content is visually rendered. The particular strategy used here splits up the load sequence into three stages.\nFirst, it uses runtime-generated visuals to minimize the size of the initial payload of HTML and JS required for first paint. It then loads the remaining assets while providing visual feedback on progress. The final stage is triggered once two events have occurred: the main choreography file (a.k.a. AnimationDirector) announces it has completed initialization, and BackgroundVideo announces that it is ready for playback. At this point the preloader initiates its outro animation and, on completion, removes itself from the DOM.\nTechnical note: Choreography depends on GSAP for runtime behavior, but preloader visibility can start without GSAP.",
-  consoleImageLoadFailedMessage: "Console image could not be rendered",
-  consoleImageStyle: {
-    fontSize: "font-size: 1px",
-    lineHeight: "line-height: 1",
-    backgroundRepeat: "background-repeat: no-repeat",
-    backgroundPosition: "background-position: center center",
-    colorTransparent: "color: transparent",
-    minHorizontalPaddingPx: 24,
-    minVerticalPaddingPx: 12,
-    minDimensionPx: 1,
-    declarationSeparator: ";",
-  },
-  image: {
-    decoding: "async",
-    referrerPolicy: "no-referrer",
-  },
-};
-
-export const PRELOADER_READINESS = {
-  fontsKey: "fonts",
-  documentLoadingState: "loading",
-  domContentLoadedEvent: "DOMContentLoaded",
-};
-
-export const PRELOADER_RESOURCE_OBSERVER = {
-  loadingLabelTemplate: "Loading {EXT}...",
-  extensionSeparator: ".",
-  invalidExtensionMarker: "/",
-  performanceObserverApi: "PerformanceObserver",
-  getEntriesByTypeApi: "getEntriesByType",
-  resourceEntryType: "resource",
-  bufferedObserveOptions: { type: "resource", buffered: true },
-  fallbackObserveOptions: { entryTypes: ["resource"] },
-};
-
-export const PRELOADER_ANIMATION_MESSAGES = {
-  introStarted: "Intro animation started",
-  exitStarted: "Exit animation started",
-  reducedMotionExit: "User prefers reduced motion, using reduced-motion exit",
-};
-
-export const PRELOADER_CONTROLLER_MESSAGES = {
-  resourceObserverStopped: "Resource observer stopped.",
-  resourceObserverCleanupFailed: "Resource observer cleanup failed",
-  preloaderElementRemoved: "Preloader element removed from DOM.",
-  preloaderElementCleanupFailed: "Preloader element cleanup failed",
-  scrollPositionRestored: "Scroll position restored.",
-  scrollStateRestorationFailed: "Scroll state restoration failed",
-  mainContentReady: "Main content marked as ready.",
-  deferredVideosHydrated: "Deferred videos hydrated.",
-  noPreloaderElement: "No preloader element found. Skipping initialization.",
-  domFound: "DOM element found, initializing...",
-  reducedMotionPreferencePrefix: "Does the user prefer reduced motion? ",
-  initializationComplete:
-    "Initialization complete. Start the animated loading view and wait for resources and director...",
-  loadingReadiness: "Loading fonts, DOM, timeout, and director...",
-  directorReady: "Director is ready. Starting preloader exit sequence.",
-  exitComplete: "Preloader exit animation complete. Cleaning up.",
-  flowFailed: "Preloader flow failed. Proceeding with safe cleanup.",
-  scrollSmootherInitializationFailed: "ScrollSmoother initialization failed",
-};
-
-export const PRELOADER_READINESS_MESSAGES = {
-  choreographyDisabled: "Choreography disabled, skipping director wait",
-  fontsReady: "Fonts ready",
-  domReadyOrTimeout: "DOM ready (or timeout reached)",
-};
-
-export const PRELOADER_RESOURCE_MESSAGES = {
-  preparing:
-    "Preparing resource observer for displaying filetype-specific loading messages",
-};
-
-export const PRELOADER_DEFERRED_VIDEO_MESSAGES = {
-  hydrateFailed: "Deferred video hydrate failed",
-};
-
-export const PRELOADER_SCROLL_SMOOTHER_MESSAGES = {
-  loadingScriptPrefix: "Loading GSAP script from ",
-  disabled:
-    "ScrollSmoother preference disabled. Skipping ScrollSmoother initialization.",
-  delegated:
-    "ScrollSmoother preference enabled. Delegating to AnimationDirector stage.",
-  standalone:
-    "ScrollSmoother preference enabled. Using standalone ScrollSmoother initialization.",
+  // Upper bound on the director:ready wait. Same reasoning as fonts: if the
+  // choreography script fails to load, nothing else would ever lift the scroll
+  // lock or clear main[aria-busy]. The hero is already visible; a late
+  // Director only delays the landing chain.
+  directorReadyTimeoutMs: 8000,
+  // Fallback for the CSS outro. The hanko settle (`--hanko-settle-duration`,
+  // 0.4s in styles/components/hanko.css) ends with `transitionend`; under
+  // prefers-reduced-motion the global utility forces `transition: none` so it
+  // never fires. Must exceed the settle duration.
+  settleFallbackMs: 600,
 };

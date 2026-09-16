@@ -1,7 +1,7 @@
 ---
 description: "Legacy project-grid interaction script (category filter, modal nav, alternating column styling). Not currently loaded by any template."
 type: script
-status: dead-code
+status: deprecated
 tags:
   - layouts
   - projects-grid

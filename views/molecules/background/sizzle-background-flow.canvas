@@ -1,0 +1,16 @@
+{
+	"nodes":[
+		{"id":"d350202da8abb180","type":"group","x":-1682,"y":-205,"width":3365,"height":410,"label":"Background Video"},
+		{"id":"f0889de415d85f7a","type":"text","text":"Viewport","x":-861,"y":-185,"width":605,"height":370},
+		{"id":"1a9e9aaf09c2ae99","type":"text","text":"Viewport","x":80,"y":-185,"width":605,"height":370},
+		{"id":"9630259d8122c64c","type":"file","file":"dataink.io/frontend/views/atoms/video/video.md","x":183,"y":-25,"width":400,"height":50},
+		{"id":"c8c26d50a2aef773","type":"text","text":"Viewport","x":1058,"y":-185,"width":605,"height":370},
+		{"id":"2ba3a2a5250268f0","type":"file","file":"dataink.io/frontend/views/atoms/video/video.md","x":1161,"y":-75,"width":400,"height":50},
+		{"id":"ca657670ead87b54","type":"file","file":"dataink.io/frontend/views/atoms/gel.md","x":1161,"y":1,"width":400,"height":50},
+		{"id":"de87d28ad903bf64","type":"file","file":"dataink.io/frontend/views/molecules/background/sizzle-background.md","x":-1662,"y":-185,"width":580,"height":370}
+	],
+	"edges":[
+		{"id":"0673798b9e413245","fromNode":"f0889de415d85f7a","fromSide":"right","toNode":"1a9e9aaf09c2ae99","toSide":"left","label":"Video enters"},
+		{"id":"98ba34d1f38375c6","fromNode":"1a9e9aaf09c2ae99","fromSide":"right","toNode":"c8c26d50a2aef773","toSide":"left","label":"Gel enters"}
+	]
+}

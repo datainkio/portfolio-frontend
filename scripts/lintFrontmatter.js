@@ -16,7 +16,7 @@
  */
 
 import { execFileSync } from "child_process";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import chalk from "chalk";
 import {
   KEEP_FUNCTIONAL,
@@ -46,7 +46,8 @@ const files = execFileSync(
 )
   .split("\0")
   .filter(Boolean)
-  .filter((f) => !isExempt(f));
+  .filter((f) => !isExempt(f))
+  .filter((f) => existsSync(f)); // deleted in the worktree but still in the index
 
 /** rule -> [{file, detail}] */
 const findings = new Map();

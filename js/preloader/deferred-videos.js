@@ -1,16 +1,20 @@
-import {
-  PRELOADER_ATTRIBUTES,
-  PRELOADER_DEFERRED_VIDEO_MESSAGES,
-  PRELOADER_MEDIA_QUERIES,
-  PRELOADER_SELECTORS,
-} from "./constants.js";
+import { PRELOADER_SELECTORS } from "./constants.js";
 
-export const hydrateDeferredVideos = (warn = () => {}) => {
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+/**
+ * Single owner of the `data-defer-video` contract: every
+ * `video[data-defer-video][data-src]` on the page gets its `src` assigned
+ * here and nowhere else. Runs on every page (see Preloader.js) — on the home
+ * page once readiness resolves, so the download warms during the outro;
+ * elsewhere immediately, since there is no splash to wait behind.
+ */
+export const hydrateDeferredVideos = (logger) => {
   const videos = document.querySelectorAll(PRELOADER_SELECTORS.deferredVideos);
 
   const prefersReducedMotion =
     typeof window.matchMedia === "function" &&
-    window.matchMedia(PRELOADER_MEDIA_QUERIES.reducedMotion).matches;
+    window.matchMedia(REDUCED_MOTION_QUERY).matches;
 
   videos.forEach((video) => {
     if (video.src) return;
@@ -22,28 +26,30 @@ export const hydrateDeferredVideos = (warn = () => {}) => {
       prefersReducedMotion &&
       video.matches(PRELOADER_SELECTORS.motionOptional)
     ) {
-      video.removeAttribute(PRELOADER_ATTRIBUTES.dataDeferVideo);
+      video.removeAttribute("data-defer-video");
       return;
     }
 
-    const src = video.getAttribute(PRELOADER_ATTRIBUTES.dataSrc);
+    const src = video.getAttribute("data-src");
     if (!src) return;
 
     try {
-      video.setAttribute(
-        PRELOADER_ATTRIBUTES.preload,
-        PRELOADER_ATTRIBUTES.preloadMetadata,
-      );
+      video.setAttribute("preload", "metadata");
       video.src = src;
-      video.removeAttribute(PRELOADER_ATTRIBUTES.dataSrc);
-      video.removeAttribute(PRELOADER_ATTRIBUTES.dataDeferVideo);
+      video.removeAttribute("data-src");
+      video.removeAttribute("data-defer-video");
       // load() required here: WebKit (iOS Safari/Brave) doesn't reliably
       // pick up a bare .src reassignment on an already-initialized <video>.
       // Safe at this point — hydration runs before any play() is issued,
       // so there's no in-flight play promise to interrupt.
       video.load();
     } catch (error) {
-      warn(PRELOADER_DEFERRED_VIDEO_MESSAGES.hydrateFailed, error);
+      logger?.trace?.(
+        "Deferred video hydrate failed",
+        error,
+        "verbose",
+        "error",
+      );
     }
   });
 };

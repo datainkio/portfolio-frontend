@@ -1,5 +1,5 @@
 {#- FUNCTIONALITY IMPORTS -#}
-{% import "organisms/header/home/home-landing.njk" as PageHeader with context %}
+{% import "organisms/status/preloader.njk" as Preloader with context %}
 {% import "organisms/header/global-header.njk" as GlobalHeader with context %}
 {% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
@@ -36,16 +36,16 @@
     {{ SkipLinksNav.render() }}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ GlobalHeader.render({ logoSvg: logo }) }}
+    {{ Preloader.render({ "svg": logo }) }}
     <div id="page-main">
-      {{ PageHeader.home_landing({ "svg": logo }) }}
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
-        {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
+        {# {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
-        {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
+        {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }} #}
       </main>
-      {{ GlobalFooter.render({"contact": false}) }}
     </div>
+    {{ GlobalFooter.render({"contact": false}) }}
     {% include "templates/partials/choreography-script.njk" %}
   </body>
 </html>

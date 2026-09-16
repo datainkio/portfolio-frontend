@@ -18,6 +18,7 @@
     <link rel="modulepreload" href="/assets/js/choreography/bundle.js" />
   {% endif %}
   {{ scripts | safe }}
+  {% include "templates/partials/session-management-script.njk" %}
   {% block extraHeadContent %}
   {% endblock extraHeadContent %}
 </head>

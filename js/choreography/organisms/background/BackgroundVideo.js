@@ -22,20 +22,19 @@ export default class BackgroundVideo extends AbstractSection {
     this._videoReadyPromise = null;
   }
 
+  /**
+   * Resolve once the video can play. The deferred `src` is assigned by the
+   * preloader (js/preloader/deferred-videos.js — the single owner of the
+   * `data-defer-video` contract) before `preloader:out`, which is the earliest
+   * this section can be asked to play. So this only ever waits on buffering.
+   */
   async _ensureVideoReady() {
     if (!this.videoEl) return;
 
-    if (this.videoEl.dataset.deferVideo && this.videoEl.dataset.src) {
-      const shouldLoadDeferredSource =
-        this.videoEl.src !== this.videoEl.dataset.src;
-      if (shouldLoadDeferredSource) {
-        this.logger?.trace?.("Loading deferred background video");
-        this.videoEl.src = this.videoEl.dataset.src;
-        this.videoEl.load();
-      }
-    }
-
     if (this.videoEl.readyState >= 2) return;
+    // No source at all (hydration skipped or failed): nothing will ever
+    // buffer, so don't hold the landing chain on a `canplay` that can't come.
+    if (!this.videoEl.currentSrc && !this.videoEl.src) return;
 
     if (!this._videoReadyPromise) {
       this._videoReadyPromise = new Promise((resolve) => {

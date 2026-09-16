@@ -2,8 +2,6 @@
 description: "Defines Nunjucks macro: render."
 type: template
 links:
-  - "[section-cap](../../molecules/section-cap.md)"
-  - "[printmarks](../../molecules/printmarks.md)"
 ---
 
 # Bio

@@ -6,9 +6,9 @@
 
 {#- STYLES -#}
 
-{#- container for the global header -#}
+{#- container for the global header / hidden by default with expectation that it will be shown via JavaScript -#}
 {%- set headerClasses = {
-  "base": "fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-slate-700 z-20 py-2 px-2 gap-2 inner-border font-display text-primary-200 will-change-transform"
+  "base": "hidden fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-slate-700 z-20 py-2 px-2 gap-2 inner-border font-display text-primary-200 will-change-transform"
 } -%}
 
 {#- header's own base background, as a stacked layer rather than the header's

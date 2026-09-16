@@ -1,40 +1,24 @@
 ---
-description: Reusable partial included by layouts or pages.
+description: "Bootstrap partial — sets window.__enableChoreography, dispatches director:ready on DOMContentLoaded when choreography is off, loads AnimationDirector (bundle or raw ESM with an import map), and starts the preloader; included by home, contact, and the landing layout."
 type: template
+tags:
+  - preloader
+  - choreography
+  - partial
+links:
+  - "[[home|home.njk]]"
+  - "[[contact|contact.njk]]"
+  - "[[landing|landing.njk]]"
+  - "[[Preloader|preloader/Preloader]]"
+  - "[[AnimationDirector|AnimationDirector]]"
 ---
 
-# Choreography Script
+Order matters: the flag script is classic and runs first; the Director and
+preloader are both `type="module"` and therefore deferred, so neither can
+observe `document.readyState === "loading"`. The preloader listens for
+`director:ready` before awaiting anything, so it is safe whichever module
+evaluates first — and it bounds that wait, so a failed Director load still
+releases the page.
 
-Reusable partial included by layouts or pages.
-
-## Template
-
-- Source: [[choreography-script.njk]]
-- Path: `views/templates/partials/choreography-script.njk`
-
-## Purpose
-
-Provides a focused fragment intended to be included by larger templates.
-
-## Role in the System
-
-Classified as a **partial** at the atomic **template** level based on its location under `views/`.
-
-## Data and Context
-
-No obvious data dependencies identified from the template alone.
-
-## Relationships
-
-- Likely used by:
-  - Unknown
-
-## Notes for Future Maintenance
-
-- Keep this sidecar documentation in sync when the template signature changes.
-- Preserve semantic HTML and accessibility attributes when editing.
-- Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
-
-## Open Questions
-
-- Are the inferred data dependencies complete, or are some supplied indirectly (front matter, computed data, Sanity)?
+`runtime.bundleJs` selects the pre-built bundle (with a fallback to the raw
+entry); otherwise an import map resolves `@datainkio/lumberjack` for raw ESM.
