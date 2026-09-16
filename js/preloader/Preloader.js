@@ -34,6 +34,8 @@ const logger = Lumberjack.createScoped("Preloader", {
   prefix: "",
   color: "#5e99d9",
 });
+logger.enabled = true;
+logger.trace("Preloader initialized");
 
 const once = (fn) => {
   let called = false;
@@ -47,15 +49,20 @@ const once = (fn) => {
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /** Race `promise` against a timeout; `onTimeout` runs only if the timeout wins. */
-const bounded = (promise, ms, onTimeout) =>
-  Promise.race([
-    promise,
+const bounded = (promise, ms, onTimeout) => {
+  let settled = false;
+  return Promise.race([
+    promise.finally(() => {
+      settled = true;
+    }),
     delay(ms).then(() => {
-      onTimeout?.();
+      if (!settled) onTimeout?.();
     }),
   ]);
+};
 
 const lockScroll = () => {
+  logger.trace("Locking scroll");
   const html = document.documentElement;
   const body = document.body;
   const previous = {
@@ -68,6 +75,7 @@ const lockScroll = () => {
   body.style.overflow = "hidden";
 
   return () => {
+    logger.trace("Unlocking scroll");
     html.style.overflow = previous.htmlOverflow;
     body.style.overflow = previous.bodyOverflow;
     window.scrollTo(0, previous.scrollY);
@@ -127,16 +135,18 @@ const runExit = (preloader) =>
 export const initPreloader = async () => {
   const preloader = document.querySelector(PRELOADER_SELECTORS.root);
 
+  // Let's make sure the preloader element exists first!
   if (!preloader) {
+    logger.trace(
+      "No preloader found; skipping and going straight to hydrating the deferred videos",
+    );
     // No splash on this page — nothing to wait behind.
     hydrateDeferredVideos(logger);
     return;
   }
 
-  // Repeat visit this session: the loading splash already played once, and
-  // sections are independently gated to their end states (see
-  // AbstractSection's session-played channel). Showing the splash again would
-  // be re-running the one remaining piece of "the same sequence twice."
+  // Showing the splash again would make for a shitty experience, so let's
+  // skip the preloader animation on return visits.
   const sessionManager = getSessionManager();
   const isReturnVisit = sessionManager.hasVisited();
   sessionManager.markVisited();
@@ -144,20 +154,28 @@ export const initPreloader = async () => {
   const unlockScroll = isReturnVisit ? () => {} : lockScroll();
 
   try {
+    logger.trace("Starting preloader flow...");
+    logger.trace("Waiting for fonts to be ready");
     await fontsReady();
+    logger.trace("Fonts ready; waiting for director to be ready");
     await directorReady();
-    logger.trace("Ready; starting outro");
-
+    logger.trace("Director ready; hydrating deferred videos");
     hydrateDeferredVideos(logger);
 
-    if (isReturnVisit) {
-      // Already settled — session-management-script.njk sets this before
-      // first paint so the pulse never flashes; harmless re-assertion if that
-      // inline check didn't run.
-      preloader.setAttribute(PRELOADER_STATE.attribute, PRELOADER_STATE.exit);
-    } else {
-      await runExit(preloader);
-    }
+    // if (isReturnVisit == true) {
+    //   // Already settled — session-management-script.njk sets this before
+    //   // first paint so the pulse never flashes; harmless re-assertion if that
+    //   // inline check didn't run.
+    //   logger.trace(
+    //     "Return visit detected; skipping preloader animation by setting exit state immediately",
+    //   );
+    //   preloader.setAttribute(PRELOADER_STATE.attribute, PRELOADER_STATE.exit);
+    // } else {
+    //   logger.trace("First visit detected; running preloader exit animation");
+    //   await runExit(preloader);
+    // }
+
+    await runExit(preloader);
 
     window.dispatchEvent(new Event(EVENTS.system.preloaderOut));
   } catch (error) {

@@ -12,5 +12,7 @@ links:
   - "[[card|card.njk]]"
   - "[[BackgroundVideo|BackgroundVideo]]"
 ---
+
 # deferred-videos.js
-Called from `Preloader.js` on every page: at readiness on the home page, immediately elsewhere. `BackgroundVideo._ensureVideoReady()` relies on this having run before `preloader:out` and no longer assigns `src` itself. ^e4a5f6
+
+Called from `Preloader.js` at readiness on the home page. `BackgroundVideo._ensureVideoReady()` relies on this having run before `preloader:out` and no longer assigns `src` itself. ^e4a5f6

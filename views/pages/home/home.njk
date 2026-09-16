@@ -23,7 +23,6 @@
 {#- EYE CANDY -#}
 {% import "molecules/background/sizzle-background.njk" as Background %}
 {#- TODO: Address horizontal scroll on mobile -#}
-{#- bg-slate-950 bg-graphpaper-neutral-500 bg-fixed -#}
 {%- set main = {"base": "relative flex flex-col col-span-full"} -%}
 
 {# Note that content values - include title and other metadata - are set in frontmatter #}
@@ -34,9 +33,9 @@
   <body class="bg-slate-950 text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
+    {{ Preloader.render({ "svg": logo }) }}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ GlobalHeader.render({ logoSvg: logo }) }}
-    {{ Preloader.render({ "svg": logo }) }}
     <div id="page-main">
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
         {# {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}

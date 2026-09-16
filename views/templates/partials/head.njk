@@ -19,6 +19,7 @@
   {% endif %}
   {{ scripts | safe }}
   {% include "templates/partials/session-management-script.njk" %}
+  {% include "templates/partials/preloader-script.njk" %}
   {% block extraHeadContent %}
   {% endblock extraHeadContent %}
 </head>

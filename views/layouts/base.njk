@@ -11,7 +11,7 @@
   {% include "templates/partials/head.njk" %}
   {% block head %}
   {% endblock head %}
-  <body class="{{ {"base": "bg-slate-950 bg-graphpaper-neutral-500/15", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
+  <body class="{{ {"base": "bg-slate-950 bg-graphpaper-accent-400", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
 
     {# GTM #}
     {% include "templates/partials/gtm-noscript.njk" %}
@@ -33,53 +33,55 @@
         `afterMain` content) sits outside #page-main-content. -#}
     {% if smoothScroll %}<div id="page-main">{% endif %}
 
-    {#- SIDEBAR BEFORE -#}
-    {% block sidebar_before %}
-      <nav class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarBeforeStyles %}{% endblock sidebarBeforeStyles %}"
-           data-scroll
-           data-scroll-sticky
-           data-scroll-target="main">
-        Hi there.
-        This is the sidebar content. You can replace this with your own content or remove it if you don't need a sidebar.
-      </nav>
-    {% endblock sidebar_before %}
-
-
-    {# MAIN CONTENT AREA #}
-    <main {% if smoothScroll %}id="page-main-content"{% endif %} class="{{ {"base": "max-w-[1280px] pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
-
-      {% block content %}
-        {% if content %}
-          {{ content | safe }}
-        {% else %}
-          {% loremPars 3 %}
-        {% endif %}
-      {% endblock content %}
-
-    </main>
-
-    {#- AFTER MAIN — inside #page-main, outside #page-main-content. The slot for
-        anything that must stay position: fixed while ScrollSmoother transforms
-        <main> (see the wrapper note above). -#}
-    {% block afterMain %}{% endblock afterMain %}
-
-    {#- SIDEBAR AFTER -#}
-    {% if sidebar_after %}
-      <aside class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarAfterStyles %}{% endblock sidebarAfterStyles %}"
+      {#- SIDEBAR BEFORE -#}
+      {% block sidebar_before %}
+        <nav class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarBeforeStyles %}{% endblock sidebarBeforeStyles %}"
              data-scroll
              data-scroll-sticky
              data-scroll-target="main">
-        {% block sidebar_after %}
-          Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
-          sidebar.
-        {% endblock sidebar_after %}
-      </aside>
-    {% endif %}
+          Hi there.
+          This is the sidebar content. You can replace this with your own content or remove it if you don't need a sidebar.
+        </nav>
+      {% endblock sidebar_before %}
 
-    {# GLOBAL PAGE FOOTER #}
-    {{ Footer.render() }}
 
-    {% if smoothScroll %}</div>{% endif %}
+      {# MAIN CONTENT AREA #}
+      <main {% if smoothScroll %}id="page-main-content"{% endif %}
+            class="{{ {"base": "max-w-[1280px] pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
+
+        {% block content %}
+          {% if content %}
+            {{ content | safe }}
+          {% else %}
+            {% loremPars 3 %}
+          {% endif %}
+        {% endblock content %}
+
+      </main>
+
+      {#- AFTER MAIN — inside #page-main, outside #page-main-content. The slot for
+        anything that must stay position: fixed while ScrollSmoother transforms
+        <main> (see the wrapper note above). -#}
+      {% block afterMain %}
+      {% endblock afterMain %}
+
+      {#- SIDEBAR AFTER -#}
+      {% if sidebar_after %}
+        <aside class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarAfterStyles %}{% endblock sidebarAfterStyles %}"
+               data-scroll
+               data-scroll-sticky
+               data-scroll-target="main">
+          {% block sidebar_after %}
+            Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
+            sidebar.
+          {% endblock sidebar_after %}
+        </aside>
+      {% endif %}
+
+      {# GLOBAL PAGE FOOTER #}
+      {{ Footer.render() }}
+
+      {% if smoothScroll %}</div>{% endif %}
 
     {#- SCRIPTS -#}
     <script type="module" src="/assets/js/layouts/global-header.js"></script>

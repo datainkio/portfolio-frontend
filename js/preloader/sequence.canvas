@@ -7,7 +7,6 @@
 		{"id":"ebc1e1749d751f07","type":"group","x":-600,"y":-920,"width":1400,"height":900,"label":"Participants"},
 		{"id":"9156ab32d26e6dd3","type":"group","x":3880,"y":-864,"width":440,"height":1384,"color":"6","label":"AnimationDirector.js"},
 		{"id":"3ceefdf0ea953eec","x":-440,"y":365,"width":891,"height":440,"type":"group","label":"Background"},
-		{"id":"c308ba51f829b637","x":-494,"y":1135,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/organisms/footer/global-footer.md"},
 		{"id":"448d10e9e3b3408a","type":"file","file":"dataink.io/frontend/views/pages/home/home.md","subpath":"#home.njk","x":-540,"y":-840,"width":400,"height":160},
 		{"id":"ae53a049071c9db4","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts.md","subpath":"#fonts.njk","x":-540,"y":-640,"width":400,"height":210,"color":"1"},
 		{"id":"fc282c11405286e7","type":"file","file":"dataink.io/frontend/views/pages/home/home.md","subpath":"#^559504","x":1080,"y":-850,"width":400,"height":90},
@@ -32,8 +31,6 @@
 		{"id":"789a6fe0a4363363","type":"file","file":"dataink.io/frontend/js/preloader/Preloader.md","subpath":"#^66dc4a","x":3160,"y":40,"width":400,"height":140,"color":"3"},
 		{"id":"e3ae5a87a92d94fb","type":"file","file":"dataink.io/frontend/js/preloader/Preloader.md","subpath":"#^c737de","x":2840,"y":284,"width":400,"height":140,"color":"3"},
 		{"id":"11335b919cdb2dde","type":"file","file":"dataink.io/frontend/js/preloader/Preloader.md","subpath":"#^b3f101","x":2840,"y":490,"width":400,"height":140,"color":"3"},
-		{"id":"0888a62671e7ee73","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts.md","subpath":"#fonts.njk","x":5320,"y":-1360,"width":400,"height":210,"color":"1"},
-		{"id":"faf9d7b018cb9b7d","type":"file","file":"dataink.io/frontend/js/choreography/organisms/background/BackgroundVideo.md","x":5320,"y":-1064,"width":400,"height":400},
 		{"id":"904aea06b902df62","type":"file","file":"dataink.io/frontend/js/preloader/Preloader.md","subpath":"#^9c8d87","x":2920,"y":1115,"width":400,"height":140,"color":"3"},
 		{"id":"81d683efb227e38e","type":"file","file":"dataink.io/frontend/js/preloader/Preloader.md","subpath":"#^e82137","x":3400,"y":1115,"width":400,"height":140,"color":"3"},
 		{"id":"55b5f5516b07ff75","type":"file","file":"dataink.io/frontend/js/preloader/Preloader.md","subpath":"#^d26777","x":3160,"y":1440,"width":400,"height":140,"color":"3"},
@@ -49,7 +46,10 @@
 		{"id":"601d565239485e0b","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^43ea41","x":3900,"y":-280,"width":400,"height":80,"color":"#584c94"},
 		{"id":"e0eaa4f076f35cc7","x":-940,"y":371,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/organisms/header/global-header.md"},
 		{"id":"d5f9dfc0c20dc560","type":"file","file":"dataink.io/frontend/views/atoms/video/video.md","x":31,"y":385,"width":400,"height":400},
-		{"id":"cd42fb88dcb0b207","type":"file","file":"dataink.io/frontend/views/molecules/background/sizzle-background.md","x":-420,"y":385,"width":400,"height":400,"color":"4"}
+		{"id":"cd42fb88dcb0b207","type":"file","file":"dataink.io/frontend/views/molecules/background/sizzle-background.md","x":-420,"y":385,"width":400,"height":400,"color":"4"},
+		{"id":"c308ba51f829b637","x":-494,"y":1135,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/organisms/footer/global-footer.md"},
+		{"id":"0888a62671e7ee73","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts.md","subpath":"#fonts.njk","x":1620,"y":-1280,"width":400,"height":210,"color":"1"},
+		{"id":"75063a6184d1d94d","type":"file","file":"dataink.io/frontend/js/choreography/templates/landing/LandingSequence.md","subpath":"#^c4326b","x":4560,"y":375,"width":400,"height":130}
 	],
 	"edges":[
 		{"id":"8ed6917b35ea1db6","fromNode":"6b2b2ad0386e4f8b","fromSide":"right","toNode":"7affe4194e5c505a","toSide":"left"},

@@ -13,6 +13,23 @@ links:
 
 Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it listens on `AnimationBus` and cues section lifecycle methods in order.
 
+## Methods
+- start video intro
+- arm bio intro
+- pause background video
+- resume background video
+- register listeners
+
+## Events
+- The preloader completes its outro
+- The background completes its intro
+- The global header completes its intro
+- The global footer completes its intro
+- The bio section enters the view
+- The bio section backs into the view
+- The bio section backs out of the view
+- The bio section exits the view
+
 ## Motion strategy
 
 ```mermaid

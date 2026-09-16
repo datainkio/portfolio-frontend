@@ -1,9 +1,7 @@
 {# Provide import map so raw ESM (no bundle) can resolve scoped packages in the browser #}
 {% set useBundleJs = runtime and runtime.bundleJs %}
 {% if not useBundleJs %}
-  <script type="importmap">
-    { "imports": { "@datainkio/lumberjack": "/assets/js/utils/lumberjack/index.js" } }
-  </script>
+  <script type="importmap">{ "imports": { "@datainkio/lumberjack": "/assets/js/utils/lumberjack/index.js" } }</script>
 {% endif %}
 
 <script>
@@ -24,14 +22,6 @@
       import ('/assets/js/choreography/bundle.js').catch(() => import ('/assets/js/choreography/AnimationDirector.js'));
     </script>
   {% else %}
-    <script type="module">
-      import ('/assets/js/choreography/AnimationDirector.js');
-    </script>
+    <script type="module">import ('/assets/js/choreography/AnimationDirector.js');</script>
   {% endif %}
 {% endif %}
-
-{# PRELOADER SCRIPT #}
-<script type="module">
-  import {initPreloader} from "/assets/js/preloader/Preloader.js";
-  void initPreloader();
-</script>

@@ -16,6 +16,8 @@ export const PRELOADER_SELECTORS = {
 // single attribute change.
 export const PRELOADER_STATE = {
   attribute: "data-preloader-state",
+  enter: "enter",
+  running: "running",
   exit: "exit",
 };
 
