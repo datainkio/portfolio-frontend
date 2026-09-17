@@ -1,8 +1,14 @@
 export const PRELOADER_SELECTORS = {
   root: "[data-preloader]",
-  // The hanko mark inside the preloader. Its paths carry the CSS settle
-  // transition whose `transitionend` marks the end of the outro.
-  hankoMount: ".hanko-mount",
+  // Last child in during the intro and last child out during the outro
+  // (styles/components/hanko.css). Their CSS animations finishing marks the
+  // end of each sequence.
+  introLast: "[data-preloader-subtitle]",
+  outroLast: "[data-preloader-logo]",
+  // The home sizzle video. Playback must have begun before the splash exits,
+  // so the preloader starts it itself (BackgroundVideo's later play() is a
+  // no-op on a playing element).
+  backgroundVideo: "#background video",
   main: "main",
   deferredVideos: "video[data-defer-video][data-src]",
   // Opt-in marker for videos whose playback is decorative. Under
@@ -12,12 +18,11 @@ export const PRELOADER_SELECTORS = {
 };
 
 // Outro state flip. JS sets `data-preloader-state="exit"` on the preloader
-// root; the CSS outro (styles/components/hanko.css) settles the hanko off that
-// single attribute change.
+// root; the CSS outro (styles/components/hanko.css) runs the intro in reverse
+// off that single attribute change. The intro and idle states are CSS-auto
+// from first paint and need no attribute.
 export const PRELOADER_STATE = {
   attribute: "data-preloader-state",
-  enter: "enter",
-  running: "running",
   exit: "exit",
 };
 
@@ -38,9 +43,14 @@ export const PRELOADER_TIMINGS = {
   // lock or clear main[aria-busy]. The hero is already visible; a late
   // Director only delays the landing chain.
   directorReadyTimeoutMs: 8000,
-  // Fallback for the CSS outro. The hanko settle (`--hanko-settle-duration`,
-  // 0.4s in styles/components/hanko.css) ends with `transitionend`; under
-  // prefers-reduced-motion the global utility forces `transition: none` so it
-  // never fires. Must exceed the settle duration.
-  settleFallbackMs: 600,
+  // Upper bound on the background video's play() promise. A refused autoplay
+  // rejects at once and releases the gate itself; this covers a slow first
+  // buffer, so the splash never holds the page on a video that may not start.
+  videoPlayingTimeoutMs: 4000,
+  // Fallbacks for the CSS intro and outro (styles/components/hanko.css). Each
+  // sequence is awaited via its last child's animation `finished` promise,
+  // which a paused tab or a mid-flight style change could hold open. Both
+  // must exceed the sequence total: step 0.4s + 2 × 0.2s stagger = 0.8s.
+  introFallbackMs: 1000,
+  outroFallbackMs: 1000,
 };

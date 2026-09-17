@@ -43,14 +43,14 @@ import ScrollEffectsCoordinator from "/assets/js/choreography/managers/ScrollEff
 import { LandingSequence } from "/assets/js/choreography/templates/landing/LandingSequence.js";
 import { SECTION_REGISTRY } from "/assets/js/choreography/system/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
-import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
+// import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
-import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
-import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
-import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
-import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
+// import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
+// import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
+// import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
+// import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
 import BuildInfoManager from "/assets/js/choreography/managers/BuildInfoManager/BuildInfoManager.js";
-import SectionCapManager from "/assets/js/choreography/managers/SectionCapManager/SectionCapManager.js";
+// import SectionCapManager from "/assets/js/choreography/managers/SectionCapManager/SectionCapManager.js";
 
 const LOGS = {
   description:
@@ -103,7 +103,7 @@ export default class AnimationDirector {
     // Initialize global card behaviors — must precede sections so throw-variant
     // pin spacers (pinSpacing: true) are in the DOM before _bindHeaderPin
     // measures the footer position for the work-header-pin end value.
-    this.cardManager = new CardManager();
+    // this.cardManager = new CardManager();
 
     // Initialize section controllers from registry
     this.sections = {};
@@ -121,24 +121,24 @@ export default class AnimationDirector {
     });
 
     // Initialize home landing header role state machine (loader/hero/menu; home page only)
-    this.homeHeaderManager = new HomeHeaderManager({
-      bus: this.bus,
-      reducedMotionHandler: this.stage?.reducedMotion,
-    });
+    // this.homeHeaderManager = new HomeHeaderManager({
+    //   bus: this.bus,
+    //   reducedMotionHandler: this.stage?.reducedMotion,
+    // });
 
     // Initialize the work section industry-nav drawer (below md) / rail (md+).
-    this.workHeaderManager = new WorkHeaderManager({
-      bus: this.bus,
-      reducedMotionHandler: this.stage?.reducedMotion,
-    });
+    // this.workHeaderManager = new WorkHeaderManager({
+    //   bus: this.bus,
+    //   reducedMotionHandler: this.stage?.reducedMotion,
+    // });
 
     // Initialize work section local nav scrollspy (active jumplink tracking)
-    this.workNavManager = new WorkNavManager({ bus: this.bus });
+    // this.workNavManager = new WorkNavManager({ bus: this.bus });
 
     // Initialize project page hero parallax (no-ops on non-project pages)
-    this.projectHeaderManager = new ProjectHeaderManager({
-      reducedMotionHandler: this.stage?.reducedMotion,
-    });
+    // this.projectHeaderManager = new ProjectHeaderManager({
+    //   reducedMotionHandler: this.stage?.reducedMotion,
+    // });
 
     // Initialize the section-cap build-info disclosure (click-driven toggle)
     this.buildInfoManager = new BuildInfoManager({
@@ -146,7 +146,7 @@ export default class AnimationDirector {
     });
 
     // Initialize the section-cap scrollspy (active section tracking)
-    this.sectionCapManager = new SectionCapManager({ bus: this.bus });
+    // this.sectionCapManager = new SectionCapManager({ bus: this.bus });
 
     // Initialize choreography sequence
     this.sequence = new LandingSequence(
@@ -157,6 +157,7 @@ export default class AnimationDirector {
     this.logger.trace(LOGS.completion);
 
     // Signal that Director has finished initializing
+    this.logger.trace("Director initialization complete");
     window.dispatchEvent(new Event(EVENTS.system.directorReady));
   }
 
@@ -222,17 +223,17 @@ export default class AnimationDirector {
     this.headerManager?.kill();
     this.headerManager = null;
 
-    this.homeHeaderManager?.kill();
-    this.homeHeaderManager = null;
+    // this.homeHeaderManager?.kill();
+    // this.homeHeaderManager = null;
 
-    this.workHeaderManager?.kill();
-    this.workHeaderManager = null;
+    // this.workHeaderManager?.kill();
+    // this.workHeaderManager = null;
 
-    this.workNavManager?.kill();
-    this.workNavManager = null;
+    // this.workNavManager?.kill();
+    // this.workNavManager = null;
 
-    this.projectHeaderManager?.kill();
-    this.projectHeaderManager = null;
+    // this.projectHeaderManager?.kill();
+    // this.projectHeaderManager = null;
 
     this.buildInfoManager?.kill();
     this.buildInfoManager = null;

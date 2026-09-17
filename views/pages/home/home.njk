@@ -38,8 +38,8 @@
     {{ GlobalHeader.render({ logoSvg: logo }) }}
     <div id="page-main">
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
-        {# {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
-        {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
+        {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
+        {# {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
         {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }} #}
       </main>

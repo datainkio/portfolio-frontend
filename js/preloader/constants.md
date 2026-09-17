@@ -1,5 +1,5 @@
 ---
-description: "Preloader selectors, the exit-state attribute pair, the choreography flag name, and the three timing bounds (fonts, director, hanko settle) with the reasoning for each."
+description: "Preloader selectors, the exit-state attribute, the choreography flag name, and the five timing bounds (fonts, director, video playing, intro, outro) with the reasoning for each."
 type: script
 tags:
   - preloader
@@ -8,5 +8,7 @@ links:
   - "[[hanko|hanko.css]]"
 ---
 
-`PRELOADER_TIMINGS.settleFallbackMs` is coupled to `--hanko-settle-duration`
-in `styles/components/hanko.css` — it must exceed it. Change them together.
+`PRELOADER_TIMINGS.introFallbackMs` and `outroFallbackMs` are coupled to
+`--preloader-step-duration` and `--preloader-step-stagger` in
+`styles/components/hanko.css` — each must exceed step + 2 × stagger. Change
+them together.

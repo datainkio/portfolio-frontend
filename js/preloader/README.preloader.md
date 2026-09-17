@@ -64,18 +64,19 @@ sequenceDiagram
         end
 
         P->>DV: hydrateDeferredVideos()
-        DV-->>B: background + card videos get src (download warms during outro)
+        DV-->>B: background + card videos get src
+        P->>B: background video play()
+        B-->>P: play() resolved (playback begun), rejected (refused),<br/>or videoPlayingTimeoutMs (4000) elapsed
 
-        alt first visit
+        P->>CSS: await intro — subtitle animation `finished`,<br/>or introFallbackMs (1000)
+
+        alt root not hidden (first visit)
             P->>CSS: set data-preloader-state="exit"
-            CSS->>CSS: pulse stops, paths + frame transition to opacity 1<br/>over --hanko-settle-duration (0.4s)
-            alt motion allowed
-                CSS-->>P: transitionend (opacity, inside .hanko-mount)
-            else prefers-reduced-motion (transition: none)
-                P-->>P: settleFallbackMs (600) elapses
-            end
-        else return visit
-            P->>CSS: re-assert data-preloader-state="exit" (no-op)
+            CSS->>CSS: outro — subtitle, author, logo fade out in turn<br/>(0.4s each, 0.2s stagger)
+            CSS-->>P: logo animation `finished`, or outroFallbackMs (1000)
+            P->>B: preloader.hidden = true
+        else root already hidden (return visit, pre-paint)
+            Note over P: outro skipped
         end
 
         P->>LS: window "preloader:out" (exactly once)
@@ -97,9 +98,9 @@ The same flow as a state machine. The state the CSS reads is
 stateDiagram-v2
     direction TB
 
-    [*] --> Pulsing : first paint — hanko-loading-pulse (CSS, no JS)
+    [*] --> Intro : first paint — S00, children fade in S01→S03 (CSS, no JS)
 
-    state "Pulsing (data-preloader-state unset)" as Pulsing
+    state "Intro → Idle (data-preloader-state unset) — S00…S04, pulse from 0.8s" as Intro
     state "Booting — initPreloader()" as Booting
     state "NoSplash — page has no [data-preloader]" as NoSplash
     state "Locked — html/body overflow hidden, scrollY captured" as Locked
@@ -107,14 +108,16 @@ stateDiagram-v2
         direction LR
         [*] --> Fonts
         Fonts --> Director : fonts.ready resolved<br/>or fontsReadyTimeoutMs (2000)
-        Director --> [*] : director#colon;ready received<br/>or directorReadyTimeoutMs (8000) + console.warn
+        Director --> Video : director#colon;ready received<br/>or directorReadyTimeoutMs (8000) + console.warn
+        Video --> IntroDone : hydrateDeferredVideos(), play() settled<br/>or videoPlayingTimeoutMs (4000)
+        IntroDone --> [*] : subtitle animation finished<br/>or introFallbackMs (1000)
     }
-    state "Settling (data-preloader-state=exit) — pulse stops, paths transition to opacity 1" as Settling
-    state "Exited — mark fully lit, header persists as hero" as Exited
+    state "Outro (data-preloader-state=exit) — S03→S00, intro in reverse" as Settling
+    state "Exited — root hidden" as Exited
     state "Released — scroll unlocked, main[aria-busy=false]" as Released
 
-    Pulsing --> Exited : pre-paint script sees visited=true<br/>(return visit, SESSION_GATING_ENABLED only)
-    Pulsing --> Booting : deferred module evaluates
+    Intro --> Exited : pre-paint script sees visited=true — root hidden<br/>(return visit, SESSION_GATING_ENABLED only)
+    Intro --> Booting : deferred module evaluates
 
     Booting --> NoSplash : no [data-preloader]
     NoSplash --> [*] : hydrateDeferredVideos()
@@ -123,10 +126,10 @@ stateDiagram-v2
     Booting --> Waiting : home, return visit (gating on)
     Locked --> Waiting
 
-    Waiting --> Settling : first visit — hydrateDeferredVideos(),<br/>then set data-preloader-state=exit
-    Waiting --> Exited : return visit — hydrateDeferredVideos(),<br/>state already exit (re-asserted)
+    Waiting --> Settling : root visible — set data-preloader-state=exit
+    Waiting --> Exited : root already hidden — outro skipped
 
-    Settling --> Exited : transitionend (opacity, .hanko-mount)<br/>or settleFallbackMs (600) under reduced motion
+    Settling --> Exited : logo animation finished<br/>or outroFallbackMs (1000), then hidden
 
     Exited --> Released : dispatch preloader#colon;out (once)<br/>then finally
     Waiting --> Released : gate threw — finally still runs<br/>(preloader#colon;out NOT dispatched)
@@ -148,18 +151,27 @@ stateDiagram-v2
 
 ## Contracts
 
-**Markup** — [home-landing.njk](../../views/organisms/header/home/home-landing.njk).
-The landing `<header>` carries `data-preloader`; it *is* the preloader and is
-never removed. Its `.hanko-mount` is the element whose settle transition ends
-the outro. [session-management-script.njk](../../views/templates/partials/session-management-script.njk)
-runs inline right after it and sets the exit state before first paint on return
-visits, reading the same `sessionStorage` key as `SessionManager`.
+**Markup** — [preloader.njk](../../views/organisms/status/preloader.njk).
+A `<div data-preloader>` holding `[data-preloader-logo]`,
+`[data-preloader-author]`, `[data-preloader-subtitle]`. The subtitle is the
+last child in (intro gate) and the logo the last child out (outro gate); the
+root gets `hidden` once the outro lands.
+[session-management-script.njk](../../views/templates/partials/session-management-script.njk)
+runs inline in `<head>` and sets `hidden` before first paint on return visits,
+reading the same `sessionStorage` key as `SessionManager`.
 
-**CSS** — `[data-preloader][data-preloader-state="exit"]` in `hanko.css` stops
-the pulse and transitions the paths to full opacity over
-`--hanko-settle-duration`. `constants.js` `settleFallbackMs` must exceed it.
-Under `prefers-reduced-motion` the global utility forces `transition: none`, so
-the fallback is the only path that fires.
+**CSS** — `hanko.css` owns every state (S00–S04, see
+[preloader.md](../../views/organisms/status/preloader.md)). Intro and idle are
+keyframes that start at first paint with no attribute; `data-preloader-state="exit"`
+runs the outro. `constants.js` `introFallbackMs` / `outroFallbackMs` must exceed
+each sequence's total (`--preloader-step-duration` + 2 × `--preloader-step-stagger`).
+Under `prefers-reduced-motion` the global utility forces `animation: none`; the
+stylesheet snaps the states and the JS gates resolve at once (no animations to
+await).
+
+**Video** — the home sizzle (`#background video`) must be playing before the
+outro. `Preloader.js` calls `play()` itself after hydration and awaits the
+promise; `BackgroundVideo.playIntro()` later finds it already playing.
 
 **Events** — `director:ready` in, `preloader:out` out, both on `window`, names
 from `js/choreography/config/contracts/events/events.js`. `preloader:out` is

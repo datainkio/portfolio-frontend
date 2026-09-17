@@ -36,18 +36,19 @@ flow; this is the pre-merge gate.
 
 - [ ] `home-landing` renders `[data-preloader]` with a `.hanko-mount` inside it.
 - [ ] `<main>` on the home page starts `aria-busy="true"`; cleanup sets it `"false"`.
-- [ ] `session-management-script.njk` still mirrors `SessionManager`'s storage key and the `data-preloader-state="exit"` pair — grep both after any rename.
+- [ ] `session-management-script.njk` still mirrors `SessionManager`'s storage key and the `[data-preloader]` selector (it sets `hidden`, not `exit`) — grep both after any rename.
 
 ## Readiness and timing
 
-- [ ] Every gate is bounded. There are two: `document.fonts.ready` and `director:ready`. Neither may wait indefinitely; timeouts live in `PRELOADER_TIMINGS`.
-- [ ] The exit resolves on `transitionend` from inside `.hanko-mount` **or** `settleFallbackMs`. `settleFallbackMs` > `--hanko-settle-duration` in `hanko.css`.
-- [ ] Deferred videos are hydrated **before** the exit flip (download warms during the outro), and on non-home pages immediately.
+- [ ] Every gate is bounded. There are four: `document.fonts.ready`, `director:ready`, the background video's `play()`, and the CSS intro. None may wait indefinitely; timeouts live in `PRELOADER_TIMINGS`.
+- [ ] The outro resolves on the logo's animation `finished` **or** `outroFallbackMs`; the intro gate on the subtitle's **or** `introFallbackMs`. Both fallbacks > `--preloader-step-duration` + 2 × `--preloader-step-stagger` in `hanko.css`.
+- [ ] Deferred videos are hydrated **before** the video gate (the preloader plays the sizzle itself), and on non-home pages immediately.
+- [ ] The `<video>` atom carries no `loading="lazy"` — Chrome would defer the fetch while the choreography holds it invisible.
 
 ## Animation and accessibility
 
-- [ ] Idle and outro are pure CSS; JS only flips `data-preloader-state`. No GSAP on this path.
-- [ ] Reduced motion: the global utility forces `animation`/`transition: none`, so no `transitionend` fires — the fallback timeout must cover it. Videos marked `data-motion-optional` stay posterized.
+- [ ] Intro, idle and outro are pure CSS; JS only flips `data-preloader-state` and sets `hidden`. No GSAP on this path.
+- [ ] Reduced motion: the global utility forces `animation: none`; `hanko.css` snaps the states (children visible; hidden on `exit`) and `getAnimations()` is empty so the JS gates resolve at once. Videos marked `data-motion-optional` stay posterized.
 - [ ] Exit completion is idempotent (no double `preloader:out`).
 
 ## Cleanup guarantees
