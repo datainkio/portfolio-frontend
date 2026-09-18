@@ -4,13 +4,15 @@ Reusable footer macro for consistent site-wide footer rendering.
 Part of layout organism category for consistent page structure.
 #}
 {% import "molecules/list/main-pages.njk" as main_pages %}
-{%- set classes = "global-footer col-span-full py-8 px-4 text-center text-sm text-primary-200 bg-transparent" -%}
+{%- set classes = {
+  "base": "global-footer absolute inset-x-0 bottom-0 py-8 px-4 text-center text-sm text-primary-200 bg-transparent"
+} -%}
 {% macro render(params = {}) %}
   {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
   {% set footerItems = params.items or cmsNavigation.footerItems or [] %}
   {#- Site-global contact form. Wrapped in a 12-col grid so the section's
         `grid-cols-subgrid` has a parent grid outside of #page-main. -#}
-  <footer class="{{ params.classes | default(classes) }}">
+  <footer class="{{ params.classes | default(classes | classes) }}">
     {% if footerItems and footerItems.length %}
       <nav class="mb-6" aria-label="Footer navigation">
         {{ main_pages.render({

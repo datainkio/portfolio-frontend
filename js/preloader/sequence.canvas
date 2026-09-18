@@ -39,7 +39,6 @@
 		{"id":"601d565239485e0b","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^43ea41","x":3900,"y":-280,"width":400,"height":80,"color":"#584c94"},
 		{"id":"87418bda8e0c80a3","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^72a792","x":3900,"y":0,"width":400,"height":80,"color":"#584c94"},
 		{"id":"40771d04fab4cecb","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^e44458","x":3900,"y":400,"width":400,"height":80,"color":"#584c94"},
-		{"id":"75063a6184d1d94d","type":"file","file":"dataink.io/frontend/js/choreography/templates/landing/LandingSequence.md","subpath":"#^c4326b","x":4560,"y":375,"width":400,"height":130},
 		{"id":"122eb6b201cb5078","type":"file","file":"dataink.io/frontend/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.md","subpath":"#HomeHeaderManager.js","x":360,"y":-840,"width":400,"height":220,"color":"6"},
 		{"id":"e5c5c9a45de10af2","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#AnimationDirector.js","x":360,"y":-540,"width":400,"height":220,"color":"#584c94"},
 		{"id":"ffe5fd5e6679af3f","type":"file","file":"dataink.io/frontend/views/organisms/status/preloader.md","subpath":"#^d7789d","x":360,"y":-275,"width":400,"height":200},

@@ -1,9 +1,7 @@
 /**
  * Landing Sequence Template
  *
- * Choreographs the complete landing page animation flow.
- * Listens to AnimationBus events and triggers section transitions
- * in response to lifecycle completions.
+ * Picks up the page choreography from the preloader when it hears EVENTS.system.preloaderOut.
  */
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";

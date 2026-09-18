@@ -57,7 +57,7 @@ views/pages/home/home.njk  (composes section macros in <main>)
 
 ## Composition
 
-The template imports section macros and renders them, in order, inside a single `<main id="page-main" aria-busy="true">`. `aria-busy` is set true until choreography boots (`director:ready` → `preloader:out`). Order is authored in `home.njk`, **not** derivable from the stale `skipLinks` frontmatter.
+The template imports section macros and renders them, in order, inside a single `<main id="page-main-content" aria-busy="true">`, itself wrapped by `<div id="page-main">` (the ScrollSmoother wrapper/content pair — `<main>` is the `content` element directly; there is no intermediate `<div>`). `aria-busy` is set true until choreography boots (`director:ready` → `preloader:out`). Order is authored in `home.njk`, **not** derivable from the stale `skipLinks` frontmatter.
 
 | Order | Region        | Macro / import                               | `id`            | Key inputs                                             |
 | ----- | ------------- | -------------------------------------------- | --------------- | ------------------------------------------------------ |

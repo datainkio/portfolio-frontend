@@ -54,7 +54,7 @@ Classified as a **page** at the atomic **page** level based on its location unde
 - `OrganizationsSection` — `organizations.njk`, `{id, copy, organizations}`.
 - `AwardsSection` — `awards.njk`, `{id, copy, awards}`.
 - `ContactSection` — `contact.njk`, `{id, copy, contact}`.
-- `GlobalFooter` — `global-footer.njk`, `{contact}`.
+- `GlobalFooter` — `global-footer.njk`, `{classes}` — the default class string plus `absolute inset-x-0 bottom-0`; see [global-footer](../../organisms/footer/global-footer.md) § Placement for why (ScrollSmoother wrapper is fixed, so the footer is pinned to the bottom of `<body>` and `<main>` reserves its height with `pb-48`).
 - Computed at page top: `home`, `projects`, `awards`, `organizations`, `logo`, `backgroundVideo`, `backgroundPoster`.
 
 ## Relationships

@@ -23,14 +23,20 @@
 {#- EYE CANDY -#}
 {% import "molecules/background/sizzle-background.njk" as Background %}
 {#- TODO: Address horizontal scroll on mobile -#}
-{%- set main = {"base": "relative flex flex-col col-span-full"} -%}
+{#- ScrollSmoother fixes #page-main and translates <main>, so the footer (a
+    sibling of the wrapper) can't follow <main> in normal flow. It is instead
+    pinned to the bottom of <body> — whose height ScrollSmoother sets to the
+    content height — and <main> reserves that space with bottom padding.
+    pb-48 must stay >= the footer's rendered height. -#}
+{%- set main = {"base": "relative flex flex-col col-span-full pb-48"} -%}
+
 
 {# Note that content values - include title and other metadata - are set in frontmatter #}
 <!DOCTYPE html>
 {% include "templates/partials/dev-note.njk" %}
 <html lang="en" class="bg-slate-950">
   {% include "templates/partials/head.njk" %}
-  <body class="bg-slate-950 text-neutral-100 isolate">
+  <body class="relative bg-slate-950 text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {{ Preloader.render({ "svg": logo }) }}
@@ -38,13 +44,13 @@
     {{ GlobalHeader.render({ logoSvg: logo }) }}
     <div id="page-main">
       <main id="page-main-content" aria-busy="true" class="{{ main | classes }}">
-        {# {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
+        {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
-        {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }} #}
+        {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
       </main>
     </div>
-    {{ GlobalFooter.render({"contact": false}) }}
+    {{ GlobalFooter.render() }}
     {% include "templates/partials/choreography-script.njk" %}
   </body>
 </html>
