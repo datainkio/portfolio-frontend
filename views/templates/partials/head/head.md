@@ -1,5 +1,5 @@
 ---
-description: "The `<head>` partial — title, render-blocking stylesheet, social/manifest/favicon/font partials, a build-only `modulepreload` for the choreography bundle, then the pre-paint session script and the preloader bootstrap module."
+description: "The `<head>` partial — title, render-blocking stylesheet, social/manifest/favicon/font partials, a build-only `modulepreload` for the choreography bundle, the page scripts block, then the preloader bootstrap module."
 type: template
 tags:
   - partial
@@ -29,7 +29,7 @@ Renders the whole `<head>` for every page. Owns the order in which head assets a
 
 ## Purpose
 
-One place for document metadata, the critical stylesheet, resource hints, and the two head scripts the preloader strategy depends on. Layouts and standalone pages include it wholesale rather than assembling their own `<head>`.
+One place for document metadata, the critical stylesheet, resource hints, and the preloader bootstrap module. Layouts and standalone pages include it wholesale rather than assembling their own `<head>`.
 
 ## What it emits, in document order
 
@@ -46,17 +46,15 @@ One place for document metadata, the critical stylesheet, resource hints, and th
 6. ### favicon.njk
    `{% include "templates/partials/favicon/favicon.njk" %}` — icon set from `site.manifest.icons` ^55bf78
 7. ### fonts.njk
-   `{% include "templates/partials/fonts/fonts.njk" %}` — preconnects, Google Fonts (Plex render-blocking, Cormorant `media="print"`), `DRAFTPAPER.woff2` preload
+   `{% include "templates/partials/fonts/fonts.njk" %}` — `cdn.sanity.io` preconnect, Cormorant from Google Fonts (`media="print"`), `DRAFTPAPER.woff2` preload; Plex is self-hosted via `imports.css`
 8. ### bundle.js
    `<link rel="modulepreload" href="/assets/js/choreography/bundle.js">` — **conditional**: only when `enableChoreography and runtime.bundleJs and eleventy.env.runMode == "build"`. Warms the bundle early because `director:ready` gates the hero reveal (LCP). Deliberately off in `serve`/`watch`, where the bundle is a multi-MB sourcemapped artifact — so dev timings show the bundle fetch starting at the body-end `import()`, not here. ^40856c
 9. ### scripts block
    `{{ scripts | safe }}` — page-supplied head scripts, unescaped ^8437d2
-10. ### session-management-script.njk
-    `{% include "templates/partials/session-management-script/session-management-script.njk" %}` — inline, synchronous pre-paint script; on a return visit hides `[data-preloader]` before first paint ^899a04
-11. ### preloader-script.njk
+10. ### preloader-script.njk
     `{% include "templates/partials/preloader-script/preloader-script.njk" %}` — `<script type="module">` that imports `Preloader.js` and calls `initPreloader()` (deferred; runs after parse) ^867de8
-12. ### extraHeadContent block
-    `{% block extraHeadContent %}{% endblock %}` — extension point for pages that extend the layout ^4c3622
+
+`session-management-script.njk` is **not** here: it is a classic inline script that must see `[data-preloader]`, so `home.njk` includes it in `<body>` directly after `Preloader.render()`. ^899a04
 
 ## Role in the System
 
@@ -84,18 +82,18 @@ Consumed by the included partials, not by this file:
   - [manifest.njk](../manifest/manifest.njk)
   - [favicon.njk](../favicon/favicon.njk)
   - [fonts.njk](../fonts/fonts.njk)
-  - [session-management-script.njk](../session-management-script/session-management-script.njk)
   - [preloader-script.njk](../preloader-script/preloader-script.njk)
 - Used by:
   - [base.njk](../../../layouts/base.njk) — `{% include "templates/partials/head/head.njk" %}`
   - [home.njk](../../../pages/home/home.njk) — standalone page, includes it directly
 - Related:
+  - [session-management-script.njk](../session-management-script/session-management-script.njk) — pre-paint return-visit check; lives in `home.njk`'s `<body>` after the preloader markup, not here
   - [choreography-script.njk](../choreography-script/choreography-script.njk) — the body-end counterpart that actually evaluates the bundle the `modulepreload` warms
   - [gtm-script.njk](../gtm-script/gtm-script.njk) — **no longer included here**; the earlier revision of this sidecar listed it
 
 ## Notes for Future Maintenance
 
-- Order matters. The stylesheet must stay ahead of the inline session script (a classic `<script>` blocks on pending CSS), and the session script must stay ahead of the preloader module so `hidden` is set before `initPreloader()` can observe it.
+- Order matters. `preloader-script.njk` stays last: as a module it executes after parse regardless of position, so moving it up buys nothing and only pushes its module-graph fetches ahead of the render-blocking Plex CSS and the `bundle.js` hint in discovery order.
 - `Preloader.js` imports five modules (lumberjack, events, SessionManager, constants, deferred-videos) with no `modulepreload` hints — two serial round trips before `initPreloader` runs. If that becomes a target, the hints belong here, next to the bundle's.
 - The `modulepreload` guard is intentional; do not remove the `runMode == "build"` clause to "fix" dev timings.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.

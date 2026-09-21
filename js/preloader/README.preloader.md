@@ -63,8 +63,8 @@ sequenceDiagram
             AD-->>P: window "director:ready", or directorReadyTimeoutMs (8000) → console.warn
         end
 
-        P->>DV: hydrateDeferredVideos()
-        DV-->>B: background + card videos get src
+        P->>DV: hydrateDeferredVideos(deferredBackgroundVideo)
+        DV-->>B: background video only gets src — cards wait
         P->>B: background video play()
         B-->>P: play() resolved (playback begun), rejected (refused),<br/>or videoPlayingTimeoutMs (4000) elapsed
 
@@ -86,6 +86,8 @@ sequenceDiagram
         Note over P: finally — runs even if a gate throws
         P->>B: restore overflow + scrollY
         P->>B: main[aria-busy="false"]
+        P->>DV: hydrateDeferredVideos()
+        DV-->>B: remaining (card) videos get src, preload="none" kept
     end
 ```
 
@@ -109,12 +111,12 @@ stateDiagram-v2
         [*] --> Fonts
         Fonts --> Director : fonts.ready resolved<br/>or fontsReadyTimeoutMs (2000)
         Director --> Video : director#colon;ready received<br/>or directorReadyTimeoutMs (8000) + console.warn
-        Video --> IntroDone : hydrateDeferredVideos(), play() settled<br/>or videoPlayingTimeoutMs (4000)
+        Video --> IntroDone : hydrate background video, play() settled<br/>or videoPlayingTimeoutMs (4000)
         IntroDone --> [*] : subtitle animation finished<br/>or introFallbackMs (1000)
     }
     state "Outro (data-preloader-state=exit) — S03→S00, intro in reverse" as Settling
     state "Exited — root hidden" as Exited
-    state "Released — scroll unlocked, main[aria-busy=false]" as Released
+    state "Released — scroll unlocked, main[aria-busy=false], card videos hydrated" as Released
 
     Intro --> Exited : pre-paint script sees visited=true — root hidden<br/>(return visit, SESSION_GATING_ENABLED only)
     Intro --> Booting : deferred module evaluates
@@ -194,4 +196,9 @@ page. The director timeout is the only one that warns to the console.
 ## Deferred video
 
 `deferred-videos.js` is the single owner of `data-defer-video`. Nothing else
-assigns `src` to those elements.
+assigns `src` to those elements. On the home page it runs twice: the
+background video alone at readiness (it is what the playback gate waits on),
+then everything left in `finally`, after `preloader:out`. Card videos are
+`preload="none"` in the template and the hydrator leaves that alone, so they
+fetch nothing until played. While the splash is up, the only media on the
+wire is the one video the gate is waiting for.

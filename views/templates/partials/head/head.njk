@@ -3,13 +3,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ title }}</title>
 
-  <link rel="preload" as="style" href="{{ '/assets/styles.css' | url }}">
   <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}" />
-  {% include "templates/partials/preloader-script/preloader-script.njk" %}
-  {% include "templates/partials/social/social.njk" %}
-  {% include "templates/partials/manifest/manifest.njk" %}
-  {% include "templates/partials/favicon/favicon.njk" %}
-  {% include "templates/partials/fonts/fonts.njk" %}
+
+  <!-- Sanity CDN serves every image, poster, and video; warm the connection before
+     the parser reaches the first asset in <body>. -->
+  <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
 
   {% if enableChoreography and runtime and runtime.bundleJs and eleventy.env.runMode == "build" %}
     <!-- Warm the choreography bundle early; director:ready gates the hero reveal (LCP).
@@ -17,8 +15,8 @@
              artifact, so eagerly preloading it would slow the dev page, not speed it. -->
     <link rel="modulepreload" href="/assets/js/choreography/bundle.js" />
   {% endif %}
+
   {{ scripts | safe }}
-  {% include "templates/partials/session-management-script/session-management-script.njk" %}
-  {% block extraHeadContent %}
-  {% endblock extraHeadContent %}
+
+  {% include "templates/partials/preloader-script/preloader-script.njk" %}
 </head>

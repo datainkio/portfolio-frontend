@@ -28,8 +28,9 @@ else here applies. On the home page it: ^fd773d
 3. First visit only: locks `html`/`body` overflow and captures `scrollY`. ^b3f101
 4. Awaits `document.fonts.ready` and `director:ready`, each raced against a
    timeout from `constants.js` — no gate may hold the page indefinitely. ^d8447f
-5. Hydrates deferred videos, then calls `play()` on the background video and
-   awaits it (bounded) so the splash never lifts onto a paused poster. ^9c8d87
+5. Hydrates the background video only (`deferredBackgroundVideo`), then calls
+   `play()` on it and awaits it (bounded) so the splash never lifts onto a
+   paused poster. Card videos are not touched yet. ^9c8d87
 6. Awaits the CSS intro (the subtitle's animation `finished`, bounded) so the
    outro never cuts it short. Resolves at once under reduced motion or if the
    intro already landed. ^e82137
@@ -37,8 +38,9 @@ else here applies. On the home page it: ^fd773d
    animation `finished` (bounded), sets `hidden`. Root already `hidden`
    (return visit, pre-paint script): outro skipped. ^d26777
 8. 📍Dispatches `preloader:out` on `window` exactly once. ^1a429c
-9. 📍`finally`: unlocks scroll and clears `main[aria-busy]` — cleanup runs even
-   if a gate throws. ^ca5d32
+9. 📍`finally`: unlocks scroll, clears `main[aria-busy]`, and hydrates the
+   remaining deferred videos (the cards) — cleanup runs even if a gate throws,
+   so every video ends with a `src`. ^ca5d32
 
 Logging goes through a scoped Lumberjack logger, so it is silent unless the
 choreography system has enabled logging. The one `console.warn` is the

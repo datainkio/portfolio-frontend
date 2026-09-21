@@ -11,9 +11,10 @@ links:
 ---
 # session-management-script.njk
 
-Included by `head.njk`. Must stay a classic (non-module) inline script:
-module scripts are deferred and would run after first paint, which is exactly
-the flash this prevents.
+Included by `home.njk` in `<body>`, directly after `Preloader.render()` — it
+must come after the `[data-preloader]` markup it queries, and must stay a
+classic (non-module) inline script: module scripts are deferred and would run
+after first paint, which is exactly the flash this prevents.
 
 It sets `hidden`, not `data-preloader-state="exit"`: the CSS outro fades from
 full opacity, so `exit` on a never-shown root would flash the splash. Once

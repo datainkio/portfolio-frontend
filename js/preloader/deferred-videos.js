@@ -2,8 +2,11 @@ import { PRELOADER_SELECTORS } from "./constants.js";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
-export const hydrateDeferredVideos = (logger) => {
-  const videos = document.querySelectorAll(PRELOADER_SELECTORS.deferredVideos);
+export const hydrateDeferredVideos = (
+  logger,
+  selector = PRELOADER_SELECTORS.deferredVideos,
+) => {
+  const videos = document.querySelectorAll(selector);
 
   const prefersReducedMotion =
     typeof window.matchMedia === "function" &&
@@ -27,7 +30,9 @@ export const hydrateDeferredVideos = (logger) => {
     if (!src) return;
 
     try {
-      video.setAttribute("preload", "metadata");
+      // The template's own preload attribute stands: the hero carries
+      // "metadata", card videos "none" — so a hydrated card fetches nothing
+      // until something plays it.
       video.src = src;
       video.removeAttribute("data-src");
       video.removeAttribute("data-defer-video");

@@ -40,6 +40,7 @@
     {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {{ Preloader.render({ "svg": logo }) }}
+    {% include "templates/partials/session-management-script/session-management-script.njk" %}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ GlobalHeader.render({ logoSvg: logo }) }}
     <div id="page-main">

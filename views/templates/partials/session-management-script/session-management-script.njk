@@ -1,13 +1,4 @@
-{# Pre-paint return-visit check. Runs synchronously right after the landing
-   header so a repeat visit this session never flashes the splash: the root
-   is hidden outright (not set to "exit" — the CSS outro starts from full
-   opacity, so "exit" on a never-shown root would flash). Preloader.js sees
-   `hidden` and skips the outro.
-   Duplicates, by necessity (no imports before paint):
-     - the sessionStorage key + `visited` shape from
-       js/choreography/managers/SessionManager/SessionManager.js
-     - the `[data-preloader]` selector from js/preloader/constants.js
-   Change any of those and change this. #}
+{# Pre-paint return-visit check. Place after Preloader.render to maintain low load times. #}
 <script>
   (function () {
           try {

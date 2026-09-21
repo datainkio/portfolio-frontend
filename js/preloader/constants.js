@@ -11,6 +11,10 @@ export const PRELOADER_SELECTORS = {
   backgroundVideo: "#background video",
   main: "main",
   deferredVideos: "video[data-defer-video][data-src]",
+  // The hero alone, for the first hydration pass. Card videos wait until the
+  // splash is gone so they don't compete with the hero for bandwidth while
+  // the playback gate is waiting on it.
+  deferredBackgroundVideo: "#background video[data-defer-video][data-src]",
   // Opt-in marker for videos whose playback is decorative. Under
   // prefers-reduced-motion these are left unhydrated so their poster stands
   // in. Videos WITHOUT this attribute hydrate as before.

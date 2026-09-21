@@ -1,17 +1,7 @@
-<!-- Preconnects for performance optimization -->
-<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 
-<!-- Google Fonts preconnects.
-     Keep these only if IBM Plex Sans is used above the fold.
-     If both Google fonts are strictly below-the-fold, remove these. -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-<!-- IBM Plex Sans: primary sans/UI/body face.
-     Used above the fold, so load normally rather than hiding behind media="print".
-     Keep the family/weights tight. -->
-<link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;1,300&display=swap" />
+<!-- IBM Plex Sans (body face) is self-hosted — @font-face in styles/typography/imports.css.
+     Nothing render-blocking is fetched from Google Fonts any more, so no preconnects:
+     Cormorant below is the only Google request and it is already off the render path. -->
 
 <!-- Cormorant Garamond: used only below the fold
      case-study modal, prev/next nav, etc.
@@ -25,10 +15,8 @@
       onload="this.onload=null;this.media='all'" />
 
 <noscript>
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" />
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&text=ViewPreviousNext&display=swap" />
+     <link rel="stylesheet"
+           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&text=ViewPreviousNext&display=swap" />
 </noscript>
 
 <!-- Preload the display font (DraftPaper) — drives hero LCP text -->

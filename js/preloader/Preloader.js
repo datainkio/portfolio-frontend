@@ -15,14 +15,15 @@
  *        ├─ in parallel:
  *        │    intro: animationend on the subtitle (bounded)
  *        │    readiness: fonts.ready (bounded) → director:ready (bounded)
- *        │               → hydrate deferred videos
+ *        │               → hydrate the background video only
  *        │               → background video play() → `playing` (bounded)
  *        ├─ outro: flip exit state, await animationend on the logo (bounded),
  *        │         then `hidden` on the root
  *        │  return visit: root already `hidden` pre-paint by
  *        │                session-management-script.njk — outro skipped
  *        ├─ dispatch preloader:out → LandingSequence
- *        └─ cleanup: unlock scroll, main[aria-busy=false]
+ *        └─ cleanup: unlock scroll, main[aria-busy=false],
+ *                    hydrate the remaining (card) videos
  */
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
@@ -215,10 +216,10 @@ export const initPreloader = async () => {
     const directorIsReady = await directorReady();
     logger.trace(
       directorIsReady
-        ? "Director ready; hydrating deferred videos"
-        : "Director gate released by timeout; hydrating deferred videos",
+        ? "Director ready; hydrating background video"
+        : "Director gate released by timeout; hydrating background video",
     );
-    hydrateDeferredVideos(logger);
+    hydrateDeferredVideos(logger, PRELOADER_SELECTORS.deferredBackgroundVideo);
 
     logger.trace("Waiting for background video playback");
     await backgroundVideoPlaying();
@@ -243,5 +244,9 @@ export const initPreloader = async () => {
     document
       .querySelector(PRELOADER_SELECTORS.main)
       ?.setAttribute("aria-busy", "false");
+    // Everything the first pass skipped (card videos). Runs in `finally` so a
+    // failed flow still leaves every video with a src.
+    logger.trace("Hydrating remaining deferred videos");
+    hydrateDeferredVideos(logger);
   }
 };
