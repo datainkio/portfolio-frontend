@@ -10,7 +10,7 @@ Reusable partial included by layouts or pages.
 ## Template
 
 - Source: [[gtm-noscript.njk]]
-- Path: `views/templates/partials/gtm-noscript.njk`
+- Path: `views/templates/partials/gtm-noscript/gtm-noscript.njk`
 
 ## Purpose
 

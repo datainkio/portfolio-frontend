@@ -6,14 +6,14 @@ tags:
   - dev-channel
   - console
 links:
-  - "[home](../../pages/home/home.md)"
-  - "[ADR 0005](../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md)"
+  - "[home](../../../pages/home/home.md)"
+  - "[ADR 0005](../../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md)"
 ---
 
 # Dev Note (console channel)
 
 Emits the **developer-facing `console.log` narrative** — the IXD/motion half of
-the two-channel system defined in [ADR 0005](../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md).
+the two-channel system defined in [ADR 0005](../../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md).
 Audience: a designer/developer who opened DevTools and is watching the page boot.
 The implicit question to answer: _"will working with this person make me a hero
 to my bosses?"_ — answered here with evidence of runtime discipline.

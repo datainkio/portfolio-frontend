@@ -10,7 +10,7 @@ Reusable partial included by layouts or pages.
 ## Template
 
 - Source: [[gtm-script.njk]]
-- Path: `views/templates/partials/gtm-script.njk`
+- Path: `views/templates/partials/gtm-script/gtm-script.njk`
 
 ## Purpose
 

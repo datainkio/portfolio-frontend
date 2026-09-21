@@ -1,0 +1,35 @@
+{
+	"nodes":[
+		{"id":"c10d49e252f71a1c","type":"group","x":-960,"y":-1360,"width":1160,"height":2960,"color":"2","label":"<head>"},
+		{"id":"989724495f5b62f4","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^f64d29","x":-790,"y":-1200,"width":840,"height":100,"color":"2"},
+		{"id":"3ed8f1928e4cc80e","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^e239e1","x":-790,"y":-1040,"width":840,"height":100,"color":"2"},
+		{"id":"bb5629a4bb13446d","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^8e23d7","x":-790,"y":-860,"width":840,"height":100,"color":"2"},
+		{"id":"0791947776c33aa2","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^899a04","x":-790,"y":1000,"width":840,"height":100,"color":"2"},
+		{"id":"41c7460fa8b16b44","x":360,"y":1020,"width":250,"height":60,"color":"2","type":"text","text":"visit === 0"},
+		{"id":"b2737533d00d7d4c","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^867de8","x":-790,"y":1180,"width":840,"height":100,"color":"2"},
+		{"id":"3ad9ae43b1eb044b","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^4c3622","x":-790,"y":1360,"width":840,"height":100,"color":"2"},
+		{"id":"2f30e3f1c1ecc8aa","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^7f1918","x":-790,"y":-520,"width":840,"height":100,"color":"2"},
+		{"id":"a11f99cd6c018789","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^7f1918","x":-790,"y":-40,"width":840,"height":100,"color":"2"},
+		{"id":"952353eb1e8bfbd0","x":-790,"y":160,"width":840,"height":400,"type":"file","file":"dataink.io/frontend/views/templates/partials/fonts/fonts-load-sequence.canvas"},
+		{"id":"c6c6a97b2896f140","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^40856c","x":-790,"y":640,"width":840,"height":100,"color":"2"},
+		{"id":"4e360cc9aa46f715","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^8437d2","x":-790,"y":820,"width":840,"height":100,"color":"2"},
+		{"id":"4b9b78ce7cc20239","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^312247","x":-790,"y":-360,"width":840,"height":100,"color":"2"},
+		{"id":"16f3cc5806b38d04","type":"file","file":"dataink.io/frontend/views/templates/partials/head/head.md","subpath":"#^55bf78","x":-790,"y":-200,"width":840,"height":100,"color":"2"},
+		{"id":"378eb420668f4660","x":360,"y":-680,"width":400,"height":50,"color":"1","type":"text","text":"page rendering blocked until styles.csss loads"},
+		{"id":"2e85afd59dbf63aa","x":360,"y":500,"width":250,"height":60,"color":"2","type":"text","text":"fonts.ready"},
+		{"id":"1fcd1745eec3a34e","type":"text","text":"#9 · Cut the third-party critical path (M)\nPlex CSS is render-blocking and cross-origin, then the woff2 — two RTTs before FCP, which delays the CSS intro start. Self-host Plex woff2 + `preload`, or `display=optional` for first landing.","x":340,"y":200,"width":420,"height":150,"color":"1"},
+		{"id":"96d8a85acbcdb7a9","type":"text","text":"📍`bundle.js` (264 KB) — `modulepreload` is **build-only**; in dev the fetch starts at the body-end `import()` (measured: same ms as DCL). Never evaluated before DCL either way","x":-240,"y":610,"width":400,"height":160,"color":"#5e99d9"},
+		{"id":"8d203850a442fe8f","type":"text","text":"📍`Preloader.js` module graph — head `<script type=module>`: `Preloader.js` → lumberjack, events, SessionManager (→ lumberjack), constants, deferred-videos. 2 serial import round trips, none `modulepreload`ed","x":-240,"y":1140,"width":400,"height":180,"color":"#5e99d9"},
+		{"id":"5909398acbe206f5","type":"text","text":"#8 · Flatten the Preloader module graph (S)\nTwo serial import round trips before `initPreloader` can run. `modulepreload` the five imports in `head.njk`, or bundle `Preloader.js` the way the choreography bundle is.","x":340,"y":1165,"width":420,"height":130,"color":"1"}
+	],
+	"edges":[
+		{"id":"9c5a51b1c6aa408f","fromNode":"989724495f5b62f4","fromSide":"bottom","toNode":"3ed8f1928e4cc80e","toSide":"top"},
+		{"id":"9585c99db0099d4e","fromNode":"3ed8f1928e4cc80e","fromSide":"bottom","toNode":"bb5629a4bb13446d","toSide":"top"},
+		{"id":"7b25d4ce5c9b473c","fromNode":"bb5629a4bb13446d","fromSide":"bottom","toNode":"378eb420668f4660","toSide":"left","color":"1"},
+		{"id":"43661d1e28d03649","fromNode":"0791947776c33aa2","fromSide":"right","toNode":"41c7460fa8b16b44","toSide":"left"},
+		{"id":"de1ae4254ecc1743","fromNode":"378eb420668f4660","fromSide":"left","toNode":"2f30e3f1c1ecc8aa","toSide":"top","color":"1"},
+		{"id":"6cb92c4f9e828530","fromNode":"952353eb1e8bfbd0","fromSide":"right","toNode":"2e85afd59dbf63aa","toSide":"left"},
+		{"id":"2cafaecdea4ee5dc","fromNode":"952353eb1e8bfbd0","fromSide":"right","toNode":"1fcd1745eec3a34e","toSide":"left","fromEnd":"arrow","color":"1"},
+		{"id":"ec4ad42b0e186738","fromNode":"5909398acbe206f5","fromSide":"left","toNode":"8d203850a442fe8f","toSide":"right","color":"1"}
+	]
+}

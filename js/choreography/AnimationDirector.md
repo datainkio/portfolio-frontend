@@ -26,4 +26,4 @@ In its role as the master choreography controller, AnimationDirector is the seco
 3. Initialize ScrollEffectsCoordinator ^72a792
 4. Initialize managers ^b5aa46
 5. Initialize LandingSequence ^f25455
-6. Dispatch EVENTS.system.directorReady ^e44458
+6. 📍Dispatch EVENTS.system.directorReady ^e44458

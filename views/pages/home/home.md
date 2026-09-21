@@ -12,10 +12,10 @@ links:
   - "[work](../../organisms/section/work.md)"
   - "[organizations](../../organisms/section/organizations.md)"
   - "[contact](../../organisms/section/contact.md)"
-  - "[dev-note](../../templates/partials/dev-note.md)"
-  - "[head](../../templates/partials/head.md)"
-  - "[gtm-noscript](../../templates/partials/gtm-noscript.md)"
-  - "[choreography-script](../../templates/partials/choreography-script.md)"
+  - "[dev-note](../../templates/partials/dev-note/dev-note.md)"
+  - "[head](../../templates/partials/head/head.md)"
+  - "[gtm-noscript](../../templates/partials/gtm-noscript/gtm-noscript.md)"
+  - "[choreography-script](choreography-script.md)"
 ---
 
 # home.njk
@@ -36,12 +36,16 @@ Generates a routed page in the Eleventy build.
 Classified as a **page** at the atomic **page** level based on its location under `views/`.
 
 ### Preloading Roles
-1. parse header value data-preloader ^559504
-2. first paint (CSS-only preload animation) ^a9caea
-3. run inline session management script ^cfcf23
-4. load AnimationDirector.js ^60f6f2
-5. load Preloader.js ^ecb8b3
-6. initialize preloader (initPreloader()) ^3c1561
+
+Actual execution order. Steps 1 and 4 are `head.njk` includes; step 6 is
+`choreography-script.njk` at the end of `<body>`.
+
+1. run inline session management script mid-parse — classic script in `<head>`, before `<body>` is parsed ^cfcf23
+2. `<div data-preloader>` found ^559504
+3. first paint (CSS-only preload animation) ^a9caea
+4. load Preloader.js — `<head>` module, runs once parsing is done (`readyState` "interactive") ^ecb8b3
+5. initialize preloader (initPreloader()) ^3c1561
+6. load choreography bundle → AnimationDirector.js — the body-end module only *starts* `import(bundle.js)`; the bundle resolves and evaluates after `DOMContentLoaded`, and the Director constructs via `requestIdleCallback` ^60f6f2
 
 ## Data and Context
 

@@ -7,6 +7,8 @@ tags:
 links:
   - "[[Preloader.js]]"
   - "[[README.preloader.md]]"
+  - "[[sequence.canvas]]"
+  - "[[preloader-states.canvas]]"
 ---
 
 ```mermaid

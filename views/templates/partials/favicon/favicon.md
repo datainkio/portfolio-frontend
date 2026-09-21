@@ -10,7 +10,7 @@ Reusable partial included by layouts or pages.
 ## Template
 
 - Source: [[favicon.njk]]
-- Path: `views/templates/partials/favicon.njk`
+- Path: `views/templates/partials/favicon/favicon.njk`
 
 ## Purpose
 
@@ -27,7 +27,7 @@ Classified as a **partial** at the atomic **template** level based on its locati
 ## Relationships
 
 - Likely used by:
-  - [[head.njk|templates/partials/head.njk]]
+  - [[head.njk|templates/partials/head/head.njk]]
 
 ## Notes for Future Maintenance
 

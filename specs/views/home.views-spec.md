@@ -71,9 +71,9 @@ The template imports section macros and renders them, in order, inside a single 
 | 6     | Recognition   | `organisms/section/awards.njk`               | `recognition`   | `copy: recognition`, `awards`                          |
 | 7     | Contact       | `organisms/section/contact.njk`              | `contact`       | `copy: contact`, `contact: contactInfo`                |
 | —     | Footer        | `organisms/footer/global-footer.njk`         | —               | `contact: false` (rendered outside `<main>`)           |
-| —     | Choreography  | `templates/partials/choreography-script.njk` | —               | module bundle (gated boot)                             |
+| —     | Choreography  | `templates/partials/choreography-script/choreography-script.njk` | —               | module bundle (gated boot)                             |
 
-Head/body partials included directly: `templates/partials/dev-note.njk`, `head.njk`, `gtm-noscript.njk`.
+Head/body partials included directly: `templates/partials/dev-note/dev-note.njk`, `head.njk`, `gtm-noscript.njk`.
 
 ### Data bindings (template top)
 

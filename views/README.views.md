@@ -200,9 +200,10 @@ and navigation across site sections
 - **`blog/`** - Article and content-focused layouts
 - **`case-study/`** - Project/case-study page layouts
 - **`article.njk`** - Standalone article template
-- **`partials/`** - Shared template fragments (`gtm-script.njk`,
-  `gtm-noscript.njk`, `icon.njk`, `manifest.njk`, `social.njk`,
-  `choreography-script.njk`, and others)
+- **`partials/`** - Shared template fragments, one folder per partial
+  (`head/`, `fonts/`, `favicon/`, `manifest/`, `social/`, `gtm-script/`,
+  `gtm-noscript/`, `choreography-script/`, and others — each holding
+  `<name>.njk` + `<name>.md`)
 
 **Example Page Using Template:**
 

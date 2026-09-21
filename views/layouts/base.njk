@@ -7,14 +7,14 @@
 
 <!DOCTYPE html>
 <html lang="en" class="{{ 'debug-outlines' if runtime.debugOutlines }}">
-  {% include "templates/partials/dev-note.njk" %}
-  {% include "templates/partials/head.njk" %}
+  {% include "templates/partials/dev-note/dev-note.njk" %}
+  {% include "templates/partials/head/head.njk" %}
   {% block head %}
   {% endblock head %}
   <body class="{{ {"base": "bg-slate-950 bg-graphpaper-accent-400", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
 
     {# GTM #}
-    {% include "templates/partials/gtm-noscript.njk" %}
+    {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
 
     {# SKIP LINKS #}
     {{ SkipLinks.render() }}

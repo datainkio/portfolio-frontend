@@ -26,7 +26,7 @@ export const PRELOADER_STATE = {
   exit: "exit",
 };
 
-// Set by views/templates/partials/choreography-script.njk before this module
+// Set by views/templates/partials/choreography-script/choreography-script.njk before this module
 // runs. When false, the director gate resolves immediately.
 export const CHOREOGRAPHY_FLAG = "__enableChoreography";
 

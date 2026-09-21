@@ -16,9 +16,9 @@ links:
 # Preloader package review
 
 Scope: `js/preloader/` plus its three touchpoints — the bootstrap partial
-([choreography-script.njk](../views/templates/partials/choreography-script.njk)),
+([choreography-script.njk](choreography-script.njk)),
 the markup it targets ([home-landing.njk](../views/organisms/header/home/home-landing.njk)
-+ [session-management-script.njk](../views/templates/partials/session-management-script.njk)),
++ [session-management-script.njk](../views/templates/partials/session-management-script/session-management-script.njk)),
 and the CSS that owns the visuals ([hanko.css](../styles/components/hanko.css)).
 Read-only. Implementation conflicts are named here and left for a later pass.
 

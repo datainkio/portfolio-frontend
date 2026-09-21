@@ -6,7 +6,7 @@ tags:
 links:
   - "[base](../../layouts/base.md)"
   - "[project-header](../../organisms/header/project/project-header.md)"
-  - "[choreography-script](../../templates/partials/choreography-script.md)"
+  - "[choreography-script](choreography-script.md)"
 ---
 
 # Project (single)

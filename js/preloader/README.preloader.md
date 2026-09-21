@@ -156,7 +156,7 @@ A `<div data-preloader>` holding `[data-preloader-logo]`,
 `[data-preloader-author]`, `[data-preloader-subtitle]`. The subtitle is the
 last child in (intro gate) and the logo the last child out (outro gate); the
 root gets `hidden` once the outro lands.
-[session-management-script.njk](../../views/templates/partials/session-management-script.njk)
+[session-management-script.njk](../../views/templates/partials/session-management-script/session-management-script.njk)
 runs inline in `<head>` and sets `hidden` before first paint on return visits,
 reading the same `sessionStorage` key as `SessionManager`.
 

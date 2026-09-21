@@ -5,8 +5,8 @@ links:
   - "[global-header](../organisms/header/global-header.md)"
   - "[global-footer](../organisms/footer/global-footer.md)"
   - "[skip-links-nav](organisms/navigation/skip-links-nav.njk)"
-  - "[head](../templates/partials/head.md)"
-  - "[gtm-noscript](../templates/partials/gtm-noscript.md)"
+  - "[head](../templates/partials/head/head.md)"
+  - "[gtm-noscript](../templates/partials/gtm-noscript/gtm-noscript.md)"
 ---
 
 # Base

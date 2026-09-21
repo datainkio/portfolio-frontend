@@ -18,7 +18,7 @@ export const SESSION_GATING_ENABLED = true;
  */
 class SessionManager {
   constructor() {
-    // Mirrored by hand in views/templates/partials/session-management-script.njk
+    // Mirrored by hand in views/templates/partials/session-management-script/session-management-script.njk
     // (pre-paint, can't import). Rename both together.
     this.sessionKey = "dataink_session";
     this.state = this.loadState();

@@ -2,13 +2,6 @@ import { PRELOADER_SELECTORS } from "./constants.js";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
-/**
- * Single owner of the `data-defer-video` contract: every
- * `video[data-defer-video][data-src]` on the page gets its `src` assigned
- * here and nowhere else. Runs on every page (see Preloader.js) — on the home
- * page once readiness resolves, so the download warms during the outro;
- * elsewhere immediately, since there is no splash to wait behind.
- */
 export const hydrateDeferredVideos = (logger) => {
   const videos = document.querySelectorAll(PRELOADER_SELECTORS.deferredVideos);
 

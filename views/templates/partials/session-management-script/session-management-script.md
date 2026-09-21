@@ -32,5 +32,5 @@ already in storage — that single load still skips the splash.)
 
 ## Role in preloader strategy
 - Check if session gating is enabled ^849da1
-- Hide the preloader root before paint ^204f8f
+- 📍Hide the preloader root before paint (intended; currently never reached) ^204f8f
 - Is this the first visit to the page this session? ^e36dca

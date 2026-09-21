@@ -19,7 +19,7 @@ flow; this is the pre-merge gate.
 
 ## Scope
 
-- Bootstrap: `views/templates/partials/choreography-script.njk` (thin import-and-init)
+- Bootstrap: `views/templates/partials/choreography-script/choreography-script.njk` (thin import-and-init)
 - Controller: `js/preloader/Preloader.js`
 - Constants: `js/preloader/constants.js`
 - Deferred media: `js/preloader/deferred-videos.js`

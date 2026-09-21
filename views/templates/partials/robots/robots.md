@@ -10,7 +10,7 @@ Reusable partial included by layouts or pages.
 ## Template
 
 - Source: [[robots.njk]]
-- Path: `views/templates/partials/robots.njk`
+- Path: `views/templates/partials/robots/robots.njk`
 
 ## Purpose
 

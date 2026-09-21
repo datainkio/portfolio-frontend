@@ -33,11 +33,11 @@
 
 {# Note that content values - include title and other metadata - are set in frontmatter #}
 <!DOCTYPE html>
-{% include "templates/partials/dev-note.njk" %}
+{% include "templates/partials/dev-note/dev-note.njk" %}
 <html lang="en" class="bg-slate-950">
-  {% include "templates/partials/head.njk" %}
+  {% include "templates/partials/head/head.njk" %}
   <body class="relative bg-slate-950 text-neutral-100 isolate">
-    {% include "templates/partials/gtm-noscript.njk" %}
+    {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {{ Preloader.render({ "svg": logo }) }}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
@@ -51,6 +51,6 @@
       </main>
     </div>
     {{ GlobalFooter.render() }}
-    {% include "templates/partials/choreography-script.njk" %}
+    {% include "templates/partials/choreography-script/choreography-script.njk" %}
   </body>
 </html>

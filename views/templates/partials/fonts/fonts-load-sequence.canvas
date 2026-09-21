@@ -1,0 +1,23 @@
+{
+	"nodes":[
+		{"id":"a91b5863b27a416f","type":"group","x":-440,"y":-539,"width":880,"height":1359,"color":"2","label":"fonts.njk"},
+		{"id":"e937e809b170c55f","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts/fonts.md","subpath":"#1. CDN (rel preconnect)","x":-420,"y":-519,"width":840,"height":145,"color":"2"},
+		{"id":"02326176d4115d7d","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts/fonts.md","subpath":"#2. Google Fonts (rel preconnect)","x":-420,"y":-334,"width":840,"height":115,"color":"2"},
+		{"id":"d3458c15a5c9f8e7","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts/fonts.md","subpath":"#3. IBM Plex Sans (rel stylesheet)","x":-420,"y":-184,"width":840,"height":145,"color":"2"},
+		{"id":"a225267d06df3294","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts/fonts.md","subpath":"#4. Cormorant Garamond (rel stylesheet)","x":-420,"y":280,"width":840,"height":190,"color":"2"},
+		{"id":"db268a1e6ee3f2b8","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts/fonts.md","subpath":"#5. NOSCRIPT","x":-420,"y":520,"width":840,"height":105,"color":"2"},
+		{"id":"741124ebf5ae8a09","type":"file","file":"dataink.io/frontend/views/templates/partials/fonts/fonts.md","subpath":"#6. DraftPaper (rel preload)","x":-420,"y":683,"width":840,"height":105,"color":"2"},
+		{"id":"cc6044c8224ef5f5","type":"text","text":"#9 · Cut the third-party critical path (M)\nPlex CSS is render-blocking and cross-origin, then the woff2 — two RTTs before FCP, which delays the CSS intro start. Self-host Plex woff2 + `preload`, or `display=optional` for first landing.","x":550,"y":40,"width":420,"height":150,"color":"1"},
+		{"id":"12a1c1f238f2ef75","type":"text","text":"📍`DRAFTPAPER.woff2` — `preload as=font` (high priority, starts at head parse). Drives hero LCP text; `fonts.ready` waits on it","x":0,"y":698,"width":400,"height":90,"color":"#5e99d9"},
+		{"id":"6c61c805e9397393","x":-125,"y":960,"width":250,"height":60,"color":"2","type":"text","text":"fonts.ready"}
+	],
+	"edges":[
+		{"id":"39fe9c035231d0b5","fromNode":"e937e809b170c55f","fromSide":"bottom","toNode":"02326176d4115d7d","toSide":"top"},
+		{"id":"db47c3d2df8aa3ee","fromNode":"02326176d4115d7d","fromSide":"bottom","toNode":"d3458c15a5c9f8e7","toSide":"top"},
+		{"id":"5f177201263ccd0d","fromNode":"a225267d06df3294","fromSide":"bottom","toNode":"db268a1e6ee3f2b8","toSide":"top"},
+		{"id":"f0258a31136c1601","fromNode":"db268a1e6ee3f2b8","fromSide":"bottom","toNode":"741124ebf5ae8a09","toSide":"top"},
+		{"id":"2c1ed9c3b91e1902","fromNode":"d3458c15a5c9f8e7","fromSide":"bottom","toNode":"cc6044c8224ef5f5","toSide":"left","color":"1"},
+		{"id":"4b63c16dfb9764e4","fromNode":"cc6044c8224ef5f5","fromSide":"left","toNode":"a225267d06df3294","toSide":"top","color":"1"},
+		{"id":"09d282f3b6ab3678","fromNode":"a91b5863b27a416f","fromSide":"bottom","toNode":"6c61c805e9397393","toSide":"top"}
+	]
+}

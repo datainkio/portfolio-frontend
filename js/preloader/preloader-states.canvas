@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"077a615ac01e5a45","type":"group","x":-60,"y":-260,"width":2360,"height":1060,"label":"Preloader view states — triggers only"},
+		{"id":"ae332356bd058479","type":"text","x":0,"y":-220,"width":1200,"height":70,"text":"# Preloader states\nThree visual states of `<div data-preloader>`. Visuals: [[hanko.css]]. The only JS-driven transition is the `exit` flip in [[Preloader.js]]. Parent: [[sequence.canvas]]."},
+		{"id":"648c0fc487c4f576","type":"text","x":0,"y":0,"width":300,"height":110,"text":"**Parsed, not yet painted**\n`<div data-preloader>` in DOM; [[hanko.css]] applied."},
+		{"id":"9d48553decc9074c","type":"file","x":400,"y":-40,"width":400,"height":190,"file":"dataink.io/frontend/views/organisms/status/preloader.md","subpath":"#^f53317","color":"4"},
+		{"id":"fabefcb08464e115","type":"file","x":900,"y":-40,"width":400,"height":190,"file":"dataink.io/frontend/views/organisms/status/preloader.md","subpath":"#^20d161","color":"4"},
+		{"id":"b4cfc08b3889cd0a","type":"file","x":1400,"y":-40,"width":400,"height":190,"file":"dataink.io/frontend/views/organisms/status/preloader.md","subpath":"#^e31b11","color":"4"},
+		{"id":"2f490060873fd185","type":"text","x":1900,"y":0,"width":300,"height":110,"text":"**Hidden**\n`preloader.hidden = true`; root leaves flow. Then `preloader:out`.","color":"4"},
+		{"id":"9ef82c514b4f9df5","type":"text","x":1400,"y":260,"width":400,"height":230,"text":"**`runExit()` runs only after all four settle** (each bounded; a timeout releases, never holds):\n1. `document.fonts.ready` ≤2000ms\n2. `director:ready` ≤8000ms\n3. sizzle video `play()` ≤4000ms\n4. intro landed (`[data-preloader-subtitle]` `finished`) ≤1000ms\n([[Preloader.md#^d8447f]])"},
+		{"id":"2ec382072761865c","type":"text","x":900,"y":340,"width":400,"height":190,"text":"**Return visit — hidden before paint**\n`session-management-script.njk` sets `hidden` from `sessionStorage`; no state is shown and `runExit()` is skipped. ([[session-management-script.md#^204f8f]])","color":"6"},
+		{"id":"af23967d507ec465","type":"text","x":900,"y":580,"width":400,"height":150,"text":"**Currently dead:** the script is a `head.njk` include and runs before `<body>` is parsed, so `querySelector(\"[data-preloader]\")` is `null`. Return visits show all three states.","color":"1"},
+		{"id":"9686542f2070a5d6","type":"text","x":0,"y":340,"width":400,"height":190,"text":"**prefers-reduced-motion**\n`animation: none` — intro and outro snap to their end state, the idle pulse never runs, every `finished` resolves at once. Same triggers, zero duration."}
+	],
+	"edges":[
+		{"id":"15abba316c8edab5","fromNode":"648c0fc487c4f576","fromSide":"right","toNode":"9d48553decc9074c","toSide":"left","label":"first paint — CSS auto, no JS, no event"},
+		{"id":"be64bf296b350df3","fromNode":"9d48553decc9074c","fromSide":"right","toNode":"fabefcb08464e115","toSide":"left","label":"CSS `animation-delay: var(--preloader-intro-duration)` — no event"},
+		{"id":"d83e78dff3c289f5","fromNode":"fabefcb08464e115","fromSide":"right","toNode":"b4cfc08b3889cd0a","toSide":"left","label":"`data-preloader-state=\"exit\"` set by `runExit()`"},
+		{"id":"7c228a847c130d47","fromNode":"b4cfc08b3889cd0a","fromSide":"right","toNode":"2f490060873fd185","toSide":"left","label":"`[data-preloader-logo]` animations `finished` (≤1000ms)"},
+		{"id":"2983241f1a0d4f3c","fromNode":"9ef82c514b4f9df5","fromSide":"top","toNode":"b4cfc08b3889cd0a","toSide":"bottom"},
+		{"id":"2cadb07984c5bc08","fromNode":"648c0fc487c4f576","fromSide":"bottom","toNode":"2ec382072761865c","toSide":"left","label":"visited === true","color":"6"},
+		{"id":"2ebc2519675e41fb","fromNode":"2ec382072761865c","fromSide":"right","toNode":"2f490060873fd185","toSide":"bottom","label":"skips intro / idle / outro","color":"6"},
+		{"id":"660f5d54a912e5ee","fromNode":"2ec382072761865c","fromSide":"bottom","toNode":"af23967d507ec465","toSide":"top","color":"1"}
+	]
+}

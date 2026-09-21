@@ -27,7 +27,7 @@ Templates represent complete page compositions built from organisms and molecule
 
 ### `partials/` - Shared `<head>` Fragments
 
-Included from `partials/head.njk`, itself included by `layouts/base.njk`:
+Each partial lives in its own folder with its sidecar — `partials/<name>/<name>.njk` + `<name>.md` — so includes are written `{% include "templates/partials/<name>/<name>.njk" %}`. Included from `partials/head/head.njk`, itself included by `layouts/base.njk`:
 
 - **`head.njk`** - assembles the `<head>`: stylesheet, the partials below, and the choreography bundle preload
 - **`social.njk`** - SEO/social meta tags (description, canonical, Open Graph, Twitter card)
@@ -37,6 +37,7 @@ Included from `partials/head.njk`, itself included by `layouts/base.njk`:
 - **`gtm-script.njk`** / **`gtm-noscript.njk`** - Google Tag Manager snippets
 - **`robots.njk`** - robots meta tag
 - **`choreography-script.njk`** - GSAP choreography bundle script tag
+- **`session-management-script.njk`** / **`preloader-script.njk`** - the pre-paint session check and the `Preloader.js` bootstrap module, both included by `head.njk`
 - **`dev-note.njk`** - a signature `console.log` Easter egg, unconditionally included on every page (not gated behind a debug flag — see [[fix-dev-channel-defects-(adr-0005)|Fix dev-channel defects (ADR 0005)]] if that's ever addressed)
 
 ## Usage
@@ -58,5 +59,5 @@ Templates receive page-level data from the page's frontmatter and the 11ty data 
 
 ## Integration Notes
 
-- **Animation**: templates that use choreography include `partials/choreography-script.njk`, which loads the bundle built by `scripts/buildChoreography.js`; the boot sequence (`director:ready` → `preloader:out` → `LandingSequence`) must not be bypassed.
+- **Animation**: templates that use choreography include `partials/choreography-script/choreography-script.njk`, which loads the bundle built by `scripts/buildChoreography.js`; the boot sequence (`director:ready` → `preloader:out` → `LandingSequence`) must not be bypassed.
 - **CSS**: `head.njk` controls stylesheet loading order — see `styles/main.css`'s own import order (fonts → Tailwind → base → theme → components) for why this matters.
