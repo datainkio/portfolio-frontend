@@ -45,7 +45,8 @@ Actual execution order. Steps 1 and 4 are `head.njk` includes; step 6 is
 3. first paint (CSS-only preload animation) ^a9caea
 4. load Preloader.js — `<head>` module, runs once parsing is done (`readyState` "interactive") ^ecb8b3
 5. initialize preloader (initPreloader()) ^3c1561
-6. load choreography bundle → AnimationDirector.js — the body-end module only *starts* `import(bundle.js)`; the bundle resolves and evaluates after `DOMContentLoaded`, and the Director constructs via `requestIdleCallback` ^60f6f2
+6. load choreography bundle → AnimationDirector.js ^d4166b
+7. the bundle resolves and evaluates after `DOMContentLoaded`, and the Director constructs via `requestIdleCallback` ^60f6f2
 
 ## Data and Context
 

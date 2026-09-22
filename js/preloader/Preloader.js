@@ -7,6 +7,11 @@
  * module decides *when* to flip `data-preloader-state="exit"` (the outro,
  * S03 -> S00), hides the root once that lands, and dispatches `preloader:out`.
  *
+ * It does not touch the background video element. It hydrates the deferred
+ * `src` (a bandwidth staging concern it owns), then hands off: BackgroundVideo
+ * starts playback and reports state as `video:media:*` events on `window`,
+ * which is all this module gates on.
+ *
  *   boot (every page that includes choreography-script.njk)
  *     ├─ no [data-preloader] → hydrate deferred videos, return
  *     └─ home
@@ -16,7 +21,8 @@
  *        │    intro: animationend on the subtitle (bounded)
  *        │    readiness: fonts.ready (bounded) → director:ready (bounded)
  *        │               → hydrate the background video only
- *        │               → background video play() → `playing` (bounded)
+ *        │               → cue preloader:video:hydrated, then wait for
+ *        │                 BackgroundVideo's video:media:* answer (bounded)
  *        ├─ outro: flip exit state, await animationend on the logo (bounded),
  *        │         then `hidden` on the root
  *        │  return visit: root already `hidden` pre-paint by
@@ -42,12 +48,6 @@ const logger = Lumberjack.createScoped("Preloader", {
 });
 logger.enabled = true;
 logger.trace("Preloader initialized");
-
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-
-const prefersReducedMotion = () =>
-  typeof window.matchMedia === "function" &&
-  window.matchMedia(REDUCED_MOTION_QUERY).matches;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -123,12 +123,13 @@ const fontsReady = () =>
     ? bounded(document.fonts.ready, PRELOADER_TIMINGS.fontsReadyTimeoutMs)
     : Promise.resolve();
 
+const isChoreographyEnabled = () =>
+  typeof window[CHOREOGRAPHY_FLAG] === "boolean"
+    ? window[CHOREOGRAPHY_FLAG]
+    : true;
+
 const directorReady = () => {
-  const enabled =
-    typeof window[CHOREOGRAPHY_FLAG] === "boolean"
-      ? window[CHOREOGRAPHY_FLAG]
-      : true;
-  if (!enabled || window.director) return Promise.resolve(true);
+  if (!isChoreographyEnabled() || window.director) return Promise.resolve(true);
 
   const ready = new Promise((resolve) =>
     window.addEventListener(EVENTS.system.directorReady, resolve, {
@@ -143,28 +144,58 @@ const directorReady = () => {
 };
 
 /**
- * Start the background video and resolve once playback has begun, so the
- * splash never lifts onto a paused poster. `play()` resolves when the media
- * starts and rejects at once when the browser refuses (autoplay policy, a
- * backgrounded tab) — a refusal releases the gate immediately rather than
- * waiting out the bound. Runs after hydration, so the element has its src.
- * Under reduced motion the video is left paused on purpose (BackgroundVideo
- * does the same) — nothing to wait for.
+ * Resolve once the background video has settled, so the splash never lifts
+ * onto a paused poster.
+ *
+ * This only *observes*. BackgroundVideo owns the element: it starts playback,
+ * applies the reduced-motion policy, and answers on every path — `playing`
+ * when it moves, `error` on a refused play(), `unavailable` when there is no
+ * video or no src. One of those always arrives, so the timeout below is a true
+ * failsafe rather than the normal exit for a page with no video.
+ *
+ * `ready` is the exception: it fires from `canplay` on every path, so taking it
+ * at face value would lift the splash onto a buffered-but-paused poster — the
+ * exact thing this gate prevents. It only counts when the payload says motion
+ * is reduced, which is the one case where paused IS the settled state.
+ *
+ * Call this BEFORE dispatching `preloader:video:hydrated` — the listeners must
+ * be attached before the section is cued, and the bound starts here.
  */
-const backgroundVideoPlaying = () => {
-  const video = document.querySelector(PRELOADER_SELECTORS.backgroundVideo);
-  if (!video || prefersReducedMotion()) return Promise.resolve(true);
-  if (!video.currentSrc && !video.src) {
-    logger.trace("Background video has no src; skipping playback gate");
+const backgroundVideoSettled = () => {
+  if (!isChoreographyEnabled()) {
+    // Nothing constructs BackgroundVideo, so nothing will ever answer.
+    logger.trace("Choreography disabled; skipping background video gate");
     return Promise.resolve(true);
   }
 
-  const started = Promise.resolve(video.play?.()).catch((error) => {
-    logger.trace("Background video play() rejected", error, "verbose", "warn");
+  const media = EVENTS.video.media;
+  const resolvers = [
+    media.playing,
+    media.ready,
+    media.error,
+    media.unavailable,
+  ];
+
+  const settled = new Promise((resolve) => {
+    const done = (event) => {
+      if (
+        event.type === media.ready &&
+        !event.detail?.lifecycle?.isReducedMotion
+      ) {
+        // Buffered, but still expected to start. Wait for `playing`.
+        return;
+      }
+      resolvers.forEach((name) => window.removeEventListener(name, done));
+      logger.trace(`Background video gate released by ${event.type}`);
+      resolve();
+    };
+    // Not `once`: `ready` may be declined above and has to stay subscribed.
+    resolvers.forEach((name) => window.addEventListener(name, done));
   });
-  return bounded(started, PRELOADER_TIMINGS.videoPlayingTimeoutMs, () =>
+
+  return bounded(settled, PRELOADER_TIMINGS.videoPlayingTimeoutMs, () =>
     logger.trace(
-      `Background video not playing within ${PRELOADER_TIMINGS.videoPlayingTimeoutMs}ms; releasing the preloader anyway`,
+      `Background video did not report within ${PRELOADER_TIMINGS.videoPlayingTimeoutMs}ms; releasing the preloader anyway`,
     ),
   );
 };
@@ -219,10 +250,14 @@ export const initPreloader = async () => {
         ? "Director ready; hydrating background video"
         : "Director gate released by timeout; hydrating background video",
     );
+    // Subscribe first: BackgroundVideo answers the cue below synchronously
+    // when the element is already buffered.
+    const videoSettled = backgroundVideoSettled();
     hydrateDeferredVideos(logger, PRELOADER_SELECTORS.deferredBackgroundVideo);
+    window.dispatchEvent(new Event(EVENTS.system.preloaderVideoHydrated));
 
-    logger.trace("Waiting for background video playback");
-    await backgroundVideoPlaying();
+    logger.trace("Waiting for background video");
+    await videoSettled;
 
     await intro;
 

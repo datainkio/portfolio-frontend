@@ -39,12 +39,39 @@ export function makeSectionEvents(key) {
   };
 }
 
+/**
+ * Background video media events (BackgroundVideo).
+ *
+ * Distinct from the section lifecycle above: those track the *reveal*
+ * choreography, these track the <video> element's own playstate. They are the
+ * only events that cross out of the choreography module graph — BackgroundVideo
+ * mirrors each one to `window` as a CustomEvent so the preloader, which boots
+ * before the Director exists and therefore has no bus, can gate on them.
+ *
+ * `unavailable` is the negative-space signal: no video element, no src to play,
+ * or a refused play(). A consumer gating on playback must treat it as "stop
+ * waiting", or it will wait out its own timeout on a page that has no video.
+ */
+const VIDEO_MEDIA_EVENTS = {
+  ready: "video:media:ready",
+  playing: "video:media:playing",
+  pause: "video:media:pause",
+  waiting: "video:media:waiting",
+  error: "video:media:error",
+  unavailable: "video:media:unavailable",
+};
+
 export const EVENTS = {
   system: {
     preloaderOut: "preloader:out",
     directorReady: "director:ready",
+    // Dispatched on `window` by the preloader once it has assigned the deferred
+    // src to the background video. The preloader owns hydration (a bandwidth
+    // staging concern); BackgroundVideo owns everything after it, and uses this
+    // as its cue to evaluate the element and start playback.
+    preloaderVideoHydrated: "preloader:video:hydrated",
   },
-  video: makeSectionEvents("video"),
+  video: { ...makeSectionEvents("video"), media: VIDEO_MEDIA_EVENTS },
   // Home landing header role state machine (HomeHeaderManager). The nav reveal
   // emits intro:start/complete so a larger sequence can coordinate off it.
   home: makeSectionEvents("home"),

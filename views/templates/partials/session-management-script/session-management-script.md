@@ -32,6 +32,7 @@ exception is the first load after flipping the flag off with a stale `visited`
 already in storage — that single load still skips the splash.)
 
 ## Role in preloader strategy
-- Check if session gating is enabled ^849da1
-- 📍Hide the preloader root before paint (intended; currently never reached) ^204f8f
-- Is this the first visit to the page this session? ^e36dca
+- Check if session gating is enabled (e.g. during dev) ^849da1
+
+📍Hide the preloader root before paint (intended; currently never reached) ^204f8f
+## Visit Count

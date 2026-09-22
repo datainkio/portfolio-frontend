@@ -5,10 +5,6 @@ export const PRELOADER_SELECTORS = {
   // end of each sequence.
   introLast: "[data-preloader-subtitle]",
   outroLast: "[data-preloader-logo]",
-  // The home sizzle video. Playback must have begun before the splash exits,
-  // so the preloader starts it itself (BackgroundVideo's later play() is a
-  // no-op on a playing element).
-  backgroundVideo: "#background video",
   main: "main",
   deferredVideos: "video[data-defer-video][data-src]",
   // The hero alone, for the first hydration pass. Card videos wait until the
@@ -47,9 +43,10 @@ export const PRELOADER_TIMINGS = {
   // lock or clear main[aria-busy]. The hero is already visible; a late
   // Director only delays the landing chain.
   directorReadyTimeoutMs: 8000,
-  // Upper bound on the background video's play() promise. A refused autoplay
-  // rejects at once and releases the gate itself; this covers a slow first
-  // buffer, so the splash never holds the page on a video that may not start.
+  // Upper bound on the wait for BackgroundVideo to report its media state.
+  // That section answers on every path (playing / ready / error / unavailable),
+  // so this is a failsafe against the choreography module failing to load at
+  // all, not the normal exit for a page without a video.
   videoPlayingTimeoutMs: 4000,
   // Fallbacks for the CSS intro and outro (styles/components/hanko.css). Each
   // sequence is awaited via its last child's animation `finished` promise,

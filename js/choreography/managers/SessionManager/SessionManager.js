@@ -10,7 +10,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * flag — it keys off `visited`, which is never persisted while gating is off,
  * and any stale `visited` from a gated session is cleared on construction.
  */
-export const SESSION_GATING_ENABLED = true;
+export const SESSION_GATING_ENABLED = false;
 
 /**
  * SessionManager

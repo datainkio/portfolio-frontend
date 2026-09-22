@@ -1,0 +1,29 @@
+{
+	"nodes":[
+		{"id":"66e5fd8a695fe6d6","type":"group","x":-225,"y":1200,"width":440,"height":1080,"color":"6","label":"AnimationDirector.js"},
+		{"id":"13bc5a04a93bec48","type":"text","text":"📍idle callback fires → `new AnimationDirector()`\n(bundle module evaluated earlier; GSAP plugins registered then, no `window.gsap`)","x":-205,"y":1251,"width":400,"height":80,"color":"1"},
+		{"id":"25a2cd3a2ddd65e7","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^43ea41","x":-205,"y":1361,"width":400,"height":80,"color":"#584c94"},
+		{"id":"40ff2c6f1c4868db","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^853775","x":-205,"y":1501,"width":400,"height":80,"color":"#584c94"},
+		{"id":"a34a2ae697403345","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^72a792","x":-205,"y":1641,"width":400,"height":80,"color":"#584c94"},
+		{"id":"41877bb96ccc2255","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^b5aa46","x":-205,"y":1761,"width":400,"height":80,"color":"#584c94"},
+		{"id":"b5039d4944953b19","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^f25455","x":-205,"y":1901,"width":400,"height":80,"color":"#584c94"},
+		{"id":"7769617da7909fa3","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.md","subpath":"#^e44458","x":-205,"y":2041,"width":400,"height":80,"color":"#584c94"},
+		{"id":"2e3953970dc15903","type":"text","text":"📢 EVENTS.system.directorReady (≤8000ms)","x":455,"y":2048,"width":400,"height":56,"color":"6"},
+		{"id":"300f007a53a8fc89","type":"text","text":"","x":-59,"y":2171,"width":250,"height":60},
+		{"id":"e7ab3f6972c93083","type":"text","text":"📍`window.director` assigned — constructor returned (after `director:ready`)","x":-205,"y":2175,"width":400,"height":60,"color":"#584c94"},
+		{"id":"1a5ae21ae372dc0e","x":-840,"y":1091,"width":400,"height":400,"color":"2","type":"file","file":"dataink.io/frontend/views/pages/home/home.md"},
+		{"id":"27cd281e7e741493","type":"text","text":"#5 · Skip the idle wait (S)\n`requestIdleCallback(initDirector, {timeout:150})` adds up to 150ms while the splash is already up and the page is locked. Call `initDirector` directly once the bundle evaluates.","x":-840,"y":1541,"width":400,"height":130,"color":"1"}
+	],
+	"edges":[
+		{"id":"8202b1e4ce8a88e7","fromNode":"7769617da7909fa3","fromSide":"right","toNode":"2e3953970dc15903","toSide":"left","color":"6","label":"📢"},
+		{"id":"0671af2074ae1e29","fromNode":"13bc5a04a93bec48","fromSide":"bottom","toNode":"25a2cd3a2ddd65e7","toSide":"top"},
+		{"id":"7d6d6c083ca28419","fromNode":"27cd281e7e741493","fromSide":"right","toNode":"13bc5a04a93bec48","toSide":"left","color":"1"},
+		{"id":"35d89e2a818db9b4","fromNode":"b5039d4944953b19","fromSide":"bottom","toNode":"7769617da7909fa3","toSide":"top"},
+		{"id":"a156a9b979aae1f3","fromNode":"41877bb96ccc2255","fromSide":"bottom","toNode":"b5039d4944953b19","toSide":"top"},
+		{"id":"4036c29fc1e710b8","fromNode":"7769617da7909fa3","fromSide":"bottom","toNode":"e7ab3f6972c93083","toSide":"top"},
+		{"id":"e0e6deb59f3759e0","fromNode":"25a2cd3a2ddd65e7","fromSide":"bottom","toNode":"40ff2c6f1c4868db","toSide":"top"},
+		{"id":"d0b276049e0629a1","fromNode":"40ff2c6f1c4868db","fromSide":"bottom","toNode":"a34a2ae697403345","toSide":"top"},
+		{"id":"4137e342476e7e87","fromNode":"a34a2ae697403345","fromSide":"bottom","toNode":"41877bb96ccc2255","toSide":"top"},
+		{"id":"e5ba295e52893296","fromNode":"1a5ae21ae372dc0e","fromSide":"right","toNode":"13bc5a04a93bec48","toSide":"left","color":"2"}
+	]
+}

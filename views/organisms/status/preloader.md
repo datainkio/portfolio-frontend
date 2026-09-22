@@ -111,7 +111,7 @@ The idle state for the view. All elements are visible. The data-preloader-logo i
 ## Sequences
 The preloader view has three basic animation sequences: intro, idle, and outro.
 
-### Intro
+## Intro
 
 ^f53317
 
@@ -124,7 +124,7 @@ CSS-auto from first paint: each child fades in over `--preloader-step-duration`
 (0.4s), staggered by `--preloader-step-stagger` (0.2s) in DOM order. No JS
 involved, so S00 is exactly what FCP shows.
 
-### Idle
+## Idle
 
 ^20d161
 
@@ -133,7 +133,7 @@ involved, so S00 is exactly what FCP shows.
 The hanko pulse's `animation-delay` equals the intro total (0.8s), so its
 first crest is the S03 → S04 transition. Holds until JS flips `exit`.
 
-### Outro
+## Outro
 
 ^e31b11
 
