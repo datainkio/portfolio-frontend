@@ -1,19 +1,19 @@
 {% import "atoms/hanko/hanko.njk" as Logo %}
 
 {# STYLES #}
-{%- set preloader = {"base": "z-[9999] w-24 mx-auto grid grid-cols-1 auto-rows-auto h-dvh content-center gap-3"} -%}
-{%- set logo = {"base": "hanko block text-secondary-500"} -%}
-{%- set heading = {"base": "font-display text-4xl leading-8 text-primary-200 text-justify p-0 m-0"} -%}
-{%- set subtitle = {
+{%- set preloaderStyles = {"base": "z-[9999] w-24 mx-auto grid grid-cols-1 auto-rows-auto h-dvh content-center gap-3"} -%}
+{%- set logoStyles = {"base": "hanko block text-secondary-500"} -%}
+{%- set headingStyles = {"base": "font-display text-4xl leading-8 text-primary-200 text-justify p-0 m-0"} -%}
+{%- set subtitleStyles = {
   "base": "font-display text-lg tracking-widest p-2 aspect-square  w-full leading-none text-slate-600 border-2 border-slate-700"
 } -%}
 
 {# VIEW #}
 
 {% macro render(params = {}) %}
-  <div data-preloader id="preloader" class="{{ preloader | classes }}">
-    {{ Logo.render({svg: params.svg, classes: logo | classes, attrs: "data-preloader-logo"}) }}
-    <p data-preloader-author class="{{ heading | classes }}">Russ Lebo</p>
-    <p data-preloader-subtitle class="{{ subtitle | classes }}">UX IXD AIX DX</p>
+  <div data-preloader id="preloader" class="{{ preloaderStyles | classes }}">
+    {{ Logo.render({svg: params.svg, classes: logoStyles | classes, attrs: "data-preloader-logo"}) }}
+    <p data-preloader-author class="{{ headingStyles | classes }}">Russ Lebo</p>
+    <p data-preloader-subtitle class="{{ subtitleStyles | classes }}">UX IXD AIX DX</p>
   </div>
 {% endmacro %}
