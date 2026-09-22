@@ -23,20 +23,32 @@ Params:
         <dialog>) that atoms/button/button.njk's label/type/onclick shape
         doesn't cover — this is a live component on every project image. -#}
     <figure data-lightbox-el="root" class="contents">
-      <button type="button" data-lightbox-el="trigger" class="block w-full h-full cursor-zoom-in" aria-haspopup="dialog">
+      <button type="button"
+              data-lightbox-el="trigger"
+              class="block w-full h-full cursor-zoom-in"
+              aria-haspopup="dialog">
         {%- if picture -%}
           <span class="block w-full h-full [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:block">{{ picture | safe }}</span>
         {%- else -%}
-          <img src="{{ src }}" alt="{{ alt }}" class="{{ imgClasses }}" loading="lazy" />
+          <img src="{{ src }}"
+               alt="{{ alt }}"
+               class="{{ imgClasses }}"
+               loading="lazy" />
         {%- endif -%}
       </button>
 
-      <dialog data-lightbox-el="dialog" aria-label="{{ alt | default(caption) | default('Image viewer') }}" class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80">
-        <button type="button" data-lightbox-el="close" class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
+      <dialog data-lightbox-el="dialog"
+              aria-label="{{ alt | default(caption) | default('Image viewer') }}"
+              class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80">
+        <button type="button"
+                data-lightbox-el="close"
+                class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
         {%- if picture -%}
           <span class="block max-w-[90vw] max-h-[75vh] [&_img]:max-w-[90vw] [&_img]:max-h-[75vh] [&_img]:object-contain [&_img]:block">{{ picture | safe }}</span>
         {%- else -%}
-          <img src="{{ src }}" alt="{{ alt }}" class="block max-w-[90vw] max-h-[75vh] object-contain" />
+          <img src="{{ src }}"
+               alt="{{ alt }}"
+               class="block max-w-[90vw] max-h-[75vh] object-contain" />
         {%- endif -%}
       </dialog>
       {% if caption %}
@@ -45,8 +57,6 @@ Params:
     </figure>
 
     {#- Self-contained progressive enhancement: wires open/close on the dialog above. Module imports are deduped by the browser. -#}
-    <script type="module">
-      import "/assets/js/lightbox/Lightbox.js";
-    </script>
+    <script type="module">import "/assets/js/lightbox/Lightbox.js";</script>
   {%- endif -%}
 {% endmacro %}

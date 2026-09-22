@@ -26,7 +26,7 @@
     'fill-current',
     params.svgClasses,
     classes
-  ] | join(' ') | trim -%}
+    ] | join(' ') | trim -%}
 
   {% if isSvg %}
 
@@ -54,21 +54,21 @@
                                Inject classes onto root svg
                                ------------------------------------------------------------------- #}
 
-      {%- if '<svg class="' in processedSvg -%}
+    {%- if '<svg class="' in processedSvg -%}
 
       {%- set processedSvg = processedSvg
-        | replace(
-          '<svg class="',
-          '<svg class="' ~ svgClasses ~ ' '
-        ) -%}
+            | replace(
+            '<svg class="',
+            '<svg class="' ~ svgClasses ~ ' '
+            ) -%}
 
     {%- else -%}
 
       {%- set processedSvg = processedSvg
-        | replace(
-          '<svg',
-          '<svg class="' ~ (svgClasses | escape) ~ '"'
-        ) -%}
+            | replace(
+            '<svg',
+            '<svg class="' ~ (svgClasses | escape) ~ '"'
+            ) -%}
 
     {%- endif -%}
 
@@ -77,16 +77,20 @@
                                ------------------------------------------------------------------- #}
 
     {%- set processedSvg = processedSvg
-      | replace(
+        | replace(
         '<svg',
         '<svg role="img" aria-label="' ~ (alt | escape) ~ '" focusable="false"'
-      ) -%}
+        ) -%}
 
     {{ processedSvg | safe }}
 
   {% elif imageSrc %}
 
-    <img src="{{ imageSrc | escape }}" alt="{{ alt | escape }}" loading="lazy" decoding="async" class="{{ classes | escape }}">
+    <img src="{{ imageSrc | escape }}"
+      alt="{{ alt | escape }}"
+      loading="lazy"
+      decoding="async"
+      class="{{ classes | escape }}">
 
     {% endif %}
 
