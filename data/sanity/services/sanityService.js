@@ -18,6 +18,7 @@ import {
 } from "../transforms/project.js";
 import { normalizeNavigationRecords } from "../transforms/navigation.js";
 import { normalizeUserGuideRecords } from "../transforms/user-guide.js";
+import { normalizeImageUrls } from "../transforms/imageUrls.js";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 
 logger.enabled = true;
@@ -37,6 +38,10 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
       params: definition.params || {},
       cacheDuration,
     });
+
+    // Every image URL leaves the CMS bare; auto=format lets the CDN negotiate
+    // AVIF/WebP per request. Applied before domain transforms so they see final URLs.
+    data = normalizeImageUrls(data);
 
     if (definition.id === "awards") {
       data = await hydrateAwardInlineLogos(data);
