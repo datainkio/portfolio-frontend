@@ -35,7 +35,8 @@
   {%- set figure = {"base": "bg-primary-900 m-0 z-0 overflow-hidden h-dvh", "lg": "h-auto aspect-video shadow-md"} -%}
 
   {%- set imageCSS = {"base": "w-full h-full object-cover object-center"} -%}
-
+  {%- set imageSrc = imageSrc | imageUrl({w: 1020}) -%}
+  {%- set videoPosterSrc = posterSrc | imageUrl({w: 1020}) -%}
   {%- set body = {
     "base": "shadow-lg grid grid-cols-6 inner-border px-6 py-6 m-4 mb-8 relative z-10 content-end bg-neutral-100",
     "md": "max-w-xl  ml-auto mr-4",
@@ -75,7 +76,7 @@
                  data-defer-video
                  data-motion-optional
                  data-src="{{ videoSrc }}"
-                 poster="{{ posterSrc }}"
+                 poster="{{ videoPosterSrc }}"
                  width="{{ width }}"
                  height="{{ height }}"
                  class="{{ imageCSS | classes }} {{ imageClasses }}"

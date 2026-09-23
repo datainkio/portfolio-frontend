@@ -1,5 +1,10 @@
 /** @format */
+import { imageUrl } from "../../data/sanity/transforms/imageUrls.js";
+
 export default function (eleventyConfig) {
+  // Take advantage of Sanity's helper to set params per image (note: the filter keeps "auto=format" because it's required for proper image optimization)
+  eleventyConfig.addFilter("imageUrl", imageUrl);
+  // Data retrieval
   eleventyConfig.addFilter("findImage", findImageById);
 }
 
