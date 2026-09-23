@@ -261,6 +261,7 @@ export const initPreloader = async () => {
       logger.trace("Preloader already hidden; skipping outro");
     } else {
       logger.trace("Running outro");
+      // Disabled for styling work on the preloader view
       await runExit(preloader);
     }
 

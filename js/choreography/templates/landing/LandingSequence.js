@@ -42,6 +42,7 @@ export class LandingSequence {
     this._videoLandingStaged = false;
     this._videoIntroCued = false;
 
+    // DISABLED INITIAL PRELOADER LISTENER FOR STYLING WORK ON PRELOADER VIEW
     this.handlePreloaderOut = () => this.start();
     window.addEventListener(
       EVENTS.system.preloaderOut,

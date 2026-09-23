@@ -5,7 +5,7 @@
  * engineering grid (1rem minor, 4rem major) in the given theme colour or
  * arbitrary [color].
  *
- * Opacity follows the same modifier syntax as Tailwind's colour utilities:
+ * Opacity follows the same modifier syntax as Tailwind's color utilities:
  *   bg-graphpaper-primary-950        minor 4%, major 5% (defaults)
  *   bg-graphpaper-primary-950/10     minor 10%, major 12.5%
  *   bg-graphpaper-primary-950/[7.5%] any percentage
@@ -32,10 +32,26 @@
     transparent
   );
   background-image:
-    linear-gradient(to right, var(--graphpaper-minor-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--graphpaper-minor-line) 1px, transparent 1px),
-    linear-gradient(to right, var(--graphpaper-major-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--graphpaper-major-line) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      var(--graphpaper-minor-line) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--graphpaper-minor-line) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      var(--graphpaper-major-line) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--graphpaper-major-line) 1px,
+      transparent 1px
+    );
   background-size:
     1rem 1rem,
     1rem 1rem,

@@ -59,9 +59,10 @@ export const PROJECT_HEADER_SELECTORS = {
 
 export const BIO_SELECTORS = {
   elementAttribute: "data-bio-el",
-  subSectionHook: "sub-section",
-  subSectionSelector: '.sub-section, [data-bio-el="sub-section"]',
-  subSectionLineKeyAttribute: "data-bio-line-key",
+  header: "header",
+  title: "heading",
+  context: "context",
+  missionStatement: "mission-statement",
 };
 
 export const PROCESS_SELECTORS = {

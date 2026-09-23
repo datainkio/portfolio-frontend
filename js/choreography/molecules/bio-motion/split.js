@@ -3,7 +3,6 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { BIO_INTRO, BIO_OUTRO, motion } from "../../config/ix/motion.js";
 import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { attachHeadingGel, getHeadingGelEl } from "./heading-gel.js";
-import { attachMissionStatement } from "./mission-statement.js";
 
 const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
 
@@ -34,8 +33,8 @@ const tokenColor = (name) =>
     .trim();
 
 export function intro(view, gelManager) {
-  const title = selectBioEl(view, "heading");
-  const context = selectBioEl(view, "context");
+  const title = selectBioEl(view, BIO_SELECTORS.title);
+  const context = selectBioEl(view, BIO_SELECTORS.context);
 
   const tl = gsap.timeline({
     id: TIMELINE_IDS.intro,
@@ -86,6 +85,8 @@ export function intro(view, gelManager) {
     },
     "-=0.3",
   );
+
+  // Highlight keywords in the title split
   tl.to(highlights, {
     color: tokenColor("secondary-600"),
     stagger: motion.duration("md") / 1000,
@@ -96,7 +97,7 @@ export function intro(view, gelManager) {
   // statement owns its own scroll-cued arrival (it sits an `h-dvh` below the
   // header, so anything sequenced here would play off-screen) and attaches the
   // overview band itself as that arrival's first beat.
-  attachHeadingGel(view, gelManager);
+  // attachHeadingGel(view, gelManager);
   //attachMissionStatement(view, gelManager);
 
   return tl;
