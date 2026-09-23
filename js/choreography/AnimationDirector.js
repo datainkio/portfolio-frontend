@@ -43,7 +43,7 @@ import ScrollEffectsCoordinator from "/assets/js/choreography/managers/ScrollEff
 import { LandingSequence } from "/assets/js/choreography/templates/landing/LandingSequence.js";
 import { SECTION_REGISTRY } from "/assets/js/choreography/system/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
-// import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
+import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
 // import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
 // import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
@@ -103,7 +103,7 @@ export default class AnimationDirector {
     // Initialize global card behaviors — must precede sections so throw-variant
     // pin spacers (pinSpacing: true) are in the DOM before _bindHeaderPin
     // measures the footer position for the work-header-pin end value.
-    // this.cardManager = new CardManager();
+    this.cardManager = new CardManager();
 
     // Initialize section controllers from registry
     this.sections = {};

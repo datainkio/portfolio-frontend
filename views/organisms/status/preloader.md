@@ -29,9 +29,9 @@ Defines Nunjucks macro: `render`.
 ## Purpose
 
 Renders the first-visit loading splash for the home page: a full-viewport
-(`h-dvh`, `z-[9999]`) column holding the hanko mark, the name heading, and
+column holding the hanko mark, the name heading, and
 the "UX IXD AIX DX" subtitle. It is markup only — every state below lives in
-[hanko.css](../../../styles/components/hanko.css), and the decision of *when*
+[hanko.css](../../../styles/components/hanko.css), and the decision of _when_
 to exit lives in [Preloader.js](../../../js/preloader/Preloader.js). ^d7789d
 
 ## Contract
@@ -39,12 +39,12 @@ to exit lives in [Preloader.js](../../../js/preloader/Preloader.js). ^d7789d
 The `<div id="preloader" data-preloader>` root is the one hook every other
 party binds to:
 
-| Party | Binds to | Does |
-| --- | --- | --- |
-| `js/preloader/constants.js` | `PRELOADER_SELECTORS.root` = `[data-preloader]` | Finds the element |
-| `js/preloader/Preloader.js` | `data-preloader-state="exit"`, `[data-preloader-subtitle]`, `[data-preloader-logo]`, `hidden` | Awaits the intro (subtitle animation finished) and readiness, flips `exit`, awaits the outro (logo animation finished), sets `hidden`, dispatches `preloader:out` |
-| `styles/components/hanko.css` | `[data-preloader]`, `[data-preloader-state="exit"]`, the three child attributes | Every state S00–S04: intro + pulse from first paint, outro on the state flip |
-| `session-management-script.njk` | `[data-preloader]` | Pre-paint: sets `hidden` on a return visit so the splash never shows |
+| Party                           | Binds to                                                                                      | Does                                                                                                                                                              |
+| ------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `js/preloader/constants.js`     | `PRELOADER_SELECTORS.root` = `[data-preloader]`                                               | Finds the element                                                                                                                                                 |
+| `js/preloader/Preloader.js`     | `data-preloader-state="exit"`, `[data-preloader-subtitle]`, `[data-preloader-logo]`, `hidden` | Awaits the intro (subtitle animation finished) and readiness, flips `exit`, awaits the outro (logo animation finished), sets `hidden`, dispatches `preloader:out` |
+| `styles/components/hanko.css`   | `[data-preloader]`, `[data-preloader-state="exit"]`, the three child attributes               | Every state S00–S04: intro + pulse from first paint, outro on the state flip                                                                                      |
+| `session-management-script.njk` | `[data-preloader]`                                                                            | Pre-paint: sets `hidden` on a return visit so the splash never shows                                                                                              |
 
 Removing or renaming `data-preloader` breaks all four. Pages without it are
 handled — `Preloader.js` hydrates deferred videos and returns.
@@ -58,21 +58,22 @@ handled — `Preloader.js` hydrates deferred videos and returns.
 ## Relationships
 
 - Imports: [[hanko.njk]] (`atoms/hanko/hanko.njk`) as `Logo`
-- Used by: [[home.njk]] (`views/pages/home/home.njk`), rendered directly
-  after `GlobalHeader` and before `#page-main`
-
+- Used by: [[home.njk]] (`views/pages/home/home.njk`), rendered right after `SkipLinksNav`, before the session script, `Background` and `GlobalHeader`.
 
 ## Structure ^4566c5
+
 ### [data-preloader-logo](dataink.io/frontend/views/atoms/hanko/hanko.md)
 
 ^5b23ed
 
 The logo is an SVG supplied by the CMS and rendered inline so that it can be styles and animated via CSS.
+
 ### data-preloader-author
 
 ^7dab0e
 
 The P element containing the author's name (aka Russ Lebo)
+
 ### data-preloader-subtitle
 
 ^9fc38e
@@ -82,33 +83,41 @@ The P element containing the subtitle text (i.e. UX AIX DX IXD)
 ## States
 
 ### S00
+
 The default state for the view. All elements are hidden.
+
 - data-preloader-logo: hidden
 - data-preloader-author: hidden
 - data-preloader-subtitle: hidden
 
 ### S01
+
 - data-preloader-logo: visible
 - data-preloader-author: hidden
 - data-preloader-subtitle: hidden
 
 ### S02
+
 - data-preloader-logo: visible
 - data-preloader-author: visible
 - data-preloader-subtitle: hidden
 
 ### S03
+
 - data-preloader-logo: visible
 - data-preloader-author: visible
 - data-preloader-subtitle: visible
 
 ### S04
+
 The idle state for the view. All elements are visible. The data-preloader-logo is running its looping animation.
+
 - data-preloader-logo: visible & animated
 - data-preloader-author: visible
 - data-preloader-subtitle: visible
 
 ## Sequences
+
 The preloader view has three basic animation sequences: intro, idle, and outro.
 
 ## Intro

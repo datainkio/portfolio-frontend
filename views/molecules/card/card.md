@@ -36,7 +36,7 @@ The `<figure>` renders one of two elements, never both:
 
 Both elements share the same `width`/`height` (taken from the image dimensions) and the same classes, so the aspect ratio and layout stability are identical across the two branches.
 
-The video is **decorative**: `aria-hidden="true"`, `tabindex="-1"`, no `controls`, always `playsinline`. The accessible name for the card comes from the heading. Playback attributes (`muted`, `loop`, `autoplay`) render unless the data explicitly says `false`.
+The video is **decorative**: `aria-hidden="true"`, `tabindex="-1"`, no `controls`, always `playsinline`. The accessible name for the card comes from the heading. Playback attributes (`muted`, `loop`) render unless the data explicitly says `false`. Autoplay intent (`video.autoplay != false`) renders as `data-play-in-view`, not `autoplay`: `autoplay` overrides `preload="none"` and would fetch every card video at once. [deferred-videos.js](../../../js/preloader/deferred-videos.js) assigns the `src` and plays the video as the card nears the viewport, and pauses it when the card leaves.
 
 ### Reduced motion
 

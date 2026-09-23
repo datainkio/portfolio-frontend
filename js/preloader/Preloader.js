@@ -29,7 +29,8 @@
  *        │                session-management-script.njk — outro skipped
  *        ├─ dispatch preloader:out → LandingSequence
  *        └─ cleanup: unlock scroll, main[aria-busy=false],
- *                    hydrate the remaining (card) videos
+ *                    hydrate the remaining deferred videos, observe
+ *                    play-in-view (card) videos
  */
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
@@ -44,7 +45,10 @@ import {
   PRELOADER_STATE,
   PRELOADER_TIMINGS,
 } from "./constants.js";
-import { hydrateDeferredVideos } from "./deferred-videos.js";
+import {
+  hydrateDeferredVideos,
+  observeInViewVideos,
+} from "./deferred-videos.js";
 
 const logger = Lumberjack.createScoped("Preloader", {
   prefix: "",
@@ -219,6 +223,7 @@ export const initPreloader = async () => {
     );
     // No splash on this page — nothing to wait behind.
     hydrateDeferredVideos(logger);
+    observeInViewVideos(logger);
     return;
   }
 
@@ -261,7 +266,6 @@ export const initPreloader = async () => {
       logger.trace("Preloader already hidden; skipping outro");
     } else {
       logger.trace("Running outro");
-      // Disabled for styling work on the preloader view
       await runExit(preloader);
     }
 
@@ -274,9 +278,11 @@ export const initPreloader = async () => {
     document
       .querySelector(PRELOADER_SELECTORS.main)
       ?.setAttribute("aria-busy", "false");
-    // Everything the first pass skipped (card videos). Runs in `finally` so a
-    // failed flow still leaves every video with a src.
+    // Everything the first pass skipped. Runs in `finally` so a failed flow
+    // still leaves every video hydratable. Card videos only get a src as they
+    // near the viewport.
     logger.trace("Hydrating remaining deferred videos");
     hydrateDeferredVideos(logger);
+    observeInViewVideos(logger);
   }
 };

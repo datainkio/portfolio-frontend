@@ -6,7 +6,10 @@ export const PRELOADER_SELECTORS = {
   introLast: "[data-preloader-subtitle]",
   outroLast: "[data-preloader-logo]",
   main: "main",
-  deferredVideos: "video[data-defer-video][data-src]",
+  // Hydrated in bulk. Play-in-view videos are excluded: they wait for the
+  // viewport instead (deferred-videos.js observeInViewVideos).
+  deferredVideos: "video[data-defer-video][data-src]:not([data-play-in-view])",
+  inViewVideos: "video[data-defer-video][data-src][data-play-in-view]",
   // The hero alone, for the first hydration pass. Card videos wait until the
   // splash is gone so they don't compete with the hero for bandwidth while
   // the playback gate is waiting on it.
@@ -24,6 +27,14 @@ export const PRELOADER_SELECTORS = {
 export const PRELOADER_STATE = {
   attribute: "data-preloader-state",
   exit: "exit",
+};
+
+// Play-in-view videos (card videos) get their src and play once they come
+// within this margin of the viewport, and pause once they leave it. Half a
+// viewport ahead gives the first frames time to arrive before the card is on
+// screen.
+export const PRELOADER_IN_VIEW = {
+  rootMargin: "50% 0px",
 };
 
 // Set by views/templates/partials/choreography-script/choreography-script.njk before this module

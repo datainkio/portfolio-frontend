@@ -38,9 +38,10 @@ else here applies. On the home page it: ^fd773d
    animation `finished` (bounded), sets `hidden`. Root already `hidden`
    (return visit, pre-paint script): outro skipped. ^d26777
 8. 📍Dispatches `preloader:out` on `window` exactly once. ^1a429c
-9. 📍`finally`: unlocks scroll, clears `main[aria-busy]`, and hydrates the
-   remaining deferred videos (the cards) — cleanup runs even if a gate throws,
-   so every video ends with a `src`. ^ca5d32
+9. 📍`finally`: unlocks scroll, clears `main[aria-busy]`, hydrates the
+   remaining deferred videos, and starts observing play-in-view (card) videos,
+   which get a `src` and play only as they near the viewport. Cleanup runs
+   even if a gate throws. ^ca5d32
 
 Logging goes through a scoped Lumberjack logger, so it is silent unless the
 choreography system has enabled logging. The one `console.warn` is the

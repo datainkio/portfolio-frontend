@@ -86,8 +86,8 @@ sequenceDiagram
         Note over P: finally — runs even if a gate throws
         P->>B: restore overflow + scrollY
         P->>B: main[aria-busy="false"]
-        P->>DV: hydrateDeferredVideos()
-        DV-->>B: remaining (card) videos get src, preload="none" kept
+        P->>DV: hydrateDeferredVideos() + observeInViewVideos()
+        DV-->>B: card videos get src + play() near the viewport, pause off it
     end
 ```
 
@@ -199,6 +199,9 @@ page. The director timeout is the only one that warns to the console.
 assigns `src` to those elements. On the home page it runs twice: the
 background video alone at readiness (it is what the playback gate waits on),
 then everything left in `finally`, after `preloader:out`. Card videos are
-`preload="none"` in the template and the hydrator leaves that alone, so they
-fetch nothing until played. While the splash is up, the only media on the
-wire is the one video the gate is waiting for.
+play-in-view (`data-play-in-view`, no `autoplay`): `observeInViewVideos()`
+assigns their `src` and calls `play()` only when they come within
+`PRELOADER_IN_VIEW.rootMargin` of the viewport, and pauses them when they
+leave. `autoplay` is deliberately absent — it overrides `preload="none"` and
+would fetch every card video as soon as it had a `src`. While the splash is
+up, the only media on the wire is the one video the gate is waiting for.

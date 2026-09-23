@@ -71,7 +71,10 @@
           {#- Decorative: the card heading carries the accessible name, so the
               video is hidden from AT. `data-motion-optional` tells the
               preloader to leave it unhydrated under prefers-reduced-motion,
-              which leaves the poster standing in. -#}
+              which leaves the poster standing in. No `autoplay`: it overrides
+              `preload="none"` and would fetch every card video at once.
+              `data-play-in-view` has deferred-videos.js assign the src and
+              play only as the card nears the viewport. -#}
           <video data-card-el="video"
                  data-defer-video
                  data-motion-optional
@@ -86,7 +89,7 @@
                  playsinline
                  {% if video.muted != false %}muted{% endif %}
                  {% if video.loop != false %}loop{% endif %}
-                 {% if video.autoplay != false %}autoplay{% endif %}>
+                 {% if video.autoplay != false %}data-play-in-view{% endif %}>
           </video>
         {% else %}
           <img data-card-el="image"
