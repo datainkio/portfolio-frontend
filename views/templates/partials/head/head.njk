@@ -9,6 +9,10 @@
      the parser reaches the first asset in <body>. -->
   <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
 
+  <!-- DRAFTPAPER preload drives hero LCP text; it sits ahead of the bundle hint so the
+     smaller LCP-critical fetch is discovered first. Cormorant loads non-blocking. -->
+  {% include "templates/partials/fonts/fonts.njk" %}
+
   {% if enableChoreography and runtime and runtime.bundleJs and eleventy.env.runMode == "build" %}
     <!-- Warm the choreography bundle early; director:ready gates the hero reveal (LCP).
              Build-mode only: in dev (serve/watch) the bundle is a multi-MB sourcemapped
@@ -19,4 +23,9 @@
   {{ scripts | safe }}
 
   {% include "templates/partials/preloader-script/preloader-script.njk" %}
+
+  <!-- Non-render-blocking metadata last (capo.js order): SEO/social, manifest, icons. -->
+  {% include "templates/partials/social/social.njk" %}
+  {% include "templates/partials/manifest/manifest.njk" %}
+  {% include "templates/partials/favicon/favicon.njk" %}
 </head>

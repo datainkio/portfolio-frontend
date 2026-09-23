@@ -1,3 +1,9 @@
+<!-- Preload the display font (DraftPaper) — drives hero LCP text -->
+<link rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/DRAFTPAPER/DRAFTPAPER.woff2"
+      crossorigin="anonymous" />
 
 <!-- IBM Plex Sans (body face) is self-hosted — @font-face in styles/typography/imports.css.
      Nothing render-blocking is fetched from Google Fonts any more, so no preconnects:
@@ -18,10 +24,3 @@
      <link rel="stylesheet"
            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300&text=ViewPreviousNext&display=swap" />
 </noscript>
-
-<!-- Preload the display font (DraftPaper) — drives hero LCP text -->
-<link rel="preload"
-      as="font"
-      type="font/woff2"
-      href="/assets/fonts/DRAFTPAPER/DRAFTPAPER.woff2"
-      crossorigin="anonymous" />
