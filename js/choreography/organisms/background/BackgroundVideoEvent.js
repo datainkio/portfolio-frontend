@@ -18,6 +18,7 @@
  * which exposes no settled state, and adding a field to the base class to serve
  * one section's events would be the wrong place to pay for it.
  */
+import { EVENTS } from "../../config/contracts/events/events.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -111,3 +112,43 @@ export const buildBackgroundVideoEvent = (section) =>
   });
 
 export default buildBackgroundVideoEvent;
+
+/**
+ * The `video:media:*` events worth subscribing to when you are waiting for the
+ * video to reach its resting state — whatever that turns out to be. Subscribe
+ * to all four and pass each through `isBackgroundVideoSettled` below.
+ */
+export const BACKGROUND_VIDEO_SETTLED_EVENTS = [
+  EVENTS.video.media.playing,
+  EVENTS.video.media.ready,
+  EVENTS.video.media.error,
+  EVENTS.video.media.unavailable,
+];
+
+/**
+ * Whether this event means the video has reached its resting state — it is
+ * moving, or it never will.
+ *
+ * `ready` is the subtle one: it fires from the element's own `canplay` on every
+ * path, so it means *buffered*, not *settled* — a consumer that takes it at
+ * face value acts on a video that is about to start playing. It only counts
+ * when the payload says motion is reduced, which is the one case where paused
+ * IS the resting state.
+ *
+ * Shared by the preloader's splash gate and LandingSequence's reveal cue: both
+ * ask the same question, and two copies of this rule would drift.
+ *
+ * @param {string} eventName - The `video:media:*` name that fired.
+ * @param {ReturnType<typeof buildBackgroundVideoEvent>} [detail]
+ * @returns {boolean}
+ */
+export const isBackgroundVideoSettled = (eventName, detail) => {
+  if (eventName === EVENTS.video.media.ready) {
+    return Boolean(detail?.lifecycle?.isReducedMotion);
+  }
+  return (
+    eventName === EVENTS.video.media.playing ||
+    eventName === EVENTS.video.media.error ||
+    eventName === EVENTS.video.media.unavailable
+  );
+};

@@ -29,10 +29,18 @@ preloader: hydrate background <video>
 BackgroundVideo._onHydrated()
          ├─ no element / no src        → video:media:unavailable
          ├─ reduced motion             → video:media:ready (paused on purpose)
-         └─ otherwise                  → _ensureVideoReady() → play()
+         └─ otherwise                  → play()
                                           → video:media:playing
-                                          └─ refused → video:media:error
+                                          ├─ refused → video:media:error
+                                          └─ silent for 4s → video:media:error
 ```
+
+Playback is **not** gated on `canplay`. `play()` is valid on an unbuffered
+element, and waiting for `canplay` first has no upper bound: an mp4 whose `moov`
+atom sits after `mdat` (i.e. not written with `-movflags +faststart`) reaches
+neither `loadedmetadata` nor `canplay` until the whole file has downloaded. The
+4s failsafe covers the rest — LandingSequence's reveal has no timeout of its
+own, so a silent path would leave the video hidden permanently, not just late.
 
 **Every branch emits exactly one event.** A consumer gating on the video always
 gets an answer, so its timeout stays a failsafe instead of the normal exit on a

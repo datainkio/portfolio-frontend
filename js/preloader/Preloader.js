@@ -35,6 +35,10 @@ import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
 import { getSessionManager } from "/assets/js/choreography/managers/SessionManager/SessionManager.js";
 import {
+  BACKGROUND_VIDEO_SETTLED_EVENTS,
+  isBackgroundVideoSettled,
+} from "/assets/js/choreography/organisms/background/BackgroundVideoEvent.js";
+import {
   CHOREOGRAPHY_FLAG,
   PRELOADER_SELECTORS,
   PRELOADER_STATE,
@@ -153,10 +157,10 @@ const directorReady = () => {
  * video or no src. One of those always arrives, so the timeout below is a true
  * failsafe rather than the normal exit for a page with no video.
  *
- * `ready` is the exception: it fires from `canplay` on every path, so taking it
- * at face value would lift the splash onto a buffered-but-paused poster — the
- * exact thing this gate prevents. It only counts when the payload says motion
- * is reduced, which is the one case where paused IS the settled state.
+ * `isBackgroundVideoSettled` decides which of those actually ends the wait —
+ * notably `ready` fires from `canplay` on every path, so it only counts under
+ * reduced motion. LandingSequence's reveal cue asks the same question through
+ * the same predicate.
  *
  * Call this BEFORE dispatching `preloader:video:hydrated` — the listeners must
  * be attached before the section is cued, and the bound starts here.
@@ -168,29 +172,19 @@ const backgroundVideoSettled = () => {
     return Promise.resolve(true);
   }
 
-  const media = EVENTS.video.media;
-  const resolvers = [
-    media.playing,
-    media.ready,
-    media.error,
-    media.unavailable,
-  ];
-
   const settled = new Promise((resolve) => {
     const done = (event) => {
-      if (
-        event.type === media.ready &&
-        !event.detail?.lifecycle?.isReducedMotion
-      ) {
-        // Buffered, but still expected to start. Wait for `playing`.
-        return;
-      }
-      resolvers.forEach((name) => window.removeEventListener(name, done));
+      if (!isBackgroundVideoSettled(event.type, event.detail)) return;
+      BACKGROUND_VIDEO_SETTLED_EVENTS.forEach((name) =>
+        window.removeEventListener(name, done),
+      );
       logger.trace(`Background video gate released by ${event.type}`);
       resolve();
     };
-    // Not `once`: `ready` may be declined above and has to stay subscribed.
-    resolvers.forEach((name) => window.addEventListener(name, done));
+    // Not `once`: a declined event has to stay subscribed.
+    BACKGROUND_VIDEO_SETTLED_EVENTS.forEach((name) =>
+      window.addEventListener(name, done),
+    );
   });
 
   return bounded(settled, PRELOADER_TIMINGS.videoPlayingTimeoutMs, () =>

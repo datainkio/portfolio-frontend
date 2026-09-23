@@ -3,7 +3,10 @@ import { SELECTORS, VIDEO_SELECTORS } from "../../config/index/index.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
 import BackgroundVideoAnimations from "./BackgroundVideoAnimations.js";
 import BackgroundVideoTriggers from "./BackgroundVideoTriggers.js";
-import { buildBackgroundVideoEvent } from "./BackgroundVideoEvent.js";
+import {
+  buildBackgroundVideoEvent,
+  isBackgroundVideoSettled,
+} from "./BackgroundVideoEvent.js";
 
 /**
  * Native media events forwarded as `video:media:*`. Deliberately short: a
@@ -19,6 +22,18 @@ const MEDIA_EVENT_MAP = [
 ];
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+/**
+ * Upper bound on reporting a resting state after hydration. The contract this
+ * section owes its consumers is that exactly one settled event always arrives —
+ * the preloader's splash gate and LandingSequence's reveal both hang off it,
+ * and the reveal has no timeout of its own, so a silent path leaves the video
+ * hidden permanently rather than merely late.
+ *
+ * Matches PRELOADER_TIMINGS.videoPlayingTimeoutMs on purpose: the preloader
+ * gives up on its splash at the same moment this gives up on playback.
+ */
+const PLAYBACK_REPORT_TIMEOUT_MS = 4000;
 
 export default class BackgroundVideo extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler } = {}) {
@@ -36,8 +51,9 @@ export default class BackgroundVideo extends AbstractSection {
     });
 
     this.videoEl = this.view?.querySelector(VIDEO_SELECTORS.media) ?? null;
-    this._videoReadyPromise = null;
     this._teardownListeners = [];
+    this._mediaSettled = false;
+    this._playbackFailsafe = null;
 
     this._bindMediaEvents();
     this._bindHydrationHandshake();
@@ -57,6 +73,12 @@ export default class BackgroundVideo extends AbstractSection {
     if (!eventName) return;
 
     const detail = buildBackgroundVideoEvent(this);
+
+    if (isBackgroundVideoSettled(eventName, detail)) {
+      this._mediaSettled = true;
+      this._clearPlaybackFailsafe();
+    }
+
     this._emit(eventName, detail);
     window.dispatchEvent(new CustomEvent(eventName, { detail }));
   }
@@ -75,8 +97,7 @@ export default class BackgroundVideo extends AbstractSection {
 
   /**
    * The preloader owns hydration (which video gets a src, and when — a
-   * bandwidth staging decision). This section owns everything after it. The
-   * handshake is the seam: one window event in, all media semantics here.
+   * bandwidth staging decision). This section owns everything after it.
    *
    * Bound in the constructor, which runs during Director init — before
    * `director:ready`, and so before the preloader can possibly dispatch. No
@@ -88,10 +109,7 @@ export default class BackgroundVideo extends AbstractSection {
       once: true,
     });
     this._teardownListeners.push(() =>
-      window.removeEventListener(
-        EVENTS.system.preloaderVideoHydrated,
-        handler,
-      ),
+      window.removeEventListener(EVENTS.system.preloaderVideoHydrated, handler),
     );
   }
 
@@ -130,39 +148,36 @@ export default class BackgroundVideo extends AbstractSection {
       return;
     }
 
-    await this._ensureVideoReady();
+    // Deliberately NOT gated on `canplay`. play() is valid on an unbuffered
+    // element — the browser starts it as soon as data allows — and waiting for
+    // `canplay` first has no upper bound. An mp4 whose `moov` atom sits after
+    // `mdat` (not faststart) reaches neither `loadedmetadata` nor `canplay`
+    // until the entire file has downloaded, which is exactly the case that left
+    // this video hidden.
+    this._armPlaybackFailsafe();
     this._playVideo();
   }
 
   /**
-   * Resolve once the video can play. The deferred `src` is assigned by the
-   * preloader (js/preloader/deferred-videos.js — the single owner of the
-   * `data-defer-video` contract) before `preloader:out`, which is the earliest
-   * this section can be asked to play. So this only ever waits on buffering.
+   * Guarantee a settled event even if playback never reports one. Cleared by
+   * _emitMedia as soon as any settled event goes out.
    */
-  async _ensureVideoReady() {
-    if (!this.videoEl) return;
+  _armPlaybackFailsafe() {
+    this._clearPlaybackFailsafe();
+    this._playbackFailsafe = setTimeout(() => {
+      this._playbackFailsafe = null;
+      if (this._mediaSettled) return;
+      this.logger.trace(
+        `No playback within ${PLAYBACK_REPORT_TIMEOUT_MS}ms; reporting so consumers stop waiting`,
+      );
+      this._emitMedia("error");
+    }, PLAYBACK_REPORT_TIMEOUT_MS);
+  }
 
-    if (this.videoEl.readyState >= 2) return;
-    // No source at all (hydration skipped or failed): nothing will ever
-    // buffer, so don't hold the landing chain on a `canplay` that can't come.
-    if (!this.videoEl.currentSrc && !this.videoEl.src) return;
-
-    if (!this._videoReadyPromise) {
-      this._videoReadyPromise = new Promise((resolve) => {
-        const complete = () => {
-          this.videoEl?.removeEventListener("canplay", complete);
-          this.videoEl?.removeEventListener("error", complete);
-          resolve();
-        };
-        this.videoEl.addEventListener("canplay", complete, { once: true });
-        this.videoEl.addEventListener("error", complete, { once: true });
-      }).finally(() => {
-        this._videoReadyPromise = null;
-      });
-    }
-
-    return this._videoReadyPromise;
+  _clearPlaybackFailsafe() {
+    if (!this._playbackFailsafe) return;
+    clearTimeout(this._playbackFailsafe);
+    this._playbackFailsafe = null;
   }
 
   _playVideo() {
@@ -182,7 +197,9 @@ export default class BackgroundVideo extends AbstractSection {
       return super.playIntro();
     }
 
-    await this._ensureVideoReady();
+    // play() is idempotent on an already-playing element, and _onHydrated has
+    // normally started it long before this. No readiness await: the reveal must
+    // not be able to stall behind a buffer that may never fill.
     this._playVideo();
     return super.playIntro();
   }
@@ -193,6 +210,7 @@ export default class BackgroundVideo extends AbstractSection {
   }
 
   destroy() {
+    this._clearPlaybackFailsafe();
     this._teardownListeners.forEach((remove) => remove());
     this._teardownListeners = [];
     // super.destroy() nulls `view`, so the media listeners must come off first.

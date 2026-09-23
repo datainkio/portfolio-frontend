@@ -8,6 +8,10 @@ import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
 import { BIO_INTRO_HOLD, SELECTORS } from "../../config/index/index.js";
+import {
+  BACKGROUND_VIDEO_SETTLED_EVENTS,
+  isBackgroundVideoSettled,
+} from "../../organisms/background/BackgroundVideoEvent.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
 export class LandingSequence {
@@ -32,6 +36,12 @@ export class LandingSequence {
     // See the exit listener in _registerListeners for why this is needed.
     this._bioLeftBackwards = false;
 
+    // The video reveal needs both halves before it can run, and they do not
+    // arrive in a fixed order relative to each other — see _cueVideoIntro.
+    this._videoMediaSettled = false;
+    this._videoLandingStaged = false;
+    this._videoIntroCued = false;
+
     this.handlePreloaderOut = () => this.start();
     window.addEventListener(
       EVENTS.system.preloaderOut,
@@ -51,9 +61,8 @@ export class LandingSequence {
 
     try {
       // Landing only: the background video's hidden resting state. The intro
-      // that fades it into view is deferred until the home header finishes its
-      // own intro (see _registerListeners) — the header leads, the video
-      // follows, then Bio. Playing the intro here would race the header.
+      // that fades it into view waits for the element to actually be playing
+      // (see _cueVideoIntro), so the reveal never lands on a still frame.
       await this.sections?.video?.playLanding?.();
     } catch (error) {
       this.logger.trace(
@@ -63,6 +72,11 @@ export class LandingSequence {
         "error",
       );
     }
+
+    // Staged last, and only after the await: _cueVideoIntro must not fire
+    // while playLanding() is still mid-flight toward autoAlpha 0.
+    this._videoLandingStaged = true;
+    this._cueVideoIntro();
   }
 
   reset() {
@@ -89,6 +103,9 @@ export class LandingSequence {
     this._bioHoldCall = null;
     this._videoIntroComplete = false;
     this._bioLeftBackwards = false;
+    this._videoMediaSettled = false;
+    this._videoLandingStaged = false;
+    this._videoIntroCued = false;
 
     this._listeners.forEach((unsubscribe) => unsubscribe());
     this._listeners = [];
@@ -98,11 +115,30 @@ export class LandingSequence {
   }
 
   /**
-   * Fade the background video in, cued by the home header's intro completing.
+   * Run the reveal once both halves have landed, and only once.
    *
-   * `BackgroundVideo.playIntro()` awaits `_ensureVideoReady()` first. By this
-   * point the preloader has long since hydrated the deferred source, so that
-   * await is a safety net rather than a wait.
+   * The two cues have no fixed order relative to each other. In the normal
+   * flow the video settles *first*: the preloader holds its splash until the
+   * video reports, so `video:media:playing` has already fired by the time
+   * `preloader:out` starts this sequence. But a timed-out preloader gate, or a
+   * video that errors late, can invert that. Latching both and joining here
+   * means neither order drops the reveal — and revealing before
+   * `playLanding()` has staged autoAlpha 0 would be immediately undone by it.
+   */
+  _cueVideoIntro() {
+    if (this._videoIntroCued) return;
+    if (!this._videoMediaSettled || !this._videoLandingStaged) return;
+
+    this._videoIntroCued = true;
+    this.logger.trace("Background video settled; starting video intro");
+    this._startVideoIntro();
+  }
+
+  /**
+   * Fade the background video in.
+   *
+   * `BackgroundVideo.playIntro()` re-issues play() as a no-op safety net; it
+   * does not wait on buffering, so this cannot stall behind a slow source.
    */
   async _startVideoIntro() {
     try {
@@ -193,23 +229,29 @@ export class LandingSequence {
       this._listeners.push(off);
     };
 
-    // The landing runs as one serial chain, opened by the header and carried by
-    // the page from there:
+    // The landing runs as one serial chain, opened by the background video
+    // reaching its resting state and carried by the page from there:
     //
-    //   home header OUTRO (hero slides off, header dismissed)
+    //   video settles (playing, or never will)
     //     -> background video intro
     //       -> (beat) -> bio gel entrance -> bio intro
     //
-    // The cue is the header's outro because that is the only cue it gives: once
-    // its exit finishes the header is dismissed and takes no further part in the
-    // page, so it emits no intro. The chain terminates at `bio:intro:complete`.
+    // The cue used to be `home:outro:complete`, emitted by HomeHeaderManager.
+    // That manager is no longer constructed by AnimationDirector, so nothing
+    // emitted it and the video sat at autoAlpha 0 forever. The video's own
+    // media events are the replacement: they always arrive, and they mean the
+    // frames are actually moving — so the fade never reveals a still poster.
     //
-    // The bio ScrollTrigger still fires enter/exit for side effects, but no
-    // longer drives the reveal.
-    on(EVENTS.home.outroComplete, () => {
-      this.logger.trace("Home hero exited; starting video intro");
-      this._startVideoIntro();
-    });
+    // The chain still terminates at `bio:intro:complete`, and the bio
+    // ScrollTrigger still fires enter/exit for side effects without driving
+    // the reveal.
+    BACKGROUND_VIDEO_SETTLED_EVENTS.forEach((eventName) =>
+      on(eventName, (detail) => {
+        if (!isBackgroundVideoSettled(eventName, detail)) return;
+        this._videoMediaSettled = true;
+        this._cueVideoIntro();
+      }),
+    );
 
     on(EVENTS.video.introComplete, () => {
       this._videoIntroComplete = true;
