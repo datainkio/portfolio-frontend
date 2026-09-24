@@ -29,6 +29,7 @@ preloader: hydrate background <video>
 BackgroundVideo._onHydrated()
          ├─ no element / no src        → video:media:unavailable
          ├─ reduced motion             → video:media:ready (paused on purpose)
+         ├─ already playing            → video:media:playing (immediately)
          └─ otherwise                  → play()
                                           → video:media:playing
                                           ├─ refused → video:media:error
@@ -41,6 +42,8 @@ atom sits after `mdat` (i.e. not written with `-movflags +faststart`) reaches
 neither `loadedmetadata` nor `canplay` until the whole file has downloaded. The
 4s failsafe covers the rest — LandingSequence's reveal has no timeout of its
 own, so a silent path would leave the video hidden permanently, not just late.
+
+**Already playing** means not paused, not ended, and `readyState >= HAVE_FUTURE_DATA`. A non-deferred `src` with `autoplay` (the hero, since `defer: false`) can start playing before this section is constructed. Its native `playing` then fires with nothing listening, and `play()` on a playing element fires no new one, so without this branch the gate would wait for the 4 s failsafe on every first visit. A consumer that already heard an earlier `playing` may hear a second; LandingSequence's reveal runs only once, so that's harmless.
 
 **Every branch emits exactly one event.** A consumer gating on the video always
 gets an answer, so its timeout stays a failsafe instead of the normal exit on a

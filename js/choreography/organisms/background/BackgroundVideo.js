@@ -148,6 +148,15 @@ export default class BackgroundVideo extends AbstractSection {
       return;
     }
 
+    // Already playing — a non-deferred `src` + `autoplay` can start before
+    // this section exists, so the native `playing` fired with nobody
+    // listening, and play() on a playing element fires no new one. Report it
+    // now rather than leaving the gate to the failsafe.
+    if (this._isAlreadyPlaying()) {
+      this._emitMedia("playing");
+      return;
+    }
+
     // Deliberately NOT gated on `canplay`. play() is valid on an unbuffered
     // element — the browser starts it as soon as data allows — and waiting for
     // `canplay` first has no upper bound. An mp4 whose `moov` atom sits after
@@ -156,6 +165,22 @@ export default class BackgroundVideo extends AbstractSection {
     // this video hidden.
     this._armPlaybackFailsafe();
     this._playVideo();
+  }
+
+  /**
+   * True when frames are actually advancing: not paused, not ended, and
+   * buffered past the current frame (HAVE_FUTURE_DATA). A video that is
+   * unpaused but still stalled waiting for data does not count — it will fire
+   * its own `playing` once it moves.
+   */
+  _isAlreadyPlaying() {
+    const video = this.videoEl;
+    return Boolean(
+      video &&
+        !video.paused &&
+        !video.ended &&
+        video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA,
+    );
   }
 
   /**

@@ -13,9 +13,9 @@
        inert>
     {{ videoAtom.render({
         src: params.videoSrc,
-        defer: params.defer | default(true) ,
-    poster: posterUrl,
-    autoplay: params.autoPlay | default(true),
+        defer: false,
+        poster: posterUrl,
+        autoplay: params.autoPlay | default(true) ,
     loop: params.loop | default(true),
     muted: params.muted | default(true),
     playsInline: params.playsInline | default(true),
