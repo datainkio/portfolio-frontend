@@ -12,8 +12,13 @@ links:
 # global-header
 
 Bootstraps `GlobalHeaderManager` directly for pages that don't load
-`AnimationDirector` (the home page instantiates the manager itself, with a
-full `ReducedMotionHandler`; this module covers every other page).
+`AnimationDirector`. Pages that include
+[`choreography-script.njk`](../../views/templates/partials/choreography-script/choreography-script.md)
+with choreography on (home, work, contact) set `window.__enableChoreography`
+and load the Director, which instantiates the manager itself with a full
+`ReducedMotionHandler`; this module stands down there. Gate on the runtime
+flag, not the `enableChoreography` frontmatter: the project page sets the
+frontmatter but never includes the script, so it still needs this module.
 
 ## Source
 
@@ -27,7 +32,8 @@ full `ReducedMotionHandler`; this module covers every other page).
 
 1. Build a minimal `reducedMotionHandler` from
    `window.matchMedia("(prefers-reduced-motion: reduce)")`.
-2. Instantiate `new GlobalHeaderManager({ reducedMotionHandler })` on import.
+2. Unless `window.__enableChoreography` is true, instantiate
+   `new GlobalHeaderManager({ reducedMotionHandler })` on import.
    With no bus, the manager reveals the header immediately (removes `hidden`,
    no tween) and then arms scroll auto-hide.
 

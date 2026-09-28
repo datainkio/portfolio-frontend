@@ -47,7 +47,7 @@
 
       {# MAIN CONTENT AREA #}
       <main {% if smoothScroll %}id="page-main-content"{% endif %}
-            class="{{ {"base": "max-w-[1280px] pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
+            class="{{ {"base": "pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
 
         {% block content %}
           {% if content %}
