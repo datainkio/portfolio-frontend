@@ -16,9 +16,12 @@ const WORK_EL_ATTR = "data-projects-el";
 const LINK_VALUE = "industry-link";
 const GROUP_VALUE = "industry-group";
 
-// Active band sits in the top fifth of the viewport. The lowest group whose
-// top has crossed into this band is the one the user is reading.
-const ACTIVE_BAND_ROOT_MARGIN = "0px 0px -80% 0px";
+// Reading line sits at the top fifth of the viewport. The lowest group whose
+// top has crossed it is the one the user is reading. The band observer's
+// margin puts its bottom edge on that line, so it fires whenever a group's
+// top crosses it.
+const READING_LINE = 0.2;
+const ACTIVE_BAND_ROOT_MARGIN = `0px 0px -${(1 - READING_LINE) * 100}% 0px`;
 export default class WorkNavManager {
   constructor({ bus } = {}) {
     this.logger = lumberjack.createScoped("WorkNavManager", {
@@ -29,11 +32,8 @@ export default class WorkNavManager {
     this._bus = bus ?? null;
     this._bandObserver = null;
     this._viewportObserver = null;
-    // _activeId owns aria-current. null = no group in the viewport, so no
-    // link is current.
+    // _activeId owns aria-current. null = no group is current.
     this._activeId = null;
-    this._inBand = new Set();
-    this._inViewport = new Set();
 
     // The industry groups live inside the work section. The jumplinks do not:
     // their fixed <header> renders outside #page-main-content (base.njk
@@ -64,23 +64,17 @@ export default class WorkNavManager {
   }
 
   _init() {
-    // Two observers: the band picks WHICH group is current; the viewport
-    // decides WHETHER any is. Groups are spaced wider than the band, so
-    // clearing on an empty band alone would blink the nav off between groups.
-    const track = (set) => (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) set.add(entry.target);
-        else set.delete(entry.target);
-      });
-      this._update();
-    };
-    this._bandObserver = new IntersectionObserver(track(this._inBand), {
+    // The observers only signal that the answer may have changed: the band
+    // observer when a group's top crosses the reading line, the viewport
+    // observer when a group enters or leaves the viewport. _update() then
+    // derives the state from geometry, so the same scroll position always
+    // yields the same current link.
+    const update = () => this._update();
+    this._bandObserver = new IntersectionObserver(update, {
       rootMargin: ACTIVE_BAND_ROOT_MARGIN,
       threshold: 0,
     });
-    this._viewportObserver = new IntersectionObserver(track(this._inViewport), {
-      threshold: 0,
-    });
+    this._viewportObserver = new IntersectionObserver(update, { threshold: 0 });
     this._groups.forEach((group) => {
       this._bandObserver.observe(group);
       this._viewportObserver.observe(group);
@@ -90,20 +84,22 @@ export default class WorkNavManager {
   }
 
   _update() {
-    // No group in the viewport: nothing is current.
-    if (!this._inViewport.size) {
-      this._setActive(null);
-      return;
-    }
-
-    // Active = lowest group in the band, in document order (reading position).
-    // Band empty but a group still visible (between groups, or a group only
-    // partly scrolled in): keep the current link.
+    // Current = lowest group whose top has crossed the reading line, provided
+    // some group is still in the viewport. Groups are spaced wider than the
+    // band, so a group stays current through the gap after it; above the
+    // first group, or once every group has scrolled away, nothing is.
+    const viewportHeight = window.innerHeight;
+    const line = viewportHeight * READING_LINE;
+    let anyVisible = false;
     let active = null;
     for (const group of this._groups) {
-      if (this._inBand.has(group)) active = group;
+      const { top, bottom } = group.getBoundingClientRect();
+      if (bottom > 0 && top < viewportHeight) anyVisible = true;
+      if (top < line) active = group;
     }
-    if (active) this._setActive(active.getAttribute("aria-labelledby"));
+    this._setActive(
+      anyVisible && active ? active.getAttribute("aria-labelledby") : null,
+    );
   }
 
   _setActive(id) {
@@ -124,8 +120,6 @@ export default class WorkNavManager {
     this._viewportObserver = null;
     this._linkById.forEach((link) => link.removeAttribute("aria-current"));
     this._activeId = null;
-    this._inBand.clear();
-    this._inViewport.clear();
     this.logger.trace("destroyed");
   }
 }

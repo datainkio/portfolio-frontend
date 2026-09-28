@@ -32,28 +32,32 @@ The shared id is the single join key between a group and its link.
 
 ## Active-region rule
 
-Two `IntersectionObserver`s watch every group:
+The **reading line** sits at the top fifth of the viewport (`READING_LINE`).
+Current = the **lowest group whose top has crossed the reading line**, provided
+some group is still in the viewport. Otherwise nothing is current.
 
-- **Band** — `rootMargin: "0px 0px -80% 0px"`, a thin band in the top fifth of
-  the viewport. It picks **which** group is current: the lowest group in the
-  band, in document order (the reading position).
-- **Viewport** — no margin. It decides **whether** any group is current.
+The state is derived from geometry (`getBoundingClientRect`) each time, never
+from what was current before, so the same scroll position always gives the same
+result. Two `IntersectionObserver`s only decide *when* to recompute:
 
-The resulting state:
+- **Band** — `rootMargin: "0px 0px -80% 0px"`. Its bottom edge is the reading
+  line, so it fires when a group's top crosses it.
+- **Viewport** — no margin. It fires when a group enters or leaves the viewport.
 
-- **No group in the viewport** (on landing, above the first group, or past the
-  last): no link carries `aria-current`, and `work:nav:active` is emitted with
-  `{ id: null }`.
-- **A group in the band**: `aria-current` moves to its link and
-  `work:nav:active` is emitted with `{ id }`.
-- **Groups visible but none in the band** (the `my-48` gaps between groups are
-  wider than the band, or a group only partly scrolled in): the current link is
-  kept, so the nav doesn't blink off between groups. On landing this means
-  nothing is current until the first group's top reaches the band.
+In practice:
 
-Emits happen only when the id changes. Styling is attribute-driven
-(`aria-[current=true]:` utilities in `industry-links.njk`); the manager never
-touches classes.
+- **Landing / above the first group:** no group's top has crossed the line, so
+  nothing is current, even if the first group is already partly on screen.
+- **Reading a group, or in the `my-48` gap after it:** that group is current.
+  The gaps are wider than the band, so the nav doesn't blink off between groups.
+- **Every group scrolled out of view:** nothing is current. (On the current
+  page the last group is still on screen at the bottom of the page, so this
+  doesn't happen there.)
+
+`aria-current` moves to the current link, or clears, and `work:nav:active` is
+emitted with `{ id }` or `{ id: null }`, only when the id changes. Styling is
+attribute-driven (`aria-[current=true]:` utilities in `industry-links.njk`); the
+manager never touches classes.
 
 There is no boot seed. Before 2026-09-28 the first group was marked current at
 init and `aria-current` stayed on the last group after the reader left them
