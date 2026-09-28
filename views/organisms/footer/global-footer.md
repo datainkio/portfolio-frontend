@@ -87,10 +87,14 @@ reintroduce a non-landmark `<div>` as the `content` element.
 **Current state per caller:**
 
 - [`home.njk`](../../pages/home/home.njk) — follows the shape above.
-- [`base.njk`](../../layouts/base.njk) — `content` id is on `<main>` as well;
-  the footer renders inside `#page-main` (when `smoothScroll = true`) but
-  outside `#page-main-content`, i.e. after the `afterMain` slot. Differs from
-  `home.njk` only in whether the footer sits inside or outside the wrapper.
+- [`base.njk`](../../layouts/base.njk) — same shape: the footer renders after
+  the `#page-main` wrapper (whether or not `smoothScroll` builds it), `<body>`
+  is `relative min-h-dvh`, and `<main>` reserves the footer's height with an
+  `after:h-48` pseudo-element spacer instead of `pb-48`, so it can't conflict
+  with a page's own `mainStyles` padding. `min-h-dvh` puts the footer at the
+  viewport bottom on pages shorter than the viewport.
+  (Before 2026-09-28 the footer sat inside the fixed `#page-main`, so it was
+  pinned to the viewport on every `smoothScroll` page.)
 
 ## Relationships
 

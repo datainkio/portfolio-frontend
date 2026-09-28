@@ -46,7 +46,7 @@ import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.j
 import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
 // import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
-// import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
+import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
 // import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
 // import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
 import BuildInfoManager from "/assets/js/choreography/managers/BuildInfoManager/BuildInfoManager.js";
@@ -128,10 +128,10 @@ export default class AnimationDirector {
     // });
 
     // Initialize the work section industry-nav drawer (below md) / rail (md+).
-    // this.workHeaderManager = new WorkHeaderManager({
-    //   bus: this.bus,
-    //   reducedMotionHandler: this.stage?.reducedMotion,
-    // });
+    this.workHeaderManager = new WorkHeaderManager({
+      bus: this.bus,
+      reducedMotionHandler: this.stage?.reducedMotion,
+    });
 
     // Initialize work section local nav scrollspy (active jumplink tracking)
     // this.workNavManager = new WorkNavManager({ bus: this.bus });
@@ -227,8 +227,8 @@ export default class AnimationDirector {
     // this.homeHeaderManager?.kill();
     // this.homeHeaderManager = null;
 
-    // this.workHeaderManager?.kill();
-    // this.workHeaderManager = null;
+    this.workHeaderManager?.kill();
+    this.workHeaderManager = null;
 
     // this.workNavManager?.kill();
     // this.workNavManager = null;

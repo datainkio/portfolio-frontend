@@ -18,6 +18,7 @@ export default class ScrollSmootherManager {
     this._reducedMotionHandler = reducedMotionHandler;
     this._smoother = null;
     this._isAvailable = this._checkAvailability();
+    this._onAnchorClick = this._onAnchorClick.bind(this);
 
     if (reducedMotionHandler) {
       this._unsubscribe = reducedMotionHandler.onChange((enabled) => {
@@ -52,6 +53,7 @@ export default class ScrollSmootherManager {
         ignoreMobileResize: true,
         preventDefault: false,
       });
+      document.addEventListener("click", this._onAnchorClick);
       return true;
     } catch (e) {
       console.error("ScrollSmootherManager: Failed to create instance", e);
@@ -60,10 +62,33 @@ export default class ScrollSmootherManager {
   }
 
   disable() {
+    document.removeEventListener("click", this._onAnchorClick);
     if (this._smoother && this._smoother.kill) {
       this._smoother.kill();
       this._smoother = null;
     }
+  }
+
+  /**
+   * Route same-page `#hash` links through the smoother. Left native, the
+   * browser scrolls the fixed, overflow-hidden wrapper to the target instead
+   * of the window; the smoother never resets that offset, so the page can no
+   * longer be scrolled back above it.
+   */
+  _onAnchorClick(event) {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest?.('a[href^="#"]');
+    const hash = link?.getAttribute("href");
+    if (!this._smoother || !hash || hash === "#") return;
+
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target || !this._smoother.content().contains(target)) return;
+
+    event.preventDefault();
+    this._smoother.scrollTo(target, true, "top top");
+    history.pushState(null, "", hash);
+    target.focus({ preventScroll: true });
   }
 
   getSmoother() {

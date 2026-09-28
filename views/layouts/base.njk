@@ -11,7 +11,7 @@
   {% include "templates/partials/head/head.njk" %}
   {% block head %}
   {% endblock head %}
-  <body class="{{ {"base": "bg-slate-950 bg-graphpaper-accent-400", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
+  <body class="{{ {"base": "relative min-h-dvh bg-slate-950 bg-graphpaper-accent-400", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
 
     {# GTM #}
     {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
@@ -47,7 +47,7 @@
 
       {# MAIN CONTENT AREA #}
       <main {% if smoothScroll %}id="page-main-content"{% endif %}
-            class="{{ {"base": "pt-6 space-y-12 px-6", "sm": "", "md": "pt-8", "lg": "pt-16", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
+            class="{{ {"base": "pt-6 space-y-12 px-6 after:block after:col-span-full after:h-48", "sm": "", "md": "pt-8", "lg": "pt-24", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
 
         {% block content %}
           {% if content %}
@@ -78,10 +78,16 @@
         </aside>
       {% endif %}
 
-      {# GLOBAL PAGE FOOTER #}
-      {{ Footer.render() }}
-
       {% if smoothScroll %}</div>{% endif %}
+
+    {#- GLOBAL PAGE FOOTER — outside #page-main, as on home.njk. The footer is
+        `absolute bottom-0` against <body> (`relative min-h-dvh`), so it lands at
+        the end of the content or the bottom of the viewport, whichever is lower.
+        Inside the fixed #page-main it would pin to the viewport instead. <main>
+        reserves its height with an `after:h-48` spacer (a pseudo-element, so it
+        can't collide with a page's own `mainStyles` padding); keep it >= the
+        footer's rendered height. -#}
+    {{ Footer.render() }}
 
     {#- SCRIPTS -#}
     <script type="module" src="/assets/js/layouts/global-header.js"></script>
