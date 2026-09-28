@@ -26,6 +26,7 @@ Classified as a **page** at the atomic **page** level based on its location unde
 ## Data and Context
 
 - `ProjectCards` — referenced in the template.
+- `cms.projectsLanding[0].pageVideo` — optional portrait page video (`videoAsset`). Rendered as a decorative `<figure data-projects-el="video">` beside the landing header (below it on small screens) only when the asset has both a source and a poster. Uses the card video's playback contract: `data-defer-video` + `data-motion-optional` + `data-play-in-view`, hydrated and played near the viewport by `js/preloader/deferred-videos.js`, left on its poster under `prefers-reduced-motion`. When the asset has a `mask`, the PNG is applied as an inline CSS `mask` on the figure (alpha channel, stretched to the 9:16 frame), clipping poster and video alike.
 
 ## Relationships
 

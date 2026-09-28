@@ -117,6 +117,7 @@ export default class AnimationDirector {
 
     // Initialize global header hide/show on scroll
     this.headerManager = new GlobalHeaderManager({
+      bus: this.bus,
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 

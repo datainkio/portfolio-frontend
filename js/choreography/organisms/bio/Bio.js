@@ -31,10 +31,12 @@ export default class Bio extends AbstractSection {
   // Bio's reveal is time-based: it fires once off the home header intro, not on
   // scroll. Track that the reveal has been requested so a resize can re-assert it.
   //
-  // Landing is tracked separately from intro because they are requested at
-  // different moments (LandingSequence awaits playLanding, *then* calls
-  // playIntro) — a resize in the gap must settle the landing without asserting
-  // an intro that has not been asked for yet.
+  // Landing is tracked separately from intro because they can be requested at
+  // different moments — a resize in the gap must settle the landing without
+  // asserting an intro that has not been asked for yet. LandingSequence does not
+  // currently call playLanding (the heading gel has no entrance; it is parked
+  // at rest when the timelines build), so this stays dormant until a landing
+  // phase returns.
   playLanding() {
     this._landingRequested = true;
     return super.playLanding();
@@ -66,11 +68,9 @@ export default class Bio extends AbstractSection {
   // the end each no-ops, so repeated resize events are cheap.
   //
   // Landing is settled as well as intro: a breakpoint-crossing resize rebuilds
-  // both timelines, and the landing rebuild re-parks the heading gel offscreen
-  // at its entrance start frame. Nothing replays it (LandingSequence fired once),
-  // so without settling it here the band stays offscreen permanently. Settling
-  // does not suppress events, so the entrance's `onComplete` still fires and
-  // hands the band back to its sync.
+  // both timelines, and a played landing must not be left at its start frame.
+  // (The current landing is an empty timeline — the heading gel is parked at
+  // rest on build — so today only the intro needs settling.)
   _settleRevealToEnd() {
     const phases = [
       [TIMELINE_IDS.landing, this._landingRequested],

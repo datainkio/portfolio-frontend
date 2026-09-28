@@ -1,7 +1,7 @@
 {
 	"nodes":[
-		{"id":"ab9b173acf7c00f2","type":"file","file":"goals/Frontend_tasks/complete-projects-page.md","subpath":"#Proposal","x":0,"y":-249,"width":400,"height":329},
-		{"id":"9cdb492174db8847","type":"file","file":"goals/Frontend_tasks/complete-contact-page.md","subpath":"#Proposal","x":520,"y":-249,"width":400,"height":329},
+		{"id":"ab9b173acf7c00f2","type":"file","file":"goals/Frontend/_tasks/complete-projects-page.md","subpath":"#Proposal","x":0,"y":-249,"width":400,"height":329},
+		{"id":"9cdb492174db8847","type":"file","file":"goals/Frontend/_tasks/complete-contact-page.md","subpath":"#Proposal","x":520,"y":-249,"width":400,"height":329},
 		{"id":"44c39d805e180e85","type":"file","file":"visual design/pages/Home Page.md","x":240,"y":-760,"width":400,"height":280}
 	],
 	"edges":[

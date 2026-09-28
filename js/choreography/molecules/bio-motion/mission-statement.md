@@ -19,7 +19,7 @@ itself, as the arrival's first beat.
 
 ## Why it is not on the intro timeline
 
-Bio's intro is cued by the **landing chain** (video intro → hold → gel entrance →
+Bio's intro is cued by the **landing chain** (video intro → hold →
 `bio.playIntro()`; see [LandingSequence.md](../../templates/landing/LandingSequence.md)),
 not by scroll. The mission statement sits a full `h-dvh` below the header, so it
 is comfortably off-screen at that moment. Anything sequenced into the intro
@@ -33,9 +33,8 @@ positioned outside the lifecycle timelines, as standing behaviours.
 ## The three beats
 
 1. **Band wipe** — `gel_subheading` `fromTo` `scaleX: 0 → 1`, `transformOrigin:
-"left center"`. The band leads deliberately: it rhymes with the heading gel's
-   entrance ([heading-gel.md](heading-gel.md)) so the two headings read as one
-   gesture at two scales.
+"left center"`. The band leads deliberately: it echoes the full-bleed heading gel
+   ([heading-gel.md](heading-gel.md)) at a smaller scale.
 2. **Overview `<h3>`** — `from` `autoAlpha: 0` + `y: distance`, starting
    `BIO_MISSION_REVEAL.overlap` (0.2) of the wipe's duration before it ends, so
    the heading rides the band's tail rather than queueing behind it. Same overlap
@@ -56,7 +55,7 @@ sets both on every scroll tick — it would stomp the wipe mid-flight. So this
 calls `suspendOverviewGelSync(view)` before building and parks the band at
 `autoAlpha: 0`; the wipe tween's **own** `onComplete` resumes the sync and
 force-refreshes it by id (`OVERVIEW_SYNC_ST_ID`), handing resting geometry back.
-This is the same contract `heading-gel.js` uses for its entrance — the suspend
+This mirrors `heading-gel.js`'s suspend/resume contract — the suspend
 `WeakSet` and its two exports were added to `overview-gel.js` to match.
 
 ## Rebuilds (viewport resize across a breakpoint)

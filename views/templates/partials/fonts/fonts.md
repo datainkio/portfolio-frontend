@@ -1,5 +1,5 @@
 ---
-description: 'Resource hints and web-font loading for the `<head>` — the `cdn.sanity.io` preconnect, Cormorant Garamond from Google Fonts deferred via `media="print"` with a `<noscript>` fallback, and the `DRAFTPAPER.woff2` preload that drives hero LCP text. IBM Plex Sans is self-hosted via `@font-face` in imports.css, not requested here.'
+description: Resource hints and web-font loading for the `<head>` — the `cdn.sanity.io` preconnect, Cormorant Garamond from Google Fonts deferred via `media="print"` with a `<noscript>` fallback, and the `DRAFTPAPER.woff2` preload that drives hero LCP text. IBM Plex Sans is self-hosted via `@font-face` in imports.css, not requested here.
 type: template
 tags:
   - partial
@@ -9,7 +9,7 @@ links:
   - "[head](../head/head.md)"
   - "[imports](../../../../styles/typography/imports.css)"
   - "[fontFamilies](../../../../styles/typography/fontFamilies.css)"
-  - "[sequence](../../../../js/preloader/sequence.canvas)"
+  - "[sequence](Preloader%20Sequence.canvas)"
 ---
 
 # fonts.njk
@@ -49,7 +49,7 @@ The body face (`--font-body`) was a render-blocking cross-origin `<link rel="sty
 
 ## Role in the System
 
-Classified as a **partial** at the atomic **template** level based on its location under `views/`. On the home page it is the origin of the `document.fonts.ready` gate in `Preloader.js`: that promise waits on every face in use on the page (DraftPaper, Plex once body text matches, and Cormorant if any subset glyph is on the page), not just the hero face — see the font-gate callout in [sequence.canvas](../../../../js/preloader/sequence.canvas).
+Classified as a **partial** at the atomic **template** level based on its location under `views/`. On the home page it is the origin of the `document.fonts.ready` gate in `Preloader.js`: that promise waits on every face in use on the page (DraftPaper, Plex once body text matches, and Cormorant if any subset glyph is on the page), not just the hero face — see the font-gate callout in [Preloader Sequence.canvas](Preloader%20Sequence.canvas).
 
 ## Data and Context
 

@@ -23,7 +23,7 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 ## Events
 - The preloader completes its outro
 - The background completes its intro
-- The global header completes its intro
+- The background video completes its intro
 - The global footer completes its intro
 - The bio section enters the view
 - The bio section backs into the view
@@ -56,10 +56,10 @@ flowchart TD
             HOC --> VID["LandingSequence._startVideoIntro<br/>video.playIntro, awaits _ensureVideoReady"]
             VID --> VIC{{"bus: video:intro:complete"}}
             VIC --> BEAT["LandingSequence._armBioIntro<br/>gsap.delayedCall BIO_INTRO_HOLD.delay"]
-            BEAT --> GEL["await bio.playLanding<br/>gel band flies in from below the fold — BIO_GEL_ENTRANCE"]
-            GEL --> GLC{{"landing timeline onComplete<br/>resolves the playLanding promise"}}
-            GLC --> BIO["bio.playIntro"]
-            BIO --> BIC{{"bus: bio:intro:complete — chain ends"}}
+            BEAT --> BIO["bio.playIntro<br/>gel band already at rest, full-bleed — no entrance"]
+            BIO --> BIC{{"bus: bio:intro:complete"}}
+            BIC --> HDR["GlobalHeaderManager._reveal<br/>header slides in, then scroll auto-hide arms"]
+            HDR --> HIC{{"bus: header:intro:complete — chain ends"}}
         end
     end
 
@@ -81,12 +81,12 @@ flowchart TD
 
 - start() stages the video's landing state.  Playing the video intro at `preloader:out` would race the header, so `start()` ^c4326b
 - Await sections.video.playLanding()
-- **The video is cued off `home:outro:complete`.** That is the header's only outward cue — it emits no intro events, because after its exit it is dismissed and gone from the page. The chain now terminates at `bio:intro:complete`; nothing consumes that event today, so it is the natural extension point for anything added later.
+- **The video is cued off `home:outro:complete`.** That is the header's only outward cue — it emits no intro events, because after its exit it is dismissed and gone from the page. LandingSequence's own chain terminates at `bio:intro:complete`. GlobalHeaderManager listens for it and reveals the header as the final beat, emitting `header:intro:complete`.
 - **Every link is an event, not a call.** Cross-section coordination goes through `AnimationBus` with `EVENTS` constants — `LandingSequence` never reaches into an organism's internals beyond its public `play*` methods.
 - **Reduced motion zeroes holds rather than skipping links.** A gated profile still emits `…:intro:complete` (`AbstractSection` jumps the intro to `progress(1)`), so the chain completes without motion instead of stalling.
 - **Timers are `gsap.delayedCall`, never `setTimeout`** — ticker-synced, pausable, killable in `destroy()`.
 - **Bio is disengaged from scroll.** Its ScrollTrigger still fires enter/exit for side effects, but the reveal is owned by this chain.
-- **The gel entrance gates the bio intro.** `bio.playLanding()` is awaited, not fired-and-forgotten — the heading band has to land before the SplitText reveal starts over it. See [heading-gel.md](../../molecules/bio-motion/heading-gel.md); the promise resolves via `AbstractSection`'s `PromiseResolverQueue`, and resolves immediately under a gated profile so the await can never stall the chain.
+- **The gel has no entrance.** The heading band is parked full-bleed at rest when bio's timelines build, so the chain goes straight from the hold to `bio.playIntro()` — no `playLanding()` await. See [heading-gel.md](../../molecules/bio-motion/heading-gel.md).
 
 ### Known drift
 

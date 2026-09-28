@@ -64,31 +64,6 @@ export const HOME_HERO_HOLD = { delay: 0 }; // seconds
  */
 export const BIO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
 
-/**
- * Bio Heading Gel Entrance
- *
- * The gel band's arrival, played as bio's `landing` phase once the background
- * video's intro has completed and `BIO_INTRO_HOLD.delay` has elapsed. It gates
- * the bio intro: LandingSequence awaits `bio.playLanding()` before calling
- * `bio.playIntro()` (see molecules/bio-motion/heading-gel.js).
- *
- * The band starts fully offscreen — one viewport height below the fold, offset
- * right by `xViewportRatio` of the viewport width — with a slight tilt, then
- * resolves to its synced resting geometry. Short and eased-out: it is an
- * arrival, not a gesture with its own narrative.
- *
- * Both offsets are fractions of the viewport rather than distance tokens: they
- * are measured at play time against `window.innerWidth`/`innerHeight`, so there
- * is no fixed px value to fork.
- */
-export const BIO_GEL_ENTRANCE = {
-  xViewportRatio: 0.33, // start x offset, as a fraction of viewport width
-  yViewportRatio: 1.2, // start y offset below the fold, as a fraction of viewport height
-  rotation: -16, // degrees; resolves to 0
-  duration: toSeconds(motion.duration("slower")), // seconds; longer than the intro to gate it
-  ease: "power2.out",
-};
-
 export const HOME_HERO_OUTRO = {
   xPercent: -100, // slide the full-bleed hero off to the left
   duration: toSeconds(motion.duration("slow")),

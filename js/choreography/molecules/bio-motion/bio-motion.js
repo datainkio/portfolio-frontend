@@ -6,7 +6,7 @@
  * BioAnimations.js selects the active variant via SECTION_OVERRIDES.bio
  * in config/ix/profiles/profiles.js.
  *
- *   split  - Gel band fly-in (landing), then GSAP SplitText on the header and
+ *   split  - Gel band at rest, full-bleed (landing), then GSAP SplitText on the header and
  *            subheader (intro). Requires SplitText plugin and gelManager.
  *   reduced - Nothing fancy.
  *   sweep  — Gel wipe (scaleX 0→1) followed by header fade+lift. Requires gelManager.
@@ -14,7 +14,7 @@
  */
 
 import { intro as introSplit } from "./split.js";
-import { buildHeadingGelEntrance } from "./heading-gel.js";
+import { buildHeadingGelRest } from "./heading-gel.js";
 import { createSweepIn, createSweepOut } from "./sweep.js";
 import { initFade, createFadeIn, createFadeOut } from "./fade.js";
 import {
@@ -25,9 +25,8 @@ import {
 
 export const BIO_VARIANT_FACTORIES = Object.freeze({
   split: {
-    // Landing phase: the gel band's offscreen fly-in. LandingSequence awaits it
-    // before playing the intro, so this beat gates the reveal.
-    init: buildHeadingGelEntrance,
+    // Landing phase: the gel band parked full-bleed at rest — no entrance.
+    init: buildHeadingGelRest,
     buildIntro: introSplit,
     // Outro disabled — omitting buildOutro makes BioAnimations._buildOutro fall
     // back to the base class's empty timeline, which BioTriggers._bindOutroPin

@@ -29,8 +29,47 @@
   {{ { "base": "pb-24 mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64" } | classes }}
 {% endblock mainStyles %}
 
+{#- Optional portrait page video (projects.pageVideo → videoAsset). The asset's
+    poster is the only fallback this page has, so the video renders only when
+    both are present. -#}
+{%- set pageVideo = cms.projectsLanding[0].pageVideo if (cms.projectsLanding and cms.projectsLanding.length) else null -%}
+{%- set pageVideoSrc = pageVideo and (pageVideo.url or pageVideo.videoUrl) -%}
+{%- set pageVideoPoster = pageVideo and pageVideo.poster and pageVideo.poster.url -%}
+
+{%- set videoFigureStyles = {
+  "base": "col-span-full justify-self-center w-full m-0 overflow-hidden aspect-[9/16]",
+  "lg": "col-span-4 col-start-8 row-start-1 max-w-none"
+} -%}
+{%- set videoStyles = {"base": "w-full h-full object-cover object-center"} -%}
+
 {% block content %}
   {{ super() }}
+  {% if pageVideoSrc and pageVideoPoster %}
+    <figure data-projects-el="video"
+            class="{{ videoFigureStyles | classes }}"
+            {# Optional alpha mask (videoAsset.mask): the PNG's alpha channel clips the figure, stretched to the 9:16 frame. Masks poster and video alike. #}
+            {% if pageVideo.mask %}style="mask: url('{{ pageVideo.mask }}') center / 100% 100% no-repeat;"{% endif %}>
+      {#- Decorative, same contract as the card video (molecules/card/card.njk):
+          hidden from AT, left posterized under reduced motion
+          (`data-motion-optional`), and hydrated + played only near the
+          viewport (`data-play-in-view`). -#}
+      <video data-defer-video
+             data-motion-optional
+             data-src="{{ pageVideoSrc }}"
+             poster="{{ pageVideoPoster | imageUrl({"w": 720}) }}"
+             width="720"
+             height="1280"
+             class="{{ videoStyles | classes }}"
+             preload="none"
+             aria-hidden="true"
+             tabindex="-1"
+             playsinline
+             {% if pageVideo.muted != false %}muted{% endif %}
+             {% if pageVideo.loop != false %}loop{% endif %}
+             {% if pageVideo.autoplay != false %}data-play-in-view{% endif %}>
+      </video>
+    </figure>
+  {% endif %}
   {% if industries | length %}
     <section id="work" class="col-span-full" data-scroll-section>
       {%- for industryTitle, industryProjects in industries -%}

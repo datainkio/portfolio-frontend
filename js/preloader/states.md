@@ -7,7 +7,7 @@ tags:
 links:
   - "[[Preloader.js]]"
   - "[[README.preloader.md]]"
-  - "[[sequence.canvas]]"
+  - "[[Preloader Sequence.canvas]]"
   - "[[preloader-states.canvas]]"
 ---
 

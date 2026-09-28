@@ -155,30 +155,24 @@ export class LandingSequence {
   }
 
   /**
-   * Hold a beat after the background video's intro, then bring the gel band in
-   * and — once it lands — play Bio's intro.
+   * Hold a beat after the background video's intro, then play Bio's intro.
    *
-   * The gel entrance is bio's `landing` phase (the `split` variant's `init`; see
-   * molecules/bio-motion/heading-gel.js). Awaiting `playLanding()` is what gates
-   * the reveal: its promise resolves on the landing timeline's `onComplete`, so
-   * the intro cannot start over a band that is still flying in.
+   * The gel band has no entrance: it is parked full-bleed at rest when bio's
+   * timelines build (molecules/bio-motion/heading-gel.js), so there is no
+   * landing phase to await here.
    *
    * Reduced motion zeroes the hold rather than skipping the call — the video
    * still emits `video:intro:complete` under a gated profile (AbstractSection
    * jumps the intro to progress(1) and emits), so this chain must stay intact.
-   * `playLanding()` likewise resolves immediately when the profile gates motion
-   * off, so the await never stalls the chain.
    */
   _armBioIntro() {
     if (this._bioHoldCall) return;
 
     const hold = isReducedMotion() ? 0 : BIO_INTRO_HOLD.delay;
 
-    this._bioHoldCall = gsap.delayedCall(hold, async () => {
+    this._bioHoldCall = gsap.delayedCall(hold, () => {
       this._bioHoldCall = null;
-      this.logger.trace(SELECTORS.bio + " gel entrance (after video intro)");
-      await this.sections?.bio?.playLanding?.();
-      this.logger.trace(SELECTORS.bio + " intro (after gel entrance)");
+      this.logger.trace(SELECTORS.bio + " intro (after video intro)");
       this.sections?.bio?.playIntro?.();
     });
 
@@ -235,7 +229,7 @@ export class LandingSequence {
     //
     //   video settles (playing, or never will)
     //     -> background video intro
-    //       -> (beat) -> bio gel entrance -> bio intro
+    //       -> (beat) -> bio intro (gel band already at rest, no entrance)
     //
     // The cue used to be `home:outro:complete`, emitted by HomeHeaderManager.
     // That manager is no longer constructed by AnimationDirector, so nothing

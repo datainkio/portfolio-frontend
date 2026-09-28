@@ -1,6 +1,5 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { BIO_GEL_ENTRANCE } from "../../config/ix/motion.js";
 
 /**
  * Bio Heading Gel
@@ -28,15 +27,12 @@ import { BIO_GEL_ENTRANCE } from "../../config/ix/motion.js";
 export const HEADING_GEL_ID = "gel_bio";
 const SYNC_ST_ID = "bio-heading-gel-sync";
 
-// The outro pin owns `scaleY` on the gel band during its gel-expand beat, and
-// the entrance below owns x/y/rotation. `sync()` would reset those — suspend it
-// while either is driving the band.
+// The outro pin owns `scaleY` on the gel band during its gel-expand beat.
+// `sync()` would reset it — suspend it while the pin is driving the band.
 //
 // Suspension DEFERS, it does not discard. A suspended `sync()` records that one
-// was owed (`pending`) and `resume` runs it immediately, because the suspend
-// windows here are long and open-ended — the entrance holds one from page load
-// until it plays. Dropping resizes across that window froze the band's geometry
-// at whatever the viewport was at load.
+// was owed (`pending`) and `resume` runs it immediately, so a resize during a
+// suspend window is applied when the window closes rather than lost.
 const suspended = new WeakSet();
 const pending = new WeakSet();
 // view -> the live `sync` closure, so `resume` can run the owed sync without the
@@ -84,8 +80,7 @@ export function attachHeadingGel(view, gelManager) {
       top: 0,
       width: "100vw",
       height,
-      // Neutralize any transform left by another variant/arrangement (or by the
-      // entrance below) — the band is positioned purely by left/top/width/height.
+      // Neutralize any transform left by another variant/arrangement — the band is positioned purely by left/top/width/height.
       x: 0,
       y: 0,
       rotation: 0,
@@ -128,58 +123,18 @@ export function attachHeadingGel(view, gelManager) {
 }
 
 /**
- * Build the gel band's entrance — bio's `landing` phase.
+ * Bio's `landing` phase: park the gel band at its full-bleed resting geometry.
  *
- * The band flies in from fully offscreen (1.2 viewport heights below the fold,
- * offset right by a third of the viewport width, slightly tilted) and resolves
- * to its synced resting geometry. `LandingSequence` awaits this timeline before
- * playing the bio intro, so the entrance gates the reveal.
- *
- * Ordering matters here, and it is why the whole beat lives in one factory:
- *
- * 1. `attachHeadingGel` runs first so the band already holds its resting
- *    geometry — a `gsap.from` reads the *current* values as its end state.
- * 2. `sync()` is then suspended. It rewrites x/y/rotation on every scroll tick
- *    and would stomp the entrance mid-flight. The suspend also survives
- *    `intro()`'s later `attachHeadingGel` call: that re-attach's own initial
- *    `sync()` respects the same gate, so the offscreen start frame is not wiped
- *    between build and play.
- * 3. The `from` renders immediately (GSAP's default), parking the band
- *    offscreen at build time — before the gel is ever on screen.
- * 4. On completion the sync resumes and is force-refreshed, handing the band
- *    back to normal scroll tracking.
- *
- * The completion hook lives on the **tween**, not the timeline: `AbstractSection
- * ._bindCallbacks` owns the landing timeline's `onStart`/`onComplete` callbacks
- * and would overwrite a timeline-level one.
+ * There is no entrance — the band is placed at rest when the timelines build,
+ * so it is already in position when the landing chain reaches bio. The empty
+ * landing-tagged timeline keeps the phase contract intact for
+ * `AbstractSection` (settle/progress calls find a timeline, not a warning).
  *
  * @param {HTMLElement|null} view Bio section root.
  * @param {object|null} gelManager GelAnimationManager instance.
- * @returns {gsap.core.Timeline} Landing-tagged timeline; empty when unavailable.
+ * @returns {gsap.core.Timeline} Empty landing-tagged timeline.
  */
-export function buildHeadingGelEntrance(view, gelManager) {
-  const tl = gsap.timeline({ id: TIMELINE_IDS.landing });
-
+export function buildHeadingGelRest(view, gelManager) {
   attachHeadingGel(view, gelManager);
-
-  const el = getHeadingGelEl(gelManager);
-  if (!view || !el) return tl;
-
-  suspendHeadingGelSync(view);
-
-  tl.from(el, {
-    // Function-based so a resize between build and play re-measures.
-    y: () => window.innerHeight * BIO_GEL_ENTRANCE.yViewportRatio,
-    x: () => window.innerWidth * BIO_GEL_ENTRANCE.xViewportRatio,
-    rotation: BIO_GEL_ENTRANCE.rotation,
-    duration: BIO_GEL_ENTRANCE.duration,
-    ease: BIO_GEL_ENTRANCE.ease,
-    overwrite: "auto",
-    onComplete: () => {
-      resumeHeadingGelSync(view);
-      ScrollTrigger.getById(SYNC_ST_ID)?.refresh();
-    },
-  });
-
-  return tl;
+  return gsap.timeline({ id: TIMELINE_IDS.landing });
 }

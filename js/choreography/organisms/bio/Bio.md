@@ -34,11 +34,11 @@ its inline styles would leave the section stuck. Two paths guard that:
 
 `_settleRevealToEnd` jumps **both** the landing and intro timelines to
 `progress(1)`, each gated on its own request flag (`_landingRequested` /
-`_introRequested`) since `LandingSequence` awaits `playLanding()` before calling
-`playIntro()` — a resize in that gap must settle landing without asserting an
-intro nobody has asked for yet.
+`_introRequested`) so a resize between the two requests settles landing without
+asserting an intro nobody has asked for yet.
 
-Settling landing is load-bearing: the rebuild re-parks the heading gel at its
-entrance start frame (offscreen), and nothing replays it. Events are **not**
-suppressed, so the entrance's `onComplete` still fires and hands the band back to
-its sync — see [heading-gel](../../molecules/bio-motion/heading-gel.md).
+Today the landing flag stays unset: `LandingSequence` no longer calls
+`playLanding()`, and the landing timeline is empty — the heading gel is parked at
+rest when the timelines build (see
+[heading-gel](../../molecules/bio-motion/heading-gel.md)). Only the intro needs
+settling.

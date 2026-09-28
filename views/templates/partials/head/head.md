@@ -1,5 +1,5 @@
 ---
-description: "The `<head>` partial — title, render-blocking stylesheet, `cdn.sanity.io` preconnect, the fonts partial, a build-only `modulepreload` for the choreography bundle, the page scripts block, the preloader bootstrap module, then the social/manifest/favicon metadata partials."
+description: The `<head>` partial — title, render-blocking stylesheet, `cdn.sanity.io` preconnect, the fonts partial, a build-only `modulepreload` for the choreography bundle, the page scripts block, the preloader bootstrap module, then the social/manifest/favicon metadata partials.
 type: template
 tags:
   - partial
@@ -13,14 +13,14 @@ links:
   - "[session-management-script](../session-management-script/session-management-script.md)"
   - "[choreography-script](../choreography-script/choreography-script.md)"
   - "[Preloader](../../../../js/preloader/Preloader.md)"
-  - "[sequence](../../../../js/preloader/sequence.canvas)"
+  - "[sequence](Preloader%20Sequence.canvas)"
 ---
 
 # Head
 
 ^cdd333
 
-Renders the whole `<head>` for every page. Owns the order in which head assets are discovered, which is the order the preload scanner requests them — see the merged lifecycle + asset column in [sequence.canvas](../../../../js/preloader/sequence.canvas).
+Renders the whole `<head>` for every page. Owns the order in which head assets are discovered, which is the order the preload scanner requests them — see the merged lifecycle + asset column in [Preloader Sequence.canvas](Preloader%20Sequence.canvas).
 
 ## Template
 

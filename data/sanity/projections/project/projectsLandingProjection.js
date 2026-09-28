@@ -10,6 +10,20 @@ export const PROJECTS_LANDING_PROJECTION = groq`{
   _updatedAt,
   pageTitle,
   pageNavLabel,
+  "pageVideo": pageVideo->{
+    alt,
+    videoUrl,
+    "url": video.asset->url,
+    "mimeType": video.asset->mimeType,
+    "poster": poster->{
+      "url": image.asset->url,
+      "alt": image.alt
+    },
+    "mask": mask.asset->url,
+    loop,
+    muted,
+    autoplay
+  },
   pageBody[]{
     ...,
     _type == "image" => {

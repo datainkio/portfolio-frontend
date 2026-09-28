@@ -28,5 +28,7 @@ full `ReducedMotionHandler`; this module covers every other page).
 1. Build a minimal `reducedMotionHandler` from
    `window.matchMedia("(prefers-reduced-motion: reduce)")`.
 2. Instantiate `new GlobalHeaderManager({ reducedMotionHandler })` on import.
+   With no bus, the manager reveals the header immediately (removes `hidden`,
+   no tween) and then arms scroll auto-hide.
 
 No exports — side-effecting init script only.

@@ -80,12 +80,15 @@ export const observeInViewVideos = (
           return;
         }
         // Muted + playsinline, so autoplay policy allows this; a refusal
-        // just leaves the poster up.
+        // just leaves the poster up. AbortError is not a refusal: the video
+        // left the viewport before play() resolved and the pause() above
+        // interrupted it, as intended. It replays on re-entry.
         video
           .play()
-          ?.catch?.((error) =>
-            logger?.trace?.("In-view video play refused", error, "verbose"),
-          );
+          ?.catch?.((error) => {
+            if (error?.name === "AbortError") return;
+            logger?.trace?.("In-view video play refused", error, "verbose");
+          });
       });
     },
     { rootMargin: PRELOADER_IN_VIEW.rootMargin },

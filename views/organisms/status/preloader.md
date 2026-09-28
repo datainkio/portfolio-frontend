@@ -164,6 +164,9 @@ so the `h-dvh` block leaves the flow, then dispatches `preloader:out`.
 - Reduced motion is handled in `hanko.css`, not here: the states snap
   (children visible; hidden on `exit`) since the global utility disables
   animations.
+- With JavaScript off, `[@media(scripting:none)]:hidden` removes the overlay.
+  Only `Preloader.js` dismisses it, so without this it would cover home
+  permanently.
 - Run `npm run build` (or `npm start`) after structural changes.
 
 ## Open Questions

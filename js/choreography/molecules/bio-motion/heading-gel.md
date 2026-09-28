@@ -1,5 +1,5 @@
 ---
-description: "Bio molecule part — holds the gel_bio gel as a full-bleed band filling the viewport (left/top 0, 100vw x 100vh), decoupled from scroll and re-measured only on resize, plus the band's landing-phase entrance that gates the bio intro. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
+description: "Bio molecule part — holds the gel_bio gel as a full-bleed band filling the viewport (left/top 0, 100vw x 100vh), decoupled from scroll and re-measured only on resize, parked at rest as bio's landing phase (no entrance). The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
 tags:
   - choreography
@@ -34,7 +34,7 @@ Two consequences worth knowing:
   scroll tick for the whole length of the section; the band now only recomputes
   on resize.
 - **The band is viewport-persistent.** Previously it scrolled out of view with the
-  header. Now, once the entrance reveals it, it stays filling the viewport — it is
+  header. Now it is parked at rest when bio's timelines build and stays filling the viewport — it is
   a standing background plane for the rest of the page, not a bio-scoped element.
   If it should instead fade out past the section, that is a visibility concern
   (an `autoAlpha` toggle), deliberately kept separate from geometry.
@@ -70,16 +70,13 @@ the **bio section root** in normal document flow; it merely _animates_ this gel'
 `WeakSet`, keyed on `view`) gate `sync()`. **Suspension defers, it does not
 discard:** a `sync()` called while suspended records that one is owed (a `pending`
 `WeakSet`) and `resume` runs it immediately, using the live closure held in a
-`syncs` `WeakMap`. That matters because the suspend windows here are long and
-open-ended — the entrance holds one from page load until it plays. When suspension
-simply dropped calls, every resize across that window was lost and the band kept
-its load-time geometry for good.
+`syncs` `WeakMap`. A resize during a suspend window is applied when the window closes rather than
+lost.
 
 `BioTriggers`'
 outro pin (`bio-outro-pin`) drives `scaleY` on this gel band directly as one of
-its beats (see `split.md`'s outro section), and the entrance below owns
-`x`/`y`/`rotation` — without the suspend, `sync()` would reset those the next
-time it ran. `BioTriggers` suspends on pin activate, resumes on pin deactivate
+its beats (see `split.md`'s outro section) — without the suspend, `sync()` would
+reset it the next time it ran. `BioTriggers` suspends on pin activate, resumes on pin deactivate
 (and in `kill()`, so a matchMedia teardown mid-pin can't leave the gel stuck),
 then force-refreshes the sync trigger by id — necessary now that `sync()` is a
 resize hook, since nothing else would restore the band's resting geometry after
@@ -88,48 +85,20 @@ the pin released.
 `getHeadingGelEl(gelManager)` exports the resolved gel element so the outro
 timeline doesn't duplicate the `gelManager.getGel(HEADING_GEL_ID)` lookup.
 
-## Entrance — bio's landing phase, and the intro's gate
+## Landing phase — at rest, no entrance
 
-`buildHeadingGelEntrance(view, gelManager)` returns a `TIMELINE_IDS.landing`
-timeline holding a single `gsap.from`: the band starts
-`BIO_GEL_ENTRANCE.yViewportRatio` (1.2) viewport heights below the fold, offset
-right by `BIO_GEL_ENTRANCE.xViewportRatio` (0.33) of the viewport width, tilted
-`BIO_GEL_ENTRANCE.rotation` (-16) degrees, and resolves to its
-synced resting geometry on a short `power2.out`. It is wired as the `split`
-variant's `init` in [bio-motion.js](bio-motion.md), so `BioAnimations._buildLanding`
-picks it up with no bespoke plumbing.
+`buildHeadingGelRest(view, gelManager)` is the `split` variant's `init` in
+[bio-motion.js](bio-motion.md), so `BioAnimations._buildLanding` picks it up. It
+calls `attachHeadingGel`, which parks the band full-bleed at its resting geometry
+(`autoAlpha: 1`), and returns an empty `TIMELINE_IDS.landing` timeline so the
+phase contract holds for `AbstractSection`.
 
-It is played — and **awaited** — by
-[LandingSequence](../../templates/landing/LandingSequence.md): after
-`video:intro:complete` plus the `BIO_INTRO_HOLD` beat, it calls
-`bio.playLanding()` and only then `bio.playIntro()`. `playLanding()`'s promise
-resolves on the landing timeline's `onComplete` (via `AbstractSection`'s
-`PromiseResolverQueue`), so the entrance gates the reveal rather than racing it.
-
-Four ordering constraints make this one factory rather than a loose tween:
-
-1. `attachHeadingGel` runs **first**, so the band already holds its resting
-   geometry — `gsap.from` reads the current values as its end state.
-2. `suspendHeadingGelSync(view)` runs **next**. Without it, `sync()` rewrites
-   `x`/`y`/`rotation` on the next scroll tick and stomps the entrance mid-flight.
-   The suspend also survives `intro()`'s later `attachHeadingGel` call — that
-   re-attach's own initial `sync()` respects the same gate, so the offscreen
-   start frame is not wiped in the window between build and play.
-3. The `from` renders immediately (GSAP default), parking the band offscreen at
-   **build** time — the gel is never briefly visible in its resting spot first.
-   `_registerTimeline`'s `pause(0)` reinforces the same frame.
-4. The completion hook lives on the **tween**, not the timeline:
-   `AbstractSection._bindCallbacks` owns the landing timeline's
-   `onStart`/`onComplete` and would overwrite a timeline-level one. On complete
-   it resumes the sync and force-refreshes the trigger by id.
-
-`sync()` resets `rotation: 0` alongside `x`/`y` so a suspend/kill mid-entrance
-cannot leave the band tilted.
-
-Reduced motion never reaches this: the profile swaps bio to the `reduced`
-variant, whose `init` is `initReduced`. `playLanding()` also early-returns (and
-resolves) whenever `timeline.enabled` is false, so a gated profile skips the
-entrance without stalling the chain.
+There is no entrance. The band is in place from the moment bio's timelines
+build, and [LandingSequence](../../templates/landing/LandingSequence.md) no
+longer calls `bio.playLanding()`: after `video:intro:complete` plus the
+`BIO_INTRO_HOLD` beat it goes straight to `bio.playIntro()`. The fly-in
+(`buildHeadingGelEntrance` / `BIO_GEL_ENTRANCE`) was removed on 2026-09-28; it is
+in git history if a landing gesture returns.
 
 Reduced motion: handled upstream — the profile system swaps bio to the `reduced`
 variant, which does not call this. The band itself is a static positioned state
