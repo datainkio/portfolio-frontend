@@ -3,25 +3,27 @@ FOOTER LAYOUT ORGANISM
 Reusable footer macro for consistent site-wide footer rendering.
 Part of layout organism category for consistent page structure.
 #}
+{% import "organisms/navigation/primary-nav.njk" as primary_nav with context %}
+{% import "molecules/list/social-accounts-list.njk" as social_accounts with context %}
 {% import "molecules/list/main-pages.njk" as main_pages %}
 {%- set classes = {
-  "base": "global-footer absolute inset-x-0 bottom-0 py-8 px-4 text-center text-sm text-primary-200 bg-transparent"
+  "base": "global-footer absolute inset-x-0 bottom-0 px-4 items-center text-center text-primary-200 bg-slate-900 inner-border divide-x divide-slate-700  py-2 font-display text-primary-200 grid grid-cols-12"
 } -%}
+{%- set socialStyles = {
+  "base": "mx-2 col-span-6 text-primary-400 text-left py-2 px-4 gap-0 m-0 not-italic grid grid-cols-3 grid-rows-2",
+  "lg": "grid-cols-4",
+  "xl": "grid-cols-6"
+} -%}
+
 {% macro render(params = {}) %}
   {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
   {% set footerItems = params.items or cmsNavigation.footerItems or [] %}
   {#- Site-global contact form. Wrapped in a 12-col grid so the section's
         `grid-cols-subgrid` has a parent grid outside of #page-main. -#}
   <footer class="{{ params.classes | default(classes | classes) }}">
-    {% if footerItems and footerItems.length %}
-      <nav class="mb-6" aria-label="Footer navigation">
-        {{ main_pages.render({
-                items: footerItems,
-                classes: "grid grid-cols-12 items-center justify-center gap-x-6 gap-y-3 m-0",
-                linkClass: "text-primary-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                }) }}
-      </nav>
-    {% endif %}
-    <p>© {{ params.year or site.year }} data:ink:io. All rights reserved.</p>
+    {#- MAIN NAVIGATION -#}
+    {{ primary_nav.render({"classes": "col-span-4 text-primary-400 py-2 px-4 not-italic"}) }}
+    {{ social_accounts.render({"classes": socialStyles | classes}) }}
+    <p class="col-span-2 text-sm text-primary-600 text-right my-auto">© {{ params.year or site.year }} data:ink:io. All rights reserved.</p>
   </footer>
 {% endmacro %}

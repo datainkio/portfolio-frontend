@@ -47,7 +47,7 @@ import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
 import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
 // import HomeHeaderManager from "/assets/js/choreography/managers/HomeHeaderManager/HomeHeaderManager.js";
 import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
-// import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
+import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
 // import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
 import BuildInfoManager from "/assets/js/choreography/managers/BuildInfoManager/BuildInfoManager.js";
 // import SectionCapManager from "/assets/js/choreography/managers/SectionCapManager/SectionCapManager.js";
@@ -134,7 +134,7 @@ export default class AnimationDirector {
     });
 
     // Initialize work section local nav scrollspy (active jumplink tracking)
-    // this.workNavManager = new WorkNavManager({ bus: this.bus });
+    this.workNavManager = new WorkNavManager({ bus: this.bus });
 
     // Initialize project page hero parallax (no-ops on non-project pages)
     // this.projectHeaderManager = new ProjectHeaderManager({
@@ -230,8 +230,8 @@ export default class AnimationDirector {
     this.workHeaderManager?.kill();
     this.workHeaderManager = null;
 
-    // this.workNavManager?.kill();
-    // this.workNavManager = null;
+    this.workNavManager?.kill();
+    this.workNavManager = null;
 
     // this.projectHeaderManager?.kill();
     // this.projectHeaderManager = null;

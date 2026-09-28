@@ -85,10 +85,9 @@ export const EVENTS = {
   awards: makeSectionEvents("awards"),
   work: makeSectionEvents("work"),
   // Work section local navigation (WorkNavManager scrollspy). Broadcasts the
-  // active child group as { id, seeded } — seeded: true marks the boot
-  // default, not a scroll-derived position; id: null means no group is in
-  // the active band. WorkHeaderManager reads it for the drawer handle's
-  // title below md.
+  // active child group as { id }; id: null means no group is in the
+  // viewport. WorkHeaderManager reads it for the drawer handle's title
+  // below md.
   workNav: {
     activeChange: "work:nav:active",
   },

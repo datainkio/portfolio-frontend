@@ -76,12 +76,10 @@ export default class WorkHeaderManager {
 
   // Below md the handle doubles as a "you are here" readout: its title span
   // mirrors the industry group WorkNavManager's scrollspy reports as in view,
-  // and empties again when the reader is outside every group (id: null). The
-  // boot seed is skipped so the title stays empty until the reader has
-  // actually reached a group. At md+ the rail's aria-current already shows
-  // this, so the title span stays empty.
-  _onActiveChange({ id, seeded } = {}) {
-    if (seeded) return;
+  // and empties again when no group is in the viewport (id: null). At md+
+  // the rail's aria-current already shows this, so the title span stays
+  // empty.
+  _onActiveChange({ id } = {}) {
     if (!id) {
       this._setLabel(null);
       return;

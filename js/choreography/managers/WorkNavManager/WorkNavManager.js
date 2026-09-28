@@ -27,13 +27,13 @@ export default class WorkNavManager {
     });
 
     this._bus = bus ?? null;
-    this._observer = null;
-    // _activeId owns aria-current and is sticky (the rail keeps the last
-    // position). _confirmed is false while that id is only the boot seed or
-    // the reader has scrolled out of every group, so the next real sighting
-    // of the same id still emits.
+    this._bandObserver = null;
+    this._viewportObserver = null;
+    // _activeId owns aria-current. null = no group in the viewport, so no
+    // link is current.
     this._activeId = null;
-    this._confirmed = false;
+    this._inBand = new Set();
+    this._inViewport = new Set();
 
     // The industry groups live inside the work section. The jumplinks do not:
     // their fixed <header> renders outside #page-main-content (base.njk
@@ -64,73 +64,68 @@ export default class WorkNavManager {
   }
 
   _init() {
-    this._observer = new IntersectionObserver(
-      (entries) => this._onIntersect(entries),
-      { rootMargin: ACTIVE_BAND_ROOT_MARGIN, threshold: 0 },
-    );
-    this._visible = new Set();
-    this._groups.forEach((group) => this._observer.observe(group));
-
-    // Seed a default active link so the nav never renders all-inactive before
-    // the first IntersectionObserver callback. Default = first group in
-    // document order (top of the work section, the entry reading position).
-    // Tagged `seeded` so subscribers can tell it apart from a real reading
-    // position derived from scroll.
-    const defaultId = this._groups[0]?.getAttribute("aria-labelledby");
-    if (defaultId) this._setActive(defaultId, { seeded: true });
+    // Two observers: the band picks WHICH group is current; the viewport
+    // decides WHETHER any is. Groups are spaced wider than the band, so
+    // clearing on an empty band alone would blink the nav off between groups.
+    const track = (set) => (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) set.add(entry.target);
+        else set.delete(entry.target);
+      });
+      this._update();
+    };
+    this._bandObserver = new IntersectionObserver(track(this._inBand), {
+      rootMargin: ACTIVE_BAND_ROOT_MARGIN,
+      threshold: 0,
+    });
+    this._viewportObserver = new IntersectionObserver(track(this._inViewport), {
+      threshold: 0,
+    });
+    this._groups.forEach((group) => {
+      this._bandObserver.observe(group);
+      this._viewportObserver.observe(group);
+    });
 
     this.logger.trace("initialized");
   }
 
-  _onIntersect(entries) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) this._visible.add(entry.target);
-      else this._visible.delete(entry.target);
-    });
-
-    // Active = lowest visible group in document order (current reading position).
-    let active = null;
-    for (const group of this._groups) {
-      if (this._visible.has(group)) active = group;
-    }
-    if (!active) {
-      this._leaveGroups();
+  _update() {
+    // No group in the viewport: nothing is current.
+    if (!this._inViewport.size) {
+      this._setActive(null);
       return;
     }
 
-    const id = active.getAttribute("aria-labelledby");
-    if (id) this._setActive(id);
-  }
-
-  // No group in the band: aria-current stays put, but subscribers learn the
-  // reader is outside every group.
-  _leaveGroups() {
-    if (!this._confirmed) return;
-    this._confirmed = false;
-    this._bus?.emit(EVENTS.workNav.activeChange, { id: null, seeded: false });
-  }
-
-  _setActive(id, { seeded = false } = {}) {
-    if (id === this._activeId && this._confirmed) return;
-    const link = this._linkById.get(id);
-    if (!link) return;
-
-    if (this._activeId && this._activeId !== id) {
-      this._linkById.get(this._activeId)?.removeAttribute("aria-current");
+    // Active = lowest group in the band, in document order (reading position).
+    // Band empty but a group still visible (between groups, or a group only
+    // partly scrolled in): keep the current link.
+    let active = null;
+    for (const group of this._groups) {
+      if (this._inBand.has(group)) active = group;
     }
-    link.setAttribute("aria-current", "true");
-    this._activeId = id;
-    this._confirmed = !seeded;
+    if (active) this._setActive(active.getAttribute("aria-labelledby"));
+  }
 
-    this._bus?.emit(EVENTS.workNav.activeChange, { id, seeded });
+  _setActive(id) {
+    if (id === this._activeId) return;
+    if (id && !this._linkById.has(id)) return;
+
+    this._linkById.get(this._activeId)?.removeAttribute("aria-current");
+    this._linkById.get(id)?.setAttribute("aria-current", "true");
+    this._activeId = id;
+
+    this._bus?.emit(EVENTS.workNav.activeChange, { id });
   }
 
   kill() {
-    this._observer?.disconnect();
-    this._observer = null;
+    this._bandObserver?.disconnect();
+    this._viewportObserver?.disconnect();
+    this._bandObserver = null;
+    this._viewportObserver = null;
     this._linkById.forEach((link) => link.removeAttribute("aria-current"));
     this._activeId = null;
-    this._confirmed = false;
+    this._inBand.clear();
+    this._inViewport.clear();
     this.logger.trace("destroyed");
   }
 }
