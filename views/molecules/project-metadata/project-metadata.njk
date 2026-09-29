@@ -1,17 +1,14 @@
 {% import "molecules/stats/stats.njk" as stats %}
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
-{% import "molecules/awards.njk" as Awards %}
 {% macro render(params = {}) %}
   {%- set project = params.project -%}
   {%- set metadataClasses = params.classes -%}
-  {#- Awards -#}
-  {%- set awardsValue %}
-    {% for a in project.awards %}
-      {{ a.title }}
-      {% if not loop.last %},
-      {% endif %}
-    {% endfor %}
-  {% endset -%}
+  {#- Award organizations -#}
+  {%- set awardOrgsValue -%}
+    {%- for orgId, group in project.awards | groupByOrg -%}
+      {{ group.organization.title }}{% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+  {%- endset -%}
   {#- Roles -#}
   {%- set rolesValue %}
     {% for r in project.roles %}
@@ -36,9 +33,10 @@
     { key: "Roles",      value: rolesValue if project.roles else "" },
     { key: "Industry",   value: industryValue },
     { key: "Deliverables", value: activitiesValue if project.activities else "" },
-    { key: "Recognition (Summary)", value: Awards.render({ awards: project.awards, class: awards | classes, size: "size-18" }) }
+    { key: "Recognition (Summary)", value: awardOrgsValue if project.awards else "" }
     ] -%}
   {{ stats.render({ stats: metadataStats, classes: metadataClasses, aria: params.aria }) }}
+
 {% endmacro %}
 
 {#

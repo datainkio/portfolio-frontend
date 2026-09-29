@@ -7,20 +7,21 @@
 {% macro render(params) %}
 
   {%- set header = {
-    "base": "mt-24 border-0 relative col-span-full overflow-hidden text-neutral-100 bg-slate-700",
-    "md": "mt-12 grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] "
+    "base": "bg-transparent mt-24 space-y-4 border-0 relative col-span-full overflow-hidden text-neutral-100 bg-slate-700",
+    "md": "space-y-0 grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] ",
+    "lg": "mt-12"
   } -%}
+  {%- set cap = {"base": "w-full col-span-full bg-slate-950 font-display text-sm text-neutral-400", "md": ""} -%}
 
-  {%- set heading = {"base": "py-6 text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950", "md": "px-4 py-8"} -%}
 
-  {%- set byline = {"base": "bg-slate-950 z-[3] flex text-lg text-neutral-400"} -%}
-  {%- set abstract = {"base": "bg-slate-950 font-thin text-xl row-span-2 col-span-2"} -%}
+  {%- set heading = {"base": "text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950", "md": ""} -%}
+  {%- set abstract = {"base": "bg-slate-950 font-thin text-xl", "md": "row-span-2 col-span-2"} -%}
+  {%- set metadata = {"base": "col-span-full bg-slate-950 text-neutral-500", "md": "col-start-3 row-start-3 row-span-2"} -%}
 
   {%- set image = {"base": "p-4 bg-slate-950 col-span-2 w-full aspect-video object-cover z-[1]"} -%}
 
-  {%- set cap = {"base": "py-2 col-span-full bg-slate-950 m-0 font-display text-lg text-neutral-400", "md": "p-4"} -%}
 
-  {%- set metadata = {"base": "col-span-full bg-slate-950 text-neutral-500", "md": "col-start-3 row-start-3 row-span-2"} -%}
+
 
   {%- set awards = {"base": "w-full col-span-full bg-slate-950 p-4 pb-6", "md": ""} -%}
 
