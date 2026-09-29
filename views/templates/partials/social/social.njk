@@ -2,6 +2,9 @@
 {% if metaDescription %}
   <meta name="description" content="{{ metaDescription }}" />
 {% endif %}
+{% if noIndex %}
+  <meta name="robots" content="noindex" />
+{% endif %}
 {% if metaKeywords %}
   <meta name="keywords" content="{{ metaKeywords }}" />
 {% endif %}

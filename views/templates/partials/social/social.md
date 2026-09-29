@@ -23,6 +23,7 @@ Classified as a **partial** at the atomic **template** level based on its locati
 ## Data and Context
 
 - `metaDescription`, `metaKeywords`, `canonicalUrl`, `author` — page-level SEO fields, all optional except `author` (defaults to `"Site Author"`).
+- `noIndex` — optional; any truthy value emits `<meta name="robots" content="noindex" />`. Pass a string (`"true"`/`""`) from computed data, since the string `"false"` is truthy.
 - `ogTitle`, `ogDescription`, `ogImage`, `ogUrl` — Open Graph fields, all optional.
 - `twitterTitle`, `twitterDescription`, `twitterImage`, `twitterSite` — Twitter card fields, all optional.
 
