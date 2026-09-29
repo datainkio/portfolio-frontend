@@ -18,6 +18,9 @@
     {
       "path": "../backend",
     },
+    {
+      "path": "../../visual design",
+    },
   ],
   "settings": {
     "workbench.colorCustomizations": {

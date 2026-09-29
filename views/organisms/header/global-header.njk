@@ -25,10 +25,11 @@
 {%- set logoClasses = {"base": "flex justify-center items-center w-full min-w-10 h-full p-2"} -%}
 
 {#- definition list -#}
-{%- set dlClasses = {"base": "col-span-7 grid grid-cols-subgrid grid-rows-2 bg-slate-700 gap-px"} -%}
-{%- set dtClasses = {"base": "px-2 text-neutral-500 text-xs content-end h-full bg-slate-900"} -%}
+{%- set dlClasses = {"base": "w-full col-span-7 grid grid-cols-subgrid bg-slate-700 gap-px", "md": "grid-rows-2 "} -%}
+{%- set dtClasses = {"base": "px-2 text-neutral-500 text-xs h-full bg-slate-900", "md": "content-end "} -%}
 {%- set ddClasses = {
-  "base": "row-start-2 px-2 text-xs md:text-sm lg:text-base text-neutral-300 h-full content-center bg-slate-900"
+  "base": "truncate px-2 text-xs md:text-sm lg:text-base text-neutral-300 h-full content-center bg-slate-900",
+  "md": "row-start-2"
 } -%}
 
 {#- page links -#}
@@ -64,9 +65,9 @@
       </dd>
 
       {#- SECTION TITLE -#}
-      <dt class="{{ dtClasses | classes }} col-span-3">Section</dt>
+      <dt class="{{ dtClasses | classes }} col-span-full md:col-span-4">Section</dt>
       <dd data-current-section-title
-          class="{{ ddClasses | classes }} col-span-3 text-secondary-500 ">
+          class="{{ ddClasses | classes }} col-span-full md:col-span-4 text-secondary-500 ">
         {{ params.sectionTitle | default(eleventyNavigation.title) | default(title) }}
       </dd>
 
@@ -74,8 +75,8 @@
         BUILD INFO
         Includes show/hide IX for the build details. See js/choreography/managers/BuildInfoManager.js.
       -#}
-      <dt class="{{ dtClasses | classes }} col-span-4 lg:col-span-3">Build Info</dt>
-      <dd class="{{ ddClasses | classes }} col-span-4 lg:col-span-3 group-data-[open]/cap:basis-1/6 text-neutral-500 text-xs self-center">
+      <dt class="{{ dtClasses | classes }} col-span-full md:col-span-3 lg:col-span-2">Build Info</dt>
+      <dd class="{{ ddClasses | classes }} col-span-full md:col-span-3 lg:col-span-2 group-data-[open]/cap:basis-1/6 text-neutral-500 text-xs self-center">
         {{ BuildInfo.render({"class": "w-full"}) }}
       </dd>
 
