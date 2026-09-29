@@ -109,7 +109,7 @@ These are overwritten by `build:design` and `build:*` steps.
 
 ## Deployment
 
-The build produces a fully static site in `_site/`. Deploy to any static host (Netlify, Vercel, Pages, S3+CloudFront, etc.).
+Push to `staging` deploys `staging.dataink.io`; push to `main` deploys `dataink.io` (via `datainkio/dataink.io`). Details, secrets, and Sanity CORS requirements: [docs/deployment.md](docs/deployment.md).
 
 ## License
 

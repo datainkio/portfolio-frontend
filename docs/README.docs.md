@@ -24,6 +24,7 @@ Durable reference docs for the dataink.io frontend. Optimized for the **Concierg
 
 - Commands and env: [[.github/copilot-instructions]]
 - Build order rationale: [[docs/architecture|architecture]]
+- Staging / production deploys, secrets, Sanity CORS: [[docs/deployment|deployment]]
 
 ### "I'm working on content / Sanity"
 
