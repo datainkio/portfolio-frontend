@@ -82,6 +82,15 @@
         '<svg role="img" aria-label="' ~ (alt | escape) ~ '" focusable="false"'
         ) -%}
 
+    {# ----------------------------------------------------------------------
+                               Top-align artwork within its box
+                               ------------------------------------------------------------------- #}
+
+    {%- if 'preserveAspectRatio' not in processedSvg -%}
+      {%- set processedSvg = processedSvg
+          | replace('<svg', '<svg preserveAspectRatio="xMidYMin meet"') -%}
+    {%- endif -%}
+
     {{ processedSvg | safe }}
 
   {% elif imageSrc %}

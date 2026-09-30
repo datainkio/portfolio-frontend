@@ -1,6 +1,5 @@
 {% import "organisms/navigation/breadcrumbs-nav.njk" as BreadCrumbs with context %}
 {% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
-{% import "molecules/awards.njk" as Awards %}
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
 {% import "molecules/figure/featured-image.njk" as FeaturedImage %}
 {% import "molecules/star-summary/star-summary.njk" as StarSummary %}
@@ -13,24 +12,23 @@
     "md": "space-y-0 grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] ",
     "lg": "mt-12"
   } -%}
-  {%- set cap = {"base": "w-full col-span-full bg-slate-950 font-display text-sm text-neutral-400", "md": ""} -%}
-  {%- set heading = {"base": "text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950", "md": ""} -%}
-  {%- set abstract = {"base": "bg-slate-950 font-thin text-xl", "md": "row-span-2 col-span-2"} -%}
-  {%- set metadata = {"base": "col-span-full bg-slate-950 text-neutral-500", "md": "col-start-3 row-start-3 row-span-2"} -%}
-  {%- set image = {"base": "p-4 bg-slate-950 col-span-2 w-full aspect-video object-cover z-[1]"} -%}
-  {%- set awards = {"base": "w-full col-span-full bg-slate-950 p-4 pb-6", "md": ""} -%}
+  {%- set capStyles = {"base": "w-full col-span-full bg-slate-950 font-display text-sm text-neutral-400", "md": ""} -%}
+  {%- set headingStyles = {"base": "text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950", "md": ""} -%}
+  {%- set abstractStyles = {"base": "bg-slate-950 font-thin text-xl", "md": "row-span-2 col-span-2"} -%}
+  {%- set metadataStyles = {"base": "col-span-full bg-slate-950 text-neutral-400", "md": "col-start-3 row-start-3 row-span-2"} -%}
+  {%- set imageStyles = {"base": "p-4 bg-slate-950 col-span-2 w-full aspect-video object-cover z-[1]"} -%}
 
 
   <header data-project-header class="{{ header | classes }}">
-    <p class="{{ cap | classes }}" data-project-industry>{{ params.project.industry.title | default("") }}</p>
+    <p class="{{ capStyles | classes }}" data-project-industry>{{ params.project.industry.title | default("") }}</p>
     <h1 id="case-study-title"
         data-landing-header-title
-        class="{{ heading | classes }}">{{ params.project.title | default("Untitled") }}</h1>
-    <section class="{{ abstract | classes }}" data-project-abstract>
+        class="{{ headingStyles | classes }}">{{ params.project.title | default("Untitled") }}</h1>
+    <section class="{{ abstractStyles | classes }}" data-project-abstract>
       {{ params.project.abstract | safe }}
     </section>
-    {{ ProjectMetadata.render({ project: params.project, classes: metadata | classes, aria: "Project metadata" }) }}
-    {{ FeaturedImage.render({ image: params.project.featuredImage, class: image | classes }) }}
+    {{ ProjectMetadata.render({ project: params.project, classes: metadataStyles | classes, aria: "Project metadata" }) }}
+    {{ FeaturedImage.render({ image: params.project.featuredImage, classes: imageStyles | classes }) }}
     {{ StarSummary.render({ project: params.project }) }}
   </header>
 {% endmacro %}

@@ -3,13 +3,21 @@
   {% set awards = params.awards %}
   {% set styles = params.class %}
   {% set size = params.size | default("size-10") %}
-  {%- set articleContainer = {"base": "", "md": "divide-x divide-slate-700 bg-slate-950"} -%}
-  {%- set listCSS = {"base": "flex", "lg": "", "xl": ""} -%}
+  {%- set sectionStyles = {"base": "border border-t-0 border-accent-600"} -%}
+  {%- set headingStyles = {"base": "text-lg font-display -translate-y-1/2 flex items-center gap-2 uppercase tracking-widest text-accent-600
+    before:h-px before:w-4 before:bg-accent-600
+    after:h-px after:flex-1 after:bg-accent-600"} -%}
+  {%- set articleContainerStyles = {"base": "", "md": "divide-x divide-slate-700"} -%}
+  {%- set listStyles = {"base": "p-6 pt-0 space-y-6", "sm": "grid grid-cols-2 items-start", "lg": "", "xl": ""} -%}
   {% if awards | length %}
-    <ul data-awards-el="list" class="{{ listCSS | classes }}">
-      {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render(group, size) }}</li>
-      {% endfor %}
-    </ul>
+    <section class="{{ sectionStyles | classes }}">
+      <h2 class="{{ headingStyles | classes }}">Recognition</h2>
+      <ul data-awards-el="list" class="{{ listStyles | classes }}">
+        {% for orgId, group in awards | groupByOrg %}
+          <li data-awards-el="group"
+              class="{{ articleContainerStyles | classes }} ">{{ AwardOrganization.render(group, size) }}</li>
+        {% endfor %}
+      </ul>
+    </section>
   {% endif %}
 {% endmacro %}

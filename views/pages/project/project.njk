@@ -1,12 +1,13 @@
 {% extends "layouts/base.njk" %}
 {% import "organisms/header/project/project-header.njk" as ProjectHeader with context %}
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
+{% import "molecules/awards.njk" as Awards with context %}
 
 {#
   Single project page template.
   Data: paginated from `collections.projectPages`, aliased as `project`
-  (see ../../../ia/project.md). Shape produced by
-  `frontend/data/sanity/transforms/project.js` + `projectPageProjection.js`.
+  (see ../../../ia/project.md). 
+  Shape produced by `frontend/data/sanity/transforms/project.js` + `projectPageProjection.js`.
   Spec: frontend/specs/views/project-page.views-spec.md
   Pattern: content-model/patterns/project-page.md
 #}
@@ -24,8 +25,9 @@
 {%- set bodyStyles = {
   "base": "prose prose-h2:text-neutral-100 prose-h2:text-4xl col-span-8 project-page__body max-w-[68ch] z-10 text-neutral-100 p-8 mx-auto"
 } -%}
-{%- set projectLink = {"base": "project-page__external-link underline underline-offset-4"} -%}
-{%- set outcomeHeading = {"base": "project-page__outcome-heading"} -%}
+{%- set projectLinkStyles = {"base": "project-page__external-link underline underline-offset-4"} -%}
+{%- set outcomeHeadingStyles = {"base": "project-page__outcome-heading"} -%}
+{%- set awardStyles = {"base": "project-page__award"} -%}
 
 {# ─── Data guards ─────────────────────────────────────────────────────────── #}
 
@@ -45,9 +47,8 @@
   {% if hasOutcomes %}
     <aside class="{{ asideStyles | classes }}"
            aria-labelledby="project-outcome-heading">
-      <h2 id="project-outcome-heading" class="{{ outcomeHeading | classes }}">
-        Outcome{% if project.outcomes | length > 1 %}s{% endif %}
-      </h2>
+      <h2 id="project-outcome-heading"
+          class="{{ outcomeHeadingStyles | classes }}">Outcome{% if project.outcomes | length > 1 %}s{% endif %}</h2>
       <ul class="mt-2 space-y-1 text-lg">
         {% for outcome in project.outcomes %}
           <li>{{ outcome.title }}</li>
@@ -59,9 +60,10 @@
 
 {% block content %}
 
+  {#- PAGE HEADER -#}
   {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
-
-  {# Body (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
+  {{ Awards.render({ awards: project.awards }) }}
+  {# BODY COPY (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
   {% if hasBody %}
     <section class="{{ bodyStyles | classes }}" aria-label="Project narrative">
       {{ project.bodyHtml | safe }}
@@ -73,7 +75,7 @@
     <a href="{{ externalLinkHref }}"
        rel="noopener noreferrer"
        target="_blank"
-       class="{{ projectLink | classes }}">{{ externalLinkLabel }}</a>
+       class="{{ projectLinkStyles | classes }}">{{ externalLinkLabel }}</a>
   {% endif %}
 
   {% include "templates/partials/choreography-script/choreography-script.njk" %}

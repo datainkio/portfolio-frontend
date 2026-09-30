@@ -51,6 +51,7 @@
       "tab.activeBackground": "#0b4e79",
       "activityBar.activeBorder": "#e7e7e7",
       "activityBarTop.activeBorder": "#e7e7e7",
+      "statusBar.inactiveBackground": "#07304a"
     },
     "peacock.color": "#07304a",
   },
