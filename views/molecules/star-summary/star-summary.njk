@@ -1,0 +1,31 @@
+
+{#- STAR summary: fixed order, wireframe terms; empty fields are dropped -#}
+{%- set star = {"base": "col-span-full grid gap-[1px] bg-slate-700", "sm": "grid-cols-2", "lg": "grid-cols-4"} -%}
+{%- set starItem = {"base": "flex flex-col gap-2 p-4 bg-slate-950"} -%}
+{%- set starTerm = {"base": "font-display text-sm text-neutral-400"} -%}
+{%- set starValue = {"base": "m-0 text-neutral-300 whitespace-pre-line"} -%}
+
+{%- macro render(params) -%}
+  {%- set project = params.project -%}
+  {%- set starFields = [
+    { term: "Problem", value: project.situation },
+    { term: "Design Challenge", value: project.task },
+    { term: "Approach", value: project.action },
+    { term: "Outcome", value: project.result }
+    ] | selectattr("value") -%}
+  {%- if starFields | length %}
+    <dl class="{{ star | classes }}"
+        aria-label="Project summary"
+        data-project-summary>
+      {%- for item in starFields %}
+        {#- <div> is the only valid grouping element for a dt/dd pair -#}
+        <div class="{{ starItem | classes }}">
+          <dt class="{{ starTerm | classes }}">0{{ loop.index }} / {{ item.term }}</dt>
+          <dd class="{{ starValue | classes }}">
+            {{ item.value }}
+          </dd>
+        </div>
+      {%- endfor %}
+    </dl>
+  {%- endif %}
+{%- endmacro -%}

@@ -16,3 +16,7 @@ Defines Nunjucks macro: `render`.
 
 - Source: [[project-header.njk]]
 - Path: `views/organisms/header/project/project-header.njk`
+
+## STAR summary
+
+Rendered by the [star-summary](../../../molecules/star-summary/star-summary.md) molecule after the featured image: `StarSummary.render({ project: params.project })`. Field rules and layout live in that sidecar.
