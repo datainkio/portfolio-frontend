@@ -16,7 +16,10 @@
   {%- set headingStyles = {"base": "text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950", "md": ""} -%}
   {%- set abstractStyles = {"base": "bg-slate-950 font-thin text-xl", "md": "row-span-2 col-span-2"} -%}
   {%- set metadataStyles = {"base": "col-span-full bg-slate-950 text-neutral-400", "md": "col-start-3 row-start-3 row-span-2"} -%}
-  {%- set imageStyles = {"base": "p-4 bg-slate-950 col-span-2 w-full aspect-video object-cover z-[1]"} -%}
+  {%- set imageFigureStyles = {"base": "overflow-hidden"} -%}
+  {%- set imageImgStyles = {"base": "w-full h-full object-cover"} -%}
+  {%- set imageCaptionStyles = {"base": "mt-2 text-sm text-gray-600"} -%}
+  {%- set imageStyles = {"figure": imageFigureStyles, "image": imageImgStyles, "caption": imageCaptionStyles} -%}
 
 
   <header data-project-header class="{{ header | classes }}">
@@ -28,7 +31,7 @@
       {{ params.project.abstract | safe }}
     </section>
     {{ ProjectMetadata.render({ project: params.project, classes: metadataStyles | classes, aria: "Project metadata" }) }}
-    {{ FeaturedImage.render({ image: params.project.featuredImage, classes: imageStyles | classes }) }}
+    {{ FeaturedImage.render({ image: params.project.featuredImage, styles: imageStyles }) }}
     {{ StarSummary.render({ project: params.project }) }}
   </header>
 {% endmacro %}

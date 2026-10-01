@@ -35,9 +35,10 @@ Classified as a **component** at the atomic **molecule** level.
 
 - Used by:
   - [[design-decisions.njk|molecules/design-decisions.njk]]
+- Imports:
+  - [[featured-image.njk|molecules/figure/featured-image.njk]]
 
 ## Notes for Future Maintenance
 
-- Unstyled by intent; styles come in a later pass.
 - Image is `loading="lazy"`: the region sits below the fold.
-- Artifact markup is inline rather than reusing `figure/featured-image.njk`, which carries hard-coded styles and eager loading.
+- Artifact renders through [`figure/featured-image.njk`](../figure/featured-image.md) with `loading: "lazy"`, `zoom: true` and `artifactStyles` (caption `sr-only`).
