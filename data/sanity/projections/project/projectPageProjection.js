@@ -6,6 +6,7 @@ import { ACTIVITY_PROJECTION } from "../activity/activityProjection.js";
 import { AWARD_PROJECTION } from "../award/awardProjection.js";
 import { INDUSTRY_PROJECTION } from "../industry/industryProjection.js";
 import { OUTCOME_PROJECTION } from "../outcome/outcomeProjection.js";
+import { FEATURED_IMAGE_PROJECTION } from "../image/featuredImageProjection.js";
 /**
  * Project page projection (inner shape — excludes field name and traversal operator).
  * Used for project detail/page views with full relational data.
@@ -28,6 +29,13 @@ export const PROJECT_PAGE_PROJECTION = groq`{
   "activities": activities[]->${ACTIVITY_PROJECTION},
   "outcomes": outcomes[]->${OUTCOME_PROJECTION},
   "awards": awards[]->${AWARD_PROJECTION} | order(organization.orderRank asc, title asc),
+  "decisions": decisions[published == true][0...4]{
+    _key,
+    decision,
+    result,
+    "activities": activities[]->${ACTIVITY_PROJECTION},
+    "artifact": artifact->${FEATURED_IMAGE_PROJECTION}
+  },
   body[]{
     ...,
     _type == "image" => {

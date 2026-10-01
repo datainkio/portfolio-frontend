@@ -1,0 +1,41 @@
+{#
+  One design decision. Contract: content-model/objects/content/design-decision.md
+  Order per content-model/patterns/project-page.md §8: artifact · decision · result · activities.
+  Unstyled by intent.
+#}
+{%- macro render(item, count="0") -%}
+  <article data-decisions-el="decision"
+           class="h-full m-0 border border-1 border-slate-700 py-2 px-4">
+
+    {%- if item.activities | length -%}
+      <ul aria-label="Activities">
+        {%- for activity in item.activities -%}
+          <li class="font-display text-sm text-neutral-400 truncate">Fig 0{{ count }} / {{ activity.title }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if item.artifact and item.artifact.asset and item.artifact.asset.url -%}
+      {%- set dims = item.artifact.asset.metadata.dimensions if item.artifact.asset.metadata else {} -%}
+      <figure class="border p-2 border-slate-700">
+        <img src="{{ item.artifact.asset.url }}"
+             alt="{{ item.artifact.alt | default("") }}"
+             {% if dims.width and dims.height %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
+             loading="lazy"
+             decoding="async" />
+        {%- if item.artifact.caption -%}
+          <figcaption class="sr-only">{{ item.artifact.caption }}</figcaption>
+        {%- endif -%}
+      </figure>
+    {%- endif -%}
+    <h3 class="text-base m-0 prose text-neutral-300 leading-normal font-sans"><span class="uppercase pr-1">Decision:</span> {{ item.decision }}</h3>
+    <p class="m-0 prose text-neutral-300 whitespace-pre-line font-sans"><span class="uppercase pr-1">Result:</span> {{ item.result }}</p>
+    {%- if item.activities | length -%}
+      <ul aria-label="Activities">
+        {%- for activity in item.activities -%}
+          <li>{{ activity.title }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </article>
+{%- endmacro -%}

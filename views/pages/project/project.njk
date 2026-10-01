@@ -2,6 +2,7 @@
 {% import "organisms/header/project/project-header.njk" as ProjectHeader with context %}
 {% import "organisms/navigation/page-nav.njk" as page_nav %}
 {% import "molecules/awards.njk" as Awards with context %}
+{% import "molecules/design-decisions.njk" as DesignDecisions %}
 
 {#
   Single project page template.
@@ -62,7 +63,13 @@
 
   {#- PAGE HEADER -#}
   {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
+
+  {# DESIGN DECISIONS (published only, array order; omitted when none) #}
+  {{ DesignDecisions.render({ decisions: project.decisions }) }}
+
+  {# AWARDS (published only, array order; omitted when none) #}
   {{ Awards.render({ awards: project.awards }) }}
+
   {# BODY COPY (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
   {% if hasBody %}
     <section class="{{ bodyStyles | classes }}" aria-label="Project narrative">

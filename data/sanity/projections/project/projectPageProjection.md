@@ -23,6 +23,11 @@ documents. Extracted into its own file so queries stay thin and shapes compose c
 Recognition groups (built by `groupByOrg`) follow the editor-set organization order rather
 than the order awards were added to the project.
 
+`decisions` keeps only the first four items with `published == true`, in array order (curation order). Each
+carries `decision`, `result`, resolved `activities[]` (`ACTIVITY_PROJECTION`) and an optional
+`artifact` (`FEATURED_IMAGE_PROJECTION`). The editorial fields `basis`, `confidence` and
+`published` are never projected. Contract: `content-model/objects/content/design-decision.md`.
+
 ## Source
 
 - Path: `data/sanity/projections/project/projectPageProjection.js`
