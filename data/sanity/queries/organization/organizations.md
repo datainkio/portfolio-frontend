@@ -21,6 +21,7 @@ collection.
 | `organizationsQuery` | `organizations` |
 
 - Projection: [[organizationProjection]]
+- Order: `orderRank asc`, the editor-set order from Studio's drag-to-order Organizations list (`@sanity/orderable-document-list`). See the content-model contract `documents/system/organization.md`.
 
 ## Source
 

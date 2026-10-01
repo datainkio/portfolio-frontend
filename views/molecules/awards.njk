@@ -8,7 +8,13 @@
     before:h-px before:w-4 before:bg-accent-600
     after:h-px after:flex-1 after:bg-accent-600"} -%}
   {%- set articleContainerStyles = {"base": "", "md": "divide-x divide-slate-700"} -%}
-  {%- set listStyles = {"base": "p-6 pt-0 space-y-6", "sm": "grid grid-cols-2 items-start", "lg": "", "xl": ""} -%}
+  {%- set listStyles = {
+    "base": "p-6 pt-0 space-y-6 space-x-4",
+    "sm": "grid grid-cols-2 items-start",
+    "md": "grid-cols-3 space-y-4",
+    "lg": "grid-cols-4",
+    "xl": "grid-cols-5"
+  } -%}
   {% if awards | length %}
     <section class="{{ sectionStyles | classes }}">
       <h2 class="{{ headingStyles | classes }}">Recognition</h2>

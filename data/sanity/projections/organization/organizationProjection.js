@@ -14,5 +14,6 @@ export const ORGANIZATION_PROJECTION = groq`{
   organizationType,
   website,
   location,
-  featured
+  featured,
+  orderRank
 }`;

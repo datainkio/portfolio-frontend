@@ -21,6 +21,7 @@ collection.
 | `awardsQuery` | `awards`      |
 
 - Projection: [[awardProjection]]
+- Order: `organization.orderRank asc, title asc`. `groupByOrg` keeps the order in which it first meets each organization, so this makes the organization groups come out in the editor-set order.
 
 ## Source
 

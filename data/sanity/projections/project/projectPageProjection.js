@@ -27,7 +27,7 @@ export const PROJECT_PAGE_PROJECTION = groq`{
   "roles": roles[]->${ROLE_PROJECTION},
   "activities": activities[]->${ACTIVITY_PROJECTION},
   "outcomes": outcomes[]->${OUTCOME_PROJECTION},
-  "awards": awards[]->${AWARD_PROJECTION},
+  "awards": awards[]->${AWARD_PROJECTION} | order(organization.orderRank asc, title asc),
   body[]{
     ...,
     _type == "image" => {

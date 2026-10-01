@@ -2,10 +2,15 @@
 {% import "atoms/award.njk" as Award %}
 {% import "atoms/svg/inline.njk" as InlineSvg %}
 
-{%- set articleStyles = {"base": "text-neutral-100 relative grid grid-cols-6 gap-2 grid-rows-[auto_1fr] font-display", "sm": ""} -%}
+{%- set articleStyles = {
+  "base": "text-neutral-100 relative grid grid-cols-6 gap-x-6 gap-y-2 grid-rows-[auto_1fr] font-display",
+  "sm": "gap-x-4",
+  "md": "gap-x-2",
+  "lg": "gap-x-1"
+} -%}
 {%- set titleStyles = {"base": "col-start-2 col-span-5 font-display text-sm text-neutral-100 leading-none m-0", "sm": "pt-2"} -%}
-{%- set listStyles = {"base": "col-start-2 col-span-5 flex flex-wrap gap-x-1"} -%}
-{%- set awardContainerStyles = {"base": "text-sm leading-2 text-neutral-400 after:content-[','] last:after:content-none", "sm": ""} -%}
+{%- set listStyles = {"base": "col-start-2 col-span-5 flex flex-wrap gap-1"} -%}
+{%- set awardContainerStyles = {"base": "text-sm leading-4 text-neutral-400 after:content-[','] last:after:content-none", "sm": ""} -%}
 
 
 {%- macro render(group, size) -%}

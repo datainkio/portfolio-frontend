@@ -19,6 +19,10 @@ documents. Extracted into its own file so queries stay thin and shapes compose c
 | ------------------------- | ------------------- |
 | `PROJECT_PAGE_PROJECTION` | project page fields |
 
+`awards` is sorted `organization.orderRank asc, title asc`, matching `awardsQuery`, so the
+Recognition groups (built by `groupByOrg`) follow the editor-set organization order rather
+than the order awards were added to the project.
+
 ## Source
 
 - Path: `data/sanity/projections/project/projectPageProjection.js`
