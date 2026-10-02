@@ -315,8 +315,8 @@ Templates have access to powerful content processing filters. See [eleventy/filt
 
 ```nunjucks
 {% picture imageData, "w-full", "object-cover" %}
-{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
-{{ Lightbox.render({ picture: imageData, alt: "Alt text", caption: "Caption" }) }}
+{% import "molecules/figure/media.njk" as Media %}
+{{ Media.render({ picture: imageData, alt: "Alt text", caption: "Caption", zoom: true }) }}
 ```
 
 ## Accessibility Features Built-In

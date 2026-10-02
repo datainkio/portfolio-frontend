@@ -36,9 +36,9 @@ Classified as a **component** at the atomic **molecule** level.
 - Used by:
   - [[design-decisions.njk|molecules/design-decisions.njk]]
 - Imports:
-  - [[featured-image.njk|molecules/figure/featured-image.njk]]
+  - [[media.njk|molecules/figure/media.njk]]
 
 ## Notes for Future Maintenance
 
 - Image is `loading="lazy"`: the region sits below the fold.
-- Artifact renders through [`figure/featured-image.njk`](../figure/featured-image.md) with `loading: "lazy"`, `zoom: true` and `artifactStyles` (caption `sr-only`).
+- Artifact renders through [`figure/media.njk`](../figure/media.md) with `loading: "lazy"`, `zoom: true` and `artifactStyles` (caption `sr-only`).

@@ -89,7 +89,7 @@ between content
 - **`loremChars`** - Placeholder text generation (character-level)
 - **`loremPars`** - Placeholder text generation (paragraph-level)
 
-For a modal image viewer, use the `molecules/lightbox/lightbox.njk` component
+For a modal image viewer, use the `molecules/figure/media.njk` component with `zoom: true`
 instead — see [shortcodes/README.md](./shortcodes/README.md).
 
 **Usage in Templates**:
@@ -132,8 +132,8 @@ Navigation automatically updates when content changes through a clean service la
 
 ```nunjucks
 {# Responsive images with a lightbox #}
-{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
-{{ Lightbox.render({ picture: imageData, alt: "Alt text", caption: "Caption" }) }}
+{% import "molecules/figure/media.njk" as Media %}
+{{ Media.render({ picture: imageData, alt: "Alt text", caption: "Caption", zoom: true }) }}
 ```
 
 Images automatically optimize for different screen sizes and provide accessible

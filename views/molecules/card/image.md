@@ -26,8 +26,8 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Relationships
 
-- Likely used by:
-  - Unknown
+- Renders its image through [[media.njk|molecules/figure/media.njk]] (`picture` source, `zoom: true`).
+- No callers — a dev/admin media-inspection card, never wired to a page.
 
 ## Notes for Future Maintenance
 

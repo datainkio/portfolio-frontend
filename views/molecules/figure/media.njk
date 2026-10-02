@@ -1,0 +1,68 @@
+{#
+  One media source per call; precedence video › picture › image:
+  params.image:   Sanity image object (asset.url, asset.metadata.dimensions,
+                  alt, caption). The only source that gets intrinsic width/height.
+  params.picture: pre-rendered <picture>/<img> HTML (e.g. `image.file.html`).
+                  Carries its own alt; reach its <img> via `[&_img]:` in styles.image.
+  params.video:   { src, poster, mimeType }.
+  params.alt / params.caption: fallbacks for image.alt / image.caption; the
+                  only alt/caption for picture and video.
+  params.styles: { figure, image, caption } — each a `classes` variant map
+  (e.g. {"base": "...", "md": "..."}) or string. No styles are hard-coded here.
+  params.zoom: true wraps the media in the lightbox contract (data-lightbox-el)
+  — click to open a native <dialog>; cursor is the only affordance. Dialog
+  markup comes from molecules/lightbox/lightbox-dialog.njk.
+  Spec: specs/views/lightbox.views-spec.md
+#}
+{% import "molecules/lightbox/lightbox-dialog.njk" as LightboxDialog %}
+{% macro render(params = {}) %}
+  {%- set image = params.image or {} -%}
+  {%- set styles = params.styles or {} -%}
+  {%- set video = params.video if (params.video and params.video.src) else null -%}
+  {%- set picture = params.picture -%}
+  {%- set url = image.asset.url if image.asset else "" -%}
+  {%- if video or picture or url -%}
+    {%- set alt = image.alt | default(params.alt) | default('') -%}
+    {%- set caption = image.caption or params.caption -%}
+    {%- set dims = image.asset.metadata.dimensions if (image.asset and image.asset.metadata) else {} -%}
+    {%- set media -%}
+      {%- if video -%}
+        {#- Inside the zoom trigger the video is an inert poster (no controls:
+            a button can't hold interactive content); the dialog plays it. -#}
+        <video src="{{ video.src }}"
+               {% if video.poster %}poster="{{ video.poster }}"{% endif %}
+               preload="{{ 'none' if video.poster else 'metadata' }}"
+               muted
+               playsinline
+               {% if params.zoom %}aria-hidden="true" tabindex="-1"{% else %}controls{% if alt %} aria-label="{{ alt }}"{% endif %}{% endif %}
+               class="{{ styles.image | classes }}"></video>
+      {%- elif picture -%}
+        <span class="{{ styles.image | classes }}">{{ picture | safe }}</span>
+      {%- else -%}
+        <img src="{{ url }}"
+             alt="{{ alt }}"
+             {% if dims.width and dims.height %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
+             loading="{{ params.loading | default("eager") }}"
+             decoding="async"
+             class="{{ styles.image | classes }}" />
+      {%- endif -%}
+    {%- endset -%}
+    <figure class="{{ styles.figure | classes }}"
+            {% if params.zoom %}data-lightbox-el="root"{% endif %}
+            {{ params.attrs | default("") | safe }}>
+      {%- if params.zoom -%}
+        <button type="button"
+                data-lightbox-el="trigger"
+                class="block w-full cursor-zoom-in"
+                aria-haspopup="dialog"
+                aria-label="{{ 'Enlarge video' if video else 'Enlarge image' }}{%- if alt -%}: {{ alt }}{%- endif -%}">{{ media | safe }}</button>
+        {{ LightboxDialog.render({ src: url, width: dims.width, height: dims.height, picture: picture, video: video, alt: alt, caption: caption }) }}
+      {%- else -%}
+        {{ media | safe }}
+      {%- endif -%}
+      {%- if caption -%}
+        <figcaption class="{{ styles.caption | classes }}"{% if params.zoom %} data-lightbox-el="caption"{% endif %}>{{ caption }}</figcaption>
+      {%- endif -%}
+    </figure>
+  {%- endif -%}
+{% endmacro %}

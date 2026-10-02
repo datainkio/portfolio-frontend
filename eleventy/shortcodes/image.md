@@ -18,7 +18,7 @@ Cheerio-based shortcode for rendering responsive images.
 | ------------------------------------------- | -------------------------------------------------------------------------------- |
 | `picture(html, pictureClasses, imgClasses)` | add classes to `<picture>`/`<img>`, strip `width`/`height` to avoid CSS clipping |
 
-For a lightbox/modal image viewer, use the [[lightbox|molecules/lightbox/lightbox]] molecule instead — the `lightbox` shortcode was removed (it duplicated that component with a more brittle implementation).
+For a lightbox/modal image viewer, use the [[media|molecules/figure/media]] molecule with `zoom: true` instead — the `lightbox` shortcode was removed (it duplicated that component with a more brittle implementation).
 
 > [!note] Shortcode vs filter
 > This renders markup. Resolving an image **record by id** is the

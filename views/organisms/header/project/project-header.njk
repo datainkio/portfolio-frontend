@@ -1,7 +1,7 @@
 {% import "organisms/navigation/breadcrumbs-nav.njk" as BreadCrumbs with context %}
 {% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
-{% import "molecules/figure/featured-image.njk" as FeaturedImage %}
+{% import "molecules/figure/media.njk" as Media %}
 {% import "molecules/star-summary/star-summary.njk" as StarSummary %}
 
 {% macro render(params) %}
@@ -31,7 +31,7 @@
       {{ params.project.abstract | safe }}
     </section>
     {{ ProjectMetadata.render({ project: params.project, classes: metadataStyles | classes, aria: "Project metadata" }) }}
-    {{ FeaturedImage.render({ image: params.project.featuredImage, styles: imageStyles }) }}
+    {{ Media.render({ image: params.project.featuredImage, styles: imageStyles }) }}
     {{ StarSummary.render({ project: params.project }) }}
   </header>
 {% endmacro %}

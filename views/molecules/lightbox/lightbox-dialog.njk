@@ -1,0 +1,54 @@
+{#
+  The shared half of the lightbox contract: the <dialog>, its close button,
+  the enlarged media, the dialog caption, and the Lightbox.js module script.
+  Callers own the trigger button and the root `data-lightbox-el="root"`.
+  Spec: specs/views/lightbox.views-spec.md
+
+Params:
+  src      string  Image URL.
+  picture  string  Pre-rendered <picture>/<img> markup. Wins over `src`.
+  video    object  { src, poster, mimeType }. Wins over `picture` and `src`.
+  alt      string  Alt text for `src` and the dialog's accessible label.
+  caption  string  Shown beside the media at lg and up, below it under lg.
+  width / height  number  Intrinsic size of `src`; reserves its aspect ratio
+                  while the enlarged image loads.
+#}
+{% macro render(params = {}) %}
+  {%- set alt = params.alt | default("") -%}
+  {%- set caption = params.caption -%}
+  {%- set video = params.video -%}
+  {%- set fallbackLabel = "Video viewer" if video and video.src else "Image viewer" -%}
+  <dialog data-lightbox-el="dialog"
+          aria-label="{{ alt or caption or fallbackLabel }}"
+          class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80 cursor-zoom-out {{ 'lg:w-[90vw]' if caption }}">
+    <button type="button"
+            data-lightbox-el="close"
+            class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
+    <figure class="m-0 grid gap-4 cursor-auto {{ 'lg:grid-cols-3 lg:items-start' if caption }}">
+      {%- if video and video.src -%}
+        <video data-lightbox-el="video"
+               src="{{ video.src }}"
+               {% if video.poster %}poster="{{ video.poster }}"{% endif %}
+               preload="none"
+               muted
+               playsinline
+               controls
+               class="block min-w-0 max-w-full max-h-[75vh] {{ 'lg:col-span-2' if caption }}"></video>
+      {%- elif params.picture -%}
+        <span class="block min-w-0 [&_img]:block [&_img]:max-w-full [&_img]:max-h-[75vh] [&_img]:object-contain {{ 'lg:col-span-2' if caption }}">{{ params.picture | safe }}</span>
+      {%- else -%}
+        <img src="{{ params.src }}"
+             alt="{{ alt }}"
+             {% if params.width and params.height %}width="{{ params.width }}" height="{{ params.height }}"{% endif %}
+             loading="lazy"
+             decoding="async"
+             class="block min-w-0 w-auto h-auto max-w-full max-h-[75vh] object-contain {{ 'lg:col-span-2' if caption }}" />
+      {%- endif -%}
+      {%- if caption -%}
+        <figcaption data-lightbox-el="dialog-caption" class="text-sm text-neutral-200">{{ caption }}</figcaption>
+      {%- endif -%}
+    </figure>
+  </dialog>
+  {#- Module imports are deduped by the browser, so one tag per instance is safe. -#}
+  <script type="module">import "/assets/js/lightbox/Lightbox.js";</script>
+{% endmacro %}

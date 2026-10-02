@@ -53,10 +53,10 @@ Modern responsive images need flexible sizing controlled by CSS, not HTML attrib
 
 ---
 
-For a modal image viewer, use the [[lightbox|molecules/lightbox/lightbox]] molecule
-(`views/molecules/lightbox/lightbox.njk`) instead of a shortcode — it composes
-`{% import "molecules/lightbox/lightbox.njk" as Lightbox %}` +
-`{{ Lightbox.render({ picture: imageHtml, caption: "..." }) }}`, uses a native
+For a modal image viewer, use the [[media|molecules/figure/media]] molecule with `zoom: true`
+(`views/molecules/figure/media.njk`) instead of a shortcode — it composes
+`{% import "molecules/figure/media.njk" as Media %}` +
+`{{ Media.render({ picture: imageHtml, caption: "...", zoom: true }) }}`, uses a native
 `<dialog>` with `data-lightbox-el` attributes and a real `Lightbox.js` module
 (no inline `onclick`, no DaisyUI dependency). The `lightbox` shortcode that used
 to live here was removed — it duplicated this component with a more brittle
@@ -158,12 +158,12 @@ Shortcodes work seamlessly with Sanity-sourced content:
 
 ```nunjucks
 {# Example: Display project images with a lightbox #}
-{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
+{% import "molecules/figure/media.njk" as Media %}
 {% set images = collections.images | findRecord(project.gallery) %}
 
 {% for image in images %}
   <div class="gallery-item">
-    {{ Lightbox.render({ picture: image.html, caption: image.title }) }}
+    {{ Media.render({ picture: image.html, caption: image.title, zoom: true }) }}
   </div>
 {% endfor %}
 ```
@@ -180,10 +180,10 @@ Shortcodes work seamlessly with Sanity-sourced content:
 ### Responsive Gallery
 
 ```nunjucks
-{% import "molecules/lightbox/lightbox.njk" as Lightbox %}
+{% import "molecules/figure/media.njk" as Media %}
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   {% for image in galleryImages %}
-    {{ Lightbox.render({ picture: image.html, alt: image.alt }) }}
+    {{ Media.render({ picture: image.html, alt: image.alt, zoom: true }) }}
   {% endfor %}
 </div>
 ```

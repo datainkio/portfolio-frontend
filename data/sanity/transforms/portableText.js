@@ -98,19 +98,26 @@ export function serializePortableTextToHtml(blocks) {
           const figcaptionHtml = caption
             ? `\n  <figcaption data-lightbox-el="caption" class="mt-2 text-sm text-neutral-600">${caption}</figcaption>`
             : "";
-          // Same data-lightbox-el contract as views/molecules/lightbox/lightbox.njk,
+          // Same data-lightbox-el contract as views/molecules/figure/media.njk (zoom),
           // hand-built here since @portabletext/to-html serializers return raw HTML
           // strings, not Nunjucks. Lightbox.js is attribute-driven so either source
           // wires up identically. data-bio-el="body" is preserved for the existing
           // Bio choreography hook (BIO_SELECTORS.elementAttribute). description is
           // optional — figcaption is omitted entirely when absent.
+          // Dialog markup mirrors views/molecules/lightbox/lightbox-dialog.njk.
+          const triggerLabel = alt ? `Enlarge image: ${alt}` : "Enlarge image";
+          const dialogCaptionHtml = caption
+            ? `\n      <figcaption data-lightbox-el="dialog-caption" class="text-sm text-neutral-200">${caption}</figcaption>`
+            : "";
           return `<figure data-lightbox-el="root" class="contents">
-  <button type="button" data-lightbox-el="trigger" class="block cursor-zoom-in" aria-haspopup="dialog">
+  <button type="button" data-lightbox-el="trigger" class="block cursor-zoom-in" aria-haspopup="dialog" aria-label="${triggerLabel}">
     <img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />
   </button>
-  <dialog data-lightbox-el="dialog" aria-label="${alt || caption || "Image viewer"}" class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80">
-    <button type="button" data-lightbox-el="close" class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
-    <img src="${src}" alt="${alt}" class="block max-w-[90vw] max-h-[75vh] object-contain" />
+  <dialog data-lightbox-el="dialog" aria-label="${alt || caption || "Image viewer"}" class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80 cursor-zoom-out${caption ? " lg:w-[90vw]" : ""}">
+    <button type="button" data-lightbox-el="close" class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
+    <figure class="m-0 grid gap-4 cursor-auto${caption ? " lg:grid-cols-3 lg:items-start" : ""}">
+      <img src="${src}" alt="${alt}" loading="lazy" decoding="async" class="block min-w-0 max-w-full max-h-[75vh] object-contain${caption ? " lg:col-span-2" : ""}" />${dialogCaptionHtml}
+    </figure>
   </dialog>${figcaptionHtml}
 </figure><script type="module">import "/assets/js/lightbox/Lightbox.js";</script>`;
         },

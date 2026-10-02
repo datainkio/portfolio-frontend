@@ -5,7 +5,7 @@ links:
   - "[breadcrumbs-nav](../../navigation/breadcrumbs-nav.md)"
   - "[project-metadata](../../project-metadata/project-metadata.md)"
   - "[project-orgs](../../../molecules/list/project-orgs.md)"
-  - "[featured-image](../../../molecules/figure/featured-image.md)"
+  - "[media](../../../molecules/figure/media.md)"
 ---
 
 # Project Header

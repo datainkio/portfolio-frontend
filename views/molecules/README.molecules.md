@@ -38,7 +38,7 @@ Molecules combine atoms into small, functional UI patterns. These components:
 
 ### `section/`, `background/`, `figure/`, `lightbox/`, `project-metadata/`, `stats/`
 
-One molecule per directory (`section/industry-section.njk`, `background/sizzle-background.njk`, `figure/featured-image.njk`, `lightbox/lightbox.njk`, `project-metadata/project-metadata.njk`, `stats/stats.njk`) — see [`README.atoms.md`](../atoms/README.atoms.md)'s "Flat vs. Nested" convention, which applies here too: a directory exists once a component needs its own sub-parts or is expected to grow variants.
+One molecule per directory (`section/industry-section.njk`, `background/sizzle-background.njk`, `figure/media.njk`, `project-metadata/project-metadata.njk`, `stats/stats.njk`) — see [`README.atoms.md`](../atoms/README.atoms.md)'s "Flat vs. Nested" convention, which applies here too: a directory exists once a component needs its own sub-parts or is expected to grow variants.
 
 ### Flat files
 
