@@ -1,27 +1,261 @@
 {
-	"nodes":[
-		{"id":"bf3a5e2fb8b33ea3","type":"group","label":"Callers","x":-1000,"y":-60,"width":520,"height":760},
-		{"id":"d740ea2e25ec6e57","type":"group","label":"lightbox-dialog.njk","x":-420,"y":-60,"width":1100,"height":1240},
-		{"id":"0e6ff9eac8ec8061","type":"group","label":"Behavior","x":740,"y":-60,"width":560,"height":760},
-		{"id":"394d0b0642ffec6c","type":"file","file":"dataink.io/frontend/views/molecules/figure/media.md","x":-980,"y":-20,"width":480,"height":300},
-		{"id":"f3a9176b6ebd91be","type":"text","text":"### PortableText image serializer\n`data/sanity/transforms/portableText.js` → `types.image`\n\n**Hand-built mirror**, not a caller. `@portabletext/to-html` returns HTML strings, so it can't import a Nunjucks macro.\n\n⚠️ Change both together — markup, classes, caption, `aria-label`.","x":-980,"y":320,"width":480,"height":360,"color":"1"},
-		{"id":"7e5bfafeba1f41c5","type":"file","file":"dataink.io/frontend/views/molecules/lightbox/lightbox-dialog.md","x":-400,"y":-20,"width":500,"height":300},
-		{"id":"933740080ebb33d4","type":"text","text":"### Params\n| Param | Use |\n|---|---|\n| `video` | `{ src, poster, mimeType }` — wins |\n| `picture` | pre-rendered HTML — wins over `src` |\n| `src` | image URL |\n| `width` / `height` | intrinsic size of `src` |\n| `alt` | `src` alt + dialog name |\n| `caption` | dialog caption |","x":140,"y":-20,"width":520,"height":300},
-		{"id":"2280a1ba15a14c57","type":"text","text":"### Anatomy\n```\n<dialog data-lightbox-el=\"dialog\"\n        aria-label=alt|caption|fallback>\n  <button data-lightbox-el=\"close\">Close\n  <figure class=\"grid\">\n    media (see precedence)\n    <figcaption data-lightbox-el=\n      \"dialog-caption\">   ← if caption\n  </figure>\n</dialog>\n<script type=\"module\">\n  import Lightbox.js\n```\nRoot + trigger belong to the **caller**.","x":-400,"y":320,"width":500,"height":420,"color":"5"},
-		{"id":"a0182bf044c7ecea","type":"text","text":"### Media precedence\n1. **`video.src`** → `<video data-lightbox-el=\"video\" muted playsinline controls preload=\"none\">`\n2. **`picture`** → `<span>` wrapping the HTML; inner `<img>` styled via `[&_img]:`\n3. **`src`** → `<img loading=\"lazy\" decoding=\"async\">` + `width`/`height` when given; `w-auto h-auto` under `max-w-full max-h-[75vh]`\n\nNothing is fetched until the dialog opens.\n\n**Fallback name:** `Video viewer` / `Image viewer` (`or`, not `default` — empty strings fall through).","x":140,"y":320,"width":520,"height":420},
-		{"id":"a7e9023a1dddae02","type":"text","text":"### Layout\n| Case | Result |\n|---|---|\n| No caption | Media fills dialog, max `90vw` × `75vh` |\n| Caption, below `lg` (md and smaller) | Caption **below** media |\n| Caption, `lg`+ | `lg:grid-cols-3` — media `lg:col-span-2`, caption right third; dialog fixed `lg:w-[90vw]` so the grid has a definite width |\n\nCursor: `zoom-out` on the backdrop, `auto` over content. Backdrop `bg-black/80`, caption `text-neutral-200`.","x":-400,"y":780,"width":1060,"height":360,"color":"4"},
-		{"id":"4e75f8c6c1ba4609","type":"file","file":"dataink.io/frontend/js/lightbox/Lightbox.md","x":760,"y":-20,"width":520,"height":300},
-		{"id":"2869e6cfed037faf","type":"text","text":"### Lightbox.js\n| Event | Result |\n|---|---|\n| trigger click | `showModal()` |\n| open + video | `play()` muted — **skipped** under `prefers-reduced-motion` |\n| Close / backdrop / Escape | `close()` |\n| dialog `close` event | video `pause()` |\n\nFocus trap + Escape are native `<dialog>`.","x":760,"y":320,"width":520,"height":360,"color":"6"},
-		{"id":"e08f7450dafff63c","type":"file","file":"dataink.io/frontend/specs/views/lightbox.views-spec.md","x":-400,"y":-560,"width":1060,"height":400,"color":"3"}
-	],
-	"edges":[
-		{"id":"99b0605a45787da0","fromNode":"394d0b0642ffec6c","fromSide":"right","toNode":"7e5bfafeba1f41c5","toSide":"left","label":"imports (zoom: true)"},
-		{"id":"48b67102f2ca2f8e","fromNode":"f3a9176b6ebd91be","fromSide":"right","toNode":"2280a1ba15a14c57","toSide":"left","color":"1","label":"mirrors by hand"},
-		{"id":"6f7227e4eeb1cc38","fromNode":"e08f7450dafff63c","fromSide":"bottom","toNode":"7e5bfafeba1f41c5","toSide":"top","label":"governs"},
-		{"id":"2216059f68afab86","fromNode":"2280a1ba15a14c57","fromSide":"right","toNode":"4e75f8c6c1ba4609","toSide":"left","label":"loads module"},
-		{"id":"1ca870e53f50dfaf","fromNode":"4e75f8c6c1ba4609","fromSide":"bottom","toNode":"2869e6cfed037faf","toSide":"top"},
-		{"id":"4f06d4db9eac1dbb","fromNode":"2869e6cfed037faf","fromSide":"left","toNode":"2280a1ba15a14c57","toSide":"right","label":"binds data-lightbox-el"},
-		{"id":"95d3bd9861c115b3","fromNode":"933740080ebb33d4","fromSide":"bottom","toNode":"a0182bf044c7ecea","toSide":"top"},
-		{"id":"e96939709fec19dc","fromNode":"2280a1ba15a14c57","fromSide":"bottom","toNode":"a7e9023a1dddae02","toSide":"top"}
-	]
+  "nodes": [
+    {
+      "type": "group",
+      "id": "bf3a5e2fb8b33ea3",
+      "x": -1000,
+      "y": -60,
+      "width": 520,
+      "height": 760,
+      "label": "Callers"
+    },
+    {
+      "type": "group",
+      "id": "d740ea2e25ec6e57",
+      "x": -420,
+      "y": -60,
+      "width": 1100,
+      "height": 1240,
+      "label": "lightbox-dialog.njk"
+    },
+    {
+      "type": "group",
+      "id": "0e6ff9eac8ec8061",
+      "x": 740,
+      "y": -60,
+      "width": 560,
+      "height": 760,
+      "label": "Behavior"
+    },
+    {
+      "type": "file",
+      "id": "394d0b0642ffec6c",
+      "x": -980,
+      "y": -20,
+      "width": 480,
+      "height": 300,
+      "file": "dataink.io/frontend/views/molecules/figure/media.md"
+    },
+    {
+      "type": "text",
+      "id": "f3a9176b6ebd91be",
+      "x": -980,
+      "y": 320,
+      "width": 480,
+      "height": 360,
+      "color": "1",
+      "text": "### PortableText image serializer\n`data/sanity/transforms/portableText.js` → `types.image`\n\n**Hand-built mirror**, not a caller. `@portabletext/to-html` returns HTML strings, so it can't import a Nunjucks macro.\n\n⚠️ Change both together — markup, classes, caption, `aria-label`."
+    },
+    {
+      "type": "file",
+      "id": "7e5bfafeba1f41c5",
+      "x": -400,
+      "y": -20,
+      "width": 500,
+      "height": 300,
+      "file": "dataink.io/frontend/views/molecules/lightbox/lightbox-dialog.md"
+    },
+    {
+      "type": "text",
+      "id": "933740080ebb33d4",
+      "x": 140,
+      "y": -20,
+      "width": 520,
+      "height": 300,
+      "text": "### Params\n| Param | Use |\n|---|---|\n| `video` | `{ src, poster, mimeType }` — wins |\n| `picture` | pre-rendered HTML — wins over `src` |\n| `src` | image URL |\n| `width` / `height` | intrinsic size of `src` |\n| `alt` | `src` alt + dialog name |\n| `caption` | dialog caption |"
+    },
+    {
+      "type": "text",
+      "id": "2280a1ba15a14c57",
+      "x": -400,
+      "y": 320,
+      "width": 500,
+      "height": 420,
+      "color": "5",
+      "text": "### Anatomy\n```\n<dialog data-lightbox-el=\"dialog\"\n        aria-label=alt|caption|fallback>\n  <button data-lightbox-el=\"close\">Close\n  <figure class=\"grid\">\n    media (see precedence)\n    <figcaption data-lightbox-el=\n      \"dialog-caption\">   ← if caption\n  </figure>\n</dialog>\n<script type=\"module\">\n  import Lightbox.js\n```\nRoot + trigger belong to the **caller**."
+    },
+    {
+      "type": "text",
+      "id": "a0182bf044c7ecea",
+      "x": 140,
+      "y": 320,
+      "width": 520,
+      "height": 420,
+      "text": "### Media precedence\n1. **`video.src`** → `<video data-lightbox-el=\"video\" muted playsinline controls preload=\"none\">`\n2. **`picture`** → `<span>` wrapping the HTML; inner `<img>` styled via `[&_img]:`\n3. **`src`** → `<img loading=\"lazy\" decoding=\"async\">` + `width`/`height` when given; `w-auto h-auto` under `max-w-full max-h-[75vh]`\n\nNothing is fetched until the dialog opens.\n\n**Fallback name:** `Video viewer` / `Image viewer` (`or`, not `default` — empty strings fall through)."
+    },
+    {
+      "type": "text",
+      "id": "a7e9023a1dddae02",
+      "x": -400,
+      "y": 780,
+      "width": 1060,
+      "height": 360,
+      "color": "4",
+      "text": "### Layout\n| Case | Result |\n|---|---|\n| No caption | Media fills dialog, max `90vw` × `75vh` |\n| Caption, below `lg` (md and smaller) | Caption **below** media |\n| Caption, `lg`+ | `lg:grid-cols-3` — media `lg:col-span-2`, caption right third; dialog fixed `lg:w-[90vw]` so the grid has a definite width |\n\nCursor: `zoom-out` on the backdrop, `auto` over content. Backdrop `bg-black/80`, caption `text-neutral-200`."
+    },
+    {
+      "type": "file",
+      "id": "4e75f8c6c1ba4609",
+      "x": 760,
+      "y": -20,
+      "width": 520,
+      "height": 300,
+      "file": "dataink.io/frontend/js/lightbox/Lightbox.md"
+    },
+    {
+      "type": "text",
+      "id": "2869e6cfed037faf",
+      "x": 760,
+      "y": 320,
+      "width": 520,
+      "height": 360,
+      "color": "6",
+      "text": "### Lightbox.js\n| Event | Result |\n|---|---|\n| trigger click | `showModal()` |\n| open + video | `play()` muted — **skipped** under `prefers-reduced-motion` |\n| Close / backdrop / Escape | `close()` |\n| dialog `close` event | video `pause()` |\n\nFocus trap + Escape are native `<dialog>`."
+    },
+    {
+      "type": "file",
+      "id": "e08f7450dafff63c",
+      "x": -400,
+      "y": -560,
+      "width": 1060,
+      "height": 400,
+      "color": "3",
+      "file": "dataink.io/frontend/specs/views/lightbox.views-spec.md"
+    },
+    {
+      "type": "file",
+      "id": "d3ab9f7f-e0f1-4bc0-95e2-8cca9fafec66",
+      "x": -1537.3645621011974,
+      "y": 951.4950435833146,
+      "width": 500,
+      "height": 300,
+      "file": "frontend/js/lightbox/Lightbox.md"
+    },
+    {
+      "type": "text",
+      "id": "915ef5f1-8d8b-466e-b911-330bb0b6c0d6",
+      "x": -940,
+      "y": 940,
+      "width": 260,
+      "height": 80,
+      "text": "DIALOG"
+    },
+    {
+      "type": "text",
+      "id": "88c5e40b-9c09-4e39-86c1-52f726f980d6",
+      "x": -940,
+      "y": 1060,
+      "width": 260,
+      "height": 80,
+      "text": "FIGURE"
+    },
+    {
+      "type": "text",
+      "id": "1c3e654b-dd1d-45ac-a723-67e96595c6cb",
+      "x": -940,
+      "y": 1200,
+      "width": 260,
+      "height": 80,
+      "text": "VIDEO"
+    },
+    {
+      "type": "text",
+      "id": "246dca6d-aaba-4671-ba72-d3d458cd8f7a",
+      "x": -940,
+      "y": 1320,
+      "width": 260,
+      "height": 80,
+      "text": "PICTURE"
+    },
+    {
+      "type": "text",
+      "id": "c7515312-4f27-4056-a754-ee02ba97ffbc",
+      "x": -960,
+      "y": 1440,
+      "width": 260,
+      "height": 80,
+      "text": "IMAGE"
+    },
+    {
+      "type": "text",
+      "id": "c9f936ce-cd44-480a-9cab-344651ed77a3",
+      "x": -960,
+      "y": 1540,
+      "width": 260,
+      "height": 80,
+      "text": "FIGCAPTION"
+    }
+  ],
+  "edges": [
+    {
+      "id": "99b0605a45787da0",
+      "fromNode": "394d0b0642ffec6c",
+      "fromSide": "right",
+      "toNode": "7e5bfafeba1f41c5",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "label": "imports (zoom: true)"
+    },
+    {
+      "id": "48b67102f2ca2f8e",
+      "fromNode": "f3a9176b6ebd91be",
+      "fromSide": "right",
+      "toNode": "2280a1ba15a14c57",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "1",
+      "label": "mirrors by hand"
+    },
+    {
+      "id": "6f7227e4eeb1cc38",
+      "fromNode": "e08f7450dafff63c",
+      "fromSide": "bottom",
+      "toNode": "7e5bfafeba1f41c5",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "governs"
+    },
+    {
+      "id": "2216059f68afab86",
+      "fromNode": "2280a1ba15a14c57",
+      "fromSide": "right",
+      "toNode": "4e75f8c6c1ba4609",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "label": "loads module"
+    },
+    {
+      "id": "1ca870e53f50dfaf",
+      "fromNode": "4e75f8c6c1ba4609",
+      "fromSide": "bottom",
+      "toNode": "2869e6cfed037faf",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "4f06d4db9eac1dbb",
+      "fromNode": "2869e6cfed037faf",
+      "fromSide": "left",
+      "toNode": "2280a1ba15a14c57",
+      "toSide": "right",
+      "toEnd": "arrow",
+      "label": "binds data-lightbox-el"
+    },
+    {
+      "id": "95d3bd9861c115b3",
+      "fromNode": "933740080ebb33d4",
+      "fromSide": "bottom",
+      "toNode": "a0182bf044c7ecea",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e96939709fec19dc",
+      "fromNode": "2280a1ba15a14c57",
+      "fromSide": "bottom",
+      "toNode": "a7e9023a1dddae02",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ]
 }

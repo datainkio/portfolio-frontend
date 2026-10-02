@@ -33,14 +33,14 @@ they can't replace the baseline.
 {% endcall %}
 ```
 
-| Param        | Type                            | Default                               | Description |
-| ------------ | ------------------------------- | ------------------------------------- | ----------- |
-| `type`       | `string`                        | `"button"`                            | `button`, `submit`, or `reset`. The default avoids accidental form submits. |
-| `label`      | `string`                        | `"Button"`                            | Text content. Ignored when called with `{% call %}`. |
-| `variant`    | `string`                        | none                                  | `"cta"`: the call-to-action look (secondary fill, display type, `m-4`). Omit for an unstyled button. |
-| `classes`    | `string` \| variant map \| array | none                                  | Appended to the baseline through the `classes` filter. |
-| `focusColor` | `string`                        | `"focus-visible:outline-primary-500"` | Ring colour utility. A separate param so a caller can recolour the ring without two colour utilities conflicting. |
-| `attrs`      | `string`                        | none                                  | Raw extra attributes (`aria-*`, `data-*`, `id`, `disabled`). Rendered with `\| safe`: escape interpolated values (build the string in a `{% set %}` block, where autoescape applies). |
+| Param        | Type                             | Default                               | Description                                                                                                                                                                           |
+| ------------ | -------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`       | `string`                         | `"button"`                            | `button`, `submit`, or `reset`. The default avoids accidental form submits.                                                                                                           |
+| `label`      | `string`                         | `"Button"`                            | Text content. Ignored when called with `{% call %}`.                                                                                                                                  |
+| `variant`    | `string`                         | none                                  | `"cta"`: the call-to-action look (secondary fill, display type, `m-4`). Omit for an unstyled button.                                                                                  |
+| `classes`    | `string` \| variant map \| array | none                                  | Appended to the baseline through the `classes` filter.                                                                                                                                |
+| `focusColor` | `string`                         | `"focus-visible:outline-primary-500"` | Ring colour utility. A separate param so a caller can recolour the ring without two colour utilities conflicting.                                                                     |
+| `attrs`      | `string`                         | none                                  | Raw extra attributes (`aria-*`, `data-*`, `id`, `disabled`). Rendered with `\| safe`: escape interpolated values (build the string in a `{% set %}` block, where autoescape applies). |
 
 Content comes from `label`, or from the `{% call %}` body when present
 (`caller()`), so icons, media, and nested spans work.
