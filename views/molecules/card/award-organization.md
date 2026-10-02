@@ -25,10 +25,10 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Data and Context
 
+- Called as `render({ group: group })`; `params.classes` is appended to the `<article>` root.
 - `group.organization.logo` — inline SVG or asset URL plus alt text.
 - `group.organization.title` — organization name.
 - `group.items` — array of award records rendered via the `award` atom.
-- `size` — optional logo size, defaults to `size-10`.
 
 ## Relationships
 
@@ -37,6 +37,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
   - [[inline.njk|atoms/svg/inline.njk]]
 - Likely used by:
   - [[awards.njk|molecules/awards.njk]]
+  - [[awards.njk|organisms/section/awards.njk]]
 
 ## Notes for Future Maintenance
 

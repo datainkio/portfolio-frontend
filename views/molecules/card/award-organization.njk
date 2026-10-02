@@ -13,9 +13,10 @@
 {%- set awardContainerStyles = {"base": "text-sm leading-4 text-neutral-400 after:content-[','] last:after:content-none", "sm": ""} -%}
 
 
-{%- macro render(group, size) -%}
+{%- macro render(params = {}) -%}
+  {%- set group = params.group -%}
   <article data-awards-el="organization-card"
-           class="{{ articleStyles | classes }}">
+           class="{{ [articleStyles, params.classes] | classes }}">
     {#- {% set logoSize = size | default("size-10") %} -#}
     {%- set logo = group.organization.logo.asset | default('/assets/images/logos/default.svg') -%}
     {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}

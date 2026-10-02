@@ -8,9 +8,11 @@
 {#- Inner maps are separate variables: a nested literal ending in `}}` closes the tag early. -#}
 {%- set artifactFigureStyles = {"base": "p-2 border-slate-700", "sm": "border"} -%}
 {%- set artifactCaptionStyles = {"base": "sr-only"} -%}
-{%- set artifactStyles = {"figure": artifactFigureStyles, "caption": artifactCaptionStyles} -%}
-{%- macro render(item, count="0") -%}
-  <article data-decisions-el="decision" class="{{ articleStyles | classes }}">
+{%- set artifactStyles = {"caption": artifactCaptionStyles} -%}
+{%- macro render(params = {}) -%}
+  {%- set item = params.item or {} -%}
+  {%- set count = params.index | default("0") -%}
+  <article data-decisions-el="decision" class="{{ [articleStyles, params.classes] | classes }}">
     {%- if item.activities | length -%}
       <ul aria-label="Activities">
         {%- for activity in item.activities -%}
@@ -18,7 +20,7 @@
         {%- endfor -%}
       </ul>
     {%- endif -%}
-    {{ Media.render({ image: item.artifact, loading: "lazy", zoom: true, styles: artifactStyles }) }}
+    {{ Media.render({ image: item.artifact, loading: "lazy", zoom: true, classes: artifactFigureStyles, styles: artifactStyles }) }}
     <h3 class="text-base m-0 prose text-neutral-300 leading-normal font-sans"><span class="uppercase pr-1">Decision:</span> {{ item.decision }}</h3>
     <p class="m-0 prose text-neutral-300 leading-normal whitespace-pre-line font-sans"><span class="uppercase pr-1">Result:</span> {{ item.result }}</p>
   </article>

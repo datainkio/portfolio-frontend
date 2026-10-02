@@ -1,12 +1,7 @@
 {% import "molecules/card/award-organization.njk" as AwardOrganization %}
+{% import "molecules/section/section-frame.njk" as SectionFrame %}
 {% macro render(params = {}) %}
   {% set awards = params.awards %}
-  {% set styles = params.class %}
-  {% set size = params.size | default("size-10") %}
-  {%- set sectionStyles = {"base": "border border-t-0 border-accent-600"} -%}
-  {%- set headingStyles = {"base": "text-lg font-display -translate-y-1/2 flex items-center gap-2 uppercase tracking-widest text-accent-600
-    before:h-px before:w-4 before:bg-accent-600
-    after:h-px after:flex-1 after:bg-accent-600"} -%}
   {%- set articleContainerStyles = {"base": "", "md": "divide-x divide-slate-700"} -%}
   {%- set listStyles = {
     "base": "p-6 pt-0 space-y-6 space-x-4",
@@ -16,14 +11,13 @@
     "xl": "grid-cols-5"
   } -%}
   {% if awards | length %}
-    <section class="{{ sectionStyles | classes }}">
-      <h2 class="{{ headingStyles | classes }}">Recognition</h2>
+    {%- call SectionFrame.render({ heading: "Recognition", id: "awards-heading", tone: "accent-600", classes: params.classes }) %}
       <ul data-awards-el="list" class="{{ listStyles | classes }}">
         {% for orgId, group in awards | groupByOrg %}
           <li data-awards-el="group"
-              class="{{ articleContainerStyles | classes }} ">{{ AwardOrganization.render(group, size) }}</li>
+              class="{{ articleContainerStyles | classes }} ">{{ AwardOrganization.render({ group: group }) }}</li>
         {% endfor %}
       </ul>
-    </section>
+    {%- endcall %}
   {% endif %}
 {% endmacro %}

@@ -22,7 +22,13 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Data and Context
 
-No obvious data dependencies identified from the template alone.
+- `params.svg` — inline SVG markup (or a URL, used as the image source when it isn't SVG).
+- `params.src` — image URL fallback.
+- `params.alt` — accessible name; defaults to `"Award logo"`.
+- `params.classes` — string, variant map, or array; applied through `| classes` to the `<svg>` or `<img>`.
+- `params.svgClasses` — extra classes for the `<svg>` only.
+
+Reads nothing from ambient scope (the old `organizationRecord` fallback is removed).
 
 ## Relationships
 

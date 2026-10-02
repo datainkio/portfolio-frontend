@@ -1,25 +1,20 @@
 {% import "molecules/card/design-decision.njk" as DesignDecision %}
+{% import "molecules/section/section-frame.njk" as SectionFrame %}
 {% macro render(params = {}) %}
   {% set decisions = params.decisions or [] %}
   {% if decisions | length %}
-    {%- set sectionStyles = {"base": "design-decisions border border-t-0 border-slate-700"} -%}
-    {%- set headingStyles = {"base": "text-lg font-display -translate-y-1/2 flex items-center gap-2 uppercase tracking-widest text-slate-700
-        before:h-px before:w-4 before:bg-slate-700
-        after:h-px after:flex-1 after:bg-slate-700"} -%}
     {%- set listStyles = {
       "base": "design-decisions__list p-6 pt-0 grid grid-cols-1 gap-6",
       "sm": "grid-cols-2 gap-4",
       "lg": "grid-cols-4"
     } -%}
     {%- set liStyles = {"base": "design-decisions__item ", "md": "divide-x divide-slate-700"} -%}
-    <section class="{{ sectionStyles | classes }}"
-             aria-labelledby="design-decisions-heading">
-      <h2 id="design-decisions-heading" class="{{ headingStyles | classes }}">Process + Evidence Plates</h2>
+    {%- call SectionFrame.render({ heading: "Process + Evidence Plates", id: "design-decisions-heading", tone: "slate-600", classes: ["design-decisions", params.classes] }) %}
       <ul data-decisions-el="list" class="{{ listStyles | classes }}">
         {% for item in decisions %}
-          <li data-decisions-el="item" class="{{ liStyles | classes }}">{{ DesignDecision.render(item, loop.index) }}</li>
+          <li data-decisions-el="item" class="{{ liStyles | classes }}">{{ DesignDecision.render({ item: item, index: loop.index }) }}</li>
         {% endfor %}
       </ul>
-    </section>
+    {%- endcall %}
   {% endif %}
 {% endmacro %}

@@ -1,9 +1,9 @@
 {% extends "layouts/base.njk" %}
-{% import "organisms/header/project/project-header.njk" as ProjectHeader with context %}
-{% import "organisms/navigation/page-nav.njk" as page_nav %}
-{% import "molecules/awards.njk" as Awards with context %}
+{% import "organisms/header/project/project-header.njk" as ProjectHeader %}
+{% import "molecules/awards.njk" as Awards %}
 {% import "molecules/design-decisions.njk" as DesignDecisions %}
-
+{% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
+{% import "molecules/star-summary/star-summary.njk" as StarSummary %}
 {#
   Single project page template.
   Data: paginated from `collections.projectPages`, aliased as `project`
@@ -14,7 +14,7 @@
 #}
 
 {# ─── Styles ──────────────────────────────────────────────────────────────── #}
-{%- set articleStyles = {"base": "project-page col-span-full space-y-12"} -%}
+{%- set articleStyles = {"base": "project-page col-span-full text-primary-100"} -%}
 {%- set titleStyles = {"base": "project-page__title"} -%}
 {%- set metadataStyles = {"base": "project-page__metadata grid gap-6", "md": "grid-cols-2", "lg": "grid-cols-4"} -%}
 {%- set abstractStyles = {"base": "project-page__abstract text-xl text-neutral-100"} -%}
@@ -29,6 +29,13 @@
 {%- set projectLinkStyles = {"base": "project-page__external-link underline underline-offset-4"} -%}
 {%- set outcomeHeadingStyles = {"base": "project-page__outcome-heading"} -%}
 {%- set awardStyles = {"base": "project-page__award"} -%}
+{%- set metadataStyles = {
+  "base": "text-neutral-400",
+  "sm": "columns-2xs",
+  "md": "p-4 border border-slate-700 divide-x divide-slate-700"
+} -%}
+{#- Matches the Overview section-frame heading (slate-600 tone → text-slate-400). -#}
+{%- set metadataSlots = {"term": "text-slate-400"} -%}
 
 {# ─── Data guards ─────────────────────────────────────────────────────────── #}
 
@@ -64,6 +71,12 @@
   {#- PAGE HEADER -#}
   {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
 
+  {#- PROJECT METADATA (e.g. roles, clients, platform, etc.)-#}
+  {{ ProjectMetadata.render({ project: project, classes: metadataStyles, styles: metadataSlots, aria: "Project metadata" }) }}
+
+  {#- OVERVIEW -#}
+  {{ StarSummary.render({ project: project }) }}
+
   {# DESIGN DECISIONS (published only, array order; omitted when none) #}
   {{ DesignDecisions.render({ decisions: project.decisions }) }}
 
@@ -71,11 +84,11 @@
   {{ Awards.render({ awards: project.awards }) }}
 
   {# BODY COPY (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
-  {% if hasBody %}
+  {# {% if hasBody %}
     <section class="{{ bodyStyles | classes }}" aria-label="Project narrative">
       {{ project.bodyHtml | safe }}
     </section>
-  {% endif %}
+  {% endif %} #}
 
   {# Link to live project (optional) #}
   {% if externalLinkHref %}

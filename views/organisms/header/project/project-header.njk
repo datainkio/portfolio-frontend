@@ -1,37 +1,32 @@
-{% import "organisms/navigation/breadcrumbs-nav.njk" as BreadCrumbs with context %}
-{% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
-{% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
 {% import "molecules/figure/media.njk" as Media %}
-{% import "molecules/star-summary/star-summary.njk" as StarSummary %}
 
-{% macro render(params) %}
+{% macro render(params = {}) %}
 
   {#- STYLES -#}
   {%- set header = {
     "base": "bg-transparent mt-24 space-y-4 border-0 relative col-span-full overflow-hidden text-neutral-100 bg-slate-700",
-    "md": "space-y-0 grid grid-cols-3 p-[1px] bg-slate-700 gap-[1px] ",
+    "md": "space-y-[1px] p-[1px] ",
     "lg": "mt-12"
   } -%}
-  {%- set capStyles = {"base": "w-full col-span-full bg-slate-950 font-display text-sm text-neutral-400", "md": ""} -%}
-  {%- set headingStyles = {"base": "text-5xl col-span-3 font-display z-[2] text-neutral-100 bg-slate-950", "md": ""} -%}
-  {%- set abstractStyles = {"base": "bg-slate-950 font-thin text-xl", "md": "row-span-2 col-span-2"} -%}
-  {%- set metadataStyles = {"base": "col-span-full bg-slate-950 text-neutral-400", "md": "col-start-3 row-start-3 row-span-2"} -%}
+  {%- set capStyles = {"base": "w-full col-span-full font-display text-sm text-neutral-400", "md": "p-2"} -%}
+  {%- set headingStyles = {"base": "text-5xl font-display z-[2] text-neutral-100 ", "md": "p-2"} -%}
+  {%- set abstractStyles = {"base": "text-neutral-100 font-thin text-xl", "md": "p-2"} -%}
+
   {%- set imageFigureStyles = {"base": "overflow-hidden"} -%}
   {%- set imageImgStyles = {"base": "w-full h-full object-cover"} -%}
   {%- set imageCaptionStyles = {"base": "mt-2 text-sm text-gray-600"} -%}
-  {%- set imageStyles = {"figure": imageFigureStyles, "image": imageImgStyles, "caption": imageCaptionStyles} -%}
+  {%- set imageStyles = {"image": imageImgStyles, "caption": imageCaptionStyles} -%}
 
 
-  <header data-project-header class="{{ header | classes }}">
+  <header data-project-header class="{{ [header, params.classes] | classes }}">
     <p class="{{ capStyles | classes }}" data-project-industry>{{ params.project.industry.title | default("") }}</p>
     <h1 id="case-study-title"
         data-landing-header-title
         class="{{ headingStyles | classes }}">{{ params.project.title | default("Untitled") }}</h1>
     <section class="{{ abstractStyles | classes }}" data-project-abstract>
-      {{ params.project.abstract | safe }}
+      <p class="prose prose-2xl text-neutral-100 mb-0">{{ params.project.abstract | safe }}</p>
     </section>
-    {{ ProjectMetadata.render({ project: params.project, classes: metadataStyles | classes, aria: "Project metadata" }) }}
-    {{ Media.render({ image: params.project.featuredImage, styles: imageStyles }) }}
-    {{ StarSummary.render({ project: params.project }) }}
+
+    {{ Media.render({ image: params.project.featuredImage, classes: imageFigureStyles, styles: imageStyles }) }}
   </header>
 {% endmacro %}

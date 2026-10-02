@@ -1,9 +1,9 @@
 {% import "molecules/figure/media.njk" as Media %}
 {#- Inner maps as variables: a nested literal ending in `}}` closes the tag early. -#}
 {%- set pictureStyles = "block w-full h-full [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:block" -%}
-{%- set mediaStyles = {"figure": "contents", "image": pictureStyles, "caption": "mt-2 text-sm text-neutral-600"} -%}
+{%- set mediaStyles = {"image": pictureStyles, "caption": "mt-2 text-sm text-neutral-600"} -%}
 <div class="rounded-lg bg-neutral-100 shadow-xl overflow-hidden">
-  {{ Media.render({ picture: image.file.html, caption: image.title, zoom: true, styles: mediaStyles }) }}
+  {{ Media.render({ picture: image.file.html, caption: image.title, zoom: true, classes: "contents", styles: mediaStyles }) }}
   <div class="px-4 py-4">
     <dl class="divide-y divide-neutral-200 shadow-sm rounded border border-neutral-200">
       <div class="flex justify-between px-3 py-2">

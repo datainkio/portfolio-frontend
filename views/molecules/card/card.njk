@@ -117,7 +117,7 @@
         <p class="{{ description | classes }} font-body">{{ description_txt }}</p>
       {% endif %}
       {% if meta | length %}
-        {{ Details.render({ stats: meta, classes: stats | classes }) }}
+        {{ Details.render({ stats: meta, classes: stats | classes, styles: { term: "text-neutral-300" } }) }}
       {% endif %}
 
       <footer class="{{ footer | classes }}">

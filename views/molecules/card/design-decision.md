@@ -25,6 +25,7 @@ Classified as a **component** at the atomic **molecule** level.
 
 ## Data and Context
 
+- Called as `render({ item: item, index: loop.index })`; `params.index` feeds the "Fig 0N" label. `params.classes` is appended to the `<article>` root.
 - `item.artifact` — optional resolved `imageAsset` (`alt`, `caption`, `asset.url`, `asset.metadata.dimensions`). Absent → no figure, no placeholder.
 - `item.decision` — string, rendered as `h3`.
 - `item.result` — plain text, rendered as `p`.
@@ -41,4 +42,4 @@ Classified as a **component** at the atomic **molecule** level.
 ## Notes for Future Maintenance
 
 - Image is `loading="lazy"`: the region sits below the fold.
-- Artifact renders through [`figure/media.njk`](../figure/media.md) with `loading: "lazy"`, `zoom: true` and `artifactStyles` (caption `sr-only`).
+- Artifact renders through [`figure/media.njk`](../figure/media.md) with `loading: "lazy"`, `zoom: true`, `classes: artifactFigureStyles` and `styles: artifactStyles` (caption `sr-only`).

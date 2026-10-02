@@ -27,11 +27,13 @@ Classified as a **component** at the atomic **molecule** level. Follows the [awa
 
 - `params.decisions` — `project.decisions[]` from `projectPageProjection.js`. Already filtered to `published == true` and in curation (array) order; the template does no filtering or sorting.
 - Region omitted entirely when the array is empty or missing.
+- `params.classes` — appended to the `<section>` root. See the [Component API spec](../../specs/views/component-api.views-spec.md).
 
 ## Relationships
 
 - Imports:
   - [[design-decision.njk|molecules/card/design-decision.njk]]
+  - [[section-frame.njk|molecules/section/section-frame.njk]] (`tone: "slate-700"`)
 - Used by:
   - [[project.njk|pages/project/project.njk]] — after the body, before the live-project link.
 

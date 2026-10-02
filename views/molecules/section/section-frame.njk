@@ -1,0 +1,36 @@
+{#
+  Section frame: a <section> bordered on three sides whose <h2> sits on the
+  open top edge, ruled on either side. Content goes in via {% call %}.
+
+Params:
+  heading  string  <h2> text.
+  id       string  <h2> id; the section's aria-labelledby.
+  tone     string  "slate-700" (default) | "slate-600" | "accent-600".
+  classes  string | variant map | array  Appended to the <section>.
+  styles   { heading }  Appended to the <h2>.
+
+  {% call SectionFrame.render({ heading: "Recognition", id: "awards-heading", tone: "accent-600" }) %}…{% endcall %}
+
+  Spec: specs/views/component-api.views-spec.md
+#}
+{%- macro render(params = {}) -%}
+  {%- set styles = params.styles or {} -%}
+  {#- Tone classes are whole literals so Tailwind can detect them. Heading text
+      sits 2 shades lighter than the border and rules; accent only 1, since
+      yellow already reads brighter than slate. -#}
+  {%- set sectionTones = {"slate-700": "border-slate-700", "slate-600": "border-slate-600", "accent-600": "border-accent-600"} -%}
+  {%- set headingTones = {
+    "slate-700": "text-slate-500 before:bg-slate-700 after:bg-slate-700",
+    "slate-600": "text-slate-400 before:bg-slate-600 after:bg-slate-600",
+    "accent-600": "text-accent-500 before:bg-accent-600 after:bg-accent-600"
+  } -%}
+  {%- set tone = params.tone if sectionTones[params.tone] else "slate-700" -%}
+  {%- set sectionBase = "border border-t-0" -%}
+  {%- set headingBase = "text-lg font-display -translate-y-1/2 flex items-center gap-2 uppercase tracking-widest before:h-px before:w-4 after:h-px after:flex-1" -%}
+  <section class="{{ [sectionBase, sectionTones[tone], params.classes] | classes }}"
+           aria-labelledby="{{ params.id }}">
+    <h2 id="{{ params.id }}"
+        class="{{ [headingBase, headingTones[tone], styles.heading] | classes }}">{{ params.heading }}</h2>
+    {{ caller() if caller }}
+  </section>
+{%- endmacro -%}

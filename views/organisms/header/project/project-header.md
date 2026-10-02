@@ -1,22 +1,37 @@
 ---
-description: "Defines Nunjucks macro: render."
+description: "Macro that renders the project page header: industry, title, abstract, and featured image."
 type: template
 links:
-  - "[breadcrumbs-nav](../../navigation/breadcrumbs-nav.md)"
-  - "[project-metadata](../../project-metadata/project-metadata.md)"
-  - "[project-orgs](../../../molecules/list/project-orgs.md)"
   - "[media](../../../molecules/figure/media.md)"
+  - "[Component API spec](../../../../specs/views/component-api.views-spec.md)"
 ---
 
 # Project Header
 
-Defines Nunjucks macro: `render`.
+Macro that renders the project page's `<header>`: the industry caption, the `h1` title, the abstract, and the featured image.
 
 ## Template
 
 - Source: [[project-header.njk]]
 - Path: `views/organisms/header/project/project-header.njk`
 
-## STAR summary
+## Macro Signature
 
-Rendered by the [star-summary](../../../molecules/star-summary/star-summary.md) molecule after the featured image: `StarSummary.render({ project: params.project })`. Field rules and layout live in that sidecar.
+```njk
+{% import "organisms/header/project/project-header.njk" as ProjectHeader %}
+{{ ProjectHeader.render({ project: project }) }}
+```
+
+| Param     | Type                      | Required | Description |
+| --------- | ------------------------- | -------- | ----------- |
+| `project` | object                    | Yes      | Project page object. Reads `industry.title`, `title`, `abstract`, `featuredImage`. |
+| `classes` | string \| variant map \| array | No | Appended to the `<header>` root. |
+
+Follows the [Component API spec](../../../../specs/views/component-api.views-spec.md).
+
+## Relationships
+
+- Used by: [[project.njk|pages/project/project.njk]]
+- Imports: [[media.njk|molecules/figure/media.njk]] (featured image)
+
+Project metadata and the STAR summary render at page level in `project.njk`, not in this header.

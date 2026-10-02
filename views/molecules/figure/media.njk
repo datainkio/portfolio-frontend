@@ -7,8 +7,10 @@
   params.video:   { src, poster, mimeType }.
   params.alt / params.caption: fallbacks for image.alt / image.caption; the
                   only alt/caption for picture and video.
-  params.styles: { figure, image, caption } — each a `classes` variant map
+  params.classes: the <figure> root — string, variant map, or array.
+  params.styles: { image, caption } — each a `classes` variant map
   (e.g. {"base": "...", "md": "..."}) or string. No styles are hard-coded here.
+  Contract: specs/views/component-api.views-spec.md
   params.zoom: true wraps the media in the lightbox contract (data-lightbox-el)
   — click to open a native <dialog>; cursor is the only affordance. Dialog
   markup comes from molecules/lightbox/lightbox-dialog.njk.
@@ -48,7 +50,7 @@
              class="{{ styles.image | classes }}" />
       {%- endif -%}
     {%- endset -%}
-    <figure class="{{ styles.figure | classes }}"
+    <figure class="{{ params.classes | classes }}"
             {% if params.zoom %}data-lightbox-el="root"{% endif %}
             {{ params.attrs | default("") | safe }}>
       {%- if params.zoom -%}

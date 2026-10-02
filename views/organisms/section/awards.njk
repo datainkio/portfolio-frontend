@@ -59,7 +59,7 @@
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">
       {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render(group, "size-12") }}</li>
+        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render({ group: group }) }}</li>
       {% endfor %}
     </ul>
 

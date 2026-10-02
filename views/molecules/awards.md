@@ -25,15 +25,15 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 ## Data and Context
 
 - `params.awards` — array of award records, grouped via the `groupByOrg` filter.
-- `params.class` — optional wrapper CSS classes.
-- `params.size` — optional logo size passed through to `award-organization`, defaults to `size-10`.
+- `params.classes` — appended to the `<section>` root. See the [Component API spec](../../specs/views/component-api.views-spec.md).
 
 ## Relationships
 
 - Imports:
   - [[award-organization.njk|molecules/card/award-organization.njk]]
+  - [[section-frame.njk|molecules/section/section-frame.njk]] (`tone: "accent-600"`, `id: "awards-heading"`)
 - Used by:
-  - [[project-header.njk|organisms/header/project/project-header.njk]]
+  - [[project.njk|pages/project/project.njk]]
 
 ## Notes for Future Maintenance
 

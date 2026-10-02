@@ -28,7 +28,7 @@ Atoms represent the most basic, indivisible UI elements in the atomic design sys
 {{ Heading.render({ level: 2, text: "Section Title" }) }}
 ```
 
-Every component wraps its markup in `{% macro render(params = {}) %}...{% endmacro %}`, and callers `{% import ... as X %}` then call `X.render({...})`. Params are namespaced under `params.*` — explicit, self-contained, and the component's parameter list is readable at a glance from its `render()` signature.
+Every component wraps its markup in `{% macro render(params = {}) %}...{% endmacro %}`, and callers `{% import ... as X %}` then call `X.render({...})`. Params are namespaced under `params.*` — explicit, self-contained, and the component's parameter list is readable at a glance from its `render()` signature. Import without `with context`, and style through `params.classes` (root) and `params.styles` (named slots). The full contract is the [Component API spec](../../specs/views/component-api.views-spec.md).
 
 **Don't** write a component that reads bare top-level variables from whatever scope happens to be in effect on include (relying on Nunjucks's automatic parent-scope inheritance). That pattern used to be common here and is being migrated away from: it has no explicit parameter list, a variable-name collision between caller and component scope silently produces wrong output instead of an error, and it tempted a few atoms (`icon.njk`, `link/nav-link.njk`) into maintaining *both* patterns in the same file to paper over the ambiguity — don't add a third file to that list.
 

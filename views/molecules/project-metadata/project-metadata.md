@@ -27,7 +27,8 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 - Macro: `render(params = {})`
   - `params.project` — Project object (required; see data shape below)
-  - `params.classes` — Responsive class object or string (optional)
+  - `params.classes` — Responsive class object or string (optional); passed raw to `stats`
+  - `params.styles` — `stats` slots `{ item, term, value }` (optional); passed through
   - `params.aria` — ARIA label for the band (optional)
 
 ## Data and Context

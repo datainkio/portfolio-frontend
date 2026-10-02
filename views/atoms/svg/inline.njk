@@ -14,11 +14,10 @@
 
 {% macro render(params = {}) %}
 
-  {%- set classes = params.classes | default('') -%}
-  {%- set svg = params.svg | default(organizationRecord.logo.inline) | default('') -%}
+  {%- set classes = params.classes | classes -%}
+  {%- set svg = params.svg | default('') -%}
   {%- set src = params.src | default('') -%}
   {%- set alt = params.alt | default('Award logo') -%}
-  {%- set classes = params.classes | default('') -%}
   {%- set isSvg = '<svg' in svg -%}
   {%- set imageSrc = src or (svg if not isSvg else '') -%}
 

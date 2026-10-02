@@ -1,13 +1,13 @@
 {% macro render(params = {}) %}
   {%- set stats = params.stats | default([]) -%}
-  {%- set classes = params.classes | default("") -%}
-  <dl class="{{ classes | default("") }}"
+  {%- set styles = params.styles or {} -%}
+  <dl class="{{ params.classes | classes }}"
       aria-label="{{ params.aria | default("Metadata") }}">
     {% for item in stats %}
       {% if item.value %}
-        <div class="meta-item break-inside-avoid-column font-display text-sm flex flex-col gap-1 p-2">
-          <dt class="text-neutral-300">{{ item.key }}</dt>
-          <dd>
+        <div class="{{ ['meta-item break-inside-avoid-column font-display text-sm flex flex-col gap-1 p-2', styles.item] | classes }}">
+          <dt{% if styles.term %} class="{{ styles.term | classes }}"{% endif %}>{{ item.key }}</dt>
+          <dd{% if styles.value %} class="{{ styles.value | classes }}"{% endif %}>
             {{ item.value }}
           </dd>
         </div>

@@ -2,7 +2,6 @@
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
 {% macro render(params = {}) %}
   {%- set project = params.project -%}
-  {%- set metadataClasses = params.classes -%}
   {#- Award organizations -#}
   {%- set awardOrgsValue -%}
     {%- for orgId, group in project.awards | groupByOrg -%}
@@ -35,10 +34,6 @@
     { key: "Deliverables", value: activitiesValue if project.activities else "" },
     { key: "Recognition (Summary)", value: awardOrgsValue if project.awards else "" }
     ] -%}
-  {{ stats.render({ stats: metadataStats, classes: metadataClasses, aria: params.aria }) }}
+  {{ stats.render({ stats: metadataStats, classes: params.classes, styles: params.styles, aria: params.aria }) }}
 
 {% endmacro %}
-
-{#
-    {{ Awards.render({ awards: params.project.awards, class: awards | classes, size: "size-18" }) }}
-#}

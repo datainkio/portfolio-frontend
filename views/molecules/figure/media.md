@@ -30,8 +30,8 @@ Encapsulates the media figure pattern — `<figure>` + media + optional caption 
 {%- set figureStyles = {"base": "overflow-hidden"} -%}
 {%- set imgStyles = {"base": "w-full h-full object-cover"} -%}
 {%- set captionStyles = {"base": "mt-2 text-sm text-gray-600"} -%}
-{%- set imageStyles = {"figure": figureStyles, "image": imgStyles, "caption": captionStyles} -%}
-{{ Media.render({ image: project.featuredImage, alt: project.title, styles: imageStyles }) }}
+{%- set imageStyles = {"image": imgStyles, "caption": captionStyles} -%}
+{{ Media.render({ image: project.featuredImage, alt: project.title, classes: figureStyles, styles: imageStyles }) }}
 ```
 
 | Param     | Type                | Required | Description                                                                                                                                |
@@ -41,7 +41,8 @@ Encapsulates the media figure pattern — `<figure>` + media + optional caption 
 | `video`   | `object`            | One source | `{ src, poster, mimeType }`. Wins over `picture` and `image`. Without `zoom`: inline `<video controls>`. With `zoom`: inert poster in the trigger; the dialog plays it muted (not under reduced motion). |
 | `alt`     | `string`            | No       | Fallback alt when `image.alt` is empty (typically the project title); the only alt for `video`, and the trigger name for `picture`. |
 | `caption` | `string`            | No       | Fallback caption when `image.caption` is empty; the only caption for `picture` and `video`.                                         |
-| `styles`  | `object`            | No       | `{ figure, image, caption }`. Each value is a `classes` variant map (`{"base": …, "md": …}`) or string, applied through the `classes` filter. The macro hard-codes no styles. |
+| `classes` | string \| variant map \| array | No | The `<figure>` root, applied through the `classes` filter. |
+| `styles`  | `object`            | No       | Slots `{ image, caption }`. Each value is a `classes` variant map (`{"base": …, "md": …}`) or string, applied through the `classes` filter. The macro hard-codes no styles. Follows the [Component API spec](../../../specs/views/component-api.views-spec.md). |
 | `loading` | `string`            | No       | `loading` attribute for the `image` source's `<img>`. Defaults to `"eager"`.                                                                                |
 | `zoom`    | `boolean`           | No       | Click-to-zoom. Wraps the image in the lightbox contract (`data-lightbox-el` root/trigger) and renders the shared dialog from `lightbox-dialog.njk`, which loads `Lightbox.js` and shows the caption. Cursor (`zoom-in` on the trigger, `zoom-out` on the backdrop) is the only affordance. Defaults to off. |
 
@@ -65,7 +66,7 @@ Classified as a **macro** at the atomic **molecule** level. Sits below `organism
 
 - Keep this sidecar documentation in sync when the template signature changes.
 - `zoom` dialog comes from [lightbox-dialog.njk](../lightbox/lightbox-dialog.md); only the root and trigger live here. Contract: [lightbox spec](../../../specs/views/lightbox.views-spec.md). `Lightbox.js` binds to `data-lightbox-el`, not classes. The dialog's own classes are fixed, not caller-styled.
-- Styling belongs to callers via `styles`; don't reintroduce hard-coded classes.
+- Styling belongs to callers via `classes` (root) and `styles` (slots); don't reintroduce hard-coded classes.
 - Preserve `width`/`height` intrinsic dimension attributes on the `image` source — they prevent cumulative layout shift.
 - Replaced `molecules/lightbox/lightbox.njk` (2026-10-02): this is the only Nunjucks entry point to the lightbox.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
