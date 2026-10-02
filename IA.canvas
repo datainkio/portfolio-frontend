@@ -1,90 +1,771 @@
 {
-	"nodes":[
-		{"id":"0f78fbfa79f37c30","type":"group","x":-720,"y":-637,"width":920,"height":1655,"color":"6","label":"v1.0"},
-		{"id":"1962189490503683","type":"group","x":900,"y":-120,"width":660,"height":715,"color":"5","label":"v1.1"},
-		{"id":"1ce1f99840074bcb","type":"group","x":3480,"y":600,"width":610,"height":660,"color":"#5f6eab","label":"v1.4"},
-		{"id":"ea6de39de16060e9","type":"group","x":2000,"y":-116,"width":605,"height":503,"color":"3","label":"v1.2"},
-		{"id":"b3b3b9269ef94ac7","type":"group","x":3480,"y":-680,"width":630,"height":460,"color":"2","label":"v1.3"},
-		{"id":"490a0adecd6d0c50","type":"group","x":3500,"y":-40,"width":610,"height":460,"color":"1","label":"v1.4"},
-		{"id":"493e628d6e2709fb","type":"group","x":340,"y":-1000,"width":290,"height":260,"color":"5","label":"TEMPLATES"},
-		{"id":"d7b079d6f1a4b840","type":"text","text":"# README","x":360,"y":-980,"width":250,"height":60,"color":"5"},
-		{"id":"26bad823cf5f66ea","type":"text","text":"# SIDECAR","x":360,"y":-900,"width":250,"height":60,"color":"5"},
-		{"id":"460d7dc103716aa0","type":"text","text":"# LANDING","x":360,"y":-820,"width":250,"height":60,"color":"5"},
-		{"id":"1d41526213b16ec8","type":"text","text":"# v1.1 Documentation now publically available","x":615,"y":-298,"width":300,"height":80,"color":"5"},
-		{"id":"025ca4c4bd972d08","type":"text","text":"# v1.2 About page added","x":1670,"y":-298,"width":320,"height":80,"color":"3"},
-		{"id":"b7ec9aaac33ae9ec","type":"text","text":"# 📂 FIGMA","x":1260,"y":240,"width":250,"height":60,"color":"5"},
-		{"id":"bea62ea798fd8652","type":"text","text":"# 📂SPECS","x":1260,"y":320,"width":250,"height":60,"color":"5"},
-		{"id":"d3b900ed46ff985d","type":"text","text":"# 📂 STYLES","x":1260,"y":400,"width":250,"height":60,"color":"5"},
-		{"id":"0f427db7fcb872df","type":"text","text":"# 📂 VIEWS","x":1260,"y":480,"width":250,"height":60,"color":"5"},
-		{"id":"ea69887ea66a794a","type":"text","text":"# 📂 SOURCE","x":940,"y":-80,"width":285,"height":60,"color":"5"},
-		{"id":"71e31426ceb39d52","type":"text","text":"# 📂 DATA","x":1260,"y":80,"width":250,"height":60,"color":"5"},
-		{"id":"20d0f9e924db0ea0","type":"text","text":"# 📂 ELEVENTY","x":1260,"y":160,"width":250,"height":60,"color":"5"},
-		{"id":"a050438da00ab3ae","type":"text","text":"# 📄 ABOUT","x":2020,"y":-96,"width":250,"height":60,"color":"3"},
-		{"id":"7693bf042aed9723","type":"text","text":"# ☰ DESIGN STRATEGY","x":2300,"y":67,"width":285,"height":60,"color":"3"},
-		{"id":"077d91143a03565d","type":"text","text":"# ☰ CONTENT STRATEGY","x":2300,"y":147,"width":285,"height":60,"color":"3"},
-		{"id":"f17d04a5c65608b9","type":"text","text":"# ☰ CONTENT MODELING","x":2300,"y":227,"width":285,"height":60,"color":"3"},
-		{"id":"15c999c08e795628","type":"text","text":"# ☰ SOURCE","x":2300,"y":307,"width":285,"height":60,"color":"3"},
-		{"id":"5253a138d3a2df61","type":"text","text":"Content Strategy gets its own directory. Its view becomes a landing page with content updated to focus on providing an overview. What was section content expands and moves to subpages.\n","x":2860,"y":113,"width":479,"height":127,"color":"1"},
-		{"id":"4ddab23fe83cd70d","type":"text","text":"# 📂 DESIGN STRATEGY","x":3520,"y":-660,"width":285,"height":60,"color":"2"},
-		{"id":"b678a15d86e0fa62","type":"text","text":"# VISUAL","x":3840,"y":-500,"width":250,"height":60,"color":"2"},
-		{"id":"3615d8a12fecf364","type":"text","text":"# INTERACTIVE","x":3840,"y":-400,"width":250,"height":60,"color":"2"},
-		{"id":"0726d6e621d1cd48","type":"text","text":"# MOTION","x":3840,"y":-300,"width":250,"height":60,"color":"2"},
-		{"id":"b06096f4373f9188","type":"text","text":"Design Strategy gets its own directory. Its view becomes a landing page with content updated to focus on providing an overview. What was section content expands and moves to subpages.\n","x":2860,"y":-500,"width":479,"height":130,"color":"2"},
-		{"id":"b99a0f82008b8bfb","type":"text","text":"# 📂 CONTENT STRATEGY","x":3520,"y":-20,"width":285,"height":60,"color":"1"},
-		{"id":"114882901fdda0af","type":"text","text":"# VISUAL","x":3840,"y":140,"width":250,"height":60,"color":"1"},
-		{"id":"84d02d97569e831c","type":"text","text":"# INTERACTIVE","x":3840,"y":240,"width":250,"height":60,"color":"1"},
-		{"id":"db1c4ae879fb1a5c","type":"text","text":"# MOTION","x":3840,"y":340,"width":250,"height":60,"color":"1"},
-		{"id":"6f9cc6b25c51b47b","type":"text","text":"# 📂 CONTENT MODELING","x":3500,"y":620,"width":285,"height":60,"color":"#6271ac"},
-		{"id":"e6ffabe5258dd455","type":"text","text":"# DOCUMENTS","x":3820,"y":880,"width":250,"height":60,"color":"#6271ac"},
-		{"id":"1d2dd49f96cf8b52","type":"text","text":"# OBJECTS","x":3820,"y":980,"width":250,"height":60,"color":"#6271ac"},
-		{"id":"42bf9eb36a7f0958","type":"text","text":"# PATTERNS","x":3820,"y":1080,"width":250,"height":60,"color":"#6271ac"},
-		{"id":"268718e8c48676a1","type":"text","text":"# TAXONOMIES","x":3820,"y":1180,"width":250,"height":60,"color":"#6271ac"},
-		{"id":"4c446a50d7c8c091","type":"text","text":"# CONTRACTS","x":3820,"y":780,"width":250,"height":60,"color":"#6271ac"},
-		{"id":"ab9b588e5ca26ff6","type":"text","text":"Content Modeling gets its own directory. Its view becomes a landing page with content updated to focus on providing an overview. What was section content expands and moves to subpages.\n","x":2860,"y":860,"width":479,"height":125,"color":"#6271ac"},
-		{"id":"f14f8eab4197d2ba","type":"text","text":"☰ Copy\n📄 Page\n📂  Directory","x":690,"y":-1080,"width":250,"height":160},
-		{"id":"01ee14924bc1c72b","type":"file","file":"dataink.io/frontend/views/pages/home/home.md","x":-700,"y":-617,"width":400,"height":400,"color":"6"},
-		{"id":"3fa0dc63623e8f35","type":"file","file":"dataink.io/frontend/views/pages/contact/contact.md","x":-700,"y":103,"width":400,"height":400,"color":"6"},
-		{"id":"9225b9da23c0d503","type":"file","file":"dataink.io/frontend/views/pages/projects/projects.md","x":-220,"y":103,"width":400,"height":400,"color":"6"},
-		{"id":"7e37af264998ecd0","type":"file","file":"dataink.io/frontend/views/pages/project/project.md","x":-220,"y":598,"width":400,"height":400,"color":"6"}
-	],
-	"edges":[
-		{"id":"f53020bf7cf69743","fromNode":"9225b9da23c0d503","fromSide":"bottom","toNode":"7e37af264998ecd0","toSide":"top"},
-		{"id":"631c2eb2d64af607","fromNode":"a050438da00ab3ae","fromSide":"bottom","toNode":"077d91143a03565d","toSide":"left","color":"3"},
-		{"id":"d3f443067c6222f8","fromNode":"a050438da00ab3ae","fromSide":"bottom","toNode":"f17d04a5c65608b9","toSide":"left","color":"3"},
-		{"id":"91da1d89cfb777fb","fromNode":"a050438da00ab3ae","fromSide":"bottom","toNode":"7693bf042aed9723","toSide":"left","color":"3"},
-		{"id":"9bcc3eedaf3f0361","fromNode":"ea69887ea66a794a","fromSide":"bottom","toNode":"71e31426ceb39d52","toSide":"left","color":"5"},
-		{"id":"1e03641ddb10b115","fromNode":"ea69887ea66a794a","fromSide":"bottom","toNode":"20d0f9e924db0ea0","toSide":"left","color":"5"},
-		{"id":"4584bbd70a1ac591","fromNode":"ea69887ea66a794a","fromSide":"bottom","toNode":"b7ec9aaac33ae9ec","toSide":"left","color":"5"},
-		{"id":"5a434788c3eed177","fromNode":"ea69887ea66a794a","fromSide":"bottom","toNode":"bea62ea798fd8652","toSide":"left","color":"5"},
-		{"id":"ae8baa65212e91b5","fromNode":"ea69887ea66a794a","fromSide":"bottom","toNode":"d3b900ed46ff985d","toSide":"left","color":"5"},
-		{"id":"b6ec51066e9df855","fromNode":"ea69887ea66a794a","fromSide":"bottom","toNode":"0f427db7fcb872df","toSide":"left","color":"5"},
-		{"id":"9f7e829aeab3dd61","fromNode":"0f78fbfa79f37c30","fromSide":"right","toNode":"1d41526213b16ec8","toSide":"left","color":"5"},
-		{"id":"3dba5a52a77e3e7a","fromNode":"01ee14924bc1c72b","fromSide":"bottom","toNode":"3fa0dc63623e8f35","toSide":"top","color":"6"},
-		{"id":"5636cf9b07879fd9","fromNode":"01ee14924bc1c72b","fromSide":"bottom","toNode":"9225b9da23c0d503","toSide":"top","color":"6"},
-		{"id":"035ac0453f8d780d","fromNode":"4ddab23fe83cd70d","fromSide":"bottom","toNode":"b678a15d86e0fa62","toSide":"left","color":"2"},
-		{"id":"693608a437172216","fromNode":"4ddab23fe83cd70d","fromSide":"bottom","toNode":"3615d8a12fecf364","toSide":"left","color":"2"},
-		{"id":"e5eeb171f8d698c3","fromNode":"4ddab23fe83cd70d","fromSide":"bottom","toNode":"0726d6e621d1cd48","toSide":"left","color":"2"},
-		{"id":"357b8af63ebf4828","fromNode":"7693bf042aed9723","fromSide":"right","toNode":"b06096f4373f9188","toSide":"left","color":"2"},
-		{"id":"67937bf01e6b4867","fromNode":"b99a0f82008b8bfb","fromSide":"bottom","toNode":"114882901fdda0af","toSide":"left","color":"1"},
-		{"id":"d0d766a268c05d65","fromNode":"b99a0f82008b8bfb","fromSide":"bottom","toNode":"84d02d97569e831c","toSide":"left","color":"1"},
-		{"id":"248ffa1502bbf4e4","fromNode":"b99a0f82008b8bfb","fromSide":"bottom","toNode":"db1c4ae879fb1a5c","toSide":"left","color":"1"},
-		{"id":"9043eace495ed541","fromNode":"077d91143a03565d","fromSide":"right","toNode":"5253a138d3a2df61","toSide":"left","color":"1"},
-		{"id":"512cf717468b325b","fromNode":"6f9cc6b25c51b47b","fromSide":"bottom","toNode":"4c446a50d7c8c091","toSide":"left","color":"#6271ac"},
-		{"id":"9f3e9aa378f9f35b","fromNode":"6f9cc6b25c51b47b","fromSide":"bottom","toNode":"e6ffabe5258dd455","toSide":"left","color":"#6271ac"},
-		{"id":"b026055d2821d913","fromNode":"6f9cc6b25c51b47b","fromSide":"bottom","toNode":"1d2dd49f96cf8b52","toSide":"left","color":"#6271ac"},
-		{"id":"10ee232927cbeea0","fromNode":"6f9cc6b25c51b47b","fromSide":"bottom","toNode":"42bf9eb36a7f0958","toSide":"left","color":"#6271ac"},
-		{"id":"d2e93333b2dcd1e9","fromNode":"6f9cc6b25c51b47b","fromSide":"bottom","toNode":"268718e8c48676a1","toSide":"left","color":"#6271ac"},
-		{"id":"b291cc78db35e023","fromNode":"f17d04a5c65608b9","fromSide":"right","toNode":"ab9b588e5ca26ff6","toSide":"left","color":"#6271ac"},
-		{"id":"d0f1e23c8364b230","fromNode":"5253a138d3a2df61","fromSide":"right","toNode":"490a0adecd6d0c50","toSide":"left","color":"1"},
-		{"id":"32b4f123242a32d6","fromNode":"b06096f4373f9188","fromSide":"right","toNode":"b3b3b9269ef94ac7","toSide":"left","color":"2"},
-		{"id":"61bc7ee8a7dec59f","fromNode":"ab9b588e5ca26ff6","fromSide":"right","toNode":"1ce1f99840074bcb","toSide":"left","color":"#6271ac"},
-		{"id":"0b59714ec0e3bd1a","fromNode":"1d41526213b16ec8","fromSide":"bottom","toNode":"1962189490503683","toSide":"left","color":"5"},
-		{"id":"1c87a85729919d71","fromNode":"1d41526213b16ec8","fromSide":"right","toNode":"025ca4c4bd972d08","toSide":"left","color":"3"},
-		{"id":"e4377f7e9149f8cf","fromNode":"a050438da00ab3ae","fromSide":"bottom","toNode":"15c999c08e795628","toSide":"left","color":"3"},
-		{"id":"71a83cbee7012876","fromNode":"025ca4c4bd972d08","fromSide":"bottom","toNode":"ea6de39de16060e9","toSide":"left","color":"3"}
-	],
-	"metadata":{
-		"version":"1.0-1.0",
-		"frontmatter":{}
-	}
+  "nodes": [
+    {
+      "type": "group",
+      "id": "0f78fbfa79f37c30",
+      "x": -720,
+      "y": -637,
+      "width": 920,
+      "height": 1655,
+      "color": "6",
+      "label": "v1.0"
+    },
+    {
+      "type": "group",
+      "id": "1962189490503683",
+      "x": 900,
+      "y": -120,
+      "width": 660,
+      "height": 715,
+      "color": "5",
+      "label": "v1.1"
+    },
+    {
+      "type": "group",
+      "id": "1ce1f99840074bcb",
+      "x": 3480,
+      "y": 600,
+      "width": 610,
+      "height": 660,
+      "color": "#5f6eab",
+      "label": "v1.4"
+    },
+    {
+      "type": "group",
+      "id": "ea6de39de16060e9",
+      "x": 2000,
+      "y": -116,
+      "width": 605,
+      "height": 503,
+      "color": "3",
+      "label": "v1.2"
+    },
+    {
+      "type": "group",
+      "id": "b3b3b9269ef94ac7",
+      "x": 3480,
+      "y": -680,
+      "width": 630,
+      "height": 460,
+      "color": "2",
+      "label": "v1.3"
+    },
+    {
+      "type": "group",
+      "id": "490a0adecd6d0c50",
+      "x": 3500,
+      "y": -40,
+      "width": 610,
+      "height": 460,
+      "color": "1",
+      "label": "v1.4"
+    },
+    {
+      "type": "group",
+      "id": "493e628d6e2709fb",
+      "x": 340,
+      "y": -1000,
+      "width": 290,
+      "height": 260,
+      "color": "5",
+      "label": "TEMPLATES"
+    },
+    {
+      "type": "text",
+      "id": "d7b079d6f1a4b840",
+      "x": 360,
+      "y": -980,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# README"
+    },
+    {
+      "type": "text",
+      "id": "26bad823cf5f66ea",
+      "x": 360,
+      "y": -900,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# SIDECAR"
+    },
+    {
+      "type": "text",
+      "id": "460d7dc103716aa0",
+      "x": 360,
+      "y": -820,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# LANDING"
+    },
+    {
+      "type": "text",
+      "id": "1d41526213b16ec8",
+      "x": 439.6391240280111,
+      "y": -260.04188581817743,
+      "width": 695.8145486224894,
+      "height": 80,
+      "color": "5",
+      "text": "# v1.1 Documentation publically available"
+    },
+    {
+      "type": "text",
+      "id": "025ca4c4bd972d08",
+      "x": 1677.3975827872443,
+      "y": -261.0120860637786,
+      "width": 400.3312027114348,
+      "height": 80,
+      "color": "3",
+      "text": "# v1.2 About page added"
+    },
+    {
+      "type": "text",
+      "id": "b7ec9aaac33ae9ec",
+      "x": 1260,
+      "y": 240,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# 📂 FIGMA"
+    },
+    {
+      "type": "text",
+      "id": "bea62ea798fd8652",
+      "x": 1260,
+      "y": 320,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# 📂SPECS"
+    },
+    {
+      "type": "text",
+      "id": "d3b900ed46ff985d",
+      "x": 1260,
+      "y": 400,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# 📂 STYLES"
+    },
+    {
+      "type": "text",
+      "id": "0f427db7fcb872df",
+      "x": 1260,
+      "y": 480,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# 📂 VIEWS"
+    },
+    {
+      "type": "text",
+      "id": "ea69887ea66a794a",
+      "x": 940,
+      "y": -80,
+      "width": 285,
+      "height": 60,
+      "color": "5",
+      "text": "# 📂 SOURCE"
+    },
+    {
+      "type": "text",
+      "id": "71e31426ceb39d52",
+      "x": 1260,
+      "y": 80,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# 📂 DATA"
+    },
+    {
+      "type": "text",
+      "id": "20d0f9e924db0ea0",
+      "x": 1260,
+      "y": 160,
+      "width": 250,
+      "height": 60,
+      "color": "5",
+      "text": "# 📂 ELEVENTY"
+    },
+    {
+      "type": "text",
+      "id": "a050438da00ab3ae",
+      "x": 2020,
+      "y": -96,
+      "width": 250,
+      "height": 60,
+      "color": "3",
+      "text": "# 📄 ABOUT"
+    },
+    {
+      "type": "text",
+      "id": "7693bf042aed9723",
+      "x": 2300,
+      "y": 67,
+      "width": 285,
+      "height": 60,
+      "color": "3",
+      "text": "# ☰ DESIGN STRATEGY"
+    },
+    {
+      "type": "text",
+      "id": "077d91143a03565d",
+      "x": 2300,
+      "y": 147,
+      "width": 285,
+      "height": 60,
+      "color": "3",
+      "text": "# ☰ CONTENT STRATEGY"
+    },
+    {
+      "type": "text",
+      "id": "f17d04a5c65608b9",
+      "x": 2300,
+      "y": 227,
+      "width": 285,
+      "height": 60,
+      "color": "3",
+      "text": "# ☰ CONTENT MODELING"
+    },
+    {
+      "type": "text",
+      "id": "15c999c08e795628",
+      "x": 2300,
+      "y": 307,
+      "width": 285,
+      "height": 60,
+      "color": "3",
+      "text": "# ☰ SOURCE"
+    },
+    {
+      "type": "text",
+      "id": "5253a138d3a2df61",
+      "x": 2860,
+      "y": 113,
+      "width": 479,
+      "height": 127,
+      "color": "1",
+      "text": "Content Strategy gets its own directory. Its view becomes a landing page with content updated to focus on providing an overview. What was section content expands and moves to subpages.\n"
+    },
+    {
+      "type": "text",
+      "id": "4ddab23fe83cd70d",
+      "x": 3520,
+      "y": -660,
+      "width": 285,
+      "height": 60,
+      "color": "2",
+      "text": "# 📂 DESIGN STRATEGY"
+    },
+    {
+      "type": "text",
+      "id": "b678a15d86e0fa62",
+      "x": 3840,
+      "y": -500,
+      "width": 250,
+      "height": 60,
+      "color": "2",
+      "text": "# VISUAL"
+    },
+    {
+      "type": "text",
+      "id": "3615d8a12fecf364",
+      "x": 3840,
+      "y": -400,
+      "width": 250,
+      "height": 60,
+      "color": "2",
+      "text": "# INTERACTIVE"
+    },
+    {
+      "type": "text",
+      "id": "0726d6e621d1cd48",
+      "x": 3840,
+      "y": -300,
+      "width": 250,
+      "height": 60,
+      "color": "2",
+      "text": "# MOTION"
+    },
+    {
+      "type": "text",
+      "id": "b06096f4373f9188",
+      "x": 2860,
+      "y": -500,
+      "width": 479,
+      "height": 130,
+      "color": "2",
+      "text": "Design Strategy gets its own directory. Its view becomes a landing page with content updated to focus on providing an overview. What was section content expands and moves to subpages.\n"
+    },
+    {
+      "type": "text",
+      "id": "b99a0f82008b8bfb",
+      "x": 3520,
+      "y": -20,
+      "width": 285,
+      "height": 60,
+      "color": "1",
+      "text": "# 📂 CONTENT STRATEGY"
+    },
+    {
+      "type": "text",
+      "id": "114882901fdda0af",
+      "x": 3840,
+      "y": 140,
+      "width": 250,
+      "height": 60,
+      "color": "1",
+      "text": "# VISUAL"
+    },
+    {
+      "type": "text",
+      "id": "84d02d97569e831c",
+      "x": 3840,
+      "y": 240,
+      "width": 250,
+      "height": 60,
+      "color": "1",
+      "text": "# INTERACTIVE"
+    },
+    {
+      "type": "text",
+      "id": "db1c4ae879fb1a5c",
+      "x": 3840,
+      "y": 340,
+      "width": 250,
+      "height": 60,
+      "color": "1",
+      "text": "# MOTION"
+    },
+    {
+      "type": "text",
+      "id": "6f9cc6b25c51b47b",
+      "x": 3500,
+      "y": 620,
+      "width": 285,
+      "height": 60,
+      "color": "#6271ac",
+      "text": "# 📂 CONTENT MODELING"
+    },
+    {
+      "type": "text",
+      "id": "e6ffabe5258dd455",
+      "x": 3820,
+      "y": 880,
+      "width": 250,
+      "height": 60,
+      "color": "#6271ac",
+      "text": "# DOCUMENTS"
+    },
+    {
+      "type": "text",
+      "id": "1d2dd49f96cf8b52",
+      "x": 3820,
+      "y": 980,
+      "width": 250,
+      "height": 60,
+      "color": "#6271ac",
+      "text": "# OBJECTS"
+    },
+    {
+      "type": "text",
+      "id": "42bf9eb36a7f0958",
+      "x": 3820,
+      "y": 1080,
+      "width": 250,
+      "height": 60,
+      "color": "#6271ac",
+      "text": "# PATTERNS"
+    },
+    {
+      "type": "text",
+      "id": "268718e8c48676a1",
+      "x": 3820,
+      "y": 1180,
+      "width": 250,
+      "height": 60,
+      "color": "#6271ac",
+      "text": "# TAXONOMIES"
+    },
+    {
+      "type": "text",
+      "id": "4c446a50d7c8c091",
+      "x": 3820,
+      "y": 780,
+      "width": 250,
+      "height": 60,
+      "color": "#6271ac",
+      "text": "# CONTRACTS"
+    },
+    {
+      "type": "text",
+      "id": "ab9b588e5ca26ff6",
+      "x": 2860,
+      "y": 860,
+      "width": 479,
+      "height": 125,
+      "color": "#6271ac",
+      "text": "Content Modeling gets its own directory. Its view becomes a landing page with content updated to focus on providing an overview. What was section content expands and moves to subpages.\n"
+    },
+    {
+      "type": "text",
+      "id": "f14f8eab4197d2ba",
+      "x": 690,
+      "y": -1080,
+      "width": 250,
+      "height": 160,
+      "text": "☰ Copy\n📄 Page\n📂  Directory"
+    },
+    {
+      "type": "file",
+      "id": "01ee14924bc1c72b",
+      "x": -700,
+      "y": -617,
+      "width": 400,
+      "height": 400,
+      "color": "6",
+      "file": "dataink.io/frontend/views/pages/home/home.md"
+    },
+    {
+      "type": "file",
+      "id": "3fa0dc63623e8f35",
+      "x": -700,
+      "y": 103,
+      "width": 400,
+      "height": 400,
+      "color": "6",
+      "file": "dataink.io/frontend/views/pages/contact/contact.md"
+    },
+    {
+      "type": "file",
+      "id": "9225b9da23c0d503",
+      "x": -220,
+      "y": 103,
+      "width": 400,
+      "height": 400,
+      "color": "6",
+      "file": "dataink.io/frontend/views/pages/projects/projects.md"
+    },
+    {
+      "type": "file",
+      "id": "7e37af264998ecd0",
+      "x": -220,
+      "y": 598,
+      "width": 400,
+      "height": 400,
+      "color": "6",
+      "file": "dataink.io/frontend/views/pages/project/project.md"
+    }
+  ],
+  "edges": [
+    {
+      "id": "f53020bf7cf69743",
+      "fromNode": "9225b9da23c0d503",
+      "fromSide": "bottom",
+      "toNode": "7e37af264998ecd0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "631c2eb2d64af607",
+      "fromNode": "a050438da00ab3ae",
+      "fromSide": "bottom",
+      "toNode": "077d91143a03565d",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3"
+    },
+    {
+      "id": "d3f443067c6222f8",
+      "fromNode": "a050438da00ab3ae",
+      "fromSide": "bottom",
+      "toNode": "f17d04a5c65608b9",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3"
+    },
+    {
+      "id": "91da1d89cfb777fb",
+      "fromNode": "a050438da00ab3ae",
+      "fromSide": "bottom",
+      "toNode": "7693bf042aed9723",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3"
+    },
+    {
+      "id": "9bcc3eedaf3f0361",
+      "fromNode": "ea69887ea66a794a",
+      "fromSide": "bottom",
+      "toNode": "71e31426ceb39d52",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "1e03641ddb10b115",
+      "fromNode": "ea69887ea66a794a",
+      "fromSide": "bottom",
+      "toNode": "20d0f9e924db0ea0",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "4584bbd70a1ac591",
+      "fromNode": "ea69887ea66a794a",
+      "fromSide": "bottom",
+      "toNode": "b7ec9aaac33ae9ec",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "5a434788c3eed177",
+      "fromNode": "ea69887ea66a794a",
+      "fromSide": "bottom",
+      "toNode": "bea62ea798fd8652",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "ae8baa65212e91b5",
+      "fromNode": "ea69887ea66a794a",
+      "fromSide": "bottom",
+      "toNode": "d3b900ed46ff985d",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "b6ec51066e9df855",
+      "fromNode": "ea69887ea66a794a",
+      "fromSide": "bottom",
+      "toNode": "0f427db7fcb872df",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "9f7e829aeab3dd61",
+      "fromNode": "0f78fbfa79f37c30",
+      "fromSide": "right",
+      "toNode": "1d41526213b16ec8",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "3dba5a52a77e3e7a",
+      "fromNode": "01ee14924bc1c72b",
+      "fromSide": "bottom",
+      "toNode": "3fa0dc63623e8f35",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "color": "6"
+    },
+    {
+      "id": "5636cf9b07879fd9",
+      "fromNode": "01ee14924bc1c72b",
+      "fromSide": "bottom",
+      "toNode": "9225b9da23c0d503",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "color": "6"
+    },
+    {
+      "id": "035ac0453f8d780d",
+      "fromNode": "4ddab23fe83cd70d",
+      "fromSide": "bottom",
+      "toNode": "b678a15d86e0fa62",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "2"
+    },
+    {
+      "id": "693608a437172216",
+      "fromNode": "4ddab23fe83cd70d",
+      "fromSide": "bottom",
+      "toNode": "3615d8a12fecf364",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "2"
+    },
+    {
+      "id": "e5eeb171f8d698c3",
+      "fromNode": "4ddab23fe83cd70d",
+      "fromSide": "bottom",
+      "toNode": "0726d6e621d1cd48",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "2"
+    },
+    {
+      "id": "357b8af63ebf4828",
+      "fromNode": "7693bf042aed9723",
+      "fromSide": "right",
+      "toNode": "b06096f4373f9188",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "2"
+    },
+    {
+      "id": "67937bf01e6b4867",
+      "fromNode": "b99a0f82008b8bfb",
+      "fromSide": "bottom",
+      "toNode": "114882901fdda0af",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "1"
+    },
+    {
+      "id": "d0d766a268c05d65",
+      "fromNode": "b99a0f82008b8bfb",
+      "fromSide": "bottom",
+      "toNode": "84d02d97569e831c",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "1"
+    },
+    {
+      "id": "248ffa1502bbf4e4",
+      "fromNode": "b99a0f82008b8bfb",
+      "fromSide": "bottom",
+      "toNode": "db1c4ae879fb1a5c",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "1"
+    },
+    {
+      "id": "9043eace495ed541",
+      "fromNode": "077d91143a03565d",
+      "fromSide": "right",
+      "toNode": "5253a138d3a2df61",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "1"
+    },
+    {
+      "id": "512cf717468b325b",
+      "fromNode": "6f9cc6b25c51b47b",
+      "fromSide": "bottom",
+      "toNode": "4c446a50d7c8c091",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "#6271ac"
+    },
+    {
+      "id": "9f3e9aa378f9f35b",
+      "fromNode": "6f9cc6b25c51b47b",
+      "fromSide": "bottom",
+      "toNode": "e6ffabe5258dd455",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "#6271ac"
+    },
+    {
+      "id": "b026055d2821d913",
+      "fromNode": "6f9cc6b25c51b47b",
+      "fromSide": "bottom",
+      "toNode": "1d2dd49f96cf8b52",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "#6271ac"
+    },
+    {
+      "id": "10ee232927cbeea0",
+      "fromNode": "6f9cc6b25c51b47b",
+      "fromSide": "bottom",
+      "toNode": "42bf9eb36a7f0958",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "#6271ac"
+    },
+    {
+      "id": "d2e93333b2dcd1e9",
+      "fromNode": "6f9cc6b25c51b47b",
+      "fromSide": "bottom",
+      "toNode": "268718e8c48676a1",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "#6271ac"
+    },
+    {
+      "id": "b291cc78db35e023",
+      "fromNode": "f17d04a5c65608b9",
+      "fromSide": "right",
+      "toNode": "ab9b588e5ca26ff6",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "#6271ac",
+      "style": "solid"
+    },
+    {
+      "id": "d0f1e23c8364b230",
+      "fromNode": "5253a138d3a2df61",
+      "fromSide": "right",
+      "toNode": "490a0adecd6d0c50",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "1"
+    },
+    {
+      "id": "32b4f123242a32d6",
+      "fromNode": "b06096f4373f9188",
+      "fromSide": "right",
+      "toNode": "b3b3b9269ef94ac7",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "2"
+    },
+    {
+      "id": "61bc7ee8a7dec59f",
+      "fromNode": "ab9b588e5ca26ff6",
+      "fromSide": "right",
+      "toNode": "1ce1f99840074bcb",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "#6271ac"
+    },
+    {
+      "id": "0b59714ec0e3bd1a",
+      "fromNode": "1d41526213b16ec8",
+      "fromSide": "bottom",
+      "toNode": "1962189490503683",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5"
+    },
+    {
+      "id": "1c87a85729919d71",
+      "fromNode": "1d41526213b16ec8",
+      "fromSide": "right",
+      "toNode": "025ca4c4bd972d08",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3"
+    },
+    {
+      "id": "e4377f7e9149f8cf",
+      "fromNode": "a050438da00ab3ae",
+      "fromSide": "bottom",
+      "toNode": "15c999c08e795628",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3"
+    },
+    {
+      "id": "71a83cbee7012876",
+      "fromNode": "025ca4c4bd972d08",
+      "fromSide": "bottom",
+      "toNode": "ea6de39de16060e9",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3"
+    }
+  ]
 }
