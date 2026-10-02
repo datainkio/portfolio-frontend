@@ -4,14 +4,13 @@
   Unstyled by intent.
 #}
 {% import "molecules/figure/featured-image.njk" as FeaturedImage %}
-{%- set articleStyles = {"base": "h-full m-0 sm:border sm:border-1 sm:border-slate-700 sm:py-2 sm:px-4"} -%}
+{%- set articleStyles = {"base": "h-full flex flex-col gap-2 m-0 sm:border sm:border-1 sm:border-slate-700 sm:py-2 sm:px-4"} -%}
 {#- Inner maps are separate variables: a nested literal ending in `}}` closes the tag early. -#}
 {%- set artifactFigureStyles = {"base": "p-2 border-slate-700", "sm": "border"} -%}
 {%- set artifactCaptionStyles = {"base": "sr-only"} -%}
 {%- set artifactStyles = {"figure": artifactFigureStyles, "caption": artifactCaptionStyles} -%}
 {%- macro render(item, count="0") -%}
   <article data-decisions-el="decision" class="{{ articleStyles | classes }}">
-
     {%- if item.activities | length -%}
       <ul aria-label="Activities">
         {%- for activity in item.activities -%}
@@ -19,9 +18,8 @@
         {%- endfor -%}
       </ul>
     {%- endif -%}
-
     {{ FeaturedImage.render({ image: item.artifact, loading: "lazy", zoom: true, styles: artifactStyles }) }}
     <h3 class="text-base m-0 prose text-neutral-300 leading-normal font-sans"><span class="uppercase pr-1">Decision:</span> {{ item.decision }}</h3>
-    <p class="m-0 prose text-neutral-300 whitespace-pre-line font-sans"><span class="uppercase pr-1">Result:</span> {{ item.result }}</p>
+    <p class="m-0 prose text-neutral-300 leading-normal whitespace-pre-line font-sans"><span class="uppercase pr-1">Result:</span> {{ item.result }}</p>
   </article>
 {%- endmacro -%}
