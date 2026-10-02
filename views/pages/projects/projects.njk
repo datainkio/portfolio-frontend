@@ -1,6 +1,7 @@
 {% extends "templates/landing/landing.njk" %}
 {% import "molecules/list/industry-links.njk" as Industries %}
 {% import "molecules/section/industry-section.njk" as IndustrySection %}
+{% import "atoms/button.njk" as Button %}
 
 {#- Industries are needed by two blocks (the section list in `content`, the
     jump nav in `afterMain`), so they're grouped once here at template level. -#}
@@ -93,11 +94,7 @@
         <header data-projects-el="drawer-handle"
                 class="p-4 pt-6 border-t border-x border-slate-700">
           <h2 class="text-primary-200 text-2xl">
-            <button type="button"
-                    data-projects-el="drawer-toggle"
-                    aria-expanded="false"
-                    aria-controls="work-jumplinks"
-                    class="{{ drawerToggleStyles | classes }}"><span class="text-primary-200 pr-4 transition-colors group-hover:text-secondary-400">Industries</span><span data-projects-el="drawer-title" class="text-sm text-secondary-400"></span></button>
+            {%- call Button.render({ classes: drawerToggleStyles, attrs: 'data-projects-el="drawer-toggle" aria-expanded="false" aria-controls="work-jumplinks"' }) -%}<span class="text-primary-200 pr-4 transition-colors group-hover:text-secondary-400">Industries</span><span data-projects-el="drawer-title" class="text-sm text-secondary-400"></span>{%- endcall -%}
           </h2>
         </header>
         {{ Industries.render({ industries: industries }) }}

@@ -110,7 +110,7 @@ export function serializePortableTextToHtml(blocks) {
             ? `\n      <figcaption data-lightbox-el="dialog-caption" class="text-sm text-neutral-200">${caption}</figcaption>`
             : "";
           return `<figure data-lightbox-el="root" class="contents">
-  <button type="button" data-lightbox-el="trigger" class="block cursor-zoom-in" aria-haspopup="dialog" aria-label="${triggerLabel}">
+  <button type="button" data-lightbox-el="trigger" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-60 disabled:cursor-not-allowed block cursor-zoom-in" aria-haspopup="dialog" aria-label="${triggerLabel}">
     <img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />
   </button>
   <dialog data-lightbox-el="dialog" aria-label="${alt || caption || "Image viewer"}" class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80 cursor-zoom-out${caption ? " lg:w-[90vw]" : ""}">

@@ -14,6 +14,7 @@
   markup comes from molecules/lightbox/lightbox-dialog.njk.
   Spec: specs/views/lightbox.views-spec.md
 #}
+{% import "atoms/button.njk" as Button %}
 {% import "molecules/lightbox/lightbox-dialog.njk" as LightboxDialog %}
 {% macro render(params = {}) %}
   {%- set image = params.image or {} -%}
@@ -51,11 +52,10 @@
             {% if params.zoom %}data-lightbox-el="root"{% endif %}
             {{ params.attrs | default("") | safe }}>
       {%- if params.zoom -%}
-        <button type="button"
-                data-lightbox-el="trigger"
-                class="block w-full cursor-zoom-in"
-                aria-haspopup="dialog"
-                aria-label="{{ 'Enlarge video' if video else 'Enlarge image' }}{%- if alt -%}: {{ alt }}{%- endif -%}">{{ media | safe }}</button>
+        {%- set triggerAttrs -%}
+          data-lightbox-el="trigger" aria-haspopup="dialog" aria-label="{{ 'Enlarge video' if video else 'Enlarge image' }}{%- if alt -%}: {{ alt }}{%- endif -%}"
+        {%- endset -%}
+        {%- call Button.render({ classes: "block w-full cursor-zoom-in", attrs: triggerAttrs }) -%}{{ media | safe }}{%- endcall -%}
         {{ LightboxDialog.render({ src: url, width: dims.width, height: dims.height, picture: picture, video: video, alt: alt, caption: caption }) }}
       {%- else -%}
         {{ media | safe }}

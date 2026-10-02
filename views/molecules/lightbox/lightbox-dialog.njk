@@ -13,6 +13,7 @@ Params:
   width / height  number  Intrinsic size of `src`; reserves its aspect ratio
                   while the enlarged image loads.
 #}
+{% import "atoms/button.njk" as Button %}
 {% macro render(params = {}) %}
   {%- set alt = params.alt | default("") -%}
   {%- set caption = params.caption -%}
@@ -21,9 +22,7 @@ Params:
   <dialog data-lightbox-el="dialog"
           aria-label="{{ alt or caption or fallbackLabel }}"
           class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80 cursor-zoom-out {{ 'lg:w-[90vw]' if caption }}">
-    <button type="button"
-            data-lightbox-el="close"
-            class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
+    {{ Button.render({ label: "Close", classes: "mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded cursor-pointer", attrs: 'data-lightbox-el="close"' }) }}
     <figure class="m-0 grid gap-4 cursor-auto {{ 'lg:grid-cols-3 lg:items-start' if caption }}">
       {%- if video and video.src -%}
         <video data-lightbox-el="video"

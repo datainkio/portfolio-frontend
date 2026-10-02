@@ -80,12 +80,12 @@
                aria-live="polite"
                class="text-sm empty:hidden col-span-full"></p>
 
-            {#- Stamped action mark, not a CTA: flat, tight vertical padding, uppercase display type, trailing arrow, left-aligned to the sheet's pl-4 title-block edge. Full override of the button atom's default styles; disabled/focus affordances restated. -#}
+            {#- Stamped action mark, not a CTA: flat, tight vertical padding, uppercase display type, trailing arrow, left-aligned to the sheet's pl-4 title-block edge. No `variant`; the atom supplies the disabled/focus baseline, this adds the look and a primary-950 ring. -#}
             {%- set buttonStyles = {
-                "base": "col-span-full justify-self-start whitespace-nowrap my-3 ml-4 px-4 py-1.5 font-display text-sm uppercase tracking-wider text-neutral-50 bg-secondary-600 hover:bg-secondary-700 border border-secondary-800 rounded-none after:content-['→'] after:ml-3 disabled:opacity-60 disabled:cursor-not-allowed aria-busy:animate-pulse focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-950",
+                "base": "col-span-full justify-self-start whitespace-nowrap my-3 ml-4 px-4 py-1.5 font-display text-sm uppercase tracking-wider text-neutral-50 bg-secondary-600 hover:bg-secondary-700 border border-secondary-800 rounded-none after:content-['→'] after:ml-3 aria-busy:animate-pulse",
                 "lg": "col-span-3"
             } -%}
-            {{ Button.render({ type: "submit", label: submitLabel, buttonStyles: buttonStyles | classes }) }}
+            {{ Button.render({ type: "submit", label: submitLabel, classes: buttonStyles, focusColor: "focus-visible:outline-primary-950" }) }}
             <p class="col-span-8 lg:col-span-2 border-t lg:border-t-0 border-l border-primary-950/30 font-display text-sm my-auto py-4 pl-4">No spam. Just me.</p>
             <dl class="col-span-4 col-start-9 lg:col-span-1 lg:col-start-6 font-display text-xs border-t lg:border-t-0 border-l border-primary-950/30 px-2 flex flex-col items-end justify-end h-full">
                 <dt class="border-b border-primary-950/30">revision</dt>

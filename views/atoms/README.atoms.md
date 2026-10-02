@@ -39,7 +39,7 @@ Every component wraps its markup in `{% macro render(params = {}) %}...{% endmac
 `atoms/` mixes two shapes and the rule is implicit, not written down elsewhere — this section is the canonical statement of it.
 
 - **Flat file** (`heading.njk`, `icon.njk`, `cta.njk`, ...): use when the atom is a single component with no distinct sub-parts or size/shape variants. 13 atoms currently use this shape.
-- **Directory** (`button/`, `link/`, `loader/`, `svg/`, `printmarks/`, `video/`): use when the atom has multiple variants or sub-parts that each need their own `.njk`/`.md` pair — e.g. `link/` holds `link.njk`, `nav-link.njk`, `breadcrumb.njk`, `site-title.njk`; `printmarks/` holds four distinct mark types.
+- **Directory** (`link/`, `loader/`, `svg/`, `printmarks/`, `video/`): use when the atom has multiple variants or sub-parts that each need their own `.njk`/`.md` pair — e.g. `link/` holds `link.njk`, `nav-link.njk`, `breadcrumb.njk`, `site-title.njk`; `printmarks/` holds four distinct mark types.
 
 **Known exceptions**: `debug/` (`sanity-schema.njk`) and `hanko/` (`hanko.njk`) are directories containing a single file each — they don't fit the variants rule above. Treat them as historical exceptions, not precedent; don't nest a new single-file atom to match them. If touching either, consider flattening it to match the rule.
 
@@ -47,12 +47,9 @@ When scaffolding a new atom, default to a flat file. Only create a subdirectory 
 
 ## Component Categories
 
-### Button Components (`button/`)
+### Button (`button.njk`)
 
-Basic interactive elements with consistent styling and behavior.
-
-- `button.njk` - Base button component with variant support
-- `menu-toggle.njk` - Hamburger menu toggle for mobile navigation
+The single `<button>` atom. It owns the accessibility baseline — `type="button"` by default, a `focus-visible` ring, disabled styling — and callers add to it, never replace it. Optional `variant: "cta"` supplies the call-to-action look; `attrs` passes `aria-*`/`data-*`; `{% call %}` allows markup content (icons, media). See [button.md](button.md).
 
 ### Link Components (`link/`)
 
@@ -98,11 +95,8 @@ Multimedia display elements with responsive behavior.
 
 ```nunjucks
 {# Correct atom usage #}
-{% include "atoms/button/button.njk" with {
-  text: "Click Me",
-  variant: "primary",
-  type: "submit"
-} %}
+{% import "atoms/button.njk" as Button %}
+{{ Button.render({ label: "Click Me", variant: "cta", type: "submit" }) }}
 ```
 
 ### Parameter Standards

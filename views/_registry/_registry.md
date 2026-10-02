@@ -6,7 +6,7 @@ tags:
 links:
   - "[{{ name }}]({{ category }}/{{ name }}.njk)"
   - "[icon](../atoms/icon.md)"
-  - "[button](../atoms/button/button.md)"
+  - "[button](../atoms/button.md)"
 ---
 
 # Registry

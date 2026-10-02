@@ -119,6 +119,7 @@ the backdrop, `auto` over the content.
   Empty strings fall through (`or`, not Nunjucks `default`, which keeps `""`).
 - **Trigger video** is `aria-hidden` and `tabindex="-1"`; the button carries
   the name. It has no `controls`, so the button contains no interactive content.
+- **Trigger and Close** render through [`atoms/button.njk`](../../views/atoms/button.md), which supplies `type="button"`, the `focus-visible` ring, and disabled styling. The PortableText trigger mirrors those classes by hand.
 - **Focus trap and Escape** come from native `<dialog>`; there's no
   hand-rolled focus management.
 - **Reduced motion:** no autoplay, and any future open/close transition is

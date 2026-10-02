@@ -95,7 +95,7 @@ Fields are drawn into the paper via `field.njk`'s `fieldStyles` / `labelStyles` 
 
 ## Submit
 
-The submit is a stamped action mark, not a CTA. `contact-form.njk` passes a full `buttonStyles` override to the button atom (the atom's defaults are bypassed, so disabled / `aria-busy` / focus classes are restated there): flat `secondary-600` block, `border-secondary-800`, `rounded-none`, `py-1.5`, uppercase tracked display type, trailing arrow via `after:content-['→']`. The literal glyph is required — a `\2192` escape survives the Tailwind scan but Nunjucks strips the backslash from the rendered class. Default label is "Transmit message" (`submitLabel`).
+The submit is a stamped action mark, not a CTA. `contact-form.njk` calls the button atom with no `variant` and adds its own look through `classes` (the atom supplies the disabled/focus baseline; `focusColor` sets a `primary-950` ring; `aria-busy` pulse is added here): flat `secondary-600` block, `border-secondary-800`, `rounded-none`, `py-1.5`, uppercase tracked display type, trailing arrow via `after:content-['→']`. The literal glyph is required — a `\2192` escape survives the Tailwind scan but Nunjucks strips the backslash from the rendered class. Default label is "Transmit message" (`submitLabel`).
 
 Footer layout: `gap-x-0` on the subgrid so row rules meet. Below `lg` the button takes the full row and the note + revision block sit on a second ruled row; at `lg` it is 3 / 2 / 1 columns, button left-aligned to the header's `pl-4` edge.
 

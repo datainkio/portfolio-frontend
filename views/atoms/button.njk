@@ -1,13 +1,29 @@
-{%- macro render(params = {}) -%}
-  {%- set type = params.type | default("button") -%}
-  {%- set label = params.label | default("Button") -%}
+{#
+  Button atom. Owns the a11y baseline every <button> needs — type="button"
+  by default (no accidental form submits), a visible focus-visible ring, and
+  disabled styling — so callers can't drop it by restyling.
 
-  {%- set default = "m-4 py-2 px-4 justify-self-start text-neutral-100 font-display bg-secondary-600 hover:bg-secondary-800" -%}
-  {%- set disabled = "disabled:opacity-60 disabled:cursor-not-allowed" -%}
-  {%- set focused = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500" -%}
-  {%- set styles = {
-    "base": default ~ " " ~ disabled ~ " " ~ focused ~ " " ~ params.classes
-    } -%}
-  {%- set buttonStyles = params.buttonStyles | default(styles.base) -%}
-  <button type="{{ type }}" class="{{ buttonStyles | classes }}">{{ label }}</button>
+Params:
+  type        string  "button" (default) | "submit" | "reset".
+  label       string  Text content. Ignored when called with {% call %}.
+  variant     string  Optional look: "cta". Omit for an unstyled button.
+  classes     string | variant map | array  Appended to the baseline (and
+                      variant) through the `classes` filter — adds, never replaces.
+  focusColor  string  Ring colour utility (default "focus-visible:outline-primary-500").
+  attrs       string  Raw extra attributes: aria-*, data-*, id, disabled, …
+
+Content: plain `label`, or markup via {% call %}:
+  {% call Button.render({ attrs: 'aria-label="Close"' }) %}{{ Icon.render(…) }}{% endcall %}
+#}
+{%- macro render(params = {}) -%}
+  {%- set baseline = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed" -%}
+  {%- set variants = {
+    "cta": "m-4 py-2 px-4 justify-self-start text-neutral-100 font-display bg-secondary-600 hover:bg-secondary-800"
+  } -%}
+  {%- set focusColor = params.focusColor | default("focus-visible:outline-primary-500") -%}
+  <button type="{{ params.type | default("button") }}"
+          class="{{ [baseline, focusColor, variants[params.variant], params.classes] | classes }}"
+          {{ params.attrs | default("") | safe }}>
+    {%- if caller -%}{{ caller() }}{%- else -%}{{ params.label | default("Button") }}{%- endif -%}
+  </button>
 {%- endmacro -%}

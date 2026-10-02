@@ -10,9 +10,9 @@
 {% endmacro %}
 
 {# Button Helper - Shorthand for button components #}
-{% import "atoms/button/button.njk" as Button %}
-{% macro button(label, type="primary", btnStyles="", disabled=false, onclick="") %}
-  {{ Button.render({ label: label, type: type, btnStyles: btnStyles, disabled: disabled, onclick: onclick }) }}
+{% import "atoms/button.njk" as Button %}
+{% macro button(label, variant="cta", classes="", attrs="") %}
+  {{ Button.render({ label: label, variant: variant, classes: classes, attrs: attrs }) }}
 {% endmacro %}
 
 {# Component List Generator - For development and documentation #}
@@ -20,7 +20,7 @@
   <!-- Component Registry: Available Components -->
   <!-- ATOMS:
   - icon (consolidated icon system)
-  - button/button (primary UI actions)
+  - button (a11y baseline + optional "cta" variant)
   - avatar (user profile images)
   - heading (typography hierarchy)
   - link/* (navigation and external links)
@@ -29,7 +29,7 @@
   - section/* (page sections with GSAP integration) TEMPLATES:
   - base (main layout with GSAP and design tokens)
   - blog, documentation, landing, parallax USAGE: {% from "_registry.njk" import component, icon, button %} {{
-  component("atoms", "icon", { name: "chevron-down" }) }} --> {{ button("Click Me", "primary") }}
+  component("atoms", "icon", { name: "chevron-down" }) }} --> {{ button("Click Me", "cta") }}
   <!-- Shorthand -->
 -->
 {% endmacro %}

@@ -1,18 +1,12 @@
 {% import "atoms/icon.njk" as Icon with context %}
+{% import "atoms/button.njk" as Button %}
 {% macro render(params = {}) %}
   <div data-buildinfo-el="root"
        class="contents flex {{ params.class | default("") }}">
-    {#- Toggle/close buttons kept as raw markup: same disclosure-control
-        shape as article-nav-links.njk (aria-expanded/aria-controls,
-        JS-wired), which atoms/button/button.njk doesn't support. Live in
-        section-cap. -#}
-    <button type="button"
-            data-buildinfo-el="toggle"
-            aria-expanded="false"
-            aria-controls="build-info-list"
-            class="arrow-suffix cursor-pointer">
+    {#- JS-wired disclosure control (aria-expanded/aria-controls). Live in section-cap. -#}
+    {% call Button.render({ classes: "arrow-suffix cursor-pointer", attrs: 'data-buildinfo-el="toggle" aria-expanded="false" aria-controls="build-info-list"' }) %}
       <time datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
-    </button>
+    {% endcall %}
 
     {#- -z-20: beneath the header's own backdrop (global-header.njk, -z-10),
         which is itself beneath the header's unpositioned content (logo/dt/dd/
@@ -55,11 +49,7 @@
           —
         </dd>
       </dl>
-      <button type="button"
-              data-buildinfo-el="close"
-              aria-controls="build-info-list"
-              aria-label="Hide build info"
-              class="{{ closeStyles }}">{{ Icon.render({"name": "close", "size": "sm"}) }}</button>
+      {% call Button.render({ classes: closeStyles, attrs: 'data-buildinfo-el="close" aria-controls="build-info-list" aria-label="Hide build info"' }) %}{{ Icon.render({"name": "close", "size": "sm"}) }}{% endcall %}
     </div>
   </div>
 {% endmacro %}
