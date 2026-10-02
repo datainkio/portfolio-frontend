@@ -117,7 +117,7 @@ the backdrop, `auto` over the content.
   both the action and the subject.
 - **Dialog name:** `alt`, then `caption`, then `Image viewer` / `Video viewer`.
   Empty strings fall through (`or`, not Nunjucks `default`, which keeps `""`).
-- **Dialog description:** `Lightbox.js` sets the dialog's `aria-describedby` to the dialog caption (assigning it an id), so opening announces name, then caption, then Close. Done in JS so the Nunjucks and PortableText copies need no id handling; the dialog can't open without JS anyway.
+- **No `aria-describedby` on the dialog (decided 2026-10-02).** Opening announces only the dialog name and Close; the caption follows the media in reading order. The caption is already read in the page figure beside the trigger the user just pressed, and captions run long (60+ words), so announcing it on every open is noise. Tried in `3992326f`, reverted.
 - **Trigger video** is `aria-hidden` and `tabindex="-1"`; the button carries
   the name. It has no `controls`, so the button contains no interactive content.
 - **Trigger and Close** render through [`atoms/button.njk`](../../views/atoms/button.md), which supplies `type="button"`, the `focus-visible` ring, and disabled styling. The PortableText trigger mirrors those classes by hand.

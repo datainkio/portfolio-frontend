@@ -7,12 +7,10 @@
  * trigger button to a native <dialog> so opening/closing, focus trapping, and
  * Escape-to-close all come from the platform rather than hand-rolled JS.
  * A video in the dialog plays muted on open (skipped under reduced motion)
- * and pauses on every close path. A dialog caption becomes the dialog's
- * accessible description, so screen readers announce it on open.
+ * and pauses on every close path.
  */
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
-let captionCount = 0;
 
 export class Lightbox {
   constructor(root) {
@@ -21,16 +19,6 @@ export class Lightbox {
     this.trigger = root.querySelector('[data-lightbox-el="trigger"]');
     this.closeBtn = root.querySelector('[data-lightbox-el="close"]');
     this.video = this.dialog?.querySelector('[data-lightbox-el="video"]');
-
-    // Ids are assigned here rather than in templates: one place covers both
-    // the Nunjucks dialog and the PortableText serializer's hand-built copy.
-    const caption = this.dialog?.querySelector(
-      '[data-lightbox-el="dialog-caption"]',
-    );
-    if (caption) {
-      caption.id ||= `lightbox-caption-${++captionCount}`;
-      this.dialog.setAttribute("aria-describedby", caption.id);
-    }
 
     this.trigger?.addEventListener("click", () => this.open());
     this.closeBtn?.addEventListener("click", () => this.close());
