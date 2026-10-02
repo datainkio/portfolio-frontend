@@ -117,6 +117,7 @@ the backdrop, `auto` over the content.
   both the action and the subject.
 - **Dialog name:** `alt`, then `caption`, then `Image viewer` / `Video viewer`.
   Empty strings fall through (`or`, not Nunjucks `default`, which keeps `""`).
+- **Dialog description:** `Lightbox.js` sets the dialog's `aria-describedby` to the dialog caption (assigning it an id), so opening announces name, then caption, then Close. Done in JS so the Nunjucks and PortableText copies need no id handling; the dialog can't open without JS anyway.
 - **Trigger video** is `aria-hidden` and `tabindex="-1"`; the button carries
   the name. It has no `controls`, so the button contains no interactive content.
 - **Trigger and Close** render through [`atoms/button.njk`](../../views/atoms/button.md), which supplies `type="button"`, the `focus-visible` ring, and disabled styling. The PortableText trigger mirrors those classes by hand.

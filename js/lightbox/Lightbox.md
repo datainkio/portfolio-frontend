@@ -32,7 +32,10 @@ never opens (accepted tradeoff — same pattern as `ContactForm.js`).
 2. Trigger click → `dialog.showModal()`.
 3. Close button click, backdrop click (click target is the `<dialog>` itself,
    not its content), or Escape (native `<dialog>` behavior) → `dialog.close()`.
-4. If the dialog holds a `[data-lightbox-el="video"]`: play it (muted) on open
+4. If the dialog holds a `[data-lightbox-el="dialog-caption"]`: give it an id
+   (`lightbox-caption-N`, unless it has one) and point the dialog's
+   `aria-describedby` at it, so screen readers announce the caption on open.
+5. If the dialog holds a `[data-lightbox-el="video"]`: play it (muted) on open
    unless `prefers-reduced-motion: reduce`; pause it on the dialog's `close`
    event, which covers every close path including Escape.
 
