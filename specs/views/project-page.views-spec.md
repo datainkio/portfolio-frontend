@@ -51,6 +51,16 @@ views/pages/project/project.njk  (paginated, one page per project)
 - Permalink: `/case-studies/{slug}/` (matches the `/case-studies/` landing route and the navigation transform).
 - Pagination: `size: 1`, alias `project`
 
+### Pager (previous · all · next)
+
+- Rendered by [`molecules/navigation/pager.njk`](../../views/molecules/navigation/pager.md) at the end of the content block, above the global footer, as `<nav aria-label="Case studies">`.
+- **Data is Eleventy's own `pagination` object.** Neighbours come from `pagination.page.previous|next` and their URLs from `pagination.href.previous|next`, so links always match the permalinks. No custom filters or index lookups.
+- **Wraps.** The first project's previous is `pagination.page.last`, and the last project's next is `pagination.page.first`. The pager is omitted when there is only one project.
+- **Order** is the `projectPages` query order (`order(page.title asc)`). Re-sequencing happens there, and the pager follows.
+- **"All"** points to `projectIndex` in `ia/project.md` front matter (`/work/`, label "All").
+- Each neighbour shows its direction, the title, and the client names (`organization[].title`). The accessible name is "Previous: <title>" / "Next: <title>", and the links carry `rel="prev"` / `rel="next"`.
+- Guarded by `npm run test:site` (after a build): links resolve, are reciprocal, and form one cycle.
+
 ### Region → field map
 
 | Region                | Source field(s)                                                           | Required          |
@@ -83,7 +93,7 @@ views/pages/project/project.njk  (paginated, one page per project)
 
 ### Out of scope (for this iteration)
 
-- Related/next-prev projects surface.
+- Related-projects surface. (Previous/next shipped as the pager, 2026-10-02; custom sequencing and subsets remain out of scope.)
 - Breadcrumbs and in-page anchor navigation.
 - Per-project art direction beyond the featured image.
 

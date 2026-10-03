@@ -2,7 +2,8 @@
 description: Reusable presentational component.
 type: template
 links:
-  - "[external-link](atoms/icon/external-link.njk)"
+  - "[icon](../icon.md)"
+  - "[Component API spec](../../../specs/views/component-api.views-spec.md)"
 ---
 
 # Link
@@ -24,14 +25,16 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Data and Context
 
-- `ariaLabel` — referenced in the template.
-- `class` — referenced in the template.
-- `title` — referenced in the template.
+Params are documented in the header comment of `link.njk`: `url`, `text`, `title`, `classes`, `rel`, `ariaLabel`, `ariaCurrent`, `download`, `attrs`. Content can be passed via `{% call %}` instead of `text`.
+
+- `classes` replaced `class` on 2026-10-02. Callers migrated: `blog.njk`, `skip-links-nav.njk`, `design-pages.njk`.
+- `rel` merges with the automatic `noopener noreferrer` on external links, so the element never gets two `rel` attributes.
+- Follows the [Component API spec](../../../specs/views/component-api.views-spec.md).
 
 ## Relationships
 
-- Includes:
-  - [[external-link.njk]]
+- Imports:
+  - [[icon.njk|atoms/icon.njk]] (external-link indicator)
 - Likely used by:
   - Unknown
 

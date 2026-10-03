@@ -12,10 +12,10 @@
 
   <nav class="mt-8 flex justify-between">
     {% if previousPost %}
-      {{ Link.render({ url: previousPost.url, text: "← " + previousPost.title, class: "text-blue-500 hover:underline" }) }}
+      {{ Link.render({ url: previousPost.url, text: "← " + previousPost.title, classes: "text-blue-500 hover:underline" }) }}
     {% endif %}
     {% if nextPost %}
-      {{ Link.render({ url: nextPost.url, text: nextPost.title + " →", class: "text-blue-500 hover:underline" }) }}
+      {{ Link.render({ url: nextPost.url, text: nextPost.title + " →", classes: "text-blue-500 hover:underline" }) }}
     {% endif %}
   </nav>
 {% endblock %}

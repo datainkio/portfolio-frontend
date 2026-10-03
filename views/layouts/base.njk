@@ -11,7 +11,11 @@
   {% include "templates/partials/head/head.njk" %}
   {% block head %}
   {% endblock head %}
-  <body class="{{ {"base": "relative min-h-dvh bg-slate-950 bg-graphpaper-accent-400", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
+  {#- Footer shape: in flow by default; pinned (absolute against <body>, with
+      a spacer in <main>) where the body can't be a flex column —
+      ScrollSmoother pages and layouts that make <body> a grid. -#}
+  {%- set footerInFlow = not (smoothScroll or pinFooter) -%}
+  <body class="{{ {"base": ["relative min-h-dvh bg-slate-950 bg-graphpaper-accent-400", "flex flex-col" if footerInFlow], "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
 
     {# GTM #}
     {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
@@ -47,7 +51,7 @@
 
       {# MAIN CONTENT AREA #}
       <main {% if smoothScroll %}id="page-main-content"{% endif %}
-            class="{{ {"base": "pt-6 space-y-12 max-w-6xl mx-auto px-6 after:block after:col-span-full after:h-48", "sm": "", "md": "pt-8", "lg": "pt-24", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
+            class="{{ {"base": ["pt-6 space-y-12 max-w-6xl mx-auto px-6", "w-full flex-1" if footerInFlow else "after:block after:col-span-full after:h-48"], "sm": "", "md": "pt-8", "lg": "pt-24", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
 
         {% block content %}
           {% if content %}
@@ -80,14 +84,15 @@
 
       {% if smoothScroll %}</div>{% endif %}
 
-    {#- GLOBAL PAGE FOOTER — outside #page-main, as on home.njk. The footer is
-        `absolute bottom-0` against <body> (`relative min-h-dvh`), so it lands at
-        the end of the content or the bottom of the viewport, whichever is lower.
-        Inside the fixed #page-main it would pin to the viewport instead. <main>
-        reserves its height with an `after:h-48` spacer (a pseudo-element, so it
-        can't collide with a page's own `mainStyles` padding); keep it >= the
-        footer's rendered height. -#}
-    {{ Footer.render() }}
+    {#- GLOBAL PAGE FOOTER — in normal flow. <body> is a `flex flex-col
+        min-h-dvh` column and <main> is `flex-1`, so the footer sits directly
+        under the content, or at the viewport bottom on short pages, at any
+        footer height.
+        Pinned pages (see footerInFlow) keep the old shape: ScrollSmoother fixes
+        #page-main, and a grid <body> can't push the footer down, so the footer
+        is `absolute bottom-0` against <body> and <main> reserves its height
+        with an `after:h-48` spacer (keep it >= the footer's rendered height). -#}
+    {{ Footer.render({ classes: "" if footerInFlow else "absolute inset-x-0 bottom-0" }) }}
 
     {#- SCRIPTS -#}
     <script type="module" src="/assets/js/layouts/global-header.js"></script>

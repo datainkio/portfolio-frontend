@@ -1,0 +1,82 @@
+{#
+  Pager: previous · all · next navigation between sibling pages.
+  Presentational: knows nothing about Eleventy or projects; the caller maps
+  its data (e.g. `pagination`) to these params.
+
+Params:
+  label     string  The <nav>'s aria-label. Required; must differ from other navs on the page.
+  previous  { href, title, meta }  Omitted → a greyed, aria-hidden placeholder.
+  next      { href, title, meta }  Same.
+  all       { href, label }        Omitted → no middle link.
+  classes   string | variant map | array  Appended to the <nav>.
+  styles    { link }  Appended to each of the three links.
+
+  `meta` is an optional second line under the title (e.g. client names).
+  A neighbour link's accessible name is "Previous: <title>" / "Next: <title>",
+  which contains its visible text.
+
+  Spec: specs/views/component-api.views-spec.md
+#}
+{% import "atoms/link/link.njk" as Link %}
+{% import "atoms/icon.njk" as Icon %}
+
+{%- set navBase = "border-t border-slate-700" -%}
+{%- set listBase = "grid grid-cols-[1fr_auto_1fr] items-stretch" -%}
+{%- set cellBase = "flex gap-3 p-4 h-full no-underline" -%}
+{%- set linkBase = "hover:bg-slate-900 motion-safe:transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500" -%}
+{%- set directionStyles = "font-display text-sm uppercase tracking-widest text-slate-400" -%}
+{%- set titleStyles = "text-neutral-100" -%}
+{%- set metaStyles = "text-sm text-neutral-400" -%}
+{%- set iconStyles = "shrink-0 self-center text-slate-400" -%}
+{%- set sides = [
+  { key: "previous", label: "Previous", rel: "prev", icon: "chevron-left", align: "justify-start text-left", order: "" },
+  { key: "next", label: "Next", rel: "next", icon: "chevron-right", align: "justify-end text-right", order: "flex-row-reverse" }
+] -%}
+
+{#- One neighbour cell; `extra` is the caller's styles.link. -#}
+{%- macro side(spec, item, extra) -%}
+  {%- set body -%}
+    {{ Icon.render({ name: spec.icon, size: "lg", classes: iconStyles }) }}
+    <span class="flex flex-col gap-1">
+      <span class="{{ directionStyles }}">{{ spec.label }}</span>
+      {%- if item -%}
+        <span class="{{ titleStyles }}">{{ item.title }}</span>
+        {%- if item.meta %}<span class="{{ metaStyles }}">{{ item.meta }}</span>{% endif -%}
+      {%- endif -%}
+    </span>
+  {%- endset -%}
+  {%- if item and item.href -%}
+    {%- call Link.render({
+      url: item.href,
+      rel: spec.rel,
+      ariaLabel: spec.label ~ ": " ~ item.title,
+      classes: [cellBase, spec.align, spec.order, linkBase, extra]
+    }) -%}{{ body | safe }}{%- endcall -%}
+  {%- else -%}
+    {#- Greyed placeholder keeps the three-column layout; hidden from AT
+        because it offers nothing to act on. -#}
+    <span class="{{ [cellBase, spec.align, spec.order, 'opacity-40'] | classes }}" aria-hidden="true">{{ body | safe }}</span>
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro render(params = {}) -%}
+  {%- set styles = params.styles or {} -%}
+
+  <nav aria-label="{{ params.label }}" class="{{ [navBase, params.classes] | classes }}">
+    <ul class="{{ listBase }}" role="list">
+      <li>{{ side(sides[0], params.previous, styles.link) }}</li>
+      <li class="border-x border-slate-700">
+        {%- if params.all and params.all.href -%}
+          {%- call Link.render({
+            url: params.all.href,
+            classes: [cellBase, "flex-col items-center justify-center", linkBase, styles.link]
+          }) -%}
+            {{ Icon.render({ name: "grid", size: "lg", classes: iconStyles }) }}
+            <span class="{{ directionStyles }}">{{ params.all.label | default("All") }}</span>
+          {%- endcall -%}
+        {%- endif -%}
+      </li>
+      <li>{{ side(sides[1], params.next, styles.link) }}</li>
+    </ul>
+  </nav>
+{%- endmacro -%}

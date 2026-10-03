@@ -140,6 +140,10 @@ The project-page tree was brought into conformance on 2026-10-02:
 | `atoms/button.njk` | ✅ (reference) |
 | `atoms/svg/inline.njk` | ✅ (`classes`, `svgClasses`) |
 | `atoms/award.njk` | ✅ (no root element) |
+| `atoms/link/link.njk` | ✅ (`rel` merges with external `noopener noreferrer`; content via `{% call %}`) |
+| `molecules/navigation/pager.njk` | ✅ (`styles`: `link`) |
+| `organisms/footer/global-footer.njk` | ✅ (`classes` appended; positioning is the caller's) |
+| `atoms/icon.njk` | partial: accepts `classes`, but keeps legacy `className`/`class` and render-on-include |
 
 Known non-conforming components outside the project page (not yet migrated):
 

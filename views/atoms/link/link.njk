@@ -3,8 +3,22 @@ Base Link Atom Component
 Provides consistent link styling across the site
 Supports external links, download links, and accessibility features
 
-Params: url, text (or title), class, ariaLabel, download,
-        ariaCurrent (e.g. "page" — set aria-current for nav "you are here" state)
+Params:
+  url          string  href.
+  text         string  Link text (or `title`). Ignored when called with {% call %}.
+  title        string  Fallback text; also emitted as the title attribute.
+  classes      string | variant map | array  Appended to the baseline.
+  rel          string  Extra rel tokens (e.g. "prev"); merged with the
+                       automatic "noopener noreferrer" on external links.
+  ariaLabel    string  aria-label.
+  ariaCurrent  string  aria-current (e.g. "page" for nav "you are here").
+  download     bool    Adds the download attribute.
+  attrs        string  Raw extra attributes: data-*, id, …
+
+Content: plain `text`, or markup via {% call %}:
+  {% call Link.render({ url: "/work/" }) %}<span>…</span>{% endcall %}
+
+Spec: specs/views/component-api.views-spec.md
 #}
 {% import "atoms/icon.njk" as Icon %}
 {% macro render(params = {}) %}
@@ -12,15 +26,18 @@ Params: url, text (or title), class, ariaLabel, download,
   {%- set linkText = params.text or params.title -%}
   {%- set isExternal = linkUrl and (linkUrl.startsWith('http') or linkUrl.startsWith('mailto:') or linkUrl.startsWith('tel:')) -%}
   {%- set isDownload = params.download -%}
+  {%- set rel = [params.rel, "noopener noreferrer" if isExternal] | select | join(" ") -%}
 
   <a href="{{ linkUrl }}"
-     class="base-link text-current {{ params.class }}"
-     {% if isExternal %}target="_blank" rel="noopener noreferrer"{% endif %}
+     class="{{ ['base-link text-current', params.classes] | classes }}"
+     {% if isExternal %}target="_blank"{% endif %}
+     {% if rel %}rel="{{ rel }}"{% endif %}
      {% if isDownload %}download{% endif %}
      {% if params.ariaLabel %}aria-label="{{ params.ariaLabel }}"{% endif %}
      {% if params.title %}title="{{ params.title }}"{% endif %}
-     {% if params.ariaCurrent %}aria-current="{{ params.ariaCurrent }}"{% endif %}>
-    {{ linkText }}
+     {% if params.ariaCurrent %}aria-current="{{ params.ariaCurrent }}"{% endif %}
+     {{ params.attrs | default("") | safe }}>
+    {%- if caller -%}{{ caller() }}{%- else -%}{{ linkText }}{%- endif -%}
     {# External link indicator #}
     {% if isExternal %}
       {{ Icon.render({"name": "external-link", "size": "xs", "className": "inline-block ml-1"}) }}

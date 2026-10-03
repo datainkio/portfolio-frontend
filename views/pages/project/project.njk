@@ -4,6 +4,7 @@
 {% import "molecules/design-decisions.njk" as DesignDecisions %}
 {% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
 {% import "molecules/star-summary/star-summary.njk" as StarSummary %}
+{% import "molecules/navigation/pager.njk" as Pager %}
 {#
   Single project page template.
   Data: paginated from `collections.projectPages`, aliased as `project`
@@ -98,5 +99,24 @@
        class="{{ projectLinkStyles | classes }}">{{ externalLinkLabel }}</a>
   {% endif %}
 
-  {% include "templates/partials/choreography-script/choreography-script.njk" %}
+  {#- PAGER: previous · all · next. Wraps: the first project's previous is the
+      last, and the last's next is the first. Order comes from the
+      projectPages query. -#}
+  {%- if pagination.pages | length > 1 -%}
+    {%- set prevItem = pagination.page.previous or pagination.page.last -%}
+    {%- set nextItem = pagination.page.next or pagination.page.first -%}
+    {{ Pager.render({
+      label: "Case studies",
+      previous: { href: pagination.href.previous or pagination.href.last, title: prevItem.title, meta: (prevItem.organization or []) | join(", ", "title") },
+      next: { href: pagination.href.next or pagination.href.first, title: nextItem.title, meta: (nextItem.organization or []) | join(", ", "title") },
+      all: projectIndex
+    }) }}
+  {%- endif %}
 {% endblock content %}
+
+{#- Outside <main> so the pager is its last child (no trailing space-y
+    margin), and still before base.njk's module scripts, which the import
+    map in this partial must precede. -#}
+{% block afterMain %}
+  {% include "templates/partials/choreography-script/choreography-script.njk" %}
+{% endblock afterMain %}

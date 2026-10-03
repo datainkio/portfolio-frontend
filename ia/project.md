@@ -12,4 +12,8 @@ pagination:
   size: 1
   alias: project
 enableChoreography: true
+# Target of the pager's "All" link on every project page.
+projectIndex:
+  href: "/work/"
+  label: "All"
 ---

@@ -46,7 +46,7 @@
       <ul id="article-nav-list" data-article-nav-list class="{{ ulClasses | classes }} overflow-hidden" role="list">
         {% for heading in headings %}
           <li class="jumplinks__item">
-            {{ Icon.render({ name: "arrow-right", classes: "w-3 h-3 mr-1 shrink-0" }) }}
+            {{ Icon.render({ name: "arrow-right", size: "xs", classes: "mr-1 shrink-0" }) }}
             <a class="font-thin" href="#{{ heading.id }}">{{ heading.text }}</a>
           </li>
         {% endfor %}

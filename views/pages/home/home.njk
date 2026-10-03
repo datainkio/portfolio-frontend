@@ -51,7 +51,7 @@
         {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
       </main>
     </div>
-    {{ GlobalFooter.render() }}
+    {{ GlobalFooter.render({ classes: "absolute inset-x-0 bottom-0" }) }}
     {% include "templates/partials/choreography-script/choreography-script.njk" %}
   </body>
 </html>

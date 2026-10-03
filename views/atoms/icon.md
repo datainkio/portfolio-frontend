@@ -22,7 +22,9 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Data and Context
 
-No obvious data dependencies identified from the template alone.
+- `params.name` — key in the `svg` or `unicode` registry. Includes `chevron-left`/`chevron-right` and `grid` (Material "grid_view", added 2026-10-02 for the pager's "All" link).
+- `params.size` — `xs`…`2xl` (sets `w-*`/`h-*`). Use this for size rather than passing `w-*`/`h-*` in classes: both would set the same properties, and the winner would depend on CSS order.
+- `params.classes` — string, variant map, or array (applied through `| classes`). The legacy `className`/`class` are used only when `classes` is absent.
 
 ## Relationships
 

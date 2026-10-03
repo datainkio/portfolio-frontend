@@ -1,4 +1,6 @@
 {% extends "./base.njk" %}
+{#- Grid <body>: keep the footer pinned (absolute) rather than in flow. -#}
+{% set pinFooter = true %}
 {% import "molecules/docs-nav/docs-nav.njk" as docsNav %}
 {% block bodyStyles %}grid grid-cols-12{% endblock bodyStyles %}
 {% block mainStyles %}col-span-full w-full grid grid-cols-12{% endblock mainStyles %}

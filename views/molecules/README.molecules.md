@@ -30,11 +30,13 @@ Molecules combine atoms into small, functional UI patterns. These components:
 
 ### `input/` - Navigation/Form Input Patterns
 
-`nav-item.njk`, `prevnext.njk`, `project-nav.njk`
+`nav-item.njk`
 
 ### `navigation/` - Navigation-Scoped Patterns
 
 `article-nav-links.njk` - on-page jumplink nav with a mobile toggle
+
+`pager.njk` - previous · all · next between sibling pages (project pages; replaced `input/prevnext.njk` + `input/project-nav.njk`)
 
 ### `section/`, `background/`, `figure/`, `lightbox/`, `project-metadata/`, `stats/`
 
