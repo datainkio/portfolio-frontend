@@ -92,12 +92,12 @@
   {% endif %} #}
 
   {# Link to live project (optional) #}
-  {% if externalLinkHref %}
+  {# {% if externalLinkHref %}
     <a href="{{ externalLinkHref }}"
        rel="noopener noreferrer"
        target="_blank"
        class="{{ projectLinkStyles | classes }}">{{ externalLinkLabel }}</a>
-  {% endif %}
+  {% endif %} #}
 
   {#- PAGER: previous · all · next. Wraps: the first project's previous is the
       last, and the last's next is the first. Order comes from the
@@ -106,10 +106,10 @@
     {%- set prevItem = pagination.page.previous or pagination.page.last -%}
     {%- set nextItem = pagination.page.next or pagination.page.first -%}
     {{ Pager.render({
-      label: "Case studies",
-      previous: { href: pagination.href.previous or pagination.href.last, title: prevItem.title, meta: (prevItem.organization or []) | join(", ", "title") },
-      next: { href: pagination.href.next or pagination.href.first, title: nextItem.title, meta: (nextItem.organization or []) | join(", ", "title") },
-      all: projectIndex
+        label: "Case studies",
+        previous: { href: pagination.href.previous or pagination.href.last, title: prevItem.title, meta: (prevItem.organization or []) | join(", ", "title") },
+    next: { href: pagination.href.next or pagination.href.first, title: nextItem.title, meta: (nextItem.organization or []) | join(", ", "title") },
+    all: projectIndex
     }) }}
   {%- endif %}
 {% endblock content %}
