@@ -1,0 +1,19 @@
+{
+	"nodes":[
+		{"id":"15e69a63eaa8760e","x":320,"y":240,"width":330,"height":340,"color":"3","type":"group","label":"🧱 content"},
+		{"id":"c5d925f994b66291","x":340,"y":300,"width":290,"height":260,"color":"6","type":"group","label":"<HEADER />"},
+		{"id":"df95330ccc952e09","x":-257,"y":20,"width":400,"height":400,"color":"6","type":"file","file":"dataink.io/frontend/views/templates/landing/landing.md"},
+		{"id":"ea80d6e6d679a6aa","x":-257,"y":-300,"width":400,"height":200,"color":"3","type":"file","file":"dataink.io/frontend/views/layouts/base.md"},
+		{"id":"e20217aa9fbc2e3a","x":360,"y":400,"width":250,"height":60,"color":"6","type":"text","text":"# H1"},
+		{"id":"2f20ff3cf522e90c","x":360,"y":480,"width":250,"height":60,"color":"6","type":"text","text":"section: abstract"},
+		{"id":"c258ff2b0e48b3c0","x":360,"y":320,"width":250,"height":60,"color":"6","type":"file","file":"dataink.io/frontend/views/molecules/labels/accession-label.njk"},
+		{"id":"bdbff17c25a94eac","type":"text","text":"🧱 sidebarBefore","x":308,"y":100,"width":177,"height":60,"color":"3"},
+		{"id":"44c30969bd900ad0","x":308,"y":0,"width":177,"height":60,"color":"3","type":"text","text":"🧱 mainStyles"}
+	],
+	"edges":[
+		{"id":"c953d96125eb6a47","fromNode":"df95330ccc952e09","fromSide":"top","toNode":"ea80d6e6d679a6aa","toSide":"bottom","color":"6","label":"extends"},
+		{"id":"5e0d3b098e04e26e","fromNode":"df95330ccc952e09","fromSide":"right","toNode":"44c30969bd900ad0","toSide":"left","color":"6"},
+		{"id":"8ffc68e6c007f04a","fromNode":"df95330ccc952e09","fromSide":"right","toNode":"bdbff17c25a94eac","toSide":"left","color":"6"},
+		{"id":"5efe3aef3daa5b47","fromNode":"df95330ccc952e09","fromSide":"right","toNode":"15e69a63eaa8760e","toSide":"left","color":"6"}
+	]
+}

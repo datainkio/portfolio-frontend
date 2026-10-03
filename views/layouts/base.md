@@ -43,9 +43,8 @@ Classified as a **layout** at the atomic **none** level based on its location un
   - [[global-header.njk]]
   - [[global-footer.njk]]
   - [[skip-links-nav.njk]]
-  - [[breadcrumbs-nav.njk]]
 - Likely used by:
-  - Unknown
+  - All pages and templates.
 
 ## Notes for Future Maintenance
 

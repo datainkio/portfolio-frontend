@@ -37,8 +37,11 @@ Classified as a **layout** at the atomic **none** level based on its location un
   - [[base.njk]]
 - Imports:
   - [[hanko.njk]]
+- Parent Template Blocks:
+	- mainStyles
+	- content
 - Likely used by:
-  - Unknown
+  - Pages representing primary concepts (e.g. Case Studies, Contact, etc.)
 
 ## Notes for Future Maintenance
 
