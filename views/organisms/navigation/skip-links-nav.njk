@@ -1,10 +1,20 @@
 {% import "atoms/link/link.njk" as Link %}
+
+{#- Skip link — the first focusable element on every page. Visually hidden
+    until focused, then shown over the fixed global header (z-20). Targets
+    <main id="page-main-content">, not the #page-main wrapper: the wrapper
+    also holds `sidebarBefore` navigation, which the link exists to skip.
+    `items` (optional) adds an in-page list of section ids. -#}
+{%- set skipLinkStyles = {
+  "base": "sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-30 focus:px-4 focus:py-2 focus:bg-slate-900 focus:text-primary-200"
+} -%}
+
 {% macro render(params = {}) %}
-  {%- if items and items | length -%}
-    {{ Link.render({ url: "#page-main", text: "Skip to main content", classes: "sr-only", ariaLabel: "Skip to main content" }) }}
-    <nav class="skip-links sr-only " aria-label="Skip links">
+  {{ Link.render({ url: "#page-main-content", text: "Skip to main content", classes: skipLinkStyles }) }}
+  {%- if params.items and params.items | length -%}
+    <nav class="skip-links sr-only" aria-label="Skip links">
       <ul role="list">
-        {%- for id in items -%}
+        {%- for id in params.items -%}
           <li>
             {{ Link.render({ url: "#" + id, text: id | replace("-", " ") | capitalize }) }}
           </li>

@@ -28,8 +28,10 @@
 
     {#- SCROLLSMOOTHER WRAPPER (opt-in) — a template sets `smoothScroll = true`
         to get the same #page-main / #page-main-content pair home.njk builds by
-        hand. ScrollSmootherManager only mounts when both ids exist; without
-        them the page runs native scroll and scrub-driven motion (card
+        hand. ScrollSmootherManager only mounts when both ids exist; <main>
+        always carries #page-main-content (it is the skip link's target), so
+        the #page-main wrapper is the opt-in. Without it the page runs native
+        scroll and scrub-driven motion (card
         sticky/parallax) can't be frame-locked to the compositor on mobile.
         Opt-in rather than default because article.njk renders `sticky top-0`
         inside <main>, which breaks inside the smoothed content. Everything
@@ -53,9 +55,12 @@
       {% endblock sidebarBefore %}
 
 
-      {# MAIN CONTENT AREA #}
-      <main {% if smoothScroll %}id="page-main-content"{% endif %}
-            class="{{ {"base": ["pt-6 space-y-12 max-w-6xl mx-auto px-6", "w-full flex-1" if footerInFlow else "after:block after:col-span-full after:h-48"], "sm": "", "md": "pt-8", "lg": "pt-24", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
+      {#- MAIN CONTENT AREA — the skip link's target. tabindex="-1" lets the
+        ScrollSmoother hash handler (and native fragment navigation) move focus
+        here, so the next Tab continues inside <main>. -#}
+      <main id="page-main-content"
+            tabindex="-1"
+            class="{{ {"base": ["focus:outline-none pt-6 space-y-12 max-w-6xl mx-auto px-6", "w-full flex-1" if footerInFlow else "after:block after:col-span-full after:h-48"], "sm": "", "md": "pt-8", "lg": "pt-24", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
 
         {% block content %}
           {% if content %}
