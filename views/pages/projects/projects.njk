@@ -3,7 +3,7 @@
 {% import "molecules/section/industry-section.njk" as IndustrySection %}
 
 {#- Industries are needed by two blocks (the section list in `content`, the
-    jump nav in `afterMain`), so they're grouped once here at template level. -#}
+    jump nav in `sidebarBefore`), so they're grouped once here at template level. -#}
 {%- set industries = (collections.projects | groupBy("industry") | dictsort) if (collections.projects and collections.projects.length) else [] -%}
 
 
@@ -65,7 +65,10 @@
   {% endif %}
 {% endblock content %}
 
-{#- Show the industry navigation in the afterMain block -#}
-{% block afterMain %}
+{#- The industry jump nav precedes <main> in source order, so keyboard and
+    screen-reader users reach the index before the content it indexes. Its
+    fixed drawer/rail positioning is unaffected: sidebarBefore sits outside
+    #page-main-content, like afterMain. -#}
+{% block sidebarBefore %}
   {{ Industries.render(industries) }}
-{% endblock afterMain %}
+{% endblock sidebarBefore %}

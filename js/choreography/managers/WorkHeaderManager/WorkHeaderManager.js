@@ -11,17 +11,17 @@ const NAV = `[${WORK_EL_ATTR}="jumplinks"]`;
 const HANDLE = `[${WORK_EL_ATTR}="drawer-handle"]`;
 const TITLE = `[${WORK_EL_ATTR}="drawer-title"]`;
 
-// Drive switches at md. Below md the header rests fixed to the bottom edge as
+// Drive switches at md. Below md the nav rests fixed to the bottom edge as
 // a bottom-sheet drawer: the whole <nav> (handle bar + industry list + footer)
 // slides as one unit, and when closed it sits translated down so only the
 // handle bar peeks above the viewport's bottom edge. At md and up it rests
 // open, fixed flush to the viewport's left edge as a vertical rail.
 //
-// The <header> is position: fixed via Tailwind and lives OUTSIDE
-// #page-main-content (base.njk `afterMain` slot) — ScrollSmoother transforms
+// The <nav> is position: fixed via Tailwind and lives OUTSIDE
+// #page-main-content (base.njk `sidebarBefore` slot) — ScrollSmoother transforms
 // <main>, and a fixed element inside a transformed ancestor is positioned
 // against that ancestor instead of the viewport. Nothing here positions the
-// header; this manager only slides the <nav> inside it.
+// nav; this manager only slides it.
 const MD_REM = parseFloat(TAILWIND_BREAKPOINTS.md);
 const MEDIA = Object.freeze({
   drawerMode: `(max-width: ${(MD_REM - 0.001).toFixed(3)}rem)`,
@@ -35,13 +35,12 @@ export default class WorkHeaderManager {
       enabled: true,
     });
 
-    // The <nav> is the slide target; the fixed <header> that contains it is
-    // resolved upward from it, because the header renders outside the #work
-    // section (see the module note above). The <nav>'s first child is the
-    // handle bar (heading rendered as the toggle <button>), whose height sets
-    // how far the closed nav peeks above the viewport edge.
+    // The <nav> is both the fixed box and the slide target. It renders
+    // outside the #work section (see the module note above), so it is
+    // resolved document-wide. Its first child is the handle bar (heading
+    // rendered as the toggle <button>), whose height sets how far the closed
+    // nav peeks above the viewport edge.
     this._nav = document.querySelector(NAV);
-    this._header = this._nav?.closest(`[${WORK_EL_ATTR}="header"]`) ?? null;
     this._handle = this._nav?.querySelector(HANDLE) ?? null;
     this._toggle = this._handle?.querySelector(TOGGLE) ?? null;
     this._title = this._toggle?.querySelector(TITLE) ?? null;
@@ -58,15 +57,9 @@ export default class WorkHeaderManager {
     this._onOutsideClick = null;
     this._onResize = null;
 
-    if (
-      !this._header ||
-      !this._nav ||
-      !this._handle ||
-      !this._toggle ||
-      !this._title
-    ) {
+    if (!this._nav || !this._handle || !this._toggle || !this._title) {
       this.logger.trace(
-        "header/nav/handle/toggle/title not found; WorkHeaderManager disabled",
+        "nav/handle/toggle/title not found; WorkHeaderManager disabled",
       );
       return;
     }
@@ -107,7 +100,7 @@ export default class WorkHeaderManager {
 
     // Below md: non-modal drawer. Handle toggles; a link click navigates and
     // closes the drawer out of the way; Escape closes and returns focus to
-    // the handle; a click outside the header closes it. No focus trap, no
+    // the handle; a click outside the nav closes it. No focus trap, no
     // inert — this is an index, not a dialog.
     this._mm.add(MEDIA.drawerMode, () => {
       this._drawerMode = true;
@@ -126,7 +119,7 @@ export default class WorkHeaderManager {
         if (!this._isOpen) gsap.set(this._nav, this._closedVars());
       };
       this._toggle.addEventListener("click", this._onToggleClick);
-      this._header.addEventListener("click", this._onListClick);
+      this._nav.addEventListener("click", this._onListClick);
       document.addEventListener("keydown", this._onKeydown);
       document.addEventListener("click", this._onOutsideClick, true);
       window.addEventListener("resize", this._onResize);
@@ -134,7 +127,7 @@ export default class WorkHeaderManager {
       return () => {
         this._drawerMode = false;
         this._toggle.removeEventListener("click", this._onToggleClick);
-        this._header.removeEventListener("click", this._onListClick);
+        this._nav.removeEventListener("click", this._onListClick);
         document.removeEventListener("keydown", this._onKeydown);
         document.removeEventListener("click", this._onOutsideClick, true);
         window.removeEventListener("resize", this._onResize);
@@ -189,7 +182,7 @@ export default class WorkHeaderManager {
 
   _onOutside(e) {
     if (!this._isOpen || !this._drawerMode) return;
-    if (this._header.contains(e.target)) return;
+    if (this._nav.contains(e.target)) return;
     this._close(this._reduced);
   }
 

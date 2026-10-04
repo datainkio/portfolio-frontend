@@ -1,7 +1,7 @@
 {
 	"nodes":[
 		{"id":"87c6170addbab27a","type":"group","x":960,"y":200,"width":440,"height":760,"color":"3","label":"🧱 content"},
-		{"id":"e236d3de85fc1f7e","type":"group","x":960,"y":1360,"width":440,"height":440,"color":"3","label":"🧱 afterMain"},
+		{"id":"e236d3de85fc1f7e","type":"group","x":960,"y":1360,"width":440,"height":440,"color":"3","label":"🧱 sidebarBefore"},
 		{"id":"04f19e77e89a9e61","type":"file","file":"dataink.io/frontend/views/pages/projects/projects.md","x":359,"y":280,"width":400,"height":400,"color":"6"},
 		{"id":"417c8ad9a4b6c4b0","type":"text","text":"🧱 mainStyles","x":955,"y":40,"width":250,"height":60,"color":"3"},
 		{"id":"eae0a66afdf1264a","type":"text","text":"super()","x":980,"y":220,"width":400,"height":60,"color":"6"},

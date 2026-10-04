@@ -1,19 +1,17 @@
 {% import "molecules/list/industry-links.njk" as IndustryLinks %}
 {% import "atoms/button.njk" as Button %}
 
-{#- The jump-nav <header> is position: fixed. It renders in `afterMain` —
-    inside #page-main but outside #page-main-content — because ScrollSmoother
+{#- The jump-nav <nav> is position: fixed. It renders in `sidebarBefore` —
+    inside #page-main but outside #page-main-content, ahead of <main> in
+    source order so it is reached before the content — because ScrollSmoother
     transforms <main>, and a fixed element inside a transformed ancestor is
-    positioned against that ancestor, not the viewport. Same placement as the
-    home landing header. -#}
-{%- set headerStyles = {
-  "print": "hidden",
-  "base": "fixed inset-x-0 bottom-0 z-10 w-full pointer-events-none",
-  "md": "inset-x-auto right-auto bottom-auto left-0 top-0 flex h-dvh w-56 flex-col justify-center pointer-events-auto"
-} -%}
-
+    positioned against that ancestor, not the viewport.
+    `fixed` overrides the `position: relative` that `registration-marks` sets:
+    both are utilities and `.fixed` sorts after it in the compiled CSS. -#}
 {%- set navStyles = {
-  "base": "pointer-events-auto registration-marks registration-marks-offset-[-8px] registration-marks-slate-700 w-full bg-slate-900 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"
+  "print": "hidden",
+  "base": "fixed inset-x-0 bottom-0 z-10 w-full registration-marks registration-marks-offset-[-8px] registration-marks-slate-700 bg-slate-900 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
+  "md": "inset-x-auto bottom-auto left-0 top-1/2 w-56 -translate-y-1/2"
 } -%}
 {%- set drawerToggleStyles = {
   "base": "group cursor-pointer pl-4 flex items-center gap-x-4 divide-x divide-slate-700 w-full text-left",
@@ -22,33 +20,31 @@
 
 {% macro render(industries) %}
   {% if industries | length %}
-    <header data-projects-el="header" class="{{ headerStyles | classes }}">
-      <nav data-projects-el="jumplinks"
-           id="work-jumplinks"
-           aria-label="Jump to an industry"
-           class="{{ navStyles | classes }}">
-        <header data-projects-el="drawer-handle"
-                class="p-4 pt-6 border-t border-x border-slate-700">
-          <h2 class="text-primary-200 text-2xl">
-            {%- call Button.render({ classes: drawerToggleStyles, attrs: 'data-projects-el="drawer-toggle" aria-expanded="false" aria-controls="work-jumplinks"' }) -%}<span class="text-primary-200 pr-4 transition-colors group-hover:text-secondary-400">Industries</span><span data-projects-el="drawer-title" class="text-sm text-secondary-400"></span>{%- endcall -%}
-          </h2>
-        </header>
-        {{ IndustryLinks.render({ industries: industries }) }}
-        <footer class="font-display text-primary-200/40 grid grid-cols-3 border-b border-x border-slate-700 items-center gap-2">
-          <dl class="border-r border-slate-700 text-base text-left p-4 pb-3 col-span-2">
-            <dt class="leading-2 text-primary-200/20">Doc 02A</dt>
-            <dd>
-              Work Index
-            </dd>
-          </dl>
-          <dl class="text-xs pr-3">
-            <dt class="border-b border-slate-700 text-primary-200/20">revision</dt>
-            <dd>
-              09.04.26
-            </dd>
-          </dl>
-        </footer>
-      </nav>
-    </header>
+    <nav data-projects-el="jumplinks"
+         id="work-jumplinks"
+         aria-label="Jump to an industry"
+         class="{{ navStyles | classes }}">
+      <header data-projects-el="drawer-handle"
+              class="p-4 pt-6 border-t border-x border-slate-700">
+        <h2 class="text-primary-200 text-2xl">
+          {%- call Button.render({ classes: drawerToggleStyles, attrs: 'data-projects-el="drawer-toggle" aria-expanded="false" aria-controls="work-jumplinks"' }) -%}<span class="text-primary-200 pr-4 transition-colors group-hover:text-secondary-400">Industries</span><span data-projects-el="drawer-title" class="text-sm text-secondary-400"></span>{%- endcall -%}
+        </h2>
+      </header>
+      {{ IndustryLinks.render({ industries: industries }) }}
+      <footer class="font-display text-primary-200/40 grid grid-cols-3 border-b border-x border-slate-700 items-center gap-2">
+        <dl class="border-r border-slate-700 text-base text-left p-4 pb-3 col-span-2">
+          <dt class="leading-2 text-primary-200/20">Doc 02A</dt>
+          <dd>
+            Work Index
+          </dd>
+        </dl>
+        <dl class="text-xs pr-3">
+          <dt class="border-b border-slate-700 text-primary-200/20">revision</dt>
+          <dd>
+            09.04.26
+          </dd>
+        </dl>
+      </footer>
+    </nav>
   {% endif %}
 {% endmacro %}

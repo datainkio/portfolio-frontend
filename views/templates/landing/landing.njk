@@ -5,7 +5,8 @@
 {#- Landing pages run under ScrollSmoother, matching home.njk. base.njk builds
     the #page-main / #page-main-content wrapper when this is set. Nothing a
     landing page renders inside <main> may be position: fixed or sticky — put
-    such elements in `block afterMain`. -#}
+    such elements in `block sidebarBefore` (navigation that should precede the
+    content) or `block afterMain`. -#}
 {% set smoothScroll = true %}
 
 {% block mainStyles %}

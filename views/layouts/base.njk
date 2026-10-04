@@ -34,10 +34,14 @@
         Opt-in rather than default because article.njk renders `sticky top-0`
         inside <main>, which breaks inside the smoothed content. Everything
         that must stay position: fixed (skip links, global header, and any
-        `afterMain` content) sits outside #page-main-content. -#}
+        `sidebarBefore` or `afterMain` content) sits outside
+        #page-main-content. -#}
     {% if smoothScroll %}<div id="page-main">{% endif %}
 
-      {#- SIDEBAR BEFORE -#}
+      {#- SIDEBAR BEFORE — inside #page-main, outside #page-main-content, and
+        ahead of <main> in source order, so navigation placed here is reached
+        before the content it indexes. Fixed elements are safe here for the
+        same reason they are in `afterMain`. -#}
       {% block sidebarBefore %}
         <nav class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarBeforeStyles %}{% endblock sidebarBeforeStyles %}"
              data-scroll
