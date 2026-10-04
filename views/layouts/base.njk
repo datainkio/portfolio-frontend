@@ -6,7 +6,12 @@
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 
 <!DOCTYPE html>
-<html lang="en" class="{{ 'debug-outlines' if runtime.debugOutlines }}">
+{#- overflow-x-clip on <html>: mobile browsers widen the layout viewport to
+    fit any horizontal overflow, which drops bottom-anchored fixed UI (the
+    industry drawer) below the visible screen. `clip`, unlike `hidden`, makes
+    no scroll container, so sticky and ScrollSmoother are unaffected. It has
+    to be on <html>; on <body> it doesn't stop the viewport widening. -#}
+<html lang="en" class="overflow-x-clip {{ 'debug-outlines' if runtime.debugOutlines }}">
   {% include "templates/partials/dev-note/dev-note.njk" %}
   {% include "templates/partials/head/head.njk" %}
   {% block head %}
