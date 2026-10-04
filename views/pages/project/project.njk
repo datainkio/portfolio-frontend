@@ -48,11 +48,11 @@
 (project.externalLink if project.externalLink is string else "")) -%}
 {%- set externalLinkLabel = (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}
 
-{% block sidebar_before %}
+{% block sidebarBefore %}
   {# page_nav.render({classes: pageNav | classes}) #}
-{% endblock sidebar_before %}
+{% endblock sidebarBefore %}
 
-{% block sidebar_after %}
+{% block sidebarAfter %}
   {% if hasOutcomes %}
     <aside class="{{ asideStyles | classes }}"
            aria-labelledby="project-outcome-heading">
@@ -65,7 +65,7 @@
       </ul>
     </aside>
   {% endif %}
-{% endblock sidebar_after %}
+{% endblock sidebarAfter %}
 
 {% block content %}
 

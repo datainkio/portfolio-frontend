@@ -12,10 +12,10 @@
     {% loremPars 3 %}
   {% endif %}
 {% endblock content %}
-{% block sidebar_after %}
-  {% if sidebar_after %}
-    {{ sidebar_after | safe }}
+{% block sidebarAfter %}
+  {% if sidebarAfter %}
+    {{ sidebarAfter | safe }}
   {% else %}
     {% loremPars 3 %}
   {% endif %}
-{% endblock sidebar_after %}
+{% endblock sidebarAfter %}

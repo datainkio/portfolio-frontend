@@ -5,7 +5,7 @@
 		{"id":"d5803d02c4b2d800","type":"group","x":-121,"y":1800,"width":927,"height":1040,"color":"4","label":"<div #page-main />"},
 		{"id":"aa94bc66d66a7f4c","type":"group","x":-100,"y":1920,"width":893,"height":440,"color":"4","label":"<MAIN />"},
 		{"id":"d9a9b57517e7284a","type":"group","x":-140,"y":820,"width":967,"height":300,"color":"4","label":"<HEAD />"},
-		{"id":"be6eb390c9339894","type":"group","x":-100,"y":2500,"width":893,"height":260,"label":"if sidebar_after"},
+		{"id":"be6eb390c9339894","type":"group","x":-100,"y":2500,"width":893,"height":260,"label":"if sidebarAfter"},
 		{"id":"7933c65a977ca4fe","type":"group","x":-80,"y":2560,"width":860,"height":180,"color":"4","label":"<ASIDE />"},
 		{"id":"b489464b82676e42","type":"text","text":"block: afterMain","x":-100,"y":2390,"width":894,"height":50,"color":"3"},
 		{"id":"643ae33ada49a852","type":"text","text":"block: content","x":-68,"y":1940,"width":828,"height":400,"color":"3"},

@@ -38,7 +38,7 @@
     {% if smoothScroll %}<div id="page-main">{% endif %}
 
       {#- SIDEBAR BEFORE -#}
-      {% block sidebar_before %}
+      {% block sidebarBefore %}
         <nav class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarBeforeStyles %}{% endblock sidebarBeforeStyles %}"
              data-scroll
              data-scroll-sticky
@@ -46,7 +46,7 @@
           Hi there.
           This is the sidebar content. You can replace this with your own content or remove it if you don't need a sidebar.
         </nav>
-      {% endblock sidebar_before %}
+      {% endblock sidebarBefore %}
 
 
       {# MAIN CONTENT AREA #}
@@ -70,15 +70,15 @@
       {% endblock afterMain %}
 
       {#- SIDEBAR AFTER -#}
-      {% if sidebar_after %}
+      {% if sidebarAfter %}
         <aside class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarAfterStyles %}{% endblock sidebarAfterStyles %}"
                data-scroll
                data-scroll-sticky
                data-scroll-target="main">
-          {% block sidebar_after %}
+          {% block sidebarAfter %}
             Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
             sidebar.
-          {% endblock sidebar_after %}
+          {% endblock sidebarAfter %}
         </aside>
       {% endif %}
 

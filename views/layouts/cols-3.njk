@@ -13,14 +13,14 @@
   {% endif %}
 {% endblock %}
 
-{% if sidebar_after %}
+{% if sidebarAfter %}
   <aside
     class="text-white font-light text-xs col-span-2 pt-24 {{ sidebarAfterClasses }}"
     data-scroll
     data-scroll-sticky
     data-scroll-target="main">
-    {% block sidebar_after %}
-      {{ sidebar_after | safe }}
+    {% block sidebarAfter %}
+      {{ sidebarAfter | safe }}
     {% endblock %}
   </aside>
 {% endif %}
