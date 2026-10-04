@@ -1,15 +1,22 @@
 {
 	"nodes":[
-		{"id":"ddd2676bc29d6554","type":"file","file":"dataink.io/frontend/views/templates/landing/landing.md","x":359,"y":-411,"width":400,"height":400,"color":"3"},
-		{"id":"5041e4183b0d6b29","type":"file","file":"notes/attachments/projects landing page design tuning.png","x":-340,"y":-120,"width":400,"height":218},
+		{"id":"87c6170addbab27a","type":"group","x":960,"y":200,"width":440,"height":760,"color":"3","label":"🧱 content"},
+		{"id":"e236d3de85fc1f7e","type":"group","x":960,"y":1360,"width":440,"height":440,"color":"3","label":"🧱 afterMain"},
 		{"id":"04f19e77e89a9e61","type":"file","file":"dataink.io/frontend/views/pages/projects/projects.md","x":359,"y":280,"width":400,"height":400,"color":"6"},
-		{"id":"417c8ad9a4b6c4b0","x":509,"y":820,"width":250,"height":60,"type":"text","text":"🧱 mainStyles"},
-		{"id":"7bfe169ff18a6494","x":1680,"y":-440,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/atoms/button.md"},
-		{"id":"4f73eb3db6b94149","type":"text","text":"🧱 afterMain","x":559,"y":1120,"width":250,"height":60},
-		{"id":"de86a009249956cb","x":1060,"y":320,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/molecules/section/industry-section.md"},
-		{"id":"15ce642c9abbd7cd","x":1060,"y":800,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/views/molecules/list/industry-links.md"}
+		{"id":"417c8ad9a4b6c4b0","type":"text","text":"🧱 mainStyles","x":955,"y":40,"width":250,"height":60,"color":"3"},
+		{"id":"eae0a66afdf1264a","type":"text","text":"super()","x":980,"y":220,"width":400,"height":60,"color":"6"},
+		{"id":"ddd2676bc29d6554","type":"file","file":"dataink.io/frontend/views/templates/landing/landing.md","x":359,"y":-480,"width":400,"height":400,"color":"3"},
+		{"id":"7bfe169ff18a6494","type":"file","file":"dataink.io/frontend/views/atoms/button.md","x":359,"y":800,"width":400,"height":400},
+		{"id":"5041e4183b0d6b29","type":"file","file":"notes/attachments/projects landing page design tuning.png","x":-340,"y":-120,"width":400,"height":218},
+		{"id":"15ce642c9abbd7cd","type":"file","file":"dataink.io/frontend/views/molecules/list/industry-links.md","x":980,"y":1380,"width":400,"height":400,"color":"6"},
+		{"id":"0acf9195a2ed4c42","x":980,"y":320,"width":400,"height":140,"color":"6","type":"text","text":"FIGURE"},
+		{"id":"986609b627be6878","type":"text","text":"VIDEO","x":1000,"y":380,"width":360,"height":60,"color":"6"},
+		{"id":"de86a009249956cb","type":"file","file":"dataink.io/frontend/views/molecules/section/industry-section.md","x":980,"y":520,"width":400,"height":400,"color":"6"}
 	],
 	"edges":[
-		{"id":"66e749d04584ef8f","fromNode":"04f19e77e89a9e61","fromSide":"top","toNode":"ddd2676bc29d6554","toSide":"bottom","color":"6","label":"extends"}
+		{"id":"66e749d04584ef8f","fromNode":"04f19e77e89a9e61","fromSide":"top","toNode":"ddd2676bc29d6554","toSide":"bottom","color":"6","label":"extends"},
+		{"id":"2dcf326f54d24457","fromNode":"04f19e77e89a9e61","fromSide":"right","toNode":"417c8ad9a4b6c4b0","toSide":"left","color":"6"},
+		{"id":"24ae032a673408b3","fromNode":"04f19e77e89a9e61","fromSide":"right","toNode":"87c6170addbab27a","toSide":"left","color":"6"},
+		{"id":"29aae4cf17f9dc67","fromNode":"04f19e77e89a9e61","fromSide":"right","toNode":"e236d3de85fc1f7e","toSide":"left","color":"6"}
 	]
 }
