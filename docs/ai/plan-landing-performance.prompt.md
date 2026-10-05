@@ -3,6 +3,8 @@ description: "TL;DR: Minify/bundle choreography JS, keep all animation loads def
 type: guide
 ---
 
+> **Naming note (2026-10-05).** Written before the legacy Hero section was removed and Bio was renamed Hero. In this plan, `hero` means the removed legacy section and `bio` means today's Hero (`organisms/hero/`).
+
 ## Plan: Finish Remaining Performance TODOs
 
 TL;DR: Minify/bundle choreography JS, keep all animation loads deferred, preload the true LCP asset and first hero font via the shared head partial, tighten CSS loading (optional critical inline), and avoid extra request chains. These steps target FCP/LCP on first visit.

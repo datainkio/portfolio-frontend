@@ -3,6 +3,8 @@ description: "TL;DR: Reuse the exact mechanism reduced-motion already uses to sk
 type: guide
 ---
 
+> **Naming note (2026-10-05).** Written before the legacy Hero section was removed and Bio was renamed Hero. In this plan, `hero` means the removed legacy section and `bio` means today's Hero (`organisms/hero/`).
+
 ## Plan: Session-Gated Motion Playback
 
 TL;DR: Reuse the exact mechanism reduced-motion already uses to skip animation and jump

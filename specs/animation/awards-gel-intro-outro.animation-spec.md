@@ -40,7 +40,7 @@ From the user's perspective the section reads as a light card that, on entry, ga
   - `bg-gel-5` → **backing gel**, `bg-gel-neutral`
   - `bg-gel-6` → **accent gel**, `bg-gel-accent`
 - **Color.** Use the existing gradient color classes: `bg-gel-neutral` (`neutral-900→400`) for the backing gel and `bg-gel-accent` (`accent-900→600`) for the accent gel. No flat-color treatment needed.
-- **Composition pattern.** Follow the established **Hero precedent**: `HeroAnimations` receives an injected `gelManager` and composes `bg-gel-0` directly into its intro/outro GSAP timelines (`gelManager.getGel("bg-gel-0").view`). `AwardsAnimations` should accept the same `options.gelManager` and compose the accent gel into `_buildIntro`/`_buildOutro`.
+- **Composition pattern.** Follow the established **Hero precedent**: `HeroAnimations` receives an injected `gelManager` and hands it to its variant factories, which resolve their gel by id (`gelManager.getGel("gel_hero")`). `AwardsAnimations` should accept the same `options.gelManager` and compose the accent gel into `_buildIntro`/`_buildOutro`.
 - **Timing/easing.** Source from a new `AWARDS_GEL_*` block alongside `AWARDS_ANIMATION_DEFAULTS` in [ix/motion/motion.js](../../js/choreography/config/ix/motion/motion.js); reuse the section's existing `ease.in` / `ease.out` families for parity with the header intro.
 
 ## Patterns by Component/View
@@ -61,7 +61,7 @@ From the user's perspective the section reads as a light card that, on entry, ga
 
 - Target 60fps. The accent gel transition is a single tween on transform; backing gel is static.
 - O(2) gels touched per Awards enter/leave — negligible cost.
-- Avoid per-frame `getBoundingClientRect()` reads during scrub; measure once at refresh and drive motion from cached geometry (mirrors the Hero release-phase pattern in the gel arrangements spec).
+- Avoid per-frame `getBoundingClientRect()` reads during scrub; measure once at refresh and drive motion from cached geometry (the pattern the now-historical gel arrangements spec used for the removed legacy Hero).
 - Batch the geometry write so backing + accent placement happen in one layout pass.
 
 ## Accessibility

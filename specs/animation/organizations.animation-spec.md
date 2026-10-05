@@ -58,4 +58,4 @@ type: spec
 ## Open Questions
 
 - Should the Organizations section be re-enabled on the landing page?
-- Do we need a dedicated sequence handoff from Hero/Bio to Organizations?
+- Do we need a dedicated sequence handoff from Hero to Organizations?

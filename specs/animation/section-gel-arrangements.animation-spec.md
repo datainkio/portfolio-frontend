@@ -2,7 +2,10 @@
 title: "Section Gel Arrangements — MVP Spec"
 description: "Create a dedicated constants file:"
 type: spec
+status: historical
 ---
+
+> **Historical (2026-10-05).** Describes `config/arrangements.js` and a legacy Hero section, both since removed. Today's Hero is the former Bio section (`organisms/hero/`). Kept for prior art only — not a contract.
 
 # Section Gel Arrangements — MVP Spec
 
