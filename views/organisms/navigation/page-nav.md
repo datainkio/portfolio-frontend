@@ -59,7 +59,7 @@ so it can be reused elsewhere without that header coupling.
 | Label        | href            | Resolves to (section)                 |
 | ------------ | --------------- | ------------------------------------- |
 | Overview     | `#overview`     | home landing `<header id="overview">` |
-| Dossier      | `#introduction` | Bio section                           |
+| Dossier      | `#introduction` | Hero section                          |
 | Case studies | `#work`         | Projects section                      |
 | Recognition  | `#recognition`  | Awards section                        |
 | Contact      | `#contact`      | Contact section                       |

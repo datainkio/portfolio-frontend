@@ -1,13 +1,13 @@
 ---
-description: "Bio `fade` variant — the no-gel fallback shape (header fade + lift). Currently fully commented out: all three factories are inert."
+description: "Hero `fade` variant — the no-gel fallback shape (header fade + lift). Currently fully commented out: all three factories are inert."
 status: draft
 tags:
-  - bio-motion
-  - biography
+  - hero-motion
+  - hero
   - choreography
 links:
-  - "[[molecules/bio-motion/bio-motion|molecules/bio-motion/bio-motion]]"
-  - "[[molecules/bio-motion/sweep|molecules/bio-motion/sweep]]"
+  - "[[molecules/hero-motion/hero-motion|molecules/hero-motion/hero-motion]]"
+  - "[[molecules/hero-motion/sweep|molecules/hero-motion/sweep]]"
   - "[[config/ix/motion|config/ix/motion]]"
 ---
 
@@ -19,14 +19,14 @@ links:
 | `createFadeIn(view)`  | variant `buildIntro` | empty intro timeline |
 | `createFadeOut(view)` | variant `buildOutro` | empty outro timeline |
 
-Registered as `BIO_VARIANT_FACTORIES.fade` in
-[[molecules/bio-motion/bio-motion|bio-motion.js]].
+Registered as `HERO_VARIANT_FACTORIES.fade` in
+[[molecules/hero-motion/hero-motion|hero-motion.js]].
 
 ## Intent
 
-The gel-free bio variant: a simple `header` fade-and-lift for contexts where
+The gel-free hero variant: a simple `header` fade-and-lift for contexts where
 `gelManager` is unavailable or a gel wipe is too heavy. Unlike
-[[molecules/bio-motion/sweep|sweep]] it has no `GelAnimationManager` dependency.
+[[molecules/hero-motion/sweep|sweep]] it has no `GelAnimationManager` dependency.
 
 ## Current state: inert
 
@@ -38,9 +38,9 @@ The commented-out shape is the intended one:
 
 - `initFade` — `gsap.set(view, { autoAlpha: 0 })`
 - `createFadeIn` — `from` the header `{ autoAlpha: 0, y: 40 }` paced by
-  `BIO_INTRO.duration` / `BIO_INTRO.ease.out`, then `addPause()`
+  `HERO_INTRO.duration` / `HERO_INTRO.ease.out`, then `addPause()`
 - `createFadeOut` — header `to { autoAlpha: 0 }`
 
-Selecting `fade` via `SECTION_OVERRIDES.bio` today yields a bio section that
+Selecting `fade` via `SECTION_OVERRIDES.hero` today yields a hero section that
 never reveals. Uncomment before using it as a live variant. Distinct from
-[[molecules/bio-motion/reduced|reduced]], which is _intentionally_ empty.
+[[molecules/hero-motion/reduced|reduced]], which is _intentionally_ empty.

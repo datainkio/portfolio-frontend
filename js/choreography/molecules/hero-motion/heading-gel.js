@@ -2,12 +2,12 @@ import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 
 /**
- * Bio Heading Gel
+ * Hero Heading Gel
  *
- * Holds the `gel_bio` gel as a full-bleed band filling the viewport: `left: 0 /
+ * Holds the `gel_hero` gel as a full-bleed band filling the viewport: `left: 0 /
  * top: 0 / width: 100vw / height: 100vh`.
  *
- * The band is **decoupled from scroll.** It takes no geometry from the bio
+ * The band is **decoupled from scroll.** It takes no geometry from the hero
  * header (or any other element) and does not track anything as the page moves —
  * it is a standing background plane, re-measured only when the viewport itself
  * resizes. Earlier revisions re-read the header's `getBoundingClientRect()` on
@@ -24,8 +24,8 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
  * visible is an explicit step here.
  */
 
-export const HEADING_GEL_ID = "gel_bio";
-const SYNC_ST_ID = "bio-heading-gel-sync";
+export const HEADING_GEL_ID = "gel_hero";
+const SYNC_ST_ID = "hero-heading-gel-sync";
 
 // The outro pin owns `scaleY` on the gel band during its gel-expand beat.
 // `sync()` would reset it — suspend it while the pin is driving the band.
@@ -55,7 +55,7 @@ export const getHeadingGelEl = (gelManager) =>
   gelManager?.getGel?.(HEADING_GEL_ID)?.view ?? null;
 
 /**
- * @param {HTMLElement|null} view Bio section root.
+ * @param {HTMLElement|null} view Hero section root.
  * @param {object|null} gelManager GelAnimationManager instance.
  * @returns {ScrollTrigger|null} The resize hook, or null when unavailable.
  */
@@ -110,7 +110,7 @@ export function attachHeadingGel(view, gelManager) {
   sync();
 
   // Kept solely as a resize hook: ScrollTrigger.refresh() (on resize, and via
-  // BioTriggers' explicit getById(...).refresh()) re-runs `sync()` so the band
+  // HeroTriggers' explicit getById(...).refresh()) re-runs `sync()` so the band
   // re-fills a changed viewport. Deliberately no `onUpdate`/`onToggle` — the
   // band no longer tracks scroll, so there is nothing to do per tick.
   return ScrollTrigger.create({
@@ -123,14 +123,14 @@ export function attachHeadingGel(view, gelManager) {
 }
 
 /**
- * Bio's `landing` phase: park the gel band at its full-bleed resting geometry.
+ * Hero's `landing` phase: park the gel band at its full-bleed resting geometry.
  *
  * There is no entrance — the band is placed at rest when the timelines build,
- * so it is already in position when the landing chain reaches bio. The empty
+ * so it is already in position when the landing chain reaches hero. The empty
  * landing-tagged timeline keeps the phase contract intact for
  * `AbstractSection` (settle/progress calls find a timeline, not a warning).
  *
- * @param {HTMLElement|null} view Bio section root.
+ * @param {HTMLElement|null} view Hero section root.
  * @param {object|null} gelManager GelAnimationManager instance.
  * @returns {gsap.core.Timeline} Empty landing-tagged timeline.
  */

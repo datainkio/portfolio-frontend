@@ -1,13 +1,13 @@
 import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { BIO_INTRO, BIO_OUTRO, motion } from "../../config/ix/motion.js";
-import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { HERO_INTRO, HERO_OUTRO, motion } from "../../config/ix/motion.js";
+import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { attachHeadingGel, getHeadingGelEl } from "./heading-gel.js";
 
-const BIO_EL_ATTR = BIO_SELECTORS.elementAttribute;
+const HERO_EL_ATTR = HERO_SELECTORS.elementAttribute;
 
-const selectBioEl = (view, name) =>
-  view?.querySelector(`[${BIO_EL_ATTR}="${name}"]`) ?? null;
+const selectHeroEl = (view, name) =>
+  view?.querySelector(`[${HERO_EL_ATTR}="${name}"]`) ?? null;
 
 // Rebuilds re-run `intro()` on the same DOM (matchMedia / resize). Without
 // caching + reverting the prior split, `new SplitText` on already-split markup
@@ -33,12 +33,12 @@ const tokenColor = (name) =>
     .trim();
 
 export function intro(view, gelManager) {
-  const title = selectBioEl(view, BIO_SELECTORS.title);
-  const context = selectBioEl(view, BIO_SELECTORS.context);
+  const title = selectHeroEl(view, HERO_SELECTORS.title);
+  const context = selectHeroEl(view, HERO_SELECTORS.context);
 
   const tl = gsap.timeline({
     id: TIMELINE_IDS.intro,
-    duration: BIO_INTRO.duration,
+    duration: HERO_INTRO.duration,
   });
   const split = buildHeadingSplit(view, title);
 
@@ -104,16 +104,16 @@ export function intro(view, gelManager) {
 }
 
 /**
- * Bio outro: two scrub-driven beats while the section is pinned.
+ * Hero outro: two scrub-driven beats while the section is pinned.
  * 1. H2's SplitText lines fade to opacity 0, last line first.
  * 2. The heading gel grows from its own vertical center to fill the viewport.
  *
- * BioTriggers hands this timeline to a dedicated pin trigger, so playback
+ * HeroTriggers hands this timeline to a dedicated pin trigger, so playback
  * progress is owned by scroll position, not this function. Positional values
  * are function-based so `invalidateOnRefresh` re-measures them on resize.
  *
  * Returns an empty, id-tagged timeline (no children) when the heading hasn't
- * been split yet (intro not built for this view) — BioTriggers reads that as
+ * been split yet (intro not built for this view) — HeroTriggers reads that as
  * "no motion" and skips creating the pin.
  *
  * @param {HTMLElement|null} view
@@ -132,9 +132,9 @@ export function outro(view, gelManager) {
   // 1. line fade, last line first
   tl.to(split.lines, {
     opacity: 0,
-    duration: BIO_OUTRO.duration,
-    ease: BIO_OUTRO.ease.out,
-    stagger: { each: BIO_OUTRO.stagger, from: "end" },
+    duration: HERO_OUTRO.duration,
+    ease: HERO_OUTRO.ease.out,
+    stagger: { each: HERO_OUTRO.stagger, from: "end" },
   });
   tl.addLabel("lines-out");
 
@@ -148,8 +148,8 @@ export function outro(view, gelManager) {
           gelEl.getBoundingClientRect().height / currentScaleY;
         return window.innerHeight / unscaledHeight;
       },
-      duration: BIO_OUTRO.gelDuration,
-      ease: BIO_OUTRO.ease.inOut,
+      duration: HERO_OUTRO.gelDuration,
+      ease: HERO_OUTRO.ease.inOut,
     });
   }
   tl.addLabel("gel-open");

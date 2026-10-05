@@ -12,7 +12,7 @@
  *             AbstractSection._applyResponsiveLifecycle).
  *
  * NOTE: trigger capability flags (scrub/pin/once) are intentionally NOT defined here.
- * They are owned by each section's base trigger config (e.g. BIO_TRIGGER) and are not
+ * They are owned by each section's base trigger config (e.g. HERO_TRIGGER) and are not
  * breakpoint-varying. If per-breakpoint capability is ever needed, merge profile.trigger
  * over _getTriggerDefaults() in AbstractSectionTriggers.bind() and reintroduce them.
  */
@@ -106,7 +106,7 @@ export const SECTION_OVERRIDES = Object.freeze({
     lg: { animation: { variant: "reduced" } },
     xl: { animation: { variant: "reduced" } },
   },
-  bio: {
+  hero: {
     reduced: { animation: { variant: "reduced" } },
     base: { animation: { variant: "split" } },
     sm: { animation: { variant: "split" } },
@@ -160,7 +160,7 @@ export function getActiveMotionProfileKey(conditions = {}) {
  * top-level channels (timeline, trigger, animation) in the override replace
  * their counterparts in the base profile.
  *
- * @param {string} sectionKey - Section identifier (e.g. 'hero', 'bio', 'card')
+ * @param {string} sectionKey - Section identifier (e.g. 'hero', 'card')
  * @param {Object} conditions  - Conditions object from gsap.matchMedia context
  * @returns {{ timeline: Object, trigger: Object, animation?: Object }} Resolved profile
  */

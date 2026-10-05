@@ -14,7 +14,7 @@
 /**
  * Build the standard event-name set for a section.
  *
- * @param {string} key - Section key (e.g. "bio", "awards").
+ * @param {string} key - Section key (e.g. "hero", "awards").
  * @returns {{
  *   enter: string, exit: string,
  *   onEnterBack: string, onLeaveBack: string,
@@ -73,13 +73,13 @@ export const EVENTS = {
   },
   video: { ...makeSectionEvents("video"), media: VIDEO_MEDIA_EVENTS },
   // Global site header (GlobalHeaderManager). Emits intro:complete once its
-  // reveal lands; on home the reveal is cued by bio:intro:complete.
+  // reveal lands; on home the reveal is cued by hero:intro:complete.
   header: makeSectionEvents("header"),
   // Home landing header role state machine (HomeHeaderManager). The nav reveal
   // emits intro:start/complete so a larger sequence can coordinate off it.
   home: makeSectionEvents("home"),
   organizations: makeSectionEvents("organizations"),
-  bio: makeSectionEvents("bio"),
+  hero: makeSectionEvents("hero"),
   process: makeSectionEvents("process"),
   awards: makeSectionEvents("awards"),
   work: makeSectionEvents("work"),

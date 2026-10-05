@@ -1,27 +1,27 @@
 ---
-description: "Bio molecule part — anchors the gel_subheading gel behind the bio overview <h3> as a full-bleed band (viewport width, heading height, heading y) and keeps it synced on scroll and resize. Mirrors heading-gel.js for the <h2>. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
+description: "Hero molecule part — anchors the gel_subheading gel behind the hero overview <h3> as a full-bleed band (viewport width, heading height, heading y) and keeps it synced on scroll and resize. Mirrors heading-gel.js for the <h2>. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
 tags:
   - choreography
-  - bio-motion
+  - hero-motion
   - gel
 links:
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
-  - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
+  - "[[molecules/hero-motion/heading-gel|molecules/hero-motion/heading-gel]]"
 ---
 
 `attachOverviewGel(view, gelManager)` resolves `gel_subheading` from the
 manager (the gel element's DOM id predates this rename — left as-is since the
-template/background layer wasn't asked to change) and `[data-bio-el="overview"]`
-from the bio section root, then positions the gel to `left: 0 / width: 100vw /
+template/background layer wasn't asked to change) and `[data-hero-el="overview"]`
+from the hero section root, then positions the gel to `left: 0 / width: 100vw /
 top: <overview heading viewport top> / height: <overview heading height>` and
 reveals it (`autoAlpha: 1` — `GelAnimationManager` parks every gel at 0).
 
 The gel is `absolute` inside `#sizzle-background`, which is `fixed inset-0`, so
 its coordinates resolve against the viewport and no scroll offset is added to
 `top`. A fixed container does not scroll with the heading, so a ScrollTrigger
-(`id: bio-overview-gel-sync`, `top bottom` → `bottom top`) re-syncs on
+(`id: hero-overview-gel-sync`, `top bottom` → `bottom top`) re-syncs on
 `onUpdate` / `onRefresh` / `onToggle`. The trigger is killed by id before being
 recreated, so matchMedia/resize rebuilds do not stack duplicates.
 
@@ -58,14 +58,14 @@ reveal's first beat.
 
 "Anchors" is positional language, not `ScrollTrigger`'s `pin`. This gel is a
 child of `#sizzle-background` (`fixed inset-0`) — already viewport-positioned,
-so it must never be a pin target. `bio-overview-gel-sync` sets no `pin`
+so it must never be a pin target. `hero-overview-gel-sync` sets no `pin`
 (defaults `false`); it only rewrites `top`/`height`. See
 [heading-gel.md](heading-gel.md#never-pinned) for the full rationale.
 
 `gel.refresh()` (SVG mask re-measure) runs only when the heading height
 changes, not on every scroll tick.
 
-Reduced motion: handled upstream — the profile system swaps bio to the
+Reduced motion: handled upstream — the profile system swaps hero to the
 `reduced` variant, which does not call this. The band itself is a static
 positioned state, not an animation.
 

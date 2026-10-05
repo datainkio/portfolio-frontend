@@ -6,7 +6,7 @@
 		{"id":"732eee2b3066eee2","x":-1280,"y":920,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/js/preloader/Preloader Sequence.canvas"},
 		{"id":"11d7302e4a7f2919","type":"text","text":"## 📢 background playing","x":-1280,"y":1440,"width":400,"height":60,"color":"6"},
 		{"id":"3b838eadb4587887","x":-1280,"y":1640,"width":400,"height":400,"color":"6","type":"file","file":"dataink.io/frontend/js/choreography/organisms/background/BackgroundVideo.md"},
-		{"id":"fc6a228881b76695","x":300,"y":1090,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/js/choreography/organisms/bio/Bio.md"}
+		{"id":"fc6a228881b76695","x":300,"y":1090,"width":400,"height":400,"type":"file","file":"dataink.io/frontend/js/choreography/organisms/hero/Hero.md"}
 	],
 	"edges":[
 		{"id":"f58ebb2d62e5d632","fromNode":"732eee2b3066eee2","fromSide":"right","toNode":"2438049ff62ce0f8","toSide":"left"},

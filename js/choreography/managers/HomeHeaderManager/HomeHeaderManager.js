@@ -30,7 +30,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * interaction gate with no cue.
  *
  * `home:outro:complete` is load-bearing: `LandingSequence` cues the background
- * video's intro off it, which in turn cues the gel entrance and the bio intro.
+ * video's intro off it, which in turn cues the gel entrance and the hero intro.
  * The header opens the landing; the rest of the page carries it from there.
  *
  * The role swap itself is CSS-owned: the template declares each role's layout as

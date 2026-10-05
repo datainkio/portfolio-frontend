@@ -36,7 +36,7 @@ AnimationDirector (initializes everything)
 AnimationBus (pub/sub event system)
    ↓
 ├─ ScrollEffectsCoordinator (scroll smoothing, backgrounds, gels, lines, ruler)
-├─ Section Controllers (BackgroundVideo, Bio, Awards, Organizations, Work)
+├─ Section Controllers (BackgroundVideo, Hero, Awards, Organizations, Work)
 └─ Sequences (LandingSequence orchestrates multi-section flow)
 ```
 
@@ -80,7 +80,7 @@ js/choreography/
 │   └── SectionCapManager/            # Section-cap scrollspy
 ├── organisms/                        # Section controllers (extend AbstractSection)
 │   ├── background/BackgroundVideo.js # Video background
-│   ├── bio/Bio.js                    # Biography section
+│   ├── hero/Hero.js                    # Hero section
 │   ├── awards/Awards.js              # Awards section
 │   ├── organizations/Organizations.js # Organizations section
 │   ├── work/Work.js                  # Work section
@@ -99,7 +99,7 @@ js/choreography/
 - Boots on `DOMContentLoaded`, deferred to idle via `requestIdleCallback` (`setTimeout` fallback)
 - Creates AnimationBus for event coordination
 - Initializes ScrollEffectsCoordinator for scroll smoothing + background/decoration effects
-- Instantiates section controllers from [system/registry.js](system/registry.js): BackgroundVideo, Bio, Awards, Organizations, Work
+- Instantiates section controllers from [system/registry.js](system/registry.js): BackgroundVideo, Hero, Awards, Organizations, Work
 - Starts LandingSequence choreography
 - Exposes `window.director` API for debugging and control
 
@@ -177,14 +177,14 @@ ${key}:enter / ${key}:exit                 # ScrollTrigger forward pass
 ${key}:onEnterBack / ${key}:onLeaveBack    # ScrollTrigger reverse pass (camelCase, historical)
 ```
 
-Concrete: `bio:intro:start`, `work:enter`, `hero:outro:complete`.
+Concrete: `hero:intro:start`, `work:enter`, `hero:outro:complete`.
 
 `AbstractSection` resolves these once in its constructor via `EVENTS[sectionKey]`. **A section whose key has no `EVENTS` entry emits nothing at all** — `_emit()` returns early on an undefined name — so every new section needs a line in `EVENTS` alongside its `SECTION_REGISTRY` line.
 
 **Available Sections** (see [system/registry.js](system/registry.js)):
 
 - `BackgroundVideo` - Background video playback and synchronization
-- `Bio` - Biography section with animations
+- `Hero` - Hero section with animations
 - `Process` - Process section (breakpoint-selected animation variant)
 - `Awards` - Awards showcase
 - `Organizations` - Organizations showcase

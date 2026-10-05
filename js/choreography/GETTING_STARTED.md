@@ -52,7 +52,7 @@ if (document.readyState === "loading") {
    spacers exist before the work-header pin measures the footer position
    ↓
 5. Section controllers instantiated from SECTION_REGISTRY:
-   BackgroundVideo · Bio · Process · Awards · Organizations · Work
+   BackgroundVideo · Hero · Process · Awards · Organizations · Work
    ↓
 6. Global managers: GlobalHeader, HomeHeader, WorkHeader, WorkNav,
    ProjectHeader, BuildInfo, SectionCap
@@ -284,7 +284,7 @@ Sequence listens for section completion and triggers next section:
 // In LandingSequence
 this.bus.on(EVENTS.hero.introComplete, () => {
   // Hero animation finished, start next section
-  this.sections.bio.playIntro();
+  this.sections.hero.playIntro();
 });
 ```
 
@@ -333,13 +333,13 @@ ${key}:${phase}:${status}     phase = landing | intro | outro
 ${key}:enter / ${key}:exit                 forward scroll pass
 ${key}:onEnterBack / ${key}:onLeaveBack    reverse pass (camelCase, historical)
 
-key = hero, video, home, bio, process, awards, organizations, work
+key = hero, video, home, hero, process, awards, organizations, work
 
 Examples:
 - hero:intro:start (hero animation started)
 - hero:intro:complete (hero animation finished)
 - video:enter (video section entered viewport)
-- bio:outro:complete (bio animation finished reversing)
+- hero:outro:complete (hero animation finished reversing)
 ```
 
 There is no `section:` prefix and no `scroll:` segment. A section key with no `EVENTS` entry emits nothing — `_emit()` drops undefined names silently.
@@ -355,7 +355,7 @@ There is no `enableDebug()` — the inert `AnimationBus.enableDebug()` was remov
 ```javascript
 // Get section instances
 window.director.getSections();
-// → { hero, video, bio, process, awards, organizations, work }
+// → { hero, video, hero, process, awards, organizations, work }
 
 // Access specific section
 window.director.getSections().hero;
@@ -384,7 +384,7 @@ All choreography modules use `lumberjack` logger:
 
 ```javascript
 // Check logs in console
-// Each module has a scoped logger: AnimationDirector, Bio, Work, etc.
+// Each module has a scoped logger: AnimationDirector, Hero, Work, etc.
 logger.trace("message", data, "verbose");
 ```
 
@@ -435,7 +435,7 @@ _onIntroComplete() {
 
 ## Next Steps
 
-1. **Study Existing Sections**: Review Bio, Process for reference implementations
+1. **Study Existing Sections**: Review Hero, Process for reference implementations
 2. **Test DOM Requirements**: Verify your section's DOM element exists before initialization
 3. **Use Events**: Listen to section events instead of tight coupling
 4. **Respect Accessibility**: Declare a reduced variant in [config/ix/profiles.js](config/ix/profiles.js) — the base class handles the snap-to-end via `_applyPostIntroState()`

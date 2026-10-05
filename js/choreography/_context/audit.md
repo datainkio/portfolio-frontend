@@ -32,7 +32,7 @@ choreography/
 ├── config/                ← contracts/ (events, selectors, labels, paths, timelines), ix/, displays/; barrel at config/index/index.js
 ├── managers/              ← ScrollEffectsCoordinator + global singletons (header/nav/reduced-motion/smoother/gel/session/ruler)
 ├── atoms/ · molecules/ · tokens/  ← atomic motion layers
-├── organisms/             ← section controllers (BackgroundVideo, Bio, Awards, Organizations, Work) + card/
+├── organisms/             ← section controllers (BackgroundVideo, Hero, Awards, Organizations, Work) + card/
 ├── templates/landing/LandingSequence.js
 └── pages/Project/
 ```

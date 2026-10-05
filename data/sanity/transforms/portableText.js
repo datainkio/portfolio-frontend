@@ -101,8 +101,8 @@ export function serializePortableTextToHtml(blocks) {
           // Same data-lightbox-el contract as views/molecules/figure/media.njk (zoom),
           // hand-built here since @portabletext/to-html serializers return raw HTML
           // strings, not Nunjucks. Lightbox.js is attribute-driven so either source
-          // wires up identically. data-bio-el="body" is preserved for the existing
-          // Bio choreography hook (BIO_SELECTORS.elementAttribute). description is
+          // wires up identically. data-hero-el="body" is preserved for the existing
+          // Hero choreography hook (HERO_SELECTORS.elementAttribute). description is
           // optional — figcaption is omitted entirely when absent.
           // Dialog markup mirrors views/molecules/lightbox/lightbox-dialog.njk.
           const triggerLabel = alt ? `Enlarge image: ${alt}` : "Enlarge image";
@@ -111,7 +111,7 @@ export function serializePortableTextToHtml(blocks) {
             : "";
           return `<figure data-lightbox-el="root" class="contents">
   <button type="button" data-lightbox-el="trigger" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-60 disabled:cursor-not-allowed block cursor-zoom-in" aria-haspopup="dialog" aria-label="${triggerLabel}">
-    <img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-bio-el="body" />
+    <img src="${src}" alt="${alt}" loading="lazy" decoding="async" data-hero-el="body" />
   </button>
   <dialog data-lightbox-el="dialog" aria-label="${alt || caption || "Image viewer"}" class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80 cursor-zoom-out${caption ? " lg:w-[90vw]" : ""}">
     <button type="button" data-lightbox-el="close" class="mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">Close</button>
@@ -130,13 +130,13 @@ export function serializePortableTextToHtml(blocks) {
           }
 
           const headingHtml = heading
-            ? `<h3 data-bio-el="sub-section-heading">${heading}</h3>`
+            ? `<h3 data-hero-el="sub-section-heading">${heading}</h3>`
             : "";
           const nestedBodyHtml = bodyHtml
-            ? `<div data-bio-el="sub-section-body">${bodyHtml}</div>`
+            ? `<div data-hero-el="sub-section-body">${bodyHtml}</div>`
             : "";
 
-          return `<section class="sub-section" data-bio-el="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
+          return `<section class="sub-section" data-hero-el="sub-section">${headingHtml}${nestedBodyHtml}</section>`;
         },
         project_aside: ({ value }) => {
           const heading = escapeHtml(value?.title || "");
@@ -148,13 +148,13 @@ export function serializePortableTextToHtml(blocks) {
           }
 
           const headingHtml = heading
-            ? `<h3 class="project-aside__heading" data-bio-el="project-aside-heading">${heading}</h3>`
+            ? `<h3 class="project-aside__heading" data-hero-el="project-aside-heading">${heading}</h3>`
             : "";
           const narrativeHtml = bodyHtml
-            ? `<div class="project-aside__body" data-bio-el="project-aside-body">${bodyHtml}</div>`
+            ? `<div class="project-aside__body" data-hero-el="project-aside-body">${bodyHtml}</div>`
             : "";
 
-          return `<aside class="project-aside" data-bio-el="project-aside">${headingHtml}${narrativeHtml}${resourcesHtml}</aside>`;
+          return `<aside class="project-aside" data-hero-el="project-aside">${headingHtml}${narrativeHtml}${resourcesHtml}</aside>`;
         },
       },
       block: {

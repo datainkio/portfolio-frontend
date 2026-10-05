@@ -1,6 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/labels/accession-label.njk" as Label %}
-  {%- set sectionId = params.id | default("bio") -%}
+  {%- set sectionId = params.id | default("hero") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
   {%- set subheading = params.copy.subheading -%}
@@ -29,22 +29,22 @@
            id="{{ sectionId }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
-    <header class="{{ header_styles | classes }}" data-bio-el="header">
+    <header class="{{ header_styles | classes }}" data-hero-el="header">
       {{ Label.render({
             index: "01",
             title: "Manifesto",
             description: "Russell Lebo / Selected Works Archive",
             scope: "2008-" + (buildDate | formatDate("yyyy") ),
-      attrs: 'data-bio-el="context"'
+      attrs: 'data-hero-el="context"'
       }) }}
       <h1 class="{{ title_styles | classes }}"
           id="{{ headingId }}"
-          data-bio-el="heading">{{ heading }}</h1>
+          data-hero-el="heading">{{ heading }}</h1>
     </header>
     <section class="{{ statement_styles | classes }}"
-             data-bio-el="mission-statement">
-      <h2 class="{{ subheading_styles | classes }}" data-bio-el="subheading">{{ subheading }}</h2>
-      <div data-bio-el="body" class="{{ body_styles | classes }}">{{ body | safe }}</div>
+             data-hero-el="mission-statement">
+      <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ subheading }}</h2>
+      <div data-hero-el="body" class="{{ body_styles | classes }}">{{ body | safe }}</div>
     </section>
   </section>
 {% endmacro %}

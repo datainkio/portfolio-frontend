@@ -44,7 +44,7 @@ Four real subdirectories exist under `views/organisms/`:
 
 ### `section/` - Homepage/Landing Content Sections
 
-- **`hero.njk`**, **`bio.njk`**, **`work.njk`**, **`organizations.njk`**, **`awards.njk`**, **`process.njk`**, **`contact.njk`** - one file per homepage section, each with its own choreography/GSAP integration
+- **`hero.njk`**, **`hero.njk`**, **`work.njk`**, **`organizations.njk`**, **`awards.njk`**, **`process.njk`**, **`contact.njk`** - one file per homepage section, each with its own choreography/GSAP integration
 
 **Note**: `organisms/section/awards.njk` and `molecules/awards.njk` both render an award list grouped by organization (`groupByOrg` + `card/award-organization.njk`) but the organism reimplements the list-rendering inline rather than composing the molecule, since the molecule bundles its own `<section>`/heading wrapper. Worth consolidating if this file is touched again.
 

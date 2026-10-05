@@ -7,7 +7,7 @@ links:
   - "[global-footer](../../organisms/footer/global-footer.md)"
   - "[skip-links-nav](../../organisms/navigation/skip-links-nav.md)"
   - "[sizzle-background](../../molecules/background/sizzle-background.md)"
-  - "[bio](../../organisms/section/bio.md)"
+  - "[hero](../../organisms/section/hero.md)"
   - "[awards](../../organisms/section/awards.md)"
   - "[work](../../organisms/section/work.md)"
   - "[organizations](../../organisms/section/organizations.md)"
@@ -54,7 +54,7 @@ Actual execution order. Steps 1 and 4 are `head.njk` includes; step 6 is
 - `SkipLinksNav` — `skip-links-nav.njk`, no params.
 - `SectionCap` — `section-cap.njk`, `{title}` (preloader-state cap, not a content section).
 - `PageHeader.home_landing` — `home-landing.njk`, `{svg}` (also the preloader overlay).
-- `HeroSection` — `bio.njk`, `{id, copy}`.
+- `HeroSection` — `hero.njk`, `{id, copy}`.
 - `ProjectsSection` — `work.njk`, `{id, copy, projects}`.
 - `OrganizationsSection` — `organizations.njk`, `{id, copy, organizations}`.
 - `AwardsSection` — `awards.njk`, `{id, copy, awards}`.
@@ -75,7 +75,7 @@ Actual execution order. Steps 1 and 4 are `head.njk` includes; step 6 is
   - [[global-footer.njk]]
   - [[skip-links-nav.njk]]
   - [[sizzle-background.njk]]
-  - [[bio.njk]]
+  - [[hero.njk]]
   - [[awards.njk]]
   - [[work.njk]]
   - [[organizations.njk]]
@@ -115,7 +115,7 @@ Source, deciding _"could I maintain this — and will it make me a hero?"_
 2. **Atomic composition** (at `<main>`) — the `views/` ladder
    (atoms→molecules→organisms→templates→pages); macros as the unit of reuse;
    `import … with context` vs without, and why context is scoped deliberately;
-   one concrete trace (`home.njk → BioSection.render() → molecule → atom`).
+   one concrete trace (`home.njk → HeroSection.render() → molecule → atom`).
 3. **Layout contract** (at `<main class="…">`) — responsive class-map objects
    (`{base, sm, md, lg}`) piped through the `| classes` filter (config-as-data,
    not inline soup); the standalone-document vs `extends base.njk` fork, and why

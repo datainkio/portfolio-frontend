@@ -7,7 +7,6 @@ tags:
   - system
 links:
   - "[[Hero|Hero]]"
-  - "[[Bio|Bio]]"
   - "[[BackgroundVideo|BackgroundVideo]]"
   - "[[Awards|Awards]]"
   - "[[Organizations|Organizations]]"

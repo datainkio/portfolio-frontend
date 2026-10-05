@@ -1,5 +1,5 @@
 ---
-description: "Bio animations module — builds the intro timeline for the biography section using BIO_INTRO motion defaults."
+description: "Hero animations module — builds the intro timeline for the hero section using HERO_INTRO motion defaults."
 status: stable
 tags:
   - choreography

@@ -142,7 +142,7 @@ the backdrop, `auto` over the content.
 | Caller | Source | Notes |
 | --- | --- | --- |
 | [`card/design-decision.njk`](../../views/molecules/card/design-decision.md) | `Media` with `zoom: true` | Page caption is `sr-only`; the dialog shows it visibly |
-| PortableText `image` blocks (bio, case-study body) | Serializer | Caption from the asset's Description field |
+| PortableText `image` blocks (hero, case-study body) | Serializer | Caption from the asset's Description field |
 | [`card/image.njk`](../../views/molecules/card/image.md) | `Media` with `picture`, `zoom: true` | No callers; dev/admin media card |
 
 **No live surface uses the `video` source yet.** Project `featuredVideo`

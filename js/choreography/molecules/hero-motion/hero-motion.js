@@ -1,9 +1,9 @@
 /**
- * Bio-Motion Molecule
+ * Hero-Motion Molecule
  *
- * Animation variant factories for the bio section. Each variant provides
+ * Animation variant factories for the hero section. Each variant provides
  * buildIntro and buildOutro factory functions that return GSAP timelines.
- * BioAnimations.js selects the active variant via SECTION_OVERRIDES.bio
+ * HeroAnimations.js selects the active variant via SECTION_OVERRIDES.hero
  * in config/ix/profiles/profiles.js.
  *
  *   split  - Gel band at rest, full-bleed (landing), then GSAP SplitText on the header and
@@ -23,14 +23,14 @@ import {
   buildOutro as buildOutroReduced,
 } from "./reduced.js";
 
-export const BIO_VARIANT_FACTORIES = Object.freeze({
+export const HERO_VARIANT_FACTORIES = Object.freeze({
   split: {
     // Landing phase: the gel band parked full-bleed at rest — no entrance.
     init: buildHeadingGelRest,
     buildIntro: introSplit,
-    // Outro disabled — omitting buildOutro makes BioAnimations._buildOutro fall
-    // back to the base class's empty timeline, which BioTriggers._bindOutroPin
-    // reads as "no motion" and skips the bio-outro-pin entirely (no pin, no
+    // Outro disabled — omitting buildOutro makes HeroAnimations._buildOutro fall
+    // back to the base class's empty timeline, which HeroTriggers._bindOutroPin
+    // reads as "no motion" and skips the hero-outro-pin entirely (no pin, no
     // scrub, no heading-gel-sync suspend). split.js `outro()` is left intact.
     // To re-enable: restore the `outro as outroSplit` import and
     // `buildOutro: outroSplit,` here.

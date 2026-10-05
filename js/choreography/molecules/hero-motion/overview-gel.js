@@ -1,10 +1,10 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
-import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**
- * Bio Overview Gel
+ * Hero Overview Gel
  *
- * Anchors the `gel_subheading` gel behind the bio section's overview <h2> as a
+ * Anchors the `gel_subheading` gel behind the hero section's overview <h2> as a
  * full-bleed band: viewport width, the overview heading's own height, at its
  * viewport y. Mirrors heading-gel.js's strategy for the <h1>.
  *
@@ -20,13 +20,14 @@ import { BIO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
  */
 
 export const OVERVIEW_GEL_ID = "gel_subheading";
-export const OVERVIEW_SYNC_ST_ID = "bio-overview-gel-sync";
+export const OVERVIEW_SYNC_ST_ID = "hero-overview-gel-sync";
 const SYNC_ST_ID = OVERVIEW_SYNC_ST_ID;
 const OVERVIEW_EL = "overview";
 
 const selectOverview = (view) =>
-  view?.querySelector(`[${BIO_SELECTORS.elementAttribute}="${OVERVIEW_EL}"]`) ??
-  null;
+  view?.querySelector(
+    `[${HERO_SELECTORS.elementAttribute}="${OVERVIEW_EL}"]`,
+  ) ?? null;
 
 // The mission-statement reveal owns `scaleX`/`autoAlpha` on the band while it
 // wipes in. `sync()` would reset both on the next scroll tick — suspend it for
@@ -55,7 +56,7 @@ export const getOverviewGelEl = (gelManager) =>
   gelManager?.getGel?.(OVERVIEW_GEL_ID)?.view ?? null;
 
 /**
- * @param {HTMLElement|null} view Bio section root.
+ * @param {HTMLElement|null} view Hero section root.
  * @param {object|null} gelManager GelAnimationManager instance.
  * @returns {ScrollTrigger|null} The sync trigger, or null when unavailable.
  */

@@ -7,7 +7,7 @@
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
-import { BIO_INTRO_HOLD, SELECTORS } from "../../config/index/index.js";
+import { HERO_INTRO_HOLD, SELECTORS } from "../../config/index/index.js";
 import {
   BACKGROUND_VIDEO_SETTLED_EVENTS,
   isBackgroundVideoSettled,
@@ -25,16 +25,16 @@ export class LandingSequence {
     this.gelManager = gelAnimation;
 
     this._listeners = [];
-    // The beat between video:intro:complete and bio.playIntro(). gsap.delayedCall
+    // The beat between video:intro:complete and hero.playIntro(). gsap.delayedCall
     // (not setTimeout) so the timer is ticker-synced, pausable and killable.
-    this._bioHoldCall = null;
+    this._heroHoldCall = null;
     // Gates the scroll-driven resume below. Until the video's own intro has
     // completed, playback belongs to the landing chain and nothing else may
     // start it.
     this._videoIntroComplete = false;
-    // Set for exactly one `bio:exit`, by the `bio:onLeaveBack` that precedes it.
+    // Set for exactly one `hero:exit`, by the `hero:onLeaveBack` that precedes it.
     // See the exit listener in _registerListeners for why this is needed.
-    this._bioLeftBackwards = false;
+    this._heroLeftBackwards = false;
 
     // The video reveal needs both halves before it can run, and they do not
     // arrive in a fixed order relative to each other — see _cueVideoIntro.
@@ -100,10 +100,10 @@ export class LandingSequence {
 
     this.logger.trace("Destroying sequence", null, "brief", "standard");
 
-    this._bioHoldCall?.kill();
-    this._bioHoldCall = null;
+    this._heroHoldCall?.kill();
+    this._heroHoldCall = null;
     this._videoIntroComplete = false;
-    this._bioLeftBackwards = false;
+    this._heroLeftBackwards = false;
     this._videoMediaSettled = false;
     this._videoLandingStaged = false;
     this._videoIntroCued = false;
@@ -155,38 +155,38 @@ export class LandingSequence {
   }
 
   /**
-   * Hold a beat after the background video's intro, then play Bio's intro.
+   * Hold a beat after the background video's intro, then play Hero's intro.
    *
-   * The gel band has no entrance: it is parked full-bleed at rest when bio's
-   * timelines build (molecules/bio-motion/heading-gel.js), so there is no
+   * The gel band has no entrance: it is parked full-bleed at rest when hero's
+   * timelines build (molecules/hero-motion/heading-gel.js), so there is no
    * landing phase to await here.
    *
    * Reduced motion zeroes the hold rather than skipping the call — the video
    * still emits `video:intro:complete` under a gated profile (AbstractSection
    * jumps the intro to progress(1) and emits), so this chain must stay intact.
    */
-  _armBioIntro() {
-    if (this._bioHoldCall) return;
+  _armHeroIntro() {
+    if (this._heroHoldCall) return;
 
-    const hold = isReducedMotion() ? 0 : BIO_INTRO_HOLD.delay;
+    const hold = isReducedMotion() ? 0 : HERO_INTRO_HOLD.delay;
 
-    this._bioHoldCall = gsap.delayedCall(hold, () => {
-      this._bioHoldCall = null;
-      this.logger.trace(SELECTORS.bio + " intro (after video intro)");
-      this.sections?.bio?.playIntro?.();
+    this._heroHoldCall = gsap.delayedCall(hold, () => {
+      this._heroHoldCall = null;
+      this.logger.trace(SELECTORS.hero + " intro (after video intro)");
+      this.sections?.hero?.playIntro?.();
     });
 
-    this.logger.trace(`BG Video intro complete; bio holds ${hold}s`);
+    this.logger.trace(`BG Video intro complete; hero holds ${hold}s`);
   }
 
   /**
-   * Background video playback is scoped to Bio.
+   * Background video playback is scoped to Hero.
    *
-   * The video is the subject of the landing and of Bio, and backdrop for
+   * The video is the subject of the landing and of Hero, and backdrop for
    * everything below it. Rather than ask "is the video covered" — which is
    * unanswerable here, since every section sits over it transparently by
    * design and the sections tile the page contiguously — the cue is simply
-   * whether Bio is on screen. Bio is in view at load, so the video plays from
+   * whether Hero is on screen. Hero is in view at load, so the video plays from
    * the landing through the manifesto, then pauses for the rest of the page.
    *
    * The video keeps its fixed positioning, size, layer and visibility
@@ -205,7 +205,7 @@ export class LandingSequence {
     // pauses instead), so a scroll-driven resume must not start it either.
     if (isReducedMotion()) return;
     // Before the video's intro completes, the landing chain owns playback —
-    // Bio's ScrollTrigger fires `enter` at load, and resuming on it would start
+    // Hero's ScrollTrigger fires `enter` at load, and resuming on it would start
     // the video underneath its own reveal.
     if (!this._videoIntroComplete) return;
 
@@ -229,7 +229,7 @@ export class LandingSequence {
     //
     //   video settles (playing, or never will)
     //     -> background video intro
-    //       -> (beat) -> bio intro (gel band already at rest, no entrance)
+    //       -> (beat) -> hero intro (gel band already at rest, no entrance)
     //
     // The cue used to be `home:outro:complete`, emitted by HomeHeaderManager.
     // That manager is no longer constructed by AnimationDirector, so nothing
@@ -237,7 +237,7 @@ export class LandingSequence {
     // media events are the replacement: they always arrive, and they mean the
     // frames are actually moving — so the fade never reveals a still poster.
     //
-    // The chain still terminates at `bio:intro:complete`, and the bio
+    // The chain still terminates at `hero:intro:complete`, and the hero
     // ScrollTrigger still fires enter/exit for side effects without driving
     // the reveal.
     BACKGROUND_VIDEO_SETTLED_EVENTS.forEach((eventName) =>
@@ -250,43 +250,43 @@ export class LandingSequence {
 
     on(EVENTS.video.introComplete, () => {
       this._videoIntroComplete = true;
-      this._armBioIntro();
+      this._armHeroIntro();
     });
 
-    // Bio's enter/exit pair gates background video playback (see
+    // Hero's enter/exit pair gates background video playback (see
     // _resumeBackgroundVideo). Both scroll directions are wired so the gate is
     // symmetric: enter/onEnterBack resume, exit/onLeaveBack pause.
-    on(EVENTS.bio.enter, () => {
-      this.logger.trace(SELECTORS.bio + " entered.");
-      this._bioLeftBackwards = false;
+    on(EVENTS.hero.enter, () => {
+      this.logger.trace(SELECTORS.hero + " entered.");
+      this._heroLeftBackwards = false;
       this._resumeBackgroundVideo();
     });
 
-    on(EVENTS.bio.onEnterBack, () => {
-      this.logger.trace(SELECTORS.bio + " entered back");
-      this._bioLeftBackwards = false;
+    on(EVENTS.hero.onEnterBack, () => {
+      this.logger.trace(SELECTORS.hero + " entered back");
+      this._heroLeftBackwards = false;
       this._resumeBackgroundVideo();
     });
 
-    on(EVENTS.bio.onLeaveBack, () => {
-      this.logger.trace(SELECTORS.bio + " left back");
-      // Leaving Bio *backwards* means scrolling up above its start — which is
+    on(EVENTS.hero.onLeaveBack, () => {
+      this.logger.trace(SELECTORS.hero + " left back");
+      // Leaving Hero *backwards* means scrolling up above its start — which is
       // the landing, where the video is the subject. Keep playing. The flag is
       // consumed by the `exit` listener below.
-      this._bioLeftBackwards = true;
+      this._heroLeftBackwards = true;
       this._resumeBackgroundVideo();
     });
 
-    on(EVENTS.bio.exit, () => {
-      // Bio playback is disengaged from scroll — no outro on scroll-out.
-      this.logger.trace(SELECTORS.bio + " exited");
+    on(EVENTS.hero.exit, () => {
+      // Hero playback is disengaged from scroll — no outro on scroll-out.
+      this.logger.trace(SELECTORS.hero + " exited");
       // `exit` is not directional. AbstractSection._onLeaveBack emits
       // `onLeaveBack` and then routes through `_onLeave`, which emits `exit` —
-      // so this fires when scrolling up above Bio as well as down past it, and
-      // only the downward case means "past Bio". The listener above ran first
+      // so this fires when scrolling up above Hero as well as down past it, and
+      // only the downward case means "past Hero". The listener above ran first
       // (bus dispatch is synchronous) and flags the upward case.
-      if (this._bioLeftBackwards) {
-        this._bioLeftBackwards = false;
+      if (this._heroLeftBackwards) {
+        this._heroLeftBackwards = false;
         return;
       }
       this._pauseBackgroundVideo();

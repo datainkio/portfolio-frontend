@@ -80,7 +80,7 @@ no listener can observe a half-gone header.
 
 `home:outro:complete` is the cue the rest of the landing hangs off:
 `LandingSequence` starts the background video's intro there, which chains to the
-gel entrance and the bio intro. **The header opens the landing and then leaves.**
+gel entrance and the hero intro. **The header opens the landing and then leaves.**
 Anything added to that chain must not expect the header to still be present.
 
 Under **reduced motion** there is no slide: `_runTransition` emits `outro:start`,
@@ -158,8 +158,8 @@ event name).
 
 ## Notes for future maintenance
 
-- The header carries **no heading**. The page's `<h1>` is the bio section's
-  headline (`views/organisms/section/bio.njk`); the header's brand text is a
+- The header carries **no heading**. The page's `<h1>` is the hero section's
+  headline (`views/organisms/section/hero.njk`); the header's brand text is a
   plain `<p>`. Do not reintroduce an `<h1>` here — it would give the page two.
 - The header is a fixed full-viewport overlay (`h-dvh`, opaque `bg-slate-950`)
   while in `loader`/`hero`, and hidden thereafter.

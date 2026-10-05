@@ -53,16 +53,16 @@ export const ANIMATION_DEFAULTS = {
 export const HOME_HERO_HOLD = { delay: 0 }; // seconds
 
 /**
- * Bio Intro Hold
+ * Hero Intro Hold
  *
- * The beat between the background video's intro completing and Bio playing its
- * own intro. Bio's reveal is chained to `video:intro:complete` (see
+ * The beat between the background video's intro completing and Hero playing its
+ * own intro. Hero's reveal is chained to `video:intro:complete` (see
  * LandingSequence), not to the home header — the video finishing is the cue.
  *
  * `gsap.delayedCall` consumes this, so it is in seconds like HOME_HERO_HOLD.
  * Reduced motion zeroes it: the chain still runs, just without the pause.
  */
-export const BIO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
+export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
 
 export const HOME_HERO_OUTRO = {
   xPercent: -100, // slide the full-bleed hero off to the left
@@ -125,11 +125,11 @@ export const BACKGROUND_ANIMATION_DEFAULTS = {
 };
 
 /**
- * Bio Section Animation Defaults
+ * Hero Section Animation Defaults
  *
- * Specific overrides for the Bio section animations.
+ * Specific overrides for the Hero section animations.
  */
-export const BIO_ANIMATION_DEFAULTS = {
+export const HERO_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("slower")),
   translateY: -motion.distance("lg"),
@@ -141,7 +141,7 @@ export const BIO_ANIMATION_DEFAULTS = {
   stickySubheadingTopThreshold: 1,
 };
 
-export const BIO_INTRO = {
+export const HERO_INTRO = {
   ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("slow")),
   stagger: motion.stagger("loose"),
@@ -149,10 +149,10 @@ export const BIO_INTRO = {
 };
 
 /**
- * Bio Mission Statement — gel-led arrival
+ * Hero Mission Statement — gel-led arrival
  *
  * The mission statement's reveal, cued by its own ScrollTrigger rather than by
- * bio's intro timeline: it sits a full `h-dvh` below the header, so it is
+ * hero's intro timeline: it sits a full `h-dvh` below the header, so it is
  * off-screen when the intro plays and anything sequenced there would play
  * unseen.
  *
@@ -165,7 +165,7 @@ export const BIO_INTRO = {
  * comes from Sanity and is variable, so a per-item `each` would let a long
  * statement drag. GSAP distributes the total across however many there are.
  */
-export const BIO_MISSION_REVEAL = {
+export const HERO_MISSION_REVEAL = {
   gelDuration: toSeconds(motion.duration("slow")),
   duration: toSeconds(motion.duration("base")),
   distance: motion.distance("lg"),
@@ -180,7 +180,7 @@ export const BIO_MISSION_REVEAL = {
 };
 
 /**
- * Bio Outro — line fade, gel expand
+ * Hero Outro — line fade, gel expand
  *
  * Scrub-driven exit, two beats while the section is pinned: H1 lines fade
  * last-to-first, then the heading gel grows from its own vertical center to
@@ -188,7 +188,7 @@ export const BIO_MISSION_REVEAL = {
  * fraction of viewport height; `gelDuration` is timeline seconds for the
  * gel beat.
  */
-export const BIO_OUTRO = {
+export const HERO_OUTRO = {
   ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("fast")),
   stagger: motion.stagger("tight"),

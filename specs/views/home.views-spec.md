@@ -64,7 +64,7 @@ The template imports section macros and renders them, in order, inside a single 
 | —     | Skip links    | `organisms/navigation/skip-links-nav.njk`    | —               | (no params)                                            |
 | —     | Section cap   | `molecules/section-cap.njk`                  | —               | `title: "renderizoring..."` (render-state placeholder) |
 | 1     | Landing/hero  | `organisms/header/home/home-landing.njk`     | (landing)       | `svg: logo`                                            |
-| 2     | Bio/manifesto | `organisms/section/bio.njk`                  | `manifesto`     | `copy: value`                                          |
+| 2     | Hero/manifesto | `organisms/section/hero.njk`                  | `manifesto`     | `copy: value`                                          |
 | 3     | Process       | `organisms/section/process.njk`              | `process`       | `uiComponents: true` (ui-components-loop coverflow)    |
 | 4     | Work          | `organisms/section/work.njk`                 | `work`          | `copy: work`, `projects: projects`                     |
 | 5     | Organizations | `organisms/section/organizations.njk`        | `organizations` | `copy: organizationsCopy`, `organizations`             |

@@ -39,7 +39,7 @@ Durable reference docs for the dataink.io frontend. Optimized for the **Concierg
 ### "I'm working on choreography / animation"
 
 - System overview: [[js/choreography/README.choreography]]
-- Section controllers (BackgroundVideo, Bio, Awards, Organizations, Work): [[js/choreography/sections/README.sections]]
+- Section controllers (BackgroundVideo, Hero, Awards, Organizations, Work): [[js/choreography/sections/README.sections]]
 - Managers (reduced-motion, smoother, gel, line, ruler, session): [[js/choreography/managers/README.managers]]
 - Director init sequence diagram: [[docs/director-initialization-sequence|director-initialization-sequence]]
 - Preloader contract and smoke tests: [[docs/preloader-integration-checklist|preloader-integration-checklist]]

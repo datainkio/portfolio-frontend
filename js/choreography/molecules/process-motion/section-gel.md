@@ -1,5 +1,5 @@
 ---
-description: "Process molecule part — anchors the gel_process gel behind the entire process section as a full-bleed band (viewport width, section height, section y) and keeps it synced on scroll and resize. Mirrors bio-motion/heading-gel.js's strategy, scoped to the whole section root rather than a single element. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
+description: "Process molecule part — anchors the gel_process gel behind the entire process section as a full-bleed band (viewport width, section height, section y) and keeps it synced on scroll and resize. Mirrors hero-motion/heading-gel.js's strategy, scoped to the whole section root rather than a single element. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
 tags:
   - choreography
@@ -8,14 +8,14 @@ tags:
   - gel
 links:
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
-  - "[[molecules/bio-motion/heading-gel|molecules/bio-motion/heading-gel]]"
+  - "[[molecules/hero-motion/heading-gel|molecules/hero-motion/heading-gel]]"
 ---
 
 `attachSectionGel(view, gelManager)` resolves `gel_process` from the manager,
 then positions it against the process section root's own
 `getBoundingClientRect()` — `left: 0 / width: 100vw / top: <section viewport
 top> / height: <section height>` — and reveals it (`autoAlpha: 1` —
-`GelAnimationManager` parks every gel at 0). Unlike the bio heading-gel, there
+`GelAnimationManager` parks every gel at 0). Unlike the hero heading-gel, there
 is no inner-element selector: `view` itself is the sync target, so the band
 covers the full process section rather than a single heading.
 
@@ -32,7 +32,7 @@ recreated, so matchMedia/resize rebuilds do not stack duplicates.
 child of `#sizzle-background` (`fixed inset-0`) — already viewport-positioned,
 so it must never be a pin target. `process-section-gel-sync` sets no `pin`
 (defaults `false`); it only rewrites `top`/`height`. See
-[heading-gel.md](../bio-motion/heading-gel.md#never-pinned) for the full
+[heading-gel.md](../hero-motion/heading-gel.md#never-pinned) for the full
 rationale.
 
 `gel.refresh()` (SVG mask re-measure) runs only when the section height

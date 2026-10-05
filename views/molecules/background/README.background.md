@@ -18,7 +18,7 @@ Provides the DOM structure for:
 
 - Background video display
 - Grid pattern overlay (via `.bg-video` class applied by StageManager)
-- Scroll-pinned background during biography section
+- Scroll-pinned background during hero section
 
 ## Usage
 

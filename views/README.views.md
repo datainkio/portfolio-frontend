@@ -175,7 +175,7 @@ paradigms
 - **`footer/`** - `global-footer.njk` - site footer with links and metadata
 - **`navigation/`** - `primary-nav.njk`, `breadcrumbs-nav.njk`, `page-nav.njk`,
   `article-nav.njk`, `skip-links-nav.njk` - the site's navigation systems
-- **`section/`** - Content section patterns (hero, bio, work, process,
+- **`section/`** - Content section patterns (hero, work, process,
   organizations, awards, contact)
 
 **Example: Section with Background**

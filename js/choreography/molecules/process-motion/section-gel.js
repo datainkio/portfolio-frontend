@@ -5,7 +5,7 @@ import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
  *
  * Anchors the `gel_process` gel behind the entire process section as a
  * full-bleed band: viewport width, the section's own height, at the section's
- * viewport y. Mirrors bio-motion/heading-gel.js's strategy, scoped to the whole
+ * viewport y. Mirrors hero-motion/heading-gel.js's strategy, scoped to the whole
  * section root instead of a single heading element.
  *
  * The gel lives in `#sizzle-background` (`fixed inset-0`), so an absolutely

@@ -29,7 +29,7 @@ User Interaction (scroll, page load)
          ↓
    Director (master coordinator)
          ↓
-   ├─ Section Controllers (BackgroundVideo, Bio, Organizations)
+   ├─ Section Controllers (BackgroundVideo, Hero, Organizations)
    ├─ Stage Manager (scroll smoothing, background effects)
    └─ Animation Sequences (landing page choreography)
          ↓
@@ -89,7 +89,7 @@ Master coordination system for all page animations using event-driven architectu
   - `ScrollSmootherManager.js` - GSAP smooth scrolling initialization and configuration
   - `GelAnimationManager.js` - Gel background animation system
   - `SessionManager.js` - User interaction history and session state
-- **`sections/`** - Section controllers (BackgroundVideo, Bio, Organizations)
+- **`sections/`** - Section controllers (BackgroundVideo, Hero, Organizations)
   - Follow AbstractSection pattern with intro/outro/scroll lifecycle
   - Communicate via AnimationBus events
   - Reference: [js/choreography/sections/README.md](js/choreography/sections/README.md) for detailed controller patterns

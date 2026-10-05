@@ -25,7 +25,7 @@ and should be treated as durable contracts.
 - `events.js` -> `EVENTS`
 - `labels.js` -> `LABELS`
 - `paths.js` -> `ASSET_PATHS`
-- `selectors.js` -> `SELECTORS`, `BIO_SELECTORS`
+- `selectors.js` -> `SELECTORS`, `HERO_SELECTORS`
 - `timelines.js` -> `TIMELINE_IDS`
 
 ### `ix/` - Interaction design tuning
@@ -35,8 +35,8 @@ tuned as design evolves. Re-exported together via the `ix.js` barrel.
 
 - `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
 - `breakpoints.js` -> responsive breakpoint tokens
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
-- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
+- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
 - `profiles.js` -> motion/interaction profiles
 
 ### `displays/` - Decorative display configuration
@@ -45,8 +45,8 @@ Defaults for purely decorative display systems. Re-exported together via the `ix
 
 - `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
 - `breakpoints.js` -> responsive breakpoint tokens
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
-- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
+- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
 - `profiles.js` -> motion/interaction profiles
 
 ### `displays/` - Decorative display configuration
@@ -58,7 +58,7 @@ Defaults for purely decorative display systems.
 ## Placement Rules
 
 - Add values to `contracts/` when they define shared names or IDs used across modules.
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults, sub-section delay defaults, and sticky header state transition defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
+- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS` (including item reveal defaults, sub-section delay defaults, and sticky header state transition defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
 - Keep decorative generators themselves (DOM/rendering logic) outside config,
   in `frontend/js/displays/`.
 
@@ -86,8 +86,8 @@ flowchart TB
     subgraph IX[ix]
       IXB[ix.js\nbarrel export]
       BRK[breakpoints.js\nbreakpoint tokens]
-      MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS\nHERO/BACKGROUND/BIO/ORGANIZATIONS/WORK/AWARDS defaults]
-      SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nBIO_TRIGGER\nORGANIZATIONS_TRIGGER\nWORK_TRIGGER\nAWARDS_TRIGGER]
+      MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS\nHERO/BACKGROUND/HERO/ORGANIZATIONS/WORK/AWARDS defaults]
+      SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nORGANIZATIONS_TRIGGER\nWORK_TRIGGER\nAWARDS_TRIGGER]
       PRF[profiles.js\nmotion/interaction profiles]
     end
     subgraph DSP[displays]

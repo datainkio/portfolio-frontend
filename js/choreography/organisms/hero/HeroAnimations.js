@@ -1,9 +1,9 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { BIO_VARIANT_FACTORIES } from "./../../molecules/bio-motion/bio-motion.js";
+import { HERO_VARIANT_FACTORIES } from "./../../molecules/hero-motion/hero-motion.js";
 
-export default class BioAnimations extends AbstractSectionAnimations {
+export default class HeroAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
     this.gelManager = options.gelManager ?? null;
@@ -29,13 +29,15 @@ export default class BioAnimations extends AbstractSectionAnimations {
   }
 
   _factory() {
-    return BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
+    return (
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep
+    );
   }
 
-  // NOTE: This might be better defined along with the other factory methods in BIO_VARIANT_FACTORIES
+  // NOTE: This might be better defined along with the other factory methods in HERO_VARIANT_FACTORIES
   _buildLanding() {
     const factory =
-      BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep;
     // init is variant-specific (reduced-only): it pre-styles the gel resting
     // state. Variants without it have no landing phase — fall back to the
     // base class's empty timeline.
@@ -44,7 +46,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
 
   _buildIntro() {
     const factory =
-      BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep;
     return (
       factory.buildIntro?.(this.view, this.gelManager) ?? super._buildIntro()
     );
@@ -56,7 +58,7 @@ export default class BioAnimations extends AbstractSectionAnimations {
 
   _buildOutro() {
     const factory =
-      BIO_VARIANT_FACTORIES[this._variant] ?? BIO_VARIANT_FACTORIES.sweep;
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep;
     return (
       factory.buildOutro?.(this.view, this.gelManager) ?? super._buildOutro()
     );

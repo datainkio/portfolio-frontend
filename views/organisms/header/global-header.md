@@ -29,7 +29,7 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Visibility
 
-The header ships `hidden`; `GlobalHeaderManager` removes it at runtime (cued by `bio:intro:complete` on home, immediately elsewhere). With JavaScript off, `[@media(scripting:none)]:grid` restores its display, so the header is visible without the manager.
+The header ships `hidden`; `GlobalHeaderManager` removes it at runtime (cued by `hero:intro:complete` on home, immediately elsewhere). With JavaScript off, `[@media(scripting:none)]:grid` restores its display, so the header is visible without the manager.
 
 ## Relationships
 

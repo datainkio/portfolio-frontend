@@ -143,7 +143,7 @@ for (const hook of abstractLifecycleHooks) {
 }
 
 // Sequence entry handoff: preloader:out -> start() kicks the background video
-// intro. (The bio reveal is now driven off home:intro:complete, not hero.)
+// intro. (The hero reveal is driven off home:intro:complete.)
 if (!landingSequenceSource.includes("this.sections?.video?.playIntro?.();")) {
   throw new Error(
     "Expected preloader->video sequence handoff is missing in LandingSequence",

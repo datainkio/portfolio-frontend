@@ -12,6 +12,6 @@ links:
 
 `AWARDS_TRIGGER` extends `SCROLL_DEFAULTS`; `id = SELECTORS.awards`, `start: "top top"`, `end: "+=1500px"`, `once: false`. **pin/scrub currently `false`** (ScrollTrigger complexity evaluation — kept). With pin and scrub off, `end: "+=1500px"` is **inert** (no scroll range consumed) — left in place for easy scrub re-enable.
 
-`bind()` mirrors BioTriggers: hands the intro timeline to the ScrollTrigger as `animation` **only when `scrub` is truthy**, else the lifecycle drives the reveal via `onEnter → playIntro` (avoids double-drive). See `AbstractSection.playIntro`.
+`bind()` mirrors HeroTriggers: hands the intro timeline to the ScrollTrigger as `animation` **only when `scrub` is truthy**, else the lifecycle drives the reveal via `onEnter → playIntro` (avoids double-drive). See `AbstractSection.playIntro`.
 
 Awards degrades cleanly without scrub: slide-in fires once on enter.

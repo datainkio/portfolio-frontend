@@ -7,7 +7,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const heroPath = join(__dirname, "../../js/choreography/organisms/bio/Bio.js");
+const heroPath = join(
+  __dirname,
+  "../../js/choreography/organisms/hero/Hero.js",
+);
 const abstractSectionPath = join(
   __dirname,
   "../../js/choreography/system/AbstractSection.js",
@@ -28,10 +31,10 @@ console.log(
 );
 
 const requiredMarkers = [
-  'sectionKey: "bio"',
+  'sectionKey: "hero"',
   "this.events = EVENTS?.[sectionKey] ?? {};",
   "this.bus.emit(eventName, payload);",
-  'bio: makeSectionEvents("bio")',
+  'hero: makeSectionEvents("hero")',
   "introStart:",
   "introComplete:",
   "outroStart:",

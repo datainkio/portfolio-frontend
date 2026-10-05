@@ -24,7 +24,7 @@ export const SELECTORS = {
 
   // Section IDs
   organizations: "organizations",
-  bio: "manifesto",
+  hero: "manifesto",
   process: "process",
   awards: "recognition",
   work: "work",
@@ -52,8 +52,8 @@ export const PROJECT_HEADER_SELECTORS = {
   image: "[data-project-header-image]",
 };
 
-export const BIO_SELECTORS = {
-  elementAttribute: "data-bio-el",
+export const HERO_SELECTORS = {
+  elementAttribute: "data-hero-el",
   header: "header",
   title: "heading",
   context: "context",

@@ -7,7 +7,7 @@ import { attachSectionGel } from "./section-gel.js";
 // Blockframes reveal for the Process section. buildBlockframesReveal creates its
 // own scroll-triggered timeline (self-driving); fillBlockframesGrid is a
 // fire-and-forget async that only touches invisible cells. Preserve this order
-// (matches the prior bio-motion behavior). Returns an empty intro timeline so
+// (matches the prior hero-motion behavior). Returns an empty intro timeline so
 // AbstractSection.playIntro has something to bind but the reveal stays scroll-owned.
 export function intro(view, gelManager) {
   buildBlockframesReveal(view);

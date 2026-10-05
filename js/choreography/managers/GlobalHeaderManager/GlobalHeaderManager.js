@@ -33,13 +33,13 @@ export default class GlobalHeaderManager {
     if (this._el.dataset.globalHeaderInit) return;
     this._el.dataset.globalHeaderInit = "1";
 
-    // The markup ships `hidden`. On home (bus + bio section), the reveal is
-    // the last beat of the landing chain — it waits for the bio intro, so the
+    // The markup ships `hidden`. On home (bus + hero section), the reveal is
+    // the last beat of the landing chain — it waits for the hero intro, so the
     // header enters once the page content has settled. Everywhere else it
-    // reveals immediately: landing pages without a bio (work, contact) load
+    // reveals immediately: landing pages without a hero (work, contact) load
     // the Director too, and would otherwise wait on a cue that never fires.
-    if (this._bus && document.getElementById(SELECTORS.bio)) {
-      this._offCue = this._bus.on(EVENTS.bio.introComplete, () =>
+    if (this._bus && document.getElementById(SELECTORS.hero)) {
+      this._offCue = this._bus.on(EVENTS.hero.introComplete, () =>
         this._reveal(),
       );
     } else {

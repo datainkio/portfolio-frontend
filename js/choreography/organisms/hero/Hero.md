@@ -1,23 +1,23 @@
 ---
-description: "Bio section controller — manages lifecycle and bus coordination for the biography/introduction section."
+description: "Hero section controller — manages lifecycle and bus coordination for the hero/introduction section."
 status: stable
 tags:
   - choreography
 links:
   - "[[AbstractSection|AbstractSection]]"
   - "[[config/index|config/index]]"
-  - "[[BioAnimations|BioAnimations]]"
-  - "[[BioTriggers|BioTriggers]]"
+  - "[[HeroAnimations|HeroAnimations]]"
+  - "[[HeroTriggers|HeroTriggers]]"
 ---
 
-# Bio
+# Hero
 
 Standard `AbstractSection` controller, with two deliberate departures from the base.
 
 ## Scroll does not drive playback
 
 `_onEnter` / `_onEnterBack` are overridden to emit their events (cross-section
-side effects depend on them) but **not** call `playIntro`. Bio's reveal is
+side effects depend on them) but **not** call `playIntro`. Hero's reveal is
 time-based — it fires once off the landing chain (see
 [LandingSequence](../../templates/landing/LandingSequence.md)) — so the base
 class's scroll-driven replay would restart the animation mid-scroll.
@@ -40,5 +40,5 @@ asserting an intro nobody has asked for yet.
 Today the landing flag stays unset: `LandingSequence` no longer calls
 `playLanding()`, and the landing timeline is empty — the heading gel is parked at
 rest when the timelines build (see
-[heading-gel](../../molecules/bio-motion/heading-gel.md)). Only the intro needs
+[heading-gel](../../molecules/hero-motion/heading-gel.md)). Only the intro needs
 settling.

@@ -16,11 +16,11 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Process section between Bio and Work. Renders a heading, optional body copy,
+Process section between Hero and Work. Renders a heading, optional body copy,
 and two animated visuals: the looping UI-components scene (opt-in via
 `params.uiComponents`, rendered above the paragraphs) and the 12x3 (WxH)
 Blockframes grid (always rendered, placed after the first hardcoded
-paragraph; migrated here from the Bio section). Targeted by the choreography
+paragraph; migrated here from the Hero section). Targeted by the choreography
 system via `data-process-el` attributes; both are built by the composed
 `ui-components-loop` variant in `choreography/molecules/process-motion`.
 
@@ -58,7 +58,7 @@ grid-rows-3`, no gap); fills the wrapper 1:1 so each cell is naturally
 ## Relationships
 
 - Imported by: [[home.njk]] (`views/pages/home/home.njk`), rendered between
-  the Bio section (`id="manifesto"`) and the Work section (`id="work"`).
+  the Hero section (`id="manifesto"`) and the Work section (`id="work"`).
 - Choreography controller: [[Process|Process]]
   (`js/choreography/organisms/process/Process.js`).
 

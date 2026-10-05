@@ -1,29 +1,29 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { BIO_OUTRO } from "../../config/ix/motion.js";
+import { HERO_OUTRO } from "../../config/ix/motion.js";
 import {
   suspendHeadingGelSync,
   resumeHeadingGelSync,
-} from "../../molecules/bio-motion/heading-gel.js";
+} from "../../molecules/hero-motion/heading-gel.js";
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 /**
- * Bio Trigger Defaults
+ * Hero Trigger Defaults
  */
-export const BIO_TRIGGER = {
+export const HERO_TRIGGER = {
   ...SCROLL_DEFAULTS,
   start: "top top",
   end: "bottom bottom",
-  // Overrides SCROLL_DEFAULTS' `once: true`. Bio's enter/exit pair is a live
+  // Overrides SCROLL_DEFAULTS' `once: true`. Hero's enter/exit pair is a live
   // gate, not a one-shot cue: LandingSequence uses it to pause the background
-  // video when Bio leaves and resume it when Bio returns, so the trigger must
+  // video when Hero leaves and resume it when Hero returns, so the trigger must
   // survive the first pass and keep reporting in both scroll directions.
   // `once: true` killed the trigger after one enter/leave, which meant
   // `onEnterBack` never fired and the video, once paused, stayed paused.
   //
   // Safe because nothing here is scroll-driven: `scrub` is false, so
-  // BioTriggers.bind() passes no `animation` and `toggleActions` has no
-  // timeline to play/pause on re-entry; and Bio overrides `_onEnter` /
+  // HeroTriggers.bind() passes no `animation` and `toggleActions` has no
+  // timeline to play/pause on re-entry; and Hero overrides `_onEnter` /
   // `_onEnterBack` to emit their events WITHOUT calling playIntro, so repeat
   // firing cannot restart the reveal.
   once: false,
@@ -35,12 +35,12 @@ export const BIO_TRIGGER = {
   // markers: true,
 };
 
-// Separate from BIO_TRIGGER: flipping scrub on the base trigger would hand it
+// Separate from HERO_TRIGGER: flipping scrub on the base trigger would hand it
 // the *intro* timeline (see bind()) and pin the full section height via
 // `end: "bottom bottom"`. The outro pin owns its own short scrub range instead.
-export const BIO_OUTRO_PIN_ID = "bio-outro-pin";
+export const HERO_OUTRO_PIN_ID = "hero-outro-pin";
 
-export default class BioTriggers extends AbstractSectionTriggers {
+export default class HeroTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
     // Pre-reveal hide — paired with the intro reveal (autoAlpha 0→1). Disabled
@@ -53,7 +53,7 @@ export default class BioTriggers extends AbstractSectionTriggers {
   }
 
   _getTriggerDefaults() {
-    return BIO_TRIGGER;
+    return HERO_TRIGGER;
   }
 
   bind(options = {}) {
@@ -82,16 +82,16 @@ export default class BioTriggers extends AbstractSectionTriggers {
     if (!outroTl || !outroTl.getChildren().length) return;
 
     this._outroPin = ScrollTrigger.create({
-      id: BIO_OUTRO_PIN_ID,
+      id: HERO_OUTRO_PIN_ID,
       trigger: this.view,
       start: "top top",
-      end: () => `+=${window.innerHeight * BIO_OUTRO.pinRatio}`,
+      end: () => `+=${window.innerHeight * HERO_OUTRO.pinRatio}`,
       pin: true,
       pinSpacing: true,
       scrub: true,
       animation: outroTl,
       invalidateOnRefresh: true,
-      refreshPriority: 1, // measure ahead of the base BIO_TRIGGER
+      refreshPriority: 1, // measure ahead of the base HERO_TRIGGER
       snap: {
         snapTo: "labelsDirectional",
         duration: { min: 0.2, max: 0.6 },
@@ -107,7 +107,7 @@ export default class BioTriggers extends AbstractSectionTriggers {
           // so nothing would restore its resting geometry on its own after the
           // pin released. Force it here so a scroll-up exit doesn't leave the
           // gel stuck at the scaleY the outro drove it to.
-          ScrollTrigger.getById("bio-heading-gel-sync")?.refresh();
+          ScrollTrigger.getById("hero-heading-gel-sync")?.refresh();
         }
       },
     });

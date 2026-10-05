@@ -100,11 +100,11 @@ Key modules in [js/choreography/](js/choreography/):
 - [AnimationDirector.js](js/choreography/AnimationDirector.js) — master coordinator, initializes everything on `DOMContentLoaded`.
 - [AnimationBus.js](js/choreography/system/AnimationBus.js) — pub/sub event system (event names live in [config/contracts/events.js](js/choreography/config/contracts/events.js)).
 - [ScrollEffectsCoordinator.js](js/choreography/managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator.js) — scroll smoothing + background/decorative effects.
-- [organisms/](js/choreography/organisms/) — section controllers extending [AbstractSection](js/choreography/system/AbstractSection.js). Active sections: **BackgroundVideo, Bio, Awards, Organizations, Work**.
+- [organisms/](js/choreography/organisms/) — section controllers extending [AbstractSection](js/choreography/system/AbstractSection.js). Active sections: **BackgroundVideo, Hero, Awards, Organizations, Work**.
 - [managers/](js/choreography/managers/) — single-responsibility helpers: `ReducedMotionHandler`, `ScrollSmootherManager`, `GelAnimationManager`, `SessionManager`, `RulerIntroManager`.
 - [templates/landing/LandingSequence.js](js/choreography/templates/landing/LandingSequence.js) — orchestrates the landing animation flow.
 
-DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, `#overlay-view`, `#bio`, `#awards`, `#organizations`, `#work`. Missing IDs degrade gracefully.
+DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, `#overlay-view`, `#hero`, `#awards`, `#organizations`, `#work`. Missing IDs degrade gracefully.
 
 ## Common gotchas
 

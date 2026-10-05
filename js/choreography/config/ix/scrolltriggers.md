@@ -1,5 +1,5 @@
 ---
-description: "Configuration — defines ScrollTrigger defaults and section-specific trigger presets for hero, bio, awards, organizations, work, card, and background sections."
+description: "Configuration — defines ScrollTrigger defaults and section-specific trigger presets for hero, awards, organizations, work, card, and background sections."
 status: stable
 tags:
   - choreography
@@ -11,7 +11,7 @@ links:
 
 # scrolltriggers
 
-`SCROLL_DEFAULTS` = base config spread into every section trigger preset. Per-section presets (`ORGANIZATIONS_TRIGGER`, `BACKGROUND_TRIGGER`) extend it; Bio/Awards/Hero define their own in their organism files.
+`SCROLL_DEFAULTS` = base config spread into every section trigger preset. Per-section presets (`ORGANIZATIONS_TRIGGER`, `BACKGROUND_TRIGGER`) extend it; Hero/Awards/Hero define their own in their organism files.
 
 This file is the **single source of truth for trigger capability** (pin/scrub/once) — the profile system only gates `enabled`. `AbstractSectionTriggers.bind()` feeds `_getTriggerDefaults()` to `ScrollTrigger.create` **raw**.
 

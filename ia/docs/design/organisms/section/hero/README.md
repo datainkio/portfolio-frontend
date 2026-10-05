@@ -1,6 +1,6 @@
 ---
 title: Mission Statement
-description: '{% import "organisms/section/bio.njk" as BioSection %}'
+description: '{% import "organisms/section/hero.njk" as HeroSection %}'
 eleventyComputed:
   value:
     heading: "{{ cms.home[0].valuePropHeading }}"
@@ -9,5 +9,5 @@ eleventyComputed:
 templateEngineOverride: njk
 ---
 
-{% import "organisms/section/bio.njk" as BioSection %}
-{{ BioSection.render({ id: "introduction", copy: value, order: "1/5"}) }}
+{% import "organisms/section/hero.njk" as HeroSection %}
+{{ HeroSection.render({ id: "introduction", copy: value, order: "1/5"}) }}

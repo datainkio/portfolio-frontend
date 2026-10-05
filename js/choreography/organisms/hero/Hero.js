@@ -4,20 +4,20 @@ import {
   resolveSectionMotionProfile,
 } from "../../config/index/index.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import BioAnimations from "./BioAnimations.js";
-import BioTriggers from "./BioTriggers.js";
+import HeroAnimations from "./HeroAnimations.js";
+import HeroTriggers from "./HeroTriggers.js";
 
-export default class Bio extends AbstractSection {
+export default class Hero extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler, gelManager = null } = {}) {
-    const view = document.getElementById(SELECTORS.bio);
-    const animations = new BioAnimations(view, { gelManager });
-    const triggers = new BioTriggers(view);
+    const view = document.getElementById(SELECTORS.hero);
+    const animations = new HeroAnimations(view, { gelManager });
+    const triggers = new HeroTriggers(view);
 
     super({
       view,
       animations,
       triggers,
-      sectionKey: "bio",
+      sectionKey: "hero",
       bus,
       reducedMotionHandler,
     });
@@ -28,7 +28,7 @@ export default class Bio extends AbstractSection {
     window.addEventListener("resize", this._onWindowResize);
   }
 
-  // Bio's reveal is time-based: it fires once off the home header intro, not on
+  // Hero's reveal is time-based: it fires once off the home header intro, not on
   // scroll. Track that the reveal has been requested so a resize can re-assert it.
   //
   // Landing is tracked separately from intro because they can be requested at
@@ -47,7 +47,7 @@ export default class Bio extends AbstractSection {
     return super.playIntro();
   }
 
-  // Scroll must not drive Bio playback. Override the ScrollTrigger enter
+  // Scroll must not drive Hero playback. Override the ScrollTrigger enter
   // callbacks to still emit their events (cross-section side effects such as
   // the background-video pause depend on them) but never (re)play the reveal —
   // the base class would call playIntro here, which restarts the animation
@@ -86,13 +86,13 @@ export default class Bio extends AbstractSection {
 
   _applyResponsiveLifecycle(conditions = {}) {
     // A breakpoint-crossing resize makes matchMedia revert (and kill) the prior
-    // context's tweens, stripping bio's revealed inline styles. Rebuild the
+    // context's tweens, stripping hero's revealed inline styles. Rebuild the
     // timelines, then settle the played phases to their end so the section stays
     // visible (they only fire once, off the landing chain).
     const revealRequested =
       this._introRequested === true || this._landingRequested === true;
 
-    const profile = resolveSectionMotionProfile("bio", conditions);
+    const profile = resolveSectionMotionProfile("hero", conditions);
     this.animations?.rebuild?.(profile.animation?.variant ?? "sweep");
     super._applyResponsiveLifecycle(conditions);
 
