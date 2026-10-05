@@ -114,15 +114,6 @@ export const HERO_LANDING = {
   },
 };
 
-export const HERO_INTRO = {
-  yPercent: 100,
-};
-
-export const HERO_OUTRO = {
-  top: "0%",
-  height: "50%",
-};
-
 /**
  * BACKGROUND Section Animation Defaults
  *

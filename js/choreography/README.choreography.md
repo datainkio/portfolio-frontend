@@ -36,7 +36,7 @@ AnimationDirector (initializes everything)
 AnimationBus (pub/sub event system)
    ↓
 ├─ ScrollEffectsCoordinator (scroll smoothing, backgrounds, gels, lines, ruler)
-├─ Section Controllers (Hero, BackgroundVideo, Bio, Awards, Organizations, Work)
+├─ Section Controllers (BackgroundVideo, Bio, Awards, Organizations, Work)
 └─ Sequences (LandingSequence orchestrates multi-section flow)
 ```
 
@@ -79,7 +79,6 @@ js/choreography/
 │   ├── BuildInfoManager/             # Section-cap build-info disclosure
 │   └── SectionCapManager/            # Section-cap scrollspy
 ├── organisms/                        # Section controllers (extend AbstractSection)
-│   ├── hero/Hero.js                  # Hero section controller
 │   ├── background/BackgroundVideo.js # Video background
 │   ├── bio/Bio.js                    # Biography section
 │   ├── awards/Awards.js              # Awards section
@@ -100,7 +99,7 @@ js/choreography/
 - Boots on `DOMContentLoaded`, deferred to idle via `requestIdleCallback` (`setTimeout` fallback)
 - Creates AnimationBus for event coordination
 - Initializes ScrollEffectsCoordinator for scroll smoothing + background/decoration effects
-- Instantiates section controllers from [system/registry.js](system/registry.js): Hero, BackgroundVideo, Bio, Awards, Organizations, Work
+- Instantiates section controllers from [system/registry.js](system/registry.js): BackgroundVideo, Bio, Awards, Organizations, Work
 - Starts LandingSequence choreography
 - Exposes `window.director` API for debugging and control
 
@@ -184,7 +183,6 @@ Concrete: `bio:intro:start`, `work:enter`, `hero:outro:complete`.
 
 **Available Sections** (see [system/registry.js](system/registry.js)):
 
-- `Hero` - Landing hero with introductory animations
 - `BackgroundVideo` - Background video playback and synchronization
 - `Bio` - Biography section with animations
 - `Process` - Process section (breakpoint-selected animation variant)

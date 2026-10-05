@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 const heroPath = join(
   __dirname,
-  "../../js/choreography/organisms/hero/Hero.js",
+  "../../js/choreography/organisms/bio/Bio.js",
 );
 const abstractSectionPath = join(
   __dirname,
@@ -31,10 +31,10 @@ console.log(
 );
 
 const requiredMarkers = [
-  'sectionKey: "hero"',
+  'sectionKey: "bio"',
   "this.events = EVENTS?.[sectionKey] ?? {};",
   "this.bus.emit(eventName, payload);",
-  'hero: makeSectionEvents("hero")',
+  'bio: makeSectionEvents("bio")',
   "introStart:",
   "introComplete:",
   "outroStart:",

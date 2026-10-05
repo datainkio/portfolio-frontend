@@ -87,26 +87,6 @@ const CARD_PARALLAX = Object.freeze({
 });
 
 export const SECTION_OVERRIDES = Object.freeze({
-  hero: {
-    base: { animation: { variant: "simple" } },
-    sm: { animation: { variant: "simple" } },
-    md: { animation: { variant: "simple" } },
-    lg: { animation: { variant: "simple" } },
-    xl: { animation: { variant: "simple" } },
-    // Reduced motion: run the same `shutter` UX as the breakpoint profiles.
-    // The shutter is driven by the lifecycle landing (timeline) and the gel
-    // scrub trigger (HeroTriggers._gelTrigger), so BOTH channels must be
-    // enabled — the global `reduced` profile disables both. This override
-    // fully replaces those channels via the shallow merge in
-    // resolveSectionMotionProfile. NOTE: this intentionally forgoes a reduced
-    // experience for hero — see the a11y caveat in the handoff.
-    // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/146
-    reduced: {
-      animation: { variant: "shutter" },
-      timeline: { enabled: true },
-      trigger: { enabled: true },
-    },
-  },
   card: {
     // Variant 01 (below lg): figure sticks to the viewport top while the body
     // scrolls over it. See specs/animation/project-card-responsiveness.md.

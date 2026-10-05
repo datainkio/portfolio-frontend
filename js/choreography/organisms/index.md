@@ -5,9 +5,6 @@ tags:
   - choreography
   - index
 links:
-  - "[[Hero|Hero]]"
-  - "[[HeroAnimations|HeroAnimations]]"
-  - "[[HeroTriggers|HeroTriggers]]"
   - "[[Bio|Bio]]"
   - "[[BioAnimations|BioAnimations]]"
   - "[[BioTriggers|BioTriggers]]"

@@ -23,7 +23,6 @@ export const SELECTORS = {
   pageNavItem: "[data-page-nav-el='item']",
 
   // Section IDs
-  hero: "hero",
   organizations: "organizations",
   bio: "manifesto",
   process: "process",
@@ -37,10 +36,6 @@ export const SELECTORS = {
 
   overlayView: "overlay-view",
   video: "background",
-};
-
-export const HERO_SELECTORS = {
-  tagline: "tagline",
 };
 
 /**

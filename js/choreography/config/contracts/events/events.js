@@ -78,7 +78,6 @@ export const EVENTS = {
   // Home landing header role state machine (HomeHeaderManager). The nav reveal
   // emits intro:start/complete so a larger sequence can coordinate off it.
   home: makeSectionEvents("home"),
-  hero: makeSectionEvents("hero"),
   organizations: makeSectionEvents("organizations"),
   bio: makeSectionEvents("bio"),
   process: makeSectionEvents("process"),

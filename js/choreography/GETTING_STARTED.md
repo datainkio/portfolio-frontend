@@ -52,7 +52,7 @@ if (document.readyState === "loading") {
    spacers exist before the work-header pin measures the footer position
    ↓
 5. Section controllers instantiated from SECTION_REGISTRY:
-   Hero · BackgroundVideo · Bio · Process · Awards · Organizations · Work
+   BackgroundVideo · Bio · Process · Awards · Organizations · Work
    ↓
 6. Global managers: GlobalHeader, HomeHeader, WorkHeader, WorkNav,
    ProjectHeader, BuildInfo, SectionCap
@@ -384,7 +384,7 @@ All choreography modules use `lumberjack` logger:
 
 ```javascript
 // Check logs in console
-// Each module has a scoped logger: AnimationDirector, Hero, Bio, etc.
+// Each module has a scoped logger: AnimationDirector, Bio, Work, etc.
 logger.trace("message", data, "verbose");
 ```
 
@@ -435,7 +435,7 @@ _onIntroComplete() {
 
 ## Next Steps
 
-1. **Study Existing Sections**: Review Hero, Bio, Process for reference implementations
+1. **Study Existing Sections**: Review Bio, Process for reference implementations
 2. **Test DOM Requirements**: Verify your section's DOM element exists before initialization
 3. **Use Events**: Listen to section events instead of tight coupling
 4. **Respect Accessibility**: Declare a reduced variant in [config/ix/profiles.js](config/ix/profiles.js) — the base class handles the snap-to-end via `_applyPostIntroState()`

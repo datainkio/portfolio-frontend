@@ -36,7 +36,7 @@ tuned as design evolves. Re-exported together via the `ix.js` barrel.
 - `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
 - `breakpoints.js` -> responsive breakpoint tokens
 - `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
-- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
+- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
 - `profiles.js` -> motion/interaction profiles
 
 ### `displays/` - Decorative display configuration
@@ -46,7 +46,7 @@ Defaults for purely decorative display systems. Re-exported together via the `ix
 - `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
 - `breakpoints.js` -> responsive breakpoint tokens
 - `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `BIO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
-- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
+- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `BIO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
 - `profiles.js` -> motion/interaction profiles
 
 ### `displays/` - Decorative display configuration
@@ -87,7 +87,7 @@ flowchart TB
       IXB[ix.js\nbarrel export]
       BRK[breakpoints.js\nbreakpoint tokens]
       MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS\nHERO/BACKGROUND/BIO/ORGANIZATIONS/WORK/AWARDS defaults]
-      SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nBIO_TRIGGER\nORGANIZATIONS_TRIGGER\nWORK_TRIGGER\nAWARDS_TRIGGER]
+      SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nBIO_TRIGGER\nORGANIZATIONS_TRIGGER\nWORK_TRIGGER\nAWARDS_TRIGGER]
       PRF[profiles.js\nmotion/interaction profiles]
     end
     subgraph DSP[displays]

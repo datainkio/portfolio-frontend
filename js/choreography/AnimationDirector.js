@@ -13,7 +13,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * - AnimationBus: Event-driven coordination between sections
  * - ScrollEffectsCoordinator (this.stage): Scroll smoothing, gels, ruler, reduced motion
  * - CardManager: Per-card scroll animations (instantiated before sections)
- * - Section Controllers (SECTION_REGISTRY): Hero, BackgroundVideo, Bio, Process, Awards, Organizations, Work — extend AbstractSection
+ * - Section Controllers (SECTION_REGISTRY): BackgroundVideo, Bio, Process, Awards, Organizations, Work — extend AbstractSection
  * - Managers: GlobalHeaderManager, HomeHeaderManager, WorkHeaderManager, WorkNavManager, ProjectHeaderManager
  * - LandingSequence: Defines animation flow via AnimationBus listeners
  *

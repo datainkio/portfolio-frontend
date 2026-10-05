@@ -1,7 +1,3 @@
-export { default as Hero } from "./hero/Hero.js";
-export { default as HeroAnimations } from "./hero/HeroAnimations.js";
-export { default as HeroTriggers } from "./hero/HeroTriggers.js";
-
 export { default as Bio } from "./bio/Bio.js";
 export { default as BioAnimations } from "./bio/BioAnimations.js";
 export { default as BioTriggers } from "./bio/BioTriggers.js";
