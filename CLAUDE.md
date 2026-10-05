@@ -26,7 +26,7 @@ Frontend project note: [`goals/Frontend/Frontend.md`](../../goals/Frontend/Front
 grep -lE '^status: "?in-progress' ../../goals/Frontend/_tasks/*.md
 ```
 
-Mark tasks `done` in frontmatter when work completes. Never recreate `frontend/context/goals/` or `current-goals.md`.
+When your work on a task is finished and verified, set it to `review` (In Review). Never set `done`; only the reviewer does. Status ids and their meanings: the Workflow section of [`Skill Development.md`](../../goals/Skill%20Development/Skill%20Development.md). Never recreate `frontend/context/goals/` or `current-goals.md`.
 
 ## Critical Constraints
 
@@ -54,6 +54,57 @@ npm run scaffold:component  # generate new atomic design component
 ```
 
 `format:check` and `lint:frontmatter` carry pre-existing findings — compare counts against a `git stash` baseline rather than expecting zero.
+
+## Searching
+
+Generated and historical files swamp repo-wide searches. `assets/**/*.svg` and `docs/frontmatter-audit/` hold huge single-line files that flood output. Start from:
+
+```bash
+rg -n '<pattern>' -g '!node_modules' -g '!_site' -g '!graphify-out' -g '!.codegraphy' \
+  -g '!docs/frontmatter-audit/**' -g '!responsive-testing/screenshots/**' -g '!*.svg' -g '!package-lock.json' .
+```
+
+## Section map
+
+The registry key, element attribute, and rendered DOM id differ. Don't assume `#<key>`.
+
+| Registry key    | Template                                                         | DOM id          | Element attribute         | Controller                                 |
+| --------------- | ---------------------------------------------------------------- | --------------- | ------------------------- | ------------------------------------------ |
+| `hero`          | `views/organisms/section/hero.njk`                               | `manifesto`     | `data-hero-el`            | `organisms/hero/Hero.js`                   |
+| `video`         | `views/molecules/background/sizzle-background.njk`               | `background`    | — (media resolved by tag) | `organisms/background/BackgroundVideo.js`  |
+| `work`          | `views/organisms/section/work.njk`                               | `work`          | `data-projects-el`        | `organisms/work/Work.js`                   |
+| `organizations` | `views/organisms/section/organizations.njk`                      | `organizations` | `data-organizations-el`   | `organisms/organizations/Organizations.js` |
+| `awards`        | `views/organisms/section/awards.njk`                             | `awards` ⚠     | `data-awards-el`          | `organisms/awards/Awards.js`               |
+| `process`       | `views/organisms/section/process.njk` — not rendered on any page | `process`       | `data-process-el`         | `organisms/process/Process.js`             |
+
+DOM ids live in `SELECTORS` ([`selectors.js`](js/choreography/config/contracts/selectors/selectors.js)). ⚠ `SELECTORS.awards` is `"recognition"`, but the page renders `id="awards"`, so lookups by id miss the Awards section (open bug). The homepage order is hero → work → organizations → awards.
+
+## Renames
+
+A name lives in more places than the code. Update all of these together:
+
+- File and folder names, **and** their `.md` sidecars
+- Frontmatter `links:` wikilinks (`[[Name|Name]]`) and body `[[ ]]` links. Check for duplicates after replacing.
+- Barrels: `organisms/index.js` and its `index.md`, plus `system/registry.js`, `events.js`, `selectors.js`, `config/ix/profiles.js`, `config/ix/motion.js`
+- `ia/**/*.md` — rendered by 11ty, so a stale import breaks the build
+- `data/sanity/transforms/` — the serializers emit `data-*-el` attributes
+- `.github/copilot-instructions.md`
+
+Don't rewrite history. Leave `docs/**/*.prompt.md` and specs marked `status: historical` as written, and add a dated naming note at the top instead. Leave `docs/frontmatter-audit/` and `responsive-testing/screenshots/` untouched.
+
+## Definition of done
+
+Run the checks for the task type before committing:
+
+| Task type         | Verify                                                                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------- |
+| Any code change   | `npm test` and `npm run quick` pass                                                                 |
+| Template / page   | Read the rendered `_site/<page>.html` and confirm the change appears                                |
+| Rename / refactor | Searching for the old name returns only intentional hits; the rendered `_site` has no old hooks     |
+| Choreography      | The reduced-motion branch is present; events go through `AnimationBus`; the bundle builds (`quick`) |
+| Docs / sidecars   | `format:check` and `lint:frontmatter` counts are no higher than the `git stash` baseline            |
+
+Then commit and push following the git policy in [`../CLAUDE.md`](../CLAUDE.md), and set the task to `review`.
 
 ## Skills
 
