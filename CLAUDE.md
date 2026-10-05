@@ -77,7 +77,7 @@ The registry key, element attribute, and rendered DOM id differ. Don't assume `#
 | `awards`        | `views/organisms/section/awards.njk`                             | `awards` ⚠     | `data-awards-el`          | `organisms/awards/Awards.js`               |
 | `process`       | `views/organisms/section/process.njk` — not rendered on any page | `process`       | `data-process-el`         | `organisms/process/Process.js`             |
 
-DOM ids live in `SELECTORS` ([`selectors.js`](js/choreography/config/contracts/selectors/selectors.js)). ⚠ `SELECTORS.awards` is `"recognition"`, but the page renders `id="awards"`, so lookups by id miss the Awards section (open bug). The homepage order is hero → work → organizations → awards.
+DOM ids live in `SELECTORS` ([`selectors.js`](js/choreography/config/contracts/selectors/selectors.js)). ⚠ `SELECTORS.awards` is `"recognition"`, but the page renders `id="awards"`, so lookups by id miss the Awards section (open bug: [Fix Awards section selector mismatch](../../goals/Frontend/_tasks/fix-awards-section-selector-mismatch.md)). The homepage order is hero → work → organizations → awards.
 
 ## Renames
 
@@ -108,35 +108,13 @@ Then commit and push following the git policy in [`../CLAUDE.md`](../CLAUDE.md),
 
 ## Skills
 
-Linked from Skillet into [`.claude/skills/`](.claude/skills/), declared in [`.skillet`](.skillet). Load only what the task needs. A skill not listed here is absent — `~/Projects/skillet/bin/skillet add <skill>`, never copy it in.
+The harness already lists each skill and what it's for. Only routing that isn't obvious is recorded here:
 
-| Skill                                    | Load for                                                               |
-| ---------------------------------------- | ---------------------------------------------------------------------- |
-| `choreography`                           | This project's GSAP motion system — topology, boot sequence, contracts |
-| `gsap-core`, `gsap-timeline`             | Tweens, easing, `matchMedia`, reduced motion; timeline sequencing      |
-| `gsap-scrolltrigger`, `gsap-performance` | Pinning, scrub; compositor props, `quickTo`, batching                  |
-| `eleventy`                               | 11ty config, collections, filters, shortcodes, build failures          |
-| `tailwindcss`                            | Tailwind v4 utilities, theme layer, CSS import order                   |
-| `ixd`                                    | Interaction design review                                              |
-| `accessibility`                          | Semantic structure, ARIA, keyboard support, reduced motion             |
-| `core-web-vitals`, `performance`         | LCP/CLS/INP diagnosis and budgets                                      |
-| `best-practices`                         | Pre-merge review, contract compliance                                  |
-| `atomic-design`                          | Component hierarchy (atoms → organisms)                                |
-| `graphify`                               | Query the knowledge graph at [`graphify-out/`](graphify-out/)          |
-| `json-canvas`                            | `.canvas` files (e.g. `LandingSequence Flow.canvas`)                   |
-| `prime`                                  | Loadout: caveman + karpathy-guidelines + graphify                      |
+- Motion work: load `choreography` first, then the matching `gsap-*` skill for the technique.
+- Sidecar and frontmatter hygiene has no skill: run `npm run lint:frontmatter` and `npm run audit:sidecars`.
+- A skill missing from the harness list isn't linked. Add it with `~/Projects/skillet/bin/skillet add <skill>`; never copy it in.
 
-Frontmatter/sidecar hygiene has no skill here — use `npm run lint:frontmatter` and `npm run audit:sidecars`.
-
-## Model Selection
-
-Frontend task tiers — applied via the Agent tool's `model` param when delegating:
-
-| Task type                                               | Model                                 |
-| ------------------------------------------------------- | ------------------------------------- |
-| Choreography/motion implementation, page-level planning | `opus` (motion-timing + LCP judgment) |
-| Template/component implementation, Sanity wiring        | `sonnet`                              |
-| Copy tweaks, sidecar docs, formatting                   | `haiku`                               |
+When delegating with the Agent tool, use `opus` for choreography or page-level planning, `sonnet` for template or Sanity work, and `haiku` for copy, sidecars, or formatting.
 
 ## Choreography Quick Reference
 
