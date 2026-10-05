@@ -142,7 +142,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 - `js/choreography/` - Animation system
   - `AnimationDirector.js` - Master coordinator (initializes sections, bus, and runtime gates)
   - `system/` - Base classes and infrastructure (`AbstractSection.js`, `AnimationBus.js`, `registry.js`, `gsap.js`)
-  - `organisms/` - Section-specific controllers (`hero/`, `background/`, `bio/`, `awards/`, `organizations/`, `work/`, `card/`)
+  - `organisms/` - Section-specific controllers (`hero/`, `background/`, `awards/`, `organizations/`, `work/`, `card/`)
   - `templates/landing/` - Animation choreography (LandingSequence)
   - `managers/` - Specialized managers (ReducedMotionHandler, ScrollSmootherManager, ScrollEffectsCoordinator, GelAnimationManager, SessionManager, RulerIntroManager, GlobalHeaderManager, WorkHeaderManager)
   - `config/` - Choreography config barrel + modules (`index/index.js`, `contracts/events/events.js`, `contracts/selectors/selectors.js`, `ix/*`, `displays/*`)
@@ -196,7 +196,7 @@ Example macro:
 **Section Controllers** (in `js/choreography/organisms/`)
 
 - Each section follows pattern: `<Section>.js`, `<Section>Animations.js`, `<Section>Triggers.js`
-- Active sections: `Hero`, `BackgroundVideo`, `Bio`, `Awards`, `Organizations`, `Work`
+- Active sections: `Hero`, `BackgroundVideo`, `Awards`, `Organizations`, `Work`
 - All sections extend `AbstractSection` base class
 - Sections communicate via AnimationBus events (e.g., `hero:intro:start`, `hero:intro:complete`)
 
@@ -357,7 +357,7 @@ this.sections.custom = new Custom({
 - ❌ Don't reference Splash or Approach sections unless they are added to `js/choreography/system/registry.js`
 - ❌ Don't edit auto-generated files: `styles/colors.css`, `styles/typography/fontFamilies.css` - They're overwritten by `build:design`
 - ❌ Don't call Tailwind CLI directly - Always use npm scripts (`npm run build:css` or `npm run dev:css`)
-- ❌ Don't name sections "Biography" - The actual implementation is "Bio"
+- ❌ Don't name the landing section "Bio" or "Biography" - it was renamed to "Hero"
 - ❌ Don't skip `build:design` before CSS builds - Tokens must exist first
 - ❌ Don't reference `njk/` as the templates folder - templates moved to `views/` (Eleventy `includes`). Older paths under `njk/` no longer exist.
 
