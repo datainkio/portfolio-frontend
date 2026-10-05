@@ -7,10 +7,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const heroPath = join(
-  __dirname,
-  "../../js/choreography/organisms/bio/Bio.js",
-);
+const heroPath = join(__dirname, "../../js/choreography/organisms/bio/Bio.js");
 const abstractSectionPath = join(
   __dirname,
   "../../js/choreography/system/AbstractSection.js",
