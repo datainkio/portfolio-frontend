@@ -97,13 +97,8 @@ Temporary Items
 .lighthouse/
 
 # graphify knowledge graph (frontend/graphify-out)
-# Committed: graph.json, GRAPH_REPORT.md, manifest.json, .graphify_labels.json,
-# and cache/semantic/ — the expensive content-keyed extraction, portable across
-# machines because the scan root is always `frontend`.
-# Ignored below: machine-specific paths, regenerable output, conflict-prone counters.
-graphify-out/.graphify_python
-graphify-out/.graphify_root
-graphify-out/cache/
-graphify-out/graph.html
-graphify-out/cost.json
+# Only GRAPH_REPORT.md is committed; the graph, cache, and HTML stay local
+# (multi-MB churn on every rebuild). Rebuild locally with /graphify --update.
+graphify-out/*
+!graphify-out/GRAPH_REPORT.md
 .codegraphy/*
