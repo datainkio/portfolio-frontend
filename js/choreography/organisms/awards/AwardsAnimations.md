@@ -23,7 +23,7 @@ flowchart TB
         direction TB
         L1["bg-gel-5 · neutral backing · flush to section box"]
         L2["bg-gel-6 · accent · rotate −5° · one z-step above backing"]
-        L3["#recognition · transparent background"]
+        L3["#awards · transparent background"]
         L4["bg-pixelator · overlay"]
         L1 -.->|"z↑"| L2 -.->|"z↑"| L3 -.->|"z↑"| L4
     end

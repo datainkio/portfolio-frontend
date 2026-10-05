@@ -2,7 +2,7 @@
 
   {% import "molecules/card/award-organization.njk" as AwardOrganization %}
 
-  {%- set sectionId = params.id | default("recognition") -%}
+  {%- set sectionId = params.id | default("awards") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
   {%- set order = params.order | default("") -%}

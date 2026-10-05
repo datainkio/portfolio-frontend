@@ -61,7 +61,7 @@ so it can be reused elsewhere without that header coupling.
 | Overview     | `#overview`     | home landing `<header id="overview">` |
 | Dossier      | `#introduction` | Hero section                          |
 | Case studies | `#work`         | Projects section                      |
-| Recognition  | `#recognition`  | Awards section                        |
+| Recognition  | `#awards`       | Awards section                        |
 | Contact      | `#contact`      | Contact section                       |
 
 The four section IDs are **injected on the home page** by `home.njk` (each

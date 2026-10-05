@@ -13,7 +13,8 @@ links:
 
 Does not override `_getTriggerDefaults()` — inherits `SCROLL_DEFAULTS` from
 the base `AbstractSectionTriggers`, unlike `OrganizationsTriggers` which
-supplies a dedicated `ORGANIZATIONS_TRIGGER` config. This is intentional per
+supplies a dedicated `ORGANIZATIONS_TRIGGER` config (defined in
+`OrganizationsTriggers.js`). This is intentional per
 the scaffolding spec: no new trigger config is introduced for this
 placeholder section. A dedicated `PROCESS_TRIGGER` preset may be added when
 the Blockframes migration defines real scroll behavior for this section.

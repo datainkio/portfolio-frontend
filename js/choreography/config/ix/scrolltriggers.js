@@ -1,9 +1,10 @@
 /**
  * ScrollTrigger Default Configuration
  *
- * Base settings for GSAP ScrollTrigger instances.
+ * Base settings for GSAP ScrollTrigger instances. Section trigger configs
+ * (HERO_TRIGGER, AWARDS_TRIGGER, ORGANIZATIONS_TRIGGER, …) spread this and live
+ * in each organism's *Triggers.js.
  */
-import { SELECTORS } from "../contracts/selectors/selectors.js";
 export const SCROLL_DEFAULTS = {
   start: "top center",
   end: "bottom center",
@@ -17,20 +18,4 @@ export const SCROLL_DEFAULTS = {
   fastScrollEnd: true,
   toggleActions: "play pause pause pause",
   markers: false,
-};
-
-/**
- * Organizations Trigger Defaults
- */
-export const ORGANIZATIONS_TRIGGER = {
-  ...SCROLL_DEFAULTS,
-  id: SELECTORS.organizations,
-};
-
-/**
- * Background Trigger Defaults
- */
-export const BACKGROUND_TRIGGER = {
-  ...SCROLL_DEFAULTS,
-  id: SELECTORS.background,
 };

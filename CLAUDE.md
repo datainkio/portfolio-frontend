@@ -76,10 +76,10 @@ The registry key, element attribute, and rendered DOM id differ. Don't assume `#
 | `video`         | `views/molecules/background/sizzle-background.njk`               | `background`    | — (media resolved by tag) | `organisms/background/BackgroundVideo.js`  |
 | `work`          | `views/organisms/section/work.njk`                               | `work`          | `data-projects-el`        | `organisms/work/Work.js`                   |
 | `organizations` | `views/organisms/section/organizations.njk`                      | `organizations` | `data-organizations-el`   | `organisms/organizations/Organizations.js` |
-| `awards`        | `views/organisms/section/awards.njk`                             | `awards` ⚠     | `data-awards-el`          | `organisms/awards/Awards.js`               |
+| `awards`        | `views/organisms/section/awards.njk`                             | `awards`        | `data-awards-el`          | `organisms/awards/Awards.js`               |
 | `process`       | `views/organisms/section/process.njk` — not rendered on any page | `process`       | `data-process-el`         | `organisms/process/Process.js`             |
 
-DOM ids live in `SELECTORS` ([`selectors.js`](js/choreography/config/contracts/selectors/selectors.js)). ⚠ `SELECTORS.awards` is `"recognition"`, but the page renders `id="awards"`, so lookups by id miss the Awards section (open bug: [Fix Awards section selector mismatch](../../goals/Frontend/_tasks/fix-awards-section-selector-mismatch.md)). The homepage order is hero → work → organizations → awards.
+DOM ids live in `SELECTORS` ([`selectors.js`](js/choreography/config/contracts/selectors/selectors.js)). The homepage order is hero → work → organizations → awards.
 
 ## Renames
 

@@ -26,7 +26,7 @@ export const SELECTORS = {
   organizations: "organizations",
   hero: "manifesto",
   process: "process",
-  awards: "recognition",
+  awards: "awards",
   work: "work",
   contact: "contact",
 

@@ -1,5 +1,14 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
-import { ORGANIZATIONS_TRIGGER } from "../../config/index/index.js";
+import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
+import { SELECTORS } from "../../config/index/index.js";
+
+/**
+ * Organizations Trigger Defaults
+ */
+export const ORGANIZATIONS_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: SELECTORS.organizations,
+};
 
 export default class OrganizationsTriggers extends AbstractSectionTriggers {
   constructor(view) {
