@@ -8,7 +8,9 @@
 
 
 {% block mainStyles %}
-  {{ { "base": "pb-24 mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64", "lg": "relative" } | classes }}
+  {#- isolate: contains the page video's -z-10 within <main>, so it slides
+      beneath page content but never behind the page background. -#}
+  {{ { "base": "isolate pb-24 mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64", "lg": "relative" } | classes }}
 {% endblock mainStyles %}
 
 {#- Optional portrait page video (projects.pageVideo → videoAsset). The asset's
@@ -18,19 +20,22 @@
 {%- set pageVideoSrc = pageVideo and (pageVideo.url or pageVideo.videoUrl) -%}
 {%- set pageVideoPoster = pageVideo and pageVideo.poster and pageVideo.poster.url -%}
 
+{#- The figure is the 9:16 frame. Its width cap holds its height to 100dvh
+    (height = width × 16/9). It doesn't clip: the video scales past it from
+    the top-right corner, growing left and down, and -z-10 keeps the overflow
+    beneath the page content. -#}
 {%- set videoFigureStyles = {
-  "base": "col-span-full justify-self-center w-full m-0 overflow-hidden aspect-[9/16]",
-  "lg": "absolute top-0 right-0 w-1/2 max-w-none"
+  "base": "-z-10 col-span-full justify-self-center w-full max-w-[calc(100dvh*9/16)] m-0 aspect-[9/16]",
+  "lg": "absolute top-0 right-0 w-1/2"
 } -%}
-{%- set videoStyles = {"base": "w-full h-full object-cover object-center"} -%}
+{#- scale-[…] sets how far the video extends past the frame. -#}
+{%- set videoStyles = {"base": "w-full h-full object-cover object-center origin-top-right scale-[1.25]"} -%}
 
 {% block content %}
   {{ super() }}
   {% if pageVideoSrc and pageVideoPoster %}
     <figure data-projects-el="video"
-      class="{{ videoFigureStyles | classes }}"
-      {# Optional alpha mask (videoAsset.mask): the PNG's alpha channel clips the figure, stretched to the 9:16 frame. Masks poster and video alike. #}
-      {% if pageVideo.mask %}style="mask: url('{{ pageVideo.mask }}') center / 100% 100% no-repeat;"{% endif %}>
+      class="{{ videoFigureStyles | classes }}">
       {#- Decorative, same contract as the card video (molecules/card/card.njk):
           hidden from AT, left posterized under reduced motion
           (`data-motion-optional`), and hydrated + played only near the
@@ -42,6 +47,8 @@
              width="720"
              height="1280"
              class="{{ videoStyles | classes }}"
+             {#- Optional alpha mask (videoAsset.mask): the PNG's alpha channel clips the video, stretched to its box, so it scales with the video. Masks poster and video alike. -#}
+             {% if pageVideo.mask %}style="mask: url('{{ pageVideo.mask }}') center / 100% 100% no-repeat;"{% endif %}
              preload="none"
              aria-hidden="true"
              tabindex="-1"
