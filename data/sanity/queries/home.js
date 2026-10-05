@@ -1,10 +1,12 @@
 /** @format */
 import groq from "groq";
 import { PROJECT_CARD_PROJECTION } from "../projections/project/projectCardProjection.js";
+import { FEATURED_IMAGE_PROJECTION } from "../projections/image/featuredImageProjection.js";
 
 export const homeQuery = {
   id: "home",
-  description: "Home page singleton (hero, value copy, and recognition)",
+  description:
+    "Home page singleton (hero, value copy and statements, and recognition)",
   cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
   query: groq`*[_type == "home"] | order(_updatedAt desc)[0...1]{
     _id,
@@ -37,6 +39,12 @@ export const homeQuery = {
           }
         }
       }
+    },
+    "valuePropImage": valuePropImage->${FEATURED_IMAGE_PROJECTION},
+    statements[]{
+      subheading,
+      body,
+      "image": image->${FEATURED_IMAGE_PROJECTION}
     },
     recognitionHeading,
     recognitionBody,

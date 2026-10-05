@@ -25,9 +25,20 @@ export function normalizeLandingRecords(records = []) {
         }))
       : record?.featuredProjects;
 
+    // Hero statements in the shape hero.njk renders: { subheading, body (HTML), image }.
+    // The value prop is prepended as item 0 in home.njk, not here.
+    const statements = Array.isArray(record?.statements)
+      ? record.statements.map((statement) => ({
+          subheading: statement?.subheading,
+          body: serializePortableTextToHtml(statement?.body),
+          image: statement?.image,
+        }))
+      : [];
+
     return {
       ...record,
       valuePropBodyHtml,
+      statements,
       workBodyHtml,
       featuredProjects,
     };

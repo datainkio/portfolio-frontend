@@ -15,9 +15,9 @@ links:
 Pure, stateless normalization between raw Sanity results and Eleventy collections — the semantic
 work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inline SVG, safe defaults).
 
-| Export                             | Purpose                                                                                                                                             |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `normalizeLandingRecords(records)` | shape landing records into view models; serialize value-prop/work Portable Text → HTML, and resolve a `url` on each nested `featuredProjects` entry |
+| Export                             | Purpose                                                                                                                                                                                                                      |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `normalizeLandingRecords(records)` | shape landing records into view models; serialize value-prop/work Portable Text → HTML, map `statements[]` to `{ subheading, body (HTML), image }` for the hero, and resolve a `url` on each nested `featuredProjects` entry |
 
 ## Featured project URLs
 

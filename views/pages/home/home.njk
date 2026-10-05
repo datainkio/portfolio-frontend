@@ -47,7 +47,10 @@
     {{ GlobalHeader.render({ logoSvg: logo }) }}
     <div id="page-main">
       <main id="page-main-content" tabindex="-1" aria-busy="true" class="focus:outline-none {{ main | classes }}">
-        {{ HeroSection.render({ "id": "manifesto", "copy": value, "buildDate": buildDate }) }}
+        {#- Hero statements: item 0 is the value prop (with valuePropImage), then the home singleton's statements[]. -#}
+        {%- set homeDoc = cms.home[0] -%}
+        {%- set heroStatements = [{ "subheading": value.subheading, "body": value.body, "image": homeDoc.valuePropImage }].concat(homeDoc.statements or []) -%}
+        {{ HeroSection.render({ "id": "manifesto", "copy": value, "statements": heroStatements, "buildDate": buildDate }) }}
         {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
         {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
