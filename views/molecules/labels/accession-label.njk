@@ -5,7 +5,7 @@
   {%- set scope = params.scope | default("") -%}
   {%- set attrs = params.attrs | default("") -%}
   <dl {{ attrs | safe }}
-      class="font-display text-primary-200 px-2 max-w-screen-sm">
+      class="font-display text-primary-200 px-2 max-w-screen-sm {{ params.classes | default("") }}">
     <dt class="border-b border-current py-1">DOC {{ index }} / {{ title }}</dt>
     <dd class="flex justify-between py-2">
       <span>{{ description }}</span><span>{{ scope }}</span>

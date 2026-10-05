@@ -14,18 +14,26 @@
 
   {#- HERO VIEW -#}
   {%- set header_styles = {
-    "base": "h-dvh flex flex-col justify-end z-1 font-display col-span-full gap-y-6 py-12",
+    "base": "h-dvh flex flex-col justify-center z-1 font-display col-span-full",
     "lg": "col-span-10",
     "xl": "col-span-4"
   } -%}
-  {%- set title_styles = {"base": "font-display text-5xl/12 tracking-loose", "sm": "text-6xl/16", "md": "text-7xl"} -%}
+  {%- set label_styles = {"base": "bg-slate-950 px-8 py-4 m-0"} -%}
+  {#- The arbitrary variant pads only the last line's band. It matches once SplitText has wrapped each band clone in a line div (h1 > line > band); the unsplit span is a direct child, so the fallback keeps uniform bands. -#}
+  {%- set title_styles = {
+    "base": "font-display text-5xl/12 tracking-loose [&>:last-child>[data-hero-el=band]]:pb-4",
+    "sm": "text-6xl"
+  } -%}
   {#- Opaque band behind each line for legibility over the video. Inline + cloned decoration so every line wraps its own ragged-right band, with or without SplitText. -#}
-  {%- set title_band_styles = {"base": "bg-neutral-900 box-decoration-clone px-2"} -%}
-
+  {%- set title_band_styles = {"base": "bg-slate-950 box-decoration-clone px-6 py-2"} -%}
   {#- MISSION STATEMENT -#}
   {%- set statement_styles = {"base": "h-dvh content-center col-span-full gap-y-12"} -%}
-  {%- set subheading_styles = {"base": "sm:text-4xl md:text-5xl font-display text-secondary-500", "md": "col-span-4"} -%}
-  {%- set body_styles = {"base": "col-span-full prose prose-p:text-xl prose-invert"} -%}
+  {%- set subheading_styles = {
+    "base": "p-4 bg-slate-950 font-display text-secondary-500",
+    "sm": "text-4xl",
+    "md": "col-span-4 text-5xl "
+  } -%}
+  {%- set body_styles = {"base": "p-6 bg-slate-950 col-span-full prose prose-p:text-xl prose-invert"} -%}
 
   <section class="{{ section_styles | classes }}"
            id="{{ sectionId }}"
@@ -37,6 +45,7 @@
             title: "Manifesto",
             description: "Russell Lebo / Selected Works Archive",
             scope: "2008-" + (buildDate | formatDate("yyyy") ),
+      classes: label_styles | classes,
       attrs: 'data-hero-el="context"'
       }) }}
       <h1 class="{{ title_styles | classes }}"
@@ -45,6 +54,11 @@
     </header>
     <section class="{{ statement_styles | classes }}"
              data-hero-el="mission-statement">
+      <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ subheading }}</h2>
+      <div data-hero-el="body" class="{{ body_styles | classes }}">{{ body | safe }}</div>
+    </section>
+    <section class="{{ statement_styles | classes }}"
+             data-hero-el="mission-statement-2">
       <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ subheading }}</h2>
       <div data-hero-el="body" class="{{ body_styles | classes }}">{{ body | safe }}</div>
     </section>

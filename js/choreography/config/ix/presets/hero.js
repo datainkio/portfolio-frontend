@@ -14,7 +14,7 @@ export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; //
 
 export const HERO_INTRO = {
   ...ANIMATION_DEFAULTS,
-  duration: toSeconds(motion.duration("slower")),
+  duration: toSeconds(motion.duration("fast")),
   stagger: motion.stagger("loose"),
   translateY: -motion.distance("lg"),
   // Seconds the title's letters trail the line bands. The bands grow first;
