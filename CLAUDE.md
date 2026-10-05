@@ -64,6 +64,8 @@ rg -n '<pattern>' -g '!node_modules' -g '!_site' -g '!graphify-out' -g '!.codegr
   -g '!docs/frontmatter-audit/**' -g '!responsive-testing/screenshots/**' -g '!*.svg' -g '!package-lock.json' .
 ```
 
+For cross-file questions (impact, how subsystems connect, which docs govern some code), use `graphify query` against `graphify-out/graph.json`. The graph is local only (just `GRAPH_REPORT.md` is in git). Code nodes were refreshed 2026-10-05 and doc nodes date from 2026-09-07. `graphify update .` refreshes code with no tokens; refreshing docs takes `/graphify --update`.
+
 ## Section map
 
 The registry key, element attribute, and rendered DOM id differ. Don't assume `#<key>`.
