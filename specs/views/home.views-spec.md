@@ -59,19 +59,19 @@ views/pages/home/home.njk  (composes section macros in <main>)
 
 The template imports section macros and renders them, in order, inside a single `<main id="page-main-content" aria-busy="true">`, itself wrapped by `<div id="page-main">` (the ScrollSmoother wrapper/content pair — `<main>` is the `content` element directly; there is no intermediate `<div>`). `aria-busy` is set true until choreography boots (`director:ready` → `preloader:out`). Order is authored in `home.njk`, **not** derivable from the stale `skipLinks` frontmatter.
 
-| Order | Region        | Macro / import                               | `id`            | Key inputs                                             |
-| ----- | ------------- | -------------------------------------------- | --------------- | ------------------------------------------------------ |
-| —     | Skip links    | `organisms/navigation/skip-links-nav.njk`    | —               | (no params)                                            |
-| —     | Section cap   | `molecules/section-cap.njk`                  | —               | `title: "renderizoring..."` (render-state placeholder) |
-| 1     | Landing/hero  | `organisms/header/home/home-landing.njk`     | (landing)       | `svg: logo`                                            |
-| 2     | Hero/manifesto | `organisms/section/hero.njk`                  | `manifesto`     | `copy: value`                                          |
-| 3     | Process       | `organisms/section/process.njk`              | `process`       | `uiComponents: true` (ui-components-loop coverflow)    |
-| 4     | Work          | `organisms/section/work.njk`                 | `work`          | `copy: work`, `projects: projects`                     |
-| 5     | Organizations | `organisms/section/organizations.njk`        | `organizations` | `copy: organizationsCopy`, `organizations`             |
-| 6     | Recognition   | `organisms/section/awards.njk`               | `recognition`   | `copy: recognition`, `awards`                          |
-| 7     | Contact       | `organisms/section/contact.njk`              | `contact`       | `copy: contact`, `contact: contactInfo`                |
-| —     | Footer        | `organisms/footer/global-footer.njk`         | —               | `contact: false` (rendered outside `<main>`)           |
-| —     | Choreography  | `templates/partials/choreography-script/choreography-script.njk` | —               | module bundle (gated boot)                             |
+| Order | Region         | Macro / import                                                   | `id`            | Key inputs                                             |
+| ----- | -------------- | ---------------------------------------------------------------- | --------------- | ------------------------------------------------------ |
+| —     | Skip links     | `organisms/navigation/skip-links-nav.njk`                        | —               | (no params)                                            |
+| —     | Section cap    | `molecules/section-cap.njk`                                      | —               | `title: "renderizoring..."` (render-state placeholder) |
+| 1     | Landing/hero   | `organisms/header/home/home-landing.njk`                         | (landing)       | `svg: logo`                                            |
+| 2     | Hero/manifesto | `organisms/section/hero.njk`                                     | `manifesto`     | `copy: value`                                          |
+| 3     | Process        | `organisms/section/process.njk`                                  | `process`       | `uiComponents: true` (ui-components-loop coverflow)    |
+| 4     | Work           | `organisms/section/work.njk`                                     | `work`          | `copy: work`, `projects: projects`                     |
+| 5     | Organizations  | `organisms/section/organizations.njk`                            | `organizations` | `copy: organizationsCopy`, `organizations`             |
+| 6     | Recognition    | `organisms/section/awards.njk`                                   | `awards`        | `copy: recognition`, `awards`                          |
+| 7     | Contact        | `organisms/section/contact.njk`                                  | `contact`       | `copy: contact`, `contact: contactInfo`                |
+| —     | Footer         | `organisms/footer/global-footer.njk`                             | —               | `contact: false` (rendered outside `<main>`)           |
+| —     | Choreography   | `templates/partials/choreography-script/choreography-script.njk` | —               | module bundle (gated boot)                             |
 
 Head/body partials included directly: `templates/partials/dev-note/dev-note.njk`, `head.njk`, `gtm-noscript.njk`.
 
@@ -128,7 +128,7 @@ The home page is the portfolio's front door. Its job is to let recruiters, hirin
 ## Known drift & risks
 
 - **Unsupplied section copy.** `organizationsCopy`, `contact`, and `contactInfo` are passed to the Organizations and Contact macros but are **not** defined in `ia/index.md` frontmatter, `site.json`, or any global — those sections receive `undefined` copy. The `home` query does expose `organizationsHeading`/`organizationsBody`, which are not yet mapped. Reconcile: map them in `eleventyComputed`, or document the intended source.
-- **Stale `skipLinks`.** `ia/index.md` declares `skipLinks: [hero, bio, awards, projects]`, but the live section ids are `manifesto, process, work, organizations, recognition, contact`. Skip-link targets are out of sync with the real structure — do not treat `skipLinks` as a source of truth for composition.
+- **Stale `skipLinks`.** `ia/index.md` declares `skipLinks: [hero, bio, awards, projects]`, but the live section ids are `manifesto, process, work, organizations, awards, contact`. Skip-link targets are out of sync with the real structure — do not treat `skipLinks` as a source of truth for composition.
 - **`metaDescription` placeholder.** `ia/index.md` sets `metaDescription: "no metaDescription defined"` — a shipping placeholder.
 - **Dead import + stale sidecar links.** `home.njk` retains a commented-out `sizzle-background` import; `home.md` still links `hero` / `Preloader` / `Background` / `sizzle-background`, which the template no longer uses. Tracked as Frontend task `fix-dev-channel-defects` (ADR 0005), not fixed here.
 - **Process visual is uncommitted.** The live Process section renders the `ui-components-loop` coverflow (`uiComponents: true`) that replaced `blockframes` on all breakpoints; that work is uncommitted on the frontend `motion` branch as of 2026-07-13.
@@ -136,5 +136,5 @@ The home page is the portfolio's front door. Its job is to let recruiters, hirin
 ## Open questions
 
 - **Organizations/Contact copy source:** map `organizationsHeading`/`organizationsBody` (and a contact content source) into `eleventyComputed`, or is copy authored inside the macros?
-- **Skip-link reconciliation:** update `skipLinks` to real ids (`manifesto`, `process`, `work`, `organizations`, `recognition`, `contact`) and confirm the landing target.
+- **Skip-link reconciliation:** update `skipLinks` to real ids (`manifesto`, `process`, `work`, `organizations`, `awards`, `contact`) and confirm the landing target.
 - **LCP element:** confirm the true above-the-fold LCP element in the landing organism (do not infer from `hero:` computed data) before any perf work.

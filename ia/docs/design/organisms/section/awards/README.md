@@ -11,7 +11,7 @@ templateEngineOverride: njk
 
 {% import "organisms/section/awards.njk" as AwardsSection %}
 {% set awardsPreviewParams = {
-  id: "recognition",
+  id: "awards",
   copy: recognition,
   awards: collections.awards,
   order: "2/5",

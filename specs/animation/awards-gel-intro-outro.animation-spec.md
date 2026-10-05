@@ -45,7 +45,7 @@ From the user's perspective the section reads as a light card that, on entry, ga
 
 ## Patterns by Component/View
 
-- **Section element** (`#recognition`, `[data-scroll-section]`): background becomes transparent. The current `bg-accent-500` utility on the section is **removed** and superseded by the accent gel layer.
+- **Section element** (`#awards`, `[data-scroll-section]`): background becomes transparent. The current `bg-accent-500` utility on the section is **removed** and superseded by the accent gel layer.
 - **Backing gel** (`bg-gel-5`, `bg-gel-neutral`): positioned and sized to the section box; no rotation; lower z-index. Stays locked to the section box as it scrolls. No intro/outro tween of its own beyond geometry tracking.
 - **Accent gel** (`bg-gel-6`, `bg-gel-accent`): `rotate(-5deg)` (default origin) set at init and held constant; z-index one step above the backing gel; offscreen to the bottom-right at init; tweened into section registration on intro and back out on outro. Once registered, it also stays locked to the section box as it scrolls.
 - **Layer order:** backing gel < accent gel < section content. Both gels remain behind the transparent section content. The existing `.bg-pixelator` overlay and other `bg-gel-*` instances must not occlude this composition while Awards is the active arrangement.
