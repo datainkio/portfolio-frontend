@@ -1,6 +1,6 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { HERO_MISSION_REVEAL } from "../../config/ix/motion.js";
+import { HERO_MISSION_REVEAL } from "../../config/ix/presets/hero.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 import {
   attachOverviewGel,

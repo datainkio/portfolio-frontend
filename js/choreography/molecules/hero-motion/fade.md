@@ -8,7 +8,7 @@ tags:
 links:
   - "[[molecules/hero-motion/hero-motion|molecules/hero-motion/hero-motion]]"
   - "[[molecules/hero-motion/sweep|molecules/hero-motion/sweep]]"
-  - "[[config/ix/motion|config/ix/motion]]"
+  - "[[config/ix/presets/hero|config/ix/presets/hero]]"
 ---
 
 ## Exports

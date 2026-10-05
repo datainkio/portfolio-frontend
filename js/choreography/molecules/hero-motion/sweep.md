@@ -10,7 +10,7 @@ links:
   - "[[molecules/hero-motion/hero-motion|molecules/hero-motion/hero-motion]]"
   - "[[molecules/hero-motion/split|molecules/hero-motion/split]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|managers/GelAnimationManager/GelAnimationManager]]"
-  - "[[config/ix/motion|config/ix/motion]]"
+  - "[[config/ix/presets/hero|config/ix/presets/hero]]"
 ---
 
 ## Exports
@@ -61,7 +61,7 @@ Labels: `intro` (gel), `middle` (header).
 ## Pacing
 
 `HERO_INTRO.duration` and `HERO_INTRO.ease.out` from
-[[config/ix/motion|config/ix/motion.js]].
+[[config/ix/presets/hero|config/ix/presets/hero.js]].
 
 ## Reduced motion
 

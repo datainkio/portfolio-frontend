@@ -4,7 +4,7 @@ import {
   buildVideoIntro,
 } from "../../molecules/video-reveal/video-reveal.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
-import { BACKGROUND_ANIMATION_DEFAULTS } from "../../config/ix/motion.js";
+import { BACKGROUND_ANIMATION_DEFAULTS } from "../../config/ix/presets/background.js";
 import { VIDEO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 

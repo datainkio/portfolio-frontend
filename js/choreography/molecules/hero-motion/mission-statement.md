@@ -8,7 +8,7 @@ tags:
 links:
   - "[[molecules/hero-motion/overview-gel|molecules/hero-motion/overview-gel]]"
   - "[[molecules/hero-motion/heading-gel|molecules/hero-motion/heading-gel]]"
-  - "[[config/ix/motion|config/ix/motion]]"
+  - "[[config/ix/presets/hero|config/ix/presets/hero]]"
 ---
 
 `attachMissionStatement(view, gelManager)` builds the reveal for

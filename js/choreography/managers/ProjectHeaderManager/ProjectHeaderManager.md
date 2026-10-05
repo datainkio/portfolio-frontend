@@ -7,5 +7,5 @@ tags:
 links:
   - "[[atoms/parallax/parallax|atoms/parallax]]"
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
-  - "[[config/ix/motion/motion|config/ix/motion]]"
+  - "[[config/ix/presets/project-header|config/ix/presets/project-header]]"
 ---

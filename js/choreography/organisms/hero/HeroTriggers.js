@@ -1,7 +1,7 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_OUTRO } from "../../config/ix/motion.js";
+import { HERO_OUTRO } from "../../config/ix/presets/hero.js";
 import {
   suspendHeadingGelSync,
   resumeHeadingGelSync,

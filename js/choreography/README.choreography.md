@@ -60,7 +60,7 @@ js/choreography/
 │   │   ├── events/events.js          # Event name definitions (EVENTS)
 │   │   ├── selectors/selectors.js    # DOM selectors (SELECTORS)
 │   │   └── timelines/timelines.js    # TIMELINE_IDS
-│   ├── ix/                           # breakpoints, motion, profiles, scrolltriggers
+│   ├── ix/                           # breakpoints, motion, presets/, profiles, scrolltriggers
 │   └── displays/                     # ruler display config
 ├── managers/                         # Singleton managers for global behaviors
 │   ├── ScrollEffectsCoordinator/     # Scroll smoothing + background/decoration effects

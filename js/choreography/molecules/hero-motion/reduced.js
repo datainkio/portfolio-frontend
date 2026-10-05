@@ -1,6 +1,6 @@
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_INTRO } from "../../config/ix/motion.js";
+import { HERO_INTRO } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**

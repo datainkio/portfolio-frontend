@@ -1,6 +1,7 @@
 import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_INTRO, HERO_OUTRO, motion } from "../../config/ix/motion.js";
+import { motion } from "../../config/ix/motion.js";
+import { HERO_INTRO, HERO_OUTRO } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { attachHeadingGel, getHeadingGelEl } from "./heading-gel.js";
 

@@ -17,7 +17,7 @@
 
 import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
 import { motion } from "../../config/ix/motion.js";
-import { HERO_LANDING } from "../../config/ix/motion.js";
+import { TEXT_SPLIT_REVEAL } from "../../config/ix/presets/text-split-reveal.js";
 
 /**
  * @param {Element} target - Single element whose text will be split
@@ -37,9 +37,9 @@ export function splitWordReveal(target, opts = {}) {
     wordsClass: opts.wordsClass ?? "block w-full",
   });
 
-  const fromVars = opts.from ?? { ...HERO_LANDING.from };
+  const fromVars = opts.from ?? { ...TEXT_SPLIT_REVEAL.from };
   const toVars = {
-    ...HERO_LANDING.to,
+    ...TEXT_SPLIT_REVEAL.to,
     duration: opts.duration ?? motion.duration("base") / 1000,
     ease: opts.ease ?? motion.ease("enter"),
     stagger: opts.stagger ?? motion.stagger("base"),

@@ -10,7 +10,7 @@ links:
   - "[[molecules/award-motion/award-motion|molecules/award-motion/award-motion]]"
   - "[[molecules/award-motion/reduced|molecules/award-motion/reduced]]"
   - "[[organisms/awards/AwardsAnimations|organisms/awards/AwardsAnimations]]"
-  - "[[config/ix/motion|config/ix/motion]]"
+  - "[[config/ix/presets/awards|config/ix/presets/awards]]"
 ---
 
 ## Exports
@@ -61,7 +61,7 @@ previously made `view` jitter.
 
 ## Tuning knobs
 
-All paced from `AWARDS_INTRO` in [[config/ix/motion|config/ix/motion.js]]:
+All paced from `AWARDS_INTRO` in [[config/ix/presets/awards|config/ix/presets/awards.js]]:
 
 - `duration` (`DUR`) — content share of the scroll range.
 - `gelDuration` (`GEL_DUR`) — sheet share. Raise to make the sheets occupy more
