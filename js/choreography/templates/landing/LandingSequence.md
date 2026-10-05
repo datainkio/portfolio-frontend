@@ -35,48 +35,61 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 
 ## Sequence
 
-Phase 1 is the landing chain: two latches join in `_cueVideoIntro`, then the video intro, the hold, and the hero intro run in series. Phase 2 is Hero's ScrollTrigger gating background-video playback.
+Each `Visitor` note says what is on screen at that point; the rest is the mechanism behind it. Phase 1 is the landing chain: two latches join in `_cueVideoIntro`, then the video intro, the hold, and the hero intro run in series. Phase 2 is Hero's ScrollTrigger gating background-video playback.
 
 ```mermaid
 sequenceDiagram
   autonumber
-  participant W as window
+  actor U as Visitor
+  participant W as window / Preloader
   participant Bus as AnimationBus
   participant LS as LandingSequence
   participant Video as BackgroundVideo (sections.video)
   participant G as gsap.delayedCall
   participant Hero as Hero (sections.hero)
+  participant Hdr as GlobalHeaderManager
 
   Note over LS: constructor: listen once for preloader:out on window,<br/>then subscribe to Bus events (_registerListeners)
+  Note over U: First visit: the preloader splash (logo and subtitle) fills<br/>the screen and scrolling is locked.<br/>Return visit: no splash, the page paints straight away.
 
   rect rgba(120,120,120,0.08)
-  Note over W,Hero: Phase 1. Landing chain. Two latches (A and B), arrival order not fixed
+  Note over U,Hdr: Phase 1. Landing chain. Two latches (A and B), arrival order not fixed
   par Latch A: video settles (usually first, before preloader:out)
+    Note over U: Still the splash. Behind it the video hydrates<br/>and starts playing, out of sight.
     Video-)Bus: video:media:playing | error | unavailable<br/>| ready (counts only if reduced motion)
     Bus->>LS: settled handler
     LS->>LS: _videoMediaSettled = true
     LS->>LS: _cueVideoIntro() (returns early until B is set)
   and Latch B: preloader hands off
+    Note over U: The splash plays its exit and lifts.
     W-)LS: preloader:out
     LS->>LS: start(), remove window listener
     LS->>Video: await playLanding() (stage autoAlpha 0)
     Video-->>LS: resolved (errors are logged and swallowed)
+    Note over U: Page is up, but the video is held invisible.
     LS->>LS: _videoLandingStaged = true
     LS->>LS: _cueVideoIntro()
   end
   Note over LS: Both latches set and _videoIntroCued is false,<br/>so set _videoIntroCued = true
-  LS->>Video: await playIntro() (fade in; play() as safety net)
+  LS->>Video: await playIntro() (fade in, play() as safety net)
+  Note over U: The background video fades in, already in motion,<br/>never a frozen poster frame.
   Video-)Bus: video:intro:complete
   Bus->>LS: introComplete handler
   LS->>LS: _videoIntroComplete = true
   LS->>G: _armHeroIntro(): delayedCall(hold)<br/>hold = 0 if reduced motion, else HERO_INTRO_HOLD.delay
+  Note over U: A short beat: the video plays on its own.
   G-->>LS: hold elapsed, _heroHoldCall = null
   LS->>Hero: playIntro()
-  Note over Hero: Chain ends at hero:intro:complete
+  Note over U: The manifesto arrives: its context line rises and fades in,<br/>the title's letters cascade up into place, then the keywords<br/>"just", "informed" and "engaged" light up in secondary-600.
+  Hero-)Bus: hero:intro:complete (chain ends)
+  Bus->>Hdr: _reveal()
+  Note over U: The site header slides down from the top edge.<br/>From now on it hides on scroll down and returns on scroll up.
   end
 
+  Note over U: Reduced motion: no splash animation, the video shows<br/>a still frame, the manifesto appears at rest, and the<br/>header appears without sliding. The same events still fire.
+
   rect rgba(120,120,120,0.08)
-  Note over W,Hero: Phase 2. Hero ScrollTrigger controls video play/pause
+  Note over U,Hdr: Phase 2. Hero ScrollTrigger controls video play/pause
   Hero-)Bus: hero:enter (also fires at load)
   Bus->>LS: _heroLeftBackwards = false
   LS->>LS: _resumeBackgroundVideo()
@@ -89,17 +102,20 @@ sequenceDiagram
   Hero-)Bus: hero:onEnterBack
   Bus->>LS: _heroLeftBackwards = false
   LS->>Video: _resumeBackgroundVideo() (same gate)
+  Note over U: Scrolling back up into the manifesto, the video moves again.
 
   alt Scroll down past Hero
     Hero-)Bus: hero:exit
     Bus->>LS: _heroLeftBackwards is false
     LS->>Video: videoEl.pause() (holds last frame for gel blend)
+    Note over U: Past the manifesto, the video freezes on its last frame.<br/>The backdrop and the colour blend over it look unchanged,<br/>just still.
   else Scroll up above Hero's start
     Hero-)Bus: hero:onLeaveBack
     Bus->>LS: _heroLeftBackwards = true
     LS->>Video: _resumeBackgroundVideo() (same gate)
-    Hero-)Bus: hero:exit (sent right after; dispatch is synchronous)
+    Hero-)Bus: hero:exit (sent right after, dispatch is synchronous)
     Bus->>LS: _heroLeftBackwards is true, so clear it and return (no pause)
+    Note over U: Back at the top of the page, the video keeps playing.
   end
   end
 
