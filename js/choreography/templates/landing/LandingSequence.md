@@ -30,6 +30,79 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 - The hero section backs out of the view
 - The hero section exits the view
 
+## Sequence
+
+Phase 1 is the landing chain: two latches join in `_cueVideoIntro`, then the video intro, the hold, and the hero intro run in series. Phase 2 is Hero's ScrollTrigger gating background-video playback.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant W as window
+  participant Bus as AnimationBus
+  participant LS as LandingSequence
+  participant Video as BackgroundVideo (sections.video)
+  participant G as gsap.delayedCall
+  participant Hero as Hero (sections.hero)
+
+  Note over LS: constructor: listen once for preloader:out on window,<br/>then subscribe to Bus events (_registerListeners)
+
+  rect rgba(120,120,120,0.08)
+  Note over W,Hero: Phase 1. Landing chain. Two latches (A and B), arrival order not fixed
+  par Latch A: video settles (usually first, before preloader:out)
+    Video-)Bus: video:media:playing | error | unavailable<br/>| ready (counts only if reduced motion)
+    Bus->>LS: settled handler
+    LS->>LS: _videoMediaSettled = true
+    LS->>LS: _cueVideoIntro() (returns early until B is set)
+  and Latch B: preloader hands off
+    W-)LS: preloader:out
+    LS->>LS: start(), remove window listener
+    LS->>Video: await playLanding() (stage autoAlpha 0)
+    Video-->>LS: resolved (errors are logged and swallowed)
+    LS->>LS: _videoLandingStaged = true
+    LS->>LS: _cueVideoIntro()
+  end
+  Note over LS: Both latches set and _videoIntroCued is false,<br/>so set _videoIntroCued = true
+  LS->>Video: await playIntro() (fade in; play() as safety net)
+  Video-)Bus: video:intro:complete
+  Bus->>LS: introComplete handler
+  LS->>LS: _videoIntroComplete = true
+  LS->>G: _armHeroIntro(): delayedCall(hold)<br/>hold = 0 if reduced motion, else HERO_INTRO_HOLD.delay
+  G-->>LS: hold elapsed, _heroHoldCall = null
+  LS->>Hero: playIntro()
+  Note over Hero: Chain ends at hero:intro:complete
+  end
+
+  rect rgba(120,120,120,0.08)
+  Note over W,Hero: Phase 2. Hero ScrollTrigger controls video play/pause
+  Hero-)Bus: hero:enter (also fires at load)
+  Bus->>LS: _heroLeftBackwards = false
+  LS->>LS: _resumeBackgroundVideo()
+  alt reduced motion OR video intro not yet complete
+    LS-->>LS: no-op (landing chain still owns playback)
+  else
+    LS->>Video: videoEl.play() (rejection ignored)
+  end
+
+  Hero-)Bus: hero:onEnterBack
+  Bus->>LS: _heroLeftBackwards = false
+  LS->>Video: _resumeBackgroundVideo() (same gate)
+
+  alt Scroll down past Hero
+    Hero-)Bus: hero:exit
+    Bus->>LS: _heroLeftBackwards is false
+    LS->>Video: videoEl.pause() (holds last frame for gel blend)
+  else Scroll up above Hero's start
+    Hero-)Bus: hero:onLeaveBack
+    Bus->>LS: _heroLeftBackwards = true
+    LS->>Video: _resumeBackgroundVideo() (same gate)
+    Hero-)Bus: hero:exit (sent right after; dispatch is synchronous)
+    Bus->>LS: _heroLeftBackwards is true, so clear it and return (no pause)
+  end
+  end
+
+  Note over LS: destroy(): kill _heroHoldCall, reset all flags,<br/>unsubscribe Bus listeners, clear references
+```
+
 ## Motion strategy
 
 ```mermaid
