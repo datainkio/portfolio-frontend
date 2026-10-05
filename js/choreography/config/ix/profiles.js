@@ -86,6 +86,16 @@ const CARD_PARALLAX_PROFILE = Object.freeze({
   trigger: { enabled: true },
 });
 
+// Same override at every breakpoint tier (base → xl). `reduced` is not a tier
+// and stays an explicit key where a section sets it.
+const allBreakpoints = (value) => ({
+  base: value,
+  sm: value,
+  md: value,
+  lg: value,
+  xl: value,
+});
+
 export const SECTION_OVERRIDES = Object.freeze({
   card: {
     // Variant 01 (below lg): figure sticks to the viewport top while the body
@@ -100,34 +110,18 @@ export const SECTION_OVERRIDES = Object.freeze({
   },
   work: {
     // reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "reduced" } },
-    sm: { animation: { variant: "reduced" } },
-    md: { animation: { variant: "reduced" } },
-    lg: { animation: { variant: "reduced" } },
-    xl: { animation: { variant: "reduced" } },
+    ...allBreakpoints({ animation: { variant: "reduced" } }),
   },
   hero: {
     reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "split" } },
-    sm: { animation: { variant: "split" } },
-    md: { animation: { variant: "split" } },
-    lg: { animation: { variant: "split" } },
-    xl: { animation: { variant: "split" } },
+    ...allBreakpoints({ animation: { variant: "split" } }),
   },
   process: {
     reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "ui-components-loop" } },
-    sm: { animation: { variant: "ui-components-loop" } },
-    md: { animation: { variant: "ui-components-loop" } },
-    lg: { animation: { variant: "ui-components-loop" } },
-    xl: { animation: { variant: "ui-components-loop" } },
+    ...allBreakpoints({ animation: { variant: "ui-components-loop" } }),
   },
   awards: {
-    base: { animation: { variant: "reduced" } },
-    sm: { animation: { variant: "reduced" } },
-    md: { animation: { variant: "reduced" } },
-    lg: { animation: { variant: "reduced" } },
-    xl: { animation: { variant: "reduced" } },
+    ...allBreakpoints({ animation: { variant: "reduced" } }),
     reduced: {
       animation: { variant: "reduced" },
     },
