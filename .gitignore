@@ -96,9 +96,9 @@ Temporary Items
 # Lighthouse audit reports (raw build artifacts)
 .lighthouse/
 
-# graphify knowledge graph (frontend/graphify-out)
-# Only GRAPH_REPORT.md is committed; the graph, cache, and HTML stay local
-# (multi-MB churn on every rebuild). Rebuild locally with /graphify --update.
-graphify-out/*
-!graphify-out/GRAPH_REPORT.md
+# graphify knowledge graph (frontend/graphify-out) — local only.
+# The post-commit hook (graphify hook install) rebuilds code nodes and rewrites
+# GRAPH_REPORT.md after every commit, so nothing here is tracked. Doc nodes need
+# /graphify --update.
+graphify-out/
 .codegraphy/*
