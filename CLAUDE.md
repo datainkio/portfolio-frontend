@@ -10,75 +10,72 @@ tags:
 
 # Frontend — Claude Code Entrypoint
 
-Portfolio frontend: Eleventy (11ty) + Nunjucks + Tailwind v4 + GSAP + Sanity.
+Portfolio frontend: Eleventy (11ty) + Nunjucks + Tailwind v4 + GSAP + Sanity. Own repo (`portfolio-frontend`) — run git from here. [`../CLAUDE.md`](../CLAUDE.md) (auto-loaded) covers repo topology, authority, and non-negotiables; don't restate them.
 
-## Orientation Protocol
+## Context load tier
 
-Read in this order before starting any task:
+- **Fast path** (single-file edit, lookup, quick question): this file + the target file's `.md` sidecar. Nothing else.
+- **Full path** (implementation, choreography, architecture, multi-file): also [`project.md`](../context/project.md), [`constraints.md`](../context/constraints.md), and the active task in [`goals/Frontend/_tasks/`](../../goals/Frontend/_tasks/).
+- [`.github/copilot-instructions.md`](.github/copilot-instructions.md) is ~18 KB — read only the section you need (conventions, do-not-edit list), never whole.
 
-1. [`project.md`](../context/project.md) — stack constraints, choreography runtime snapshot, common pitfalls
-2. [`constraints.md`](../context/constraints.md) — non-negotiables; never violate
-3. [`Frontend.md`](../../goals/Frontend.md) — the Frontend project note in the **vault-root** `goals/` folder, a sibling of `dataink.io/`. Its tasks live in [`Frontend_tasks/`](../../goals/Frontend_tasks/); task frontmatter is the source of truth, and `status: "in-progress"` marks active work
-4. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — repo conventions, do-not-edit files, build order
+## Goals
 
-**Context load tier:**
+Frontend project note: [`goals/Frontend/Frontend.md`](../../goals/Frontend/Frontend.md); tasks and subtasks: [`goals/Frontend/_tasks/`](../../goals/Frontend/_tasks/) (vault root, outside this repo). Task frontmatter is the source of truth; `status` values appear both quoted and unquoted, so match both:
 
-- Fast path (single-file edit, template lookup, quick question): `portfolio-frontend.md` + `copilot-instructions.md` only
-- Full path (implementation, choreography, architecture, multi-file): all four above
+```bash
+grep -lE '^status: "?in-progress' ../../goals/Frontend/_tasks/*.md
+```
+
+Mark tasks `done` in frontmatter when work completes. Never recreate `frontend/context/goals/` or `current-goals.md`.
 
 ## Critical Constraints
 
-- Page-level diagnosis/optimization starts at the page template — read `views/pages/<name>/<name>.njk` (homepage = `views/pages/home/home.njk`) and confirm the real above-the-fold composition + LCP element before any hypothesis or edit. Never infer page structure from arch docs, `hero.njk`, or frontmatter (`hero:`, `skipLinks`)
-- Never infer _source behavior_ from `_site/` — but DO read rendered `_site/<page>.html` to verify output. For an output/perf review, read the rendered artifact first instead of rebuilding or serving in memory; read the file, don't just grep it for your own edits
+- Page-level diagnosis/optimization starts at the page template — read `views/pages/<name>/<name>.njk` and confirm the real above-the-fold composition + LCP element before any hypothesis or edit. Never infer page structure from arch docs or frontmatter (`skipLinks` in `ia/index.md` is stale).
+- Homepage: `views/pages/home/home.njk`. Its first section is `views/organisms/section/hero.njk` (renders `#manifesto`), driven by `js/choreography/organisms/hero/`. "Hero" was "Bio" before 2026-10-05; plan prompts and `specs/animation/` written earlier use the old names and may describe a removed legacy Hero.
+- Never infer _source behavior_ from `_site/` — but DO read rendered `_site/<page>.html` to verify output. For an output/perf review, read the rendered artifact first instead of rebuilding or serving in memory.
+- `ia/**/*.md` pages are rendered by 11ty as Nunjucks — a broken import there fails the build.
 - Never hand-edit `styles/colors.css` or `styles/typography/fontFamilies.css` — overwritten by `build:design`
 - Never call Tailwind CLI directly — always use npm scripts
 - Never bypass choreography lifecycle gating (`director:ready` → `preloader:out`)
 - Never introduce new global singletons — extend Director / Bus architecture
 - CSS import order in `styles/main.css` is critical: fonts → Tailwind → base → theme → components
-- Templates live in `views/` (Eleventy `includes`), not `njk/` — that path no longer exists
+- Templates live in `views/` (Eleventy `includes`)
 
 ## Key Commands
 
 ```bash
 npm start              # dev: Tailwind watch + 11ty serve (most common)
-npm run build          # full build: design → css → 11ty
-npm run quick          # fast build: css + 11ty only (skips Figma sync)
-npm run build:design   # sync Figma tokens → CSS (run before build:css)
-npm run validate       # format check + tests + preview build
+npm run quick          # fast build: js → 11ty → css (skips Figma sync) — use to verify changes
+npm run build          # full build: clean → design → js → 11ty → css
+npm run build:design   # sync Figma tokens → CSS
+npm test               # logger + choreography contract tests
+npm run validate       # format:check → lint:frontmatter → audit:sidecars → test
 npm run scaffold:component  # generate new atomic design component
 ```
 
-## Available Skills
+`format:check` and `lint:frontmatter` carry pre-existing findings — compare counts against a `git stash` baseline rather than expecting zero.
 
-**Named subagents are retired.** `.claude/agents/` no longer exists; routing goes
-through skills, symlinked into [`../.claude/skills/`](../.claude/skills/) from the
-`skillet` repo. Load only the skill the task needs — do not load all by default.
+## Skills
 
-| Skill                                   | Load for                                                               |
-| --------------------------------------- | ---------------------------------------------------------------------- |
-| `/choreography`                         | This project's GSAP motion system — topology, boot sequence, contracts |
-| `/eleventy`                             | 11ty config, collections, filters, shortcodes, build failures          |
-| `/tailwindcss`                          | Tailwind v4 utilities, theme layer, CSS import order                   |
-| `/ixd`, `/ixd-development`              | Interaction design and its implementation                              |
-| `/accessibility`                        | Semantic structure, ARIA, keyboard support, reduced motion             |
-| `/core-web-vitals`, `/performance`      | LCP/CLS/INP diagnosis and budgets                                      |
-| `/best-practices`                       | General frontend review and contract compliance                        |
-| `/frontmatter-lint`, `/drift-check`     | Workspace hygiene — sidecar and frontmatter presence, doc drift        |
-| `/graphify`                             | Query the knowledge graph at [`graphify-out/`](graphify-out/)          |
-| `/obsidian-markdown`, `/obsidian-bases` | Sidecar and vault authoring conventions                                |
+Linked from Skillet into [`.claude/skills/`](.claude/skills/), declared in [`.skillet`](.skillet). Load only what the task needs. A skill not listed here is absent — `~/Projects/skillet/bin/skillet add <skill>`, never copy it in.
 
-GSAP API skills — load alongside `/choreography` for the specific technique:
+| Skill                                    | Load for                                                               |
+| ---------------------------------------- | ---------------------------------------------------------------------- |
+| `choreography`                           | This project's GSAP motion system — topology, boot sequence, contracts |
+| `gsap-core`, `gsap-timeline`             | Tweens, easing, `matchMedia`, reduced motion; timeline sequencing      |
+| `gsap-scrolltrigger`, `gsap-performance` | Pinning, scrub; compositor props, `quickTo`, batching                  |
+| `eleventy`                               | 11ty config, collections, filters, shortcodes, build failures          |
+| `tailwindcss`                            | Tailwind v4 utilities, theme layer, CSS import order                   |
+| `ixd`                                    | Interaction design review                                              |
+| `accessibility`                          | Semantic structure, ARIA, keyboard support, reduced motion             |
+| `core-web-vitals`, `performance`         | LCP/CLS/INP diagnosis and budgets                                      |
+| `best-practices`                         | Pre-merge review, contract compliance                                  |
+| `atomic-design`                          | Component hierarchy (atoms → organisms)                                |
+| `graphify`                               | Query the knowledge graph at [`graphify-out/`](graphify-out/)          |
+| `json-canvas`                            | `.canvas` files (e.g. `LandingSequence Flow.canvas`)                   |
+| `prime`                                  | Loadout: caveman + karpathy-guidelines + graphify                      |
 
-| Skill                 | Load for                                                     |
-| --------------------- | ------------------------------------------------------------ |
-| `/gsap-core`          | Tweens, easing, stagger, `gsap.matchMedia()`, reduced motion |
-| `/gsap-timeline`      | Timeline sequencing, position parameter, LandingSequence     |
-| `/gsap-scrolltrigger` | ScrollTrigger, pinning, scrub, scroll-linked animation       |
-| `/gsap-plugins`       | SplitText, Flip, Draggable, ScrollSmoother                   |
-| `/gsap-performance`   | Compositor properties, `quickTo`, `will-change`, batching    |
-| `/gsap-utils`         | `clamp`, `mapRange`, `distribute`, `snap`, `toArray`         |
-
-`/gsap-react` and `/gsap-frameworks` cover React and Vue/Svelte — neither is used here.
+Frontmatter/sidecar hygiene has no skill here — use `npm run lint:frontmatter` and `npm run audit:sidecars`.
 
 ## Model Selection
 
@@ -90,22 +87,13 @@ Frontend task tiers — applied via the Agent tool's `model` param when delegati
 | Template/component implementation, Sanity wiring        | `sonnet`                              |
 | Copy tweaks, sidecar docs, formatting                   | `haiku`                               |
 
-## Current Goals
-
-Goals and tasks live in Obsidian's **Project Manager** plugin at the **vault root** — [`goals/`](../../goals/), a sibling of the `dataink.io/` directory, not inside this repo. Frontend work is the [`Frontend.md`](../../goals/Frontend.md) project note (`pm-project: true`), with its tasks and subtasks in [`Frontend_tasks/`](../../goals/Frontend_tasks/) (`pm-task: true`).
-
-A project note's `taskIds` and `## Tasks` checklist are plugin-generated and drift — **task frontmatter is the source of truth**. `type: subtask` tasks are nested under a parent and are deliberately absent from the top-level checklist. Start at [`README.goals.md`](../../goals/README.goals.md) for the Dataview dashboard across all projects.
-
-Update task frontmatter as work completes; never fork or restate goals into this repo — link to them.
-
-**`frontend/context/current-goals.md` and `frontend/context/goals/` do not exist.** Earlier revisions of this file routed there; both were removed when goals migrated to the vault root. Do not recreate them.
-
 ## Choreography Quick Reference
 
-Full choreography context is in the `/choreography` skill. Fast-path pointers:
+Full context is in the `choreography` skill. Fast-path pointers:
 
 - Config barrel: [`js/choreography/config/index/index.js`](js/choreography/config/index/index.js)
 - Event contracts: [`js/choreography/config/contracts/events/events.js`](js/choreography/config/contracts/events/events.js)
-- Section registry: [`js/choreography/system/registry.js`](js/choreography/system/registry.js)
+- Section registry: [`js/choreography/system/registry.js`](js/choreography/system/registry.js) — `hero, video, process, awards, organizations, work`
 - Boot sequence: `director:ready` → `preloader:out` → `LandingSequence` (never bypass)
-- Always emit/listen via `AnimationBus` — never call sections directly
+- Always emit/listen via `AnimationBus`; JS binds to `data-<section>-el` attributes, never CSS classes; every ScrollTrigger animation needs a reduced-motion branch
+- `build:js` bundles from `AnimationDirector.js` with esbuild into `assets/js/choreography/bundle.js` (git-ignored) — `npm run quick` fails on a broken import
