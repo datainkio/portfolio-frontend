@@ -17,6 +17,9 @@ export const HERO_INTRO = {
   duration: toSeconds(motion.duration("slower")),
   stagger: motion.stagger("loose"),
   translateY: -motion.distance("lg"),
+  // Seconds the title's letters trail the line bands. The bands grow first;
+  // the letter cascade starts this far into the band animation.
+  bandLead: 0.25,
 };
 
 /**

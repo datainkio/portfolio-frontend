@@ -42,7 +42,7 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Notes for Future Maintenance
 
-- `data-hero-el` attributes present in markup: `header`, `context`, `heading`, `mission-statement`, `overview`, `aside` — choreography hooks, do not rename without updating the hero-motion variants and `selectors.js`. The Blockframes 6x6 grid (`blockframes`, `blockframes-grid`, `blockframes-visible`) has moved to the Process section ([[process.njk]] / `choreography/molecules/process-motion`) and no longer lives here.
+- `data-hero-el` attributes present in markup: `header`, `context`, `heading`, `band` (the opaque `bg-neutral-900` legibility band wrapping the heading text; `box-decoration-clone` gives each line its own ragged-right band, and the `split` variant grows it in line by line), `mission-statement`, `overview`, `aside` — choreography hooks, do not rename without updating the hero-motion variants and `selectors.js`. The Blockframes 6x6 grid (`blockframes`, `blockframes-grid`, `blockframes-visible`) has moved to the Process section ([[process.njk]] / `choreography/molecules/process-motion`) and no longer lives here.
 - `mission-statement` and `aside` are transform targets during the outro pin — their `y` is owned by `split.js`'s `outro()` timeline (see `HeroTriggers.md`), not by normal document scroll, for the duration of the pin.
 - `data-scroll-section` is required for ScrollSmoother section detection.
 - The `<header>` is `h-dvh flex flex-col justify-between`, bottom-anchoring the `context` `<p>` and `heading` `<h1>` — there is no `<time>` element in current markup.

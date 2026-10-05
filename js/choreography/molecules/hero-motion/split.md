@@ -18,6 +18,15 @@ links:
 
 `intro()` builds the H2's `SplitText` via a module-level `buildHeadingSplit(view, title)` helper (keyed on `view` in a `WeakMap`) instead of calling `new SplitText` inline. `_buildTimeline()` re-runs `intro()` on every matchMedia breakpoint crossing against the same already-split DOM — without caching + `revert()`-ing the prior instance first, a rebuild would nest split markup inside itself and corrupt both the intro chars and the outro's line targets.
 
+## Intro: line bands, then letters
+
+The title's `<span data-hero-el="band">` (an opaque `bg-neutral-900` band, see [hero.njk](../../../../views/organisms/section/hero.md)) is cloned once per line by SplitText's `deepSlice`, so each line holds its own band. The intro:
+
+1. Grows each line's band left to right, one line after another, starting at the `bands` label. The grow tweens a solid `background-size` from `0% 100%` to `100% 100%`, never `scaleX` or `clip-path`, so letters are never squashed or cut. Each band lasts as long as its own line's letter cascade (`chars × stagger`, `ease: "none"`).
+2. Starts the letter cascade at `bands+=HERO_INTRO.bandLead` (0.25s), so the text trails the background by a constant step down every line.
+
+The band's plain CSS background stays in place whenever the heading isn't split (no JS, `reduced` variant).
+
 ## Outro
 
 `outro(view, gelManager)` reads the cached split for `view` and builds two scrub-driven beats, each closed with an `addLabel()` rest point for the pin's `snapTo: "labelsDirectional"` (plus an opening `outro` label):

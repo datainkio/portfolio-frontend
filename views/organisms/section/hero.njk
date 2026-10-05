@@ -19,6 +19,8 @@
     "xl": "col-span-4"
   } -%}
   {%- set title_styles = {"base": "font-display text-5xl/12 tracking-loose", "sm": "text-6xl/16", "md": "text-7xl"} -%}
+  {#- Opaque band behind each line for legibility over the video. Inline + cloned decoration so every line wraps its own ragged-right band, with or without SplitText. -#}
+  {%- set title_band_styles = {"base": "bg-neutral-900 box-decoration-clone px-2"} -%}
 
   {#- MISSION STATEMENT -#}
   {%- set statement_styles = {"base": "h-dvh content-center col-span-full gap-y-12"} -%}
@@ -39,7 +41,7 @@
       }) }}
       <h1 class="{{ title_styles | classes }}"
           id="{{ headingId }}"
-          data-hero-el="heading">{{ heading }}</h1>
+          data-hero-el="heading"><span class="{{ title_band_styles | classes }}" data-hero-el="band">{{ heading }}</span></h1>
     </header>
     <section class="{{ statement_styles | classes }}"
              data-hero-el="mission-statement">
