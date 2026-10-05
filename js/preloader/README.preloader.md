@@ -29,7 +29,7 @@ sequenceDiagram
     participant F as document.fonts
     participant AD as AnimationDirector
     participant DV as deferred-videos.js
-    participant LS as LandingSequence /<br/>HomeHeaderManager
+    participant LS as LandingSequence
 
     B->>B: parse #lt;header data-preloader#gt;
     B->>CSS: first paint — hanko-loading-pulse starts (no JS)
@@ -80,7 +80,7 @@ sequenceDiagram
         end
 
         P->>LS: window "preloader:out" (exactly once)
-        LS->>LS: LandingSequence.start() and HomeHeaderManager._arm()
+        LS->>LS: LandingSequence.start()
         Note over LS: CSS → GSAP ownership seam — landing chain begins
 
         Note over P: finally — runs even if a gate throws
@@ -140,8 +140,8 @@ stateDiagram-v2
 
     note right of Exited
         preloader:out is the CSS → GSAP seam.
-        LandingSequence.start() and
-        HomeHeaderManager._arm() fire here.
+        LandingSequence.start()
+        fires here.
     end note
     note left of Waiting
         Neither gate may hold the page.

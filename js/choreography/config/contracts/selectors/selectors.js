@@ -15,12 +15,6 @@
 export const SELECTORS = {
   // Layout
   header: "global-header",
-  // Home landing header — role state machine hook (queried via querySelector)
-  homeHeader: "[data-home-header]",
-  homeHGroup: "[data-home-header] hgroup",
-  homeNav: "[data-home-header] nav",
-  // Page-nav list items — stagger targets for the menu reveal
-  pageNavItem: "[data-page-nav-el='item']",
 
   // Section IDs
   organizations: "organizations",

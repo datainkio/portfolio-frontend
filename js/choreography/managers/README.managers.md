@@ -24,7 +24,6 @@ AnimationDirector
 │   └── GelAnimationManager                    → destroy()
 ├── CardManager (organisms/card/)              → kill()
 ├── GlobalHeaderManager                        → kill()
-├── HomeHeaderManager                          → kill()
 ├── WorkHeaderManager                          → kill()
 ├── WorkNavManager                             → kill()
 ├── ProjectHeaderManager                       → kill()
@@ -38,21 +37,20 @@ There is no `BackgroundLayerManager`. Fixed backgrounds are kept out of the Scro
 
 ## Roster
 
-| Manager                    | Owner    | Purpose                                                                       | Cleanup   |
-| -------------------------- | -------- | ----------------------------------------------------------------------------- | --------- |
-| `ReducedMotionHandler`     | Stage    | `prefers-reduced-motion` detection + change subscription                      | `destroy` |
-| `ScrollSmootherManager`    | Stage    | GSAP ScrollSmoother lifecycle; degrades to native scroll                      | `destroy` |
-| `GelAnimationManager`      | Stage    | `Gel` controller registry for `.bg-gel` elements; arrangement transitions     | `destroy` |
-| `ScrollEffectsCoordinator` | Director | Constructs the three above; native-scroll fallback                            | `destroy` |
-| `GlobalHeaderManager`      | Director | Global header hide/show on scroll                                             | `kill`    |
-| `HomeHeaderManager`        | Director | Home landing header role state machine (loader → hero → menu); home page only | `kill`    |
-| `WorkHeaderManager`        | Director | Work industry-nav drawer (below `md`) / rail (`md`+)                          | `kill`    |
-| `WorkNavManager`           | Director | Work local-nav scrollspy; emits `work:nav:active`                             | `kill`    |
-| `ProjectHeaderManager`     | Director | Project page hero parallax; no-ops off project pages                          | `kill`    |
-| `BuildInfoManager`         | Director | Section-cap build-info disclosure (click toggle)                              | `kill`    |
-| `SectionCapManager`        | Director | Section-cap scrollspy (active section tracking)                               | `kill`    |
-| `SessionManager`           | ad hoc   | Persisted runtime session state; gates one-time animations                    | —         |
-| `RulerIntroManager`        | ad hoc   | Ruler intro overlay choreography                                              | `destroy` |
+| Manager                    | Owner    | Purpose                                                                   | Cleanup   |
+| -------------------------- | -------- | ------------------------------------------------------------------------- | --------- |
+| `ReducedMotionHandler`     | Stage    | `prefers-reduced-motion` detection + change subscription                  | `destroy` |
+| `ScrollSmootherManager`    | Stage    | GSAP ScrollSmoother lifecycle; degrades to native scroll                  | `destroy` |
+| `GelAnimationManager`      | Stage    | `Gel` controller registry for `.bg-gel` elements; arrangement transitions | `destroy` |
+| `ScrollEffectsCoordinator` | Director | Constructs the three above; native-scroll fallback                        | `destroy` |
+| `GlobalHeaderManager`      | Director | Global header hide/show on scroll                                         | `kill`    |
+| `WorkHeaderManager`        | Director | Work industry-nav drawer (below `md`) / rail (`md`+)                      | `kill`    |
+| `WorkNavManager`           | Director | Work local-nav scrollspy; emits `work:nav:active`                         | `kill`    |
+| `ProjectHeaderManager`     | Director | Project page hero parallax; no-ops off project pages                      | `kill`    |
+| `BuildInfoManager`         | Director | Section-cap build-info disclosure (click toggle)                          | `kill`    |
+| `SectionCapManager`        | Director | Section-cap scrollspy (active section tracking)                           | `kill`    |
+| `SessionManager`           | ad hoc   | Persisted runtime session state; gates one-time animations                | —         |
+| `RulerIntroManager`        | ad hoc   | Ruler intro overlay choreography                                          | `destroy` |
 
 The LeaderLine connector experiment was removed on 2026-08-06 —
 `managers/LineManager.js` and its config dependency

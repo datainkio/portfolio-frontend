@@ -13,6 +13,8 @@ links:
   - "[[hanko|hanko.css]]"
 ---
 
+> Naming note (2026-10-05): HomeHeaderManager has since been deleted.
+
 # Preloader package review
 
 Scope: `js/preloader/` plus its three touchpoints — the bootstrap partial

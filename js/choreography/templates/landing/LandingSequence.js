@@ -42,7 +42,6 @@ export class LandingSequence {
     this._videoLandingStaged = false;
     this._videoIntroCued = false;
 
-    // DISABLED INITIAL PRELOADER LISTENER FOR STYLING WORK ON PRELOADER VIEW
     this.handlePreloaderOut = () => this.start();
     window.addEventListener(
       EVENTS.system.preloaderOut,
@@ -232,8 +231,8 @@ export class LandingSequence {
     //       -> (beat) -> hero intro (gel band already at rest, no entrance)
     //
     // The cue used to be `home:outro:complete`, emitted by HomeHeaderManager.
-    // That manager is no longer constructed by AnimationDirector, so nothing
-    // emitted it and the video sat at autoAlpha 0 forever. The video's own
+    // That manager stopped being constructed (and was later deleted), so
+    // nothing emitted it and the video sat at autoAlpha 0 forever. The video's own
     // media events are the replacement: they always arrive, and they mean the
     // frames are actually moving — so the fade never reveals a still poster.
     //

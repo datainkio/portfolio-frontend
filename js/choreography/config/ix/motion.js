@@ -38,37 +38,16 @@ export const ANIMATION_DEFAULTS = {
 };
 
 /**
- * Home Landing Hero Hold + Exit
- *
- * The home header rests in its `hero` role for `HOME_HERO_HOLD.delay` seconds,
- * then auto-plays its exit and is dismissed. Time is the sole trigger — scroll
- * and tap are inert. Tune the hold here; `?heroHold=<seconds>` overrides at
- * runtime for rebuild-free DX, and reduced motion zeroes it.
- *
- * The exit is transform-only (compositor-safe — never width/layout): the hero
- * panel slides off-stage (`HOME_HERO_OUTRO`) to reveal page content, then the
- * header is hidden for good. Its `home:outro:complete` is what cues the rest of
- * the landing narrative — see LandingSequence.
- */
-export const HOME_HERO_HOLD = { delay: 0 }; // seconds
-
-/**
  * Hero Intro Hold
  *
  * The beat between the background video's intro completing and Hero playing its
  * own intro. Hero's reveal is chained to `video:intro:complete` (see
  * LandingSequence), not to the home header — the video finishing is the cue.
  *
- * `gsap.delayedCall` consumes this, so it is in seconds like HOME_HERO_HOLD.
+ * `gsap.delayedCall` consumes this, so it is in seconds.
  * Reduced motion zeroes it: the chain still runs, just without the pause.
  */
 export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
-
-export const HOME_HERO_OUTRO = {
-  xPercent: -100, // slide the full-bleed hero off to the left
-  duration: toSeconds(motion.duration("slow")),
-  ease: "power3.inOut",
-};
 
 export const THROW_OUT_ANIMATION = {
   duration: toSeconds(motion.duration("slow")),

@@ -13,7 +13,6 @@ links:
   - "[[choreography-script|choreography-script.njk]]"
   - "[[SessionManager|SessionManager]]"
   - "[[LandingSequence|LandingSequence]]"
-  - "[[HomeHeaderManager|HomeHeaderManager]]"
 ---
 # preloader.js
 

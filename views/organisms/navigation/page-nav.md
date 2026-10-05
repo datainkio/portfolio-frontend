@@ -38,7 +38,7 @@ so it can be reused elsewhere without that header coupling.
   legacy hook for setting initial inline styles; **currently unused** by the home
   caller, which expresses the hidden/reveal state through `classes` instead (inline
   `display:none` cannot be animated/measured by GSAP, so the class approach was
-  preferred — see [[HomeHeaderManager|../../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager]]).
+  preferred).
 
 ## Markup & accessibility
 
@@ -50,9 +50,9 @@ so it can be reused elsewhere without that header coupling.
   links) until the menu role.
 - Links are full-bleed tap targets (`block w-full h-full py-12`) for comfortable
   touch/menu use.
-- Each `<li>` carries `data-page-nav-el="item"` — the choreography hook the home
-  header animates (the menu-reveal stagger; see "Choreography integration"). The
-  attribute decouples the JS from the list markup/classes.
+- Each `<li>` carries `data-page-nav-el="item"` — a choreography hook that
+  decouples JS from the list markup/classes. Nothing binds to it at present (see
+  "Choreography integration").
 
 ## Navigation targets
 
@@ -71,13 +71,10 @@ these anchors only resolve where those sections are rendered with these IDs.
 ## Choreography integration
 
 In the home header the nav is hidden (`hidden`) and revealed via
-`group-data-[header-role=menu]:block` when
-[[HomeHeaderManager|../../../js/choreography/managers/HomeHeaderManager/HomeHeaderManager]]
-flips the header's `data-header-role` to `menu`. CSS owns the display swap; on top
-of it the manager's `_showNav` staggers the `<li>` items (`data-page-nav-el="item"`,
-resolved via `SELECTORS.pageNavItem`) into view — each fades in and up
-(`autoAlpha 0->1`, `y 24->0`, ease-out, `stagger 0.08`). Reveal **display** is not
-JS-driven; only the item motion is.
+`group-data-[header-role=menu]:block` once the header's `data-header-role` is
+`menu`. CSS owns the display swap. The JS that set that role and staggered the
+`<li>` items in (HomeHeaderManager) was deleted on 2026-10-05, so no script
+currently flips the role or animates the items.
 
 ## Relationships
 
@@ -97,8 +94,8 @@ JS-driven; only the item motion is.
 
 ## Open Questions
 
-- The per-item staggered reveal is wired (`data-page-nav-el="item"` → `_showNav`).
-  Open: should the stagger amount/easing be a shared motion token rather than a
-  literal in the manager?
+- The per-item staggered reveal was removed with HomeHeaderManager. If it
+  returns, should the stagger amount/easing be a shared motion token rather than
+  a literal?
 - Should this stay home-specific, or take its links/targets as params for true
   reuse across pages?

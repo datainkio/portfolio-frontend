@@ -105,9 +105,9 @@ if (listenerMatches.length === 0) {
   throw new Error("No AnimationBus listeners were detected in LandingSequence");
 }
 
-// Manager-owned namespaces exist in EVENTS but not in SECTION_REGISTRY —
-// `home` is the HomeHeaderManager role state machine, which LandingSequence
-// legitimately listens to. Validate every listener target against EVENTS.
+// LandingSequence currently listens to the `video` and `hero` namespaces.
+// Validate every listener target against EVENTS rather than SECTION_REGISTRY,
+// so a manager-owned namespace (in EVENTS but not the registry) would also pass.
 for (const [, sectionId, eventKey] of listenerMatches) {
   if (!hasEventsNamespace(sectionId)) {
     throw new Error(
@@ -143,7 +143,7 @@ for (const hook of abstractLifecycleHooks) {
 }
 
 // Sequence entry handoff: preloader:out -> start() kicks the background video
-// intro. (The hero reveal is driven off home:intro:complete.)
+// intro. (The hero reveal is driven off video:intro:complete.)
 if (!landingSequenceSource.includes("this.sections?.video?.playIntro?.();")) {
   throw new Error(
     "Expected preloader->video sequence handoff is missing in LandingSequence",

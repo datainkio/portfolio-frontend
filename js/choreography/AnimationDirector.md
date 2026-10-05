@@ -1,5 +1,5 @@
 ---
-description: "Master choreography controller — initializes and coordinates AnimationBus, ScrollEffectsCoordinator, section controllers, CardManager, GlobalHeaderManager, HomeHeaderManager (bus-injected), WorkHeaderManager, ProjectHeaderManager, and LandingSequence."
+description: "Master choreography controller — initializes and coordinates AnimationBus, ScrollEffectsCoordinator, section controllers, CardManager, GlobalHeaderManager (bus-injected), WorkHeaderManager, ProjectHeaderManager, and LandingSequence."
 status: stable
 tags:
   - choreography
@@ -12,7 +12,6 @@ links:
   - "[[events|events]]"
   - "[[CardManager|CardManager]]"
   - "[[GlobalHeaderManager|GlobalHeaderManager]]"
-  - "[[HomeHeaderManager|HomeHeaderManager]]"
   - "[[WorkHeaderManager|WorkHeaderManager]]"
   - "[[ProjectHeader|ProjectHeader]]"
 ---

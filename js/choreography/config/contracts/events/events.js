@@ -75,9 +75,6 @@ export const EVENTS = {
   // Global site header (GlobalHeaderManager). Emits intro:complete once its
   // reveal lands; on home the reveal is cued by hero:intro:complete.
   header: makeSectionEvents("header"),
-  // Home landing header role state machine (HomeHeaderManager). The nav reveal
-  // emits intro:start/complete so a larger sequence can coordinate off it.
-  home: makeSectionEvents("home"),
   organizations: makeSectionEvents("organizations"),
   hero: makeSectionEvents("hero"),
   process: makeSectionEvents("process"),

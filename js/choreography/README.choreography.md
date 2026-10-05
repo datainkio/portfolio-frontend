@@ -72,7 +72,6 @@ js/choreography/
 │   ├── SessionManager/               # Runtime session state
 │   ├── RulerIntroManager/            # Ruler intro display choreography
 │   ├── GlobalHeaderManager/          # Global header hide/show on scroll
-│   ├── HomeHeaderManager/            # Home landing header role state machine
 │   ├── WorkHeaderManager/            # Work jumplinks collapse/expand
 │   ├── WorkNavManager/               # Work jumplink scrollspy
 │   ├── ProjectHeaderManager/         # Project page hero parallax
@@ -257,7 +256,6 @@ Each manager has a single responsibility. Managers split into two groups with di
 **Global managers** — constructed directly by `AnimationDirector`, cleaned up with `kill()`:
 
 - **GlobalHeaderManager** — global header hide/show on scroll.
-- **HomeHeaderManager** — home landing header role state machine (loader → hero → menu); home page only.
 - **WorkHeaderManager** — work jumplinks collapse/expand; publishes the `--work-header-h` offset.
 - **WorkNavManager** — work local-nav scrollspy; emits `work:nav:active`.
 - **ProjectHeaderManager** — project page hero parallax; no-ops off project pages.
