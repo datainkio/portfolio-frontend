@@ -203,7 +203,6 @@ These scripts display diagnostic information and are composed by `init.js`. They
 | --------------------------- | ----------------------- | ------------------------------------------------------------- |
 | `showAvailableWorkflows.js` | `npm run help`          | Lists all npm scripts grouped by category                     |
 | `quickRef.js`               | `npm run ref`           | Prints a short cheatsheet of the most common commands         |
-| `install-git-hooks.mjs`     | `npm run hooks:install` | Sets `core.hooksPath` to `.githooks/` in the local git config |
 
 ---
 
