@@ -32,7 +32,7 @@ type: spec
 ### Canonical Sources
 
 - Motion tokens: [config/motion.js](../../js/choreography/config/motion.js) (single source of truth for durations, eases, distances, staggers; used by GSAP + Tailwind)
-- Tailwind mapping: [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs) (maps tokens into duration/ease utilities; keep import order consistent with main Tailwind setup)
+- Tailwind mapping: `tailwind.motion.config.cjs` was removed on 2026-10-05 (it was never wired into the build); no token-to-utility mapping exists today.
 - Accessibility policy: [motion-accessibility-policy.md](motion-accessibility-policy.md) (reduced-motion rules and strategies)
 
 ### Shared Motion Tokens (source of truth)
@@ -44,7 +44,7 @@ type: spec
 Implementation guidance:
 
 - GSAP: import tokens from `config/motion.js`; do not hard-code timings/eases.
-- Tailwind: rely on the utilities emitted by `tailwind.motion.config.cjs`; avoid ad-hoc durations/eases in templates.
+- Tailwind: rely on motion-token utilities (the removed `tailwind.motion.config.cjs` never emitted any); avoid ad-hoc durations/eases in templates.
 
 ### Tailwind Utilities (when Tailwind is selected)
 
@@ -94,7 +94,7 @@ Implementation guidance:
 
   > Adjust the relative import path to match the file location.
 
-- **Tailwind:** use utilities emitted by `tailwind.motion.config.cjs`; keep motion gated:
+- **Tailwind:** use motion-token utilities (the removed `tailwind.motion.config.cjs` never emitted any); keep motion gated:
   ```html
   <button
     class="

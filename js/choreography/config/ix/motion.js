@@ -1,5 +1,3 @@
-export { resolveSectionMotionProfile } from "./profiles.js";
-import { SECTION_OVERRIDES } from "./profiles.js";
 export { motionTokens } from "../../tokens/motion/motion.js";
 import { motionTokens } from "../../tokens/motion/motion.js";
 const toSeconds = (value) => (typeof value === "number" ? value / 1000 : value);
@@ -49,22 +47,6 @@ export const ANIMATION_DEFAULTS = {
  */
 export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
 
-export const THROW_OUT_ANIMATION = {
-  duration: toSeconds(motion.duration("slow")),
-  xPercent: -100,
-  yPercent: -125,
-  rotation: -12,
-  transformOrigin: "50% 66%",
-};
-
-export const THROW_IN_ANIMATION = {
-  duration: toSeconds(motion.duration("slow")),
-  xPercent: 100,
-  yPercent: 125,
-  rotation: 12,
-  transformOrigin: "50% 66%",
-};
-
 /**
  * Card Parallax Animation (lg+ breakpoints)
  *
@@ -101,23 +83,6 @@ export const HERO_LANDING = {
 export const BACKGROUND_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
   // translateY: -motion.distance("lg"),
-};
-
-/**
- * Hero Section Animation Defaults
- *
- * Specific overrides for the Hero section animations.
- */
-export const HERO_ANIMATION_DEFAULTS = {
-  ...ANIMATION_DEFAULTS,
-  duration: toSeconds(motion.duration("slower")),
-  translateY: -motion.distance("lg"),
-  itemTranslateY: -motion.distance("md"),
-  itemRevealViewportRatio: 0.5,
-  subSectionStartDelay: ANIMATION_DEFAULTS.duration,
-  stickySubheadingFadeDuration: ANIMATION_DEFAULTS.duration,
-  stickyHeaderCollapseDuration: ANIMATION_DEFAULTS.duration,
-  stickySubheadingTopThreshold: 1,
 };
 
 export const HERO_INTRO = {
@@ -209,18 +174,6 @@ export const WORK_ANIMATION_DEFAULTS = {
     in: motion.ease("exit"),
     out: motion.ease("enter"),
   },
-};
-
-/**
- * Awards Section Animation Defaults
- *
- */
-
-export const AWARDS_ANIMATION_DEFAULTS = {
-  ...ANIMATION_DEFAULTS,
-  duration: toSeconds(motion.duration("slow")),
-  stagger: motion.stagger("loose"),
-  translateY: -motion.distance("lg"),
 };
 
 export const AWARDS_INTRO = {

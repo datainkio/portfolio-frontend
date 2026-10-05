@@ -14,9 +14,8 @@ event consumers. Treat these files as a project-wide vocabulary.
 ## What Belongs Here
 
 - Event names shared across modules.
-- Timeline label and timeline ID constants.
+- Timeline ID constants.
 - DOM selector constants used as shared references.
-- Asset path constants referenced by runtime modules.
 
 ## What Does Not Belong Here
 
@@ -27,8 +26,6 @@ event consumers. Treat these files as a project-wide vocabulary.
 ## Export Map
 
 - `events.js` -> `EVENTS`
-- `labels.js` -> `LABELS`
-- `paths.js` -> `ASSET_PATHS`
 - `selectors.js` -> `SELECTORS`
 - `timelines.js` -> `TIMELINE_IDS`
 
@@ -44,7 +41,7 @@ event consumers. Treat these files as a project-wide vocabulary.
 Import contracts from the config barrel:
 
 ```js
-import { EVENTS, LABELS, SELECTORS, TIMELINE_IDS } from "../index.js";
+import { EVENTS, SELECTORS, TIMELINE_IDS } from "../index/index.js";
 ```
 
 This keeps import paths stable even if files are reorganized inside `contracts/`.

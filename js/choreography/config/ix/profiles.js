@@ -25,7 +25,7 @@ export const ACCESSIBILITY_SETTINGS = {
   // reducedMotionStagger: 0.05, // seconds
   // reducedMotionEase: "none", // no easing for reduced motion
 };
-export const MOTION_PROFILES = Object.freeze({
+const MOTION_PROFILES = Object.freeze({
   reduced: {
     timeline: { enabled: false },
     trigger: { enabled: false },
@@ -68,19 +68,19 @@ export const MOTION_PROFILES = Object.freeze({
 // static-reset branch (clearProps:all) for ALL users — not only those with
 // prefers-reduced-motion. Pair with the `?cardVariant=` live override in
 // resolveSectionMotionProfile to flip a real variant on without editing this file.
-const CARD_STATIC = Object.freeze({
+const CARD_STATIC_PROFILE = Object.freeze({
   animation: { variant: "static" },
   timeline: { enabled: false },
   trigger: { enabled: false },
 });
 
-const CARD_STICKY = Object.freeze({
+const CARD_STICKY_PROFILE = Object.freeze({
   animation: { variant: "sticky" },
   timeline: { enabled: true },
   trigger: { enabled: true },
 });
 
-const CARD_PARALLAX = Object.freeze({
+const CARD_PARALLAX_PROFILE = Object.freeze({
   animation: { variant: "parallax" },
   timeline: { enabled: true },
   trigger: { enabled: true },
@@ -92,11 +92,11 @@ export const SECTION_OVERRIDES = Object.freeze({
     // scrolls over it. See specs/animation/project-card-responsiveness.md.
     // Variant 02 (lg+): body parallax — subtle vertical offset as card scrolls.
     reduced: { animation: { variant: "reduced" } },
-    base: CARD_STICKY,
-    sm: CARD_STICKY,
-    md: CARD_STICKY,
-    lg: CARD_PARALLAX,
-    xl: CARD_PARALLAX,
+    base: CARD_STICKY_PROFILE,
+    sm: CARD_STICKY_PROFILE,
+    md: CARD_STICKY_PROFILE,
+    lg: CARD_PARALLAX_PROFILE,
+    xl: CARD_PARALLAX_PROFILE,
   },
   work: {
     // reduced: { animation: { variant: "reduced" } },
@@ -146,7 +146,7 @@ export const SECTION_OVERRIDES = Object.freeze({
  * @param {Object} conditions - Conditions object from gsap.matchMedia context
  * @returns {string} Profile key: 'reduced' | 'base' | 'sm' | 'md' | 'lg' | 'xl'
  */
-export function getActiveMotionProfileKey(conditions = {}) {
+function getActiveMotionProfileKey(conditions = {}) {
   if (ACCESSIBILITY_SETTINGS.testReducedMotion === true) return "reduced";
   if (conditions.reduceMotion) return "reduced";
   return getActiveBreakpoint(conditions);

@@ -59,11 +59,9 @@ js/choreography/
 │   ├── contracts/
 │   │   ├── events/events.js          # Event name definitions (EVENTS)
 │   │   ├── selectors/selectors.js    # DOM selectors (SELECTORS)
-│   │   ├── labels/labels.js          # Timeline label constants
-│   │   ├── paths/paths.js            # MotionPath path data
 │   │   └── timelines/timelines.js    # TIMELINE_IDS
 │   ├── ix/                           # breakpoints, motion, profiles, scrolltriggers
-│   └── displays/                     # ruler / printermarks display config
+│   └── displays/                     # ruler display config
 ├── managers/                         # Singleton managers for global behaviors
 │   ├── ScrollEffectsCoordinator/     # Scroll smoothing + background/decoration effects
 │   ├── ReducedMotionHandler/         # Accessibility (prefers-reduced-motion)

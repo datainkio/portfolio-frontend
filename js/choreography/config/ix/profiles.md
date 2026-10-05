@@ -22,5 +22,5 @@ Per-breakpoint motion profiles + section overrides. `resolveSectionMotionProfile
 
 ## Card states
 
-- **`static`** (`CARD_STATIC`) — card motion intentionally OFF, the development baseline. Distinct from a11y `reduced`: it disables **both** channels at every breakpoint so `Card.js` takes its static-reset branch (`clearProps:all`) for **all** users, not only `prefers-reduced-motion`. Use it to lock the CSS-only visual strategy before layering motion.
+- **`static`** (`CARD_STATIC_PROFILE`) — card motion intentionally OFF, the development baseline. Distinct from a11y `reduced`: it disables **both** channels at every breakpoint so `Card.js` takes its static-reset branch (`clearProps:all`) for **all** users, not only `prefers-reduced-motion`. Use it to lock the CSS-only visual strategy before layering motion.
 - **`?cardVariant=<variant>`** — dev live-override handled in `resolveSectionMotionProfile` (card-only). Forces a variant on (`clip`/`fade`/`parallax`/`throw`) without editing this file or rebuilding; `off`/`static`/`none` force the static baseline. Other sections are untouched.
