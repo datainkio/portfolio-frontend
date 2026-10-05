@@ -78,11 +78,11 @@ export function intro(view, gelManager) {
   tl.from(
     split.chars,
     {
-      duration: motion.duration("fast") / 1000,
+      duration: motion.duration("instant") / 1000,
       opacity: 0,
       y: 100,
       rotation: 45,
-      stagger: motion.stagger("tight"),
+      stagger: motion.stagger("tight") * 0.5,
     },
     "-=0.3",
   );

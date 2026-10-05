@@ -125,9 +125,6 @@ sequenceDiagram
 ## Motion strategy
 
 ```mermaid
----
-id: 203d9974-a23a-483a-8c76-d8d3354cd124
----
 flowchart TD
     subgraph boot["Boot gates — never bypass"]
         DCL["DOMContentLoaded, idle-deferred"] --> AD["AnimationDirector: bus, ScrollEffectsCoordinator,<br/>CardManager, SECTION_REGISTRY, managers, LandingSequence"]

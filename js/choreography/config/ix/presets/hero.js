@@ -14,7 +14,7 @@ export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; //
 
 export const HERO_INTRO = {
   ...ANIMATION_DEFAULTS,
-  duration: toSeconds(motion.duration("slow")),
+  duration: toSeconds(motion.duration("slower")),
   stagger: motion.stagger("loose"),
   translateY: -motion.distance("lg"),
 };
@@ -37,8 +37,8 @@ export const HERO_INTRO = {
  * statement drag. GSAP distributes the total across however many there are.
  */
 export const HERO_MISSION_REVEAL = {
-  gelDuration: toSeconds(motion.duration("slow")),
-  duration: toSeconds(motion.duration("base")),
+  gelDuration: toSeconds(motion.duration("fast")),
+  duration: toSeconds(motion.duration("fast")),
   distance: motion.distance("lg"),
   staggerAmount: motion.stagger("loose") * 2, // total spread across all paragraphs
   ease: "power2.out",
@@ -64,5 +64,5 @@ export const HERO_OUTRO = {
   duration: toSeconds(motion.duration("fast")),
   stagger: motion.stagger("tight"),
   pinRatio: 1, //2.5,
-  gelDuration: toSeconds(motion.duration("slow")),
+  gelDuration: toSeconds(motion.duration("fast")),
 };
