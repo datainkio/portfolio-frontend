@@ -84,11 +84,13 @@ export function intro(view, gelManager) {
   // background-size (not scaleX / clip-path) so the letters are never
   // squashed or cut. Without the split (no JS, reduced) the CSS band shows.
   tl.addLabel("bands", "-=0.3");
-  const bandColor = tokenColor("neutral-900");
   split.lines.forEach((line, i) => {
     const band = selectHeroEl(line, HERO_SELECTORS.band);
     if (!band) return;
     const lineChars = split.chars.filter((char) => line.contains(char));
+    // The template's bg utility is the single source of the band colour; read
+    // it before swapping the flat colour for an animatable gradient.
+    const bandColor = getComputedStyle(band).backgroundColor;
     gsap.set(band, {
       backgroundColor: "transparent",
       backgroundImage: `linear-gradient(${bandColor}, ${bandColor})`,
