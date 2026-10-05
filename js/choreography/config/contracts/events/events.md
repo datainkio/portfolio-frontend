@@ -7,14 +7,11 @@ tags:
   - events
 ---
 
-- system.preloaderOut
-- system.directorReady
+# events
 
-- section.onEnterBack
-- section.onLeaveBack
-- section.landingStart
-- section.landingComplete
-- section.introStart
-- section.introComplete
-- section.outroStart
-- section.outroComplete
+Exports `EVENTS` and `makeSectionEvents(key)`.
+
+- `EVENTS.system` — `preloaderOut`, `directorReady`, `preloaderVideoHydrated` (window events).
+- Section sets from `makeSectionEvents(key)` — `enter`, `exit`, `onEnterBack`, `onLeaveBack`, `landingStart`, `landingComplete`, `introStart`, `introComplete`, `outroStart`, `outroComplete`. Keys: `video`, `header`, `organizations`, `hero`, `process`, `awards`, `work`.
+- `EVENTS.video.media` — background video playstate (`ready`, `playing`, `pause`, `error`, `unavailable`, …), mirrored to `window` by BackgroundVideo.
+- `EVENTS.workNav.activeChange` — `work:nav:active`, the WorkNavManager scrollspy broadcast.

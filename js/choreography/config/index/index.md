@@ -1,5 +1,5 @@
 ---
-description: "Configuration barrel — single import surface re-exporting all choreography configuration from contracts, displays, and ix sub-folders."
+description: "Configuration barrel — re-exports all choreography configuration from contracts, displays, and ix (including ix/presets) for convenience; most modules deep-import the specific file instead."
 status: stable
 tags:
   - choreography
@@ -7,14 +7,13 @@ tags:
   - index
 links:
   - "[[events|events]]"
-  - "[[paths|paths]]"
   - "[[selectors|selectors]]"
-  - "[[labels|labels]]"
   - "[[timelines|timelines]]"
   - "[[ruler|ruler]]"
-  - "[[printermarks|printermarks]]"
-  - "[[accessibility|accessibility]]"
   - "[[breakpoints|breakpoints]]"
   - "[[motion|motion]]"
+  - "[[presets|presets]]"
   - "[[scrolltriggers|scrolltriggers]]"
+  - "[[profiles|profiles]]"
+  - "[[README.config|README.config]]"
 ---

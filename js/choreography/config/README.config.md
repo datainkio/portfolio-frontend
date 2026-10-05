@@ -6,98 +6,105 @@ type: index
 
 # Choreography Config Package
 
-Centralized configuration for choreography runtime behavior, with one barrel
-entrypoint at `index.js`.
+Shared names, motion tokens and defaults, section motion presets, and decorative
+display defaults for the choreography runtime. Nothing here touches the DOM.
 
-## Why This Structure Exists
+## Folders
 
-- Findability: constants are grouped by intent so engineers can locate values quickly.
-- Discoverability: folder names communicate purpose without opening files.
-- Change safety: shared contracts stay stable while interaction tuning evolves independently.
+### `contracts/` — shared vocabulary
 
-## Folder Taxonomy
+Names and IDs used across modules. Treat them as durable contracts.
 
-### `contracts/` - Shared vocabulary
+- `events/events.js` → `EVENTS` (incl. `EVENTS.video.media`), `makeSectionEvents`
+- `selectors/selectors.js` → `SELECTORS` (section DOM ids) plus `HERO_SELECTORS`, `AWARD_SELECTORS`, `PROCESS_SELECTORS`, `VIDEO_SELECTORS`, `PROJECT_HEADER_SELECTORS`, `BUILD_INFO_SELECTORS`
+- `timelines/timelines.js` → `TIMELINE_IDS`
+- `contracts.js` → barrel for the three above
 
-Canonical terms used across modules. These values establish project-wide naming
-and should be treated as durable contracts.
+### `ix/` — interaction design tuning
 
-- `events.js` -> `EVENTS`
-- `labels.js` -> `LABELS`
-- `paths.js` -> `ASSET_PATHS`
-- `selectors.js` -> `SELECTORS`, `HERO_SELECTORS`
-- `timelines.js` -> `TIMELINE_IDS`
+Values expected to change as the design iterates. `ix.js` re-exports the folder.
 
-### `ix/` - Interaction design tuning
+- `breakpoints.js` → `TAILWIND_BREAKPOINTS`, `BREAKPOINT_MATCH_MEDIA_CONDITIONS`, `getActiveBreakpoint`
+- `motion.js` → `motionTokens` (re-exported), `motion` accessor, `toSeconds`, `ANIMATION_DEFAULTS`
+- `presets/` → one file per consumer area: `hero.js`, `awards.js`, `card.js`, `organizations.js`, `work.js`, `background.js`, `project-header.js`, `text-split-reveal.js`; `presets.js` is the barrel. See [README.presets.md](ix/presets/README.presets.md).
+- `scrolltriggers.js` → `SCROLL_DEFAULTS` only
+- `profiles.js` → `ACCESSIBILITY_SETTINGS`, `SECTION_OVERRIDES`, `resolveSectionMotionProfile`
 
-Constants that shape motion and interaction behavior and are expected to be
-tuned as design evolves. Re-exported together via the `ix.js` barrel.
+Motion tokens are defined in `js/choreography/tokens/motion/` and re-exported by `motion.js`.
 
-- `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
-- `breakpoints.js` -> responsive breakpoint tokens
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
-- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
-- `profiles.js` -> motion/interaction profiles
+### `displays/` — decorative display defaults
 
-### `displays/` - Decorative display configuration
+- `ruler/ruler.js` → `RULER_DEFAULTS`, `RULER_INTRO_DEFAULTS`
+- `displays.js` → barrel
 
-Defaults for purely decorative display systems. Re-exported together via the `ix.js` barrel.
+## Placement rules
 
-- `ix.js` -> barrel re-exporting `breakpoints.js`, `motion.js`, `scrolltriggers.js`, `profiles.js`
-- `breakpoints.js` -> responsive breakpoint tokens
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS` (including item reveal defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
-- `scrolltriggers.js` -> `SCROLL_DEFAULTS`, `HERO_TRIGGER`, `ORGANIZATIONS_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`
-- `profiles.js` -> motion/interaction profiles
+| What                                        | Where                                                             |
+| ------------------------------------------- | ----------------------------------------------------------------- |
+| Names or IDs shared across modules          | `contracts/`                                                      |
+| Motion tokens and global defaults           | `ix/motion.js` (tokens themselves live in `tokens/motion/`)       |
+| A section's motion preset                   | `ix/presets/<section>.js`                                         |
+| A section's ScrollTrigger config            | The organism's `*Triggers.js` — only `SCROLL_DEFAULTS` stays here |
+| Breakpoint motion variants                  | `ix/profiles.js` (`SECTION_OVERRIDES`)                            |
+| Decorative display defaults                 | `displays/`                                                       |
+| Decorative generators (DOM/rendering logic) | `js/displays/`, not config                                        |
 
-### `displays/` - Decorative display configuration
+Section presets stay in config, not beside their organisms, because molecules
+and atoms consume them too. Trigger configs are only read by their organism, so
+they live there (`HERO_TRIGGER`, `WORK_TRIGGER`, `AWARDS_TRIGGER`,
+`ORGANIZATIONS_TRIGGER`, `BACKGROUND_TRIGGER`, `CARD_*_TRIGGER`).
 
-Defaults for purely decorative display systems.
+## Imports
 
-- `printermarks.js` -> reserved for printer-marks display defaults
-
-## Placement Rules
-
-- Add values to `contracts/` when they define shared names or IDs used across modules.
-- `motion.js` -> `motionTokens`, `motion`, `ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS`, `BACKGROUND_ANIMATION_DEFAULTS`, `HERO_ANIMATION_DEFAULTS` (including item reveal defaults, sub-section delay defaults, and sticky header state transition defaults), `ORGANIZATIONS_ANIMATION_DEFAULTS`, `WORK_ANIMATION_DEFAULTS`, `AWARDS_ANIMATION_DEFAULTS`
-- Keep decorative generators themselves (DOM/rendering logic) outside config,
-  in `frontend/js/displays/`.
-
-## Usage
-
-Import from the barrel to avoid deep import paths:
+Deep imports to the specific file are the norm — most of the codebase does this:
 
 ```js
-import { EVENTS, motion, RULER_DEFAULTS } from "./index.js";
+import { motion } from "../../config/ix/motion.js";
+import { HERO_INTRO } from "../../config/ix/presets/hero.js";
+import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 ```
 
-## Package Map
+The `index/index.js` barrel re-exports everything here and is available for convenience:
+
+```js
+import { EVENTS, SELECTORS, motion } from "../../config/index/index.js";
+```
+
+## Package map
 
 ```mermaid
 flowchart TB
-  subgraph CFG[frontend/js/choreography/config]
-    IDX[index.js\nbarrel export]
+  subgraph CFG[js/choreography/config]
+    IDX[index/index.js\nbarrel]
     subgraph CTR[contracts]
+      CTB[contracts.js\nbarrel]
       EVT[events.js\nEVENTS]
-      LBL[labels.js\nLABELS]
-      PTH[paths.js\nASSET_PATHS]
-      SEL[selectors.js\nSELECTORS]
+      SEL[selectors.js\nSELECTORS + *_SELECTORS]
       TML[timelines.js\nTIMELINE_IDS]
     end
     subgraph IX[ix]
-      IXB[ix.js\nbarrel export]
-      BRK[breakpoints.js\nbreakpoint tokens]
-      MOT[motion.js\nmotionTokens\nmotion\nANIMATION_DEFAULTS\nHERO/BACKGROUND/HERO/ORGANIZATIONS/WORK/AWARDS defaults]
-      SCR[scrolltriggers.js\nSCROLL_DEFAULTS\nHERO_TRIGGER\nORGANIZATIONS_TRIGGER\nWORK_TRIGGER\nAWARDS_TRIGGER]
-      PRF[profiles.js\nmotion/interaction profiles]
+      IXB[ix.js\nbarrel]
+      BRK[breakpoints.js]
+      MOT[motion.js\nmotionTokens · motion · toSeconds\nANIMATION_DEFAULTS]
+      subgraph PRE[presets]
+        PRB[presets.js\nbarrel]
+        PSE[hero · awards · card · organizations\nwork · background · project-header\ntext-split-reveal]
+      end
+      SCR[scrolltriggers.js\nSCROLL_DEFAULTS]
+      PRF[profiles.js\nACCESSIBILITY_SETTINGS\nSECTION_OVERRIDES\nresolveSectionMotionProfile]
     end
     subgraph DSP[displays]
-      ARR[arrangements.js\nSECTION_TO_GEL_ARRANGEMENT\nGEL_ARRANGEMENTS\nGEL_ARRANGEMENT_TRANSITION]
+      DSB[displays.js\nbarrel]
       RUL[ruler.js\nRULER_DEFAULTS\nRULER_INTRO_DEFAULTS]
-      PRN[printermarks.js\n(display defaults)]
     end
   end
+  TOK[tokens/motion/motion.js\nmotionTokens]
 
-  IDX --> CTR
-  IDX --> IX
-  IDX --> DSP
+  IDX --> CTB & IXB & DSB
+  CTB --> EVT & SEL & TML
+  IXB --> BRK & MOT & PRB & SCR & PRF
+  PRB --> PSE
+  PSE --> MOT
+  TOK --> MOT
+  DSB --> RUL
 ```

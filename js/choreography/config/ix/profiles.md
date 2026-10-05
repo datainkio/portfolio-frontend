@@ -1,5 +1,5 @@
 ---
-description: "Motion profiles config — defines per-breakpoint timeline and trigger capability profiles plus section-specific overrides; resolved at runtime via resolveSectionMotionProfile."
+description: "Motion profiles config — exports ACCESSIBILITY_SETTINGS, SECTION_OVERRIDES, and resolveSectionMotionProfile; per-breakpoint timeline/trigger enable profiles (private MOTION_PROFILES) plus section-specific variant overrides."
 status: stable
 tags:
   - choreography
@@ -12,12 +12,12 @@ links:
 
 # profiles
 
-Per-breakpoint motion profiles + section overrides. `resolveSectionMotionProfile(sectionKey, conditions)` shallow-merges `SECTION_OVERRIDES[section][key]` over `MOTION_PROFILES[key]`. `reduced` always wins (via `getActiveMotionProfileKey`); `ACCESSIBILITY_SETTINGS.testReducedMotion` is the dev force-on chokepoint.
+Per-breakpoint motion profiles + section overrides. Exports `ACCESSIBILITY_SETTINGS`, `SECTION_OVERRIDES`, and `resolveSectionMotionProfile`; `MOTION_PROFILES` and `getActiveMotionProfileKey` are module-private. `resolveSectionMotionProfile(sectionKey, conditions)` shallow-merges `SECTION_OVERRIDES[section][key]` over `MOTION_PROFILES[key]`. `reduced` always wins (via `getActiveMotionProfileKey`); `ACCESSIBILITY_SETTINGS.testReducedMotion` is the dev force-on chokepoint.
 
 ## Channels (post-Drop)
 
 - **timeline** — `{ enabled }` only. Gates lifecycle playback + ScrollTrigger binding. The old `durationScale`/`staggerScale`/`distanceScale`/`easePreset` flags were unconsumed dead scaffolding and were **dropped**.
-- **trigger** — `{ enabled }` only. Gates ScrollTrigger binding. **Capability (pin/scrub/once) is NOT here** — it lives in each section's base trigger config (`HERO_TRIGGER`, `AWARDS_TRIGGER`) and is not breakpoint-varying. To reintroduce per-breakpoint capability, merge `profile.trigger` over `_getTriggerDefaults()` in `AbstractSectionTriggers.bind()`.
+- **trigger** — `{ enabled }` only. Gates ScrollTrigger binding. **Capability (pin/scrub/once) is NOT here** — it lives in each section's base trigger config (`HERO_TRIGGER`, `AWARDS_TRIGGER`, …), defined in the organism's `*Triggers.js` (e.g. `organisms/hero/HeroTriggers.js`), and is not breakpoint-varying. To reintroduce per-breakpoint capability, merge `profile.trigger` over `_getTriggerDefaults()` in `AbstractSectionTriggers.bind()`.
 - **animation** — `{ variant }`. Live, per-section/per-breakpoint. Selects the variant factory the organism runs via `_applyResponsiveLifecycle → setVariant`. Untouched by the Drop.
 
 ## Card states

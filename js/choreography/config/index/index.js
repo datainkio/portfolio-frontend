@@ -3,26 +3,17 @@
 /**
  * Choreography Config Barrel
  *
- * Single import surface for choreography configuration.
+ * Re-exports everything in config/ for convenience. Most modules deep-import
+ * the specific file instead (e.g. ix/motion.js, ix/presets/hero.js); either
+ * works.
  *
- * Folder taxonomy:
- * - contracts/: Canonical shared terms used across modules (events, labels,
- *   selectors, paths, timeline ids). These define the project-wide vocabulary.
- * - ix/: Interaction design constants that tune behavior and motion
- *   (accessibility, motion tokens/defaults, scroll trigger defaults).
- * - displays/: Decorative display configuration and defaults used by visual
- *   ornamentation systems (arrangements, ruler, printer marks).
+ * - contracts/: shared names — EVENTS, SELECTORS (+ *_SELECTORS), TIMELINE_IDS
+ * - ix/: breakpoints, motion tokens/defaults, section presets (ix/presets/),
+ *   SCROLL_DEFAULTS, motion profiles
+ * - displays/: decorative display defaults (ruler)
  *
- * Why this structure exists:
- * - Improves findability: engineers can locate config by intent quickly.
- * - Improves discoverability: folder names communicate purpose at a glance.
- * - Improves safety: contracts stay stable while IX/display tuning can evolve
- *   without changing shared terminology.
- *
- * TODO: The complexity of the choreography has grown past what a simple
- * barrel can effectively manage. Consider breaking this into more focused
- * barrels or reorganizing the configuration structure to maintain clarity and
- * ease of use.
+ * Section ScrollTrigger configs live in each organism's *Triggers.js, not here.
+ * See README.config.md for placement rules.
  *
  * Usage pattern:
  * import { EVENTS, motion, RULER_DEFAULTS } from "./index.js";

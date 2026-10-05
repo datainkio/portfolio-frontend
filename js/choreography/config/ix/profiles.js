@@ -12,8 +12,8 @@
  *             AbstractSection._applyResponsiveLifecycle).
  *
  * NOTE: trigger capability flags (scrub/pin/once) are intentionally NOT defined here.
- * They are owned by each section's base trigger config (e.g. HERO_TRIGGER) and are not
- * breakpoint-varying. If per-breakpoint capability is ever needed, merge profile.trigger
+ * They are owned by each section's base trigger config (e.g. HERO_TRIGGER), which lives in
+ * the organism's *Triggers.js, and are not breakpoint-varying. If per-breakpoint capability is ever needed, merge profile.trigger
  * over _getTriggerDefaults() in AbstractSectionTriggers.bind() and reintroduce them.
  */
 import { getActiveBreakpoint } from "./breakpoints.js";

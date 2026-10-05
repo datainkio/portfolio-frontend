@@ -41,7 +41,7 @@ From the user's perspective the section reads as a light card that, on entry, ga
   - `bg-gel-6` → **accent gel**, `bg-gel-accent`
 - **Color.** Use the existing gradient color classes: `bg-gel-neutral` (`neutral-900→400`) for the backing gel and `bg-gel-accent` (`accent-900→600`) for the accent gel. No flat-color treatment needed.
 - **Composition pattern.** Follow the established **Hero precedent**: `HeroAnimations` receives an injected `gelManager` and hands it to its variant factories, which resolve their gel by id (`gelManager.getGel("gel_hero")`). `AwardsAnimations` should accept the same `options.gelManager` and compose the accent gel into `_buildIntro`/`_buildOutro`.
-- **Timing/easing.** Source from a new `AWARDS_GEL_*` block alongside `AWARDS_ANIMATION_DEFAULTS` in [ix/motion/motion.js](../../js/choreography/config/ix/motion/motion.js); reuse the section's existing `ease.in` / `ease.out` families for parity with the header intro.
+- **Timing/easing.** Source from a new `AWARDS_GEL_*` block alongside `AWARDS_INTRO` in [ix/presets/awards.js](../../js/choreography/config/ix/presets/awards.js); reuse the section's existing `ease.in` / `ease.out` families for parity with the header intro.
 
 ## Patterns by Component/View
 
