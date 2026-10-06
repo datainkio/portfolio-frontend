@@ -29,7 +29,7 @@ export const PROJECT_PAGE_PROJECTION = groq`{
   "activities": activities[]->${ACTIVITY_PROJECTION},
   "outcomes": outcomes[]->${OUTCOME_PROJECTION},
   "awards": awards[]->${AWARD_PROJECTION} | order(organization.orderRank asc, title asc),
-  "decisions": decisions[published == true][0...4]{
+  "decisions": decisions[published == true]{
     _key,
     decision,
     result,
