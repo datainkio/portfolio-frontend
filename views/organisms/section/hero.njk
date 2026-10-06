@@ -1,5 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/labels/accession-label.njk" as Label %}
+  {% import "molecules/figure/media.njk" as Media %}
   {%- set sectionId = params.id | default("hero") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
@@ -34,6 +35,8 @@
     "md": "col-span-4 text-5xl "
   } -%}
   {%- set body_styles = {"base": "p-6 bg-slate-950 col-span-full prose prose-p:text-xl prose-invert"} -%}
+  {%- set figure_styles = {"base": "col-span-full"} -%}
+  {%- set image_styles = {"base": "block w-full h-auto"} -%}
 
   <section class="{{ section_styles | classes }}"
            id="{{ sectionId }}"
@@ -52,15 +55,16 @@
           id="{{ headingId }}"
           data-hero-el="heading"><span class="{{ title_band_styles | classes }}" data-hero-el="band">{{ heading }}</span></h1>
     </header>
-    <section class="{{ statement_styles | classes }}"
-             data-hero-el="mission-statement">
-      <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ subheading }}</h2>
-      <div data-hero-el="body" class="{{ body_styles | classes }}">{{ body | safe }}</div>
-    </section>
-    <section class="{{ statement_styles | classes }}"
-             data-hero-el="mission-statement-2">
-      <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ subheading }}</h2>
-      <div data-hero-el="body" class="{{ body_styles | classes }}">{{ body | safe }}</div>
-    </section>
+    {#- Statements: subheading + body + image each. Item 0 is the value prop. Falls back to the single value prop when no list is passed. Every section keeps the existing hooks; motion currently binds only the first. -#}
+    {%- set statements = params.statements or [{ "subheading": subheading, "body": body }] -%}
+    {%- for statement in statements %}
+      <section class="{{ statement_styles | classes }}"
+               data-hero-el="mission-statement"
+               data-statement-index="{{ loop.index0 }}">
+        <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
+        <div data-hero-el="body" class="{{ body_styles | classes }}">{{ statement.body | safe }}</div>
+        {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles } }) }}
+      </section>
+    {%- endfor %}
   </section>
 {% endmacro %}

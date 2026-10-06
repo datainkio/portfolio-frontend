@@ -27,7 +27,8 @@ Classified as a **component** at the atomic **organism** level based on its loca
 - `params.classes` — additional CSS classes applied to the section root.
 - `params.copy.heading` — primary heading text.
 - `params.copy.subheading` — subheading text.
-- `params.copy.body` — body copy (currently bound but not rendered in markup).
+- `params.copy.body` — body copy; the fallback statement's body when `params.statements` is absent.
+- `params.statements` — array of `{ subheading, body, image }` (image in the Sanity image shape, rendered by `figure/media`, lazy-loaded). One `<section data-hero-el="mission-statement" data-statement-index="n">` per item. Item 0 is the value prop; `home.njk` builds the list from the home singleton: the value prop with `valuePropImage`, then `statements[]` (serialized by `data/sanity/transforms/home.js`). Media renders nothing when an image is missing. Without it, a single statement renders from `params.copy`.
 - `params.order` — display count passed to the section cap.
 - `params.headingId` — overrides the default heading element ID (`{sectionId}-heading`).
 - `params.buildDate` — passed to the section cap for build metadata display.
@@ -52,5 +53,5 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Open Questions
 
-- Is `params.copy.body` intended to be rendered as block content (Portable Text)? Currently captured but not output.
+- Statement motion binds only the first `mission-statement` section (and its call in `split.js` is commented out). Generalise it to every statement.
 - Should `PrintMarks` be removed from the import if it remains unused?
