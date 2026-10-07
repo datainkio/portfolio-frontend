@@ -118,7 +118,7 @@ DOM contract for full landing experience: `#smooth-wrapper`, `#smooth-content`, 
 
 - AI agent context: [[.github/copilot-instructions]]
 - Architecture: [[docs/architecture]]
-- Docs index: [[docs/README.docs]]
+- Docs index: [[dataink.io/frontend/docs/README.docs]]
 - Sanity contract: [[docs/sanity-integration]]
 - Choreography: [[js/choreography/README.choreography]]
 - Choreography overview: [[js/choreography/README.choreography]]

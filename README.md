@@ -79,7 +79,7 @@ Create a `.env` (see [.env.example](.env.example)). Required for full builds:
 - **AI agents / Copilot context** → [[.github/copilot-instructions]]
 - **AIX-focused project reference** → [[README.frontend]]
 - **Architecture overview** → [[docs/architecture]]
-- **Documentation index** → [[docs/README.docs]]
+- **Documentation index** → [[dataink.io/frontend/docs/README.docs]]
 - **Sanity integration** → [[docs/sanity-integration]]
 - **Choreography system** → [[js/choreography/README.choreography]]
 

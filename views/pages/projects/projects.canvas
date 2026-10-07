@@ -9,7 +9,7 @@
 		{"id":"7bfe169ff18a6494","type":"file","file":"dataink.io/frontend/views/atoms/button.md","x":359,"y":800,"width":400,"height":400},
 		{"id":"5041e4183b0d6b29","type":"file","file":"notes/attachments/projects landing page design tuning.png","x":-340,"y":-120,"width":400,"height":218},
 		{"id":"15ce642c9abbd7cd","type":"file","file":"dataink.io/frontend/views/molecules/list/industry-links.md","x":980,"y":1380,"width":400,"height":400,"color":"6"},
-		{"id":"0acf9195a2ed4c42","x":980,"y":320,"width":400,"height":140,"color":"6","type":"text","text":"FIGURE"},
+		{"id":"0acf9195a2ed4c42","type":"text","text":"FIGURE","x":980,"y":320,"width":400,"height":140,"color":"6"},
 		{"id":"986609b627be6878","type":"text","text":"VIDEO","x":1000,"y":380,"width":360,"height":60,"color":"6"},
 		{"id":"de86a009249956cb","type":"file","file":"dataink.io/frontend/views/molecules/section/industry-section.md","x":980,"y":520,"width":400,"height":400,"color":"6"}
 	],
