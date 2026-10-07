@@ -28,13 +28,13 @@
   {#- Opaque band behind each line for legibility over the video. Inline + cloned decoration so every line wraps its own ragged-right band, with or without SplitText. -#}
   {%- set title_band_styles = {"base": "bg-slate-950 box-decoration-clone px-6 py-2"} -%}
   {#- MISSION STATEMENT -#}
-  {%- set statement_styles = {"base": "h-dvh content-center col-span-full gap-y-12"} -%}
+  {%- set statement_styles = {"base": "min-h-dvh content-center col-span-full max-w-3xl"} -%}
   {%- set subheading_styles = {
-    "base": "p-4 bg-slate-950 font-display text-secondary-500",
+    "base": "p-6 pb-0 bg-slate-950 font-display text-secondary-500",
     "sm": "text-4xl",
     "md": "col-span-4 text-5xl "
   } -%}
-  {%- set body_styles = {"base": "p-6 bg-slate-950 col-span-full prose prose-p:text-xl prose-invert"} -%}
+  {%- set body_styles = {"base": "px-8 py-6 bg-slate-950 col-span-full prose prose-p:text-xl prose-invert max-w-none"} -%}
   {%- set figure_styles = {"base": "col-span-full"} -%}
   {%- set image_styles = {"base": "block w-full h-auto"} -%}
 
