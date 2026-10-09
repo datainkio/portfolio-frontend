@@ -17,7 +17,7 @@ links:
 
 Single re-export surface for the `ix/` package — the interaction-design tuning
 constants expected to evolve as design iterates. Most consumers deep-import the
-specific file (e.g. `ix/presets/hero.js`); the config barrel ([[index|index]])
+specific file (e.g. `ix/presets/hero.js`); the config barrel ([[utils/templates/src/system/index|index]])
 re-exports everything here for convenience.
 
 Re-exports, in order:

@@ -23,7 +23,7 @@ export { init } from "../../data/sanity/services/index.js";
 
 ## Related
 
-- Consumed by [[index]] during collection init.
+- Consumed by [[dataink.io/frontend/eleventy/collections/index]] during collection init.
 - Backed by [[fetchSanityData]] / [[sanityService]].
 
 ## Source

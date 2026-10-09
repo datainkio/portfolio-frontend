@@ -8,7 +8,7 @@ aliases:
 links:
   - "[[README.collections]]"
   - "[[NavigationBuilder]]"
-  - "[[index]]"
+  - "[[dataink.io/frontend/eleventy/collections/index]]"
 ---
 
 # Navigation collection
