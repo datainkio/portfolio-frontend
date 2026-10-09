@@ -1,116 +1,105 @@
----
-title: dataink.io Portfolio
-description: "Personal portfolio site for dataink.io(https://dataink.io) — built with Eleventy (11ty), Tailwind CSS v4, Sanity (content), Figma (design tokens), and a GSAP-based choreography system."
-type: reference
----
+# dataink.io
 
-<!-- @format -->
+The source for [dataink.io](https://dataink.io), the portfolio of Russ Lebo, experience designer and creative technologist.
 
-# dataink.io Portfolio
+It's a static site with a design system pulled from Figma, content from Sanity, and a GSAP motion layer built on explicit event contracts. The motion is optional: the page works without it.
 
-Personal portfolio site for [dataink.io](https://dataink.io) — built with Eleventy (11ty), Tailwind CSS v4, Sanity (content), Figma (design tokens), and a GSAP-based choreography system.
+## Stack, and why
 
-## Quick start
+| Layer     | Tool                                        | Why                                                                                                                         |
+| --------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Generator | Eleventy 3                                  | The content is static and the only runtime is motion. Shipping plain HTML means the page works before any JavaScript loads. |
+| Templates | Nunjucks, organised by atomic design        | Atoms, molecules, organisms, templates and pages, with one component contract shared by all of them.                        |
+| Styling   | Tailwind CSS v4                             | Utilities read design tokens as CSS custom properties, so a token change carries through every component.                   |
+| Tokens    | Figma API                                   | Colours and font families are generated from the Figma file, so design and code can't drift apart without anyone noticing.  |
+| Content   | Sanity                                      | Structured content, fetched once at build time. No CMS calls at runtime.                                                    |
+| Motion    | GSAP with ScrollTrigger, bundled by esbuild | Timelines suit choreographed sequences, and one bundled entry point keeps loading predictable.                              |
+
+## How it fits together
+
+The build runs in order:
+
+1. **Design tokens:** `npm run build:design` reads the Figma file and writes [`styles/colors.css`](styles/colors.css) and [`styles/typography/fontFamilies.css`](styles/typography/fontFamilies.css). These outputs are committed, so builds that skip this step still get the tokens.
+2. **Motion bundle:** [`scripts/buildChoreography.js`](scripts/buildChoreography.js) bundles [`js/choreography/`](js/choreography/) from `AnimationDirector.js` with esbuild.
+3. **Pages:** Eleventy renders [`views/`](views/), fetching Sanity content through [`data/sanity/`](data/sanity/). If Sanity isn't configured, the build logs `CMS skipped` and carries on.
+4. **CSS:** Tailwind compiles [`styles/main.css`](styles/main.css) after the HTML exists, because it scans the rendered pages for the classes in use.
+
+```text
+ia/          Routes and page frontmatter (Eleventy input)
+views/       Nunjucks templates: atoms → molecules → organisms → templates → pages
+js/          Browser runtime: choreography, preloader, effects
+styles/      CSS entry point and generated token files
+data/sanity/ Sanity client, GROQ queries, projections, transforms
+eleventy/    Collections, filters, shortcodes, plugins
+figma/       Figma API services for token generation
+scripts/     Build, scaffolding and audit tooling
+specs/       Contracts written before the code
+test/        Logger and choreography contract tests
+```
+
+Never edit these by hand: `styles/colors.css`, `styles/typography/fontFamilies.css`, and anything in `_site/`.
+
+More detail: [`docs/architecture.md`](docs/architecture.md).
+
+## Motion and accessibility
+
+- **Sections don't call each other.** They emit and listen through one `AnimationBus`, using events declared in [`events.js`](js/choreography/config/contracts/events/events.js). JavaScript binds to `data-*-el` attributes, never to CSS classes.
+- **Boot is gated.** Nothing animates until `director:ready` and then `preloader:out` have fired, so the landing sequence always starts from a known state.
+- **Reduced motion is a policy, not a patch.** [`motion-accessibility-policy.md`](specs/animation/motion-accessibility-policy.md) sets the rules, [`ReducedMotionHandler`](js/choreography/managers/ReducedMotionHandler/ReducedMotionHandler.js) applies them, and every ScrollTrigger animation has a reduced-motion branch.
+- **Motion adapts to breakpoints.** [Breakpoint motion profiles](specs/animation/breakpoint-motion-profiles.animation-spec.md) tune timing and distance per breakpoint.
+- **Content doesn't wait for JavaScript.** Pages render as complete HTML. With scripting off, `@media (scripting: none)` hides the preloader and shows the header.
+
+Start with the [choreography README](js/choreography/README.choreography.md).
+
+## Conventions
+
+- **Specs before code.** Behaviour is written down in [`specs/`](specs/) first, including the [component API](specs/views/component-api.views-spec.md) that every template follows and per-section animation specs.
+- **Every file explains itself.** Each `.njk` and `.js` file has a `.md` sidecar beside it that covers its purpose, inputs and dependencies. `npm run audit:sidecars` reports any that are missing.
+- **Scaffold, don't copy.** `npm run scaffold:component`, `scaffold:section` and `scaffold:page` generate new files that already follow the conventions.
+- **Frontmatter is linted.** `npm run lint:frontmatter` checks it against [`specs/frontmatter.spec.md`](specs/frontmatter.spec.md).
+
+## Quality and delivery
+
+- **Tests:** `npm test` runs the logger tests and the choreography contract tests in [`test/`](test/).
+- **Validation:** `npm run validate` runs the format check, the frontmatter lint, the sidecar audit and the tests.
+- **CI:** pushing to `staging` deploys staging.dataink.io, and pushing to `main` deploys dataink.io. Both workflows run `npm ci` and then `npm run quick`. Tests aren't in CI yet; for now they run locally. See [`docs/deployment.md`](docs/deployment.md).
+- **TODOs become issues:** a [workflow](.github/workflows/todo-to-issue.yml) opens a GitHub issue for each `TODO` comment that's pushed.
+
+## Run it locally
+
+Requires Node 18 or later.
 
 ```bash
-npm install        # one-time
-npm start          # dev server (Tailwind + 11ty in parallel; no JS bundling)
-npm run build      # full production build
+npm install
+npm run quick   # build once into _site/
+npm start       # dev server with watch
 ```
 
-Default dev mode is `start: run-s build:css:dev dev` — it builds and watches the minified `bundle.js` (matching production loading). Use `npm run start:nobundle` for the raw ESM modules (faster reload, readable stack traces).
+**No credentials needed.** Without a `.env` file, the site builds from the committed tokens and leaves out the Sanity content.
 
-## Common commands
+To build with live content or refresh the tokens, copy [`.env.example`](.env.example) to `.env` and fill in the values:
 
-| Goal                              | Command                      |
-| --------------------------------- | ---------------------------- |
-| Dev (bundled, matches prod)       | `npm start`                  |
-| Dev (raw ESM, fastest reload)     | `npm run start:nobundle`     |
-| Full clean build                  | `npm run build`              |
-| Fast build (skip Figma sync)      | `npm run quick`              |
-| Sync Figma tokens + rebuild CSS   | `npm run design`             |
-| Format / format check             | `npm run format` / `:check`  |
-| Tests (logger + choreography)     | `npm test`                   |
-| Validation (format check + tests) | `npm run validate`           |
-| System health check               | `npm run doctor`             |
-| List all workflows                | `npm run help`               |
-| Scaffold component / page         | `npm run scaffold:component` |
-|                                   | `npm run scaffold:page`      |
+- `SANITY_PROJECT_ID` and `SANITY_DATASET` load content. `SANITY_READ_TOKEN` adds drafts.
+- `FIGMA_TOKEN` and `FIGMA_FILE_ID` are needed only for `npm run build:design`.
 
-Full script reference: [[.github/copilot-instructions]].
+`npm run help` lists every workflow, and `npm run doctor` checks your setup.
 
-## Build order
+## Where to look first
 
-`npm run build` runs sequentially:
+1. [`js/choreography/README.choreography.md`](js/choreography/README.choreography.md): the motion architecture.
+2. [`views/organisms/section/hero.njk`](views/organisms/section/hero.njk), its sidecar [`hero.md`](views/organisms/section/hero.md), and its controller [`Hero.js`](js/choreography/organisms/hero/Hero.js): one section from markup to motion.
+3. [`specs/views/component-api.views-spec.md`](specs/views/component-api.views-spec.md): the contract every template follows.
+4. [`specs/animation/motion-accessibility-policy.md`](specs/animation/motion-accessibility-policy.md): how motion stays optional.
+5. [`scripts/fetchFigma.js`](scripts/fetchFigma.js): the bridge from Figma to tokens.
 
-1. `clean` — clear `_site/` (preserves cached media in `_site/content/`)
-2. `build:design` — fetch Figma tokens → write `styles/colors.css`, `styles/typography/fontFamilies.css`
-3. `build:css` — Tailwind v4 compile via [scripts/buildCSS.js](scripts/buildCSS.js)
-4. `build:js` — choreography bundle via [scripts/buildChoreography.js](scripts/buildChoreography.js) (skippable with `BUNDLE_JS=false`)
-5. `build:11ty` — 11ty render (also fetches Sanity collections at this step)
+## Working with AI agents
 
-Skipping step 2 will compile but produce a site without design tokens.
-
-## Environment variables
-
-Create a `.env` (see [.env.example](.env.example)). Required for full builds:
-
-| Variable             | Purpose                                  |
-| -------------------- | ---------------------------------------- |
-| `FIGMA_TOKEN`        | Figma personal access token (Files:read) |
-| `FIGMA_FILE_ID`      | Source Figma file                        |
-| `SANITY_PROJECT_ID`  | Sanity project (defaults in `site.json`) |
-| `SANITY_DATASET`     | Sanity dataset (e.g., `production`)      |
-| `SANITY_READ_TOKEN`  | Optional; enables drafts, forces no CDN  |
-| `SANITY_API_VERSION` | Defaults to `2025-12-26`                 |
-| `SANITY_USE_CDN`     | `true` unless a token is provided        |
-
-## Tech stack
-
-- **Eleventy 3** with Nunjucks templates in [views/](views/) (atomic design)
-- **Tailwind CSS v4** via `@tailwindcss/cli` (wrapped by [scripts/buildCSS.js](scripts/buildCSS.js))
-- **Sanity** content fetched at build time — see [data/sanity/](data/sanity/) and [[docs/sanity-integration]]
-- **Figma** design tokens via [scripts/fetchFigma.js](scripts/fetchFigma.js) and [figma/services/](figma/services/)
-- **GSAP** choreography in [js/choreography/](js/choreography/) (see [[js/choreography/README.choreography]])
-- **Logging** via `@datainkio/lumberjack` (Node + browser)
-
-## Where to start
-
-- **AI agents / Copilot context** → [[.github/copilot-instructions]]
-- **AIX-focused project reference** → [[README.frontend]]
-- **Architecture overview** → [[docs/architecture]]
-- **Documentation index** → [[dataink.io/frontend/docs/README.docs]]
-- **Sanity integration** → [[docs/sanity-integration]]
-- **Choreography system** → [[js/choreography/README.choreography]]
-
-## Project layout (high level)
-
-```
-ia/         Content entrypoints (route frontmatter; Eleventy input)
-views/      Nunjucks templates (atoms / molecules / organisms / pages / templates / layouts; Eleventy includes)
-styles/     CSS (main.css orchestrates import order; colors.css + typography/fontFamilies.css are generated)
-js/         Browser runtime (choreography, effects, displays, preloader, utils)
-eleventy/   11ty config modules (collections, filters, shortcodes, plugins, services)
-data/sanity/ Sanity client, queries, fetchers
-figma/      Figma API services (token generation)
-scripts/    Build automation (buildCSS, buildChoreography, fetchFigma, scaffold, …)
-assets/     Static source assets (copied to _site/assets/)
-docs/       Project documentation
-_site/      Build output (gitignored, never edited)
-```
-
-## Generated files (do not edit)
-
-- `styles/colors.css`
-- `styles/typography/fontFamilies.css`
-- Anything under `_site/`, `.cache/`, `logs/`
-
-These are overwritten by `build:design` and `build:*` steps.
-
-## Deployment
-
-Push to `staging` deploys `staging.dataink.io`; push to `main` deploys `dataink.io` (via `datainkio/dataink.io`). Details, secrets, and Sanity CORS requirements: [docs/deployment.md](docs/deployment.md).
+This repo is set up to be cheap for coding agents to work in. [`CLAUDE.md`](CLAUDE.md) points an agent at the right files, and the sidecars give it a short summary to read before it opens an implementation. Smaller context means fewer tokens per task and fewer rounds of correction.
 
 ## License
 
-ISC — see [package.json](package.json).
+ISC. See [`package.json`](package.json).
+
+---
+
+On [dataink.io](https://dataink.io), open your browser's dev tools.
