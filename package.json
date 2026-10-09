@@ -58,6 +58,7 @@
     "build:css": "node scripts/buildCSS.js --minify",
     "build:css:dev": "node scripts/buildCSS.js",
     "build:design": "node scripts/fetchFigma.js",
+    "build:readme": "node scripts/buildReadmeAssets.js",
     "build:design:debug": "DEBUG=true node scripts/fetchFigma.js",
     "build:js": "node scripts/buildChoreography.js",
     "build:preview": "node scripts/buildPreview.js",
