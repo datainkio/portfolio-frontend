@@ -192,7 +192,7 @@ node scripts/auditFrontmatter.js --label current   # full metrics + diagrams
 
 The linter enforces, in order:
 
-1. Every tracked `.md` opens with a `---` block (generated paths exempt).
+1. Every tracked `.md` opens with a `---` block (generated paths exempt, as is the root `README.md`, because GitHub renders frontmatter as a table).
 2. `description` present and non-empty.
 3. `status` and `type` within their enums.
 4. No retired keys.

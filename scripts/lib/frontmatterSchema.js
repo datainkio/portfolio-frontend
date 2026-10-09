@@ -166,6 +166,7 @@ export const EXEMPT_PATTERNS = [
   /^graphify-out\//,
   /^\.github\//, // consumed by GitHub/Copilot tooling, not the vault
   /^docs\/ai\/legacy-agents\//,
+  /^README\.md$/, // GitHub renders frontmatter as a table above the H1
 ];
 
 export function isExempt(file) {
