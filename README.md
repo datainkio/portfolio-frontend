@@ -2,10 +2,10 @@
 
 # dataink.io
 
-[![Production deploy status](https://github.com/datainkio/portfolio-frontend/actions/workflows/deploy-production.yml/badge.svg?branch=main)](https://github.com/datainkio/portfolio-frontend/actions/workflows/deploy-production.yml)
 [![Node version from package.json](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdatainkio/portfolio-frontend%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&logo=nodedotjs&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 [![Eleventy version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@11ty/eleventy?label=eleventy&logo=eleventy&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 [![Tailwind CSS version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/tailwindcss?label=tailwind&logo=tailwindcss&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Date of the last Figma token sync to styles/colors.css](https://img.shields.io/github/last-commit/datainkio/portfolio-frontend/main?path=styles%2Fcolors.css&label=figma%20tokens%20synced&logo=figma&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](styles/colors.css)
 [![GSAP version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/gsap?label=gsap&logo=greensock&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 [![Sanity client version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@sanity/client?label=sanity&logo=sanity&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 
