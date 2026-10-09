@@ -1,6 +1,6 @@
 <img src=".github/readme/banner.svg" width="1280" alt="Title block in the style of dataink.io: Doc 00, section README, stack Eleventy, Tailwind, Sanity, Figma and GSAP. The source for data:ink:io.">
 
-# dataink.io
+# super awesome new portfolio time
 
 [![Node version from package.json](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdatainkio/portfolio-frontend%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&logo=nodedotjs&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 [![Eleventy version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@11ty/eleventy?label=eleventy&logo=eleventy&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
@@ -9,9 +9,25 @@
 [![GSAP version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/gsap?label=gsap&logo=greensock&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 [![Sanity client version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@sanity/client?label=sanity&logo=sanity&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 
-I'm Russ Lebo, an experience designer and creative technologist. This is the source for my portfolio, [dataink.io](https://dataink.io).
+It was that time of career again. The stale one-pager needed to go.
 
-I designed and built it as a static site. The design system comes from Figma, the content from Sanity, and a GSAP motion layer sits on top using explicit event contracts. I treat the motion as optional: the page works without it.
+This new piece of shiny is headless via Sanity and 11ty. At build it pulls published color and text styles from Figma. Those get transmogrified into Tailwind-friendly CSS, the 11ty templates get the utility classes, and Bob's your uncle.
+
+## Content Strategy
+
+## Content Modeling
+
+## Content Management
+
+## Views
+
+## Responsiveness
+
+## Motion Strategy
+
+For additional flavor on top of Tailwind there is GSAP. GSAP has been my go-to for motion strategy since it was just a wee ActionScript package. GSAP good.
+
+Motion uses the same breakpoints as the CSS: each breakpoint gets its own motion profile, and a section can swap in a different animation per screen size. Project cards, for example, use a sticky-image effect on phones and tablets and a subtle parallax on desktop. Best of all: When someone has reduced motion turned on, that setting overrides every breakpoint and turns off scroll-driven animation.
 
 <p>
   <img src=".github/readme/home-desktop.webp" alt="Desktop viewport of the dataink.io homepage: a title-block header above a DOC 01 / MANIFESTO plate reading &quot;Design for a more just, informed, and engaged human experience&quot;, set over a blue graph-paper mosaic of past work." width="74%">

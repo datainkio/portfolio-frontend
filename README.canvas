@@ -1,0 +1,30 @@
+{
+	"nodes":[
+		{"id":"92f07a58ab31a1cf","type":"group","x":-440,"y":-480,"width":760,"height":100,"label":"Badges"},
+		{"id":"9dce54a4ae8a45e1","type":"text","text":"# dataink.io","x":-440,"y":-580,"width":760,"height":60},
+		{"id":"1ef5121aa0bd6ae8","type":"text","text":"11ty","x":-174,"y":-460,"width":106,"height":60},
+		{"id":"5db0065450a9c0a4","type":"text","text":"GSAP","x":-51,"y":-460,"width":106,"height":60},
+		{"id":"e8c65d75bdf0e429","type":"text","text":"GSAP","x":194,"y":-460,"width":106,"height":60},
+		{"id":"0a3d300ea6189e5e","type":"text","text":"Node","x":-420,"y":-460,"width":106,"height":60},
+		{"id":"83bb9e546c6691a6","type":"text","text":"Sanity","x":-297,"y":-460,"width":106,"height":60},
+		{"id":"21ac1f00a0c5650a","type":"text","text":"Tailwind","x":72,"y":-460,"width":106,"height":60},
+		{"id":"9d869a168824906b","type":"text","text":"## 🖼️ Banner","x":-440,"y":-760,"width":760,"height":140},
+		{"id":"b885a504aa64df5c","type":"text","text":"I'm Russ Lebo, an experience designer and creative technologist. This is the source for my portfolio, [dataink.io](https://dataink.io/).\n\nI designed and built it as a static site. The design system comes from Figma, the content from Sanity, and a GSAP motion layer sits on top using explicit event contracts. I treat the motion as optional: the page works without it.","x":-440,"y":-340,"width":760,"height":160},
+		{"id":"97c4a3e511dfc7da","type":"text","text":"## 🖼️ Homepage Screenshot","x":-440,"y":-340,"width":760,"height":160},
+		{"id":"4ee43b3e1b9d309c","type":"text","text":"## Audiences\n- public portfolio\n- GitHub repo and documentation\n- posterity (i.e. me)","x":-441,"y":-160,"width":761,"height":180},
+		{"id":"8bf256127c4a6e54","type":"text","text":"## Other repos of interest","x":-441,"y":60,"width":761,"height":60},
+		{"id":"329eca7d1c93f5cd","type":"text","text":"## Get Started","x":-441,"y":160,"width":761,"height":60},
+		{"id":"db0e3cd6ca9068e9","type":"text","text":"## Where to look first","x":-441,"y":258,"width":761,"height":60},
+		{"id":"f75b0f300f3f9f3a","type":"text","text":"## Stack Table","x":-441,"y":356,"width":761,"height":220},
+		{"id":"974e9f101d21afdf","type":"text","text":"## Flowchart","x":-441,"y":614,"width":761,"height":50},
+		{"id":"f7adf717cf143d57","type":"text","text":"## Build Sequence\n1. Design tokens\n2. Motion bundle\n3. Pages\n4. CSS\n\n🔗 More detail ","x":-441,"y":702,"width":762,"height":240},
+		{"id":"b378934b2fa77007","type":"text","text":"## Motion Strategy","x":-441,"y":980,"width":761,"height":60},
+		{"id":"d37ef672b9330b5f","type":"text","text":"## Design Strategy","x":-441,"y":1078,"width":761,"height":60},
+		{"id":"3f4efc126898d8dc","type":"text","text":"## Accessibility Strategy","x":-441,"y":1176,"width":761,"height":60},
+		{"id":"cd43a8212c60295c","type":"text","text":"## Conventions","x":-441,"y":1274,"width":761,"height":60},
+		{"id":"93d7bd2928b98db6","type":"text","text":"## QA","x":-441,"y":1372,"width":761,"height":60},
+		{"id":"6f6a5ab7bf47b5c9","type":"text","text":"## AI","x":-441,"y":1470,"width":761,"height":60},
+		{"id":"8e91194a42b540e5","type":"text","text":"## License","x":-441,"y":1562,"width":761,"height":60}
+	],
+	"edges":[]
+}
