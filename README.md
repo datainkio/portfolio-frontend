@@ -2,6 +2,13 @@
 
 # dataink.io
 
+[![Production deploy status](https://github.com/datainkio/portfolio-frontend/actions/workflows/deploy-production.yml/badge.svg?branch=main)](https://github.com/datainkio/portfolio-frontend/actions/workflows/deploy-production.yml)
+[![Node version from package.json](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdatainkio/portfolio-frontend%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&logo=nodedotjs&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Eleventy version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@11ty/eleventy?label=eleventy&logo=eleventy&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Tailwind CSS version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/tailwindcss?label=tailwind&logo=tailwindcss&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![GSAP version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/gsap?label=gsap&logo=greensock&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Sanity client version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@sanity/client?label=sanity&logo=sanity&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+
 I'm Russ Lebo, an experience designer and creative technologist. This is the source for my portfolio, [dataink.io](https://dataink.io).
 
 I designed and built it as a static site. The design system comes from Figma, the content from Sanity, and a GSAP motion layer sits on top using explicit event contracts. I treat the motion as optional: the page works without it.
@@ -94,7 +101,7 @@ These are the habits that keep a one-person codebase readable to someone else:
 
 - **Tests:** `npm test` runs the logger tests and the choreography contract tests in [`test/`](test/).
 - **Validation:** `npm run validate` runs the format check, the frontmatter lint, the sidecar audit and the tests.
-- **CI:** pushing to `staging` deploys staging.dataink.io, and pushing to `main` deploys dataink.io. Both workflows run `npm ci` and then `npm run quick`. Tests aren't in CI yet; for now I run them locally. See [`docs/deployment.md`](docs/deployment.md).
+- **CI:** pushing to `staging` deploys staging.dataink.io, and pushing to `main` deploys dataink.io. Both workflows run `npm ci`, then `npm test`, then `npm run quick`, so a failing test stops the deploy. The badge at the top shows the latest production run. See [`docs/deployment.md`](docs/deployment.md).
 - **TODOs become issues:** a [workflow](.github/workflows/todo-to-issue.yml) opens a GitHub issue for each `TODO` comment that's pushed.
 
 ## Run it locally
