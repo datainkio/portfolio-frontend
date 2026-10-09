@@ -6,6 +6,11 @@ I'm Russ Lebo, an experience designer and creative technologist. This is the sou
 
 I designed and built it as a static site. The design system comes from Figma, the content from Sanity, and a GSAP motion layer sits on top using explicit event contracts. I treat the motion as optional: the page works without it.
 
+<p>
+  <img src=".github/readme/home-desktop.webp" alt="Desktop viewport of the dataink.io homepage: a title-block header above a DOC 01 / MANIFESTO plate reading &quot;Design for a more just, informed, and engaged human experience&quot;, set over a blue graph-paper mosaic of past work." width="74%">
+  <img src=".github/readme/home-mobile.webp" alt="Mobile viewport of the dataink.io homepage: the same DOC 01 / MANIFESTO plate and statement over the blue graph-paper mosaic of past work, stacked for a narrow screen." width="22%">
+</p>
+
 ## Stack, and why
 
 Each tool earned its place:
