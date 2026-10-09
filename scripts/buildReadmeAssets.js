@@ -1,5 +1,6 @@
 /**
- * Generates the README banner (.github/readme/banner.svg) from design tokens.
+ * Generates the README banner (.github/readme/banner.svg) and the Figma badge
+ * data (.github/readme/figma-badge.json) from design tokens.
  *
  * GitHub renders README images in a sandbox with no web fonts, so DraftPaper
  * text is outlined to paths here. Colours come from styles/colors.css; slate
@@ -156,6 +157,28 @@ function plate() {
   ].join("\n");
 }
 
+/**
+ * shields.io endpoint JSON for the README's Figma badge: how many tokens the
+ * last Figma sync generated. Style comes from the badge URL, not from here.
+ */
+function figmaBadge() {
+  const fonts = fs
+    .readFileSync(path.join(ROOT, "styles/typography/fontFamilies.css"), "utf8")
+    .match(/--font-[\w-]+:/g);
+  const badge = {
+    schemaVersion: 1,
+    label: "figma",
+    message: `${Object.keys(tokens).length} colours · ${fonts.length} fonts`,
+  };
+  fs.writeFileSync(
+    path.join(OUT_DIR, "figma-badge.json"),
+    `${JSON.stringify(badge, null, 2)}\n`,
+  );
+  console.log(
+    `Figma badge  → .github/readme/figma-badge.json (${badge.message})`,
+  );
+}
+
 function build() {
   const hankoSrc = fs.readFileSync(path.join(OUT_DIR, "hanko.svg"), "utf8");
   const hanko = hankoSrc.replace(/^[\s\S]*?<svg[^>]*>|<\/svg>\s*$/g, "");
@@ -174,3 +197,4 @@ ${plate()}
 }
 
 build();
+figmaBadge();

@@ -1,5 +1,5 @@
 ---
-description: Sidecar for buildReadmeAssets.js — generates the repo README banner SVG from design tokens and DraftPaper outlines.
+description: Sidecar for buildReadmeAssets.js — generates the repo README banner SVG and Figma badge data from design tokens.
 type: script
 tags:
   - readme
@@ -12,7 +12,8 @@ links:
 # buildReadmeAssets.js
 
 Writes `.github/readme/banner.svg`, the title-block banner at the top of the
-repo README. It mirrors the global header (`DOC NO.` · `SECTION` cells) and the
+repo README, and `.github/readme/figma-badge.json`, which shields.io reads for
+the README's Figma badge (colour and font token counts). It mirrors the global header (`DOC NO.` · `SECTION` cells) and the
 hero's manifesto plate on the graph-paper ground.
 
 GitHub renders README images in a sandbox with no web fonts, so DraftPaper text
@@ -22,7 +23,9 @@ inlined in the script.
 
 ## Inputs
 
-- `styles/colors.css`: `secondary-500`, `primary-200/500/800/950`
+- `styles/colors.css`: `secondary-500`, `primary-200/500/800/950`, and the
+  colour token count
+- `styles/typography/fontFamilies.css`: the font token count
 - `assets/fonts/DRAFTPAPER/DRAFTPAPER.otf`
 - `.github/readme/hanko.svg`: the brand mark, extracted once from the rendered
   site (it's served from Sanity and isn't in the repo otherwise)
