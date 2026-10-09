@@ -1,10 +1,12 @@
 # dataink.io
 
-The source for [dataink.io](https://dataink.io), the portfolio of Russ Lebo, experience designer and creative technologist.
+I'm Russ Lebo, an experience designer and creative technologist. This is the source for my portfolio, [dataink.io](https://dataink.io).
 
-It's a static site with a design system pulled from Figma, content from Sanity, and a GSAP motion layer built on explicit event contracts. The motion is optional: the page works without it.
+I designed and built it as a static site. The design system comes from Figma, the content from Sanity, and a GSAP motion layer sits on top using explicit event contracts. I treat the motion as optional: the page works without it.
 
 ## Stack, and why
+
+Each tool earned its place:
 
 | Layer     | Tool                                        | Why                                                                                                                         |
 | --------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
@@ -37,11 +39,13 @@ specs/       Contracts written before the code
 test/        Logger and choreography contract tests
 ```
 
-Never edit these by hand: `styles/colors.css`, `styles/typography/fontFamilies.css`, and anything in `_site/`.
+Don't edit these by hand: `styles/colors.css`, `styles/typography/fontFamilies.css`, and anything in `_site/`.
 
 More detail: [`docs/architecture.md`](docs/architecture.md).
 
 ## Motion and accessibility
+
+I wanted motion that's expressive but never in the way, so it follows a few rules:
 
 - **Sections don't call each other.** They emit and listen through one `AnimationBus`, using events declared in [`events.js`](js/choreography/config/contracts/events/events.js). JavaScript binds to `data-*-el` attributes, never to CSS classes.
 - **Boot is gated.** Nothing animates until `director:ready` and then `preloader:out` have fired, so the landing sequence always starts from a known state.
@@ -53,7 +57,9 @@ Start with the [choreography README](js/choreography/README.choreography.md).
 
 ## Conventions
 
-- **Specs before code.** Behaviour is written down in [`specs/`](specs/) first, including the [component API](specs/views/component-api.views-spec.md) that every template follows and per-section animation specs.
+These are the habits that keep a one-person codebase readable to someone else:
+
+- **Specs before code.** I write behaviour down in [`specs/`](specs/) first, including the [component API](specs/views/component-api.views-spec.md) that every template follows and per-section animation specs.
 - **Every file explains itself.** Each `.njk` and `.js` file has a `.md` sidecar beside it that covers its purpose, inputs and dependencies. `npm run audit:sidecars` reports any that are missing.
 - **Scaffold, don't copy.** `npm run scaffold:component`, `scaffold:section` and `scaffold:page` generate new files that already follow the conventions.
 - **Frontmatter is linted.** `npm run lint:frontmatter` checks it against [`specs/frontmatter.spec.md`](specs/frontmatter.spec.md).
@@ -62,7 +68,7 @@ Start with the [choreography README](js/choreography/README.choreography.md).
 
 - **Tests:** `npm test` runs the logger tests and the choreography contract tests in [`test/`](test/).
 - **Validation:** `npm run validate` runs the format check, the frontmatter lint, the sidecar audit and the tests.
-- **CI:** pushing to `staging` deploys staging.dataink.io, and pushing to `main` deploys dataink.io. Both workflows run `npm ci` and then `npm run quick`. Tests aren't in CI yet; for now they run locally. See [`docs/deployment.md`](docs/deployment.md).
+- **CI:** pushing to `staging` deploys staging.dataink.io, and pushing to `main` deploys dataink.io. Both workflows run `npm ci` and then `npm run quick`. Tests aren't in CI yet; for now I run them locally. See [`docs/deployment.md`](docs/deployment.md).
 - **TODOs become issues:** a [workflow](.github/workflows/todo-to-issue.yml) opens a GitHub issue for each `TODO` comment that's pushed.
 
 ## Run it locally
@@ -86,6 +92,8 @@ To build with live content or refresh the tokens, copy [`.env.example`](.env.exa
 
 ## Where to look first
 
+If you only have a few minutes, I'd start here:
+
 1. [`js/choreography/README.choreography.md`](js/choreography/README.choreography.md): the motion architecture.
 2. [`views/organisms/section/hero.njk`](views/organisms/section/hero.njk), its sidecar [`hero.md`](views/organisms/section/hero.md), and its controller [`Hero.js`](js/choreography/organisms/hero/Hero.js): one section from markup to motion.
 3. [`specs/views/component-api.views-spec.md`](specs/views/component-api.views-spec.md): the contract every template follows.
@@ -94,7 +102,7 @@ To build with live content or refresh the tokens, copy [`.env.example`](.env.exa
 
 ## Working with AI agents
 
-This repo is set up to be cheap for coding agents to work in. [`CLAUDE.md`](CLAUDE.md) points an agent at the right files, and the sidecars give it a short summary to read before it opens an implementation. Smaller context means fewer tokens per task and fewer rounds of correction.
+I work with coding agents, so I set this repo up to be cheap for them to work in. [`CLAUDE.md`](CLAUDE.md) points an agent at the right files, and the sidecars give it a short summary to read before it opens an implementation. Smaller context means fewer tokens per task and fewer rounds of correction.
 
 ## License
 
@@ -102,4 +110,4 @@ ISC. See [`package.json`](package.json).
 
 ---
 
-On [dataink.io](https://dataink.io), open your browser's dev tools.
+When you visit [dataink.io](https://dataink.io), open your browser's dev tools. I left you a note.
