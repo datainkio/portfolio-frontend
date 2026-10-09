@@ -28,10 +28,27 @@ Each tool earned its place:
 
 The build runs in order:
 
+```mermaid
+flowchart LR
+  figma[(Figma)] -- build:design --> tokens[Token CSS]
+  sanity[(Sanity)] --> eleventy[Eleventy render]
+  js[js/choreography] -- esbuild --> bundle[Motion bundle]
+  views[views/ templates] --> eleventy
+  eleventy --> html[_site HTML]
+  tokens --> tailwind[Tailwind compile]
+  html -- scanned for classes --> tailwind
+  tailwind --> site[(_site)]
+  bundle --> site
+  html --> site
+```
+
 1. **Design tokens:** `npm run build:design` reads the Figma file and writes [`styles/colors.css`](styles/colors.css) and [`styles/typography/fontFamilies.css`](styles/typography/fontFamilies.css). These outputs are committed, so builds that skip this step still get the tokens.
 2. **Motion bundle:** [`scripts/buildChoreography.js`](scripts/buildChoreography.js) bundles [`js/choreography/`](js/choreography/) from `AnimationDirector.js` with esbuild.
 3. **Pages:** Eleventy renders [`views/`](views/), fetching Sanity content through [`data/sanity/`](data/sanity/). If Sanity isn't configured, the build logs `CMS skipped` and carries on.
 4. **CSS:** Tailwind compiles [`styles/main.css`](styles/main.css) after the HTML exists, because it scans the rendered pages for the classes in use.
+
+<details>
+<summary>Folder map</summary>
 
 ```text
 ia/          Routes and page frontmatter (Eleventy input)
@@ -45,6 +62,8 @@ scripts/     Build, scaffolding and audit tooling
 specs/       Contracts written before the code
 test/        Logger and choreography contract tests
 ```
+
+</details>
 
 Don't edit these by hand: `styles/colors.css`, `styles/typography/fontFamilies.css`, and anything in `_site/`.
 
@@ -88,7 +107,8 @@ npm run quick   # build once into _site/
 npm start       # dev server with watch
 ```
 
-**No credentials needed.** Without a `.env` file, the site builds from the committed tokens and leaves out the Sanity content.
+> [!TIP]
+> **No credentials needed.** Without a `.env` file, the site builds from the committed tokens and leaves out the Sanity content.
 
 To build with live content or refresh the tokens, copy [`.env.example`](.env.example) to `.env` and fill in the values:
 
