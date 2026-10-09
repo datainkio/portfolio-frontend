@@ -137,6 +137,11 @@ showWorkflowSection(
       script: "build:design:debug",
       description: "Fetch Figma design tokens with debug logging",
     },
+    {
+      script: "build:readme",
+      description: "Regenerate the README banner from design tokens",
+      note: "Writes .github/readme/banner.svg; not part of the site build",
+    },
   ],
   "Figma design system and CMS content management",
 );

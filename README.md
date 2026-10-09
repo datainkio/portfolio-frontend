@@ -1,3 +1,5 @@
+<img src=".github/readme/banner.svg" width="1280" alt="Title block in the style of dataink.io: Doc 00, section README, stack Eleventy, Tailwind, Sanity, Figma and GSAP. The source for data:ink:io.">
+
 # dataink.io
 
 I'm Russ Lebo, an experience designer and creative technologist. This is the source for my portfolio, [dataink.io](https://dataink.io).
