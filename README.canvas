@@ -22,7 +22,7 @@
 		{"type":"text","id":"f7adf717cf143d57","text":"## Build Sequence\n1. Design tokens\n2. Motion bundle\n3. Pages\n4. CSS\n\n🔗 More detail ","x":-441,"y":702,"width":762,"height":240},
 		{"type":"text","id":"6f6a5ab7bf47b5c9","text":"## AI","x":-441,"y":1470,"width":761,"height":60},
 		{"type":"text","id":"8e91194a42b540e5","text":"## License","x":-441,"y":1562,"width":761,"height":60},
-		{"id":"f898f2e12830e3b4","type":"file","file":"dataink.io/content-model/README.content-model.md","x":1440,"y":1160,"width":400,"height":400},
+		{"id":"f898f2e12830e3b4","type":"file","file":"dataink.io/content-model/README.md","x":1440,"y":1160,"width":400,"height":400},
 		{"id":"8ec3305491e1fdfb","type":"file","file":"dataink.io/backend/README.backend.md","x":1440,"y":639,"width":400,"height":400},
 		{"id":"7f03db7bca9fb182","type":"file","file":"dataink.io/frontend/README.frontend.md","x":2000,"y":1160,"width":400,"height":400},
 		{"id":"6818bd0b420c3d5c","type":"file","file":"content strategy/README.content-strategy.md","x":760,"y":908,"width":400,"height":400},
