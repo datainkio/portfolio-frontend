@@ -169,7 +169,7 @@ The page should include a clear CTA at the end of the content. Consider a contac
 | ✏️ new (if missing) | `content-model/patterns/project-page.md`      | Pattern doc describing the page-level composition (hero → body → awards → related).                                          |
 | 🔎 verify           | `content-model/objects/`                      | Confirm reusable objects referenced by `project` (portable text body, link, image) are documented; add only what is missing. |
 | 🔎 verify           | `content-model/taxonomies/`                   | Confirm `industry`, `role`, `activity`, `outcome` taxonomy docs exist; add only what is missing.                             |
-| ✏️ update           | `content-model/documents/README.documents.md` | Add `work/project.md` to the index. (File currently missing — may also need to be created.)                                  |
+| ✏️ update           | `content-model/documents/README.md` | Add `work/project.md` to the index. (File currently missing — may also need to be created.)                                  |
 
 ### 2. Backend schema — `backend/schemaTypes/`
 

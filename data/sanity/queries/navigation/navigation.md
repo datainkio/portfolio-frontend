@@ -7,7 +7,7 @@ tags:
 aliases:
   - Navigation query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
 ---
 
 # Navigation query
@@ -23,4 +23,4 @@ collection.
 
 - Path: `data/sanity/queries/navigation/navigation.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

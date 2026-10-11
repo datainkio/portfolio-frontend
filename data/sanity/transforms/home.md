@@ -7,7 +7,7 @@ tags:
 aliases:
   - Home transforms
 links:
-  - "[[README.transforms]]"
+  - "[[data/sanity/transforms/README|transforms]]"
 ---
 
 # Home transforms
@@ -32,4 +32,4 @@ card's `{% if url %}` guard is never satisfied and no link renders.
 
 - Path: `data/sanity/transforms/home.js`
 
-Related: [[README.transforms]]
+Related: [[data/sanity/transforms/README|transforms]]

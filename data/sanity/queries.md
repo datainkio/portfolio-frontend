@@ -7,8 +7,8 @@ tags:
 aliases:
   - CMS queries barrel
 links:
-  - "[[README.queries]]"
-  - "[[README.sanity]]"
+  - "[[data/sanity/queries/README|queries]]"
+  - "[[data/sanity/README|sanity]]"
 ---
 
 # CMS queries barrel

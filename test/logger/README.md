@@ -10,6 +10,7 @@ type: reference
 <img src="../../.github/readme/strips/test--logger.svg" width="1280" alt="Title block: frontend repo, section test/logger.">
 
 [![Node.js](https://img.shields.io/badge/-Node.js-eb5e28?style=flat-square&logo=nodedotjs&logoColor=e2e8f0&labelColor=020617)](https://nodejs.org)
+
 <!-- /readme-header -->
 
 # Logger tests

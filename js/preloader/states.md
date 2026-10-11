@@ -6,7 +6,7 @@ tags:
   - choreography
 links:
   - "[[Preloader.js]]"
-  - "[[README.preloader.md]]"
+  - "[[README.md]]"
   - "[[Preloader Sequence.canvas]]"
   - "[[preloader-states.canvas]]"
 ---

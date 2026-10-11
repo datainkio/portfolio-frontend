@@ -7,7 +7,7 @@ tags:
 aliases:
   - Activities query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[conceptProjection]]"
   - "[[skos-concept]]"
 ---
@@ -30,4 +30,4 @@ collection.
 
 - Path: `data/sanity/queries/activity/activities.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

@@ -6,7 +6,7 @@ tags:
 aliases:
   - DOM filters
 links:
-  - "[[README.filters]]"
+  - "[[eleventy/filters/README|filters]]"
   - "[[filters]]"
 ---
 

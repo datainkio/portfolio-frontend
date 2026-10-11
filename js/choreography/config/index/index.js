@@ -13,7 +13,7 @@
  * - displays/: decorative display defaults (ruler)
  *
  * Section ScrollTrigger configs live in each organism's *Triggers.js, not here.
- * See README.config.md for placement rules.
+ * See README.md for placement rules.
  *
  * Usage pattern:
  * import { EVENTS, motion, RULER_DEFAULTS } from "./index.js";

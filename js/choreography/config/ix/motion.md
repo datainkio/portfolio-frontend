@@ -7,7 +7,7 @@ tags:
   - motion
 links:
   - "[[presets|presets]]"
-  - "[[README.presets|README.presets]]"
+  - "[[js/choreography/config/ix/presets/README|README.presets]]"
 ---
 
 # motion
@@ -17,4 +17,4 @@ links:
 - `toSeconds(ms)` — converts token milliseconds to GSAP seconds; non-numbers pass through.
 - `ANIMATION_DEFAULTS` — base duration, stagger, ease (`in`/`out`/`inOut`), and `overwrite: "auto"`.
 
-Section presets (`HERO_*`, `AWARDS_INTRO`, `CARD_PARALLAX`, `*_ANIMATION_DEFAULTS`, `PROJECT_HEADER_ANIMATION`, `TEXT_SPLIT_REVEAL`) live in [`presets/`](presets/README.presets.md), one file per consumer area, each importing from here.
+Section presets (`HERO_*`, `AWARDS_INTRO`, `CARD_PARALLAX`, `*_ANIMATION_DEFAULTS`, `PROJECT_HEADER_ANIMATION`, `TEXT_SPLIT_REVEAL`) live in [`presets/`](presets/README.md), one file per consumer area, each importing from here.

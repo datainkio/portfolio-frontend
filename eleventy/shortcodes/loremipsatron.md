@@ -6,7 +6,7 @@ tags:
 aliases:
   - Loremipsatron
 links:
-  - "[[README.shortcodes]]"
+  - "[[eleventy/shortcodes/README|shortcodes]]"
   - "[[shortcodes]]"
 ---
 

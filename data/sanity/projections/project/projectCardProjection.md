@@ -7,7 +7,7 @@ tags:
 aliases:
   - Project card projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Project card projection
@@ -32,4 +32,4 @@ Poster precedence in the template is `featuredVideo.poster.url` → `featuredIma
 
 - Path: `data/sanity/projections/project/projectCardProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

@@ -7,7 +7,7 @@ tags:
 aliases:
   - SKOS concept query factory
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[conceptProjection]]"
 ---
 
@@ -26,4 +26,4 @@ Consumed by the [[activities]], [[industries]], [[outcomes]], and [[roles]] quer
 
 - Path: `data/sanity/queries/taxonomy/skos-concept.js`
 
-Related: [[README.queries]], [[conceptProjection]]
+Related: [[data/sanity/queries/README|queries]], [[conceptProjection]]
