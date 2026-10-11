@@ -6,7 +6,7 @@ tags:
 aliases:
   - Sanity collection
 links:
-  - "[[README.collections]]"
+  - "[[eleventy/collections/README|collections]]"
   - "[[fetchSanityData]]"
   - "[[sanityService]]"
 ---

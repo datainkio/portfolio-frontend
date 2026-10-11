@@ -15,5 +15,5 @@ links:
   - "[[presets|presets]]"
   - "[[scrolltriggers|scrolltriggers]]"
   - "[[profiles|profiles]]"
-  - "[[README.config|README.config]]"
+  - "[[js/choreography/config/README|README.config]]"
 ---

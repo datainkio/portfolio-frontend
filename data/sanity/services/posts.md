@@ -7,7 +7,7 @@ tags:
 aliases:
   - posts service
 links:
-  - "[[README.services]]"
+  - "[[data/sanity/services/README|services]]"
 ---
 
 # posts service
@@ -15,10 +15,10 @@ links:
 > [!note] Empty placeholder
 > This file is currently empty — a reserved slot for `posts`-specific service logic. The active
 > fetch/cache/orchestration paths live in [[fetchSanityData]] and [[sanityService]]; related
-> shaping is in the [[README.transforms|transforms]] layer.
+> shaping is in the [[data/sanity/transforms/README|transforms]] layer.
 
 ## Source
 
 - Path: `data/sanity/services/posts.js`
 
-Related: [[README.services]]
+Related: [[data/sanity/services/README|services]]

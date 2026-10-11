@@ -6,7 +6,7 @@ tags:
 aliases:
   - Plugins
 links:
-  - "[[README.eleventy]]"
+  - "[[eleventy/README|eleventy]]"
 ---
 
 # Plugins

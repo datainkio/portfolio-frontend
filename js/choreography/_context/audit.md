@@ -47,7 +47,7 @@ Architecture is sound. Atomic layering, DI of the bus, `NullAnimationBus` null-o
 
 - `AbstractSection.reset()` / `destroy()` emitted `section:undefined:*` (`this.id` was never assigned) — now use `this.sectionKey`.
 - `AnimationBus` had a dead `_debug` flag and inert `enableDebug()` — removed.
-- Stale docstrings/file-tree (StageManager refs in `AnimationDirector`, static-usage + wrong event path in `AnimationBus`, `README.choreography.md` tree and links) — refreshed to match the current layout.
+- Stale docstrings/file-tree (StageManager refs in `AnimationDirector`, static-usage + wrong event path in `AnimationBus`, `README.md` tree and links) — refreshed to match the current layout.
 
 ## 4. Remaining nits (low priority)
 

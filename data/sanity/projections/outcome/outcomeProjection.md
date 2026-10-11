@@ -7,7 +7,7 @@ tags:
 aliases:
   - Outcome projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Outcome projection
@@ -23,4 +23,4 @@ documents. Extracted into its own file so queries stay thin and shapes compose c
 
 - Path: `data/sanity/projections/outcome/outcomeProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

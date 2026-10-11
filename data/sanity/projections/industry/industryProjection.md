@@ -7,7 +7,7 @@ tags:
 aliases:
   - Industry projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Industry projection
@@ -23,4 +23,4 @@ documents. Extracted into its own file so queries stay thin and shapes compose c
 
 - Path: `data/sanity/projections/industry/industryProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

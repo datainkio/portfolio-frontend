@@ -7,7 +7,7 @@ tags:
 aliases:
   - Projects by industry query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[projectCardProjection]]"
 ---
 
@@ -26,4 +26,4 @@ collection.
 
 - Path: `data/sanity/queries/project/projects-by-industry.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

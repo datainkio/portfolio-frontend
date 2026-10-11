@@ -7,7 +7,7 @@ tags:
 aliases:
   - Sanity client
 links:
-  - "[[README.sanity]]"
+  - "[[data/sanity/README|sanity]]"
 ---
 
 # Sanity client

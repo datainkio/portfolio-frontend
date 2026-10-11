@@ -7,7 +7,7 @@ tags:
 aliases:
   - Site settings query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[siteSettingsProjection]]"
 ---
 
@@ -26,4 +26,4 @@ collection.
 
 - Path: `data/sanity/queries/siteSettings/siteSettings.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

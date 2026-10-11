@@ -7,7 +7,7 @@ tags:
 aliases:
   - Posts query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[postProjection]]"
 ---
 
@@ -26,4 +26,4 @@ collection.
 
 - Path: `data/sanity/queries/post/posts.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

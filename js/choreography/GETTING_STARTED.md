@@ -440,4 +440,4 @@ _onIntroComplete() {
 3. **Use Events**: Listen to section events instead of tight coupling
 4. **Respect Accessibility**: Declare a reduced variant in [config/ix/profiles.js](config/ix/profiles.js) — the base class handles the snap-to-end via `_applyPostIntroState()`
 
-For more details, see [README.choreography.md](./README.choreography.md)
+For more details, see [README.md](./README.md)

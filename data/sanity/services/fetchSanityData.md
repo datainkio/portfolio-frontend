@@ -7,7 +7,7 @@ tags:
 aliases:
   - fetchSanityData
 links:
-  - "[[README.services]]"
+  - "[[data/sanity/services/README|services]]"
   - "[[sanityService]]"
 ---
 
@@ -31,4 +31,4 @@ export default async function fetchSanityData({ /* query, cache opts */ }) { …
 
 - Path: `data/sanity/services/fetchSanityData.js`
 
-Related: [[README.services]], [[sanityService]]
+Related: [[data/sanity/services/README|services]], [[sanityService]]

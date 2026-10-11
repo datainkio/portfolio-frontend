@@ -51,7 +51,7 @@ single source. `media.njk` is the only Nunjucks entry point; it replaced
 | Controller | [`js/lightbox/Lightbox.js`](../../js/lightbox/Lightbox.md) | Open, close, video play/pause |
 
 Molecules importing molecules is normal in this codebase
-([README.molecules.md](../../views/molecules/README.molecules.md)), so
+([README.md](../../views/molecules/README.md)), so
 `media.njk` imports the dialog directly. The PortableText serializer
 returns raw HTML strings and can't call Nunjucks, so **it has to be kept in
 sync with `lightbox-dialog.njk` by hand**. It is the only remaining copy.

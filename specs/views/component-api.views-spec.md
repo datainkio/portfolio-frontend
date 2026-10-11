@@ -10,7 +10,7 @@ aliases:
   - Component API Spec
   - Component styling contract
 links:
-  - "[README.atoms.md](../../views/atoms/README.atoms.md)"
+  - "[README.md](../../views/atoms/README.md)"
   - "[button.njk](../../views/atoms/button.md)"
   - "[classes filter](../../eleventy/filters/string.js)"
 ---

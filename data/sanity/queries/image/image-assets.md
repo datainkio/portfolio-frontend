@@ -7,7 +7,7 @@ tags:
 aliases:
   - Image assets query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[featuredImageProjection]]"
 ---
 
@@ -26,4 +26,4 @@ collection.
 
 - Path: `data/sanity/queries/image/image-assets.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

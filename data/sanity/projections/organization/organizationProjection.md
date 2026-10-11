@@ -7,7 +7,7 @@ tags:
 aliases:
   - Organization projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Organization projection
@@ -25,4 +25,4 @@ Includes `orderRank`, the editor-set display order, so queries can sort on it af
 
 - Path: `data/sanity/projections/organization/organizationProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

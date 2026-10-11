@@ -6,7 +6,7 @@ tags:
 aliases:
   - NavigationBuilder
 links:
-  - "[[README.services]]"
+  - "[[eleventy/services/README|services]]"
   - "[[navigation]]"
 ---
 

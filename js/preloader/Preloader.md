@@ -16,7 +16,7 @@ links:
 ---
 # preloader.js
 
-See [README.preloader.md](README.preloader.md) for the strategy and contracts.
+See [README.md](README.md) for the strategy and contracts.
 
 Runs on every page that includes `choreography-script.njk`. Without a
 `[data-preloader]` element it hydrates deferred videos and returns; nothing

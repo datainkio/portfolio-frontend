@@ -7,7 +7,7 @@ tags:
 aliases:
   - Organizations query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[organizationProjection]]"
 ---
 
@@ -27,4 +27,4 @@ collection.
 
 - Path: `data/sanity/queries/organization/organizations.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]
