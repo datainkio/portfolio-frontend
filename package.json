@@ -10,7 +10,7 @@
     "email": "russell@dataink.io",
     "url": "https://dataink.io"
   },
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://dataink.io",
   "repository": {
     "type": "git",
