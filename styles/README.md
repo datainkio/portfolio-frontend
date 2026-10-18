@@ -37,3 +37,17 @@ Import order in `main.css` matters: fonts first, then Tailwind, base, theme, com
 ## See also
 
 - [Typography](typography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [backgrounds/](backgrounds/)
+- [components/](components/)
+- [typography/](typography/README.md)
+- [utilities/](utilities/)
+- [base.css](base.css)
+- [colors.css](colors.css)
+- [decorations.css](decorations.css)
+- [main.css](main.css)
+- [sizes.css](sizes.css)
+<!-- readme-index:end -->

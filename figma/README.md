@@ -46,3 +46,14 @@ It writes `styles/colors.css`, `styles/typography/fontFamilies.css` and `styles/
 ## See also
 
 - [Typography](../styles/typography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [api/](api/README.md)
+- [models/](models/README.md)
+- [services/](services/README.md)
+- [utils/](utils/)
+- [views/](views/README.md)
+- [index.js](index.js)
+<!-- readme-index:end -->

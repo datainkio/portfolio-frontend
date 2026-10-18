@@ -28,3 +28,18 @@ All of the files here are empty placeholders so far.
 ## See also
 
 - [Blockframes](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [Card.js](Card.js)
+- [Chrome.js](Chrome.js)
+- [Dropdown.js](Dropdown.js)
+- [Map.js](Map.js)
+- [Module.js](Module.js)
+- [Sidebar.js](Sidebar.js)
+- [Teaser.js](Teaser.js)
+- [TextBlock.js](TextBlock.js)
+- [TextInput.js](TextInput.js)
+- [Video.js](Video.js)
+<!-- readme-index:end -->

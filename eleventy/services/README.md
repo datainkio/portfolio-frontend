@@ -28,3 +28,12 @@ Longer-running helpers that don't fit as filters or shortcodes.
 ## See also
 
 - [Eleventy setup](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [NavigationBuilder.js](NavigationBuilder.js)
+- [NavigationBuilder.md](NavigationBuilder.md)
+- [TailwindLogger.js](TailwindLogger.js)
+- [TailwindLogger.md](TailwindLogger.md)
+<!-- readme-index:end -->

@@ -32,3 +32,24 @@ Cards for showing content across the site.
 
 - [Component API](../../../specs/views/component-api.views-spec.md)
 - [Molecules](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [award-organization.md](award-organization.md)
+- [award-organization.njk](award-organization.njk)
+- [award.md](award.md)
+- [award.njk](award.njk)
+- [card.md](card.md)
+- [card.njk](card.njk)
+- [category.md](category.md)
+- [category.njk](category.njk)
+- [design-decision.md](design-decision.md)
+- [design-decision.njk](design-decision.njk)
+- [image.md](image.md)
+- [image.njk](image.njk)
+- [organization.md](organization.md)
+- [organization.njk](organization.njk)
+- [project.md](project.md)
+- [project.njk](project.njk)
+<!-- readme-index:end -->

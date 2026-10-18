@@ -35,3 +35,19 @@ Decides when the homepage splash screen leaves. The visuals are pure CSS in [han
 ## See also
 
 - [Preloader.md](Preloader.md) - details on the sequence
+
+<!-- readme-index:start -->
+## Index
+
+- [constants.js](constants.js)
+- [constants.md](constants.md)
+- [deferred-videos.js](deferred-videos.js)
+- [deferred-videos.md](deferred-videos.md)
+- [Preloader Sequence.canvas](Preloader%20Sequence.canvas)
+- [preloader-states.canvas](preloader-states.canvas)
+- [Preloader.js](Preloader.js)
+- [Preloader.md](Preloader.md)
+- [PreloaderEvent.js](PreloaderEvent.js)
+- [PreloaderEvent.md](PreloaderEvent.md)
+- [states.md](states.md)
+<!-- readme-index:end -->

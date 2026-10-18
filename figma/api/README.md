@@ -11,3 +11,10 @@ type: index
 <!-- /readme-header -->
 
 Wraps the Figma REST API. `FigmaClient.js` performs the requests; `endpoints.js` holds the URL shapes.
+
+<!-- readme-index:start -->
+## Index
+
+- [endpoints.js](endpoints.js)
+- [FigmaClient.js](FigmaClient.js)
+<!-- readme-index:end -->

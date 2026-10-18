@@ -17,3 +17,9 @@ Organisms are where layout intent, content model, and interaction design converg
 - section-level behavior and choreography expectations
 - data contracts for content-driven rendering
 - accessibility and performance constraints at section scale
+
+<!-- readme-index:start -->
+## Index
+
+- [section/](section/)
+<!-- readme-index:end -->

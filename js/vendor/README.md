@@ -26,3 +26,9 @@ Third-party scripts kept in the repo.
 ## See also
 
 - [Choreography](../choreography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [gsap.min.js](gsap.min.js)
+<!-- readme-index:end -->

@@ -33,3 +33,21 @@ When a doc and the code disagree, trust the code.
 ## See also
 
 - [Frontend README](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [ai/](ai/README.md)
+- [frontmatter-audit/](frontmatter-audit/README.frontmatter-audit.md)
+- [ia/](ia/)
+- [storyboards/](storyboards/README.md)
+- [architecture.md](architecture.md)
+- [deployment.md](deployment.md)
+- [director-initialization-sequence.md](director-initialization-sequence.md)
+- [director-initialization-sequence.pdf](director-initialization-sequence.pdf)
+- [plan-frontmatter-strategy.md](plan-frontmatter-strategy.md)
+- [plan-landing-performance.prompt.md](plan-landing-performance.prompt.md)
+- [preloader-integration-checklist.md](preloader-integration-checklist.md)
+- [preloader-review.md](preloader-review.md)
+- [sanity-integration.md](sanity-integration.md)
+<!-- readme-index:end -->

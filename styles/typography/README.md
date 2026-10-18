@@ -33,3 +33,10 @@ Font loading and font-family tokens.
 ## See also
 
 - [Styles](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [fontFamilies.css](fontFamilies.css)
+- [imports.css](imports.css)
+<!-- readme-index:end -->

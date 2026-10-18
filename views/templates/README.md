@@ -33,3 +33,13 @@ Page bodies built from organisms and molecules, plus the pieces that go in `<hea
 
 - [Layouts](../layouts/README.md)
 - [Organisms](../organisms/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [blog/](blog/)
+- [landing/](landing/)
+- [partials/](partials/)
+- [article.md](article.md)
+- [article.njk](article.njk)
+<!-- readme-index:end -->

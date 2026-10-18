@@ -29,3 +29,24 @@ Base page shells. Pages pick one with `{% extends %}`.
 ## See also
 
 - [Templates](../templates/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [base.canvas](base.canvas)
+- [base.md](base.md)
+- [base.njk](base.njk)
+- [cols-2-after.canvas](cols-2-after.canvas)
+- [cols-2-after.md](cols-2-after.md)
+- [cols-2-after.njk](cols-2-after.njk)
+- [cols-2-before.canvas](cols-2-before.canvas)
+- [cols-2-before.md](cols-2-before.md)
+- [cols-2-before.njk](cols-2-before.njk)
+- [cols-3.canvas](cols-3.canvas)
+- [cols-3.md](cols-3.md)
+- [cols-3.njk](cols-3.njk)
+- [Page Build Flow.canvas](Page%20Build%20Flow.canvas)
+- [storyboards.canvas](storyboards.canvas)
+- [storyboards.md](storyboards.md)
+- [storyboards.njk](storyboards.njk)
+<!-- readme-index:end -->

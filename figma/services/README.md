@@ -11,3 +11,12 @@ type: index
 <!-- /readme-header -->
 
 `FileService` fetches; `PaletteService`, `StyleService`, and `TypographyService` each derive one token family.
+
+<!-- readme-index:start -->
+## Index
+
+- [FileService.js](FileService.js)
+- [PaletteService.js](PaletteService.js)
+- [StyleService.js](StyleService.js)
+- [TypographyService.js](TypographyService.js)
+<!-- readme-index:end -->

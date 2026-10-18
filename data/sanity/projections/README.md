@@ -29,3 +29,22 @@ Small GROQ snippets that say which fields to pull for a content type, so queries
 ## See also
 
 - [Sanity data](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [activity/](activity/)
+- [award/](award/)
+- [contact/](contact/)
+- [image/](image/)
+- [industry/](industry/)
+- [organization/](organization/)
+- [outcome/](outcome/)
+- [page/](page/)
+- [post/](post/)
+- [project/](project/)
+- [role/](role/)
+- [siteSettings/](siteSettings/)
+- [taxonomy/](taxonomy/)
+- [userGuide/](userGuide/)
+<!-- readme-index:end -->

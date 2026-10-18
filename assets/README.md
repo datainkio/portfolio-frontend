@@ -25,3 +25,15 @@ Static files the site serves as-is.
 ## See also
 
 - [Fonts](fonts/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [fonts/](fonts/README.md)
+- [icons/](icons/)
+- [images/](images/)
+- [js/](js/)
+- [storyboards/](storyboards/)
+- [svg/](svg/)
+- [tiles/](tiles/)
+<!-- readme-index:end -->

@@ -72,3 +72,35 @@ Every `.njk` and `.js` file has a short `.md` note beside it explaining what it 
 ---
 
 When you visit [dataink.io](https://dataink.io), open your browser's dev tools. I left you a note.
+
+<!-- readme-index:start -->
+## Index
+
+- [assets/](assets/README.md)
+- [data/](data/)
+- [docs/](docs/README.md)
+- [eleventy/](eleventy/README.md)
+- [figma/](figma/README.md)
+- [graphify-out/](graphify-out/)
+- [ia/](ia/)
+- [js/](js/README.md)
+- [responsive-testing/](responsive-testing/README.md)
+- [scripts/](scripts/README.md)
+- [specs/](specs/)
+- [styles/](styles/README.md)
+- [test/](test/README.md)
+- [views/](views/README.md)
+- [breakpoints.config.js](breakpoints.config.js)
+- [breakpoints.config.md](breakpoints.config.md)
+- [CLAUDE.md](CLAUDE.md)
+- [eleventy.config.js](eleventy.config.js)
+- [eleventy.config.md](eleventy.config.md)
+- [frontend.code-workspace](frontend.code-workspace)
+- [IA.canvas](IA.canvas)
+- [package-lock.json](package-lock.json)
+- [package.json](package.json)
+- [postcss.config.js](postcss.config.js)
+- [README.canvas](README.canvas)
+- [site.json](site.json)
+- [tailwind.config.js](tailwind.config.js)
+<!-- readme-index:end -->

@@ -28,3 +28,21 @@ All of the files here are empty placeholders so far.
 ## See also
 
 - [Blockframes](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [Avatar.js](Avatar.js)
+- [Bullet.js](Bullet.js)
+- [Button.js](Button.js)
+- [Donut.js](Donut.js)
+- [Image.js](Image.js)
+- [Operator.js](Operator.js)
+- [Pie.js](Pie.js)
+- [Pin.js](Pin.js)
+- [Play.js](Play.js)
+- [Star.js](Star.js)
+- [Streets.js](Streets.js)
+- [Text.js](Text.js)
+- [Textfield.js](Textfield.js)
+<!-- readme-index:end -->

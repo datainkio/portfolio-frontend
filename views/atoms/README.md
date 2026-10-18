@@ -34,3 +34,29 @@ The smallest building blocks. Everything else is built from these.
 
 - [Component API](../../specs/views/component-api.views-spec.md)
 - [Molecules](../molecules/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [hanko/](hanko/)
+- [link/](link/)
+- [printmarks/](printmarks/)
+- [svg/](svg/)
+- [video/](video/)
+- [award.md](award.md)
+- [award.njk](award.njk)
+- [button.md](button.md)
+- [button.njk](button.njk)
+- [cta.md](cta.md)
+- [cta.njk](cta.njk)
+- [gel.md](gel.md)
+- [gel.njk](gel.njk)
+- [heading.md](heading.md)
+- [heading.njk](heading.njk)
+- [icon.md](icon.md)
+- [icon.njk](icon.njk)
+- [organization.md](organization.md)
+- [organization.njk](organization.njk)
+- [pixelator.md](pixelator.md)
+- [pixelator.njk](pixelator.njk)
+<!-- readme-index:end -->

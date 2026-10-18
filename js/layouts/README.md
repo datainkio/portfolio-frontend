@@ -27,3 +27,14 @@ Scripts that position or animate page-level layout pieces.
 ## See also
 
 - [Managers](../choreography/managers/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [global-header.js](global-header.js)
+- [global-header.md](global-header.md)
+- [landing-header.js](landing-header.js)
+- [landing-header.md](landing-header.md)
+- [projects-alternate-grid.js](projects-alternate-grid.js)
+- [projects-alternate-grid.md](projects-alternate-grid.md)
+<!-- readme-index:end -->

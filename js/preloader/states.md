@@ -6,7 +6,7 @@ tags:
   - choreography
 links:
   - "[[Preloader.js]]"
-  - "[[README.md]]"
+  - "[[dataink.io/frontend/js/preloader/README]]"
   - "[[Preloader Sequence.canvas]]"
   - "[[preloader-states.canvas]]"
 ---

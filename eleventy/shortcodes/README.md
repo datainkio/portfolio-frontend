@@ -31,3 +31,16 @@ Snippets you call from a template, like `{% name %}`.
 ## See also
 
 - [Eleventy setup](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [collapsible.js](collapsible.js)
+- [collapsible.md](collapsible.md)
+- [image.js](image.js)
+- [image.md](image.md)
+- [loremipsatron.js](loremipsatron.js)
+- [loremipsatron.md](loremipsatron.md)
+- [shortcodes.js](shortcodes.js)
+- [shortcodes.md](shortcodes.md)
+<!-- readme-index:end -->

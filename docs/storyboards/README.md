@@ -37,3 +37,9 @@ To export SVGs, see `npm run diagrams:export`.
 
 - [Storyboards layout](../../views/layouts/storyboards.njk)
 - [Docs](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+No sibling files or folders.
+<!-- readme-index:end -->

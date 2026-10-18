@@ -11,3 +11,9 @@ templateEngineOverride: njk
 
 {% import "organisms/section/hero.njk" as HeroSection %}
 {{ HeroSection.render({ id: "introduction", copy: value, order: "1/5"}) }}
+
+<!-- readme-index:start -->
+## Index
+
+No sibling files or folders.
+<!-- readme-index:end -->

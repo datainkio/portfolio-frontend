@@ -26,3 +26,10 @@ Self-hosted web fonts, so the page doesn't wait on Google Fonts.
 ## See also
 
 - [Typography](../../styles/typography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [DRAFTPAPER/](DRAFTPAPER/)
+- [IBMPlexSans/](IBMPlexSans/)
+<!-- readme-index:end -->

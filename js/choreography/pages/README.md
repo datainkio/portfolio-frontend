@@ -22,3 +22,9 @@ Animations for pages that are not part of the homepage sections. Today that is `
 ## See also
 
 - [Choreography](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [Project/](Project/)
+<!-- readme-index:end -->

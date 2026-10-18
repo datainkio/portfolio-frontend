@@ -30,3 +30,13 @@ The shared vocabulary of the choreography code: event names, section selectors, 
 ## See also
 
 - [Config](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [events/](events/)
+- [selectors/](selectors/)
+- [timelines/](timelines/)
+- [contracts.js](contracts.js)
+- [contracts.md](contracts.md)
+<!-- readme-index:end -->

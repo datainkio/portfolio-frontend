@@ -30,3 +30,16 @@ The liquid background shapes that morph between arrangements as sections change.
 ## See also
 
 - [Section gel arrangements spec](../../../specs/animation/section-gel-arrangements.animation-spec.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [Gel.js](Gel.js)
+- [Gel.md](Gel.md)
+- [GelGeometry.js](GelGeometry.js)
+- [GelManipulator.js](GelManipulator.js)
+- [GelMask.js](GelMask.js)
+- [GelVisualState.js](GelVisualState.js)
+- [GelVisualState.md](GelVisualState.md)
+- [index.js](index.js)
+<!-- readme-index:end -->

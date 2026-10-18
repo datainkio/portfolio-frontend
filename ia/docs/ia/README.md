@@ -18,3 +18,10 @@ IA documentation provides the semantic map that aligns templates and layouts wit
 - sitemap and route hierarchy
 - frontmatter standards and metadata policies
 - cross-section naming and navigation consistency
+
+<!-- readme-index:start -->
+## Index
+
+- [frontmatter.md](frontmatter.md)
+- [sitemap.md](sitemap.md)
+<!-- readme-index:end -->
