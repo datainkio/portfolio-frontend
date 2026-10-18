@@ -28,3 +28,11 @@ Only `BlockLine.js` has code; `Cloud.js` and `Grid.js` are empty.
 ## See also
 
 - [Blockframes](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [BlockLine.js](BlockLine.js)
+- [Cloud.js](Cloud.js)
+- [Grid.js](Grid.js)
+<!-- readme-index:end -->

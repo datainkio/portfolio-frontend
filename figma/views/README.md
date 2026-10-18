@@ -11,3 +11,10 @@ type: index
 <!-- /readme-header -->
 
 Each subfolder targets one consumer. Output is generated — never hand-edit the files these produce.
+
+<!-- readme-index:start -->
+## Index
+
+- [eleventy/](eleventy/README.md)
+- [tailwind/](tailwind/README.md)
+<!-- readme-index:end -->

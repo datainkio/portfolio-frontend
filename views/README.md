@@ -37,3 +37,15 @@ The Nunjucks templates behind every page, organized by size: small pieces build 
 - [Component API](../specs/views/component-api.views-spec.md)
 - [User guide](../specs/views/user-guide.views-spec.md)
 - [Homepage spec](../specs/views/home.views-spec.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [_registry/](_registry/)
+- [atoms/](atoms/README.md)
+- [layouts/](layouts/README.md)
+- [molecules/](molecules/README.md)
+- [organisms/](organisms/README.md)
+- [pages/](pages/)
+- [templates/](templates/README.md)
+<!-- readme-index:end -->

@@ -11,3 +11,11 @@ type: index
 <!-- /readme-header -->
 
 Plain data models that give Figma's raw API payloads a stable shape before the services layer reads them.
+
+<!-- readme-index:start -->
+## Index
+
+- [fills/](fills/)
+- [text/](text/)
+- [DesignFile.js](DesignFile.js)
+<!-- readme-index:end -->

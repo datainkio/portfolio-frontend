@@ -28,3 +28,12 @@ Three files have code (Card, Cart Item, Image); the rest are empty.
 ## See also
 
 - [Blockframes](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [Card.js](Card.js)
+- [Cart Item.js](Cart%20Item.js)
+- [Form.js](Form.js)
+- [Image.js](Image.js)
+<!-- readme-index:end -->

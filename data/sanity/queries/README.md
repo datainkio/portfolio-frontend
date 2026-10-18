@@ -30,3 +30,26 @@ The GROQ queries that ask Sanity for content. Each file exports a query object t
 ## See also
 
 - [Sanity data](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [activity/](activity/)
+- [award/](award/)
+- [image/](image/)
+- [industry/](industry/)
+- [navigation/](navigation/)
+- [organization/](organization/)
+- [outcome/](outcome/)
+- [post/](post/)
+- [project/](project/)
+- [role/](role/)
+- [siteSettings/](siteSettings/)
+- [taxonomy/](taxonomy/)
+- [contact.js](contact.js)
+- [contact.md](contact.md)
+- [home.js](home.js)
+- [home.md](home.md)
+- [user-guide.js](user-guide.js)
+- [user-guide.md](user-guide.md)
+<!-- readme-index:end -->

@@ -28,3 +28,26 @@ Timing and transform values for each section's animation, one file per area.
 ## See also
 
 - [Config](../../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [awards.js](awards.js)
+- [awards.md](awards.md)
+- [background.js](background.js)
+- [background.md](background.md)
+- [card.js](card.js)
+- [card.md](card.md)
+- [hero.js](hero.js)
+- [hero.md](hero.md)
+- [organizations.js](organizations.js)
+- [organizations.md](organizations.md)
+- [presets.js](presets.js)
+- [presets.md](presets.md)
+- [project-header.js](project-header.js)
+- [project-header.md](project-header.md)
+- [text-split-reveal.js](text-split-reveal.js)
+- [text-split-reveal.md](text-split-reveal.md)
+- [work.js](work.js)
+- [work.md](work.md)
+<!-- readme-index:end -->

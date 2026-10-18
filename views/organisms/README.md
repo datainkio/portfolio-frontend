@@ -34,3 +34,14 @@ Whole sections of a page, assembled from molecules and atoms.
 
 - [Molecules](../molecules/README.md)
 - [Templates](../templates/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [footer/](footer/)
+- [forms/](forms/)
+- [header/](header/)
+- [navigation/](navigation/)
+- [section/](section/README.md)
+- [status/](status/)
+<!-- readme-index:end -->

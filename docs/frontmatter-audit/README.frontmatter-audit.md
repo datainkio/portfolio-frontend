@@ -107,3 +107,10 @@ Same script, same measurements, after remediation.
 ![Field coverage](after/coverage.svg)
 
 ![Debt counters](after/debt.svg)
+
+<!-- readme-index:start -->
+## Index
+
+- [after/](after/)
+- [before/](before/)
+<!-- readme-index:end -->

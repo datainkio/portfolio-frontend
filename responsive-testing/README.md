@@ -27,3 +27,17 @@ Notes from checking the site at different screen sizes.
 ## See also
 
 - [Motion accessibility policy](../specs/animation/motion-accessibility-policy.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [audits/](audits/)
+- [checklists/](checklists/)
+- [issues/](issues/)
+- [known-constraints/](known-constraints/)
+- [recordings/](recordings/)
+- [screenshots/](screenshots/)
+- [systems/](systems/)
+- [templates/](templates/README.md)
+- [viewports/](viewports/)
+<!-- readme-index:end -->

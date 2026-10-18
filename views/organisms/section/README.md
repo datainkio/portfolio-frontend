@@ -32,3 +32,18 @@ The homepage sections. Most are one-offs written for the homepage.
 
 - [Homepage spec](../../../specs/views/home.views-spec.md)
 - [Choreography](../../../js/choreography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [awards.md](awards.md)
+- [awards.njk](awards.njk)
+- [hero.md](hero.md)
+- [hero.njk](hero.njk)
+- [organizations.md](organizations.md)
+- [organizations.njk](organizations.njk)
+- [process.md](process.md)
+- [process.njk](process.njk)
+- [work.md](work.md)
+- [work.njk](work.njk)
+<!-- readme-index:end -->

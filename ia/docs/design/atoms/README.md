@@ -17,3 +17,9 @@ Atoms establish the visual and semantic baseline used everywhere else in the sys
 - usage constraints for primitive elements
 - accessibility expectations at the element level
 - token dependencies and variants
+
+<!-- readme-index:start -->
+## Index
+
+No sibling files or folders.
+<!-- readme-index:end -->

@@ -29,7 +29,7 @@
 		{"type":"text","id":"b378934b2fa77007","text":"## Motion Strategy","x":-441,"y":980,"width":761,"height":60},
 		{"id":"f3d86e7f2258d94a","type":"file","file":"motion design/README.motion-design.md","x":760,"y":356,"width":400,"height":400},
 		{"id":"0120d3adffaa8318","x":1502,"y":-329,"width":400,"height":400,"type":"file","file":"dataink.io/README.datainkio.md"},
-		{"id":"bb6a660251c4bf55","x":809,"y":-317,"width":400,"height":400,"type":"file","file":"people/README.people.md"},
+		{"id":"bb6a660251c4bf55","x":809,"y":-317,"width":400,"height":400,"type":"file","file":"people/README.md"},
 		{"id":"99db23e28b6edfc3","x":1958,"y":379,"width":400,"height":400,"type":"file","file":"research/README.research.md"},
 		{"id":"55d3d5909399379c","x":2600,"y":-329,"width":400,"height":400,"type":"file","file":"visual design/README.visual-design.md"}
 	],

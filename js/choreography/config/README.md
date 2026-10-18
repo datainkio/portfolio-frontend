@@ -38,3 +38,12 @@ Names, motion settings, and defaults shared across the choreography code. Nothin
 
 - [Contracts](contracts/README.md)
 - [Choreography](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [contracts/](contracts/README.md)
+- [displays/](displays/)
+- [index/](index/)
+- [ix/](ix/)
+<!-- readme-index:end -->

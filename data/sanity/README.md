@@ -31,3 +31,15 @@ Fetches content from Sanity when the site builds and turns it into Eleventy coll
 ## See also
 
 - [Sanity integration notes](../../docs/sanity-integration.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [client/](client/)
+- [projections/](projections/README.md)
+- [queries/](queries/README.md)
+- [services/](services/README.md)
+- [transforms/](transforms/README.md)
+- [queries.js](queries.js)
+- [queries.md](queries.md)
+<!-- readme-index:end -->

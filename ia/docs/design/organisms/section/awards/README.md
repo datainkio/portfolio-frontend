@@ -19,3 +19,9 @@ templateEngineOverride: njk
   buildDate: buildDate
 } %}
 {{ AwardsSection.render(awardsPreviewParams) }}
+
+<!-- readme-index:start -->
+## Index
+
+No sibling files or folders.
+<!-- readme-index:end -->

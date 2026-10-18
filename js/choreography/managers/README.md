@@ -42,3 +42,21 @@ Used where needed: `SessionManager` (remembers a visit for the session) and `Rul
 ## See also
 
 - [Choreography](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [BuildInfoManager/](BuildInfoManager/)
+- [GelAnimationManager/](GelAnimationManager/)
+- [GlobalHeaderManager/](GlobalHeaderManager/)
+- [index/](index/)
+- [ProjectHeaderManager/](ProjectHeaderManager/)
+- [ReducedMotionHandler/](ReducedMotionHandler/)
+- [RulerIntroManager/](RulerIntroManager/)
+- [ScrollEffectsCoordinator/](ScrollEffectsCoordinator/)
+- [ScrollSmootherManager/](ScrollSmootherManager/)
+- [SectionCapManager/](SectionCapManager/)
+- [SessionManager/](SessionManager/)
+- [WorkHeaderManager/](WorkHeaderManager/)
+- [WorkNavManager/](WorkNavManager/)
+<!-- readme-index:end -->

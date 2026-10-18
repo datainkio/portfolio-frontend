@@ -25,3 +25,16 @@ Prompt notes and examples written for AI coding assistants. Nothing here affects
 ## See also
 
 - [Docs](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [examples/](examples/)
+- [legacy-agents/](legacy-agents/)
+- [aix-maintenance.md](aix-maintenance.md)
+- [AIX_Maintenance_Checklist.md](AIX_Maintenance_Checklist.md)
+- [plan-landing-performance.prompt.md](plan-landing-performance.prompt.md)
+- [plan-session-gated-motion.prompt.md](plan-session-gated-motion.prompt.md)
+- [START_HERE.md](START_HERE.md)
+- [WORKSPACE_PORTABILITY.md](WORKSPACE_PORTABILITY.md)
+<!-- readme-index:end -->

@@ -12,3 +12,9 @@ type: index
 <!-- /readme-header -->
 
 `FontImportsFile.js` emits the `@import` block Eleventy's CSS pipeline consumes.
+
+<!-- readme-index:start -->
+## Index
+
+- [FontImportsFile.js](FontImportsFile.js)
+<!-- readme-index:end -->

@@ -32,3 +32,17 @@ The smallest motion pieces: each one builds a single GSAP animation from a few o
 ## See also
 
 - [Choreography](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [clip-reveal/](clip-reveal/)
+- [fade/](fade/)
+- [parallax/](parallax/)
+- [scale/](scale/)
+- [slide/](slide/)
+- [stagger-reveal/](stagger-reveal/)
+- [text-split-reveal/](text-split-reveal/)
+- [index.js](index.js)
+- [index.md](index.md)
+<!-- readme-index:end -->

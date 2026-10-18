@@ -21,3 +21,9 @@ Text reveal helpers for section transitions.
 ## See also
 
 - [Choreography atoms](../choreography/atoms/README.md) - the newer text reveal
+
+<!-- readme-index:start -->
+## Index
+
+- [text.js](text.js)
+<!-- readme-index:end -->

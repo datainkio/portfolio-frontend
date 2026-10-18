@@ -18,3 +18,10 @@ Content strategy is cross-cutting. It informs naming, hierarchy, and semantics u
 - content schemas and field-level meaning
 - narrative structure and voice constraints
 - taxonomy and metadata rules
+
+<!-- readme-index:start -->
+## Index
+
+- [content-graph.md](content-graph.md)
+- [schemas.md](schemas.md)
+<!-- readme-index:end -->

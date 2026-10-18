@@ -35,3 +35,24 @@ Small functions you can use inside Nunjucks templates, like `{{ value | filterNa
 ## See also
 
 - [Eleventy setup](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [array.js](array.js)
+- [array.md](array.md)
+- [color.js](color.js)
+- [color.md](color.md)
+- [date.js](date.js)
+- [date.md](date.md)
+- [dom.js](dom.js)
+- [dom.md](dom.md)
+- [file.js](file.js)
+- [file.md](file.md)
+- [filters.js](filters.js)
+- [filters.md](filters.md)
+- [image.js](image.js)
+- [image.md](image.md)
+- [string.js](string.js)
+- [string.md](string.md)
+<!-- readme-index:end -->

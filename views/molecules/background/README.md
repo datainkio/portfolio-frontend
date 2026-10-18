@@ -28,3 +28,11 @@ The container for the page's background video.
 
 - [Molecules](../README.md)
 - [Choreography](../../../js/choreography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [sizzle-background-flow.canvas](sizzle-background-flow.canvas)
+- [sizzle-background.md](sizzle-background.md)
+- [sizzle-background.njk](sizzle-background.njk)
+<!-- readme-index:end -->

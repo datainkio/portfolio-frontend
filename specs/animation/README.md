@@ -31,3 +31,23 @@ Written specs for how things move on the site.
 ## See also
 
 - [Frontmatter spec](../frontmatter.spec.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [abstract-section-responsive-lifecycle.mmd](abstract-section-responsive-lifecycle.mmd)
+- [awards-gel-intro-outro.animation-spec.md](awards-gel-intro-outro.animation-spec.md)
+- [breakpoint-motion-profiles.animation-spec.md](breakpoint-motion-profiles.animation-spec.md)
+- [card-motion.animation-spec.md](card-motion.animation-spec.md)
+- [card-responsive-motion.mmd](card-responsive-motion.mmd)
+- [choreographer.animation-spec.md](choreographer.animation-spec.md)
+- [homepage-initialization.animation.md](homepage-initialization.animation.md)
+- [motion-accessibility-policy.md](motion-accessibility-policy.md)
+- [organizations.animation-spec.md](organizations.animation-spec.md)
+- [ruler-display.animation-spec.md](ruler-display.animation-spec.md)
+- [section-gel-arrangements.animation-spec.md](section-gel-arrangements.animation-spec.md)
+- [template.md](template.md)
+- [ui-components.animation-spec.md](ui-components.animation-spec.md)
+- [work-section-navigation.animation-spec.md](work-section-navigation.animation-spec.md)
+- [work.animation-spec.md](work.animation-spec.md)
+<!-- readme-index:end -->

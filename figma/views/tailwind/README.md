@@ -12,3 +12,15 @@ type: index
 <!-- /readme-header -->
 
 These write `styles/colors.css` and `styles/typography/fontFamilies.css`, which `build:design` overwrites — never hand-edit them.
+
+<!-- readme-index:start -->
+## Index
+
+- [BaseStylesFile.js](BaseStylesFile.js)
+- [FontFamilyFile.js](FontFamilyFile.js)
+- [FontImportsFile.js](FontImportsFile.js)
+- [FontSizeFile.js](FontSizeFile.js)
+- [FontWeightFile.js](FontWeightFile.js)
+- [LineHeightFile.js](LineHeightFile.js)
+- [PaletteFile.js](PaletteFile.js)
+<!-- readme-index:end -->
