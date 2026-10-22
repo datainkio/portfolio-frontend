@@ -10,60 +10,130 @@
 [![Sanity client version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@sanity/client?label=sanity&logo=sanity&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-eb5e28?style=flat-square&labelColor=020617)](LICENSE)
 
-The source for [dataink.io](https://dataink.io), the portfolio of Russ Lebo, a designer who builds.
+This is the Eleventy site I always wanted to build. I will tell you why.
+It started from a blank slate, so I'm confident I know what's up. With plugins that becomes more difficult.
 
-It was that time of career again. The stale one-pager had to go. The new site gets its content from Sanity and its colours and fonts from Figma. Eleventy turns all of that into plain HTML, and GSAP adds the motion on top.
+## Practices
 
-<p>
-  <img src=".github/readme/home-desktop.webp" alt="Desktop viewport of the dataink.io homepage: a title-block header above a DOC 01 / MANIFESTO plate reading &quot;Design for a more just, informed, and engaged human experience&quot;, set over a blue graph-paper mosaic of past work." width="74%">
-  <img src=".github/readme/home-mobile.webp" alt="Mobile viewport of the dataink.io homepage: the same DOC 01 / MANIFESTO plate and statement over the blue graph-paper mosaic of past work, stacked for a narrow screen." width="22%">
-</p>
+- atomic design & modularity
+- sidecars, READMEs, and embedded documentation
+- findability, discoverability, maintainability
+- AIX: graphify, skills
+- low barrier to entry
 
-## How it works
+## Structure
+
+At root:
+
+- eleventy.config
+- site.json
+- tailwind.config
+- postcss.config
+- breakpoints.config
 
 ```mermaid
 flowchart LR
-  figma[(Figma)] --> css[Tailwind CSS]
-  sanity[(Sanity)] --> eleventy[Eleventy]
-  views[Templates] --> eleventy
-  eleventy --> site[(Static site)]
-  css --> site
-  gsap[GSAP motion] --> site
+  bp[breakpoints.config.js]
+  site[site.json]
+  eleventy[eleventy.config.js]
+  tw[tailwind.config.js]
+
+  choreo[js/choreography/config/ix/breakpoints.js]
+  collections[eleventy/collections/index.js]
+  buildcss[scripts/buildCSS.js]
+  out[(_site/)]
+
+  bp -- "SCREENS" --> tw
+  bp -- "SCREENS" --> choreo
+  eleventy -- "passthrough copy to assets/" --> bp
+  eleventy -- "imports" --> collections
+  collections -- "reads, exposes as global site" --> site
+  eleventy -- "builds" --> out
+  buildcss -. "config analysis only" .-> tw
+
+  classDef idle stroke-dasharray: 4 4
+  class tw,postcss idle
 ```
 
-- **Plain HTML first.** Eleventy builds every page ahead of time, so the site works before any JavaScript loads.
-- **Design and code stay in sync.** Colours and fonts are generated from the Figma file, not copied by hand.
-- **Content is structured.** It comes from Sanity at build time. Nothing calls the CMS while you browse.
-- **Motion respects you.** Each screen size gets its own motion, and if you've turned on reduced motion, scroll animation is off everywhere.
+Solid lines are imports or reads that affect the build. Dashed boxes mark the two files that don't drive the build right now. The Tailwind v4 CLI builds `styles/main.css`, which has no `@config` directive, so `tailwind.config.js` reaches only the build logger. `postcss.config.js` names `@tailwindcss/postcss`, but nothing in the build uses PostCSS and that package isn't installed.
 
-## Run it
+### Assets
 
-Needs Node 18 or later. No accounts or keys required.
+- fonts
+- icons
+- images
+- js
+- storyboards
+- svg
+- tiles
 
-```bash
-npm install
-npm start       # local dev server
-```
+### Data/Sanity
 
-Without a `.env` file, the site builds without the Sanity content. To add it, copy [`.env.example`](.env.example) to `.env`. `npm run help` lists every command.
+- client
+- projections
+- queries
+- services
+- transforms
+- queries.js
 
-## Look around
+### Eleventy
 
-- [`views/`](views/): the page templates, organised from small parts (atoms) up to whole pages
-- [`js/choreography/`](js/choreography/): how the motion is coordinated
-- [`specs/`](specs/): what each part has to do, written before the code
-- [`docs/architecture.md`](docs/architecture.md): the full build, step by step
+- collections
+- filters
+- plugins
+- services
+- shortcodes
 
-Every `.njk` and `.js` file has a short `.md` note beside it explaining what it does.
+### Figma
 
-## The other repos
+- api
+- models
+- services
+- utils
+- views
 
-| Repo                                                                            | What it holds                                  |
-| ------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **portfolio-frontend**                                                          | This site                                      |
-| [portfolio-backend](https://github.com/datainkio/portfolio-backend)             | The Sanity Studio where content is edited      |
-| [portfolio-content-model](https://github.com/datainkio/portfolio-content-model) | The agreed shape of each kind of content       |
-| [portfolio-workspace](https://github.com/datainkio/portfolio-workspace)         | Notes and planning that tie the repos together |
+### IA
+
+MD files for pages and navigation
+
+### JS
+
+- choreography
+- displays
+- effects
+- interstitials
+- layouts
+- lightbox
+- preloader
+- utils
+- vendor
+
+### Scripts
+
+### Specs
+
+### Styles
+
+- backgrounds
+- components
+- typography
+- utilities
+- base.css
+- colors.css
+- decorations.css
+- sizes.css
+- main.css
+
+### Test
+
+### Views
+
+- atoms
+- layouts
+- molecules
+- organisms
+- pages
+- templates
 
 ## License
 
@@ -71,9 +141,8 @@ Every `.njk` and `.js` file has a short `.md` note beside it explaining what it 
 
 ---
 
-When you visit [dataink.io](https://dataink.io), open your browser's dev tools. I left you a note.
-
 <!-- readme-index:start -->
+
 ## Index
 
 - [assets/](assets/README.md)
