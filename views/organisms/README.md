@@ -1,7 +1,4 @@
----
-description: "Page-level sections such as the header, footer, navigation and homepage sections."
-type: guide
----
+Page-level sections such as the header, footer, navigation and homepage sections.
 
 <!-- @format -->
 

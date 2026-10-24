@@ -1,8 +1,4 @@
----
-title: Collections
-description: Builds the Eleventy collections from Sanity content and the page tree.
-type: index
----
+Builds the Eleventy collections from Sanity content and the page tree.
 
 <!-- @format -->
 

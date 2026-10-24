@@ -1,8 +1,4 @@
----
-title: "Effects"
-description: "Collection of reusable visual effects for text, transitions, and gel animations."
-type: index
----
+Collection of reusable visual effects for text, transitions, and gel animations.
 
 <!-- @format -->
 

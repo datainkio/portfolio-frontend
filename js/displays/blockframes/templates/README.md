@@ -1,8 +1,4 @@
----
-title: "Templates"
-description: Templates are complete page-level wireframe layouts that define the overall structure and content organization of different page types.
-type: index
----
+Templates are complete page-level wireframe layouts that define the overall structure and content organization of different page types.
 
 <!-- @format -->
 

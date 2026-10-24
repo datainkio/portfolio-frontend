@@ -1,8 +1,4 @@
----
-title: Sanity projections
-description: Reusable GROQ field lists shared by queries.
-type: reference
----
+Reusable GROQ field lists shared by queries.
 
 <!-- @format -->
 

@@ -1,8 +1,4 @@
----
-title: "Utils"
-description: "Collection of reusable JavaScript utilities powering the portfolio site's interactive features."
-type: index
----
+Collection of reusable JavaScript utilities powering the portfolio site's interactive features.
 
 <!-- @format -->
 

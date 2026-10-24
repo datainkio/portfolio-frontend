@@ -1,8 +1,4 @@
----
-title: Filters
-description: Helpers that templates call to format and process data.
-type: index
----
+Helpers that templates call to format and process data.
 
 <!-- @format -->
 

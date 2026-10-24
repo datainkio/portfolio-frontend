@@ -1,8 +1,4 @@
----
-title: "Layouts"
-description: Layouts are NOT traditional page templates - they are algorithmic positioning systems that arrange blockframes elements according to mathematical rules.
-type: index
----
+Layouts are NOT traditional page templates - they are algorithmic positioning systems that arrange blockframes elements according to mathematical rules.
 
 <!-- @format -->
 

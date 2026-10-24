@@ -1,8 +1,4 @@
----
-title: "Blockframes"
-description: "Blockframes is a sophisticated system for loading, manipulating, and animating SVG-based wireframe layouts."
-type: index
----
+Blockframes is a sophisticated system for loading, manipulating, and animating SVG-based wireframe layouts.
 
 <!-- @format -->
 

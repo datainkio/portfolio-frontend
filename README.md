@@ -145,7 +145,7 @@ MD files for pages and navigation
 
 ## Index
 
-- [assets/](assets/README.md)
+- [assets/](dataink.io/frontend/assets/README.md)
 - [data/](data/)
 - [docs/](docs/README.md)
 - [eleventy/](eleventy/README.md)

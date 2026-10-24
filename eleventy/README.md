@@ -1,8 +1,4 @@
----
-title: Eleventy setup
-description: Filters, shortcodes, collections and plugins that extend the Eleventy build.
-type: index
----
+Filters, shortcodes, collections and plugins that extend the Eleventy build.
 
 <!-- @format -->
 

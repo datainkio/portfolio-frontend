@@ -1,8 +1,4 @@
----
-title: Sanity queries
-description: GROQ query files, one per kind of content.
-type: reference
----
+GROQ query files, one per kind of content.
 
 <!-- @format -->
 

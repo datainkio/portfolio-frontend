@@ -1,7 +1,4 @@
----
-description: "Page bodies for articles, blog posts, case studies and landing pages, plus shared head partials."
-type: guide
----
+Page bodies for articles, blog posts, case studies and landing pages, plus shared head partials.
 
 <!-- @format -->
 

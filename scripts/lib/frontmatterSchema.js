@@ -166,7 +166,9 @@ export const EXEMPT_PATTERNS = [
   /^graphify-out\//,
   /^\.github\//, // consumed by GitHub/Copilot tooling, not the vault
   /^docs\/ai\/legacy-agents\//,
-  /^README\.md$/, // GitHub renders frontmatter as a table above the H1
+  // READMEs carry no frontmatter: GitHub renders it as a table above the H1.
+  // Eleventy pages under ia/ keep theirs, so they stay linted.
+  /^(?!ia\/)(?:.*\/)?README\.md$/,
 ];
 
 export function isExempt(file) {

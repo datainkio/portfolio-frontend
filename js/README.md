@@ -1,8 +1,4 @@
----
-title: "JavaScript"
-description: "This directory contains all client-side JavaScript for interactive features, animations, and visual effects."
-type: index
----
+This directory contains all client-side JavaScript for interactive features, animations, and visual effects.
 
 <!-- @format -->
 
