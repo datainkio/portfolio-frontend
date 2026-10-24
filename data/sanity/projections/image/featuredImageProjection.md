@@ -7,7 +7,7 @@ tags:
 aliases:
   - Featured image projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Featured image projection
@@ -23,4 +23,4 @@ documents. Extracted into its own file so queries stay thin and shapes compose c
 
 - Path: `data/sanity/projections/image/featuredImageProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

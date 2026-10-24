@@ -7,7 +7,7 @@ tags:
 aliases:
   - Portable Text transforms
 links:
-  - "[[README.transforms]]"
+  - "[[data/sanity/transforms/README|transforms]]"
 ---
 
 # Portable Text transforms
@@ -46,4 +46,4 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
   still defines a block-level `alt` field (kept), but no `caption` field — that
   was removed in favor of the asset-level Description above.
 
-Related: [[README.transforms]]
+Related: [[data/sanity/transforms/README|transforms]]

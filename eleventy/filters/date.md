@@ -6,7 +6,7 @@ tags:
 aliases:
   - Date filters
 links:
-  - "[[README.filters]]"
+  - "[[eleventy/filters/README|filters]]"
   - "[[filters]]"
 ---
 

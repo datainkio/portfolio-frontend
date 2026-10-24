@@ -6,7 +6,7 @@ tags:
 aliases:
   - Image shortcode
 links:
-  - "[[README.shortcodes]]"
+  - "[[eleventy/shortcodes/README|shortcodes]]"
   - "[[shortcodes]]"
 ---
 

@@ -1,116 +1,175 @@
----
-title: dataink.io Portfolio
-description: "Personal portfolio site for dataink.io(https://dataink.io) — built with Eleventy (11ty), Tailwind CSS v4, Sanity (content), Figma (design tokens), and a GSAP-based choreography system."
-type: reference
----
+<img src=".github/readme/banner.svg" width="1280" alt="Title block in the style of dataink.io: Doc 00, section README, stack Eleventy, Tailwind, Sanity, Figma and GSAP. The source for data:ink:io.">
 
-<!-- @format -->
+# dataink.io
 
-# dataink.io Portfolio
+[![Node version from package.json](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdatainkio/portfolio-frontend%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&logo=nodedotjs&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Eleventy version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@11ty/eleventy?label=eleventy&logo=eleventy&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Tailwind CSS version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/tailwindcss?label=tailwind&logo=tailwindcss&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Design tokens generated from Figma](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdatainkio%2Fportfolio-frontend%2Fmain%2F.github%2Freadme%2Ffigma-badge.json&logo=figma&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](styles/colors.css)
+[![GSAP version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/gsap?label=gsap&logo=greensock&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![Sanity client version from package.json](https://img.shields.io/github/package-json/dependency-version/datainkio/portfolio-frontend/@sanity/client?label=sanity&logo=sanity&style=flat-square&labelColor=020617&color=eb5e28&logoColor=e2e8f0)](package.json)
+[![License: MIT](https://img.shields.io/badge/license-MIT-eb5e28?style=flat-square&labelColor=020617)](LICENSE)
 
-Personal portfolio site for [dataink.io](https://dataink.io) — built with Eleventy (11ty), Tailwind CSS v4, Sanity (content), Figma (design tokens), and a GSAP-based choreography system.
+This is the Eleventy site I always wanted to build. I will tell you why.
+It started from a blank slate, so I'm confident I know what's up. With plugins that becomes more difficult.
 
-## Quick start
+## Practices
 
-```bash
-npm install        # one-time
-npm start          # dev server (Tailwind + 11ty in parallel; no JS bundling)
-npm run build      # full production build
+- atomic design & modularity
+- sidecars, READMEs, and embedded documentation
+- findability, discoverability, maintainability
+- AIX: graphify, skills
+- low barrier to entry
+
+## Structure
+
+At root:
+
+- eleventy.config
+- site.json
+- tailwind.config
+- postcss.config
+- breakpoints.config
+
+```mermaid
+flowchart LR
+  bp[breakpoints.config.js]
+  site[site.json]
+  eleventy[eleventy.config.js]
+  tw[tailwind.config.js]
+
+  choreo[js/choreography/config/ix/breakpoints.js]
+  collections[eleventy/collections/index.js]
+  buildcss[scripts/buildCSS.js]
+  out[(_site/)]
+
+  bp -- "SCREENS" --> tw
+  bp -- "SCREENS" --> choreo
+  eleventy -- "passthrough copy to assets/" --> bp
+  eleventy -- "imports" --> collections
+  collections -- "reads, exposes as global site" --> site
+  eleventy -- "builds" --> out
+  buildcss -. "config analysis only" .-> tw
+
+  classDef idle stroke-dasharray: 4 4
+  class tw,postcss idle
 ```
 
-Default dev mode is `start: run-s build:css:dev dev` — it builds and watches the minified `bundle.js` (matching production loading). Use `npm run start:nobundle` for the raw ESM modules (faster reload, readable stack traces).
+Solid lines are imports or reads that affect the build. Dashed boxes mark the two files that don't drive the build right now. The Tailwind v4 CLI builds `styles/main.css`, which has no `@config` directive, so `tailwind.config.js` reaches only the build logger. `postcss.config.js` names `@tailwindcss/postcss`, but nothing in the build uses PostCSS and that package isn't installed.
 
-## Common commands
+### Assets
 
-| Goal                              | Command                      |
-| --------------------------------- | ---------------------------- |
-| Dev (bundled, matches prod)       | `npm start`                  |
-| Dev (raw ESM, fastest reload)     | `npm run start:nobundle`     |
-| Full clean build                  | `npm run build`              |
-| Fast build (skip Figma sync)      | `npm run quick`              |
-| Sync Figma tokens + rebuild CSS   | `npm run design`             |
-| Format / format check             | `npm run format` / `:check`  |
-| Tests (logger + choreography)     | `npm test`                   |
-| Validation (format check + tests) | `npm run validate`           |
-| System health check               | `npm run doctor`             |
-| List all workflows                | `npm run help`               |
-| Scaffold component / page         | `npm run scaffold:component` |
-|                                   | `npm run scaffold:page`      |
+- fonts
+- icons
+- images
+- js
+- storyboards
+- svg
+- tiles
 
-Full script reference: [[.github/copilot-instructions]].
+### Data/Sanity
 
-## Build order
+- client
+- projections
+- queries
+- services
+- transforms
+- queries.js
 
-`npm run build` runs sequentially:
+### Eleventy
 
-1. `clean` — clear `_site/` (preserves cached media in `_site/content/`)
-2. `build:design` — fetch Figma tokens → write `styles/colors.css`, `styles/typography/fontFamilies.css`
-3. `build:css` — Tailwind v4 compile via [scripts/buildCSS.js](scripts/buildCSS.js)
-4. `build:js` — choreography bundle via [scripts/buildChoreography.js](scripts/buildChoreography.js) (skippable with `BUNDLE_JS=false`)
-5. `build:11ty` — 11ty render (also fetches Sanity collections at this step)
+- collections
+- filters
+- plugins
+- services
+- shortcodes
 
-Skipping step 2 will compile but produce a site without design tokens.
+### Figma
 
-## Environment variables
+- api
+- models
+- services
+- utils
+- views
 
-Create a `.env` (see [.env.example](.env.example)). Required for full builds:
+### IA
 
-| Variable             | Purpose                                  |
-| -------------------- | ---------------------------------------- |
-| `FIGMA_TOKEN`        | Figma personal access token (Files:read) |
-| `FIGMA_FILE_ID`      | Source Figma file                        |
-| `SANITY_PROJECT_ID`  | Sanity project (defaults in `site.json`) |
-| `SANITY_DATASET`     | Sanity dataset (e.g., `production`)      |
-| `SANITY_READ_TOKEN`  | Optional; enables drafts, forces no CDN  |
-| `SANITY_API_VERSION` | Defaults to `2025-12-26`                 |
-| `SANITY_USE_CDN`     | `true` unless a token is provided        |
+MD files for pages and navigation
 
-## Tech stack
+### JS
 
-- **Eleventy 3** with Nunjucks templates in [views/](views/) (atomic design)
-- **Tailwind CSS v4** via `@tailwindcss/cli` (wrapped by [scripts/buildCSS.js](scripts/buildCSS.js))
-- **Sanity** content fetched at build time — see [data/sanity/](data/sanity/) and [[docs/sanity-integration]]
-- **Figma** design tokens via [scripts/fetchFigma.js](scripts/fetchFigma.js) and [figma/services/](figma/services/)
-- **GSAP** choreography in [js/choreography/](js/choreography/) (see [[js/choreography/README.choreography]])
-- **Logging** via `@datainkio/lumberjack` (Node + browser)
+- choreography
+- displays
+- effects
+- interstitials
+- layouts
+- lightbox
+- preloader
+- utils
+- vendor
 
-## Where to start
+### Scripts
 
-- **AI agents / Copilot context** → [[.github/copilot-instructions]]
-- **AIX-focused project reference** → [[README.frontend]]
-- **Architecture overview** → [[docs/architecture]]
-- **Documentation index** → [[dataink.io/frontend/docs/README.docs]]
-- **Sanity integration** → [[docs/sanity-integration]]
-- **Choreography system** → [[js/choreography/README.choreography]]
+### Specs
 
-## Project layout (high level)
+### Styles
 
-```
-ia/         Content entrypoints (route frontmatter; Eleventy input)
-views/      Nunjucks templates (atoms / molecules / organisms / pages / templates / layouts; Eleventy includes)
-styles/     CSS (main.css orchestrates import order; colors.css + typography/fontFamilies.css are generated)
-js/         Browser runtime (choreography, effects, displays, preloader, utils)
-eleventy/   11ty config modules (collections, filters, shortcodes, plugins, services)
-data/sanity/ Sanity client, queries, fetchers
-figma/      Figma API services (token generation)
-scripts/    Build automation (buildCSS, buildChoreography, fetchFigma, scaffold, …)
-assets/     Static source assets (copied to _site/assets/)
-docs/       Project documentation
-_site/      Build output (gitignored, never edited)
-```
+- backgrounds
+- components
+- typography
+- utilities
+- base.css
+- colors.css
+- decorations.css
+- sizes.css
+- main.css
 
-## Generated files (do not edit)
+### Test
 
-- `styles/colors.css`
-- `styles/typography/fontFamilies.css`
-- Anything under `_site/`, `.cache/`, `logs/`
+### Views
 
-These are overwritten by `build:design` and `build:*` steps.
-
-## Deployment
-
-Push to `staging` deploys `staging.dataink.io`; push to `main` deploys `dataink.io` (via `datainkio/dataink.io`). Details, secrets, and Sanity CORS requirements: [docs/deployment.md](docs/deployment.md).
+- atoms
+- layouts
+- molecules
+- organisms
+- pages
+- templates
 
 ## License
 
-ISC — see [package.json](package.json).
+[MIT](LICENSE)
+
+---
+
+<!-- readme-index:start -->
+
+## Index
+
+- [assets/](dataink.io/frontend/assets/README.md)
+- [data/](data/)
+- [docs/](docs/README.md)
+- [eleventy/](eleventy/README.md)
+- [figma/](figma/README.md)
+- [graphify-out/](graphify-out/)
+- [ia/](ia/)
+- [js/](js/README.md)
+- [responsive-testing/](responsive-testing/README.md)
+- [scripts/](scripts/README.md)
+- [specs/](specs/)
+- [styles/](styles/README.md)
+- [test/](test/README.md)
+- [views/](views/README.md)
+- [breakpoints.config.js](breakpoints.config.js)
+- [breakpoints.config.md](breakpoints.config.md)
+- [CLAUDE.md](CLAUDE.md)
+- [eleventy.config.js](eleventy.config.js)
+- [eleventy.config.md](eleventy.config.md)
+- [frontend.code-workspace](frontend.code-workspace)
+- [IA.canvas](IA.canvas)
+- [package-lock.json](package-lock.json)
+- [package.json](package.json)
+- [postcss.config.js](postcss.config.js)
+- [README.canvas](README.canvas)
+- [site.json](site.json)
+- [tailwind.config.js](tailwind.config.js)
+<!-- readme-index:end -->

@@ -7,7 +7,7 @@ tags:
 aliases:
   - Awards query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[awardProjection]]"
 ---
 
@@ -27,4 +27,4 @@ collection.
 
 - Path: `data/sanity/queries/award/awards.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

@@ -17,3 +17,9 @@ Molecules define repeatable interaction patterns without yet becoming full secti
 - composition rules between constituent atoms
 - state behavior and responsive adaptations
 - semantic structure and accessible labeling
+
+<!-- readme-index:start -->
+## Index
+
+No sibling files or folders.
+<!-- readme-index:end -->

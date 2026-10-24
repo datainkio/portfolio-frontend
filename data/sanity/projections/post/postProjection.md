@@ -7,7 +7,7 @@ tags:
 aliases:
   - Post reference projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Post reference projection
@@ -23,4 +23,4 @@ documents. Extracted into its own file so queries stay thin and shapes compose c
 
 - Path: `data/sanity/projections/post/postProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

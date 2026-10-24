@@ -7,7 +7,7 @@ tags:
 aliases:
   - sanityService
 links:
-  - "[[README.services]]"
+  - "[[data/sanity/services/README|services]]"
   - "[[fetchSanityData]]"
   - "[[queries]]"
 ---
@@ -28,4 +28,4 @@ export async function init(eleventyConfig, site) { … }
 
 - Path: `data/sanity/services/sanityService.js`
 
-Related: [[README.services]], [[fetchSanityData]], [[queries]]
+Related: [[data/sanity/services/README|services]], [[fetchSanityData]], [[queries]]

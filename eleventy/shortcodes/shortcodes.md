@@ -6,7 +6,7 @@ tags:
 aliases:
   - Shortcodes barrel
 links:
-  - "[[README.shortcodes]]"
+  - "[[eleventy/shortcodes/README|shortcodes]]"
   - "[[loremipsatron]]"
 ---
 

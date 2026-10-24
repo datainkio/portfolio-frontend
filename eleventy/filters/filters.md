@@ -6,7 +6,7 @@ tags:
 aliases:
   - Filters barrel
 links:
-  - "[[README.filters]]"
+  - "[[eleventy/filters/README|filters]]"
   - "[[array]]"
   - "[[string]]"
 ---

@@ -6,7 +6,7 @@ tags:
 aliases:
   - TailwindLogger
 links:
-  - "[[README.services]]"
+  - "[[eleventy/services/README|services]]"
   - "[[buildCSS]]"
 ---
 

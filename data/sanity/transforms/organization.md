@@ -7,7 +7,7 @@ tags:
 aliases:
   - Organization transforms
 links:
-  - "[[README.transforms]]"
+  - "[[data/sanity/transforms/README|transforms]]"
 ---
 
 # Organization transforms
@@ -22,4 +22,4 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
 
 - Path: `data/sanity/transforms/organization.js`
 
-Related: [[README.transforms]]
+Related: [[data/sanity/transforms/README|transforms]]

@@ -1,0 +1,297 @@
+{
+	"nodes": [
+		{
+			"type": "group",
+			"id": "92f07a58ab31a1cf",
+			"x": -440,
+			"y": -480,
+			"width": 760,
+			"height": 100,
+			"label": "Badges"
+		},
+		{
+			"type": "text",
+			"id": "9dce54a4ae8a45e1",
+			"text": "# dataink.io",
+			"x": -440,
+			"y": -580,
+			"width": 760,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "1ef5121aa0bd6ae8",
+			"text": "11ty",
+			"x": -174,
+			"y": -460,
+			"width": 106,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "0a3d300ea6189e5e",
+			"text": "Node",
+			"x": -420,
+			"y": -460,
+			"width": 106,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "83bb9e546c6691a6",
+			"text": "Sanity",
+			"x": -297,
+			"y": -460,
+			"width": 106,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "9d869a168824906b",
+			"text": "## 🖼️ Banner",
+			"x": -440,
+			"y": -760,
+			"width": 760,
+			"height": 140
+		},
+		{
+			"type": "text",
+			"id": "5db0065450a9c0a4",
+			"text": "GSAP",
+			"x": -51,
+			"y": -460,
+			"width": 106,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "e8c65d75bdf0e429",
+			"text": "GSAP",
+			"x": 194,
+			"y": -460,
+			"width": 106,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "21ac1f00a0c5650a",
+			"text": "Tailwind",
+			"x": 72,
+			"y": -460,
+			"width": 106,
+			"height": 60
+		},
+		{
+			"id": "0120d3adffaa8318",
+			"type": "file",
+			"file": "dataink.io/README.datainkio.md",
+			"x": 1502,
+			"y": -329,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"type": "text",
+			"id": "4b4b9521-eba5-4463-ae0d-77baa2b61dc9",
+			"text": "## What's here",
+			"x": -439,
+			"y": -348,
+			"width": 762,
+			"height": 80
+		},
+		{
+			"type": "text",
+			"id": "329eca7d1c93f5cd",
+			"text": "## Get Started",
+			"x": -432,
+			"y": -43,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "7dfd6de1-2882-4d51-8e91-18b023ee58e4",
+			"text": "## Why it's here",
+			"x": -435,
+			"y": -249,
+			"width": 756,
+			"height": 80
+		},
+		{
+			"type": "text",
+			"id": "f1316520-754c-4b8b-bb50-7369a3ec479b",
+			"text": "## Who it's for",
+			"x": -437,
+			"y": -152,
+			"width": 762,
+			"height": 80
+		},
+		{
+			"type": "text",
+			"id": "d37ef672b9330b5f",
+			"text": "## Design Strategy",
+			"x": -441,
+			"y": 1078,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "f75b0f300f3f9f3a",
+			"text": "## Stack Table",
+			"x": -441,
+			"y": 356,
+			"width": 761,
+			"height": 220
+		},
+		{
+			"type": "text",
+			"id": "974e9f101d21afdf",
+			"text": "## Flowchart",
+			"x": -441,
+			"y": 614,
+			"width": 761,
+			"height": 50
+		},
+		{
+			"id": "bb6a660251c4bf55",
+			"type": "file",
+			"file": "People/README.md",
+			"x": 809,
+			"y": -317,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"id": "55d3d5909399379c",
+			"type": "file",
+			"file": "visual design/README.md",
+			"x": 2600,
+			"y": -329,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"type": "text",
+			"id": "3f4efc126898d8dc",
+			"text": "## Accessibility Strategy",
+			"x": -441,
+			"y": 1176,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "cd43a8212c60295c",
+			"text": "## Conventions",
+			"x": -441,
+			"y": 1274,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "93d7bd2928b98db6",
+			"text": "## QA",
+			"x": -441,
+			"y": 1372,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "6f6a5ab7bf47b5c9",
+			"text": "## AI",
+			"x": -441,
+			"y": 1470,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"type": "text",
+			"id": "8e91194a42b540e5",
+			"text": "## License",
+			"x": -441,
+			"y": 1562,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"id": "f898f2e12830e3b4",
+			"type": "file",
+			"file": "dataink.io/content-model/README.md",
+			"x": 1440,
+			"y": 1160,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"id": "8ec3305491e1fdfb",
+			"type": "file",
+			"file": "dataink.io/backend/README.backend.md",
+			"x": 1440,
+			"y": 639,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"id": "7f03db7bca9fb182",
+			"type": "file",
+			"file": "dataink.io/frontend/README.frontend.md",
+			"x": 2000,
+			"y": 1160,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"id": "6818bd0b420c3d5c",
+			"type": "file",
+			"file": "content strategy/README.md",
+			"x": 760,
+			"y": 908,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"type": "text",
+			"id": "b378934b2fa77007",
+			"text": "## Motion Strategy",
+			"x": -441,
+			"y": 980,
+			"width": 761,
+			"height": 60
+		},
+		{
+			"id": "f3d86e7f2258d94a",
+			"type": "file",
+			"file": "motion design/README.md",
+			"x": 760,
+			"y": 356,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"id": "99db23e28b6edfc3",
+			"type": "file",
+			"file": "research/README.md",
+			"x": 1958,
+			"y": 379,
+			"width": 400,
+			"height": 400
+		},
+		{
+			"type": "text",
+			"id": "f7adf717cf143d57",
+			"text": "## Build Sequence\n1. Design tokens\n2. Motion bundle\n3. Pages\n4. CSS\n\n🔗 More detail ",
+			"x": -1360,
+			"y": 668,
+			"width": 762,
+			"height": 240
+		}
+	],
+	"edges": [],
+	"metadata": {
+		"version": "1.0-1.0",
+		"frontmatter": {}
+	}
+}

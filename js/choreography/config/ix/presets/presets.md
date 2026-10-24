@@ -8,7 +8,7 @@ tags:
   - motion
 links:
   - "[[ix|ix]]"
-  - "[[README.presets|README.presets]]"
+  - "[[js/choreography/config/ix/presets/README|README.presets]]"
 ---
 
 # presets barrel

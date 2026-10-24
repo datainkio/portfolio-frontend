@@ -7,7 +7,7 @@ tags:
 aliases:
   - Project page projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Project page projection
@@ -32,4 +32,4 @@ carries `decision`, `result`, resolved `activities[]` (`ACTIVITY_PROJECTION`) an
 
 - Path: `data/sanity/projections/project/projectPageProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

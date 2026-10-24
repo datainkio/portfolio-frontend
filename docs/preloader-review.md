@@ -8,7 +8,7 @@ tags:
   - choreography
   - review
 links:
-  - "[[README.preloader|preloader/README.preloader]]"
+  - "[[js/preloader/README|preloader/README.preloader]]"
   - "[[preloader-integration-checklist|preloader-integration-checklist]]"
   - "[[hanko|hanko.css]]"
 ---
@@ -107,7 +107,7 @@ can't be silenced without editing code.
 - [specs/animation/homepage-initialization.animation.md](../specs/animation/homepage-initialization.animation.md)
   step 03: "polls the page load until the video file is ready" — the video is
   not a gate; `director:ready` is.
-- [js/vendor/README.vendor.md](../js/vendor/README.vendor.md): "preloader looks to
+- [js/vendor/README.md](../js/vendor/README.md): "preloader looks to
   see if GSAP is stored locally" — the `gsapSrc` path is unreachable.
 - `constants.js` L82–85 comment: "must comfortably exceed the hanko move (0.6s)
   plus the hgroup enter (0.75s)" — neither animation exists; the real settle is
@@ -191,7 +191,7 @@ js/preloader/
   Preloader.js        orchestration: session check, scroll lock, gates, exit, cleanup  (~120)
   deferred-videos.js  keep — OR move into BackgroundVideo and make it the single owner (§2.1)
   constants.js        SELECTORS, STATE, TIMINGS (fontsReady, directorReady, settle)     (~40)
-  README.preloader.md package sidecar: the §1 diagram + the three contracts
+  README.md package sidecar: the §1 diagram + the three contracts
 ```
 
 Delete outright: `animations.js` (intro dead; exit is 15 lines — inline it),
@@ -255,7 +255,7 @@ preloader (`/work`, `/contact`) `initPreloader()` returned before
 received a `src`. Hydration now runs on every page.
 
 - `js/preloader/` is three files: `Preloader.js`, `constants.js`,
-  `deferred-videos.js`, plus `README.preloader.md` and real sidecars.
+  `deferred-videos.js`, plus `README.md` and real sidecars.
 - Director gate bounded (`directorReadyTimeoutMs`, 8000ms, warns once).
 - Exit resolves on `transitionend` from inside `.hanko-mount` or
   `settleFallbackMs` (600ms > `--hanko-settle-duration` 0.4s).
@@ -264,5 +264,5 @@ received a `src`. Hydration now runs on every page.
   `deferred-videos.js` is the single owner.
 - Logging via scoped Lumberjack; non-home pages are silent.
 - Stale docs rewritten: `home-landing.md`, the integration checklist, the
-  homepage-initialization spec step 03, `README.vendor.md`, the
+  homepage-initialization spec step 03, `README.md`, the
   landing-motion-sequence diagram doc.

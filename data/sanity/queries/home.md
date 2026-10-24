@@ -7,7 +7,7 @@ tags:
 aliases:
   - Home query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
 ---
 
 # Home query
@@ -23,4 +23,4 @@ collection.
 
 - Path: `data/sanity/queries/home.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

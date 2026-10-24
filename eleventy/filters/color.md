@@ -6,7 +6,7 @@ tags:
 aliases:
   - Color filters
 links:
-  - "[[README.filters]]"
+  - "[[eleventy/filters/README|filters]]"
   - "[[filters]]"
 ---
 

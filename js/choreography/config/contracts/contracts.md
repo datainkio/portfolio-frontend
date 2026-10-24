@@ -9,7 +9,7 @@ links:
   - "[[events|events]]"
   - "[[selectors|selectors]]"
   - "[[timelines|timelines]]"
-  - "[[README.contracts|README.contracts]]"
+  - "[[js/choreography/config/contracts/README|README.contracts]]"
 ---
 
 # contracts
