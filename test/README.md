@@ -1,8 +1,4 @@
----
-title: Tests
-description: Automated Node tests for the logger, animation events and pager.
-type: reference
----
+Automated Node tests for the logger, animation events and pager.
 
 <!-- @format -->
 
@@ -39,3 +35,16 @@ npm run test:site      # pager
 ## See also
 
 - [Logger tests](logger/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [choreography/](choreography/)
+- [logger/](logger/README.md)
+- [site/](site/)
+- [airtable-styles-preview.js](airtable-styles-preview.js)
+- [figma-outline.test.js](figma-outline.test.js)
+- [lumberjack-browser-mode.html](lumberjack-browser-mode.html)
+- [lumberjack-default-disabled.test.js](lumberjack-default-disabled.test.js)
+- [lumberjack-dual-mode.test.js](lumberjack-dual-mode.test.js)
+<!-- readme-index:end -->

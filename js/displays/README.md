@@ -1,8 +1,4 @@
----
-title: "Displays"
-description: "Visual ornamentation, debugging tools, and interactive demonstrations."
-type: index
----
+Visual ornamentation, debugging tools, and interactive demonstrations.
 
 <!-- @format -->
 
@@ -31,3 +27,13 @@ Decorative and demonstration visuals.
 ## See also
 
 - [Ruler spec](../../specs/animation/ruler-display.animation-spec.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [blockframes/](blockframes/README.md)
+- [circle-packing.js](circle-packing.js)
+- [fibonacci.js](fibonacci.js)
+- [gen-grid.js](gen-grid.js)
+- [Ruler.js](Ruler.js)
+<!-- readme-index:end -->

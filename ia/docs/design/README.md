@@ -19,3 +19,14 @@ It is the umbrella for all atomic tiers, from indivisible primitives to page-lev
 - `organisms/`: section-level systems.
 - `templates/`: page pattern blueprints.
 - `layouts/`: structural shells and shared page framing.
+
+<!-- readme-index:start -->
+## Index
+
+- [atoms/](atoms/README.md)
+- [layouts/](layouts/README.md)
+- [molecules/](molecules/README.md)
+- [organisms/](organisms/README.md)
+- [templates/](templates/README.md)
+- [hero-section.md](hero-section.md)
+<!-- readme-index:end -->

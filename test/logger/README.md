@@ -1,8 +1,4 @@
----
-title: Logger tests
-description: Tests for the logging helper.
-type: reference
----
+Tests for the logging helper.
 
 <!-- @format -->
 
@@ -33,3 +29,19 @@ Some single files need `DEBUG=true`; see the `test:logger:*` scripts in `package
 ## See also
 
 - [Tests](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [custom-styles.test.js](custom-styles.test.js)
+- [enhancements-demo.test.js](enhancements-demo.test.js)
+- [enhancements.test.js](enhancements.test.js)
+- [error-detection.test.js](error-detection.test.js)
+- [errors.test.js](errors.test.js)
+- [index.js](index.js)
+- [optional-parameter.test.js](optional-parameter.test.js)
+- [real-world.test.js](real-world.test.js)
+- [script-outline.test.js](script-outline.test.js)
+- [simple-enhancements.test.js](simple-enhancements.test.js)
+- [styles.test.js](styles.test.js)
+<!-- readme-index:end -->

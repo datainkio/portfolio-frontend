@@ -1,8 +1,4 @@
----
-title: Collections
-description: Builds the Eleventy collections from Sanity content and the page tree.
-type: index
----
+Builds the Eleventy collections from Sanity content and the page tree.
 
 <!-- @format -->
 
@@ -31,3 +27,14 @@ Where Eleventy collections get registered.
 ## See also
 
 - [Eleventy setup](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [index.js](index.js)
+- [index.md](index.md)
+- [navigation.js](navigation.js)
+- [navigation.md](navigation.md)
+- [sanity.js](sanity.js)
+- [sanity.md](sanity.md)
+<!-- readme-index:end -->

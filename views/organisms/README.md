@@ -1,7 +1,4 @@
----
-description: "Page-level sections such as the header, footer, navigation and homepage sections."
-type: guide
----
+Page-level sections such as the header, footer, navigation and homepage sections.
 
 <!-- @format -->
 
@@ -34,3 +31,14 @@ Whole sections of a page, assembled from molecules and atoms.
 
 - [Molecules](../molecules/README.md)
 - [Templates](../templates/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [footer/](footer/)
+- [forms/](forms/)
+- [header/](header/)
+- [navigation/](navigation/)
+- [section/](section/README.md)
+- [status/](status/)
+<!-- readme-index:end -->

@@ -1,8 +1,4 @@
----
-title: "Choreography"
-description: Master coordination system for all page animations using GSAP and a publish/subscribe event bus for loose coupling between sections.
-type: index
----
+Master coordination system for all page animations using GSAP and a publish/subscribe event bus for loose coupling between sections.
 
 <!-- @format -->
 
@@ -63,3 +59,25 @@ Rules every animation follows:
 - [GETTING_STARTED.md](GETTING_STARTED.md) - a walkthrough for adding a section
 - [Animation specs](../../specs/animation/README.md)
 - [Motion accessibility policy](../../specs/animation/motion-accessibility-policy.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [_context/](_context/)
+- [atoms/](atoms/README.md)
+- [config/](config/README.md)
+- [managers/](managers/README.md)
+- [molecules/](molecules/)
+- [navigation/](navigation/)
+- [organisms/](organisms/)
+- [pages/](pages/README.md)
+- [system/](system/)
+- [templates/](templates/)
+- [tokens/](tokens/)
+- [AnimationDirector.canvas](AnimationDirector.canvas)
+- [AnimationDirector.js](AnimationDirector.js)
+- [AnimationDirector.md](AnimationDirector.md)
+- [GETTING_STARTED.md](GETTING_STARTED.md)
+- [index.js](index.js)
+- [index.md](index.md)
+<!-- readme-index:end -->

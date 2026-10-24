@@ -17,3 +17,9 @@ Templates bridge reusable design-system building blocks and real page output.
 - page blueprint variants and required regions
 - content slot expectations and fallback behavior
 - template-level accessibility and SEO constraints
+
+<!-- readme-index:start -->
+## Index
+
+No sibling files or folders.
+<!-- readme-index:end -->

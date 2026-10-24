@@ -6,7 +6,7 @@ tags:
   - tooling
 links:
   - "[[frontmatterSchema]]"
-  - "[[README.frontmatter-audit]]"
+  - "[[dataink.io/frontend/docs/frontmatter-audit/README]]"
 ---
 
 # auditFrontmatter.js

@@ -1,8 +1,4 @@
----
-title: "Layouts"
-description: Layouts are NOT traditional page templates - they are algorithmic positioning systems that arrange blockframes elements according to mathematical rules.
-type: index
----
+Layouts are NOT traditional page templates - they are algorithmic positioning systems that arrange blockframes elements according to mathematical rules.
 
 <!-- @format -->
 
@@ -28,3 +24,11 @@ Only `BlockLine.js` has code; `Cloud.js` and `Grid.js` are empty.
 ## See also
 
 - [Blockframes](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [BlockLine.js](BlockLine.js)
+- [Cloud.js](Cloud.js)
+- [Grid.js](Grid.js)
+<!-- readme-index:end -->

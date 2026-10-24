@@ -1,7 +1,4 @@
----
-description: "Small groups of atoms that do one job, such as a card, a form field or a pager."
-type: guide
----
+Small groups of atoms that do one job, such as a card, a form field or a pager.
 
 <!-- @format -->
 
@@ -36,3 +33,32 @@ Small groups of atoms that do one job.
 
 - [Atoms](../atoms/README.md)
 - [Organisms](../organisms/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [background/](background/README.md)
+- [card/](card/README.md)
+- [figure/](figure/)
+- [form/](form/)
+- [input/](input/)
+- [labels/](labels/)
+- [lightbox/](lightbox/)
+- [list/](list/)
+- [navigation/](navigation/)
+- [project-metadata/](project-metadata/)
+- [section/](section/)
+- [social-account/](social-account/)
+- [star-summary/](star-summary/)
+- [stats/](stats/)
+- [awards.md](awards.md)
+- [awards.njk](awards.njk)
+- [callout.md](callout.md)
+- [callout.njk](callout.njk)
+- [design-decisions.md](design-decisions.md)
+- [design-decisions.njk](design-decisions.njk)
+- [printmarks.md](printmarks.md)
+- [printmarks.njk](printmarks.njk)
+- [section-playback.md](section-playback.md)
+- [section-playback.njk](section-playback.njk)
+<!-- readme-index:end -->

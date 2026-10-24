@@ -1,8 +1,4 @@
----
-title: "Blockframes"
-description: "Blockframes is a sophisticated system for loading, manipulating, and animating SVG-based wireframe layouts."
-type: index
----
+Blockframes is a sophisticated system for loading, manipulating, and animating SVG-based wireframe layouts.
 
 <!-- @format -->
 
@@ -35,3 +31,19 @@ Loads an SVG of wireframe blocks, colors them from a palette, and animates them 
 ## See also
 
 - [Displays](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [atoms/](atoms/README.md)
+- [layouts/](layouts/README.md)
+- [molecules/](molecules/README.md)
+- [organisms/](organisms/README.md)
+- [templates/](templates/README.md)
+- [Animator.js](Animator.js)
+- [Architect.js](Architect.js)
+- [Blockframes.js](Blockframes.js)
+- [Blockframes.md](Blockframes.md)
+- [Builder.js](Builder.js)
+- [Painter.js](Painter.js)
+<!-- readme-index:end -->

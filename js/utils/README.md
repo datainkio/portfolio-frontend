@@ -1,8 +1,4 @@
----
-title: "Utils"
-description: "Collection of reusable JavaScript utilities powering the portfolio site's interactive features."
-type: index
----
+Collection of reusable JavaScript utilities powering the portfolio site's interactive features.
 
 <!-- @format -->
 
@@ -32,3 +28,13 @@ Small helpers.
 ## See also
 
 - [Choreography](../choreography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [diagnostics/](diagnostics/)
+- [tailwind/](tailwind/)
+- [color.js](color.js)
+- [gsap-test.js](gsap-test.js)
+- [math.js](math.js)
+<!-- readme-index:end -->

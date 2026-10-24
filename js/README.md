@@ -1,8 +1,4 @@
----
-title: "JavaScript"
-description: "This directory contains all client-side JavaScript for interactive features, animations, and visual effects."
-type: index
----
+This directory contains all client-side JavaScript for interactive features, animations, and visual effects.
 
 <!-- @format -->
 
@@ -38,3 +34,19 @@ The browser code for the site. Most of it is the choreography system that animat
 
 - [Animation specs](../specs/animation/README.md)
 - [Views (the templates that load these scripts)](../views/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [choreography/](choreography/README.md)
+- [contact-form/](contact-form/)
+- [displays/](displays/README.md)
+- [effects/](effects/README.md)
+- [interstitials/](interstitials/README.md)
+- [layouts/](layouts/README.md)
+- [lightbox/](lightbox/)
+- [preloader/](preloader/README.md)
+- [utils/](utils/README.md)
+- [vendor/](vendor/README.md)
+- [user-guide.js](user-guide.js)
+<!-- readme-index:end -->

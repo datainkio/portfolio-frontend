@@ -1,8 +1,4 @@
----
-title: "Templates"
-description: Templates are complete page-level wireframe layouts that define the overall structure and content organization of different page types.
-type: index
----
+Templates are complete page-level wireframe layouts that define the overall structure and content organization of different page types.
 
 <!-- @format -->
 
@@ -28,3 +24,27 @@ Each file exports a `paint` function that colors one page type.
 ## See also
 
 - [Blockframes](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [Article.js](Article.js)
+- [Basic.js](Basic.js)
+- [Blog.js](Blog.js)
+- [Calendar.js](Calendar.js)
+- [Cart.js](Cart.js)
+- [Chart.js](Chart.js)
+- [chrome.js](chrome.js)
+- [Contact.js](Contact.js)
+- [Features.js](Features.js)
+- [Feed.js](Feed.js)
+- [Landing.js](Landing.js)
+- [List.js](List.js)
+- [Login.js](Login.js)
+- [Main.js](Main.js)
+- [Map.js](Map.js)
+- [Project.js](Project.js)
+- [Text.js](Text.js)
+- [Timeline.js](Timeline.js)
+- [Video.js](Video.js)
+<!-- readme-index:end -->

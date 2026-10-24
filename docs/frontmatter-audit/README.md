@@ -1,12 +1,3 @@
----
-title: Frontmatter Audit
-description: "Reproducible before/after visualization of frontmatter structural debt — Mermaid diagrams, Gephi graphs, and a machine-readable snapshot."
-type: reference
-tags:
-  - frontmatter
-  - structural-debt
----
-
 # Frontmatter Audit
 
 Visual evidence for [`plan-frontmatter-strategy.md`](../plan-frontmatter-strategy.md).
@@ -107,3 +98,10 @@ Same script, same measurements, after remediation.
 ![Field coverage](after/coverage.svg)
 
 ![Debt counters](after/debt.svg)
+
+<!-- readme-index:start -->
+## Index
+
+- [after/](after/)
+- [before/](before/)
+<!-- readme-index:end -->

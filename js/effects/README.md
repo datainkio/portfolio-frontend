@@ -1,8 +1,4 @@
----
-title: "Effects"
-description: "Collection of reusable visual effects for text, transitions, and gel animations."
-type: index
----
+Collection of reusable visual effects for text, transitions, and gel animations.
 
 <!-- @format -->
 
@@ -32,3 +28,12 @@ Visual effects built on GSAP and canvas.
 ## See also
 
 - [Choreography](../choreography/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [gel/](gel/README.md)
+- [image/](image/)
+- [layout/](layout/)
+- [Transitions.js](Transitions.js)
+<!-- readme-index:end -->

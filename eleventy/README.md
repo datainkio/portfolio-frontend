@@ -1,8 +1,4 @@
----
-title: Eleventy setup
-description: Filters, shortcodes, collections and plugins that extend the Eleventy build.
-type: index
----
+Filters, shortcodes, collections and plugins that extend the Eleventy build.
 
 <!-- @format -->
 
@@ -34,3 +30,13 @@ Custom code that extends Eleventy, the static site generator behind the site.
 ## See also
 
 - [Architecture](../docs/architecture.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [collections/](collections/README.md)
+- [filters/](filters/README.md)
+- [plugins/](plugins/)
+- [services/](services/README.md)
+- [shortcodes/](shortcodes/README.md)
+<!-- readme-index:end -->

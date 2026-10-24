@@ -54,7 +54,13 @@
       "tab.activeBackground": "#0b4e79",
       "activityBar.activeBorder": "#e7e7e7",
       "activityBarTop.activeBorder": "#e7e7e7",
-      "statusBar.inactiveBackground": "#07304a"
+      "statusBar.inactiveBackground": "#07304a",
+      "panel.border": "#0b4e79",
+      "statusBar.border": "#07304a",
+      "titleBar.border": "#07304a",
+      "tab.activeBorder": "#0b4e79",
+      "window.activeBorder": "#0b4e79",
+      "window.inactiveBorder": "#0b4e79"
     },
     "peacock.color": "#07304a",
   },

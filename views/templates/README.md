@@ -1,7 +1,4 @@
----
-description: "Page bodies for articles, blog posts, case studies and landing pages, plus shared head partials."
-type: guide
----
+Page bodies for articles, blog posts, case studies and landing pages, plus shared head partials.
 
 <!-- @format -->
 
@@ -33,3 +30,13 @@ Page bodies built from organisms and molecules, plus the pieces that go in `<hea
 
 - [Layouts](../layouts/README.md)
 - [Organisms](../organisms/README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [blog/](blog/)
+- [landing/](landing/)
+- [partials/](partials/)
+- [article.md](article.md)
+- [article.njk](article.njk)
+<!-- readme-index:end -->

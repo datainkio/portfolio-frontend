@@ -1,8 +1,4 @@
----
-title: "Organisms"
-description: "Organisms are complex UI components that combine molecules and atoms into distinct, functional sections of an interface."
-type: index
----
+Organisms are complex UI components that combine molecules and atoms into distinct, functional sections of an interface.
 
 <!-- @format -->
 
@@ -28,3 +24,12 @@ Three files have code (Card, Cart Item, Image); the rest are empty.
 ## See also
 
 - [Blockframes](../README.md)
+
+<!-- readme-index:start -->
+## Index
+
+- [Card.js](Card.js)
+- [Cart Item.js](Cart%20Item.js)
+- [Form.js](Form.js)
+- [Image.js](Image.js)
+<!-- readme-index:end -->
