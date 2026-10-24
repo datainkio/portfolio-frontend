@@ -1,8 +1,4 @@
----
-title: "Displays"
-description: "Visual ornamentation, debugging tools, and interactive demonstrations."
-type: index
----
+Visual ornamentation, debugging tools, and interactive demonstrations.
 
 <!-- @format -->
 

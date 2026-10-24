@@ -1,7 +1,4 @@
----
-description: "The smallest building blocks: buttons, icons, headings, links and similar."
-type: guide
----
+The smallest building blocks: buttons, icons, headings, links and similar.
 
 <!-- @format -->
 

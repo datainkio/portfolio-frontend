@@ -1,8 +1,4 @@
----
-title: Logger tests
-description: Tests for the logging helper.
-type: reference
----
+Tests for the logging helper.
 
 <!-- @format -->
 

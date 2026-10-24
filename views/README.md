@@ -1,7 +1,4 @@
----
-description: "Nunjucks templates that build every page of the site, organized small-to-large."
-type: guide
----
+Nunjucks templates that build every page of the site, organized small-to-large.
 
 <!-- @format -->
 

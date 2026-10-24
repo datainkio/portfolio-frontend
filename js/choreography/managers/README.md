@@ -1,8 +1,4 @@
----
-title: "Managers"
-description: "Single-responsibility modules for global, cross-section behavior."
-type: index
----
+Single-responsibility modules for global, cross-section behavior.
 
 <!-- @format -->
 

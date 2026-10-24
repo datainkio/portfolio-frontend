@@ -1,8 +1,4 @@
----
-title: "Choreography"
-description: Master coordination system for all page animations using GSAP and a publish/subscribe event bus for loose coupling between sections.
-type: index
----
+Master coordination system for all page animations using GSAP and a publish/subscribe event bus for loose coupling between sections.
 
 <!-- @format -->
 

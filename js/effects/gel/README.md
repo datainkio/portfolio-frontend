@@ -1,8 +1,4 @@
----
-title: "Gel"
-description: Liquid-style background and transition primitives used by the effects system.
-type: index
----
+Liquid-style background and transition primitives used by the effects system.
 
 <!-- @format -->
 

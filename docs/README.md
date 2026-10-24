@@ -1,8 +1,4 @@
----
-title: Docs
-description: Longer notes on how the frontend is built and deployed.
-type: index
----
+Longer notes on how the frontend is built and deployed.
 
 <!-- @format -->
 
@@ -38,7 +34,7 @@ When a doc and the code disagree, trust the code.
 ## Index
 
 - [ai/](ai/README.md)
-- [frontmatter-audit/](frontmatter-audit/README.frontmatter-audit.md)
+- [frontmatter-audit/](frontmatter-audit/README.md)
 - [ia/](ia/)
 - [storyboards/](storyboards/README.md)
 - [architecture.md](architecture.md)

@@ -1,8 +1,4 @@
----
-title: Shortcodes
-description: Reusable snippets templates can call.
-type: index
----
+Reusable snippets templates can call.
 
 <!-- @format -->
 

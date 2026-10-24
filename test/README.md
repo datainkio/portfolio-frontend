@@ -1,8 +1,4 @@
----
-title: Tests
-description: Automated Node tests for the logger, animation events and pager.
-type: reference
----
+Automated Node tests for the logger, animation events and pager.
 
 <!-- @format -->
 

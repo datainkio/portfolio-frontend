@@ -1,7 +1,4 @@
----
-description: "Small groups of atoms that do one job, such as a card, a form field or a pager."
-type: guide
----
+Small groups of atoms that do one job, such as a card, a form field or a pager.
 
 <!-- @format -->
 

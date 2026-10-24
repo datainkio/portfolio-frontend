@@ -1,8 +1,4 @@
----
-title: "Molecules"
-description: Molecules are the first level of component composition in the Blockframes system.
-type: index
----
+Molecules are the first level of component composition in the Blockframes system.
 
 <!-- @format -->
 

@@ -14,7 +14,7 @@ of low-signal tokens in the repo, and it is fixable deterministically.
 
 **Status: phases 1–5 complete.** The contract is
 [`specs/frontmatter.spec.md`](../specs/frontmatter.spec.md); before/after evidence
-is [`docs/frontmatter-audit/`](frontmatter-audit/README.frontmatter-audit.md).
+is [`docs/frontmatter-audit/`](frontmatter-audit/README.md).
 Phase 6 (sidecar coverage) remains open.
 
 Section 1 below records the **pre-remediation** measurement — it is the evidence
