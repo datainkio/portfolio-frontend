@@ -17,8 +17,8 @@ export const HERO_INTRO = {
   duration: toSeconds(motion.duration("fast")),
   stagger: motion.stagger("loose"),
   translateY: -motion.distance("lg"),
-  // The heading gel's left-to-right wipe, which leads the text.
-  gelDuration: toSeconds(motion.duration("base")),
+  // The title band's left-to-right wipe, which leads the text.
+  bandDuration: toSeconds(motion.duration("base")),
 };
 
 /**

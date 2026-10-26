@@ -25,7 +25,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Data and Context
 
-- `Gel` — referenced in the template. Renders `gel_hero` (the hero's full-bleed band) and then `gel_title` (the band the hero intro wipes across the h1). `gel_title` comes later in the DOM, so it stacks above `gel_hero`.
+- `Gel` — referenced in the template.
 - `videoAtom` — referenced in the template.
 
 ## Relationships

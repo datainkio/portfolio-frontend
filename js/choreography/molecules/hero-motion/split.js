@@ -4,7 +4,6 @@ import { motion } from "../../config/ix/motion.js";
 import { HERO_INTRO, HERO_OUTRO } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { getHeadingGelEl } from "./heading-gel.js";
-import { getTitleGelEl, syncTitleGel } from "./title-gel.js";
 
 const HERO_EL_ATTR = HERO_SELECTORS.elementAttribute;
 
@@ -67,28 +66,24 @@ export function intro(view, gelManager) {
         });
       });
   });
-  // Gel wipe: the title gel (parked at scaleX 0 by the landing phase) grows
-  // from the viewport's left edge into a full-width band behind the h1. The
-  // leading call re-measures it first — SplitText has re-flowed the h1 since
-  // the landing phase placed the band. immediateRender:false keeps the
-  // scaleX:0 start out of build time; the landing park already owns it.
-  const titleGelEl = getTitleGelEl(gelManager);
-  if (titleGelEl) {
-    tl.call(() => syncTitleGel(view), null, 0);
+  // Band wipe: the solid plate behind label + h1 grows from the viewport's
+  // left edge to full width. fromTo renders its scaleX:0 start at build time,
+  // so the band is already collapsed before the intro plays. It is in the
+  // header's normal flow, so it scrolls with the text — nothing to measure.
+  const band = selectHeroEl(view, HERO_SELECTORS.band);
+  if (band) {
     tl.fromTo(
-      titleGelEl,
-      { scaleX: 0 },
+      band,
+      { scaleX: 0, transformOrigin: "left center" },
       {
         scaleX: 1,
-        transformOrigin: "left center",
-        duration: HERO_INTRO.gelDuration,
+        duration: HERO_INTRO.bandDuration,
         ease: HERO_INTRO.ease.out,
-        immediateRender: false,
       },
       0,
     );
   }
-  // The text starts once the wipe completes (at 0 when there is no gel).
+  // The text starts once the wipe completes (at 0 when there is no band).
   tl.addLabel("text");
 
   // Reading-order cascade: context and title overlap into one continuous
