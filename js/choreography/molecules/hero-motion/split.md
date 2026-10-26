@@ -1,5 +1,5 @@
 ---
-description: "Split variant for hero-motion — the intro opens with the title gel (gel_title, separate from gel_hero) wiping left-to-right into a full-width band behind the h1, then SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
+description: "Split variant for hero-motion — the intro opens with the title gel (gel_title, separate from gel_hero) wiping left-to-right into a full-width band behind the header's label + h1 block, then SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
 status: stable
 tags:
   - hero-motion
@@ -21,7 +21,7 @@ links:
 
 ## Intro: gel wipe, then letters
 
-The intro opens with the title gel. The landing phase ([title-gel](title-gel.md)) has parked `gel_title` on the h1 at `scaleX: 0`, in front of `gel_hero`, which stays full-bleed at rest. A leading call at time 0 re-measures it via `syncTitleGel(view)`, because SplitText has re-flowed the h1 since then. The gel then tweens `scaleX` 0 → 1 from `left center` over `HERO_INTRO.gelDuration`, with `immediateRender: false` so the start state stays with the landing park. The `text` label sits at the end of the wipe (at 0 when there is no gel). Every text beat below starts from it, and the context label fades in at `text`.
+The intro opens with the title gel. The landing phase ([title-gel](title-gel.md)) has parked `gel_title` over the context label + h1 block at `scaleX: 0`, in front of `gel_hero`, which stays full-bleed at rest. A leading call at time 0 re-measures it via `syncTitleGel(view)`, because SplitText has re-flowed the h1 since then. The gel then tweens `scaleX` 0 → 1 from `left center` over `HERO_INTRO.gelDuration`, with `immediateRender: false` so the start state stays with the landing park. The `text` label sits at the end of the wipe (at 0 when there is no gel). Every text beat below starts from it, and the context label fades in at `text`.
 
 The letter cascade starts 0.3s before the context label's fade ends. The title's `<span data-hero-el="band">` line bands are not animated: their plain CSS background (see [hero.njk](../../../../views/organisms/section/hero.md)) shows from page load, split or not. The left-to-right line-band grow (`background-size` 0% → 100%, paced by `HERO_INTRO.bandLead`) was removed on 2026-10-26.
 

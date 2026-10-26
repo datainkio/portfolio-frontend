@@ -4,12 +4,13 @@ import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 /**
  * Hero Title Gel
  *
- * Holds the `gel_title` gel as a full-width band behind the hero h1: `left: 0 /
- * width: 100vw`, with the h1's own height and vertical position. It is separate
- * from `gel_hero` (see heading-gel.js), which keeps filling the viewport behind it.
+ * Holds the `gel_title` gel as a full-width band behind the hero header's
+ * content — the context label through the h1: `left: 0 / width: 100vw`, with
+ * that block's height and vertical position. It is separate from `gel_hero`
+ * (see heading-gel.js), which keeps filling the viewport behind it.
  *
- * The gel lives in `#sizzle-background` (`fixed inset-0`), but the h1 scrolls.
- * So the h1 box is measured only on refresh (resize), as a document-relative
+ * The gel lives in `#sizzle-background` (`fixed inset-0`), but the header
+ * scrolls. So the block is measured only on refresh (resize), as a document-relative
  * `top`, and scroll is followed with a `y` transform taken from the scroll
  * position — no layout read per tick. The gel is never ScrollTrigger-pinned.
  *
@@ -26,10 +27,16 @@ const SYNC_ST_ID = "hero-title-gel-sync";
 // view -> the live `sync` closure, so the intro can re-measure on demand.
 const syncs = new WeakMap();
 
-const selectTitle = (view) =>
-  view?.querySelector(
-    `[${HERO_SELECTORS.elementAttribute}="${HERO_SELECTORS.title}"]`,
-  ) ?? null;
+const selectHeroEl = (view, name) =>
+  view?.querySelector(`[${HERO_SELECTORS.elementAttribute}="${name}"]`) ?? null;
+
+// Layout box without GSAP's `y`: the intro pre-sets the context label at a
+// `from` offset, and getBoundingClientRect() includes transforms.
+const untransformedBox = (el) => {
+  const rect = el.getBoundingClientRect();
+  const y = Number(gsap.getProperty(el, "y")) || 0;
+  return { top: rect.top - y, bottom: rect.bottom - y };
+};
 
 export const getTitleGelEl = (gelManager) =>
   gelManager?.getGel?.(TITLE_GEL_ID)?.view ?? null;
@@ -39,7 +46,7 @@ export const getTitleGelEl = (gelManager) =>
 export const syncTitleGel = (view) => syncs.get(view)?.();
 
 /**
- * Place the title gel on the h1 and park it collapsed (`scaleX: 0`) at the
+ * Place the title gel on the label + h1 block and park it collapsed (`scaleX: 0`) at the
  * viewport's left edge, ready for the intro's wipe.
  *
  * @param {HTMLElement|null} view Hero section root.
@@ -48,21 +55,27 @@ export const syncTitleGel = (view) => syncs.get(view)?.();
  */
 export function attachTitleGel(view, gelManager) {
   const gel = gelManager?.getGel?.(TITLE_GEL_ID) ?? null;
-  const title = selectTitle(view);
+  const title = selectHeroEl(view, HERO_SELECTORS.title);
   if (!gel?.view || !title) return null;
+  // The band spans the header's visible content: context label + h1. The
+  // header itself is h-dvh, so its own box would be the whole viewport.
+  const blocks = [selectHeroEl(view, HERO_SELECTORS.context), title].filter(
+    Boolean,
+  );
 
   const el = gel.view;
   const setY = gsap.quickSetter(el, "y", "px");
   let lastHeight = null;
 
   const sync = () => {
-    const rect = title.getBoundingClientRect();
-    const height = rect.height;
+    const boxes = blocks.map(untransformedBox);
+    const top = Math.min(...boxes.map((box) => box.top));
+    const height = Math.max(...boxes.map((box) => box.bottom)) - top;
     if (!height) return;
 
     gsap.set(el, {
       left: 0,
-      top: rect.top + window.scrollY,
+      top: top + window.scrollY,
       width: "100vw",
       height,
       // Neutralize any transform left by another variant. scaleX is
@@ -95,7 +108,7 @@ export function attachTitleGel(view, gelManager) {
   sync();
   gsap.set(el, { scaleX: 0 });
 
-  // `onRefresh` re-measures the h1 on resize. `onUpdate` follows scroll with
+  // `onRefresh` re-measures the block on resize. `onUpdate` follows scroll with
   // the transform only — `self.scroll()` is not a layout read.
   return ScrollTrigger.create({
     id: SYNC_ST_ID,
