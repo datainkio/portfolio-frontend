@@ -19,17 +19,11 @@ links:
 
 `intro()` builds the H2's `SplitText` via a module-level `buildHeadingSplit(view, title)` helper (keyed on `view` in a `WeakMap`) instead of calling `new SplitText` inline. `_buildTimeline()` re-runs `intro()` on every matchMedia breakpoint crossing against the same already-split DOM — without caching + `revert()`-ing the prior instance first, a rebuild would nest split markup inside itself and corrupt both the intro chars and the outro's line targets.
 
-## Intro: gel wipe, line bands, then letters
+## Intro: gel wipe, then letters
 
 The intro opens with the title gel. The landing phase ([title-gel](title-gel.md)) has parked `gel_title` on the h1 at `scaleX: 0`, in front of `gel_hero`, which stays full-bleed at rest. A leading call at time 0 re-measures it via `syncTitleGel(view)`, because SplitText has re-flowed the h1 since then. The gel then tweens `scaleX` 0 → 1 from `left center` over `HERO_INTRO.gelDuration`, with `immediateRender: false` so the start state stays with the landing park. The `text` label sits at the end of the wipe (at 0 when there is no gel). Every text beat below starts from it, and the context label fades in at `text`.
 
-
-The title's `<span data-hero-el="band">` (an opaque `bg-neutral-900` band, see [hero.njk](../../../../views/organisms/section/hero.md)) is cloned once per line by SplitText's `deepSlice`, so each line holds its own band. The intro:
-
-1. Grows each line's band left to right, one line after another, starting at the `bands` label. The grow reads the band's computed colour (so the template's `bg-*` utility is the only place it's set), swaps it for a same-colour gradient, and tweens its `background-size` from `0% 100%` to `100% 100%`, never `scaleX` or `clip-path`, so letters are never squashed or cut. Each band lasts as long as its own line's letter cascade (`chars × stagger`, `ease: "none"`).
-2. Starts the letter cascade at `bands+=HERO_INTRO.bandLead` (0.25s), so the text trails the background by a constant step down every line.
-
-The band's plain CSS background stays in place whenever the heading isn't split (no JS, `reduced` variant).
+The letter cascade starts 0.3s before the context label's fade ends. The title's `<span data-hero-el="band">` line bands are not animated: their plain CSS background (see [hero.njk](../../../../views/organisms/section/hero.md)) shows from page load, split or not. The left-to-right line-band grow (`background-size` 0% → 100%, paced by `HERO_INTRO.bandLead`) was removed on 2026-10-26.
 
 ## Outro
 

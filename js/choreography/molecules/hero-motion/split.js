@@ -103,36 +103,6 @@ export function intro(view, gelManager) {
   const charDuration = motion.duration("instant") / 1000;
   const charStagger = motion.stagger("tight") * 0.5;
 
-  // Line bands grow left to right, one line after another, ahead of the
-  // letters. Each band lasts as long as its own line's letter cascade, so the
-  // text keeps a constant `bandLead` behind the background all the way down.
-  // background-size (not scaleX / clip-path) so the letters are never
-  // squashed or cut. Without the split (no JS, reduced) the CSS band shows.
-  tl.addLabel("bands", "-=0.3");
-  split.lines.forEach((line, i) => {
-    const band = selectHeroEl(line, HERO_SELECTORS.band);
-    if (!band) return;
-    const lineChars = split.chars.filter((char) => line.contains(char));
-    // The template's bg utility is the single source of the band colour; read
-    // it before swapping the flat colour for an animatable gradient.
-    const bandColor = getComputedStyle(band).backgroundColor;
-    gsap.set(band, {
-      backgroundColor: "transparent",
-      backgroundImage: `linear-gradient(${bandColor}, ${bandColor})`,
-      backgroundRepeat: "no-repeat",
-    });
-    tl.fromTo(
-      band,
-      { backgroundSize: "0% 100%" },
-      {
-        backgroundSize: "100% 100%",
-        duration: Math.max(lineChars.length * charStagger, charDuration),
-        ease: "none",
-      },
-      i === 0 ? "bands" : ">",
-    );
-  });
-
   tl.from(
     split.chars,
     {
@@ -142,7 +112,7 @@ export function intro(view, gelManager) {
       rotation: 45,
       stagger: charStagger,
     },
-    `bands+=${HERO_INTRO.bandLead}`,
+    "-=0.3",
   );
 
   // Highlight keywords in the title split
