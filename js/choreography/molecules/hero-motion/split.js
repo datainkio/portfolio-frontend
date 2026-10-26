@@ -3,7 +3,7 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { motion } from "../../config/ix/motion.js";
 import { HERO_INTRO, HERO_OUTRO } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { attachHeadingGel, getHeadingGelEl } from "./heading-gel.js";
+import { getHeadingGelEl, syncHeadingGel } from "./heading-gel.js";
 
 const HERO_EL_ATTR = HERO_SELECTORS.elementAttribute;
 
@@ -66,6 +66,30 @@ export function intro(view, gelManager) {
         });
       });
   });
+  // Gel wipe: the heading gel (parked at scaleX 0 by the landing phase) grows
+  // from the viewport's left edge into a full-width band behind the h1. The
+  // leading call re-measures it first — SplitText has re-flowed the h1 since
+  // the landing phase placed the band. immediateRender:false keeps the
+  // scaleX:0 start out of build time; the landing park already owns it.
+  const gelEl = getHeadingGelEl(gelManager);
+  if (gelEl) {
+    tl.call(() => syncHeadingGel(view), null, 0);
+    tl.fromTo(
+      gelEl,
+      { scaleX: 0 },
+      {
+        scaleX: 1,
+        transformOrigin: "left center",
+        duration: HERO_INTRO.gelDuration,
+        ease: HERO_INTRO.ease.out,
+        immediateRender: false,
+      },
+      0,
+    );
+  }
+  // The text starts once the wipe completes (at 0 when there is no gel).
+  tl.addLabel("text");
+
   // Reading-order cascade: context and title overlap into one continuous
   // downward gesture; the keyword ignite punctuates the tail. The overview
   // heading now lives outside <header> and is not part of this cascade. The
@@ -73,7 +97,7 @@ export function intro(view, gelManager) {
   tl.from(
     context,
     { duration: motion.duration("base") / 1000, opacity: 0, y: 100 },
-    0,
+    "text",
   );
   const charDuration = motion.duration("instant") / 1000;
   const charStagger = motion.stagger("tight") * 0.5;
@@ -126,12 +150,9 @@ export function intro(view, gelManager) {
     stagger: motion.duration("md") / 1000,
   });
 
-  // Both positioned outside the timeline — standing behaviours, not phases of
-  // this reveal. The heading's band is a full-bleed backdrop; the mission
-  // statement owns its own scroll-cued arrival (it sits an `h-dvh` below the
-  // header, so anything sequenced here would play off-screen) and attaches the
-  // overview band itself as that arrival's first beat.
-  // attachHeadingGel(view, gelManager);
+  // The mission statement owns its own scroll-cued arrival (it sits an `h-dvh`
+  // below the header, so anything sequenced here would play off-screen) and
+  // attaches the overview band itself as that arrival's first beat.
   //attachMissionStatement(view, gelManager);
 
   return tl;
@@ -173,7 +194,8 @@ export function outro(view, gelManager) {
   tl.addLabel("lines-out");
 
   // 2. gel grows from its own vertical center to fill the viewport.
-  // transformOrigin is already "center center" from attachHeadingGel's sync.
+  // transformOrigin is "left center" from attachHeadingGel's sync — its
+  // vertical component is still the center.
   if (gelEl) {
     tl.to(gelEl, {
       scaleY: () => {

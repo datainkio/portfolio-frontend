@@ -20,6 +20,8 @@ export const HERO_INTRO = {
   // Seconds the title's letters trail the line bands. The bands grow first;
   // the letter cascade starts this far into the band animation.
   bandLead: 0.25,
+  // The heading gel's left-to-right wipe, which leads the text.
+  gelDuration: toSeconds(motion.duration("base")),
 };
 
 /**
