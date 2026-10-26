@@ -50,8 +50,8 @@ export const HERO_SELECTORS = {
   elementAttribute: "data-hero-el",
   header: "header",
   title: "heading",
-  // Opaque legibility band inside the title. SplitText's deepSlice clones it
-  // once per line, so after the split each line holds its own band.
+  // Solid full-bleed plate behind the context label + title; the intro wipes
+  // it in from the viewport's left edge.
   band: "band",
   context: "context",
   missionStatement: "mission-statement",

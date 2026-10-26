@@ -14,19 +14,15 @@
   {%- set section_styles = {"base": "relative text-neutral-200 col-span-full grid grid-cols-12 px-4", "sm": "px-8"} -%}
 
   {#- HERO VIEW -#}
-  {%- set header_styles = {
-    "base": "h-dvh flex flex-col justify-center z-1 font-display col-span-full",
-    "lg": "col-span-10",
-    "xl": "col-span-4"
+  {%- set header_styles = {"base": "h-dvh px-8 flex flex-col justify-center z-1 font-display col-span-full", "lg": "col-span-10"} -%}
+  {#- Title band: a solid plate behind label + h1 that reads as a cut through the background video to the layer beneath. Full-bleed: the negative left offset cancels the section's and header's horizontal padding (px-4 + px-8; sm: px-8 + px-8) so the plate starts at the viewport's left edge. The inset shadows on its top and bottom edges are the video "layer" casting onto it. -#}
+  {%- set content_styles = {"base": "relative isolate"} -%}
+  {%- set band_styles = {
+    "base": "absolute inset-y-0 -left-12 -z-1 w-screen bg-slate-900 shadow-[inset_0_16px_24px_-12px_rgb(0_0_0/0.8),inset_0_-16px_24px_-12px_rgb(0_0_0/0.8)]",
+    "sm": "-left-16"
   } -%}
-  {%- set label_styles = {"base": "bg-slate-950 px-8 py-4 m-0"} -%}
-  {#- The arbitrary variant pads only the last line's band. It matches once SplitText has wrapped each band clone in a line div (h1 > line > band); the unsplit span is a direct child, so the fallback keeps uniform bands. -#}
-  {%- set title_styles = {
-    "base": "font-display text-5xl/12 tracking-loose [&>:last-child>[data-hero-el=band]]:pb-4",
-    "sm": "text-6xl"
-  } -%}
-  {#- Opaque band behind each line for legibility over the video. Inline + cloned decoration so every line wraps its own ragged-right band, with or without SplitText. -#}
-  {%- set title_band_styles = {"base": "bg-slate-950 box-decoration-clone px-6 py-2"} -%}
+  {%- set label_styles = {"base": "pt-12"} -%}
+  {%- set title_styles = {"base": "pb-18 pl-1 font-display text-5xl/12 tracking-loose", "sm": "text-6xl"} -%}
   {#- MISSION STATEMENT -#}
   {%- set statement_styles = {"base": "min-h-dvh content-center col-span-full max-w-3xl"} -%}
   {%- set subheading_styles = {
@@ -43,17 +39,21 @@
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
     <header class="{{ header_styles | classes }}" data-hero-el="header">
-      {{ Label.render({
-            index: "01",
-            title: "Manifesto",
-            description: "Russell Lebo / Selected Works Archive",
-            scope: "2008-" + (buildDate | formatDate("yyyy") ),
-      classes: label_styles | classes,
-      attrs: 'data-hero-el="context"'
-      }) }}
-      <h1 class="{{ title_styles | classes }}"
-          id="{{ headingId }}"
-          data-hero-el="heading"><span class="{{ title_band_styles | classes }}" data-hero-el="band">{{ heading }}</span></h1>
+      {#- div: groups label + h1 so the band can span them; hgroup would be invalid, since the label's root is a <dl>. -#}
+      <div class="{{ content_styles | classes }}">
+        <span class="{{ band_styles | classes }}" data-hero-el="band" aria-hidden="true"></span>
+        {{ Label.render({
+              index: "01",
+              title: "Manifesto",
+              description: "Russell Lebo / Selected Works Archive",
+              scope: "2008-" + (buildDate | formatDate("yyyy") ),
+        classes: label_styles | classes,
+        attrs: 'data-hero-el="context"'
+        }) }}
+        <h1 class="{{ title_styles | classes }}"
+            id="{{ headingId }}"
+            data-hero-el="heading">{{ heading }}</h1>
+      </div>
     </header>
     {#- Statements: subheading + body + image each. Item 0 is the value prop. Falls back to the single value prop when no list is passed. Every section keeps the existing hooks; motion currently binds only the first. -#}
     {%- set statements = params.statements or [{ "subheading": subheading, "body": body }] -%}
