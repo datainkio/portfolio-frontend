@@ -1,5 +1,5 @@
 ---
-description: "Hero molecule part — holds the gel_title gel as a full-width band behind the hero h1 (left 0, 100vw, the h1's own height and vertical position), parked collapsed at scaleX 0 for the split intro's left-to-right wipe. It is separate from gel_hero, which stays full-bleed at rest behind it. The h1 box is measured only on refresh; scroll is followed with a y transform, with no per-tick layout read. Never ScrollTrigger-pinned."
+description: "Hero molecule part — holds the gel_title gel as a full-width band behind the hero header's content block, the context label through the h1 (left 0, 100vw, that block's height and vertical position), parked collapsed at scaleX 0 for the split intro's left-to-right wipe. It is separate from gel_hero, which stays full-bleed at rest behind it. The block is measured only on refresh; scroll is followed with a y transform, with no per-tick layout read. Never ScrollTrigger-pinned."
 status: stable
 tags:
   - choreography
@@ -13,10 +13,14 @@ links:
 ---
 
 `attachTitleGel(view, gelManager)` resolves `gel_title` (`TITLE_GEL_ID`) from the
-manager and the h1 (`[data-hero-el="heading"]`, `HERO_SELECTORS.title`) from the
-view. It places the gel at `left: 0 / width: 100vw`, with the h1's height and
-document-relative `top`, makes it visible (`autoAlpha: 1`), and parks it at
-`scaleX: 0`. It returns `null` if either the gel or the h1 is missing.
+manager. From the view it resolves the context label (`HERO_SELECTORS.context`)
+and the h1 (`HERO_SELECTORS.title`), and it measures from the label's top to the
+h1's bottom. The `<header>` itself is `h-dvh`, so its own box would be the whole
+viewport. The gel is placed at `left: 0 / width: 100vw`, with that block's height
+and document-relative `top`, makes it visible (`autoAlpha: 1`), and parks it at
+`scaleX: 0`. It returns `null` if the gel or the h1 is missing. With no label, the band covers the h1 alone.
+
+The label's intro tween pre-sets it at `y: 100`, and `getBoundingClientRect()` includes transforms. So each box has its GSAP `y` subtracted before the union is taken.
 
 The markup is in
 [sizzle-background.njk](../../../../views/molecules/background/sizzle-background.md),
@@ -34,17 +38,17 @@ phase has measured it. It then wipes `scaleX` 0 → 1 from `left center`.
 width. A matchMedia rebuild re-parks it at 0. `Hero._settleRevealToEnd` then
 jumps the intro to `progress(1)`, which puts the band back at full width.
 
-## Following the h1
+## Following the header
 
 The gel is `absolute` inside `#sizzle-background`, which is `fixed inset-0`. The
-h1 scrolls, so the work is split:
+header scrolls, so the work is split:
 
-- **On refresh** (resize), `sync()` reads the h1's `getBoundingClientRect()`
-  once. It sets `top: rect.top + scrollY`, `height`, and `y: -scrollY`.
+- **On refresh** (resize), `sync()` reads the label's and the h1's
+  `getBoundingClientRect()` once. It sets `top` (the block's top plus `scrollY`), `height`, and `y: -scrollY`.
 - **On scroll**, the `hero-title-gel-sync` ScrollTrigger's `onUpdate` sets only
   `y = -self.scroll()` through a `quickSetter`. That is not a layout read.
 
-The band scrolls away with the heading. The trigger is killed by id before it is
+The band scrolls away with the header. The trigger is killed by id before it is
 recreated, so rebuilds don't stack duplicates. It sets no `pin`.
 
 `gel.refresh()` (the SVG mask re-measure) runs only when the band's height
