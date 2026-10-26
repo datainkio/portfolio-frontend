@@ -34,9 +34,9 @@ export default class Hero extends AbstractSection {
   // Landing is tracked separately from intro because they can be requested at
   // different moments — a resize in the gap must settle the landing without
   // asserting an intro that has not been asked for yet. LandingSequence does not
-  // currently call playLanding (the heading gel is parked collapsed when the
-  // timelines build; its entrance is the intro wipe), so this stays dormant
-  // until a landing phase returns.
+  // currently call playLanding (the heading gel has no entrance; it is parked
+  // at rest when the timelines build), so this stays dormant until a landing
+  // phase returns.
   playLanding() {
     this._landingRequested = true;
     return super.playLanding();
@@ -69,8 +69,8 @@ export default class Hero extends AbstractSection {
   //
   // Landing is settled as well as intro: a breakpoint-crossing resize rebuilds
   // both timelines, and a played landing must not be left at its start frame.
-  // (The current landing is an empty timeline — the heading gel is parked
-  // collapsed on build — so today only the intro needs settling.)
+  // (The current landing is an empty timeline — the heading gel is parked at
+  // rest on build — so today only the intro needs settling.)
   _settleRevealToEnd() {
     const phases = [
       [TIMELINE_IDS.landing, this._landingRequested],

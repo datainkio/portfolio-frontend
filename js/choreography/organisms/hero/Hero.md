@@ -38,8 +38,7 @@ its inline styles would leave the section stuck. Two paths guard that:
 asserting an intro nobody has asked for yet.
 
 Today the landing flag stays unset: `LandingSequence` no longer calls
-`playLanding()`, and the landing timeline is empty. The heading gel is parked on
-the h1, collapsed at `scaleX: 0`, when the timelines build, and the intro opens by
-wiping it to full width (see
+`playLanding()`, and the landing timeline is empty — the heading gel is parked at
+rest when the timelines build (see
 [heading-gel](../../molecules/hero-motion/heading-gel.md)). Only the intro needs
-settling, and `progress(1)` leaves the band at full width.
+settling.

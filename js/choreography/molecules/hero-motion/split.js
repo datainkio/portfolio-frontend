@@ -3,7 +3,8 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { motion } from "../../config/ix/motion.js";
 import { HERO_INTRO, HERO_OUTRO } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { getHeadingGelEl, syncHeadingGel } from "./heading-gel.js";
+import { getHeadingGelEl } from "./heading-gel.js";
+import { getTitleGelEl, syncTitleGel } from "./title-gel.js";
 
 const HERO_EL_ATTR = HERO_SELECTORS.elementAttribute;
 
@@ -66,16 +67,16 @@ export function intro(view, gelManager) {
         });
       });
   });
-  // Gel wipe: the heading gel (parked at scaleX 0 by the landing phase) grows
+  // Gel wipe: the title gel (parked at scaleX 0 by the landing phase) grows
   // from the viewport's left edge into a full-width band behind the h1. The
   // leading call re-measures it first — SplitText has re-flowed the h1 since
   // the landing phase placed the band. immediateRender:false keeps the
   // scaleX:0 start out of build time; the landing park already owns it.
-  const gelEl = getHeadingGelEl(gelManager);
-  if (gelEl) {
-    tl.call(() => syncHeadingGel(view), null, 0);
+  const titleGelEl = getTitleGelEl(gelManager);
+  if (titleGelEl) {
+    tl.call(() => syncTitleGel(view), null, 0);
     tl.fromTo(
-      gelEl,
+      titleGelEl,
       { scaleX: 0 },
       {
         scaleX: 1,
@@ -194,8 +195,7 @@ export function outro(view, gelManager) {
   tl.addLabel("lines-out");
 
   // 2. gel grows from its own vertical center to fill the viewport.
-  // transformOrigin is "left center" from attachHeadingGel's sync — its
-  // vertical component is still the center.
+  // transformOrigin is already "center center" from attachHeadingGel's sync.
   if (gelEl) {
     tl.to(gelEl, {
       scaleY: () => {
