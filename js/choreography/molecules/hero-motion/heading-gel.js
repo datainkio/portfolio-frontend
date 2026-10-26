@@ -1,22 +1,24 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**
  * Hero Heading Gel
  *
- * Holds the `gel_hero` gel as a full-width band behind the hero h1: `left: 0 /
- * width: 100vw`, with the h1's own height and vertical position.
+ * Holds the `gel_hero` gel as a full-bleed band filling the viewport: `left: 0 /
+ * top: 0 / width: 100vw / height: 100vh`.
  *
- * The gel lives in `#sizzle-background` (`fixed inset-0`), but the h1 scrolls.
- * So the h1 box is measured only on refresh (resize), as a document-relative
- * `top`, and scroll is followed with a `y` transform taken from the scroll
- * position — no layout read per tick. The band scrolls away with the heading;
- * it is no longer a standing background plane for the rest of the page. The
- * gel is never ScrollTrigger-pinned.
+ * The band is **decoupled from scroll.** It takes no geometry from the hero
+ * header (or any other element) and does not track anything as the page moves —
+ * it is a standing background plane, re-measured only when the viewport itself
+ * resizes. Earlier revisions re-read the header's `getBoundingClientRect()` on
+ * every scroll tick and rewrote `top` to follow it; that coupling is gone, and
+ * with it the per-tick layout read.
  *
- * `scaleX` is not geometry and `sync()` never touches it: the landing phase
- * parks it at 0 and the intro wipes it 0 → 1 from the left edge.
+ * The gel lives in `#sizzle-background` (`fixed inset-0`), so an absolutely
+ * positioned child already resolves against the viewport — filling that
+ * container is all "full-bleed" requires, and no scroll offset is ever added.
+ * The gel is never ScrollTrigger-pinned: a pin would be redundant on an element
+ * that cannot scroll.
  *
  * GelAnimationManager parks every gel at autoAlpha 0 on init, so making this one
  * visible is an explicit step here.
@@ -24,11 +26,6 @@ import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 export const HEADING_GEL_ID = "gel_hero";
 const SYNC_ST_ID = "hero-heading-gel-sync";
-
-const selectTitle = (view) =>
-  view?.querySelector(
-    `[${HERO_SELECTORS.elementAttribute}="${HERO_SELECTORS.title}"]`,
-  ) ?? null;
 
 // The outro pin owns `scaleY` on the gel band during its gel-expand beat.
 // `sync()` would reset it — suspend it while the pin is driving the band.
@@ -57,22 +54,16 @@ export function resumeHeadingGelSync(view) {
 export const getHeadingGelEl = (gelManager) =>
   gelManager?.getGel?.(HEADING_GEL_ID)?.view ?? null;
 
-// Re-measure on demand — the intro calls this after SplitText has re-flowed
-// the h1, since the split can change its height.
-export const syncHeadingGel = (view) => syncs.get(view)?.();
-
 /**
  * @param {HTMLElement|null} view Hero section root.
  * @param {object|null} gelManager GelAnimationManager instance.
- * @returns {ScrollTrigger|null} The resize/scroll hook, or null when unavailable.
+ * @returns {ScrollTrigger|null} The resize hook, or null when unavailable.
  */
 export function attachHeadingGel(view, gelManager) {
   const gel = gelManager?.getGel?.(HEADING_GEL_ID) ?? null;
-  const title = selectTitle(view);
-  if (!gel?.view || !title) return null;
+  if (!gel?.view || !view) return null;
 
   const el = gel.view;
-  const setY = gsap.quickSetter(el, "y", "px");
   let lastHeight = null;
 
   const sync = () => {
@@ -81,24 +72,23 @@ export function attachHeadingGel(view, gelManager) {
       pending.add(view);
       return;
     }
-    const rect = title.getBoundingClientRect();
-    const height = rect.height;
+    const height = window.innerHeight;
     if (!height) return;
 
     gsap.set(el, {
       left: 0,
-      top: rect.top + window.scrollY,
+      top: 0,
       width: "100vw",
       height,
-      // Neutralize any transform left by another variant/arrangement. scaleX
-      // is deliberately absent — the landing park and the intro wipe own it.
+      // Neutralize any transform left by another variant/arrangement — the band is positioned purely by left/top/width/height.
       x: 0,
-      y: -window.scrollY,
+      y: 0,
       rotation: 0,
       xPercent: 0,
       yPercent: 0,
+      scaleX: 1,
       scaleY: 1,
-      transformOrigin: "left center",
+      transformOrigin: "center center",
       autoAlpha: 1,
     });
 
@@ -119,26 +109,25 @@ export function attachHeadingGel(view, gelManager) {
 
   sync();
 
-  // `onRefresh` (on resize, and via HeroTriggers' explicit
-  // getById(...).refresh()) re-measures the h1. `onUpdate` follows scroll with
-  // the transform only — `self.scroll()` is not a layout read.
+  // Kept solely as a resize hook: ScrollTrigger.refresh() (on resize, and via
+  // HeroTriggers' explicit getById(...).refresh()) re-runs `sync()` so the band
+  // re-fills a changed viewport. Deliberately no `onUpdate`/`onToggle` — the
+  // band no longer tracks scroll, so there is nothing to do per tick.
   return ScrollTrigger.create({
     id: SYNC_ST_ID,
     trigger: view,
     start: "top bottom",
     end: "bottom top",
     onRefresh: sync,
-    onUpdate: (self) => {
-      if (!suspended.has(view)) setY(-self.scroll());
-    },
   });
 }
 
 /**
- * Hero's `landing` phase: place the gel band on the h1 and park it collapsed
- * (`scaleX: 0`) at the viewport's left edge, ready for the intro's wipe.
+ * Hero's `landing` phase: park the gel band at its full-bleed resting geometry.
  *
- * The empty landing-tagged timeline keeps the phase contract intact for
+ * There is no entrance — the band is placed at rest when the timelines build,
+ * so it is already in position when the landing chain reaches hero. The empty
+ * landing-tagged timeline keeps the phase contract intact for
  * `AbstractSection` (settle/progress calls find a timeline, not a warning).
  *
  * @param {HTMLElement|null} view Hero section root.
@@ -147,7 +136,5 @@ export function attachHeadingGel(view, gelManager) {
  */
 export function buildHeadingGelRest(view, gelManager) {
   attachHeadingGel(view, gelManager);
-  const el = getHeadingGelEl(gelManager);
-  if (el) gsap.set(el, { scaleX: 0 });
   return gsap.timeline({ id: TIMELINE_IDS.landing });
 }

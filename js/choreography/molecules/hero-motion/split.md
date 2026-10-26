@@ -1,5 +1,5 @@
 ---
-description: "Split variant for hero-motion — the intro opens with the heading gel wiping left-to-right into a full-width band behind the h1, then SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
+description: "Split variant for hero-motion — the intro opens with the title gel (gel_title, separate from gel_hero) wiping left-to-right into a full-width band behind the h1, then SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
 status: stable
 tags:
   - hero-motion
@@ -11,6 +11,7 @@ tags:
 links:
   - "[[hero-motion]]"
   - "[[molecules/hero-motion/heading-gel|molecules/hero-motion/heading-gel]]"
+  - "[[molecules/hero-motion/title-gel|molecules/hero-motion/title-gel]]"
   - "[[molecules/hero-motion/mission-statement|molecules/hero-motion/mission-statement]]"
 ---
 
@@ -20,7 +21,7 @@ links:
 
 ## Intro: gel wipe, line bands, then letters
 
-The intro opens with the heading gel. The landing phase ([heading-gel](heading-gel.md)) has parked `gel_hero` on the h1 at `scaleX: 0`. A leading call at time 0 re-measures it via `syncHeadingGel(view)`, because SplitText has re-flowed the h1 since then. The gel then tweens `scaleX` 0 → 1 from `left center` over `HERO_INTRO.gelDuration`, with `immediateRender: false` so the start state stays with the landing park. The `text` label sits at the end of the wipe (at 0 when there is no gel). Every text beat below starts from it, and the context label fades in at `text`.
+The intro opens with the title gel. The landing phase ([title-gel](title-gel.md)) has parked `gel_title` on the h1 at `scaleX: 0`, in front of `gel_hero`, which stays full-bleed at rest. A leading call at time 0 re-measures it via `syncTitleGel(view)`, because SplitText has re-flowed the h1 since then. The gel then tweens `scaleX` 0 → 1 from `left center` over `HERO_INTRO.gelDuration`, with `immediateRender: false` so the start state stays with the landing park. The `text` label sits at the end of the wipe (at 0 when there is no gel). Every text beat below starts from it, and the context label fades in at `text`.
 
 
 The title's `<span data-hero-el="band">` (an opaque `bg-neutral-900` band, see [hero.njk](../../../../views/organisms/section/hero.md)) is cloned once per line by SplitText's `deepSlice`, so each line holds its own band. The intro:
@@ -35,7 +36,7 @@ The band's plain CSS background stays in place whenever the heading isn't split 
 `outro(view, gelManager)` reads the cached split for `view` and builds two scrub-driven beats, each closed with an `addLabel()` rest point for the pin's `snapTo: "labelsDirectional"` (plus an opening `outro` label):
 
 1. `lines-out` — `split.lines` fade to `opacity: 0`, `stagger: { each: HERO_OUTRO.stagger, from: "end" }` (last line first).
-2. `gel-open` — the `gel_hero` element (resolved via `getHeadingGelEl`, see `heading-gel.md`) tweens `scaleY` from its current value to `window.innerHeight / unscaledHeight`, growing from its own vertical center (`transformOrigin: "left center"`, set by `attachHeadingGel`'s sync, whose vertical component is still the center) to fill the viewport.
+2. `gel-open` — the `gel_hero` element (resolved via `getHeadingGelEl`, see `heading-gel.md`) tweens `scaleY` from its current value to `window.innerHeight / unscaledHeight`, growing from its own vertical center (`transformOrigin: "center center"`, already set by `attachHeadingGel`'s sync) to fill the viewport.
 
 The scale value is function-based (re-evaluated by GSAP on each read), so `invalidateOnRefresh: true` on the pin keeps it correct across resize.
 
