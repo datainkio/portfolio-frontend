@@ -22,6 +22,17 @@ export const HERO_INTRO = {
 };
 
 /**
+ * Hero Band Parallax
+ *
+ * Each band's image travels `-yPercent` → `+yPercent` of its own height while
+ * the band crosses the viewport, so it drifts slower than the band around it.
+ * The image is 150% of the band's height with a quarter of the band spare above
+ * and below (molecules/band), i.e. ~16.7% of the image's height on each side.
+ * Keep `yPercent` under that, or the band's edge will show past the image.
+ */
+export const HERO_BAND_PARALLAX = { yPercent: 10 };
+
+/**
  * Hero Mission Statement — gel-led arrival
  *
  * The mission statement's reveal, cued by its own ScrollTrigger rather than by
