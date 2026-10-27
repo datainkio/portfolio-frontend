@@ -66,17 +66,18 @@ export function intro(view, gelManager) {
         });
       });
   });
-  // Band wipe: the solid plate behind label + h1 grows from the viewport's
-  // left edge to full width. fromTo renders its scaleX:0 start at build time,
-  // so the band is already collapsed before the intro plays. It is in the
-  // header's normal flow, so it scrolls with the text — nothing to measure.
+  // Band wipe: the solid plate behind label + h1 is revealed from the
+  // viewport's left edge to full width. clip-path rather than scaleX so the
+  // band's parallax image is uncovered, not squashed. fromTo renders its start
+  // at build time, so the band is already hidden before the intro plays. It is
+  // in the header's normal flow, so it scrolls with the text.
   const band = selectHeroEl(view, HERO_SELECTORS.band);
   if (band) {
     tl.fromTo(
       band,
-      { scaleX: 0, transformOrigin: "left center" },
+      { clipPath: "inset(0% 100% 0% 0%)" },
       {
-        scaleX: 1,
+        clipPath: "inset(0% 0% 0% 0%)",
         duration: HERO_INTRO.bandDuration,
         ease: HERO_INTRO.ease.out,
       },

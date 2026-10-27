@@ -1,6 +1,7 @@
 {% macro render(params = {}) %}
   {% import "molecules/labels/accession-label.njk" as Label %}
   {% import "molecules/figure/media.njk" as Media %}
+  {% import "molecules/band/band.njk" as Band %}
   {%- set sectionId = params.id | default("hero") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
@@ -15,12 +16,9 @@
 
   {#- HERO VIEW -#}
   {%- set header_styles = {"base": "h-dvh px-8 flex flex-col justify-center z-1 font-display col-span-full", "lg": "col-span-10"} -%}
-  {#- Title band: a solid plate behind label + h1 that reads as a cut through the background video to the layer beneath. Full-bleed: the negative left offset cancels the section's and header's horizontal padding (px-4 + px-8; sm: px-8 + px-8) so the plate starts at the viewport's left edge. The inset shadows on its top and bottom edges are the video "layer" casting onto it. -#}
+  {#- Title band (molecules/band): a solid plate behind label + h1. Full-bleed: the negative left offset cancels the section's and header's horizontal padding (px-4 + px-8; sm: px-8 + px-8) so the plate starts at the viewport's left edge. -#}
   {%- set content_styles = {"base": "relative isolate"} -%}
-  {%- set band_styles = {
-    "base": "absolute inset-y-0 -left-12 -z-1 w-screen bg-slate-900 shadow-[inset_0_16px_24px_-12px_rgb(0_0_0/0.8),inset_0_-16px_24px_-12px_rgb(0_0_0/0.8)]",
-    "sm": "-left-16"
-  } -%}
+  {%- set band_offset = {"base": "-left-12", "sm": "-left-16"} -%}
   {%- set label_styles = {"base": "pt-12"} -%}
   {%- set title_styles = {"base": "pb-18 pl-1 font-display text-5xl/12 tracking-loose", "sm": "text-6xl"} -%}
   {#- MISSION STATEMENT -#}
@@ -33,6 +31,10 @@
   {%- set body_styles = {"base": "px-8 py-6 bg-slate-950 col-span-full prose prose-p:text-xl prose-invert max-w-none"} -%}
   {%- set figure_styles = {"base": "col-span-full"} -%}
   {%- set image_styles = {"base": "block w-full h-auto"} -%}
+  {#- Statement bands sit inside the section's padding only (px-4; sm: px-8). -#}
+  {%- set statement_band_offset = {"base": "-left-4", "sm": "-left-8"} -%}
+  {#- Statements: subheading + body + image each. Item 0 is the value prop; its image also fills the title band. Falls back to the single value prop when no list is passed. -#}
+  {%- set statements = params.statements or [{ "subheading": subheading, "body": body }] -%}
 
   <section class="{{ section_styles | classes }}"
            id="{{ sectionId }}"
@@ -41,7 +43,12 @@
     <header class="{{ header_styles | classes }}" data-hero-el="header">
       {#- div: groups label + h1 so the band can span them; hgroup would be invalid, since the label's root is a <dl>. -#}
       <div class="{{ content_styles | classes }}">
-        <span class="{{ band_styles | classes }}" data-hero-el="band" aria-hidden="true"></span>
+        {{ Band.render({
+              image: statements[0].image,
+              classes: band_offset,
+              attrs: 'data-hero-el="band"',
+              imageAttrs: 'data-hero-el="band-image"'
+        }) }}
         {{ Label.render({
               index: "01",
               title: "Manifesto",
@@ -55,15 +62,28 @@
             data-hero-el="heading">{{ heading }}</h1>
       </div>
     </header>
-    {#- Statements: subheading + body + image each. Item 0 is the value prop. Falls back to the single value prop when no list is passed. Every section keeps the existing hooks; motion currently binds only the first. -#}
-    {%- set statements = params.statements or [{ "subheading": subheading, "body": body }] -%}
+    {#- Every statement section keeps the existing hooks; mission-statement motion binds only the first. Statements after the first show their image in a band behind subheading + body instead of a figure. -#}
     {%- for statement in statements %}
       <section class="{{ statement_styles | classes }}"
                data-hero-el="mission-statement"
                data-statement-index="{{ loop.index0 }}">
-        <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
-        <div data-hero-el="body" class="{{ body_styles | classes }}">{{ statement.body | safe }}</div>
-        {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles } }) }}
+        {%- if loop.first %}
+          <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
+          <div data-hero-el="body" class="{{ body_styles | classes }}">{{ statement.body | safe }}</div>
+          {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles } }) }}
+        {%- else %}
+          {#- div: groups subheading + body so the band can span them. -#}
+          <div class="{{ content_styles | classes }}">
+            {{ Band.render({
+                  image: statement.image,
+                  classes: statement_band_offset,
+                  attrs: 'data-hero-el="band"',
+                  imageAttrs: 'data-hero-el="band-image"'
+            }) }}
+            <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
+            <div data-hero-el="body" class="{{ body_styles | classes }}">{{ statement.body | safe }}</div>
+          </div>
+        {%- endif %}
       </section>
     {%- endfor %}
   </section>

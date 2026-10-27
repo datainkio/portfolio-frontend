@@ -1,0 +1,43 @@
+{#
+  Band: a solid, full-bleed plate with inset top and bottom shadows, placed
+  behind sibling content so it reads as a cut through the background video to
+  the layer beneath. An optional image fills it, bleeding past its top and
+  bottom edges as travel room for scroll parallax; the band clips it.
+  Decorative: aria-hidden, empty alt.
+
+  The parent must be `relative isolate`. The band sits at `-z-1` behind its
+  siblings and spans the parent's height. It is `w-screen`, so the caller
+  passes, via `classes`, the negative left offset that reaches the viewport's
+  left edge from where the parent sits.
+
+Params:
+  image       Sanity image object (asset.url). Optional.
+  classes     string | variant map | array  Appended to the band root.
+  attrs       string  Extra attributes on the band root (choreography hook).
+  imageAttrs  string  Extra attributes on the <img> (choreography hook).
+
+  {{ Band.render({ image: statement.image, classes: { "base": "-left-4", "sm": "-left-8" } }) }}
+
+  Spec: specs/views/component-api.views-spec.md
+#}
+{%- macro render(params = {}) -%}
+  {%- set url = params.image.asset.url if (params.image and params.image.asset) else "" -%}
+  {%- set dims = params.image.asset.metadata.dimensions if (url and params.image.asset.metadata) else {} -%}
+  {#- The shadow is on ::after so it paints above the image. -#}
+  {%- set base = "absolute inset-y-0 -z-1 w-screen overflow-hidden bg-slate-900 after:absolute after:inset-0 after:shadow-[inset_0_16px_24px_-12px_rgb(0_0_0/0.8),inset_0_-16px_24px_-12px_rgb(0_0_0/0.8)]" -%}
+  {#- 150% tall, starting 25% above the band: a quarter of the band's height to spare above and below for the parallax travel (HERO_BAND_PARALLAX). -#}
+  {%- set imageBase = "absolute -top-1/4 left-0 h-[150%] w-full object-cover" -%}
+  <span class="{{ [base, params.classes] | classes }}"
+        aria-hidden="true"
+        {{ params.attrs | default("") | safe }}>
+    {%- if url -%}
+      <img src="{{ url | imageUrl({w: 1920, q: 75}) }}"
+           alt=""
+           {% if dims.width and dims.height %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
+           loading="lazy"
+           decoding="async"
+           class="{{ imageBase }}"
+           {{ params.imageAttrs | default("") | safe }} />
+    {%- endif -%}
+  </span>
+{%- endmacro -%}
