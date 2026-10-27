@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant User
+    participant Hero
+    participant AnimationBus
+    participant LandingSequence
+    participant Work
+
+    User->>Hero: Scroll past hero
+    Hero->>AnimationBus: emit hero:intro:complete
+    AnimationBus->>LandingSequence: event received
+    LandingSequence->>Work: emit work:intro:start
+    Work->>Work: Trigger work animations
+    Work->>User: Fade in content
