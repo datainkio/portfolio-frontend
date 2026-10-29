@@ -11,11 +11,14 @@
   {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
 
+
+
+
   {#- SECTION -#}
   {%- set section_styles = {"base": "relative text-neutral-200 col-span-full grid grid-cols-12 px-4", "sm": "px-8"} -%}
 
   {#- HERO VIEW -#}
-  {%- set header_styles = {"base": "h-dvh px-8 flex flex-col justify-center z-1 font-display col-span-full", "lg": "col-span-10"} -%}
+  {%- set header_styles = {"base": "h-dvh px-8 flex flex-col justify-end z-1 font-display col-span-full", "lg": "col-span-10"} -%}
   {#- Title band (molecules/band): a solid plate behind label + h1. Full-bleed: the negative left offset cancels the section's and header's horizontal padding (px-4 + px-8; sm: px-8 + px-8) so the plate starts at the viewport's left edge. -#}
   {%- set content_styles = {"base": "relative isolate"} -%}
   {%- set band_offset = {"base": "-left-12", "sm": "-left-16"} -%}
@@ -42,48 +45,25 @@
            data-scroll-section>
     <header class="{{ header_styles | classes }}" data-hero-el="header">
       {#- div: groups label + h1 so the band can span them; hgroup would be invalid, since the label's root is a <dl>. -#}
-      <div class="{{ content_styles | classes }}">
-        {{ Band.render({
-              image: statements[0].image,
-              classes: band_offset,
-              attrs: 'data-hero-el="band"',
-              imageAttrs: 'data-hero-el="band-image"'
-        }) }}
-        {{ Label.render({
-              index: "01",
-              title: "Manifesto",
-              description: "Russell Lebo / Selected Works Archive",
-              scope: "2008-" + (buildDate | formatDate("yyyy") ),
-        classes: label_styles | classes,
-        attrs: 'data-hero-el="context"'
-        }) }}
-        <h1 class="{{ title_styles | classes }}"
-            id="{{ headingId }}"
-            data-hero-el="heading">{{ heading }}</h1>
-      </div>
+      {{ Label.render({
+            index: "01",
+            title: "Manifesto",
+            description: "Russell Lebo / Selected Works Archive",
+            scope: "2008-" + (buildDate | formatDate("yyyy") ),
+      classes: label_styles | classes,
+      attrs: 'data-hero-el="context"'
+      }) }}
+      <h1 class="{{ title_styles | classes }}"
+          id="{{ headingId }}"
+          data-hero-el="heading">{{ heading }}</h1>
     </header>
     {#- Every statement section keeps the existing hooks; mission-statement motion binds only the first. Statements after the first show their image in a band behind subheading + body instead of a figure. -#}
     {%- for statement in statements %}
       <section class="{{ statement_styles | classes }}"
-               data-hero-el="mission-statement"
-               data-statement-index="{{ loop.index0 }}">
-        {%- if loop.first %}
-          <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
-          <div data-hero-el="body" class="{{ body_styles | classes }}">{{ statement.body | safe }}</div>
-          {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles } }) }}
-        {%- else %}
-          {#- div: groups subheading + body so the band can span them. -#}
-          <div class="{{ content_styles | classes }}">
-            {{ Band.render({
-                  image: statement.image,
-                  classes: statement_band_offset,
-                  attrs: 'data-hero-el="band"',
-                  imageAttrs: 'data-hero-el="band-image"'
-            }) }}
-            <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
-            <div data-hero-el="body" class="{{ body_styles | classes }}">{{ statement.body | safe }}</div>
-          </div>
-        {%- endif %}
+               data-hero-el="mission-statement">
+        <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
+        {{ statement.body | safe }}
+        {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles } }) }}
       </section>
     {%- endfor %}
   </section>
