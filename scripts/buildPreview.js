@@ -20,8 +20,9 @@
  */
 
 import { fileURLToPath } from "url";
-import { resolve, dirname } from "path";
+import { resolve } from "path";
 import logger from "@datainkio/lumberjack";
+import { projectRoot } from "./lib/paths.js";
 
 // Enable logger for preview
 logger.enabled = true;
@@ -32,9 +33,6 @@ const isVerbose = args.includes("--verbose");
 const isDev = args.includes("--dev");
 
 // Get directory paths
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, "..");
 
 /**
  * Display full production build process outline

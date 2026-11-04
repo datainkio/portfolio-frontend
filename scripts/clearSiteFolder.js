@@ -3,11 +3,12 @@
 import { rm, readdir } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
+import { projectRoot } from "./lib/paths.js";
 import logger from "@datainkio/lumberjack";
 
 logger.enabled = true;
 
-const siteFolder = join(process.cwd(), "_site");
+const siteFolder = join(projectRoot, "_site");
 const preserveDirs = ["content"]; // Directories to preserve
 
 async function clearSiteFolder() {

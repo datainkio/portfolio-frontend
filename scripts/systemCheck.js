@@ -21,15 +21,12 @@
  */
 
 import { existsSync, statSync, accessSync, constants } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import { execSync } from "child_process";
 import chalk from "chalk";
 import dotenv from "dotenv";
+import { projectRoot } from "./lib/paths.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, "..");
 
 // Load environment variables
 dotenv.config();

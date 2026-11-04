@@ -37,17 +37,14 @@
  */
 import { TailwindLogger } from "../eleventy/services/TailwindLogger.js";
 import { execSync, spawn } from "child_process";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
+import { projectRoot } from "./lib/paths.js";
 
 // Enable logger for build transparency
 logger.enabled = true;
 
 // Get directory paths for imports
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, "..");
 
 /**
  * Custom Logger Styles for Build Script
