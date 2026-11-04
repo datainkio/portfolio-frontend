@@ -105,7 +105,7 @@
     "diagrams:export:onboarding": "node scripts/generate/exportDiagrams.js --dir onboarding",
     "diagrams:export:choreography": "node scripts/generate/exportDiagrams.js --dir js/choreography",
     "diagrams:export:storyboards": "node scripts/generate/exportStoryboards.js",
-    "diagrams:watch:storyboards": "nodemon --watch njk/_pages/storyboards --ext md --exec \"npm run diagrams:export:storyboards\"",
+    "diagrams:watch:storyboards": "nodemon --watch docs/storyboards --ext md --exec \"npm run diagrams:export:storyboards\"",
     "_comment_deployment": "=== DEPLOYMENT ===",
     "pre-deploy": "run-s validate build",
     "_comment_help": "=== HELP & DOCUMENTATION ===",

@@ -23,7 +23,7 @@
  * npm run scaffold:layout blog-post
  *
  * CRITICAL DEPENDENCIES:
- * - njk/_includes/ directory structure
+ * - views/ directory structure
  * - _registry.njk component system
  * - Logger utility for consistent output
  * - Figma design token structure
@@ -32,6 +32,7 @@
 import { writeFileSync, existsSync, mkdirSync } from "fs";
 import { resolve } from "path";
 import chalk from "chalk";
+import { projectRoot } from "../lib/paths.js";
 
 /**
  * Component Templates - Standardized component scaffolding
@@ -95,7 +96,7 @@ props:
 # - Handles missing data gracefully
 ---
 
-{% from "_includes/_registry.njk" import component %}
+{% from "_registry/_registry.njk" import component %}
 
 <div class="${name} ${name}--{{ variant | default('default') }}">
   {{ component("atoms", "heading", { content: title, level: 3 }) }}
@@ -126,12 +127,12 @@ props:
 # - Animation timelines defined in js/choreography/sections/
 #
 # CMS INTEGRATION:
-# - Processes collection data from njk/_data/
+# - Processes collection data from data/sanity/
 # - Supports multiple content types
 # - Handles empty states gracefully
 ---
 
-{% from "_includes/_registry.njk" import component %}
+{% from "_registry/_registry.njk" import component %}
 
 <section 
   class="${name}"
@@ -174,7 +175,7 @@ ANIMATION COMPATIBILITY:
 - Maintain consistent CSS class structure
 #}
 
-{% from "_includes/_registry.njk" import component %}
+{% from "_registry/_registry.njk" import component %}
 
 {# Page Content #}
 <main class="${name}-page">
@@ -303,7 +304,6 @@ export default class ${Name}Animations extends AbstractSectionAnimations {
   ) => `import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { SELECTORS } from "../../config/index/index.js";
-import { projectRoot } from "../lib/paths.js";
 
 /**
  * ${Name} ScrollTrigger defaults.
@@ -431,11 +431,11 @@ function generateComponent(type, category, name) {
 
   if (type === "page") {
     template = templates.page(name, componentName);
-    targetDir = resolve(projectRoot, "njk/_pages");
+    targetDir = resolve(projectRoot, `views/pages/${name}`);
     filename = `${name}.njk`;
   } else {
     template = templates[type](name, componentName);
-    targetDir = resolve(projectRoot, `njk/_includes/${category}`);
+    targetDir = resolve(projectRoot, `views/${category}`);
     filename = `${name}.njk`;
   }
 
