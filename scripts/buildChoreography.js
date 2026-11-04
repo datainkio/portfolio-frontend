@@ -16,12 +16,9 @@
  */
 import { build, context } from "esbuild";
 import { existsSync, mkdirSync, rmSync } from "fs";
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
+import { projectRoot } from "./lib/paths.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, "..");
 const entryPoint = resolve(projectRoot, "js/choreography/AnimationDirector.js");
 const outDir = resolve(projectRoot, "assets/js/choreography");
 const outFile = resolve(outDir, "bundle.js");

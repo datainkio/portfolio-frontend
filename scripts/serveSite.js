@@ -24,12 +24,9 @@
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
-import { fileURLToPath } from "node:url";
-import { resolve, dirname, normalize, join, extname } from "node:path";
+import { resolve, normalize, join, extname } from "node:path";
+import { projectRoot } from "./lib/paths.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, "..");
 
 const args = process.argv.slice(2);
 const argValue = (flag) => {

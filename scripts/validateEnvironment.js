@@ -23,6 +23,7 @@
 
 import { existsSync } from "fs";
 import { resolve } from "path";
+import { projectRoot } from "./lib/paths.js";
 import chalk from "chalk";
 import dotenv from "dotenv";
 
@@ -124,7 +125,7 @@ function validateProjectStructure() {
   ];
 
   requiredPaths.forEach((item) => {
-    const fullPath = resolve(item.path);
+    const fullPath = resolve(projectRoot, item.path);
     if (existsSync(fullPath)) {
       console.log(chalk.green(`  ✅ ${item.path}`));
     } else {

@@ -12,11 +12,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import opentype from "opentype.js";
+import { projectRoot } from "./lib/paths.js";
 
-const ROOT = path.resolve(
-  path.dirname(new URL(import.meta.url).pathname),
-  "..",
-);
+const ROOT = projectRoot;
 const OUT_DIR = path.join(ROOT, ".github/readme");
 const FONT = path.join(ROOT, "assets/fonts/DRAFTPAPER/DRAFTPAPER.otf");
 

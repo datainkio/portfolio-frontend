@@ -2,10 +2,11 @@ import fs from "fs/promises";
 import path from "path";
 import { execSync } from "child_process";
 import logger from "@datainkio/lumberjack";
+import { projectRoot } from "../lib/paths.js";
 
-const INPUT_DIR = path.resolve("njk/_pages/storyboards");
-const OUTPUT_DIR = path.resolve("assets/storyboards");
-const TMP_DIR = path.resolve("scripts/.tmp/storyboards");
+const INPUT_DIR = path.resolve(projectRoot, "njk/_pages/storyboards");
+const OUTPUT_DIR = path.resolve(projectRoot, "assets/storyboards");
+const TMP_DIR = path.resolve(projectRoot, "scripts/.tmp/storyboards");
 
 async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true });
