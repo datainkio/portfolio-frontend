@@ -40,7 +40,7 @@ flowchart LR
 
   choreo[js/choreography/config/ix/breakpoints.js]
   collections[eleventy/collections/index.js]
-  buildcss[scripts/buildCSS.js]
+  buildcss[scripts/build/buildCSS.js]
   out[(_site/)]
 
   bp -- "SCREENS" --> tw

@@ -17,7 +17,7 @@
  *
  * USAGE:
  * npm run help
- * node scripts/showAvailableWorkflows.js
+ * node scripts/help/showAvailableWorkflows.js
  */
 
 import chalk from "chalk";

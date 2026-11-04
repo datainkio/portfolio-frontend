@@ -20,8 +20,8 @@ measured rather than narrated. Classification comes from
 ## Usage
 
 ```bash
-node scripts/auditFrontmatter.js --label before
-node scripts/auditFrontmatter.js --label after --compare before
+node scripts/frontmatter/auditFrontmatter.js --label before
+node scripts/frontmatter/auditFrontmatter.js --label after --compare before
 npm run diagrams:export -- --dir docs/frontmatter-audit
 ```
 

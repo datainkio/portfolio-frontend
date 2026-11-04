@@ -5,8 +5,8 @@ status: stable
 
 # buildCSS
 
-Context sidecar for `scripts/buildCSS.js`.
+Context sidecar for `scripts/build/buildCSS.js`.
 
 ## Source
 
-- Path: `scripts/buildCSS.js`
+- Path: `scripts/build/buildCSS.js`

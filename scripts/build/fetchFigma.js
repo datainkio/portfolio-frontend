@@ -6,7 +6,7 @@ import {
   styleService,
   paletteService,
   typographyService,
-} from "../figma/index.js";
+} from "../../figma/index.js";
 import { buildCSS } from "./buildCSS.js";
 
 logger.enabled = true;
@@ -49,7 +49,7 @@ async function fetchDesignSystem() {
     {
       name: "rebuild-css",
       description: "Compile CSS with updated design tokens",
-      script: "scripts/buildCSS.js",
+      script: "scripts/build/buildCSS.js",
       triggers: ["_site/assets/styles.css regeneration"],
     },
   ];

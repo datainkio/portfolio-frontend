@@ -3,7 +3,7 @@
 import { rm, readdir } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
-import { projectRoot } from "./lib/paths.js";
+import { projectRoot } from "../lib/paths.js";
 import logger from "@datainkio/lumberjack";
 
 logger.enabled = true;

@@ -17,7 +17,7 @@
  *
  * USAGE:
  * npm run doctor
- * node scripts/systemCheck.js
+ * node scripts/help/systemCheck.js
  */
 
 import { existsSync, statSync, accessSync, constants } from "fs";
@@ -25,8 +25,7 @@ import { resolve } from "path";
 import { execSync } from "child_process";
 import chalk from "chalk";
 import dotenv from "dotenv";
-import { projectRoot } from "./lib/paths.js";
-
+import { projectRoot } from "../lib/paths.js";
 
 // Load environment variables
 dotenv.config();

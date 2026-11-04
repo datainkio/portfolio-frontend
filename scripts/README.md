@@ -9,23 +9,34 @@ Node scripts behind the npm commands.
 
 # Scripts
 
-The Node scripts that `npm run ...` calls.
+The Node scripts behind `npm run ...`. Use the npm commands; they are the stable interface, and the files behind them can move.
 
-## What's here
+## Layout
 
-- `buildCSS.js`: compiles Tailwind
-- `buildChoreography.js`: bundles the animation JS
-- `fetchFigma.js`: syncs design tokens
-- `buildReadmeAssets.js`: makes the README banner and strips
-- `serveSite.js`, `buildPreview.js`: local preview
-- `lintFrontmatter.js`, `auditFrontmatter.js`, `normalizeFrontmatter.js`: frontmatter checks
-- `scaffold.js`: generates a new component
-- `exportDiagrams.js`, `systemCheck.js`: utilities
+| Folder | Job | Commands |
+| --- | --- | --- |
+| `build/` | Produces the site | `build`, `quick`, `build:css`, `build:js`, `build:design`, `clean` |
+| `dev/` | Runs things locally | `serve:site`, `preview` |
+| `generate/` | Writes files into the repo | `scaffold:*`, `build:readme`, `diagrams:*` |
+| `frontmatter/` | Checks and fixes frontmatter and sidecars | `lint:frontmatter`, `fix:frontmatter`, `audit:frontmatter`, `audit:sidecars` |
+| `help/` | Reports only and changes nothing | `doctor`, `validate:env`, `setup`, `help`, `ref`, `build:preview` |
+| `lib/` | Code shared across these folders | None |
+
+`build:preview` prints the build outline. To view the built site, use `preview`.
+
+`dev/initTailwind.js` is parked and has no command. It can't run yet because its input, `tailwind/styles.css`, doesn't exist.
+
+## Adding a script
+
+- Put it in the folder that matches its job, and add its npm command to `package.json`.
+- Get the repo root from `projectRoot` in `lib/paths.js`, not from the script's location or the current directory.
+- Keep code used by one folder in that folder. Only code shared across folders goes in `lib/`.
+- Add a `.md` sidecar next to it.
 
 ## How it connects
 
-- Each script is wired up in `package.json`; run `npm run` to list them.
 - `build:design` runs the [Figma sync](../figma/README.md).
+- `frontmatter/sidecar-baseline.json` lists known sidecar gaps; `audit:sidecars` fails only on new ones.
 
 ## See also
 
@@ -34,31 +45,10 @@ The Node scripts that `npm run ...` calls.
 <!-- readme-index:start -->
 ## Index
 
-- [diagrams/](diagrams/)
+- [build/](build/)
+- [dev/](dev/)
+- [frontmatter/](frontmatter/)
+- [generate/](generate/)
+- [help/](help/)
 - [lib/](lib/)
-- [auditFrontmatter.js](auditFrontmatter.js)
-- [auditFrontmatter.md](auditFrontmatter.md)
-- [buildChoreography.js](buildChoreography.js)
-- [buildCSS.js](buildCSS.js)
-- [buildCSS.md](buildCSS.md)
-- [buildPreview.js](buildPreview.js)
-- [buildReadmeAssets.js](buildReadmeAssets.js)
-- [buildReadmeAssets.md](buildReadmeAssets.md)
-- [clearSiteFolder.js](clearSiteFolder.js)
-- [exportDiagrams.js](exportDiagrams.js)
-- [fetchFigma.js](fetchFigma.js)
-- [fetchFigma.md](fetchFigma.md)
-- [initTailwind.js](initTailwind.js)
-- [lintFrontmatter.js](lintFrontmatter.js)
-- [lintFrontmatter.md](lintFrontmatter.md)
-- [normalizeFrontmatter.js](normalizeFrontmatter.js)
-- [normalizeFrontmatter.md](normalizeFrontmatter.md)
-- [quickRef.js](quickRef.js)
-- [scaffold.js](scaffold.js)
-- [serveSite.js](serveSite.js)
-- [showAvailableWorkflows.js](showAvailableWorkflows.js)
-- [systemCheck.js](systemCheck.js)
-- [systemCheck.md](systemCheck.md)
-- [validateEnvironment.js](validateEnvironment.js)
-- [validateEnvironment.md](validateEnvironment.md)
 <!-- readme-index:end -->

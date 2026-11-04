@@ -16,8 +16,8 @@
  * Deterministic and idempotent: running twice changes nothing the second time.
  *
  * USAGE:
- *   node scripts/normalizeFrontmatter.js --dry     # report only
- *   node scripts/normalizeFrontmatter.js           # apply
+ *   node scripts/frontmatter/normalizeFrontmatter.js --dry     # report only
+ *   node scripts/frontmatter/normalizeFrontmatter.js           # apply
  */
 
 import { execFileSync } from "child_process";
@@ -42,7 +42,7 @@ import {
   blockItems,
   unquote,
   yamlScalar,
-} from "./lib/frontmatterSchema.js";
+} from "./frontmatterSchema.js";
 
 const dry = process.argv.includes("--dry");
 

@@ -6,8 +6,8 @@
  * in the same directory as the source file with proper font embedding.
  *
  * Usage:
- *   node scripts/exportDiagrams.js           # Export all diagrams
- *   node scripts/exportDiagrams.js --dir js  # Export only from js/ directory
+ *   node scripts/generate/exportDiagrams.js           # Export all diagrams
+ *   node scripts/generate/exportDiagrams.js --dir js  # Export only from js/ directory
  */
 
 import { glob } from "glob";

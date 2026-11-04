@@ -27,7 +27,7 @@ Import order in `main.css` matters: fonts first, then Tailwind, base, theme, com
 
 ## How it connects
 
-- `scripts/buildCSS.js` compiles `main.css` into the site.
+- `scripts/build/buildCSS.js` compiles `main.css` into the site.
 - [figma](../figma/README.md) generates the token files.
 
 ## See also

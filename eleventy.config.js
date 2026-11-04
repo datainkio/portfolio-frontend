@@ -28,7 +28,7 @@ export default async function (eleventyConfig) {
       "standard",
     );
     // Runtime flags shared with the JS build. `bundleJs` must mirror the
-    // default in scripts/buildChoreography.js (BUNDLE_JS env, default true) so
+    // default in scripts/build/buildChoreography.js (BUNDLE_JS env, default true) so
     // the choreography-script partial loads the minified bundle.js the bundler
     // emits — rather than the raw ESM import tree — whenever bundling is on.
     const normalizeBoolean = (value) => {

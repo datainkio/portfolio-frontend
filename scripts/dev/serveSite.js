@@ -17,16 +17,15 @@
  *
  * USAGE:
  *   npm run preview        # build (quick) then serve _site
- *   node scripts/serveSite.js [--port 8090] [--dir _site]
- *   PORT=8091 node scripts/serveSite.js
+ *   node scripts/dev/serveSite.js [--port 8090] [--dir _site]
+ *   PORT=8091 node scripts/dev/serveSite.js
  */
 
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 import { resolve, normalize, join, extname } from "node:path";
-import { projectRoot } from "./lib/paths.js";
-
+import { projectRoot } from "../lib/paths.js";
 
 const args = process.argv.slice(2);
 const argValue = (flag) => {
