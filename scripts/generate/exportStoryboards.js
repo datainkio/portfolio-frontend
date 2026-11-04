@@ -4,7 +4,7 @@ import { execSync } from "child_process";
 import logger from "@datainkio/lumberjack";
 import { projectRoot } from "../lib/paths.js";
 
-const INPUT_DIR = path.resolve(projectRoot, "njk/_pages/storyboards");
+const INPUT_DIR = path.resolve(projectRoot, "docs/storyboards");
 const OUTPUT_DIR = path.resolve(projectRoot, "assets/storyboards");
 const TMP_DIR = path.resolve(projectRoot, "scripts/.tmp/storyboards");
 
@@ -40,7 +40,8 @@ export async function exportStoryboards() {
   await ensureDir(OUTPUT_DIR);
 
   const files = await fs.readdir(INPUT_DIR);
-  const mdFiles = files.filter((f) => f.endsWith(".md"));
+  // The folder README holds an example diagram, not a storyboard.
+  const mdFiles = files.filter((f) => f.endsWith(".md") && f !== "README.md");
 
   let total = 0;
 

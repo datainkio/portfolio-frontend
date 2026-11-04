@@ -104,3 +104,6 @@ Temporary Items
 # /graphify --update.
 graphify-out/
 .codegraphy/*
+
+# Temp Mermaid files written by the storyboard export
+scripts/.tmp/
