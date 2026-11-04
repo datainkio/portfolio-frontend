@@ -39,7 +39,7 @@ const figmaWorkflow = [
   {
     name: "rebuild-css",
     description: "Compile CSS with updated design tokens",
-    script: "scripts/buildCSS.js",
+    script: "scripts/build/buildCSS.js",
     triggers: ["_site/assets/styles.css regeneration"],
   },
 ];

@@ -33,13 +33,13 @@
  * - Triggered by Figma design token sync for cache invalidation
  * - Monitored by development server for hot reloading
  *
- * @module scripts/buildCSS
+ * @module scripts/build/buildCSS
  */
-import { TailwindLogger } from "../eleventy/services/TailwindLogger.js";
+import { TailwindLogger } from "../../eleventy/services/TailwindLogger.js";
 import { execSync, spawn } from "child_process";
 import { resolve } from "path";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
-import { projectRoot } from "./lib/paths.js";
+import { projectRoot } from "../lib/paths.js";
 
 // Enable logger for build transparency
 logger.enabled = true;

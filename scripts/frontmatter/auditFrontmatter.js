@@ -12,11 +12,11 @@
  * measured identically and the delta is trustworthy.
  *
  * USAGE:
- *   node scripts/auditFrontmatter.js --label before
- *   node scripts/auditFrontmatter.js --label after
- *   node scripts/auditFrontmatter.js --label after --compare before
- *   node scripts/auditFrontmatter.js --check   # CI gate: exit 1 on a NEW missing sidecar vs. scripts/.sidecar-baseline.json
- *   node scripts/auditFrontmatter.js --check --update-baseline   # accept current missing sidecars as the new baseline
+ *   node scripts/frontmatter/auditFrontmatter.js --label before
+ *   node scripts/frontmatter/auditFrontmatter.js --label after
+ *   node scripts/frontmatter/auditFrontmatter.js --label after --compare before
+ *   node scripts/frontmatter/auditFrontmatter.js --check   # CI gate: exit 1 on a NEW missing sidecar vs. scripts/frontmatter/sidecar-baseline.json
+ *   node scripts/frontmatter/auditFrontmatter.js --check --update-baseline   # accept current missing sidecars as the new baseline
  *
  * OUTPUT (docs/frontmatter-audit/<label>/):
  *   snapshot.json          all metrics, machine-readable
@@ -40,10 +40,10 @@ import {
   NULL_TAGS,
   isExempt,
   verdictFor,
-} from "./lib/frontmatterSchema.js";
+} from "./frontmatterSchema.js";
 
 // Schema classification is shared with the codemod and the linter — see
-// scripts/lib/frontmatterSchema.js. Nothing here re-declares a key list.
+// scripts/frontmatter/frontmatterSchema.js. Nothing here re-declares a key list.
 
 // ---------------------------------------------------------------------------
 // Collection
@@ -58,7 +58,7 @@ const label = readFlag("label", "current");
 const compareWith = readFlag("compare");
 const checkOnly = args.includes("--check");
 const updateBaseline = args.includes("--update-baseline");
-const SIDECAR_BASELINE_PATH = "scripts/.sidecar-baseline.json";
+const SIDECAR_BASELINE_PATH = "scripts/frontmatter/sidecar-baseline.json";
 
 const OUT_ROOT = "docs/frontmatter-audit";
 const OUT_DIR = join(OUT_ROOT, label);
@@ -392,7 +392,7 @@ function gexfKeys() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <gexf xmlns="http://www.gexf.net/1.2draft" xmlns:viz="http://www.gexf.net/1.2draft/viz" version="1.2">
   <meta lastmodifieddate="${snapshot.generated}">
-    <creator>scripts/auditFrontmatter.js</creator>
+    <creator>scripts/frontmatter/auditFrontmatter.js</creator>
     <description>Frontmatter key co-occurrence (${label}). Clusters are schema profiles.</description>
   </meta>
   <graph mode="static" defaultedgetype="undirected">
@@ -447,7 +447,7 @@ function gexfFiles() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">
   <meta lastmodifieddate="${snapshot.generated}">
-    <creator>scripts/auditFrontmatter.js</creator>
+    <creator>scripts/frontmatter/auditFrontmatter.js</creator>
     <description>File-to-key bipartite graph (${label}).</description>
   </meta>
   <graph mode="static" defaultedgetype="undirected">

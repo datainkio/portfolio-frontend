@@ -18,12 +18,12 @@
  *
  * USAGE:
  * npm run validate:env
- * node scripts/validateEnvironment.js
+ * node scripts/help/validateEnvironment.js
  */
 
 import { existsSync } from "fs";
 import { resolve } from "path";
-import { projectRoot } from "./lib/paths.js";
+import { projectRoot } from "../lib/paths.js";
 import chalk from "chalk";
 import dotenv from "dotenv";
 

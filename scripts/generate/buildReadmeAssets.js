@@ -12,7 +12,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import opentype from "opentype.js";
-import { projectRoot } from "./lib/paths.js";
+import { projectRoot } from "../lib/paths.js";
 
 const ROOT = projectRoot;
 const OUT_DIR = path.join(ROOT, ".github/readme");

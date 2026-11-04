@@ -164,7 +164,7 @@ judgment-heavy phase.
 | #   | Phase                              | Status  | Output                                                                                                                                                                                               |
 | --- | ---------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | **Ratify one authority**           | ✅ done | [`specs/frontmatter.spec.md`](../specs/frontmatter.spec.md). Both `frontmatter.md` files reduced to stubs deferring to it. Resolves the `aix:` contradiction and the tag-format conflict explicitly. |
-| 2   | **Normalize values**               | ✅ done | `scripts/normalizeFrontmatter.js` — unified quoting, `docType`→`type`, status mapped onto the enum, canonical key order.                                                                             |
+| 2   | **Normalize values**               | ✅ done | `scripts/frontmatter/normalizeFrontmatter.js` — unified quoting, `docType`→`type`, status mapped onto the enum, canonical key order.                                                                 |
 | 3   | **Strip derivable + retired keys** | ✅ done | 1,687 retired keys removed; all 185 inline JSDoc `aix:` blocks removed; `role:` prose migrated into `description:` across 200 files.                                                                 |
 | 4   | **Backfill `description`**         | ✅ done | 100% coverage. 200 files from the `role:` migration, 177 derived from body text, 48 hand-authored where neither was possible.                                                                        |
 | 5   | **Enforce**                        | ✅ done | `npm run lint:frontmatter`, wired into `npm run validate`. Deterministic and local, per [`constraints.md`](../../context/constraints.md).                                                            |
@@ -173,7 +173,7 @@ judgment-heavy phase.
 ### What the tooling looks like now
 
 Three scripts over one shared classification —
-`scripts/lib/frontmatterSchema.js` is the only place a key list exists, so the
+`scripts/frontmatter/frontmatterSchema.js` is the only place a key list exists, so the
 audit, the codemod, and the linter cannot drift apart:
 
 ```bash

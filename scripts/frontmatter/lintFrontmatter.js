@@ -5,7 +5,7 @@
  * Frontmatter Linter
  *
  * Enforces specs/frontmatter.spec.md. Report-only; never writes.
- * Run `node scripts/normalizeFrontmatter.js` to fix what is mechanically fixable.
+ * Run `node scripts/frontmatter/normalizeFrontmatter.js` to fix what is mechanically fixable.
  *
  * Complements the `frontmatter-lint` skill, which checks presence (does the file
  * have frontmatter, does the sidecar exist). This checks the schema.
@@ -32,7 +32,7 @@ import {
   parseBlocks,
   blockItems,
   unquote,
-} from "./lib/frontmatterSchema.js";
+} from "./frontmatterSchema.js";
 
 const quiet = process.argv.includes("--quiet");
 
@@ -134,6 +134,6 @@ if (!total) {
 }
 console.log(
   chalk.yellow(`\n  ${total} findings across ${files.length} files.`),
-  chalk.dim("Run: node scripts/normalizeFrontmatter.js\n"),
+  chalk.dim("Run: node scripts/frontmatter/normalizeFrontmatter.js\n"),
 );
 process.exit(1);

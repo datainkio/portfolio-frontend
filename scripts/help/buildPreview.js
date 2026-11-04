@@ -10,8 +10,8 @@
  *
  * USAGE:
  * - npm run build:preview - Show full build process outline
- * - node scripts/buildPreview.js --verbose - Show detailed workflow
- * - node scripts/buildPreview.js --dev - Show development workflow
+ * - node scripts/help/buildPreview.js --verbose - Show detailed workflow
+ * - node scripts/help/buildPreview.js --dev - Show development workflow
  *
  * ARCHITECTURE INTEGRATION:
  * This script uses the Logger.showScriptOutline() method to provide transparency
@@ -22,7 +22,7 @@
 import { fileURLToPath } from "url";
 import { resolve } from "path";
 import logger from "@datainkio/lumberjack";
-import { projectRoot } from "./lib/paths.js";
+import { projectRoot } from "../lib/paths.js";
 
 // Enable logger for preview
 logger.enabled = true;
@@ -139,7 +139,7 @@ function showDesignSystemSync() {
     {
       name: "rebuild-css",
       description: "Compile CSS with updated design tokens",
-      script: "scripts/buildCSS.js",
+      script: "scripts/build/buildCSS.js",
       triggers: ["_site/assets/styles.css regeneration"],
     },
   ];

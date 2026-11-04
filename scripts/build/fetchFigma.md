@@ -5,8 +5,8 @@ status: stable
 
 # fetchFigma
 
-Context sidecar for `scripts/fetchFigma.js`.
+Context sidecar for `scripts/build/fetchFigma.js`.
 
 ## Source
 
-- Path: `scripts/fetchFigma.js`
+- Path: `scripts/build/fetchFigma.js`

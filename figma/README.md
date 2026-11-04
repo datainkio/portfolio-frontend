@@ -36,7 +36,7 @@ It writes `styles/colors.css`, `styles/typography/fontFamilies.css` and `styles/
 
 ## How it connects
 
-- The orchestrator is `scripts/fetchFigma.js`.
+- The orchestrator is `scripts/build/fetchFigma.js`.
 - Output is imported by [styles](../styles/README.md).
 
 ## See also

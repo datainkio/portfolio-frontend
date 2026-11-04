@@ -5,8 +5,8 @@ status: stable
 
 # systemCheck
 
-Context sidecar for `scripts/systemCheck.js`.
+Context sidecar for `scripts/help/systemCheck.js`.
 
 ## Source
 
-- Path: `scripts/systemCheck.js`
+- Path: `scripts/help/systemCheck.js`

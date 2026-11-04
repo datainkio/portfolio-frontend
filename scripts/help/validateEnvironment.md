@@ -5,8 +5,8 @@ status: stable
 
 # validateEnvironment
 
-Context sidecar for `scripts/validateEnvironment.js`.
+Context sidecar for `scripts/help/validateEnvironment.js`.
 
 ## Source
 
-- Path: `scripts/validateEnvironment.js`
+- Path: `scripts/help/validateEnvironment.js`

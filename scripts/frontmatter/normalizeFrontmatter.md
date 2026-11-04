@@ -22,7 +22,7 @@ Idempotent — a second run changes nothing.
 
 ```bash
 npm run fix:frontmatter              # apply
-node scripts/normalizeFrontmatter.js --dry   # report only
+node scripts/frontmatter/normalizeFrontmatter.js --dry   # report only
 ```
 
 ## Caution

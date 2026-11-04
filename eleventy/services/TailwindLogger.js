@@ -20,7 +20,7 @@
  * - Requires Lumberjack.js utility for consistent styling
  * - Must be imported before Tailwind CLI execution
  * - Coordinates with existing build process logging
- * - Used by scripts/buildCSS.js for enhanced build transparency
+ * - Used by scripts/build/buildCSS.js for enhanced build transparency
  *
  * PERFORMANCE NOTES:
  * - Adds ~10-20ms to build time for comprehensive analysis

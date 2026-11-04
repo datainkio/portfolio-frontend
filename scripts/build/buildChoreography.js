@@ -17,7 +17,7 @@
 import { build, context } from "esbuild";
 import { existsSync, mkdirSync, rmSync } from "fs";
 import { resolve } from "path";
-import { projectRoot } from "./lib/paths.js";
+import { projectRoot } from "../lib/paths.js";
 
 const entryPoint = resolve(projectRoot, "js/choreography/AnimationDirector.js");
 const outDir = resolve(projectRoot, "assets/js/choreography");

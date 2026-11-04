@@ -33,7 +33,6 @@ import { writeFileSync, existsSync, mkdirSync } from "fs";
 import { resolve } from "path";
 import chalk from "chalk";
 
-
 /**
  * Component Templates - Standardized component scaffolding
  */
@@ -304,7 +303,7 @@ export default class ${Name}Animations extends AbstractSectionAnimations {
   ) => `import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { SELECTORS } from "../../config/index/index.js";
-import { projectRoot } from "./lib/paths.js";
+import { projectRoot } from "../lib/paths.js";
 
 /**
  * ${Name} ScrollTrigger defaults.
