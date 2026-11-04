@@ -155,7 +155,6 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 **Build System**
 
 - `scripts/buildCSS.js` - Tailwind CLI wrapper with logging
-- `scripts/clearCache.js` - Cache management
 - `scripts/clearSiteFolder.js` - Clean \_site/ directory
 - `scripts/scaffold.js` - Component/page generator
 - `package.json` - All npm scripts and dependencies
