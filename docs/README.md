@@ -20,6 +20,7 @@ Longer notes that don't fit in a folder README.
 - [sanity-integration.md](sanity-integration.md): how CMS content reaches the site
 - [director-initialization-sequence.md](director-initialization-sequence.md): how the animation director starts
 - [preloader-integration-checklist.md](preloader-integration-checklist.md): preloader contract and smoke tests
+- [design-system/](design-system/README.md): generated inventory of tokens and utilities in use
 - [ia/](ia/frontmatter.md): page frontmatter
 - [storyboards/](storyboards/README.md): animation storyboards
 - `ai/`: older prompt notes
@@ -34,6 +35,7 @@ When a doc and the code disagree, trust the code.
 ## Index
 
 - [ai/](ai/README.md)
+- [design-system/](design-system/README.md)
 - [frontmatter-audit/](frontmatter-audit/README.md)
 - [ia/](ia/)
 - [storyboards/](storyboards/README.md)
