@@ -16,7 +16,7 @@
   {%- set height = image and (image.height or image.asset.metadata.dimensions.height) -%}
   {%- set url = params.url -%}
   {%- set classes = params.classes -%}
-  {%- set imageClasses = params.imageClasses -%}
+  {%- set imageClasses = params.styles.image | classes -%}
   {%- set eager = params.eager | default(false) -%}
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
@@ -109,7 +109,7 @@
         {% if byline_txt %}
           <p class="{{ eyebrow | classes }}">{{ byline_txt }}</p>
         {% endif %}
-        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) }) }}
+        {{ HeadingBlock.render({ level: headingLevel, text: title, classes: heading }) }}
 
       </header>
 

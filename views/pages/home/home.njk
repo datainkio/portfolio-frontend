@@ -1,7 +1,7 @@
 {#- FUNCTIONALITY IMPORTS -#}
-{% import "organisms/status/preloader.njk" as Preloader with context %}
-{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
-{% import "organisms/footer/global-footer.njk" as GlobalFooter with context %}
+{% import "organisms/status/preloader.njk" as Preloader %}
+{% import "organisms/header/global-header.njk" as GlobalHeader %}
+{% import "organisms/footer/global-footer.njk" as GlobalFooter %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
 
 {#- CONTENT VIEWS -#}
@@ -44,7 +44,7 @@
     {{ Preloader.render({ "svg": logo }) }}
     {% include "templates/partials/session-management-script/session-management-script.njk" %}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
-    {{ GlobalHeader.render({ logoSvg: logo }) }}
+    {{ GlobalHeader.render({ logoSvg: logo, docNo: docNo, sectionTitle: eleventyNavigation.title | default(title), cms: cms, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
     <div id="page-main">
       <main id="page-main-content" tabindex="-1" aria-busy="true" class="focus:outline-none {{ main | classes }}">
         {#- Hero statements: item 0 is the value prop (with valuePropImage), then the home singleton's statements[]. -#}
@@ -56,7 +56,7 @@
         {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
       </main>
     </div>
-    {{ GlobalFooter.render({ classes: "absolute inset-x-0 bottom-0" }) }}
+    {{ GlobalFooter.render({ classes: "absolute inset-x-0 bottom-0", year: site.year, cms: cms, pages: collections.all, currentUrl: page.url }) }}
     {% include "templates/partials/choreography-script/choreography-script.njk" %}
   </body>
 </html>

@@ -1,6 +1,8 @@
+{% import "atoms/link/nav-link.njk" as NavLink %}
+{% macro render(params = {}) %}
 <ul class="" role="list">
-  {% for child in entry.children %}
-    <li>{% set entry = child %}
-      {% include "atoms/link/nav-link.njk" %}</li>
+  {% for child in params.entry.children %}
+    <li>{{ NavLink.render({ entry: child, currentUrl: params.currentUrl }) }}</li>
   {% endfor %}
 </ul>
+{% endmacro %}

@@ -18,7 +18,8 @@
   "md": "pointer-events-none cursor-default"
 } -%}
 
-{% macro render(industries) %}
+{% macro render(params = {}) %}
+  {% set industries = params.industries %}
   {% if industries | length %}
     <nav data-projects-el="jumplinks"
          id="work-jumplinks"

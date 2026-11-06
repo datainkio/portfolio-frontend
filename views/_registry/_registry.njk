@@ -5,8 +5,9 @@
 {% endmacro %}
 
 {# Icon Helper - Shorthand for icon components #}
-{% macro icon(name, size="md", className="") %}
-  {% include "atoms/icon.njk" %}
+{% import "atoms/icon.njk" as Icon %}
+{% macro icon(name, size="md", classes="") %}
+  {{ Icon.render({ name: name, size: size, classes: classes }) }}
 {% endmacro %}
 
 {# Button Helper - Shorthand for button components #}

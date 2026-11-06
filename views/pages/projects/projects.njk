@@ -77,5 +77,5 @@
     fixed drawer/rail positioning is unaffected: sidebarBefore sits outside
     #page-main-content, like afterMain. -#}
 {% block sidebarBefore %}
-  {{ Industries.render(industries) }}
+  {{ Industries.render({ industries: industries }) }}
 {% endblock sidebarBefore %}

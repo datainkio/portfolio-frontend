@@ -2,6 +2,8 @@
 {#- Inner maps as variables: a nested literal ending in `}}` closes the tag early. -#}
 {%- set pictureStyles = "block w-full h-full [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:block" -%}
 {%- set mediaStyles = {"image": pictureStyles, "caption": "mt-2 text-sm text-neutral-600"} -%}
+{% macro render(params = {}) %}
+{%- set image = params.image -%}
 <div class="rounded-lg bg-neutral-100 shadow-xl overflow-hidden">
   {{ Media.render({ picture: image.file.html, caption: image.title, zoom: true, classes: "contents", styles: mediaStyles }) }}
   <div class="px-4 py-4">
@@ -27,3 +29,4 @@
     </dl>
   </div>
 </div>
+{% endmacro %}

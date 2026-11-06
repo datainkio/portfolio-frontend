@@ -1,8 +1,10 @@
-{% import "atoms/icon.njk" as Icon with context %}
+{% import "atoms/icon.njk" as Icon %}
 {% import "atoms/button.njk" as Button %}
 {% macro render(params = {}) %}
+  {%- set buildDate = params.buildDate -%}
+  {%- set buildVersions = params.buildVersions or {} -%}
   <div data-buildinfo-el="root"
-       class="contents flex {{ params.class | default("") }}">
+       class="{{ ['contents flex', params.classes] | classes }}">
     {#- JS-wired disclosure control (aria-expanded/aria-controls). Live in section-cap. -#}
     {% call Button.render({ classes: "arrow-suffix cursor-pointer", attrs: 'data-buildinfo-el="toggle" aria-expanded="false" aria-controls="build-info-list"' }) %}
       <time datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
