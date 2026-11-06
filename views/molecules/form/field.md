@@ -9,7 +9,7 @@ links:
 
 # Field
 
-`render(params)` also accepts `fieldStyles` (classes on the control) and `labelStyles` (classes on the `<label>`; default `text-sm font-display block w-full`). Both are full replacements, not merges, so a caller restyling one must restate the accessibility-relevant classes (focus ring, invalid state).
+Styling comes in through `styles`, with `field` and `label` slots. Neither slot has a default, so the caller sets both, including the focus ring and invalid state.
 
 Renders one accessible form field: `<label>`, an `<input>` or `<textarea>`,
 an optional help paragraph, and a hidden error paragraph wired for
@@ -32,21 +32,26 @@ anything else renders an `<input type="{{ type }}">`.
 Classified as a **component** at the atomic **molecule** level (label + atom
 input combined into one unit).
 
-## Data and Context
+## Params
 
-`render(params)`:
+| Param          | Type    | Description                                                                                          |
+| -------------- | ------- | ---------------------------------------------------------------------------------------------------- |
+| `id`           | string  | Required. Input `id`. The error paragraph is `{id}-error` and the help paragraph is `{id}-help`.     |
+| `name`         | string  | Required. Form field `name`.                                                                         |
+| `label`        | string  | Required. Visible label text.                                                                        |
+| `type`         | string  | Defaults to `text`. `textarea` renders a `<textarea>`; any other value renders `<input type="...">`. |
+| `required`     | boolean | Defaults to `false`.                                                                                 |
+| `help`         | string  | Optional help text. When set, `{id}-help` is added to `aria-describedby`.                            |
+| `autocomplete` | string  | Optional. Passed to `<input>` only.                                                                  |
+| `rows`         | number  | Defaults to 8. `<textarea>` only.                                                                    |
+| `styles`       | object  | Slot map. See the slot table.                                                                        |
 
-- `id` — required. Base id; error paragraph is `{id}-error`, help is `{id}-help`.
-- `name` — required. Form field `name` attribute.
-- `label` — required. Visible label text.
-- `type` — default `"text"`. `"textarea"` switches the control.
-- `required` — default `false`.
-- `help` — optional help text; when present, adds `{id}-help` to `aria-describedby`.
-- `autocomplete` — optional, passed through to `<input>` only.
-- `rows` — default `8`, `<textarea>` only.
-- `fieldStyles` — Tailwind class string for the control; defaults to the
-  contact form's field styling so callers only override it when they need
-  something different.
+| Slot    | Element                                  |
+| ------- | ---------------------------------------- |
+| `field` | The control (`<input>` or `<textarea>`). |
+| `label` | The `<label>`.                           |
+
+The molecule has no baseline styling: the caller sets both slots, including the focus ring and invalid state.
 
 ## Relationships
 
@@ -55,8 +60,7 @@ input combined into one unit).
 
 ## Notes for Future Maintenance
 
-- Keep the `fieldStyles` default here in sync with the design system — this is
-  now the single source, do not re-add a duplicate default in callers.
+- Styling is caller-owned. Set `styles.field` and `styles.label` where the field is used (see `contact-form.njk`).
 - Preserve `aria-describedby` wiring (error + optional help) when editing.
 - Run `npm run build` (or `npm start`) after structural changes to validate the
   Eleventy build.

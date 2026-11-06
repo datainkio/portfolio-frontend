@@ -20,9 +20,16 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param       | Type    | Description                                                             |
+| ----------- | ------- | ----------------------------------------------------------------------- |
+| `sectionId` | string  | Shown in the panel and set as `data-section-id`. Defaults to `hero`.    |
+| `label`     | string  | Panel title. Defaults to "Playback controls".                           |
+| `note`      | string  | Note text. Defaults to a short choreography hint.                       |
+| `fixed`     | boolean | Adds the `section-playback--fixed` modifier class. Defaults to `false`. |
+
+Fixed design: takes no styling params.
 
 ## Relationships
 

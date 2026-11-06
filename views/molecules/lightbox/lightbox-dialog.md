@@ -26,13 +26,17 @@ Contract and behavior: [lightbox.views-spec.md](../../../specs/views/lightbox.vi
 
 ## Params
 
-| Param | Required | Description |
+Pass one of `src`, `picture`, or `video`.
+
+| Param | Type | Description |
 | --- | --- | --- |
-| `src` | one source | Image URL. |
-| `picture` | one source | Pre-rendered `<picture>`/`<img>` HTML; wins over `src`. |
-| `video` | one source | `{ src, poster, mimeType }`; wins over `picture` and `src`. |
-| `alt` | no | Alt for `src`; first choice for the dialog's `aria-label`. |
-| `caption` | no | Rendered in the dialog. Beside the media at `lg`+, below it under `lg`. |
+| `src` | string | Image URL. Used when neither `picture` nor `video` is set. |
+| `picture` | string | Pre-rendered `<picture>`/`<img>` HTML. Wins over `src`. |
+| `video` | object | `{ src, poster }`. Wins over `picture` and `src`. |
+| `alt` | string | Alt text for `src`. First choice for the dialog's `aria-label`. |
+| `caption` | string | Shown beside the media at `lg` and up, and below it under `lg`. |
+| `width` | number | Intrinsic width of `src`. Set with `height` to reserve the aspect ratio while the image loads. |
+| `height` | number | Intrinsic height of `src`. |
 
 ## Relationships
 

@@ -20,9 +20,17 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param       | Type   | Description                                                                                                      |
+| ----------- | ------ | ---------------------------------------------------------------------------------------------------------------- |
+| `id`        | string | Section id. Defaults to `organizations`. Used to build the default `headingId`.                                  |
+| `headingId` | string | Read into a variable but not output. Defaults to `<id>-heading`.                                                 |
+| `copy`      | object | `heading` and `body` are read into variables but not rendered.                                                   |
+| `title`     | string | Name shown as text. Defaults to "Untitled organization".                                                         |
+| `logo`      | object | Read only for `logo.alt`. The image markup is commented out and `logo` is forced to `null`, so no image renders. |
+| `logoAlt`   | string | Read as the alt fallback. No effect while the image is disabled.                                                 |
+| `logoUrl`   | string | Read but not used.                                                                                               |
 
 ## Relationships
 

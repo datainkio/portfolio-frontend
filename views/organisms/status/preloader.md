@@ -53,7 +53,6 @@ handled — `Preloader.js` hydrates deferred videos and returns.
 
 - `params.svg` — the hanko SVG markup, passed through to `Logo.render`. Home
   passes the Sanity-inlined `logo`.
-- Imported `with context` in `home.njk` so the `classes` filter resolves.
 
 ## Relationships
 

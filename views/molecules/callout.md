@@ -20,10 +20,16 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `callout` — referenced in the template.
-- `params` — referenced in the template.
+| Param       | Type   | Description                                                                              |
+| ----------- | ------ | ---------------------------------------------------------------------------------------- |
+| `title`     | string | Optional heading, rendered as `h3`.                                                      |
+| `tone`      | string | `info` (default), `success`, `warning`, or `danger`. Unknown values fall back to `info`. |
+| `ariaLabel` | string | `aria-label` on the `<aside>`. Defaults to "Callout".                                    |
+| `classes`   | string | Appended as-is to the `<aside>`. No `classes` filter.                                    |
+| `html`      | string | HTML, output with `safe`. Used when there is no `{% call %}` body.                       |
+| `text`      | string | Plain text in a `<p>`. Used when neither a caller body nor `html` is set.                |
 
 ## Relationships
 

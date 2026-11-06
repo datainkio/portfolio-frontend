@@ -20,10 +20,17 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `award` — referenced in the template.
-- `project` — referenced in the template.
+| Param             | Type    | Description                                                                                                                  |
+| ----------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `category`        | object  | `slug` (used as the article `id`), `title` (the heading), and `projects` (project ids, looked up in `collections.projects`). |
+| `collections`     | object  | Lookup source. Reads `projects` and `awards` collections.                                                                    |
+| `maxProjects`     | number  | Number of project titles listed. Defaults to 3.                                                                              |
+| `showRecognition` | boolean | Shows a "Recognition" list of the awards on the category's projects. Defaults to `true`.                                     |
+| `showOutcomes`    | boolean | Shows an "Outcomes" heading. No content follows it. Defaults to `true`.                                                      |
+
+Fixed design: takes no styling params.
 
 ## Relationships
 

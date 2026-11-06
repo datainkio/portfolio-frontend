@@ -20,9 +20,15 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param     | Type   | Description                                                                              |
+| --------- | ------ | ---------------------------------------------------------------------------------------- |
+| `classes` | string | Appended as-is to the root `<div>`. No `classes` filter.                                 |
+| `inset`   | string | Inset suffix (`inset-{inset}`). Defaults to `10`.                                        |
+| `size`    | string | Corner size suffix (`size-{size}`). Defaults to `6`.                                     |
+| `weight`  | string | Border width suffix for the corner edges (`border-{t,r,b,l}-{weight}`). Defaults to `1`. |
+| `color`   | string | Border colour suffix (`border-{color}`). Defaults to `black`.                            |
 
 ## Relationships
 

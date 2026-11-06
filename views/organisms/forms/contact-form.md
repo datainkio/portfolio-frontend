@@ -19,8 +19,8 @@ fields, an `aria-live` status region, and the submit button. No page markup
 
 ## Template
 
-- Source: [[contact.njk]]
-- Path: `views/organisms/forms/contact.njk`
+- Source: [[contact-form.njk]]
+- Path: `views/organisms/forms/contact-form.njk`
 - Implements: [contact form spec](../../../../specs/contact-form-11ty-sanity-serverless-email-spec.md) (§4, §9)
 
 ## Purpose
@@ -41,16 +41,22 @@ Classified as a **component** at the atomic **organism** level. Not rendered
 directly by pages — always imported and called by
 [`organisms/section/contact.njk`](../section/contact.md).
 
-## Data and Context
+## Params
 
-- `env` — Sanity public config, expected in context (`SANITY_PROJECT_ID`,
-  `SANITY_DATASET`, `SANITY_API_VERSION`, `SANITY_WRITE_TOKEN`).
-- `page.url` — default for the hidden `sourcePage` input.
+| Param | Type | Description |
+| --- | --- | --- |
+| `classes` | string, variant map, or array | Applied to the `<form>` through `classes`, after the sheet baseline. |
+| `submitLabel` | string | Submit button label. Defaults to "Transmit message". |
+| `sanityProjectId` | string | Written to `data-sanity-project`. |
+| `sanityDataset` | string | Written to `data-sanity-dataset`. |
+| `sanityApiVersion` | string | Written to `data-sanity-api-version`. |
+| `sanityWriteToken` | string | Written to `data-sanity-write-token`. The token is in the page markup. |
+| `sourcePage` | string | Value of the hidden `sourcePage` input. |
+| `sectionId` | string | Id prefix for the form's elements. Defaults to `contact`. |
+| `docNo` | string | Two-digit parent document number, shown as "Doc {docNo} / Transmission Form" and "DOC {docNo}A". Defaults to `00`. |
+| `docTitle` | string | Form heading. Defaults to `Contact`. |
 
-`render(params)` accepts: `submitLabel`, `sanityProjectId`, `sanityDataset`,
-`sanityApiVersion`, `sanityWriteToken`, `sourcePage`, `sectionId`,
-`docNo` (two-digit parent document number; the form header renders `Doc {docNo} / {docTitle}` and the sheet id `DOC {docNo}A`; default `00`), `docTitle` (default `Contact`),
-`fieldStyles` (forwarded to the `field` molecule; omit to use its default).
+**Known issue (2026-11-06):** no caller passes the `sanity*` params, so the rendered form has empty config and can't submit. `views/pages/contact/contact.njk` would have to pass them, which puts the write token in public HTML. Waiting on a decision.
 
 ## Relationships
 
@@ -84,7 +90,7 @@ Both pseudo-elements are spoken for; anything else decorative needs real markup.
 
 ## Fields
 
-Fields are drawn into the paper via `field.njk`'s `fieldStyles` / `labelStyles` params (the molecule's defaults are untouched):
+Fields are drawn into the paper via `field.njk`'s `styles` map (`field` and `label` slots, set in this template):
 
 - `fieldBase` — `bg-accent-50` fill, no outline at rest, `border-primary-950/30` rule colour, `rounded-none`.
 - `lineFieldStyles` (email) — `border-0 border-b`: a single underline.

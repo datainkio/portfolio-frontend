@@ -20,9 +20,12 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `gelAtom` — referenced in the template.
+| Param   | Type   | Description                                                                                            |
+| ------- | ------ | ------------------------------------------------------------------------------------------------------ |
+| `id`    | string | Element `id`. Must match the gel arrangement keys used by the choreography. Defaults to `gel-default`. |
+| `color` | string | Colour class added to the root, next to `bg-gel`. Defaults to `bg-gel-primary`.                        |
 
 ## Relationships
 
