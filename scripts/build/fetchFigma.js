@@ -6,6 +6,7 @@ import {
   styleService,
   paletteService,
   typographyService,
+  tokenService,
 } from "../../figma/index.js";
 import { buildCSS } from "./buildCSS.js";
 
@@ -45,6 +46,12 @@ async function fetchDesignSystem() {
       description: "Generate font family utilities from text styles",
       script: "figma/services/TypographyService.js",
       triggers: ["styles/typography/fontFamilies.css update"],
+    },
+    {
+      name: "process-tokens",
+      description: "Generate tokens from the Figma Tokens page layers",
+      script: "figma/services/TokenService.js",
+      triggers: ["styles/tokens.css update"],
     },
     {
       name: "rebuild-css",
@@ -118,6 +125,8 @@ async function fetchDesignSystem() {
           "brief",
           "success",
         );
+
+        await tokenService.write(designFile);
         // const fontWeights = await typographyService.updateFontWeights(
         //   styles.textFormats,
         //   designFile

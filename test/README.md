@@ -40,6 +40,7 @@ npm run test:site      # pager
 ## Index
 
 - [choreography/](choreography/)
+- [figma/](figma/)
 - [logger/](logger/README.md)
 - [site/](site/)
 - [airtable-styles-preview.js](airtable-styles-preview.js)

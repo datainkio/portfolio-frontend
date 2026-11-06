@@ -13,8 +13,8 @@ links:
 
 # inventoryDesignSystem.js
 
-Writes `docs/design-system/inventory.json` (complete) and `inventory.md`
-(summary). It answers one question: what design system does the code already
+Writes `docs/design-system/inventory.md` (summary) and `inventory.json`
+(complete, gitignored because Tailwind scans tracked files). It answers one question: what design system does the code already
 have? Three sources:
 
 - **Tokens declared:** `@theme` and `:root` custom properties in `styles/`,
