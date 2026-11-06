@@ -20,4 +20,6 @@ These write `styles/colors.css` and `styles/typography/fontFamilies.css`, which 
 - [FontWeightFile.js](FontWeightFile.js)
 - [LineHeightFile.js](LineHeightFile.js)
 - [PaletteFile.js](PaletteFile.js)
+- [TokensFile.js](TokensFile.js)
+- [TokensFile.md](TokensFile.md)
 <!-- readme-index:end -->

@@ -15,5 +15,7 @@ Services that turn raw Figma file data into palette, style, and typography token
 - [FileService.js](FileService.js)
 - [PaletteService.js](PaletteService.js)
 - [StyleService.js](StyleService.js)
+- [TokenService.js](TokenService.js)
+- [TokenService.md](TokenService.md)
 - [TypographyService.js](TypographyService.js)
 <!-- readme-index:end -->

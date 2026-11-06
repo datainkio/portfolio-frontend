@@ -45,5 +45,7 @@ Import order in `main.css` matters: fonts first, then Tailwind, base, theme, com
 - [colors.css](colors.css)
 - [decorations.css](decorations.css)
 - [main.css](main.css)
+- [motion.css](motion.css)
 - [sizes.css](sizes.css)
+- [tokens.css](tokens.css)
 <!-- readme-index:end -->

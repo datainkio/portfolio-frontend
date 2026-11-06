@@ -1,0 +1,18 @@
+/** @format */
+/**
+ * @fileoverview Motion tokens generated from js/choreography/tokens/motion/motion.js.
+ * Do not edit by hand; change the JS tokens and run npm run build:motion.
+ */
+
+@theme {
+  --transition-duration-instant: 167ms;
+  --transition-duration-fast: 312ms;
+  --transition-duration-base: 460ms;
+  --transition-duration-slow: 660ms;
+  --transition-duration-slower: 1000ms;
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-enter: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0.0, 1, 1);
+  --ease-emphasis: cubic-bezier(0.3, 0.0, 0.2, 1.1);
+  --ease-springy: cubic-bezier(0.2, 0.8, 0.2, 1.4);
+}
