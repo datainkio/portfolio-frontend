@@ -60,8 +60,6 @@
     "build:design": "node scripts/build/fetchFigma.js",
     "build:readme": "node scripts/generate/buildReadmeAssets.js",
     "inventory:design": "node scripts/generate/inventoryDesignSystem.js",
-    "seed:tokens": "run-s inventory:design seed:tokens:write",
-    "seed:tokens:write": "node scripts/generate/seedDesignTokens.js",
     "build:motion": "node scripts/generate/buildMotionTokens.js",
     "build:design:debug": "DEBUG=true node scripts/build/fetchFigma.js",
     "build:js": "node scripts/build/buildChoreography.js",

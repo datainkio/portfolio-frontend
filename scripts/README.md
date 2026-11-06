@@ -13,14 +13,14 @@ The Node scripts behind `npm run ...`. Use the npm commands; they are the stable
 
 ## Layout
 
-| Folder | Job | Commands |
-| --- | --- | --- |
-| `build/` | Produces the site | `build`, `quick`, `build:css`, `build:js`, `build:design`, `clean` |
-| `dev/` | Runs things locally | `serve:site`, `preview` |
-| `generate/` | Writes files into the repo | `scaffold:*`, `build:readme`, `inventory:design`, `seed:tokens`, `build:motion`, `diagrams:*` |
-| `frontmatter/` | Checks and fixes frontmatter and sidecars | `lint:frontmatter`, `fix:frontmatter`, `audit:frontmatter`, `audit:sidecars` |
-| `help/` | Reports only and changes nothing | `doctor`, `validate:env`, `setup`, `help`, `ref`, `build:preview` |
-| `lib/` | Code shared across these folders | None |
+| Folder         | Job                                       | Commands                                                                       |
+| -------------- | ----------------------------------------- | ------------------------------------------------------------------------------ |
+| `build/`       | Produces the site                         | `build`, `quick`, `build:css`, `build:js`, `build:design`, `clean`             |
+| `dev/`         | Runs things locally                       | `serve:site`, `preview`                                                        |
+| `generate/`    | Writes files into the repo                | `scaffold:*`, `build:readme`, `inventory:design`, `build:motion`, `diagrams:*` |
+| `frontmatter/` | Checks and fixes frontmatter and sidecars | `lint:frontmatter`, `fix:frontmatter`, `audit:frontmatter`, `audit:sidecars`   |
+| `help/`        | Reports only and changes nothing          | `doctor`, `validate:env`, `setup`, `help`, `ref`, `build:preview`              |
+| `lib/`         | Code shared across these folders          | None                                                                           |
 
 `build:preview` prints the build outline. To view the built site, use `preview`.
 
@@ -43,6 +43,7 @@ The Node scripts behind `npm run ...`. Use the npm commands; they are the stable
 - [Eleventy setup](../eleventy/README.md)
 
 <!-- readme-index:start -->
+
 ## Index
 
 - [build/](build/)

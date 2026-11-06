@@ -97,9 +97,8 @@ async function fetchDesignSystem() {
         );
 
         // Fonts are deliberately not synced. styles/typography/ is maintained by
-        // hand: it self-hosts the body and display faces for load performance,
-        // and the Figma file still names different fonts. See
-        // docs/design-system/adr-0001-figma-owns-design-tokens.md.
+        // hand: it self-hosts the body and display faces for load performance.
+        // See docs/design-system/adr-0001-figma-owns-design-tokens.md.
         await tokenService.write(designFile, styles.textFormats);
       });
 
