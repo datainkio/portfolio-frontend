@@ -17,7 +17,7 @@ The Node scripts behind `npm run ...`. Use the npm commands; they are the stable
 | --- | --- | --- |
 | `build/` | Produces the site | `build`, `quick`, `build:css`, `build:js`, `build:design`, `clean` |
 | `dev/` | Runs things locally | `serve:site`, `preview` |
-| `generate/` | Writes files into the repo | `scaffold:*`, `build:readme`, `diagrams:*` |
+| `generate/` | Writes files into the repo | `scaffold:*`, `build:readme`, `inventory:design`, `diagrams:*` |
 | `frontmatter/` | Checks and fixes frontmatter and sidecars | `lint:frontmatter`, `fix:frontmatter`, `audit:frontmatter`, `audit:sidecars` |
 | `help/` | Reports only and changes nothing | `doctor`, `validate:env`, `setup`, `help`, `ref`, `build:preview` |
 | `lib/` | Code shared across these folders | None |
