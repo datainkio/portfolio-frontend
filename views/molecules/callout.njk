@@ -27,7 +27,7 @@
 
   {%- set toneClass = toneClasses[tone] | default(toneClasses.info) -%}
 
-  <aside class="rounded-lg border p-4 {{ toneClass }} {{ classes }}" role="note" aria-label="{{ ariaLabel }}">
+  <aside class="rounded-lg border p-4 {{ toneClass }} {{ classes | classes }}" role="note" aria-label="{{ ariaLabel }}">
     {% if title %}
       <h3 class="font-semibold mb-1">{{ title }}</h3>
     {% endif %}

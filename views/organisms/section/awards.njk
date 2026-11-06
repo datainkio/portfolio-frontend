@@ -3,7 +3,6 @@
   {% import "molecules/card/award-organization.njk" as AwardOrganization %}
 
   {%- set sectionId = params.id | default("awards") -%}
-  {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId) -%}
@@ -40,7 +39,7 @@
   {%- set listCSS = {"base": "px-2 py-4 columns-6 ", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
   {%- set articleContainer = {"base": "py-2 break-inside-avoid text-center", "sm": ""} -%}
   <section id="{{ sectionId }}"
-           class="{{ sectionStyles | classes }}"
+           class="{{ [sectionStyles, params.classes] | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 

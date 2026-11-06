@@ -1,7 +1,7 @@
 {% macro render(params = {}) %}
   {% set classes = params.classes | default("") %}
   <svg
-    class="w-1/6 h-4 {{ classes }}"
+    class="w-1/6 h-4 {{ classes | classes }}"
     viewBox="0 0 200 50"
     preserveAspectRatio="none"
     fill="none"
