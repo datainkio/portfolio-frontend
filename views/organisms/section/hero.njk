@@ -46,8 +46,8 @@
     <header class="{{ header_styles | classes }}" data-hero-el="header">
       {#- div: groups label + h1 so the band can span them; hgroup would be invalid, since the label's root is a <dl>. -#}
       {{ Label.render({
-            index: "01",
-            title: "Manifesto",
+            index: "",
+            title: "",
             description: "Russell Lebo / Selected Works Archive",
             scope: "2008-" + (buildDate | formatDate("yyyy") ),
       classes: label_styles | classes,
