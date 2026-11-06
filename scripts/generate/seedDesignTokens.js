@@ -195,7 +195,7 @@ function worklist() {
   const entries = (g) => Object.entries(tokens[g]).sort(scaleOrder);
   return `---
 title: "Figma token worklist"
-description: "Generated list of the paint styles and Tokens page layers to create in Figma so the sync reproduces what the site renders today. Regenerate with npm run seed:tokens; never edit by hand."
+description: "Generated list of the paint styles, text style changes, and Tokens page layers to make in Figma so the sync reproduces what the site renders today. Regenerate with npm run seed:tokens; never edit by hand."
 type: reference
 status: active
 tags:
@@ -210,7 +210,7 @@ links:
 
 # Figma token worklist
 
-Create everything below in Figma, then set \`FIGMA_TOKEN\` and \`FIGMA_FILE_ID\` in \`.env\` and run \`npm run build:design\`. Review the first sync with \`git diff styles/\` before committing. If the values below match, the tokens resolve as they do today, and slate changes only from oklch to the nearest hex. The sync also rewrites the other colours and fonts from the live file, and they haven't been compared with Figma since October 2025, so any difference there is drift to look at.
+Make everything below in Figma, then run \`npm run build:design\` and review \`git diff styles/\` before committing. If the values match, the tokens resolve as they do today, and slate changes only from oklch to the nearest hex. Until the layers in section 3 exist, the sync leaves \`styles/tokens.css\` alone.
 
 Figma's REST API can't create styles or layers, so this is manual work.
 
@@ -223,9 +223,40 @@ ${rows(
   slate.map(([k, hex]) => [`\`slate/${k}\``, `\`${hex}\``]),
 )}
 
-## 2. A page named \`Tokens\`
+## 2. Existing text styles
 
-Each layer below is one token. The name must match exactly, and other layers on the page are ignored, so you can add labels.
+The sync reads the type scale from these styles, so there's nothing to duplicate. Figma's values differ from what the site renders in the ways below.
+
+### \`fontSize/*\`: set an explicit line height, and add \`5xl\` to \`8xl\`
+
+The existing styles use auto line height, which the sync rejects because auto is a metric of the font.
+
+${rows(
+  ["Style", "Font size", "Line height"],
+  entries("text").map(([k, { size, lineHeight }]) => [
+    `\`fontSize/${k}\``,
+    toPx(size),
+    `${Number((parseFloat(size) * 16 * ratio(lineHeight)).toFixed(3))}px`,
+  ]),
+)}
+
+### \`lineHeight/*\`: set these values at the existing 12px font size
+
+${rows(
+  ["Style", "Line height at 12px"],
+  entries("leading").map(([k, v]) => [
+    `\`lineHeight/${k}\``,
+    `${Number((Number(v) * 12).toFixed(3))}px`,
+  ]),
+)}
+
+### \`fontWeight/sans/*\`: no change needed
+
+The file's \`thin\` reads 250 and the site declares 100. Both resolve to the same font file, because no served face is lighter than 300, so leave it unless the fonts change.
+
+## 3. New layers on the \`#️ Tokens\` page
+
+Add these to the existing page. Each layer is one token, and the name must match exactly. Other layers on the page are ignored.
 
 ### Spacing: rectangles, width sets the value
 
@@ -257,34 +288,6 @@ ${rows(
   entries("shadow").map(([k, v]) => [`\`shadow/${k}\``, `\`${v}\``]),
 )}
 
-### Type size: text layers, font size and line height set the value
-
-${rows(
-  ["Layer", "Font size", "Line height"],
-  entries("text").map(([k, { size, lineHeight }]) => [
-    `\`text/${k}\``,
-    toPx(size),
-    `${Number((parseFloat(size) * 16 * ratio(lineHeight)).toFixed(3))}px`,
-  ]),
-)}
-
-### Font weight: text layers, font weight sets the value
-
-${rows(
-  ["Layer", "Weight"],
-  entries("font-weight").map(([k, v]) => [`\`font-weight/${k}\``, v]),
-)}
-
-### Line height: text layers at 100px, line height sets the ratio
-
-${rows(
-  ["Layer", "Line height at 100px"],
-  entries("leading").map(([k, v]) => [
-    `\`leading/${k}\``,
-    `${Number(v) * 100}px`,
-  ]),
-)}
-
 ### Letter spacing: text layers at 100px, letter spacing sets the value
 
 ${rows(
@@ -298,7 +301,7 @@ ${rows(
 }
 
 await writeTokens(tokens, {
-  source: "Seeded from current rendering; awaiting the Figma Tokens page",
+  source: "Seeded from current rendering; awaiting the Figma values",
 });
 const out = path.join(ROOT, "docs/design-system/figma-worklist.md");
 fs.writeFileSync(

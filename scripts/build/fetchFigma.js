@@ -5,7 +5,6 @@ import {
   fileService,
   styleService,
   paletteService,
-  typographyService,
   tokenService,
 } from "../../figma/index.js";
 import { buildCSS } from "./buildCSS.js";
@@ -42,14 +41,8 @@ async function fetchDesignSystem() {
       triggers: ["styles/colors.css update"],
     },
     {
-      name: "process-typography",
-      description: "Generate font family utilities from text styles",
-      script: "figma/services/TypographyService.js",
-      triggers: ["styles/typography/fontFamilies.css update"],
-    },
-    {
       name: "process-tokens",
-      description: "Generate tokens from the Figma Tokens page layers",
+      description: "Generate tokens from the Figma Tokens page and text styles",
       script: "figma/services/TokenService.js",
       triggers: ["styles/tokens.css update"],
     },
@@ -103,38 +96,11 @@ async function fetchDesignSystem() {
           "success",
         );
 
-        // [ ] CHORE: Update local typography files
-        const fontImports = await typographyService.updateFontImports(
-          styles.textFormats,
-          designFile,
-        );
-        logger.trace(
-          "Font imports updated:",
-          "Typography imports synced",
-          "brief",
-          "success",
-        );
-
-        const textFormats = await typographyService.updateFontFamilies(
-          styles.textFormats,
-          designFile,
-        );
-        logger.trace(
-          "Font families updated:",
-          "Typography families synced",
-          "brief",
-          "success",
-        );
-
-        await tokenService.write(designFile);
-        // const fontWeights = await typographyService.updateFontWeights(
-        //   styles.textFormats,
-        //   designFile
-        // );
-        // const fontImports = await typographyService.updateFontImports(
-        //   styles.textFormats,
-        //   designFile
-        // );
+        // Fonts are deliberately not synced. styles/typography/ is maintained by
+        // hand: it self-hosts the body and display faces for load performance,
+        // and the Figma file still names different fonts. See
+        // docs/design-system/adr-0001-figma-owns-design-tokens.md.
+        await tokenService.write(designFile, styles.textFormats);
       });
 
       logger.trace(

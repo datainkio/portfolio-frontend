@@ -17,10 +17,10 @@
 /* Design system colors - Auto-generated from Figma via PaletteService.js, contains CSS custom properties */
 @import "./colors.css" layer(theme);
 
-/* Typography families - Auto-generated from Figma via TypographyService.js, defines font-family utilities */
+/* Typography families - Maintained by hand, defines font-family utilities */
 @import "./typography/fontFamilies.css" layer(theme);
 
-/* Spacing, radius, shadow, and type tokens - Generated from the Figma Tokens page via TokenService.js */
+/* Spacing, radius, shadow, and type tokens - Generated from Figma via TokenService.js */
 @import "./tokens.css" layer(theme);
 
 /* Motion tokens - Generated from js/choreography/tokens/motion/motion.js via buildMotionTokens.js */

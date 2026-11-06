@@ -1,5 +1,5 @@
 ---
-description: Sidecar for TokenService.js — reads non-colour design tokens from named layers on the Figma Tokens page and writes styles/tokens.css.
+description: Sidecar for TokenService.js — reads non-colour design tokens from the Figma Tokens page and the file's text styles, and writes styles/tokens.css.
 type: script
 tags:
   - figma
@@ -12,20 +12,26 @@ links:
 
 # TokenService.js
 
-Reads spacing, container, radius, shadow, and type tokens from a Figma page
-named `Tokens`. A layer named `<group>/<name>` defines one token. Other layers
-are ignored, so the page can carry labels.
+Reads tokens from two places in the Figma file.
 
-| Group         | Layer     | Value read                              |
-| ------------- | --------- | --------------------------------------- |
-| `spacing`     | Rectangle | Width, as rem                           |
-| `container`   | Rectangle | Width, as rem                           |
-| `radius`      | Rectangle | Corner radius, as rem                   |
-| `shadow`      | Rectangle | Drop and inner shadow effects           |
-| `text`        | Text      | Font size and line height               |
-| `font-weight` | Text      | Font weight                             |
-| `leading`     | Text      | Line height divided by font size        |
-| `tracking`    | Text      | Letter spacing divided by font size, em |
+**Text styles,** which the file already has:
+
+| Group         | Text style          | Value read                       |
+| ------------- | ------------------- | -------------------------------- |
+| `text`        | `fontSize/*`        | Font size and line height        |
+| `leading`     | `lineHeight/*`      | Line height divided by font size |
+| `font-weight` | `fontWeight/sans/*` | Font weight                      |
+
+**Named layers** on the page whose name ends in `Tokens`. A layer named
+`<group>/<name>` defines one token, and other layers are ignored:
+
+| Group       | Layer     | Value read                              |
+| ----------- | --------- | --------------------------------------- |
+| `spacing`   | Rectangle | Width, as rem                           |
+| `container` | Rectangle | Width, as rem                           |
+| `radius`    | Rectangle | Corner radius, as rem                   |
+| `shadow`    | Rectangle | Drop and inner shadow effects           |
+| `tracking`  | Text      | Letter spacing divided by font size, em |
 
 Why layers and not Figma Variables: the Variables REST API needs an Enterprise
 plan, and Figma has no style type for spacing or radius. The file endpoint this
@@ -33,9 +39,12 @@ sync already calls returns these layer properties on any plan.
 
 ## Failure behaviour
 
-- **No `Tokens` page:** logs a warning and leaves `styles/tokens.css` alone.
-- **A group with no layers:** throws and leaves the file alone. Writing a partial
+- **No token layers yet:** logs a warning and leaves `styles/tokens.css` alone, so
+  `npm run build` keeps working before the page is authored.
+- **A group with no tokens:** throws and leaves the file alone. Writing a partial
   set would drop the missing group back to Tailwind's defaults with no warning.
+- **A type style with an auto line height:** throws and leaves the file alone. Auto
+  is a metric of the font in Figma, not a design decision.
 
 `extractTokens` is pure, so `test/figma/tokens.test.js` covers it without a
 network call or a Figma token.
