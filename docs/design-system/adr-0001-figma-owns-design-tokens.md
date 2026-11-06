@@ -84,7 +84,13 @@ the account moves to Enterprise, Variables would be the better source, and only
 - `fontWeight/sans/extrabold` and `black` stay on Poppins in Figma. IBM Plex Sans has
   no 800 or 900 weight, and the sync reads the number from the style, so moving them
   would change `--font-weight-extrabold` and `--font-weight-black` to 700.
-- `headings/H1` to `H4` also stay on Poppins in Figma, while the site sets headings
-  in `font-display`. The sync doesn't read these styles.
-- `blue`, `red`, `green`, `yellow`, and `gray` also have no Figma record. This
-  decision only covered `slate`.
+- `headings/H1` to `H4` should move to DraftPaper in Figma, to match the site's
+  `font-display`. Figma's plugin environment can't load that font, so this is a manual
+  change. The sync doesn't read these styles.
+
+## Later decisions
+
+- **`blue`, `red`, `green`, `yellow`, and `gray` were dropped on 2026-11-06.** They
+  had no Figma record. Templates and scripts now use the nearest palette step, or
+  `semantic-fail` for invalid states. The contact form status text uses `tertiary-600` and
+  `secondary-700`, because the semantic colours fall short of 4.5:1 on its paper background.

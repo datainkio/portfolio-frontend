@@ -19,10 +19,10 @@
   {%- set classes = params.classes | default("") -%}
 
   {%- set toneClasses = {
-    info: "border-blue-200 bg-blue-50 text-blue-950",
-    success: "border-green-200 bg-green-50 text-green-950",
-    warning: "border-yellow-200 bg-yellow-50 text-yellow-950",
-    danger: "border-red-200 bg-red-50 text-red-950"
+    info: "border-primary-200 bg-primary-50 text-primary-950",
+    success: "border-tertiary-200 bg-tertiary-50 text-tertiary-950",
+    warning: "border-accent-200 bg-accent-50 text-accent-950",
+    danger: "border-secondary-200 bg-secondary-50 text-secondary-950"
   } -%}
 
   {%- set toneClass = toneClasses[tone] | default(toneClasses.info) -%}

@@ -90,7 +90,7 @@ Fields are drawn into the paper via `field.njk`'s `fieldStyles` / `labelStyles` 
 - `lineFieldStyles` (email) — `border-0 border-b`: a single underline.
 - `boxFieldStyles` (message) — `border`: a light rectangle.
 - Focus — `focus-visible:outline-2 outline-secondary-500` plus `border-secondary-500`: the orange-red stamp is the only strong contrast at rest-to-active.
-- Invalid — `aria-[invalid=true]:border-red-600`; the error `<p>` remains the primary signal.
+- Invalid — `aria-[invalid=true]:border-semantic-fail`; the error `<p>` remains the primary signal.
 - Labels — `text-xs uppercase tracking-wider text-primary-950/80`.
 
 ## Submit
