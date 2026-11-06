@@ -61,19 +61,18 @@ the account moves to Enterprise, Variables would be the better source, and only
   and type, so this doesn't contradict it.
 - **Fonts stay in code.** `styles/typography/` is maintained by hand, and the sync
   no longer writes it. The site self-hosts IBM Plex Sans and DraftPaper for load
-  performance, while the Figma file still names Poppins and "DRAFT PAPER". Syncing
-  would have replaced the self-hosted faces with Google Fonts imports and removed
-  `--font-body`. Which font is right is still open, below.
+  performance. Syncing would have replaced the self-hosted faces with Google Fonts
+  imports and removed `--font-body`. The body font was settled on 2026-11-06: IBM
+  Plex Sans, and the Figma file's body and sans styles now name it.
 - **Relative values stay in code.** A Figma number can't express `auto`, `full`,
   `screen`, fractions, `dvh`, `vh`, `ch`, or `%`. `0`, `px`, and `none` have no
   theme entry to override.
 
 ## Consequences
 
-- Until the token layers exist, `styles/tokens.css` is seeded from what the site
-  renders today, `npm run seed:tokens` regenerates it, and the sync leaves it alone.
-  Once the layers exist, the seed script has to stop being used, because it would
-  overwrite Figma's values.
+- `styles/tokens.css` was first seeded from what the site rendered. The token layers
+  were created on 2026-11-06, and the first sync reproduced those values, so the seed
+  script was deleted. It would have overwritten Figma's values.
 - `npm run build` depends on working Figma credentials. Deploys use `npm run quick`
   and read the committed token files, so they don't.
 - A partial token set fails the sync instead of falling back to Tailwind's
@@ -82,7 +81,10 @@ the account moves to Enterprise, Variables would be the better source, and only
 
 ## Still open
 
-- Figma names Poppins for body text and the site renders IBM Plex Sans. Either the
-  Figma file should change, or the site should.
+- `fontWeight/sans/extrabold` and `black` stay on Poppins in Figma. IBM Plex Sans has
+  no 800 or 900 weight, and the sync reads the number from the style, so moving them
+  would change `--font-weight-extrabold` and `--font-weight-black` to 700.
+- `headings/H1` to `H4` also stay on Poppins in Figma, while the site sets headings
+  in `font-display`. The sync doesn't read these styles.
 - `blue`, `red`, `green`, `yellow`, and `gray` also have no Figma record. This
   decision only covered `slate`.

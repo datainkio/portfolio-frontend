@@ -1,8 +1,8 @@
 ---
 title: "Figma token worklist"
-description: "Generated list of the paint styles, text style changes, and Tokens page layers to make in Figma so the sync reproduces what the site renders today. Regenerate with npm run seed:tokens; never edit by hand."
+description: "Record of the paint styles, text style changes, and Tokens page layers made in Figma on 2026-11-06 so the sync reproduces what the site rendered. Completed; Figma is now the source of these values."
 type: reference
-status: active
+status: historical
 tags:
   - design-system
   - design-tokens
@@ -14,6 +14,8 @@ links:
 ---
 
 # Figma token worklist
+
+> **Completed 2026-11-06.** These changes were made through the Figma MCP server's Plugin API, which can create styles and layers where the REST API can't. The script that generated this list is gone, so this file no longer updates. Change tokens in Figma and run `npm run build:design`.
 
 Make everything below in Figma, then run `npm run build:design` and review `git diff styles/` before committing. If the values match, the tokens resolve as they do today, and slate changes only from oklch to the nearest hex. Until the layers in section 3 exist, the sync leaves `styles/tokens.css` alone.
 

@@ -7,13 +7,11 @@ tags:
   - tailwind
 links:
   - "[[TokenService]]"
-  - "[[seedDesignTokens]]"
 ---
 
 # TokensFile.js
 
-Renders a token set as the `@theme` block in `styles/tokens.css`. Both the Figma
-sync and `npm run seed:tokens` use it, so the file has one format.
+Renders a token set from the Figma sync as the `@theme` block in `styles/tokens.css`.
 
 The output is deterministic. It carries no build timestamp, so a sync with no
 token changes produces no diff beyond the Figma version in the header.
