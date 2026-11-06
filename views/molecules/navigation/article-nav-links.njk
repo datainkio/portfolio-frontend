@@ -36,7 +36,7 @@
     "base": "mx-auto w-4 h-4 shrink-0"
   } %}
   {% if headings and headings.length %}
-    <nav data-article-nav-links class="{{ classes }} py-4" aria-label="On this page">
+    <nav data-article-nav-links class="{{ classes | classes }} py-4" aria-label="On this page">
       {#- JS-wired disclosure control: article-nav-toggle.js flips aria-expanded. -#}
       {% call Button.render({ classes: buttonClasses, attrs: 'data-article-nav-toggle aria-expanded="false" aria-controls="article-nav-list"' }) %}
         <svg data-chevron class="{{ iconClasses | classes }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

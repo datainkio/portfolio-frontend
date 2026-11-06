@@ -3,7 +3,7 @@
   {% set invert = params.invert | default(false) %}
   {% set innerColor = "black" if invert else "white" %}
   {% set outerColor = "white" if invert else "black" %}
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 50 50" class="registration-mark {{ classes }}">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 50 50" class="registration-mark {{ classes | classes }}">
     <g class="outer">
       <circle class="stroke-{{ innerColor }}" cx="25" cy="25" r="20"/>
       <path class="horiz stroke-{{ innerColor }}" stroke-miterlimit="10" d="M0 25h50"/>

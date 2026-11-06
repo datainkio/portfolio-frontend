@@ -28,5 +28,5 @@
   {% set svg = params.svg %}
   {% set classes = params.classes | default("inline-block w-12 text-secondary-700") %}
   {% set attrs = params.attrs | default("") %}
-  <span aria-hidden="true" {{ attrs }} class="hanko-mount {{ classes }}">{{ svg | safe }}</span>
+  <span aria-hidden="true" {{ attrs }} class="hanko-mount {{ classes | classes }}">{{ svg | safe }}</span>
 {% endmacro %}

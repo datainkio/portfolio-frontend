@@ -2,7 +2,6 @@
   {% import "atoms/organization.njk" as Organization %}
 
   {%- set sectionId = params.id | default("organizations") -%}
-  {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading | default("Organizations") -%}
   {%- set subheading = params.copy.subheading -%}
   {%- set body = params.copy.body -%}
@@ -26,7 +25,7 @@
   } -%}
 
   <section id="{{ sectionId }}"
-           class="{{ sectionStyles | classes }}"
+           class="{{ [sectionStyles, params.classes] | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 

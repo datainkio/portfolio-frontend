@@ -64,7 +64,7 @@
 
   {%- set linky = {"base": "font-serif text-2xl italic inline-block cta", "sm": "arrow-suffix"} -%}
 
-  <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
+  <article data-card-el="root" class="{{ root | classes }} {{ classes | classes }}">
     {% if hasMedia %}
       <figure data-card-el="figure" class="{{ figure | classes }}">
         {% if videoSrc %}
