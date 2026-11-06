@@ -5,7 +5,7 @@
   {%- set scope = params.scope | default("") -%}
   {%- set attrs = params.attrs | default("") -%}
   <dl {{ attrs | safe }}
-      class="font-display text-primary-200 px-2 {{ params.classes | default("") }}">
+      class="{{ ['font-display text-primary-200 px-2', params.classes] | classes }}">
     {% if title %}
       <dt class="border-b border-current py-1">DOC {{ index }} / {{ title }}</dt>
     {% endif %}

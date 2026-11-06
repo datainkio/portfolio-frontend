@@ -1,5 +1,5 @@
-{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
-{% import "organisms/footer/global-footer.njk" as Footer with context %}
+{% import "organisms/header/global-header.njk" as GlobalHeader %}
+{% import "organisms/footer/global-footer.njk" as Footer %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinks %}
 
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
@@ -29,7 +29,7 @@
     {{ SkipLinks.render() }}
 
     {# GLOBAL PAGE HEADER #}
-    {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
+    {{ GlobalHeader.render({ classes: 'font-display', logoSvg: brandLogoSvg, docNo: docNo, sectionTitle: eleventyNavigation.title | default(title), cms: cms, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
 
     {#- SCROLLSMOOTHER WRAPPER (opt-in) — a template sets `smoothScroll = true`
         to get the same #page-main / #page-main-content pair home.njk builds by
@@ -106,7 +106,7 @@
         #page-main, and a grid <body> can't push the footer down, so the footer
         is `absolute bottom-0` against <body> and <main> reserves its height
         with an `after:h-48` spacer (keep it >= the footer's rendered height). -#}
-    {{ Footer.render({ classes: "" if footerInFlow else "absolute inset-x-0 bottom-0" }) }}
+    {{ Footer.render({ classes: "" if footerInFlow else "absolute inset-x-0 bottom-0", year: site.year, cms: cms, pages: collections.all, currentUrl: page.url }) }}
 
     {#- SCRIPTS -#}
     <script type="module" src="/assets/js/layouts/global-header.js"></script>

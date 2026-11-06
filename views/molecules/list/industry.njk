@@ -1,6 +1,8 @@
-<h3 class="text-lg font-extrabold leading-tight">{{ industry }}</h3>
+{% macro render(params = {}) %}
+<h3 class="text-lg font-extrabold leading-tight">{{ params.industry }}</h3>
 <ul>
-  {% for org in orgs %}
+  {% for org in params.orgs %}
     <li>{{ org.name }}</li>
   {% endfor %}
 </ul>
+{% endmacro %}

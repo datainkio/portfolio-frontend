@@ -1,4 +1,5 @@
-{% set activities = project.activities %}
+{% macro render(params = {}) %}
+{% set activities = params.activities %}
 {% if activities %}
   <ul class="flex flex-row flex-wrap list-none p-0 m-0">
     {% for activity in activities %}
@@ -9,3 +10,4 @@
     {% endfor %}
   </ul>
 {% endif %}
+{% endmacro %}

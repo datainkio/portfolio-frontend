@@ -2,14 +2,10 @@
 {%- import "atoms/link/link.njk" as Link -%}
 {%- macro render(params = {}) -%}
 
-  {%- set contact = (cms and cms.contact and cms.contact[0]) or {} -%}
-  {%- set socialAccounts = contact.socialAccounts or [] -%}
-  {%- set mailto = contact.mailto -%}
-  {%- set location = contact.location -%}
-  {%- set classes = params.classes | default("") -%}
+  {%- set socialAccounts = params.accounts or [] -%}
   {%- set itemStyles = {"base": "size-full content-center", "md": "gap-4", "lg": "p-0"} -%}
   {% if socialAccounts | length > 0 %}
-    <ul class="gap-2 {{ classes }}" role="list">
+    <ul class="{{ ['gap-2', params.classes] | classes }}" role="list">
       {% for account in socialAccounts %}
         <li class="{{ itemStyles | classes }}">{{ social_account.render({ account: account, format: "text" }) }}</li>
       {% endfor %}

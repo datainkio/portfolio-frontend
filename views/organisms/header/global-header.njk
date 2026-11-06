@@ -1,6 +1,6 @@
-{% import "organisms/navigation/primary-nav.njk" as primary_nav with context %}
+{% import "organisms/navigation/primary-nav.njk" as primary_nav %}
 {% import "atoms/hanko/hanko.njk" as Hanko %}
-{% import "molecules/list/build-info.njk" as BuildInfo with context %}
+{% import "molecules/list/build-info.njk" as BuildInfo %}
 
 {#- DATA GUARDS -#}
 
@@ -32,16 +32,13 @@
   "md": "row-start-2"
 } -%}
 
-{#- page links -#}
-{%- set navParams = {"classes": "col-span-4"} -%}
-
 {#- DISPLAY -#}
 {% macro render(params = {}) %}
 
   {%- set logoSvg = params.logoSvg -%}
 
   <header id="global-header"
-          class="{{ headerClasses | classes }} {{ params.classes }}"
+          class="{{ [headerClasses, params.classes] | classes }}"
           aria-label="Global Site Header">
 
     <div class="{{ headerBackdropClasses | classes }}" aria-hidden="true"></div>
@@ -61,14 +58,14 @@
       {#- DOC ID -#}
       <dt class="{{ dtClasses | classes }} sr-only lg:not-sr-only">Doc No.</dt>
       <dd class="{{ ddClasses | classes }} sr-only lg:not-sr-only">
-        DOC {{ params.docNo | default(docNo) | default("00") }}
+        DOC {{ params.docNo | default("00") }}
       </dd>
 
       {#- SECTION TITLE -#}
       <dt class="{{ dtClasses | classes }} col-span-full md:col-span-4">Section</dt>
       <dd data-current-section-title
           class="{{ ddClasses | classes }} col-span-full md:col-span-4 text-secondary-500 ">
-        {{ params.sectionTitle | default(eleventyNavigation.title) | default(title) }}
+        {{ params.sectionTitle }}
       </dd>
 
       {#-
@@ -77,13 +74,13 @@
       -#}
       <dt class="{{ dtClasses | classes }} col-span-2 md:col-span-3 lg:col-span-2">Build Info</dt>
       <dd class="{{ ddClasses | classes }} col-span-5 md:col-span-3 lg:col-span-2 group-data-[open]/cap:basis-1/6 text-neutral-500 text-xs self-center">
-        {{ BuildInfo.render({"class": "w-full"}) }}
+        {{ BuildInfo.render({ classes: "w-full", buildDate: params.buildDate, buildVersions: params.buildVersions }) }}
       </dd>
 
     </dl>
 
     {#- MAIN NAVIGATION -#}
-    {{ primary_nav.render(navParams) }}
+    {{ primary_nav.render({ classes: "col-span-4", cms: params.cms, pages: params.pages, currentUrl: params.currentUrl }) }}
 
   </header>
 {% endmacro %}

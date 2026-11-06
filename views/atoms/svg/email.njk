@@ -1,7 +1,6 @@
 {%- macro render(params = {}) %}
-  {%- set styles = params.styles | default('') %}
   <svg xmlns="http://www.w3.org/2000/svg"
-       class="fill-current {{ styles }}"
+       class="{{ ['fill-current', params.classes] | classes }}"
        width="266"
        height="173"
        viewBox="0 0 266 173">

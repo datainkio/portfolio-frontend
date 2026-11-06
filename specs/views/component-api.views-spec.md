@@ -143,13 +143,11 @@ The project-page tree was brought into conformance on 2026-10-02:
 | `atoms/link/link.njk` | ✅ (`rel` merges with external `noopener noreferrer`; content via `{% call %}`) |
 | `molecules/navigation/pager.njk` | ✅ (`styles`: `link`) |
 | `organisms/footer/global-footer.njk` | ✅ (`classes` appended; positioning is the caller's) |
-| `atoms/icon.njk` | partial: accepts `classes`, but keeps legacy `className`/`class` and render-on-include |
+| `atoms/icon.njk` | ✅ |
 
-Known non-conforming components outside the project page (not yet migrated):
+Every other component under `views/atoms/`, `views/molecules/`, and `views/organisms/` was brought into conformance on 2026-11-06. No macro imports `with context`, and no macro reads anything outside `params`. `views/layouts/base.njk` and `views/pages/home/home.njk` read page data and pass it down.
 
-- `atoms/heading.njk`: `render(props)` and `props.class`
-- `organisms/navigation/breadcrumbs-nav.njk`: reads `collections.all` from ambient scope when no `nav` param is given
-- Convention-B molecules listed in `goals/Frontend/_tasks/migrate-remaining-molecules-to-macro-invoc.md`
+Two inline `style` attributes are named `style`, because `styles` means slots: `atoms/video/video.njk` and `molecules/background/sizzle-background.njk`.
 
 ## Verification
 

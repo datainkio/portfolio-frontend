@@ -3,11 +3,11 @@
 {% import "atoms/pixelator.njk" as Pixelator %}
 {% macro render(params = {}) %}
   {%- set bgID = params.id | default('sizzle-background') -%}
-  {%- set containerClasses = params.classes | default('fixed inset-0 -z-10 pointer-events-none overflow-hidden') -%}
-  {%- set containerStyles = params.styles | default('') -%}
+  {%- set containerClasses = ['fixed inset-0 -z-10 pointer-events-none overflow-hidden', params.classes] | classes -%}
+  {%- set containerStyle = params.style | default('') -%}
   {%- set posterUrl = params.poster | imageUrl({w: 1020, q: 75}) | default('') -%}
   <div id="{{ bgID }}"
-       style="{{ containerStyles }}"
+       style="{{ containerStyle }}"
        class="{{ containerClasses }}"
        aria-hidden="true"
        inert>
@@ -21,7 +21,7 @@
     playsInline: params.playsInline | default(true),
     preload: params.preload | default("metadata"),
     classes: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
-    styles: ""
+    style: ""
     }) }}
 
     {{ Pixelator.render() }}

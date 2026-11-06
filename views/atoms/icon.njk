@@ -27,7 +27,7 @@
 {% macro render(params = {}) %}
   {% set iconName = params.name | default("direction-left") %}
   {% set iconSize = params.size | default("md") %}
-  {% set iconClasses = (params.classes | classes) if params.classes else params.className | default(params.class | default("")) %}
+  {% set iconClasses = params.classes | classes %}
   {% set sizeClasses = sizes[iconSize] | default(sizes.md) %}
   {% if svg[iconName] %}
     <svg class="{{ sizeClasses }} {{ iconClasses }}" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
@@ -45,12 +45,3 @@
     </span>
   {% endif %}
 {% endmacro %}
-{# Backward compatibility: render immediately when included directly #}
-{% if renderImmediately | default(true) %}
-  {{ render({
-    name: name,
-    size: size,
-    className: className,
-    class: class
-  }) }}
-{% endif %}
