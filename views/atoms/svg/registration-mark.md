@@ -20,9 +20,12 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param     | Type    | Description                                                               |
+| --------- | ------- | ------------------------------------------------------------------------- |
+| `classes` | string  | Appended as-is to the `<svg>`.                                            |
+| `invert`  | boolean | Swaps the inner and outer colours (black and white). Defaults to `false`. |
 
 ## Relationships
 

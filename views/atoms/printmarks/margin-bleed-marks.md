@@ -20,9 +20,15 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param         | Type   | Description                                                                    |
+| ------------- | ------ | ------------------------------------------------------------------------------ |
+| `color`       | string | Colour suffix for the border (`border-{color}`). Defaults to `white`.          |
+| `size`        | string | Border width suffix (`border-{size}`). Defaults to `1`.                        |
+| `style`       | string | Border style suffix (`border-{style}`) on the outer box. Defaults to `dashed`. |
+| `bleedInset`  | string | Inset suffix for the outer box (`inset-{bleedInset}`). Defaults to `8`.        |
+| `marginInset` | string | Inset suffix for the inner box (`inset-{marginInset}`). Defaults to `6`.       |
 
 ## Relationships
 

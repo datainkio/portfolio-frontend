@@ -23,14 +23,13 @@ Renders one design decision as an `article`: optional artifact `figure`, the dec
 
 Classified as a **component** at the atomic **molecule** level.
 
-## Data and Context
+## Params
 
-- Called as `render({ item: item, index: loop.index })`; `params.index` feeds the "Fig 0N" label. `params.classes` is appended to the `<article>` root.
-- `item.artifact` — optional resolved `imageAsset` (`alt`, `caption`, `asset.url`, `asset.metadata.dimensions`). Absent → no figure, no placeholder.
-- `item.decision` — string, rendered as `h3`.
-- `item.result` — plain text, rendered as `p`.
-- `item.activities[]` — resolved Activity concepts; `title` rendered.
-- `basis`, `confidence`, `published` are never projected or rendered.
+| Param     | Type                          | Description                                                                                                                           |
+| --------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `item`    | object                        | `activities` (array with `title`), `artifact` (optional Sanity image, rendered through the media molecule), `decision`, and `result`. |
+| `index`   | number or string              | Number shown in the "Fig 0N" label. Defaults to `0`.                                                                                  |
+| `classes` | string, variant map, or array | Applied to the `<article>` through `classes`, after the baseline.                                                                     |
 
 ## Relationships
 

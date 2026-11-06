@@ -50,10 +50,25 @@ Encapsulates the media figure pattern — `<figure>` + media + optional caption 
 
 Classified as a **macro** at the atomic **molecule** level. Sits below `organisms/figure/` (which composes multiple elements and data sources) and above a bare `<img>` atom.
 
-## Data and Context
+## Params
 
-- `params.image` — a Sanity image object; shape produced by the project transform in `frontend/data/sanity/transforms/project.js`.
-- `params.image.asset.metadata.dimensions` — used to set intrinsic `width`/`height` for layout stability (CLS prevention).
+| Param | Type | Description |
+| --- | --- | --- |
+| `image` | object | Sanity image: `asset.url`, `asset.metadata.dimensions`, `alt`, and `caption`. The only source that gets `width` and `height`. |
+| `picture` | string | Pre-rendered `<picture>` or `<img>` HTML. Wins over `image`. Carries its own alt. |
+| `video` | object | `src` and `poster`. Wins over `picture` and `image`. Only used when `src` is set. |
+| `alt` | string | Fallback for `image.alt`. The only alt for `picture` and `video`. |
+| `caption` | string | Fallback for `image.caption`. Renders a `<figcaption>`. |
+| `classes` | string, variant map, or array | Applied to the `<figure>` through `classes`. |
+| `styles` | object | Slot map. See the slot table. |
+| `zoom` | boolean | Wraps the media in the lightbox trigger (`data-lightbox-el`) and renders the dialog from `lightbox-dialog.njk`. |
+| `loading` | string | `loading` attribute on the `<img>` only. Defaults to `eager`. |
+| `attrs` | string | Raw attributes added to the `<figure>`. |
+
+| Slot | Element |
+| --- | --- |
+| `image` | The media element: `<video>`, the `<span>` around `picture`, or `<img>`. |
+| `caption` | The `<figcaption>`. |
 
 ## Relationships
 

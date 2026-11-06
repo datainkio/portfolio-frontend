@@ -20,9 +20,14 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **organism** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `crumb` — referenced in the template.
+| Param | Type   | Description                                                                           |
+| ----- | ------ | ------------------------------------------------------------------------------------- |
+| `key` | string | eleventyNavigation key of the current page. Renders nothing unless `nav` is also set. |
+| `nav` | array  | eleventyNavigation collection, passed to `eleventyNavigationBreadcrumb`.              |
+
+Fixed design: takes no styling params.
 
 ## Relationships
 

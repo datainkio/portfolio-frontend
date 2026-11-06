@@ -56,12 +56,29 @@ See [[Card.js]] for the organism controller and [[card-motion.js]] for the motio
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `CTA` — referenced in the template.
-- `Details` — referenced in the template.
-- `HeadingBlock` — referenced in the template.
-- `TrimMarks` — referenced in the template.
+| Param          | Type             | Description                                                                                                                                                                                            |
+| -------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`        | string           | Heading text. Also the image `alt` fallback.                                                                                                                                                           |
+| `headingLevel` | number           | Heading level. Defaults to 3.                                                                                                                                                                          |
+| `byline`       | string           | Small text rendered above the heading.                                                                                                                                                                 |
+| `description`  | string           | Visually hidden description (`sr-only`).                                                                                                                                                               |
+| `eyebrow`      | string           | Read but not rendered.                                                                                                                                                                                 |
+| `meta`         | array            | Rows of `{ key, value }` passed to the stats molecule. Omitted when empty.                                                                                                                             |
+| `featured`     | boolean          | Read but not rendered.                                                                                                                                                                                 |
+| `image`        | object or string | Sanity image (`asset.url`, `asset.metadata.dimensions`, `alt`), an object with `src` or `url`, or a URL string. Used as the media when there is no `video`. Width and height come from its dimensions. |
+| `video`        | object           | Optional. `url` (or `videoUrl`) plus `poster.url`. Replaces the image as the media; the image is the poster fallback. `muted`, `loop`, and `autoplay` are on unless set to `false`.                    |
+| `url`          | string           | Adds a "View" link in the footer.                                                                                                                                                                      |
+| `eager`        | boolean          | Loads the image eagerly. Defaults to `false` (lazy).                                                                                                                                                   |
+| `classes`      | string           | Appended as-is to the root `<article>`. No `classes` filter.                                                                                                                                           |
+| `styles`       | object           | Slot map. See the slot table.                                                                                                                                                                          |
+
+`showTitle` is not read by this template.
+
+| Slot    | Element                                                       |
+| ------- | ------------------------------------------------------------- |
+| `image` | The media element: `<img>`, or `<video>` when `video` is set. |
 
 ## Relationships
 

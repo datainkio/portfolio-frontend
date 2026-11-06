@@ -29,22 +29,15 @@ Classified as a **component** at the atomic **organism** level based on its
 location under `views/`. As a direct child of the page (not of `<main>`), the
 `<footer>` is the page's `contentinfo` landmark.
 
-## Data and Context
+## Params
 
-- `main_pages` — [main-pages](../../molecules/list/main-pages.md) list molecule,
-  used for the footer navigation.
-- `cms.navigation[0].footerItems` — CMS navigation record (see
-  `data/sanity/transforms/navigation.js`); the macro is imported
-  `with context` so it can resolve `cms` and `site`.
-- `site.year` — from `site.json`; copyright year fallback.
-- `params`:
-  - `classes` — replaces the default footer class string
-    (`global-footer col-span-full py-8 px-4 text-center text-sm text-primary-200 bg-transparent`).
-  - `items` — overrides the CMS `footerItems`.
-  - `year` — overrides `site.year`.
-
-The `<nav aria-label="Footer navigation">` renders only when there are footer
-items. The list is a `grid grid-cols-12` so `main-pages` has a parent grid.
+| Param | Type | Description |
+| --- | --- | --- |
+| `cms` | object | CMS document. `contact[0].socialAccounts` feeds the social links. `navigation[0].headerItems` feeds the primary nav. |
+| `pages` | array | Passed to the primary nav as the eleventyNavigation fallback. |
+| `currentUrl` | string | Passed to the primary nav for `aria-current`. |
+| `year` | number or string | Copyright year. |
+| `classes` | string, variant map, or array | Applied to the `<footer>` through `classes`, after the footer baseline. |
 
 ## Placement — outside `<main>`, outside the ScrollSmoother wrapper
 

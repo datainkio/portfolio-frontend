@@ -30,12 +30,18 @@ There is no separate toggle button (the `directional-toggle` atom was removed). 
 
 **Stacking:** the jumplinks `<nav>` (`sticky inset-8 z-10`) needs the explicit `z-10`. Sticky alone creates no winning stacking context, so the positioned industry-section blocks and project cards (shadow/outline, their own stacking) paint over the sticky nav and swallow pointer events on the links — the nav looks present but is unclickable. Keep `z-10` (or higher than the cards) on the nav.
 
-## Data and Context
+## Params
 
-- `Card` — referenced in the template.
-- `ProjectsByIndustry` — referenced in the template.
-- `SectionCap` — referenced in the template.
-- `industryTitle` — referenced in the template.
+| Param           | Type    | Description                                                                       |
+| --------------- | ------- | --------------------------------------------------------------------------------- |
+| `id`            | string  | Section id. Defaults to `work`.                                                   |
+| `classes`       | string  | Read into a variable but never applied to the `<section>`. No effect.             |
+| `copy`          | object  | `heading` (defaults to "Work") is the `h2` text. `body` is read but not rendered. |
+| `order`         | string  | Read but not used.                                                                |
+| `headingId`     | string  | Id for the heading and `aria-labelledby`. Defaults to the section id.             |
+| `buildDate`     | Date    | Read but not used.                                                                |
+| `projects`      | array   | Project records, rendered as one list of project cards.                           |
+| `groupProjects` | boolean | Read but not used.                                                                |
 
 ## Relationships
 

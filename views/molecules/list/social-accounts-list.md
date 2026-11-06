@@ -24,12 +24,12 @@ Contact page molecule. Reads the `contact` singleton from `cms.contact[0]` and r
 Each piece is independently optional: `socialAccounts` empty renders a "No social accounts
 available" message; `mailto`/`location` absent omits the `<address>` block entirely.
 
-## Data and Context
+## Params
 
-- `cms.contact[0].socialAccounts` — array of `{ title, logo, url }`.
-- `cms.contact[0].mailto` — string.
-- `cms.contact[0].location` — string.
-- `params.classes` — passed through to both the `<ul>` and `<address>` wrappers.
+| Param      | Type                          | Description                                                                                                                                  |
+| ---------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `accounts` | array                         | Social account records (`title`, `logo`, `url`). Each renders as a text link. When empty, the template shows "No social accounts available." |
+| `classes`  | string, variant map, or array | Applied to the `<ul>` through `classes`, after a `gap-2` baseline.                                                                           |
 
 ## Relationships
 

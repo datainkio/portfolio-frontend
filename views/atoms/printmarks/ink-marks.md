@@ -23,11 +23,11 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `Colors` — referenced in the template.
-- `Neutrals` — referenced in the template.
-- `params` — referenced in the template.
+| Param     | Type   | Description                                              |
+| --------- | ------ | -------------------------------------------------------- |
+| `classes` | string | Appended as-is to the root `<div>`. No `classes` filter. |
 
 ## Relationships
 

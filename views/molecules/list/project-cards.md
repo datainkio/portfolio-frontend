@@ -22,9 +22,13 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `ProjectCard` — referenced in the template.
+| Param      | Type  | Description                                                                                                       |
+| ---------- | ----- | ----------------------------------------------------------------------------------------------------------------- |
+| `projects` | array | Project records. Each renders through `molecules/card/project.njk` at heading level 4. The first card is `eager`. |
+
+Fixed design: takes no styling params. A `classes` param passed by a caller is ignored.
 
 ## Relationships
 

@@ -22,10 +22,19 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **organism** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `params.docNo` / `params.sectionTitle` — optional overrides for the Doc No. and Section cells. When omitted (as `layouts/base.njk` does), the macro reads page data from context: `docNo` (frontmatter, e.g. `ia/contact.md`), then `eleventyNavigation.title`, then `title`. Fallback Doc No. is `00`. There is no loading placeholder: the settled, no-JS state is the page's own section name. `SectionCapManager` still overwrites `[data-current-section-title]` at runtime on pages with `main > section[aria-labelledby]` (home).
-- `primary_nav` — referenced in the template.
+| Param           | Type                          | Description                                                                    |
+| --------------- | ----------------------------- | ------------------------------------------------------------------------------ |
+| `logoSvg`       | string                        | Hanko SVG markup for the home link. Without it the link shows the text "Home". |
+| `classes`       | string, variant map, or array | Applied to the `<header>` through `classes`, after the header baseline.        |
+| `docNo`         | string                        | Shown as "DOC {docNo}". Defaults to `00`.                                      |
+| `sectionTitle`  | string                        | Text in the section cell.                                                      |
+| `buildDate`     | Date                          | Passed to the build info.                                                      |
+| `buildVersions` | object                        | Passed to the build info.                                                      |
+| `cms`           | object                        | Passed to the primary nav.                                                     |
+| `pages`         | array                         | Passed to the primary nav.                                                     |
+| `currentUrl`    | string                        | Passed to the primary nav.                                                     |
 
 ## Visibility
 
