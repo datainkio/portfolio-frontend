@@ -54,7 +54,7 @@
   --shadow-r-sm: 1px 0 4px 0 rgb(0 0 0 / 0.05);
   --shadow-sm: 0 0 4px 0 rgb(0 0 0 / 0.5);
   --shadow-t-lg: 0 -10px 12px -3px rgb(0 0 0 / 0.1);
-  --shadow-t-md: 0 -4px 8px -1px rgb(0 0 0 / 0.5);
+  --shadow-t-md: 0 -4px 8px -1px rgb(0 0 0 / 0.1);
   --shadow-t-sm: 0 -1px 4px 0 rgb(0 0 0 / 0.05);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 

@@ -4,7 +4,7 @@
 {% block content %}
   <article class="prose lg:prose-xl">
     <h1>{{ title }}</h1>
-    <p class="text-sm text-gray-500">
+    <p class="text-sm text-neutral-500">
       Published on {{ date | date("MMMM DD, YYYY") }}
     </p>
     {{ content | safe }}
@@ -12,10 +12,10 @@
 
   <nav class="mt-8 flex justify-between">
     {% if previousPost %}
-      {{ Link.render({ url: previousPost.url, text: "← " + previousPost.title, classes: "text-blue-500 hover:underline" }) }}
+      {{ Link.render({ url: previousPost.url, text: "← " + previousPost.title, classes: "text-primary-500 hover:underline" }) }}
     {% endif %}
     {% if nextPost %}
-      {{ Link.render({ url: nextPost.url, text: nextPost.title + " →", classes: "text-blue-500 hover:underline" }) }}
+      {{ Link.render({ url: nextPost.url, text: nextPost.title + " →", classes: "text-primary-500 hover:underline" }) }}
     {% endif %}
   </nav>
 {% endblock %}

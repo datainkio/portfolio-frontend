@@ -29,7 +29,7 @@ Encapsulates the media figure pattern — `<figure>` + media + optional caption 
 {#- Build inner maps as variables: a nested literal ending in `}}` closes the tag early. -#}
 {%- set figureStyles = {"base": "overflow-hidden"} -%}
 {%- set imgStyles = {"base": "w-full h-full object-cover"} -%}
-{%- set captionStyles = {"base": "mt-2 text-sm text-gray-600"} -%}
+{%- set captionStyles = {"base": "mt-2 text-sm text-neutral-700"} -%}
 {%- set imageStyles = {"image": imgStyles, "caption": captionStyles} -%}
 {{ Media.render({ image: project.featuredImage, alt: project.title, classes: figureStyles, styles: imageStyles }) }}
 ```
