@@ -19,7 +19,7 @@ const documentNode = {
   children: [
     { name: "Cover", children: [rect("spacing/999")] },
     {
-      name: "Tokens",
+      name: "#️ Tokens",
       children: [
         rect("a label to ignore"),
         {
@@ -62,10 +62,6 @@ const documentNode = {
             },
           ],
         }),
-        text("text/sm", { fontSize: 14, lineHeightPx: 20 }),
-        text("text/5xl", { fontSize: 48, lineHeightPx: 48 }),
-        text("font-weight/medium", { fontWeight: 500 }),
-        text("leading/tight", { fontSize: 100, lineHeightPx: 125 }),
         text("tracking/wide", {
           fontSize: 100,
           lineHeightPx: 100,
@@ -76,7 +72,46 @@ const documentNode = {
   ],
 };
 
-const tokens = extractTokens(documentNode);
+const px = (name, fontSize, lineHeightPx) => ({
+  name,
+  fontSize,
+  lineHeightPx,
+  lineHeightUnit: "PIXELS",
+});
+const textStyles = [
+  px("fontSize/sm", 14, 20),
+  px("fontSize/5xl", 48, 48),
+  px("lineHeight/tight", 12, 15),
+  { name: "fontWeight/sans/medium", fontWeight: 500 },
+  { name: "fontWeight/serif/medium", fontWeight: 999 },
+  { name: "headings/H1", fontSize: 36, lineHeightPx: 48 },
+];
+
+const tokens = extractTokens(documentNode, textStyles);
+const allLayers = (extra = []) => ({
+  children: [
+    {
+      name: "Tokens",
+      children: [
+        rect("spacing/4"),
+        rect("container/md"),
+        rect("radius/lg"),
+        rect("shadow/md", {
+          effects: [
+            {
+              type: "DROP_SHADOW",
+              offset: { x: 0, y: 0 },
+              radius: 4,
+              color: { r: 0, g: 0, b: 0, a: 1 },
+            },
+          ],
+        }),
+        text("tracking/wide", { fontSize: 100, letterSpacing: 2.5 }),
+        ...extra,
+      ],
+    },
+  ],
+});
 
 let passed = 0;
 const test = async (name, fn) => {
@@ -112,6 +147,11 @@ await test("type tokens match Tailwind's value forms", () => {
   assert.equal(tokens.tracking.wide, "0.025em");
 });
 
+await test("type tokens read the sans weights and ignore other styles", () => {
+  assert.deepEqual(Object.keys(tokens.text).sort(), ["5xl", "sm"]);
+  assert.deepEqual(tokens["font-weight"], { medium: "500" });
+});
+
 await test("no Tokens page returns null", () => {
   assert.equal(extractTokens({ children: [{ name: "Cover" }] }), null);
 });
@@ -138,15 +178,42 @@ await test("a missing group throws before anything is written", async () => {
     children: [{ name: "Tokens", children: [rect("spacing/4")] }],
   };
   await assert.rejects(
-    new TokenService({}).write({ document: partial, name: "x", version: "1" }),
-    /no layers for: container, radius, shadow/,
+    new TokenService({}).write(
+      { document: partial, name: "x", version: "1" },
+      textStyles,
+    ),
+    /no tokens for: container, radius, shadow, tracking/,
   );
 });
 
+await test("an auto line height throws before anything is written", async () => {
+  const auto = { ...px("fontSize/lg", 18, 27), lineHeightUnit: "INTRINSIC_%" };
+  await assert.rejects(
+    new TokenService({}).write(
+      { document: allLayers(), name: "x", version: "1" },
+      [...textStyles, auto],
+    ),
+    /explicit line height, not auto: text\/lg/,
+  );
+});
+
+await test("a page with no token layers writes nothing and reports false", async () => {
+  const wrote = await new TokenService({}).write(
+    {
+      document: {
+        children: [{ name: "#️ Tokens", children: [rect("Label")] }],
+      },
+    },
+    textStyles,
+  );
+  assert.equal(wrote, false);
+});
+
 await test("no Tokens page writes nothing and reports false", async () => {
-  const wrote = await new TokenService({}).write({
-    document: { children: [{ name: "Cover" }] },
-  });
+  const wrote = await new TokenService({}).write(
+    { document: { children: [{ name: "Cover" }] } },
+    textStyles,
+  );
   assert.equal(wrote, false);
 });
 

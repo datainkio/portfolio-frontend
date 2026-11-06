@@ -1,6 +1,6 @@
 ---
 title: "Figma token worklist"
-description: "Generated list of the paint styles and Tokens page layers to create in Figma so the sync reproduces what the site renders today. Regenerate with npm run seed:tokens; never edit by hand."
+description: "Generated list of the paint styles, text style changes, and Tokens page layers to make in Figma so the sync reproduces what the site renders today. Regenerate with npm run seed:tokens; never edit by hand."
 type: reference
 status: active
 tags:
@@ -15,7 +15,7 @@ links:
 
 # Figma token worklist
 
-Create everything below in Figma, then set `FIGMA_TOKEN` and `FIGMA_FILE_ID` in `.env` and run `npm run build:design`. Review the first sync with `git diff styles/` before committing. If the values below match, the tokens resolve as they do today, and slate changes only from oklch to the nearest hex. The sync also rewrites the other colours and fonts from the live file, and they haven't been compared with Figma since October 2025, so any difference there is drift to look at.
+Make everything below in Figma, then run `npm run build:design` and review `git diff styles/` before committing. If the values match, the tokens resolve as they do today, and slate changes only from oklch to the nearest hex. Until the layers in section 3 exist, the sync leaves `styles/tokens.css` alone.
 
 Figma's REST API can't create styles or layers, so this is manual work.
 
@@ -37,9 +37,44 @@ Create each as a paint style named exactly as shown. The hex values are Tailwind
 | `slate/900` | `#0f172b` |
 | `slate/950` | `#020618` |
 
-## 2. A page named `Tokens`
+## 2. Existing text styles
 
-Each layer below is one token. The name must match exactly, and other layers on the page are ignored, so you can add labels.
+The sync reads the type scale from these styles, so there's nothing to duplicate. Figma's values differ from what the site renders in the ways below.
+
+### `fontSize/*`: set an explicit line height, and add `5xl` to `8xl`
+
+The existing styles use auto line height, which the sync rejects because auto is a metric of the font.
+
+| Style           | Font size | Line height |
+| --------------- | --------- | ----------- |
+| `fontSize/sm`   | 14px      | 20px        |
+| `fontSize/xs`   | 12px      | 16px        |
+| `fontSize/5xl`  | 48px      | 48px        |
+| `fontSize/xl`   | 20px      | 28px        |
+| `fontSize/6xl`  | 60px      | 60px        |
+| `fontSize/2xl`  | 24px      | 32px        |
+| `fontSize/4xl`  | 36px      | 40px        |
+| `fontSize/lg`   | 18px      | 28px        |
+| `fontSize/7xl`  | 72px      | 72px        |
+| `fontSize/base` | 16px      | 24px        |
+| `fontSize/3xl`  | 30px      | 36px        |
+| `fontSize/8xl`  | 96px      | 96px        |
+
+### `lineHeight/*`: set these values at the existing 12px font size
+
+| Style                | Line height at 12px |
+| -------------------- | ------------------- |
+| `lineHeight/tight`   | 15px                |
+| `lineHeight/normal`  | 18px                |
+| `lineHeight/relaxed` | 19.5px              |
+
+### `fontWeight/sans/*`: no change needed
+
+The file's `thin` reads 250 and the site declares 100. Both resolve to the same font file, because no served face is lighter than 300, so leave it unless the fonts change.
+
+## 3. New layers on the `#️ Tokens` page
+
+Add these to the existing page. Each layer is one token, and the name must match exactly. Other layers on the page are ignored.
 
 ### Spacing: rectangles, width sets the value
 
@@ -106,43 +141,6 @@ Values read as x, y, blur, spread, colour. A comma means a second effect on the 
 | `shadow/t-lg` | `0 -10px 12px -3px rgb(0 0 0 / 0.1)`                                  |
 | `shadow/t-md` | `0 -4px 8px -1px rgb(0 0 0 / 0.5)`                                    |
 | `shadow/t-sm` | `0 -1px 4px 0 rgb(0 0 0 / 0.05)`                                      |
-
-### Type size: text layers, font size and line height set the value
-
-| Layer       | Font size | Line height |
-| ----------- | --------- | ----------- |
-| `text/sm`   | 14px      | 20px        |
-| `text/xs`   | 12px      | 16px        |
-| `text/5xl`  | 48px      | 48px        |
-| `text/xl`   | 20px      | 28px        |
-| `text/6xl`  | 60px      | 60px        |
-| `text/2xl`  | 24px      | 32px        |
-| `text/4xl`  | 36px      | 40px        |
-| `text/lg`   | 18px      | 28px        |
-| `text/7xl`  | 72px      | 72px        |
-| `text/base` | 16px      | 24px        |
-| `text/3xl`  | 30px      | 36px        |
-| `text/8xl`  | 96px      | 96px        |
-
-### Font weight: text layers, font weight sets the value
-
-| Layer                   | Weight |
-| ----------------------- | ------ |
-| `font-weight/light`     | 300    |
-| `font-weight/medium`    | 500    |
-| `font-weight/black`     | 900    |
-| `font-weight/semibold`  | 600    |
-| `font-weight/thin`      | 100    |
-| `font-weight/bold`      | 700    |
-| `font-weight/extrabold` | 800    |
-
-### Line height: text layers at 100px, line height sets the ratio
-
-| Layer             | Line height at 100px |
-| ----------------- | -------------------- |
-| `leading/tight`   | 125px                |
-| `leading/normal`  | 150px                |
-| `leading/relaxed` | 162.5px              |
 
 ### Letter spacing: text layers at 100px, letter spacing sets the value
 
