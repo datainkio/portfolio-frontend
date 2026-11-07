@@ -22,5 +22,6 @@ the classes one counts are the classes the other checks.
 | `stripCssComments` | Removes `/* … */`                                                                            |
 | `stripNjkComments` | Removes `{# … #}`                                                                            |
 | `literalWords`     | Words inside every quoted string, including strings nested in `{{ … }}` and `{% … %}` tags   |
+| `applyWords`       | Words on every `@apply …;` line                                                              |
 | `splitVariants`    | Splits `md:hover:-mt-4` into variants, base, and a negative flag                             |
 | `COLOR_RE`         | Matches a colour utility: property, built-in colour or `<family>-<shade>`, optional `/alpha` |

@@ -3,8 +3,16 @@
   /* Just a simple grid pattern. Particularly useful for hiding the jaggies in low-res video */
   .bg-pixelator {
     background-image:
-      linear-gradient(to right, rgba(0, 0, 0, 0.3) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 1px, transparent 1px);
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-black) 30%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--color-black) 30%, transparent) 1px,
+        transparent 1px
+      );
     background-size: 0.5rem 0.5rem;
   }
   /* Quadrant split background using primary, secondary, accent, and success colors */

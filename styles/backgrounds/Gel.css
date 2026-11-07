@@ -51,12 +51,3 @@
     var(--color-accent-600)
   );
 }
-
-/* .bg-gel-success applies a gradient from success-900 to success-400 */
-.bg-gel-success {
-  background-image: linear-gradient(
-    to top,
-    var(--color-success-900),
-    var(--color-success-600)
-  );
-}

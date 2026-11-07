@@ -25,6 +25,7 @@ import { glob } from "glob";
 import prettier from "prettier";
 import { projectRoot } from "../lib/paths.js";
 import {
+  applyWords,
   COLOR_RE,
   customProps,
   literalWords,
@@ -91,15 +92,6 @@ function paletteFamilies(theme) {
 // ---------------------------------------------------------------------------
 // Class extraction
 // ---------------------------------------------------------------------------
-
-/** Words on every `@apply …;` line. */
-function applyWords(css) {
-  const words = [];
-  for (const m of css.matchAll(/@apply\s+([^;]+);/g)) {
-    for (const w of m[1].split(/\s+/)) if (w) words.push(w);
-  }
-  return words;
-}
 
 // Longer alternatives first: `inset-x` must win over `inset`, or the value
 // would read `x-0`.

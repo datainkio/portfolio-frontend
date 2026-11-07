@@ -60,11 +60,17 @@ utilities. Figma can't express them, so they aren't tokens.
 
 ## Rules
 
-1. **Colour comes from the palette.** A colour utility names a colour declared in
-   `@theme`: a step of `primary`, `secondary`, `tertiary`, `accent`, `neutral`, or
-   `slate`, or a `semantic-*` colour, or one of `white`, `black`, `transparent`,
-   `current`, `inherit`. Tailwind's default families still load, so nothing but
-   the lint stops one from rendering. Enforced by `npm run lint:palette`.
+1. **Colour comes from the palette.** Every colour in a template or a
+   hand-written stylesheet is a colour declared in `styles/colors.css`: a step
+   of `primary`, `secondary`, `tertiary`, `accent`, `neutral`, or `slate`, a
+   `semantic-*` colour, or `black` or `white`. Utilities name it (`bg-slate-900`);
+   CSS and arbitrary values reference it (`var(--color-slate-900)`), including
+   black and white. For transparency, mix it:
+   `color-mix(in oklab, var(--color-black) 30%, transparent)`. No hex, `rgb()`,
+   `oklch()`, or named colours, and no `--color-*` declared outside
+   `colors.css`. `transparent`, `current`, and `inherit` are always allowed.
+   Tailwind's default families still load, so nothing but the lint stops one
+   from rendering. Enforced by `npm run lint:palette`.
 2. **Every value in use is a token.** Spacing, radius, shadow, and type utilities
    resolve to theme values. An arbitrary value (`[…]`) that recurs across files
    is a missing token. A one-off may stay where it is.
@@ -114,15 +120,15 @@ For a motion token, add it to `motion.js` and run `npm run build:motion` instead
 
 ## Enforcement
 
-| Check                      | Fails on                                                             |
-| -------------------------- | -------------------------------------------------------------------- |
-| `npm run lint:palette`     | A colour utility in `views/` whose colour isn't declared in `@theme` |
-| `npm run lint:frontmatter` | Sidecar and reference-page frontmatter outside the frontmatter spec  |
-| `npm run audit:sidecars`   | A new `.njk` or `.js` without a sidecar                              |
-| `npm run quick`            | A broken import in a component or a reference page                   |
+| Check                      | Fails on                                                               |
+| -------------------------- | ---------------------------------------------------------------------- |
+| `npm run lint:palette`     | A colour in `views/` or `styles/` that isn't from the palette (rule 1) |
+| `npm run lint:frontmatter` | Sidecar and reference-page frontmatter outside the frontmatter spec    |
+| `npm run audit:sidecars`   | A new `.njk` or `.js` without a sidecar                                |
+| `npm run quick`            | A broken import in a component or a reference page                     |
 
 `npm run validate` runs the first three and `npm test`.
 
-Not enforced yet: arbitrary values (rule 2) and colour in `styles/*.css`. Run
-`npm run inventory:design` and read its arbitrary-values and colour tables to
-audit them by hand.
+Not enforced yet: non-colour arbitrary values (rule 2), and colour set from
+JavaScript or Sanity transforms. Run `npm run inventory:design` and read its
+arbitrary-values table to audit rule 2 by hand.
