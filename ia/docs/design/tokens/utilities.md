@@ -52,9 +52,9 @@ The full list is in <code>docs/design-system/inventory.md</code>.</p>
     id: "gel",
     name: "Gels",
     file: "styles/backgrounds/Gel.css",
-    syntax: "bg-gel · bg-gel-neutral · bg-gel-neutral-light · bg-gel-primary · bg-gel-secondary · bg-gel-accent · bg-gel-success",
+    syntax: "bg-gel · bg-gel-neutral · bg-gel-neutral-light · bg-gel-primary · bg-gel-secondary · bg-gel-accent",
     note: "Translucent colour plates. Plain classes, so they take no variants.",
-    examples: ["bg-gel", "bg-gel-primary", "bg-gel-secondary", "bg-gel-accent", "bg-gel-success", "bg-gel-neutral"]
+    examples: ["bg-gel", "bg-gel-primary", "bg-gel-secondary", "bg-gel-accent", "bg-gel-neutral"]
   },
   {
     id: "pattern",

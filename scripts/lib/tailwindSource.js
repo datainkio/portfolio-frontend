@@ -74,6 +74,15 @@ export function splitTemplateTags(src) {
   return { strings, html };
 }
 
+/** Words on every `@apply …;` line. */
+export function applyWords(css) {
+  const words = [];
+  for (const m of css.matchAll(/@apply\s+([^;]+);/g)) {
+    for (const w of m[1].split(/\s+/)) if (w) words.push(w);
+  }
+  return words;
+}
+
 /** Strip variant prefixes (sm:, hover:, before:, [&>*]:) and a leading `-`. */
 export function splitVariants(cls) {
   const variants = [];
