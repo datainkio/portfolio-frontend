@@ -36,6 +36,15 @@
       {{ social_accounts.render({ accounts: cms.contact[0].socialAccounts, classes: [valueStyles, "content-start grid grid-cols-3"] }) }}
     </li>
   </ul>
-  {{ contact_form.render({"classes": formStyles, "docNo": docNo, "docTitle": eleventyNavigation.title, "sourcePage": page.url}) }}
+  {{ contact_form.render({
+    "classes": formStyles,
+    "docNo": docNo,
+    "docTitle": eleventyNavigation.title,
+    "sourcePage": page.url,
+    "sanityProjectId": env.SANITY_PROJECT_ID,
+    "sanityDataset": env.SANITY_DATASET,
+    "sanityApiVersion": env.SANITY_API_VERSION,
+    "sanityWriteToken": env.SANITY_WRITE_TOKEN
+  }) }}
   {% include "templates/partials/choreography-script/choreography-script.njk" %}
 {% endblock content %}
