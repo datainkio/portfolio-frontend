@@ -36,6 +36,8 @@ const alphaOrder = (title = "") =>
 
 export default {
   layout: "layouts/design-doc.njk",
+  // Site stylesheet plus the reference-only classes; see styles/docs.css.
+  stylesheet: "/assets/docs.css",
   eleventyComputed: {
     componentDoc: (data) =>
       data.component ? readComponentSidecar(data.component) : undefined,

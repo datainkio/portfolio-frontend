@@ -47,4 +47,9 @@
 @source "../js";
 /* Templates, for the first dev build, which runs before Eleventy writes _site */
 @source "../views";
-
+/* The design reference has its own stylesheet, docs.css, so classes used only
+   there don't ship to every page. `@source not` needs the Tailwind CLI 4.1+. */
+@source not "../_site/docs/design";
+@source not "../views/layouts/design-doc.njk";
+/* Sidecars describe classes in prose; scanning them ships classes no page uses. */
+@source not "../views/**/*.md";

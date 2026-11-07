@@ -36,7 +36,7 @@ One place for document metadata, the critical stylesheet, resource hints, and th
 1. ### charset, viewport, title
    `charset`, `viewport`, `<title>{{ title }}</title>` ^f64d29
 2. ### styles.css
-   `styles.css` — `<link rel="stylesheet">`, the only render-blocking request ^8e23d7
+   `styles.css` — `<link rel="stylesheet">`, the only render-blocking request. A page's `stylesheet` data overrides the path; the design reference sets `/assets/docs.css` ^8e23d7
 3. ### cdn.sanity.io preconnect
    `<link rel="preconnect" href="https://cdn.sanity.io" crossorigin>` — Sanity serves every image, poster, and video; warms the connection before the parser reaches the first asset in `<body>`
 4. ### fonts.njk
@@ -52,7 +52,7 @@ One place for document metadata, the critical stylesheet, resource hints, and th
 9. ### manifest.njk
    `{% include "templates/partials/manifest/manifest.njk" %}` — web-app manifest + theme colours ^312247
 10. ### favicon.njk
-   `{% include "templates/partials/favicon/favicon.njk" %}` — icon set from `site.manifest.icons` ^55bf78
+    `{% include "templates/partials/favicon/favicon.njk" %}` — icon set from `site.manifest.icons` ^55bf78
 
 Items 8–10 sit last per the [capo.js](https://rviscomi.github.io/capo.js/) head order: they neither block render nor feed the critical path, so they follow everything that does.
 

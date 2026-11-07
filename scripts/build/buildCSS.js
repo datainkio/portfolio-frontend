@@ -77,8 +77,19 @@ const errorStyle = new LumberjackStyle("#EF4444", "\n🚨 ");
  * @param {boolean} options.verbose - Enable verbose logging
  * @returns {Promise<Object>} Build result with metrics
  */
+/**
+ * Stylesheets to build. The design reference (/docs/design/) gets its own, so
+ * classes used only there stay out of the site-wide stylesheet; docs.css
+ * imports main.css and adds the reference's sources back.
+ */
+const ENTRIES = [
+  { input: "styles/main.css", output: "_site/assets/styles.css" },
+  { input: "styles/docs.css", output: "_site/assets/docs.css" },
+];
+
 async function buildCSS(options = {}) {
   const {
+    entry = ENTRIES[0],
     watch = false,
     minify = false,
     verbose = process.env.DEBUG === "true",
@@ -88,8 +99,8 @@ async function buildCSS(options = {}) {
   const tailwindLogger = new TailwindLogger({ verbose });
 
   // File paths
-  const inputFile = resolve(projectRoot, "styles/main.css");
-  const outputFile = resolve(projectRoot, "_site/assets/styles.css");
+  const inputFile = resolve(projectRoot, entry.input);
+  const outputFile = resolve(projectRoot, entry.output);
   const configFile = resolve(projectRoot, "tailwind.config.js");
 
   try {
@@ -414,20 +425,29 @@ async function main() {
   };
 
   try {
-    const result = await buildCSS(options);
+    // In watch mode both watchers run side by side; otherwise build in turn.
+    const results = options.watch
+      ? await Promise.all(
+          ENTRIES.map((entry) => buildCSS({ ...options, entry })),
+        )
+      : [];
+    if (!options.watch)
+      for (const entry of ENTRIES)
+        results.push(await buildCSS({ ...options, entry }));
 
-    if (!result.success) {
+    if (results.some((result) => !result.success)) {
       process.exit(1);
     }
 
     // Log final summary for integration with other build tools
     if (options.verbose) {
-      logger.trace(
-        "Build summary:",
-        JSON.stringify(result.summary, null, 2),
-        "verbose",
-        scriptStyle,
-      );
+      for (const result of results)
+        logger.trace(
+          "Build summary:",
+          JSON.stringify(result.summary, null, 2),
+          "verbose",
+          scriptStyle,
+        );
     }
   } catch (error) {
     logger.trace(
@@ -441,7 +461,7 @@ async function main() {
 }
 
 // Export for programmatic use
-export { buildCSS };
+export { buildCSS, ENTRIES };
 
 // Run as CLI if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {
