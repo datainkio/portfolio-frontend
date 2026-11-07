@@ -14,6 +14,7 @@ All the CSS: Tailwind v4 setup, design tokens, and custom styles.
 ## What's here
 
 - `main.css`: the entry point that imports everything else
+- `docs.css`: the design reference's entry point: `main.css` plus the classes only `/docs/design/` uses, which `main.css` leaves out
 - `colors.css`, `typography/fontFamilies.css`: generated from Figma, don't hand-edit
 - `base.css`, `sizes.css`: resets and size tokens
 - `decorations.css` and `backgrounds/`: patterns, gel, overlays, media treatments
@@ -27,7 +28,7 @@ Import order in `main.css` matters: fonts first, then Tailwind, base, theme, com
 
 ## How it connects
 
-- `scripts/build/buildCSS.js` compiles `main.css` into the site.
+- `scripts/build/buildCSS.js` compiles `main.css` to `_site/assets/styles.css` and `docs.css` to `_site/assets/docs.css`.
 - [figma](../figma/README.md) generates the token files.
 
 ## See also
@@ -35,6 +36,7 @@ Import order in `main.css` matters: fonts first, then Tailwind, base, theme, com
 - [Typography](typography/README.md)
 
 <!-- readme-index:start -->
+
 ## Index
 
 - [backgrounds/](backgrounds/)

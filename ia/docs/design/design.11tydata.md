@@ -13,6 +13,8 @@ listing it in the sidebar.
 ## What it sets for every page under `ia/docs/design/`
 
 - `layout: layouts/design-doc.njk`
+- `stylesheet: /assets/docs.css`, which `head.njk` links in place of
+  `styles.css`. See `styles/docs.css`.
 - `eleventyNavigation`: this folder's README is the `Design` key, whose parent
   `Docs` doesn't exist, which keeps it out of root-level navigation. Each
   subfolder README is a section under `Design`, ordered tokens, atoms,

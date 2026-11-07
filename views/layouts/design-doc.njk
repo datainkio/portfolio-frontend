@@ -14,7 +14,7 @@
 
 {% block sidebarBefore %}
   <aside aria-label="Design system pages"
-         class="col-span-full mt-44 max-h-72 overflow-y-auto lg:col-span-2 lg:max-h-none lg:overflow-visible lg:pb-12">
+         class="col-span-full mt-44 max-h-72 overflow-y-auto lg:sticky lg:top-24 lg:col-span-2 lg:self-start lg:max-h-[calc(100dvh-7rem)] lg:pb-12">
     {{ DesignPages.render({ nav: collections.all | eleventyNavigation("Design"), currentUrl: page.url }) }}
   </aside>
 {% endblock sidebarBefore %}

@@ -78,7 +78,8 @@ inContext:
 ## Notes for Future Maintenance
 
 - The specimen frame and the sidebar wrapper are a `<div>` and an `<aside>`. The frame has no meaning of its own, because the component inside supplies it.
-- The sidebar isn't sticky. `<body>` has `overflow-x-hidden` while `<html>` has `overflow-x-clip`, so body's overflow doesn't propagate to the viewport, body becomes the sticky container, and body never scrolls. Below `lg` the sidebar is a scrollable box capped at `max-h-72`, so the content isn't pushed below a hundred links.
+- From `lg` the sidebar is sticky at `top-24` and scrolls on its own, capped at the viewport height less 7rem. That needs `<body>` to be `overflow-x: clip`, set in `styles/docs.css`: the site-wide `overflow-x-hidden` makes body a scroll container that never scrolls, so nothing in it can stick. Below `lg` the sidebar is a scrollable box capped at `max-h-72`, so the content isn't pushed below a hundred links.
+- Reference pages load `/assets/docs.css`, not `styles.css` (the `stylesheet` key in `design.11tydata.js`). It's the site stylesheet plus the classes used only here, which `main.css` excludes.
 - The frame is `transform-gpu`, which makes it the containing block for `position: fixed` descendants, so drawers and fixed headers stay inside it.
 - Specimens render without the choreography bundle, which docs pages don't load. A component that starts hidden and waits for motion to reveal it renders in its initial state here.
 - Components that emit an `id` should get a unique one per specimen, because the header and footer already render on the page.
