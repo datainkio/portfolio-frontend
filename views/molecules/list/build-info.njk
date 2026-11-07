@@ -1,57 +1,34 @@
-{% import "atoms/icon.njk" as Icon %}
-{% import "atoms/button.njk" as Button %}
 {% macro render(params = {}) %}
-  {%- set buildDate = params.buildDate -%}
-  {%- set buildVersions = params.buildVersions or {} -%}
-  <div data-buildinfo-el="root"
-       class="{{ ['contents flex', params.classes] | classes }}">
-    {#- JS-wired disclosure control (aria-expanded/aria-controls). Live in section-cap. -#}
-    {% call Button.render({ classes: "arrow-suffix cursor-pointer", attrs: 'data-buildinfo-el="toggle" aria-expanded="false" aria-controls="build-info-list"' }) %}
-      <time datetime="{{ buildDate | formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'") }}">{{ buildDate | formatDate("yyyy.MM.dd'T'HH:mm:ss'Z'") }}</time>
-    {% endcall %}
-
-    {#- -z-20: beneath the header's own backdrop (global-header.njk, -z-10),
-        which is itself beneath the header's unpositioned content (logo/dt/dd/
-        toggle) — so the drawer tucks fully behind the header plate when
-        closed or mid-slide. Drawer is the flex row (dl + close button) so the
-        close button rides the same slide, pinned to the far right. -#}
-    {%- set drawerStyles = "absolute flex top-full right-0 -z-20 w-full bg-slate-950 h-auto px-4 py-2" %}
-    {%- set dlStyles = "grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-2 justify-stretch gap-x-4" %}
-    {%- set dtStyles = "self-end w-auto" %}
-    {%- set ddStyles = "w-auto row-start-2 max-w-[12ch] truncate" %}
-    {%- set closeStyles = "self-center ml-auto mr-2 cursor-pointer border-2 border-slate-700 rounded-xl" %}
-    <div id="build-info-list"
-         data-buildinfo-el="list"
-         aria-hidden="true"
-         class="{{ drawerStyles }}">
-      <dl class="{{ dlStyles }}">
-        <dt data-current-git-build class="{{ dtStyles }}">git</dt>
-        <dd data-current-git-build class="{{ ddStyles }} text-primary-700 ">
-          {% if buildVersions.git.sha %}
-            {{ buildVersions.git.branch }}@{{ buildVersions.git.sha }}
-            {% if buildVersions.git.dirty %}*{% endif %}
-          {% endif %}
-        </dd>
-        <dt data-current-eleventy-build class="{{ dtStyles }}">11ty</dt>
-        <dd data-current-eleventy-build class="text-secondary-700 {{ ddStyles }}">
-          v{{ buildVersions.eleventy }}
-        </dd>
-        <dt data-current-sanity-build class="{{ dtStyles }}">Sanity</dt>
-        <dd data-current-sanity-build class="text-accent-700 {{ ddStyles }}">
-          v{{ buildVersions.sanity }}
-        </dd>
-        <dt data-current-figma-build class="{{ dtStyles }}">Figma</dt>
-        <dd data-current-figma-build class="text-tertiary-600 {{ ddStyles }}">
-          {% if buildVersions.figma.fileId %}
-            fileID.{{ buildVersions.figma.fileId | truncate(12, true, "…") }}
-          {% endif %}
-        </dd>
-        <dt class="{{ dtStyles }}">FPS</dt>
-        <dd data-current-fps-build class="text-tertiary-600 {{ ddStyles }}">
-          —
-        </dd>
-      </dl>
-      {% call Button.render({ classes: closeStyles, attrs: 'data-buildinfo-el="close" aria-controls="build-info-list" aria-label="Hide build info"' }) %}{{ Icon.render({"name": "close", "size": "sm"}) }}{% endcall %}
-    </div>
-  </div>
+  <dl class="{{ params.dlStyles }}">
+    <dt data-current-git-build class="{{ params.dtStyles }}">Git</dt>
+    <dd data-current-git-build
+        class="{{ params.ddStyles }} text-primary-700 ">
+      {% if params.buildVersions.git.sha %}
+        {{ params.buildVersions.git.branch }}@{{ params.buildVersions.git.sha }}
+        {% if params.buildVersions.git.dirty %}*{% endif %}
+      {% endif %}
+    </dd>
+    <dt data-current-eleventy-build class="{{ params.dtStyles }}">11ty</dt>
+    <dd data-current-eleventy-build
+        class="{{ params.ddStyles }} text-secondary-700 ">
+      v{{ params.buildVersions.eleventy }}
+    </dd>
+    <dt data-current-sanity-build class="{{ params.dtStyles }}">Sanity</dt>
+    <dd data-current-sanity-build
+        class="{{ params.ddStyles }} text-accent-700 ">
+      v{{ params.buildVersions.sanity }}
+    </dd>
+    <dt data-current-figma-build class="{{ params.dtStyles }}">Figma</dt>
+    <dd data-current-figma-build
+        class="{{ params.ddStyles }} text-tertiary-600 ">
+      {% if params.buildVersions.figma.fileId %}
+        fileID.{{ params.buildVersions.figma.fileId | truncate(12, true, "…") }}
+      {% endif %}
+    </dd>
+    <dt class="{{ params.dtStyles }}">FPS</dt>
+    <dd data-current-fps-build
+        class="{{ params.ddStyles }} text-tertiary-600 ">
+      —
+    </dd>
+  </dl>
 {% endmacro %}
