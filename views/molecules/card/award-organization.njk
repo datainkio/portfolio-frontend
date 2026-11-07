@@ -11,16 +11,20 @@
 {%- set titleStyles = {"base": "col-start-2 col-span-5 font-display text-sm text-neutral-100 leading-none m-0", "sm": "pt-2"} -%}
 {%- set listStyles = {"base": "col-start-2 col-span-5 flex flex-wrap gap-1"} -%}
 {%- set awardContainerStyles = {"base": "text-sm leading-4 text-neutral-400 after:content-[','] last:after:content-none", "sm": ""} -%}
+{%- set logoOnlyArticleStyles = {"base": "flex items-center justify-center text-accent-600"} -%}
+{%- set logoOnlyLogoStyles = {"base": "h-12 w-auto max-w-full", "md": "h-16"} -%}
 
 
 {%- macro render(params = {}) -%}
   {%- set group = params.group -%}
+  {%- set logoOnly = params.logoOnly | default(false) -%}
   <article data-awards-el="organization-card"
-           class="{{ [articleStyles, params.classes] | classes }}">
+           class="{{ [logoOnlyArticleStyles if logoOnly else articleStyles, params.classes] | classes }}">
     {#- {% set logoSize = size | default("size-10") %} -#}
     {%- set logo = group.organization.logo.asset | default('/assets/images/logos/default.svg') -%}
-    {%- set logoAlt = group.organization.logo.alt | default(group.organization.title) -%}
-    {%- set logoStyles = {"base": "self-start pt-2 row-span-2 text-accent-600 size-full"} -%}
+    {#- Logo-only cards have no visible title, so the logo carries the organization's name. -#}
+    {%- set logoAlt = group.organization.title if logoOnly else (group.organization.logo.alt | default(group.organization.title)) -%}
+    {%- set logoStyles = logoOnlyLogoStyles if logoOnly else {"base": "self-start pt-2 row-span-2 text-accent-600 size-full"} -%}
     {{ InlineSvg.render({
         svg: group.organization.logo.inline,
         src: logo,
@@ -28,12 +32,14 @@
         classes: logoStyles | classes,
         svgClasses: ""
         }) }}
+    {%- if not logoOnly %}
     <h3 class="{{ titleStyles | classes }}">{{ group.organization.title }}</h3>
     <ul class="{{ listStyles | classes }}" data-awards-el="group-list">
       {% for award in group.items %}
         <li class="{{ awardContainerStyles | classes }}" data-awards-el="award">{{ Award.render(award) }}</li>
       {% endfor %}
     </ul>
+    {%- endif %}
 
   </article>
 {%- endmacro -%}

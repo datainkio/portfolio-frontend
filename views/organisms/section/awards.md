@@ -25,16 +25,16 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Params
 
-| Param               | Type   | Description                                                                                                                   |
-| ------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| `id`                | string | Section id. Defaults to `awards`.                                                                                             |
-| `classes`           | string | Read into a variable but never applied to the `<section>`. No effect.                                                         |
-| `copy`              | object | `heading` is the `h2` text.                                                                                                   |
-| `order`             | string | Read but not used.                                                                                                            |
-| `headingId`         | string | Id for the heading and `aria-labelledby`. Defaults to the section id.                                                         |
-| `headerAwardInline` | string | Default SVG markup. Read but not rendered.                                                                                    |
-| `headerAwardMedia`  | string | Read but not rendered.                                                                                                        |
-| `awards`            | array  | Award records, grouped by organisation with `groupByOrg`. Each group renders through `molecules/card/award-organization.njk`. |
+| Param               | Type   | Description                                                                                                                                                                                                              |
+| ------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                | string | Section id. Defaults to `awards`.                                                                                                                                                                                        |
+| `classes`           | string | Read into a variable but never applied to the `<section>`. No effect.                                                                                                                                                    |
+| `copy`              | object | `heading` is the `h2` text.                                                                                                                                                                                              |
+| `order`             | string | Read but not used.                                                                                                                                                                                                       |
+| `headingId`         | string | Id for the heading and `aria-labelledby`. Defaults to the section id.                                                                                                                                                    |
+| `headerAwardInline` | string | Default SVG markup. Read but not rendered.                                                                                                                                                                               |
+| `headerAwardMedia`  | string | Read but not rendered.                                                                                                                                                                                                   |
+| `awards`            | array  | Award records, grouped by organisation with `groupByOrg`. Each group renders through `molecules/card/award-organization.njk` with `logoOnly: true`, so the homepage shows a grid of logos without titles or award names. |
 
 ## Relationships
 
