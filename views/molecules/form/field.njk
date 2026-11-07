@@ -19,8 +19,8 @@
     <input id="{{ id }}"
            name="{{ name }}"
            type="{{ type }}"
-           {%- if params.autocomplete %}autocomplete="{{ params.autocomplete }}"{% endif %}
-           {%- if required %}required{% endif %}
+           {%- if params.autocomplete %} autocomplete="{{ params.autocomplete }}"{% endif %}
+           {%- if required %} required{% endif %}
            aria-describedby="{{ describedBy }}"
            class="{{ fieldStyles }}">
   {%- endif %}

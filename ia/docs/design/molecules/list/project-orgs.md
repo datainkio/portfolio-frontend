@@ -17,4 +17,4 @@ inContext:
   - { url: /work/, label: Work page }
 ---
 
-Unlike the organizations list, which reads `name`, this one reads each record's `title`.
+Like the organizations list, it reads each record's `title`.

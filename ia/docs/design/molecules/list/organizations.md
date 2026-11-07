@@ -7,11 +7,11 @@ specimens:
   - title: Literal organizations
     params:
       orgs:
-        - { name: Ford Motor Company }
-        - { name: Smithsonian }
+        - { title: Ford Motor Company }
+        - { title: Smithsonian }
     surface: paper
 inContext:
   - { url: /, label: Homepage }
 ---
 
-The list reads each record's `name`, but organization records from the `organizations` collection carry `title`, so resolved records need mapping first.
+The list reads each record's `title`, so records from the `organizations` collection pass straight through.

@@ -7,7 +7,7 @@ specimens:
   - title: Literal details
     params:
       orgs:
-        - { name: Ford Motor Company }
+        - { title: Ford Motor Company }
       roles:
         - { title: Creative technologist }
         - { title: Design lead }
@@ -15,4 +15,4 @@ inContext:
   - { url: /work/, label: Work page }
 ---
 
-Organizations read `name` and roles read `title`, as in the two lists it composes. Records from the `organizations` collection carry `title` instead, so map them first.
+Organizations and roles both read `title`, as in the two lists it composes, so records from the `organizations` and `roles` collections pass straight through.

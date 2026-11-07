@@ -22,10 +22,10 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Params
 
-| Param      | Type   | Description                                            |
-| ---------- | ------ | ------------------------------------------------------ |
-| `industry` | string | Heading text.                                          |
-| `orgs`     | array  | Organization records. Each `name` becomes a list item. |
+| Param      | Type   | Description                                             |
+| ---------- | ------ | ------------------------------------------------------- |
+| `industry` | string | Heading text.                                           |
+| `orgs`     | array  | Organization records. Each `title` becomes a list item. |
 
 Fixed design: takes no styling params.
 
