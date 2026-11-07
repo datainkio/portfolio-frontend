@@ -15,7 +15,7 @@ Font loading and font-family tokens.
 ## What's here
 
 - `imports.css`: `@font-face` rules and font imports
-- `fontFamilies.css`: `--font-*` tokens, generated from Figma
+- `fontFamilies.css`: `--font-*` tokens, maintained by hand for tuning load times
 
 ## Good to know
 
@@ -31,6 +31,7 @@ Font loading and font-family tokens.
 - [Styles](../README.md)
 
 <!-- readme-index:start -->
+
 ## Index
 
 - [fontFamilies.css](fontFamilies.css)
