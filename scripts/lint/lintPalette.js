@@ -4,13 +4,14 @@
 /**
  * Palette lint
  *
- * Fails when a template in views/ or a hand-written stylesheet in styles/
- * puts a colour on the page that doesn't come from the palette in
- * styles/colors.css. Tailwind's default palette is still loaded, so a `blue`
+ * Fails when a template in views/, a hand-written stylesheet in styles/, or a
+ * class in JavaScript (js/, data/sanity/transforms/) puts a colour on the page
+ * that doesn't come from the palette in styles/colors.css, or when an
+ * arbitrary value recurs across files. Tailwind's default palette is still loaded, so a `blue`
  * background or a `neutral-150` text colour would build without complaint.
  * Report-only; never writes.
  *
- * Four rules:
+ * Five rules:
  *   off-palette        a colour utility (built in, or an @utility that reads
  *                      --color-*) names a <family>-<shade> that isn't declared
  *   literal            a colour written as a value: hex, rgb(), oklch(), a
@@ -18,8 +19,12 @@
  *   undeclared-var     var(--color-…) names a colour that isn't declared
  *   declared-outside   a --color-… custom property declared anywhere but
  *                      styles/colors.css, which the Figma sync owns
+ *   recurring-arbitrary
+ *                      the same arbitrary-value utility (`<name>-[…]`) used in
+ *                      more than one file: a missing token
  *
- * Enforces specs/design-system.spec.md, rule "Colour comes from the palette".
+ * Enforces specs/design-system.spec.md, rules "Colour comes from the palette"
+ * and "Every value in use is a token".
  * Examples name families, not full classes, because Tailwind would generate
  * CSS for a full class name written in a scanned file.
  *
@@ -36,6 +41,7 @@ import {
   applyWords,
   COLOR_RE,
   customProps,
+  jsLiteralWords,
   literalWords,
   splitVariants,
   stripNjkComments,
@@ -95,8 +101,35 @@ for (const file of handWritten) {
 }
 
 const SHADE = /^([a-z]+-\d{2,3})(?:\/[\w.%[\]]+)?$/;
-const LITERAL_RE =
-  /#[0-9a-fA-F]{3,8}\b|(?<![\w-])(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\(|(?<![\w-])(?:black|white|red|green|blue|yellow|orange|purple|pink|gray|grey)(?![\w-])/g;
+/** The 148 CSS named colours, longest first so `darkblue` wins over `blue`. */
+const NAMED_COLOURS = `aliceblue antiquewhite aqua aquamarine azure beige bisque
+black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse
+chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan
+darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen
+darkorange darkorchid darkred darksalmon darkseagreen darkslateblue
+darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue
+dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro
+ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink
+indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon
+lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen
+lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray
+lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon
+mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen
+mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue
+mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange
+orangered orchid palegoldenrod palegreen paleturquoise palevioletred
+papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red
+rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna
+silver skyblue slateblue slategray slategrey snow springgreen steelblue tan
+teal thistle tomato turquoise violet wheat white whitesmoke yellow
+yellowgreen`
+  .split(/\s+/)
+  .sort((a, b) => b.length - a.length);
+const LITERAL_RE = new RegExp(
+  "#[0-9a-fA-F]{3,8}\\b|(?<![\\w-])(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\\(|" +
+    `(?<![\\w-])(?:${NAMED_COLOURS.join("|")})(?![\\w-])`,
+  "gi",
+);
 const VAR_RE = /var\(\s*--color-([\w-]+)/g;
 const DECL_RE = /(?<![\w-])--color-([\w-]+)\s*:/g;
 
@@ -148,19 +181,62 @@ const report = (rule, file, line, detail) => {
   findings.push({ rule, file, line, detail });
 };
 
+/**
+ * Arbitrary-value utilities (`max-w-[68ch]`, variants stripped) and where each
+ * is used. Values that read a variable (`[var(--…)]`) already use a token.
+ * Bare arbitrary properties (`[mask-type:alpha]`) aren't counted, because in
+ * JavaScript they can't be told apart from attribute selectors.
+ */
+const arbitrary = new Map(); // base -> Map(component -> { file, line })
+/**
+ * Files that copy another file's markup by hand, documented in their sidecars.
+ * Both render one component, so a value they share isn't a recurrence.
+ */
+const MIRRORS = {
+  "data/sanity/transforms/portableText.js":
+    "views/molecules/lightbox/lightbox-dialog.njk",
+};
+const ARBITRARY_RE = /^-?[a-z][\w-]*-\[([^\]]+)\](?:\/[\w.%]+)?$/;
+const noteArbitrary = (word, file, line) => {
+  const base = splitVariants(word).base.replace(/^!|!$/g, "");
+  const m = ARBITRARY_RE.exec(base);
+  if (!m || m[1].includes("--")) return;
+  if (!arbitrary.has(base)) arbitrary.set(base, new Map());
+  const uses = arbitrary.get(base);
+  const component = MIRRORS[file] ?? file;
+  if (!uses.has(component)) uses.set(component, { file, line });
+};
+
+/** Checks every class word of one source file. */
+const scanWords = (file, text, words) => {
+  for (const word of words) {
+    const line = lineAt(text, text.indexOf(word));
+    for (const f of checkClass(word)) report(f.rule, file, line, f.detail);
+    noteArbitrary(word, file, line);
+  }
+};
+
 const templates = glob.sync("views/**/*.njk", { cwd: projectRoot }).sort();
 for (const file of templates) {
   const raw = read(file);
-  for (const word of literalWords(stripNjkComments(raw)))
-    for (const f of checkClass(word))
-      report(f.rule, file, lineAt(raw, raw.indexOf(word)), f.detail);
+  scanWords(file, raw, literalWords(stripNjkComments(raw)));
+}
+
+/** JavaScript that toggles or emits classes; vendored libraries are skipped. */
+const scripts = glob
+  .sync(["js/**/*.js", "data/sanity/transforms/**/*.js"], {
+    cwd: projectRoot,
+    ignore: ["js/vendor/**"],
+  })
+  .sort();
+for (const file of scripts) {
+  const raw = read(file);
+  scanWords(file, raw, jsLiteralWords(raw));
 }
 
 for (const file of handWritten) {
   const css = blankCssComments(read(file));
-  for (const word of applyWords(css))
-    for (const f of checkClass(word))
-      report(f.rule, file, lineAt(css, css.indexOf(word)), f.detail);
+  scanWords(file, css, applyWords(css));
   // Declaration values: the innermost blocks, with @apply lines blanked out.
   for (const block of css.matchAll(/\{([^{}]*)\}/g)) {
     const body = block[1].replace(/@apply[^;]*;/g, (a) => " ".repeat(a.length));
@@ -171,6 +247,12 @@ for (const file of handWritten) {
     report("declared-outside", file, lineAt(css, m.index), `--color-${m[1]}`);
 }
 
+for (const [base, uses] of arbitrary) {
+  if (uses.size < 2) continue;
+  for (const { file, line } of uses.values())
+    report("recurring-arbitrary", file, line, `${base} (${uses.size} files)`);
+}
+
 const RULES = [
   ["off-palette", "colour utility names a colour not in styles/colors.css"],
   ["literal", "colour written as a value; use var(--color-…)"],
@@ -179,13 +261,17 @@ const RULES = [
     "declared-outside",
     "colours are declared only in styles/colors.css, by the Figma sync",
   ],
+  [
+    "recurring-arbitrary",
+    "arbitrary value used in more than one file; add it as a token",
+  ],
 ];
 
 console.log(chalk.bold("\n  Palette lint\n"));
 if (!findings.length) {
   console.log(
     chalk.green(
-      `  clean — ${templates.length} templates and ${handWritten.length} stylesheets use only the ${declared.size} palette colours\n`,
+      `  clean — ${templates.length} templates, ${handWritten.length} stylesheets, and ${scripts.length} scripts use only the ${declared.size} palette colours, and no arbitrary value recurs\n`,
     ),
   );
   process.exit(0);
@@ -203,7 +289,7 @@ for (const [rule, blurb] of RULES) {
 console.log(
   chalk.yellow(`\n  ${findings.length} findings.`),
   chalk.dim(
-    "Use a step of a palette family, semantic-* for states, or var(--color-black|white).\n",
+    "Use a step of a palette family, semantic-* for states, or var(--color-black|white). Turn a recurring arbitrary value into a token.\n",
   ),
 );
 process.exit(1);
