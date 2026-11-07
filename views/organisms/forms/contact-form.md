@@ -56,7 +56,7 @@ directly by pages — always imported and called by
 | `docNo` | string | Two-digit parent document number, shown as "Doc {docNo} / Transmission Form" and "DOC {docNo}A". Defaults to `00`. |
 | `docTitle` | string | Form heading. Defaults to `Contact`. |
 
-**Known issue (2026-11-06):** no caller passes the `sanity*` params, so the rendered form has empty config and can't submit. `views/pages/contact/contact.njk` would have to pass them, which puts the write token in public HTML. Waiting on a decision.
+`views/pages/contact/contact.njk` passes the `sanity*` params from the `env` global data. Russ confirmed on 2026-11-06 that the token is write-only and that the exposure is acceptable.
 
 ## Relationships
 
