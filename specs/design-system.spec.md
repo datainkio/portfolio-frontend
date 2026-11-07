@@ -120,15 +120,15 @@ For a motion token, add it to `motion.js` and run `npm run build:motion` instead
 
 ## Enforcement
 
-| Check                      | Fails on                                                               |
-| -------------------------- | ---------------------------------------------------------------------- |
-| `npm run lint:palette`     | A colour in `views/` or `styles/` that isn't from the palette (rule 1) |
-| `npm run lint:frontmatter` | Sidecar and reference-page frontmatter outside the frontmatter spec    |
-| `npm run audit:sidecars`   | A new `.njk` or `.js` without a sidecar                                |
-| `npm run quick`            | A broken import in a component or a reference page                     |
+| Check                      | Fails on                                                                                                                                                             |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run lint:palette`     | A colour in `views/`, `styles/`, `js/`, or `data/sanity/transforms/` that isn't from the palette (rule 1), or an arbitrary value used in more than one file (rule 2) |
+| `npm run lint:frontmatter` | Sidecar and reference-page frontmatter outside the frontmatter spec                                                                                                  |
+| `npm run audit:sidecars`   | A new `.njk` or `.js` without a sidecar                                                                                                                              |
+| `npm run quick`            | A broken import in a component or a reference page                                                                                                                   |
 
 `npm run validate` runs the first three and `npm test`.
 
-Not enforced yet: non-colour arbitrary values (rule 2), and colour set from
-JavaScript or Sanity transforms. Run `npm run inventory:design` and read its
-arbitrary-values table to audit rule 2 by hand.
+Not enforced yet: colour literals in JavaScript values (as opposed to classes),
+and classes in `ia/**/*.md`. Run `npm run inventory:design` and read its
+arbitrary-values table to review one-off arbitrary values by hand.

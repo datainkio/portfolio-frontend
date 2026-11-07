@@ -74,6 +74,98 @@ export function splitTemplateTags(src) {
   return { strings, html };
 }
 
+/**
+ * Class-like words in every string literal of a JavaScript file: '…', "…", and
+ * the text parts of `…` templates, including strings nested in `${…}`.
+ * Comments and regex literals are skipped. Words are also split at quotes and
+ * angle brackets, so `class="a b"` inside a template yields `a` and `b`.
+ */
+export function jsLiteralWords(src) {
+  const strings = [];
+  const holes = []; // brace depth inside each open `${`
+  let prev = ""; // last non-space character outside strings
+  let i = 0;
+
+  /** Reads template text from i; stops after the closing ` or at a `${`. */
+  const readTemplate = () => {
+    let value = "";
+    while (i < src.length) {
+      const ch = src[i];
+      if (ch === "\\") {
+        value += src.slice(i, i + 2);
+        i += 2;
+      } else if (ch === "`") {
+        i += 1;
+        prev = "`";
+        break;
+      } else if (ch === "$" && src[i + 1] === "{") {
+        i += 2;
+        holes.push(0);
+        prev = "{";
+        break;
+      } else {
+        value += ch;
+        i += 1;
+      }
+    }
+    strings.push(value);
+  };
+
+  const regexCanStart = () =>
+    prev === "" ||
+    "(,=:[!&|?{};+-*%<>~^".includes(prev) ||
+    /\b(?:return|typeof|case|do|else|in|of|void|yield|await)\s*$/.test(
+      src.slice(Math.max(0, i - 12), i),
+    );
+
+  while (i < src.length) {
+    const ch = src[i];
+    const next = src[i + 1];
+    if (ch === "/" && next === "/") {
+      const end = src.indexOf("\n", i);
+      i = end < 0 ? src.length : end;
+    } else if (ch === "/" && next === "*") {
+      const end = src.indexOf("*/", i + 2);
+      i = end < 0 ? src.length : end + 2;
+    } else if (ch === '"' || ch === "'") {
+      let value = "";
+      i += 1;
+      while (i < src.length && src[i] !== ch && src[i] !== "\n") {
+        if (src[i] === "\\") i += 1;
+        value += src[i++] ?? "";
+      }
+      strings.push(value);
+      i += 1;
+      prev = ch;
+    } else if (ch === "`") {
+      i += 1;
+      readTemplate();
+    } else if (ch === "}" && holes.length && holes.at(-1) === 0) {
+      holes.pop();
+      i += 1;
+      readTemplate();
+    } else if (ch === "/" && regexCanStart()) {
+      let inClass = false;
+      i += 1;
+      while (i < src.length && src[i] !== "\n") {
+        if (src[i] === "\\") i += 1;
+        else if (src[i] === "[") inClass = true;
+        else if (src[i] === "]") inClass = false;
+        else if (src[i] === "/" && !inClass) break;
+        i += 1;
+      }
+      i += 1;
+      prev = "/";
+    } else {
+      if (holes.length && ch === "{") holes[holes.length - 1] += 1;
+      if (holes.length && ch === "}") holes[holes.length - 1] -= 1;
+      if (!/\s/.test(ch)) prev = ch;
+      i += 1;
+    }
+  }
+  return strings.flatMap((s) => s.split(/[\s"'<>]+/).filter(Boolean));
+}
+
 /** Words on every `@apply …;` line. */
 export function applyWords(css) {
   const words = [];
