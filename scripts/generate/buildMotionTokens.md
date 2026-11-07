@@ -25,7 +25,12 @@ step, so that's a design decision to make per component.
 ## Usage
 
 ```bash
-npm run build:motion
+npm run build:motion   # write styles/motion.css
+npm run check:motion   # exit 1 if styles/motion.css differs from a fresh build
 ```
+
+`check:motion` runs in `npm run validate`. It compares the file byte for byte
+with what the script would write, so a hand edit or a `motion.js` change
+without a rebuild both fail it.
 
 Rerun it after changing the motion tokens and commit the result.

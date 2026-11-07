@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(/styles/colors.css)",
+      "Edit(/styles/tokens.css)",
+      "Edit(/styles/motion.css)"
+    ]
+  }
+}
