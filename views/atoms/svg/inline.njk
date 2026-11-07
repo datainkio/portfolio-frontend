@@ -18,6 +18,7 @@
   {%- set svg = params.svg | default('') -%}
   {%- set src = params.src | default('') -%}
   {%- set alt = params.alt | default('Award logo') -%}
+  {%- set aspect = params.preserveAspectRatio | default('xMidYMin meet') -%}
   {%- set isSvg = '<svg' in svg -%}
   {%- set imageSrc = src or (svg if not isSvg else '') -%}
 
@@ -87,7 +88,7 @@
 
     {%- if 'preserveAspectRatio' not in processedSvg -%}
       {%- set processedSvg = processedSvg
-          | replace('<svg', '<svg preserveAspectRatio="xMidYMin meet"') -%}
+          | replace('<svg', '<svg preserveAspectRatio="' ~ (aspect | escape) ~ '"') -%}
     {%- endif -%}
 
     {{ processedSvg | safe }}
