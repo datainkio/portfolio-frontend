@@ -11,7 +11,7 @@ specimens:
         image: block w-full
         caption: mt-2 text-sm text-neutral-400
     bind:
-      image: collections.projectPages.3.decisions.0.artifact
+      image: collections.projectPages.slug=connecting-a-world-famous-dj-with-his-fans.decisions.0.artifact
     frame: max-w-md
   - title: Zoomable image
     note: The zoom wraps the image in a button and adds a closed dialog. It opens only with the lightbox script.
@@ -21,7 +21,7 @@ specimens:
       styles:
         image: block w-full
     bind:
-      image: collections.projectPages.3.decisions.1.artifact
+      image: collections.projectPages.slug=connecting-a-world-famous-dj-with-his-fans.decisions.1.artifact
     frame: max-w-md
   - title: Video
     note: Video wins over picture and image. Without zoom it shows controls.
@@ -30,7 +30,7 @@ specimens:
       styles:
         image: block w-full
     bind:
-      video.src: collections.projects.3.featuredVideo.url
+      video.src: collections.projects.slug=connecting-a-world-famous-dj-with-his-fans.featuredVideo.url
     frame: max-w-md
 inContext:
   - { url: /, label: Homepage hero statements }

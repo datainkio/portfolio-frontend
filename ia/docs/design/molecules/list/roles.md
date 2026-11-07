@@ -12,7 +12,7 @@ specimens:
     surface: paper
   - title: From a project
     bind:
-      roles: "collections.projectPages.0.roles"
+      roles: "collections.projectPages.slug=council-for-diversity-equity-inclusion.roles"
 inContext:
   - { url: /work/, label: Work page }
 ---

@@ -37,24 +37,24 @@ markup — both fields share the same label/control/help/error shape.
 
 ## Role in the System
 
-Classified as a **component** at the atomic **organism** level. Not rendered
-directly by pages — always imported and called by
-[`organisms/section/contact.njk`](../section/contact.md).
+Classified as a **component** at the atomic **organism** level. The contact
+page imports it and renders it once:
+[`pages/contact/contact.njk`](../../pages/contact/contact.md).
 
 ## Params
 
-| Param | Type | Description |
-| --- | --- | --- |
-| `classes` | string, variant map, or array | Applied to the `<form>` through `classes`, after the sheet baseline. |
-| `submitLabel` | string | Submit button label. Defaults to "Transmit message". |
-| `sanityProjectId` | string | Written to `data-sanity-project`. |
-| `sanityDataset` | string | Written to `data-sanity-dataset`. |
-| `sanityApiVersion` | string | Written to `data-sanity-api-version`. |
-| `sanityWriteToken` | string | Written to `data-sanity-write-token`. The token is in the page markup. |
-| `sourcePage` | string | Value of the hidden `sourcePage` input. |
-| `sectionId` | string | Id prefix for the form's elements. Defaults to `contact`. |
-| `docNo` | string | Two-digit parent document number, shown as "Doc {docNo} / Transmission Form" and "DOC {docNo}A". Defaults to `00`. |
-| `docTitle` | string | Form heading. Defaults to `Contact`. |
+| Param              | Type                          | Description                                                                                                        |
+| ------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `classes`          | string, variant map, or array | Applied to the `<form>` through `classes`, after the sheet baseline.                                               |
+| `submitLabel`      | string                        | Submit button label. Defaults to "Transmit message".                                                               |
+| `sanityProjectId`  | string                        | Written to `data-sanity-project`.                                                                                  |
+| `sanityDataset`    | string                        | Written to `data-sanity-dataset`.                                                                                  |
+| `sanityApiVersion` | string                        | Written to `data-sanity-api-version`.                                                                              |
+| `sanityWriteToken` | string                        | Written to `data-sanity-write-token`. The token is in the page markup.                                             |
+| `sourcePage`       | string                        | Value of the hidden `sourcePage` input.                                                                            |
+| `sectionId`        | string                        | Id prefix for the form's elements. Defaults to `contact`.                                                          |
+| `docNo`            | string                        | Two-digit parent document number, shown as "Doc {docNo} / Transmission Form" and "DOC {docNo}A". Defaults to `00`. |
+| `docTitle`         | string                        | Form heading. Defaults to `Contact`.                                                                               |
 
 `views/pages/contact/contact.njk` passes the `sanity*` params from the `env` global data. Russ confirmed on 2026-11-06 that the token is write-only and that the exposure is acceptable.
 
@@ -62,18 +62,18 @@ directly by pages — always imported and called by
 
 - Imports: [[field.njk]] (`molecules/form/field.njk`)
 - Loads: [[ContactForm.js]]
-- Used by: [`organisms/section/contact.njk`](../section/contact.md)
+- Used by: [[contact.njk]] (`views/pages/contact/contact.njk`)
 
 ## Stroke Hierarchy
 
 The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint navy — never pure black or `slate-*`) at one of four weights, so new rules must pick a tier rather than invent a fifth:
 
-| Tier | Utility | Where |
-| --- | --- | --- |
-| Outer border | `inner-border-2 inner-border-primary-950` on `<form>` | sheet edge |
-| Title-block dividers | `border-primary-950/85` | `<header>` bottom, header `<ul>` left, `<footer>` top |
-| Field dividers | `border-primary-950/50`, `divide-primary-950/50` | description rule, `<ol>` left, between fields, header `<ul>` rows |
-| Micro-label rules | `border-primary-950/30` | footer note left, revision `<dl>` left and `<dt>` |
+| Tier                 | Utility                                               | Where                                                             |
+| -------------------- | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| Outer border         | `inner-border-2 inner-border-primary-950` on `<form>` | sheet edge                                                        |
+| Title-block dividers | `border-primary-950/85`                               | `<header>` bottom, header `<ul>` left, `<footer>` top             |
+| Field dividers       | `border-primary-950/50`, `divide-primary-950/50`      | description rule, `<ol>` left, between fields, header `<ul>` rows |
+| Micro-label rules    | `border-primary-950/30`                               | footer note left, revision `<dl>` left and `<dt>`                 |
 
 Corner registration marks belong to the paper-artifact treatment below, not this table.
 

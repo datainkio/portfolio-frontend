@@ -8,7 +8,7 @@ specimens:
     params:
       index: 1
     bind:
-      item: collections.projectPages.3.decisions.0
+      item: collections.projectPages.slug=connecting-a-world-famous-dj-with-his-fans.decisions.0
     frame: max-w-sm
 inContext:
   - {

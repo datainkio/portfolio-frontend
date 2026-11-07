@@ -8,7 +8,7 @@ specimens:
     note: A real award record from the build data, as the awards section passes it.
     params: {}
     bind:
-      title: collections.awards.0.title
+      title: collections.awards.slug=innovation-award.title
   - title: Fallback
     note: With no title it falls back to a placeholder.
     params: {}

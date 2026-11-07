@@ -10,7 +10,7 @@ specimens:
       description: Automotive client.
       url: /work/
     bind:
-      image: collections.projectPages.4.featuredImage
+      image: collections.projectPages.slug=improving-access-to-a-national-memorial.featuredImage
     frame: max-w-3xl
 ---
 

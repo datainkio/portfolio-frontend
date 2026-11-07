@@ -5,11 +5,3 @@ type: index
 ---
 
 Molecules combine atoms into one job: a card, a list of roles, a figure with a lightbox trigger, a pager. Most take data from the CMS, so their specimens bind real content.
-
-<!-- readme-index:start -->
-
-## Index
-
-No sibling files or folders.
-
-<!-- readme-index:end -->

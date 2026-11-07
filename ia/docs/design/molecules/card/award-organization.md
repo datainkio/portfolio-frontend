@@ -12,14 +12,14 @@ specimens:
           - { title: "Winner, eLearning" }
           - { title: "Honoree, Best Practices" }
     bind:
-      group.organization: collections.awards.0.organization
+      group.organization: collections.awards.slug=innovation-award.organization
     frame: max-w-xs
   - title: Logo only
     note: The homepage variant. The logo is labelled with the organization's title, and the awards are not rendered.
     params:
       logoOnly: true
     bind:
-      group.organization: collections.awards.0.organization
+      group.organization: collections.awards.slug=innovation-award.organization
     frame: max-w-[8rem]
 inContext:
   - { url: /, label: Homepage awards }

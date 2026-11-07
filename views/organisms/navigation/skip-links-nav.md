@@ -18,4 +18,9 @@ Context sidecar for [[skip-links-nav.njk]] (`views/organisms/navigation/skip-lin
 - The "Skip to main content" link targets `<main id="page-main-content" tabindex="-1">`. Not `#page-main`: that ScrollSmoother wrapper also contains the `sidebarBefore` navigation the link exists to skip, and it only exists on `smoothScroll` pages.
 - `<main>` carries `#page-main-content` on every page and `tabindex="-1"` so focus lands inside it. Under ScrollSmoother, `ScrollSmootherManager`'s hash handler scrolls and focuses it; elsewhere native fragment navigation does.
 - Visually hidden (`sr-only`) until focused, then shown fixed top-left at `z-30`, above the global header (`z-20`).
-- `params.items` (optional): an array of section ids, rendered as an extra visually hidden list of in-page links.
+
+## Params
+
+| Param   | Type  | Description                                                                                   |
+| ------- | ----- | --------------------------------------------------------------------------------------------- |
+| `items` | array | Optional. Section ids, rendered as an extra visually hidden list of in-page links to each id. |

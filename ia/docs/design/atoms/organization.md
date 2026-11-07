@@ -7,7 +7,7 @@ specimens:
   - title: Organization record
     params: {}
     bind:
-      title: collections.organizations.0.title
+      title: collections.organizations.slug=abn-amro-leading-the-way-in-financial-services.title
   - title: Fallback
     params: {}
 inContext:

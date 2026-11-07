@@ -53,7 +53,8 @@ inContext:
 ```
 
 - `bind` paths start from `cms`, `collections`, `colors`, `designTokens`,
-  `buildDate`, `buildVersions`, or `site`. See [design filters](../../eleventy/filters/design.md).
+  `buildDate`, `buildVersions`, or `site`. Pick a CMS record by slug, not
+  index: `collections.projects.slug=enquos`. See [design filters](../../eleventy/filters/design.md).
 - The markdown body, when present, renders under **Notes**.
 - Each specimen prints the Nunjucks call that renders it, built from the same
   params, so the code can't drift from the output.

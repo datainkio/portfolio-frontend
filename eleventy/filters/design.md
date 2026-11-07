@@ -26,6 +26,14 @@ YAML can't hold live data, so a specimen names it by path:
 paths may start from (`cms`, `collections`, `colors`, `designTokens`,
 `buildDate`, `site`), so a path outside them resolves to `undefined`.
 
+A path segment is a key, an array index, or `field=value`, which picks the
+first array item whose field equals the value:
+`collections.projectPages.slug=enquos.awards`. Bind CMS collections by slug,
+because an index points at a different record when the CMS order changes.
+Indexes are fine inside one document (`decisions.0`) and for singletons
+(`cms.home.0`). `specimenCall` prints a `field=value` segment as
+`(… | filterByKey("field", "value") | first)`, which is valid Nunjucks.
+
 ## Source
 
 - Path: `eleventy/filters/design.js`

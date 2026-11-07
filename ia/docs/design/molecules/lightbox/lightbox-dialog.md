@@ -10,7 +10,7 @@ specimens:
       alt: A sample enlarged image
       caption: The caption sits beside the image at large widths.
     bind:
-      src: collections.projectPages.3.decisions.0.artifact.asset.url
+      src: collections.projectPages.slug=connecting-a-world-famous-dj-with-his-fans.decisions.0.artifact.asset.url
     frame: min-h-8
 inContext:
   - {

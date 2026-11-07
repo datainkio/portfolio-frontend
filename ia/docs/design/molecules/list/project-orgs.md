@@ -12,7 +12,7 @@ specimens:
         - { title: Smithsonian }
   - title: From a project
     bind:
-      orgs: "collections.projectPages.2.organization"
+      orgs: "collections.projectPages.slug=improving-access-to-government-benefits-and-services.organization"
 inContext:
   - { url: /work/, label: Work page }
 ---

@@ -13,7 +13,7 @@ specimens:
         result: Visitors kept exploring after they left.
   - title: From a project
     bind:
-      project: "collections.projectPages.7"
+      project: "collections.projectPages.slug=enquos"
 inContext:
   - { url: /case-studies/enquos/, label: A project page }
 ---

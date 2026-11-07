@@ -11,8 +11,10 @@ Defines Nunjucks macro: `render`. Contract: [project-page pattern § 4](../../..
 
 ## Params
 
-- `params.classes`: appended to the section frame's `<section>` root. See the [Component API spec](../../../specs/views/component-api.views-spec.md).
-- `params.project`: reads `situation`, `task`, `action` and `result` (plain `text`, fetched by `data/sanity/projections/project/projectPageProjection.js`).
+| Param     | Type                           | Description                                                                                                                             |
+| --------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `classes` | string \| variant map \| array | Appended to the section frame's `<section>` root. See the [Component API spec](../../../specs/views/component-api.views-spec.md).       |
+| `project` | object                         | Reads `situation`, `task`, `action` and `result` (plain `text`, fetched by `data/sanity/projections/project/projectPageProjection.js`). |
 
 ## Output
 

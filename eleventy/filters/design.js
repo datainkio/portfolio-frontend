@@ -14,11 +14,40 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("specimenCall", specimenCall);
 }
 
-/** Reads a dotted path (`cms.projects.0.title`) from `root`. */
+/** A path segment that picks an array item by field: `slug=enquos`. */
+const MATCH = /^([A-Za-z_$][\w$]*)=(.+)$/;
+
+/**
+ * Reads a dotted path from `root`. A segment is a key, an index
+ * (`collections.projects.0`), or `field=value`, which picks the first array
+ * item whose field equals the value (`collections.projects.slug=enquos`).
+ * Bind CMS collections by slug: an index changes when the CMS order does.
+ */
 function getPath(root, path) {
   return String(path)
     .split(".")
-    .reduce((acc, key) => (acc == null ? undefined : acc[key]), root);
+    .reduce((acc, key) => {
+      if (acc == null) return undefined;
+      const m = MATCH.exec(key);
+      if (m && Array.isArray(acc))
+        return acc.find((item) => String(item?.[m[1]]) === m[2]);
+      return acc[key];
+    }, root);
+}
+
+/**
+ * A data path as the Nunjucks a caller would write: `field=value` segments
+ * become `filterByKey(…) | first`, the project filter that does the same
+ * lookup (Nunjucks' own `selectattr` ignores a test argument).
+ */
+function pathExpr(path) {
+  return String(path)
+    .split(".")
+    .reduce((expr, key) => {
+      const m = MATCH.exec(key);
+      if (!m) return expr ? `${expr}.${key}` : key;
+      return `(${expr} | filterByKey(${str(m[1])}, ${str(m[2])}) | first)`;
+    }, "");
 }
 
 /** Writes `value` at a dotted path, creating plain objects on the way. */
@@ -97,7 +126,7 @@ function literal(value, indent) {
 export function specimenCall(alias, params = {}, bind = {}, content = "") {
   const shown = structuredClone(params || {});
   for (const [paramPath, dataPath] of Object.entries(bind || {})) {
-    setPath(shown, paramPath, { __expr: dataPath });
+    setPath(shown, paramPath, { __expr: pathExpr(dataPath) });
   }
   const args = Object.keys(shown).length ? literal(shown, 0) : "";
   const call = `${alias}.render(${args})`;
