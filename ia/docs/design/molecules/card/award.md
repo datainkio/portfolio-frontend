@@ -10,7 +10,7 @@ specimens:
       description: Winner in the eLearning category.
       url: /work/
     bind:
-      image: collections.projectPages.5.featuredImage
+      image: collections.projectPages.slug=live-hope-love.featuredImage
     frame: max-w-3xl
 ---
 

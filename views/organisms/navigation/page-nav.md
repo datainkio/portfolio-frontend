@@ -24,15 +24,12 @@ live caller**: its original consumer, the home landing header, was removed along
 with HomeHeaderManager (2026-10-05), and the call in `project.njk` is commented out.
 It is authored as a standalone organism so it can be reused without header coupling.
 
-## Macro & params
+## Params
 
-`render(params = {})`:
-
-- `params.classes` (string) — extra classes appended to the `<nav>` after the
-  component's own base classes.
-- `params.init` (string) — inline `style` attribute value for the `<nav>`. A
-  legacy hook for setting initial inline styles; prefer `classes` (inline
-  `display:none` cannot be animated/measured by GSAP).
+| Param     | Type   | Description                                                                                                                                 |
+| --------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `classes` | string | Appended to the `<nav>` after the component's own base classes.                                                                             |
+| `init`    | string | Inline `style` value for the `<nav>`. A legacy hook; prefer `classes`, because inline `display:none` can't be animated or measured by GSAP. |
 
 ## Markup & accessibility
 

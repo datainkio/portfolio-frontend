@@ -14,7 +14,7 @@ specimens:
   - title: From a project
     note: Bound to a real project's activities.
     bind:
-      activities: "collections.projectPages.0.activities"
+      activities: "collections.projectPages.slug=council-for-diversity-equity-inclusion.activities"
 inContext:
   - { url: /work/, label: Work page }
 ---

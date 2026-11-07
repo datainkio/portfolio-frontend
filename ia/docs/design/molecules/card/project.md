@@ -6,13 +6,13 @@ component: molecules/card/project.njk
 specimens:
   - title: Project with video
     bind:
-      project: collections.projects.3
+      project: collections.projects.slug=connecting-a-world-famous-dj-with-his-fans
     frame: max-w-3xl
   - title: Project with an image only
     params:
       headingLevel: 4
     bind:
-      project: collections.projects.2
+      project: collections.projects.slug=improving-access-to-government-benefits-and-services
     frame: max-w-3xl
 inContext:
   - { url: /work/, label: Work page }

@@ -7,7 +7,7 @@ specimens:
   - title: Live project
     note: The first published project. The page passes the same project object.
     bind:
-      project: collections.projectPages.0
+      project: collections.projectPages.slug=council-for-diversity-equity-inclusion
     frame: p-0
 inContext:
   - { url: /case-studies/enquos/, label: Enquos case study }

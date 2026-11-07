@@ -7,7 +7,7 @@ specimens:
   - title: Project decisions
     note: Six decisions from one case study.
     bind:
-      decisions: collections.projectPages.3.decisions
+      decisions: collections.projectPages.slug=connecting-a-world-famous-dj-with-his-fans.decisions
 inContext:
   - {
       url: /case-studies/connecting-a-world-famous-dj-with-his-fans/,

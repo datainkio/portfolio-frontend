@@ -13,7 +13,7 @@ specimens:
       meta:
         - { key: Deliverables, value: "Development, Interaction Design" }
     bind:
-      image: collections.projects.3.featuredImage
+      image: collections.projects.slug=connecting-a-world-famous-dj-with-his-fans.featuredImage
     frame: max-w-3xl
   - title: Video card
     note: The video loads only when deferred-video scripting runs, so the poster still stands in here.
@@ -22,8 +22,8 @@ specimens:
       url: /work/
       headingLevel: 4
     bind:
-      image: collections.projects.3.featuredImage
-      video: collections.projects.3.featuredVideo
+      image: collections.projects.slug=connecting-a-world-famous-dj-with-his-fans.featuredImage
+      video: collections.projects.slug=connecting-a-world-famous-dj-with-his-fans.featuredVideo
     frame: max-w-3xl
 inContext:
   - { url: /work/, label: Work page project cards }

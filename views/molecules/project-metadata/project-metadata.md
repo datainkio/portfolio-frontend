@@ -25,11 +25,14 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Macro Contract
 
-- Macro: `render(params = {})`
-  - `params.project` — Project object (required; see data shape below)
-  - `params.classes` — Responsive class object or string (optional); passed raw to `stats`
-  - `params.styles` — `stats` slots `{ item, term, value }` (optional); passed through
-  - `params.aria` — ARIA label for the band (optional)
+Macro: `render(params = {})`
+
+| Param     | Type                           | Description                                                      |
+| --------- | ------------------------------ | ---------------------------------------------------------------- |
+| `project` | object                         | Required. The project record; see the data shape below.          |
+| `classes` | string \| variant map \| array | Optional. Passed raw to `stats`.                                 |
+| `styles`  | object                         | Optional. `stats` slots `{ item, term, value }`, passed through. |
+| `aria`    | string                         | Optional. ARIA label for the band.                               |
 
 ## Data and Context
 

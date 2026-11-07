@@ -24,8 +24,10 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Data and Context
 
-- `params.awards` — array of award records, grouped via the `groupByOrg` filter.
-- `params.classes` — appended to the `<section>` root. See the [Component API spec](../../specs/views/component-api.views-spec.md).
+| Param     | Type                           | Description                                                                                                    |
+| --------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `awards`  | array                          | Array of award records, grouped via the `groupByOrg` filter.                                                   |
+| `classes` | string \| variant map \| array | Appended to the `<section>` root. See the [Component API spec](../../specs/views/component-api.views-spec.md). |
 
 ## Relationships
 

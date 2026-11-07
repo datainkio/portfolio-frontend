@@ -7,7 +7,7 @@ specimens:
   - title: Project recognition
     note: Nine awards from one case study, grouped by the organization that gave them.
     bind:
-      awards: collections.projectPages.5.awards
+      awards: collections.projectPages.slug=live-hope-love.awards
 inContext:
   - { url: /case-studies/live-hope-love/, label: Live Hope Love case study }
 ---

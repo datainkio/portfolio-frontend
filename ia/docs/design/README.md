@@ -52,15 +52,3 @@ A component page is a Markdown file at
 `component` and listing `specimens`. The contract is in
 `views/layouts/design-doc.md`. New components should get a page when they're
 added.
-
-<!-- readme-index:start -->
-
-## Index
-
-- [atoms/](atoms/README.md)
-- [layouts/](layouts/README.md)
-- [molecules/](molecules/README.md)
-- [organisms/](organisms/README.md)
-- [templates/](templates/README.md)
-- [tokens/](tokens/README.md)
-<!-- readme-index:end -->

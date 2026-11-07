@@ -6,7 +6,7 @@ component: molecules/project-metadata/project-metadata.njk
 specimens:
   - title: From a project
     bind:
-      project: "collections.projectPages.2"
+      project: "collections.projectPages.slug=improving-access-to-government-benefits-and-services"
     params:
       aria: Project metadata
       classes: grid gap-6 md:grid-cols-2 text-neutral-400

@@ -23,8 +23,10 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Data and Context
 
-- `params.industries` — dict of industry title → project list, iterated to build one `<li>` per industry.
-- `params.classes` — optional extra classes appended to the `<ul>`.
+| Param        | Type                           | Description                                                                       |
+| ------------ | ------------------------------ | --------------------------------------------------------------------------------- |
+| `industries` | object                         | Dict of industry title → project list, iterated to build one `<li>` per industry. |
+| `classes`    | string \| variant map \| array | Optional extra classes appended to the `<ul>`.                                    |
 
 ## Relationships
 
