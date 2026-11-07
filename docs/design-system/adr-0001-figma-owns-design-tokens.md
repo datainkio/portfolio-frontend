@@ -16,7 +16,7 @@ links:
 
 # ADR 0001: Figma owns design tokens
 
-- **Status:** Accepted by Russ, 2026-11-06. The Figma side isn't authored yet.
+- **Status:** Accepted by Russ, 2026-11-06. The Figma side was authored the same day, and its styles are published to the library.
 - **Scope:** Colour, spacing, radius, shadow, and type tokens in `frontend/`.
 
 ## Context
