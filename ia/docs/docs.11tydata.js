@@ -13,8 +13,9 @@
 export default {
   eleventyComputed: {
     permalink: (data) => {
-      // Honor any explicit permalink defined in frontmatter
-      if (data.permalink) return data.permalink;
+      // Honor any explicit permalink defined in frontmatter, including
+      // `false` (a sidecar under ia/ that must not be published)
+      if (data.permalink || data.permalink === false) return data.permalink;
       if (data.page?.inputPath?.endsWith("/README.md")) {
         return data.page.filePathStem.replace(/\/README$/, "/") + "/";
       }

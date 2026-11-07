@@ -9,6 +9,7 @@ links:
   - "[[eleventy/collections/README|collections]]"
   - "[[navigation]]"
   - "[[NavigationBuilder]]"
+  - "[[designSystem]]"
 ---
 
 # Collections index
@@ -31,6 +32,10 @@ collection can't break the whole build.
 | ----------------- | ------------------ | ----------------------------------------- |
 | Sanity CMS        | [[cms\|sanity.js]] | content collections from GROQ queries     |
 | Navigation        | [[navigation]]     | `nav_dirs`, `nav_projects`, `nav_primary` |
+
+Global data set here as well: `site`, `env`, `buildDate`, `colors`,
+`buildVersions`, and `designTokens` (every theme token, grouped, from
+[[designSystem]]; drives `ia/docs/design/tokens/`).
 
 ## Wiring
 

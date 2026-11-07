@@ -21,13 +21,13 @@ The Nunjucks templates behind every page, organized by size: small pieces build 
 - `templates/` - page bodies (article, blog, case study, landing) and `<head>` partials
 - `layouts/` - base page shells that pages extend
 - `pages/` - the page entry points (home, project, projects, contact)
-- `_registry/` - a single file that imports common components
 
 ## How it connects
 
 - Eleventy treats `views/` as its includes folder, so paths like `atoms/button.njk` work from any template.
 - Components get their data from the page that includes them; see `data/` for where that comes from.
 - Each `.njk` file has a `.md` note beside it describing its parameters.
+- Every atom, molecule, and organism renders live in the design-system reference at `/docs/design/` (`ia/docs/design/`).
 
 ## See also
 
@@ -38,7 +38,6 @@ The Nunjucks templates behind every page, organized by size: small pieces build 
 <!-- readme-index:start -->
 ## Index
 
-- [_registry/](_registry/)
 - [atoms/](atoms/README.md)
 - [layouts/](layouts/README.md)
 - [molecules/](molecules/README.md)

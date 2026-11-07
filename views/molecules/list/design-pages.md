@@ -27,12 +27,14 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | `nav`        | array  | eleventyNavigation entries (`title`, `url`, `children`), up to three levels. The caller pre-filters them. Defaults to empty. |
 | `currentUrl` | string | The entry whose `url` matches gets `aria-current="page"` and the highlighted style.                                          |
 
-Fixed design: takes no styling params.
+Fixed design: takes no styling params. Its colours are set for the dark
+docs ground (`slate-950`): neutral links, `slate-800` hover, and a
+`primary-900` current entry.
 
 ## Relationships
 
-- Likely used by:
-  - Unknown
+- Used by:
+  - [[design-doc.njk|layouts/design-doc.njk]], as the sidebar of every page under `ia/docs/design/`, fed `collections.all | eleventyNavigation("Design")`
 
 ## Notes for Future Maintenance
 

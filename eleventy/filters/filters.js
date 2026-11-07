@@ -7,6 +7,7 @@ import fileConfig from "./file.js";
 import stringConfig from "./string.js";
 import imageConfig from "./image.js";
 import colorConfig from "./color.js";
+import designConfig from "./design.js";
 
 export default function (eleventyConfig) {
   arrayConfig(eleventyConfig);
@@ -16,6 +17,7 @@ export default function (eleventyConfig) {
   fileConfig(eleventyConfig);
   imageConfig(eleventyConfig);
   colorConfig(eleventyConfig);
+  designConfig(eleventyConfig);
 
   eleventyConfig.addFilter("datatype", function (value) {
     if (Array.isArray(value)) {
