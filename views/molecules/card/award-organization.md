@@ -17,7 +17,7 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Renders one organization's logo and its group of awards as a card.
+Renders one organization's logo and its group of awards as a card. With `logoOnly`, it renders the logo alone, which the homepage awards section uses.
 
 ## Role in the System
 
@@ -25,10 +25,11 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Params
 
-| Param     | Type                          | Description                                                                                                                                                                        |
-| --------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `group`   | object                        | `organization` (`logo` with `asset`, `alt`, and `inline`; and `title`) plus `items`, an array of award records. Each item is passed to `atoms/award.njk`, which reads its `title`. |
-| `classes` | string, variant map, or array | Applied to the `<article>` through `classes`, after the baseline.                                                                                                                  |
+| Param      | Type                          | Description                                                                                                                                                                             |
+| ---------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `group`    | object                        | `organization` (`logo` with `asset`, `alt`, and `inline`; and `title`) plus `items`, an array of award records. Each item is passed to `atoms/award.njk`, which reads its `title`.      |
+| `classes`  | string, variant map, or array | Applied to the `<article>` through `classes`, after the baseline.                                                                                                                       |
+| `logoOnly` | boolean                       | Defaults to `false`. When `true`, the card drops the title and award list, uses a centered logo-only layout, and labels the logo with the organization's `title` instead of `logo.alt`. |
 
 ## Relationships
 

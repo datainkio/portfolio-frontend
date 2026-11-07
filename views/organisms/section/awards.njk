@@ -36,8 +36,8 @@
     base: "font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
     border-dotted border-primary-500 py-4 mb-6"
     } -%}
-  {%- set listCSS = {"base": "px-2 py-4 columns-6 ", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
-  {%- set articleContainer = {"base": "py-2 break-inside-avoid text-center", "sm": ""} -%}
+  {%- set listCSS = {"base": "grid grid-cols-3 items-center gap-x-6 gap-y-8 px-2 py-6", "sm": "gap-x-8", "md": "grid-cols-6 px-0"} -%}
+  {%- set articleContainer = {"base": "flex items-center justify-center"} -%}
   <section id="{{ sectionId }}"
            class="{{ [sectionStyles, params.classes] | classes }}"
            aria-labelledby="{{ headingId }}"
@@ -58,7 +58,7 @@
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">
       {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render({ group: group }) }}</li>
+        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render({ group: group, logoOnly: true }) }}</li>
       {% endfor %}
     </ul>
 
