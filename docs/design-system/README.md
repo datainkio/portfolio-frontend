@@ -18,6 +18,7 @@ The inventory is a build artifact. Edit the script, not the output:
 
 ## See also
 
+- [Design system spec](../../specs/design-system.spec.md)
 - [Component API spec](../../specs/views/component-api.views-spec.md)
 - [Figma sync](../../figma/README.md)
 - [Motion tokens](../../js/choreography/tokens/motion/motion.md)
