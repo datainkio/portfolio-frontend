@@ -125,9 +125,16 @@ For a motion token, add it to `motion.js` and run `npm run build:motion` instead
 | `npm run lint:palette`     | A colour in `views/`, `styles/`, `js/`, or `data/sanity/transforms/` that isn't from the palette (rule 1), or an arbitrary value used in more than one file (rule 2) |
 | `npm run lint:frontmatter` | Sidecar and reference-page frontmatter outside the frontmatter spec                                                                                                  |
 | `npm run audit:sidecars`   | A new `.njk` or `.js` without a sidecar                                                                                                                              |
+| `npm run check:motion`     | `styles/motion.css` differing from a fresh build of `js/choreography/tokens/motion/motion.js`                                                                        |
 | `npm run quick`            | A broken import in a component or a reference page                                                                                                                   |
 
-`npm run validate` runs the first three and `npm test`.
+`npm run validate` runs the first four and `npm test`.
+
+The generated stylesheets (`colors.css`, `tokens.css`, `motion.css`) are also
+protected from agent edits by deny rules in `.claude/settings.json`. Those rules
+cover the file tools only, not shell commands, which is why `check:motion`
+exists. `colors.css` and `tokens.css` have no fresh-build check yet: rebuilding
+them needs the Figma API, so their check waits on the offline Figma fixture.
 
 Not enforced yet: colour literals in JavaScript values (as opposed to classes),
 and classes in `ia/**/*.md`. Run `npm run inventory:design` and read its
