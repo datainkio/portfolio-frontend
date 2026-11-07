@@ -14,4 +14,4 @@ specimens:
     frame: max-w-3xl
 ---
 
-Award records in the CMS carry no `card` data yet, so callers pass the fields directly. The card still ignores `featured`, `eyebrow`, and `showTitle`.
+Award records in the CMS carry no `card` data yet, so callers pass the fields directly.

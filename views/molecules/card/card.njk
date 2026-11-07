@@ -5,12 +5,10 @@
 
   {#- Data guards -#}
   {%- set title = params.title -%}
-  {%- set eyebrow_txt = params.eyebrow -%}
   {%- set headingLevel = params.headingLevel | default(3) -%}
   {%- set description_txt = params.description -%}
   {%- set byline_txt = params.byline -%}
   {%- set meta = params.meta | default([]) -%}
-  {%- set featured = params.featured | default(false) -%}
   {%- set image = params.image -%}
   {%- set width = image and (image.width or image.asset.metadata.dimensions.width) -%}
   {%- set height = image and (image.height or image.asset.metadata.dimensions.height) -%}

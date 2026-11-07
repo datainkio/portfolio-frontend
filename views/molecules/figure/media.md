@@ -34,17 +34,17 @@ Encapsulates the media figure pattern — `<figure>` + media + optional caption 
 {{ Media.render({ image: project.featuredImage, alt: project.title, classes: figureStyles, styles: imageStyles }) }}
 ```
 
-| Param     | Type                | Required | Description                                                                                                                                |
-| --------- | ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `image`   | `SanityImageObject` | One source | Sanity image object with `asset.url`, `asset.metadata.dimensions`, `alt`, and `caption`. The only source that gets intrinsic `width`/`height`. |
-| `picture` | `string`            | One source | Pre-rendered `<picture>`/`<img>` HTML (e.g. `image.file.html`). Wins over `image`. Carries its own alt and dimensions; style its inner `<img>` with `[&_img]:` utilities in `styles.image`. |
-| `video`   | `object`            | One source | `{ src, poster, mimeType }`. Wins over `picture` and `image`. Without `zoom`: inline `<video controls>`. With `zoom`: inert poster in the trigger; the dialog plays it muted (not under reduced motion). |
-| `alt`     | `string`            | No       | Fallback alt when `image.alt` is empty (typically the project title); the only alt for `video`, and the trigger name for `picture`. |
-| `caption` | `string`            | No       | Fallback caption when `image.caption` is empty; the only caption for `picture` and `video`.                                         |
-| `classes` | string \| variant map \| array | No | The `<figure>` root, applied through the `classes` filter. |
-| `styles`  | `object`            | No       | Slots `{ image, caption }`. Each value is a `classes` variant map (`{"base": …, "md": …}`) or string, applied through the `classes` filter. The macro hard-codes no styles. Follows the [Component API spec](../../../specs/views/component-api.views-spec.md). |
-| `loading` | `string`            | No       | `loading` attribute for the `image` source's `<img>`. Defaults to `"eager"`.                                                                                |
-| `zoom`    | `boolean`           | No       | Click-to-zoom. Wraps the image in the lightbox contract (`data-lightbox-el` root/trigger) and renders the shared dialog from `lightbox-dialog.njk`, which loads `Lightbox.js` and shows the caption. Cursor (`zoom-in` on the trigger, `zoom-out` on the backdrop) is the only affordance. Defaults to off. |
+| Param     | Type                           | Required   | Description                                                                                                                                                                                                                                                                                                 |
+| --------- | ------------------------------ | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `image`   | `SanityImageObject`            | One source | Sanity image object with `asset.url`, `asset.metadata.dimensions`, `alt`, and `caption`. The only source that gets intrinsic `width`/`height`.                                                                                                                                                              |
+| `picture` | `string`                       | One source | Pre-rendered `<picture>`/`<img>` HTML (e.g. `image.file.html`). Wins over `image`. Carries its own alt and dimensions; style its inner `<img>` with `[&_img]:` utilities in `styles.image`.                                                                                                                 |
+| `video`   | `object`                       | One source | `{ src, poster, mimeType }`. Wins over `picture` and `image`. Without `zoom`: inline `<video controls>`. With `zoom`: inert poster in the trigger; the dialog plays it muted (not under reduced motion).                                                                                                    |
+| `alt`     | `string`                       | No         | Fallback alt when `image.alt` is empty (typically the project title); the only alt for `video`, and the trigger name for `picture`.                                                                                                                                                                         |
+| `caption` | `string`                       | No         | Fallback caption when `image.caption` is empty; the only caption for `picture` and `video`.                                                                                                                                                                                                                 |
+| `classes` | string \| variant map \| array | No         | The `<figure>` root, applied through the `classes` filter.                                                                                                                                                                                                                                                  |
+| `styles`  | `object`                       | No         | Slots `{ image, caption }`. Each value is a `classes` variant map (`{"base": …, "md": …}`) or string, applied through the `classes` filter. The macro hard-codes no styles. Follows the [Component API spec](../../../specs/views/component-api.views-spec.md).                                             |
+| `loading` | `string`                       | No         | `loading` attribute for the `image` source's `<img>`. Defaults to `"eager"`.                                                                                                                                                                                                                                |
+| `zoom`    | `boolean`                      | No         | Click-to-zoom. Wraps the image in the lightbox contract (`data-lightbox-el` root/trigger) and renders the shared dialog from `lightbox-dialog.njk`, which loads `Lightbox.js` and shows the caption. Cursor (`zoom-in` on the trigger, `zoom-out` on the backdrop) is the only affordance. Defaults to off. |
 
 ## Role in the System
 
@@ -52,30 +52,29 @@ Classified as a **macro** at the atomic **molecule** level. Sits below `organism
 
 ## Params
 
-| Param | Type | Description |
-| --- | --- | --- |
-| `image` | object | Sanity image: `asset.url`, `asset.metadata.dimensions`, `alt`, and `caption`. The only source that gets `width` and `height`. |
-| `picture` | string | Pre-rendered `<picture>` or `<img>` HTML. Wins over `image`. Carries its own alt. |
-| `video` | object | `src` and `poster`. Wins over `picture` and `image`. Only used when `src` is set. |
-| `alt` | string | Fallback for `image.alt`. The only alt for `picture` and `video`. |
-| `caption` | string | Fallback for `image.caption`. Renders a `<figcaption>`. |
-| `classes` | string, variant map, or array | Applied to the `<figure>` through `classes`. |
-| `styles` | object | Slot map. See the slot table. |
-| `zoom` | boolean | Wraps the media in the lightbox trigger (`data-lightbox-el`) and renders the dialog from `lightbox-dialog.njk`. |
-| `loading` | string | `loading` attribute on the `<img>` only. Defaults to `eager`. |
-| `attrs` | string | Raw attributes added to the `<figure>`. |
+| Param     | Type                          | Description                                                                                                                   |
+| --------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `image`   | object                        | Sanity image: `asset.url`, `asset.metadata.dimensions`, `alt`, and `caption`. The only source that gets `width` and `height`. |
+| `picture` | string                        | Pre-rendered `<picture>` or `<img>` HTML. Wins over `image`. Carries its own alt.                                             |
+| `video`   | object                        | `src` and `poster`. Wins over `picture` and `image`. Only used when `src` is set.                                             |
+| `alt`     | string                        | Fallback for `image.alt`. The only alt for `picture` and `video`.                                                             |
+| `caption` | string                        | Fallback for `image.caption`. Renders a `<figcaption>`.                                                                       |
+| `classes` | string, variant map, or array | Applied to the `<figure>` through `classes`.                                                                                  |
+| `styles`  | object                        | Slot map. See the slot table.                                                                                                 |
+| `zoom`    | boolean                       | Wraps the media in the lightbox trigger (`data-lightbox-el`) and renders the dialog from `lightbox-dialog.njk`.               |
+| `loading` | string                        | `loading` attribute on the `<img>` only. Defaults to `eager`.                                                                 |
+| `attrs`   | string                        | Raw attributes added to the `<figure>`.                                                                                       |
 
-| Slot | Element |
-| --- | --- |
-| `image` | The media element: `<video>`, the `<span>` around `picture`, or `<img>`. |
-| `caption` | The `<figcaption>`. |
+| Slot      | Element                                                                  |
+| --------- | ------------------------------------------------------------------------ |
+| `image`   | The media element: `<video>`, the `<span>` around `picture`, or `<img>`. |
+| `caption` | The `<figcaption>`.                                                      |
 
 ## Relationships
 
 - Used by:
   - [[project-header.njk|organisms/header/project/project-header.njk]] (project featured image)
   - [[design-decision.njk|molecules/card/design-decision.njk]] (decision artifact, `loading: "lazy"`, `zoom: true`, caption `sr-only`)
-  - [[image.njk|molecules/card/image.njk]] (`picture` source, `zoom: true`; itself has no callers)
 
 ## Notes for Future Maintenance
 

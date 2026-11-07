@@ -3,7 +3,6 @@ description: "Defines Nunjucks macro: render."
 type: template
 links:
   - "[hanko](../../../atoms/hanko/hanko.md)"
-  - "[breadcrumbs-nav](../../navigation/breadcrumbs-nav.md)"
 ---
 
 # Article Header

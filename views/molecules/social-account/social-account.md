@@ -31,12 +31,12 @@ content model's `socialAccount` object.
 
 ## Params
 
-| Param     | Type   | Description                                                                                                                |
-| --------- | ------ | -------------------------------------------------------------------------------------------------------------------------- |
-| `account` | object | `title`, `logo` (`url`, `alt`, `inline`), and `url`. Renders nothing when `url` is missing.                                |
-| `format`  | string | `icon` (default) renders the logo SVG when `logo.url` is set, otherwise the title. Any other value renders the title text. |
-| `size`    | string | Logo size class for the icon format. Defaults to `size-10`.                                                                |
-| `classes` | string | Applied to the link at `sm` and up only, because the template places it under the `sm` key.                                |
+| Param     | Type                           | Description                                                                                                                |
+| --------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `account` | object                         | `title`, `logo` (`url`, `alt`, `inline`), and `url`. Renders nothing when `url` is missing.                                |
+| `format`  | string                         | `icon` (default) renders the logo SVG when `logo.url` is set, otherwise the title. Any other value renders the title text. |
+| `size`    | string                         | Logo size class for the icon format. Defaults to `size-10`.                                                                |
+| `classes` | string \| variant map \| array | Appended to the link's baseline through the `classes` filter, at every breakpoint.                                         |
 
 ## Relationships
 

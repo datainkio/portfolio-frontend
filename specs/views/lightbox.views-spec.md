@@ -43,12 +43,12 @@ styled by the caller through `styles`. The **dialog** is shared and has a
 single source. `media.njk` is the only Nunjucks entry point; it replaced
 `molecules/lightbox/lightbox.njk` on 2026-10-02.
 
-| Piece | File | Owns |
-| --- | --- | --- |
-| Dialog | [`molecules/lightbox/lightbox-dialog.njk`](../../views/molecules/lightbox/lightbox-dialog.md) | `<dialog>`, close button, enlarged media, dialog caption, module script |
-| Media | [`molecules/figure/media.njk`](../../views/molecules/figure/media.md) | Root, trigger and in-page caption for an `image`, `picture`, or `video` source, behind `zoom: true` |
-| PortableText image | `data/sanity/transforms/portableText.js` (`types.image`) | Hand-built HTML copy of root, trigger, and dialog |
-| Controller | [`js/lightbox/Lightbox.js`](../../js/lightbox/Lightbox.md) | Open, close, video play/pause |
+| Piece              | File                                                                                          | Owns                                                                                                |
+| ------------------ | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Dialog             | [`molecules/lightbox/lightbox-dialog.njk`](../../views/molecules/lightbox/lightbox-dialog.md) | `<dialog>`, close button, enlarged media, dialog caption, module script                             |
+| Media              | [`molecules/figure/media.njk`](../../views/molecules/figure/media.md)                         | Root, trigger and in-page caption for an `image`, `picture`, or `video` source, behind `zoom: true` |
+| PortableText image | `data/sanity/transforms/portableText.js` (`types.image`)                                      | Hand-built HTML copy of root, trigger, and dialog                                                   |
+| Controller         | [`js/lightbox/Lightbox.js`](../../js/lightbox/Lightbox.md)                                    | Open, close, video play/pause                                                                       |
 
 Molecules importing molecules is normal in this codebase
 ([README.md](../../views/molecules/README.md)), so
@@ -60,15 +60,15 @@ sync with `lightbox-dialog.njk` by hand**. It is the only remaining copy.
 
 `Lightbox.js` binds to `data-lightbox-el`, never to classes.
 
-| `data-lightbox-el` | Element | Required | Notes |
-| --- | --- | --- | --- |
-| `root` | `<figure>` | yes | One controller per root. |
-| `trigger` | `<button type="button">` | yes | `aria-haspopup="dialog"`; wraps the thumbnail. |
-| `dialog` | `<dialog>` | yes | Opened with `showModal()`. |
-| `close` | `<button type="button">` | yes | First focusable element in the dialog. |
-| `video` | `<video>` | video only | Played on open, paused on close. |
-| `caption` | `<figcaption>` | no | In-page caption under the thumbnail (`media.njk` with `zoom`, PortableText). |
-| `dialog-caption` | `<figcaption>` | no | Caption inside the dialog. |
+| `data-lightbox-el` | Element                  | Required   | Notes                                                                        |
+| ------------------ | ------------------------ | ---------- | ---------------------------------------------------------------------------- |
+| `root`             | `<figure>`               | yes        | One controller per root.                                                     |
+| `trigger`          | `<button type="button">` | yes        | `aria-haspopup="dialog"`; wraps the thumbnail.                               |
+| `dialog`           | `<dialog>`               | yes        | Opened with `showModal()`.                                                   |
+| `close`            | `<button type="button">` | yes        | First focusable element in the dialog.                                       |
+| `video`            | `<video>`                | video only | Played on open, paused on close.                                             |
+| `caption`          | `<figcaption>`           | no         | In-page caption under the thumbnail (`media.njk` with `zoom`, PortableText). |
+| `dialog-caption`   | `<figcaption>`           | no         | Caption inside the dialog.                                                   |
 
 ## Media sources
 
@@ -87,12 +87,12 @@ receives `image.asset.url` as `src`).
 
 ## Behavior
 
-| Action | Result |
-| --- | --- |
-| Click the trigger | `dialog.showModal()`; focus moves into the dialog |
-| Click Close, click the backdrop, or press Escape | Dialog closes; focus returns to the trigger (native) |
-| Open with video | Video plays **muted**, unless `prefers-reduced-motion: reduce` |
-| Any close path with video | Video pauses (driven by the dialog's `close` event, which Escape also fires) |
+| Action                                           | Result                                                                       |
+| ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| Click the trigger                                | `dialog.showModal()`; focus moves into the dialog                            |
+| Click Close, click the backdrop, or press Escape | Dialog closes; focus returns to the trigger (native)                         |
+| Open with video                                  | Video plays **muted**, unless `prefers-reduced-motion: reduce`               |
+| Any close path with video                        | Video pauses (driven by the dialog's `close` event, which Escape also fires) |
 
 The dialog video has `controls`, so the visitor can unmute, scrub, or start
 playback under reduced motion. Rejected `play()` promises are swallowed, so
@@ -139,11 +139,10 @@ the backdrop, `auto` over the content.
 
 ## Callers
 
-| Caller | Source | Notes |
-| --- | --- | --- |
+| Caller                                                                      | Source                    | Notes                                                  |
+| --------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------ |
 | [`card/design-decision.njk`](../../views/molecules/card/design-decision.md) | `Media` with `zoom: true` | Page caption is `sr-only`; the dialog shows it visibly |
-| PortableText `image` blocks (hero, case-study body) | Serializer | Caption from the asset's Description field |
-| [`card/image.njk`](../../views/molecules/card/image.md) | `Media` with `picture`, `zoom: true` | No callers; dev/admin media card |
+| PortableText `image` blocks (hero, case-study body)                         | Serializer                | Caption from the asset's Description field             |
 
 **No live surface uses the `video` source yet.** Project `featuredVideo`
 renders only on cards, which link to the project page rather than open a

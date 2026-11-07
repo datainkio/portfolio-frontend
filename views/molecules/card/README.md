@@ -16,9 +16,8 @@ Cards for showing content across the site.
 - `card.njk` - generic card with optional image, title, metadata and link
 - `project.njk` - project card
 - `award.njk`, `award-organization.njk` - award cards
-- `organization.njk`, `category.njk` - organization and category cards
+- `organization.njk` - organization card
 - `design-decision.njk` - design decision card
-- `image.njk` - image-only card
 
 ## How it connects
 
@@ -31,6 +30,7 @@ Cards for showing content across the site.
 - [Molecules](../README.md)
 
 <!-- readme-index:start -->
+
 ## Index
 
 - [award-organization.md](award-organization.md)
@@ -39,12 +39,8 @@ Cards for showing content across the site.
 - [award.njk](award.njk)
 - [card.md](card.md)
 - [card.njk](card.njk)
-- [category.md](category.md)
-- [category.njk](category.njk)
 - [design-decision.md](design-decision.md)
 - [design-decision.njk](design-decision.njk)
-- [image.md](image.md)
-- [image.njk](image.njk)
 - [organization.md](organization.md)
 - [organization.njk](organization.njk)
 - [project.md](project.md)

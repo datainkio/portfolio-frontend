@@ -12,7 +12,7 @@ Params: account { title, logo.url, url }, classes
   {%- set format = params.format | default("icon") -%}
 
   {#- STYLES -#}
-  {%- set linkClasses = {"base": "inline-flex items-center justify-center", "sm": params.classes} -%}
+  {%- set linkClasses = ["inline-flex items-center justify-center", params.classes] -%}
   {%- set logoClasses = {"base": "h-full w-full object-contain"} -%}
 
   {#- DISPLAY -#}
