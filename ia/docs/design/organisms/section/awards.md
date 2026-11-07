@@ -5,7 +5,7 @@ type: reference
 component: organisms/section/awards.njk
 specimens:
   - title: Recognition
-    note: Live awards, grouped by organization through the groupByOrg filter. The inner subheading carries the fixed id "subheading".
+    note: Live awards, grouped by organization through the groupByOrg filter.
     params:
       id: specimen-awards
     bind:

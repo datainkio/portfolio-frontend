@@ -8,8 +8,8 @@ specimens:
     params:
       industry: Automotive
       orgs:
-        - { name: Ford Motor Company }
-        - { name: Lincoln }
+        - { title: Ford Motor Company }
+        - { title: Lincoln }
 inContext:
   - { url: /work/, label: Work page }
 ---
