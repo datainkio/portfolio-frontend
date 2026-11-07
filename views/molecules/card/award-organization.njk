@@ -11,8 +11,9 @@
 {%- set titleStyles = {"base": "col-start-2 col-span-5 font-display text-sm text-neutral-100 leading-none m-0", "sm": "pt-2"} -%}
 {%- set listStyles = {"base": "col-start-2 col-span-5 flex flex-wrap gap-1"} -%}
 {%- set awardContainerStyles = {"base": "text-sm leading-4 text-neutral-400 after:content-[','] last:after:content-none", "sm": ""} -%}
-{%- set logoOnlyArticleStyles = {"base": "flex items-center justify-center text-accent-600"} -%}
-{%- set logoOnlyLogoStyles = {"base": "h-12 w-auto max-w-full", "md": "h-16"} -%}
+{%- set logoOnlyArticleStyles = {"base": "w-full text-accent-600"} -%}
+{#- A fixed box the width of the slot; the artwork is centered inside it. -#}
+{%- set logoOnlyLogoStyles = {"base": "block h-12 w-full object-contain object-center", "md": "h-16"} -%}
 
 
 {%- macro render(params = {}) -%}
@@ -21,7 +22,7 @@
   <article data-awards-el="organization-card"
            class="{{ [logoOnlyArticleStyles if logoOnly else articleStyles, params.classes] | classes }}">
     {#- {% set logoSize = size | default("size-10") %} -#}
-    {%- set logo = group.organization.logo.asset | default('/assets/images/logos/default.svg') -%}
+    {%- set logo = group.organization.logo.asset.url | default('/assets/images/logos/default.svg') -%}
     {#- Logo-only cards have no visible title, so the logo carries the organization's name. -#}
     {%- set logoAlt = group.organization.title if logoOnly else (group.organization.logo.alt | default(group.organization.title)) -%}
     {%- set logoStyles = logoOnlyLogoStyles if logoOnly else {"base": "self-start pt-2 row-span-2 text-accent-600 size-full"} -%}
@@ -30,7 +31,8 @@
         src: logo,
         alt: logoAlt,
         classes: logoStyles | classes,
-        svgClasses: ""
+        svgClasses: "",
+        preserveAspectRatio: "xMidYMid meet" if logoOnly else "xMidYMin meet"
         }) }}
     {%- if not logoOnly %}
     <h3 class="{{ titleStyles | classes }}">{{ group.organization.title }}</h3>
