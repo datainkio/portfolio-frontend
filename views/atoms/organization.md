@@ -22,20 +22,18 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Params
 
-| Param       | Type   | Description                                                                                                      |
-| ----------- | ------ | ---------------------------------------------------------------------------------------------------------------- |
-| `id`        | string | Section id. Defaults to `organizations`. Used to build the default `headingId`.                                  |
-| `headingId` | string | Read into a variable but not output. Defaults to `<id>-heading`.                                                 |
-| `copy`      | object | `heading` and `body` are read into variables but not rendered.                                                   |
-| `title`     | string | Name shown as text. Defaults to "Untitled organization".                                                         |
-| `logo`      | object | Read only for `logo.alt`. The image markup is commented out and `logo` is forced to `null`, so no image renders. |
-| `logoAlt`   | string | Read as the alt fallback. No effect while the image is disabled.                                                 |
-| `logoUrl`   | string | Read but not used.                                                                                               |
+| Param   | Type   | Description                                              |
+| ------- | ------ | -------------------------------------------------------- |
+| `title` | string | Name shown as text. Defaults to "Untitled organization". |
+
+Logos were switched off on 2026-08-23 (`dc5ff743`): the homepage list is
+text-only. The dead logo branch and the unused `id`, `headingId`, `copy`,
+`logo`, `logoAlt` and `logoUrl` params were removed on 2026-11-07.
 
 ## Relationships
 
-- Likely used by:
-  - Unknown
+- Used by:
+  - [[organizations.njk]] (`views/organisms/section/organizations.njk`), one per list item
 
 ## Notes for Future Maintenance
 

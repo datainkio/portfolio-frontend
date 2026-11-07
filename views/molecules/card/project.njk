@@ -7,7 +7,6 @@
   {%- set video = params.video | default(project.featuredVideo) -%}
   {%- set url = params.url | default(project.url) | default("") -%}
   {%- set description = params.description | default(project.abstract) | default("") -%}
-  {%- set industries = params.eyebrow | default((project.industries or []) | join(", ")) -%}
   {%- set roles = params.roles | default((project.rolesTitles or []) | join(", ")) -%}
   {%- set activities = params.activities | default((project.activityTitles or []) | join(", ")) -%}
   {%- set client = (project.organization or []) | join(", ", "title") -%}
@@ -23,9 +22,7 @@
     byline: client,
     description: description,
     meta: meta,
-    featured: params.featured | default(false) ,
-  styles: params.styles,
-  showTitle: params.showTitle,
-  eager: params.eager
+    styles: params.styles,
+    eager: params.eager
   }) }}
 {% endmacro %}

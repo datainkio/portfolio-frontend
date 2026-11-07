@@ -29,4 +29,4 @@ inContext:
   - { url: /work/, label: Work page project cards }
 ---
 
-The sidecar records that `featured`, `eyebrow`, and `showTitle` are accepted by the wrappers but ignored here. The description and metadata are visually hidden (`sr-only`).
+The description and metadata are visually hidden (`sr-only`).

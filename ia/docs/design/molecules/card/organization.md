@@ -14,4 +14,4 @@ specimens:
     frame: max-w-3xl
 ---
 
-Organization records carry no `card` data yet, so callers pass the fields directly. The card ignores `featured` and `showTitle`.
+Organization records carry no `card` data yet, so callers pass the fields directly.

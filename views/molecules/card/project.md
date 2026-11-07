@@ -32,12 +32,9 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | `video`       | object       | Defaults to `project.featuredVideo`.                                                                                                                               |
 | `url`         | string       | Defaults to `project.url`.                                                                                                                                         |
 | `description` | string       | Defaults to `project.abstract`.                                                                                                                                    |
-| `eyebrow`     | string       | Read to build an industries string that is never passed to the card. No effect.                                                                                    |
 | `roles`       | string       | Read to build a roles string that is never passed to the card. No effect.                                                                                          |
 | `activities`  | string       | Defaults to the joined `project.activityTitles`. Feeds the "Deliverables" meta row.                                                                                |
 | `meta`        | array        | Defaults to one row: `{ key: "Deliverables", value: activities }`.                                                                                                 |
-| `featured`    | boolean      | Passed to the card, which does not render it. Defaults to `false`.                                                                                                 |
-| `showTitle`   | boolean      | Passed to the card, which does not read it.                                                                                                                        |
 | `eager`       | boolean      | Passed to the card.                                                                                                                                                |
 | `styles`      | object       | Passed to the card. See the slot table.                                                                                                                            |
 

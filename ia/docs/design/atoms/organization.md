@@ -1,6 +1,6 @@
 ---
 title: Organization
-description: The name of one organization, rendered as text where a logo will go once logos are enabled.
+description: The name of one organization, rendered as plain text for the homepage organizations list.
 type: reference
 component: atoms/organization.njk
 specimens:
@@ -14,4 +14,4 @@ inContext:
   - { url: /, label: Homepage organizations section }
 ---
 
-The logo branch is commented out in the macro, so only the title renders today.
+Logos were switched off on 2026-08-23, so the atom renders the title only.
