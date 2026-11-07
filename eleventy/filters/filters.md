@@ -9,6 +9,7 @@ links:
   - "[[eleventy/filters/README|filters]]"
   - "[[array]]"
   - "[[string]]"
+  - "[[design]]"
 ---
 
 # Filters barrel
@@ -23,7 +24,7 @@ filters(eleventyConfig);
 
 ## Registers
 
-- [[array]] · [[date]] · [[dom]] · [[string]] · [[file]] · [[image]] · [[color]]
+- [[array]] · [[date]] · [[dom]] · [[string]] · [[file]] · [[image]] · [[color]] · [[design]]
 - `datatype` — runtime type label (`array` / `null` / `date` / …)
 - `findRecord` — join a CMS record id to its content
 

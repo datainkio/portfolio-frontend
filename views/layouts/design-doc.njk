@@ -1,0 +1,123 @@
+{% extends "./cols-2-before.njk" %}
+{#-
+  Design-system reference layout for every page under ia/docs/design/.
+
+  A page whose frontmatter names a `component` (a path under views/) becomes
+  a component page: its sidecar supplies the description and params
+  (componentDoc, from design.11tydata.js), and each `specimens` entry renders
+  the macro live, followed by the call that produced it. Any other page
+  renders its own content as the reference body.
+-#}
+{% import "molecules/list/design-pages.njk" as DesignPages %}
+
+{% block mainStyles %}col-span-full min-w-0 lg:col-span-10 lg:col-start-3{% endblock mainStyles %}
+
+{% block sidebarBefore %}
+  <aside aria-label="Design system pages"
+         class="col-span-full mt-44 max-h-72 overflow-y-auto lg:col-span-2 lg:max-h-none lg:overflow-visible lg:pb-12">
+    {{ DesignPages.render({ nav: collections.all | eleventyNavigation("Design"), currentUrl: page.url }) }}
+  </aside>
+{% endblock sidebarBefore %}
+
+{% block content %}
+  {%- set surfaces = {
+    "dark": "bg-slate-950 text-neutral-100",
+    "paper": "bg-neutral-50 text-neutral-900",
+    "slate": "bg-slate-800 text-neutral-100",
+    "primary": "bg-primary-950 text-neutral-100",
+    "graph": "bg-slate-950 bg-graphpaper-primary-100 text-neutral-100"
+  } -%}
+  {%- set tier = page.filePathStem.split("/")[3] if page.filePathStem.split("/").length > 4 else "" -%}
+
+  <article class="space-y-12 pt-20 pb-24 text-neutral-200">
+    <header class="space-y-4">
+      {%- if tier %}
+        <p class="mb-0 font-display text-sm uppercase tracking-widest text-accent-400">{{ tier }}</p>
+      {%- endif %}
+      <h1 class="mb-0">{{ title }}</h1>
+      {%- if description %}
+        <p class="max-w-3xl text-xl text-neutral-300">{{ description }}</p>
+      {%- endif %}
+
+      {%- if componentDoc %}
+        <dl class="grid max-w-3xl grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
+          <dt class="text-neutral-400">Source</dt>
+          <dd><code class="text-neutral-100">{{ componentDoc.source }}</code></dd>
+          <dt class="text-neutral-400">Sidecar</dt>
+          <dd><code class="text-neutral-100">{{ componentDoc.sidecar }}</code></dd>
+          <dt class="text-neutral-400">Import</dt>
+          <dd><code class="text-neutral-100">{{ '{% import "' + componentDoc.importPath + '" as ' + componentDoc.alias + ' %}' }}</code></dd>
+        </dl>
+      {%- endif %}
+    </header>
+
+    {%- if componentDoc %}
+      {% import componentDoc.importPath as C %}
+      {%- set roots = {
+        cms: cms,
+        collections: collections,
+        colors: colors,
+        designTokens: designTokens,
+        buildDate: buildDate,
+        buildVersions: buildVersions,
+        site: site
+      } -%}
+
+      <section aria-labelledby="specimens-heading" class="space-y-8">
+        <h2 id="specimens-heading">Specimens</h2>
+        {%- for s in specimens %}
+          {%- set params = s.params | specimenParams(s.bind, roots) -%}
+          <figure class="m-0 space-y-3">
+            <figcaption class="space-y-1">
+              <span class="block font-display text-2xl text-neutral-100">{{ s.title }}</span>
+              {%- if s.note %}
+                <span class="block max-w-3xl font-body text-base text-neutral-400">{{ s.note }}</span>
+              {%- endif %}
+            </figcaption>
+            <div class="{{ ['relative isolate transform-gpu overflow-hidden rounded-lg p-6 inner-border inner-border-slate-700', surfaces[s.surface] or surfaces.dark, s.frame] | classes }}">
+              {%- if s.content %}
+                {% call C.render(params) %}{{ s.content | safe }}{% endcall %}
+              {%- else %}
+                {{ C.render(params) }}
+              {%- endif %}
+            </div>
+            <pre class="overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-neutral-200"><code>{{ componentDoc.alias | specimenCall(s.params, s.bind, s.content) }}</code></pre>
+          </figure>
+        {%- else %}
+          <p class="max-w-3xl text-neutral-300">{{ specimenNote or "No specimen yet." }}</p>
+        {%- endfor %}
+      </section>
+
+      {%- if inContext and inContext.length %}
+        <section aria-labelledby="in-context-heading" class="space-y-4">
+          <h2 id="in-context-heading">In context</h2>
+          <ul class="list-disc space-y-1 pl-6">
+            {%- for link in inContext %}
+              <li><a class="text-primary-300 underline hover:text-primary-200" href="{{ link.url }}">{{ link.label }}</a></li>
+            {%- endfor %}
+          </ul>
+        </section>
+      {%- endif %}
+
+      <section aria-labelledby="params-heading" class="space-y-4">
+        <h2 id="params-heading">Params</h2>
+        {%- if componentDoc.params %}
+          <div class="prose prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none prose-table:text-sm">
+            {{ componentDoc.params | markdownify | safe }}
+          </div>
+        {%- else %}
+          <p class="text-neutral-300">The sidecar doesn't list params yet.</p>
+        {%- endif %}
+      </section>
+
+      {%- if content | trim %}
+        <section aria-labelledby="notes-heading" class="space-y-4">
+          <h2 id="notes-heading">Notes</h2>
+          <div class="prose prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none">{{ content | safe }}</div>
+        </section>
+      {%- endif %}
+    {%- else %}
+      <div class="prose prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none">{{ content | safe }}</div>
+    {%- endif %}
+  </article>
+{% endblock content %}

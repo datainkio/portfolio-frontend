@@ -12,7 +12,7 @@
  * ARCHITECTURE COMPLIANCE:
  * - Follows atomic design principles (atoms/molecules/organisms)
  * - Includes proper frontmatter for auto-documentation
- * - Integrates with component registry system
+ * - Generates Component API macros (render(params = {}))
  * - Maintains GSAP animation compatibility
  * - Supports Figma design token integration
  *
@@ -24,7 +24,7 @@
  *
  * CRITICAL DEPENDENCIES:
  * - views/ directory structure
- * - _registry.njk component system
+ * - specs/views/component-api.views-spec.md (component skeleton)
  * - Logger utility for consistent output
  * - Figma design token structure
  */
@@ -37,115 +37,30 @@ import { projectRoot } from "../lib/paths.js";
 /**
  * Component Templates - Standardized component scaffolding
  */
+/**
+ * Component API skeleton (specs/views/component-api.views-spec.md): one
+ * `render(params = {})` macro that reads only `params` and appends the
+ * caller's `classes` to its baseline through the `classes` filter.
+ */
+const componentTemplate = (tier, rootTag) => (name, componentName) => `{#-
+  ${componentName} (${tier}).
+  Import without context:
+    {% import "${tier}s/${name}.njk" as ${componentName.replace(/ /g, "")} %}
+  Document every param in the sidecar's Params table, and add a page under
+  ia/docs/design/${tier}s/ (contract: views/layouts/design-doc.md).
+-#}
+{%- macro render(params = {}) -%}
+  {%- set baseline = "" -%}
+  <${rootTag} class="{{ [baseline, params.classes] | classes }}">
+    {%- if caller %}{{ caller() }}{% else %}{{ params.content }}{% endif -%}
+  </${rootTag}>
+{%- endmacro -%}
+`;
+
 const templates = {
-  atom: (name, componentName) => `---
-# ${componentName} Component - Atomic UI Element
-#
-# CRITICAL WARNING: This component integrates with Figma design tokens
-# Styles are auto-generated from design system - DO NOT hardcode values
-#
-# PROPS:
-name: "${name}"
-category: "atoms"
-props:
-  # Define component props here
-  content: { type: "string", required: true, description: "Component content" }
-  className: { type: "string", default: "", description: "Additional CSS classes" }
-#
-# USAGE EXAMPLES:
-examples:
-  - { content: "Example content" }
-  - { content: "Styled example", className: "custom-styles" }
-#
-# FIGMA INTEGRATION:
-# - Uses design tokens from styles/colors.css
-# - Typography from styles/typography/
-# - Spacing follows design system grid
-#
-# GSAP ANIMATION COMPATIBILITY:
-# - Maintains element structure for animations
-# - Supports ScrollTrigger integration
-# - Uses stable CSS classes for animation targets
----
-
-<div class="{{name}} {{ className }}">
-  {{ content | default("${componentName} content") }}
-</div>`,
-
-  molecule: (name, componentName) => `---
-# ${componentName} Component - Molecular UI Pattern
-#
-# CRITICAL WARNING: This molecule combines atomic components
-# Ensure atomic dependencies are available and properly imported
-#
-# PROPS:
-name: "${name}"
-category: "molecules"
-props:
-  title: { type: "string", required: true, description: "Component title" }
-  content: { type: "string", required: false, description: "Component content" }
-  variant: { type: "string", default: "default", options: ["default", "featured"], description: "Visual variant" }
-#
-# ATOMIC DEPENDENCIES:
-# - atoms/heading (for title display)
-# - atoms/button (for actions)
-# - atoms/icon (for visual elements)
-#
-# CMS INTEGRATION:
-# - Supports dynamic content from collections
-# - Handles missing data gracefully
----
-
-{% from "_registry/_registry.njk" import component %}
-
-<div class="${name} ${name}--{{ variant | default('default') }}">
-  {{ component("atoms", "heading", { content: title, level: 3 }) }}
-  
-  {% if content %}
-    <div class="${name}__content">
-      {{ content }}
-    </div>
-  {% endif %}
-</div>`,
-
-  organism: (name, componentName) => `---
-# ${componentName} Component - Complex UI Organism
-#
-# CRITICAL WARNING: This organism may integrate with GSAP animations
-# Maintain element IDs and CSS classes for animation system compatibility
-#
-# PROPS:
-name: "${name}"
-category: "organisms"
-props:
-  data: { type: "object", required: true, description: "Data object from CMS collections" }
-  animationId: { type: "string", default: "", description: "GSAP animation identifier" }
-#
-# ANIMATION DEPENDENCIES:
-# - May require specific element IDs for GSAP targeting
-# - ScrollTrigger integration points marked with data-scroll
-# - Animation timelines defined in js/choreography/sections/
-#
-# CMS INTEGRATION:
-# - Processes collection data from data/sanity/
-# - Supports multiple content types
-# - Handles empty states gracefully
----
-
-{% from "_registry/_registry.njk" import component %}
-
-<section 
-  class="${name}"
-  {% if animationId %}id="{{ animationId }}"{% endif %}
-  data-scroll-section
->
-  <!-- GSAP Animation Target: Maintain this structure -->
-  <div class="${name}__container">
-    {% for item in data %}
-      {{ component("molecules", "${name}-item", item) }}
-    {% endfor %}
-  </div>
-</section>`,
+  atom: componentTemplate("atom", "span"),
+  molecule: componentTemplate("molecule", "div"),
+  organism: componentTemplate("organism", "section"),
 
   page: (name, componentName) => `---
 layout: templates/base.njk
@@ -175,21 +90,10 @@ ANIMATION COMPATIBILITY:
 - Maintain consistent CSS class structure
 #}
 
-{% from "_registry/_registry.njk" import component %}
-
-{# Page Content #}
+{# Page Content: import components without context and call their render macros,
+   e.g. {% import "organisms/section/work.njk" as Work %} then {{ Work.render({ ... }) }} #}
 <main class="${name}-page">
-  {{ component("organisms", "${name}-hero", { 
-    title: title, 
-    subtitle: subtitle 
-  }) }}
-  
-  {# Additional page sections #}
-  {% if collections.${name} %}
-    {{ component("organisms", "${name}-content", { 
-      data: collections.${name} 
-    }) }}
-  {% endif %}
+  {# Page sections #}
 </main>`,
 };
 
@@ -458,7 +362,11 @@ function generateComponent(type, category, name) {
 
   console.log(chalk.green(`✅ Created ${type}: ${filePath}`));
   console.log(
-    chalk.blue(`📝 Usage: component("${category}", "${name}", { props })`),
+    chalk.blue(
+      type === "page"
+        ? `📝 Next: import components into ${filename} and render them`
+        : `📝 Usage: {% import "${category}/${name}.njk" as X %} then {{ X.render({ ... }) }}. Add its sidecar and a page under ia/docs/design/${category}/.`,
+    ),
   );
 }
 

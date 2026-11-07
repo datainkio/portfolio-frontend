@@ -47,6 +47,10 @@ export const KEEP_DOMAIN = new Set([
   "priority", // responsive-testing
   "viewport-width", // responsive-testing/viewports
   "viewport-height",
+  "component", // ia/docs/design: the views/ component a reference page renders
+  "specimens", // ia/docs/design: params for each live render of that component
+  "specimenNote", // ia/docs/design: why a component page has no specimens
+  "inContext", // ia/docs/design: links to pages where the component appears
 ]);
 
 /** Fully recoverable from path, filename, or extension. */
