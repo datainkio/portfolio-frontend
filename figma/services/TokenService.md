@@ -1,50 +1,48 @@
 ---
-description: Sidecar for TokenService.js — reads non-colour design tokens from the Figma Tokens page and the file's text styles, and writes styles/tokens.css.
+description: Sidecar for TokenService.js — reads non-colour design tokens from the Figma library's variables and shadow styles, and writes styles/tokens.css.
 type: script
 tags:
   - figma
   - design-tokens
 links:
   - "[[TokensFile]]"
+  - "[[VariablesService]]"
   - "[[fetchFigma]]"
   - "[Decision](../../docs/design-system/adr-0001-figma-owns-design-tokens.md)"
 ---
 
 # TokenService.js
 
-Reads tokens from two places in the Figma file.
+Reads tokens from the design-system library through
+[VariablesService](VariablesService.md), which reads the library's Tokens page.
 
-**Text styles,** which the file already has:
+**FLOAT variables,** grouped by the first part of their name:
 
-| Group         | Text style          | Value read                       |
-| ------------- | ------------------- | -------------------------------- |
-| `text`        | `fontSize/*`        | Font size and line height        |
-| `leading`     | `lineHeight/*`      | Line height divided by font size |
-| `font-weight` | `fontWeight/sans/*` | Font weight                      |
+| Group         | Variables                                     | Value written                                  |
+| ------------- | --------------------------------------------- | ---------------------------------------------- |
+| `spacing`     | `spacing/*`                                   | px as rem. `spacing/0_5` becomes the `0.5` key |
+| `container`   | `container/*`                                 | px as rem                                      |
+| `radius`      | `radius/*`                                    | px as rem. `radius/default` becomes `--radius` |
+| `text`        | `text/<step>/size`, `text/<step>/line-height` | Size as rem, line height as a ratio of it      |
+| `font-weight` | `font-weight/*`                               | The number                                     |
+| `leading`     | `leading/*`                                   | The ratio, to 3 places                         |
+| `tracking`    | `tracking/*`                                  | em, to 3 places                                |
 
-**Named layers** on the page whose name ends in `Tokens`. A layer named
-`<group>/<name>` defines one token, and other layers are ignored:
+Other variables are ignored: colours (see [PaletteService](PaletteService.md)),
+font families and motion (both maintained in code), and `screen/*` (declared by
+hand in `styles/sizes.css`).
 
-| Group       | Layer     | Value read                              |
-| ----------- | --------- | --------------------------------------- |
-| `spacing`   | Rectangle | Width, as rem                           |
-| `container` | Rectangle | Width, as rem                           |
-| `radius`    | Rectangle | Corner radius, as rem                   |
-| `shadow`    | Rectangle | Drop and inner shadow effects           |
-| `tracking`  | Text      | Letter spacing divided by font size, em |
+**Shadow effect styles.** Figma has no variable type for a shadow, so `shadow`
+comes from the `EffectStyle/Shadow/*` samples on the Tokens page. Visible drop
+and inner shadows are written in Figma's order.
 
-Why layers and not Figma Variables: the Variables REST API needs an Enterprise
-plan, and Figma has no style type for spacing or radius. The file endpoint this
-sync already calls returns these layer properties on any plan.
+`isTokensPage` and `shadowValue` are exported for VariablesService and the tests.
 
 ## Failure behaviour
 
-- **No token layers yet:** logs a warning and leaves `styles/tokens.css` alone, so
-  `npm run build` keeps working before the page is authored.
 - **A group with no tokens:** throws and leaves the file alone. Writing a partial
   set would drop the missing group back to Tailwind's defaults with no warning.
-- **A type style with an auto line height:** throws and leaves the file alone. Auto
-  is a metric of the font in Figma, not a design decision.
+- **A type size without its line height,** or the reverse: throws.
 
 `extractTokens` is pure, so `test/figma/tokens.test.js` covers it without a
 network call or a Figma token.

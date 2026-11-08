@@ -1,12 +1,16 @@
 import chalk from "chalk";
+import { relative } from "path";
 import { fileURLToPath } from "url";
 import logger from "@datainkio/lumberjack";
 import {
-  fileService,
-  styleService,
+  variablesService,
   paletteService,
   tokenService,
 } from "../../figma/index.js";
+import {
+  extractVariables,
+  writeExport,
+} from "../../figma/services/VariablesService.js";
 import { buildCSS } from "./buildCSS.js";
 
 logger.enabled = true;
@@ -17,7 +21,7 @@ async function fetchDesignSystem() {
   console.log(chalk.gray("─".repeat(50)));
   logger.trace(
     "Starting Figma design sync:",
-    "Fetching design file...",
+    "Fetching the design-system library...",
     "brief",
     "headsup",
   );
@@ -25,24 +29,25 @@ async function fetchDesignSystem() {
   // Show script execution outline
   const figmaWorkflow = [
     {
-      name: "fetch-design-file",
-      description: "Download design file data from Figma API",
-      script: "figma/services/FileService.js",
+      name: "fetch-tokens-page",
+      description: "Download the library's Tokens page from the Figma API",
+      script: "figma/services/VariablesService.js",
     },
     {
-      name: "extract-styles",
-      description: "Extract color and typography style definitions",
-      script: "figma/services/StyleService.js",
+      name: "export-variables",
+      description: "Write the variables in the Enterprise API's shape",
+      script: "figma/services/VariablesService.js",
+      triggers: ["figma/exports/variables.local.json update"],
     },
     {
       name: "process-colors",
-      description: "Generate CSS custom properties from color tokens",
+      description: "Generate CSS custom properties from colour variables",
       script: "figma/services/PaletteService.js",
       triggers: ["styles/colors.css update"],
     },
     {
       name: "process-tokens",
-      description: "Generate tokens from the Figma Tokens page and text styles",
+      description: "Generate tokens from numeric variables and shadow styles",
       script: "figma/services/TokenService.js",
       triggers: ["styles/tokens.css update"],
     },
@@ -58,40 +63,30 @@ async function fetchDesignSystem() {
 
   await logger.group(async () => {
     try {
-      // GET DESIGN FILE DATA FROM FIGMA
-      const designFile = await fileService.getDocument();
+      // GET THE LIBRARY'S TOKENS PAGE FROM FIGMA
+      const { file, page } = await variablesService.fetchTokensPage();
       logger.trace(
-        "Design file loaded:",
-        { name: designFile.name, version: designFile.version },
+        "Design-system library loaded:",
+        { name: file.name, version: file.version },
         "verbose",
         "standard",
       );
 
-      // LOG DESIGN FILE DATA
-      designFile.log();
-
-      // GET STYLE DATA FROM FIGMA
-      const styles = await styleService.getStyles(designFile.styleIDs);
-      logger.trace(
-        "Styles retrieved:",
-        {
-          colors: styles.colors?.length,
-          textFormats: styles.textFormats?.length,
-        },
-        "brief",
-        "standard",
+      // Throws, writing nothing, if the page has drifted from the variables.
+      const meta = extractVariables(page);
+      const exported = await writeExport(meta);
+      console.log(
+        chalk.gray(
+          `\t↳ ${exported.variables} variables → ${relative(process.cwd(), exported.outFile)}`,
+        ),
       );
 
+      const source = `Figma file ${file.name}, version ${file.version}`;
       await logger.group(async () => {
-        // UPDATE THE LOCAL BASE STYLES FILE
-        // styles.colors
-        // styles.textFormats
-        // console.log(styles.colors);
-
-        const palette = await paletteService.write(styles.colors, designFile);
+        await paletteService.write(meta.variables, { source });
         logger.trace(
           "Palette written:",
-          "Color styles synced",
+          "Colour variables synced",
           "brief",
           "success",
         );
@@ -99,7 +94,7 @@ async function fetchDesignSystem() {
         // Fonts are deliberately not synced. styles/typography/ is maintained by
         // hand: it self-hosts the body and display faces for load performance.
         // See docs/design-system/adr-0001-figma-owns-design-tokens.md.
-        await tokenService.write(designFile, styles.textFormats);
+        await tokenService.write(meta.variables, page, { source });
       });
 
       logger.trace(
@@ -116,7 +111,7 @@ async function fetchDesignSystem() {
       await buildCSS();
 
       // WE'RE DONE HERE. WRAP IT UP.
-      return; //; { document: designFile, styles };
+      return;
     } catch (error) {
       console.error(chalk.red("\t✗ Error fetching design file:"), error);
       logger.trace("Design sync failed:", error.message, "verbose", "error");

@@ -5,9 +5,9 @@
 
 <!-- /readme-header -->
 
-Services that turn raw Figma file data into palette, style, and typography token sets.
+Services that turn the Figma design-system library into the palette, the design tokens, and the variables export.
 
-`FileService` fetches; `PaletteService`, `StyleService`, and `TypographyService` each derive one token family.
+`VariablesService` reads the library's Tokens page; `PaletteService` writes `styles/colors.css` and `TokenService` writes `styles/tokens.css`. `FileService`, `StyleService` and `TypographyService` read the old Figma file and are no longer called.
 
 <!-- readme-index:start -->
 ## Index

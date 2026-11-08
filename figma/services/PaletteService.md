@@ -1,5 +1,5 @@
 ---
-description: Sidecar for PaletteService.js — turns the Figma file's paint styles into the colour palette and hands it to PaletteFile.js, which writes styles/colors.css.
+description: Sidecar for PaletteService.js — turns the Figma library's colour variables into the palette and hands it to PaletteFile.js, which writes styles/colors.css.
 type: script
 tags:
   - figma
@@ -7,32 +7,35 @@ tags:
 links:
   - "[[PaletteFile]]"
   - "[[TokenService]]"
+  - "[[VariablesService]]"
   - "[[fetchFigma]]"
 ---
 
 # PaletteService.js
 
-The colour half of the Figma sync. `figma/index.js` creates it and calls
-`write(colors, metadata)` with the `Color` models built from the file's paint
-styles (`figma/models/fills/Color.js`).
+The colour half of the Figma sync. `scripts/build/fetchFigma.js` calls
+`write(variables, { source })` with the variables that
+[VariablesService](VariablesService.md) read from the library's Tokens page.
 
-| Method                         | Does                                                                                                                  |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| `parseColorsToPalette(colors)` | Sorts the colours by class name and groups them as `{ family: { variant: hex } }`. Throws if `colors` isn't an array. |
-| `write(colors, metadata)`      | Builds the document metadata (name, last modified, Figma file id, version) and calls [[PaletteFile]]'s `write`.       |
+| Export                      | Does                                                                                                  |
+| --------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `extractPalette(variables)` | Each COLOR variable becomes `{ name, hex }`: `accent/500` becomes `accent-500`. Sorted by name. Pure. |
+| `PaletteService#write`      | Throws, writing nothing, if there are no colour variables; otherwise calls [[PaletteFile]]'s `write`. |
 
-`write` calls `parseColorsToPalette` but doesn't use the result: `PaletteFile`
-writes the flat `colors` list. The grouping only matters for the sort, which
-mutates `colors` in place.
+`base/white` and `base/black` are left out. Tailwind defines `--color-white` and
+`--color-black` itself, and `colors.css` never declared them. A colour with
+transparency is written as eight-digit hex.
 
 ## Output
 
-`styles/colors.css`, one `--color-<family>-<variant>` per paint style inside
+`styles/colors.css`, one `--color-<family>-<step>` per colour variable inside
 `@theme`. Never edit it by hand; run `npm run build:design`. The palette lint
 (`npm run lint:palette`) treats it as the definition of the palette.
 
+`test/figma/palette.test.js` covers it with no network call.
+
 ## Relationships
 
-- Called by: `figma/index.js`, run through `scripts/build/fetchFigma.js`
+- Called by: `scripts/build/fetchFigma.js`, through `figma/index.js`
 - Writes through: [[PaletteFile]]
 - Sibling: [[TokenService]], which writes `styles/tokens.css`

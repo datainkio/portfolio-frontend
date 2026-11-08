@@ -293,7 +293,12 @@ const fakeClient = (responses) => {
     },
   };
 };
-const pagesResponse = (pages) => ({ document: { children: pages } });
+const pagesResponse = (pages) => ({
+  name: "dataink.io Design System",
+  version: "123",
+  lastModified: "2026-11-08T12:00:00Z",
+  document: { children: pages },
+});
 
 await test("write saves the Enterprise response shape, read through two REST calls", async () => {
   const client = fakeClient((endpoint) =>
@@ -320,6 +325,33 @@ await test("write saves the Enterprise response shape, read through two REST cal
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
+});
+
+await test("fetchTokensPage also returns the file's name and version, for CSS headers", async () => {
+  const client = fakeClient((endpoint) =>
+    endpoint.endsWith("?depth=1")
+      ? pagesResponse([{ id: "44:2", name: "Tokens" }])
+      : { nodes: { "44:2": { document: page } } },
+  );
+  const result = await new VariablesService(client).fetchTokensPage();
+  assert.deepEqual(result.file, {
+    name: "dataink.io Design System",
+    version: "123",
+    lastModified: "2026-11-08T12:00:00Z",
+  });
+  assert.equal(result.page, page);
+});
+
+await test("a Tokens page with no generated layers, like the old file's, fails with a hint", () => {
+  const oldTokensPage = {
+    name: "#️ Tokens",
+    type: "CANVAS",
+    children: [{ name: "spacing/4", type: "RECTANGLE" }],
+  };
+  assert.throws(
+    () => extractVariables(oldTokensPage),
+    /no generated layers\. Check that FIGMA_FILE_ID names the design-system library/,
+  );
 });
 
 await test("a file with no Tokens page fails with a hint", async () => {

@@ -6,14 +6,16 @@ tags:
   - design-tokens
 links:
   - "[[tokensPage]]"
+  - "[[fetchFigma]]"
   - "[[fetchFigmaVariables]]"
   - "[[TokenService]]"
+  - "[[PaletteService]]"
 ---
 
 # VariablesService.js
 
-Exports the design-system library's variables to
-`figma/exports/variables.local.json`, in the shape that
+Reads the design-system library (`FIGMA_FILE_ID`) for the Figma sync, and
+exports its variables to `figma/exports/variables.local.json` in the shape that
 `GET /v1/files/:key/variables/local` returns. That endpoint needs an Enterprise
 plan. This service uses two calls that a Pro token can make:
 
@@ -28,6 +30,19 @@ layer's hidden `meta` JSON.
 On 2026-11-08 the export matched the Plugin API's own values for all 161
 variables and 5 collections, field by field.
 
+## Exports
+
+| Export                             | Does                                                                                   |
+| ---------------------------------- | -------------------------------------------------------------------------------------- |
+| `extractVariables(pageNode)`       | Pure. The page's `meta` texts and bound values → `{ variables, variableCollections }`. |
+| `writeExport(meta, outFile)`       | Writes `meta` wrapped as the Enterprise response.                                      |
+| `VariablesService#fetchTokensPage` | The two REST calls. Returns `{ file: { name, version, lastModified }, page }`.         |
+| `VariablesService#write`           | Fetch, extract and export in one step, for `npm run build:design:variables`.           |
+
+`npm run build:design` (`scripts/build/fetchFigma.js`) fetches once, writes the
+export, and hands the variables and page to [PaletteService](PaletteService.md)
+and [TokenService](TokenService.md).
+
 ## Output
 
 `{ status: 200, error: false, meta: { variables, variableCollections } }`, both
@@ -36,7 +51,11 @@ keyed by ID. Values sit under each collection's default mode. `remote` is always
 
 ## Failure behaviour
 
-The run fails and writes nothing when the page has drifted from the library:
+A Tokens page with no `meta` texts fails with a hint to check `FIGMA_FILE_ID`.
+That's what the old Figma file returns: it has a `#️ Tokens` page, but not a
+generated one.
+
+The run also fails, writing nothing, when the page has drifted from the library:
 
 - A layer isn't bound to a variable, because it was detached.
 - A layer is bound to a different variable than its `meta` names.
@@ -53,5 +72,5 @@ Every problem is listed in one error, which says to re-run the generator.
 - **Aliases.** A value reads as its resolved value. The library has no aliases
   today.
 
-`extractVariables` is pure, so `test/figma/variables.test.js` covers it, and
-`write` through a fake client, with no network call or Figma token.
+`extractVariables` is pure, so `test/figma/variables.test.js` covers it, and the
+REST calls through a fake client, with no network call or Figma token.

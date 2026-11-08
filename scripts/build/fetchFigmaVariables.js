@@ -6,21 +6,14 @@ import { VariablesService } from "../../figma/services/VariablesService.js";
 
 /**
  * Exports the design-system library's variables to
- * figma/exports/variables.local.json. Reads FIGMA_LIBRARY_FILE_ID, not
- * FIGMA_FILE_ID, so build:design keeps reading the old file.
+ * figma/exports/variables.local.json without touching styles/.
+ * `npm run build:design` writes the same export as part of a full sync.
  */
 export default async function fetchFigmaVariables() {
   console.log(chalk.cyan.bold("\n🎨 FIGMA VARIABLES"));
   console.log(chalk.gray("─".repeat(50)));
 
-  // FigmaClient's import has already loaded .env.
-  const fileId = process.env.FIGMA_LIBRARY_FILE_ID;
-  if (!fileId) {
-    throw new Error(
-      "Missing FIGMA_LIBRARY_FILE_ID: the key of the design-system library file (see .env.example).",
-    );
-  }
-  const service = new VariablesService(new FigmaClient({ fileId }));
+  const service = new VariablesService(new FigmaClient());
   const { outFile, variables, collections } = await service.write();
   console.log(
     chalk.green(

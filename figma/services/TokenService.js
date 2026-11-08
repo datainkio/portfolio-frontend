@@ -1,23 +1,20 @@
 import chalk from "chalk";
 import { write as writeTokensFile } from "../views/tailwind/TokensFile.js";
 
-/** Groups read from named layers on the Tokens page. */
-export const LAYER_GROUPS = [
-  "spacing",
-  "container",
-  "radius",
-  "shadow",
-  "tracking",
-];
-
-/** Groups read from the file's existing text styles. */
-export const STYLE_GROUPS = ["text", "font-weight", "leading"];
-
 /**
  * Every group has to be present before styles/tokens.css is replaced. A missing
  * group would otherwise fall back to Tailwind's defaults with no warning.
  */
-export const TOKEN_GROUPS = [...LAYER_GROUPS, ...STYLE_GROUPS];
+export const TOKEN_GROUPS = [
+  "spacing",
+  "container",
+  "radius",
+  "shadow",
+  "text",
+  "font-weight",
+  "leading",
+  "tracking",
+];
 
 /** The page may carry a prefix, as in "#️ Tokens". */
 export const isTokensPage = (page) => /(^|\s)Tokens$/.test(page.name ?? "");
@@ -26,7 +23,8 @@ const round = (n, places = 4) => Number(n.toFixed(places));
 const rem = (px) => (px === 0 ? "0" : `${round(px / 16)}rem`);
 const length = (px) => (px === 0 ? "0" : `${round(px)}px`);
 
-function shadowValue(node) {
+/** CSS for a node's visible drop and inner shadows, in Figma's order. */
+export function shadowValue(node) {
   const layers = (node.effects ?? []).filter(
     (e) =>
       e.visible !== false &&
@@ -43,118 +41,93 @@ function shadowValue(node) {
     .join(", ");
 }
 
-/** Group → how to read a token's value from a layer of that group. */
-const LAYER_READERS = {
-  spacing: (node) => rem(node.absoluteBoundingBox.width),
-  container: (node) => rem(node.absoluteBoundingBox.width),
-  radius: (node) => rem(node.cornerRadius ?? 0),
-  shadow: shadowValue,
-  tracking: (node) => {
-    if (!node.style) throw new Error(`${node.name} is not a text layer`);
-    const { fontSize, letterSpacing = 0 } = node.style;
-    return `${round(letterSpacing / fontSize, 3)}em`;
-  },
+/**
+ * Variable group → token name and CSS value. Figma stores lengths in px.
+ * `text/*` pairs a size with a line height, so it's read separately.
+ */
+const VARIABLE_READERS = {
+  // Variable names use `_` for the decimal point (spacing/0_5); keys use `.`.
+  spacing: (name, px) => [name.replaceAll("_", "."), rem(px)],
+  container: (name, px) => [name, rem(px)],
+  radius: (name, px) => [name === "default" ? "DEFAULT" : name, rem(px)],
+  "font-weight": (name, weight) => [name, String(weight)],
+  leading: (name, ratio) => [name, String(round(ratio, 3))],
+  tracking: (name, em) => [name, `${round(em, 3)}em`],
 };
 
-/** An "auto" line height is a font metric, not a design decision. */
-const hasExplicitLineHeight = (style) => style.lineHeightUnit !== "INTRINSIC_%";
-
-function readTextStyles(textStyles, tokens) {
-  for (const style of textStyles) {
-    const [property, ...rest] = style.name.split("/");
-    const name = rest.join("/");
-    if (property === "fontSize") {
-      const { fontSize, lineHeightPx } = style;
-      tokens.text[name] = hasExplicitLineHeight(style)
-        ? {
-            size: rem(fontSize),
-            lineHeight:
-              fontSize === lineHeightPx
-                ? "1"
-                : `calc(${round(lineHeightPx)} / ${round(fontSize)})`,
-          }
-        : null;
-    } else if (property === "lineHeight") {
-      tokens.leading[name] = hasExplicitLineHeight(style)
-        ? String(round(style.lineHeightPx / style.fontSize, 3))
-        : null;
-    } else if (property === "fontWeight" && name.startsWith("sans/")) {
-      tokens["font-weight"][name.slice("sans/".length)] = String(
-        style.fontWeight,
-      );
+/**
+ * Reads tokens from the design-system library. Numeric groups come from its
+ * FLOAT variables; other variables (colours, fonts, motion, screens) are
+ * ignored. Shadows come from the `EffectStyle/Shadow/*` samples on its Tokens
+ * page, because Figma has no variable type for a shadow.
+ *
+ * @param {Object} variables `meta.variables` from VariablesService's extractVariables.
+ * @param {Object} pageNode The Tokens page's document node.
+ * @returns {Object} group → name → value
+ */
+export function extractTokens(variables, pageNode) {
+  const tokens = Object.fromEntries(TOKEN_GROUPS.map((g) => [g, {}]));
+  const sizes = {};
+  for (const variable of Object.values(variables)) {
+    if (variable.resolvedType !== "FLOAT") continue;
+    const [group, ...rest] = variable.name.split("/");
+    const value = Object.values(variable.valuesByMode)[0];
+    if (group === "text") {
+      const [step, property] = rest;
+      sizes[step] = { ...sizes[step], [property]: value };
+    } else if (VARIABLE_READERS[group]) {
+      const [name, token] = VARIABLE_READERS[group](rest.join("/"), value);
+      tokens[group][name] = token;
     }
   }
-}
 
-/**
- * Reads tokens from a Figma document. On the Tokens page, a layer named
- * `<group>/<name>` defines one token, and other layers are ignored. Type tokens
- * come from the `fontSize/*`, `lineHeight/*`, and `fontWeight/sans/*` text styles.
- *
- * @param {Object} documentNode The `document` of a GET /v1/files/:key response.
- * @param {Array} textStyles TextFormat objects from StyleService.
- * @returns {Object|null} group → name → value, or null when there's no page. A
- *   text style with an auto line height reads as null.
- */
-export function extractTokens(documentNode, textStyles = []) {
-  const page = documentNode?.children?.find(isTokensPage);
-  if (!page) return null;
+  for (const [step, { size, "line-height": lineHeight }] of Object.entries(
+    sizes,
+  )) {
+    if (size === undefined || lineHeight === undefined) {
+      throw new Error(
+        `text/${step} needs both a size and a line-height variable. styles/tokens.css was not changed.`,
+      );
+    }
+    tokens.text[step] = {
+      size: rem(size),
+      lineHeight:
+        size === lineHeight
+          ? "1"
+          : `calc(${round(lineHeight)} / ${round(size)})`,
+    };
+  }
 
-  const tokens = Object.fromEntries(TOKEN_GROUPS.map((g) => [g, {}]));
   const visit = (node) => {
-    const m = /^([a-z-]+)\/(.+)$/.exec(node.name ?? "");
-    if (m && LAYER_READERS[m[1]]) {
-      tokens[m[1]][m[2]] = LAYER_READERS[m[1]](node);
+    const m = /^EffectStyle\/Shadow\/(.+)$/.exec(node.name ?? "");
+    if (m) {
+      tokens.shadow[m[1]] = shadowValue(node);
       return;
     }
     (node.children ?? []).forEach(visit);
   };
-  visit(page);
-  readTextStyles(textStyles, tokens);
+  visit(pageNode);
   return tokens;
 }
 
-/** Writes styles/tokens.css from the Figma document. */
+/** Writes styles/tokens.css from the design-system library. */
 export class TokenService {
-  constructor(client) {
-    this.client = client;
-  }
-
-  async write(designFile, textStyles = []) {
+  /**
+   * @param {Object} variables `meta.variables` from extractVariables.
+   * @param {Object} pageNode The Tokens page's document node.
+   * @param {{ source: string }} meta Written to the file's header.
+   * @returns {Promise<Object>} The tokens written.
+   */
+  async write(variables, pageNode, { source }) {
     console.log(chalk.cyan("\n\tprocessing design tokens..."));
-    const tokens = extractTokens(designFile.document, textStyles);
-    const authored = LAYER_GROUPS.some(
-      (g) => Object.keys(tokens?.[g] ?? {}).length,
-    );
-    if (!authored) {
-      console.log(
-        chalk.yellow(
-          "\t↳ no token layers on the Figma Tokens page yet; styles/tokens.css left as is",
-        ),
-      );
-      return false;
-    }
-
+    const tokens = extractTokens(variables, pageNode);
     const empty = TOKEN_GROUPS.filter((g) => !Object.keys(tokens[g]).length);
     if (empty.length) {
       throw new Error(
-        `The Figma file has no tokens for: ${empty.join(", ")}. styles/tokens.css was not changed.`,
+        `The Figma library has no tokens for: ${empty.join(", ")}. styles/tokens.css was not changed.`,
       );
     }
-    const auto = STYLE_GROUPS.flatMap((g) =>
-      Object.entries(tokens[g])
-        .filter(([, value]) => value === null)
-        .map(([name]) => `${g}/${name}`),
-    );
-    if (auto.length) {
-      throw new Error(
-        `These text styles need an explicit line height, not auto: ${auto.join(", ")}. styles/tokens.css was not changed.`,
-      );
-    }
-
-    await writeTokensFile(tokens, {
-      source: `Figma file ${designFile.name}, version ${designFile.version}`,
-    });
-    return true;
+    await writeTokensFile(tokens, { source });
+    return tokens;
   }
 }

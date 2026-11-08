@@ -44,13 +44,14 @@ owns no markup. It's documented on the
 
 ## Where tokens come from
 
-| Group                                         | Source                                                         | Written to          | Command                |
-| --------------------------------------------- | -------------------------------------------------------------- | ------------------- | ---------------------- |
-| Colour                                        | Figma paint styles                                             | `styles/colors.css` | `npm run build:design` |
-| Spacing, containers, radius, shadow, tracking | Named layers on Figma's `#️ Tokens` page                       | `styles/tokens.css` | `npm run build:design` |
-| Type size, line height, weight                | Figma `fontSize/*`, `lineHeight/*`, `fontWeight/sans/*` styles | `styles/tokens.css` | `npm run build:design` |
-| Motion durations and easings                  | `js/choreography/tokens/motion/motion.js`                      | `styles/motion.css` | `npm run build:motion` |
-| Font faces and families                       | `styles/typography/`, by hand                                  | —                   | —                      |
+| Group                                             | Source                                          | Written to          | Command                |
+| ------------------------------------------------- | ----------------------------------------------- | ------------------- | ---------------------- |
+| Colour                                            | Color variables in the Figma library            | `styles/colors.css` | `npm run build:design` |
+| Spacing, containers, radius                       | Spacing and Size variables in the Figma library | `styles/tokens.css` | `npm run build:design` |
+| Shadow                                            | `Shadow/*` effect styles in the Figma library   | `styles/tokens.css` | `npm run build:design` |
+| Type size, line height, weight, leading, tracking | Typography variables in the Figma library       | `styles/tokens.css` | `npm run build:design` |
+| Motion durations and easings                      | `js/choreography/tokens/motion/motion.js`       | `styles/motion.css` | `npm run build:motion` |
+| Font faces and families                           | `styles/typography/`, by hand                   | —                   | —                      |
 
 `colors.css`, `tokens.css`, and `motion.css` are generated. Never edit them by hand;
 the next sync overwrites the edit.
@@ -86,16 +87,19 @@ utilities. Figma can't express them, so they aren't tokens.
 
 ## Adding a token
 
-1. Add it in Figma: a paint style for a colour, a named layer on the `#️ Tokens`
-   page for spacing, radius, shadow, or tracking, or a text style for type. A
-   layer named `spacing/18` defines `--spacing-18`, and its width sets the value.
-   [TokenService](../figma/services/TokenService.md) lists the property read for
-   each group.
-2. Run `npm run build:design`, then `npx prettier --write styles/colors.css`,
-   because the sync reformats that file.
-3. Review the diff of `styles/colors.css` and `styles/tokens.css`. Only the new
+1. Add it in the [Figma library](https://www.figma.com/design/tl8ANcSSVEzPOS6ZU6lSI1):
+   a variable in Color, Spacing, Size (radius, container) or Typography, or a
+   `Shadow/*` effect style for a shadow. A variable named `spacing/18` defines
+   `--spacing-18`. A type size needs both `text/<step>/size` and
+   `text/<step>/line-height`. Set the variable's web code syntax to its CSS name.
+   [TokenService](../figma/services/TokenService.md) lists how each group is read.
+2. Re-run the Tokens page generator,
+   [tokensPage.js](../figma/generators/tokensPage.md), so the new variable or
+   style has a layer. Changing an existing value needs no re-run.
+3. Run `npm run build:design`.
+4. Review the diff of `styles/colors.css` and `styles/tokens.css`. Only the new
    token should change.
-4. Use it through its utility (`p-18`, `bg-accent-300`). Its token page under
+5. Use it through its utility (`p-18`, `bg-accent-300`). Its token page under
    `ia/docs/design/tokens/` reads the theme files and picks it up without edits.
 
 For a motion token, add it to `motion.js` and run `npm run build:motion` instead.

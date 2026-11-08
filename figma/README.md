@@ -5,43 +5,42 @@
 
 <!-- /readme-header -->
 
-Pulls published color and text styles from the Figma file and writes them as Tailwind theme tokens.
+Pulls the design tokens from the Figma design-system library and writes them as Tailwind theme variables.
 
 # Figma token sync
 
-Reads color and text styles from the Figma file and writes them as Tailwind v4 theme variables, so `accent/500` in Figma becomes `--color-accent-500` and `text-accent-500` in CSS.
+Reads the variables and shadow styles of the [design-system library](https://www.figma.com/design/tl8ANcSSVEzPOS6ZU6lSI1) and writes them as Tailwind v4 theme variables, so the `accent/500` variable becomes `--color-accent-500` and `text-accent-500` in CSS.
 
 ## What's here
 
 - `api/`: Figma REST client
-- `services/`: fetch the file, sort styles, call the writers
-- `models/`: the Figma fields we read
+- `services/`: read the library's Tokens page, then write the palette, the tokens and the variables export
 - `views/`: writers for each output file
-- `utils/`: turns a style node into a model
-- `generators/`: Plugin API scripts that build pages in the design-system library for the sync to read
+- `generators/`: Plugin API scripts that build pages in the library for the sync to read
 - `exports/`: generated JSON, currently the library's variables
+- Unused since 2026-11-08, when the sync moved to the library: `models/`, `utils/`, `FileService`, `StyleService`, `TypographyService` and the font writers in `views/`. They read the old Figma file's styles, and the task that retires that file deletes them.
 
 ## Run it
 
 ```bash
 npm run build:design             # sync, then rebuild CSS
-npm run build:design:variables   # export the design-system library's variables
+npm run build:design:variables   # refresh the variables export only
 ```
 
-`build:design` needs `FIGMA_TOKEN` and `FIGMA_FILE_ID` in `.env` (see `.env.example`). `npm run quick` and the deploy workflows skip the sync.
+Both need `FIGMA_TOKEN` and `FIGMA_FILE_ID` (the library's key) in `.env` (see `.env.example`). `npm run quick` and the deploy workflows skip the sync.
 
-It writes `styles/colors.css`, `styles/typography/fontFamilies.css` and `styles/typography/imports.css`. Those files are generated, so don't edit them by hand.
+`build:design` writes `styles/colors.css`, `styles/tokens.css` and `exports/variables.local.json`. Those files are generated, so don't edit them by hand.
 
-`build:design:variables` reads the new design-system library (`FIGMA_LIBRARY_FILE_ID`) and writes `exports/variables.local.json`, in the shape of Figma's Enterprise-only Variables API. It works with a Pro token by reading the library's Tokens page: see [VariablesService](services/VariablesService.md). Nothing reads the export yet, and it doesn't touch `styles/`.
+Figma's Variables REST API needs an Enterprise plan, so the sync reads the library's Tokens page instead: one layer bound to each variable, built by [tokensPage.js](generators/tokensPage.md). Re-run that generator after adding, renaming or deleting a variable or style. See [VariablesService](services/VariablesService.md).
 
 ## Good to know
 
-- Only color fills and font family names become tokens. Font sizes, line heights and spacing come from Tailwind defaults or hand-written CSS.
-- `imports.css` and `fontFamilies.css` have been edited by hand since the last sync (self-hosted fonts, fallback stacks). Port those changes into `views/tailwind/` before syncing again.
+- Fonts and motion aren't synced. `styles/typography/` is maintained by hand, and `styles/motion.css` comes from `npm run build:motion`.
+- Screens are declared by hand in `styles/sizes.css`. The library's `screen/*` variables are reference only.
 
 ## How it connects
 
-- The orchestrator is `scripts/build/build/fetchFigma.js`.
+- The orchestrator is `scripts/build/fetchFigma.js`.
 - Output is imported by [styles](../styles/README.md).
 
 ## See also

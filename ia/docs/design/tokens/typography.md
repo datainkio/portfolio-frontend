@@ -5,7 +5,7 @@ type: reference
 templateEngineOverride: njk
 ---
 
-<p>Sizes, weights, leading, and tracking come from Figma's text styles. The
+<p>Sizes, weights, leading, and tracking come from the Figma library's Typography variables. The
 families are maintained by hand, because the site self-hosts its fonts.
 <code>font-display</code> (DraftPaper) carries headings and labels;
 <code>font-body</code> (IBM Plex Sans) carries running text.</p>
