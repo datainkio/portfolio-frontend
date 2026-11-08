@@ -14,4 +14,7 @@
   body {
     overflow-x: clip;
   }
+  main {
+    margin-left: var(--sidebar-width);
+  }
 }
