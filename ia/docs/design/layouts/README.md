@@ -1,5 +1,5 @@
 ---
-title: Layouts Docs
+title: Layouts
 description: Reference for structural page shells and region-level composition rules.
 type: index
 eleventyComputed:

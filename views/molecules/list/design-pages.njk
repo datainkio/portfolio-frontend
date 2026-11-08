@@ -1,15 +1,19 @@
 {#
 Design Navigation Component
-Uses eleventyNavigation to display Design section and its children
+Uses eleventyNavigation to display Design sections, their role groups, and pages
 Accessible navigation with ARIA labels and semantic structure
 #}
 
 {% import "atoms/link/link.njk" as Link %}
 {#- `nav` is pre-filtered eleventyNavigation entries from the caller, e.g.
-    `collections.all | eleventyNavigation("Design")`. -#}
+    `collections.all | eleventyNavigation("Design")`. Each section's children
+    carry a `group` (set by ia/docs/design/design.11tydata.js) and arrive
+    sorted, so consecutive runs of one group become one labelled list. -#}
 {% macro render(params = {}) %}
 {% set designNav = params.nav or [] %}
 {% set currentUrl = params.currentUrl %}
+{% set linkBase = "block py-1 px-2 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" %}
+{% set linkCurrent = " bg-primary-900 text-primary-100 font-medium" %}
 
 {% if designNav.length %}
   <nav
@@ -18,46 +22,51 @@ Accessible navigation with ARIA labels and semantic structure
     aria-label="Design section navigation">
     <ul class="space-y-2" role="list">
       {% for item in designNav %}
+        {#- A section with no pages is a dead end; leave it out until it has some. -#}
+        {% if item.children.length %}
         <li class="text-sm">
           {{ Link.render({
             url: item.url,
             text: item.title,
             ariaCurrent: "page" if item.url == currentUrl else "",
-            classes: "block py-1 px-2 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" + (" bg-primary-900 text-primary-100 font-medium" if item.url == currentUrl else " text-neutral-200 hover:text-neutral-50 hover:bg-slate-800")
+            classes: linkBase + (linkCurrent if item.url == currentUrl else " text-neutral-200 hover:text-neutral-50 hover:bg-slate-800")
           }) }}
 
-          {# Display children if they exist #}
-          {% if item.children.length %}
-            <ul class="mt-2 ml-4 space-y-1 border-l border-slate-800 pl-3" role="list">
-              {% for child in item.children %}
-                <li class="text-xs">
-                  {{ Link.render({
-                    url: child.url,
-                    text: child.title,
-                    ariaCurrent: "page" if child.url == currentUrl else "",
-                    classes: "block py-1 px-2 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" + (" bg-primary-900 text-primary-100 font-medium" if child.url == currentUrl else " text-neutral-300 hover:text-neutral-50 hover:bg-slate-800")
-                  }) }}
+          {#- Bucket the sorted children by group. -#}
+          {% set groups = [] %}
+          {% for child in item.children %}
+            {% set last = groups[groups.length - 1] if groups.length else null %}
+            {% if last and last.title == child.group %}
+              {% set _ = last.pages.push(child) %}
+            {% else %}
+              {% set _ = groups.push({ title: child.group, pages: [child] }) %}
+            {% endif %}
+          {% endfor %}
 
-                  {# Display grandchildren if they exist (third level) #}
-                  {% if child.children.length %}
-                    <ul class="mt-1 ml-3 space-y-1 border-l border-slate-800 pl-2" role="list">
-                      {% for grandchild in child.children %}
-                        <li class="text-xs">
-                          {{ Link.render({
-                            url: grandchild.url,
-                            text: grandchild.title,
-                            ariaCurrent: "page" if grandchild.url == currentUrl else "",
-                            classes: "block py-0.5 px-2 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" + (" bg-primary-900 text-primary-100 font-medium" if grandchild.url == currentUrl else " text-neutral-400 hover:text-neutral-50 hover:bg-slate-800")
-                          }) }}
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  {% endif %}
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
+          <ul class="mt-2 ml-4 space-y-3 border-l border-slate-800 pl-3" role="list">
+            {% for group in groups %}
+              {% set groupId = ("design-" ~ item.title ~ "-" ~ (group.title or loop.index)) | slugify %}
+              <li class="text-xs">
+                {% if group.title %}
+                  <span id="{{ groupId }}" class="block px-2 pt-1 text-xs font-medium uppercase tracking-wider text-neutral-500">{{ group.title }}</span>
+                {% endif %}
+                <ul class="space-y-1" role="list"{% if group.title %} aria-labelledby="{{ groupId }}"{% endif %}>
+                  {% for child in group.pages %}
+                    <li>
+                      {{ Link.render({
+                        url: child.url,
+                        text: child.title,
+                        ariaCurrent: "page" if child.url == currentUrl else "",
+                        classes: linkBase + (linkCurrent if child.url == currentUrl else " text-neutral-300 hover:text-neutral-50 hover:bg-slate-800")
+                      }) }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
         </li>
+        {% endif %}
       {% endfor %}
     </ul>
   </nav>

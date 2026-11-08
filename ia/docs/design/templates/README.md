@@ -1,5 +1,5 @@
 ---
-title: Templates Docs
+title: Templates
 description: Reference for page-level blueprints that bind layout, content slots, and component regions.
 type: index
 eleventyComputed:
