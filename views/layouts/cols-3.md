@@ -3,7 +3,6 @@ description: "Provides a reusable page shell used by other templates via {% exte
 type: template
 links:
   - "[cols-2-before](cols-2-before.md)"
-  - "[docs-nav](../organisms/navigation/docs-nav.md)"
 ---
 
 # Cols 3
@@ -32,10 +31,8 @@ Classified as a **layout** at the atomic **none** level based on its location un
 
 - Extends:
   - [[cols-2-before.njk]]
-- Imports:
-  - [[docs-nav.njk]]
 - Likely used by:
-  - Unknown
+  - [[design-doc.njk|../layouts/design-doc.md]], for the design-system reference's third column (`sidebarAfter`)
 
 ## Notes for Future Maintenance
 

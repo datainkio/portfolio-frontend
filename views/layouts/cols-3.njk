@@ -1,5 +1,5 @@
 {% extends "./cols-2-before.njk" %}
-{% import "organisms/navigation/docs-nav.njk" as docsNav %}
+
 {% block bodyStyles %}grid grid-cols-12 gap-6 px-4{% endblock bodyStyles %}
 {% block mainStyles %}col-span-8 col-start-3{% endblock mainStyles %}
 {%- set sidebarBeforeClasses = "" -%}
@@ -11,16 +11,15 @@
   {% else %}
     {% loremPars 3 %}
   {% endif %}
-{% endblock %}
+{% endblock content %}
 
 {% if sidebarAfter %}
-  <aside
-    class="text-white font-light text-xs col-span-2 pt-24 {{ sidebarAfterClasses }}"
-    data-scroll
-    data-scroll-sticky
-    data-scroll-target="main">
+  <aside class="text-white font-light text-xs col-span-2 pt-24 {{ sidebarAfterClasses }}"
+         data-scroll
+         data-scroll-sticky
+         data-scroll-target="main">
     {% block sidebarAfter %}
       {{ sidebarAfter | safe }}
-    {% endblock %}
+    {% endblock sidebarAfter %}
   </aside>
 {% endif %}

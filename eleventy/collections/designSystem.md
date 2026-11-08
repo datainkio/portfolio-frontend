@@ -50,13 +50,22 @@ Tailwind writes `.` in theme keys as `_`, so `--spacing-1_5` becomes key
 
 Called by `ia/docs/design/design.11tydata.js` for a page whose frontmatter
 names a `component` (a path under `views/`). Returns `source`, `sidecar`,
-`importPath`, `alias` (PascalCase of the file name), `description`, and
-`params`.
+`importPath`, `alias` (PascalCase of the file name), `description`,
+`params`, and `related`.
 
 `params` is the first of these the sidecar has: a `## Params` section, a
 `| Param` table under another heading, or the `## Data and Context` bullets.
 Wikilinks and relative `.md` links are reduced to their text, because they
 don't resolve on the site.
+
+`related` is `{ composedOf, usedIn }`, each a list of `{ title, url }`. Both
+are read from the import graph built by walking every `.njk` under `views/`
+for `{% import "…" %}` lines — `composedOf` is what this component's own
+file imports, `usedIn` is every component that imports it — so the list
+can't drift the way a hand-written "Relationships" section in a sidecar can.
+A component with no reference page yet is dropped from both lists, since
+there's nothing to link to; the page it would have shown is still named in
+its importer's or import's own sidecar prose if that matters.
 
 ## Source
 

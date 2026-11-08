@@ -8,8 +8,8 @@
  * component's description and params come from its views/ sidecar.
  */
 
-import { readFileSync } from "node:fs";
-import { join, dirname, basename } from "node:path";
+import { readFileSync, readdirSync } from "node:fs";
+import { join, dirname, basename, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -22,6 +22,60 @@ const read = (rel) => {
     return "";
   }
 };
+
+/** Every `.njk` path under `views/`, relative to `views/`, forward-slashed. */
+function listComponents() {
+  const out = [];
+  const walk = (dir) => {
+    for (const entry of readdirSync(join(ROOT, "views", dir), {
+      withFileTypes: true,
+    })) {
+      const rel = dir ? `${dir}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) walk(rel);
+      else if (entry.name.endsWith(".njk")) out.push(rel);
+    }
+  };
+  walk("");
+  return out.map((p) => relative("", p).split("\\").join("/"));
+}
+
+const IMPORT_RE = /\{%-?\s*import\s+"([^"]+\.njk)"/g;
+
+/**
+ * The import graph of every component under `views/`: `imports` (what a
+ * component's own file imports) and `importedBy` (every component whose
+ * file imports it), both as `views/` paths. Built once per process; the
+ * reference reads it on every build, so it can't drift from the templates.
+ */
+let importGraph;
+function readImportGraph() {
+  if (importGraph) return importGraph;
+  const imports = new Map();
+  const importedBy = new Map();
+  for (const path of listComponents()) {
+    const text = read(`views/${path}`);
+    const targets = [...text.matchAll(IMPORT_RE)].map((m) => m[1]);
+    imports.set(path, targets);
+    for (const target of targets) {
+      if (!importedBy.has(target)) importedBy.set(target, []);
+      importedBy.get(target).push(path);
+    }
+  }
+  importGraph = { imports, importedBy };
+  return importGraph;
+}
+
+/**
+ * Every page under `ia/docs/design/` that names a `component` serves at
+ * `/docs/design/<component without .njk>/`, Eleventy's default permalink for
+ * that file. No reader needs to scan `collections.all` to find it.
+ */
+const referenceUrl = (component) =>
+  `/docs/design/${component.replace(/\.njk$/, "")}/`;
+
+/** Whether a component has a reference page, i.e. its sidecar exists. */
+const hasReferencePage = (component) =>
+  Boolean(read(`ia/docs/design/${component.replace(/\.njk$/, ".md")}`));
 
 /** `--name: value;` pairs inside a file's `@theme` blocks, in source order. */
 function themeEntries(css) {
@@ -194,6 +248,43 @@ function section(body, heading) {
 }
 
 /**
+ * Component titles, read from reference-page frontmatter, for `related`
+ * labels. Falls back to a title-cased file name when a page doesn't exist
+ * yet (unreferenced in the sidebar, so this is display text only).
+ */
+const titleCache = new Map();
+function componentTitle(component) {
+  if (titleCache.has(component)) return titleCache.get(component);
+  const text = read(`ia/docs/design/${component.replace(/\.njk$/, ".md")}`);
+  const title =
+    text.match(/^---\n[\s\S]*?^title:\s*(.+)$/m)?.[1].trim() ||
+    basename(component, ".njk")
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  titleCache.set(component, title);
+  return title;
+}
+
+/**
+ * The other components a page's `component` imports, and every component
+ * that imports it in turn — each resolved to `{ title, url }` when it has a
+ * reference page, else dropped (nothing to link to). Read from the files
+ * themselves, so it can't drift from a sidecar's own "Relationships" prose.
+ */
+function relatedComponents(component) {
+  const { imports, importedBy } = readImportGraph();
+  const toLinks = (paths) =>
+    (paths || [])
+      .filter(hasReferencePage)
+      .map((path) => ({ title: componentTitle(path), url: referenceUrl(path) }));
+  return {
+    composedOf: toLinks(imports.get(component)),
+    usedIn: toLinks(importedBy.get(component)),
+  };
+}
+
+/**
  * The sidecar facts a component page shows: its description and its params.
  * Params come from `## Params`, else the first `| Param` table, else the
  * `## Data and Context` bullets — the three shapes sidecars use.
@@ -235,5 +326,6 @@ export function readComponentSidecar(component) {
       .join(""),
     description,
     params: siteSafeMarkdown(params),
+    related: relatedComponents(component),
   };
 }
