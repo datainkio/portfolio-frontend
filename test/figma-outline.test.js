@@ -15,26 +15,27 @@ logger.enabled = true;
 // Mock the Figma workflow outline (same as in fetchFigma.js)
 const figmaWorkflow = [
   {
-    name: "fetch-design-file",
-    description: "Download design file data from Figma API",
-    script: "figma/services/FileService.js",
+    name: "fetch-tokens-page",
+    description: "Download the library's Tokens page from the Figma API",
+    script: "figma/services/VariablesService.js",
   },
   {
-    name: "extract-styles",
-    description: "Extract color and typography style definitions",
-    script: "figma/services/StyleService.js",
+    name: "export-variables",
+    description: "Write the variables in the Enterprise API's shape",
+    script: "figma/services/VariablesService.js",
+    triggers: ["figma/exports/variables.local.json update"],
   },
   {
     name: "process-colors",
-    description: "Generate CSS custom properties from color tokens",
+    description: "Generate CSS custom properties from colour variables",
     script: "figma/services/PaletteService.js",
     triggers: ["styles/colors.css update"],
   },
   {
-    name: "process-typography",
-    description: "Generate font family utilities from text styles",
-    script: "figma/services/TypographyService.js",
-    triggers: ["styles/typography/fontFamilies.css update"],
+    name: "process-tokens",
+    description: "Generate tokens from numeric variables and shadow styles",
+    script: "figma/services/TokenService.js",
+    triggers: ["styles/tokens.css update"],
   },
   {
     name: "rebuild-css",

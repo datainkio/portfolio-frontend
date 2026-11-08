@@ -5,13 +5,12 @@
 
 <!-- /readme-header -->
 
-Emitters that render resolved Figma tokens into Tailwind and Eleventy source files.
+Emitters that render resolved Figma tokens into Tailwind source files.
 
 Each subfolder targets one consumer. Output is generated — never hand-edit the files these produce.
 
 <!-- readme-index:start -->
 ## Index
 
-- [eleventy/](eleventy/README.md)
 - [tailwind/](tailwind/README.md)
 <!-- readme-index:end -->

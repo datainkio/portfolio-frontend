@@ -6,20 +6,15 @@
 
 <!-- /readme-header -->
 
-Tailwind-targeted emitters for palette, font family, size, weight, line height, and base styles.
+Tailwind-targeted emitters for the palette and the design tokens.
 
-These write `styles/colors.css` and `styles/typography/fontFamilies.css`, which `build:design` overwrites — never hand-edit them.
+These write `styles/colors.css` and `styles/tokens.css`, which `build:design` overwrites — never hand-edit them.
 
 <!-- readme-index:start -->
 ## Index
 
-- [BaseStylesFile.js](BaseStylesFile.js)
-- [FontFamilyFile.js](FontFamilyFile.js)
-- [FontImportsFile.js](FontImportsFile.js)
-- [FontSizeFile.js](FontSizeFile.js)
-- [FontWeightFile.js](FontWeightFile.js)
-- [LineHeightFile.js](LineHeightFile.js)
 - [PaletteFile.js](PaletteFile.js)
+- [PaletteFile.md](PaletteFile.md)
 - [TokensFile.js](TokensFile.js)
 - [TokensFile.md](TokensFile.md)
 <!-- readme-index:end -->

@@ -7,17 +7,15 @@
 
 Services that turn the Figma design-system library into the palette, the design tokens, and the variables export.
 
-`VariablesService` reads the library's Tokens page; `PaletteService` writes `styles/colors.css` and `TokenService` writes `styles/tokens.css`. `FileService`, `StyleService` and `TypographyService` read the old Figma file and are no longer called.
+`VariablesService` reads the library's Tokens page; `PaletteService` writes `styles/colors.css` and `TokenService` writes `styles/tokens.css`.
 
 <!-- readme-index:start -->
 ## Index
 
-- [FileService.js](FileService.js)
 - [PaletteService.js](PaletteService.js)
-- [StyleService.js](StyleService.js)
+- [PaletteService.md](PaletteService.md)
 - [TokenService.js](TokenService.js)
 - [TokenService.md](TokenService.md)
-- [TypographyService.js](TypographyService.js)
 - [VariablesService.js](VariablesService.js)
 - [VariablesService.md](VariablesService.md)
 <!-- readme-index:end -->
