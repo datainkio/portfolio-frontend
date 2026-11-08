@@ -5,13 +5,15 @@
 
 <!-- /readme-header -->
 
-Services that turn the Figma design-system library into the palette, the design tokens, and the variables export.
+Services that turn the Figma design-system library into the palette, the design tokens, the variables export, and component colours.
 
-`VariablesService` reads the library's Tokens page; `PaletteService` writes `styles/colors.css` and `TokenService` writes `styles/tokens.css`.
+`VariablesService` reads the library's Tokens page; `PaletteService` writes `styles/colors.css` and `TokenService` writes `styles/tokens.css`. `ComponentService` reads a component set's colour bindings for `npm run sync:components`.
 
 <!-- readme-index:start -->
 ## Index
 
+- [ComponentService.js](ComponentService.js)
+- [ComponentService.md](ComponentService.md)
 - [PaletteService.js](PaletteService.js)
 - [PaletteService.md](PaletteService.md)
 - [TokenService.js](TokenService.js)

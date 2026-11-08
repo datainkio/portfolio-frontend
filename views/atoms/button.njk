@@ -6,7 +6,9 @@
 Params:
   type        string  "button" (default) | "submit" | "reset".
   label       string  Text content. Ignored when called with {% call %}.
-  variant     string  Optional look: "cta". Omit for an unstyled button.
+  variant     string  Optional look, one per Figma Button "Style": "cta" |
+                      "submit" | "dark" | "icon". Omit for an unstyled button.
+                      Colour utilities inside `variants` are owned by the Figma sync.
   classes     string | variant map | array  Appended to the baseline (and
                       variant) through the `classes` filter — adds, never replaces.
   focusColor  string  Ring colour utility (default "focus-visible:outline-primary-500").
@@ -18,7 +20,10 @@ Content: plain `label`, or markup via {% call %}:
 {%- macro render(params = {}) -%}
   {%- set baseline = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed" -%}
   {%- set variants = {
-    "cta": "m-4 py-2 px-4 justify-self-start text-neutral-100 font-display bg-secondary-600 hover:bg-secondary-800"
+    "cta": "m-4 py-2 px-4 justify-self-start text-neutral-100 font-display bg-secondary-600 hover:bg-secondary-800",
+    "submit": "whitespace-nowrap px-4 py-1.5 font-display text-sm uppercase tracking-wider text-neutral-50 bg-secondary-600 hover:bg-secondary-700 border border-secondary-800 rounded-none after:content-['→'] after:ml-3 aria-busy:animate-pulse",
+    "dark": "py-1 px-3 rounded text-white bg-neutral-900 hover:bg-neutral-700",
+    "icon": "border-2 border-neutral-700 rounded-xl"
   } -%}
   {%- set focusColor = params.focusColor | default("focus-visible:outline-primary-500") -%}
   <button type="{{ params.type | default("button") }}"

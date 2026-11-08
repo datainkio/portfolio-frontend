@@ -13,6 +13,25 @@ specimens:
     params:
       label: Get in touch
       variant: cta
+  - title: Submit
+    note: The stamped form action. The trailing arrow is a CSS `after:` pseudo-element, not part of the label.
+    params:
+      label: Send
+      type: submit
+      variant: submit
+    surface: paper
+  - title: Dark
+    note: Used for the lightbox Close, over a dark backdrop.
+    params:
+      label: Close
+      variant: dark
+    surface: dark
+  - title: Icon
+    note: Outlined, icon-only. The accessible name comes from aria-label.
+    params:
+      variant: icon
+      attrs: aria-label="Close"
+    content: <span aria-hidden="true">×</span>
   - title: Disabled
     params:
       label: Sending…

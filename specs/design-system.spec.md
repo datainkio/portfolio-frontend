@@ -25,17 +25,25 @@ links:
 
 ## Token or component
 
-|                | Token                                                        | Component                                                 |
-| -------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
-| **Is**         | One named value: a colour, a spacing step, a radius, a curve | A Nunjucks macro that renders markup                      |
-| **Lives in**   | A CSS custom property in `@theme`, reached through a utility | `views/atoms/`, `views/molecules/`, or `views/organisms/` |
-| **Owned by**   | Figma, except motion and fonts (below)                       | Code                                                      |
-| **Changed by** | Editing the source, then running its sync                    | Editing the `.njk` and its sidecar                        |
-| **Answers**    | "What value?"                                                | "What structure, and which values does it apply?"         |
+|                | Token                                                        | Component                                                                                                                 |
+| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| **Is**         | One named value: a colour, a spacing step, a radius, a curve | A Nunjucks macro that renders markup                                                                                      |
+| **Lives in**   | A CSS custom property in `@theme`, reached through a utility | `views/atoms/`, `views/molecules/`, or `views/organisms/`                                                                 |
+| **Owned by**   | Figma, except motion and fonts (below)                       | Code, except the colour utilities in a mapped `variants` map (below)                                                      |
+| **Changed by** | Editing the source, then running its sync                    | Editing the `.njk` and its sidecar; for a mapped component's colours, editing Figma and running `npm run sync:components` |
+| **Answers**    | "What value?"                                                | "What structure, and which values does it apply?"                                                                         |
 
 A component applies tokens and never declares them. If a component needs a value
 the theme doesn't have, that's a new token, added at its source, not an arbitrary
 value in the template.
+
+A **mapped component** is one whose sidecar names a Figma component set
+(`figma: "25:43"` in `views/atoms/button.md`). Figma owns the `bg-`, `text-` and
+`border-` utilities, and their `hover:` forms, inside its `variants` map;
+`npm run sync:components` writes them and reverts a hand edit there. Layout, type
+and everything else in the template stays code-owned. Contract:
+[Component colour sync spec](component-sync.spec.md). Button is the only mapped
+component today.
 
 A project utility (`@utility` in `styles/`, such as the halftone and stripe
 patterns) sits between the two. It composes tokens into one reusable effect and

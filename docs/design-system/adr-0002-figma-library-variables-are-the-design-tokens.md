@@ -13,6 +13,7 @@ links:
   - "[VariablesService](../../figma/services/VariablesService.md)"
   - "[Tokens page generator](../../figma/generators/tokensPage.md)"
   - "[TokenService](../../figma/services/TokenService.md)"
+  - "[ADR 0003](adr-0003-figma-owns-mapped-component-colours.md)"
 ---
 
 # ADR 0002: The Figma library's variables are the design tokens

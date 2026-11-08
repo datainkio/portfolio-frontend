@@ -20,14 +20,14 @@
     {%- set dlStyles = "grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-2 justify-stretch gap-x-4" %}
     {%- set dtStyles = "self-end w-auto" %}
     {%- set ddStyles = "w-auto row-start-2 max-w-[12ch] truncate" %}
-    {%- set closeStyles = "self-center ml-auto mr-2 cursor-pointer border-2 border-neutral-700 rounded-xl" %}
+    {%- set closeStyles = "self-center ml-auto mr-2 cursor-pointer" %}
     <div id="build-info-list"
          data-buildinfo-el="list"
          aria-hidden="true"
          class="{{ drawerStyles }}">
       {% call BuildView.render({ buildVersions: buildVersions, dlStyles: dlStyles, dtStyles: dtStyles, ddStyles: ddStyles }) %}
       {% endcall %}
-      {% call Button.render({ classes: closeStyles, attrs: 'data-buildinfo-el="close" aria-controls="build-info-list" aria-label="Hide build info"' }) %}{{ Icon.render({"name": "close", "size": "sm"}) }}{% endcall %}
+      {% call Button.render({ variant: "icon", classes: closeStyles, attrs: 'data-buildinfo-el="close" aria-controls="build-info-list" aria-label="Hide build info"' }) %}{{ Icon.render({"name": "close", "size": "sm"}) }}{% endcall %}
       </div>
     </div>
   {% endmacro %}

@@ -7,15 +7,15 @@
 
 Pulls the design tokens from the Figma design-system library and writes them as Tailwind theme variables.
 
-# Figma token sync
+# Figma sync
 
 Reads the variables and shadow styles of the [design-system library](https://www.figma.com/design/tl8ANcSSVEzPOS6ZU6lSI1) and writes them as Tailwind v4 theme variables, so the `accent/500` variable becomes `--color-accent-500` and `text-accent-500` in CSS.
 
 ## What's here
 
 - `api/`: Figma REST client
-- `services/`: read the library's Tokens page, then write the palette, the tokens and the variables export
-- `views/`: writers for each output file
+- `services/`: read the library's Tokens page and component sets, then write the palette, the tokens and the variables export
+- `views/`: writers for each output file, and the `variants` map writer for templates
 - `generators/`: Plugin API scripts that build pages in the library for the sync to read
 - `exports/`: generated JSON, currently the library's variables
 
@@ -24,11 +24,15 @@ Reads the variables and shadow styles of the [design-system library](https://www
 ```bash
 npm run build:design             # sync, then rebuild CSS
 npm run build:design:variables   # refresh the variables export only
+npm run sync:components          # write a mapped component's colours into its template
+npm run sync:components -- --check   # report drift, write nothing; exits 1 on drift
 ```
 
 Both need `FIGMA_TOKEN` and `FIGMA_FILE_ID` (the library's key) in `.env` (see `.env.example`). `npm run quick` and the deploy workflows skip the sync.
 
 `build:design` writes `styles/colors.css`, `styles/tokens.css` and `exports/variables.local.json`. Those files are generated, so don't edit them by hand.
+
+`sync:components` reads a component set from the library and writes its colour bindings into the `variants` map of the template whose sidecar names it (`figma: "25:43"` in `views/atoms/button.md`). Only `bg-`, `text-` and `border-` utilities, and their `hover:` forms, are written; what it won't touch it reports as _needs a hand_. Button is the only mapped component. Contract: [component-sync.spec.md](../specs/component-sync.spec.md); reader: [ComponentService](services/ComponentService.md); writer: [VariantsMap](views/nunjucks/VariantsMap.md).
 
 Figma's Variables REST API needs an Enterprise plan, so the sync reads the library's Tokens page instead: one layer bound to each variable, built by [tokensPage.js](generators/tokensPage.md). Re-run that generator after adding, renaming or deleting a variable or style. See [VariablesService](services/VariablesService.md).
 
@@ -47,6 +51,7 @@ Figma's Variables REST API needs an Enterprise plan, so the sync reads the libra
 - [Typography](../styles/typography/README.md)
 
 <!-- readme-index:start -->
+
 ## Index
 
 - [api/](api/README.md)

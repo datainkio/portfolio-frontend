@@ -22,7 +22,7 @@ Params:
   <dialog data-lightbox-el="dialog"
           aria-label="{{ alt or caption or fallbackLabel }}"
           class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent p-4 backdrop:bg-black/80 cursor-zoom-out {{ 'lg:w-[90vw]' if caption }}">
-    {{ Button.render({ label: "Close", classes: "mb-2 text-white bg-neutral-900 hover:bg-neutral-700 py-1 px-3 rounded cursor-pointer", attrs: 'data-lightbox-el="close"' }) }}
+    {{ Button.render({ label: "Close", variant: "dark", classes: "mb-2 cursor-pointer", attrs: 'data-lightbox-el="close"' }) }}
     <figure class="m-0 grid gap-4 cursor-auto {{ 'lg:grid-cols-3 lg:items-start' if caption }}">
       {%- if video and video.src -%}
         <video data-lightbox-el="video"
