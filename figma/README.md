@@ -18,7 +18,6 @@ Reads the variables and shadow styles of the [design-system library](https://www
 - `views/`: writers for each output file
 - `generators/`: Plugin API scripts that build pages in the library for the sync to read
 - `exports/`: generated JSON, currently the library's variables
-- Unused since 2026-11-08, when the sync moved to the library: `models/`, `utils/`, `FileService`, `StyleService`, `TypographyService` and the font writers in `views/`. They read the old Figma file's styles, and the task that retires that file deletes them.
 
 ## Run it
 
@@ -53,9 +52,7 @@ Figma's Variables REST API needs an Enterprise plan, so the sync reads the libra
 - [api/](api/README.md)
 - [exports/](exports/)
 - [generators/](generators/README.md)
-- [models/](models/README.md)
 - [services/](services/README.md)
-- [utils/](utils/)
 - [views/](views/README.md)
 - [index.js](index.js)
 <!-- readme-index:end -->

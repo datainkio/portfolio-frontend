@@ -105,8 +105,8 @@ API's shape. `FIGMA_FILE_ID` names the library.
 - ADR 0001's open items close. `font-weight/extrabold` and `black` are 800 and
   900 in the library, and the old `headings/H1`–`H4` styles aren't read.
 - The old file's readers (`FileService`, `StyleService`, `TypographyService`,
-  `figma/models/`, `figma/utils/`, and the font writers) are no longer called.
-  The task that retires the old file deletes them.
+  `figma/models/`, `figma/utils/`, and the font writers) were deleted on
+  2026-11-08.
 
 ## Still open
 

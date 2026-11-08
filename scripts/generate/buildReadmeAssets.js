@@ -207,7 +207,6 @@ const REPOS = [
       "data/sanity": ["sanity"],
       eleventy: ["eleventy"],
       figma: ["figma"],
-      "figma/views/eleventy": ["figma", "eleventy"],
       "figma/views/tailwind": ["figma", "tailwind"],
       scripts: ["node"],
       test: ["node"],
