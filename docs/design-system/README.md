@@ -19,6 +19,7 @@ token live.
 - [figma-worklist.md](figma-worklist.md): the styles and layers created in Figma on 2026-11-06, kept as a record
 - [adr-0001-figma-owns-design-tokens.md](adr-0001-figma-owns-design-tokens.md): who owns which tokens, and why
 - [adr-0002-figma-library-variables-are-the-design-tokens.md](adr-0002-figma-library-variables-are-the-design-tokens.md): proposed; moves the token source from the old Figma file to the design-system library's variables
+- [adr-0003-figma-owns-mapped-component-colours.md](adr-0003-figma-owns-mapped-component-colours.md): proposed; extends Figma ownership from tokens to a mapped component's colour utilities, starting with Button
 - `inventory.json`: the complete data behind the inventory, including per-file class lists. It is generated locally and gitignored, because Tailwind scans tracked files and would turn token names into classes.
 
 The inventory is a build artifact. Edit the script, not the output:

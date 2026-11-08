@@ -5,12 +5,13 @@
 
 <!-- /readme-header -->
 
-Emitters that render resolved Figma tokens into Tailwind source files.
+Emitters that render resolved Figma tokens into Tailwind source files, and component colours into Nunjucks templates.
 
-Each subfolder targets one consumer. Output is generated — never hand-edit the files these produce.
+Each subfolder targets one consumer. The Tailwind output is generated — never hand-edit the files it produces. In a template, only the colour utilities in its `variants` map are written.
 
 <!-- readme-index:start -->
 ## Index
 
+- [nunjucks/](nunjucks/README.md)
 - [tailwind/](tailwind/README.md)
 <!-- readme-index:end -->

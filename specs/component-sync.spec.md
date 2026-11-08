@@ -13,19 +13,20 @@ links:
   - "[Design system spec](design-system.spec.md)"
   - "[Component API spec](views/component-api.views-spec.md)"
   - "[ADR 0002](../docs/design-system/adr-0002-figma-library-variables-are-the-design-tokens.md)"
+  - "[ADR 0003](../docs/design-system/adr-0003-figma-owns-mapped-component-colours.md)"
   - "[Button sidecar](../views/atoms/button.md)"
 ---
 
 # Spec: Component colour sync
 
 - **Scope:** the colours a component applies, per variant and state. First component: Button, `views/atoms/button.njk`.
-- **Status:** proposed, 2026-11-08. Waits on ADR 0003 (ownership, below).
+- **Status:** proposed, 2026-11-08. Implemented 2026-11-08 on `feat-design-system`. Waits on [ADR 0003](../docs/design-system/adr-0003-figma-owns-mapped-component-colours.md) (ownership, below).
 - **Command:** `npm run sync:components`
 - **Direction:** Figma → code. Same as tokens.
 
 ## The problem
 
-`build:design` syncs what a colour *is*. It doesn't sync which colour a component *uses*. Rebinding Button's fill from `neutral/900` to `primary/950` in Figma changes nothing in the repo; someone edits `bg-neutral-900` by hand, and nothing notices if they don't.
+`build:design` syncs what a colour _is_. It doesn't sync which colour a component _uses_. Rebinding Button's fill from `neutral/900` to `primary/950` in Figma changes nothing in the repo; someone edits `bg-neutral-900` by hand, and nothing notices if they don't.
 
 ## Ownership
 
@@ -58,15 +59,15 @@ Layout and type classes live in the same string. The sync reads and writes only 
 
 Read from each variant of the component set, through the REST file endpoint (Pro plan). Variable IDs resolve to names the way `build:design` resolves them.
 
-| On the Figma variant         | Utility written     | Example                              |
-| ---------------------------- | ------------------- | ------------------------------------ |
-| Root layer fill              | `bg-{colour}`       | `secondary/600` → `bg-secondary-600` |
-| Root layer stroke            | `border-{colour}`   | `neutral/700` → `border-neutral-700` |
+| On the Figma variant           | Utility written   | Example                              |
+| ------------------------------ | ----------------- | ------------------------------------ |
+| Root layer fill                | `bg-{colour}`     | `secondary/600` → `bg-secondary-600` |
+| Root layer stroke              | `border-{colour}` | `neutral/700` → `border-neutral-700` |
 | Text layer named `Label`, fill | `text-{colour}`   | `base/white` → `text-white`          |
 
 The Hover variant writes the same utilities with `hover:`, only where its value differs from Default.
 
-Colour names: `family/step` → `family-step`. `base/white` and `base/black` → `white` and `black`, which Tailwind ships and `colors.css` leaves out. A variable missing from the palette export is reported as *unknown variable* and never written.
+Colour names: `family/step` → `family-step`. `base/white` and `base/black` → `white` and `black`, which Tailwind ships and `colors.css` leaves out. A variable missing from the palette export is reported as _unknown variable_ and never written.
 
 ## What the sync writes
 
@@ -77,10 +78,10 @@ Colour names: `family/step` → `family-step`. `base/white` and `base/black` →
 
 Flags:
 
-| Flag                 | Effect                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------- |
-| `--check`            | Writes nothing. Exits 1 when any row isn't `unchanged`. For CI, once an offline fixture exists. |
-| `--component <path>` | One template, e.g. `atoms/button.njk`. Default: every sidecar with a `figma` key.                 |
+| Flag                 | Effect                                                                                                                                                                                                                                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--check`            | Writes nothing. Exits 1 when any row would be `written` or is `unknown variable`. `needs a hand` rows print as warnings and don't fail it (amended 2026-11-08: Submit's arrow and Icon's glyph are reported on every run, so failing on them would make the check useless). For CI, once an offline fixture exists. |
+| `--component <path>` | One template, e.g. `atoms/button.njk`. Default: every sidecar with a `figma` key.                                                                                                                                                                                                                                   |
 
 ## Needs a hand
 
@@ -101,10 +102,10 @@ The sync reports these and leaves the template alone. You or an agent resolves t
 
 ## Enforcement
 
-| Check                              | Fails on                                                                               |
-| ---------------------------------- | -------------------------------------------------------------------------------------- |
-| `npm run sync:components -- --check` | A mapped colour that differs from Figma                                              |
-| `npm run lint:palette`             | Still runs after a write. A Figma colour outside the palette is refused, not written. |
-| `npm test`                         | Fixture tests for the reader, the diff, and the writer                                 |
+| Check                                | Fails on                                                                               |
+| ------------------------------------ | -------------------------------------------------------------------------------------- |
+| `npm run sync:components -- --check` | A mapped colour that differs from Figma, or a variable missing from the palette export |
+| `npm run lint:palette`               | Still runs after a write. A Figma colour outside the palette is refused, not written.  |
+| `npm test`                           | Fixture tests for the reader, the diff, and the writer                                 |
 
 `npm run validate` can't include the check until the offline Figma fixture exists, for the same reason it doesn't rebuild `colors.css`.
