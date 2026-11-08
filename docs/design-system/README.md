@@ -45,7 +45,7 @@ flowchart TB
     end
 
     subgraph GEN["Generated CSS — never hand-edit"]
-        COL["styles/colors.css<br/>palette: primary · secondary · tertiary<br/>accent · neutral · slate · semantic-*"]
+        COL["styles/colors.css<br/>palette: primary · secondary · tertiary<br/>accent · neutral · semantic-*"]
         TOK["styles/tokens.css<br/>spacing · containers · radius · shadow<br/>tracking · type size/leading/weight"]
         MOT["styles/motion.css<br/>durations + easings"]
     end
@@ -99,7 +99,7 @@ flowchart TB
     TOK --> L4
     MOT --> L4
 
-    CSS -- "tokens reached via utilities<br/>(bg-slate-900, p-18)" --> COMP
+    CSS -- "tokens reached via utilities<br/>(bg-neutral-900, p-18)" --> COMP
     API -. governs .-> COMP
     COMP -- "mirrored path 1:1" --> IA
     GEN -- "readers: colors, designTokens" --> RDR

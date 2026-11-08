@@ -66,7 +66,7 @@ page imports it and renders it once:
 
 ## Stroke Hierarchy
 
-The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint navy — never pure black or `slate-*`) at one of four weights, so new rules must pick a tier rather than invent a fifth:
+The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint navy — never pure black or `neutral-*`) at one of four weights, so new rules must pick a tier rather than invent a fifth:
 
 | Tier                 | Utility                                               | Where                                                             |
 | -------------------- | ----------------------------------------------------- | ----------------------------------------------------------------- |

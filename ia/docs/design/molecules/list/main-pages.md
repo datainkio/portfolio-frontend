@@ -8,7 +8,7 @@ specimens:
     note: The current URL is "/work/", so that entry is a span.
     params:
       currentUrl: /work/
-      classes: flex flex-row list-none divide-x divide-slate-700
+      classes: flex flex-row list-none divide-x divide-neutral-700
       items:
         - { key: Work, url: /work/ }
         - { key: About, url: /about/ }

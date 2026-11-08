@@ -26,7 +26,7 @@ Every component follows the Component API spec
 
 ```njk
 {% raw %}{% import "molecules/stats/stats.njk" as Stats %}
-{{ Stats.render({ stats: rows, classes: { base: "grid", sm: "grid-cols-3" }, styles: { term: "text-slate-400" } }) }}{% endraw %}
+{{ Stats.render({ stats: rows, classes: { base: "grid", sm: "grid-cols-3" }, styles: { term: "text-neutral-400" } }) }}{% endraw %}
 ```
 
 - One macro, `render(params = {})`, with named params only.

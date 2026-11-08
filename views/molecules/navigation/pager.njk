@@ -20,14 +20,14 @@ Params:
 {% import "atoms/link/link.njk" as Link %}
 {% import "atoms/icon.njk" as Icon %}
 
-{%- set navBase = "border-t border-slate-700" -%}
+{%- set navBase = "border-t border-neutral-700" -%}
 {%- set listBase = "grid grid-cols-[1fr_auto_1fr] items-stretch" -%}
 {%- set cellBase = "flex gap-3 p-4 h-full no-underline" -%}
-{%- set linkBase = "hover:bg-slate-900 motion-safe:transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500" -%}
-{%- set directionStyles = "font-display text-sm uppercase tracking-widest text-slate-400" -%}
+{%- set linkBase = "hover:bg-neutral-900 motion-safe:transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500" -%}
+{%- set directionStyles = "font-display text-sm uppercase tracking-widest text-neutral-400" -%}
 {%- set titleStyles = "text-neutral-100" -%}
 {%- set metaStyles = "text-sm text-neutral-400" -%}
-{%- set iconStyles = "shrink-0 self-center text-slate-400" -%}
+{%- set iconStyles = "shrink-0 self-center text-neutral-400" -%}
 {%- set sides = [
   { key: "previous", label: "Previous", rel: "prev", icon: "chevron-left", align: "justify-start text-left", order: "" },
   { key: "next", label: "Next", rel: "next", icon: "chevron-right", align: "justify-end text-right", order: "flex-row-reverse" }
@@ -65,7 +65,7 @@ Params:
   <nav aria-label="{{ params.label }}" class="{{ [navBase, params.classes] | classes }}">
     <ul class="{{ listBase }}" role="list">
       <li>{{ side(sides[0], params.previous, styles.link) }}</li>
-      <li class="border-x border-slate-700">
+      <li class="border-x border-neutral-700">
         {%- if params.all and params.all.href -%}
           {%- call Link.render({
             url: params.all.href,

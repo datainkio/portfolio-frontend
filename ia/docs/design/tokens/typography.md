@@ -14,7 +14,7 @@ families are maintained by hand, because the site self-hosts its fonts.
   <h2 id="type-families">Families</h2>
   <ul role="list" class="space-y-6">
     {%- for f in designTokens.font %}
-    <li class="space-y-1 border-b border-slate-800 pb-6">
+    <li class="space-y-1 border-b border-neutral-800 pb-6">
       <code class="text-sm text-accent-400">font-{{ f.key }}</code>
       <span class="block text-4xl text-neutral-100 font-{{ f.key }}">Data, ink, and the space between</span>
       <span class="block text-xs text-neutral-400">{{ f.value }}</span>
@@ -36,7 +36,7 @@ families are maintained by hand, because the site self-hosts its fonts.
     </thead>
     <tbody>
       {%- for t in designTokens.text %}
-      <tr class="border-t border-slate-800 align-baseline">
+      <tr class="border-t border-neutral-800 align-baseline">
         <th scope="row" class="py-3 pr-4 font-normal"><code class="text-sm text-neutral-100">text-{{ t.key }}</code></th>
         <td class="whitespace-nowrap py-3 pr-4 text-xs text-neutral-400">{{ t.value }} / {{ t.lineHeight }}</td>
         <td class="py-3 text-neutral-100">

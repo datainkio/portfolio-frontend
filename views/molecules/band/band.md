@@ -10,7 +10,7 @@ links:
 
 # Band
 
-A decorative plate (`aria-hidden`) that sits behind its siblings. It is solid `bg-slate-900`, `w-screen` wide, and as tall as its parent. Inset shadows on its top and bottom edges make it read as a layer below the background video, seen through a cut. The shadow sits on `::after`, so it paints above the image.
+A decorative plate (`aria-hidden`) that sits behind its siblings. It is solid `bg-neutral-900`, `w-screen` wide, and as tall as its parent. Inset shadows on its top and bottom edges make it read as a layer below the background video, seen through a cut. The shadow sits on `::after`, so it paints above the image.
 
 ## Template
 

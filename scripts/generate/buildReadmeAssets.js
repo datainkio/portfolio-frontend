@@ -3,8 +3,7 @@
  * data (.github/readme/figma-badge.json) from design tokens.
  *
  * GitHub renders README images in a sandbox with no web fonts, so DraftPaper
- * text is outlined to paths here. Colours come from styles/colors.css; slate
- * is Tailwind's default palette and is not in the token file.
+ * text is outlined to paths here. Colours come from styles/colors.css.
  *
  * Output is deterministic: same tokens + font + hanko → same file.
  */
@@ -26,19 +25,15 @@ const tokens = Object.fromEntries(
       .matchAll(/--color-([\w-]+):\s*(#[0-9a-f]{3,8})/gi),
   ].map(([, name, hex]) => [name, hex]),
 );
-const slate = {
-  950: "#020617",
-  900: "#0f172a",
-  700: "#334155",
-  400: "#94a3b8",
-  200: "#e2e8f0",
-};
+const neutral = Object.fromEntries(
+  [950, 900, 700, 400, 200].map((shade) => [shade, tokens[`neutral-${shade}`]]),
+);
 const c = {
-  paper: slate[950],
-  panel: slate[900],
-  rule: slate[700],
-  label: slate[400],
-  text: slate[200],
+  paper: neutral[950],
+  panel: neutral[900],
+  rule: neutral[700],
+  label: neutral[400],
+  text: neutral[200],
   accent: tokens["secondary-500"],
   link: tokens["primary-200"],
   grid: tokens["primary-500"],
@@ -240,7 +235,7 @@ const REPOS = [
 ];
 
 // TAGS: shields.io badges, styled like the version badges in the frontend root
-// README (slate label, orange value).
+// README (neutral label, orange value).
 const TAGS = {
   eleventy: ["Eleventy", "eleventy", "https://www.11ty.dev"],
   tailwind: ["Tailwind CSS", "tailwindcss", "https://tailwindcss.com"],

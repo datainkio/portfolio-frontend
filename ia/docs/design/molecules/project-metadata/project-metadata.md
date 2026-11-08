@@ -11,7 +11,7 @@ specimens:
       aria: Project metadata
       classes: grid gap-6 md:grid-cols-2 text-neutral-400
       styles:
-        term: text-slate-400
+        term: text-neutral-400
 inContext:
   - { url: /case-studies/enquos/, label: A project page }
 ---

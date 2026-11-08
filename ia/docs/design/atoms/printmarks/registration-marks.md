@@ -11,7 +11,7 @@ specimens:
     params:
       size: "10"
     frame: relative h-48
-    surface: slate
+    surface: neutral
 inContext:
   - { url: /, label: Homepage print marks }
 ---

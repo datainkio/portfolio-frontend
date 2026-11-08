@@ -32,7 +32,7 @@ The shared frame for project-page content sections: a `<section>` bordered on th
 | --------- | ------------------------------ | -------- | ----------- |
 | `heading` | string                         | Yes      | `<h2>` text. |
 | `id`      | string                         | Yes      | `<h2>` id. Also the section's `aria-labelledby`, so it must be unique on the page. |
-| `tone`    | string                         | No       | `"slate-700"` (default), `"slate-600"`, or `"accent-600"`. Sets the border and rule colours; the heading text is 2 shades lighter for slate (`slate-700` → `text-slate-500`) and 1 for accent (`accent-600` → `text-accent-500`), because yellow already reads brighter. Unknown values fall back to the default. |
+| `tone`    | string                         | No       | `"neutral-700"` (default), `"neutral-600"`, or `"accent-600"`. Sets the border and rule colours; the heading text is 2 shades lighter for neutral (`neutral-700` → `text-neutral-500`) and 1 for accent (`accent-600` → `text-accent-500`), because yellow already reads brighter. Unknown values fall back to the default. |
 | `classes` | string \| variant map \| array | No       | Appended to the `<section>`. |
 | `styles`  | `{ heading }`                  | No       | `heading` is appended to the `<h2>`. |
 
@@ -41,8 +41,8 @@ Follows the [Component API spec](../../../specs/views/component-api.views-spec.m
 ## Relationships
 
 - Used by:
-  - [[star-summary.njk|molecules/star-summary/star-summary.njk]] — "Overview", `slate-600`
-  - [[design-decisions.njk|molecules/design-decisions.njk]] — "Process + Evidence Plates", `slate-700`
+  - [[star-summary.njk|molecules/star-summary/star-summary.njk]] — "Overview", `neutral-600`
+  - [[design-decisions.njk|molecules/design-decisions.njk]] — "Process + Evidence Plates", `neutral-700`
   - [[awards.njk|molecules/awards.njk]] — "Recognition", `accent-600`
 
 ## Notes for Future Maintenance

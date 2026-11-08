@@ -63,9 +63,9 @@ utilities. Figma can't express them, so they aren't tokens.
 
 1. **Colour comes from the palette.** Every colour in a template or a
    hand-written stylesheet is a colour declared in `styles/colors.css`: a step
-   of `primary`, `secondary`, `tertiary`, `accent`, `neutral`, or `slate`, a
-   `semantic-*` colour, or `black` or `white`. Utilities name it (`bg-slate-900`);
-   CSS and arbitrary values reference it (`var(--color-slate-900)`), including
+   of `primary`, `secondary`, `tertiary`, `accent`, or `neutral`, a
+   `semantic-*` colour, or `black` or `white`. Utilities name it (`bg-neutral-900`);
+   CSS and arbitrary values reference it (`var(--color-neutral-900)`), including
    black and white. For transparency, mix it:
    `color-mix(in oklab, var(--color-black) 30%, transparent)`. No hex, `rgb()`,
    `oklch()`, or named colours, and no `--color-*` declared outside

@@ -8,8 +8,8 @@
       "sm": "grid-cols-2 gap-4",
       "lg": "grid-cols-4"
     } -%}
-    {%- set liStyles = {"base": "design-decisions__item ", "md": "divide-x divide-slate-700"} -%}
-    {%- call SectionFrame.render({ heading: "Process + Evidence Plates", id: "design-decisions-heading", tone: "slate-600", classes: ["design-decisions", params.classes] }) %}
+    {%- set liStyles = {"base": "design-decisions__item ", "md": "divide-x divide-neutral-700"} -%}
+    {%- call SectionFrame.render({ heading: "Process + Evidence Plates", id: "design-decisions-heading", tone: "neutral-600", classes: ["design-decisions", params.classes] }) %}
       <ul data-decisions-el="list" class="{{ listStyles | classes }}">
         {% for item in decisions %}
           <li data-decisions-el="item" class="{{ liStyles | classes }}">{{ DesignDecision.render({ item: item, index: loop.index }) }}</li>

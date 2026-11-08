@@ -10,11 +10,11 @@
     both are utilities and `.fixed` sorts after it in the compiled CSS. -#}
 {%- set navStyles = {
   "print": "hidden",
-  "base": "fixed inset-x-0 bottom-0 z-10 w-full registration-marks registration-marks-offset-[-8px] registration-marks-slate-700 bg-slate-900 shadow-[0px_4px_8px_0px_color-mix(in_oklab,var(--color-black)_25%,transparent)]",
+  "base": "fixed inset-x-0 bottom-0 z-10 w-full registration-marks registration-marks-offset-[-8px] registration-marks-neutral-700 bg-neutral-900 shadow-[0px_4px_8px_0px_color-mix(in_oklab,var(--color-black)_25%,transparent)]",
   "md": "inset-x-auto bottom-auto left-0 top-1/2 w-56 -translate-y-1/2"
 } -%}
 {%- set drawerToggleStyles = {
-  "base": "group cursor-pointer pl-4 flex items-center gap-x-4 divide-x divide-slate-700 w-full text-left",
+  "base": "group cursor-pointer pl-4 flex items-center gap-x-4 divide-x divide-neutral-700 w-full text-left",
   "md": "pointer-events-none cursor-default"
 } -%}
 
@@ -26,21 +26,21 @@
          aria-label="Jump to an industry"
          class="{{ navStyles | classes }}">
       <header data-projects-el="drawer-handle"
-              class="p-4 pt-6 border-t border-x border-slate-700">
+              class="p-4 pt-6 border-t border-x border-neutral-700">
         <h2 class="text-primary-200 text-2xl">
           {%- call Button.render({ classes: drawerToggleStyles, attrs: 'data-projects-el="drawer-toggle" aria-expanded="false" aria-controls="work-jumplinks"' }) -%}<span class="text-primary-200 pr-4 transition-colors group-hover:text-secondary-400">Industries</span><span data-projects-el="drawer-title" class="text-sm text-secondary-400"></span>{%- endcall -%}
         </h2>
       </header>
       {{ IndustryLinks.render({ industries: industries }) }}
-      <footer class="font-display text-primary-200/40 grid grid-cols-3 border-b border-x border-slate-700 items-center gap-2">
-        <dl class="border-r border-slate-700 text-base text-left p-4 pb-3 col-span-2">
+      <footer class="font-display text-primary-200/40 grid grid-cols-3 border-b border-x border-neutral-700 items-center gap-2">
+        <dl class="border-r border-neutral-700 text-base text-left p-4 pb-3 col-span-2">
           <dt class="leading-2 text-primary-200/20">Doc 02A</dt>
           <dd>
             Work Index
           </dd>
         </dl>
         <dl class="text-xs pr-3">
-          <dt class="border-b border-slate-700 text-primary-200/20">revision</dt>
+          <dt class="border-b border-neutral-700 text-primary-200/20">revision</dt>
           <dd>
             09.04.26
           </dd>

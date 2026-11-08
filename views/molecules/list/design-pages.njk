@@ -17,7 +17,7 @@ Accessible navigation with ARIA labels and semantic structure
 
 {% if designNav.length %}
   <nav
-    class="design-navigation border-l-2 border-slate-700 pl-4 mb-8"
+    class="design-navigation border-l-2 border-neutral-700 pl-4 mb-8"
     role="navigation"
     aria-label="Design section navigation">
     <ul class="space-y-2" role="list">
@@ -29,7 +29,7 @@ Accessible navigation with ARIA labels and semantic structure
             url: item.url,
             text: item.title,
             ariaCurrent: "page" if item.url == currentUrl else "",
-            classes: linkBase + (linkCurrent if item.url == currentUrl else " text-neutral-200 hover:text-neutral-50 hover:bg-slate-800")
+            classes: linkBase + (linkCurrent if item.url == currentUrl else " text-neutral-200 hover:text-neutral-50 hover:bg-neutral-800")
           }) }}
 
           {#- Bucket the sorted children by group. -#}
@@ -43,7 +43,7 @@ Accessible navigation with ARIA labels and semantic structure
             {% endif %}
           {% endfor %}
 
-          <ul class="mt-2 ml-4 space-y-3 border-l border-slate-800 pl-3" role="list">
+          <ul class="mt-2 ml-4 space-y-3 border-l border-neutral-800 pl-3" role="list">
             {% for group in groups %}
               {% set groupId = ("design-" ~ item.title ~ "-" ~ (group.title or loop.index)) | slugify %}
               <li class="text-xs">
@@ -57,7 +57,7 @@ Accessible navigation with ARIA labels and semantic structure
                         url: child.url,
                         text: child.title,
                         ariaCurrent: "page" if child.url == currentUrl else "",
-                        classes: linkBase + (linkCurrent if child.url == currentUrl else " text-neutral-300 hover:text-neutral-50 hover:bg-slate-800")
+                        classes: linkBase + (linkCurrent if child.url == currentUrl else " text-neutral-300 hover:text-neutral-50 hover:bg-neutral-800")
                       }) }}
                     </li>
                   {% endfor %}

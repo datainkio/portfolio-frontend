@@ -36,7 +36,7 @@ Classified as a **component** at the atomic **molecule** level. Follows the [awa
 
 - Imports:
   - [[design-decision.njk|molecules/card/design-decision.njk]]
-  - [[section-frame.njk|molecules/section/section-frame.njk]] (`tone: "slate-700"`)
+  - [[section-frame.njk|molecules/section/section-frame.njk]] (`tone: "neutral-700"`)
 - Used by:
   - [[project.njk|pages/project/project.njk]] — after the body, before the live-project link.
 
