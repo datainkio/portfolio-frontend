@@ -38,7 +38,7 @@ blocks of `styles/colors.css`, `styles/tokens.css`, `styles/motion.css`, and
 | `duration`   | `{ key, value }`                                      | `duration-fast`  |
 | `ease`       | `{ key, value, points }`                              | `ease-springy`   |
 | `grounds`    | `{ paper, ground }`: `neutral-50` and `slate-950` hex | —                |
-| `source`     | `{ figmaVersion, figmaModified }`                     | —                |
+| `source`     | `{ figmaFile, figmaVersion }`, from `colors.css`      | —                |
 
 Each colour's `contrast` is its WCAG ratio against both grounds,
 `{ paper, ground }`, to one decimal place.

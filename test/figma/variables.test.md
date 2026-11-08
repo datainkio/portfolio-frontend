@@ -12,7 +12,9 @@ links:
 
 # variables.test.js
 
-Covers `extractVariables` and `VariablesService.write`. The fixture's node shapes
+Covers `extractVariables`, `VariablesService.fetchTokensPage` and
+`VariablesService.write`, including the error a run against the old Figma file
+gets. The fixture's node shapes
 follow a real `GET /files/:key/nodes` response for the library's Tokens page,
 taken on 2026-11-08. That response showed that REST leaves out a gap of 0, and
 that a variable's float comes back as Figma's stored float32 value.

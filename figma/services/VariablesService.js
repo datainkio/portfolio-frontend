@@ -130,12 +130,37 @@ export function extractVariables(pageNode) {
     };
   }
 
+  if (!Object.keys(collections).length) {
+    throw new Error(
+      "The Tokens page has no generated layers. Check that FIGMA_FILE_ID names the design-system library, then run figma/generators/tokensPage.js.",
+    );
+  }
   if (errors.length) {
     throw new Error(
       `The Tokens page is out of step with the library's variables. Re-run figma/generators/tokensPage.js.\n  - ${errors.join("\n  - ")}`,
     );
   }
   return { variables, variableCollections };
+}
+
+/**
+ * Writes `meta` wrapped as the Enterprise response.
+ *
+ * @param {{ variables: Object, variableCollections: Object }} meta
+ * @param {string} [outFile] Defaults to figma/exports/variables.local.json.
+ * @returns {Promise<{ outFile: string, variables: number, collections: number }>}
+ */
+export async function writeExport(meta, outFile = DEFAULT_OUT_FILE) {
+  await mkdir(dirname(outFile), { recursive: true });
+  await writeFile(
+    outFile,
+    `${JSON.stringify({ status: 200, error: false, meta }, null, 2)}\n`,
+  );
+  return {
+    outFile,
+    variables: Object.keys(meta.variables).length,
+    collections: Object.keys(meta.variableCollections).length,
+  };
 }
 
 /** Throws on a Figma REST error body, which arrives as `{ status, err }`. */
@@ -153,7 +178,10 @@ export class VariablesService {
     this.client = client;
   }
 
-  /** @returns {Promise<Object>} The Tokens page's document node. */
+  /**
+   * @returns {Promise<{ file: { name: string, version: string, lastModified: string }, page: Object }>}
+   *   The file's identity and the Tokens page's document node.
+   */
   async fetchTokensPage() {
     const fileId = this.client.FILE_ID;
     const file = ok(await this.client.fetch(ENDPOINTS.pages(fileId)));
@@ -164,7 +192,11 @@ export class VariablesService {
       );
     }
     const nodes = ok(await this.client.fetch(ENDPOINTS.nodes(fileId, page.id)));
-    return nodes.nodes[page.id].document;
+    const { name, version, lastModified } = file;
+    return {
+      file: { name, version, lastModified },
+      page: nodes.nodes[page.id].document,
+    };
   }
 
   /**
@@ -172,16 +204,7 @@ export class VariablesService {
    * @returns {Promise<{ outFile: string, variables: number, collections: number }>}
    */
   async write(outFile = DEFAULT_OUT_FILE) {
-    const meta = extractVariables(await this.fetchTokensPage());
-    await mkdir(dirname(outFile), { recursive: true });
-    await writeFile(
-      outFile,
-      `${JSON.stringify({ status: 200, error: false, meta }, null, 2)}\n`,
-    );
-    return {
-      outFile,
-      variables: Object.keys(meta.variables).length,
-      collections: Object.keys(meta.variableCollections).length,
-    };
+    const { page } = await this.fetchTokensPage();
+    return writeExport(extractVariables(page), outFile);
   }
 }

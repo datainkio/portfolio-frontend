@@ -4,15 +4,10 @@ dotenv.config();
 import { ENDPOINTS } from "./endpoints.js";
 
 export class FigmaClient {
-  /**
-   * @param {Object} [options]
-   * @param {string} [options.fileId] A file other than FIGMA_FILE_ID, such as the
-   *   design-system library.
-   */
-  constructor({ fileId } = {}) {
+  constructor() {
     this.API_URL = "https://api.figma.com/v1";
     this.TOKEN = process.env.FIGMA_TOKEN ?? process.env.FIGMA_ACCESS_TOKEN;
-    this.FILE_ID = fileId ?? process.env.FIGMA_FILE_ID;
+    this.FILE_ID = process.env.FIGMA_FILE_ID;
 
     if (!this.TOKEN || !this.FILE_ID) {
       const missing = [];

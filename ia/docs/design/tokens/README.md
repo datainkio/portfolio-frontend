@@ -16,21 +16,20 @@ CSS declares.
 
 | Group                                                      | Source of truth                           | Written to                           | To change it                               |
 | ---------------------------------------------------------- | ----------------------------------------- | ------------------------------------ | ------------------------------------------ |
-| [Colour](colour/)                                          | Figma paint styles                        | `styles/colors.css`                  | Edit in Figma, then `npm run build:design` |
-| [Spacing and containers](spacing/)                         | Named layers on Figma's Tokens page       | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
-| [Radius and shadow](radius-and-shadow/)                    | Named layers on Figma's Tokens page       | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
-| [Typography](typography/): size, weight, leading, tracking | Figma text styles and layers              | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
+| [Colour](colour/)                                          | Color variables in the Figma library      | `styles/colors.css`                  | Edit in Figma, then `npm run build:design` |
+| [Spacing and containers](spacing/)                         | Spacing and Size variables                | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
+| [Radius and shadow](radius-and-shadow/)                    | Size variables and Shadow effect styles   | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
+| [Typography](typography/): size, weight, leading, tracking | Typography variables                      | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
 | [Typography](typography/): families                        | Code                                      | `styles/typography/fontFamilies.css` | Edit by hand; the fonts are self-hosted    |
 | [Motion](motion/)                                          | `js/choreography/tokens/motion/motion.js` | `styles/motion.css`                  | Edit the JS, then `npm run build:motion`   |
 
 Never edit `colors.css`, `tokens.css`, or `motion.css` by hand: the next sync
-overwrites them. After `build:design`, run
-`npx prettier --write styles/colors.css`. The decision record is
+overwrites them. The decision record is
 `docs/design-system/adr-0001-figma-owns-design-tokens.md`.
 
-The current colour file was generated from Figma version
-`{{ designTokens.source.figmaVersion }}`, last modified
-{{ designTokens.source.figmaModified }}.
+The current colour file was generated from Figma file
+`{{ designTokens.source.figmaFile }}`, version
+`{{ designTokens.source.figmaVersion }}`.
 
 ## Using tokens in a template
 

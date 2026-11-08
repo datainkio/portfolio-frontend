@@ -203,10 +203,10 @@ export function readDesignTokens() {
     .map((family) => ({ family, shades: families[family] }));
   delete groups.color;
 
-  groups.source = {
-    figmaVersion: colorsCss.match(/@version\s+(\S+)/)?.[1] || "",
-    figmaModified: colorsCss.match(/Last Modified:\s*(.+)/)?.[1]?.trim() || "",
-  };
+  // The Figma sync writes "@source Figma file <name>, version <number>".
+  const [, figmaFile = "", figmaVersion = ""] =
+    colorsCss.match(/@source Figma file (.+), version (\S+)/) ?? [];
+  groups.source = { figmaFile, figmaVersion };
 
   return groups;
 }
@@ -277,7 +277,10 @@ function relatedComponents(component) {
   const toLinks = (paths) =>
     (paths || [])
       .filter(hasReferencePage)
-      .map((path) => ({ title: componentTitle(path), url: referenceUrl(path) }));
+      .map((path) => ({
+        title: componentTitle(path),
+        url: referenceUrl(path),
+      }));
   return {
     composedOf: toLinks(imports.get(component)),
     usedIn: toLinks(importedBy.get(component)),
