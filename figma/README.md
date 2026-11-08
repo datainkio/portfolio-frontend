@@ -18,16 +18,21 @@ Reads color and text styles from the Figma file and writes them as Tailwind v4 t
 - `models/`: the Figma fields we read
 - `views/`: writers for each output file
 - `utils/`: turns a style node into a model
+- `generators/`: Plugin API scripts that build pages in the design-system library for the sync to read
+- `exports/`: generated JSON, currently the library's variables
 
 ## Run it
 
 ```bash
-npm run build:design   # sync, then rebuild CSS
+npm run build:design             # sync, then rebuild CSS
+npm run build:design:variables   # export the design-system library's variables
 ```
 
-Needs `FIGMA_TOKEN` and `FIGMA_FILE_ID` in `.env` (see `.env.example`). `npm run quick` and the deploy workflows skip the sync.
+`build:design` needs `FIGMA_TOKEN` and `FIGMA_FILE_ID` in `.env` (see `.env.example`). `npm run quick` and the deploy workflows skip the sync.
 
 It writes `styles/colors.css`, `styles/typography/fontFamilies.css` and `styles/typography/imports.css`. Those files are generated, so don't edit them by hand.
+
+`build:design:variables` reads the new design-system library (`FIGMA_LIBRARY_FILE_ID`) and writes `exports/variables.local.json`, in the shape of Figma's Enterprise-only Variables API. It works with a Pro token by reading the library's Tokens page: see [VariablesService](services/VariablesService.md). Nothing reads the export yet, and it doesn't touch `styles/`.
 
 ## Good to know
 
@@ -47,6 +52,8 @@ It writes `styles/colors.css`, `styles/typography/fontFamilies.css` and `styles/
 ## Index
 
 - [api/](api/README.md)
+- [exports/](exports/)
+- [generators/](generators/README.md)
 - [models/](models/README.md)
 - [services/](services/README.md)
 - [utils/](utils/)

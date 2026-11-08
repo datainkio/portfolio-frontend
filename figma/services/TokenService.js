@@ -20,7 +20,7 @@ export const STYLE_GROUPS = ["text", "font-weight", "leading"];
 export const TOKEN_GROUPS = [...LAYER_GROUPS, ...STYLE_GROUPS];
 
 /** The page may carry a prefix, as in "#️ Tokens". */
-const isTokensPage = (page) => /(^|\s)Tokens$/.test(page.name ?? "");
+export const isTokensPage = (page) => /(^|\s)Tokens$/.test(page.name ?? "");
 
 const round = (n, places = 4) => Number(n.toFixed(places));
 const rem = (px) => (px === 0 ? "0" : `${round(px / 16)}rem`);
