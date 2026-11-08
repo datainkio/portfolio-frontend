@@ -17,7 +17,7 @@ specimens:
         base: grid gap-4
         sm: grid-cols-3
       styles:
-        term: text-sm uppercase tracking-wider text-slate-400
+        term: text-sm uppercase tracking-wider text-neutral-400
         value: text-lg text-neutral-100
   - title: On paper
     params:

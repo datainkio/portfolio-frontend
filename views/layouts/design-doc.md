@@ -70,7 +70,7 @@ specimens:
     params: { label: "Get in touch", variant: "cta" }
     bind: { items: "cms.organizations" } # param path: data path
     content: "<span>Call body</span>" # renders with {% call %}
-    surface: paper # dark (default) | paper | slate | primary | graph
+    surface: paper # dark (default) | paper | neutral | primary | graph
     frame: "max-w-md" # classes added to the specimen frame
 specimenNote: Why there's no specimen, when `specimens` is empty.
 inContext:

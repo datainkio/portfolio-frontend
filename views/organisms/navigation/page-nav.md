@@ -35,7 +35,7 @@ It is authored as a standalone organism so it can be reused without header coupl
 
 - Root is a `<nav>` landmark with `aria-label="Page sections"` (distinguishes it
   from other navs in the a11y tree).
-- An `<ul>` of `<li>` items, one `<a>` each. `divide-y divide-slate-700` draws a
+- An `<ul>` of `<li>` items, one `<a>` each. `divide-y divide-neutral-700` draws a
   rule between rows; **note** this means a _visible_ `<ul>` with invisible links
   still paints divider lines, so a caller that needs it hidden should hide the
   whole `<nav>`, not the links.

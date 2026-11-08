@@ -18,6 +18,7 @@ links:
 
 - **Status:** Accepted by Russ, 2026-11-06. The Figma side was authored the same day, and its styles are published to the library.
 - **Scope:** Colour, spacing, radius, shadow, and type tokens in `frontend/`.
+- **Amended 2026-11-08:** decision 1 is reversed. The `neutral` ramp took slate's values, every `slate-*` class was renamed to `neutral-*`, and the `slate/*` variables were deleted from the library. The record below is unchanged.
 
 ## Context
 

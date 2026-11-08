@@ -10,7 +10,7 @@ templateEngineOverride: njk
 e.g. <code>text-neutral-300</code>. Each swatch shows its contrast ratio
 against <strong>paper</strong> (<code>neutral-50</code>,
 <code>{{ designTokens.grounds.paper }}</code>) and the page
-<strong>ground</strong> (<code>slate-950</code>,
+<strong>ground</strong> (<code>neutral-950</code>,
 <code>{{ designTokens.grounds.ground }}</code>). Body text needs 4.5:1; large
 text and UI shapes need 3:1.</p>
 
@@ -25,7 +25,7 @@ text and UI shapes need 3:1.</p>
   <ul role="list" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
     {%- for c in f.shades %}
     <li class="space-y-1">
-      <span aria-hidden="true" class="mb-2 block h-16 rounded-lg inner-border inner-border-slate-700 bg-{{ c.family }}-{{ c.shade }}"></span>
+      <span aria-hidden="true" class="mb-2 block h-16 rounded-lg inner-border inner-border-neutral-700 bg-{{ c.family }}-{{ c.shade }}"></span>
       <code class="block text-sm text-neutral-100">{{ c.family }}-{{ c.shade }}</code>
       <span class="block text-xs text-neutral-400">{{ c.value }}</span>
       <span class="block text-xs text-neutral-400">Paper {{ ratio(c.contrast.paper) }}</span>

@@ -18,8 +18,7 @@ hero's manifesto plate on the graph-paper ground.
 
 GitHub renders README images in a sandbox with no web fonts, so DraftPaper text
 is outlined to paths with `opentype.js`. Colours are read from
-`styles/colors.css`. Slate is Tailwind's default palette, so its values are
-inlined in the script.
+`styles/colors.css`.
 
 ## Inputs
 

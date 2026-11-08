@@ -15,6 +15,8 @@ links:
 
 # Figma token worklist
 
+> **Naming note, 2026-11-08.** Slate has since been retired: `neutral/*` took its values, code uses `neutral-*`, and the `slate/*` variables are gone from the library. This record keeps the names it was written with.
+
 > **Completed 2026-11-06.** These changes were made through the Figma MCP server's Plugin API, which can create styles and layers where the REST API can't. The script that generated this list is gone, so this file no longer updates. Change tokens in Figma and run `npm run build:design`.
 
 Make everything below in Figma, then run `npm run build:design` and review `git diff styles/` before committing. If the values match, the tokens resolve as they do today, and slate changes only from oklch to the nearest hex. Until the layers in section 3 exist, the sync leaves `styles/tokens.css` alone.

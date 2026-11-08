@@ -97,7 +97,6 @@ const PALETTE_ORDER = [
   "tertiary",
   "accent",
   "neutral",
-  "slate",
   "semantic",
 ];
 
@@ -183,9 +182,9 @@ export function readDesignTokens() {
     list.sort((a, b) => (num(a.shade) || 0) - (num(b.shade) || 0));
   }
   // WCAG contrast of each colour against the site's two grounds: paper
-  // (neutral-50) and the page body (slate-950).
+  // (neutral-50) and the page body (neutral-950).
   const paper = families.neutral?.find((c) => c.shade === "50")?.value;
-  const ground = families.slate?.find((c) => c.shade === "950")?.value;
+  const ground = families.neutral?.find((c) => c.shade === "950")?.value;
   for (const c of Object.values(families).flat()) {
     c.contrast = {
       paper: paper ? contrastRatio(c.value, paper) : null,

@@ -9,12 +9,12 @@ specimens:
       heading: Overview
       id: frame-default-heading
     content: <p class="p-4 text-neutral-300">Content goes in the call body.</p>
-  - title: Slate 600
+  - title: Neutral 600
     params:
       heading: Summary
-      id: frame-slate-heading
-      tone: slate-600
-    content: <p class="p-4 text-neutral-300">A lighter slate.</p>
+      id: frame-neutral-heading
+      tone: neutral-600
+    content: <p class="p-4 text-neutral-300">A lighter neutral.</p>
   - title: Accent
     params:
       heading: Recognition

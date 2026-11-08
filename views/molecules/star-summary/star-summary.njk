@@ -14,7 +14,7 @@
     { term: "Outcome", value: project.result }
     ] | selectattr("value") -%}
   {%- if starFields | length %}
-    {%- call SectionFrame.render({ heading: "Overview", id: "overview-heading", tone: "slate-600", classes: params.classes }) %}
+    {%- call SectionFrame.render({ heading: "Overview", id: "overview-heading", tone: "neutral-600", classes: params.classes }) %}
     <dl class="{{ star | classes }}"
         aria-label="Project summary"
         data-project-summary>

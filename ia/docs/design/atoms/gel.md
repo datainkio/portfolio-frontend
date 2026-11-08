@@ -14,7 +14,7 @@ specimens:
     params:
       id: spec-gel-1
     frame: relative h-48
-    surface: slate
+    surface: neutral
 inContext:
   - { url: /, label: Homepage background }
 ---

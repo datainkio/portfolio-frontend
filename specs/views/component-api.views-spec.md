@@ -80,7 +80,7 @@ without one. One page-level call rendered correctly only because an undefined
   reference implementation.
 - **Don't bake in what callers will change.** Appending can't override a
   property the baseline already sets: when two utilities set the same
-  property (e.g. `text-neutral-300` and `text-slate-400`), the one that
+  property (e.g. `text-neutral-300` and `text-neutral-400`), the one that
   wins is decided by its position in the generated CSS, not by its order
   in `class`. Keep colour and typography that callers are expected to vary
   out of the baseline, and expose them through a `classes`/`styles` slot.

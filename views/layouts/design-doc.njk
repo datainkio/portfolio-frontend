@@ -93,11 +93,11 @@
 
 {% block content %}
   {%- set surfaces = {
-    "dark": "bg-slate-950 text-neutral-100",
+    "dark": "bg-neutral-950 text-neutral-100",
     "paper": "bg-neutral-50 text-neutral-900",
-    "slate": "bg-slate-800 text-neutral-100",
+    "neutral": "bg-neutral-800 text-neutral-100",
     "primary": "bg-primary-950 text-neutral-100",
-    "graph": "bg-slate-950 bg-graphpaper-primary-100 text-neutral-100"
+    "graph": "bg-neutral-950 bg-graphpaper-primary-100 text-neutral-100"
   } -%}
   {%- set tier = page.filePathStem.split("/")[3] if page.filePathStem.split("/").length > 4 else "" -%}
 
@@ -135,14 +135,14 @@
                 <span class="block max-w-3xl font-body text-base text-neutral-400">{{ s.note }}</span>
               {%- endif %}
             </figcaption>
-            <div class="{{ ['relative isolate transform-gpu overflow-hidden rounded-lg p-6 inner-border inner-border-slate-700', surfaces[s.surface] or surfaces.dark, s.frame] | classes }}">
+            <div class="{{ ['relative isolate transform-gpu overflow-hidden rounded-lg p-6 inner-border inner-border-neutral-700', surfaces[s.surface] or surfaces.dark, s.frame] | classes }}">
               {%- if s.content %}
                 {% call C.render(params) %}{{ s.content | safe }}{% endcall %}
               {%- else %}
                 {{ C.render(params) }}
               {%- endif %}
             </div>
-            <pre class="overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-neutral-200"><code>{{ componentDoc.alias | specimenCall(s.params, s.bind, s.content) }}</code></pre>
+            <pre class="overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm text-neutral-200"><code>{{ componentDoc.alias | specimenCall(s.params, s.bind, s.content) }}</code></pre>
           </figure>
         {%- else %}
           <p class="max-w-3xl text-neutral-300">{{ specimenNote or "No specimen yet." }}</p>

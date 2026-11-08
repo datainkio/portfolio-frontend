@@ -51,7 +51,7 @@ await test("Tailwind's built-in white and black are left out", () => {
 
 await test("a translucent colour keeps its alpha as eight-digit hex", () => {
   const [entry] = extractPalette(
-    Object.fromEntries([colour("slate/950", { r: 0, g: 0, b: 0, a: 0.5 })]),
+    Object.fromEntries([colour("neutral/950", { r: 0, g: 0, b: 0, a: 0.5 })]),
   );
   assert.equal(entry.hex, "#00000080");
 });

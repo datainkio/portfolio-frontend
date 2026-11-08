@@ -33,7 +33,7 @@ The full list is in <code>docs/design-system/inventory.md</code>.</p>
     examples: [
       "registration-marks text-neutral-300",
       "registration-marks registration-marks-primary-300 registration-marks-offset-2",
-      "registration-marks registration-marks-accent-400 -registration-marks-offset-2 inner-border inner-border-slate-600"
+      "registration-marks registration-marks-accent-400 -registration-marks-offset-2 inner-border inner-border-neutral-600"
     ]
   },
   {
@@ -43,8 +43,8 @@ The full list is in <code>docs/design-system/inventory.md</code>.</p>
     syntax: "bg-graphpaper-<color>[/<opacity>]",
     note: "An engineering grid with 1rem minor and 4rem major lines. The opacity modifier sets the minor grid; the major is always 1.25× it. The page body uses bg-graphpaper-accent-400.",
     examples: [
-      "bg-slate-950 bg-graphpaper-accent-400",
-      "bg-slate-950 bg-graphpaper-primary-100/10",
+      "bg-neutral-950 bg-graphpaper-accent-400",
+      "bg-neutral-950 bg-graphpaper-primary-100/10",
       "bg-neutral-50 bg-graphpaper-primary-950/10"
     ]
   },
@@ -64,7 +64,7 @@ The full list is in <code>docs/design-system/inventory.md</code>.</p>
     note: "Pattern size reads the spacing scale and colour reads the palette. Combine a size and a colour.",
     examples: [
       "bg-halftone-2 bg-halftone-primary-400",
-      "bg-checkerboard-4 bg-checkerboard-slate-700",
+      "bg-checkerboard-4 bg-checkerboard-neutral-700",
       "bg-striped-2 bg-striped-secondary-600"
     ]
   }
@@ -79,7 +79,7 @@ The full list is in <code>docs/design-system/inventory.md</code>.</p>
   <ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {%- for cls in u.examples %}
     <li class="space-y-2">
-      <span aria-hidden="true" class="block h-32 rounded-lg bg-slate-900 {{ cls }}"></span>
+      <span aria-hidden="true" class="block h-32 rounded-lg bg-neutral-900 {{ cls }}"></span>
       <code class="block text-xs text-neutral-200">{{ cls }}</code>
     </li>
     {%- endfor %}

@@ -11,7 +11,7 @@ specimens:
     bind:
       videoSrc: cms.home.0.videoSrc
       poster: cms.home.0.videoPoster
-    surface: slate
+    surface: neutral
     frame: isolate h-96 overflow-hidden
 inContext:
   - { url: /, label: Homepage }

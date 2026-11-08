@@ -21,7 +21,7 @@ specimens:
   - title: Markup content
     note: A call body replaces the label, so icons and spans work.
     params:
-      classes: inline-flex items-center gap-2 rounded px-3 py-2 bg-slate-800 text-neutral-100 hover:bg-slate-700
+      classes: inline-flex items-center gap-2 rounded px-3 py-2 bg-neutral-800 text-neutral-100 hover:bg-neutral-700
       attrs: aria-label="Open the drawer"
     content: <span aria-hidden="true">☰</span> Menu
 inContext:

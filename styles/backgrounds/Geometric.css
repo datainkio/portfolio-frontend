@@ -3,7 +3,7 @@
 /* Halftone dot pattern — dot size (spacing scale), the gap between dots (named
    scale), dot color (theme palette), and dot edge blur (spacing scale) are
    independent functional utilities, e.g. bg-halftone-4 bg-halftone-lg
-   bg-halftone-slate-950 bg-halftone-blur-1. Unset area is transparent. Each
+   bg-halftone-neutral-950 bg-halftone-blur-1. Unset area is transparent. Each
    utility redeclares the full pattern so any single axis renders sensibly on
    its own (currentColor / 1rem dot / gap-sm / no blur defaults). */
 @theme {
@@ -103,7 +103,7 @@
 }
 
 /* Checkerboard pattern — square size (spacing scale) and fill color (theme palette)
-   are independent functional utilities, e.g. bg-checkerboard-4 bg-checkerboard-slate-950 */
+   are independent functional utilities, e.g. bg-checkerboard-4 bg-checkerboard-neutral-950 */
 @utility bg-checkerboard-* {
   --checkerboard-square: --spacing(--value(integer));
   background-size: calc(var(--checkerboard-square) * 2)
@@ -136,7 +136,7 @@
 
 /* Striped pattern — line width (spacing scale), the gap between lines (named
    scale), and line color (theme palette) are independent functional utilities,
-   e.g. bg-striped-2 bg-striped-lg bg-striped-slate-950. Unset lines are
+   e.g. bg-striped-2 bg-striped-lg bg-striped-neutral-950. Unset lines are
    transparent. Each utility redeclares the full gradient so any single axis
    renders sensibly on its own (currentColor / 1 spacing unit / gap-sm defaults). */
 @theme {

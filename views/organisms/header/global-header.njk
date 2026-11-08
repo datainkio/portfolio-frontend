@@ -9,7 +9,7 @@
 {#- container for the global header / hidden by default with expectation that it will be shown via JavaScript;
     with scripting off, the media variant restores its grid display so the header is never lost -#}
 {%- set headerClasses = {
-  "base": "hidden [@media(scripting:none)]:grid fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-slate-700 z-20 py-2 px-2 gap-2 inner-border font-display text-primary-200 will-change-transform"
+  "base": "hidden [@media(scripting:none)]:grid fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-neutral-700 z-20 py-2 px-2 gap-2 inner-border font-display text-primary-200 will-change-transform"
 } -%}
 
 {#- header's own base background, as a stacked layer rather than the header's
@@ -19,16 +19,16 @@
     This backdrop sits at -z-10 — below the header's unpositioned content
     (logo/dt/dd/toggle, which stack above any negative z-index layer
     regardless), but above the drawer. -#}
-{%- set headerBackdropClasses = {"base": "absolute inset-0 -z-10 bg-slate-900 pointer-events-none"} -%}
+{%- set headerBackdropClasses = {"base": "absolute inset-0 -z-10 bg-neutral-900 pointer-events-none"} -%}
 
 {#- link to home -#}
 {%- set logoClasses = {"base": "flex justify-center items-center w-full min-w-10 h-full p-2"} -%}
 
 {#- definition list -#}
-{%- set dlClasses = {"base": "w-full col-span-7 grid grid-cols-subgrid bg-slate-700 gap-px", "md": "grid-rows-2 "} -%}
-{%- set dtClasses = {"base": "px-2 text-neutral-500 text-xs h-full bg-slate-900", "md": "content-end "} -%}
+{%- set dlClasses = {"base": "w-full col-span-7 grid grid-cols-subgrid bg-neutral-700 gap-px", "md": "grid-rows-2 "} -%}
+{%- set dtClasses = {"base": "px-2 text-neutral-500 text-xs h-full bg-neutral-900", "md": "content-end "} -%}
 {%- set ddClasses = {
-  "base": "truncate px-2 text-xs md:text-sm lg:text-base text-neutral-300 h-full content-center bg-slate-900",
+  "base": "truncate px-2 text-xs md:text-sm lg:text-base text-neutral-300 h-full content-center bg-neutral-900",
   "md": "row-start-2"
 } -%}
 

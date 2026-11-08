@@ -24,7 +24,7 @@ step.</p>
     </thead>
     <tbody>
       {%- for s in designTokens.spacing %}
-      <tr class="border-t border-slate-800">
+      <tr class="border-t border-neutral-800">
         <th scope="row" class="py-2 pr-4 font-normal"><code class="text-sm text-neutral-100">{{ s.key }}</code></th>
         <td class="whitespace-nowrap py-2 pr-4 text-xs text-neutral-400">{{ s.value }}</td>
         <td class="py-2"><span aria-hidden="true" class="block h-4 rounded-sm bg-primary-400 w-{{ s.key }}"></span></td>
@@ -40,7 +40,7 @@ step.</p>
   <ul role="list" class="space-y-4">
     {%- for c in designTokens.container %}
     <li class="space-y-1">
-      <span aria-hidden="true" class="block h-6 w-full rounded-sm bg-slate-700 max-w-{{ c.key }}"></span>
+      <span aria-hidden="true" class="block h-6 w-full rounded-sm bg-neutral-700 max-w-{{ c.key }}"></span>
       <code class="text-sm text-neutral-100">max-w-{{ c.key }}</code>
       <span class="text-xs text-neutral-400">{{ c.value }}</span>
     </li>

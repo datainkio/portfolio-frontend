@@ -16,11 +16,11 @@
         toggle) — so the drawer tucks fully behind the header plate when
         closed or mid-slide. Drawer is the flex row (dl + close button) so the
         close button rides the same slide, pinned to the far right. -#}
-    {%- set drawerStyles = "absolute flex top-full right-0 -z-20 w-full bg-slate-950 h-auto px-4 py-2" %}
+    {%- set drawerStyles = "absolute flex top-full right-0 -z-20 w-full bg-neutral-950 h-auto px-4 py-2" %}
     {%- set dlStyles = "grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-2 justify-stretch gap-x-4" %}
     {%- set dtStyles = "self-end w-auto" %}
     {%- set ddStyles = "w-auto row-start-2 max-w-[12ch] truncate" %}
-    {%- set closeStyles = "self-center ml-auto mr-2 cursor-pointer border-2 border-slate-700 rounded-xl" %}
+    {%- set closeStyles = "self-center ml-auto mr-2 cursor-pointer border-2 border-neutral-700 rounded-xl" %}
     <div id="build-info-list"
          data-buildinfo-el="list"
          aria-hidden="true"
