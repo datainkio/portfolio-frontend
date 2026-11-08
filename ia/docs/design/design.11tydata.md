@@ -19,9 +19,15 @@ listing it in the sidebar.
   `Docs` doesn't exist, which keeps it out of root-level navigation. Each
   subfolder README is a section under `Design`, ordered tokens, atoms,
   molecules, organisms, templates, layouts. Every other page sits under its
-  section, sorted alphabetically by title (eleventy-navigation sorts by a
-  numeric `order` only, so the title's first six characters are encoded in
-  base 37).
+  section with a `group` and an `order` from the `GROUPS` table.
+- `GROUPS`: the sidebar structure within each section. Pages are grouped by
+  role (Cards, Lists, Print proof, Homepage sections, …) and ordered by
+  composition: base before variants, page order for page sections, the
+  foundation order for tokens. Keys are a page's path under its section
+  folder. A page the table doesn't list still renders, under "Ungrouped",
+  sorted alphabetically (eleventy-navigation sorts by a numeric `order` only,
+  so the title's first six characters are encoded in base 37). When adding a
+  page, add it to `GROUPS` too.
 - `componentDoc`, when the page names a `component`: the result of
   `readComponentSidecar()` from `eleventy/collections/designSystem.js`.
 
