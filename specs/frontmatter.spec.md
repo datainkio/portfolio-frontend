@@ -193,7 +193,7 @@ hand-written prose in most generated sidecars, and that content belongs in
 
 ```bash
 npm run lint:frontmatter        # schema compliance
-node scripts/frontmatter/auditFrontmatter.js --label current   # full metrics + diagrams
+node scripts/frontmatter/frontmatter/auditFrontmatter.js --label current   # full metrics + diagrams
 ```
 
 The linter enforces, in order:
