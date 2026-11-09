@@ -4,11 +4,10 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import {
   HERO_OUTRO,
   HERO_BAND_PARALLAX,
-  HERO_PAGING,
+  HERO_SNAP,
 } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { createBandParallax } from "../../molecules/band-motion/parallax.js";
-import { createPanelPaging } from "../../molecules/panel-paging/panel-paging.js";
 import {
   suspendHeadingGelSync,
   resumeHeadingGelSync,
@@ -47,8 +46,8 @@ export const HERO_TRIGGER = {
 // `end: "bottom bottom"`. The outro pin owns its own short scrub range instead.
 export const HERO_OUTRO_PIN_ID = "hero-outro-pin";
 
-// Gesture paging across the hero's panels (header, then each statement).
-export const HERO_PAGING_ID = "hero-paging";
+// Proximity snap across the hero's panels (header, then each statement).
+export const HERO_SNAP_ID = "hero-snap";
 
 // One per band (id suffixed with its index): scrubs the band's image while the
 // band crosses the viewport.
@@ -75,7 +74,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._hideTrigger = null;
     this._outroPin = null;
     this._bandParallax = [];
-    this._paging = null;
+    this._snap = null;
   }
 
   _getTriggerDefaults() {
@@ -93,14 +92,16 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
     this._bindOutroPin();
     this._bindBandParallax();
-    this._bindPaging();
+    this._bindSnap();
   }
 
-  // One gesture moves one panel (header, then each statement section), and a
-  // panel only comes to rest at the top of the viewport. See panel-paging.
-  _bindPaging() {
-    this._paging?.kill();
-    this._paging = null;
+  // Settles the nearest panel (header, then each statement section) to the top
+  // of the viewport when scrolling rests near it. Proximity, not mandatory: a
+  // rest point further than HERO_SNAP.threshold from every panel top is left
+  // alone, so a statement taller than the viewport can still be read mid-way.
+  _bindSnap() {
+    this._snap?.kill();
+    this._snap = null;
     if (!this.view) return;
 
     const attr = HERO_SELECTORS.elementAttribute;
@@ -109,11 +110,40 @@ export default class HeroTriggers extends AbstractSectionTriggers {
         `[${attr}="${HERO_SELECTORS.header}"], [${attr}="${HERO_SELECTORS.missionStatement}"]`,
       ),
     );
-    this._paging = createPanelPaging({
-      panels,
-      id: HERO_PAGING_ID,
-      duration: HERO_PAGING.duration,
-      ease: HERO_PAGING.ease,
+    if (panels.length < 2) return;
+
+    this._snap = ScrollTrigger.create({
+      id: HERO_SNAP_ID,
+      trigger: panels[0],
+      start: "top top",
+      endTrigger: panels[panels.length - 1],
+      end: "top top",
+      invalidateOnRefresh: true,
+      snap: {
+        // Measured at snap time (a handful of panels), so lazy images or a
+        // late layout shift can never leave stale snap points behind.
+        snapTo: (naturalEnd, self) => {
+          const range = self.end - self.start;
+          if (range <= 0) return self.progress;
+          const restAt = self.start + naturalEnd * range;
+          const threshold = window.innerHeight * HERO_SNAP.threshold;
+          let nearest = null;
+          panels.forEach((panel) => {
+            const top = panel.getBoundingClientRect().top + window.scrollY;
+            if (
+              nearest === null ||
+              Math.abs(top - restAt) < Math.abs(nearest - restAt)
+            ) {
+              nearest = top;
+            }
+          });
+          if (Math.abs(nearest - restAt) > threshold) return self.progress;
+          return (nearest - self.start) / range;
+        },
+        duration: HERO_SNAP.duration,
+        delay: HERO_SNAP.delay,
+        ease: HERO_SNAP.ease,
+      },
     });
   }
 
@@ -188,8 +218,8 @@ export default class HeroTriggers extends AbstractSectionTriggers {
   }
 
   kill() {
-    this._paging?.kill();
-    this._paging = null;
+    this._snap?.kill();
+    this._snap = null;
     this._outroPin?.kill();
     this._outroPin = null;
     this._killBandParallax();
