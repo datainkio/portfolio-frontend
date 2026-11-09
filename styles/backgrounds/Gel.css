@@ -1,53 +1,92 @@
-/* 
-* .bg-gel provides the blend mode and full positioning 
-* Assume a relative parent container
-*/
-.bg-gel {
+/*
+ * GEL BACKGROUNDS
+ *
+ * Built like inner-border: the bare `bg-gel` class draws, and two small
+ * utilities each set one variable on it.
+ *
+ *   bg-gel                  Draws the gradient, with multiply blending.
+ *                           Assume a relative parent container. Also the hook
+ *                           GelAnimationManager queries, so keep it on every
+ *                           gel element.
+ *   bg-gel-<color>          Base colour: primary, secondary, accent, neutral
+ *                           or neutral-light. Sets the dark and light ends.
+ *   bg-gel-<direction>      Where the gradient goes "to": top (default),
+ *                           bottom, left, right, top-left, top-right,
+ *                           bottom-left, bottom-right.
+ *
+ *   <div class="bg-gel bg-gel-primary bg-gel-top"></div>
+ *
+ * Defined with @utility so variants compose (lg:bg-gel-accent). Colour and
+ * direction only set variables, so they combine in any order. The colour
+ * classes are swapped at runtime by GelVisualState; the names are listed in
+ * Gel.js. Pair a colour with `bg-gel`: a colour class alone draws nothing.
+ */
+@utility bg-gel {
   mix-blend-mode: multiply;
   contain: content;
   will-change: transform; /* own compositor layer → decouple paint from sibling gels */
-}
-
-/* .bg-gel-neutral applies a gradient from neutral-900 to neutral-400 */
-.bg-gel-neutral {
   background-image: linear-gradient(
-    to top,
-    var(--color-neutral-900),
-    var(--color-neutral-400)
+    var(--gel-direction, to top),
+    var(--gel-from, var(--color-primary-900)),
+    var(--gel-to, var(--color-primary-600))
   );
 }
 
-.bg-gel-neutral-light {
-  background-image: linear-gradient(
-    to top,
-    var(--color-neutral-200),
-    var(--color-neutral-100)
-  );
+/* Base colour: 900 at the start of the gradient, a lighter step at the end */
+@utility bg-gel-neutral {
+  --gel-from: var(--color-neutral-900);
+  --gel-to: var(--color-neutral-400);
 }
 
-/* .bg-gel-primary applies a gradient from primary-900 to primary-400 */
-.bg-gel-primary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-primary-900),
-    var(--color-primary-600)
-  );
+@utility bg-gel-neutral-light {
+  --gel-from: var(--color-neutral-200);
+  --gel-to: var(--color-neutral-100);
 }
 
-/* .bg-gel-secondary applies a gradient from secondary-900 to secondary-400 */
-.bg-gel-secondary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-secondary-900),
-    var(--color-secondary-600)
-  );
+@utility bg-gel-primary {
+  --gel-from: var(--color-primary-900);
+  --gel-to: var(--color-primary-600);
 }
 
-/* .bg-gel-accent applies a gradient from accent-900 to accent-400 */
-.bg-gel-accent {
-  background-image: linear-gradient(
-    to top,
-    var(--color-accent-900),
-    var(--color-accent-600)
-  );
+@utility bg-gel-secondary {
+  --gel-from: var(--color-secondary-900);
+  --gel-to: var(--color-secondary-600);
+}
+
+@utility bg-gel-accent {
+  --gel-from: var(--color-accent-900);
+  --gel-to: var(--color-accent-600);
+}
+
+/* Direction: the "to" value of linear-gradient */
+@utility bg-gel-top {
+  --gel-direction: to top;
+}
+
+@utility bg-gel-bottom {
+  --gel-direction: to bottom;
+}
+
+@utility bg-gel-left {
+  --gel-direction: to left;
+}
+
+@utility bg-gel-right {
+  --gel-direction: to right;
+}
+
+@utility bg-gel-top-left {
+  --gel-direction: to top left;
+}
+
+@utility bg-gel-top-right {
+  --gel-direction: to top right;
+}
+
+@utility bg-gel-bottom-left {
+  --gel-direction: to bottom left;
+}
+
+@utility bg-gel-bottom-right {
+  --gel-direction: to bottom right;
 }

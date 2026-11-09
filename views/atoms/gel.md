@@ -22,10 +22,10 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Params
 
-| Param   | Type   | Description                                                                                            |
-| ------- | ------ | ------------------------------------------------------------------------------------------------------ |
-| `id`    | string | Element `id`. Must match the gel arrangement keys used by the choreography. Defaults to `gel-default`. |
-| `color` | string | Colour class added to the root, next to `bg-gel`. Defaults to `bg-gel-primary`.                        |
+| Param   | Type   | Description                                                                                                                                                   |
+| ------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`    | string | Element `id`. Must match the gel arrangement keys used by the choreography. Defaults to `gel-default`.                                                        |
+| `color` | string | Classes added to the root, next to `bg-gel`: a colour such as `bg-gel-primary` and optionally a direction such as `bg-gel-top`. Defaults to `bg-gel-primary`. |
 
 ## Relationships
 
