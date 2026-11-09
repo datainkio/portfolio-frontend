@@ -11,25 +11,40 @@
   - Element ID must match arrangement keys used by gel choreography (e.g., id="bg-gel-0")
   - IDs use kebab-case format: bg-gel-0, bg-gel-1, bg-gel-2
   - .gel class triggers automatic discovery during initialization
-  - Color classes (gel-primary, etc.) set the gradient's base colour
-  - Direction classes (gel-top, gel-bottom-left, etc.) set where it goes "to"; default is top
-  - Fade classes (gel-fade-xs … gel-fade-xl, gel-fade-full) set how far the gradient travels; default is full
-  - Colour, direction and fade only set variables read by .gel, so they combine in any order (see styles/backgrounds/Gel.css)
+
+  GRADIENT CLASSES (defined in styles/backgrounds/Gel.css, which lists every name):
+  - color, direction and fade each only set a variable read by .gel, so they
+    combine in any order. Only color has a default here.
+  - color:     gel-<color>, e.g. gel-primary
+  - direction: gel-<direction>; the stylesheet default is "to top"
+  - fade:      gel-fade-<size> or an arbitrary [value]; the stylesheet default is full
+  - Pass the full class name, never a fragment built in the template. Tailwind
+    finds classes by reading complete strings, so 'gel-' ~ name would be missed by
+    the first dev build, which runs before Eleventy writes _site.
+  - Keep full direction and fade names out of this comment. Tailwind scans
+    views/ and would ship every class named here to every page.
+  - Gel.js swaps the color class at runtime, so color must be one of its
+    colorClasses
 
   USAGE:
   {% import "atoms/gel.njk" as gelAtom %}
-  {{ gelAtom.render({ color: 'gel-primary', id: 'bg-gel-0' }) }}
+  {{ gelAtom.render({ id: 'bg-gel-0', color: 'gel-primary' }) }}
+  Add direction: and fade: with a full class name each.
 
   PARAMETERS:
-  - color: CSS classes for color, direction and fade (default: 'gel-primary'), e.g. 'gel-primary gel-top gel-fade-md'
   - id: Element ID matching gel arrangement entries (required for choreography)
+  - color: Colour class (default: 'gel-primary')
+  - direction: Direction class (optional)
+  - fade: Fade distance class (optional)
 #}
 {% macro render(params = {}) %}
   {%- set color = params.color | default('gel-primary') -%}
+  {%- set direction = params.direction | default('') -%}
+  {%- set fade = params.fade | default('') -%}
   {%- set id = params.id | default('gel-default') -%}
 
   <div id="{{ id }}"
-       class="gel absolute inset-0 {{ color }}"
+       class="gel absolute inset-0 {{ color }}{% if direction %} {{ direction }}{% endif %}{% if fade %} {{ fade }}{% endif %}"
        aria-hidden="true"></div>
 
 {% endmacro %}
