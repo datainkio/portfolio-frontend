@@ -4,10 +4,11 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import {
   HERO_OUTRO,
   HERO_BAND_PARALLAX,
-  HERO_SNAP,
+  HERO_PAGING,
 } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { createBandParallax } from "../../molecules/band-motion/parallax.js";
+import { createPanelPaging } from "../../molecules/panel-paging/panel-paging.js";
 import {
   suspendHeadingGelSync,
   resumeHeadingGelSync,
@@ -46,8 +47,8 @@ export const HERO_TRIGGER = {
 // `end: "bottom bottom"`. The outro pin owns its own short scrub range instead.
 export const HERO_OUTRO_PIN_ID = "hero-outro-pin";
 
-// Directional snap across the hero's panels (header, then each statement).
-export const HERO_SNAP_ID = "hero-snap";
+// Gesture paging across the hero's panels (header, then each statement).
+export const HERO_PAGING_ID = "hero-paging";
 
 // One per band (id suffixed with its index): scrubs the band's image while the
 // band crosses the viewport.
@@ -74,7 +75,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._hideTrigger = null;
     this._outroPin = null;
     this._bandParallax = [];
-    this._snap = null;
+    this._paging = null;
   }
 
   _getTriggerDefaults() {
@@ -92,16 +93,14 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
     this._bindOutroPin();
     this._bindBandParallax();
-    this._bindSnap();
+    this._bindPaging();
   }
 
-  // Pages the hero's panels (header, then each statement section): when
-  // scrolling rests, it settles on the next panel in the direction of travel.
-  // A panel taller than the viewport is read natively: it offers its bottom as
-  // a second stop, and a rest strictly inside it is left alone.
-  _bindSnap() {
-    this._snap?.kill();
-    this._snap = null;
+  // One gesture moves one panel (header, then each statement section), and a
+  // panel only comes to rest at the top of the viewport. See panel-paging.
+  _bindPaging() {
+    this._paging?.kill();
+    this._paging = null;
     if (!this.view) return;
 
     const attr = HERO_SELECTORS.elementAttribute;
@@ -110,48 +109,11 @@ export default class HeroTriggers extends AbstractSectionTriggers {
         `[${attr}="${HERO_SELECTORS.header}"], [${attr}="${HERO_SELECTORS.missionStatement}"]`,
       ),
     );
-    if (panels.length < 2) return;
-
-    this._snap = ScrollTrigger.create({
-      id: HERO_SNAP_ID,
-      trigger: panels[0],
-      start: "top top",
-      endTrigger: panels[panels.length - 1],
-      end: "top top",
-      invalidateOnRefresh: true,
-      snap: {
-        // Measured at snap time (a handful of panels), so lazy images or a
-        // late layout shift can never leave stale snap points behind.
-        snapTo: (naturalEnd, self) => {
-          const range = self.end - self.start;
-          if (range <= 0) return self.progress;
-          const restAt = self.start + naturalEnd * range;
-          const viewport = window.innerHeight;
-          const stops = [];
-          for (const panel of panels) {
-            const rect = panel.getBoundingClientRect();
-            const top = rect.top + window.scrollY;
-            const lastView = top + rect.height - viewport;
-            // Mid-way through a tall panel: let the reader finish it.
-            if (restAt > top + 1 && restAt < lastView - 1) return self.progress;
-            stops.push(top);
-            if (lastView > top) stops.push(lastView);
-          }
-          // Already resting on a stop: stay.
-          if (stops.some((stop) => Math.abs(stop - restAt) <= 1)) {
-            return self.progress;
-          }
-          const target =
-            self.direction > 0
-              ? stops.find((stop) => stop > restAt + 1)
-              : stops.findLast((stop) => stop < restAt - 1);
-          if (target === undefined) return self.progress;
-          return gsap.utils.clamp(0, 1, (target - self.start) / range);
-        },
-        duration: HERO_SNAP.duration,
-        delay: HERO_SNAP.delay,
-        ease: HERO_SNAP.ease,
-      },
+    this._paging = createPanelPaging({
+      panels,
+      id: HERO_PAGING_ID,
+      duration: HERO_PAGING.duration,
+      ease: HERO_PAGING.ease,
     });
   }
 
@@ -226,8 +188,8 @@ export default class HeroTriggers extends AbstractSectionTriggers {
   }
 
   kill() {
-    this._snap?.kill();
-    this._snap = null;
+    this._paging?.kill();
+    this._paging = null;
     this._outroPin?.kill();
     this._outroPin = null;
     this._killBandParallax();
