@@ -15,6 +15,14 @@ specimens:
       id: spec-gel-1
     frame: relative h-48
     surface: neutral
+  - title: Direction and fade
+    note: A gel that runs to the bottom and holds its light colour past a medium fade.
+    params:
+      id: spec-gel-2
+      color: gel-accent
+      direction: gel-bottom
+      fade: gel-fade-md
+    frame: relative h-48
 inContext:
   - { url: /, label: Homepage background }
 ---
