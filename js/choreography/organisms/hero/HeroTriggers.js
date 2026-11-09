@@ -46,7 +46,7 @@ export const HERO_TRIGGER = {
 // `end: "bottom bottom"`. The outro pin owns its own short scrub range instead.
 export const HERO_OUTRO_PIN_ID = "hero-outro-pin";
 
-// Proximity snap across the hero's panels (header, then each statement).
+// Directional snap across the hero's panels (header, then each statement).
 export const HERO_SNAP_ID = "hero-snap";
 
 // One per band (id suffixed with its index): scrubs the band's image while the
@@ -95,10 +95,10 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._bindSnap();
   }
 
-  // Settles the nearest panel (header, then each statement section) to the top
-  // of the viewport when scrolling rests near it. Proximity, not mandatory: a
-  // rest point further than HERO_SNAP.threshold from every panel top is left
-  // alone, so a statement taller than the viewport can still be read mid-way.
+  // Pages the hero's panels (header, then each statement section): when
+  // scrolling rests, it settles on the next panel in the direction of travel.
+  // A panel taller than the viewport is read natively: it offers its bottom as
+  // a second stop, and a rest strictly inside it is left alone.
   _bindSnap() {
     this._snap?.kill();
     this._snap = null;
@@ -126,19 +126,27 @@ export default class HeroTriggers extends AbstractSectionTriggers {
           const range = self.end - self.start;
           if (range <= 0) return self.progress;
           const restAt = self.start + naturalEnd * range;
-          const threshold = window.innerHeight * HERO_SNAP.threshold;
-          let nearest = null;
-          panels.forEach((panel) => {
-            const top = panel.getBoundingClientRect().top + window.scrollY;
-            if (
-              nearest === null ||
-              Math.abs(top - restAt) < Math.abs(nearest - restAt)
-            ) {
-              nearest = top;
-            }
-          });
-          if (Math.abs(nearest - restAt) > threshold) return self.progress;
-          return (nearest - self.start) / range;
+          const viewport = window.innerHeight;
+          const stops = [];
+          for (const panel of panels) {
+            const rect = panel.getBoundingClientRect();
+            const top = rect.top + window.scrollY;
+            const lastView = top + rect.height - viewport;
+            // Mid-way through a tall panel: let the reader finish it.
+            if (restAt > top + 1 && restAt < lastView - 1) return self.progress;
+            stops.push(top);
+            if (lastView > top) stops.push(lastView);
+          }
+          // Already resting on a stop: stay.
+          if (stops.some((stop) => Math.abs(stop - restAt) <= 1)) {
+            return self.progress;
+          }
+          const target =
+            self.direction > 0
+              ? stops.find((stop) => stop > restAt + 1)
+              : stops.findLast((stop) => stop < restAt - 1);
+          if (target === undefined) return self.progress;
+          return gsap.utils.clamp(0, 1, (target - self.start) / range);
         },
         duration: HERO_SNAP.duration,
         delay: HERO_SNAP.delay,
