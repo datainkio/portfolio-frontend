@@ -134,6 +134,30 @@
   --gel-end: --value(--gel-distance-*, [length], [percentage]);
 }
 
+/*
+ * Debug: marks where the gradient ends (--gel-end) with a black and yellow
+ * line. Past the line the gel holds its light colour; it does not turn
+ * transparent. Black stays visible under any blend mode. Follows the gel's
+ * direction, so it works for corners too. Dev only.
+ */
+@utility gel-debug {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(
+      var(--gel-direction, to top),
+      transparent calc(var(--gel-end, 100%) - 8px),
+      #000 calc(var(--gel-end, 100%) - 8px),
+      #000 calc(var(--gel-end, 100%) - 4px),
+      #ff0 calc(var(--gel-end, 100%) - 4px),
+      #ff0 var(--gel-end, 100%),
+      transparent var(--gel-end, 100%)
+    );
+  }
+}
+
 /* Opacity: 50 → 50%; [35%] → as written */
 @utility gel-opacity-* {
   --gel-alpha: calc(--value(integer) * 1%);
