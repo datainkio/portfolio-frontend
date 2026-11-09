@@ -139,7 +139,7 @@ async function buildCSS(options = {}) {
     tailwindLogger.logFileAnalysis(inputFile);
 
     // Build Tailwind command
-    let command = `npx @tailwindcss/cli -i ${inputFile} -o ${outputFile}`;
+    let command = `"${resolve(projectRoot, "node_modules/.bin/tailwindcss")}" -i ${inputFile} -o ${outputFile}`;
     if (minify) command += " --minify";
     if (watch) command += " --watch=always";
 
