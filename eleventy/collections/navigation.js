@@ -72,13 +72,21 @@ export async function init(eleventyConfig, site) {
   // 2. nav_projects (depends on 'projects' from Sanity)
   // 3. nav_primary (depends on nav_dirs and nav_projects)
 
-  eleventyConfig.addCollection("nav_dirs", function (collectionApi) {
-    return navigationBuilder.buildDirectoryNavigation(collectionApi);
+  // Build each navigation source once per Eleventy build; nav_primary reuses
+  // the results instead of rebuilding (and re-logging) both. Reset before every
+  // build so watch/serve rebuilds never see stale data.
+  let cache = {};
+  eleventyConfig.on("eleventy.before", () => {
+    cache = {};
   });
+  const dirs = (collectionApi) =>
+    (cache.dirs ??= navigationBuilder.buildDirectoryNavigation(collectionApi));
+  const projects = (collectionApi) =>
+    (cache.projects ??= navigationBuilder.buildProjectNavigation(collectionApi));
 
-  eleventyConfig.addCollection("nav_projects", function (collectionApi) {
-    return navigationBuilder.buildProjectNavigation(collectionApi);
-  });
+  eleventyConfig.addCollection("nav_dirs", dirs);
+
+  eleventyConfig.addCollection("nav_projects", projects);
 
   // Register nav_primary LAST as it depends on the other two
   eleventyConfig.addCollection("nav_primary", function (collectionApi) {
@@ -87,12 +95,9 @@ export async function init(eleventyConfig, site) {
     // that was never a real API and always evaluated to `{}`, so this
     // recomputes directories/projects the same way nav_dirs/nav_projects do,
     // from the same collectionApi both of those receive).
-    const directories = navigationBuilder.buildDirectoryNavigation(collectionApi);
-    const projects = navigationBuilder.buildProjectNavigation(collectionApi);
-
     return navigationBuilder.buildPrimaryNavigationFromData(
-      directories,
-      projects,
+      dirs(collectionApi),
+      projects(collectionApi),
     );
   });
 
