@@ -33,7 +33,11 @@ export default async function fetchSanityData({
   // Fresh-by-default: only an explicit "false" enables the AssetCache. A missing
   // or unloaded env var must NOT silently serve stale cache — that nondeterminism
   // was the root cause of intermittent stale builds.
-  const forceRefresh = process.env.SANITY_FORCE_REFRESH !== "false";
+  // Production builds (ELEVENTY_RUN_MODE=build) always hit the network. In dev,
+  // SANITY_FORCE_REFRESH=false opts into the cache; `npm run start:fresh` forces fetches.
+  const forceRefresh =
+    process.env.ELEVENTY_RUN_MODE === "build" ||
+    process.env.SANITY_FORCE_REFRESH !== "false";
 
   if (!forceRefresh && asset.isCacheValid(cacheDuration)) {
     const cached = await asset.getCachedValue();
@@ -42,14 +46,14 @@ export default async function fetchSanityData({
     // If we cached an empty response (e.g., first fetch failed or data arrived later),
     // proactively refresh so the build doesn't get stuck showing nothing.
     if (Array.isArray(cached) && cached.length === 0) {
-      //logger.trace(`${id}: cache empty, refreshing`, null, "brief", fetchStyle);
+      logger.trace(`${id}: cache empty, refreshing`, null, "brief", fetchStyle);
     } else {
-      // logger.trace(`${id}: using cache`, null, "brief", cacheStyle);
+      logger.trace(`${id}: using cache`, null, "brief", cacheStyle);
       return cached;
     }
   }
 
-  // logger.trace(`${id}: fetching from Sanity`, null, "brief", fetchStyle);
+  logger.trace(`${id}: fetching from Sanity`, null, "brief", fetchStyle);
 
   try {
     const data = await client.fetch(query, params);
