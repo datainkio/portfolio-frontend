@@ -17,10 +17,15 @@
  *                        light colour: xs, sm, md, lg, xl or full (default).
  *                        Also takes [length] or [percentage]:
  *                        gel-fade-[30%], gel-fade-[20rem].
+ *   gel-opacity-<n>      How opaque the gradient is, 0 to 100 (default 100).
+ *                        Also takes [percentage]: gel-opacity-[35%]. It mixes
+ *                        the gradient colours with transparent. It is not the
+ *                        element's opacity: the choreography sets that inline
+ *                        (autoAlpha) and would override a class.
  *
- *   <div class="gel gel-primary gel-top gel-fade-md"></div>
+ *   <div class="gel gel-primary gel-top gel-fade-md gel-opacity-60"></div>
  *
- * Defined with @utility so variants compose (lg:gel-accent, lg:gel-fade-xl).
+ * Defined with @utility so variants compose (lg:gel-accent, lg:gel-opacity-40).
  * Each utility only sets a variable, so they combine in any order. The colour
  * classes are swapped at runtime by GelVisualState; the names are listed in
  * Gel.js. Pair a colour with `gel`: a colour class alone draws nothing.
@@ -42,8 +47,17 @@
   will-change: transform; /* own compositor layer → decouple paint from sibling gels */
   background-image: linear-gradient(
     var(--gel-direction, to top),
-    var(--gel-from, var(--color-primary-900)),
-    var(--gel-to, var(--color-primary-600)) var(--gel-end, 100%)
+    color-mix(
+      in srgb,
+      var(--gel-from, var(--color-primary-900)) var(--gel-alpha, 100%),
+      transparent
+    ),
+    color-mix(
+        in srgb,
+        var(--gel-to, var(--color-primary-600)) var(--gel-alpha, 100%),
+        transparent
+      )
+      var(--gel-end, 100%)
   );
 }
 
@@ -109,4 +123,10 @@
 /* Fade distance: named scale from @theme above, or an arbitrary value */
 @utility gel-fade-* {
   --gel-end: --value(--gel-distance-*, [length], [percentage]);
+}
+
+/* Opacity: 50 → 50%; [35%] → as written */
+@utility gel-opacity-* {
+  --gel-alpha: calc(--value(integer) * 1%);
+  --gel-alpha: --value([percentage]);
 }

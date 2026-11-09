@@ -23,6 +23,14 @@ specimens:
       direction: gel-bottom
       fade: gel-fade-md
     frame: relative h-48
+  - title: Opacity
+    note: The gradient colours mix with transparent. The element's own opacity stays with the choreography.
+    params:
+      id: spec-gel-3
+      color: gel-primary
+      opacity: gel-opacity-50
+    frame: relative h-48
+    surface: neutral
 inContext:
   - { url: /, label: Homepage background }
 ---
