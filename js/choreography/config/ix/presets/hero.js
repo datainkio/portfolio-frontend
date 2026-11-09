@@ -19,6 +19,8 @@ export const HERO_INTRO = {
   translateY: -motion.distance("lg"),
   // The title band's left-to-right wipe, which leads the text.
   bandDuration: toSeconds(motion.duration("base")),
+  // The tagline gel's opacity fade, which leads the header.
+  taglineDuration: toSeconds(motion.duration("base")),
 };
 
 /**
