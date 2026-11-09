@@ -13,7 +13,7 @@
   - .gel class triggers automatic discovery during initialization
 
   GRADIENT CLASSES (defined in styles/backgrounds/Gel.css, which lists every name):
-  - color, direction, fade, opacity and blend each only set a variable read by
+  - color, direction, fade, opacity, opacityEnd and blend each only set a variable read by
     .gel, so they combine in any order. Only color has a default here.
   - color:     gel-<color>, e.g. gel-primary
   - direction: gel-<direction>; the stylesheet default is "to top"
@@ -21,6 +21,8 @@
   - opacity:   gel-opacity-<n> or an arbitrary [percentage]; the stylesheet default is 100.
                It tints the gradient. Never use an element opacity class here: the
                choreography sets opacity inline and would override it.
+  - opacityEnd: the same scale, gel-opacity-end-<n>, for where the gradient ends; the
+               stylesheet default is 0 (transparent).
   - blend:     gel-blend-<mode>; the stylesheet default is multiply. An arrangement's
                blendMode is set inline and still overrides it. Don't use Tailwind's
                own blend classes: both set mix-blend-mode and the winner is unclear.
@@ -35,7 +37,7 @@
   USAGE:
   {% import "atoms/gel.njk" as gelAtom %}
   {{ gelAtom.render({ id: 'bg-gel-0', color: 'gel-primary' }) }}
-  Add direction:, fade:, opacity: and blend: with a full class name each.
+  Add direction:, fade:, opacity:, opacityEnd: and blend: with a full class name each.
 
   PARAMETERS:
   - id: Element ID matching gel arrangement entries (required for choreography)
@@ -43,6 +45,7 @@
   - direction: Direction class (optional)
   - fade: Fade distance class (optional)
   - opacity: Gradient opacity class (optional)
+  - opacityEnd: Gradient end opacity class (optional)
   - blend: Blend mode class (optional)
   - debug: true draws a line where the gradient ends (optional, dev only)
 #}
@@ -51,12 +54,13 @@
   {%- set direction = params.direction | default('') -%}
   {%- set fade = params.fade | default('') -%}
   {%- set opacity = params.opacity | default('') -%}
+  {%- set opacityEnd = params.opacityEnd | default('') -%}
   {%- set blend = params.blend | default('') -%}
   {%- set id = params.id | default('gel-default') -%}
   {%- set debug = params.debug | default(false) -%}
 
   <div id="{{ id }}"
-       class="gel absolute inset-0 {{ color }}{% if direction %} {{ direction }}{% endif %}{% if fade %} {{ fade }}{% endif %}{% if opacity %} {{ opacity }}{% endif %}{% if blend %} {{ blend }}{% endif %}{% if debug %} gel-debug{% endif %}"
+       class="gel absolute inset-0 {{ color }}{% if direction %} {{ direction }}{% endif %}{% if fade %} {{ fade }}{% endif %}{% if opacity %} {{ opacity }}{% endif %}{% if opacityEnd %} {{ opacityEnd }}{% endif %}{% if blend %} {{ blend }}{% endif %}{% if debug %} gel-debug{% endif %}"
        aria-hidden="true"></div>
 
 {% endmacro %}
