@@ -1,5 +1,5 @@
 ---
-description: "Hero triggers module — supplies HERO_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal. bind() also creates a second, dedicated ScrollTrigger (hero-outro-pin) that pins the section root for HERO_OUTRO.pinRatio × viewport height and scrubs the four-beat outro timeline (line fade, gel expand, mission/aside travel) to completion, snapping to each beat's label and suspending the heading-gel sync trigger while active. bind() also creates one scrubbed hero-band-parallax-<index> trigger per band that holds an image (band-motion/parallax), and a hero-snap trigger that settles the next panel (header, then each statement section) in the direction of travel to the viewport top; kill() tears them down."
+description: "Hero triggers module — supplies HERO_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal. bind() also creates a second, dedicated ScrollTrigger (hero-outro-pin) that pins the section root for HERO_OUTRO.pinRatio × viewport height and scrubs the four-beat outro timeline (line fade, gel expand, mission/aside travel) to completion, snapping to each beat's label and suspending the heading-gel sync trigger while active. bind() also creates one scrubbed hero-band-parallax-<index> trigger per band that holds an image (band-motion/parallax), and hero-paging (molecules/panel-paging), which moves one panel (header, then each statement section) per gesture to the viewport top; kill() tears them down."
 status: stable
 tags:
   - choreography
@@ -7,6 +7,7 @@ links:
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"
   - "[[config/index|config/index]]"
   - "[[molecules/band-motion/parallax|band-motion/parallax]]"
+  - "[[molecules/panel-paging/panel-paging|panel-paging]]"
 ---
 
 # HeroTriggers
@@ -44,10 +45,10 @@ The now-removed `hero-aside-reveal` ScrollTrigger (previously in `split.js`, fir
 
 `_bindBandParallax()` runs at the end of `bind()`. It finds every `[data-hero-el="band"]` in the section and calls `createBandParallax` for each one, passing its `[data-hero-el="band-image"]`, `HERO_BAND_PARALLAX_TRIGGER` (`SCROLL_DEFAULTS` plus `top bottom` → `bottom top`, `scrub: true`, `once: false`), and `HERO_BAND_PARALLAX.yPercent`. A band without an image gets a no-op handle. The handles are killed before every rebind and in `kill()`. Under reduced motion the profile disables hero's triggers, so `bind()` never runs and the images rest centred.
 
-## Panel snap (`hero-snap`)
+## Panel paging (`hero-paging`)
 
-`_bindSnap()` runs at the end of `bind()`. The panels are the header (`[data-hero-el="header"]`) and every statement section (`[data-hero-el="mission-statement"]`), in document order. The trigger runs from the header's top to the last panel's top, both at `top top`, so it is only active while one of them could reach the viewport top.
+`_bindPaging()` runs at the end of `bind()`. It collects the header (`[data-hero-el="header"]`) and every statement section (`[data-hero-el="mission-statement"]`), in document order, and hands them to [panel-paging](../../molecules/panel-paging/panel-paging.md) with `HERO_PAGING` from [presets/hero.js](../../config/ix/presets/hero.js) (the `slower` duration token, `power2.inOut`).
 
-Snapping is **directional**: any scroll that comes to rest inside the range moves on to the next stop in the direction of travel (`self.direction`), measured from ScrollTrigger's inertia-projected rest point. Each panel's top is a stop. A panel taller than the viewport adds a second stop where its bottom meets the viewport's bottom edge, and a rest strictly between those two stops returns the current progress, so a tall statement (likely on mobile) is read natively and never skipped. Trackpad momentum that carries past a stop lands on the stop after it; this is a snap, not input-intercepting paging. Past the last panel's top the trigger is inactive, so scroll releases into `#work`. Stops are measured each time it snaps, not cached on refresh, so lazy-loaded images can't leave stale points behind.
+One wheel gesture, touch swipe, or paging key moves exactly one panel, in one tween, to the panel's top. Native scroll is held while paging is engaged, so a panel never lands short and then corrects. Landing on the last statement releases native scroll into `#work`, and scrolling back up across its top pages to the previous statement.
 
-Duration, delay and ease come from `HERO_SNAP` in [presets/hero.js](../../config/ix/presets/hero.js) and are built from the motion duration tokens. Killed before every rebind and in `kill()`. Under reduced motion the profile turns hero's triggers off, so `bind()` never runs and the page doesn't snap.
+Killed before every rebind and in `kill()`. Under reduced motion the profile turns hero's triggers off, so `bind()` never runs and scroll stays native.

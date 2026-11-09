@@ -35,22 +35,16 @@ export const HERO_INTRO = {
 export const HERO_BAND_PARALLAX = { yPercent: 10 };
 
 /**
- * Hero Snap
+ * Hero Paging
  *
- * When scrolling comes to rest inside the hero, the next panel in the direction
- * of travel (the header, then each statement section) settles to the top of the
- * viewport. A panel taller than the viewport is read natively and also stops
- * with its bottom at the viewport's bottom edge.
+ * One gesture moves the hero one panel (the header, then each statement
+ * section): a single tween carries the scroll straight to that panel's top.
+ * See molecules/panel-paging.
  *
- * `duration` clamps the snap tween (seconds); ScrollTrigger scales within it
- * by distance and velocity. `delay` is the pause after scrolling stops.
+ * `duration` is the page tween, in seconds.
  */
-export const HERO_SNAP = {
-  duration: {
-    min: toSeconds(motion.duration("fast")),
-    max: toSeconds(motion.duration("slow")),
-  },
-  delay: toSeconds(motion.duration("instant")),
+export const HERO_PAGING = {
+  duration: toSeconds(motion.duration("slower")),
   ease: "power2.inOut",
 };
 
