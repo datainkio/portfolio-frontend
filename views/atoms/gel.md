@@ -29,8 +29,9 @@ Classified as a **component** at the atomic **atom** level based on its location
 | `direction` | string | Optional direction class: `gel-top`, `gel-bottom`, `gel-left`, `gel-right` or a corner such as `gel-bottom-left`. The stylesheet default is `gel-top`.                                                                                  |
 | `fade`      | string | Optional fade distance class: `gel-fade-xs` to `gel-fade-xl`, `gel-fade-full`, or an arbitrary value such as `gel-fade-[30%]`. The stylesheet default is `gel-fade-full`.                                                               |
 | `opacity`   | string | Optional gradient opacity class: `gel-opacity-<n>` for 0 to 100, or an arbitrary value such as `gel-opacity-[35%]`. The stylesheet default is 100. It tints the gradient and is not the element's opacity, which the choreography owns. |
+| `opacityEnd` | string | Optional gradient end opacity class: `gel-opacity-end-<n>` for 0 to 100, or an arbitrary value such as `gel-opacity-end-[35%]`. The stylesheet default is 0, so the gradient fades to transparent at the `fade` distance. Past that point the gel holds this opacity. |
 | `blend`     | string | Optional blend mode class: `gel-blend-<mode>`, for example `gel-blend-screen` or `gel-blend-normal`. The stylesheet default is multiply. An arrangement's `blendMode` is set inline by the gel manager and still overrides it.          |
-| `debug`     | bool   | Optional, dev only. `true` adds `gel-debug`, a black and yellow line where the gradient ends (`--gel-end`, set by `fade`). The line marks where the gradient reaches transparent; past it the gel draws nothing. Remove before committing. |
+| `debug`     | bool   | Optional, dev only. `true` adds `gel-debug`, a black and yellow line where the gradient ends (`--gel-end`, set by `fade`). The line marks where the gradient reaches its end opacity (transparent by default). Remove before committing. |
 
 ## Relationships
 

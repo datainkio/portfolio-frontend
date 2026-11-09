@@ -15,8 +15,9 @@
  *                        bottom, left, right, top-left, top-right,
  *                        bottom-left, bottom-right.
  *   gel-fade-<size>      How far the gradient travels before it reaches
- *                        transparent: xs, sm, md, lg, xl or full (default).
- *                        Past that point the gel draws nothing.
+ *                        its end opacity: xs, sm, md, lg, xl or full
+ *                        (default). Past that point the gel holds the end
+ *                        opacity, which is transparent by default.
  *                        Also takes [length] or [percentage]:
  *                        gel-fade-[30%], gel-fade-[20rem].
  *   gel-opacity-<n>      How opaque the gradient is, 0 to 100 (default 100).
@@ -24,6 +25,9 @@
  *                        the gradient colours with transparent. It is not the
  *                        element's opacity: the choreography sets that inline
  *                        (autoAlpha) and would override a class.
+ *   gel-opacity-end-<n>  How opaque the gradient is where it ends, 0 (default)
+ *                        to 100. Also takes [percentage]:
+ *                        gel-opacity-end-[35%]. Same colour as the start.
  *
  *   gel-blend-<mode>     How the gel blends with what is behind it: multiply
  *                        (default), normal, screen, overlay, darken, lighten,
@@ -63,11 +67,16 @@
       var(--gel-from, var(--color-primary-900)) var(--gel-alpha, 100%),
       transparent
     ),
-    transparent var(--gel-end, 100%)
+    color-mix(
+        in srgb,
+        var(--gel-from, var(--color-primary-900)) var(--gel-alpha-end, 0%),
+        transparent
+      )
+      var(--gel-end, 100%)
   );
 }
 
-/* Base colour: the start of the gradient, which fades to transparent */
+/* Base colour: the gel's one colour, faded from gel-opacity to gel-opacity-end */
 @utility gel-neutral {
   --gel-from: var(--color-neutral-900);
 }
@@ -128,7 +137,7 @@
 
 /*
  * Debug: marks where the gradient ends (--gel-end) with a black and yellow
- * line: the point where the gradient reaches transparent. Black stays
+ * line: the point where the gradient reaches its end opacity. Black stays
  * visible under any blend mode. Follows the gel's
  * direction, so it works for corners too. Dev only.
  */
@@ -154,6 +163,12 @@
 @utility gel-opacity-* {
   --gel-alpha: calc(--value(integer) * 1%);
   --gel-alpha: --value([percentage]);
+}
+
+/* End opacity: same scale, at --gel-end. Default 0 (transparent) */
+@utility gel-opacity-end-* {
+  --gel-alpha-end: calc(--value(integer) * 1%);
+  --gel-alpha-end: --value([percentage]);
 }
 
 /* Blend mode: any CSS mix-blend-mode keyword */
