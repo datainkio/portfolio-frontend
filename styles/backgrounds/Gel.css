@@ -9,12 +9,14 @@
  *                        GelAnimationManager queries, so keep it on every
  *                        gel element.
  *   gel-<color>          Base colour: primary, secondary, accent, neutral
- *                        or neutral-light. Sets the dark and light ends.
+ *                        or neutral-light. Sets the colour the gradient
+ *                        starts from.
  *   gel-<direction>      Where the gradient goes "to": top (default),
  *                        bottom, left, right, top-left, top-right,
  *                        bottom-left, bottom-right.
- *   gel-fade-<size>      How far the gradient travels before it holds the
- *                        light colour: xs, sm, md, lg, xl or full (default).
+ *   gel-fade-<size>      How far the gradient travels before it reaches
+ *                        transparent: xs, sm, md, lg, xl or full (default).
+ *                        Past that point the gel draws nothing.
  *                        Also takes [length] or [percentage]:
  *                        gel-fade-[30%], gel-fade-[20rem].
  *   gel-opacity-<n>      How opaque the gradient is, 0 to 100 (default 100).
@@ -61,39 +63,29 @@
       var(--gel-from, var(--color-primary-900)) var(--gel-alpha, 100%),
       transparent
     ),
-    color-mix(
-        in srgb,
-        var(--gel-to, var(--color-primary-600)) var(--gel-alpha, 100%),
-        transparent
-      )
-      var(--gel-end, 100%)
+    transparent var(--gel-end, 100%)
   );
 }
 
-/* Base colour: 900 at the start of the gradient, a lighter step at the end */
+/* Base colour: the start of the gradient, which fades to transparent */
 @utility gel-neutral {
   --gel-from: var(--color-neutral-900);
-  --gel-to: var(--color-neutral-400);
 }
 
 @utility gel-neutral-light {
   --gel-from: var(--color-neutral-200);
-  --gel-to: var(--color-neutral-100);
 }
 
 @utility gel-primary {
   --gel-from: var(--color-primary-900);
-  --gel-to: var(--color-primary-600);
 }
 
 @utility gel-secondary {
   --gel-from: var(--color-secondary-900);
-  --gel-to: var(--color-secondary-600);
 }
 
 @utility gel-accent {
   --gel-from: var(--color-accent-900);
-  --gel-to: var(--color-accent-600);
 }
 
 /* Direction: the "to" value of linear-gradient */
@@ -136,8 +128,8 @@
 
 /*
  * Debug: marks where the gradient ends (--gel-end) with a black and yellow
- * line. Past the line the gel holds its light colour; it does not turn
- * transparent. Black stays visible under any blend mode. Follows the gel's
+ * line: the point where the gradient reaches transparent. Black stays
+ * visible under any blend mode. Follows the gel's
  * direction, so it works for corners too. Dev only.
  */
 @utility gel-debug {
