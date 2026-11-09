@@ -104,6 +104,6 @@ Reduced motion: handled upstream — the profile system swaps hero to the `reduc
 variant, which does not call this. The band itself is a static positioned state
 outside the reduced path.
 
-Visibility caveat: `.bg-gel` sets `mix-blend-mode: multiply`. Against a very dark
+Visibility caveat: `.gel` sets `mix-blend-mode: multiply`. Against a very dark
 backdrop inside `#sizzle-background` the band can read as near-invisible; force
 `mixBlendMode: "normal"` on the gel element if that happens.

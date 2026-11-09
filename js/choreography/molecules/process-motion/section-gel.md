@@ -43,7 +43,7 @@ stays parked at `autoAlpha: 0` (`GelAnimationManager`'s default) — no explicit
 disable step needed. The band itself is a static positioned state, not an
 animation.
 
-Visibility caveat: `.bg-gel` sets `mix-blend-mode: multiply`. Against a very
+Visibility caveat: `.gel` sets `mix-blend-mode: multiply`. Against a very
 dark backdrop inside `#sizzle-background` the band can read as near-invisible;
 force
 `mixBlendMode: "normal"` on the gel element if that happens.

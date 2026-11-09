@@ -1,7 +1,7 @@
 /**
  * GelAnimationManager - Gel instance registry and lifecycle manager
  *
- * Maintains `Gel` controller instances for `.bg-gel` elements.
+ * Maintains `Gel` controller instances for `.gel` elements.
  * This manager intentionally avoids scroll-trigger wiring, tween orchestration,
  * and section-element synchronization to keep responsibilities minimal.
  *
@@ -30,14 +30,14 @@ export default class GelAnimationManager {
 
   initialize() {
     this._gelsById.clear();
-    const gelElements = document.querySelectorAll(".bg-gel");
+    const gelElements = document.querySelectorAll(".gel");
     this._gels = Array.from(gelElements)
       .map((el) => this._initializeGelFromElement(el))
       .filter((gel) => gel !== null);
   }
 
   /**
-   * Every .bg-gel element passes through this method for initialization. This
+   * Every .gel element passes through this method for initialization. This
    * makes it a good place to handle any setup required for each gel element
    * before it participates in arrangements.
    * @param {HTMLElement} el

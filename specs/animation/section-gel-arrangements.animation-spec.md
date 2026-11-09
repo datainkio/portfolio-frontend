@@ -6,6 +6,8 @@ status: historical
 ---
 
 > **Historical (2026-10-05).** Describes `config/arrangements.js` and a legacy Hero section, both since removed. Today's Hero is the former Bio section (`organisms/hero/`). Kept for prior art only — not a contract.
+>
+> **Naming (2026-11-08).** The `bg-gel` class is now `gel`, and `bg-gel-<color>` is `gel-<color>`. Gel element ids such as `bg-gel-0` are unchanged. The text below keeps the old class names.
 
 # Section Gel Arrangements — MVP Spec
 

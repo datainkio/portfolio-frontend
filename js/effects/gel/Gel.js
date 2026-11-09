@@ -16,10 +16,10 @@ import GelGeometry from "./GelGeometry.js";
 import GelVisualState from "./GelVisualState.js";
 
 const DEFAULT_COLOR_CLASSES = [
-  "bg-gel-primary",
-  "bg-gel-secondary",
-  "bg-gel-accent",
-  "bg-gel-neutral",
+  "gel-primary",
+  "gel-secondary",
+  "gel-accent",
+  "gel-neutral",
 ];
 const DEFAULT_TRANSFORM_ORIGIN = "top center";
 const MASK_STYLE = {
