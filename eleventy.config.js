@@ -71,8 +71,13 @@ export default async function (eleventyConfig) {
     // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
     // Copy video files for background video in StageManager
     // eleventyConfig.addPassthroughCopy({ 'assets/video': 'assets/video' });
+    // Dev: serve passthrough files from source instead of copying ~580 files
+    // on every rebuild.
+    eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
+    // JS is bundled by esbuild (dev:js); a JS save must not rebuild pages.
+    eleventyConfig.watchIgnores.add("./js/**");
     eleventyConfig.setServerOptions({
-      watch: ["_site/**/*.css"],
+      watch: ["_site/**/*.css", "assets/js/choreography/bundle.js"],
     });
     // eleventyConfig.addPassthroughCopy("video"); // slows down the build
     // eleventyConfig.addPassthroughCopy("svg");

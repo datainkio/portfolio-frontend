@@ -44,7 +44,9 @@ When your work on a task is finished and verified, set it to `review` (In Review
 ## Key Commands
 
 ```bash
-npm start              # dev: Tailwind watch + 11ty serve (most common)
+npm start              # dev: Tailwind watch + 11ty serve (most common); Sanity cached if SANITY_FORCE_REFRESH=false
+npm run start:fresh    # same, but forces Sanity network fetches
+npm run start:docs     # same, and watches docs.css (design reference) too
 npm run quick          # fast build: js → 11ty → css (skips Figma sync) — use to verify changes
 npm run build          # full build: clean → design → js → 11ty → css
 npm run build:design   # sync Figma tokens → CSS
