@@ -25,8 +25,16 @@
     }) }}
 
     {{ Pixelator.render() }}
-
-    {{ Gel.render({"id": "gel_hero", "color": "gel-primary"}) }}
+    {{ Gel.render({
+      "id": "gel_tagline",
+      "color": "gel-primary",
+      "direction": "gel-top",
+      "fade": "gel-fade-xs",
+      "opacity": "gel-opacity-80",
+      "blend": "gel-blend-multiply",
+      "debug": true
+    }) }}
+    {{ Gel.render({"id": "gel_hero", "color": "gel-primary", "direction": "gel-top", "fade": "gel-fade-lg"}) }}
     {# {{ Gel.render({"id": "gel_subheading", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_process", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_awards_backing", "color": "gel-accent"}) }}
