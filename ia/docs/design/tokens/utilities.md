@@ -52,9 +52,9 @@ The full list is in <code>docs/design-system/inventory.md</code>.</p>
     id: "gel",
     name: "Gels",
     file: "styles/backgrounds/Gel.css",
-    syntax: "bg-gel · bg-gel-neutral · bg-gel-neutral-light · bg-gel-primary · bg-gel-secondary · bg-gel-accent",
-    note: "Translucent colour plates. Plain classes, so they take no variants.",
-    examples: ["bg-gel", "bg-gel-primary", "bg-gel-secondary", "bg-gel-accent", "bg-gel-neutral"]
+    syntax: "gel · gel-<color> · gel-<direction> · gel-fade-<size>",
+    note: "Translucent colour plates. The bare gel class draws; colour (primary, secondary, accent, neutral, neutral-light), direction (top, bottom, left, right and the corners) and fade distance (xs to xl, full) each set one variable, so they combine in any order and take variants. The fade scale lives in Gel.css.",
+    examples: ["gel gel-primary", "gel gel-accent gel-bottom", "gel gel-neutral gel-top-right gel-fade-md"]
   },
   {
     id: "pattern",

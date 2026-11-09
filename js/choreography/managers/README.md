@@ -19,7 +19,7 @@ Owned by `ScrollEffectsCoordinator`:
 
 - `ReducedMotionHandler` - watches `prefers-reduced-motion`
 - `ScrollSmootherManager` - smooth scrolling, falling back to native scroll
-- `GelAnimationManager` - drives the `.bg-gel` background shapes
+- `GelAnimationManager` - drives the `.gel` background shapes
 
 Created directly by `AnimationDirector`:
 

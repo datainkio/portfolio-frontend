@@ -8,7 +8,7 @@ specimens:
     note: The choreography masks and animates it, which docs pages don't load, so this shows the unmasked box that fills its frame.
     params:
       id: spec-gel-0
-      color: bg-gel-primary
+      color: gel-primary
     frame: relative h-48
   - title: Second gel
     params:

@@ -1,92 +1,112 @@
 /*
  * GEL BACKGROUNDS
  *
- * Built like inner-border: the bare `bg-gel` class draws, and two small
- * utilities each set one variable on it.
+ * Built like inner-border: the bare `gel` class draws, and small utilities
+ * each set one variable on it.
  *
- *   bg-gel                  Draws the gradient, with multiply blending.
- *                           Assume a relative parent container. Also the hook
- *                           GelAnimationManager queries, so keep it on every
- *                           gel element.
- *   bg-gel-<color>          Base colour: primary, secondary, accent, neutral
- *                           or neutral-light. Sets the dark and light ends.
- *   bg-gel-<direction>      Where the gradient goes "to": top (default),
- *                           bottom, left, right, top-left, top-right,
- *                           bottom-left, bottom-right.
+ *   gel                  Draws the gradient, with multiply blending.
+ *                        Assume a relative parent container. Also the hook
+ *                        GelAnimationManager queries, so keep it on every
+ *                        gel element.
+ *   gel-<color>          Base colour: primary, secondary, accent, neutral
+ *                        or neutral-light. Sets the dark and light ends.
+ *   gel-<direction>      Where the gradient goes "to": top (default),
+ *                        bottom, left, right, top-left, top-right,
+ *                        bottom-left, bottom-right.
+ *   gel-fade-<size>      How far the gradient travels before it holds the
+ *                        light colour: xs, sm, md, lg, xl or full (default).
+ *                        Also takes [length] or [percentage]:
+ *                        gel-fade-[30%], gel-fade-[20rem].
  *
- *   <div class="bg-gel bg-gel-primary bg-gel-top"></div>
+ *   <div class="gel gel-primary gel-top gel-fade-md"></div>
  *
- * Defined with @utility so variants compose (lg:bg-gel-accent). Colour and
- * direction only set variables, so they combine in any order. The colour
+ * Defined with @utility so variants compose (lg:gel-accent, lg:gel-fade-xl).
+ * Each utility only sets a variable, so they combine in any order. The colour
  * classes are swapped at runtime by GelVisualState; the names are listed in
- * Gel.js. Pair a colour with `bg-gel`: a colour class alone draws nothing.
+ * Gel.js. Pair a colour with `gel`: a colour class alone draws nothing.
  */
-@utility bg-gel {
+
+/* Fade distances. Tune the scale here. */
+@theme {
+  --gel-distance-xs: 8rem;
+  --gel-distance-sm: 16rem;
+  --gel-distance-md: 24rem;
+  --gel-distance-lg: 40rem;
+  --gel-distance-xl: 64rem;
+  --gel-distance-full: 100%;
+}
+
+@utility gel {
   mix-blend-mode: multiply;
   contain: content;
   will-change: transform; /* own compositor layer → decouple paint from sibling gels */
   background-image: linear-gradient(
     var(--gel-direction, to top),
     var(--gel-from, var(--color-primary-900)),
-    var(--gel-to, var(--color-primary-600))
+    var(--gel-to, var(--color-primary-600)) var(--gel-end, 100%)
   );
 }
 
 /* Base colour: 900 at the start of the gradient, a lighter step at the end */
-@utility bg-gel-neutral {
+@utility gel-neutral {
   --gel-from: var(--color-neutral-900);
   --gel-to: var(--color-neutral-400);
 }
 
-@utility bg-gel-neutral-light {
+@utility gel-neutral-light {
   --gel-from: var(--color-neutral-200);
   --gel-to: var(--color-neutral-100);
 }
 
-@utility bg-gel-primary {
+@utility gel-primary {
   --gel-from: var(--color-primary-900);
   --gel-to: var(--color-primary-600);
 }
 
-@utility bg-gel-secondary {
+@utility gel-secondary {
   --gel-from: var(--color-secondary-900);
   --gel-to: var(--color-secondary-600);
 }
 
-@utility bg-gel-accent {
+@utility gel-accent {
   --gel-from: var(--color-accent-900);
   --gel-to: var(--color-accent-600);
 }
 
 /* Direction: the "to" value of linear-gradient */
-@utility bg-gel-top {
+@utility gel-top {
   --gel-direction: to top;
 }
 
-@utility bg-gel-bottom {
+@utility gel-bottom {
   --gel-direction: to bottom;
 }
 
-@utility bg-gel-left {
+@utility gel-left {
   --gel-direction: to left;
 }
 
-@utility bg-gel-right {
+@utility gel-right {
   --gel-direction: to right;
 }
 
-@utility bg-gel-top-left {
+@utility gel-top-left {
   --gel-direction: to top left;
 }
 
-@utility bg-gel-top-right {
+@utility gel-top-right {
   --gel-direction: to top right;
 }
 
-@utility bg-gel-bottom-left {
+@utility gel-bottom-left {
   --gel-direction: to bottom left;
 }
 
-@utility bg-gel-bottom-right {
+@utility gel-bottom-right {
   --gel-direction: to bottom right;
+}
+
+/* Fade distance: named scale from @theme above, or an arbitrary value */
+@utility gel-fade-* {
+  --gel-end: --value(--gel-distance-*, [length], [percentage]);
 }
