@@ -59,8 +59,8 @@ export const HERO_BAND_PARALLAX_TRIGGER = {
   invalidateOnRefresh: true,
 };
 
-// One per panel (the header, then each statement section; id suffixed with its
-// index): pins the panel at the viewport top and holds it there for 300px of
+// One per statement section (id suffixed with its index): pins the statement
+// at the viewport top and holds it there for 300px of
 // scroll before it moves on.
 export const HERO_PANEL_PIN_TRIGGER = {
   ...SCROLL_DEFAULTS,
@@ -108,15 +108,15 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._bindBandParallax();
   }
 
-  // Holds each panel (header, then each statement section) at the viewport top
-  // for HERO_PANEL_PIN_TRIGGER's range.
+  // Holds each statement section at the viewport top for
+  // HERO_PANEL_PIN_TRIGGER's range. The header is left out.
   _bindPanelPins() {
     this._killPanelPins();
     if (!this.view) return;
 
     const attr = HERO_SELECTORS.elementAttribute;
     const panels = this.view.querySelectorAll(
-      `[${attr}="${HERO_SELECTORS.header}"], [${attr}="${HERO_SELECTORS.missionStatement}"]`,
+      `[${attr}="${HERO_SELECTORS.missionStatement}"]`,
     );
     this._panelPins = Array.from(panels, (panel, index) =>
       ScrollTrigger.create({
