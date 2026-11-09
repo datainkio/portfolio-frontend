@@ -14,6 +14,9 @@ export default function (eleventyConfig) {
 }
 
 function registerHtmlMinifier(eleventyConfig) {
+  // Minify only in production builds. Under --serve/--watch the transform
+  // cost ~3.7 s of every ~5 s rebuild (ELEVENTY_RUN_MODE is "serve"/"watch").
+  if (process.env.ELEVENTY_RUN_MODE !== "build") return;
   eleventyConfig.addTransform("htmlmin", async function (content, outputPath) {
     if (outputPath && outputPath.endsWith(".html")) {
       return await minify(content, {
