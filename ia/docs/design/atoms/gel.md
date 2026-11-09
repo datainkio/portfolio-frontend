@@ -31,6 +31,14 @@ specimens:
       opacity: gel-opacity-50
     frame: relative h-48
     surface: neutral
+  - title: Blend mode
+    note: Normal blending paints the gradient solid. The default, multiply, darkens what is behind it.
+    params:
+      id: spec-gel-4
+      color: gel-accent
+      blend: gel-blend-normal
+    frame: relative h-48
+    surface: neutral
 inContext:
   - { url: /, label: Homepage background }
 ---
