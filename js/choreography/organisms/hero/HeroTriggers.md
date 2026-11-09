@@ -1,5 +1,5 @@
 ---
-description: "Hero triggers module — supplies HERO_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal. bind() also creates a second, dedicated ScrollTrigger (hero-outro-pin) that pins the section root for HERO_OUTRO.pinRatio × viewport height and scrubs the four-beat outro timeline (line fade, gel expand, mission/aside travel) to completion, snapping to each beat's label and suspending the heading-gel sync trigger while active. bind() also creates one scrubbed hero-band-parallax-<index> trigger per band that holds an image (band-motion/parallax), and kill() tears them down."
+description: "Hero triggers module — supplies HERO_TRIGGER to AbstractSectionTriggers and overrides bind() to inject the intro timeline as the ScrollTrigger animation ONLY when scrubbed; pin and scrub are currently off, so the lifecycle (onEnter → playIntro) owns the reveal. bind() also creates a second, dedicated ScrollTrigger (hero-outro-pin) that pins the section root for HERO_OUTRO.pinRatio × viewport height and scrubs the four-beat outro timeline (line fade, gel expand, mission/aside travel) to completion, snapping to each beat's label and suspending the heading-gel sync trigger while active. bind() also creates one scrubbed hero-band-parallax-<index> trigger per band that holds an image (band-motion/parallax), and a hero-snap trigger that settles the header and each statement section to the viewport top by proximity; kill() tears them down."
 status: stable
 tags:
   - choreography
@@ -43,3 +43,11 @@ The now-removed `hero-aside-reveal` ScrollTrigger (previously in `split.js`, fir
 ## Band parallax (`hero-band-parallax-<index>`)
 
 `_bindBandParallax()` runs at the end of `bind()`. It finds every `[data-hero-el="band"]` in the section and calls `createBandParallax` for each one, passing its `[data-hero-el="band-image"]`, `HERO_BAND_PARALLAX_TRIGGER` (`SCROLL_DEFAULTS` plus `top bottom` → `bottom top`, `scrub: true`, `once: false`), and `HERO_BAND_PARALLAX.yPercent`. A band without an image gets a no-op handle. The handles are killed before every rebind and in `kill()`. Under reduced motion the profile disables hero's triggers, so `bind()` never runs and the images rest centred.
+
+## Panel snap (`hero-snap`)
+
+`_bindSnap()` runs at the end of `bind()`. The panels are the header (`[data-hero-el="header"]`) and every statement section (`[data-hero-el="mission-statement"]`), in document order. The trigger runs from the header's top to the last panel's top, both at `top top`, so it is only active while one of them could reach the viewport top.
+
+Snapping is **proximity, not mandatory**. `snapTo` takes ScrollTrigger's inertia-projected rest point and finds the nearest panel top. If that top is within `HERO_SNAP.threshold` × viewport height, it returns that panel's progress. Otherwise it returns the current progress and nothing moves, so a statement taller than the viewport can still be read part-way down. Panel tops are measured each time it snaps, not cached on refresh, so lazy-loaded images can't leave stale points behind.
+
+Duration, delay and ease come from `HERO_SNAP` in [presets/hero.js](../../config/ix/presets/hero.js) and are built from the motion duration tokens. Killed before every rebind and in `kill()`. Under reduced motion the profile turns hero's triggers off, so `bind()` never runs and the page doesn't snap.
