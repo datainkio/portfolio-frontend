@@ -51,11 +51,11 @@
 #}
 {% macro render(params = {}) %}
   {%- set color = params.color | default('gel-primary') -%}
-  {%- set direction = params.direction | default('') -%}
-  {%- set fade = params.fade | default('') -%}
-  {%- set opacity = params.opacity | default('') -%}
-  {%- set opacityEnd = params.opacityEnd | default('') -%}
-  {%- set blend = params.blend | default('') -%}
+  {%- set direction = params.direction | default('gel-top') -%}
+  {%- set fade = params.fade | default('gel-fade-full') -%}
+  {%- set opacity = params.opacity | default('gel-opacity-100') -%}
+  {%- set opacityEnd = params.opacityEnd | default('gel-opacity-end-80') -%}
+  {%- set blend = params.blend | default('gel-blend-multiply') -%}
   {%- set id = params.id | default('gel-default') -%}
   {%- set debug = params.debug | default(false) -%}
 
