@@ -44,7 +44,10 @@
     {{ Preloader.render({ "svg": logo }) }}
     {% include "templates/partials/session-management-script/session-management-script.njk" %}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
+    {#- TEMP (2026-11-09): global header disabled on the homepage. GlobalHeaderManager
+        and BuildInfoManager no-op when #global-header is absent. Restore by uncommenting.
     {{ GlobalHeader.render({ logoSvg: logo, docNo: docNo, sectionTitle: eleventyNavigation.title | default(title), cms: cms, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
+    -#}
     <div id="page-main">
       <main id="page-main-content" tabindex="-1" aria-busy="true" class="focus:outline-none {{ main | classes }}">
         {#- Hero statements: item 0 is the value prop (with valuePropImage), then the home singleton's statements[]. -#}
