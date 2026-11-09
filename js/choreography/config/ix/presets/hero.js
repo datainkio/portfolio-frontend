@@ -35,6 +35,30 @@ export const HERO_INTRO = {
 export const HERO_BAND_PARALLAX = { yPercent: 10 };
 
 /**
+ * Hero Snap
+ *
+ * When scrolling comes to rest inside the hero, the nearest panel (the header,
+ * then each statement section) settles to the top of the viewport.
+ *
+ * Proximity, not mandatory: the scroll only snaps when it would rest within
+ * `threshold` × viewport height of a panel's top. Further out it stays where the
+ * reader left it, so a statement taller than the viewport can still be read
+ * part-way down.
+ *
+ * `duration` clamps the snap tween (seconds); ScrollTrigger scales within it
+ * by distance and velocity. `delay` is the pause after scrolling stops.
+ */
+export const HERO_SNAP = {
+  threshold: 0.35,
+  duration: {
+    min: toSeconds(motion.duration("fast")),
+    max: toSeconds(motion.duration("slow")),
+  },
+  delay: toSeconds(motion.duration("instant")),
+  ease: "power2.inOut",
+};
+
+/**
  * Hero Mission Statement — gel-led arrival
  *
  * The mission statement's reveal, cued by its own ScrollTrigger rather than by
