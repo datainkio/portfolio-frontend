@@ -4,12 +4,14 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import {
   HERO_OUTRO,
   HERO_BAND_PARALLAX,
+  HERO_GEL_SOLID,
 } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { createBandParallax } from "../../molecules/band-motion/parallax.js";
 import {
   suspendHeadingGelSync,
   resumeHeadingGelSync,
+  getHeadingGelEl,
 } from "../../molecules/hero-motion/heading-gel.js";
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 /**
@@ -88,6 +90,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._outroPin = null;
     this._bandParallax = [];
     this._panelPins = [];
+    this._gelSolid = null;
   }
 
   _getTriggerDefaults() {
@@ -118,19 +121,56 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     const panels = this.view.querySelectorAll(
       `[${attr}="${HERO_SELECTORS.missionStatement}"]`,
     );
+    this._gelSolid = this._buildGelSolid();
     this._panelPins = Array.from(panels, (panel, index) =>
       ScrollTrigger.create({
         ...HERO_PANEL_PIN_TRIGGER,
         id: `${HERO_PANEL_PIN_TRIGGER.id}-${index}`,
         trigger: panel,
+        // The first statement's pin also turns gel_hero solid: play as it
+        // reaches the top, reverse when scrolled back above it.
+        ...(index === 0 && this._gelSolid
+          ? {
+              animation: this._gelSolid.tween,
+              toggleActions: "play none none reverse",
+            }
+          : {}),
       }),
     );
+  }
+
+  // Paused tween of gel_hero's end opacity to HERO_GEL_SOLID.alphaEnd. Its
+  // start is whatever the markup's gel-opacity-end-<n> class sets. The class
+  // computes to `calc(<n> * 1%)`, which GSAP reads as 0, so the number is read
+  // here and passed as an explicit start.
+  _buildGelSolid() {
+    const el = getHeadingGelEl(this.section?.animations?.gelManager);
+    if (!el) return null;
+    const computed = getComputedStyle(el).getPropertyValue("--gel-alpha-end");
+    const start = `${parseFloat(computed.match(/-?[\d.]+/)?.[0] ?? 0)}%`;
+    const tween = gsap.fromTo(
+      el,
+      { "--gel-alpha-end": start },
+      {
+        "--gel-alpha-end": HERO_GEL_SOLID.alphaEnd,
+        duration: HERO_GEL_SOLID.duration,
+        ease: HERO_GEL_SOLID.ease,
+        paused: true,
+      },
+    );
+    return { el, tween };
   }
 
   _killPanelPins() {
     // kill(true) reverts each pin, removing its pin-spacer.
     this._panelPins.forEach((pin) => pin.kill(true));
     this._panelPins = [];
+    if (this._gelSolid) {
+      this._gelSolid.tween.kill();
+      // Hand the end opacity back to the markup's class.
+      gsap.set(this._gelSolid.el, { clearProps: "--gel-alpha-end" });
+      this._gelSolid = null;
+    }
   }
 
   // Image parallax for every band that holds an image (see band-motion).
