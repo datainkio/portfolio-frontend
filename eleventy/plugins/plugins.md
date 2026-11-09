@@ -17,7 +17,7 @@ Registers the 11ty plugin set and build transforms.
 | --------------------------- | ---------------------------------------------- |
 | `@11ty/eleventy-navigation` | `eleventyNavigation` frontmatter + nav helpers |
 | `EleventyHtmlBasePlugin`    | rewrite paths against the site base href       |
-| `htmlmin` transform         | minify `.html` output (`html-minifier`)        |
+| `htmlmin` transform         | minify `.html` output (`html-minifier`); registered only when `ELEVENTY_RUN_MODE === "build"`, so `--serve` skips it |
 
 > [!note] Ordering
 > The (currently disabled) `UpgradeHelper` is intentionally added **last**; keep any new
