@@ -35,6 +35,20 @@ export const HERO_INTRO = {
 export const HERO_BAND_PARALLAX = { yPercent: 10 };
 
 /**
+ * Hero Gel Solid
+ *
+ * When the first statement section pins at the viewport top, `gel_hero`'s end
+ * opacity (`--gel-alpha-end`, set in markup by `gel-opacity-end-<n>`) tweens to
+ * `alphaEnd`, so the gradient becomes a solid plate behind the statements.
+ * Scrolling back above that statement reverses it.
+ */
+export const HERO_GEL_SOLID = {
+  alphaEnd: "100%",
+  duration: toSeconds(motion.duration("slow")),
+  ease: "power2.out",
+};
+
+/**
  * Hero Mission Statement — gel-led arrival
  *
  * The mission statement's reveal, cued by its own ScrollTrigger rather than by
