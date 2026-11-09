@@ -44,6 +44,7 @@
   - fade: Fade distance class (optional)
   - opacity: Gradient opacity class (optional)
   - blend: Blend mode class (optional)
+  - debug: true draws a line where the gradient ends (optional, dev only)
 #}
 {% macro render(params = {}) %}
   {%- set color = params.color | default('gel-primary') -%}
@@ -52,9 +53,10 @@
   {%- set opacity = params.opacity | default('') -%}
   {%- set blend = params.blend | default('') -%}
   {%- set id = params.id | default('gel-default') -%}
+  {%- set debug = params.debug | default(false) -%}
 
   <div id="{{ id }}"
-       class="gel absolute inset-0 {{ color }}{% if direction %} {{ direction }}{% endif %}{% if fade %} {{ fade }}{% endif %}{% if opacity %} {{ opacity }}{% endif %}{% if blend %} {{ blend }}{% endif %}"
+       class="gel absolute inset-0 {{ color }}{% if direction %} {{ direction }}{% endif %}{% if fade %} {{ fade }}{% endif %}{% if opacity %} {{ opacity }}{% endif %}{% if blend %} {{ blend }}{% endif %}{% if debug %} gel-debug{% endif %}"
        aria-hidden="true"></div>
 
 {% endmacro %}
