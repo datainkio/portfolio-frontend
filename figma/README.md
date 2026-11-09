@@ -11,6 +11,14 @@ Pulls the design tokens from the Figma design-system library and writes them as 
 
 Reads the variables and shadow styles of the [design-system library](https://www.figma.com/design/tl8ANcSSVEzPOS6ZU6lSI1) and writes them as Tailwind v4 theme variables, so the `accent/500` variable becomes `--color-accent-500` and `text-accent-500` in CSS.
 
+## How it works
+
+Rebind the fill to another variable, such as Submit's Default fill from secondary/600 to accent/500. The sync:components script handles this. It rewrites the class in the Button template.
+
+Change a variable's value, such as editing the hex of secondary/600. The build:design script handles this. It rewrites the generated colour CSS, and every user of that token changes, not just Button.
+
+Paste a raw hex onto the fill, which leaves it unbound. Sync will not apply this. It reports the fill as "needs a hand".
+
 ## What's here
 
 - `api/`: Figma REST client
