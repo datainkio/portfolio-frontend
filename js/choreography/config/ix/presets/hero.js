@@ -17,10 +17,20 @@ export const HERO_INTRO = {
   duration: toSeconds(motion.duration("fast")),
   stagger: motion.stagger("loose"),
   translateY: -motion.distance("lg"),
-  // Seconds the title's letters trail the line bands. The bands grow first;
-  // the letter cascade starts this far into the band animation.
-  bandLead: 0.25,
+  // The title band's left-to-right wipe, which leads the text.
+  bandDuration: toSeconds(motion.duration("base")),
 };
+
+/**
+ * Hero Band Parallax
+ *
+ * Each band's image travels `-yPercent` → `+yPercent` of its own height while
+ * the band crosses the viewport, so it drifts slower than the band around it.
+ * The image is 150% of the band's height with a quarter of the band spare above
+ * and below (molecules/band), i.e. ~16.7% of the image's height on each side.
+ * Keep `yPercent` under that, or the band's edge will show past the image.
+ */
+export const HERO_BAND_PARALLAX = { yPercent: 10 };
 
 /**
  * Hero Mission Statement — gel-led arrival

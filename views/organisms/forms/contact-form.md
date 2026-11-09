@@ -19,8 +19,8 @@ fields, an `aria-live` status region, and the submit button. No page markup
 
 ## Template
 
-- Source: [[contact.njk]]
-- Path: `views/organisms/forms/contact.njk`
+- Source: [[contact-form.njk]]
+- Path: `views/organisms/forms/contact-form.njk`
 - Implements: [contact form spec](../../../../specs/contact-form-11ty-sanity-serverless-email-spec.md) (§4, §9)
 
 ## Purpose
@@ -37,37 +37,43 @@ markup — both fields share the same label/control/help/error shape.
 
 ## Role in the System
 
-Classified as a **component** at the atomic **organism** level. Not rendered
-directly by pages — always imported and called by
-[`organisms/section/contact.njk`](../section/contact.md).
+Classified as a **component** at the atomic **organism** level. The contact
+page imports it and renders it once:
+[`pages/contact/contact.njk`](../../pages/contact/contact.md).
 
-## Data and Context
+## Params
 
-- `env` — Sanity public config, expected in context (`SANITY_PROJECT_ID`,
-  `SANITY_DATASET`, `SANITY_API_VERSION`, `SANITY_WRITE_TOKEN`).
-- `page.url` — default for the hidden `sourcePage` input.
+| Param              | Type                          | Description                                                                                                        |
+| ------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `classes`          | string, variant map, or array | Applied to the `<form>` through `classes`, after the sheet baseline.                                               |
+| `submitLabel`      | string                        | Submit button label. Defaults to "Transmit message".                                                               |
+| `sanityProjectId`  | string                        | Written to `data-sanity-project`.                                                                                  |
+| `sanityDataset`    | string                        | Written to `data-sanity-dataset`.                                                                                  |
+| `sanityApiVersion` | string                        | Written to `data-sanity-api-version`.                                                                              |
+| `sanityWriteToken` | string                        | Written to `data-sanity-write-token`. The token is in the page markup.                                             |
+| `sourcePage`       | string                        | Value of the hidden `sourcePage` input.                                                                            |
+| `sectionId`        | string                        | Id prefix for the form's elements. Defaults to `contact`.                                                          |
+| `docNo`            | string                        | Two-digit parent document number, shown as "Doc {docNo} / Transmission Form" and "DOC {docNo}A". Defaults to `00`. |
+| `docTitle`         | string                        | Form heading. Defaults to `Contact`.                                                                               |
 
-`render(params)` accepts: `submitLabel`, `sanityProjectId`, `sanityDataset`,
-`sanityApiVersion`, `sanityWriteToken`, `sourcePage`, `sectionId`,
-`docNo` (two-digit parent document number; the form header renders `Doc {docNo} / {docTitle}` and the sheet id `DOC {docNo}A`; default `00`), `docTitle` (default `Contact`),
-`fieldStyles` (forwarded to the `field` molecule; omit to use its default).
+`views/pages/contact/contact.njk` passes the `sanity*` params from the `env` global data. Russ confirmed on 2026-11-06 that the token is write-only and that the exposure is acceptable.
 
 ## Relationships
 
 - Imports: [[field.njk]] (`molecules/form/field.njk`)
 - Loads: [[ContactForm.js]]
-- Used by: [`organisms/section/contact.njk`](../section/contact.md)
+- Used by: [[contact.njk]] (`views/pages/contact/contact.njk`)
 
 ## Stroke Hierarchy
 
-The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint navy — never pure black or `slate-*`) at one of four weights, so new rules must pick a tier rather than invent a fifth:
+The form is styled as a drafting sheet. Every rule is `primary-950` (blueprint navy — never pure black or `neutral-*`) at one of four weights, so new rules must pick a tier rather than invent a fifth:
 
-| Tier | Utility | Where |
-| --- | --- | --- |
-| Outer border | `inner-border-2 inner-border-primary-950` on `<form>` | sheet edge |
-| Title-block dividers | `border-primary-950/85` | `<header>` bottom, header `<ul>` left, `<footer>` top |
-| Field dividers | `border-primary-950/50`, `divide-primary-950/50` | description rule, `<ol>` left, between fields, header `<ul>` rows |
-| Micro-label rules | `border-primary-950/30` | footer note left, revision `<dl>` left and `<dt>` |
+| Tier                 | Utility                                               | Where                                                             |
+| -------------------- | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| Outer border         | `inner-border-2 inner-border-primary-950` on `<form>` | sheet edge                                                        |
+| Title-block dividers | `border-primary-950/85`                               | `<header>` bottom, header `<ul>` left, `<footer>` top             |
+| Field dividers       | `border-primary-950/50`, `divide-primary-950/50`      | description rule, `<ol>` left, between fields, header `<ul>` rows |
+| Micro-label rules    | `border-primary-950/30`                               | footer note left, revision `<dl>` left and `<dt>`                 |
 
 Corner registration marks belong to the paper-artifact treatment below, not this table.
 
@@ -84,13 +90,13 @@ Both pseudo-elements are spoken for; anything else decorative needs real markup.
 
 ## Fields
 
-Fields are drawn into the paper via `field.njk`'s `fieldStyles` / `labelStyles` params (the molecule's defaults are untouched):
+Fields are drawn into the paper via `field.njk`'s `styles` map (`field` and `label` slots, set in this template):
 
 - `fieldBase` — `bg-accent-50` fill, no outline at rest, `border-primary-950/30` rule colour, `rounded-none`.
 - `lineFieldStyles` (email) — `border-0 border-b`: a single underline.
 - `boxFieldStyles` (message) — `border`: a light rectangle.
 - Focus — `focus-visible:outline-2 outline-secondary-500` plus `border-secondary-500`: the orange-red stamp is the only strong contrast at rest-to-active.
-- Invalid — `aria-[invalid=true]:border-red-600`; the error `<p>` remains the primary signal.
+- Invalid — `aria-[invalid=true]:border-semantic-fail`; the error `<p>` remains the primary signal.
 - Labels — `text-xs uppercase tracking-wider text-primary-950/80`.
 
 ## Submit

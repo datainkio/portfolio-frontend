@@ -1,7 +1,12 @@
 import AbstractSectionTriggers from "../../system/AbstractSectionTriggers.js";
 import { SCROLL_DEFAULTS } from "../../config/ix/scrolltriggers.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_OUTRO } from "../../config/ix/presets/hero.js";
+import {
+  HERO_OUTRO,
+  HERO_BAND_PARALLAX,
+} from "../../config/ix/presets/hero.js";
+import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { createBandParallax } from "../../molecules/band-motion/parallax.js";
 import {
   suspendHeadingGelSync,
   resumeHeadingGelSync,
@@ -40,6 +45,20 @@ export const HERO_TRIGGER = {
 // `end: "bottom bottom"`. The outro pin owns its own short scrub range instead.
 export const HERO_OUTRO_PIN_ID = "hero-outro-pin";
 
+// One per band (id suffixed with its index): scrubs the band's image while the
+// band crosses the viewport.
+export const HERO_BAND_PARALLAX_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: "hero-band-parallax",
+  once: false,
+  start: "top bottom",
+  end: "bottom top",
+  scrub: true,
+  pin: false,
+  pinSpacing: false,
+  invalidateOnRefresh: true,
+};
+
 export default class HeroTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
@@ -50,6 +69,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._revealTrigger = null;
     this._hideTrigger = null;
     this._outroPin = null;
+    this._bandParallax = [];
   }
 
   _getTriggerDefaults() {
@@ -66,6 +86,32 @@ export default class HeroTriggers extends AbstractSectionTriggers {
       : null;
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
     this._bindOutroPin();
+    this._bindBandParallax();
+  }
+
+  // Image parallax for every band that holds an image (see band-motion).
+  _bindBandParallax() {
+    this._killBandParallax();
+    if (!this.view) return;
+
+    const attr = HERO_SELECTORS.elementAttribute;
+    const bands = this.view.querySelectorAll(
+      `[${attr}="${HERO_SELECTORS.band}"]`,
+    );
+    this._bandParallax = Array.from(bands, (band, index) =>
+      createBandParallax({
+        band,
+        image: band.querySelector(`[${attr}="${HERO_SELECTORS.bandImage}"]`),
+        trigger: HERO_BAND_PARALLAX_TRIGGER,
+        yPercent: HERO_BAND_PARALLAX.yPercent,
+        index,
+      }),
+    );
+  }
+
+  _killBandParallax() {
+    this._bandParallax.forEach((parallax) => parallax.kill());
+    this._bandParallax = [];
   }
 
   // Pins the section root while the outro timeline (H2 lines fade, gel
@@ -116,6 +162,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
   kill() {
     this._outroPin?.kill();
     this._outroPin = null;
+    this._killBandParallax();
     // Guard against a matchMedia teardown mid-pin leaving the gel sync
     // permanently suspended (onToggle's inactive branch would never fire).
     resumeHeadingGelSync(this.view);

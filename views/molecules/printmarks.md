@@ -25,12 +25,13 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `InkMarks` — referenced in the template.
-- `MarginBleedMarks` — referenced in the template.
-- `RegistrationMarks` — referenced in the template.
-- `TrimMarks` — referenced in the template.
+| Param         | Type   | Description                                                                                                                                                                                      |
+| ------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `classes`     | string | Appended as-is to the root `<div>`. No `classes` filter.                                                                                                                                         |
+| `marginBleed` | object | Passed to the margin bleed marks. Keys: `color`, `size`, `bleedInset`, `style`, `marginInset`. Defaults to `{ color: "white", size: "1", bleedInset: "12", style: "dashed", marginInset: "6" }`. |
+| `trim`        | object | Passed to the trim marks. Keys: `color`, `size`, `inset`, `weight`. Defaults to `{ color: "white", size: "3", inset: "12", weight: "1" }`.                                                       |
 
 ## Relationships
 

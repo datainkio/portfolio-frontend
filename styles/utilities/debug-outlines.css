@@ -22,7 +22,7 @@
   .debug-outlines *,
   .debug-outlines *::before,
   .debug-outlines *::after {
-    outline: 1px solid var(--debug-outline-color, oklch(63% 0.24 29)) !important;
+    outline: 1px solid var(--debug-outline-color, var(--color-semantic-fail)) !important;
     outline-offset: -1px !important;
   }
 }

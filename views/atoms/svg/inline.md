@@ -22,11 +22,14 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Data and Context
 
-- `params.svg` — inline SVG markup (or a URL, used as the image source when it isn't SVG).
-- `params.src` — image URL fallback.
-- `params.alt` — accessible name; defaults to `"Award logo"`.
-- `params.classes` — string, variant map, or array; applied through `| classes` to the `<svg>` or `<img>`.
-- `params.svgClasses` — extra classes for the `<svg>` only.
+| Param                 | Type                           | Description                                                                                                                                                                   |
+| --------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `svg`                 | string                         | Inline SVG markup (or a URL, used as the image source when it isn't SVG).                                                                                                     |
+| `src`                 | string                         | Image URL fallback.                                                                                                                                                           |
+| `alt`                 | string                         | Accessible name; defaults to `"Award logo"`.                                                                                                                                  |
+| `classes`             | string \| variant map \| array | String, variant map, or array; applied through `\| classes` to the `<svg>` or `<img>`.                                                                                        |
+| `svgClasses`          | string                         | Extra classes for the `<svg>` only.                                                                                                                                           |
+| `preserveAspectRatio` | string                         | Value for the `<svg>`'s `preserveAspectRatio` when the markup has none; defaults to `"xMidYMin meet"` (top-aligned). Pass `"xMidYMid meet"` to center the artwork in its box. |
 
 Reads nothing from ambient scope (the old `organizationRecord` fallback is removed).
 

@@ -1,5 +1,5 @@
 ---
-title: Layouts Docs
+title: Layouts
 description: Reference for structural page shells and region-level composition rules.
 type: index
 eleventyComputed:
@@ -17,9 +17,3 @@ Layouts provide page scaffolding without prescribing page-specific content.
 - structural regions and responsive behavior
 - reusable shells used by multiple templates
 - spacing, rhythm, and hierarchy constraints
-
-<!-- readme-index:start -->
-## Index
-
-No sibling files or folders.
-<!-- readme-index:end -->

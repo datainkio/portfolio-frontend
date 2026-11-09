@@ -4,7 +4,6 @@
   {% import "molecules/section/industry-section.njk" as IndustrySection %}
 
   {%- set sectionId = params.id | default("work") -%}
-  {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading | default("Work") -%}
   {%- set body = params.copy.body | default("<p>Oh noes! Content missing for the work section.</p>") -%}
   {%- set order = params.order | default("") -%}
@@ -26,12 +25,12 @@
 
   {%- set nav = {
     "print": "hidden",
-    "base": "w-full sticky top-8 z-10 bg-slate-950 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]",
+    "base": "w-full sticky top-8 z-10 bg-neutral-950 shadow-[0px_4px_8px_0px_color-mix(in_oklab,var(--color-black)_25%,transparent)]",
     "sm": ""
   } -%}
 
   <section id="{{ sectionId }}"
-           class="{{ sectionStyles | classes }} "
+           class="{{ [sectionStyles, params.classes] | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 

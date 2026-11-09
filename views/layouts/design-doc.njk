@@ -1,0 +1,171 @@
+{% extends "./cols-3.njk" %}
+{#-
+  Design-system reference layout for every page under ia/docs/design/.
+
+  A page whose frontmatter names a `component` (a path under views/) becomes
+  a component page: its sidecar supplies the description and params
+  (componentDoc, from design.11tydata.js), and each `specimens` entry renders
+  the macro live, followed by the call that produced it. Any other page
+  renders its own content as the reference body.
+
+  Three columns: the page nav (sidebarBefore), the article (prose, content),
+  and the facts aside (sidebarAfter) — source/sidecar/import, In context, and
+  Related. `sidebarAfter` being set is what turns the third column on in
+  cols-3.njk; a non-component page has nothing to put there, so it stays off.
+-#}
+{% import "molecules/list/design-pages.njk" as DesignPages %}
+
+{% block mainStyles %}col-span-full min-w-0 prose prose-invert prose-code:before:content-none prose-code:after:content-none prose-table:text-sm max-w-none lg:col-span-7 lg:col-start-3{% endblock mainStyles %}
+
+{% block sidebarBefore %}
+  <aside aria-label="Design system pages"
+         class="not-prose col-span-full mt-44 max-h-72 overflow-y-auto lg:sticky lg:top-24 lg:col-span-2 lg:self-start lg:max-h-[calc(100dvh-7rem)] lg:pb-12">
+    {{ DesignPages.render({ nav: collections.all | eleventyNavigation("Design"), currentUrl: page.url }) }}
+  </aside>
+{% endblock sidebarBefore %}
+
+{%- set sidebarAfter = componentDoc and true -%}
+
+{% block sidebarAfterStyles %}not-prose col-span-full lg:col-span-3{% endblock sidebarAfterStyles %}
+
+{% block sidebarAfter %}
+  {%- if componentDoc %}
+    <div class="space-y-8 text-sm lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto lg:pb-12">
+      <section aria-labelledby="facts-heading" class="space-y-3">
+        <h2 id="facts-heading" class="text-xs font-display uppercase tracking-widest text-accent-400">Component</h2>
+        <dl class="space-y-3">
+          <div>
+            <dt class="text-neutral-400">Source</dt>
+            <dd><code class="text-neutral-100">{{ componentDoc.source }}</code></dd>
+          </div>
+          <div>
+            <dt class="text-neutral-400">Sidecar</dt>
+            <dd><code class="text-neutral-100">{{ componentDoc.sidecar }}</code></dd>
+          </div>
+          <div>
+            <dt class="text-neutral-400">Import</dt>
+            <dd><code class="break-all text-neutral-100">{{ '{% import "' + componentDoc.importPath + '" as ' + componentDoc.alias + ' %}' }}</code></dd>
+          </div>
+        </dl>
+      </section>
+
+      {%- if inContext and inContext.length %}
+        <section aria-labelledby="in-context-heading" class="space-y-3">
+          <h2 id="in-context-heading" class="text-xs font-display uppercase tracking-widest text-accent-400">In context</h2>
+          <ul class="list-disc space-y-1 pl-5">
+            {%- for link in inContext %}
+              <li><a class="text-primary-300 underline hover:text-primary-200" href="{{ link.url }}">{{ link.label }}</a></li>
+            {%- endfor %}
+          </ul>
+        </section>
+      {%- endif %}
+
+      {%- if componentDoc.related.composedOf.length or componentDoc.related.usedIn.length %}
+        <section aria-labelledby="related-heading" class="space-y-3">
+          <h2 id="related-heading" class="text-xs font-display uppercase tracking-widest text-accent-400">Related</h2>
+
+          {%- if componentDoc.related.composedOf.length %}
+            <div class="space-y-1">
+              <p class="mb-0 text-neutral-400">Composed of</p>
+              <ul class="list-disc space-y-1 pl-5">
+                {%- for link in componentDoc.related.composedOf %}
+                  <li><a class="text-primary-300 underline hover:text-primary-200" href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor %}
+              </ul>
+            </div>
+          {%- endif %}
+
+          {%- if componentDoc.related.usedIn.length %}
+            <div class="space-y-1">
+              <p class="mb-0 text-neutral-400">Used in</p>
+              <ul class="list-disc space-y-1 pl-5">
+                {%- for link in componentDoc.related.usedIn %}
+                  <li><a class="text-primary-300 underline hover:text-primary-200" href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor %}
+              </ul>
+            </div>
+          {%- endif %}
+        </section>
+      {%- endif %}
+    </div>
+  {%- endif %}
+{% endblock sidebarAfter %}
+
+{% block content %}
+  {%- set surfaces = {
+    "dark": "bg-neutral-950 text-neutral-100",
+    "paper": "bg-neutral-50 text-neutral-900",
+    "neutral": "bg-neutral-800 text-neutral-100",
+    "primary": "bg-primary-950 text-neutral-100",
+    "graph": "bg-neutral-950 bg-graphpaper-primary-100 text-neutral-100"
+  } -%}
+  {%- set tier = page.filePathStem.split("/")[3] if page.filePathStem.split("/").length > 4 else "" -%}
+
+  <article class="space-y-12 pt-20 pb-24">
+    <header class="space-y-4">
+      {%- if tier %}
+        <p class="mb-0 font-display text-sm uppercase tracking-widest text-accent-400 not-prose">{{ tier }}</p>
+      {%- endif %}
+      <h1 class="mb-0">{{ title }}</h1>
+      {%- if description %}
+        <p class="max-w-3xl text-xl">{{ description }}</p>
+      {%- endif %}
+    </header>
+
+    {%- if componentDoc %}
+      {% import componentDoc.importPath as C %}
+      {%- set roots = {
+        cms: cms,
+        collections: collections,
+        colors: colors,
+        designTokens: designTokens,
+        buildDate: buildDate,
+        buildVersions: buildVersions,
+        site: site
+      } -%}
+
+      <section aria-labelledby="specimens-heading" class="space-y-8 not-prose">
+        <h2 id="specimens-heading">Specimens</h2>
+        {%- for s in specimens %}
+          {%- set params = s.params | specimenParams(s.bind, roots) -%}
+          <figure class="m-0 space-y-3">
+            <figcaption class="space-y-1">
+              <span class="block font-display text-2xl text-neutral-100">{{ s.title }}</span>
+              {%- if s.note %}
+                <span class="block max-w-3xl font-body text-base text-neutral-400">{{ s.note }}</span>
+              {%- endif %}
+            </figcaption>
+            <div class="{{ ['relative isolate transform-gpu overflow-hidden rounded-lg p-6 inner-border inner-border-neutral-700', surfaces[s.surface] or surfaces.dark, s.frame] | classes }}">
+              {%- if s.content %}
+                {% call C.render(params) %}{{ s.content | safe }}{% endcall %}
+              {%- else %}
+                {{ C.render(params) }}
+              {%- endif %}
+            </div>
+            <pre class="overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm text-neutral-200"><code>{{ componentDoc.alias | specimenCall(s.params, s.bind, s.content) }}</code></pre>
+          </figure>
+        {%- else %}
+          <p class="max-w-3xl text-neutral-300">{{ specimenNote or "No specimen yet." }}</p>
+        {%- endfor %}
+      </section>
+
+      <section aria-labelledby="params-heading" class="space-y-4">
+        <h2 id="params-heading">Params</h2>
+        {%- if componentDoc.params %}
+          {{ componentDoc.params | markdownify | safe }}
+        {%- else %}
+          <p>The sidecar doesn't list params yet.</p>
+        {%- endif %}
+      </section>
+
+      {%- if content | trim %}
+        <section aria-labelledby="notes-heading" class="space-y-4">
+          <h2 id="notes-heading">Notes</h2>
+          {{ content | safe }}
+        </section>
+      {%- endif %}
+    {%- else %}
+      {{ content | safe }}
+    {%- endif %}
+  </article>
+{% endblock content %}

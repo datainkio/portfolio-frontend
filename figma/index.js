@@ -1,13 +1,19 @@
 import { FigmaClient } from "./api/FigmaClient.js";
-import { FileService } from "./services/FileService.js";
-import { StyleService } from "./services/StyleService.js";
+import { VariablesService } from "./services/VariablesService.js";
 import { PaletteService } from "./services/PaletteService.js";
-import { TypographyService } from "./services/TypographyService.js";
+import { TokenService } from "./services/TokenService.js";
+import { ComponentService } from "./services/ComponentService.js";
 
 const client = new FigmaClient(); // Establish connection to Figma API
-const fileService = new FileService(client); // Retrieve information and content from the Figma file
-const styleService = new StyleService(client); // Retrieve detailed style info from the Figma file
-const paletteService = new PaletteService(client); // Write color style info to local files
-const typographyService = new TypographyService(client); // Write typography style info to local files
+const variablesService = new VariablesService(client); // Read the design-system library's Tokens page
+const paletteService = new PaletteService(); // Write styles/colors.css from colour variables
+const tokenService = new TokenService(); // Write styles/tokens.css from numeric variables and shadow styles
+const componentService = new ComponentService(client, variablesService); // Read component sets' colour bindings
 
-export { client, fileService, styleService, paletteService, typographyService };
+export {
+  client,
+  variablesService,
+  paletteService,
+  tokenService,
+  componentService,
+};

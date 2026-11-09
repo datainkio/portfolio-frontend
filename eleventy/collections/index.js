@@ -59,6 +59,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { init as initNavigation } from "./navigation.js";
 import { init as initSanity } from "./sanity.js";
+import { readDesignTokens } from "./designSystem.js";
 // import { init as initDocumentation } from "./documentation.js";
 
 // ESM __dirname equivalent
@@ -167,6 +168,10 @@ export default async function (eleventyConfig) {
       return out;
     })();
     eleventyConfig.addGlobalData("colors", colors);
+
+    // Every token the theme files declare, grouped for the living reference
+    // under ia/docs/design/tokens/. Parsed from styles/, so it can't drift.
+    eleventyConfig.addGlobalData("designTokens", readDesignTokens);
 
     eleventyConfig.addGlobalData("buildVersions", {
       eleventy: readPkgVersion("@11ty/eleventy"),

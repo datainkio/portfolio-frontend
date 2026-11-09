@@ -49,11 +49,11 @@ party binds to:
 Removing or renaming `data-preloader` breaks all four. Pages without it are
 handled — `Preloader.js` hydrates deferred videos and returns.
 
-## Data and Context
+## Params
 
-- `params.svg` — the hanko SVG markup, passed through to `Logo.render`. Home
-  passes the Sanity-inlined `logo`.
-- Imported `with context` in `home.njk` so the `classes` filter resolves.
+| Param | Type   | Description                                                                                   |
+| ----- | ------ | --------------------------------------------------------------------------------------------- |
+| `svg` | string | The hanko SVG markup, passed through to `Logo.render`. Home passes the Sanity-inlined `logo`. |
 
 ## Relationships
 

@@ -6,7 +6,8 @@
  * HeroAnimations.js selects the active variant via SECTION_OVERRIDES.hero
  * in config/ix/profiles/profiles.js.
  *
- *   split  - Gel band at rest, full-bleed (landing), then GSAP SplitText on the header and
+ *   split  - Gel band at rest, full-bleed (landing); intro wipes the title
+ *            band in behind label + h1, then GSAP SplitText on the header and
  *            subheader (intro). Requires SplitText plugin and gelManager.
  *   reduced - Nothing fancy.
  *   sweep  — Gel wipe (scaleX 0→1) followed by header fade+lift. Requires gelManager.

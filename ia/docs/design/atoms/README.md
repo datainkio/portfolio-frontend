@@ -1,25 +1,7 @@
 ---
-title: Atoms Docs
-description: Reference for foundational UI primitives and token-driven component units.
+title: Atoms
+description: "The smallest components: primitives such as buttons, links, icons, headings, print marks, and inline SVG, each rendered live."
 type: index
-eleventyComputed:
-  title: "{{ title }}"
 ---
 
-Atoms are the smallest reusable UI units, including tokenized typography, color, spacing, iconography, and basic controls.
-
-## Atomic Design Role
-
-Atoms establish the visual and semantic baseline used everywhere else in the system.
-
-## Document Here
-
-- usage constraints for primitive elements
-- accessibility expectations at the element level
-- token dependencies and variants
-
-<!-- readme-index:start -->
-## Index
-
-No sibling files or folders.
-<!-- readme-index:end -->
+Atoms are indivisible: a button, a link, an icon, a heading, a mark. They own the baseline every use needs (focus rings, safe defaults, accessible names), and callers add classes on top.

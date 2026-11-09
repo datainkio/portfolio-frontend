@@ -22,9 +22,23 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `Card` — referenced in the template.
+| Param         | Type                          | Description                                               |
+| ------------- | ----------------------------- | --------------------------------------------------------- |
+| `award`       | object                        | Award record. Its `card` object supplies fallback values. |
+| `card`        | object                        | Fallback record, used when `award.card` is absent.        |
+| `title`       | string                        | Defaults to `card.title`, then "Untitled award".          |
+| `image`       | Sanity image or string        | Defaults to `card.image`.                                 |
+| `url`         | string                        | Defaults to `card.url`.                                   |
+| `description` | string                        | Defaults to `card.description`.                           |
+| `meta`        | array                         | Defaults to `card.meta`.                                  |
+| `classes`     | string, variant map, or array | Passed to the card.                                       |
+| `styles`      | object                        | Passed to the card. See the slot table.                   |
+
+| Slot    | Element                                          |
+| ------- | ------------------------------------------------ |
+| `image` | The card's media element (`<img>` or `<video>`). |
 
 ## Relationships
 

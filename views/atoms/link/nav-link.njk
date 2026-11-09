@@ -1,11 +1,9 @@
-{% import "atoms/icon.njk" as icon %}
 {% macro render(params = {}) %}
   {% set entry = params.entry or {} %}
   {% set linkUrl = entry.url or entry.href or params.url or params.href %}
   {% set linkTitle = entry.pageNavLabel or entry.key or params.title %}
-  {% set linkClasses = (entry.class or params.class or "") %}
-  {% set isCurrent = (linkUrl == page.url) %}
-  {% set hasChildren = entry.children and entry.children.length > 0 %}
+  {% set linkClasses = entry.class or (params.classes | classes) %}
+  {% set isCurrent = (linkUrl == params.currentUrl) %}
   {% set linkDescription = entry.description or params.description %}
 
   <a href="{{ linkUrl }}"
@@ -13,14 +11,3 @@
      {% if isCurrent %}aria-current="page"{% endif %}
      {% if linkDescription %}title="{{ linkDescription }}"{% endif %}>{{ linkTitle }}</a>
 {% endmacro %}
-
-{# Backward compatibility: render immediately when included directly #}
-{% if renderImmediately | default(true) %}
-  {{ render({
-    entry: entry,
-    url: url,
-    title: title,
-    class: class,
-    description: description
-    }) }}
-{% endif %}

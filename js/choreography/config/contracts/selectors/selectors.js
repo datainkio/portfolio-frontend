@@ -50,9 +50,11 @@ export const HERO_SELECTORS = {
   elementAttribute: "data-hero-el",
   header: "header",
   title: "heading",
-  // Opaque legibility band inside the title. SplitText's deepSlice clones it
-  // once per line, so after the split each line holds its own band.
+  // Solid full-bleed plates (molecules/band): one behind the context label +
+  // title, which the intro wipes in from the viewport's left edge, and one per
+  // statement after the first. Each may hold a parallax `bandImage`.
   band: "band",
+  bandImage: "band-image",
   context: "context",
   missionStatement: "mission-statement",
 };

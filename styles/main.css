@@ -4,8 +4,10 @@
 /* CRITICAL: Define CSS cascade layers for optimal performance and specificity control */
 @layer reset, theme, base, utilities, components;
 
-/* Tailwind CSS must come before everything else - Base utilities and components need to be defined first */
-@import "tailwindcss" layer(base);
+/* Tailwind CSS must come before everything else - Base utilities and components need to be defined first.
+   source(none) turns off automatic scanning, which read every tracked file (docs, specs, skills) and
+   generated CSS for class names written as examples. The sources are listed below the imports. */
+@import "tailwindcss" layer(base) source(none);
 
 /* Typography plugin - prose classes for PortableText body copy (project.njk) */
 @plugin "@tailwindcss/typography";
@@ -17,8 +19,14 @@
 /* Design system colors - Auto-generated from Figma via PaletteService.js, contains CSS custom properties */
 @import "./colors.css" layer(theme);
 
-/* Typography families - Auto-generated from Figma via TypographyService.js, defines font-family utilities */
+/* Typography families - Maintained by hand, defines font-family utilities */
 @import "./typography/fontFamilies.css" layer(theme);
+
+/* Spacing, radius, shadow, and type tokens - Generated from Figma via TokenService.js */
+@import "./tokens.css" layer(theme);
+
+/* Motion tokens - Generated from js/choreography/tokens/motion/motion.js via buildMotionTokens.js */
+@import "./motion.css" layer(theme);
 
 /* Custom decorations - Project-specific styling for visual elements and effects */
 @import "./decorations.css";
@@ -32,6 +40,16 @@
 @import "./components/portable-text.css" layer(components);
 @import "./components/hanko.css" layer(components);
 
-/* Scan rendered HTML output so Tailwind picks up classes assembled at build time */
+/* Class sources. Nothing else is scanned (source(none) above). */
+/* Rendered HTML: views, ia pages, Sanity transforms, filters and shortcodes, as built */
 @source "../_site/**/*.html";
-
+/* Classes JavaScript adds in the browser, which never appear in the rendered HTML */
+@source "../js";
+/* Templates, for the first dev build, which runs before Eleventy writes _site */
+@source "../views";
+/* The design reference has its own stylesheet, docs.css, so classes used only
+   there don't ship to every page. `@source not` needs the Tailwind CLI 4.1+. */
+@source not "../_site/docs/design";
+@source not "../views/layouts/design-doc.njk";
+/* Sidecars describe classes in prose; scanning them ships classes no page uses. */
+@source not "../views/**/*.md";

@@ -1,5 +1,5 @@
 ---
-description: "Split variant for hero-motion — SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
+description: "Split variant for hero-motion — the intro opens with the title band (a solid, inset-shadowed plate in hero.njk) revealed left-to-right (clip-path) into a full-width band behind the header's label + h1 block, then SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
 status: stable
 tags:
   - hero-motion
@@ -18,14 +18,11 @@ links:
 
 `intro()` builds the H2's `SplitText` via a module-level `buildHeadingSplit(view, title)` helper (keyed on `view` in a `WeakMap`) instead of calling `new SplitText` inline. `_buildTimeline()` re-runs `intro()` on every matchMedia breakpoint crossing against the same already-split DOM — without caching + `revert()`-ing the prior instance first, a rebuild would nest split markup inside itself and corrupt both the intro chars and the outro's line targets.
 
-## Intro: line bands, then letters
+## Intro: gel wipe, then letters
 
-The title's `<span data-hero-el="band">` (an opaque `bg-neutral-900` band, see [hero.njk](../../../../views/organisms/section/hero.md)) is cloned once per line by SplitText's `deepSlice`, so each line holds its own band. The intro:
+The intro opens with the title band, `[data-hero-el="band"]` (`HERO_SELECTORS.band`): a solid, full-bleed plate in [hero.njk](../../../../views/organisms/section/hero.md) behind the context label and the h1. Its inset shadows make it read as a cut through the background video to the layer beneath. It's in the header's normal flow, so it scrolls with the text and nothing has to be measured. A `fromTo` tweens `clipPath` from `inset(0% 100% 0% 0%)` to `inset(0% 0% 0% 0%)` over `HERO_INTRO.bandDuration`. The intro uses `clip-path`, not `scaleX`, so the band's parallax image is revealed instead of squashed. Because `fromTo` renders its start at build time, the band is hidden before the intro plays. Without the intro (no JS, `reduced`), the band shows at full width. The `text` label sits at the end of the wipe (at 0 when there is no band). Every text beat below starts from it, and the context label fades in at `text`.
 
-1. Grows each line's band left to right, one line after another, starting at the `bands` label. The grow reads the band's computed colour (so the template's `bg-*` utility is the only place it's set), swaps it for a same-colour gradient, and tweens its `background-size` from `0% 100%` to `100% 100%`, never `scaleX` or `clip-path`, so letters are never squashed or cut. Each band lasts as long as its own line's letter cascade (`chars × stagger`, `ease: "none"`).
-2. Starts the letter cascade at `bands+=HERO_INTRO.bandLead` (0.25s), so the text trails the background by a constant step down every line.
-
-The band's plain CSS background stays in place whenever the heading isn't split (no JS, `reduced` variant).
+The letter cascade starts 0.3s before the context label's fade ends. The per-line h1 bands and their `background-size` grow (paced by `HERO_INTRO.bandLead`) were removed on 2026-10-26, and so was the interim `gel_title` gel.
 
 ## Outro
 

@@ -2,7 +2,6 @@
   {% import "atoms/organization.njk" as Organization %}
 
   {%- set sectionId = params.id | default("organizations") -%}
-  {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading | default("Organizations") -%}
   {%- set subheading = params.copy.subheading -%}
   {%- set body = params.copy.body -%}
@@ -17,7 +16,7 @@
     "md": "px-12",
     "lg": "px-24"
   } -%}
-  {%- set header = {"base": "gap-2 py-12 z-10 w-full border-y border-slate-600 divide-neutral-600 flex flex-row items-center"} -%}
+  {%- set header = {"base": "gap-2 py-12 z-10 w-full border-y border-neutral-600 divide-neutral-600 flex flex-row items-center"} -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -26,7 +25,7 @@
   } -%}
 
   <section id="{{ sectionId }}"
-           class="{{ sectionStyles | classes }}"
+           class="{{ [sectionStyles, params.classes] | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 

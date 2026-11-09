@@ -1,25 +1,7 @@
 ---
-title: Molecules Docs
-description: Reference for composed UI patterns built from multiple atoms.
+title: Molecules
+description: Components that compose atoms into one purpose, such as cards, lists, figures, navigation, and form fields, each rendered live.
 type: index
-eleventyComputed:
-  title: "{{ title }}"
 ---
 
-Molecules combine atoms into purposeful clusters such as labeled inputs, media cards, and action groups.
-
-## Atomic Design Role
-
-Molecules define repeatable interaction patterns without yet becoming full sections.
-
-## Document Here
-
-- composition rules between constituent atoms
-- state behavior and responsive adaptations
-- semantic structure and accessible labeling
-
-<!-- readme-index:start -->
-## Index
-
-No sibling files or folders.
-<!-- readme-index:end -->
+Molecules combine atoms into one job: a card, a list of roles, a figure with a lightbox trigger, a pager. Most take data from the CMS, so their specimens bind real content.

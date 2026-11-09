@@ -20,9 +20,14 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param     | Type                          | Description                                                                  |
+| --------- | ----------------------------- | ---------------------------------------------------------------------------- |
+| `level`   | number                        | Heading level, 1 to 6. Values outside that range render `h2`. Defaults to 2. |
+| `text`    | string                        | Heading text.                                                                |
+| `id`      | string                        | Optional `id` on the heading.                                                |
+| `classes` | string, variant map, or array | Applied to the heading through `classes`.                                    |
 
 ## Relationships
 

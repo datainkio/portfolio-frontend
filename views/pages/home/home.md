@@ -114,7 +114,7 @@ Source, deciding _"could I maintain this — and will it make me a hero?"_
    is intentional, not generated."
 2. **Atomic composition** (at `<main>`) — the `views/` ladder
    (atoms→molecules→organisms→templates→pages); macros as the unit of reuse;
-   `import … with context` vs without, and why context is scoped deliberately;
+   components are imported without context, and `home.njk` passes page data to them as params;
    one concrete trace (`home.njk → HeroSection.render() → molecule → atom`).
 3. **Layout contract** (at `<main class="…">`) — responsive class-map objects
    (`{base, sm, md, lg}`) piped through the `| classes` filter (config-as-data,

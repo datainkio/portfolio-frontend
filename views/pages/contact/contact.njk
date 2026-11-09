@@ -1,6 +1,6 @@
 {% extends "templates/landing/landing.njk" %}
 {% import "organisms/forms/contact-form.njk" as contact_form %}
-{% import "molecules/list/social-accounts-list.njk" as social_accounts with context %}
+{% import "molecules/list/social-accounts-list.njk" as social_accounts %}
 {% import "atoms/svg/email.njk" as email_icon %}
 {% import "atoms/svg/location.njk" as location_icon %}
 {% import "atoms/svg/globe.njk" as social_icon %}
@@ -18,24 +18,33 @@
   {{ super() }}
   <ul class="{{ ulStyles | classes }}">
     <li class="{{ liStyles | classes }}">
-      {{ email_icon.render({"styles": iconStyles | classes}) }}
+      {{ email_icon.render({ classes: iconStyles }) }}
       <address class="{{ valueStyles | classes }} content-center">
         <span class="block text-xs text-neutral-400">Email</span>
         <a class="text-primary-400" href="mailto:{{ mailto }}">{{ mailto }}</a>
       </address>
     </li>
     <li class="{{ liStyles | classes }} border-y">
-      {{ location_icon.render({"styles": iconStyles | classes}) }}
+      {{ location_icon.render({ classes: iconStyles }) }}
       <address class="{{ valueStyles | classes }} content-center">
         <span class="block text-xs text-neutral-400">Based In</span>
         <span class="text-primary-400">{{ location }}</span>
       </address>
     </li>
     <li class="{{ liStyles | classes }}">
-      {{ social_icon.render({"styles": iconStyles | classes}) }}
-      {{ social_accounts.render({"classes": valueStyles | classes ~ " content-start grid grid-cols-3"}) }}
+      {{ social_icon.render({ classes: iconStyles }) }}
+      {{ social_accounts.render({ accounts: cms.contact[0].socialAccounts, classes: [valueStyles, "content-start grid grid-cols-3"] }) }}
     </li>
   </ul>
-  {{ contact_form.render({"formStyles": formStyles | classes, "docNo": docNo, "docTitle": eleventyNavigation.title}) }}
+  {{ contact_form.render({
+    "classes": formStyles,
+    "docNo": docNo,
+    "docTitle": eleventyNavigation.title,
+    "sourcePage": page.url,
+    "sanityProjectId": env.SANITY_PROJECT_ID,
+    "sanityDataset": env.SANITY_DATASET,
+    "sanityApiVersion": env.SANITY_API_VERSION,
+    "sanityWriteToken": env.SANITY_WRITE_TOKEN
+  }) }}
   {% include "templates/partials/choreography-script/choreography-script.njk" %}
 {% endblock content %}

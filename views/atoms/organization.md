@@ -20,14 +20,20 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param   | Type   | Description                                              |
+| ------- | ------ | -------------------------------------------------------- |
+| `title` | string | Name shown as text. Defaults to "Untitled organization". |
+
+Logos were switched off on 2026-08-23 (`dc5ff743`): the homepage list is
+text-only. The dead logo branch and the unused `id`, `headingId`, `copy`,
+`logo`, `logoAlt` and `logoUrl` params were removed on 2026-11-07.
 
 ## Relationships
 
-- Likely used by:
-  - Unknown
+- Used by:
+  - [[organizations.njk]] (`views/organisms/section/organizations.njk`), one per list item
 
 ## Notes for Future Maintenance
 

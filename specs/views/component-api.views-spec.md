@@ -80,7 +80,7 @@ without one. One page-level call rendered correctly only because an undefined
   reference implementation.
 - **Don't bake in what callers will change.** Appending can't override a
   property the baseline already sets: when two utilities set the same
-  property (e.g. `text-neutral-300` and `text-slate-400`), the one that
+  property (e.g. `text-neutral-300` and `text-neutral-400`), the one that
   wins is decided by its position in the generated CSS, not by its order
   in `class`. Keep colour and typography that callers are expected to vary
   out of the baseline, and expose them through a `classes`/`styles` slot.
@@ -143,13 +143,11 @@ The project-page tree was brought into conformance on 2026-10-02:
 | `atoms/link/link.njk` | ✅ (`rel` merges with external `noopener noreferrer`; content via `{% call %}`) |
 | `molecules/navigation/pager.njk` | ✅ (`styles`: `link`) |
 | `organisms/footer/global-footer.njk` | ✅ (`classes` appended; positioning is the caller's) |
-| `atoms/icon.njk` | partial: accepts `classes`, but keeps legacy `className`/`class` and render-on-include |
+| `atoms/icon.njk` | ✅ |
 
-Known non-conforming components outside the project page (not yet migrated):
+Every other component under `views/atoms/`, `views/molecules/`, and `views/organisms/` was brought into conformance on 2026-11-06. No macro imports `with context`, and no macro reads anything outside `params`. `views/layouts/base.njk` and `views/pages/home/home.njk` read page data and pass it down.
 
-- `atoms/heading.njk`: `render(props)` and `props.class`
-- `organisms/navigation/breadcrumbs-nav.njk`: reads `collections.all` from ambient scope when no `nav` param is given
-- Convention-B molecules listed in `goals/Frontend/_tasks/migrate-remaining-molecules-to-macro-invoc.md`
+Two inline `style` attributes are named `style`, because `styles` means slots: `atoms/video/video.njk` and `molecules/background/sizzle-background.njk`.
 
 ## Verification
 

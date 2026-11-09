@@ -22,10 +22,12 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Data and Context
 
-- `params.stats` — array of `{ key, value }`; items with an empty `value` are skipped.
-- `params.classes` — the `<dl>` root (string, variant map, or array).
-- `params.styles` — slots `{ item, term, value }`. `item` is appended to the `<div>` baseline. `term` and `value` are the only classes on the `<dt>`/`<dd>`. They carry no baked-in colour, so callers set it (`card.njk` passes `term: "text-neutral-300"`, `project.njk` passes `text-slate-400`).
-- `params.aria` — `aria-label` for the `<dl>`; defaults to `"Metadata"`.
+| Param     | Type                           | Description                                                                                                                                                                                                                                                                        |
+| --------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stats`   | array                          | Array of `{ key, value }`; items with an empty `value` are skipped.                                                                                                                                                                                                                |
+| `classes` | string \| variant map \| array | The `<dl>` root (string, variant map, or array).                                                                                                                                                                                                                                   |
+| `styles`  | object                         | Slots `{ item, term, value }`. `item` is appended to the `<div>` baseline. `term` and `value` are the only classes on the `<dt>`/`<dd>`. They carry no baked-in colour, so callers set it (`card.njk` passes `term: "text-neutral-300"`, `project.njk` passes `text-neutral-400`). |
+| `aria`    | string                         | `aria-label` for the `<dl>`; defaults to `"Metadata"`.                                                                                                                                                                                                                             |
 
 Follows the [Component API spec](../../../specs/views/component-api.views-spec.md).
 

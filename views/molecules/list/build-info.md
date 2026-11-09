@@ -14,23 +14,17 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Renders build-time system metadata as `<li>` rows: 11ty version, Sanity (`@sanity/client`) version, git commit, Figma design-token file, and build date. Surfaced inside the [[section-cap.njk]] cap row.
+Renders build-time system metadata as `<li>` rows: 11ty version, Sanity (`@sanity/client`) version, git commit, Figma design-token file, and build date. Surfaced in the [[global-header.njk]] header.
 
-## Parameters
+## Params
 
-- `standalone` (boolean, default `true`) — when `true`, wraps the rows in a `<ul>`. Set `false` when embedding inside an existing list (as `section-cap` does).
+| Param           | Type                          | Description                                                                                                                         |
+| --------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `buildDate`     | Date                          | Build timestamp. Used for the `datetime` attribute and shown formatted.                                                             |
+| `buildVersions` | object                        | `git` (`sha`, `branch`, `dirty`), `eleventy`, `sanity`, and `figma` (`fileId`). Missing git or Figma values leave their cell empty. |
+| `classes`       | string, variant map, or array | Applied to the root `<div>` through `classes`, after a `contents flex` baseline.                                                    |
 
-## Data and Context
-
-Reads from the global data object `buildVersions` and `buildDate`, registered in `eleventy/collections/index.js`:
-
-- `buildVersions.eleventy` — `@11ty/eleventy` version (from installed manifest)
-- `buildVersions.sanity` — `@sanity/client` version (from installed manifest)
-- `buildVersions.git` — `{ sha, branch, dirty }` via `git` at build time (empty/skipped if no git)
-- `buildVersions.figma` — `{ fileId, modified }` parsed from the `@figma` header that `build:design` stamps into the generated `styles/colors.css` (no Figma API/token needed; empty if that file is missing). Reflects the last token sync, not live Figma state.
-- `buildDate` — build timestamp
-
-**Context requirement:** this macro reads globals directly, so every `import` in the chain must use `with context` (home-landing → section-cap → build-info). Without it the fields render blank.
+`buildVersions` is built from the installed package manifests, `git` at build time, and the `@figma` header that `build:design` writes into `styles/colors.css`. The Figma value reflects the last token sync, not live Figma state.
 
 ## Disclosure controls
 
@@ -42,7 +36,7 @@ Click behavior is wired in [[BuildInfoManager.js]] (open = toggle, close = close
 ## Relationships
 
 - Used by:
-  - [[section-cap.njk]] (`BuildInfo.render({standalone: false})`)
+  - [[global-header.njk]] (`BuildInfo.render({ classes, buildDate, buildVersions })`)
 - Depends on:
   - [[icon.njk]] (`close` icon for the close button)
   - `eleventy/collections/index.js` global data (`buildVersions`, `buildDate`)

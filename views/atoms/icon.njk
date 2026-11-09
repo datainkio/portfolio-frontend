@@ -27,7 +27,7 @@
 {% macro render(params = {}) %}
   {% set iconName = params.name | default("direction-left") %}
   {% set iconSize = params.size | default("md") %}
-  {% set iconClasses = (params.classes | classes) if params.classes else params.className | default(params.class | default("")) %}
+  {% set iconClasses = params.classes | classes %}
   {% set sizeClasses = sizes[iconSize] | default(sizes.md) %}
   {% if svg[iconName] %}
     <svg class="{{ sizeClasses }} {{ iconClasses }}" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
@@ -41,16 +41,7 @@
     <!-- CRITICAL ERROR: Icon "{{ iconName }}" not found in icon registry -->
     <!-- Available icons: direction-left, direction-right, chevron-up, chevron-down, chevron-left, chevron-right,
     external-link, close, menu, grid -->
-      <span class="inline-block {{ sizeClasses }} bg-red-500 text-white text-xs flex items-center justify-center"> ?
+      <span class="inline-block {{ sizeClasses }} bg-semantic-fail text-white text-xs flex items-center justify-center"> ?
     </span>
   {% endif %}
 {% endmacro %}
-{# Backward compatibility: render immediately when included directly #}
-{% if renderImmediately | default(true) %}
-  {{ render({
-    name: name,
-    size: size,
-    className: className,
-    class: class
-  }) }}
-{% endif %}

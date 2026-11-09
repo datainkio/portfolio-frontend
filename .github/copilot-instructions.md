@@ -7,9 +7,9 @@ These instructions make AI coding agents immediately productive in this repo by 
 ## Big Picture
 
 - **11ty static site**: Content entry lives in `ia/` (Eleventy `input`); Nunjucks templates live in `views/` (Eleventy `includes`, configured as `../views` relative to `ia/`) and generate `_site/`. Atomic design components live under `views/` (`atoms/`, `molecules/`, `organisms/`, plus `layouts/`, `pages/`, `templates/`). Each `.njk` template has a sibling Obsidian sidecar `.md` for documentation.
-- **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
+- **Design tokens via Figma**: `styles/colors.css` and `styles/tokens.css` are generated from the Figma design-system library's variables by `scripts/build/fetchFigma.js` and services in `figma/services/*` (VariablesService, PaletteService, TokenService).
 - **Content via Sanity**: Data fetched at build time and exposed as 11ty collections. Defaults live in `site.json` under `cms` (or `sanity`) with queries in `data/sanity/queries.js`.
-- **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
+- **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/build/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
 - **Animation system**: GSAP-based choreography under `js/choreography/` with AnimationDirector, ScrollEffectsCoordinator, AnimationBus, section controllers, and specialized managers.
 - **Logging**: Unified `@datainkio/lumberjack` logger across Node and browser environments for consistent output.
 
@@ -111,16 +111,15 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Design System**
 
-- `scripts/fetchFigma.js` - Main Figma sync orchestrator
+- `scripts/build/fetchFigma.js` - Main Figma sync orchestrator
 - `figma/index.js` - Service exports
 - `figma/services/` - Design token processors
-  - `FileService.js` - Fetch Figma file data
-  - `StyleService.js` - Extract style definitions
-  - `PaletteService.js` - Generate color CSS custom properties → `styles/colors.css`
-  - `TypographyService.js` - Generate font families → `styles/typography/fontFamilies.css`
+  - `VariablesService.js` - Read the library's Tokens page → `figma/exports/variables.local.json`
+  - `PaletteService.js` - Colour variables → `styles/colors.css`
+  - `TokenService.js` - Numeric variables and shadow styles → `styles/tokens.css`
 - `figma/api/` - Figma REST API client
-- `figma/models/` - Data models for design tokens
-- `figma/utils/` - Color conversion and formatting utilities
+- `figma/generators/tokensPage.js` - Plugin API script that builds the library's Tokens page
+- `figma/views/tailwind/` - Writers for the two CSS files
 
 **Styles**
 
@@ -154,10 +153,9 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Build System**
 
-- `scripts/buildCSS.js` - Tailwind CLI wrapper with logging
-- `scripts/clearCache.js` - Cache management
-- `scripts/clearSiteFolder.js` - Clean \_site/ directory
-- `scripts/scaffold.js` - Component/page generator
+- `scripts/build/buildCSS.js` - Tailwind CLI wrapper with logging
+- `scripts/build/clearSiteFolder.js` - Clean \_site/ directory
+- `scripts/generate/scaffold.js` - Component/page generator
 - `package.json` - All npm scripts and dependencies
 
 **Assets**
@@ -257,7 +255,7 @@ this.bus.on("hero:intro:complete", () => {
 **Build Process**
 
 - Tailwind v4 uses `@tailwindcss/cli` package (not `tailwindcss` binary)
-- Wrapped by `scripts/buildCSS.js` for enhanced logging and analysis
+- Wrapped by `scripts/build/buildCSS.js` for enhanced logging and analysis
 - Never call Tailwind CLI directly - always use npm scripts
 - Watch mode: `npm run dev:css` (continuous building)
 - Production: `npm run build:css` (minified with optimization analysis)

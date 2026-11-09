@@ -23,9 +23,15 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **organism** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `main_pages` — referenced in the template.
+| Param        | Type                          | Description                                                                   |
+| ------------ | ----------------------------- | ----------------------------------------------------------------------------- |
+| `items`      | array                         | Navigation entries. Takes precedence over `cms` and `pages`.                  |
+| `cms`        | object                        | `navigation[0].headerItems` feed the menu when `items` is not set.            |
+| `pages`      | collection                    | eleventyNavigation source, used when neither `items` nor the CMS items exist. |
+| `classes`    | string, variant map, or array | Applied to the `<nav>` through `classes`.                                     |
+| `currentUrl` | string                        | Forwarded to the menu for `aria-current`.                                     |
 
 ## Relationships
 

@@ -9,30 +9,27 @@
     {%- endfor -%}
   {%- endset -%}
   {#- Roles -#}
-  {%- set rolesValue %}
-    {% for r in project.roles %}
-      {{ r.title }}
-      {% if not loop.last %},
-      {% endif %}
-    {% endfor %}
-  {% endset -%}
+  {%- set rolesValue -%}
+    {%- for r in project.roles -%}
+      {{ r.title }}{% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+  {%- endset -%}
   {#- Activities -#}
-  {%- set activitiesValue %}
-    {% for a in project.activities %}
-      {{ a.title }}
-      {% if not loop.last %},
-      {% endif %}
-    {% endfor %}
-  {% endset -%}
+  {%- set activitiesValue -%}
+    {%- for a in project.activities -%}
+      {{ a.title }}{% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+  {%- endset -%}
   {#- Industry -#}
   {%- set industryValue = project.industry.title if project.industry else "" -%}
 
+  {#- Block-captured values are already escaped; `| safe` stops stats.njk escaping them again (`&amp;amp;`). -#}
   {%- set metadataStats = [
     { key: "Clients/Partners", value: ProjectOrgs.render({ orgs: project.organization}) },
-    { key: "Roles",      value: rolesValue if project.roles else "" },
+    { key: "Roles",      value: rolesValue | safe if project.roles else "" },
     { key: "Industry",   value: industryValue },
-    { key: "Deliverables", value: activitiesValue if project.activities else "" },
-    { key: "Recognition (Summary)", value: awardOrgsValue if project.awards else "" }
+    { key: "Deliverables", value: activitiesValue | safe if project.activities else "" },
+    { key: "Recognition (Summary)", value: awardOrgsValue | safe if project.awards else "" }
     ] -%}
   {{ stats.render({ stats: metadataStats, classes: params.classes, styles: params.styles, aria: params.aria }) }}
 

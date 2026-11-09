@@ -1,27 +1,25 @@
-{% import "atoms/link/nav-link.njk" as nav_link with context %}
+{% import "atoms/link/nav-link.njk" as nav_link %}
 {% macro render(params = {}) %}
 
   {#- DATA GUARDS -#}
   {%- set items = params.items | default([]) -%}
 
   {#- STYLES -#}
-  {%- set ulClasses = params.ulClasses -%}
-  {%- set liClasses = params.liClasses -%}
-  {%- set aClasses = params.aClasses -%}
+  {%- set styles = params.styles or {} -%}
 
   {#- DISPLAY -#}
-  <ul class="{{ ulClasses }}" role="list">
+  <ul class="{{ params.classes | classes }}" role="list">
     {%- for entry in items -%}
       {%- set hasHref = entry and (entry.url or entry.href) -%}
       {%- set entryHref = entry.url or entry.href -%}
-      {%- set isCurrent = entryHref == page.url -%}
+      {%- set isCurrent = entryHref == params.currentUrl -%}
       {%- if hasHref and (entry.title or entry.key) -%}
         {%- if isCurrent -%}
-          <li class="{{ liClasses }}">
-            <span class="{{ aClasses }}" aria-current="page">{{ entry.pageNavLabel or entry.key }}</span>
+          <li class="{{ styles.item | classes }}">
+            <span class="{{ styles.link | classes }}" aria-current="page">{{ entry.pageNavLabel or entry.key }}</span>
           </li>
         {%- else -%}
-          <li class="{{ liClasses }}">{{ nav_link.render({ entry: entry, class: aClasses }) }}</li>
+          <li class="{{ styles.item | classes }}">{{ nav_link.render({ entry: entry, classes: styles.link, currentUrl: params.currentUrl }) }}</li>
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}

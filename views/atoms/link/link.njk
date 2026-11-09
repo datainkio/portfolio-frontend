@@ -40,7 +40,7 @@ Spec: specs/views/component-api.views-spec.md
     {%- if caller -%}{{ caller() }}{%- else -%}{{ linkText }}{%- endif -%}
     {# External link indicator #}
     {% if isExternal %}
-      {{ Icon.render({"name": "external-link", "size": "xs", "className": "inline-block ml-1"}) }}
+      {{ Icon.render({"name": "external-link", "size": "xs", "classes": "inline-block ml-1"}) }}
     {% endif %}
   </a>
 {% endmacro %}

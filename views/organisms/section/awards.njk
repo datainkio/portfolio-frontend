@@ -3,7 +3,6 @@
   {% import "molecules/card/award-organization.njk" as AwardOrganization %}
 
   {%- set sectionId = params.id | default("awards") -%}
-  {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId) -%}
@@ -23,12 +22,12 @@
     "lg": "px-24"
   } -%}
   {%- set headerCSS = {
-    "base": "z-10 border-y border-slate-600 divide-neutral-600 flex flex-row items-center gap-2 py-8",
+    "base": "z-10 border-y border-neutral-600 divide-neutral-600 flex flex-row items-center gap-2 py-8",
     "md": "py-12 px-4 gap-4"
   } -%}
   {%- set headingCSS = {"base": "font-display text-5xl", "sm": "text-5xl", "md": "text-6xl", "lg": "text-7xl"} -%}
   {%- set subheadingCSS = {
-    "base": "font-display tracking-wide flex flex-col content-start border-b-2 border-slate-700 py-6 px-4 gap-2",
+    "base": "font-display tracking-wide flex flex-col content-start border-b-2 border-neutral-700 py-6 px-4 gap-2",
     "sm": "flex-row"
   } -%}
   {%- set subheadingTitleCSS = {"base": "text-2xl font-display leading-none w-full my-auto m-0 p-0"} -%}
@@ -37,10 +36,10 @@
     base: "font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
     border-dotted border-primary-500 py-4 mb-6"
     } -%}
-  {%- set listCSS = {"base": "px-2 py-4 columns-6 ", "md": "p-0 columns-3", "lg": "columns-4", "xl": "columns-5"} -%}
-  {%- set articleContainer = {"base": "py-2 break-inside-avoid text-center", "sm": ""} -%}
+  {%- set listCSS = {"base": "grid grid-cols-3 items-center gap-x-6 gap-y-8 px-2 py-6", "sm": "gap-x-8", "md": "grid-cols-6 px-0"} -%}
+  {%- set articleContainer = {"base": "flex items-center justify-center"} -%}
   <section id="{{ sectionId }}"
-           class="{{ sectionStyles | classes }}"
+           class="{{ [sectionStyles, params.classes] | classes }}"
            aria-labelledby="{{ headingId }}"
            data-scroll-section>
 
@@ -51,7 +50,6 @@
     </header>
 
     <div data-awards-el="subheading"
-         id="subheading"
          class=" {{ subheadingCSS | classes }} ">
       <p class="{{ subheadingTitleCSS | classes }}">Awards, Fellowship, and Distinctions</p>
       <p class="{{ subheadingDescriptionCSS | classes }}">Selected honors received for work in design, technology & public impact</p>
@@ -59,7 +57,7 @@
 
     <ul data-awards-el="list" class=" {{ listCSS | classes }} ">
       {% for orgId, group in awards | groupByOrg %}
-        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render({ group: group }) }}</li>
+        <li data-awards-el="group" class="{{ articleContainer | classes }} ">{{ AwardOrganization.render({ group: group, logoOnly: true }) }}</li>
       {% endfor %}
     </ul>
 

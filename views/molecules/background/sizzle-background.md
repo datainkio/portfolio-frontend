@@ -23,10 +23,22 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `Gel` — referenced in the template.
-- `videoAtom` — referenced in the template.
+| Param         | Type                          | Description                                                                        |
+| ------------- | ----------------------------- | ---------------------------------------------------------------------------------- |
+| `id`          | string                        | Id of the fixed background container. Defaults to `sizzle-background`.             |
+| `classes`     | string, variant map, or array | Applied to the container through `classes`, after a fixed, full-viewport baseline. |
+| `style`       | string                        | Inline style on the container. Defaults to empty.                                  |
+| `poster`      | Sanity image                  | Poster image, passed through `imageUrl` at 1020 px wide.                           |
+| `videoSrc`    | string                        | Video URL.                                                                         |
+| `autoPlay`    | boolean                       | Defaults to `true`.                                                                |
+| `loop`        | boolean                       | Defaults to `true`.                                                                |
+| `muted`       | boolean                       | Defaults to `true`.                                                                |
+| `playsInline` | boolean                       | Defaults to `true`.                                                                |
+| `preload`     | string                        | Defaults to `metadata`.                                                            |
+
+The video is never deferred (`defer: false`). The template also places the Pixelator and the `gel_hero` gel inside the container.
 
 ## Relationships
 

@@ -3,7 +3,7 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { motion } from "../../config/ix/motion.js";
 import { HERO_INTRO, HERO_OUTRO } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { attachHeadingGel, getHeadingGelEl } from "./heading-gel.js";
+import { getHeadingGelEl } from "./heading-gel.js";
 
 const HERO_EL_ATTR = HERO_SELECTORS.elementAttribute;
 
@@ -66,6 +66,27 @@ export function intro(view, gelManager) {
         });
       });
   });
+  // Band wipe: the solid plate behind label + h1 is revealed from the
+  // viewport's left edge to full width. clip-path rather than scaleX so the
+  // band's parallax image is uncovered, not squashed. fromTo renders its start
+  // at build time, so the band is already hidden before the intro plays. It is
+  // in the header's normal flow, so it scrolls with the text.
+  const band = selectHeroEl(view, HERO_SELECTORS.band);
+  if (band) {
+    tl.fromTo(
+      band,
+      { clipPath: "inset(0% 100% 0% 0%)" },
+      {
+        clipPath: "inset(0% 0% 0% 0%)",
+        duration: HERO_INTRO.bandDuration,
+        ease: HERO_INTRO.ease.out,
+      },
+      0,
+    );
+  }
+  // The text starts once the wipe completes (at 0 when there is no band).
+  tl.addLabel("text");
+
   // Reading-order cascade: context and title overlap into one continuous
   // downward gesture; the keyword ignite punctuates the tail. The overview
   // heading now lives outside <header> and is not part of this cascade. The
@@ -73,40 +94,10 @@ export function intro(view, gelManager) {
   tl.from(
     context,
     { duration: motion.duration("base") / 1000, opacity: 0, y: 100 },
-    0,
+    "text",
   );
   const charDuration = motion.duration("instant") / 1000;
   const charStagger = motion.stagger("tight") * 0.5;
-
-  // Line bands grow left to right, one line after another, ahead of the
-  // letters. Each band lasts as long as its own line's letter cascade, so the
-  // text keeps a constant `bandLead` behind the background all the way down.
-  // background-size (not scaleX / clip-path) so the letters are never
-  // squashed or cut. Without the split (no JS, reduced) the CSS band shows.
-  tl.addLabel("bands", "-=0.3");
-  split.lines.forEach((line, i) => {
-    const band = selectHeroEl(line, HERO_SELECTORS.band);
-    if (!band) return;
-    const lineChars = split.chars.filter((char) => line.contains(char));
-    // The template's bg utility is the single source of the band colour; read
-    // it before swapping the flat colour for an animatable gradient.
-    const bandColor = getComputedStyle(band).backgroundColor;
-    gsap.set(band, {
-      backgroundColor: "transparent",
-      backgroundImage: `linear-gradient(${bandColor}, ${bandColor})`,
-      backgroundRepeat: "no-repeat",
-    });
-    tl.fromTo(
-      band,
-      { backgroundSize: "0% 100%" },
-      {
-        backgroundSize: "100% 100%",
-        duration: Math.max(lineChars.length * charStagger, charDuration),
-        ease: "none",
-      },
-      i === 0 ? "bands" : ">",
-    );
-  });
 
   tl.from(
     split.chars,
@@ -117,7 +108,7 @@ export function intro(view, gelManager) {
       rotation: 45,
       stagger: charStagger,
     },
-    `bands+=${HERO_INTRO.bandLead}`,
+    "-=0.3",
   );
 
   // Highlight keywords in the title split
@@ -126,12 +117,9 @@ export function intro(view, gelManager) {
     stagger: motion.duration("md") / 1000,
   });
 
-  // Both positioned outside the timeline — standing behaviours, not phases of
-  // this reveal. The heading's band is a full-bleed backdrop; the mission
-  // statement owns its own scroll-cued arrival (it sits an `h-dvh` below the
-  // header, so anything sequenced here would play off-screen) and attaches the
-  // overview band itself as that arrival's first beat.
-  // attachHeadingGel(view, gelManager);
+  // The mission statement owns its own scroll-cued arrival (it sits an `h-dvh`
+  // below the header, so anything sequenced here would play off-screen) and
+  // attaches the overview band itself as that arrival's first beat.
   //attachMissionStatement(view, gelManager);
 
   return tl;

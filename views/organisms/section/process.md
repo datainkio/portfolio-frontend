@@ -29,15 +29,16 @@ system via `data-process-el` attributes; both are built by the composed
 Classified as a **component** at the atomic **organism** level based on its
 location under `views/`.
 
-## Data and Context
+## Params
 
-- `params.id` — section id, defaults to `"process"`.
-- `params.copy.heading` — heading text, defaults to `"Process"`.
-- `params.copy.body` — optional body paragraph; omitted entirely if empty.
-- `params.headingId` — id used for `aria-labelledby`, defaults to `sectionId`.
-- `params.uiComponents` — opt-in flag; renders the looping UI-components
-  stage (`uicomponents-stage`) above the paragraphs. Blockframes renders
-  regardless.
+| Param          | Type    | Description                                                                                  |
+| -------------- | ------- | -------------------------------------------------------------------------------------------- |
+| `id`           | string  | Section id. Defaults to `process`.                                                           |
+| `copy`         | object  | `heading` (defaults to "Process") and `body` (optional paragraph, omitted when empty).       |
+| `headingId`    | string  | Id for the heading and `aria-labelledby`. Defaults to the section id.                        |
+| `uiComponents` | boolean | When `true`, renders the UI-components loop stage above the paragraphs. Defaults to `false`. |
+
+Fixed design: takes no styling params.
 
 ## `data-process-el` Hooks
 

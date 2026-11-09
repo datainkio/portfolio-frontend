@@ -85,8 +85,8 @@ export function markdownify(markdownString) {
  * @returns {string} HTML with classes applied
  *
  * EXAMPLE:
- * {{ article.body | prettify("text-gray-700 leading-relaxed") }}
- * => "<p class="text-gray-700 leading-relaxed">First paragraph...</p>"
+ * {{ article.body | prettify("text-neutral-700 leading-relaxed") }}
+ * => "<p class="text-neutral-700 leading-relaxed">First paragraph...</p>"
  */
 export function prettify(markdownString, parClasses) {
   const $ = cheerio.load(markdownify(markdownString));
@@ -180,7 +180,7 @@ export function slugify(str) {
  *
  * EXAMPLE:
  * {{ svgString | replaceStylesWithClasses }}
- * => "<svg class="w-6 h-6 text-gray-500">...</svg>"
+ * => "<svg class="w-6 h-6 text-neutral-500">...</svg>"
  */
 export function clearSVGFills(source) {
   return source.replace(/\sfill\s*=\s*["'][^"']*["']/g, "");

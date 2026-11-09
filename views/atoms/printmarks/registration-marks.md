@@ -22,9 +22,12 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `RegistrationMark` — referenced in the template.
+| Param     | Type   | Description                                                                     |
+| --------- | ------ | ------------------------------------------------------------------------------- |
+| `classes` | string | Appended as-is to the root `<div>`. No `classes` filter.                        |
+| `size`    | string | Size suffix applied to each of the five marks (`size-{size}`). Defaults to `6`. |
 
 ## Relationships
 

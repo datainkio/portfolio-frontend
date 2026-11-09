@@ -1,6 +1,6 @@
-{% import "organisms/navigation/primary-nav.njk" as primary_nav with context %}
+{% import "organisms/navigation/primary-nav.njk" as primary_nav %}
 {% import "atoms/hanko/hanko.njk" as Hanko %}
-{% import "molecules/list/build-info.njk" as BuildInfo with context %}
+{% import "organisms/status/build-view/build-view.njk" as BuildInfo %}
 
 {#- DATA GUARDS -#}
 
@@ -9,7 +9,7 @@
 {#- container for the global header / hidden by default with expectation that it will be shown via JavaScript;
     with scripting off, the media variant restores its grid display so the header is never lost -#}
 {%- set headerClasses = {
-  "base": "hidden [@media(scripting:none)]:grid fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-slate-700 z-20 py-2 px-2 gap-2 inner-border font-display text-primary-200 will-change-transform"
+  "base": "hidden [@media(scripting:none)]:grid fixed w-full min-w-screen-sm grid grid-cols-12 items-center divide-x divide-neutral-700 z-20 py-2 px-2 gap-2 inner-border font-display text-primary-200 will-change-transform"
 } -%}
 
 {#- header's own base background, as a stacked layer rather than the header's
@@ -19,21 +19,18 @@
     This backdrop sits at -z-10 — below the header's unpositioned content
     (logo/dt/dd/toggle, which stack above any negative z-index layer
     regardless), but above the drawer. -#}
-{%- set headerBackdropClasses = {"base": "absolute inset-0 -z-10 bg-slate-900 pointer-events-none"} -%}
+{%- set headerBackdropClasses = {"base": "absolute inset-0 -z-10 bg-neutral-900 pointer-events-none"} -%}
 
 {#- link to home -#}
 {%- set logoClasses = {"base": "flex justify-center items-center w-full min-w-10 h-full p-2"} -%}
 
 {#- definition list -#}
-{%- set dlClasses = {"base": "w-full col-span-7 grid grid-cols-subgrid bg-slate-700 gap-px", "md": "grid-rows-2 "} -%}
-{%- set dtClasses = {"base": "px-2 text-neutral-500 text-xs h-full bg-slate-900", "md": "content-end "} -%}
+{%- set dlClasses = {"base": "w-full col-span-7 grid grid-cols-subgrid bg-neutral-700 gap-px", "md": "grid-rows-2 "} -%}
+{%- set dtClasses = {"base": "px-2 text-neutral-500 text-xs h-full bg-neutral-900", "md": "content-end "} -%}
 {%- set ddClasses = {
-  "base": "truncate px-2 text-xs md:text-sm lg:text-base text-neutral-300 h-full content-center bg-slate-900",
+  "base": "truncate px-2 text-xs md:text-sm lg:text-base text-neutral-300 h-full content-center bg-neutral-900",
   "md": "row-start-2"
 } -%}
-
-{#- page links -#}
-{%- set navParams = {"classes": "col-span-4"} -%}
 
 {#- DISPLAY -#}
 {% macro render(params = {}) %}
@@ -41,7 +38,7 @@
   {%- set logoSvg = params.logoSvg -%}
 
   <header id="global-header"
-          class="{{ headerClasses | classes }} {{ params.classes }}"
+          class="{{ [headerClasses, params.classes] | classes }}"
           aria-label="Global Site Header">
 
     <div class="{{ headerBackdropClasses | classes }}" aria-hidden="true"></div>
@@ -61,14 +58,14 @@
       {#- DOC ID -#}
       <dt class="{{ dtClasses | classes }} sr-only lg:not-sr-only">Doc No.</dt>
       <dd class="{{ ddClasses | classes }} sr-only lg:not-sr-only">
-        DOC {{ params.docNo | default(docNo) | default("00") }}
+        DOC {{ params.docNo | default("00") }}
       </dd>
 
       {#- SECTION TITLE -#}
       <dt class="{{ dtClasses | classes }} col-span-full md:col-span-4">Section</dt>
       <dd data-current-section-title
           class="{{ ddClasses | classes }} col-span-full md:col-span-4 text-secondary-500 ">
-        {{ params.sectionTitle | default(eleventyNavigation.title) | default(title) }}
+        {{ params.sectionTitle }}
       </dd>
 
       {#-
@@ -77,13 +74,13 @@
       -#}
       <dt class="{{ dtClasses | classes }} col-span-2 md:col-span-3 lg:col-span-2">Build Info</dt>
       <dd class="{{ ddClasses | classes }} col-span-5 md:col-span-3 lg:col-span-2 group-data-[open]/cap:basis-1/6 text-neutral-500 text-xs self-center">
-        {{ BuildInfo.render({"class": "w-full"}) }}
+        {{ BuildInfo.render({ classes: "w-full", buildDate: params.buildDate, buildVersions: params.buildVersions }) }}
       </dd>
 
     </dl>
 
     {#- MAIN NAVIGATION -#}
-    {{ primary_nav.render(navParams) }}
+    {{ primary_nav.render({ classes: "col-span-4", cms: params.cms, pages: params.pages, currentUrl: params.currentUrl }) }}
 
   </header>
 {% endmacro %}

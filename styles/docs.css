@@ -1,0 +1,20 @@
+/* Stylesheet for the design reference (/docs/design/), built by buildCSS.js
+   to _site/assets/docs.css and linked in place of styles.css on those pages.
+   It's the site stylesheet plus the classes only the reference uses, which
+   main.css excludes so they don't ship to every page. */
+@import "./main.css";
+
+@source "../_site/docs/design";
+@source "../views/layouts/design-doc.njk";
+
+/* base.css gives <body> overflow-x: hidden, which makes it a scroll container
+   (overflow-y computes to auto), so the sidebar can't stick to the viewport.
+   `clip` hides the same overflow without making a scroll container. */
+@layer base {
+  body {
+    overflow-x: clip;
+  }
+  main {
+    margin-left: var(--sidebar-width);
+  }
+}
