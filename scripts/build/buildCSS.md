@@ -22,6 +22,7 @@ Context sidecar for `scripts/build/buildCSS.js`.
 
 A single build runs them one after the other; `--watch` runs a watcher for each.
 
-The CLI runs through `npx @tailwindcss/cli`, which isn't pinned in
-`package.json`, so the CLI version can be newer than the `tailwindcss` package.
-`main.css` uses `@source not`, which needs the CLI at 4.1 or later.
+The CLI runs from the local `node_modules/.bin/tailwindcss` (from
+`@tailwindcss/cli`, pinned `^4.3.5` and matched to `tailwindcss`), not `npx`.
+`main.css` uses `@source not`, which needs the CLI at 4.1 or later. `npm start`
+no longer pre-builds CSS; the `dev:css` watcher builds on launch.
