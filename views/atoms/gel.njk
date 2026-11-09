@@ -11,14 +11,16 @@
   - Element ID must match arrangement keys used by gel choreography (e.g., id="bg-gel-0")
   - IDs use kebab-case format: bg-gel-0, bg-gel-1, bg-gel-2
   - .bg-gel class triggers automatic discovery during initialization
-  - Color classes (bg-gel-primary, etc.) are optional styling
+  - Color classes (bg-gel-primary, etc.) set the gradient's base colour
+  - Direction classes (bg-gel-top, bg-gel-bottom-left, etc.) set where it goes "to"; default is top
+  - Both only set variables read by .bg-gel, so they combine in any order (see styles/backgrounds/Gel.css)
 
   USAGE:
   {% import "atoms/gel.njk" as gelAtom %}
   {{ gelAtom.render({ color: 'bg-gel-primary', id: 'bg-gel-0' }) }}
 
   PARAMETERS:
-  - color: CSS class for color state (default: 'bg-gel-primary')
+  - color: CSS classes for color and direction state (default: 'bg-gel-primary'), e.g. 'bg-gel-primary bg-gel-top'
   - id: Element ID matching gel arrangement entries (required for choreography)
 #}
 {% macro render(params = {}) %}
