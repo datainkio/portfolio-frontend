@@ -1,53 +1,46 @@
-/* 
-* .bg-gel provides the blend mode and full positioning 
-* Assume a relative parent container
-*/
-.bg-gel {
-  mix-blend-mode: multiply;
+/*
+ * GEL BACKGROUNDS
+ *
+ * Defined with @utility so variants compose (lg:bg-gel-accent) and the
+ * stops come from Tailwind's own gradient utilities, which means
+ * from-* / via-* / to-* still override them per element.
+ *
+ * bg-gel          Blend mode and compositing. Assume a relative parent
+ *                 container. Also the hook GelAnimationManager queries
+ *                 (.bg-gel), so keep it on every gel element.
+ * bg-gel-<color>  Bottom-to-top gradient from the 900 step to a lighter one.
+ *                 The colour classes are swapped at runtime by
+ *                 GelVisualState; the names are listed in Gel.js.
+ *
+ * Gradients interpolate in sRGB (/srgb) to match the original
+ * linear-gradient output; Tailwind's default is oklab.
+ */
+@utility bg-gel {
+  @apply mix-blend-multiply will-change-transform; /* will-change: own compositor layer, decouples paint from sibling gels */
   contain: content;
-  will-change: transform; /* own compositor layer → decouple paint from sibling gels */
 }
 
-/* .bg-gel-neutral applies a gradient from neutral-900 to neutral-400 */
-.bg-gel-neutral {
-  background-image: linear-gradient(
-    to top,
-    var(--color-neutral-900),
-    var(--color-neutral-400)
-  );
+/* neutral-900 to neutral-400 */
+@utility bg-gel-neutral {
+  @apply bg-linear-to-t/srgb from-neutral-900 to-neutral-400;
 }
 
-.bg-gel-neutral-light {
-  background-image: linear-gradient(
-    to top,
-    var(--color-neutral-200),
-    var(--color-neutral-100)
-  );
+/* neutral-200 to neutral-100 */
+@utility bg-gel-neutral-light {
+  @apply bg-linear-to-t/srgb from-neutral-200 to-neutral-100;
 }
 
-/* .bg-gel-primary applies a gradient from primary-900 to primary-400 */
-.bg-gel-primary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-primary-900),
-    var(--color-primary-600)
-  );
+/* primary-900 to primary-600 */
+@utility bg-gel-primary {
+  @apply bg-linear-to-t/srgb from-primary-900 to-primary-600;
 }
 
-/* .bg-gel-secondary applies a gradient from secondary-900 to secondary-400 */
-.bg-gel-secondary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-secondary-900),
-    var(--color-secondary-600)
-  );
+/* secondary-900 to secondary-600 */
+@utility bg-gel-secondary {
+  @apply bg-linear-to-t/srgb from-secondary-900 to-secondary-600;
 }
 
-/* .bg-gel-accent applies a gradient from accent-900 to accent-400 */
-.bg-gel-accent {
-  background-image: linear-gradient(
-    to top,
-    var(--color-accent-900),
-    var(--color-accent-600)
-  );
+/* accent-900 to accent-600 */
+@utility bg-gel-accent {
+  @apply bg-linear-to-t/srgb from-accent-900 to-accent-600;
 }
