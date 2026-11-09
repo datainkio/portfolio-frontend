@@ -139,7 +139,8 @@ async function buildCSS(options = {}) {
     tailwindLogger.logFileAnalysis(inputFile);
 
     // Build Tailwind command
-    let command = `"${resolve(projectRoot, "node_modules/.bin/tailwindcss")}" -i ${inputFile} -o ${outputFile}`;
+    // Unquoted: watch mode splits this on spaces and spawns without a shell.
+    let command = `${resolve(projectRoot, "node_modules/.bin/tailwindcss")} -i ${inputFile} -o ${outputFile}`;
     if (minify) command += " --minify";
     if (watch) command += " --watch=always";
 
