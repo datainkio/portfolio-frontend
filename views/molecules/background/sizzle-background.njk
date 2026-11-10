@@ -26,7 +26,12 @@
 
     {{ Pixelator.render() }}
     {{ Gel.render({"id": "gel_hero", "fade": "gel-fade-lg", "opacityEnd": "gel-opacity-end-50"}) }}
-    {{ Gel.render({"id": "gel_tagline", "fade": "gel-fade-lg", "opacityEnd": "gel-opacity-end-0"}) }}
+    {{ Gel.render({
+      "id": "gel_tagline",
+      "fade": "gel-fade-lg",
+      "opacity": "gel-opacity-100",
+      "opacityEnd": "gel-opacity-end-0"
+    }) }}
     {# {{ Gel.render({"id": "gel_subheading", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_process", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_awards_backing", "color": "gel-accent"}) }}
