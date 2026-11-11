@@ -126,6 +126,18 @@ export const SECTION_OVERRIDES = Object.freeze({
       animation: { variant: "reduced" },
     },
   },
+  video: {
+    // Two-point perspective tilt after the reveal (lg+ only). Below lg —
+    // narrow viewports — the background stays flat for MTP. Gated by width, not
+    // orientation: a portrait viewport 1024px+ wide (lg) still tilts.
+    // No `reduced` key on purpose: reduced motion changes how the tilt arrives
+    // (snapped, not tweened), not whether it applies, so BackgroundVideo
+    // resolves the breakpoint tier's variant with reduced motion set aside.
+    // See specs/animation/background-video-perspective-spec.md.
+    ...allBreakpoints({ animation: { variant: "flat" } }),
+    lg: { animation: { variant: "perspective" } },
+    xl: { animation: { variant: "perspective" } },
+  },
 });
 
 /**

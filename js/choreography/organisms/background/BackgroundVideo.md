@@ -1,5 +1,5 @@
 ---
-description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
+description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events, and settles the section into its two-point perspective rest pose after the reveal; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
 status: stable
 tags:
   - choreography
@@ -11,6 +11,7 @@ links:
   - "[[BackgroundVideoEvent|BackgroundVideoEvent]]"
   - "[[deferred-videos|preloader/deferred-videos]]"
   - "[[Preloader|preloader/Preloader]]"
+  - "[[profiles|profiles]]"
 ---
 
 # BackgroundVideo
@@ -77,3 +78,23 @@ and a return visitor should still get a moving background.
 Note that `playIntro()` still gates on `_isLifecycleMotionEnabled` and pauses —
 so on a session-gated return visit it pauses a video `_onHydrated()` started.
 Pre-existing behavior, unchanged here.
+
+## Perspective rest pose
+
+After the reveal, the section root tilts into two-point perspective and stays
+there ([spec](../../../../specs/animation/background-video-perspective-spec.md)).
+The cue is the intro finishing — no new event:
+
+| Path                 | Hook                                                | Result                       |
+| -------------------- | --------------------------------------------------- | ---------------------------- |
+| First visit          | intro timeline `onComplete` → `_onIntroComplete`    | idle timeline tweens to rest |
+| Reduced motion       | `_applyPostIntroState` (intro jumped to progress 1) | snapped to rest              |
+| Session-gated replay | `_applyPostIntroState`                              | snapped to rest              |
+| Below `lg`           | `SECTION_OVERRIDES.video` variant `flat`            | no tilt; transform cleared   |
+
+`_isPerspectiveTier()` resolves the active breakpoint's profile with reduced
+motion set aside: the `reduced` profile has no breakpoint, and reduced motion
+only decides tween vs snap. A matchMedia crossing clears the pose below `lg`
+and re-applies it at `lg`+ once the intro has settled. A plain `resize`
+re-sets the settled pose, since perspective is proportional to width; a tilt
+still mid-tween finishes at the width it started with.

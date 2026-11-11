@@ -1,5 +1,5 @@
 ---
-description: "Background motion preset — BACKGROUND_ANIMATION_DEFAULTS for the background video section."
+description: "Background motion presets — BACKGROUND_ANIMATION_DEFAULTS (video reveal) and BACKGROUND_PERSPECTIVE (two-point tilt rest pose) for the background video section."
 status: stable
 tags:
   - choreography
@@ -13,4 +13,7 @@ links:
 
 # presets/background
 
-`BACKGROUND_ANIMATION_DEFAULTS` spreads `ANIMATION_DEFAULTS` unchanged. Consumed by `BackgroundVideoAnimations`.
+Both consumed by `BackgroundVideoAnimations`.
+
+- `BACKGROUND_ANIMATION_DEFAULTS` — spreads `ANIMATION_DEFAULTS` unchanged; drives the reveal.
+- `BACKGROUND_PERSPECTIVE` — the tilt's rest pose and timing: `rotationY` (deg), `perspectiveRatio` (× viewport width → px), `transformOrigin`, `scale` (overscale that closes the exposed wedge), `duration` (seconds, 1.5 × `slower`), `ease` (GSAP name).
