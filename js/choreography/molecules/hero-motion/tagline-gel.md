@@ -20,4 +20,4 @@ links:
 
 ## Reduced motion
 
-The `reduced` variant has no tagline beat. `gel_tagline` stays at the manager's parked `autoAlpha: 0`, matching `gel_hero`, which `reduced.js` also parks hidden.
+The `reduced` variant has no tagline beat. Its `init` sets `gel_tagline` and `gel_hero` to `autoAlpha: 1` at rest, so reduced motion lands with both gels visible (see [reduced](reduced.md)).

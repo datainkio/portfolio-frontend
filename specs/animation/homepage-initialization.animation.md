@@ -61,7 +61,6 @@ When the browser is set to reduced motion:
 Known differences between this spec and the build, as of 2026-11-11:
 
 - **Session gating is off.** `SESSION_GATING_ENABLED` is `false`, so return visitors replay the full sequence.
-- **Reduced motion leaves the gels hidden.** The hero's `reduced` variant parks `gel_hero` and `gel_tagline` at `autoAlpha: 0`, so the reduced-motion landing differs from step 12.
 - **Step 03 runs in parallel in the build.** Choreography initialization doesn't wait for the preloader's intro; the preloader's exit waits for both. The user sees the same result.
 - **[LandingSequence.md](../../js/choreography/templates/landing/LandingSequence.md) still ends with the header sliding in.** Deferred while the header is disabled.
 - **The title band is deprecated.** [split.md](../../js/choreography/molecules/hero-motion/split.md) describes a band wipe behind the label and H1; `hero.njk` no longer renders the band, and it won't be implemented.

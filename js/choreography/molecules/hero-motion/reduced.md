@@ -1,5 +1,5 @@
 ---
-description: "Hero `reduced` variant — low-vestibular fallback. Hides the hero gel outright and returns empty intro/outro timelines."
+description: "Hero `reduced` variant — low-vestibular fallback. Shows gel_hero and gel_tagline at rest (autoAlpha 1) and returns empty intro/outro timelines."
 status: stable
 tags:
   - hero-motion
@@ -27,10 +27,13 @@ Registered as `HERO_VARIANT_FACTORIES.reduced` in
 ## Behavior
 
 `init` does the one thing that genuinely needs JS under reduced motion: it sets
-`gel_hero` to `autoAlpha: 0` and calls `gel.refresh()`. The gel exists only as a
-motion device — without the wipe there is nothing for it to express, and left
-visible it would sit as an opaque sheet over the fixed background video. Hiding
-it is the correct rest state, not merely the absence of animation.
+`gel_hero` and `gel_tagline` to `autoAlpha: 1` and calls `gel.refresh()` on each.
+Reduced motion lands at the completed state of the
+[homepage initialization sequence](../../../../specs/animation/homepage-initialization.animation.md)
+(step 12), where both gels are visible. `GelAnimationManager` parks every gel at
+`autoAlpha: 0`, so they must be revealed explicitly. Both are `absolute inset-0`
+in markup, so they need no JS geometry. Changed 2026-11-11; the variant used to
+hide `gel_hero`.
 
 `buildIntro` / `buildOutro` return bare timelines. No gel transform, no
 ScrollTrigger, no header motion — the hero content renders at its CSS rest state.
