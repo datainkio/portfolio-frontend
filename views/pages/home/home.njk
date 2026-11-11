@@ -38,18 +38,21 @@
     widening the mobile layout viewport. -#}
 <html lang="en" class="overflow-x-clip bg-neutral-950">
   {% include "templates/partials/head/head.njk" %}
-  <body class="relative bg-neutral-950 text-neutral-100 isolate">
+  <body class="relative bg-graphpaper-primary-100 text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
-    {{ Preloader.render({ "svg": logo }) }}
+    {#    {{ Preloader.render({ "svg": logo }) }} #}
     {% include "templates/partials/session-management-script/session-management-script.njk" %}
-    {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
+    {# {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }} #}
     {#- TEMP (2026-11-09): global header disabled on the homepage. GlobalHeaderManager
         and BuildInfoManager no-op when #global-header is absent. Restore by uncommenting.
     {{ GlobalHeader.render({ logoSvg: logo, docNo: docNo, sectionTitle: eleventyNavigation.title | default(title), cms: cms, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
     -#}
     <div id="page-main">
-      <main id="page-main-content" tabindex="-1" aria-busy="true" class="focus:outline-none {{ main | classes }}">
+      <main id="page-main-content"
+            tabindex="-1"
+            aria-busy="true"
+            class="focus:outline-none {{ main | classes }}">
         {#- Hero statements: item 0 is the value prop (with valuePropImage), then the home singleton's statements[]. -#}
         {%- set homeDoc = cms.home[0] -%}
         {%- set heroStatements = [{ "subheading": value.subheading, "body": value.body, "image": homeDoc.valuePropImage }].concat(homeDoc.statements or []) -%}
