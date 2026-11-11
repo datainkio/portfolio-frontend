@@ -13,8 +13,10 @@ export const BACKGROUND_ANIMATION_DEFAULTS = {
 /**
  * Background Perspective — two-point tilt after the video reveal
  *
- * Once the video has faded in, the whole section root (video, pixelator, gels)
- * turns into two-point perspective and rests there for the rest of the page.
+ * Before the video is visible, the section root (video, pixelator, gels) is
+ * overscaled by `scale` about `transformOrigin`, so the right edge stays flush.
+ * Once the video has faded in, it turns into two-point perspective — rotation
+ * only — and rests there for the rest of the page.
  * Negative `rotationY` about the right edge makes the LEFT side recede while
  * the right edge stays fixed. At a 1920px viewport the rest pose equals
  * `transform-origin: 100% 50%; transform: perspective(2400px) rotateY(-15deg)

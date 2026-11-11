@@ -16,4 +16,4 @@ links:
 Both consumed by `BackgroundVideoAnimations`.
 
 - `BACKGROUND_ANIMATION_DEFAULTS` — spreads `ANIMATION_DEFAULTS` unchanged; drives the reveal.
-- `BACKGROUND_PERSPECTIVE` — the tilt's rest pose and timing: `rotationY` (deg), `perspectiveRatio` (× viewport width → px), `transformOrigin`, `scale` (overscale that closes the exposed wedge), `duration` (seconds, 1.5 × `slower`), `ease` (GSAP name).
+- `BACKGROUND_PERSPECTIVE` — the tilt's rest pose and timing: `rotationY` (deg), `perspectiveRatio` (× viewport width → px), `transformOrigin`, `scale` (overscale that closes the exposed wedge; applied before the reveal, not tweened), `duration` (seconds, 1.5 × `slower`), `ease` (GSAP name).

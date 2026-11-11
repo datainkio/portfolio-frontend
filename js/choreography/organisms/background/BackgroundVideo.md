@@ -83,18 +83,30 @@ Pre-existing behavior, unchanged here.
 
 After the reveal, the section root tilts into two-point perspective and stays
 there ([spec](../../../../specs/animation/background-video-perspective-spec.md)).
-The cue is the intro finishing — no new event:
+On `lg`+ the root is overscaled about its right edge (`primePerspective`)
+before the video is visible, so the tilt itself is rotation only and the right
+edge never appears to move. The cue is the intro finishing — no new event:
 
-| Path                 | Hook                                                | Result                       |
-| -------------------- | --------------------------------------------------- | ---------------------------- |
-| First visit          | intro timeline `onComplete` → `_onIntroComplete`    | idle timeline tweens to rest |
-| Reduced motion       | `_applyPostIntroState` (intro jumped to progress 1) | snapped to rest              |
-| Session-gated replay | `_applyPostIntroState`                              | snapped to rest              |
-| Below `lg`           | `SECTION_OVERRIDES.video` variant `flat`            | no tilt; transform cleared   |
+| Path                 | Hook                                                | Result                                             |
+| -------------------- | --------------------------------------------------- | -------------------------------------------------- |
+| First visit          | intro timeline `onComplete` → `_onIntroComplete`    | idle timeline tweens to rest, then emits           |
+| Reduced motion       | `_applyPostIntroState` (intro jumped to progress 1) | snapped to rest, emits at once                     |
+| Session-gated replay | `_applyPostIntroState`                              | snapped to rest, emits at once                     |
+| Below `lg`           | `SECTION_OVERRIDES.video` variant `flat`            | no tilt; transform cleared; emits at once          |
+
+**`video:intro:complete` waits for the tilt.** On the played path,
+`_onIntroComplete` holds the base emit (and the session mark) in
+`_pendingIntroComplete` and releases it from the idle timeline's `onComplete`
+(`animations.onPerspectiveSettled`). LandingSequence cues hero's intro from that
+event, so hero starts on a background at rest — sequenced by event, with
+`HERO_INTRO_HOLD` as the beat after it. Every path that ends a pending tilt
+releases the event: settle, snap (which finishes the timeline), and a clear on
+dropping below `lg`. The hero chain can't stall on it.
 
 `_isPerspectiveTier()` resolves the active breakpoint's profile with reduced
 motion set aside: the `reduced` profile has no breakpoint, and reduced motion
-only decides tween vs snap. A matchMedia crossing clears the pose below `lg`
-and re-applies it at `lg`+ once the intro has settled. A plain `resize`
-re-sets the settled pose, since perspective is proportional to width; a tilt
-still mid-tween finishes at the width it started with.
+only decides tween vs snap. A matchMedia crossing clears the pose below `lg`,
+and at `lg`+ re-applies the full pose once the intro has settled, or only the
+overscale before that. A plain `resize` re-sets the settled pose, since
+perspective is proportional to width; a tilt still mid-tween re-asserts the
+pose at the current width when it completes.
