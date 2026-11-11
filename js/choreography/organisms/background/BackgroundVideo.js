@@ -1,6 +1,11 @@
 import AbstractSection from "../../system/AbstractSection.js";
-import { SELECTORS, VIDEO_SELECTORS } from "../../config/index/index.js";
+import {
+  SELECTORS,
+  VIDEO_SELECTORS,
+  resolveSectionMotionProfile,
+} from "../../config/index/index.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
+import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import BackgroundVideoAnimations from "./BackgroundVideoAnimations.js";
 import BackgroundVideoTriggers from "./BackgroundVideoTriggers.js";
 import {
@@ -57,6 +62,7 @@ export default class BackgroundVideo extends AbstractSection {
 
     this._bindMediaEvents();
     this._bindHydrationHandshake();
+    this._bindPerspectiveResize();
   }
 
   /**
@@ -227,6 +233,93 @@ export default class BackgroundVideo extends AbstractSection {
     // not be able to stall behind a buffer that may never fill.
     this._playVideo();
     return super.playIntro();
+  }
+
+  /**
+   * Two-point perspective tilt — the rest pose after the reveal (see
+   * specs/animation/background-video-perspective-spec.md). The tilt is earned
+   * by the intro finishing, by either route:
+   *
+   * - played: the intro timeline's onComplete calls _onIntroComplete → tween.
+   * - gated (reduced motion, session-gated replay): AbstractSection jumps the
+   *   intro to progress(1) via _applyPostIntroState → snap.
+   *
+   * Either way it then persists; it never un-tilts or replays. Narrow tiers
+   * stay flat (SECTION_OVERRIDES.video), and a matchMedia breakpoint crossing
+   * clears or re-applies the pose in _applyResponsiveLifecycle.
+   */
+  _isPerspectiveTier() {
+    // The `reduced` profile carries no breakpoint, but reduced motion only
+    // decides tween vs snap — the breakpoint decides whether to tilt at all.
+    // So resolve the active tier's profile alone, with reduced motion aside.
+    const profile = resolveSectionMotionProfile(this.sectionKey, {
+      [this._activeBreakpoint]: true,
+    });
+    return profile.animation?.variant === "perspective";
+  }
+
+  _isIntroSettled() {
+    return this.animations?.getTimeline?.(TIMELINE_IDS.intro)?.progress() === 1;
+  }
+
+  _enterPerspective() {
+    if (this.isDisabled || !this._isPerspectiveTier()) return;
+    if (this.animations?.isPerspectiveSettled?.()) return;
+
+    if (this._isLifecycleMotionEnabled) {
+      this.animations?.play?.(TIMELINE_IDS.idle);
+    } else {
+      this.animations?.snapPerspective?.();
+    }
+  }
+
+  /**
+   * Breakpoint crossings and reduced-motion changes. Runs once during
+   * construction too (inside super()), so it must not rely on fields set in
+   * this constructor's body.
+   */
+  _syncPerspective() {
+    if (this.isDisabled) return;
+    if (!this._isPerspectiveTier()) {
+      this.animations?.clearPerspective?.();
+      return;
+    }
+    // Entering the wide tier: re-apply the pose only once the tilt has been
+    // earned. Before that, the intro-complete path owns its arrival.
+    if (this._isIntroSettled()) this.animations?.snapPerspective?.();
+  }
+
+  /**
+   * Perspective scales with viewport width, so a plain resize (which fires no
+   * matchMedia change) re-asserts the settled pose at the new width. A tilt
+   * still mid-tween is left alone; it finishes at the width it started with.
+   */
+  _bindPerspectiveResize() {
+    if (this.isDisabled) return;
+    const handler = () => {
+      if (!this._isPerspectiveTier()) return;
+      if (!this.animations?.isPerspectiveSettled?.()) return;
+      this.animations.snapPerspective();
+    };
+    window.addEventListener("resize", handler);
+    this._teardownListeners.push(() =>
+      window.removeEventListener("resize", handler),
+    );
+  }
+
+  _applyResponsiveLifecycle(conditions = {}) {
+    super._applyResponsiveLifecycle(conditions);
+    this._syncPerspective();
+  }
+
+  _onIntroComplete() {
+    super._onIntroComplete();
+    this._enterPerspective();
+  }
+
+  _applyPostIntroState() {
+    super._applyPostIntroState();
+    this._enterPerspective();
   }
 
   async playOutro() {
