@@ -59,6 +59,10 @@ export default class BackgroundVideo extends AbstractSection {
     this._teardownListeners = [];
     this._mediaSettled = false;
     this._playbackFailsafe = null;
+    this._pendingIntroComplete = null;
+    if (this.animations) {
+      this.animations.onPerspectiveSettled = () => this._releaseIntroComplete();
+    }
 
     this._bindMediaEvents();
     this._bindHydrationHandshake();
@@ -237,16 +241,22 @@ export default class BackgroundVideo extends AbstractSection {
 
   /**
    * Two-point perspective tilt — the rest pose after the reveal (see
-   * specs/animation/background-video-perspective-spec.md). The tilt is earned
-   * by the intro finishing, by either route:
+   * specs/animation/background-video-perspective-spec.md).
+   *
+   * On wide tiers the root is overscaled (primed) before the video is visible,
+   * so the tilt is rotation only. The tilt is earned by the intro finishing:
    *
    * - played: the intro timeline's onComplete calls _onIntroComplete → tween.
+   *   `video:intro:complete` is held until the tilt settles, so hero's intro
+   *   (cued by that event in LandingSequence) starts on a background at rest.
    * - gated (reduced motion, session-gated replay): AbstractSection jumps the
-   *   intro to progress(1) via _applyPostIntroState → snap.
+   *   intro to progress(1) via _applyPostIntroState → snap, emit at once.
    *
    * Either way it then persists; it never un-tilts or replays. Narrow tiers
    * stay flat (SECTION_OVERRIDES.video), and a matchMedia breakpoint crossing
-   * clears or re-applies the pose in _applyResponsiveLifecycle.
+   * clears or re-applies the pose in _applyResponsiveLifecycle. Every path that
+   * ends a pending tilt — settle, snap, clear — releases the held event, so
+   * the hero chain can never stall on it.
    */
   _isPerspectiveTier() {
     // The `reduced` profile carries no breakpoint, but reduced motion only
@@ -262,15 +272,27 @@ export default class BackgroundVideo extends AbstractSection {
     return this.animations?.getTimeline?.(TIMELINE_IDS.intro)?.progress() === 1;
   }
 
+  _shouldTweenPerspective() {
+    return (
+      !this.isDisabled &&
+      this._isLifecycleMotionEnabled &&
+      this._isPerspectiveTier() &&
+      !this.animations?.isPerspectiveSettled?.()
+    );
+  }
+
+  /** Gated paths: snap to the rest pose if the tilt is due and not yet done. */
   _enterPerspective() {
     if (this.isDisabled || !this._isPerspectiveTier()) return;
     if (this.animations?.isPerspectiveSettled?.()) return;
+    this.animations?.snapPerspective?.();
+  }
 
-    if (this._isLifecycleMotionEnabled) {
-      this.animations?.play?.(TIMELINE_IDS.idle);
-    } else {
-      this.animations?.snapPerspective?.();
-    }
+  /** Emit the held `video:intro:complete`, once. */
+  _releaseIntroComplete() {
+    const release = this._pendingIntroComplete;
+    this._pendingIntroComplete = null;
+    release?.();
   }
 
   /**
@@ -282,17 +304,22 @@ export default class BackgroundVideo extends AbstractSection {
     if (this.isDisabled) return;
     if (!this._isPerspectiveTier()) {
       this.animations?.clearPerspective?.();
+      // A tilt cut short by leaving the wide tier still owes its event.
+      this._releaseIntroComplete();
       return;
     }
-    // Entering the wide tier: re-apply the pose only once the tilt has been
-    // earned. Before that, the intro-complete path owns its arrival.
+    // Entering the wide tier: the full pose once the tilt has been earned
+    // (snap also finishes a tilt in flight, which releases the event);
+    // before that, only the overscale, so the tilt stays rotation only.
     if (this._isIntroSettled()) this.animations?.snapPerspective?.();
+    else this.animations?.primePerspective?.();
   }
 
   /**
    * Perspective scales with viewport width, so a plain resize (which fires no
    * matchMedia change) re-asserts the settled pose at the new width. A tilt
-   * still mid-tween is left alone; it finishes at the width it started with.
+   * still mid-tween is left alone; its onComplete re-asserts the pose at the
+   * width it lands on.
    */
   _bindPerspectiveResize() {
     if (this.isDisabled) return;
@@ -313,8 +340,15 @@ export default class BackgroundVideo extends AbstractSection {
   }
 
   _onIntroComplete() {
-    super._onIntroComplete();
+    if (this._shouldTweenPerspective()) {
+      // Hold `video:intro:complete` (and the session mark) until the tilt
+      // settles; BackgroundVideoAnimations calls back via onPerspectiveSettled.
+      this._pendingIntroComplete = () => super._onIntroComplete();
+      this.animations.play(TIMELINE_IDS.idle);
+      return;
+    }
     this._enterPerspective();
+    super._onIntroComplete();
   }
 
   _applyPostIntroState() {

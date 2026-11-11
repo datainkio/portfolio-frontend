@@ -6,6 +6,9 @@ import { ANIMATION_DEFAULTS, motion, toSeconds } from "../motion.js";
  * The beat between the background video's intro completing and Hero playing its
  * own intro. Hero's reveal is chained to `video:intro:complete` (see
  * LandingSequence), not to the home header — the video finishing is the cue.
+ * On lg+ that event waits for the background's perspective tilt to settle
+ * (BackgroundVideo), so this hold is a beat after an event, never the
+ * sequencing itself.
  *
  * `gsap.delayedCall` consumes this, so it is in seconds.
  * Reduced motion zeroes it: the chain still runs, just without the pause.
