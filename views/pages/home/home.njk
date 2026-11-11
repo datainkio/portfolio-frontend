@@ -41,9 +41,9 @@
   <body class="relative bg-graphpaper-primary-100 text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
-    {#    {{ Preloader.render({ "svg": logo }) }} #}
+    {{ Preloader.render({ "svg": logo }) }}
     {% include "templates/partials/session-management-script/session-management-script.njk" %}
-    {# {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }} #}
+    {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {#- TEMP (2026-11-09): global header disabled on the homepage. GlobalHeaderManager
         and BuildInfoManager no-op when #global-header is absent. Restore by uncommenting.
     {{ GlobalHeader.render({ logoSvg: logo, docNo: docNo, sectionTitle: eleventyNavigation.title | default(title), cms: cms, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
