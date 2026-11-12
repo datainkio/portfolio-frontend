@@ -10,7 +10,6 @@ specimens:
       id: specimen-hero
     bind:
       "copy.heading": cms.home.0.valuePropHeading
-      "copy.subheading": cms.home.0.valuePropSubHeading
       "copy.body": cms.home.0.valuePropBodyHtml
       buildDate: buildDate
     frame: p-0 h-[32rem] overflow-y-auto
