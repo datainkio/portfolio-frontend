@@ -1,5 +1,5 @@
 ---
-description: "Background video animations module — builds the hidden landing and fade-in intro timelines for the <video>, and the idle timeline that tilts the section root into two-point perspective after the reveal."
+description: Background video animations module — builds the hidden landing and fade-in intro timelines for the <video>, and the idle timeline that tilts the section root into two-point perspective after the reveal.
 status: stable
 tags:
   - choreography
@@ -7,7 +7,7 @@ links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[video-reveal|video-reveal]]"
   - "[[system/gsap|system/gsap]]"
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[timelines|timelines]]"
   - "[[background|presets/background]]"
 ---

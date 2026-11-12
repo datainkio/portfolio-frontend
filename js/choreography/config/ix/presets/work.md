@@ -1,12 +1,12 @@
 ---
-description: "Work motion preset — WORK_ANIMATION_DEFAULTS, including per-item viewport-threshold reveal values."
+description: Work motion preset — WORK_ANIMATION_DEFAULTS, including per-item viewport-threshold reveal values.
 status: stable
 tags:
   - choreography
   - config
   - motion
 links:
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[presets|presets]]"
   - "[[WorkAnimations|WorkAnimations]]"
 ---

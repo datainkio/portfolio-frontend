@@ -1,12 +1,12 @@
 ---
-description: "Background motion presets — BACKGROUND_ANIMATION_DEFAULTS (video reveal) and BACKGROUND_PERSPECTIVE (two-point tilt rest pose) for the background video section."
+description: Background motion presets — BACKGROUND_ANIMATION_DEFAULTS (video reveal) and BACKGROUND_PERSPECTIVE (two-point tilt rest pose) for the background video section.
 status: stable
 tags:
   - choreography
   - config
   - motion
 links:
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[presets|presets]]"
   - "[[BackgroundVideoAnimations|BackgroundVideoAnimations]]"
 ---
