@@ -1,7 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/labels/accession-label.njk" as Label %}
   {% import "molecules/figure/media.njk" as Media %}
-  {% import "molecules/band/band.njk" as Band %}
   {%- set sectionId = params.id | default("hero") -%}
   {%- set classes = params.classes | default("") -%}
   {%- set heading = params.copy.heading -%}
@@ -10,27 +9,38 @@
   {%- set order = params.order | default("") -%}
   {%- set headingId = params.headingId | default(sectionId) -%}
   {%- set buildDate = params.buildDate -%}
+  {%- set statements = params.statements or [{ "subheading": subheading, "body": body }] -%}
 
 
 
 
   {#- SECTION -#}
-  {%- set section_styles = {"base": "relative text-neutral-200 col-span-full grid grid-cols-12"} -%}
+  {%- set section_styles = {"base": "relative text-neutral-200 col-span-full grid grid-cols-12 px-4"} -%}
 
   {#- HERO VIEW -#}
-  {%- set header_styles = {"base": "h-dvh flex flex-col justify-center z-1 font-display", "lg": "col-span-4"} -%}
+  {%- set header_styles = {
+    "base": "h-dvh flex flex-col justify-center z-1 font-display col-span-full",
+    "lg": "col-span-6",
+    "xl": "col-span-4"
+  } -%}
+
   {#- TITLE -#} {%- set content_styles = {"base": "relative isolate"} -%}
   {%- set label_styles = {"base": "pt-12"} -%}
   {%- set title_styles = {"base": "pb-18 pl-1 font-display text-5xl/12 tracking-loose", "sm": "text-6xl"} -%}
-  {#- MISSION STATEMENT -#}
-  {%- set statement_styles = {"base": "h-dvh content-center col-span-full max-w-2xl bg-neutral-950 px-8 grid grid-cols-1 gap-4"} -%}
-  {%- set subheading_styles = {"base": "pb-0 font-display text-secondary-500", "sm": "text-4xl", "md": "col-span-4 text-5xl "} -%}
-  {%- set body_styles = {"base": "px-8 py-6 bg-neutral-950 col-span-full prose prose-p:text-xl prose-invert max-w-none"} -%}
+
+  {#- MISSION STATEMENTS -#}
+  {%- set statement_styles = {
+    "base": "relative h-dvh content-center col-span-full grid grid-cols-12 prose prose-invert prose-p:text-xl prose-p:col-span-full"
+  } -%}
+  {%- set subheading_styles = {
+    "base": "pb-0 font-display text-secondary-500 col-span-full",
+    "sm": "text-4xl",
+    "md": "col-span-4 text-5xl "
+  } -%}
+
   {%- set figure_styles = {"base": "col-span-full"} -%}
   {%- set image_styles = {"base": "block w-full h-auto"} -%}
-  {#- Statement bands sit inside the section's padding only (px-4; sm: px-8). -#}
-  {#- Statements: subheading + body + image each. Item 0 is the value prop; its image also fills the title band. Falls back to the single value prop when no list is passed. -#}
-  {%- set statements = params.statements or [{ "subheading": subheading, "body": body }] -%}
+
 
   <section class="{{ section_styles | classes }}"
            id="{{ sectionId }}"
@@ -49,11 +59,12 @@
           id="{{ headingId }}"
           data-hero-el="heading">{{ heading }}</h1>
     </header>
-    {#- Every statement section keeps the existing hooks; mission-statement motion binds only the first. Statements after the first show their image in a band behind subheading + body instead of a figure. -#}
     {%- for statement in statements %}
       <section class="{{ statement_styles | classes }}"
                data-hero-el="mission-statement">
+        {%- if statement.subheading %}
         <h2 class="{{ subheading_styles | classes }}" data-hero-el="subheading">{{ statement.subheading }}</h2>
+        {%- endif %}
         {{ statement.body | safe }}
         {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles } }) }}
       </section>
