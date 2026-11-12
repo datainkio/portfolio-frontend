@@ -20,6 +20,7 @@ token live.
 - [adr-0001-figma-owns-design-tokens.md](adr-0001-figma-owns-design-tokens.md): who owns which tokens, and why
 - [adr-0002-figma-library-variables-are-the-design-tokens.md](adr-0002-figma-library-variables-are-the-design-tokens.md): proposed; moves the token source from the old Figma file to the design-system library's variables
 - [adr-0003-figma-owns-mapped-component-colours.md](adr-0003-figma-owns-mapped-component-colours.md): proposed; extends Figma ownership from tokens to a mapped component's colour utilities, starting with Button
+- [adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md](adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md): accepted; GSAP runs each motion-token ease as the nearest GSAP core ease, through `GSAP_EASE`
 - `inventory.json`: the complete data behind the inventory, including per-file class lists. It is generated locally and gitignored, because Tailwind scans tracked files and would turn token names into classes.
 
 The inventory is a build artifact. Edit the script, not the output:
@@ -86,8 +87,10 @@ flowchart TB
         E2["lint:frontmatter"]
         E3["audit:sidecars"]
         E4["check:motion<br/>motion.css == fresh build"]
-        E5["test + quick<br/>broken imports fail the build"]
+        E5["test + quick<br/>broken imports fail the build<br/>motion-eases: every ease token maps to GSAP"]
     end
+
+    GE["config/ix/motion.js GSAP_EASE<br/>nearest GSAP core ease per token (ADR 0004)"]
 
     SPEC["specs/design-system.spec.md<br/>+ ADR 0001: Figma owns design tokens"]
 
@@ -95,6 +98,9 @@ flowchart TB
     BD --> COL
     BD --> TOK
     MOTJS --> BM --> MOT
+    MOTJS --> GE
+    GE -- "motion.ease()" --> CHOR["GSAP choreography<br/>js/choreography/"]
+    GE -- "designTokens.ease" --> RDR
     HAND --> L1
     COL --> L4
     TOK --> L4
