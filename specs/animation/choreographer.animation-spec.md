@@ -31,7 +31,7 @@ type: spec
 
 ### Canonical Sources
 
-- Motion tokens: [config/motion.js](../../js/choreography/config/motion.js) (single source of truth for durations, eases, distances, staggers; used by GSAP + Tailwind)
+- Motion tokens: [tokens/motion/motion.js](../../js/choreography/tokens/motion/motion.js) (single source of truth for durations, eases, distances, staggers), read by GSAP through `motion` in [config/ix/motion.js](../../js/choreography/config/ix/motion.js) and by CSS through `styles/motion.css`
 - Tailwind mapping: `tailwind.motion.config.cjs` was removed on 2026-10-05 (it was never wired into the build); no token-to-utility mapping exists today.
 - Accessibility policy: [motion-accessibility-policy.md](motion-accessibility-policy.md) (reduced-motion rules and strategies)
 
@@ -43,7 +43,7 @@ type: spec
 
 Implementation guidance:
 
-- GSAP: import tokens from `config/motion.js`; do not hard-code timings/eases.
+- GSAP: take timings and eases from `motion` in `config/ix/motion.js`; do not hard-code them. `motion.ease(name)` returns a GSAP core ease name (`GSAP_EASE`), because GSAP can't parse the tokens' `cubic-bezier()` strings. See ADR 0004 in `docs/design-system/`.
 - Tailwind: rely on motion-token utilities (the removed `tailwind.motion.config.cjs` never emitted any); avoid ad-hoc durations/eases in templates.
 
 ### Tailwind Utilities (when Tailwind is selected)

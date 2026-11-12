@@ -8,6 +8,7 @@ tags:
 links:
   - "[[presets|presets]]"
   - "[[js/choreography/config/ix/presets/README|README.presets]]"
+  - "[ADR 0004](../../../../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)"
 ---
 
 # motion

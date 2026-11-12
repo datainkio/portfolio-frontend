@@ -11,6 +11,7 @@ aliases:
   - Design System Spec
 links:
   - "[ADR 0001](../docs/design-system/adr-0001-figma-owns-design-tokens.md)"
+  - "[ADR 0004](../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)"
   - "[Component API spec](views/component-api.views-spec.md)"
   - "[Living reference](../ia/docs/design/README.md)"
   - "[lintPalette](../scripts/lint/lintPalette.md)"
@@ -19,7 +20,7 @@ links:
 # Spec: Design system
 
 - **Scope:** every visual value and every macro component in `frontend/`
-- **Decisions behind it:** [ADR 0001](../docs/design-system/adr-0001-figma-owns-design-tokens.md), who owns each token group
+- **Decisions behind it:** [ADR 0001](../docs/design-system/adr-0001-figma-owns-design-tokens.md), who owns each token group; [ADR 0004](../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md), how GSAP runs the ease tokens
 - **Component contract:** [Component API spec](views/component-api.views-spec.md)
 - **Rendered at:** `/docs/design/`, from [`ia/docs/design/`](../ia/docs/design/README.md)
 
@@ -63,6 +64,15 @@ owns no markup. It's documented on the
 
 `colors.css`, `tokens.css`, and `motion.css` are generated. Never edit them by hand;
 the next sync overwrites the edit.
+
+The GSAP choreography reads motion tokens through `motion` in
+`js/choreography/config/ix/motion.js`, not through `motion.css`. Durations pass
+through unchanged. Easings don't: GSAP can't parse a `cubic-bezier()`, so
+`motion.ease(name)` returns the nearest GSAP core ease from `GSAP_EASE`. CSS runs
+the exact curve and GSAP runs that approximation. The
+[motion reference page](../ia/docs/design/tokens/motion.md) plots the two
+together. [ADR 0004](../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)
+has the map and the reasons. Never pass a `motionTokens.ease` string to GSAP.
 
 Relative values (`auto`, `full`, `screen`, fractions, `dvh`, `%`) stay as plain
 utilities. Figma can't express them, so they aren't tokens.
@@ -111,6 +121,8 @@ utilities. Figma can't express them, so they aren't tokens.
    `ia/docs/design/tokens/` reads the theme files and picks it up without edits.
 
 For a motion token, add it to `motion.js` and run `npm run build:motion` instead.
+An ease token also needs a `GSAP_EASE` entry in `js/choreography/config/ix/motion.js`,
+naming the GSAP core ease closest to the curve. `npm test` fails until it has one.
 
 ## Adding a component
 
@@ -138,6 +150,7 @@ For a motion token, add it to `motion.js` and run `npm run build:motion` instead
 | `npm run lint:frontmatter` | Sidecar and reference-page frontmatter outside the frontmatter spec                                                                                                  |
 | `npm run audit:sidecars`   | A new `.njk` or `.js` without a sidecar                                                                                                                              |
 | `npm run check:motion`     | `styles/motion.css` differing from a fresh build of `js/choreography/tokens/motion/motion.js`                                                                        |
+| `npm test` (motion-eases)  | An ease token with no `GSAP_EASE` entry, or one whose GSAP name doesn't parse                                                                                        |
 | `npm run quick`            | A broken import in a component or a reference page                                                                                                                   |
 
 `npm run validate` runs the first four and `npm test`.

@@ -36,7 +36,7 @@ blocks of `styles/colors.css`, `styles/tokens.css`, `styles/motion.css`, and
 | `tracking`   | `{ key, value }`                                        | `tracking-wide`  |
 | `font`       | `{ key, value }`                                        | `font-display`   |
 | `duration`   | `{ key, value }`                                        | `duration-fast`  |
-| `ease`       | `{ key, value, points }`                                | `ease-springy`   |
+| `ease`       | `{ key, value, points, gsap, gsapPath, gsapLinear }`    | `ease-springy`   |
 | `grounds`    | `{ paper, ground }`: `neutral-50` and `neutral-950` hex | —                |
 | `source`     | `{ figmaFile, figmaVersion }`, from `colors.css`        | —                |
 
@@ -45,6 +45,16 @@ Each colour's `contrast` is its WCAG ratio against both grounds,
 
 Tailwind writes `.` in theme keys as `_`, so `--spacing-1_5` becomes key
 `1.5`.
+
+Each ease also carries what GSAP runs for it. GSAP can't parse a
+`cubic-bezier()`, so `motion.ease()` hands it the core ease named in
+`GSAP_EASE` (`js/choreography/config/ix/motion.js`). `gsap` is that name.
+`gsapPath` is the curve sampled at 41 points as an SVG path in the plot's
+0–100 frame. `gsapLinear` is the same samples as a CSS `linear()` timing
+function, so the page can play the GSAP curve beside the designed one. All
+three come from `GSAP_EASE` and GSAP itself, so the page can't drift from
+the choreography. [ADR 0004](../../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)
+records why.
 
 ## `readComponentSidecar(component)`
 

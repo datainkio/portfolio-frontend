@@ -1,5 +1,5 @@
 ---
-description: Sidecar for buildMotionTokens.js — mirrors the choreography duration and ease tokens into styles/motion.css so CSS and GSAP can share one source.
+description: Sidecar for buildMotionTokens.js — mirrors the choreography duration and ease tokens into styles/motion.css so CSS and GSAP share one source (GSAP reads eases through GSAP_EASE, not this file).
 type: script
 tags:
   - design-tokens
@@ -16,6 +16,11 @@ makes the named duration and ease steps available as Tailwind utilities.
 
 The JS file stays the authority for motion. Figma has no way to express an easing
 curve, so motion is the one non-colour group the Figma sync doesn't own.
+
+CSS gets the exact `cubic-bezier()` curves. GSAP doesn't read this file. It takes
+eases through `motion.ease()`, which returns the nearest GSAP core ease from
+`GSAP_EASE` in `js/choreography/config/ix/motion.js`, because GSAP can't parse a
+`cubic-bezier()`. See ADR 0004 in `docs/design-system/`.
 
 Nothing uses these utilities yet. Tailwind only emits a theme variable when
 something uses it, so the file doesn't change the compiled CSS. Moving a
