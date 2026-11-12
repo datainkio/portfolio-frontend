@@ -1,12 +1,12 @@
 ---
-description: "Organizations motion preset — ORGANIZATIONS_ANIMATION_DEFAULTS, including per-item viewport-threshold reveal values."
+description: Organizations motion preset — ORGANIZATIONS_ANIMATION_DEFAULTS, including per-item viewport-threshold reveal values.
 status: stable
 tags:
   - choreography
   - config
   - motion
 links:
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[presets|presets]]"
   - "[[OrganizationsAnimations|OrganizationsAnimations]]"
 ---

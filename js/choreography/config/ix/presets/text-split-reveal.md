@@ -1,12 +1,12 @@
 ---
-description: "Text split reveal preset — TEXT_SPLIT_REVEAL, the default from/to vars for the text-split-reveal atom (renamed from HERO_LANDING)."
+description: Text split reveal preset — TEXT_SPLIT_REVEAL, the default from/to vars for the text-split-reveal atom (renamed from HERO_LANDING).
 status: stable
 tags:
   - choreography
   - config
   - motion
 links:
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[presets|presets]]"
   - "[[text-split-reveal|text-split-reveal]]"
 ---

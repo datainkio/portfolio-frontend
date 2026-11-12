@@ -1,12 +1,12 @@
 ---
-description: "Hero animations module — builds the intro timeline for the hero section using HERO_INTRO motion defaults."
+description: Hero animations module — builds the intro timeline for the hero section using HERO_INTRO motion defaults.
 status: stable
 tags:
   - choreography
 links:
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[system/gsap|system/gsap]]"
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[selectors|selectors]]"
   - "[[timelines|timelines]]"
 ---
