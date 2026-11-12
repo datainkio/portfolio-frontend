@@ -29,8 +29,9 @@ export const BACKGROUND_ANIMATION_DEFAULTS = {
  * Because it depends on width, BackgroundVideo re-applies the pose on resize.
  *
  * `duration` is 1.5 × the `slower` token (seconds) — cinematic, unhurried.
- * `ease` is a GSAP name, as in HERO_GEL_SOLID: the cubic-bezier strings in the
- * motion tokens don't parse in GSAP without CustomEase.
+ * `ease` is the `standard` token (GSAP `power1.out`, via motion.ease()). It
+ * was `power2.inOut` until 2026-11-12, when hardcoded GSAP names moved onto the
+ * motion tokens; no token maps to a symmetric inOut curve.
  *
  * See specs/animation/background-video-perspective-spec.md.
  */
@@ -40,5 +41,5 @@ export const BACKGROUND_PERSPECTIVE = {
   transformOrigin: "100% 50%",
   scale: 1.35,
   duration: toSeconds(motion.duration("slower") * 1.5),
-  ease: "power2.inOut",
+  ease: motion.ease("standard"),
 };

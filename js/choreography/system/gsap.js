@@ -41,7 +41,7 @@ gsap.registerPlugin(
 // Only pass GSAP-global properties here; section-level values like stagger/translateY stay local.
 gsap.defaults({
   duration: ANIMATION_DEFAULTS.duration,
-  ease: ANIMATION_DEFAULTS.ease.out,
+  ease: ANIMATION_DEFAULTS.ease.inOut,
   overwrite: ANIMATION_DEFAULTS.overwrite,
 });
 

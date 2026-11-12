@@ -48,7 +48,7 @@ export const HERO_BAND_PARALLAX = { yPercent: 10 };
 export const HERO_GEL_SOLID = {
   alphaEnd: "100%",
   duration: toSeconds(motion.duration("slow")),
-  ease: "power2.out",
+  ease: motion.ease("enter"),
 };
 
 /**
@@ -73,7 +73,7 @@ export const HERO_MISSION_REVEAL = {
   duration: toSeconds(motion.duration("fast")),
   distance: motion.distance("lg"),
   staggerAmount: motion.stagger("loose") * 2, // total spread across all paragraphs
-  ease: "power2.out",
+  ease: motion.ease("enter"),
   // Fraction of the gel wipe the text overlaps into, so the beats read as one
   // gesture rather than three queued ones. Mirrors sweep.js's 0.2 overlap.
   overlap: 0.2,

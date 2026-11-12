@@ -81,7 +81,7 @@
     "test:logger": "node test/logger/index.js",
     "test:figma": "node test/figma/tokens.test.js && node test/figma/palette.test.js && node test/figma/variables.test.js && node test/figma/components.test.js",
     "test:site": "node test/site/pager.test.js",
-    "test:choreography": "node test/choreography/hero-events.test.js && node test/choreography/animation-bus-flow.test.js",
+    "test:choreography": "node test/choreography/hero-events.test.js && node test/choreography/animation-bus-flow.test.js && node test/choreography/motion-eases.test.js",
     "test:logger:custom": "DEBUG=true node test/logger/custom-styles.test.js",
     "test:logger:detection": "DEBUG=true node test/logger/error-detection.test.js",
     "test:logger:enhancements": "node test/logger/simple-enhancements.test.js",

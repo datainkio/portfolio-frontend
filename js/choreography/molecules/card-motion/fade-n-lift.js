@@ -10,6 +10,7 @@
  */
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
+import { motion } from "../../config/index/index.js";
 
 export function createCardScrollFade({
   figure,
@@ -37,7 +38,7 @@ export function createCardScrollFade({
     autoAlpha: 1,
     y: 0,
     duration: 0.48,
-    ease: "power2.out",
+    ease: motion.ease("enter"),
   });
 
   return {

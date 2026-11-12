@@ -39,7 +39,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   _buildIntro() {
     return buildVideoIntro(this.media, {
       duration: this.options.duration,
-      ease: this.options.ease.in,
+      ease: this.options.ease.out,
     });
   }
 
