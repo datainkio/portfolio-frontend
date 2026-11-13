@@ -11,4 +11,5 @@ links:
   - "[[molecules/video-reveal/video-reveal|molecules/video-reveal]]"
   - "[[molecules/gel-transition/gel-transition|molecules/gel-transition]]"
   - "[[molecules/article-nav-toggle/article-nav-toggle|molecules/article-nav-toggle]]"
+  - "[[molecules/svg-reveal/svg-reveal|molecules/svg-reveal]]"
 ---

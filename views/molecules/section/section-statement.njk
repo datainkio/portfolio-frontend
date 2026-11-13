@@ -1,5 +1,6 @@
 {% macro render(params = {}) %}
   {% import "molecules/figure/media.njk" as Media %}
+  {% import "atoms/svg/inline.njk" as InlineSvg %}
   {%- set statement = params.statement -%}
   {%- set layout = params.layout | default("left") -%}
 
@@ -38,6 +39,8 @@
   {%- set caption_styles = {"base": "sr-only"} -%}
 
   {%- set image_styles = {"base": "block h-full w-auto max-w-none drop-shadow-lg/80"} -%}
+  {#- Inline SVG inside Media's picture <span> (which takes image_styles): fill its height. -#}
+  {%- set svg_styles = {"base": "block h-full w-auto max-w-none"} -%}
   <section class="{{ section_styles | classes }}"
            data-hero-el="mission-statement">
     {%- if statement.subheading %}
@@ -47,7 +50,14 @@
     {% if statement.body %}
       {{ statement.body | safe }}
     {% endif %}
-    {% if statement.image %}
+    {% if statement.image and statement.imageInline %}
+      {#- A prepared SVG (imageInline, fetched at build time by data/sanity/transforms/home.js)
+          renders inline, fills intact, so Hero's choreography can reveal its top-level groups.
+          It goes through Media's pre-rendered `picture` slot, keeping the same <figure>,
+          sr-only caption, and image styles as the raster path. -#}
+      {%- set svgMarkup = InlineSvg.render({ svg: statement.imageInline, alt: statement.image.alt or statement.subheading, classes: svg_styles, preserveFills: true, attrs: 'data-hero-el="statement-svg"' }) -%}
+      {{ Media.render({ image: statement.image, picture: svgMarkup, alt: statement.subheading, classes: figure_styles, styles: { "image": image_styles, "caption": caption_styles } }) }}
+    {% elif statement.image %}
       {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles, "caption": caption_styles } }) }}
     {% endif %}
   </section>

@@ -57,6 +57,9 @@ export const HERO_SELECTORS = {
   bandImage: "band-image",
   context: "context",
   missionStatement: "mission-statement",
+  // Inline prepared SVG inside a statement's figure; its top-level <g>s are
+  // revealed in source order as the statement pins (molecules/svg-reveal).
+  statementSvg: "statement-svg",
 };
 
 export const PROCESS_SELECTORS = {

@@ -54,6 +54,7 @@ The figure is `absolute`, full statement height, `-z-10`, and `opacity-50` until
 ## Notes for Future Maintenance
 
 - **Choreography hooks:** `data-hero-el="mission-statement"` on the `<section>` is how `HeroTriggers.js` pins each statement and `mission-statement.js` reveals it. Don't rename it in markup alone; it lives in `HERO_SELECTORS` in `selectors.js`. The `<h2>` carries `data-hero-el="statement-heading"`, which no script reads yet.
+- **Inline SVG:** when `statement.image` is set and `statement.imageInline` is also set, the template renders the SVG markup inline through `atoms/svg/inline.njk` (`preserveFills: true`, `attrs: data-hero-el="statement-svg"`), passed to Media's `picture` slot. It keeps the same `<figure>`, sr-only caption and image styles. Without `imageInline` the raster `<img>` path is unchanged. `imageInline` is set at build time by `hydrateStatementInlineSvgs` in [home transforms](../../../data/sanity/transforms/home.md).
 - `mission-statement.js` targets the body's paragraphs with `:scope > p`. Don't wrap the body in another element.
 - Every layout class is a literal string in an inline conditional (`"…" if isRight else "…"`). Don't interpolate column numbers, because Tailwind detects only whole literals.
 - Nunjucks has no dict merge, so vary a style map by setting the value inline rather than by merging maps.

@@ -127,6 +127,11 @@ export default class HeroTriggers extends AbstractSectionTriggers {
         ...HERO_PANEL_PIN_TRIGGER,
         id: `${HERO_PANEL_PIN_TRIGGER.id}-${index}`,
         trigger: panel,
+        // The statement's intro: as it pins, its prepared SVG (if any) reveals
+        // group by group. Plays once; HeroAnimations ignores repeat calls. A
+        // load or fast scroll past the pin still fires onEnter (then onLeave),
+        // so passed art is never left hidden.
+        onEnter: () => this.section?.animations?.playStatementSvg?.(panel),
         // The first statement's pin also turns gel_hero solid: play as it
         // reaches the top, reverse when scrolled back above it.
         ...(index === 0 && this._gelSolid

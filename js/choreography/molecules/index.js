@@ -12,3 +12,4 @@ export {
 } from "./video-reveal/video-reveal.js";
 export { createGelTransition } from "./gel-transition/gel-transition.js";
 export { createArticleNavToggle } from "./article-nav-toggle/article-nav-toggle.js";
+export { buildSvgReveal } from "./svg-reveal/svg-reveal.js";
