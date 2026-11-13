@@ -19,18 +19,20 @@
   {%- set src = params.src | default('') -%}
   {%- set alt = params.alt | default('Award logo') -%}
   {%- set aspect = params.preserveAspectRatio | default('xMidYMin meet') -%}
+  {%- set preserveFills = params.preserveFills | default(false) -%}
+  {%- set attrs = params.attrs | default('') -%}
   {%- set isSvg = '<svg' in svg -%}
   {%- set imageSrc = src or (svg if not isSvg else '') -%}
 
   {%- set svgClasses = [
-    'fill-current',
+    'fill-current' if not preserveFills else '',
     params.svgClasses,
     classes
     ] | join(' ') | trim -%}
 
   {% if isSvg %}
 
-    {%- set processedSvg = svg | clearSVGFills -%}
+    {%- set processedSvg = svg if preserveFills else (svg | clearSVGFills) -%}
 
     {# ----------------------------------------------------------------------
           Remove hard-coded fills from any SVG element.
@@ -81,6 +83,10 @@
         '<svg',
         '<svg role="img" aria-label="' ~ (alt | escape) ~ '" focusable="false"'
         ) -%}
+
+    {%- if attrs -%}
+      {%- set processedSvg = processedSvg | replace('<svg', '<svg ' ~ attrs) -%}
+    {%- endif -%}
 
     {# ----------------------------------------------------------------------
                                Top-align artwork within its box

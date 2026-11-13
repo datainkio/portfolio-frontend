@@ -96,6 +96,10 @@ export default class Hero extends AbstractSection {
     this.animations?.rebuild?.(profile.animation?.variant ?? "sweep");
     super._applyResponsiveLifecycle(conditions);
 
+    // Timelines off (reduced motion, or the session replay gate): the statement
+    // SVG reveals will never play, so show their art at rest.
+    if (!this._isLifecycleMotionEnabled) this.animations?.showStatementSvgs?.();
+
     if (revealRequested) this._settleRevealToEnd();
   }
 

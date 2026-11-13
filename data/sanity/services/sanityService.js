@@ -8,7 +8,10 @@ import {
 } from "../client/index.js";
 import { CMS_QUERIES } from "../queries.js";
 import { hydrateAwardInlineLogos } from "../transforms/award.js";
-import { normalizeLandingRecords } from "../transforms/home.js";
+import {
+  normalizeLandingRecords,
+  hydrateStatementInlineSvgs,
+} from "../transforms/home.js";
 import { normalizeProjectsLandingRecords } from "../transforms/projectsLanding.js";
 import { normalizeContactRecords } from "../transforms/contact.js";
 import {
@@ -48,7 +51,7 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
     }
 
     if (definition.id === "home") {
-      data = normalizeLandingRecords(data);
+      data = await hydrateStatementInlineSvgs(normalizeLandingRecords(data));
     }
 
     if (definition.id === "projectsLanding") {

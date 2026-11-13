@@ -42,3 +42,11 @@ Today the landing flag stays unset: `LandingSequence` no longer calls
 rest when the timelines build (see
 [heading-gel](../../molecules/hero-motion/heading-gel.md)). Only the intro needs
 settling.
+
+## Statement SVGs at rest
+
+Each statement's inline SVG reveal is played by `HeroTriggers` as its panel pins
+(see [HeroAnimations](HeroAnimations.md)). When `_applyResponsiveLifecycle` finds
+lifecycle motion disabled (reduced motion, or the session replay gate), no pins or
+timelines will play, so it calls `animations.showStatementSvgs()` to show all
+statement SVG groups at rest.
