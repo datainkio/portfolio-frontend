@@ -135,6 +135,8 @@ export const SECTION_OVERRIDES = Object.freeze({
     // resolves the breakpoint tier's variant with reduced motion set aside.
     // See specs/animation/background-video-perspective-spec.md.
     ...allBreakpoints({ animation: { variant: "flat" } }),
+    sm: { animation: { variant: "perspective" } },
+    md: { animation: { variant: "perspective" } },
     lg: { animation: { variant: "perspective" } },
     xl: { animation: { variant: "perspective" } },
   },

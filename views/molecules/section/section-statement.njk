@@ -1,0 +1,54 @@
+{% macro render(params = {}) %}
+  {% import "molecules/figure/media.njk" as Media %}
+  {%- set statement = params.statement -%}
+  {%- set layout = params.layout | default("left") -%}
+
+  {# Section statement component - displays a heading, body text, and media (image or video) #}
+
+  {#- LAYOUT: "left" puts the text in the left columns and the figure flush right;
+      "right" mirrors it (text in the right columns, figure flush left). Class strings
+      stay literal so Tailwind's scanner finds them. -#}
+  {%- set isRight = layout == "right" -%}
+
+  {# SECTION STYLES (incl. responsive prose-p classes) -#}
+  {%- set section_styles = {
+    "base": "relative isolate h-dvh max-w-none content-center col-span-full grid grid-cols-12 prose prose-invert prose-p:text-xl prose-p:col-span-full",
+    "md": "prose-p:col-span-8 prose-p:col-start-5" if isRight else "prose-p:col-span-8 prose-p:col-start-1",
+    "lg": "prose-p:col-span-6 prose-p:col-start-7 prose-p:row-start-2" if isRight else "prose-p:col-span-6 prose-p:col-start-1 prose-p:row-start-2"
+  } -%}
+
+  {#- HEADING-#}
+  {%- set heading_styles = {
+    "base": "pb-0 font-display text-secondary-500 col-span-full",
+    "sm": "text-4xl",
+    "md": "text-5xl col-span-8 col-start-5" if isRight else "text-5xl col-span-8 col-start-1",
+    "lg": "col-span-6 col-start-7" if isRight else "col-span-6 col-start-1"
+  } -%}
+
+  {#- MEDIA -#}
+  {#- A portrait background behind the text, flush to the side opposite the text, full statement height.
+      Primarily decorative in role. md+ takes the background video's rest pose (BACKGROUND_PERSPECTIVE:
+      perspective = 1.25 × viewport width, rotateY(-15deg) about the edge it is flush to; mirrored for
+      "right"), minus its scale(1.35), which only exists to fill the viewport. -#}
+  {%- set figure_styles = {
+    "base": "not-prose absolute inset-y-0 left-0 -z-10 m-0 h-full max-w-xl opacity-50" if isRight else "not-prose absolute inset-y-0 right-0 -z-10 m-0 h-full max-w-xl opacity-50",
+    "md": "origin-left [transform:perspective(125vw)_rotateY(15deg)]" if isRight else "origin-right [transform:perspective(125vw)_rotateY(-15deg)]",
+    "lg": "opacity-100"
+  } -%}
+  {%- set caption_styles = {"base": "sr-only"} -%}
+
+  {%- set image_styles = {"base": "block h-full w-auto max-w-none"} -%}
+  <section class="{{ section_styles | classes }}"
+           data-hero-el="mission-statement">
+    {%- if statement.subheading %}
+      <h2 class="{{ heading_styles | classes }}"
+          data-hero-el="statement-heading">{{ statement.subheading }}</h2>
+    {%- endif %}
+    {% if statement.body %}
+      {{ statement.body | safe }}
+    {% endif %}
+    {% if statement.image %}
+      {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles, "caption": caption_styles } }) }}
+    {% endif %}
+  </section>
+{% endmacro %}
