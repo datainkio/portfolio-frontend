@@ -120,6 +120,7 @@ const GROUPS = {
       title: "Sections",
       pages: [
         "section/section-frame",
+        "section/section-statement",
         "star-summary/star-summary",
         "design-decisions",
         "section/industry-section",
