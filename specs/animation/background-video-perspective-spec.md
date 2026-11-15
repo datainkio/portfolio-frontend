@@ -15,8 +15,8 @@ This spec defines intent for MTP - Minimum Testable Product.
 The steps below describe the states and events from the user's perspective immediately following the completion of step 05 in [[homepage-initialization.animation]]. Assume a 16:9 aspect ratio.
 
 00: The video is full-bleed and playing.
-01: The video animates to display two-point perspective, appearing to turn slightly to the user's left. The left side of the video recedes as the right side remains fixed.
-02: The video rests at its destination.
+01: The video animates to display two-point perspective, appearing to turn slightly to the user's left. The left side of the video recedes as the right side remains fixed. `gel_hero`, hidden until now, fades in over the same duration and ease.
+02: The video rests at its destination, and `gel_hero` is fully visible.
 03: Return to step 06. The video will not retilt.
 
 ## Nice to haves
@@ -27,6 +27,10 @@ The steps below describe the states and events from the user's perspective immed
 ## Viewport scope
 
 The tilt applies at `lg` (64rem) and wider. Below `lg` the video stays flat and full-bleed, with no transform. The gate is width, not orientation, so a portrait viewport 1024px or wider still tilts. Crossing the breakpoint clears or re-applies the pose.
+
+Below the tilt's breakpoint, `gel_hero` still fades in when the video's intro completes, with the same duration and ease, but nothing waits for it. Clearing the pose never hides the gel.
+
+Drift: `SECTION_OVERRIDES.video` currently applies the tilt from `sm` (40rem), not `lg`.
 
 ## Covering the viewport
 
@@ -42,10 +46,10 @@ The hero intro (step 07 in [[homepage-initialization.animation]]) does not begin
 
 When the browser is set to reduced motion:
 
-- No tween. The video snaps to its resting pose at step 02, because the resting pose is what gives the legibility benefit.
+- No tween. The video snaps to its resting pose at step 02, because the resting pose is what gives the legibility benefit. `gel_hero` snaps to visible.
 - The video itself stays paused, as before (see [[homepage-initialization.animation]]).
 - `video:intro:complete` is emitted at once, so the hero chain is unchanged.
 
 ## Implementation
 
-Values: `BACKGROUND_PERSPECTIVE` in `js/choreography/config/ix/presets/background.js` (−15°, origin `100% 50%`, scale 1.35, 1.5 s). Breakpoint gate: `SECTION_OVERRIDES.video` in `config/ix/profiles.js`. Behaviour: `organisms/background/BackgroundVideo.js` and `BackgroundVideoAnimations.js`. Their sidecars hold the per-path detail.
+Values: `BACKGROUND_PERSPECTIVE` in `js/choreography/config/ix/presets/background.js` (−15°, origin `100% 50%`, scale 1.35, 1.5 s), and `BACKGROUND_HEADING_GEL_REVEAL` beside it, which derives the gel fade's timing from the tilt. The background section is the only owner of `gel_hero`'s visibility. Breakpoint gate: `SECTION_OVERRIDES.video` in `config/ix/profiles.js`. Behaviour: `organisms/background/BackgroundVideo.js` and `BackgroundVideoAnimations.js`. Their sidecars hold the per-path detail.

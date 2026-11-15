@@ -38,10 +38,10 @@ its inline styles would leave the section stuck. Two paths guard that:
 asserting an intro nobody has asked for yet.
 
 Today the landing flag stays unset: `LandingSequence` no longer calls
-`playLanding()`, and the landing timeline is empty — the heading gel is parked at
-rest when the timelines build (see
-[heading-gel](../../molecules/hero-motion/heading-gel.md)). Only the intro needs
-settling.
+`playLanding()`, and the landing timeline is empty — the heading gel's geometry
+is parked at rest when the timelines build (see
+[heading-gel](../../molecules/hero-motion/heading-gel.md)); its visibility belongs
+to BackgroundVideo. Only the intro needs settling.
 
 ## Statement SVGs at rest
 
