@@ -85,6 +85,16 @@ Actual execution order. Steps 1 and 4 are `head.njk` includes; step 6 is
 
 ## Notes for Future Maintenance
 
+- The page background (neutral-950 paper and primary-100 grid) is one utility,
+  `bg-page-graphpaper` (`styles/backgrounds/Graphpapers.css`), declared on
+  `<html>` only — the root background covers the whole canvas. `<body>` carries
+  no background. The preloader overlay uses the same utility so the two can't
+  drift. `base.njk` has its own pair on its `<body>` and is unaffected.
+- Gel blending doesn't depend on `<body>`'s background. The gels sit in
+  `#background`, which is `fixed -z-10` (and transformed on perspective tiers),
+  so it forms its own stacking context, and in CSS every stacking context is an
+  isolated blending group: `mix-blend-mode` on a gel only reaches what is painted
+  inside `#background`. `<body>`'s background was never in that backdrop.
 - Keep this sidecar documentation in sync when the template signature changes.
 - Preserve semantic HTML and accessibility attributes when editing.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
