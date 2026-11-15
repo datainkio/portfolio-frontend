@@ -15,6 +15,8 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 
 ## Methods
 
+- `_onPreloaderOut()` — the `preloader:out` handler: `start()`, unless a debug hold applies
+- `_isHeld(hold)` — whether `?hold=` names a `LANDING_HOLDS` point; logs how to resume
 - `start()` — stage the video's landing state, then latch it
 - `_cueVideoIntro()` — join the two latches; run the video intro once
 - `_startVideoIntro()` — fade the background video in
@@ -22,6 +24,25 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 - `_pauseBackgroundVideo()` / `_resumeBackgroundVideo()` — Hero-scoped playback gate
 - `_registerListeners()` — subscribe to the bus events below
 - `reset()` / `destroy()`
+
+## Debug hold
+
+`?hold=preloader-out` stops the chain where it would start: the preloader lifts,
+`preloader:out` fires, and `LandingSequence` does not call `start()`. Only the
+page background shows. The logger prints the hold and how to resume:
+
+```js
+window.director.getSequence().start();
+```
+
+That continues the normal chain. The video-settled listener is registered in
+the constructor and keeps listening during the hold, so a settle that arrived
+while held is already latched and `start()` joins it in `_cueVideoIntro`.
+
+Holds are listed in `LANDING_HOLDS` (URL value plus resume hint) and read with
+`getLandingHold()`, modeled on `getCardVariantOverride()` in
+`config/ix/profiles.js` (SSR-safe, `URLSearchParams`). To add another point,
+add an entry and check it with `_isHeld()` where the chain passes that point.
 
 ## Events
 
