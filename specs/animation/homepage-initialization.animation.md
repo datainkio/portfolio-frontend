@@ -21,12 +21,12 @@ The steps below describe the states and events from the user's perspective:
 03: Once the preloader has completed its intro and settled into its idle state, the primary choreography runs its initialization. Initialization is complete once objects have been instantiated, event handling is set up, fonts have loaded, and the background video is ready for playback. Every wait is bounded by a timeout (fonts 2 s, director 8 s, video 4 s), so the preloader always exits. Decided 2026-09-24; see [Reconcile the video playback gate](../../../../goals/Frontend/_tasks/reconcile-the-video-playback-gate.md). Pending: [Decouple LCP from the video playback gate](../../../../goals/Frontend/_tasks/decouple-lcp-from-the-video-playback-gate.md) may change the video gate.
 04: The preloader view exits.
 
-05: The background video enters, already playing (step 03).
+05: The background video enters, already playing (step 03). Once it has faded in, the background moves to its resting state: on wide viewports it tilts into two-point perspective (see [[background-video-perspective-spec]]), and `gel_hero` fades in with that move, finishing as the tilt settles. On narrow viewports there is no tilt, and `gel_hero` fades in at the same point with the same timing.
 06: Playback of the background video is controlled by scroll events as content enters and/or leaves the view. The strategy is to limit the amount of visual noise onscreen as needed to maintain the user's focus on content.
 
 A pause of one `slow` duration token (`HERO_INTRO_HOLD`) separates the video fade-in from the hero intro.
 
-07: Two gels: `gel_hero` and `gel_tagline`. `gel_hero` is already in place, full-bleed, as the hero sequence builds behind the preloader. `gel_tagline` starts hidden; its fade-in marks the first beat of the hero intro.
+07: Two gels: `gel_hero` and `gel_tagline`. `gel_hero` is already visible, full-bleed, from step 05: hero places it while the sequence builds behind the preloader, but it stays hidden until the background reveals it. `gel_tagline` starts hidden; its fade-in marks the first beat of the hero intro.
 
 08: The accession label enters.
 09: The H1 element enters.

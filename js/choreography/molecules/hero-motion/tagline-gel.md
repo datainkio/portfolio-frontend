@@ -20,4 +20,4 @@ links:
 
 ## Reduced motion
 
-The `reduced` variant has no tagline beat. Its `init` sets `gel_tagline` and `gel_hero` to `autoAlpha: 1` at rest, so reduced motion lands with both gels visible (see [reduced](reduced.md)).
+The `reduced` variant has no tagline beat. Its `init` sets `gel_tagline` to `autoAlpha: 1` at rest, and BackgroundVideo's gated path snaps `gel_hero` visible, so reduced motion lands with both gels visible (see [reduced](reduced.md)).

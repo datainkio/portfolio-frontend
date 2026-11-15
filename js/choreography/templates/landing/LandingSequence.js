@@ -156,8 +156,10 @@ export class LandingSequence {
   /**
    * Hold a beat after the background video's intro, then play Hero's intro.
    *
-   * The gel band has no entrance: it is parked full-bleed at rest when hero's
-   * timelines build (molecules/hero-motion/heading-gel.js), so there is no
+   * The gel band has no entrance of hero's own: its geometry is parked
+   * full-bleed when hero's timelines build (molecules/hero-motion/heading-gel.js),
+   * and BackgroundVideo fades it in with the move to idle. On perspective tiers
+   * that finishes before `video:intro:complete` is released, so there is no
    * landing phase to await here.
    *
    * Reduced motion zeroes the hold rather than skipping the call — the video
@@ -228,7 +230,8 @@ export class LandingSequence {
     //
     //   video settles (playing, or never will)
     //     -> background video intro
-    //       -> (beat) -> hero intro (gel band already at rest, no entrance)
+    //       -> background idle: tilt (perspective tiers) + gel_hero fade-in
+    //         -> (beat) -> hero intro
     //
     // The cue used to be `home:outro:complete`, emitted by HomeHeaderManager.
     // That manager stopped being constructed (and was later deleted), so

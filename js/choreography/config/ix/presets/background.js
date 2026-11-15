@@ -43,3 +43,21 @@ export const BACKGROUND_PERSPECTIVE = {
   duration: toSeconds(motion.duration("slower") * 1.5),
   ease: motion.ease("standard"),
 };
+
+/**
+ * Heading Gel Reveal — `gel_hero` fading in with the move to idle
+ *
+ * The background section owns `gel_hero`'s visibility. The gel stays hidden
+ * until the video's intro completes, then fades 0 → 1 as the background
+ * settles into its rest pose. On perspective tiers that is the tilt, so the
+ * fade borrows the tilt's duration and ease and the two read as one move. On
+ * flat tiers there is no tilt, but the fade keeps the same timing so the gel
+ * arrives the same way at every width.
+ *
+ * Derived, not copied: retune the tilt and the fade follows. Give this its own
+ * values only if the two should deliberately diverge.
+ */
+export const BACKGROUND_HEADING_GEL_REVEAL = {
+  duration: BACKGROUND_PERSPECTIVE.duration,
+  ease: BACKGROUND_PERSPECTIVE.ease,
+};

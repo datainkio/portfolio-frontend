@@ -20,8 +20,12 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
  * The gel is never ScrollTrigger-pinned: a pin would be redundant on an element
  * that cannot scroll.
  *
- * GelAnimationManager parks every gel at autoAlpha 0 on init, so making this one
- * visible is an explicit step here.
+ * Geometry only. Visibility belongs to the background section
+ * (organisms/background/BackgroundVideo.js): GelAnimationManager parks every gel
+ * at autoAlpha 0 on init, and the background reveals this one when the video's
+ * intro completes. `sync()` must never write autoAlpha — it runs when hero's
+ * timelines build and on every resize refresh, both long before that reveal,
+ * and its sets run inside Hero's gsap.matchMedia context, which reverts them.
  */
 
 export const HEADING_GEL_ID = "gel_hero";
@@ -89,7 +93,6 @@ export function attachHeadingGel(view, gelManager) {
       scaleX: 1,
       scaleY: 1,
       transformOrigin: "center center",
-      autoAlpha: 1,
     });
 
     // The SVG mask is measured from the element box, so it only needs rebuilding
@@ -125,8 +128,9 @@ export function attachHeadingGel(view, gelManager) {
 /**
  * Hero's `landing` phase: park the gel band at its full-bleed resting geometry.
  *
- * There is no entrance — the band is placed at rest when the timelines build,
- * so it is already in position when the landing chain reaches hero. The empty
+ * There is no entrance from hero — the band is placed at rest (still hidden)
+ * when the timelines build, so it is already in position when the background
+ * reveals it and the landing chain reaches hero. The empty
  * landing-tagged timeline keeps the phase contract intact for
  * `AbstractSection` (settle/progress calls find a timeline, not a warning).
  *

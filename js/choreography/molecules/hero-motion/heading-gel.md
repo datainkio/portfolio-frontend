@@ -1,5 +1,5 @@
 ---
-description: "Hero molecule part — holds the gel_hero gel as a full-bleed band filling the viewport (left/top 0, 100vw x 100vh), decoupled from scroll and re-measured only on resize, parked at rest as hero's landing phase (no entrance). The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
+description: "Hero molecule part — holds the gel_hero gel as a full-bleed band filling the viewport (left/top 0, 100vw x 100vh), decoupled from scroll and re-measured only on resize, parked at rest as hero's landing phase (no entrance). Geometry only: BackgroundVideo owns the gel's visibility and reveals it when the video intro completes. The gel is never ScrollTrigger-pinned: it is a child of the fixed-positioned #sizzle-background container, so it is already held in the viewport."
 status: stable
 tags:
   - choreography
@@ -8,12 +8,26 @@ tags:
 links:
   - "[[config/contracts/selectors/selectors|config/contracts/selectors]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
+  - "[[organisms/background/BackgroundVideo|BackgroundVideo]]"
 ---
 
 `attachHeadingGel(view, gelManager)` resolves `gel_hero` (`HEADING_GEL_ID`) from
-the manager, positions it to `left: 0 / top: 0 / width: 100vw / height:
-<window.innerHeight>`, and reveals it (`autoAlpha: 1` — `GelAnimationManager`
-parks every gel at 0).
+the manager and positions it to `left: 0 / top: 0 / width: 100vw / height:
+<window.innerHeight>`. It does **not** reveal it.
+
+## Geometry here, visibility in the background
+
+`sync()` writes geometry only, never `autoAlpha`. `GelAnimationManager` parks
+every gel at `autoAlpha: 0`, and
+[BackgroundVideo](../../organisms/background/BackgroundVideo.md) is the gel's
+single visibility owner: it keeps the gel hidden until the video's intro
+completes, then fades it in with the background's move to idle (snapping it
+visible on gated paths). Until 2026-11-15 `sync()` set `autoAlpha: 1`, which
+showed the gel from Director init — when hero's timelines build — on every
+resize refresh, well before any reveal. Two more reasons it stays out of
+`sync()`: hero builds inside a `gsap.matchMedia` context, so its sets are
+reverted on every breakpoint crossing, and a resize refresh would re-show a gel
+the background had not yet revealed.
 
 ## Decoupled from scroll
 
@@ -37,7 +51,8 @@ Two consequences worth knowing:
   header. Now it is parked at rest when hero's timelines build and stays filling the viewport — it is
   a standing background plane for the rest of the page, not a hero-scoped element.
   If it should instead fade out past the section, that is a visibility concern
-  (an `autoAlpha` toggle), deliberately kept separate from geometry.
+  (an `autoAlpha` toggle), deliberately kept separate from geometry — and it
+  belongs to BackgroundVideo, not here.
 
 The gel is `absolute` inside `#sizzle-background`, which is `fixed inset-0`, so
 filling that container is all "full-bleed" requires and no scroll offset is ever
@@ -83,26 +98,29 @@ resize hook, since nothing else would restore the band's resting geometry after
 the pin released.
 
 `getHeadingGelEl(gelManager)` exports the resolved gel element so the outro
-timeline doesn't duplicate the `gelManager.getGel(HEADING_GEL_ID)` lookup.
+timeline, `HeroTriggers` and `BackgroundVideo` don't duplicate the
+`gelManager.getGel(HEADING_GEL_ID)` lookup.
 
 ## Landing phase — at rest, no entrance
 
 `buildHeadingGelRest(view, gelManager)` is the `split` variant's `init` in
 [hero-motion.js](hero-motion.md), so `HeroAnimations._buildLanding` picks it up. It
 calls `attachHeadingGel`, which parks the band full-bleed at its resting geometry
-(`autoAlpha: 1`), and returns an empty `TIMELINE_IDS.landing` timeline so the
+(still hidden), and returns an empty `TIMELINE_IDS.landing` timeline so the
 phase contract holds for `AbstractSection`.
 
-There is no entrance. The band is in place from the moment hero's timelines
-build, and [LandingSequence](../../templates/landing/LandingSequence.md) no
+Hero gives the band no entrance. Its geometry is in place from the moment hero's
+timelines build; BackgroundVideo fades it in when the video intro completes, and
+on perspective tiers it is fully visible before `video:intro:complete` is
+released. [LandingSequence](../../templates/landing/LandingSequence.md) no
 longer calls `hero.playLanding()`: after `video:intro:complete` plus the
 `HERO_INTRO_HOLD` beat it goes straight to `hero.playIntro()`. The fly-in
 (`buildHeadingGelEntrance` / `HERO_GEL_ENTRANCE`) was removed on 2026-09-28; it is
 in git history if a landing gesture returns.
 
 Reduced motion: handled upstream — the profile system swaps hero to the `reduced`
-variant, which does not call this. The band itself is a static positioned state
-outside the reduced path.
+variant, which does not call this, and the band keeps its markup geometry
+(`absolute inset-0`). BackgroundVideo's gated path snaps it visible.
 
 Visibility caveat: `.gel` sets `mix-blend-mode: multiply`. Against a very dark
 backdrop inside `#sizzle-background` the band can read as near-invisible; force
