@@ -1,6 +1,8 @@
 /**
  * Landing Sequence Template
  *
+ * The switchboard for communication between different sections of the site's homepage.
+ *
  * Picks up the page choreography from the preloader when it hears EVENTS.system.preloaderOut.
  */
 
@@ -52,23 +54,29 @@ export class LandingSequence {
     this.gelManager = gelAnimation;
 
     this._listeners = [];
+
     // The beat between video:intro:complete and hero.playIntro(). gsap.delayedCall
     // (not setTimeout) so the timer is ticker-synced, pausable and killable.
     this._heroHoldCall = null;
+
     // Gates the scroll-driven resume below. Until the video's own intro has
     // completed, playback belongs to the landing chain and nothing else may
     // start it.
     this._videoIntroComplete = false;
+
     // Set for exactly one `hero:exit`, by the `hero:onLeaveBack` that precedes it.
     // See the exit listener in _registerListeners for why this is needed.
     this._heroLeftBackwards = false;
 
-    // The video reveal needs both halves before it can run, and they do not
+    // The video reveal needs two conditions (aka halves) before it can run, and they do not
     // arrive in a fixed order relative to each other — see _cueVideoIntro.
     this._videoMediaSettled = false;
     this._videoLandingStaged = false;
+
+    // Tracks whether the video intro has been cued, to prevent multiple triggers.
     this._videoIntroCued = false;
 
+    // Preloader out handler: triggered when the preloader finishes and is removed from view.
     this.handlePreloaderOut = () => this._onPreloaderOut();
     window.addEventListener(
       EVENTS.system.preloaderOut,
@@ -76,6 +84,7 @@ export class LandingSequence {
       { once: true },
     );
 
+    // Listen up, everyone: register all the event listeners needed for the landing sequence.
     this._registerListeners();
   }
 
