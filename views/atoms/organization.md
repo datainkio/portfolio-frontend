@@ -1,5 +1,5 @@
 ---
-description: "Organization logo tile for the homepage organizations marquee: a muted Sanity logo, with the name as alt text."
+description: "Organization logo tile for the homepage organizations marquee: the Sanity logo in original colour, with the name as alt text."
 type: template
 ---
 
@@ -30,10 +30,9 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Behavior
 
-- The Sanity logos are opaque 16:9 brand tiles, not transparent marks. The atom
-  mutes them with `grayscale` and `opacity-60`, and restores colour on hover.
-  The transition uses the motion tokens `--transition-duration-base` and
-  `--ease-standard`, and is off under `motion-reduce`.
+- The Sanity logos are opaque 16:9 brand tiles, not transparent marks, shown in
+  their original colour and opacity. No hover state: the tiles hide nothing and
+  aren't clickable.
 - Alt text is the organization name, not `logo.alt`: the logo communicates the
   name, and the Sanity alt values are inconsistent ("QVC Company Logo", null, …).
 - The image is requested at `w=320` (2× the widest tile) through `imageUrl`. The
@@ -43,7 +42,8 @@ Classified as a **component** at the atomic **atom** level based on its location
 ## History
 
 - 2026-08-23 (`dc5ff743`): logos switched off; the list became text-only.
-- 2026-11-15: logos restored for the marquee, muted.
+- 2026-11-15: logos restored for the marquee, muted with a hover-to-colour
+  state; same day, the filters and hover removed in favour of original colour.
 
 ## Relationships
 

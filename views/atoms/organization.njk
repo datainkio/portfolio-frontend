@@ -1,10 +1,9 @@
 {#-
   Organization logo tile for the homepage organizations marquee.
 
-  The Sanity logos are opaque 16:9 brand tiles, so the atom mutes them
-  (grayscale, lowered opacity) and restores colour on hover. Alt text is the
-  organization name: that is what the logo communicates, and the Sanity
-  `logo.alt` values are inconsistent ("QVC Company Logo", null, …).
+  The Sanity logos are opaque 16:9 brand tiles, shown in their original colour.
+  Alt text is the organization name: that is what the logo communicates, and
+  the Sanity `logo.alt` values are inconsistent ("QVC Company Logo", null, …).
 
   Falls back to the plain title when an organization has no logo.
 
@@ -19,7 +18,7 @@ Params:
   {%- set dimensions = asset.metadata.dimensions if (asset and asset.metadata) else null -%}
 
   {%- set styles = {
-    "base": "block w-32 h-auto grayscale opacity-60 transition-[filter,opacity] duration-(--transition-duration-base) ease-(--ease-standard) hover:grayscale-0 hover:opacity-100 motion-reduce:transition-none",
+    "base": "block w-32 h-auto",
     "md": "w-40"
   } -%}
 
