@@ -3,7 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ title }}</title>
   {% include "templates/partials/gtm-script/gtm-script.njk" %}
-  <link rel="stylesheet" href="{{ (stylesheet or '/assets/styles.css') | url }}" />
+  <link rel="stylesheet"
+        href="{{ (stylesheet or '/assets/styles.css') | url }}" />
 
   <!-- Sanity CDN serves every image, poster, and video; warm the connection before
      the parser reaches the first asset in <body>. -->
@@ -28,5 +29,4 @@
   {% include "templates/partials/social/social.njk" %}
   {% include "templates/partials/manifest/manifest.njk" %}
   {% include "templates/partials/favicon/favicon.njk" %}
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
