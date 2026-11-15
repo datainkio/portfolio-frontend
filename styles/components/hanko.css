@@ -69,6 +69,10 @@
  * Preloader.js listens for `animationend` on the subtitle (last in) and the
  * logo (last out); both are raced against fallbacks in constants.js, which
  * must exceed the totals below. Change the timings here and there together.
+ *
+ * One more rule runs with no JS at all: the failsafe (end of this section)
+ * hides the root after `--preloader-failsafe-delay` in case Preloader.js never
+ * runs. It, too, is coupled to constants.js.
  * ------------------------------------------------------------------ */
 
 [data-preloader] {
@@ -81,6 +85,17 @@
     var(--preloader-step-duration) + var(--preloader-step-stagger) * 2
   );
   --hanko-pulse-cycle: 1.75s;
+  /* Failsafe: how long the overlay may stay up before CSS hides it on its
+   * own. Must exceed the JS flow's worst case, the sum of the bounds in
+   * PRELOADER_TIMINGS (js/preloader/constants.js): fonts 2s + director 8s +
+   * video 4s + outro 1s = 15s (the intro's 1s fallback runs alongside, not
+   * after). The extra 5s covers the module fetch before those timers start.
+   * Change these together. */
+  --preloader-failsafe-delay: 20s;
+  /* The whole failsafe animation, named once so reduced-motion.css can
+   * re-assert it without a second copy of the value. */
+  --preloader-failsafe: preloader-failsafe 0s linear
+    var(--preloader-failsafe-delay) forwards;
 }
 
 /* S00 — every child hidden at first paint. Opacity, not display, so the
@@ -119,6 +134,35 @@
 
 [data-preloader][data-preloader-state="exit"] [data-preloader-logo] {
   animation-delay: calc(var(--preloader-step-stagger) * 2);
+}
+
+/* Failsafe: a CSS-only escape hatch. Only Preloader.js dismisses the
+ * overlay, so if it never runs with scripting on (a failed module import,
+ * say) the opaque splash would cover the page for good. A zero-length
+ * animation, delayed by `--preloader-failsafe-delay`, switches the root to
+ * `visibility: hidden` and holds it there (`forwards`) — no painting, no hit
+ * testing, no JS.
+ *
+ * It sits on the root, never the children: Preloader.js's animationsSettled()
+ * reads getAnimations() on the subtitle and the logo only (an element's own
+ * animations, not its subtree's), so the intro and outro waits never see it.
+ * The children's own animations keep running under the hidden root, so if the
+ * failsafe fires and Preloader.js then runs late, runExit() still flips
+ * `exit`, the logo's fade still finishes, and `hidden` still lands. The state
+ * flip doesn't restart this animation either: the declaration is on
+ * `[data-preloader]` in both states.
+ *
+ * Reduced motion: the global `animation: none !important`
+ * (styles/utilities/reduced-motion.css) would cancel this, and nothing in
+ * this file can beat it. See the re-assertion there for why. */
+[data-preloader] {
+  animation: var(--preloader-failsafe);
+}
+
+@keyframes preloader-failsafe {
+  to {
+    visibility: hidden;
+  }
 }
 
 @keyframes preloader-fade-in {
