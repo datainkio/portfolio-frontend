@@ -15,7 +15,8 @@
  *
  * Pair with a background-color utility for the paper itself; this only
  * paints the lines. Defined with @utility so variants compose
- * (lg:bg-graphpaper-…).
+ * (lg:bg-graphpaper-…). One named pairing, bg-page-graphpaper, is at the
+ * end of this file.
  */
 @utility bg-graphpaper-* {
   --graphpaper-line: --value(--color-*, [color]);
@@ -58,4 +59,20 @@
     4rem 4rem,
     4rem 4rem;
   background-repeat: repeat;
+}
+
+/*
+ * PAGE GRAPHPAPER
+ *
+ * bg-page-graphpaper: the homepage's page background, named once — the
+ * neutral-950 paper plus the primary-100 grid. It goes on <html>
+ * (views/pages/home/home.njk), where the root background covers the whole
+ * canvas, and on the preloader overlay (views/organisms/status/preloader.njk),
+ * which must match it exactly so lifting the splash is seamless. Both use
+ * this utility so the pair can't drift.
+ *
+ * Homepage only: views/layouts/base.njk puts a different pair on its <body>.
+ */
+@utility bg-page-graphpaper {
+  @apply bg-neutral-950 bg-graphpaper-primary-100;
 }

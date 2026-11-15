@@ -14,7 +14,7 @@ This spec defines intent. Where the build differs, see [Drift](#drift).
 
 The steps below describe the states and events from the user's perspective:
 
-00: The user lands on the page. No HTML elements are visible other than the background color of the body element. The page load begins.
+00: The user lands on the page. No HTML elements are visible other than the page background (the `<html>` element's colour and grid). The page load begins.
 
 01: The preloader view enters.
 02: The preloader view rests in its idle state as the page load continues.

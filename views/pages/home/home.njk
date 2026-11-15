@@ -35,10 +35,12 @@
 <!DOCTYPE html>
 {% include "templates/partials/dev-note/dev-note.njk" %}
 {#- overflow-x-clip: same guard as base.njk — keeps horizontal overflow from
-    widening the mobile layout viewport. -#}
-<html lang="en" class="overflow-x-clip bg-neutral-950">
+    widening the mobile layout viewport. bg-page-graphpaper: the page
+    background (colour and grid) lives on <html> alone, so it covers the
+    whole canvas; the preloader uses the same utility. <body> carries none. -#}
+<html lang="en" class="overflow-x-clip bg-page-graphpaper">
   {% include "templates/partials/head/head.njk" %}
-  <body class="relative bg-graphpaper-primary-100 text-neutral-100 isolate">
+  <body class="relative text-neutral-100 isolate">
     {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {{ Preloader.render({ "svg": logo }) }}
