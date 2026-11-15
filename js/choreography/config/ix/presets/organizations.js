@@ -20,7 +20,5 @@ export const ORGANIZATIONS_ANIMATION_DEFAULTS = {
   // different lengths drift at the same visual pace.
   marquee: {
     pixelsPerSecond: 32,
-    // How long hover takes to ease the rows to a stop, and back.
-    hoverDuration: toSeconds(motion.duration("base")),
   },
 };

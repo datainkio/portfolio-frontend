@@ -34,14 +34,9 @@ export default class OrganizationsAnimations extends AbstractSectionAnimations {
     this._isMarqueeEnabled = false;
     this._isMarqueeVisible = false;
     this._isUserPaused = false;
-    this._isHovered = false;
 
     this._onToggleClick = this._onToggleClick.bind(this);
-    this._onPointerEnter = this._onPointerEnter.bind(this);
-    this._onPointerLeave = this._onPointerLeave.bind(this);
     this._toggle?.addEventListener("click", this._onToggleClick);
-    this._list?.addEventListener("pointerenter", this._onPointerEnter);
-    this._list?.addEventListener("pointerleave", this._onPointerLeave);
 
     // this.options = {
     //   duration: options.duration ?? ORGANIZATIONS_ANIMATION_DEFAULTS.duration,
@@ -216,9 +211,7 @@ export default class OrganizationsAnimations extends AbstractSectionAnimations {
     )
       return;
     const idle = this.getTimeline(TIMELINE_IDS.idle);
-    if (!idle) return;
-    idle.timeScale(this._isHovered ? 0 : 1);
-    idle.resume();
+    idle?.resume();
   }
 
   pauseMarquee() {
@@ -233,31 +226,5 @@ export default class OrganizationsAnimations extends AbstractSectionAnimations {
     } else {
       this.resumeMarquee();
     }
-  }
-
-  // Hover eases the rows to a stop rather than freezing them mid-frame. Mouse
-  // only: a touch tap fires pointerenter without a reliable pointerleave,
-  // which would strand the rows at a stop.
-  _onPointerEnter(event) {
-    if (event?.pointerType !== "mouse") return;
-    this._isHovered = true;
-    this._tweenTimeScale(0);
-  }
-
-  _onPointerLeave(event) {
-    if (event?.pointerType !== "mouse") return;
-    this._isHovered = false;
-    this._tweenTimeScale(1);
-  }
-
-  _tweenTimeScale(timeScale) {
-    const idle = this.getTimeline(TIMELINE_IDS.idle);
-    if (!this._isMarqueeEnabled || !idle) return;
-    gsap.to(idle, {
-      timeScale,
-      duration: this.marqueeOptions.hoverDuration,
-      ease: "none",
-      overwrite: true,
-    });
   }
 }
