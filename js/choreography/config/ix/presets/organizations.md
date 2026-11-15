@@ -14,3 +14,7 @@ links:
 # presets/organizations
 
 `ORGANIZATIONS_ANIMATION_DEFAULTS` spreads `ANIMATION_DEFAULTS`. Consumed by `OrganizationsAnimations`.
+
+`marquee` holds the logo marquee values: `pixelsPerSecond` (constant drift speed
+for every row) and `hoverDuration` (how long hover takes to ease the rows to a
+stop, from the `base` motion duration token).
