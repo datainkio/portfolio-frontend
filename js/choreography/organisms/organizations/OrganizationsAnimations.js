@@ -118,48 +118,51 @@ export default class OrganizationsAnimations extends AbstractSectionAnimations {
 
     const { pixelsPerSecond } = this.marqueeOptions;
     const idle = gsap.timeline({ id: TIMELINE_IDS.idle, paused: true });
-    let rowIndex = 0;
+    let marqueeCount = 0;
 
-    selectOrganizationsEls(this._list, "viewport").forEach((viewport) => {
-      const track = selectOrganizationsEl(viewport, "track");
-      if (!track) return;
+    selectOrganizationsEls(this._list, "viewport").forEach(
+      (viewport, rowIndex) => {
+        const track = selectOrganizationsEl(viewport, "track");
+        if (!track) return;
 
-      // Measure as a single line; leave the row wrapped if it fits.
-      track.setAttribute(MARQUEE_ATTR, "");
-      const setWidth = track.scrollWidth;
-      if (setWidth <= viewport.clientWidth) {
-        track.removeAttribute(MARQUEE_ATTR);
-        return;
-      }
+        // Measure as a single line; leave the row wrapped if it fits.
+        track.setAttribute(MARQUEE_ATTR, "");
+        const setWidth = track.scrollWidth;
+        if (setWidth <= viewport.clientWidth) {
+          track.removeAttribute(MARQUEE_ATTR);
+          return;
+        }
 
-      // One full copy of the set, hidden from assistive tech. Items carry
-      // trailing padding rather than a flex gap, so -50% lands exactly on the
-      // seam.
-      Array.from(track.children).forEach((item) => {
-        const clone = item.cloneNode(true);
-        clone.setAttribute("aria-hidden", "true");
-        clone.setAttribute(CLONE_ATTR, "");
-        clone.removeAttribute(ORGANIZATIONS_EL_ATTR);
-        track.append(clone);
-      });
+        // One full copy of the set, hidden from assistive tech. Items carry
+        // trailing padding rather than a flex gap, so -50% lands exactly on the
+        // seam.
+        Array.from(track.children).forEach((item) => {
+          const clone = item.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          clone.setAttribute(CLONE_ATTR, "");
+          clone.removeAttribute(ORGANIZATIONS_EL_ATTR);
+          track.append(clone);
+        });
 
-      // Alternate direction row to row.
-      const reverse = rowIndex % 2 === 1;
-      idle.fromTo(
-        track,
-        { xPercent: reverse ? -50 : 0 },
-        {
-          xPercent: reverse ? 0 : -50,
-          duration: setWidth / pixelsPerSecond,
-          ease: "none",
-          repeat: -1,
-        },
-        0,
-      );
-      rowIndex += 1;
-    });
+        // Alternate direction by row position, so a row that fits doesn't flip
+        // the direction of the rows after it.
+        const reverse = rowIndex % 2 === 1;
+        idle.fromTo(
+          track,
+          { xPercent: reverse ? -50 : 0 },
+          {
+            xPercent: reverse ? 0 : -50,
+            duration: setWidth / pixelsPerSecond,
+            ease: "none",
+            repeat: -1,
+          },
+          0,
+        );
+        marqueeCount += 1;
+      },
+    );
 
-    if (rowIndex === 0) {
+    if (marqueeCount === 0) {
       idle.kill();
       return;
     }

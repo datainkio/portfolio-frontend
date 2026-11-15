@@ -10,41 +10,18 @@
   {%- set headingId = params.headingId | default(sectionId) -%}
 
   {%- set organizations = params.organizations | default([]) -%}
+  {%- set rowCount = params.rowCount | default(3) -%}
 
-  {#- Row order and labels mirror the `organizationType` options in the Sanity
-      schema (backend/schemaTypes/documents/content/organization.ts). Untyped
-      organizations fall into a trailing "Other" row so none are dropped. -#}
-  {%- set types = [
-    {"value": "corporate", "label": "Corporate"},
-    {"value": "nonprofit", "label": "Non-profit"},
-    {"value": "government", "label": "Government"},
-    {"value": "academic", "label": "Academic"},
-    {"value": "startup", "label": "Startup"},
-    {"value": "agency", "label": "Agency"}
-  ] -%}
-  {%- set typeValues = [] -%}
+  {#- Shuffle once per build, then deal the organizations round-robin across
+      the rows so each row gets a random, even share. -#}
   {%- set rows = [] -%}
-  {%- for type in types -%}
-    {%- set typeValues = (typeValues.push(type.value), typeValues) -%}
-    {%- set members = [] -%}
-    {%- for organization in organizations -%}
-      {%- if organization.organizationType == type.value -%}
-        {%- set members = (members.push(organization), members) -%}
-      {%- endif -%}
-    {%- endfor -%}
-    {%- if members | length -%}
-      {%- set rows = (rows.push({"value": type.value, "label": type.label, "members": members}), rows) -%}
-    {%- endif -%}
+  {%- for i in range(0, rowCount) -%}
+    {%- set rows = (rows.push([]), rows) -%}
   {%- endfor -%}
-  {%- set untyped = [] -%}
-  {%- for organization in organizations -%}
-    {%- if not (organization.organizationType in typeValues) -%}
-      {%- set untyped = (untyped.push(organization), untyped) -%}
-    {%- endif -%}
+  {%- for organization in organizations | shuffle -%}
+    {%- set row = rows[loop.index0 % rowCount] -%}
+    {%- set row = (row.push(organization), row) -%}
   {%- endfor -%}
-  {%- if untyped | length -%}
-    {%- set rows = (rows.push({"value": "other", "label": "Other", "members": untyped}), rows) -%}
-  {%- endif -%}
 
   {%- set sectionStyles = {
     "base": "w-full max-w-screen-lg mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden px-4",
@@ -58,15 +35,6 @@
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
     "md": "text-6xl",
     "lg": "text-7xl"
-  } -%}
-
-  {%- set groupStyles = {
-    "base": "flex flex-col gap-3",
-    "md": "flex-row items-center gap-8"
-  } -%}
-  {%- set typeStyles = {
-    "base": "shrink-0 font-display text-sm uppercase tracking-wider text-neutral-400",
-    "md": "w-32"
   } -%}
 
   {#- Static wrapped grid by default (no JS, reduced motion, or a row that
@@ -85,7 +53,7 @@
           class="{{ title | classes }}">{{ heading }}</h2>
       <p data-organizations-el="body" class="col-span-full">{{ body }}</p>
     </header>
-    {% if rows | length %}
+    {% if organizations | length %}
       {#- Revealed by OrganizationsAnimations only while a marquee runs:
           WCAG 2.2.2 requires a way to pause motion that lasts over 5s. -#}
       {{ Button.render({
@@ -94,27 +62,21 @@
         "classes": "ml-auto mt-6 block text-sm",
         "attrs": 'hidden aria-pressed="false" data-organizations-el="toggle"'
       }) }}
-      <ul data-organizations-el="list" class="col-span-full flex flex-col gap-8 py-12">
+      {#- <div>s: the rows wrapper and each row's clipping box are layout only;
+          the logos themselves are lists, and no sectioning element fits. -#}
+      <div data-organizations-el="list" class="col-span-full flex flex-col py-12">
         {% for row in rows %}
-          {%- set typeId = sectionId ~ "-" ~ row.value -%}
-          <li data-organizations-el="group" class="{{ groupStyles | classes }}">
-            <h3 id="{{ typeId }}"
-                data-organizations-el="type"
-                class="{{ typeStyles | classes }}">{{ row.label }}</h3>
-            {#- <div>: a non-semantic clipping box for the moving track; no
-                sectioning or landmark element fits. -#}
-            <div data-organizations-el="viewport" class="min-w-0 flex-1 overflow-hidden">
-              <ul data-organizations-el="track"
-                  aria-labelledby="{{ typeId }}"
-                  class="{{ trackStyles }}">
-                {% for organization in row.members %}
+          {% if row | length %}
+            <div data-organizations-el="viewport" class="min-w-0 overflow-hidden">
+              <ul data-organizations-el="track" class="{{ trackStyles }}">
+                {% for organization in row %}
                   <li data-organizations-el="organization" class="shrink-0 pr-3 pb-3">{{ Organization.render(organization) }}</li>
                 {% endfor %}
               </ul>
             </div>
-          </li>
+          {% endif %}
         {% endfor %}
-      </ul>
+      </div>
     {% else %}
       <p class="col-span-full">No organizations found.</p>
     {% endif %}
