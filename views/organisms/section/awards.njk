@@ -16,10 +16,10 @@
   {%- set awards = params.awards | default([]) -%}
 
   {%- set sectionStyles = {
-    "base": "relative max-w-screen-lg mx-auto w-full col-span-full text-neutral-100 my-12 px-4",
+    "base": "relative mx-auto w-full col-span-full text-neutral-100 my-12 px-4",
     "sm": "px-8",
     "md": "px-12",
-    "lg": "px-24"
+    "lg": "px-0"
   } -%}
   {%- set headerCSS = {
     "base": "z-10 border-y border-neutral-600 divide-neutral-600 flex flex-row items-center gap-2 py-8",
@@ -36,7 +36,11 @@
     base: "font-light text-neutral-500 uppercase tracking-wide col-span-3 place-content-end border-b border-b-2
     border-dotted border-primary-500 py-4 mb-6"
     } -%}
-  {%- set listCSS = {"base": "grid grid-cols-3 items-center gap-x-6 gap-y-8 px-2 py-6", "sm": "gap-x-8", "md": "grid-cols-6 px-0"} -%}
+  {%- set listCSS = {
+    "base": "grid grid-cols-3 items-center gap-x-6 gap-y-8 px-2 py-6",
+    "sm": "gap-x-8",
+    "md": "grid-cols-6 px-0"
+  } -%}
   {%- set articleContainer = {"base": "flex items-center justify-center"} -%}
   <section id="{{ sectionId }}"
            class="{{ [sectionStyles, params.classes] | classes }}"
@@ -49,8 +53,7 @@
           class=" {{ headingCSS | classes }} ">{{ heading }}</h2>
     </header>
 
-    <div data-awards-el="subheading"
-         class=" {{ subheadingCSS | classes }} ">
+    <div data-awards-el="subheading" class=" {{ subheadingCSS | classes }} ">
       <p class="{{ subheadingTitleCSS | classes }}">Awards, Fellowship, and Distinctions</p>
       <p class="{{ subheadingDescriptionCSS | classes }}">Selected honors received for work in design, technology & public impact</p>
     </div>

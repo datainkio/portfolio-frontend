@@ -54,7 +54,7 @@
 
   {%- set byline = {"base": "byline text-sm font-display"} -%}
 
-  {%- set description = {"base": "sr-only col-span-full"} -%}
+  {%- set description = {"base": "sr-only col-span-full", "lg": "not-sr-only"} -%}
 
   {%- set stats = {"base": "col-span-full text-neutral-950 sr-only"} -%}
 
@@ -62,7 +62,8 @@
 
   {%- set linky = {"base": "font-serif text-2xl italic inline-block cta", "sm": "arrow-suffix"} -%}
 
-  <article data-card-el="root" class="{{ root | classes }} {{ classes | classes }}">
+  <article data-card-el="root"
+           class="{{ root | classes }} {{ classes | classes }}">
     {% if hasMedia %}
       <figure data-card-el="figure" class="{{ figure | classes }}">
         {% if videoSrc %}
