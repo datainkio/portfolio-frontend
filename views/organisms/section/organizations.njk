@@ -24,12 +24,14 @@
   {%- endfor -%}
 
   {%- set sectionStyles = {
-    "base": "w-full max-w-screen-lg mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden px-4",
+    "base": "w-full mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden px-4",
     "sm": "px-8",
     "md": "px-12",
-    "lg": "px-24"
+    "lg": "px-0"
   } -%}
-  {%- set header = {"base": "gap-2 py-12 z-10 w-full border-y border-neutral-600 divide-neutral-600 flex flex-row items-center"} -%}
+  {%- set header = {
+    "base": "gap-2 py-12 z-10 w-full border-y border-neutral-600 divide-neutral-600 flex flex-row items-center"
+  } -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -60,11 +62,12 @@
         "label": "Pause motion",
         "variant": "dark",
         "classes": "ml-auto mt-6 block text-sm",
-        "attrs": 'hidden aria-pressed="false" data-organizations-el="toggle"'
+        "attrs": "hidden aria-pressed=\"false\" data-organizations-el=\"toggle\""
       }) }}
       {#- <div>s: the rows wrapper and each row's clipping box are layout only;
           the logos themselves are lists, and no sectioning element fits. -#}
-      <div data-organizations-el="list" class="col-span-full flex flex-col py-12">
+      <div data-organizations-el="list"
+           class="col-span-full flex flex-col py-12">
         {% for row in rows %}
           {% if row | length %}
             <div data-organizations-el="viewport" class="min-w-0 overflow-hidden">
