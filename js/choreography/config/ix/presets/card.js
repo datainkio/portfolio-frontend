@@ -5,6 +5,6 @@
  * Figure remains at default speed (yPercent: 0), body drifts up by this offset.
  */
 export const CARD_PARALLAX = {
-  bodyYPercent: -600, // subtle upward drift
-  bodyYOrigin: 300, // start body offset below the fold
+  bodyYPercent: -300, // subtle upward drift
+  bodyYOrigin: 200, // start body offset below the fold
 };
