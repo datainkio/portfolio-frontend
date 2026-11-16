@@ -43,7 +43,10 @@
 
   {%- set eyebrow = {"base": "eyebrow text-xs uppercase tracking-wide col-span-full m-0", "lg": "text-sm"} -%}
 
-  {%- set header = {"base": "header col-span-5 pb-2 pr-2 hover:no-underline border-dotted border-r-3 border-neutral-600"} -%}
+  {%- set header = {
+    "base": "header col-span-5 pb-2 pr-2 hover:no-underline border-dotted border-r-3 border-neutral-600",
+    "lg": "border-0"
+  } -%}
 
   {%- set heading = {
     "base": "text-neutral-950 text-xl leading-6 font-display mt-1",
@@ -54,13 +57,21 @@
 
   {%- set byline = {"base": "byline text-sm font-display"} -%}
 
-  {%- set description = {"base": "sr-only col-span-full", "lg": "not-sr-only"} -%}
+  {%- set description = {"base": "sr-only col-span-full", "lg": "pb-4 not-sr-only"} -%}
 
   {%- set stats = {"base": "col-span-full text-neutral-950 sr-only"} -%}
 
-  {%- set footer = {"base": "my-auto px-4", "md": "px-2"} -%}
+  {%- set footer = {
+    "base": "my-auto px-4",
+    "md": "px-2",
+    "lg": "w-full col-span-full border-dotted border-t-3 border-neutral-600"
+  } -%}
 
-  {%- set linky = {"base": "font-serif text-2xl italic inline-block cta", "sm": "arrow-suffix"} -%}
+  {%- set linky = {
+    "base": "font-serif text-2xl italic inline-block cta",
+    "sm": "arrow-suffix",
+    "lg": "w-full text-center pt-2"
+  } -%}
 
   <article data-card-el="root"
            class="{{ root | classes }} {{ classes | classes }}">
