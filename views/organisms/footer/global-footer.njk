@@ -18,7 +18,9 @@ Part of layout organism category for consistent page structure.
 {%- set socialStyles = {"base": "w-full mt-2 justify-center content-center col-span-9 border-r border-neutral-700"} -%}
 
 {#- COPYRIGHT STYLES -#}
-{%- set copyrightStyles = {"base": "text-center justify-center col-span-3 text-sm text-primary-600 text-right inline-block my-auto"} -%}
+{%- set copyrightStyles = {
+  "base": "mx-auto text-center justify-center col-span-3 text-sm text-primary-600 text-right inline-block my-auto"
+} -%}
 
 {% macro render(params = {}) %}
   {% set cms = params.cms %}
