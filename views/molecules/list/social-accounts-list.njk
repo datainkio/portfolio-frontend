@@ -2,15 +2,18 @@
 {%- import "atoms/link/link.njk" as Link -%}
 {%- macro render(params = {}) -%}
 
+  {#- DATA GUARDS: Ensure required parameters are set and have default values -#}
   {%- set socialAccounts = params.accounts or [] -%}
-  {%- set itemStyles = {"base": "size-full content-center", "md": "gap-4", "lg": "p-0"} -%}
+
   {% if socialAccounts | length > 0 %}
-    <ul class="{{ ['gap-2', params.classes] | classes }}" role="list">
+    <ul class="flex items-center gap-x-2 {{ [params.classes] | classes }}"
+        role="list">
       {% for account in socialAccounts %}
-        <li class="{{ itemStyles | classes }}">{{ social_account.render({ account: account, format: "text" }) }}</li>
+        <li>{{ social_account.render({ account: account, format: "icon", logoSize: "size-6" }) }}</li>
       {% endfor %}
     </ul>
   {% else %}
     <p>No social accounts available</p>
   {% endif %}
+
 {%- endmacro -%}

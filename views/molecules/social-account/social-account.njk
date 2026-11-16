@@ -12,12 +12,11 @@ Params: account { title, logo.url, url }, classes
   {%- set format = params.format | default("icon") -%}
 
   {#- STYLES -#}
-  {%- set linkClasses = ["inline-flex items-center justify-center", params.classes] -%}
-  {%- set logoClasses = {"base": "w-6 object-contain"} -%}
-  {%- set logoSize = params.size | default("size-6") -%}
+  {%- set linkClasses = params.classes -%}
   {%- set logo = account.logo.url | default('/assets/images/logos/default.svg') -%}
   {%- set logoAlt = account.logo.alt | default(account.title) -%}
-  {%- set logoStyle = {"base": "mx-auto text-primary-400 " ~ logoSize} -%}
+  {%- set logoSize = params.logoSize | default("size-6") -%}
+  {%- set logoStyle = {"base": "aspect-square mx-auto text-primary-400 " ~ logoSize} -%}
 
   {#- DISPLAY -#}
   {%- if account and account.url -%}
@@ -38,6 +37,7 @@ Params: account { title, logo.url, url }, classes
       {%- else -%}
         {{ account.title }}
       {%- endif -%}
+
     </a>
   {%- endif -%}
 {%- endmacro -%}
