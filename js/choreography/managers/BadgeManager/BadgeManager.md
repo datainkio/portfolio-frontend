@@ -44,8 +44,10 @@ trap, Escape, the top layer and focus return to the badge. The dialog's
 The close button calls `dialog.close()`.
 
 On open the close button animates in after a `motion` slower (1s) delay:
-`autoAlpha 0 → 1`, `rotation -90 → 0`, `motion` base/enter. `fromTo` renders
-the from-state immediately, so the button stays hidden through the delay.
+`opacity 0 → 1`, `rotation -90 → 0`, `motion` base/enter. `fromTo` renders
+the from-state immediately, so the button stays invisible through the delay. It
+animates `opacity`, not `autoAlpha`: the button is autofocused on open, and
+`visibility: hidden` would make the browser drop that focus.
 Reduced motion sets the final state at once with `gsap.set`.
 
 Page scroll is locked by CSS while the dialog is open
@@ -63,4 +65,6 @@ without a smoother, where the CSS lock alone applies.
 ## Lifecycle
 
 `kill()` removes the cue, the ScrollTrigger and the click/close listeners
-(one `AbortController`), and kills tweens on the badge and close button.
+(one `AbortController`), and kills tweens on the badge and close button. If the
+dialog is open, it resumes the smoother first, since the close handler that
+would have resumed it is gone.
