@@ -1,9 +1,13 @@
 import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 import { motion } from "../../config/ix/motion.js";
-import { SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import {
+  SELECTORS,
+  BADGE_SELECTORS as SEL,
+} from "../../config/contracts/selectors/selectors.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
+const ATTR = SEL.elementAttribute;
 const SCROLL_THRESHOLD_PX = 80;
 
 export default class BadgeManager {
@@ -13,16 +17,19 @@ export default class BadgeManager {
       enabled: true,
     });
 
-    this._el = document.getElementById(SELECTORS.header);
+    this._el = document.querySelector(`[${ATTR}="${SEL.toggle}"]`);
+    this._dialog = document.querySelector(`[${ATTR}="${SEL.dialog}"]`);
+    this._close = this._dialog?.querySelector(`[${ATTR}="${SEL.close}"]`);
     this._bus = bus;
     this._reducedMotionHandler = reducedMotionHandler;
     this._offCue = null;
     this._revealed = false;
     this._trigger = null;
     this._isHidden = false;
+    this._listeners = new AbortController();
 
-    if (!this._el) {
-      this.logger.trace("element not found; BadgeManager disabled");
+    if (!this._el || !this._dialog) {
+      this.logger.trace("badge or dialog not found; BadgeManager disabled");
       return;
     }
 
@@ -33,9 +40,22 @@ export default class BadgeManager {
     if (this._el.dataset.badgeInit) return;
     this._el.dataset.badgeInit = "1";
 
+    // The native <dialog> traps focus, closes on Escape and returns focus to
+    // the badge. Its `close` event fires on every dismissal path.
+    const { signal } = this._listeners;
+    this._el.addEventListener("click", () => this._open(), { signal });
+    this._close?.addEventListener("click", () => this._dialog.close(), {
+      signal,
+    });
+    this._dialog.addEventListener(
+      "close",
+      () => this._el.setAttribute("aria-expanded", "false"),
+      { signal },
+    );
+
     // The markup ships `hidden`. On home (bus + hero section), the reveal is
     // the last beat of the landing chain — it waits for the hero intro, so the
-    // header enters once the page content has settled. Everywhere else it
+    // badge enters once the page content has settled. Everywhere else it
     // reveals immediately: landing pages without a hero (work, contact) load
     // the Director too, and would otherwise wait on a cue that never fires.
     if (this._bus && document.getElementById(SELECTORS.hero)) {
@@ -49,14 +69,40 @@ export default class BadgeManager {
     this.logger.trace("initialized");
   }
 
+  _isReduced() {
+    return this._reducedMotionHandler?.isReducedMotion?.() ?? false;
+  }
+
+  _open() {
+    this._dialog.showModal();
+    this._el.setAttribute("aria-expanded", "true");
+    if (!this._close) return;
+
+    const shown = { autoAlpha: 1, rotation: 0 };
+    if (this._isReduced()) {
+      gsap.set(this._close, shown);
+      return;
+    }
+    gsap.fromTo(
+      this._close,
+      { autoAlpha: 0, rotation: -90 },
+      {
+        ...shown,
+        duration: motion.duration("base") / 1000,
+        ease: motion.ease("enter"),
+        overwrite: true,
+      },
+    );
+  }
+
   _reveal() {
     if (this._revealed) return;
     this._revealed = true;
     this._offCue?.();
     this._offCue = null;
 
-    const reduced = this._reducedMotionHandler?.isReducedMotion?.() ?? false;
-    // Only a home reveal is choreographed; elsewhere the header is page chrome.
+    const reduced = this._isReduced();
+    // Only a home reveal is choreographed; elsewhere the badge is page chrome.
     const animate = !reduced && Boolean(this._bus);
 
     this._bus?.emit(EVENTS.header.introStart);
@@ -89,6 +135,8 @@ export default class BadgeManager {
   }
 
   _onScrollUpdate(self, reduced) {
+    // Auto-hide pauses while the site map is open.
+    if (this._dialog.open) return;
     if (self.scroll() < SCROLL_THRESHOLD_PX) {
       this._show(reduced);
       return;
@@ -135,7 +183,9 @@ export default class BadgeManager {
     this._offCue = null;
     this._trigger?.kill();
     this._trigger = null;
+    this._listeners.abort();
     if (this._el) gsap.killTweensOf(this._el);
+    if (this._close) gsap.killTweensOf(this._close);
     this.logger.trace("destroyed");
   }
 }

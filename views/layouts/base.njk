@@ -1,4 +1,4 @@
-{% import "organisms/header/global-header.njk" as GlobalHeader %}
+{% import "organisms/header/badge.njk" as Badge %}
 {% import "organisms/footer/global-footer.njk" as Footer %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinks %}
 
@@ -28,8 +28,8 @@
     {# SKIP LINKS #}
     {{ SkipLinks.render() }}
 
-    {# GLOBAL PAGE HEADER #}
-    {{ GlobalHeader.render({ classes: 'font-display', logoSvg: brandLogoSvg, docNo: docNo, sectionTitle: eleventyNavigation.title | default(title), cms: cms, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
+    {# BADGE — opens the site map #}
+    {{ Badge.render({ logoSvg: brandLogoSvg, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
 
     {#- SCROLLSMOOTHER WRAPPER (opt-in) — a template sets `smoothScroll = true`
         to get the same #page-main / #page-main-content pair home.njk builds by
@@ -40,7 +40,7 @@
         sticky/parallax) can't be frame-locked to the compositor on mobile.
         Opt-in rather than default because article.njk renders `sticky top-0`
         inside <main>, which breaks inside the smoothed content. Everything
-        that must stay position: fixed (skip links, global header, and any
+        that must stay position: fixed (skip links, the badge, and any
         `sidebarBefore` or `afterMain` content) sits outside
         #page-main-content. -#}
     {% if smoothScroll %}<div id="page-main">{% endif %}
