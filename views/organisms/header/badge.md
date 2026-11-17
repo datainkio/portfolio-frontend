@@ -52,9 +52,12 @@ organisms. Rendered by [[base.njk]] and [[home.njk]], outside
 [[BadgeManager.js]] binds to `data-badge-el="toggle" | "dialog" | "close"`.
 It removes `hidden` from the badge (cued by `hero:intro:complete` on home,
 immediately elsewhere), hides it on scroll down and shows it on scroll up,
-opens the dialog and animates the close button in. `aria-expanded` on the
-badge tracks the dialog. A CSS rule in `styles/base.css` locks page scroll
-while the dialog is open.
+opens the dialog and animates the close button in after a 1s delay.
+`aria-expanded` on the badge tracks the dialog. A CSS rule in
+`styles/base.css` locks page scroll while the dialog is open; on
+ScrollSmoother pages the manager also pauses the smoother so the dialog
+itself can scroll. The dialog is `size-full max-h-none`, so it fills the
+viewport and scrolls inside (`overflow-y-auto`).
 
 ## Accessibility
 
@@ -63,6 +66,8 @@ while the dialog is open.
   `aria-expanded`.
 - The dialog is labelled "Site map"; the native modal traps focus, closes on
   Escape and returns focus to the badge.
+- The close button carries `autofocus`, so focus lands on it when the dialog
+  opens.
 
 ## Without JavaScript
 
