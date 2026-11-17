@@ -1,5 +1,5 @@
 ---
-description: "Runtime manager — reveals the global site header (cued by hero:intro:complete on home, immediately elsewhere), then hides and shows it on scroll direction change."
+description: "Runtime manager — reveals the badge (cued by hero:intro:complete on home, immediately elsewhere), hides and shows it on scroll direction change, and opens its site-map dialog."
 status: stable
 tags:
   - choreography
@@ -13,18 +13,43 @@ links:
 
 # BadgeManager
 
-Owns `#global-header`, which the markup ships with `hidden`.
+Owns the badge from [[badge.njk]]: the toggle button (`data-badge-el="toggle"`,
+shipped `hidden`), its `<dialog>` (`data-badge-el="dialog"`) and the dialog's
+close button (`data-badge-el="close"`), all resolved through
+`BADGE_SELECTORS`. Disabled when the toggle or dialog is missing.
+
+Renamed from `GlobalHeaderManager` when the badge replaced the global header
+(2026-11-17). The reveal and scroll logic are unchanged.
 
 ## Reveal
 
-- **With a bus and a hero section** (home, via AnimationDirector): waits for `hero:intro:complete` — the last beat of the landing chain — then removes `hidden` and slides the header in (`yPercent: -100 → 0`, `motion` base/enter). Nothing waits on it; `header:intro:complete` is the chain's terminal event.
-- **Otherwise**: removes `hidden` immediately, no tween. Covers standalone pages (`js/layouts/badge.js`, no bus) and landing pages without a hero (work, contact). Those load both the Director and `badge.js`, and whichever module runs first claims the header via `data-badge-init`. Before the hero check, a Director-first load left the header waiting on `hero:intro:complete`, which never fires there.
+- **With a bus and a hero section** (home, via AnimationDirector): waits for `hero:intro:complete` — the last beat of the landing chain — then removes `hidden` and slides the badge in (`yPercent: -100 → 0`, `motion` base/enter). Nothing waits on it; `header:intro:complete` is the chain's terminal event.
+- **Otherwise**: removes `hidden` immediately, no tween. Covers standalone pages (`js/layouts/badge.js`, no bus) and landing pages without a hero (work, contact). Whichever module runs first claims the badge via `data-badge-init`.
 - **Reduced motion**: removes `hidden` and sets the final state, no tween.
 
-Emits `header:intro:start` and `header:intro:complete` (bus only) in every mode.
+Emits `header:intro:start` and `header:intro:complete` (bus only) in every mode. The event namespace keeps its `header` name.
 
 ## Scroll auto-hide
 
-The ScrollTrigger is created only after the reveal completes, so hide/show can never fire before the intro. Past `SCROLL_THRESHOLD_PX` (80), scrolling down hides the header and scrolling up shows it. Reduced motion uses `gsap.set` instead of tweens.
+The ScrollTrigger is created only after the reveal completes, so hide/show can never fire before the intro. Past `SCROLL_THRESHOLD_PX` (80), scrolling down hides the badge and scrolling up shows it. Reduced motion uses `gsap.set` instead of tweens. Auto-hide is paused while the dialog is open.
 
-The header is `position: fixed`, so neither the reveal nor auto-hide reflows the page (no CLS).
+The badge is `position: fixed`, so neither the reveal nor auto-hide reflows the page (no CLS).
+
+## Site-map dialog
+
+The same native-dialog pattern as [[Lightbox.js]]: a click on the badge calls
+`showModal()` and sets `aria-expanded="true"`. The platform supplies the focus
+trap, Escape, the top layer and focus return to the badge. The dialog's
+`close` event, which fires on every dismissal path, resets `aria-expanded`.
+The close button calls `dialog.close()`.
+
+On open the close button animates in: `autoAlpha 0 → 1`, `rotation -90 → 0`,
+`motion` base/enter. Reduced motion sets the final state with `gsap.set`.
+
+Page scroll is locked by CSS while the dialog is open
+(`html:has(dialog[data-badge-el][open])` in `styles/base.css`).
+
+## Lifecycle
+
+`kill()` removes the cue, the ScrollTrigger and the click/close listeners
+(one `AbortController`), and kills tweens on the badge and close button.

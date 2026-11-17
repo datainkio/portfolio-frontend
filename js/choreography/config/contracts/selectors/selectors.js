@@ -13,9 +13,6 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
-  // Layout
-  header: "global-header",
-
   // Section IDs
   organizations: "organizations",
   hero: "manifesto",
@@ -64,6 +61,17 @@ export const HERO_SELECTORS = {
 
 export const PROCESS_SELECTORS = {
   elementAttribute: "data-process-el",
+};
+
+/**
+ * Badge (organisms/header/badge.njk): the fixed button that opens the
+ * site-map dialog, and the dialog's close button.
+ */
+export const BADGE_SELECTORS = {
+  elementAttribute: "data-badge-el",
+  toggle: "toggle",
+  dialog: "dialog",
+  close: "close",
 };
 
 export const BUILD_INFO_SELECTORS = {

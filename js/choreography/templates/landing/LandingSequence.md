@@ -206,4 +206,4 @@ flowchart TD
 ### Known drift
 
 - The constructor comment `DISABLED INITIAL PRELOADER LISTENER FOR STYLING WORK ON PRELOADER VIEW` in `LandingSequence.js` is stale — the `preloader:out` listener is active.
-- The global header is disabled on the homepage (2026-11-09), so the final beat above (`hero:intro:complete` → `BadgeManager._reveal`) doesn't occur there; the chain ends at `hero:intro:complete`. Deferred until the header returns. See [homepage-initialization](../../../../specs/animation/homepage-initialization.animation.md).
+- The badge replaced the global header on 2026-11-17 and renders on the homepage, so the final beat above (`hero:intro:complete` → `BadgeManager._reveal`) runs there again. See [homepage-initialization](../../../../specs/animation/homepage-initialization.animation.md).

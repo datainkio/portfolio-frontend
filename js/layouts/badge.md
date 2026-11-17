@@ -33,8 +33,11 @@ frontmatter but never includes the script, so it still needs this module.
 1. Build a minimal `reducedMotionHandler` from
    `window.matchMedia("(prefers-reduced-motion: reduce)")`.
 2. Unless `window.__enableChoreography` is true, instantiate
-   `new BadgeManager({ reducedMotionHandler })` on import.
-   With no bus, the manager reveals the header immediately (removes `hidden`,
-   no tween) and then arms scroll auto-hide.
+   `new BadgeManager({ reducedMotionHandler })` and
+   `new BuildInfoManager({ reducedMotionHandler })` on import.
+   With no bus, the badge manager reveals the badge immediately (removes
+   `hidden`, no tween) and then arms scroll auto-hide. The build-info manager
+   wires the build-info drawer inside the badge's dialog, which every page
+   renders.
 
 No exports — side-effecting init script only.

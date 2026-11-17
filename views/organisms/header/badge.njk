@@ -1,0 +1,59 @@
+{% import "atoms/button.njk" as Button %}
+{% import "atoms/icon.njk" as Icon %}
+{% import "atoms/hanko/hanko.njk" as Hanko %}
+{% import "organisms/navigation/sitemap.njk" as Sitemap %}
+{% import "organisms/status/build-view/build-view.njk" as BuildInfo %}
+
+{#- STYLES -#}
+
+{#- the badge: fixed top left, hidden until BadgeManager reveals it. It stays
+    hidden with scripting off, since it can't open the dialog; the footer's
+    primary nav still reaches every landing page. -#}
+{%- set badgeClasses = {"base": "hidden fixed top-0 left-0 z-20 size-14 p-2 bg-neutral-900 inner-border text-primary-200 cursor-pointer will-change-transform"} -%}
+
+{#- the home link's styling from the retired global header -#}
+{%- set logoClasses = {"base": "flex justify-center items-center w-full min-w-10 h-full p-2"} -%}
+
+{#- full bleed: overrides the UA dialog's inset sizing, margin and padding -#}
+{%- set dialogClasses = {"base": "m-0 size-full max-w-none max-h-none p-0 overflow-y-auto bg-neutral-900 text-neutral-100 font-display"} -%}
+
+{#- relative z-10 + the -z-10 backdrop reproduce the old header's stacking, so
+    the build-info drawer (build-view.njk, -z-20) tucks behind the bar when
+    closed and slides out over the site map when open -#}
+{%- set barClasses = {"base": "relative z-10 flex items-center gap-2 p-2 inner-border text-xs text-neutral-500"} -%}
+{%- set barBackdropClasses = {"base": "absolute inset-0 -z-10 bg-neutral-900 pointer-events-none"} -%}
+
+{%- set closeClasses = {"base": "ml-auto p-2 cursor-pointer text-neutral-100"} -%}
+
+{#- DISPLAY -#}
+{% macro render(params = {}) %}
+
+  {%- set logoSvg = params.logoSvg -%}
+
+  {% call Button.render({ classes: badgeClasses, attrs: 'data-badge-el="toggle" aria-label="Site map" aria-haspopup="dialog" aria-controls="badge-dialog" aria-expanded="false"' }) %}
+    <span class="{{ logoClasses | classes }}">
+      {%- if logoSvg -%}
+        {{ Hanko.render({ svg: logoSvg }) }}
+      {%- else -%}
+        Home
+      {%- endif -%}
+    </span>
+  {% endcall %}
+
+  <dialog id="badge-dialog"
+          data-badge-el="dialog"
+          aria-label="Site map"
+          class="{{ dialogClasses | classes }}">
+
+    <header class="{{ barClasses | classes }}">
+      <span class="{{ barBackdropClasses | classes }}" aria-hidden="true"></span>
+      {{ BuildInfo.render({ buildDate: params.buildDate, buildVersions: params.buildVersions }) }}
+      {% call Button.render({ variant: "icon", classes: closeClasses, attrs: 'data-badge-el="close" aria-label="Close site map"' }) %}
+        {{ Icon.render({ name: "close", size: "lg" }) }}
+      {% endcall %}
+    </header>
+
+    {{ Sitemap.render({ pages: params.pages, currentUrl: params.currentUrl, classes: "p-6 md:p-12" }) }}
+
+  </dialog>
+{% endmacro %}
