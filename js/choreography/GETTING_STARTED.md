@@ -54,7 +54,7 @@ if (document.readyState === "loading") {
 5. Section controllers instantiated from SECTION_REGISTRY:
    BackgroundVideo · Hero · Process · Awards · Organizations · Work
    ↓
-6. Global managers: GlobalHeader, HomeHeader, WorkHeader, WorkNav,
+6. Global managers: Badge, HomeHeader, WorkHeader, WorkNav,
    ProjectHeader, BuildInfo, SectionCap
    ↓
 7. LandingSequence created (orchestrates section timing)

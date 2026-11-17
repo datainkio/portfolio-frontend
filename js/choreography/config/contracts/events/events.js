@@ -72,7 +72,7 @@ export const EVENTS = {
     preloaderVideoHydrated: "preloader:video:hydrated",
   },
   video: { ...makeSectionEvents("video"), media: VIDEO_MEDIA_EVENTS },
-  // Global site header (GlobalHeaderManager). Emits intro:complete once its
+  // Global site header (BadgeManager). Emits intro:complete once its
   // reveal lands; on home the reveal is cued by hero:intro:complete.
   header: makeSectionEvents("header"),
   organizations: makeSectionEvents("organizations"),

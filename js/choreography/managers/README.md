@@ -23,7 +23,7 @@ Owned by `ScrollEffectsCoordinator`:
 
 Created directly by `AnimationDirector`:
 
-- `GlobalHeaderManager` - hides and shows the header on scroll
+- `BadgeManager` - hides and shows the header on scroll
 - `WorkHeaderManager`, `WorkNavManager` - the Work section's navigation
 - `ProjectHeaderManager` - project page header parallax
 - `BuildInfoManager`, `SectionCapManager` - section cap details and scrollspy
@@ -44,7 +44,7 @@ Used where needed: `SessionManager` (remembers a visit for the session) and `Rul
 
 - [BuildInfoManager/](BuildInfoManager/)
 - [GelAnimationManager/](GelAnimationManager/)
-- [GlobalHeaderManager/](GlobalHeaderManager/)
+- [BadgeManager/](BadgeManager/)
 - [index/](index/)
 - [ProjectHeaderManager/](ProjectHeaderManager/)
 - [ReducedMotionHandler/](ReducedMotionHandler/)

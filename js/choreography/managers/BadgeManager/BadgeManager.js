@@ -6,9 +6,9 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
 
 const SCROLL_THRESHOLD_PX = 80;
 
-export default class GlobalHeaderManager {
+export default class BadgeManager {
   constructor({ bus, reducedMotionHandler } = {}) {
-    this.logger = lumberjack.createScoped("GlobalHeaderManager", {
+    this.logger = lumberjack.createScoped("BadgeManager", {
       color: "#8B5CF6",
       enabled: true,
     });
@@ -22,7 +22,7 @@ export default class GlobalHeaderManager {
     this._isHidden = false;
 
     if (!this._el) {
-      this.logger.trace("element not found; GlobalHeaderManager disabled");
+      this.logger.trace("element not found; BadgeManager disabled");
       return;
     }
 
@@ -30,8 +30,8 @@ export default class GlobalHeaderManager {
   }
 
   _init() {
-    if (this._el.dataset.globalHeaderInit) return;
-    this._el.dataset.globalHeaderInit = "1";
+    if (this._el.dataset.badgeInit) return;
+    this._el.dataset.badgeInit = "1";
 
     // The markup ships `hidden`. On home (bus + hero section), the reveal is
     // the last beat of the landing chain — it waits for the hero intro, so the
