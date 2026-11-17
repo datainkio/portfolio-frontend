@@ -5,7 +5,7 @@ permalink: /
 docNo: "01"
 eleventyNavigation:
   key: home
-  title: data:ink:io
+  title: Home
 eleventyComputed:
   title: "{{ cms.home[0].pageTitle }}"
   hero:
