@@ -49,7 +49,7 @@ An **organism**: it composes two molecules, [[main-pages.njk]] and
 
 ## Notes
 
-- Link text comes from [[nav-link.njk]], which prints the nav `key`
-  (`home`, `work`, `user-guide`, …) rather than the title.
+- Link text comes from [[nav-link.njk]], which prints the entry's `title`
+  ("Work", "User Guide", …), falling back to the nav `key`.
 - The design TOC brings its own `<nav aria-label="Design section navigation">`,
   nested inside this one.

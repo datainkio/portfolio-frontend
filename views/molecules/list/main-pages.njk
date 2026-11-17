@@ -16,7 +16,7 @@
       {%- if hasHref and (entry.title or entry.key) -%}
         {%- if isCurrent -%}
           <li class="{{ styles.item | classes }}">
-            <span class="{{ styles.link | classes }}" aria-current="page">{{ entry.pageNavLabel or entry.key }}</span>
+            <span class="{{ styles.link | classes }}" aria-current="page">{{ entry.pageNavLabel or entry.title or entry.key }}</span>
           </li>
         {%- else -%}
           <li class="{{ styles.item | classes }}">{{ nav_link.render({ entry: entry, classes: styles.link, currentUrl: params.currentUrl }) }}</li>
