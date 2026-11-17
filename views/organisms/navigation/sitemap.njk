@@ -1,0 +1,32 @@
+{% import "molecules/list/main-pages.njk" as MainPages %}
+{% import "molecules/list/design-pages.njk" as DesignPages %}
+
+{#- STYLES -#}
+{%- set headingClasses = {"base": "mb-2 text-xs uppercase tracking-widest text-neutral-500"} -%}
+{%- set listClasses = {"base": "mb-10 space-y-2"} -%}
+{%- set linkStyles = {
+  "item": {"base": ""},
+  "link": {"base": "text-2xl text-primary-300 hover:text-primary-100", "md": "text-4xl"}
+} -%}
+
+{#- DISPLAY -#}
+{% macro render(params = {}) %}
+
+  {#- DATA GUARDS -#}
+  {%- set pages = params.pages or [] -%}
+
+  <nav class="{{ params.classes | classes }}" aria-label="Site map">
+
+    {#- Root-level pages. Posts and projects carry no eleventyNavigation key,
+        so only their landing pages appear. -#}
+    <h2 class="{{ headingClasses | classes }}">Pages</h2>
+    {{ MainPages.render({ items: pages | eleventyNavigation, currentUrl: params.currentUrl, classes: listClasses, styles: linkStyles }) }}
+
+    {#- "Docs" is the parent the Design nav root names but no page defines
+        (see ia/docs/design/design.11tydata.js), so its only child is Design. -#}
+    <h2 class="{{ headingClasses | classes }}">Docs</h2>
+    {{ MainPages.render({ items: pages | eleventyNavigation("Docs"), currentUrl: params.currentUrl, classes: listClasses, styles: linkStyles }) }}
+    {{ DesignPages.render({ nav: pages | eleventyNavigation("Design"), currentUrl: params.currentUrl }) }}
+
+  </nav>
+{% endmacro %}
