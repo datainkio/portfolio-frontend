@@ -51,6 +51,15 @@ Reduced motion sets the final state at once with `gsap.set`.
 Page scroll is locked by CSS while the dialog is open
 (`html:has(dialog[data-badge-el][open])` in `styles/base.css`).
 
+On pages with a ScrollSmoother (home, work, contact), its
+`normalizeScroll: true` intercepts wheel and touch on the whole document, so
+the dialog's own `overflow-y-auto` couldn't scroll. `_open()` calls
+`ScrollSmoother.get()?.paused(true)`: a paused smoother disables the
+normalizer and installs an observer that blocks page scroll but lets events
+inside a nested scroller through. The `close` event calls `paused(false)`.
+`ScrollSmoother.get()` is GSAP's own accessor and returns nothing on pages
+without a smoother, where the CSS lock alone applies.
+
 ## Lifecycle
 
 `kill()` removes the cue, the ScrollTrigger and the click/close listeners
