@@ -1,4 +1,8 @@
-import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
+import {
+  gsap,
+  ScrollTrigger,
+  ScrollSmoother,
+} from "/assets/js/choreography/system/gsap.js";
 import { motion } from "../../config/ix/motion.js";
 import {
   SELECTORS,
@@ -41,7 +45,8 @@ export default class BadgeManager {
     this._el.dataset.badgeInit = "1";
 
     // The native <dialog> traps focus, closes on Escape and returns focus to
-    // the badge. Its `close` event fires on every dismissal path.
+    // the badge. Its `close` event fires on every dismissal path, so it also
+    // resumes the smoother that _open() paused.
     const { signal } = this._listeners;
     this._el.addEventListener("click", () => this._open(), { signal });
     this._close?.addEventListener("click", () => this._dialog.close(), {
@@ -49,7 +54,10 @@ export default class BadgeManager {
     });
     this._dialog.addEventListener(
       "close",
-      () => this._el.setAttribute("aria-expanded", "false"),
+      () => {
+        this._el.setAttribute("aria-expanded", "false");
+        ScrollSmoother.get()?.paused(false);
+      },
       { signal },
     );
 
@@ -74,6 +82,10 @@ export default class BadgeManager {
   }
 
   _open() {
+    // normalizeScroll swallows wheel and touch on the whole document, so the
+    // dialog couldn't scroll. A paused smoother drops the normalizer and
+    // blocks page scroll while letting nested scrollers (the dialog) through.
+    ScrollSmoother.get()?.paused(true);
     this._dialog.showModal();
     this._el.setAttribute("aria-expanded", "true");
     if (!this._close) return;
