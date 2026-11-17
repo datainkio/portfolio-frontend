@@ -1,0 +1,44 @@
+{#
+  Post summary: one inventory entry. Title link, date and reading time, abstract.
+
+Params:
+  post          { title, url, abstract, publishDate, readingMinutes }
+  headingLevel  number  Heading level of the title. Defaults to 2.
+  classes       string | variant map | array  Appended to the <article>.
+  styles        { title, meta, abstract }  Appended to each part.
+
+  Spec: specs/views/component-api.views-spec.md
+#}
+{% import "atoms/link/link.njk" as Link %}
+{% macro render(params = {}) %}
+
+  {#- DATA GUARDS -#}
+  {%- set post = params.post or {} -%}
+  {%- set level = params.headingLevel | default(2) -%}
+  {%- set styles = params.styles or {} -%}
+  {%- set date = post.publishDate | formatDate -%}
+  {%- set minutes = (post.readingMinutes ~ " min read") if post.readingMinutes else "" -%}
+
+  {#- STYLES -#}
+  {%- set rootStyles = {"base": "space-y-2 py-6 border-b border-neutral-700"} -%}
+  {%- set titleBase = {"base": "font-display text-2xl text-neutral-100", "md": "text-3xl"} -%}
+  {%- set metaBase = {"base": "font-display text-sm text-neutral-400"} -%}
+  {%- set abstractBase = {"base": "max-w-[68ch] text-neutral-300"} -%}
+
+  {#- DISPLAY -#}
+  <article class="{{ [rootStyles, params.classes] | classes }}">
+    <h{{ level }} class="{{ [titleBase, styles.title] | classes }}">
+      {{ Link.render({ url: post.url, text: post.title | default("Untitled post"), classes: "hover:underline underline-offset-4" }) }}
+    </h{{ level }}>
+    {%- if date or minutes -%}
+      <p class="{{ [metaBase, styles.meta] | classes }}">
+        {%- if date -%}<time datetime="{{ post.publishDate }}">{{ date }}</time>{%- endif -%}
+        {%- if date and minutes -%}<span aria-hidden="true"> · </span>{%- endif -%}
+        {%- if minutes -%}<span>{{ minutes }}</span>{%- endif -%}
+      </p>
+    {%- endif -%}
+    {%- if post.abstract -%}
+      <p class="{{ [abstractBase, styles.abstract] | classes }}">{{ post.abstract }}</p>
+    {%- endif -%}
+  </article>
+{% endmacro %}

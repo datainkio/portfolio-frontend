@@ -1,0 +1,122 @@
+{% extends "layouts/base.njk" %}
+{% import "molecules/stats/stats.njk" as Stats %}
+{% import "molecules/navigation/pager.njk" as Pager %}
+{% import "atoms/link/link.njk" as Link %}
+{#
+  Single post page.
+  Data: paginated from `collections.postPages`, aliased as `post`
+  (see ../../../ia/post.md).
+  Shape produced by `frontend/data/sanity/transforms/post.js` + `postProjection.js`.
+  Contract: content-model/documents/writing/post.md
+#}
+
+{# ─── Styles ──────────────────────────────────────────────────────────────── #}
+{%- set titleStyles = {"base": "font-display text-4xl text-neutral-100", "md": "text-6xl"} -%}
+{%- set abstractStyles = {"base": "max-w-[68ch] text-xl text-neutral-100"} -%}
+{%- set metaStyles = {"base": "text-neutral-400", "sm": "columns-2xs"} -%}
+{%- set metaSlots = {"term": "text-neutral-400"} -%}
+{%- set bodyStyles = {"base": "prose prose-headings:text-neutral-100 max-w-[68ch] text-neutral-100"} -%}
+{%- set headingStyles = {"base": "font-display text-2xl text-neutral-100"} -%}
+{%- set listStyles = {"base": "mt-2 space-y-2 text-neutral-300"} -%}
+
+{# ─── Data guards ─────────────────────────────────────────────────────────── #}
+{%- set image = post.featuredImage if (post.featuredImage and post.featuredImage.asset and post.featuredImage.asset.url) else null -%}
+{%- set files = post.attachments or [] -%}
+{%- set relatedPosts = post.relatedPosts or [] -%}
+{%- set relatedProjects = post.relatedProjects or [] -%}
+{%- set details = [
+  { key: "Author", value: post.author },
+  { key: "Published", value: post.publishDate | formatDate },
+  { key: "Updated", value: post.updateDate | formatDate },
+  { key: "Reading time", value: (post.readingMinutes ~ " min") if post.readingMinutes else "" },
+  { key: "Topics", value: post.topics | join(", ") }
+] | selectattr("value") | list -%}
+
+{% block content %}
+  <article class="space-y-12">
+    <header class="space-y-6">
+      <h1 class="{{ titleStyles | classes }}">{{ post.title }}</h1>
+      {%- if post.abstract -%}
+        <p class="{{ abstractStyles | classes }}">{{ post.abstract }}</p>
+      {%- endif -%}
+      {%- if details | length -%}
+        {{ Stats.render({ stats: details, classes: metaStyles, styles: metaSlots, aria: "Post details" }) }}
+      {%- endif -%}
+    </header>
+
+    {%- if image -%}
+      <figure>
+        <img src="{{ image.asset.url | imageUrl({ w: 1200 }) }}"
+             alt="{{ image.alt | default('') }}"
+             {%- if image.asset.metadata.dimensions %} width="{{ image.asset.metadata.dimensions.width }}" height="{{ image.asset.metadata.dimensions.height }}"{% endif %}
+             class="w-full h-auto">
+        {%- if image.caption -%}
+          <figcaption class="mt-2 text-sm text-neutral-400">{{ image.caption }}</figcaption>
+        {%- endif -%}
+      </figure>
+    {%- endif -%}
+
+    {#- BODY (Portable Text → HTML, prepared by transform) -#}
+    {%- if post.bodyHtml -%}
+      <div class="{{ bodyStyles | classes }}">{{ post.bodyHtml | safe }}</div>
+    {%- endif -%}
+
+    {#- FILES -#}
+    {%- if files | length -%}
+      <section aria-labelledby="post-files-heading">
+        <h2 id="post-files-heading" class="{{ headingStyles | classes }}">Files</h2>
+        <ul class="{{ listStyles | classes }}" role="list">
+          {%- for file in files -%}
+            {%- if file.url -%}
+              <li>
+                {{ Link.render({ url: file.url, text: file.title, download: true, classes: "underline underline-offset-4" }) }}
+                {%- if file.extension %} <span class="text-sm text-neutral-400">({{ file.extension | upper }})</span>{% endif -%}
+                {%- if file.description %}<p class="text-sm text-neutral-400">{{ file.description }}</p>{% endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </section>
+    {%- endif -%}
+
+    {#- RELATED -#}
+    {%- if relatedProjects | length -%}
+      <section aria-labelledby="post-projects-heading">
+        <h2 id="post-projects-heading" class="{{ headingStyles | classes }}">Related projects</h2>
+        <ul class="{{ listStyles | classes }}" role="list">
+          {%- for project in relatedProjects -%}
+            {%- if project.url -%}
+              <li>{{ Link.render({ url: project.url, text: project.title, classes: "underline underline-offset-4" }) }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </section>
+    {%- endif -%}
+    {%- if relatedPosts | length -%}
+      <section aria-labelledby="post-related-heading">
+        <h2 id="post-related-heading" class="{{ headingStyles | classes }}">Related posts</h2>
+        <ul class="{{ listStyles | classes }}" role="list">
+          {%- for related in relatedPosts -%}
+            {%- if related.url -%}
+              <li>{{ Link.render({ url: related.url, text: related.title, classes: "underline underline-offset-4" }) }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </section>
+    {%- endif -%}
+  </article>
+
+  {#- PAGER: newer · all · older. Chronological, so it doesn't wrap. -#}
+  {%- if pagination.pages | length > 1 -%}
+    {{ Pager.render({
+        label: "Posts",
+        previous: ({ href: pagination.href.previous, title: pagination.page.previous.title } if pagination.href.previous),
+        next: ({ href: pagination.href.next, title: pagination.page.next.title } if pagination.href.next),
+        all: postIndex
+    }) }}
+  {%- endif %}
+{% endblock content %}
+
+{% block afterMain %}
+  {% include "templates/partials/choreography-script/choreography-script.njk" %}
+{% endblock afterMain %}

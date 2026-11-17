@@ -1,5 +1,7 @@
 /** @format */
 
+import { cleanPostSlug } from "./post.js";
+
 export function resolveNavigationHref(item) {
   if (!item || typeof item !== "object") {
     return "";
@@ -14,8 +16,10 @@ export function resolveNavigationHref(item) {
       return "/contact/";
     case "project":
       return item.slug ? `/case-studies/${item.slug}/` : "";
+    case "postsLanding":
+      return "/posts/";
     case "post":
-      return item.slug ? `/posts/${item.slug}/` : "/posts/";
+      return item.slug ? `/posts/${cleanPostSlug(item.slug)}/` : "/posts/";
     case "documentation":
       return "/docs/";
     default:

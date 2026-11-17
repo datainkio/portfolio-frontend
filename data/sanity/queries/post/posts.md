@@ -14,13 +14,16 @@ links:
 # Posts query
 
 GROQ query definition fetched by the service layer and registered as the **`posts`** Eleventy
-collection.
+collection: the card-shaped list behind the `/posts/` inventory, newest first. Publish state comes
+from the client perspective, not a field. Posts without a slug are left out.
 
 | Export       | Collection id |
 | ------------ | ------------- |
 | `postsQuery` | `posts`       |
 
-- Projection: [[postProjection]]
+- Projection: [[postProjection]] (`POST_CARD_PROJECTION`)
+- Transform: `addPostUrls` in [[post]]
+- Paginated at size 10 by `ia/posts.md`.
 
 ## Source
 
