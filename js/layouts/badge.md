@@ -1,17 +1,17 @@
 ---
-description: Standalone init for GlobalHeaderManager on pages that skip AnimationDirector.
+description: Standalone init for BadgeManager on pages that skip AnimationDirector.
 type: script
 tags:
   - module
   - layouts
-  - global-header
+  - badge
 links:
-  - "[GlobalHeaderManager.js](../choreography/managers/GlobalHeaderManager/GlobalHeaderManager.md)"
+  - "[BadgeManager.js](../choreography/managers/BadgeManager/BadgeManager.md)"
 ---
 
-# global-header
+# badge
 
-Bootstraps `GlobalHeaderManager` directly for pages that don't load
+Bootstraps `BadgeManager` directly for pages that don't load
 `AnimationDirector`. Pages that include
 [`choreography-script.njk`](../../views/templates/partials/choreography-script/choreography-script.md)
 with choreography on (home, work, contact) set `window.__enableChoreography`
@@ -22,8 +22,8 @@ frontmatter but never includes the script, so it still needs this module.
 
 ## Source
 
-- Module: [[global-header.js]]
-- Path: `js/layouts/global-header.js`
+- Module: [[badge.js]]
+- Path: `js/layouts/badge.js`
 - Loaded via: `<script type="module">` in
   [`base.njk`](../../views/layouts/base.md), so it runs on every page that
   extends that layout.
@@ -33,7 +33,7 @@ frontmatter but never includes the script, so it still needs this module.
 1. Build a minimal `reducedMotionHandler` from
    `window.matchMedia("(prefers-reduced-motion: reduce)")`.
 2. Unless `window.__enableChoreography` is true, instantiate
-   `new GlobalHeaderManager({ reducedMotionHandler })` on import.
+   `new BadgeManager({ reducedMotionHandler })` on import.
    With no bus, the manager reveals the header immediately (removes `hidden`,
    no tween) and then arms scroll auto-hide.
 

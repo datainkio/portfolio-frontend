@@ -17,7 +17,7 @@ const FPS_SAMPLE_INTERVAL_MS = 500;
  * (`top-full` in build-info.njk). Closed = translated up by its own height
  * (yPercent: -100), so its bottom edge sits flush with the header's bottom
  * edge; open = yPercent: 0, sliding fully into view. Transform-only, mirrors
- * GlobalHeaderManager's hide/show shape. No-ops gracefully when the markup
+ * BadgeManager's hide/show shape. No-ops gracefully when the markup
  * is absent.
  *
  * FPS: while open, samples frame rate via requestAnimationFrame and writes a

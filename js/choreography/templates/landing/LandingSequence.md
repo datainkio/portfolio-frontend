@@ -68,7 +68,7 @@ sequenceDiagram
   participant Video as BackgroundVideo (sections.video)
   participant G as gsap.delayedCall
   participant Hero as Hero (sections.hero)
-  participant Hdr as GlobalHeaderManager
+  participant Hdr as BadgeManager
 
   Note over LS: constructor: listen once for preloader:out on window,<br/>then subscribe to Bus events (_registerListeners)
   Note over U: First visit: the preloader splash (logo and subtitle) fills<br/>the screen and scrolling is locked.<br/>Return visit: no splash, the page paints straight away.
@@ -171,7 +171,7 @@ flowchart TD
         HERO --> BIC{{"bus: hero:intro:complete — chain ends"}}
     end
 
-    BIC -.->|"GlobalHeaderManager listens"| HDR["GlobalHeaderManager._reveal<br/>header slides in, scroll auto-hide arms"]
+    BIC -.->|"BadgeManager listens"| HDR["BadgeManager._reveal<br/>header slides in, scroll auto-hide arms"]
 
     subgraph gate["Hero-scoped video playback"]
         direction LR
@@ -194,7 +194,7 @@ flowchart TD
 - **The reveal is cued off the video's own media events.** It used to be `home:outro:complete` from HomeHeaderManager. That manager was first dropped from AnimationDirector, then deleted, so nothing emitted the cue and the video sat at autoAlpha 0. The `video:media:*` events always arrive (BackgroundVideo emits exactly one per path, with a 4 s failsafe), and `playing` means frames are moving, so the fade never reveals a still poster.
 - **Two latches, one join.** The video usually settles _before_ `preloader:out` — the preloader holds its splash until the video reports. A timed-out director gate or a late video error can invert that. `_cueVideoIntro` waits for both the settled event and `playLanding()`, whichever comes last, and `_videoIntroCued` makes it run once.
 - **`playLanding()` is awaited before latch B is set.** Revealing while `playLanding()` is still tweening toward autoAlpha 0 would be undone by it.
-- **The chain ends at `hero:intro:complete`.** GlobalHeaderManager listens for it on home and reveals the header as the final beat. Pages without a hero reveal the header immediately.
+- **The chain ends at `hero:intro:complete`.** BadgeManager listens for it on home and reveals the header as the final beat. Pages without a hero reveal the header immediately.
 - **Every link is an event, not a call.** Cross-section coordination goes through `AnimationBus` with `EVENTS` constants — `LandingSequence` never reaches into an organism's internals beyond its public `play*` methods and `video.videoEl`.
 - **Reduced motion zeroes holds rather than skipping links.** A gated profile still emits `…:intro:complete` (`AbstractSection` jumps the intro to `progress(1)`), so the chain completes without motion instead of stalling.
 - **Timers are `gsap.delayedCall`, never `setTimeout`** — ticker-synced, pausable, killable in `destroy()`.
@@ -206,4 +206,4 @@ flowchart TD
 ### Known drift
 
 - The constructor comment `DISABLED INITIAL PRELOADER LISTENER FOR STYLING WORK ON PRELOADER VIEW` in `LandingSequence.js` is stale — the `preloader:out` listener is active.
-- The global header is disabled on the homepage (2026-11-09), so the final beat above (`hero:intro:complete` → `GlobalHeaderManager._reveal`) doesn't occur there; the chain ends at `hero:intro:complete`. Deferred until the header returns. See [homepage-initialization](../../../../specs/animation/homepage-initialization.animation.md).
+- The global header is disabled on the homepage (2026-11-09), so the final beat above (`hero:intro:complete` → `BadgeManager._reveal`) doesn't occur there; the chain ends at `hero:intro:complete`. Deferred until the header returns. See [homepage-initialization](../../../../specs/animation/homepage-initialization.animation.md).
