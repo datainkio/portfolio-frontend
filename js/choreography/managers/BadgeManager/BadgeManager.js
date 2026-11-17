@@ -88,6 +88,9 @@ export default class BadgeManager {
       { autoAlpha: 0, rotation: -90 },
       {
         ...shown,
+        // fromTo renders the from-state at once, so the button stays hidden
+        // through the delay.
+        delay: motion.duration("slower") / 1000,
         duration: motion.duration("base") / 1000,
         ease: motion.ease("enter"),
         overwrite: true,

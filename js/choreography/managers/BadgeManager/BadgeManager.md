@@ -43,8 +43,10 @@ trap, Escape, the top layer and focus return to the badge. The dialog's
 `close` event, which fires on every dismissal path, resets `aria-expanded`.
 The close button calls `dialog.close()`.
 
-On open the close button animates in: `autoAlpha 0 → 1`, `rotation -90 → 0`,
-`motion` base/enter. Reduced motion sets the final state with `gsap.set`.
+On open the close button animates in after a `motion` slower (1s) delay:
+`autoAlpha 0 → 1`, `rotation -90 → 0`, `motion` base/enter. `fromTo` renders
+the from-state immediately, so the button stays hidden through the delay.
+Reduced motion sets the final state at once with `gsap.set`.
 
 Page scroll is locked by CSS while the dialog is open
 (`html:has(dialog[data-badge-el][open])` in `styles/base.css`).
