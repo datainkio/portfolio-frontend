@@ -89,7 +89,7 @@ function tiles() {
 }
 
 /**
- * Title block, mirroring views/organisms/header/global-header.njk. The first
+ * Title block, mirroring the retired global header (removed 2026-11-17). The first
  * cell holds the hanko; each later cell is { w?, dt, dd, ddFill }, and a cell
  * without `w` fills the rest of the bar.
  */

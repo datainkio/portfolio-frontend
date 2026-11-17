@@ -530,7 +530,6 @@ Every `[…]` utility. Each one is a value the scale doesn't have; recurring one
 | `gap-y-[75dvh]`                    | spacing    | 1    | `molecules/list/project-cards.njk`                   |
 | `grid-cols-[1fr_auto_1fr]`         | layout     | 1    | `molecules/navigation/pager.njk`                     |
 | `grid-rows-[auto_1fr]`             | layout     | 1    | `molecules/card/award-organization.njk`              |
-| `group-data-[open]/cap:basis-1/6`  | layout     | 1    | `organisms/header/global-header.njk`                 |
 | `h-[150%]`                         | spacing    | 1    | `molecules/band/band.njk`                            |
 | `h-[90dvh]`                        | spacing    | 1    | `templates/article.njk`                              |
 | `last:pb-[75dvh]`                  | spacing    | 1    | `molecules/list/project-cards.njk`                   |

@@ -13,7 +13,7 @@ links:
 
 Writes `.github/readme/banner.svg`, the title-block banner at the top of the
 repo README, and `.github/readme/figma-badge.json`, which shields.io reads for
-the README's Figma badge (colour and font token counts). It mirrors the global header (`DOC NO.` · `SECTION` cells) and the
+the README's Figma badge (colour and font token counts). It mirrors the retired global header (`DOC NO.` · `SECTION` cells) and the
 hero's manifesto plate on the graph-paper ground.
 
 GitHub renders README images in a sandbox with no web fonts, so DraftPaper text

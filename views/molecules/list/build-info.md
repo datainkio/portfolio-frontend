@@ -14,7 +14,7 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Renders build-time system metadata as `<li>` rows: 11ty version, Sanity (`@sanity/client`) version, git commit, Figma design-token file, and build date. Surfaced in the [[global-header.njk]] header.
+Renders build-time system metadata as `<li>` rows: 11ty version, Sanity (`@sanity/client`) version, git commit, Figma design-token file, and build date. Surfaced in the badge's site-map dialog through [[build-view.njk]].
 
 ## Params
 
@@ -36,7 +36,7 @@ Click behavior is wired in [[BuildInfoManager.js]] (open = toggle, close = close
 ## Relationships
 
 - Used by:
-  - [[global-header.njk]] (`BuildInfo.render({ classes, buildDate, buildVersions })`)
+  - [[build-view.njk]]
 - Depends on:
   - [[icon.njk]] (`close` icon for the close button)
   - `eleventy/collections/index.js` global data (`buildVersions`, `buildDate`)

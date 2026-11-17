@@ -156,11 +156,7 @@ const GROUPS = {
   organisms: [
     {
       title: "Chrome",
-      pages: [
-        "header/global-header",
-        "footer/global-footer",
-        "status/preloader",
-      ],
+      pages: ["header/badge", "footer/global-footer", "status/preloader"],
     },
     {
       title: "Navigation",
