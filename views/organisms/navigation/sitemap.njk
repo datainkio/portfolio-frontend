@@ -1,5 +1,4 @@
 {% import "molecules/list/main-pages.njk" as MainPages %}
-{% import "molecules/list/design-pages.njk" as DesignPages %}
 
 {#- STYLES -#}
 {%- set headingClasses = {"base": "mb-2 text-xs uppercase tracking-widest text-neutral-500"} -%}
@@ -26,7 +25,14 @@
         (see ia/docs/design/design.11tydata.js), so its only child is Design. -#}
     <h2 class="{{ headingClasses | classes }}">Docs</h2>
     {{ MainPages.render({ items: pages | eleventyNavigation("Docs"), currentUrl: params.currentUrl, classes: listClasses, styles: linkStyles }) }}
-    {{ DesignPages.render({ nav: pages | eleventyNavigation("Design"), currentUrl: params.currentUrl }) }}
+
+    {#- Design's sections only, not their pages. A section with no pages is a
+        dead end, so it waits until it has some (as design-pages does). -#}
+    {%- set designSections = [] -%}
+    {%- for section in pages | eleventyNavigation("Design") -%}
+      {%- if section.children.length -%}{%- set _ = designSections.push(section) -%}{%- endif -%}
+    {%- endfor -%}
+    {{ MainPages.render({ items: designSections, currentUrl: params.currentUrl, classes: listClasses, styles: linkStyles }) }}
 
   </nav>
 {% endmacro %}
