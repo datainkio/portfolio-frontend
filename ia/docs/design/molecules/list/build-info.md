@@ -1,6 +1,6 @@
 ---
 title: Build info
-description: The build date button and its drawer of git, Eleventy, Sanity, and Figma versions, shown from the global header.
+description: The build date button and its drawer of git, Eleventy, Sanity, and Figma versions, shown in the badge's site map.
 type: reference
 component: molecules/list/build-info.njk
 specimens: []
