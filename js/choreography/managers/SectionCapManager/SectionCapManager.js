@@ -13,10 +13,11 @@ const ACTIVE_BAND_ROOT_MARGIN = "0px 0px -80% 0px";
 /**
  * SectionCapManager — scrollspy for the display indicating the current main/section element.
  *
- * Observes the sections on the site's homepage and reflects the one currently
- * in view onto its title and position indicator. Broadcasts the active id on the bus so
- * later breakpoint surfaces (rail, disclosure) can react without re-deriving
- * scroll state. See specs/animation/work-section-navigation.animation-spec.md.
+ * Observes the sections on the site's homepage and tracks the one currently
+ * in view. Broadcasting the active id on the bus (commented out below) lets
+ * later breakpoint surfaces (rail, disclosure) react without re-deriving
+ * scroll state. The header's section-title display it used to write into was
+ * retired with the global header. See specs/animation/work-section-navigation.animation-spec.md.
  */
 export default class SectionCapManager {
   constructor({ bus } = {}) {
@@ -33,7 +34,6 @@ export default class SectionCapManager {
     // const links = Array.from(
     //   workSection?.querySelectorAll(`[${WORK_EL_ATTR}="${LINK_VALUE}"]`) ?? [],
     // );
-    this._title = document.querySelector("[data-current-section-title]");
     this._sections = document
       .getElementById("page-main")
       ?.querySelectorAll("main > section");
@@ -83,7 +83,6 @@ export default class SectionCapManager {
 
   _setActive(id) {
     // this.logger.trace(`active section changed to ${id}`);
-    this._title.textContent = id;
     if (id === this._activeId) return;
     this._activeId = id;
     // this._bus?.emit(EVENTS.sectionCap.activeChange, { id });
