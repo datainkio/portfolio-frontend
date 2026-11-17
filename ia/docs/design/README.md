@@ -1,5 +1,5 @@
 ---
-title: Design system
+title: Design
 description: "The living reference for the site's design system: tokens from Figma, and every Nunjucks component rendered live with the call that produced it."
 type: index
 ---

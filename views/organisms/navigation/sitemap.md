@@ -18,14 +18,16 @@ Defines Nunjucks macro: `render`.
 ## Purpose
 
 Lists the whole site from the `eleventyNavigation` tree, so it never drifts
-from the pages that exist. Two headed groups inside one `<nav aria-label="Site map">`:
+from the pages that exist. Two headed groups, each a `<section>` in a two-column
+grid inside one `<nav aria-label="Site map">`:
 
 - **Pages**: root-level entries (`pages | eleventyNavigation`): home, work,
   posts, about, contact, user guide. Single posts and projects carry no
   `eleventyNavigation` key, so only their landing pages appear.
 - **Docs**: the Design root (`pages | eleventyNavigation("Docs")`), then its
   top-level sections (`pages | eleventyNavigation("Design")`: tokens, atoms,
-  molecules, organisms, templates, layouts) as plain links, not their pages.
+  molecules, organisms, templates, layouts) as plain links, not their pages,
+  in an indented, smaller list beneath the Design link.
   A section with no pages is left out, as [[design-pages.njk]] does. "Docs"
   is the parent the Design root names but no page defines (see
   `ia/docs/design/design.11tydata.js`), so it is a heading here, not a nav
