@@ -90,18 +90,20 @@ export default class BadgeManager {
     this._el.setAttribute("aria-expanded", "true");
     if (!this._close) return;
 
-    const shown = { autoAlpha: 1, rotation: 0 };
+    // opacity, not autoAlpha: showModal() has already autofocused the close
+    // button, and visibility:hidden would make the browser drop that focus.
+    const shown = { opacity: 1, rotation: 0 };
     if (this._isReduced()) {
       gsap.set(this._close, shown);
       return;
     }
     gsap.fromTo(
       this._close,
-      { autoAlpha: 0, rotation: -90 },
+      { opacity: 0, rotation: -90 },
       {
         ...shown,
-        // fromTo renders the from-state at once, so the button stays hidden
-        // through the delay.
+        // fromTo renders the from-state at once, so the button stays
+        // invisible (but focused) through the delay.
         delay: motion.duration("slower") / 1000,
         duration: motion.duration("base") / 1000,
         ease: motion.ease("enter"),
@@ -198,6 +200,8 @@ export default class BadgeManager {
     this._offCue = null;
     this._trigger?.kill();
     this._trigger = null;
+    // Aborting the listeners drops the close handler that resumes the smoother.
+    if (this._dialog?.open) ScrollSmoother.get()?.paused(false);
     this._listeners.abort();
     if (this._el) gsap.killTweensOf(this._el);
     if (this._close) gsap.killTweensOf(this._close);
