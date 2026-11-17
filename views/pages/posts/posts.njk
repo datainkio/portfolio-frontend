@@ -1,0 +1,37 @@
+{% extends "templates/landing/landing.njk" %}
+{% import "molecules/post-summary/post-summary.njk" as PostSummary %}
+{% import "molecules/navigation/pager.njk" as Pager %}
+{#
+  Posts inventory. One page of the paginated `collections.posts`, aliased as
+  `postsPage` (see ../../../ia/posts.md). Page copy comes from the
+  `postsLanding` singleton.
+#}
+
+{% block content %}
+  {{ super() }}
+
+  {#- STYLES -#}
+  {%- set listStyles = {"base": "col-span-full", "lg": "col-span-8"} -%}
+  {%- set pagerStyles = {"base": "col-span-full mt-12", "lg": "col-span-8"} -%}
+
+  {#- DISPLAY -#}
+  {% if postsPage | length %}
+    <ul class="{{ listStyles | classes }}" role="list">
+      {%- for post in postsPage -%}
+        <li>{{ PostSummary.render({ post: post }) }}</li>
+      {%- endfor -%}
+    </ul>
+  {% else %}
+    <p class="col-span-full text-neutral-300">No posts yet.</p>
+  {% endif %}
+
+  {#- PAGER: newer · older. Absent ends render as greyed placeholders. -#}
+  {%- if pagination.pages | length > 1 -%}
+    {{ Pager.render({
+        label: "Posts pages",
+        classes: pagerStyles,
+        previous: ({ href: pagination.href.previous, title: "Newer posts", meta: "Page " ~ pagination.pageNumber } if pagination.href.previous),
+        next: ({ href: pagination.href.next, title: "Older posts", meta: "Page " ~ (pagination.pageNumber + 2) } if pagination.href.next)
+    }) }}
+  {%- endif -%}
+{% endblock content %}

@@ -20,6 +20,11 @@ import {
   normalizeProjectPageRecords,
 } from "../transforms/project.js";
 import { normalizeNavigationRecords } from "../transforms/navigation.js";
+import {
+  addPostUrls,
+  normalizePostPageRecords,
+  normalizePostsLandingRecords,
+} from "../transforms/post.js";
 import { normalizeUserGuideRecords } from "../transforms/user-guide.js";
 import { normalizeImageUrls } from "../transforms/imageUrls.js";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
@@ -72,6 +77,18 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
 
     if (definition.id === "projectPages") {
       data = await normalizeProjectPageRecords(data);
+    }
+
+    if (definition.id === "posts") {
+      data = addPostUrls(data);
+    }
+
+    if (definition.id === "postPages") {
+      data = normalizePostPageRecords(data);
+    }
+
+    if (definition.id === "postsLanding") {
+      data = normalizePostsLandingRecords(data);
     }
 
     if (definition.id === "navigation") {
