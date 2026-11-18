@@ -10,7 +10,7 @@ Accessible navigation with ARIA labels and semantic structure
     carry a `group` (set by ia/docs/design/design.11tydata.js) and arrive
     sorted, so consecutive runs of one group become one labelled list. A
     top-level entry may carry a `part`; consecutive runs of one part sit under
-    a label. -#}
+    a label. `home` ({ url, title }) renders first, as a plain link. -#}
 {% macro render(params = {}) %}
 {% set designNav = params.nav or [] %}
 {% set currentUrl = params.currentUrl %}
@@ -34,6 +34,17 @@ Accessible navigation with ARIA labels and semantic structure
     {% endfor %}
 
     <ul class="space-y-4" role="list">
+      {#- The Design root can't be its own child, so the caller passes it as `home`. -#}
+      {% if params.home %}
+        <li class="text-sm">
+          {{ Link.render({
+            url: params.home.url,
+            text: params.home.title,
+            ariaCurrent: "page" if params.home.url == currentUrl else "",
+            classes: linkBase + (linkCurrent if params.home.url == currentUrl else " text-neutral-200 hover:text-neutral-50 hover:bg-neutral-800")
+          }) }}
+        </li>
+      {% endif %}
       {% for part in parts %}
         {% set partId = ("design-part-" ~ (part.title or loop.index)) | slugify %}
         <li>

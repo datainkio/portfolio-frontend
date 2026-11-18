@@ -21,8 +21,10 @@ Layout and stylesheet come from `design.11tydata.js` one folder up.
     "Choreography").
   - Atoms, Molecules, Organisms, Pages and System are top-level sections, from
     the layer index pages. A layer the reader folds into System has no entry.
-  - System's authored pages: Lifecycle and Accessibility first with no group,
-    the `reference/` pages under "Contracts" (by their `order`).
+  - System's authored page: Lifecycle (`lifecycle.md`, directly in this
+    folder) first with no group, then the `reference/` pages under
+    "Contracts" (by their `order`). Accessibility is a top-level page, not
+    part of System; see `design.11tydata.js`.
   - A module page takes its parent section, `group` and `order` from the
     reader. System's modules start at order 1000, so they follow the authored
     pages.
@@ -33,7 +35,7 @@ Layout and stylesheet come from `design.11tydata.js` one folder up.
 | ---------------------------------------------- | ------------------------------------------------------------------------- |
 | `/docs/design/choreography/<layer>/`           | `layer.njk`, paginated over `choreographyDocs.layers`                     |
 | `/docs/design/choreography/<path to sidecar>/` | `module.njk`, paginated over `choreographyDocs.modules`                   |
-| Strategy and reference pages                   | Markdown files here, reading `choreographyDocs`; they have no index pages |
+| Lifecycle and reference pages                  | Markdown files here, reading `choreographyDocs`; they have no index pages |
 
 The reader is `eleventy/collections/choreographySystem.js`. To change what a module
 page says, edit the module's sidecar under `js/choreography/`.

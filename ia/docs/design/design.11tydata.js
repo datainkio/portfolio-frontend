@@ -7,7 +7,9 @@
  * sidecar, so the reference never restates them.
  *
  * Navigation: this folder's README is the "Design" key; each subfolder's
- * README is a section under it; every other page sits under its section. The
+ * README is a section under it; every other page sits under its section. A
+ * page directly in this folder (accessibility.md, maintenance.md) is a leaf
+ * placed by its name in SECTION_ORDER. The
  * choreography reference (choreography/) puts its own sections under the same
  * key.
  * "Design" names a "Docs" parent that doesn't exist, which keeps it out of
@@ -21,9 +23,10 @@
 import { readComponentSidecar } from "../../../eleventy/collections/designSystem.js";
 
 /**
- * Top-level order, times ten. Names with no page yet (introduction,
- * accessibility, decoration, maintenance) hold their place for a later
- * commit. "choreography" is the slot the choreography reference fills; see
+ * Top-level order, times ten. "introduction" is the Design root, which the
+ * sidebar renders first as `home`, so it holds its place without an entry.
+ * Accessibility and Maintenance are top-level pages, placed by name.
+ * "choreography" is the slot the choreography reference fills; see
  * choreography/choreography.11tydata.js.
  */
 const SECTION_ORDER = [
@@ -279,7 +282,14 @@ export default {
         };
       }
       if (parts.length === 1) {
-        return { key: stem, parent: "Design", title, order: alphaOrder(title) };
+        // A top-level leaf (Accessibility, Maintenance) takes its slot.
+        const slot = SECTION_ORDER.indexOf(parts[0]);
+        return {
+          key: stem,
+          parent: "Design",
+          title,
+          order: slot < 0 ? alphaOrder(title) : slot * 10,
+        };
       }
       const path = parts.slice(1).join("/");
       return {

@@ -39,4 +39,4 @@ default at every breakpoint.
 <!-- prettier-ignore-end -->
 
 The media query behind each column is on the
-[Accessibility](/docs/design/choreography/strategy/accessibility/) page.
+[Accessibility](/docs/design/accessibility/) page.

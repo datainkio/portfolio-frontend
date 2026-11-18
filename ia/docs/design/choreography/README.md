@@ -17,9 +17,7 @@ by" lists come from the code's imports.
 ## What's here
 
 - **[System](/docs/design/choreography/system/)**: the lifecycle every
-  section follows ([Lifecycle](/docs/design/choreography/strategy/lifecycle/))
-  and how the system handles reduced motion
-  ([Accessibility](/docs/design/choreography/strategy/accessibility/)); the
+  section follows ([Lifecycle](/docs/design/choreography/lifecycle/)); the
   contracts the code shares
   ([Events](/docs/design/choreography/reference/events/),
   [Selectors](/docs/design/choreography/reference/selectors/),
@@ -39,12 +37,11 @@ by" lists come from the code's imports.
 
 <!-- prettier-ignore-end -->
 
-Every motion token is on the design system's
+How the system handles reduced motion is on the
+[Accessibility](/docs/design/accessibility/) page. Every motion token is on the design system's
 [motion tokens](/docs/design/tokens/motion/) page: the duration and easing
 curves, and the groups that exist only in the choreography.
 
 ## Changing this reference
 
-Edit the sidecar, not a page here. A new module needs only its sidecar: the
-next build gives it a page and a sidebar entry. The contract is in
-`ia/docs/design/choreography/choreography.11tydata.md`.
+See [Maintenance](/docs/design/maintenance/).
