@@ -85,7 +85,9 @@ The join is per attribute, so every module that uses `data-hero-el` links to
 every template that emits it, even where a module touches only one element.
 A module that selects by class, id or tag (`.gel`, `a.sexy-link`, the
 `#background` video) has no attribute and joins nothing. A component without a
-reference page isn't listed. How the join is derived:
+reference page isn't listed. A section controller registered in
+`SECTION_REGISTRY` is linked through the attributes of the modules beside it,
+and leads its attribute's list. How the join is derived:
 [choreography system reader](../../eleventy/collections/choreographySystem.md).
 
 ## Component page frontmatter

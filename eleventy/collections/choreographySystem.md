@@ -91,6 +91,13 @@ attribute is the join key. Nothing is mapped by hand.
   the literal, or by the import of `HERO_SELECTORS`.
 - **Not users:** `selectors.js` itself, which defines the constants, and
   barrels.
+- **Section controllers:** the six modules `SECTION_REGISTRY` in
+  `system/registry.js` registers (read as text: its `key: Name` entries and the
+  default imports they come from) rarely name an attribute themselves; the
+  `*Animations` and `*Triggers` files beside them do. A controller therefore
+  takes the attributes of the modules it directly imports from its own folder.
+  This is one step, for registered controllers only; no other module inherits.
+  On a component page the controller is listed first within its attribute.
 - **Output:** each module's `animates`, and `componentHooks`. Both are sorted
   by attribute, then title. Components without a reference page are left out,
   and so are empty lists.
@@ -99,7 +106,12 @@ Limits. The join is per attribute: every module that uses `data-hero-el` links
 to every template that emits it, even if it animates one element. A module that
 imports a selectors object for another key, but never touches its attribute,
 still counts. Modules that select by class, id or tag (`.gel`, `a.sexy-link`,
-the `#background` video) have no attribute and don't join. An attribute emitted
+the `#background` video) have no attribute and don't join. `BackgroundVideo`
+selects by the id the page passes to `sizzle-background.njk` (home passes
+`"background"`; the template's own default is `sizzle-background`), so no
+data in the template equals `SELECTORS.video` and it stays unjoined. `Process`
+is registered, but none of the modules it imports from its folder names an
+attribute, so it joins nothing either. An attribute emitted
 by a template and used by no module (or the reverse) produces no link.
 
 ## Links in sidecar bodies

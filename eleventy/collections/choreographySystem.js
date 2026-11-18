@@ -294,6 +294,31 @@ function moduleHooks(file, graph) {
   return hooks;
 }
 
+/**
+ * The section controllers: files `SECTION_REGISTRY` in system/registry.js
+ * registers, as a map of file → registry key. Read as text, like the rest of
+ * the graph: the object's `key: Name` entries, and the default import each
+ * `Name` comes from.
+ */
+function sectionControllers(graph) {
+  const REGISTRY = "system/registry.js";
+  const text = graph.source.get(REGISTRY) || "";
+  const files = new Map();
+  for (const [, name, spec] of text.matchAll(
+    /(?:^|\n)\s*import\s+([A-Za-z_$][\w$]*)\s+from\s*["']([^"']+)["']/g,
+  )) {
+    files.set(name, resolveSpecifier(REGISTRY, spec));
+  }
+  const body = text.match(/SECTION_REGISTRY\s*=\s*\{([^}]*)\}/)?.[1] ?? "";
+  const out = new Map();
+  for (const [, key, name] of body.matchAll(
+    /([A-Za-z_$][\w$]*)\s*:\s*([A-Za-z_$][\w$]*)/g,
+  )) {
+    if (graph.source.has(files.get(name))) out.set(files.get(name), key);
+  }
+  return out;
+}
+
 /* ------------------------------------------------------------------ */
 /* Modules and layers                                                  */
 /* ------------------------------------------------------------------ */
@@ -493,12 +518,28 @@ function buildModules() {
     const page = designByComponent.get(path);
     if (page) hooks.forEach((h) => slot(h).components.push({ path, ...page }));
   }
-  for (const m of modules) {
-    if (!m.js) continue;
-    for (const h of moduleHooks(m.js, graph)) slot(h).modules.push(m);
+  const hooksByJs = new Map(
+    modules.filter((m) => m.js).map((m) => [m.js, moduleHooks(m.js, graph)]),
+  );
+  // A section controller seldom names an attribute itself; the modules beside
+  // it do. It takes those of the modules it directly imports from its own
+  // folder. Only controllers do this, and only one step.
+  const controllers = sectionControllers(graph);
+  for (const js of controllers.keys()) {
+    for (const target of graph.imports.get(js) || []) {
+      if (posix.dirname(target) !== posix.dirname(js)) continue;
+      for (const h of hooksByJs.get(target) || []) hooksByJs.get(js)?.add(h);
+    }
   }
+  const isController = (m) => controllers.has(m.js);
+  for (const m of modules) {
+    for (const h of hooksByJs.get(m.js) || []) slot(h).modules.push(m);
+  }
+  // The controller is the entry point, so it leads its attribute's list.
   const byTitle = (a, b) =>
     a.title.localeCompare(b.title) || a.url.localeCompare(b.url);
+  const entryFirst = (a, b) =>
+    Number(isController(b)) - Number(isController(a)) || byTitle(a, b);
   const pick = ({ title, url }) => ({ title, url });
   const attributes = [...byAttribute].sort(([a], [b]) => a.localeCompare(b));
   for (const m of modules) {
@@ -515,7 +556,7 @@ function buildModules() {
     for (const c of v.components) {
       (componentHooks[c.path] ??= []).push({
         attribute,
-        modules: v.modules.map(pick).sort(byTitle),
+        modules: [...v.modules].sort(entryFirst).map(pick),
       });
     }
   }
