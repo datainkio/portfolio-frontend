@@ -8,6 +8,7 @@ type: template
 The sidebar of every page under `/docs/design/`: one list per section
 (Tokens, Atoms, Molecules, Organisms), each divided into labelled role groups
 (Cards, Lists, Print proof, Homepage sections, …) with the pages beneath.
+Sections collapse; leaf pages are plain links.
 
 ## Template
 
@@ -22,8 +23,15 @@ by `ia/docs/design/design.11tydata.js`, and arrives sorted, so the template
 turns consecutive runs of one group into one labelled list. A group without a
 title (the tokens) renders its pages directly under the section link.
 
-A section with no pages is skipped, so an empty section README (Templates,
-Layouts) doesn't appear as a dead end until it has pages.
+A top-level entry with no children renders as a plain link (a leaf page). One
+with children renders as a `<details>` whose `<summary>` is the section
+title; inside, the first link is "Overview" (the section's own page), then
+the group lists. It is `open` when the current URL is the section's or any of
+its pages'. No JavaScript.
+
+A top-level entry may carry `part`. When it is set and differs from the
+previous entry's, the entries of that run sit under a label (one step more
+prominent than the group labels). Entries without `part` get no label.
 
 ## Role in the System
 
@@ -31,11 +39,11 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Params
 
-| Param        | Type   | Description                                                                                                                                              |
-| ------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `nav`        | array  | eleventyNavigation entries (`title`, `url`, `children`). Each child may carry a `group` label; children are expected pre-sorted. The caller pre-filters. |
-| `currentUrl` | string | The entry whose `url` matches gets `aria-current="page"` and the highlighted style.                                                                      |
-| `label`      | string | The `<nav>`'s accessible name. Defaults to "Design section navigation"; the motion reference passes "Motion section navigation".                         |
+| Param        | Type   | Description                                                                                                                                                                                  |
+| ------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nav`        | array  | eleventyNavigation entries (`title`, `url`, `children`). Each child may carry a `group` label; children are expected pre-sorted. A top-level entry may carry `part`. The caller pre-filters. |
+| `currentUrl` | string | The entry whose `url` matches gets `aria-current="page"` and the highlighted style.                                                                                                          |
+| `label`      | string | The `<nav>`'s accessible name. Defaults to "Design section navigation"; the layout passes "Design section navigation".                                                                       |
 
 Fixed design: takes no styling params. Its colours are set for the dark
 docs ground (`neutral-950`): neutral links, `neutral-800` hover, a
@@ -45,9 +53,12 @@ docs ground (`neutral-950`): neutral links, `neutral-800` hover, a
 
 - `<nav aria-label="Design section navigation">` with `role="list"` on every
   list.
-- Each group label is a `<span>` with an id; the group's list points at it
-  with `aria-labelledby`, so screen readers announce the group when entering
-  the list.
+- Each part and group label is a `<span>` with an id; its list points at it
+  with `aria-labelledby`, so screen readers announce it when entering the
+  list. Group ids include the part and section title, so two sections both
+  titled "Atoms" keep unique ids.
+- `<summary>` carries the same visible focus ring as the links; it holds text
+  only, with no link inside.
 - The current page is marked with `aria-current="page"`.
 
 ## Relationships
