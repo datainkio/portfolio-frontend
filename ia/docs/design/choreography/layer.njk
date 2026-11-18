@@ -11,9 +11,24 @@ eleventyComputed:
   permalink: "{{ choreographyLayer.url }}"
 ---
 {#- One index page per folder under js/choreography/. The intro is the layer's
-    README; the list is every sidecar in the layer with its description. -#}
+    README; the list is every sidecar in the layer with its description. The
+    System page also lists the layers folded into its sidebar section
+    (`foldedLayers`, from the reader). -#}
 {%- if choreographyLayer.body %}
   {{ choreographyLayer.body | markdownify | safe }}
+{%- endif %}
+
+{%- if choreographyLayer.foldedLayers.length %}
+<section aria-labelledby="layers-heading">
+  <h2 id="layers-heading">Layers</h2>
+  <p>These layers sit in this section of the sidebar. Each has an index page of its own.</p>
+  <dl>
+    {%- for l in choreographyLayer.foldedLayers %}
+      <dt><a href="{{ l.url }}">{{ l.title }}</a> ({{ l.count }})</dt>
+      <dd>{{ l.description }}</dd>
+    {%- endfor %}
+  </dl>
+</section>
 {%- endif %}
 
 <section aria-labelledby="modules-heading">

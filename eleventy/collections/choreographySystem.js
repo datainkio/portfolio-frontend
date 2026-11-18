@@ -51,6 +51,18 @@ const LAYER_ORDER = [
   "config",
 ];
 
+/**
+ * Layers that get a sidebar section of their own, in order. Every other
+ * layer, including one added later, folds into "system" (the last entry): its
+ * modules sit under one group titled with the layer, and its index page is
+ * reached from the System page, not the sidebar.
+ */
+const SECTION_LAYERS = ["atoms", "molecules", "organisms", "pages", "system"];
+const FOLD_INTO = SECTION_LAYERS.at(-1);
+const FOLD_GROUP_STRIDE = 1000;
+/** The system layer's own modules, once folded, sit under this group. */
+const CORE_GROUP = "Core";
+
 /** Root-level modules (AnimationDirector, the barrel, the guide) sit here. */
 const ROOT_LAYER = "system";
 const ROOT_GROUP = "Entry points";
@@ -451,6 +463,36 @@ function buildModules() {
         count: members.length,
       };
     });
+
+  // Sections: a layer in SECTION_LAYERS is its own; the rest fold into
+  // "system". `section` is the nav key the module's page sits under. A folded
+  // layer's modules take the layer's title as their one group and keep their
+  // relative order; "system" itself goes first, as Core.
+  const folded = layers.filter((l) => !SECTION_LAYERS.includes(l.name));
+  const foldOrder = [layers.find((l) => l.name === FOLD_INTO), ...folded]
+    .filter(Boolean)
+    .map((l) => l.name);
+  for (const layer of layers) {
+    const host = SECTION_LAYERS.includes(layer.name) ? layer.name : FOLD_INTO;
+    layer.section = `choreography/${host}`;
+    layer.sectionOrder = SECTION_LAYERS.indexOf(host);
+    layer.folded = host !== layer.name;
+    if (layer.name === FOLD_INTO) {
+      layer.foldedLayers = folded.map(({ title, url, count, description }) => ({
+        title,
+        url,
+        count,
+        description,
+      }));
+    }
+  }
+  for (const m of modules) {
+    const layer = layers.find((l) => l.name === m.layer);
+    m.section = layer.section;
+    if (layer.section !== `choreography/${FOLD_INTO}`) continue;
+    m.group = m.layer === FOLD_INTO ? CORE_GROUP : layer.title;
+    m.order += (foldOrder.indexOf(m.layer) + 1) * FOLD_GROUP_STRIDE;
+  }
 
   const overview = readmeBody(read(`${BASE}/README.md`));
   return {

@@ -17,9 +17,13 @@ listing it in the sidebar.
   `styles.css`. See `styles/docs.css`.
 - `eleventyNavigation`: this folder's README is the `Design` key, whose parent
   `Docs` doesn't exist, which keeps it out of root-level navigation. Each
-  subfolder README is a section under `Design`, ordered tokens, atoms,
-  molecules, organisms, templates, layouts. Every other page sits under its
-  section with a `group` and an `order` from the `GROUPS` table.
+  subfolder README is a section under `Design`, ordered by `SECTION_ORDER`
+  (times ten). The order holds places for pages that don't exist yet
+  (introduction, accessibility, decoration, maintenance) and a slot,
+  `choreography`, that the choreography reference's entries fill. Atoms,
+  molecules and organisms carry `part: "Styling"`, which the sidebar renders as
+  a label. Every other page sits under its section with a `group` and an
+  `order` from the `GROUPS` table.
 - `GROUPS`: the sidebar structure within each section. Pages are grouped by
   role (Cards, Lists, Print proof, Homepage sections, …) and ordered by
   composition: base before variants, page order for page sections, the

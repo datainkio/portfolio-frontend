@@ -15,4 +15,7 @@ the sidecar's markdown, with Source, Sidecar, Status, Reduced motion, Built
 from, Used by, and Specs in the third column. Built from and Used by come
 from the JS import graph, so they can't drift from the code.
 
+Its sidebar entry's parent, `group` and `order` come from the reader
+(`section`, `group`, `order`); `choreography.11tydata.js` only passes them on.
+
 To add a page, add a sidecar. To change one, edit the sidecar.

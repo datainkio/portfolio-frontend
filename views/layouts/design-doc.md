@@ -51,9 +51,9 @@ computes every page's `eleventyNavigation` entry.
 
 ### Choreography pages
 
-`ia/docs/design/choreography/choreography.11tydata.js` sets `docsNav: "Choreography"`, which picks the
-sidebar tree (`eleventyNavigation(docsNav or "Design")`) and its accessible
-name. A page paginated from `choreographyDocs.modules` carries `choreographyModule`; the
+The choreography reference uses the same sidebar: its sections are children
+of the `Design` nav root, computed by
+`ia/docs/design/choreography/choreography.11tydata.js`. A page paginated from `choreographyDocs.modules` carries `choreographyModule`; the
 layout renders its `body` (the sidecar's markdown) and its facts, all from
 [choreography system reader](../../eleventy/collections/choreographySystem.md). `eyebrow`,
 when set, replaces the tier read from the file path, which a paginated page

@@ -16,10 +16,17 @@ by" lists come from the code's imports.
 
 ## What's here
 
-- **[Strategy](strategy/)**: the lifecycle every section follows, and how the
-  system handles reduced motion.
-- **[Reference](reference/)**: the event names, selectors, timing presets,
-  breakpoint profiles, and motion tokens the code shares.
+- **[System](/docs/design/choreography/system/)**: the lifecycle every
+  section follows ([Lifecycle](/docs/design/choreography/strategy/lifecycle/))
+  and how the system handles reduced motion
+  ([Accessibility](/docs/design/choreography/strategy/accessibility/)); the
+  contracts the code shares
+  ([Events](/docs/design/choreography/reference/events/),
+  [Selectors](/docs/design/choreography/reference/selectors/),
+  [Presets](/docs/design/choreography/reference/presets/),
+  [Profiles](/docs/design/choreography/reference/profiles/),
+  [Tokens](/docs/design/choreography/reference/tokens/)); and the core and
+  supporting layers.
 - A section per layer, from the smallest pieces up:
 
 <!-- prettier-ignore-start -->

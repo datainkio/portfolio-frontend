@@ -15,5 +15,10 @@ folder under `js/choreography/`, at `/docs/design/choreography/<layer>/`.
   sidebar's groups: modules straight under the layer first, then one group
   per subfolder that holds more than one page.
 
+The System page also has a **Layers** list, from the reader's `foldedLayers`:
+the layers folded into the System sidebar section. Those layers' own index
+pages still build, but have no sidebar entry, so this list is how a reader
+reaches them. A folded layer's page returns no `eleventyNavigation`.
+
 Root-level modules (`AnimationDirector`, the barrel, the getting-started
-guide) are listed under System as "Entry points".
+guide) are listed under System as "Entry points" on its index page, and under "Core" in the sidebar.
