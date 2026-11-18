@@ -8,9 +8,9 @@
   the macro live, followed by the call that produced it. Any other page
   renders its own content as the reference body.
 
-  The motion reference (ia/docs/motion/) uses this layout too. It sets
-  `docsNav: "Motion"` for the sidebar, and a page paginated over a
-  choreography sidecar carries `motionModule`, whose body is the page and whose
+  The choreography reference (ia/docs/design/choreography/) uses this layout too. It sets
+  `docsNav: "Choreography"` for the sidebar, and a page paginated over a
+  choreography sidecar carries `choreographyModule`, whose body is the page and whose
   facts fill the third column.
 
   Three columns: the page nav (sidebarBefore), the article (prose, content),
@@ -30,7 +30,7 @@
   </aside>
 {% endblock sidebarBefore %}
 
-{%- set sidebarAfter = (componentDoc or motionModule) and true -%}
+{%- set sidebarAfter = (componentDoc or choreographyModule) and true -%}
 
 {% block sidebarAfterStyles %}not-prose col-span-full lg:col-span-3{% endblock sidebarAfterStyles %}
 
@@ -94,8 +94,8 @@
         </section>
       {%- endif %}
     </div>
-  {%- elif motionModule %}
-    {%- set m = motionModule -%}
+  {%- elif choreographyModule %}
+    {%- set m = choreographyModule -%}
     {%- set rmLabels = { "section": "Documented", "mentioned": "Mentioned in the notes", "none": "Not documented" } -%}
     <div class="space-y-8 text-sm lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto lg:pb-12">
       <section aria-labelledby="facts-heading" class="space-y-3">
@@ -226,9 +226,9 @@
           {{ content | safe }}
         </section>
       {%- endif %}
-    {%- elif motionModule %}
-      {%- if motionModule.body %}
-        {{ motionModule.body | markdownify | safe }}
+    {%- elif choreographyModule %}
+      {%- if choreographyModule.body %}
+        {{ choreographyModule.body | markdownify | safe }}
       {%- else %}
         <p>The sidecar has no notes beyond its description.</p>
       {%- endif %}

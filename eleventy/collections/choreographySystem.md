@@ -1,11 +1,11 @@
 ---
-description: "Reader for the living motion reference: turns every choreography sidecar into a page record, derives built-from and used-by from the JS import graph, and exposes the contract and tuning values from the config modules."
+description: "Reader for the living choreography reference: turns every choreography sidecar into a page record, derives built-from and used-by from the JS import graph, and exposes the contract and tuning values from the config modules."
 tags:
   - collection
   - choreography
-  - motion
+  - choreography
 aliases:
-  - Motion system reader
+  - Choreography system reader
 links:
   - "[[eleventy/collections/README|collections]]"
   - "[[index]]"
@@ -13,12 +13,12 @@ links:
   - "[[design-doc]]"
 ---
 
-# Motion system reader
+# Choreography system reader
 
-`readMotionDocs()` is registered by [[index]] as the `motionDocs` global and
-drives every page under `ia/docs/motion/`. It reads files the site already
+`readChoreographyDocs()` is registered by [[index]] as the `choreographyDocs` global and
+drives every page under `ia/docs/design/choreography/`. It reads files the site already
 runs, so the reference can't drift from them. The result is cached for one
-build; `resetMotionDocs()` runs on `eleventy.before`.
+build; `resetChoreographyDocs()` runs on `eleventy.before`.
 
 ## What it returns
 
@@ -32,7 +32,7 @@ build; `resetMotionDocs()` runs on `eleventy.before`.
 
 ## A module record
 
-- `path`, `url`: the sidecar's path without `.md`, and `/docs/motion/<path>/`.
+- `path`, `url`: the sidecar's path without `.md`, and `/docs/design/choreography/<path>/`.
   A `README.md` below the layer level is the page for its folder.
 - `title`: frontmatter `title`, else the first `# heading`, else the file name.
 - `description`, `status`: from frontmatter.

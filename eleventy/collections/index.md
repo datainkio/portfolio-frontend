@@ -10,7 +10,7 @@ links:
   - "[[navigation]]"
   - "[[NavigationBuilder]]"
   - "[[designSystem]]"
-  - "[[motionSystem]]"
+  - "[[choreographySystem]]"
 ---
 
 # Collections index
@@ -36,9 +36,9 @@ collection can't break the whole build.
 
 Global data set here as well: `site`, `env`, `buildDate`, `colors`,
 `buildVersions`, `designTokens` (every theme token, grouped, from
-[[designSystem]]; drives `ia/docs/design/tokens/`), and `motionDocs` (every
+[[designSystem]]; drives `ia/docs/design/tokens/`), and `choreographyDocs` (every
 choreography sidecar, the JS import graph, and the contract and tuning
-values, from [[motionSystem]]; drives `ia/docs/motion/`). `motionDocs` is
+values, from [[choreographySystem]]; drives `ia/docs/design/choreography/`). `choreographyDocs` is
 re-read on every build, so a dev-server rebuild picks up an edited sidecar.
 
 ## Wiring

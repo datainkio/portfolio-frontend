@@ -82,7 +82,7 @@ export default async function (eleventyConfig) {
     eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
     // JS is bundled by esbuild (dev:js); a JS save must not rebuild pages.
     // Choreography sidecars are the exception when docs render: they are the
-    // source of the motion reference (ia/docs/motion/), so a save rebuilds it.
+    // source of the choreography reference (ia/docs/design/choreography/), so a save rebuilds it.
     eleventyConfig.watchIgnores.add("./js/**/*.js");
     eleventyConfig.watchIgnores.add("./js/**/*.canvas");
     if (docs) eleventyConfig.addWatchTarget("./js/choreography/**/*.md");

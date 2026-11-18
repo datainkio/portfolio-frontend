@@ -1,10 +1,10 @@
 ---
-title: Motion
-description: "The living reference for the site's motion: how the choreography runs, the contracts and values it shares, and a page for every module, each read from the file the site runs."
+title: Choreography
+description: "The living reference for the site's choreography: how it runs, the contracts and values it shares, and a page for every module, each read from the file the site runs."
 type: index
 ---
 
-This is the motion system as the site actually runs it. Nothing here is
+This is the choreography system as the site actually runs it. Nothing here is
 written twice. Each module page is the module's own sidecar, the file next to
 its code under `js/choreography/`. The contract and tuning pages are read
 from the config modules at build time, and each page's "Built from" and "Used
@@ -12,7 +12,7 @@ by" lists come from the code's imports.
 
 ## How it runs
 
-{{ motionDocs.overview.howItRuns | safe }}
+{{ choreographyDocs.overview.howItRuns | safe }}
 
 ## What's here
 
@@ -26,7 +26,7 @@ by" lists come from the code's imports.
 
 | Layer | Modules | What it holds |
 | ----- | ------- | ------------- |
-{% for layer in motionDocs.layers -%}
+{% for layer in choreographyDocs.layers -%}
 | [{{ layer.title }}]({{ layer.url }}) | {{ layer.count }} | {{ layer.description | safe }} |
 {% endfor %}
 
@@ -39,4 +39,4 @@ Duration and easing curves are plotted on the design system's
 
 Edit the sidecar, not a page here. A new module needs only its sidecar: the
 next build gives it a page and a sidebar entry. The contract is in
-`ia/docs/motion/motion.11tydata.md`.
+`ia/docs/design/choreography/choreography.11tydata.md`.
