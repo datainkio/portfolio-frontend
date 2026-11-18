@@ -15,7 +15,7 @@ eleventyComputed:
     System page also lists the layers folded into its sidebar section
     (`foldedLayers`, from the reader). -#}
 {%- if choreographyLayer.body %}
-  {{ choreographyLayer.body | markdownify | safe }}
+  {{ choreographyLayer.body | markdownify(true) | safe }}
 {%- endif %}
 
 {%- if choreographyLayer.foldedLayers.length %}

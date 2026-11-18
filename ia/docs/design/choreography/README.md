@@ -44,4 +44,4 @@ curves, and the groups that exist only in the choreography.
 
 ## Changing this reference
 
-See [Maintenance](/docs/design/maintenance/).
+See [Maintenance](/docs/design/maintenance/#adding-a-choreography-module).

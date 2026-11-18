@@ -40,6 +40,11 @@ type: reference
 - `npm run start:docs` serves it, and watches `docs.css` and the choreography
   sidecars.
 - `npm start` and `npm run quick` skip `/docs/`.
+- Markdown headings on these pages get an `id` at build time, so a section can
+  be linked. The id is the heading text, lower-cased and hyphenated (`Adding a
+component page` becomes `#adding-a-component-page`), with `-2`, `-3` on a
+  repeat. A heading that already has an `id` keeps it. Headings written in
+  HTML, in the layout or in a specimen, are not touched.
 
 ## Checks
 

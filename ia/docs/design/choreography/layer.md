@@ -22,3 +22,5 @@ reaches them. A folded layer's page returns no `eleventyNavigation`.
 
 Root-level modules (`AnimationDirector`, the barrel, the getting-started
 guide) are listed under System as "Entry points" on its index page, and under "Core" in the sidebar.
+
+The layer's README body goes through `markdownify(true)`, so its markdown headings get ids.
