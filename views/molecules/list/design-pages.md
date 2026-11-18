@@ -1,5 +1,5 @@
 ---
-description: The sidebar navigation of these design-system docs, with sections, labelled role groups, and the current page highlighted.
+description: The sidebar navigation of the design and motion references, with sections, labelled role groups, and the current page highlighted.
 type: template
 ---
 
@@ -35,6 +35,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | ------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `nav`        | array  | eleventyNavigation entries (`title`, `url`, `children`). Each child may carry a `group` label; children are expected pre-sorted. The caller pre-filters. |
 | `currentUrl` | string | The entry whose `url` matches gets `aria-current="page"` and the highlighted style.                                                                      |
+| `label`      | string | The `<nav>`'s accessible name. Defaults to "Design section navigation"; the motion reference passes "Motion section navigation".                         |
 
 Fixed design: takes no styling params. Its colours are set for the dark
 docs ground (`neutral-950`): neutral links, `neutral-800` hover, a

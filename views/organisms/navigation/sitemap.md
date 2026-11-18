@@ -1,5 +1,5 @@
 ---
-description: "The site map: every root-level page, then the design-system docs and their sections."
+description: "The site map: every root-level page, then the Design and Motion references, with Design's sections."
 type: template
 links:
   - "[main-pages](../../molecules/list/main-pages.md)"
@@ -24,12 +24,13 @@ grid inside one `<nav aria-label="Site map">`:
 - **Pages**: root-level entries (`pages | eleventyNavigation`): home, work,
   posts, about, contact, user guide. Single posts and projects carry no
   `eleventyNavigation` key, so only their landing pages appear.
-- **Docs**: the Design root (`pages | eleventyNavigation("Docs")`), then its
-  top-level sections (`pages | eleventyNavigation("Design")`: tokens, atoms,
-  molecules, organisms, templates, layouts) as plain links, not their pages,
-  in an indented, smaller list beneath the Design link.
-  A section with no pages is left out, as [[design-pages.njk]] does. "Docs"
-  is the parent the Design root names but no page defines (see
+- **Docs**: the children of "Docs" (`pages | eleventyNavigation("Docs")`),
+  which are the Design and Motion references. Beneath the Design link, an
+  indented, smaller list of its top-level sections (tokens, atoms, molecules,
+  organisms, templates, layouts) as plain links, not their pages. A section
+  with no pages is left out, as [[design-pages.njk]] does. Motion's sections
+  aren't listed: it has one per choreography layer, and its own sidebar
+  carries them. "Docs" is the parent both roots name but no page defines (see
   `ia/docs/design/design.11tydata.js`), so it is a heading here, not a nav
   key.
 

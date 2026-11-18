@@ -1,5 +1,5 @@
 ---
-description: "Layout for the living design-system reference: renders a component page's live specimens, the call behind each, and the params read from its sidecar."
+description: "Layout for the living design and motion references: renders a component page's live specimens, call and params, or a choreography module's sidecar and its import-graph facts."
 type: template
 tags:
   - layout
@@ -9,12 +9,14 @@ links:
   - "[design-pages](../molecules/list/design-pages.md)"
   - "[design filters](../../eleventy/filters/design.md)"
   - "[design system readers](../../eleventy/collections/designSystem.md)"
+  - "[motion system reader](../../eleventy/collections/motionSystem.md)"
 ---
 
 # Design Doc
 
-Layout for every page under `ia/docs/design/`, set by that folder's
-`design.11tydata.js`. Extends [[cols-3.njk]] for its third column.
+Layout for every page under `ia/docs/design/` and `ia/docs/motion/`, set by
+each folder's directory data file. Extends [[cols-3.njk]] for its third
+column.
 
 ## Template
 
@@ -23,11 +25,11 @@ Layout for every page under `ia/docs/design/`, set by that folder's
 
 ## Three columns
 
-| Column                    | Content                                                                | On                          |
-| -------------------------- | ------------------------------------------------------------------------ | ---------------------------- |
-| `sidebarBefore` (left)      | [[design-pages.njk]] — the sidebar nav                                   | Every page                  |
-| `content` (centre)          | Header, then Specimens, Params, Notes (component page) or the page's own content | Every page, in `prose prose-invert` |
-| `sidebarAfter` (right)      | Component, In context, Related                                           | Only when the page names a `component` |
+| Column                 | Content                                                                          | On                                     |
+| ---------------------- | -------------------------------------------------------------------------------- | -------------------------------------- |
+| `sidebarBefore` (left) | [[design-pages.njk]] — the sidebar nav                                           | Every page                             |
+| `content` (centre)     | Header, then Specimens, Params, Notes (component page) or the page's own content | Every page, in `prose prose-invert`    |
+| `sidebarAfter` (right) | Component, In context, Related                                                   | Only when the page names a `component` |
 
 `sidebarAfter` being set (or not) is what turns the third column on or off
 in `cols-3.njk` — a page with no `componentDoc` has nothing to put there.
@@ -37,14 +39,25 @@ asides) is marked `not-prose` so the typography plugin doesn't restyle it.
 
 ## Page shapes
 
-| Page                                 | Renders                                                                            |
-| ------------------------------------ | ---------------------------------------------------------------------------------- |
-| Frontmatter names a `component`      | Centre: header, Specimens, Params, Notes. Right: Component (source, sidecar, import), In context, Related |
-| Anything else (READMEs, token pages) | Centre only: header, then the page's own content                                   |
+| Page                                 | Renders                                                                                                                                   |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontmatter names a `component`      | Centre: header, Specimens, Params, Notes. Right: Component (source, sidecar, import), In context, Related                                 |
+| Page carries a `motionModule`        | Centre: header, then the choreography sidecar's body. Right: Module (source, sidecar, status, reduced motion), Built from, Used by, Specs |
+| Anything else (READMEs, token pages) | Centre only: header, then the page's own content                                                                                          |
 
 The sidebar is [[design-pages.njk]], fed
 `collections.all | eleventyNavigation("Design")`. The directory data file
 computes every page's `eleventyNavigation` entry.
+
+### Motion pages
+
+`ia/docs/motion/motion.11tydata.js` sets `docsNav: "Motion"`, which picks the
+sidebar tree (`eleventyNavigation(docsNav or "Design")`) and its accessible
+name. A page paginated from `motionDocs.modules` carries `motionModule`; the
+layout renders its `body` (the sidecar's markdown) and its facts, all from
+[motion system reader](../../eleventy/collections/motionSystem.md). `eyebrow`,
+when set, replaces the tier read from the file path, which a paginated page
+doesn't have.
 
 ### Related
 
