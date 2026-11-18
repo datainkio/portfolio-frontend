@@ -8,6 +8,7 @@ specimens:
     note: Live copy from the home singleton. The page's hero passes a statements list so each statement carries its own image; this specimen uses the single value-prop fallback. The title is full viewport height, and motion reveals are not loaded on docs pages.
     params:
       id: specimen-hero
+      headingId: specimen-hero-heading
     bind:
       "copy.heading": cms.home.0.valuePropHeading
       "copy.body": cms.home.0.valuePropBodyHtml
