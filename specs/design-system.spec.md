@@ -49,7 +49,7 @@ component today.
 A project utility (`@utility` in `styles/`, such as the halftone and stripe
 patterns) sits between the two. It composes tokens into one reusable effect and
 owns no markup. It's documented on the
-[utilities page](../ia/docs/design/tokens/utilities.md).
+[Decoration section](../ia/docs/design/decoration/README.md).
 
 ## Where tokens come from
 

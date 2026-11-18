@@ -25,7 +25,7 @@ by" lists come from the code's imports.
   [Selectors](/docs/design/choreography/reference/selectors/),
   [Presets](/docs/design/choreography/reference/presets/),
   [Profiles](/docs/design/choreography/reference/profiles/),
-  [Tokens](/docs/design/choreography/reference/tokens/)); and the core and
+  [Motion tokens](/docs/design/tokens/motion/)); and the core and
   supporting layers.
 - A section per layer, from the smallest pieces up:
 
@@ -39,8 +39,9 @@ by" lists come from the code's imports.
 
 <!-- prettier-ignore-end -->
 
-Duration and easing curves are plotted on the design system's
-[motion tokens](/docs/design/tokens/motion/) page.
+Every motion token is on the design system's
+[motion tokens](/docs/design/tokens/motion/) page: the duration and easing
+curves, and the groups that exist only in the choreography.
 
 ## Changing this reference
 

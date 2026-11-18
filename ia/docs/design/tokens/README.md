@@ -4,24 +4,24 @@ description: Every design token the site declares, rendered from the theme files
 type: index
 ---
 
-Tokens are the named values every component draws on: colour, spacing, type,
-radius, shadow, and motion. Each one is a Tailwind theme variable, so you use
+Tokens are the named values every component draws on: colour, type, spacing,
+and motion. Each one is a Tailwind theme variable, so you use
 it as an ordinary utility (`bg-primary-500`, `p-4`, `text-2xl`,
-`shadow-b-md`, `duration-fast`), never as a raw value.
+`duration-fast`), never as a raw value.
 
 These pages read the theme files at build time, so they always show what the
 CSS declares.
 
 ## Where each group comes from
 
-| Group                                                      | Source of truth                           | Written to                           | To change it                               |
-| ---------------------------------------------------------- | ----------------------------------------- | ------------------------------------ | ------------------------------------------ |
-| [Colour](colour/)                                          | Color variables in the Figma library      | `styles/colors.css`                  | Edit in Figma, then `npm run build:design` |
-| [Spacing and containers](spacing/)                         | Spacing and Size variables                | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
-| [Radius and shadow](radius-and-shadow/)                    | Size variables and Shadow effect styles   | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
-| [Typography](typography/): size, weight, leading, tracking | Typography variables                      | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
-| [Typography](typography/): families                        | Code                                      | `styles/typography/fontFamilies.css` | Edit by hand; the fonts are self-hosted    |
-| [Motion](motion/)                                          | `js/choreography/tokens/motion/motion.js` | `styles/motion.css`                  | Edit the JS, then `npm run build:motion`   |
+| Group                                                        | Source of truth                           | Written to                           | To change it                               |
+| ------------------------------------------------------------ | ----------------------------------------- | ------------------------------------ | ------------------------------------------ |
+| [Colour](colour/)                                            | Color variables in the Figma library      | `styles/colors.css`                  | Edit in Figma, then `npm run build:design` |
+| [Spacing and containers](spacing/)                           | Spacing and Size variables                | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
+| [Radius and shadow](../decoration/radius-shadow-and-border/) | Size variables and Shadow effect styles   | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
+| [Typography](typography/): size, weight, leading, tracking   | Typography variables                      | `styles/tokens.css`                  | Edit in Figma, then `npm run build:design` |
+| [Typography](typography/): families                          | Code                                      | `styles/typography/fontFamilies.css` | Edit by hand; the fonts are self-hosted    |
+| [Motion](motion/)                                            | `js/choreography/tokens/motion/motion.js` | `styles/motion.css`                  | Edit the JS, then `npm run build:motion`   |
 
 Never edit `colors.css`, `tokens.css`, or `motion.css` by hand: the next sync
 overwrites them. The decision record is
@@ -44,4 +44,4 @@ The current colour file was generated from Figma file
   first: the semantic colours fall short of 4.5:1 there, which is why the
   contact form's status text uses `tertiary-600` and `secondary-700`.
 - Project utilities built on these tokens (gels, inner borders, registration
-  marks, masks) are on the [utilities page](utilities/).
+  marks, masks) are in the [Decoration section](../decoration/).
