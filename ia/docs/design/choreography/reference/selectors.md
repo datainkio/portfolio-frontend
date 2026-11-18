@@ -6,7 +6,7 @@ order: 1
 ---
 
 From `js/choreography/config/contracts/selectors/selectors.js`
-([sidecar](/docs/motion/config/contracts/selectors/selectors/)). JS finds
+([sidecar](/docs/design/choreography/config/contracts/selectors/selectors/)). JS finds
 elements through these, never through CSS classes.
 
 ## Section ids
@@ -18,7 +18,7 @@ elements through these, never through CSS classes.
 
 | Key | DOM id |
 | --- | ------ |
-{% for r in motionDocs.config.sectionIds -%}
+{% for r in choreographyDocs.config.sectionIds -%}
 | `{{ r.key }}` | `{{ r.value }}` |
 {% endfor %}
 
@@ -26,7 +26,7 @@ elements through these, never through CSS classes.
 
 ## Element hooks
 
-{% for set in motionDocs.config.elementSets %}
+{% for set in choreographyDocs.config.elementSets %}
 
 ### {{ set.name }}
 

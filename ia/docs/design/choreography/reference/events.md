@@ -6,10 +6,10 @@ order: 0
 ---
 
 From `EVENTS` in `js/choreography/config/contracts/events/events.js`
-([sidecar](/docs/motion/config/contracts/events/events/)). Code refers to an
+([sidecar](/docs/design/choreography/config/contracts/events/events/)). Code refers to an
 event by its key, such as `EVENTS.hero.introComplete`, never by the string.
 
-{% for g in motionDocs.config.events %}
+{% for g in choreographyDocs.config.events %}
 
 ## {{ g.group }}
 

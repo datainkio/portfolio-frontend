@@ -11,10 +11,10 @@ from `motion.duration("slow")` shows `0.66`. Shared defaults,
 `ANIMATION_DEFAULTS`:
 
 ```json
-{{ motionDocs.config.animationDefaults | safe }}
+{{ choreographyDocs.config.animationDefaults | safe }}
 ```
 
-{% for p in motionDocs.config.presets %}
+{% for p in choreographyDocs.config.presets %}
 
 ## {{ p.name }}
 
@@ -35,7 +35,7 @@ trigger settings live beside the section, in its `*Triggers.js`.
 
 | Key | Value |
 | --- | ----- |
-{% for r in motionDocs.config.scrollDefaults -%}
+{% for r in choreographyDocs.config.scrollDefaults -%}
 | `{{ r.key }}` | `{{ r.value }}` |
 {% endfor %}
 

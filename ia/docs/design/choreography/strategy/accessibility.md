@@ -7,8 +7,8 @@ order: 1
 
 Reduced motion always wins. When the visitor's system asks for it, every
 section resolves the `reduced` profile, whatever the breakpoint (see
-[Profiles](/docs/motion/reference/profiles/)).
-[ReducedMotionHandler](/docs/motion/managers/ReducedMotionHandler/ReducedMotionHandler/)
+[Profiles](/docs/design/choreography/reference/profiles/)).
+[ReducedMotionHandler](/docs/design/choreography/managers/ReducedMotionHandler/ReducedMotionHandler/)
 is the authority for the system preference.
 
 ## Rules
@@ -16,7 +16,7 @@ is the authority for the system preference.
 These come from the motion accessibility policy,
 `specs/animation/motion-accessibility-policy.md`.
 
-{{ motionDocs.overview.accessibilityRules | safe }}
+{{ choreographyDocs.overview.accessibilityRules | safe }}
 
 ## Media conditions
 
@@ -26,7 +26,7 @@ The conditions `gsap.matchMedia` evaluates, from `config/ix/breakpoints.js`:
 
 | Key | Media query |
 | --- | ----------- |
-{% for r in motionDocs.config.breakpoints -%}
+{% for r in choreographyDocs.config.breakpoints -%}
 | `{{ r.key }}` | `{{ r.value }}` |
 {% endfor %}
 
@@ -40,7 +40,7 @@ The conditions `gsap.matchMedia` evaluates, from `config/ix/breakpoints.js`:
 
 | Key | Value |
 | --- | ----- |
-{% for r in motionDocs.config.accessibility -%}
+{% for r in choreographyDocs.config.accessibility -%}
 | `{{ r.key }}` | `{{ r.value }}` |
 {% endfor %}
 
@@ -58,7 +58,7 @@ prompt to look, not as proof.
 
 | Module | Binds ScrollTrigger | Code branches on reduced motion | Sidecar |
 | ------ | ------------------- | ------------------------------- | ------- |
-{% for c in motionDocs.coverage -%}
+{% for c in choreographyDocs.coverage -%}
 | [{{ c.path }}]({{ c.url }}) | {{ "Yes" if c.usesScrollTrigger else "No" }} | {{ "Yes" if c.codeBranch else "No" }} | {{ { "section": "Section", "mentioned": "Mentioned", "none": "**Not documented**" }[c.documented] }} |
 {% endfor %}
 

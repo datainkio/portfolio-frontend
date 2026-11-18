@@ -18,7 +18,7 @@ Where Eleventy collections get registered.
 - `index.js`: runs the setup in order, Sanity first, then navigation
 - `sanity.js`: hands off to the Sanity data layer
 - `navigation.js`: registers navigation collections
-- `designSystem.js`, `motionSystem.js`: readers for the design and motion references under `ia/docs/`
+- `designSystem.js`, `choreographySystem.js`: readers for the design and choreography references under `ia/docs/`
 
 ## How it connects
 

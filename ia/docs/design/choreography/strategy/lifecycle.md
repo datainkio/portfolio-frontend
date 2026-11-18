@@ -7,25 +7,25 @@ order: 0
 
 ## Boot
 
-{{ motionDocs.overview.howItRuns | safe }}
+{{ choreographyDocs.overview.howItRuns | safe }}
 
 The modules involved:
-[AnimationDirector](/docs/motion/AnimationDirector/),
-[AnimationBus](/docs/motion/system/AnimationBus/),
-[the section registry](/docs/motion/system/registry/), and
-[LandingSequence](/docs/motion/templates/landing/LandingSequence/).
+[AnimationDirector](/docs/design/choreography/AnimationDirector/),
+[AnimationBus](/docs/design/choreography/system/AnimationBus/),
+[the section registry](/docs/design/choreography/system/registry/), and
+[LandingSequence](/docs/design/choreography/templates/landing/LandingSequence/).
 
 ## Phases
 
 Every section controller extends
-[AbstractSection](/docs/motion/system/AbstractSection/) and owns one timeline
+[AbstractSection](/docs/design/choreography/system/AbstractSection/) and owns one timeline
 per phase. The phase names are `TIMELINE_IDS`:
 
 <!-- prettier-ignore-start -->
 
 | Key | Timeline id |
 | --- | ----------- |
-{% for r in motionDocs.config.timelines -%}
+{% for r in choreographyDocs.config.timelines -%}
 | `{{ r.key }}` | `{{ r.value }}` |
 {% endfor %}
 
@@ -40,15 +40,15 @@ set for every section, so no name is typed by hand:
 
 | Key | Event |
 | --- | ----- |
-{% for r in motionDocs.config.sectionEvents -%}
+{% for r in choreographyDocs.config.sectionEvents -%}
 | `{{ r.key }}` | `{{ r.value }}` |
 {% endfor %}
 
 <!-- prettier-ignore-end -->
 
 The full list, including system and video events, is on the
-[Events](/docs/motion/reference/events/) page.
+[Events](/docs/design/choreography/reference/events/) page.
 
 ## How it connects
 
-{{ motionDocs.overview.howItConnects | safe }}
+{{ choreographyDocs.overview.howItConnects | safe }}

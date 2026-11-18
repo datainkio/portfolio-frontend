@@ -1,5 +1,5 @@
 ---
-description: "Layout for the living design and motion references: renders a component page's live specimens, call and params, or a choreography module's sidecar and its import-graph facts."
+description: "Layout for the living design and choreography references: renders a component page's live specimens, call and params, or a choreography module's sidecar and its import-graph facts."
 type: template
 tags:
   - layout
@@ -9,12 +9,12 @@ links:
   - "[design-pages](../molecules/list/design-pages.md)"
   - "[design filters](../../eleventy/filters/design.md)"
   - "[design system readers](../../eleventy/collections/designSystem.md)"
-  - "[motion system reader](../../eleventy/collections/motionSystem.md)"
+  - "[choreography system reader](../../eleventy/collections/choreographySystem.md)"
 ---
 
 # Design Doc
 
-Layout for every page under `ia/docs/design/` and `ia/docs/motion/`, set by
+Layout for every page under `ia/docs/design/` and `ia/docs/design/choreography/`, set by
 each folder's directory data file. Extends [[cols-3.njk]] for its third
 column.
 
@@ -42,20 +42,20 @@ asides) is marked `not-prose` so the typography plugin doesn't restyle it.
 | Page                                 | Renders                                                                                                                                   |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Frontmatter names a `component`      | Centre: header, Specimens, Params, Notes. Right: Component (source, sidecar, import), In context, Related                                 |
-| Page carries a `motionModule`        | Centre: header, then the choreography sidecar's body. Right: Module (source, sidecar, status, reduced motion), Built from, Used by, Specs |
+| Page carries a `choreographyModule`  | Centre: header, then the choreography sidecar's body. Right: Module (source, sidecar, status, reduced motion), Built from, Used by, Specs |
 | Anything else (READMEs, token pages) | Centre only: header, then the page's own content                                                                                          |
 
 The sidebar is [[design-pages.njk]], fed
 `collections.all | eleventyNavigation("Design")`. The directory data file
 computes every page's `eleventyNavigation` entry.
 
-### Motion pages
+### Choreography pages
 
-`ia/docs/motion/motion.11tydata.js` sets `docsNav: "Motion"`, which picks the
+`ia/docs/design/choreography/choreography.11tydata.js` sets `docsNav: "Choreography"`, which picks the
 sidebar tree (`eleventyNavigation(docsNav or "Design")`) and its accessible
-name. A page paginated from `motionDocs.modules` carries `motionModule`; the
+name. A page paginated from `choreographyDocs.modules` carries `choreographyModule`; the
 layout renders its `body` (the sidecar's markdown) and its facts, all from
-[motion system reader](../../eleventy/collections/motionSystem.md). `eyebrow`,
+[choreography system reader](../../eleventy/collections/choreographySystem.md). `eyebrow`,
 when set, replaces the tier read from the file path, which a paginated page
 doesn't have.
 

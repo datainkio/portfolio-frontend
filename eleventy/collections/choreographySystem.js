@@ -1,7 +1,7 @@
 /** @format */
 
 /**
- * Motion-system reader for the living reference under ia/docs/motion/.
+ * Choreography-system reader for the living reference under ia/docs/design/choreography/.
  *
  * Everything here is read from files the site already runs, so the reference
  * can't drift from them: module pages come from the sidecars under
@@ -35,7 +35,7 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "../..");
 const BASE = "js/choreography";
-const URL_BASE = "/docs/motion";
+const URL_BASE = "/docs/design/choreography";
 
 /** Sidebar order. A layer this doesn't list still renders, after these. */
 const LAYER_ORDER = [
@@ -566,12 +566,12 @@ function buildConfig(urlFor) {
 let cache;
 
 /**
- * Everything the motion reference renders: `modules` (one per sidecar),
+ * Everything the choreography reference renders: `modules` (one per sidecar),
  * `layers` (one per folder under js/choreography/), `overview` (sections of
  * the choreography README), `config` (contracts and tuning values), and
  * `coverage` (reduced-motion documentation per module).
  */
-export function readMotionDocs() {
+export function readChoreographyDocs() {
   if (cache) return cache;
   const { modules, layers, overview, urlFor } = buildModules();
   cache = {
@@ -598,6 +598,6 @@ export function readMotionDocs() {
 }
 
 /** Drops the cache, so a dev-server rebuild re-reads edited sidecars. */
-export function resetMotionDocs() {
+export function resetChoreographyDocs() {
   cache = undefined;
 }

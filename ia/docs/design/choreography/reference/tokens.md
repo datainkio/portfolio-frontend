@@ -6,12 +6,12 @@ order: 4
 ---
 
 From `motionTokens` in `js/choreography/tokens/motion/motion.js`
-([sidecar](/docs/motion/tokens/motion/motion/)). `npm run build:motion`
+([sidecar](/docs/design/choreography/tokens/motion/motion/)). `npm run build:motion`
 mirrors duration and easing to CSS; the curves are plotted on the design
 system's [motion tokens](/docs/design/tokens/motion/) page. The other groups
 exist only in the choreography.
 
-{% for g in motionDocs.config.tokens %}
+{% for g in choreographyDocs.config.tokens %}
 
 ## {{ g.group }}
 
