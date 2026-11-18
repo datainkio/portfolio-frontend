@@ -25,13 +25,12 @@ Renamed from `GlobalHeaderManager` when the badge replaced the global header
 
 - **With a bus and a hero section** (home, via AnimationDirector): waits for `hero:intro:complete` — the last beat of the landing chain — then removes `hidden` and slides the badge in (`yPercent: -100 → 0`, `motion` base/enter). Nothing waits on it; `header:intro:complete` is the chain's terminal event.
 - **Otherwise**: removes `hidden` immediately, no tween. Covers standalone pages (`js/layouts/badge.js`, no bus) and landing pages without a hero (work, contact). Whichever module runs first claims the badge via `data-badge-init`.
-- **Reduced motion**: removes `hidden` and sets the final state, no tween.
 
 Emits `header:intro:start` and `header:intro:complete` (bus only) in every mode. The event namespace keeps its `header` name.
 
 ## Scroll auto-hide
 
-The ScrollTrigger is created only after the reveal completes, so hide/show can never fire before the intro. Past `SCROLL_THRESHOLD_PX` (80), scrolling down hides the badge and scrolling up shows it. Reduced motion uses `gsap.set` instead of tweens. Auto-hide is paused while the dialog is open.
+The ScrollTrigger is created only after the reveal completes, so hide/show can never fire before the intro. Past `SCROLL_THRESHOLD_PX` (80), scrolling down hides the badge and scrolling up shows it. Auto-hide is paused while the dialog is open.
 
 The badge is `position: fixed`, so neither the reveal nor auto-hide reflows the page (no CLS).
 
@@ -48,7 +47,6 @@ On open the close button animates in after a `motion` slower (1s) delay:
 the from-state immediately, so the button stays invisible through the delay. It
 animates `opacity`, not `autoAlpha`: the button is autofocused on open, and
 `visibility: hidden` would make the browser drop that focus.
-Reduced motion sets the final state at once with `gsap.set`.
 
 Page scroll is locked by CSS while the dialog is open
 (`html:has(dialog[data-badge-el][open])` in `styles/base.css`).
@@ -61,6 +59,12 @@ normalizer and installs an observer that blocks page scroll but lets events
 inside a nested scroller through. The `close` event calls `paused(false)`.
 `ScrollSmoother.get()` is GSAP's own accessor and returns nothing on pages
 without a smoother, where the CSS lock alone applies.
+
+## Reduced motion
+
+- **Reveal:** removes `hidden` and sets the final state, no tween.
+- **Scroll auto-hide:** `gsap.set` replaces the tweens.
+- **Site-map close button:** the final state is set at once with `gsap.set`.
 
 ## Lifecycle
 

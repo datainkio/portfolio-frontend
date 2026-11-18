@@ -118,10 +118,10 @@ longer calls `hero.playLanding()`: after `video:intro:complete` plus the
 (`buildHeadingGelEntrance` / `HERO_GEL_ENTRANCE`) was removed on 2026-09-28; it is
 in git history if a landing gesture returns.
 
-Reduced motion: handled upstream — the profile system swaps hero to the `reduced`
-variant, which does not call this, and the band keeps its markup geometry
-(`absolute inset-0`). BackgroundVideo's gated path snaps it visible.
-
 Visibility caveat: `.gel` sets `mix-blend-mode: multiply`. Against a very dark
 backdrop inside `#sizzle-background` the band can read as near-invisible; force
 `mixBlendMode: "normal"` on the gel element if that happens.
+
+## Reduced motion
+
+The profile system swaps hero to the `reduced` variant, which does not call this, so the band keeps its markup geometry (`absolute inset-0`). BackgroundVideo's gated path snaps it visible.

@@ -43,10 +43,11 @@ is parked at rest when the timelines build (see
 [heading-gel](../../molecules/hero-motion/heading-gel.md)); its visibility belongs
 to BackgroundVideo. Only the intro needs settling.
 
-## Statement SVGs at rest
+## Statement SVGs
 
 Each statement's inline SVG reveal is played by `HeroTriggers` as its panel pins
-(see [HeroAnimations](HeroAnimations.md)). When `_applyResponsiveLifecycle` finds
-lifecycle motion disabled (reduced motion, or the session replay gate), no pins or
-timelines will play, so it calls `animations.showStatementSvgs()` to show all
-statement SVG groups at rest.
+(see [HeroAnimations](HeroAnimations.md)).
+
+## Reduced motion
+
+When lifecycle motion is disabled, no pins or timelines play. `_applyResponsiveLifecycle` then calls `animations.showStatementSvgs()` to show all statement SVG groups at rest. Reduced motion is one cause; the session replay gate also disables lifecycle motion and takes the same path.

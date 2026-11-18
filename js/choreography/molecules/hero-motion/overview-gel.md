@@ -65,11 +65,11 @@ so it must never be a pin target. `hero-overview-gel-sync` sets no `pin`
 `gel.refresh()` (SVG mask re-measure) runs only when the heading height
 changes, not on every scroll tick.
 
-Reduced motion: handled upstream — the profile system swaps hero to the
-`reduced` variant, which does not call this. The band itself is a static
-positioned state, not an animation.
-
 Visibility caveat: `.gel` sets `mix-blend-mode: multiply`. Against a very
 dark backdrop inside `#sizzle-background` the band can read as near-invisible;
 force
 `mixBlendMode: "normal"` on the gel element if that happens.
+
+## Reduced motion
+
+The profile system swaps hero to the `reduced` variant, which does not call this. The band is a static positioned state, not an animation.

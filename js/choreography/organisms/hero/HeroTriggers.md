@@ -34,7 +34,7 @@ Separate from `HERO_TRIGGER` on purpose: flipping `scrub` on the base trigger wo
 - `snap: { snapTo: "labelsDirectional", duration: { min: 0.2, max: 0.6 }, delay: 0.05, ease: "power1.inOut" }` — settles scroll onto the nearest beat label (`outro`, `lines-out`, `gel-open`) in the direction of travel, rather than resting mid-beat. First `snap` usage in the repo — `SCROLL_DEFAULTS.snap` is `false` everywhere else.
 - `onToggle` suspends `hero-heading-gel-sync` (via `suspendHeadingGelSync`/`resumeHeadingGelSync` in `heading-gel.js`) while the pin is active, since the outro's gel-expand beat owns `scaleY` on the same element the sync trigger writes to every scroll tick. On deactivate it resumes the sync and force-`refresh()`s it by id so a scroll-up exit snaps the band back to heading-height immediately.
 - `refreshPriority: 1` so it measures ahead of `HERO_TRIGGER`.
-- Skips creating the pin entirely when the outro timeline has no children — that's the signal for "no split yet" or the `reduced` variant (`buildOutro` returns an empty timeline there), so reduced motion gets no pin.
+- Skips creating the pin entirely when the outro timeline has no children — that's the signal for "no split yet" or the `reduced` variant (`buildOutro` returns an empty timeline there).
 
 Called at the end of `bind()`, re-entrant like the base trigger (`_outroPin?.kill()` first), and killed in `kill()` — `kill()` also force-resumes the gel sync, guarding against a matchMedia teardown mid-pin leaving it permanently suspended.
 
@@ -42,7 +42,7 @@ The now-removed `hero-aside-reveal` ScrollTrigger (previously in `split.js`, fir
 
 ## Band parallax (`hero-band-parallax-<index>`)
 
-`_bindBandParallax()` runs at the end of `bind()`. It finds every `[data-hero-el="band"]` in the section and calls `createBandParallax` for each one, passing its `[data-hero-el="band-image"]`, `HERO_BAND_PARALLAX_TRIGGER` (`SCROLL_DEFAULTS` plus `top bottom` → `bottom top`, `scrub: true`, `once: false`), and `HERO_BAND_PARALLAX.yPercent`. A band without an image gets a no-op handle. The handles are killed before every rebind and in `kill()`. Under reduced motion the profile disables hero's triggers, so `bind()` never runs and the images rest centred.
+`_bindBandParallax()` runs at the end of `bind()`. It finds every `[data-hero-el="band"]` in the section and calls `createBandParallax` for each one, passing its `[data-hero-el="band-image"]`, `HERO_BAND_PARALLAX_TRIGGER` (`SCROLL_DEFAULTS` plus `top bottom` → `bottom top`, `scrub: true`, `once: false`), and `HERO_BAND_PARALLAX.yPercent`. A band without an image gets a no-op handle. The handles are killed before every rebind and in `kill()`.
 
 ## Panel pins (`hero-panel-pin-<index>`)
 
@@ -51,5 +51,12 @@ The now-removed `hero-aside-reveal` ScrollTrigger (previously in `split.js`, fir
 - **Pin spacing:** each pin adds 300px below its statement, which moves every later trigger. `refreshPriority: 1` measures the pins ahead of `HERO_TRIGGER` (`end: "bottom bottom"`) and the band parallax.
 - **Grid:** the pin-spacer takes the panel's place in the section's 12-column grid. ScrollTrigger copies the statement's `grid-column` onto it, so the statements keep `col-span-full`.
 - **Gel goes solid:** the first statement's pin also carries `animation` (from `_buildGelSolid()`) with `toggleActions: "play none none reverse"`. As that statement reaches the top, `gel_hero`'s `--gel-alpha-end` tweens from its markup value (`gel-opacity-end-50`) to `HERO_GEL_SOLID.alphaEnd` (`100%`), using the `slow` duration token and `power2.out`. Scrolling back above the statement reverses it. The class computes to `calc(50 * 1%)`, which GSAP reads as 0, so `_buildGelSolid()` parses the number and passes it as an explicit `fromTo` start. With no gel manager or gel, the pin runs without it.
-- **Lifecycle:** `_killPanelPins()` calls `kill(true)` on each pin, which removes its pin-spacer. It also kills the gel tween and clears the inline `--gel-alpha-end`, so the class's value applies again. It runs before every rebind and in `kill()`. Under reduced motion the profile turns hero's triggers off, so `bind()` never runs and nothing pins.
+- **Lifecycle:** `_killPanelPins()` calls `kill(true)` on each pin, which removes its pin-spacer. It also kills the gel tween and clears the inline `--gel-alpha-end`, so the class's value applies again. It runs before every rebind and in `kill()`.
 - **Statement SVG:** each pin's `onEnter` calls `playStatementSvg(panel)` on [HeroAnimations](HeroAnimations.md), which plays that statement's SVG reveal once. A load or fast scroll past the pin still fires `onEnter` (then `onLeave`), so passed art is never left hidden. Panels with no SVG are no-ops.
+
+## Reduced motion
+
+- The profile system turns hero's triggers off under reduced motion, so `bind()` never runs. No outro pin, band parallax or panel pin is created, and nothing pins or scrubs.
+- The outro pin is skipped because the `reduced` variant's `buildOutro` returns an empty timeline.
+- Band images rest centred, so nothing moves them.
+- Statement SVGs are shown at rest by the Hero controller instead of by panel pins (see [Hero](Hero.md)).

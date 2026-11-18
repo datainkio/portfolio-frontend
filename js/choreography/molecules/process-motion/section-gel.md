@@ -38,12 +38,11 @@ rationale.
 `gel.refresh()` (SVG mask re-measure) runs only when the section height
 changes, not on every scroll tick.
 
-Reduced motion: the `reduced` process variant never calls this, so the gel
-stays parked at `autoAlpha: 0` (`GelAnimationManager`'s default) — no explicit
-disable step needed. The band itself is a static positioned state, not an
-animation.
-
 Visibility caveat: `.gel` sets `mix-blend-mode: multiply`. Against a very
 dark backdrop inside `#sizzle-background` the band can read as near-invisible;
 force
 `mixBlendMode: "normal"` on the gel element if that happens.
+
+## Reduced motion
+
+The `reduced` process variant never calls this, so the gel stays parked at `autoAlpha: 0` (`GelAnimationManager`'s default). No explicit disable step is needed. The band is a static positioned state, not an animation.

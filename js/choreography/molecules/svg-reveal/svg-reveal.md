@@ -18,8 +18,12 @@ links:
 - **Build state:** all groups are hidden (`autoAlpha: 0`) as soon as the molecule builds.
 - **Timeline:** a paused `gsap.timeline`. Each group is added with `fadeIn` at `index * stagger`. The molecule never plays it; the caller plays it from its own trigger.
 - **Defaults:** `duration` from `motion.duration("base")` (ms, converted to seconds), `ease` from `motion.ease("enter")`, `stagger` from `motion.stagger("base")` (seconds). Each can be overridden through `opts`.
-- **`showAll()`:** sets every group to `autoAlpha: 1` at once. This is the reduced-motion path; the caller decides when to use it.
-- **No media query:** the molecule does not read `prefers-reduced-motion`. The caller chooses between `timeline.play()` and `showAll()`.
+- **`showAll()`:** sets every group to `autoAlpha: 1` at once.
 - **Returns `null`** when there is no SVG or it has no top-level groups.
 
 Used by [HeroAnimations](../../organisms/hero/HeroAnimations.md) (`_buildStatementSvgReveals()`), one reveal per statement panel.
+
+## Reduced motion
+
+- The molecule does not read `prefers-reduced-motion`. The caller chooses between `timeline.play()` and `showAll()`.
+- `showAll()` is the reduced-motion path. The caller decides when to use it.
