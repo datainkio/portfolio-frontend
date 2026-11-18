@@ -6,7 +6,7 @@ type: template
 # Design Pages
 
 The sidebar of every page under `/docs/design/`: one list per section
-(Tokens, Atoms, Molecules, Organisms), each divided into labelled role groups
+(Tokens, Decoration, Atoms, Molecules, Organisms, and the choreography layers), each divided into labelled role groups
 (Cards, Lists, Print proof, Homepage sections, …) with the pages beneath.
 Sections collapse; leaf pages are plain links.
 
@@ -29,6 +29,10 @@ title; inside, the first link is "Overview" (the section's own page), then
 the group lists. It is `open` when the current URL is the section's or any of
 its pages'. No JavaScript.
 
+The Design root page can't be a child of itself, so the caller passes it as
+`home`. It renders first, as a plain link with the same current-page
+treatment as the rest.
+
 A top-level entry may carry `part`. When it is set and differs from the
 previous entry's, the entries of that run sit under a label (one step more
 prominent than the group labels). Entries without `part` get no label.
@@ -43,6 +47,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | ------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `nav`        | array  | eleventyNavigation entries (`title`, `url`, `children`). Each child may carry a `group` label; children are expected pre-sorted. A top-level entry may carry `part`. The caller pre-filters. |
 | `currentUrl` | string | The entry whose `url` matches gets `aria-current="page"` and the highlighted style.                                                                                                          |
+| `home`       | object | Optional `{ url, title }`. Renders as the first link, before any part or section. The layout passes the Design root as "Introduction".                                                       |
 | `label`      | string | The `<nav>`'s accessible name. Defaults to "Design section navigation"; the layout passes "Design section navigation".                                                                       |
 
 Fixed design: takes no styling params. Its colours are set for the dark

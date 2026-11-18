@@ -25,11 +25,11 @@ column.
 
 ## Three columns
 
-| Column                 | Content                                                                          | On                                     |
-| ---------------------- | -------------------------------------------------------------------------------- | -------------------------------------- |
-| `sidebarBefore` (left) | [[design-pages.njk]] — the sidebar nav                                           | Every page                             |
-| `content` (centre)     | Header, then Specimens, Params, Notes (component page) or the page's own content | Every page, in `prose prose-invert`    |
-| `sidebarAfter` (right) | Component, In context, Related                                                   | Only when the page names a `component` |
+| Column                 | Content                                                                                        | On                                     |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `sidebarBefore` (left) | [[design-pages.njk]] — the sidebar nav, with the Design root passed as `home` ("Introduction") | Every page                             |
+| `content` (centre)     | Header, then Specimens, Params, Notes (component page) or the page's own content               | Every page, in `prose prose-invert`    |
+| `sidebarAfter` (right) | Component, In context, Related                                                                 | Only when the page names a `component` |
 
 `sidebarAfter` being set (or not) is what turns the third column on or off
 in `cols-3.njk` — a page with no `componentDoc` has nothing to put there.

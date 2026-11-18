@@ -12,6 +12,10 @@ changes with it.
 
 ## What's here
 
+In the order of the sidebar:
+
+- **[Accessibility](accessibility/)**: the contrast of every colour on the
+  site's grounds, and how the choreography handles reduced motion.
 - **[Tokens](tokens/)**: colour, type, spacing, and motion. Figma owns most
   of these values.
 - **[Decoration](decoration/)**: the project utilities built on the tokens:
@@ -20,7 +24,11 @@ changes with it.
 - **[Atoms](atoms/)**, **[Molecules](molecules/)**, and
   **[Organisms](organisms/)**: one page per component under
   `views/atoms/`, `views/molecules/`, and `views/organisms/`, mirroring its
-  path.
+  path. The sidebar groups them under Styling.
+- **[Choreography](choreography/)**: how the site's motion runs, with a page
+  for every module under `js/choreography/`.
+- **[Maintenance](maintenance/)**: how to change this reference, build it,
+  and check it.
 
 ## Using a component
 
@@ -48,10 +56,5 @@ Every component follows the Component API spec
 Each component page lists its params from the component's sidecar (the `.md`
 next to the `.njk`), which stays the authority.
 
-## Adding to the reference
-
-A component page is a Markdown file at
-`ia/docs/design/<path under views/>.md`, with frontmatter naming the
-`component` and listing `specimens`. The contract is in
-`views/layouts/design-doc.md`. New components should get a page when they're
-added.
+Adding a page to the reference is covered in
+[Maintenance](maintenance/).

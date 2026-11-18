@@ -12,7 +12,7 @@
  * (atoms, molecules, organisms, pages) and "System" is a top-level section;
  * the reader says which layer folds into System and where each module sits
  * (`section`, `group`, `order`). A folded layer's index page still builds but
- * has no entry. System's authored pages: strategy first, no group; reference
+ * has no entry. System's authored pages: lifecycle first, no group; reference
  * under "Contracts"; then the reader's modules (orders from 1000).
  */
 

@@ -29,7 +29,8 @@ grid inside one `<nav aria-label="Site map">`:
   list of its top-level entries as plain links, not their pages. An entry with
   a `part` (Styling, Choreography) isn't listed itself: the part's name is,
   once, linking to the part's first entry, so a title two parts share
-  ("Atoms") doesn't appear twice. The full tree is the sidebar of
+  ("Atoms") doesn't appear twice. Top-level pages such as Accessibility and
+  Maintenance appear as links. The full tree is the sidebar of
   [[design-pages.njk]]. "Docs" is the parent the root names but no page
   defines (see `ia/docs/design/design.11tydata.js`), so it is a heading here,
   not a nav key.
