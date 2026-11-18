@@ -19,7 +19,7 @@ Accessible navigation with ARIA labels and semantic structure
   <nav
     class="design-navigation border-l-2 border-neutral-700 pl-4 mb-8"
     role="navigation"
-    aria-label="Design section navigation">
+    aria-label="{{ params.label or 'Design section navigation' }}">
     <ul class="space-y-2" role="list">
       {% for item in designNav %}
         {#- A section with no pages is a dead end; leave it out until it has some. -#}

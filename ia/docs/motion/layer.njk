@@ -1,0 +1,32 @@
+---
+pagination:
+  data: motionDocs.layers
+  size: 1
+  alias: motionLayer
+  addAllPagesToCollections: true
+type: index
+eleventyComputed:
+  title: "{{ motionLayer.title | safe }}"
+  description: "{{ motionLayer.description | safe }}"
+  permalink: "{{ motionLayer.url }}"
+---
+{#- One index page per folder under js/choreography/. The intro is the layer's
+    README; the list is every sidecar in the layer with its description. -#}
+{%- if motionLayer.body %}
+  {{ motionLayer.body | markdownify | safe }}
+{%- endif %}
+
+<section aria-labelledby="modules-heading">
+  <h2 id="modules-heading">Modules</h2>
+  {%- for group in motionLayer.groups %}
+    {%- if group.title %}
+      <h3 id="{{ ('group-' ~ group.title) | slugify }}"><code>{{ group.title }}</code></h3>
+    {%- endif %}
+    <dl>
+      {%- for m in group.modules %}
+        <dt><a href="{{ m.url }}">{{ m.title }}</a></dt>
+        <dd>{{ m.description }}</dd>
+      {%- endfor %}
+    </dl>
+  {%- endfor %}
+</section>

@@ -1,0 +1,14 @@
+---
+pagination:
+  data: motionDocs.modules
+  size: 1
+  alias: motionModule
+  addAllPagesToCollections: true
+type: reference
+eleventyComputed:
+  title: "{{ motionModule.title | safe }}"
+  description: "{{ motionModule.description | safe }}"
+  permalink: "{{ motionModule.url }}"
+---
+{#- One page per choreography sidecar. The layout (design-doc.njk) renders
+    `motionModule`: its body as the page, its facts in the third column. -#}
