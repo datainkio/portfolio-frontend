@@ -102,3 +102,61 @@ cast toward one edge, for drawers and bars that sit against it.</p>
     "bg-primary-500! mask-image-gradient-vertical mask-mode-alpha"
   ]
 }) }}
+
+{{ UtilitySample.render({
+  id: "mask-size",
+  level: 3,
+  name: "Grunge mask and size",
+  file: "styles/utilities/mask.css",
+  syntax: "mask-image-grunge, with mask-size-auto · mask-size-cover · mask-size-contain",
+  note: "The grunge image is 2730 by 615 pixels, so size shows. Auto draws it at full size, so the block shows one corner of it. Cover scales it to fill the block and crops the sides. Contain scales it to fit the width and, with no-repeat, leaves the rest of the block empty. The gradients have no intrinsic size, so these three look the same on them.",
+  examples: [
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-auto",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-cover",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-contain"
+  ]
+}) }}
+
+{{ UtilitySample.render({
+  id: "mask-position",
+  level: 3,
+  name: "Mask position",
+  file: "styles/utilities/mask.css",
+  syntax: "mask-position-top · mask-position-center · mask-position-bottom, and mask-position-left · mask-position-right",
+  note: "Position moves a mask that doesn't fill the block. Top, center and bottom move the contained grunge image, which is shorter than the block. Left and right pick which end of the full-size image shows.",
+  examples: [
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-contain mask-position-top",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-contain mask-position-center",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-contain mask-position-bottom",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-auto mask-position-left",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-repeat-no-repeat mask-size-auto mask-position-right"
+  ]
+}) }}
+
+{{ UtilitySample.render({
+  id: "mask-repeat",
+  level: 3,
+  name: "Mask repeat",
+  file: "styles/utilities/mask.css",
+  syntax: "mask-repeat-repeat · mask-repeat-no-repeat · mask-repeat-repeat-y",
+  note: "The contained grunge image is shorter than the block. Repeat tiles it down the block, no-repeat draws it once, and repeat-y tiles along the vertical axis only. Repeat-x looks the same as no-repeat here, because contain already fills the width.",
+  examples: [
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-size-contain mask-repeat-repeat",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-size-contain mask-repeat-no-repeat",
+    "bg-primary-500! mask-image-grunge mask-mode-luminance mask-size-contain mask-repeat-repeat-y"
+  ]
+}) }}
+
+{{ UtilitySample.render({
+  id: "mask-clip",
+  level: 3,
+  name: "Mask clip",
+  file: "styles/utilities/mask.css",
+  syntax: "mask-clip-border · mask-clip-padding · mask-clip-content",
+  note: "A bordered, padded block under the vertical gradient. Border keeps the border in the mask, padding cuts it away, and content trims the padding too. Mask-clip-text clips to the text of an element with a text background and isn't sampled. Mask-composite needs two stacked masks and each utility sets only one, so it stays syntax.",
+  examples: [
+    "bg-primary-500! border-8 border-accent-400 p-4 mask-image-gradient-vertical mask-mode-luminance mask-clip-border",
+    "bg-primary-500! border-8 border-accent-400 p-4 mask-image-gradient-vertical mask-mode-luminance mask-clip-padding",
+    "bg-primary-500! border-8 border-accent-400 p-4 mask-image-gradient-vertical mask-mode-luminance mask-clip-content"
+  ]
+}) }}
