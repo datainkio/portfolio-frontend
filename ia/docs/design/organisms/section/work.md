@@ -8,6 +8,7 @@ specimens:
     note: The home singleton's featured projects, as the homepage passes them. Cards start in their pre-motion state on docs pages.
     params:
       id: specimen-work
+      headingId: specimen-work-heading
     bind:
       "copy.heading": cms.home.0.workHeading
       "copy.body": cms.home.0.workBodyHtml

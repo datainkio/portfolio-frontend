@@ -8,6 +8,7 @@ specimens:
     note: Live awards, grouped by organization through the groupByOrg filter.
     params:
       id: specimen-awards
+      headingId: specimen-awards-heading
     bind:
       "copy.heading": cms.home.0.recognitionHeading
       awards: collections.awards

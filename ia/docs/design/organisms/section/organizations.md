@@ -8,6 +8,7 @@ specimens:
     note: Live organizations. The homepage passes no heading, so the component's default applies.
     params:
       id: specimen-organizations
+      headingId: specimen-organizations-heading
     bind:
       organizations: collections.organizations
     frame: p-0
