@@ -5,7 +5,7 @@ type: guide
 
 # Deployment
 
-Both environments are GitHub Pages sites built from this repo (`datainkio/portfolio-frontend`) by GitHub Actions. Each run installs with `npm ci`, runs `npm test`, then builds with `npm run quick`; a failing test stops the deploy.
+Both environments are GitHub Pages sites built from this repo (`datainkio/portfolio-frontend`) by GitHub Actions. Each run installs with `npm ci`, runs `npm test`, then builds with `npm run document` (a `quick` build that includes the `/docs/` references); a failing test stops the deploy.
 
 | Env | Trigger | Workflow | Serves from | Domain |
 | --- | --- | --- | --- | --- |
