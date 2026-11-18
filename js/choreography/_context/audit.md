@@ -2,6 +2,7 @@
 title: "Code Review: `js/choreography` Package"
 description: "Reviewed by: Claude (Opus 4.8)"
 type: script
+status: historical
 ---
 
 <!-- @format -->
