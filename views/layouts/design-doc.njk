@@ -246,7 +246,7 @@
       <section aria-labelledby="params-heading" class="space-y-4">
         <h2 id="params-heading">Params</h2>
         {%- if componentDoc.params %}
-          {{ componentDoc.params | markdownify | safe }}
+          {{ componentDoc.params | markdownify(true) | safe }}
         {%- else %}
           <p>The sidecar doesn't list params yet.</p>
         {%- endif %}
@@ -260,7 +260,7 @@
       {%- endif %}
     {%- elif choreographyModule %}
       {%- if choreographyModule.body %}
-        {{ choreographyModule.body | markdownify | safe }}
+        {{ choreographyModule.body | markdownify(true) | safe }}
       {%- else %}
         <p>The sidecar has no notes beyond its description.</p>
       {%- endif %}

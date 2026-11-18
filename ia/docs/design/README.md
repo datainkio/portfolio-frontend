@@ -57,4 +57,4 @@ Each component page lists its params from the component's sidecar (the `.md`
 next to the `.njk`), which stays the authority.
 
 Adding a page to the reference is covered in
-[Maintenance](maintenance/).
+[Maintenance](maintenance/#adding-a-component-page).
