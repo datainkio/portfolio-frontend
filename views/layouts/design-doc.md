@@ -70,7 +70,7 @@ sidecar, which could say something the file no longer does; this reads the
 files themselves, every build, so it can't drift. The section itself is
 left out when both lists are empty.
 
-### Choreography and Animates
+### Choreography, Scripts and Animates
 
 A component page and a module page show the same join from either side.
 `choreographyDocs.componentHooks[componentDoc.importPath]` is a list of
@@ -83,6 +83,12 @@ is left out when its list is empty.
 
 The join is per attribute, so every module that uses `data-hero-el` links to
 every template that emits it, even where a module touches only one element.
+`choreographyDocs.componentScripts[componentDoc.importPath]` is the same list
+for the site's scripts outside the choreography (`js/` minus `js/choreography/`
+and `js/vendor/`): `{ attribute, files }`. They have no reference page, so a
+Scripts block follows Choreography with each file path in `<code>`, unlinked,
+and is left out when empty.
+
 A module that selects by class, id or tag (`.gel`, `a.sexy-link`, the
 `#background` video) has no attribute and joins nothing. A component without a
 reference page isn't listed. A section controller registered in

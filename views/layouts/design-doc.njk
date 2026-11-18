@@ -109,6 +109,23 @@
           {%- endfor %}
         </section>
       {%- endif %}
+
+      {%- set scripts = choreographyDocs.componentScripts[componentDoc.importPath] -%}
+      {%- if scripts.length %}
+        <section aria-labelledby="scripts-heading" class="space-y-3">
+          <h2 id="scripts-heading" class="text-xs font-display uppercase tracking-widest text-accent-400">Scripts</h2>
+          {%- for hook in scripts %}
+            <div class="space-y-1">
+              <p class="mb-0 text-neutral-400"><code class="break-all text-neutral-100">{{ hook.attribute }}</code></p>
+              <ul class="list-disc space-y-1 pl-5">
+                {%- for file in hook.files %}
+                  <li><code class="break-all text-neutral-100">{{ file }}</code></li>
+                {%- endfor %}
+              </ul>
+            </div>
+          {%- endfor %}
+        </section>
+      {%- endif %}
     </div>
   {%- elif choreographyModule %}
     {%- set m = choreographyModule -%}
