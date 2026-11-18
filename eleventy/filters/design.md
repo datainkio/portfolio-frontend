@@ -16,10 +16,11 @@ links:
 Used by [[design-doc]] to render component specimens declared in the
 frontmatter of `ia/docs/design/**` pages.
 
-| Filter                                       | Purpose                                                                                                                                                     |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `specimenParams(params, bind, roots)`        | Clones literal `params`, then sets each `bind` key (a param path) to the value at its data path under `roots`.                                              |
-| `specimenCall(alias, params, bind, content)` | The `{{ Alias.render({...}) }}` source for a specimen, with bound values printed as their data path. A `content` string turns it into a `{% call %}` block. |
+| Filter                                       | Purpose                                                                                                                                                                                                                                       |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `specimenParams(params, bind, roots)`        | Clones literal `params`, then sets each `bind` key (a param path) to the value at its data path under `roots`.                                                                                                                                |
+| `specimenCall(alias, params, bind, content)` | The `{{ Alias.render({...}) }}` source for a specimen, with bound values printed as their data path. A `content` string turns it into a `{% call %}` block.                                                                                   |
+| `squeezeWhitespace(html)`                    | Collapses every whitespace run to one space. `design-doc` applies it to the sidebar nav, whose raw output has runs thousands of characters long that make the HTML minifier take about 40 s per docs build. The minified pages are identical. |
 
 YAML can't hold live data, so a specimen names it by path:
 `bind: { items: "cms.organizations" }`. The layout passes the roots that
