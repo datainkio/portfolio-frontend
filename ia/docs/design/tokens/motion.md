@@ -1,6 +1,6 @@
 ---
 title: Motion
-description: Duration and easing tokens shared by CSS transitions and the GSAP choreography, with each curve plotted against the GSAP ease it runs as, and a toggle to play both.
+description: Duration and easing tokens shared by CSS transitions and the GSAP choreography, with each curve plotted against the GSAP ease it runs as, and the choreography-only token groups.
 type: reference
 templateEngineOverride: njk
 ---
@@ -87,4 +87,24 @@ below do.</p>
     {%- endfor %}
   </ul>
   <p class="text-xs text-neutral-400">The solid curve and upper dot are the token as CSS runs it. The dashed curve and lower dot are the GSAP ease the choreography runs for it. Each dot runs for <code>duration-slow</code>. With reduced motion on, the dots jump instead of travelling.</p>
+</section>
+
+<section aria-labelledby="motion-more" class="mt-12 space-y-6">
+  <h2 id="motion-more">Choreography-only tokens</h2>
+  <p>These groups exist only in the choreography and aren't mirrored to CSS, so there is no utility for them.</p>
+  {%- for g in choreographyDocs.config.tokens %}
+  {%- if g.group != "duration" and g.group != "ease" %}
+  <h3 id="motion-{{ g.group | slugify }}">{{ "Layer order" if g.group == "zLayer" else g.group | capitalize }}</h3>
+  <table>
+    <thead>
+      <tr><th scope="col">Token</th><th scope="col">Value</th></tr>
+    </thead>
+    <tbody>
+      {%- for r in g.rows %}
+      <tr><td><code>{{ r.key }}</code></td><td>{{ r.value }}{{ g.unit }}</td></tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+  {%- endif %}
+  {%- endfor %}
 </section>

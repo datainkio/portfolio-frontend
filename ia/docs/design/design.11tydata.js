@@ -50,13 +50,23 @@ const PARTS = { atoms: "Styling", molecules: "Styling", organisms: "Styling" };
 const GROUPS = {
   tokens: [
     {
+      pages: ["colour", "typography", "spacing", "motion"],
+    },
+  ],
+  decoration: [
+    {
+      title: "Background",
       pages: [
-        "colour",
-        "typography",
-        "spacing",
-        "radius-and-shadow",
-        "motion",
-        "utilities",
+        "background/gels",
+        "background/geometric-patterns",
+        "background/graph-paper",
+      ],
+    },
+    {
+      pages: [
+        "radius-shadow-and-border",
+        "registration-marks",
+        "arrows-and-text",
       ],
     },
   ],
@@ -164,7 +174,12 @@ const GROUPS = {
     { title: "Forms", pages: ["form/field", "form/honeypot"] },
     {
       title: "Docs and tooling",
-      pages: ["list/design-pages", "list/build-info", "section-playback"],
+      pages: [
+        "list/design-pages",
+        "list/build-info",
+        "section-playback",
+        "sample/utility-sample",
+      ],
     },
   ],
   organisms: [

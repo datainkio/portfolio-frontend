@@ -19,7 +19,7 @@ listing it in the sidebar.
   `Docs` doesn't exist, which keeps it out of root-level navigation. Each
   subfolder README is a section under `Design`, ordered by `SECTION_ORDER`
   (times ten). The order holds places for pages that don't exist yet
-  (introduction, accessibility, decoration, maintenance) and a slot,
+  (introduction, accessibility, maintenance) and a slot,
   `choreography`, that the choreography reference's entries fill. Atoms,
   molecules and organisms carry `part: "Styling"`, which the sidebar renders as
   a label. Every other page sits under its section with a `group` and an

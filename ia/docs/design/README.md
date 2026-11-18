@@ -12,8 +12,11 @@ changes with it.
 
 ## What's here
 
-- **[Tokens](tokens/)**: colour, type, spacing, radius, shadow, motion, and
-  the project utilities built on them. Figma owns most of these values.
+- **[Tokens](tokens/)**: colour, type, spacing, and motion. Figma owns most
+  of these values.
+- **[Decoration](decoration/)**: the project utilities built on the tokens:
+  gels, patterns and graph paper, radius, shadow and borders, masks,
+  registration marks, and arrows.
 - **[Atoms](atoms/)**, **[Molecules](molecules/)**, and
   **[Organisms](organisms/)**: one page per component under
   `views/atoms/`, `views/molecules/`, and `views/organisms/`, mirroring its
