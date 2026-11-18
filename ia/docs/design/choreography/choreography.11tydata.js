@@ -1,26 +1,34 @@
 /**
  * Directory data file: ia/docs/design/choreography/
  *
- * Every page here uses the design-doc layout with the "Choreography" sidebar. Two
+ * Layout and stylesheet come from the Design folder's data file above. Two
  * templates are paginated over the `choreographyDocs` global (see
  * eleventy/collections/choreographySystem.js): module.njk makes one page per
  * choreography sidecar, and layer.njk one per folder under js/choreography/.
  * No page restates a sidecar, so the sidecars stay the authority.
  *
- * Navigation: this folder's README is the "Choreography" key, under the same
- * nonexistent "Docs" parent the Design reference names. Sections follow:
- * the authored ones in SECTION_ORDER, then one per choreography layer in the
- * reader's order. A module's `group` and `order` come from the reader.
+ * Navigation: everything is a child of the "Design" root, under the part
+ * "Choreography". The README is a leaf, "Overview". Each own-section layer
+ * (atoms, molecules, organisms, pages) and "System" is a top-level section;
+ * the reader says which layer folds into System and where each module sits
+ * (`section`, `group`, `order`). A folded layer's index page still builds but
+ * has no entry. System's authored pages: strategy first, no group; reference
+ * under "Contracts"; then the reader's modules (orders from 1000).
  */
 
-/** Authored sections, ahead of the generated layer sections. */
-const SECTION_ORDER = ["strategy", "reference"];
+const PART = "Choreography";
+
+/**
+ * Top-level slot for this part, between design.11tydata.js's "organisms" and
+ * "maintenance". Sections take fractions of it so they stay together.
+ */
+const SLOT = 70;
+
+const CONTRACTS_GROUP = "Contracts";
+/** Authored pages sort ahead of the reader's modules, which start at 1000. */
+const CONTRACTS_ORDER = 100;
 
 export default {
-  layout: "layouts/design-doc.njk",
-  // Site stylesheet plus the reference-only classes; see styles/docs.css.
-  stylesheet: "/assets/docs.css",
-  docsNav: "Choreography",
   eleventyComputed: {
     eyebrow: (data) => data.choreographyModule?.layer,
 
@@ -31,7 +39,7 @@ export default {
       if (mod) {
         return {
           key: mod.url,
-          parent: `choreography/${mod.layer}`,
+          parent: mod.section,
           title: mod.name,
           group: mod.group || undefined,
           order: mod.order,
@@ -39,11 +47,14 @@ export default {
       }
       const layer = data.choreographyLayer;
       if (layer) {
+        // A folded layer is reached from the System page, not the sidebar.
+        if (layer.folded) return undefined;
         return {
-          key: `choreography/${layer.name}`,
-          parent: "Choreography",
+          key: layer.section,
+          parent: "Design",
           title: layer.title,
-          order: SECTION_ORDER.length + layer.order,
+          part: PART,
+          order: SLOT + (layer.sectionOrder + 1) / 10,
         };
       }
 
@@ -51,25 +62,22 @@ export default {
       const parts = stem
         .replace(/^\/docs\/design\/choreography\/?/, "")
         .split("/");
-      const title = data.title;
       if (parts.length === 1 && parts[0] === "README") {
-        return { key: "Choreography", parent: "Docs", title };
-      }
-      const section = parts[0];
-      if (parts.length === 2 && parts[1] === "README") {
-        const order = SECTION_ORDER.indexOf(section);
         return {
-          key: `choreography/${section}`,
-          parent: "Choreography",
-          title,
-          order: order < 0 ? 99 : order,
+          key: stem,
+          parent: "Design",
+          title: "Overview",
+          part: PART,
+          order: SLOT,
         };
       }
+      const inContracts = parts[0] === "reference";
       return {
         key: stem,
-        parent: `choreography/${section}`,
-        title,
-        order: data.order ?? 99,
+        parent: "choreography/system",
+        title: data.title,
+        group: inContracts ? CONTRACTS_GROUP : undefined,
+        order: (inContracts ? CONTRACTS_ORDER : 0) + (data.order ?? 99),
       };
     },
   },

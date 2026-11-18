@@ -3,7 +3,7 @@
 {#- STYLES -#}
 {%- set headingClasses = {"base": "mb-2 text-xs uppercase tracking-widest text-neutral-500"} -%}
 {%- set listClasses = {"base": "space-y-2"} -%}
-{#- Design's sections sit beneath the Design link, indented and a step smaller -#}
+{#- Design's entries sit beneath the Design link, indented and a step smaller -#}
 {%- set subListClasses = {"base": "mt-2 ml-1 pl-4 space-y-1 border-l border-neutral-700"} -%}
 {%- set subLinkStyles = {
   "item": {
@@ -42,25 +42,26 @@
     </section>
 
     <section>
-      {#- "Docs" is the parent the Design and Choreography nav roots name but no
-          page defines (see ia/docs/design/design.11tydata.js), so its
-          children are those two references. -#}
+      {#- "Docs" is the parent the Design nav root names but no page defines
+          (see ia/docs/design/design.11tydata.js), so its one child is Design. -#}
       <h2 class="{{ headingClasses | classes }}">Docs</h2>
       {%- for root in pages | eleventyNavigation("Docs") %}
         {{ MainPages.render({ items: [root], currentUrl: params.currentUrl, classes: listClasses, styles: linkStyles }) }}
 
-        {#- Design's sections only, not their pages, directly beneath the
-            Design link. A section with no pages is a dead end, so it waits
-            until it has some (as design-pages does). Choreography has a section
-            per choreography layer, too many to list here; its own sidebar
-            carries them. -#}
-        {%- if root.key == "Design" %}
-          {%- set designSections = [] -%}
-          {%- for section in root.children -%}
-            {%- if section.children.length -%}{%- set _ = designSections.push(section) -%}{%- endif -%}
-          {%- endfor -%}
-          {{ MainPages.render({ items: designSections, currentUrl: params.currentUrl, classes: subListClasses, styles: subLinkStyles }) }}
-        {%- endif %}
+        {#- Design's top-level entries, not their pages, beneath the Design
+            link. Each `part` appears once, as its name linking to the first
+            entry of that part. -#}
+        {%- set designEntries = [] -%}
+        {%- set seenParts = [] -%}
+        {%- for entry in root.children -%}
+          {%- if not entry.part -%}
+            {%- set _ = designEntries.push(entry) -%}
+          {%- elif entry.part not in seenParts -%}
+            {%- set _ = seenParts.push(entry.part) -%}
+            {%- set _ = designEntries.push({ title: entry.part, url: entry.url }) -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {{ MainPages.render({ items: designEntries, currentUrl: params.currentUrl, classes: subListClasses, styles: subLinkStyles }) }}
       {%- endfor %}
     </section>
 

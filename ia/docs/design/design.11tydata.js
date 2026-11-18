@@ -7,7 +7,9 @@
  * sidecar, so the reference never restates them.
  *
  * Navigation: this folder's README is the "Design" key; each subfolder's
- * README is a section under it; every other page sits under its section.
+ * README is a section under it; every other page sits under its section. The
+ * choreography reference (choreography/) puts its own sections under the same
+ * key.
  * "Design" names a "Docs" parent that doesn't exist, which keeps it out of
  * root-level eleventyNavigation lists such as primary-nav's fallback.
  *
@@ -18,14 +20,26 @@
  */
 import { readComponentSidecar } from "../../../eleventy/collections/designSystem.js";
 
+/**
+ * Top-level order, times ten. Names with no page yet (introduction,
+ * accessibility, decoration, maintenance) hold their place for a later
+ * commit. "choreography" is the slot the choreography reference fills; see
+ * choreography/choreography.11tydata.js.
+ */
 const SECTION_ORDER = [
+  "introduction",
+  "accessibility",
   "tokens",
+  "decoration",
   "atoms",
   "molecules",
   "organisms",
-  "templates",
-  "layouts",
+  "choreography",
+  "maintenance",
 ];
+
+/** Sections that sit under a sidebar part label. */
+const PARTS = { atoms: "Styling", molecules: "Styling", organisms: "Styling" };
 
 /**
  * Sidebar groups per section. Keys are a page's path under its section
@@ -245,7 +259,8 @@ export default {
           key: `design/${section}`,
           parent: "Design",
           title,
-          order: order < 0 ? 99 : order,
+          part: PARTS[section],
+          order: order < 0 ? 990 : order * 10,
         };
       }
       if (parts.length === 1) {

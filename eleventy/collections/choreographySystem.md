@@ -43,8 +43,25 @@ build; `resetChoreographyDocs()` runs on `eleventy.before`.
   `documented` is `section` when the sidecar has a `## Reduced motion`
   heading, `mentioned` when its text covers it elsewhere, else `none`. The
   two code flags are text searches of the source.
-- `group`, `order`: sidebar placement. Modules straight under the layer come
-  first, then one group per subfolder holding more than one page.
+- `section`, `group`, `order`: sidebar placement. `section` is the nav key the
+  page sits under (`choreography/<layer>`, or `choreography/system` for a
+  folded layer). Within an own section, modules straight under the layer come
+  first, then one group per subfolder holding more than one page. In System,
+  one group per layer instead: "Core" (the system layer, with the root-level
+  entry points) then each folded layer titled with the layer, in
+  `LAYER_ORDER`. The subfolder groups are dropped and the relative order is
+  kept; `order` is offset by 1000 per group, leaving room below for the
+  authored pages.
+
+## A layer record
+
+`name`, `title`, `url`, `description`, `body`, `groups` (subfolder groups, for
+the index page), `count`, plus the sidebar facts: `section`, `sectionOrder`,
+and `folded`. `SECTION_LAYERS` names the layers with a section of their own
+(atoms, molecules, organisms, pages, system); every other layer, including one
+added later, is `folded` into System. A folded layer's index page still builds
+but has no sidebar entry. The system layer also carries `foldedLayers`
+(title, url, count, description), which `layer.njk` lists on the System page.
 
 ## Import graph
 

@@ -1,5 +1,5 @@
 ---
-description: "Directory data for the choreography reference: sets the design-doc layout and the Choreography sidebar, and computes every page's sidebar entry, including the pages paginated from choreography sidecars."
+description: "Directory data for the choreography reference: computes every page's entry in the Design nav tree, including the pages paginated from choreography sidecars."
 permalink: false
 eleventyExcludeFromCollections: true
 ---
@@ -12,23 +12,28 @@ listing it in the sidebar.
 
 ## What it sets for every page under `ia/docs/design/choreography/`
 
-- `layout: layouts/design-doc.njk` and `stylesheet: /assets/docs.css`, the
-  same as the design reference.
-- `docsNav: "Choreography"`, which the layout uses to pick the sidebar tree.
+Layout and stylesheet come from `design.11tydata.js` one folder up.
+
 - `eyebrow`: a module page's layer, shown above its title.
-- `eleventyNavigation`: this folder's README is the `Choreography` key under the
-  `Docs` parent. Authored sections (`strategy`, `reference`) come first, in
-  `SECTION_ORDER`; then one section per choreography layer. An authored page
-  sorts by its `order` frontmatter. A module page takes its `group` and
-  `order` from the reader.
+- `eleventyNavigation`: everything is a child of the `Design` root, under the
+  part `Choreography`, in the slot `design.11tydata.js` reserves.
+  - The README is a leaf titled "Overview" (its page title stays
+    "Choreography").
+  - Atoms, Molecules, Organisms, Pages and System are top-level sections, from
+    the layer index pages. A layer the reader folds into System has no entry.
+  - System's authored pages: Lifecycle and Accessibility first with no group,
+    the `reference/` pages under "Contracts" (by their `order`).
+  - A module page takes its parent section, `group` and `order` from the
+    reader. System's modules start at order 1000, so they follow the authored
+    pages.
 
 ## Where the pages come from
 
-| Page                                           | Source                                                  |
-| ---------------------------------------------- | ------------------------------------------------------- |
-| `/docs/design/choreography/<layer>/`           | `layer.njk`, paginated over `choreographyDocs.layers`   |
-| `/docs/design/choreography/<path to sidecar>/` | `module.njk`, paginated over `choreographyDocs.modules` |
-| Strategy and reference pages                   | Markdown files here, reading `choreographyDocs`         |
+| Page                                           | Source                                                                    |
+| ---------------------------------------------- | ------------------------------------------------------------------------- |
+| `/docs/design/choreography/<layer>/`           | `layer.njk`, paginated over `choreographyDocs.layers`                     |
+| `/docs/design/choreography/<path to sidecar>/` | `module.njk`, paginated over `choreographyDocs.modules`                   |
+| Strategy and reference pages                   | Markdown files here, reading `choreographyDocs`; they have no index pages |
 
 The reader is `eleventy/collections/choreographySystem.js`. To change what a module
 page says, edit the module's sidecar under `js/choreography/`.
