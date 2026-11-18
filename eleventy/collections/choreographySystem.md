@@ -22,13 +22,14 @@ build; `resetChoreographyDocs()` runs on `eleventy.before`.
 
 ## What it returns
 
-| Key        | Holds                                                                                  |
-| ---------- | -------------------------------------------------------------------------------------- |
-| `modules`  | One record per sidecar under `js/choreography/` (not `_context/`, not layer READMEs)   |
-| `layers`   | One record per folder: its README's intro, and its modules in sidebar groups           |
-| `overview` | Sections of `js/choreography/README.md`, and the rules from the accessibility policy   |
-| `config`   | Events, selectors, timeline ids, presets, profiles, breakpoints, tokens, as table rows |
-| `coverage` | Every module that binds a ScrollTrigger or branches on reduced motion, and its docs    |
+| Key              | Holds                                                                                   |
+| ---------------- | --------------------------------------------------------------------------------------- |
+| `modules`        | One record per sidecar under `js/choreography/` (not `_context/`, not layer READMEs)    |
+| `layers`         | One record per folder: its README's intro, and its modules in sidebar groups            |
+| `overview`       | Sections of `js/choreography/README.md`, and the rules from the accessibility policy    |
+| `config`         | Events, selectors, timeline ids, presets, profiles, breakpoints, tokens, as table rows  |
+| `coverage`       | Every module that binds a ScrollTrigger or branches on reduced motion, and its docs     |
+| `componentHooks` | Component path (as in page frontmatter) to `[{ attribute, modules: [{ title, url }] }]` |
 
 ## A module record
 
@@ -39,6 +40,8 @@ build; `resetChoreographyDocs()` runs on `eleventy.before`.
 - `body`: the sidecar's markdown without its H1, with links rewritten (below).
 - `builtFrom`, `usedBy`: from the import graph.
 - `specs`: files in `specs/animation/` that name the module's JS file.
+- `animates`: `[{ attribute, components: [{ title, url }] }]`, the component
+  pages whose templates emit each attribute the module uses (see Hooks).
 - `reducedMotion`: `{ usesScrollTrigger, codeBranch, documented }`.
   `documented` is `section` when the sidecar has a `## Reduced motion`
   heading, `mentioned` when its text covers it elsewhere, else `none`. The
@@ -70,6 +73,34 @@ browser path and can't be loaded in Node. A specifier is resolved whether it
 is relative or starts with `/assets/js/`. An import from a barrel is traced
 through to the file that defines each imported name, so "Built from" names
 the real module and not `index`. Barrels aren't listed under "Used by".
+
+## Hooks: components and the modules that animate them
+
+Templates emit `data-<name>-el` attributes and modules bind to them, so the
+attribute is the join key. Nothing is mapped by hand.
+
+- **Templates:** the attribute names in the text of every `.njk` under
+  `views/atoms`, `molecules` and `organisms`.
+- **Modules:** the attribute names that appear as literals in a module's JS,
+  plus those it reaches by importing from `selectors.js`. The import is traced
+  through barrels to the file that defines the name, and the export's value
+  (`elementAttribute`, or any string value matching the pattern) is read from
+  the selectors module itself. A constant a module defines locally, such as
+  `WORK_EL_ATTR = "data-projects-el"` or
+  `HERO_EL_ATTR = HERO_SELECTORS.elementAttribute`, is caught either way: by
+  the literal, or by the import of `HERO_SELECTORS`.
+- **Not users:** `selectors.js` itself, which defines the constants, and
+  barrels.
+- **Output:** each module's `animates`, and `componentHooks`. Both are sorted
+  by attribute, then title. Components without a reference page are left out,
+  and so are empty lists.
+
+Limits. The join is per attribute: every module that uses `data-hero-el` links
+to every template that emits it, even if it animates one element. A module that
+imports a selectors object for another key, but never touches its attribute,
+still counts. Modules that select by class, id or tag (`.gel`, `a.sexy-link`,
+the `#background` video) have no attribute and don't join. An attribute emitted
+by a template and used by no module (or the reverse) produces no link.
 
 ## Links in sidecar bodies
 

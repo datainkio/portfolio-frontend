@@ -227,7 +227,71 @@ function buildImportGraph(jsFiles) {
       importedBy.get(target).push(file);
     }
   }
-  return { imports, importedBy, source };
+  return { imports, importedBy, source, exportsOf, isBarrel };
+}
+
+/* ------------------------------------------------------------------ */
+/* Hooks: the data-*-el attributes that join templates to modules       */
+/* ------------------------------------------------------------------ */
+
+const HOOK_RE = /data-[a-z]+(?:-[a-z]+)*-el(?![\w-])/g;
+const HOOK_EXACT_RE = /^data-[a-z]+(?:-[a-z]+)*-el$/;
+/** The file that defines the attribute constants; it declares hooks, uses none. */
+const SELECTORS_FILE = "config/contracts/selectors/selectors.js";
+const COMPONENT_LAYERS = ["atoms", "molecules", "organisms"];
+
+/** Every attribute name in `text`, as a sorted set. */
+const hooksIn = (text) => new Set(text.match(HOOK_RE) ?? []);
+
+/** A selectors export's attribute names: itself, or any string value inside it. */
+const hooksOfValue = (value) =>
+  typeof value === "string"
+    ? HOOK_EXACT_RE.test(value)
+      ? [value]
+      : []
+    : value && typeof value === "object"
+      ? Object.values(value).flatMap(hooksOfValue)
+      : [];
+
+/** Every `.njk` under views/atoms|molecules|organisms → its attribute names. */
+function templateHooks() {
+  const out = new Map();
+  const walkViews = (dir) => {
+    for (const entry of readdirSync(join(ROOT, "views", dir), {
+      withFileTypes: true,
+    })) {
+      const rel = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) walkViews(rel);
+      else if (entry.name.endsWith(".njk")) {
+        const hooks = hooksIn(read(`views/${rel}`));
+        if (hooks.size) out.set(rel, hooks);
+      }
+    }
+  };
+  for (const layer of COMPONENT_LAYERS) walkViews(layer);
+  return out;
+}
+
+/**
+ * A module's attribute names: literals in its text, plus those carried by
+ * anything it imports from selectors.js, followed through barrels to the file
+ * that defines the name. The selectors file and barrels use nothing.
+ */
+function moduleHooks(file, graph) {
+  if (file === SELECTORS_FILE || graph.isBarrel(file)) return new Set();
+  const text = graph.source.get(file);
+  const hooks = hooksIn(text);
+  for (const [, kind, clause, spec] of text.matchAll(FROM_RE)) {
+    if (kind !== "import") continue;
+    const target = resolveSpecifier(file, spec);
+    if (!graph.source.has(target)) continue;
+    const exported = graph.exportsOf(target);
+    for (const name of namedList(clause)) {
+      if ((exported.get(name) || target) !== SELECTORS_FILE) continue;
+      hooksOfValue(selectorSets[name]).forEach((h) => hooks.add(h));
+    }
+  }
+  return hooks;
 }
 
 /* ------------------------------------------------------------------ */
@@ -310,6 +374,7 @@ function buildModules() {
   // Design-reference pages by component file name, so a sidecar that names a
   // template (`[[badge.njk]]`) links to that component's page.
   const designPages = new Map();
+  const designByComponent = new Map();
   const walkDesign = (dir) => {
     for (const entry of readdirSync(join(ROOT, "ia/docs/design", dir), {
       withFileTypes: true,
@@ -320,6 +385,14 @@ function buildModules() {
         const name = entry.name.replace(/\.md$/, "");
         const url = `/docs/design/${rel.replace(/\.md$/, "")}/`;
         designPages.set(name, designPages.has(name) ? "" : url);
+        if (COMPONENT_LAYERS.includes(rel.split("/")[0])) {
+          designByComponent.set(rel.replace(/\.md$/, ".njk"), {
+            title:
+              parseSidecar(read(`ia/docs/design/${rel}`)).title ||
+              titleCase(name),
+            url,
+          });
+        }
       }
     }
   };
@@ -405,6 +478,46 @@ function buildModules() {
           ? "mentioned"
           : "none",
     };
+  }
+
+  // Components and modules that share a data-*-el attribute. The join is per
+  // attribute; a component without a reference page is left out.
+  const byAttribute = new Map();
+  const slot = (attribute) => {
+    if (!byAttribute.has(attribute)) {
+      byAttribute.set(attribute, { components: [], modules: [] });
+    }
+    return byAttribute.get(attribute);
+  };
+  for (const [path, hooks] of templateHooks()) {
+    const page = designByComponent.get(path);
+    if (page) hooks.forEach((h) => slot(h).components.push({ path, ...page }));
+  }
+  for (const m of modules) {
+    if (!m.js) continue;
+    for (const h of moduleHooks(m.js, graph)) slot(h).modules.push(m);
+  }
+  const byTitle = (a, b) =>
+    a.title.localeCompare(b.title) || a.url.localeCompare(b.url);
+  const pick = ({ title, url }) => ({ title, url });
+  const attributes = [...byAttribute].sort(([a], [b]) => a.localeCompare(b));
+  for (const m of modules) {
+    m.animates = attributes
+      .filter(([, v]) => v.modules.includes(m) && v.components.length)
+      .map(([attribute, v]) => ({
+        attribute,
+        components: v.components.map(pick).sort(byTitle),
+      }));
+  }
+  const componentHooks = {};
+  for (const [attribute, v] of attributes) {
+    if (!v.modules.length) continue;
+    for (const c of v.components) {
+      (componentHooks[c.path] ??= []).push({
+        attribute,
+        modules: v.modules.map(pick).sort(byTitle),
+      });
+    }
   }
 
   // Sidebar placement: modules straight under the layer first, then one
@@ -509,6 +622,7 @@ function buildModules() {
         "Hard Rules \\(Must\\)",
       ),
     },
+    componentHooks,
     urlFor: (path) => byPath.get(path)?.url || "",
   };
 }
@@ -615,9 +729,10 @@ let cache;
  */
 export function readChoreographyDocs() {
   if (cache) return cache;
-  const { modules, layers, overview, urlFor } = buildModules();
+  const { modules, layers, overview, componentHooks, urlFor } = buildModules();
   cache = {
     modules,
+    componentHooks,
     layers,
     overview,
     config: buildConfig(urlFor),
