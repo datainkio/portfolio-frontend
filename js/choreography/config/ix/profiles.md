@@ -12,7 +12,7 @@ links:
 
 # profiles
 
-Per-breakpoint motion profiles + section overrides. Exports `ACCESSIBILITY_SETTINGS`, `SECTION_OVERRIDES`, and `resolveSectionMotionProfile`; `MOTION_PROFILES` and `getActiveMotionProfileKey` are module-private. `resolveSectionMotionProfile(sectionKey, conditions)` shallow-merges `SECTION_OVERRIDES[section][key]` over `MOTION_PROFILES[key]`. `reduced` always wins (via `getActiveMotionProfileKey`); `ACCESSIBILITY_SETTINGS.testReducedMotion` is the dev force-on chokepoint.
+Per-breakpoint motion profiles + section overrides. Exports `ACCESSIBILITY_SETTINGS`, `SECTION_OVERRIDES`, and `resolveSectionMotionProfile`; `MOTION_PROFILES` and `getActiveMotionProfileKey` are module-private. `resolveSectionMotionProfile(sectionKey, conditions)` shallow-merges `SECTION_OVERRIDES[section][key]` over `MOTION_PROFILES[key]`.
 
 ## Channels (post-Drop)
 
@@ -29,4 +29,9 @@ Per-breakpoint motion profiles + section overrides. Exports `ACCESSIBILITY_SETTI
 
 - **`flat`** (`base`–`md`) — no perspective tilt; portrait and narrow viewports stay flat for MTP.
 - **`perspective`** (`lg`, `xl`) — the background settles into its two-point tilt after the reveal.
-- No `reduced` key: reduced motion decides how the tilt arrives (snapped), not whether. `BackgroundVideo` resolves the breakpoint tier's variant with reduced motion set aside. Side effect: `ACCESSIBILITY_SETTINGS.testReducedMotion` forces `reduced` even then, so the dev override leaves the background flat.
+
+## Reduced motion
+
+- `reduced` always wins over the breakpoint profile. `getActiveMotionProfileKey` returns it whenever reduced motion is on.
+- `ACCESSIBILITY_SETTINGS.testReducedMotion` is the dev force-on chokepoint. Setting it forces `reduced` regardless of the OS setting.
+- The background video has no `reduced` key. Reduced motion decides how the tilt arrives (snapped), not whether. `BackgroundVideo` resolves the breakpoint tier's variant with reduced motion set aside. `testReducedMotion` forces `reduced` even then, so the dev override leaves the background flat.

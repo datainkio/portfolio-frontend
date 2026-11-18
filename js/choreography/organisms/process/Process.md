@@ -22,8 +22,12 @@ behavior to `ProcessAnimations` and `ProcessTriggers`.
 `animations.rebuild(variant)` before the base class runs — so a matchMedia
 breakpoint change (which reverts and kills the prior context's tweens) rebuilds
 the timelines with a fresh variant instance. The default variant is
-`blockframes`; reduced motion resolves to `reduced` (empty intro, no grid fill).
+`blockframes`.
 
 The Blockframes display + reveal migrated here from the Hero section. The scroll
 reveal itself is self-driving (`process-motion/blockframes.js` owns its own
 once-fire ScrollTrigger); the intro timeline the variant returns is empty.
+
+## Reduced motion
+
+Under reduced motion, `resolveSectionMotionProfile` resolves to `reduced`. The `reduced` variant has an empty intro and no grid fill.

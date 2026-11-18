@@ -23,7 +23,7 @@ links:
 Registered as `AWARD_VARIANT_FACTORIES.reduced` in
 [[molecules/award-motion/award-motion|award-motion.js]].
 
-## Behavior
+## Reduced motion
 
 Every factory returns a bare `gsap.timeline()`. Nothing is animated, no gel is
 touched, and no ScrollTrigger is created — the awards section is shown at its

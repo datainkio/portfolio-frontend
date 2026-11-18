@@ -145,6 +145,12 @@ sequenceDiagram
   Note over LS: destroy(): kill _heroHoldCall, reset all flags,<br/>unsubscribe Bus listeners, clear references
 ```
 
+## Reduced motion
+
+- The landing hold is zero: `_armHeroIntro` waits 0 instead of `HERO_INTRO_HOLD.delay`, so the hero intro follows `video:intro:complete` with no beat.
+- A gated profile still emits the `…:intro:complete` events. `AbstractSection` jumps the intro to `progress(1)`, so the chain completes without motion instead of stalling.
+- Under reduced motion `_resumeBackgroundVideo` is a no-op, so Hero's scroll gate never resumes the background video.
+
 ## Motion strategy
 
 ```mermaid
@@ -196,7 +202,6 @@ flowchart TD
 - **`playLanding()` is awaited before latch B is set.** Revealing while `playLanding()` is still tweening toward autoAlpha 0 would be undone by it.
 - **The chain ends at `hero:intro:complete`.** BadgeManager listens for it on home and reveals the header as the final beat. Pages without a hero reveal the header immediately.
 - **Every link is an event, not a call.** Cross-section coordination goes through `AnimationBus` with `EVENTS` constants — `LandingSequence` never reaches into an organism's internals beyond its public `play*` methods and `video.videoEl`.
-- **Reduced motion zeroes holds rather than skipping links.** A gated profile still emits `…:intro:complete` (`AbstractSection` jumps the intro to `progress(1)`), so the chain completes without motion instead of stalling.
 - **Timers are `gsap.delayedCall`, never `setTimeout`** — ticker-synced, pausable, killable in `destroy()`.
 - **Hero's reveal is disengaged from scroll; its ScrollTrigger gates video playback.** The video plays while Hero is on screen and pauses once you scroll past it. Only play/pause changes — the gels in `#sizzle-background` blend against the video's painted frame, so a paused video holds the composite unchanged.
 - **`exit` is not directional.** `AbstractSection._onLeaveBack` emits `onLeaveBack` and then `exit`. The `onLeaveBack` listener sets `_heroLeftBackwards` so the `exit` that follows skips the pause; scrolling up above Hero is the landing, where the video should keep playing.

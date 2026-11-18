@@ -24,7 +24,7 @@ links:
 Registered as `HERO_VARIANT_FACTORIES.reduced` in
 [[molecules/hero-motion/hero-motion|hero-motion.js]].
 
-## Behavior
+## Reduced motion
 
 `init` does the one thing that genuinely needs JS under reduced motion: it sets
 `gel_tagline` to `autoAlpha: 1` and calls `gel.refresh()` on it.
