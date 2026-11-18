@@ -188,7 +188,12 @@ const GROUPS = {
   organisms: [
     {
       title: "Chrome",
-      pages: ["header/badge", "footer/global-footer", "status/preloader"],
+      pages: [
+        "header/badge",
+        "status/build-view/build-view",
+        "footer/global-footer",
+        "status/preloader",
+      ],
     },
     {
       title: "Navigation",
