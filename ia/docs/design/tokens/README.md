@@ -41,7 +41,7 @@ The current colour file was generated from Figma file
   default theme, so keeping them out is up to you until the planned lint rule
   lands.
 - For invalid states, use `semantic-fail`. On paper, check the
-  [contrast figures](../accessibility/) first: the semantic colours fall short of 4.5:1 there, which is why the
+  [contrast figures](../accessibility/) first: `semantic-fail` (4.1:1) and `semantic-success` (3.8:1) fall short of 4.5:1 there, which is why the
   contact form's status text uses `tertiary-600` and `secondary-700`.
 - Project utilities built on these tokens (gels, inner borders, registration
   marks, masks) are in the [Decoration section](../decoration/).

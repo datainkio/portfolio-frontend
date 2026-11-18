@@ -29,7 +29,7 @@ column.
 | ---------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------- |
 | `sidebarBefore` (left) | [[design-pages.njk]] — the sidebar nav, with the Design root passed as `home` ("Introduction") | Every page                             |
 | `content` (centre)     | Header, then Specimens, Params, Notes (component page) or the page's own content               | Every page, in `prose prose-invert`    |
-| `sidebarAfter` (right) | Component, In context, Related                                                                 | Only when the page names a `component` |
+| `sidebarAfter` (right) | Component, In context, Related, Choreography                                                   | Only when the page names a `component` |
 
 `sidebarAfter` being set (or not) is what turns the third column on or off
 in `cols-3.njk` — a page with no `componentDoc` has nothing to put there.
@@ -39,11 +39,11 @@ asides) is marked `not-prose` so the typography plugin doesn't restyle it.
 
 ## Page shapes
 
-| Page                                 | Renders                                                                                                                                   |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Frontmatter names a `component`      | Centre: header, Specimens, Params, Notes. Right: Component (source, sidecar, import), In context, Related                                 |
-| Page carries a `choreographyModule`  | Centre: header, then the choreography sidecar's body. Right: Module (source, sidecar, status, reduced motion), Built from, Used by, Specs |
-| Anything else (READMEs, token pages) | Centre only: header, then the page's own content                                                                                          |
+| Page                                 | Renders                                                                                                                                             |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontmatter names a `component`      | Centre: header, Specimens, Params, Notes. Right: Component (source, sidecar, import), In context, Related, Choreography                             |
+| Page carries a `choreographyModule`  | Centre: header, then the choreography sidecar's body. Right: Module (source, sidecar, status, reduced motion), Built from, Used by, Animates, Specs |
+| Anything else (READMEs, token pages) | Centre only: header, then the page's own content                                                                                                    |
 
 The sidebar is [[design-pages.njk]], fed
 `collections.all | eleventyNavigation("Design")`. The directory data file
@@ -69,6 +69,24 @@ replaces a hand-written "Relationships" list in the component's own
 sidecar, which could say something the file no longer does; this reads the
 files themselves, every build, so it can't drift. The section itself is
 left out when both lists are empty.
+
+### Choreography and Animates
+
+A component page and a module page show the same join from either side.
+`choreographyDocs.componentHooks[componentDoc.importPath]` is a list of
+`{ attribute, modules }`: the choreography modules that use a `data-*-el`
+attribute this component's template emits. A module's `animates` is the
+reverse, a list of `{ attribute, components }`. Each renders as one block,
+with a sub-list per attribute headed by the attribute in `<code>`, after
+Related on a component page and after Used by on a module page. Either block
+is left out when its list is empty.
+
+The join is per attribute, so every module that uses `data-hero-el` links to
+every template that emits it, even where a module touches only one element.
+A module that selects by class, id or tag (`.gel`, `a.sexy-link`, the
+`#background` video) has no attribute and joins nothing. A component without a
+reference page isn't listed. How the join is derived:
+[choreography system reader](../../eleventy/collections/choreographySystem.md).
 
 ## Component page frontmatter
 

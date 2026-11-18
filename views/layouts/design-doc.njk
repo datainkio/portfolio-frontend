@@ -14,8 +14,8 @@
   whose body is the page and whose facts fill the third column.
 
   Three columns: the page nav (sidebarBefore), the article (prose, content),
-  and the facts aside (sidebarAfter) — source/sidecar/import, In context, and
-  Related. `sidebarAfter` being set is what turns the third column on in
+  and the facts aside (sidebarAfter) — source/sidecar/import, In context,
+  Related, and Choreography (the modules that animate it). `sidebarAfter` being set is what turns the third column on in
   cols-3.njk; a non-component page has nothing to put there, so it stays off.
 -#}
 {% import "molecules/list/design-pages.njk" as DesignPages %}
@@ -92,6 +92,23 @@
           {%- endif %}
         </section>
       {%- endif %}
+
+      {%- set hooks = choreographyDocs.componentHooks[componentDoc.importPath] -%}
+      {%- if hooks.length %}
+        <section aria-labelledby="choreography-heading" class="space-y-3">
+          <h2 id="choreography-heading" class="text-xs font-display uppercase tracking-widest text-accent-400">Choreography</h2>
+          {%- for hook in hooks %}
+            <div class="space-y-1">
+              <p class="mb-0 text-neutral-400"><code class="break-all text-neutral-100">{{ hook.attribute }}</code></p>
+              <ul class="list-disc space-y-1 pl-5">
+                {%- for link in hook.modules %}
+                  <li><a class="text-primary-300 underline hover:text-primary-200" href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor %}
+              </ul>
+            </div>
+          {%- endfor %}
+        </section>
+      {%- endif %}
     </div>
   {%- elif choreographyModule %}
     {%- set m = choreographyModule -%}
@@ -137,6 +154,22 @@
           </section>
         {%- endif %}
       {%- endfor %}
+
+      {%- if m.animates.length %}
+        <section aria-labelledby="animates-heading" class="space-y-3">
+          <h2 id="animates-heading" class="text-xs font-display uppercase tracking-widest text-accent-400">Animates</h2>
+          {%- for hook in m.animates %}
+            <div class="space-y-1">
+              <p class="mb-0 text-neutral-400"><code class="break-all text-neutral-100">{{ hook.attribute }}</code></p>
+              <ul class="list-disc space-y-1 pl-5">
+                {%- for link in hook.components %}
+                  <li><a class="text-primary-300 underline hover:text-primary-200" href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor %}
+              </ul>
+            </div>
+          {%- endfor %}
+        </section>
+      {%- endif %}
 
       {%- if m.specs.length %}
         <section aria-labelledby="specs-heading" class="space-y-3">
