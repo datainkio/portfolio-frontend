@@ -12,6 +12,18 @@
 export default function (eleventyConfig) {
   eleventyConfig.addFilter("specimenParams", specimenParams);
   eleventyConfig.addFilter("specimenCall", specimenCall);
+  eleventyConfig.addFilter("squeezeWhitespace", squeezeWhitespace);
+}
+
+/**
+ * Collapses every whitespace run to one space. The navigation macro leaves
+ * runs thousands of characters long where its tags sit, on every page, and
+ * the HTML minifier's regexes grow with the square of a run's length: about
+ * 40 s of the docs build. Only for markup with no <pre> or <textarea>; the
+ * minified output is the same.
+ */
+function squeezeWhitespace(html) {
+  return String(html ?? "").replace(/\s+/g, " ");
 }
 
 /** A path segment that picks an array item by field: `slug=enquos`. */

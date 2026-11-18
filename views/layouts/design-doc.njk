@@ -25,7 +25,10 @@
 {% block sidebarBefore %}
   <aside aria-label="Design reference pages"
          class="not-prose col-span-full mt-44 max-h-72 overflow-y-auto lg:sticky lg:top-24 lg:col-span-2 lg:self-start lg:max-h-[calc(100dvh-7rem)] lg:pb-12">
-    {{ DesignPages.render({ nav: collections.all | eleventyNavigation("Design"), currentUrl: page.url, label: "Design section navigation", home: { url: "/docs/design/", title: "Introduction" } }) }}
+    {%- set designNavHtml -%}
+      {{ DesignPages.render({ nav: collections.all | eleventyNavigation("Design"), currentUrl: page.url, label: "Design section navigation", home: { url: "/docs/design/", title: "Introduction" } }) }}
+    {%- endset %}
+    {{ designNavHtml | squeezeWhitespace | safe }}
   </aside>
 {% endblock sidebarBefore %}
 
