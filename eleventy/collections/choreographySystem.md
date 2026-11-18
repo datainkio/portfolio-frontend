@@ -22,14 +22,15 @@ build; `resetChoreographyDocs()` runs on `eleventy.before`.
 
 ## What it returns
 
-| Key              | Holds                                                                                   |
-| ---------------- | --------------------------------------------------------------------------------------- |
-| `modules`        | One record per sidecar under `js/choreography/` (not `_context/`, not layer READMEs)    |
-| `layers`         | One record per folder: its README's intro, and its modules in sidebar groups            |
-| `overview`       | Sections of `js/choreography/README.md`, and the rules from the accessibility policy    |
-| `config`         | Events, selectors, timeline ids, presets, profiles, breakpoints, tokens, as table rows  |
-| `coverage`       | Every module that binds a ScrollTrigger or branches on reduced motion, and its docs     |
-| `componentHooks` | Component path (as in page frontmatter) to `[{ attribute, modules: [{ title, url }] }]` |
+| Key                | Holds                                                                                               |
+| ------------------ | --------------------------------------------------------------------------------------------------- |
+| `modules`          | One record per sidecar under `js/choreography/` (not `_context/`, not layer READMEs)                |
+| `layers`           | One record per folder: its README's intro, and its modules in sidebar groups                        |
+| `overview`         | Sections of `js/choreography/README.md`, and the rules from the accessibility policy                |
+| `config`           | Events, selectors, timeline ids, presets, profiles, breakpoints, tokens, as table rows              |
+| `coverage`         | Every module that binds a ScrollTrigger or branches on reduced motion, and its docs                 |
+| `componentHooks`   | Component path (as in page frontmatter) to `[{ attribute, modules: [{ title, url }] }]`             |
+| `componentScripts` | Component path to `[{ attribute, files: [path] }]`: the site's other scripts that use the attribute |
 
 ## A module record
 
@@ -98,6 +99,11 @@ attribute is the join key. Nothing is mapped by hand.
   takes the attributes of the modules it directly imports from its own folder.
   This is one step, for registered controllers only; no other module inherits.
   On a component page the controller is listed first within its attribute.
+- **Other scripts:** every `.js` under `js/` outside `js/choreography/` and
+  `js/vendor/` (the lightbox, the preloader, and so on) is scanned for attribute
+  literals. They have no reference page, so only the file paths are kept, as
+  `componentScripts`, for any component that emits the attribute. This is how
+  `data-lightbox-el` reaches `js/lightbox/Lightbox.js`.
 - **Output:** each module's `animates`, and `componentHooks`. Both are sorted
   by attribute, then title. Components without a reference page are left out,
   and so are empty lists.
@@ -112,7 +118,7 @@ selects by the id the page passes to `sizzle-background.njk` (home passes
 data in the template equals `SELECTORS.video` and it stays unjoined. `Process`
 is registered, but none of the modules it imports from its folder names an
 attribute, so it joins nothing either. An attribute emitted
-by a template and used by no module (or the reverse) produces no link.
+by a template and used by no module or script (or the reverse) produces no link.
 
 ## Links in sidecar bodies
 

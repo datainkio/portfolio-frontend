@@ -272,6 +272,31 @@ function templateHooks() {
   return out;
 }
 
+/** Folders under js/ whose scripts aren't read: the choreography has pages of its own. */
+const SCRIPT_SKIP = new Set(["choreography", "vendor"]);
+
+/**
+ * Every `.js` under js/ outside the choreography and the vendored libraries →
+ * its attribute names. These scripts have no reference page, so only the
+ * paths are kept.
+ */
+function scriptHooks() {
+  const out = new Map();
+  const walkJs = (dir) => {
+    for (const entry of readdirSync(join(ROOT, dir), { withFileTypes: true })) {
+      const rel = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) {
+        if (!(dir === "js" && SCRIPT_SKIP.has(entry.name))) walkJs(rel);
+      } else if (entry.name.endsWith(".js")) {
+        const hooks = hooksIn(read(rel));
+        if (hooks.size) out.set(rel, hooks);
+      }
+    }
+  };
+  walkJs("js");
+  return out;
+}
+
 /**
  * A module's attribute names: literals in its text, plus those carried by
  * anything it imports from selectors.js, followed through barrels to the file
@@ -518,6 +543,13 @@ function buildModules() {
     const page = designByComponent.get(path);
     if (page) hooks.forEach((h) => slot(h).components.push({ path, ...page }));
   }
+  const scriptsByAttribute = new Map();
+  for (const [path, hooks] of scriptHooks()) {
+    for (const h of hooks) {
+      if (!scriptsByAttribute.has(h)) scriptsByAttribute.set(h, []);
+      scriptsByAttribute.get(h).push(path);
+    }
+  }
   const hooksByJs = new Map(
     modules.filter((m) => m.js).map((m) => [m.js, moduleHooks(m.js, graph)]),
   );
@@ -557,6 +589,19 @@ function buildModules() {
       (componentHooks[c.path] ??= []).push({
         attribute,
         modules: [...v.modules].sort(entryFirst).map(pick),
+      });
+    }
+  }
+
+  // The same attributes in the site's other scripts, listed by path.
+  const componentScripts = {};
+  for (const [attribute, files] of [...scriptsByAttribute].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    for (const c of byAttribute.get(attribute)?.components ?? []) {
+      (componentScripts[c.path] ??= []).push({
+        attribute,
+        files: files.sort(),
       });
     }
   }
@@ -664,6 +709,7 @@ function buildModules() {
       ),
     },
     componentHooks,
+    componentScripts,
     urlFor: (path) => byPath.get(path)?.url || "",
   };
 }
@@ -770,10 +816,18 @@ let cache;
  */
 export function readChoreographyDocs() {
   if (cache) return cache;
-  const { modules, layers, overview, componentHooks, urlFor } = buildModules();
+  const {
+    modules,
+    layers,
+    overview,
+    componentHooks,
+    componentScripts,
+    urlFor,
+  } = buildModules();
   cache = {
     modules,
     componentHooks,
+    componentScripts,
     layers,
     overview,
     config: buildConfig(urlFor),
