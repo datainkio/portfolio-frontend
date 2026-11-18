@@ -26,7 +26,8 @@ npm run dev                  # Same as npm start
 # Building
 npm run build                # Full build: clean → build:design → build:css → build:11ty
 npm run fresh                # Same as build (full clean build)
-npm run quick                # Fast build: css + 11ty only (skips design sync)
+npm run quick                # Fast build: css + 11ty only (skips design sync and /docs/)
+npm run document             # quick, plus /docs/ (what the deploys run)
 
 # Design System
 npm run build:design         # Sync Figma tokens → CSS (fetchFigma.js → services → CSS files)

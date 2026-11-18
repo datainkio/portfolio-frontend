@@ -46,7 +46,9 @@ When your work on a task is finished and verified, set it to `review` (In Review
 ```bash
 npm start              # dev: Tailwind watch + 11ty serve (most common); Sanity cached if SANITY_FORCE_REFRESH=false
 npm run start:fresh    # same, but forces Sanity network fetches
-npm run quick          # fast build: js → 11ty → css (skips Figma sync) — use to verify changes
+npm run start:docs     # same, but renders /docs/ and watches docs.css and choreography sidecars
+npm run quick          # fast build: js → 11ty → css (skips Figma sync, skips /docs/) — use to verify changes
+npm run document       # quick, plus /docs/ — what both deploys run; use to verify docs work
 npm run build          # full build: clean → design → js → 11ty → css
 npm run build:design   # sync Figma tokens → CSS
 npm test               # logger + choreography contract tests
@@ -106,6 +108,7 @@ Run the checks for the task type before committing:
 | Rename / refactor | Searching for the old name returns only intentional hits; the rendered `_site` has no old hooks     |
 | Choreography      | The reduced-motion branch is present; events go through `AnimationBus`; the bundle builds (`quick`) |
 | Docs / sidecars   | `format:check` and `lint:frontmatter` counts are no higher than the `git stash` baseline            |
+| `/docs/` pages    | `npm run document` passes (`quick` skips `ia/docs/`) and the rendered `_site/docs/…` page shows it  |
 
 Then commit and push following the git policy in [`../CLAUDE.md`](../CLAUDE.md), and set the task to `review`.
 
