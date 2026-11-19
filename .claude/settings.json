@@ -5,5 +5,28 @@
       "Edit(/styles/tokens.css)",
       "Edit(/styles/motion.css)"
     ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-tokens.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-tokens.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Agent|Task|Skill|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-agent-flow.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-agent-flow.sh\" || true"
+          }
+        ]
+      }
+    ]
   }
 }
