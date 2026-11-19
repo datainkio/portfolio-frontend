@@ -118,7 +118,7 @@ The harness already lists each skill and what it's for. Only routing that isn't 
 
 - Motion work: load `choreography` first, then the matching `gsap-*` skill for the technique.
 - Sidecar and frontmatter hygiene has no skill: run `npm run lint:frontmatter` and `npm run audit:sidecars`.
-- A skill missing from the harness list isn't linked. Add it with `~/Projects/skillet/bin/skillet add <skill>`; never copy it in.
+- A skill missing from the harness list isn't linked. Add it with `~/Projects.nosync/skillet/bin/skillet add <skill>`; never copy it in.
 
 When delegating with the Agent tool, use `opus` for choreography or page-level planning, `sonnet` for template or Sanity work, and `haiku` for copy, sidecars, or formatting.
 
