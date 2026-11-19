@@ -51,7 +51,7 @@
 
     <header class="{{ barClasses | classes }}">
       <span class="{{ barBackdropClasses | classes }}" aria-hidden="true"></span>
-      {{ BuildInfo.render({ buildDate: params.buildDate, buildVersions: params.buildVersions }) }}
+      {# BuildInfo.render({ buildDate: params.buildDate, buildVersions: params.buildVersions }) #}
       {% call Button.render({ variant: "icon", classes: closeClasses, attrs: 'data-badge-el="close" aria-label="Close site map" autofocus' }) %}
         {{ Icon.render({"name": "close", "size": "lg"}) }}
       {% endcall %}
