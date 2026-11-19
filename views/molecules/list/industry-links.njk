@@ -2,16 +2,16 @@
 {% macro render(params = {}) %}
   {%- set overrides = params.classes | default("") -%}
   {%- set industries = params.industries | default({}) -%}
-  {%- set ulStyles = {"base": "flex flex-col text-md m-0 w-full font-display bg-slate-950"} -%}
+  {%- set ulStyles = {"base": "flex flex-col text-md m-0 w-full font-display bg-neutral-950"} -%}
   {%- set liStyles = {
-    "base": "border-x border-b border-slate-700 text-primary-200 grid grid-cols-6 justify-center items-center",
+    "base": "border-x border-b border-neutral-700 text-primary-200 grid grid-cols-6 justify-center items-center",
     "hover": "border border-secondary-400/40 bg-secondary-700/10 text-secondary-400",
     "has-[[aria-current=true]]": "text-secondary-400 bg-secondary-700/15  border border-secondary-400",
     "first": "border-t",
     "last": ""
   } -%}
   {%- set aStyles = {
-    "base": "h-full p-4 border-l border-slate-700 col-span-5 no-underline leading-none",
+    "base": "h-full p-4 border-l border-neutral-700 col-span-5 no-underline leading-none",
     "aria-[current=true]": "arrow-suffix border-secondary-400"
   } -%}
 

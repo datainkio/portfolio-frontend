@@ -152,6 +152,12 @@ metaKeywords · canonicalUrl · skipLinks · enableChoreography · viewport`
 A `permalink` on a file Eleventy does not render is a defect — it implies a route
 that does not exist.
 
+Design-system reference pages under `ia/docs/design/` also carry
+`component · specimens · specimenNote · inContext`, which the
+`design-doc` layout reads. Their contract is in `views/layouts/design-doc.md`.
+They are domain keys (`KEEP_DOMAIN` in `scripts/frontmatter/frontmatterSchema.js`),
+legal only there.
+
 ### 3. Spec / doc / README
 
 Core schema. `title` is usually warranted here.
@@ -187,12 +193,12 @@ hand-written prose in most generated sidecars, and that content belongs in
 
 ```bash
 npm run lint:frontmatter        # schema compliance
-node scripts/auditFrontmatter.js --label current   # full metrics + diagrams
+node scripts/frontmatter/frontmatter/auditFrontmatter.js --label current   # full metrics + diagrams
 ```
 
 The linter enforces, in order:
 
-1. Every tracked `.md` opens with a `---` block (generated paths exempt).
+1. Every tracked `.md` opens with a `---` block (generated paths exempt, as is the root `README.md`, because GitHub renders frontmatter as a table).
 2. `description` present and non-empty.
 3. `status` and `type` within their enums.
 4. No retired keys.

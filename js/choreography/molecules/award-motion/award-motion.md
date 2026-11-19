@@ -1,9 +1,9 @@
 ---
-description: "Bio-Motion Molecule — composes motion sub-factories; top-level API for scroll-driven bio section animation variants."
+description: "Hero-Motion Molecule — composes motion sub-factories; top-level API for scroll-driven hero section animation variants."
 status: stable
 tags:
-  - bio-motion
-  - biography
+  - hero-motion
+  - hero
   - choreography
   - introduction
 ---

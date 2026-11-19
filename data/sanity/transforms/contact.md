@@ -7,7 +7,7 @@ tags:
 aliases:
   - Contact transforms
 links:
-  - "[[README.transforms]]"
+  - "[[data/sanity/transforms/README|transforms]]"
 ---
 
 # Contact transforms
@@ -23,4 +23,4 @@ work GROQ can't do (Portable Text → HTML, safe defaults).
 
 - Path: `data/sanity/transforms/contact.js`
 
-Related: [[README.transforms]]
+Related: [[data/sanity/transforms/README|transforms]]

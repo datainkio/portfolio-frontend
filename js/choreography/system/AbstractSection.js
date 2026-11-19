@@ -116,7 +116,7 @@ export default class AbstractSection {
     // would fight it the same way playIntro()'s restart bypass avoids (see
     // AbstractSectionTriggers.isScrubbed). Only the timeline channel is gated;
     // trigger stays whatever reduceMotion/breakpoint resolved, so scroll-driven
-    // side effects (e.g. Bio's video pause/resume) keep working on repeat visits.
+    // side effects (e.g. Hero's video pause/resume) keep working on repeat visits.
     if (
       profile.timeline.enabled &&
       !this.triggers?.isScrubbed?.() &&

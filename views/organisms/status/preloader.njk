@@ -2,13 +2,18 @@
 
 {# STYLES #}
 {#- only Preloader.js removes the overlay; with scripting off it is hidden so it never covers the page -#}
+{#- The background must stay opaque: it is the only thing hiding the hero and
+    background video before the Director writes their pre-reveal states.
+    bg-page-graphpaper is the same utility home.njk puts on <html> (the only
+    element carrying the page background), so lifting the splash onto the
+    still-hidden page is seamless and the two can't drift. -#}
 {%- set preloaderStyles = {
-  "base": "[@media(scripting:none)]:hidden bg-slate-950 bg-graphpaper-primary-100 grid grid-cols-1 content-center justify-center auto-rows-auto fixed inset-0 z-50 gap-3"
+  "base": "[@media(scripting:none)]:hidden bg-page-graphpaper grid grid-cols-1 content-center justify-center auto-rows-auto fixed inset-0 z-50 gap-3"
 } -%}
 {%- set logoStyles = {"base": "hanko block text-secondary-500 w-24 mx-auto"} -%}
 {%- set headingStyles = {"base": "font-display text-4xl leading-8 text-primary-200 text-justify p-0 m-0 w-24 mx-auto"} -%}
 {%- set subtitleStyles = {
-  "base": "font-display text-lg tracking-widest p-2 aspect-square mx-auto leading-none text-slate-600 border-2 border-slate-700 w-24"
+  "base": "font-display text-lg tracking-widest p-2 aspect-square mx-auto leading-none text-neutral-600 border-2 border-neutral-700 w-24"
 } -%}
 
 {# VIEW #}

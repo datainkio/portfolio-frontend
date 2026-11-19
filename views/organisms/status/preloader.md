@@ -43,22 +43,22 @@ party binds to:
 | ------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `js/preloader/constants.js`     | `PRELOADER_SELECTORS.root` = `[data-preloader]`                                               | Finds the element                                                                                                                                                 |
 | `js/preloader/Preloader.js`     | `data-preloader-state="exit"`, `[data-preloader-subtitle]`, `[data-preloader-logo]`, `hidden` | Awaits the intro (subtitle animation finished) and readiness, flips `exit`, awaits the outro (logo animation finished), sets `hidden`, dispatches `preloader:out` |
-| `styles/components/hanko.css`   | `[data-preloader]`, `[data-preloader-state="exit"]`, the three child attributes               | Every state S00–S04: intro + pulse from first paint, outro on the state flip                                                                                      |
+| `styles/components/hanko.css`   | `[data-preloader]`, `[data-preloader-state="exit"]`, the three child attributes               | Every state S00–S04: intro + pulse from first paint, outro on the state flip; the CSS-only failsafe on the root                                                   |
 | `session-management-script.njk` | `[data-preloader]`                                                                            | Pre-paint: sets `hidden` on a return visit so the splash never shows                                                                                              |
 
 Removing or renaming `data-preloader` breaks all four. Pages without it are
 handled — `Preloader.js` hydrates deferred videos and returns.
 
-## Data and Context
+## Params
 
-- `params.svg` — the hanko SVG markup, passed through to `Logo.render`. Home
-  passes the Sanity-inlined `logo`.
-- Imported `with context` in `home.njk` so the `classes` filter resolves.
+| Param | Type   | Description                                                                                   |
+| ----- | ------ | --------------------------------------------------------------------------------------------- |
+| `svg` | string | The hanko SVG markup, passed through to `Logo.render`. Home passes the Sanity-inlined `logo`. |
 
 ## Relationships
 
 - Imports: [[hanko.njk]] (`atoms/hanko/hanko.njk`) as `Logo`
-- Used by: [[home.njk]] (`views/pages/home/home.njk`), rendered right after `SkipLinksNav`, before the session script, `Background` and `GlobalHeader`.
+- Used by: [[home.njk]] (`views/pages/home/home.njk`), rendered right after `SkipLinksNav`, before the session script, `Background` and `Badge`.
 
 ## Structure ^4566c5
 
@@ -157,6 +157,11 @@ so the `h-dvh` block leaves the flow, then dispatches `preloader:out`.
 
 ## Notes for Future Maintenance
 
+- The background is `bg-page-graphpaper`, the same utility `home.njk` puts on
+  `<html>`. It must stay opaque: until the Director writes the hero's and the
+  background video's pre-reveal states, the overlay is the only thing hiding
+  them. Sharing the utility keeps the overlay identical to the page underneath,
+  so the splash lifts seamlessly.
 - Root is a `<div>` — the element is a transient overlay with no
   document-outline role, so a landmark would mislead assistive tech. Flagged
   per the workspace `<div>` rule.
@@ -167,6 +172,12 @@ so the `h-dvh` block leaves the flow, then dispatches `preloader:out`.
 - With JavaScript off, `[@media(scripting:none)]:hidden` removes the overlay.
   Only `Preloader.js` dismisses it, so without this it would cover home
   permanently.
+- With JavaScript on but `Preloader.js` never running (a failed module
+  import), the CSS failsafe in `hanko.css` sets `visibility: hidden` on the
+  root after `--preloader-failsafe-delay` (20s), longer than the JS flow's
+  bounded worst case (15s, `PRELOADER_TIMINGS`). It lives on the root, not the
+  children, so `Preloader.js`'s animation waits never see it, and it survives
+  reduced motion through a re-assertion in `styles/utilities/reduced-motion.css`.
 - Run `npm run build` (or `npm start`) after structural changes.
 
 ## Open Questions

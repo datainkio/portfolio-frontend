@@ -28,7 +28,21 @@ export default function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter("truncate", truncate);
-  eleventyConfig.addFilter("markdownify", markdownify);
+  // `markdownify(true)` also gives headings ids, keyed by the current page.
+  eleventyConfig.addFilter(
+    "markdownify",
+    function (markdownString, headingIds) {
+      return markdownify(
+        markdownString,
+        headingIds ? this.page?.url : undefined,
+      );
+    },
+  );
+  // Page content: Eleventy's markdown library, for /docs/ pages only.
+  eleventyConfig.amendLibrary("md", (md) =>
+    headingIdsRule(md, (env) => env?.page?.url),
+  );
+  eleventyConfig.on("eleventy.before", () => usedHeadingIds.clear());
   eleventyConfig.addFilter("prettify", prettify);
   eleventyConfig.addFilter("classes", classes);
   eleventyConfig.addFilter("slugify", slugify);
@@ -65,7 +79,7 @@ export function truncate(str, length) {
  * {{ "**Bold** and *italic* text" | markdownify }}
  * => "<p><strong>Bold</strong> and <em>italic</em> text</p>"
  */
-export function markdownify(markdownString) {
+export function markdownify(markdownString, pageUrl) {
   const md = new markdownIt({
     html: false, // Don't allow raw HTML in markdown
     breaks: true, // Convert \n to <br> in paragraphs
@@ -73,7 +87,43 @@ export function markdownify(markdownString) {
     typographer: true, // Smart quotes and dashes
   });
 
+  if (pageUrl) headingIdsRule(md, () => pageUrl);
+
   return md.render(markdownString);
+}
+
+/** Ids handed out so far, by page URL. Every render path shares it, so a page
+ * that renders markdown more than once never repeats an id. */
+const usedHeadingIds = new Map();
+
+/**
+ * markdown-it rule: give each heading without an id the slug of its text.
+ * A repeat on the same page gets -2, -3. Acts only when `getUrl(env)` returns
+ * a URL under /docs/, so no other page changes.
+ *
+ * @param {object} md - markdown-it instance
+ * @param {(env: object) => string | undefined} getUrl - the page URL for a render
+ */
+export function headingIdsRule(md, getUrl) {
+  md.core.ruler.push("heading_ids", (state) => {
+    const url = getUrl(state.env);
+    if (typeof url !== "string" || !url.startsWith("/docs/")) return;
+    const used =
+      usedHeadingIds.get(url) ?? usedHeadingIds.set(url, new Set()).get(url);
+    state.tokens.forEach((token, i) => {
+      if (token.type !== "heading_open" || token.attrGet("id")) return;
+      const text = (state.tokens[i + 1].children ?? [])
+        .filter((t) => t.type === "text" || t.type === "code_inline")
+        .map((t) => t.content)
+        .join("");
+      const base = slugify(text);
+      if (!base) return;
+      let id = base;
+      for (let n = 2; used.has(id); n++) id = `${base}-${n}`;
+      used.add(id);
+      token.attrSet("id", id);
+    });
+  });
 }
 
 /**
@@ -85,8 +135,8 @@ export function markdownify(markdownString) {
  * @returns {string} HTML with classes applied
  *
  * EXAMPLE:
- * {{ article.body | prettify("text-gray-700 leading-relaxed") }}
- * => "<p class="text-gray-700 leading-relaxed">First paragraph...</p>"
+ * {{ article.body | prettify("text-neutral-700 leading-relaxed") }}
+ * => "<p class="text-neutral-700 leading-relaxed">First paragraph...</p>"
  */
 export function prettify(markdownString, parClasses) {
   const $ = cheerio.load(markdownify(markdownString));
@@ -180,7 +230,7 @@ export function slugify(str) {
  *
  * EXAMPLE:
  * {{ svgString | replaceStylesWithClasses }}
- * => "<svg class="w-6 h-6 text-gray-500">...</svg>"
+ * => "<svg class="w-6 h-6 text-neutral-500">...</svg>"
  */
 export function clearSVGFills(source) {
   return source.replace(/\sfill\s*=\s*["'][^"']*["']/g, "");

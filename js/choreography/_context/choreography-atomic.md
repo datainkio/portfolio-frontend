@@ -18,7 +18,7 @@ tags:
 > - It prescribes `registry.register(name, fn)`. The real registry is a
 >   `SECTION_REGISTRY` map in `system/registry.js`.
 >
-> For how the system actually works, read `README.choreography.md` and
+> For how the system actually works, read `README.md` and
 > `GETTING_STARTED.md`. Do not treat anything below as current.
 
 ````md

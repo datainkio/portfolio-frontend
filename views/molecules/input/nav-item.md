@@ -20,11 +20,14 @@ Encapsulates a reusable molecule per the project's atomic design conventions.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `accordionName` — referenced in the template.
-- `child` — referenced in the template.
-- `item` — referenced in the template.
+| Param           | Type   | Description                                                                                          |
+| --------------- | ------ | ---------------------------------------------------------------------------------------------------- |
+| `item`          | object | Nav entry: `key`, `url`, and optional `children`. With children it renders a `<details>` disclosure. |
+| `accordionName` | string | Shared `name` for the `<details>` element, so one stays open at a time.                              |
+
+Fixed design: takes no styling params.
 
 ## Relationships
 

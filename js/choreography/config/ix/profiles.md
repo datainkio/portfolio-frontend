@@ -1,5 +1,5 @@
 ---
-description: "Motion profiles config — defines per-breakpoint timeline and trigger capability profiles plus section-specific overrides; resolved at runtime via resolveSectionMotionProfile."
+description: "Motion profiles config — exports ACCESSIBILITY_SETTINGS, SECTION_OVERRIDES, and resolveSectionMotionProfile; per-breakpoint timeline/trigger enable profiles (private MOTION_PROFILES) plus section-specific variant overrides."
 status: stable
 tags:
   - choreography
@@ -12,17 +12,26 @@ links:
 
 # profiles
 
-Per-breakpoint motion profiles + section overrides. `resolveSectionMotionProfile(sectionKey, conditions)` shallow-merges `SECTION_OVERRIDES[section][key]` over `MOTION_PROFILES[key]`. `reduced` always wins (via `getActiveMotionProfileKey`); `ACCESSIBILITY_SETTINGS.testReducedMotion` is the dev force-on chokepoint.
+Per-breakpoint motion profiles + section overrides. Exports `ACCESSIBILITY_SETTINGS`, `SECTION_OVERRIDES`, and `resolveSectionMotionProfile`; `MOTION_PROFILES` and `getActiveMotionProfileKey` are module-private. `resolveSectionMotionProfile(sectionKey, conditions)` shallow-merges `SECTION_OVERRIDES[section][key]` over `MOTION_PROFILES[key]`.
 
 ## Channels (post-Drop)
 
 - **timeline** — `{ enabled }` only. Gates lifecycle playback + ScrollTrigger binding. The old `durationScale`/`staggerScale`/`distanceScale`/`easePreset` flags were unconsumed dead scaffolding and were **dropped**.
-- **trigger** — `{ enabled }` only. Gates ScrollTrigger binding. **Capability (pin/scrub/once) is NOT here** — it lives in each section's base trigger config (`BIO_TRIGGER`, `AWARDS_TRIGGER`, `HERO_TRIGGER`) and is not breakpoint-varying. To reintroduce per-breakpoint capability, merge `profile.trigger` over `_getTriggerDefaults()` in `AbstractSectionTriggers.bind()`.
+- **trigger** — `{ enabled }` only. Gates ScrollTrigger binding. **Capability (pin/scrub/once) is NOT here** — it lives in each section's base trigger config (`HERO_TRIGGER`, `AWARDS_TRIGGER`, …), defined in the organism's `*Triggers.js` (e.g. `organisms/hero/HeroTriggers.js`), and is not breakpoint-varying. To reintroduce per-breakpoint capability, merge `profile.trigger` over `_getTriggerDefaults()` in `AbstractSectionTriggers.bind()`.
 - **animation** — `{ variant }`. Live, per-section/per-breakpoint. Selects the variant factory the organism runs via `_applyResponsiveLifecycle → setVariant`. Untouched by the Drop.
-
-`hero.reduced` override re-enables both `timeline` + `trigger` so the shutter still runs under reduced motion (intentional a11y tradeoff).
 
 ## Card states
 
-- **`static`** (`CARD_STATIC`) — card motion intentionally OFF, the development baseline. Distinct from a11y `reduced`: it disables **both** channels at every breakpoint so `Card.js` takes its static-reset branch (`clearProps:all`) for **all** users, not only `prefers-reduced-motion`. Use it to lock the CSS-only visual strategy before layering motion.
+- **`static`** (`CARD_STATIC_PROFILE`) — card motion intentionally OFF, the development baseline. Distinct from a11y `reduced`: it disables **both** channels at every breakpoint so `Card.js` takes its static-reset branch (`clearProps:all`) for **all** users, not only `prefers-reduced-motion`. Use it to lock the CSS-only visual strategy before layering motion.
 - **`?cardVariant=<variant>`** — dev live-override handled in `resolveSectionMotionProfile` (card-only). Forces a variant on (`clip`/`fade`/`parallax`/`throw`) without editing this file or rebuilding; `off`/`static`/`none` force the static baseline. Other sections are untouched.
+
+## Video (background) states
+
+- **`flat`** (`base`–`md`) — no perspective tilt; portrait and narrow viewports stay flat for MTP.
+- **`perspective`** (`lg`, `xl`) — the background settles into its two-point tilt after the reveal.
+
+## Reduced motion
+
+- `reduced` always wins over the breakpoint profile. `getActiveMotionProfileKey` returns it whenever reduced motion is on.
+- `ACCESSIBILITY_SETTINGS.testReducedMotion` is the dev force-on chokepoint. Setting it forces `reduced` regardless of the OS setting.
+- The background video has no `reduced` key. Reduced motion decides how the tilt arrives (snapped), not whether. `BackgroundVideo` resolves the breakpoint tier's variant with reduced motion set aside. `testReducedMotion` forces `reduced` even then, so the dev override leaves the background flat.

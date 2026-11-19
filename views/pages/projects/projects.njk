@@ -1,32 +1,16 @@
 {% extends "templates/landing/landing.njk" %}
-{% import "molecules/list/industry-links.njk" as Industries %}
+{% import "organisms/navigation/industry-nav/industry-nav.njk" as Industries %}
 {% import "molecules/section/industry-section.njk" as IndustrySection %}
 
 {#- Industries are needed by two blocks (the section list in `content`, the
-    jump nav in `afterMain`), so they're grouped once here at template level. -#}
+    jump nav in `sidebarBefore`), so they're grouped once here at template level. -#}
 {%- set industries = (collections.projects | groupBy("industry") | dictsort) if (collections.projects and collections.projects.length) else [] -%}
 
-{#- The jump-nav <header> is position: fixed. It renders in `afterMain` —
-    inside #page-main but outside #page-main-content — because ScrollSmoother
-    transforms <main>, and a fixed element inside a transformed ancestor is
-    positioned against that ancestor, not the viewport. Same placement as the
-    home landing header. -#}
-{%- set headerStyles = {
-  "print": "hidden",
-  "base": "fixed inset-x-0 bottom-0 z-10 w-full pointer-events-none",
-  "md": "inset-x-auto right-auto bottom-auto left-0 top-0 flex h-dvh w-56 flex-col justify-center pointer-events-auto"
-} -%}
-
-{%- set navStyles = {
-  "base": "pointer-events-auto registration-marks registration-marks-offset-[-8px] registration-marks-slate-700 w-full bg-slate-900 shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.25)]"
-} -%}
-{%- set drawerToggleStyles = {
-  "base": "group cursor-pointer pl-4 flex items-center gap-x-4 divide-x divide-slate-700 w-full text-left",
-  "md": "pointer-events-none cursor-default"
-} -%}
 
 {% block mainStyles %}
-  {{ { "base": "pb-24 mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64", "lg": "relative" } | classes }}
+  {#- isolate: contains the page video's -z-10 within <main>, so it slides
+      beneath page content but never behind the page background. -#}
+  {{ { "base": "isolate pb-24 mx-auto my-8 grid grid-cols-12 gap-x-8", "md": "pl-64", "lg": "relative" } | classes }}
 {% endblock mainStyles %}
 
 {#- Optional portrait page video (projects.pageVideo → videoAsset). The asset's
@@ -36,19 +20,22 @@
 {%- set pageVideoSrc = pageVideo and (pageVideo.url or pageVideo.videoUrl) -%}
 {%- set pageVideoPoster = pageVideo and pageVideo.poster and pageVideo.poster.url -%}
 
+{#- The figure is the 9:16 frame. Its width cap holds its height to 100dvh
+    (height = width × 16/9). It doesn't clip: the video scales past it from
+    the top-right corner, growing left and down, and -z-10 keeps the overflow
+    beneath the page content. -#}
 {%- set videoFigureStyles = {
-  "base": "col-span-full justify-self-center w-full m-0 overflow-hidden aspect-[9/16]",
-  "lg": "absolute top-0 right-0 w-1/2 max-w-none"
+  "base": "-z-10 col-span-full justify-self-center w-full max-w-[calc(100dvh*9/16)] m-0 aspect-[9/16]",
+  "lg": "absolute top-0 right-0 w-1/2"
 } -%}
-{%- set videoStyles = {"base": "w-full h-full object-cover object-center"} -%}
+{#- scale-[…] sets how far the video extends past the frame. -#}
+{%- set videoStyles = {"base": "w-full h-full object-cover object-center origin-top-right scale-[1.25]"} -%}
 
 {% block content %}
   {{ super() }}
   {% if pageVideoSrc and pageVideoPoster %}
     <figure data-projects-el="video"
-            class="{{ videoFigureStyles | classes }}"
-            {# Optional alpha mask (videoAsset.mask): the PNG's alpha channel clips the figure, stretched to the 9:16 frame. Masks poster and video alike. #}
-            {% if pageVideo.mask %}style="mask: url('{{ pageVideo.mask }}') center / 100% 100% no-repeat;"{% endif %}>
+      class="{{ videoFigureStyles | classes }}">
       {#- Decorative, same contract as the card video (molecules/card/card.njk):
           hidden from AT, left posterized under reduced motion
           (`data-motion-optional`), and hydrated + played only near the
@@ -60,6 +47,8 @@
              width="720"
              height="1280"
              class="{{ videoStyles | classes }}"
+             {#- Optional alpha mask (videoAsset.mask): the PNG's alpha channel clips the video, stretched to its box, so it scales with the video. Masks poster and video alike. -#}
+             {% if pageVideo.mask %}style="mask: url('{{ pageVideo.mask }}') center / 100% 100% no-repeat;"{% endif %}
              preload="none"
              aria-hidden="true"
              tabindex="-1"
@@ -83,39 +72,10 @@
   {% endif %}
 {% endblock content %}
 
-{% block afterMain %}
-  {% if industries | length %}
-    <header data-projects-el="header" class="{{ headerStyles | classes }}">
-      <nav data-projects-el="jumplinks"
-           id="work-jumplinks"
-           aria-label="Jump to an industry"
-           class="{{ navStyles | classes }}">
-        <header data-projects-el="drawer-handle"
-                class="p-4 pt-6 border-t border-x border-slate-700">
-          <h2 class="text-primary-200 text-2xl">
-            <button type="button"
-                    data-projects-el="drawer-toggle"
-                    aria-expanded="false"
-                    aria-controls="work-jumplinks"
-                    class="{{ drawerToggleStyles | classes }}"><span class="text-primary-200 pr-4 transition-colors group-hover:text-secondary-400">Industries</span><span data-projects-el="drawer-title" class="text-sm text-secondary-400"></span></button>
-          </h2>
-        </header>
-        {{ Industries.render({ industries: industries }) }}
-        <footer class="font-display text-primary-200/40 grid grid-cols-3 border-b border-x border-slate-700 items-center gap-2">
-          <dl class="border-r border-slate-700 text-base text-left p-4 pb-3 col-span-2">
-            <dt class="leading-2 text-primary-200/20">Doc 02A</dt>
-            <dd>
-              Work Index
-            </dd>
-          </dl>
-          <dl class="text-xs pr-3">
-            <dt class="border-b border-slate-700 text-primary-200/20">revision</dt>
-            <dd>
-              09.04.26
-            </dd>
-          </dl>
-        </footer>
-      </nav>
-    </header>
-  {% endif %}
-{% endblock afterMain %}
+{#- The industry jump nav precedes <main> in source order, so keyboard and
+    screen-reader users reach the index before the content it indexes. Its
+    fixed drawer/rail positioning is unaffected: sidebarBefore sits outside
+    #page-main-content, like afterMain. -#}
+{% block sidebarBefore %}
+  {{ Industries.render({ industries: industries }) }}
+{% endblock sidebarBefore %}

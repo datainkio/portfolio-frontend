@@ -3,5 +3,8 @@
 
 # Generated output — never hand-formatted, and reformatting churns huge diffs
 _site/
+styles/tokens.css
+styles/motion.css
+figma/exports/
 graphify-out/
 docs/frontmatter-audit/*/*.svg

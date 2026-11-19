@@ -1,26 +1,32 @@
 ---
-description: "GROQ projection fragment — reusable field shape for Post reference documents."
+description: "GROQ projection fragments — reusable field shapes for post documents (reference, card, page)."
 status: stable
 tags:
   - cms
   - projections
 aliases:
-  - Post reference projection
+  - Post projections
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
-# Post reference projection
+# Post projections
 
-GROQ projection fragment — the reusable `{ ... }` field shape selected for **post reference**
-documents. Extracted into its own file so queries stay thin and shapes compose consistently.
+GROQ projection fragments — the reusable `{ ... }` field shapes selected for **post**
+documents. Extracted into their own file so queries stay thin and shapes compose consistently.
 
-| Export                | Shape of              |
-| --------------------- | --------------------- |
-| `POST_REF_PROJECTION` | post reference fields |
+| Export                 | Shape of                                                                   |
+| ---------------------- | -------------------------------------------------------------------------- |
+| `POST_REF_PROJECTION`  | post reference fields (`relatedPosts[]`)                                   |
+| `POST_CARD_PROJECTION` | inventory list entry: title, slug, abstract, date, author, reading time, image |
+| `POST_PAGE_PROJECTION` | detail page: the card fields plus body, files, topics, relations, SEO      |
+
+Reading time is derived from `body` (`readingMinutes`, about 200 words per minute); it is not a
+stored field. `topics` merges activity, role and industry labels into one list.
 
 ## Source
 
 - Path: `data/sanity/projections/post/postProjection.js`
+- Contract: `content-model/documents/writing/post.md`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

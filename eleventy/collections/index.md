@@ -6,9 +6,11 @@ tags:
 aliases:
   - Collections index
 links:
-  - "[[README.collections]]"
+  - "[[eleventy/collections/README|collections]]"
   - "[[navigation]]"
   - "[[NavigationBuilder]]"
+  - "[[designSystem]]"
+  - "[[choreographySystem]]"
 ---
 
 # Collections index
@@ -31,6 +33,13 @@ collection can't break the whole build.
 | ----------------- | ------------------ | ----------------------------------------- |
 | Sanity CMS        | [[cms\|sanity.js]] | content collections from GROQ queries     |
 | Navigation        | [[navigation]]     | `nav_dirs`, `nav_projects`, `nav_primary` |
+
+Global data set here as well: `site`, `env`, `buildDate`, `colors`,
+`buildVersions`, `designTokens` (every theme token, grouped, from
+[[designSystem]]; drives `ia/docs/design/tokens/`), and `choreographyDocs` (every
+choreography sidecar, the JS import graph, and the contract and tuning
+values, from [[choreographySystem]]; drives `ia/docs/design/choreography/`). `choreographyDocs` is
+re-read on every build, so a dev-server rebuild picks up an edited sidecar.
 
 ## Wiring
 

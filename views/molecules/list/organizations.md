@@ -20,9 +20,13 @@ Encapsulates a reusable molecule per the project's atomic design conventions.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `org` — referenced in the template.
+| Param  | Type  | Description                                                                                |
+| ------ | ----- | ------------------------------------------------------------------------------------------ |
+| `orgs` | array | Organization records; each `title` is shown. Rendered comma-separated. Omitted when empty. |
+
+Fixed design: takes no styling params.
 
 ## Relationships
 

@@ -6,9 +6,9 @@ tags:
 aliases:
   - Navigation collection
 links:
-  - "[[README.collections]]"
+  - "[[eleventy/collections/README|collections]]"
   - "[[NavigationBuilder]]"
-  - "[[index]]"
+  - "[[dataink.io/frontend/eleventy/collections/index]]"
 ---
 
 # Navigation collection

@@ -7,7 +7,7 @@ tags:
 aliases:
   - Awards query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[awardProjection]]"
 ---
 
@@ -21,9 +21,10 @@ collection.
 | `awardsQuery` | `awards`      |
 
 - Projection: [[awardProjection]]
+- Order: `organization.orderRank asc, title asc`. `groupByOrg` keeps the order in which it first meets each organization, so this makes the organization groups come out in the editor-set order.
 
 ## Source
 
 - Path: `data/sanity/queries/award/awards.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

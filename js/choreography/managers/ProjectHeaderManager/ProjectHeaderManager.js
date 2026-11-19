@@ -1,7 +1,7 @@
 import lumberjack from "/assets/js/utils/lumberjack/index.js";
 import { parallaxScrub } from "../../atoms/parallax/parallax.js";
 import { PROJECT_HEADER_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { PROJECT_HEADER_ANIMATION } from "../../config/ix/motion.js";
+import { PROJECT_HEADER_ANIMATION } from "../../config/ix/presets/project-header.js";
 
 export default class ProjectHeaderManager {
   constructor({ reducedMotionHandler } = {}) {

@@ -11,7 +11,7 @@ links:
 
 # GelAnimationManager
 
-Registry and lifecycle for `.bg-gel` controller instances. Deliberately does no
+Registry and lifecycle for `.gel` controller instances. Deliberately does no
 scroll-trigger wiring, tween orchestration, or section synchronisation — those
 belong to the molecules that own each gel.
 

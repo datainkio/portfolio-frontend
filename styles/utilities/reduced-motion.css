@@ -15,5 +15,20 @@
     .prm-hidden {
       display: none !important;
     }
+
+    /* Exemption: the preloader's CSS failsafe (styles/components/hanko.css)
+     * is a timer, not decorative motion. It removes the splash if
+     * Preloader.js never runs, which reduced-motion users need as much as
+     * anyone. It can't defend itself from hanko.css: that file is imported
+     * into the `components` layer, declared after `utilities` in main.css,
+     * and for !important declarations the cascade reverses layer order —
+     * earlier layers win — so even `!important` there loses to the
+     * `animation: none !important` above. Re-asserted here instead, in the
+     * same layer and with !important, where specificity decides between the
+     * two: `[data-preloader]` (0,1,0) beats `*` (0,0,0). The value comes from
+     * the custom property hanko.css defines, so there is one copy of it. */
+    [data-preloader] {
+      animation: var(--preloader-failsafe) !important;
+    }
   }
 }

@@ -36,8 +36,8 @@ export default class WorkNavManager {
     this._activeId = null;
 
     // The industry groups live inside the work section. The jumplinks do not:
-    // their fixed <header> renders outside #page-main-content (base.njk
-    // `afterMain`) so ScrollSmoother's transform on <main> can't displace it,
+    // their fixed <nav> renders outside #page-main-content (base.njk
+    // `sidebarBefore`) so ScrollSmoother's transform on <main> can't displace it,
     // so they're resolved document-wide.
     const workSection = document.getElementById(SELECTORS.work);
     const links = Array.from(

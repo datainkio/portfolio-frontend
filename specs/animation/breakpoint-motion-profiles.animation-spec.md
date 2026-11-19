@@ -67,7 +67,6 @@ Add section-specific overrides under the same schema for:
 
 - hero
 - video
-- bio
 - awards
 - organizations
 - work

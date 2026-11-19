@@ -31,8 +31,8 @@ type: spec
 
 ### Canonical Sources
 
-- Motion tokens: [config/motion.js](../../js/choreography/config/motion.js) (single source of truth for durations, eases, distances, staggers; used by GSAP + Tailwind)
-- Tailwind mapping: [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs) (maps tokens into duration/ease utilities; keep import order consistent with main Tailwind setup)
+- Motion tokens: [tokens/motion/motion.js](../../js/choreography/tokens/motion/motion.js) (single source of truth for durations, eases, distances, staggers), read by GSAP through `motion` in [config/ix/motion.js](../../js/choreography/config/ix/motion.js) and by CSS through `styles/motion.css`
+- Tailwind mapping: `tailwind.motion.config.cjs` was removed on 2026-10-05 (it was never wired into the build); no token-to-utility mapping exists today.
 - Accessibility policy: [motion-accessibility-policy.md](motion-accessibility-policy.md) (reduced-motion rules and strategies)
 
 ### Shared Motion Tokens (source of truth)
@@ -43,8 +43,8 @@ type: spec
 
 Implementation guidance:
 
-- GSAP: import tokens from `config/motion.js`; do not hard-code timings/eases.
-- Tailwind: rely on the utilities emitted by `tailwind.motion.config.cjs`; avoid ad-hoc durations/eases in templates.
+- GSAP: take timings and eases from `motion` in `config/ix/motion.js`; do not hard-code them. `motion.ease(name)` returns a GSAP core ease name (`GSAP_EASE`), because GSAP can't parse the tokens' `cubic-bezier()` strings. See ADR 0004 in `docs/design-system/`.
+- Tailwind: rely on motion-token utilities (the removed `tailwind.motion.config.cjs` never emitted any); avoid ad-hoc durations/eases in templates.
 
 ### Tailwind Utilities (when Tailwind is selected)
 
@@ -94,7 +94,7 @@ Implementation guidance:
 
   > Adjust the relative import path to match the file location.
 
-- **Tailwind:** use utilities emitted by `tailwind.motion.config.cjs`; keep motion gated:
+- **Tailwind:** use motion-token utilities (the removed `tailwind.motion.config.cjs` never emitted any); keep motion gated:
   ```html
   <button
     class="
@@ -239,7 +239,7 @@ This section documents the recommended architecture for a more performant, maint
 
 - **Scene-first modularity:** One scene per section. Each scene lives in `frontend/js/choreography/sections/<Scene>/<Scene>.js` (or `sequences/` for multi-section flows).
 - **Central lifecycle orchestration:** Register scenes via Director/Stage wiring so lifecycle, bus events, and teardown are centralized.
-- **Cross-section media handoff:** Sequence orchestration (LandingSequence) owns media playback transitions between sections (for example, pausing background video on `bio.enter` and `bio.onEnterBack`, and resuming on `bio.onLeaveBack`).
+- **Cross-section media handoff:** Sequence orchestration (LandingSequence) owns media playback transitions between sections (for example, pausing background video on `hero.enter` and `hero.onEnterBack`, and resuming on `hero.onLeaveBack`).
 - **Token-driven motion:** Use [config/motion.js](../../js/choreography/config/motion.js) for all durations/eases/distances/staggers. No hard-coded values.
 - **Stable hooks:** `data-anim="<scene>"` on the root, `data-anim-item` on children, optional `data-anim-trigger` overrides.
 - **Shared utilities:** Reduced-motion guards + measurement helpers in `frontend/js/choreography/managers/` or `frontend/js/choreography/utils/`.

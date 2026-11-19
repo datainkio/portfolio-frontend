@@ -3,9 +3,21 @@
 /* Design tokens — project-specific values that may change */
 @theme {
   --mask-image-grunge: url("/assets/images/grunge-luminance-mask.png");
-  --mask-image-gradient-vertical: linear-gradient(to bottom, #fff, #000);
-  --mask-image-gradient-horizontal: linear-gradient(to right, #fff, #000);
-  --mask-image-radial: radial-gradient(circle, #fff 50%, #000 100%);
+  --mask-image-gradient-vertical: linear-gradient(
+    to bottom,
+    var(--color-white),
+    var(--color-black)
+  );
+  --mask-image-gradient-horizontal: linear-gradient(
+    to right,
+    var(--color-white),
+    var(--color-black)
+  );
+  --mask-image-radial: radial-gradient(
+    circle,
+    var(--color-white) 50%,
+    var(--color-black) 100%
+  );
 }
 
 /* mask-image */

@@ -7,7 +7,7 @@ tags:
 aliases:
   - User guide query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[userGuideProjection]]"
 ---
 
@@ -26,4 +26,4 @@ collection.
 
 - Path: `data/sanity/queries/user-guide.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

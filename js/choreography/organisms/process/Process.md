@@ -1,5 +1,5 @@
 ---
-description: "Process section controller — wires the process section into the AbstractSection lifecycle and drives the motion variant per breakpoint. Mirrors Bio.js: accepts and forwards `gelManager` to ProcessAnimations (for the gel_process section-gel band, which covers the full section); `_applyResponsiveLifecycle` resolves the section motion profile and rebuilds the animations with the resolved variant (`blockframes` at every breakpoint, `reduced` under prefers-reduced-motion)."
+description: "Process section controller — wires the process section into the AbstractSection lifecycle and drives the motion variant per breakpoint. Mirrors Hero.js: accepts and forwards `gelManager` to ProcessAnimations (for the gel_process section-gel band, which covers the full section); `_applyResponsiveLifecycle` resolves the section motion profile and rebuilds the animations with the resolved variant (`blockframes` at every breakpoint, `reduced` under prefers-reduced-motion)."
 status: stable
 tags:
   - choreography
@@ -12,7 +12,7 @@ links:
 
 # Process
 
-Mirrors the `Bio` section controller pattern for variant selection. Resolves its
+Mirrors the `Hero` section controller pattern for variant selection. Resolves its
 view via `SELECTORS.process` (`"process"`, the `id="process"` element rendered
 by `views/organisms/section/process.njk`), and delegates animation/trigger
 behavior to `ProcessAnimations` and `ProcessTriggers`.
@@ -22,8 +22,12 @@ behavior to `ProcessAnimations` and `ProcessTriggers`.
 `animations.rebuild(variant)` before the base class runs — so a matchMedia
 breakpoint change (which reverts and kills the prior context's tweens) rebuilds
 the timelines with a fresh variant instance. The default variant is
-`blockframes`; reduced motion resolves to `reduced` (empty intro, no grid fill).
+`blockframes`.
 
-The Blockframes display + reveal migrated here from the Bio section. The scroll
+The Blockframes display + reveal migrated here from the Hero section. The scroll
 reveal itself is self-driving (`process-motion/blockframes.js` owns its own
 once-fire ScrollTrigger); the intro timeline the variant returns is empty.
+
+## Reduced motion
+
+Under reduced motion, `resolveSectionMotionProfile` resolves to `reduced`. The `reduced` variant has an empty intro and no grid fill.

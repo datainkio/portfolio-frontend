@@ -1,7 +1,7 @@
 /**
  * Canonical child timeline IDs used across section controllers.
  *
- * These IDs are distinct from LABELS, which represent timeline positions.
+ * These IDs name child timelines, not positions (labels) within a timeline.
  */
 export const TIMELINE_IDS = {
   landing: "landing",

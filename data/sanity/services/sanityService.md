@@ -7,7 +7,7 @@ tags:
 aliases:
   - sanityService
 links:
-  - "[[README.services]]"
+  - "[[data/sanity/services/README|services]]"
   - "[[fetchSanityData]]"
   - "[[queries]]"
 ---
@@ -24,8 +24,13 @@ export async function init(eleventyConfig, site) { … }
 > [!important] Pipeline
 > client init → for each query in [[queries]]: [[fetchSanityData]] → transform → `addCollection`.
 
+The `home` query is the one transform that awaits a network step: its records go
+through `normalizeLandingRecords`, then `hydrateStatementInlineSvgs` (in
+[home transforms](../transforms/home.md)), which fetches SVG statement images at
+build time. A fetch failure leaves that statement on its `<img>` fallback.
+
 ## Source
 
 - Path: `data/sanity/services/sanityService.js`
 
-Related: [[README.services]], [[fetchSanityData]], [[queries]]
+Related: [[data/sanity/services/README|services]], [[fetchSanityData]], [[queries]]

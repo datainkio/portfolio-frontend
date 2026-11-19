@@ -1,0 +1,27 @@
+---
+description: Hero motion presets — HERO_INTRO_HOLD (beat between video:intro:complete and the hero intro), HERO_INTRO, HERO_MISSION_REVEAL, and HERO_OUTRO.
+status: stable
+tags:
+  - choreography
+  - config
+  - motion
+links:
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
+  - "[[presets|presets]]"
+  - "[[LandingSequence|LandingSequence]]"
+  - "[[HeroTriggers|HeroTriggers]]"
+---
+
+# presets/hero
+
+Built from `ANIMATION_DEFAULTS`, `motion`, and `toSeconds` in [[dataink.io/frontend/ia/docs/design/tokens/motion|motion]].
+
+- `HERO_INTRO_HOLD` — seconds; consumed by `LandingSequence` via `gsap.delayedCall`.
+- `HERO_INTRO` — intro timing for the `hero-motion` variants (split, sweep, fade, reduced). `bandLead` (seconds) is how far the `split` title's letters trail its line bands. `taglineDuration` is the `gel_tagline` fade that opens the `split` intro.
+- `HERO_MISSION_REVEAL` — mission statement's gel-led reveal (`hero-motion/mission-statement`).
+- `HERO_OUTRO` — scrubbed outro; `pinRatio` is also read by `HeroTriggers` for the outro pin length.
+
+## Reduced motion
+
+- `HERO_INTRO_HOLD` is zero under reduced motion, so the beat between `video:intro:complete` and the hero intro is dropped.
+- The `reduced` hero-motion variant builds an empty intro. Its `HERO_INTRO` import is unused, so `HERO_INTRO` timing does not reach it.

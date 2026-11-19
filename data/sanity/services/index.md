@@ -7,7 +7,7 @@ tags:
 aliases:
   - Services public API
 links:
-  - "[[README.services]]"
+  - "[[data/sanity/services/README|services]]"
   - "[[sanityService]]"
 ---
 
@@ -23,4 +23,4 @@ export { init } from "./sanityService.js";
 
 - Path: `data/sanity/services/index.js`
 
-Related: [[README.services]], [[sanityService]]
+Related: [[data/sanity/services/README|services]], [[sanityService]]

@@ -6,4 +6,5 @@ tags:
 links:
   - "[[system/gsap|system/gsap]]"
   - "[[config/ix/motion/motion|config/ix/motion]]"
+  - "[[config/ix/presets/text-split-reveal|config/ix/presets/text-split-reveal]]"
 ---

@@ -10,7 +10,7 @@ type: spec
 - **Status:** draft
 - **Last reviewed:** 2026-01-23
 - **Scope:** Organizations section list and empty state in [../../views/organisms/section/organizations.njk](../../views/organisms/section/organizations.njk).
-- **Links:** motion system [choreographer.animation-spec.md](choreographer.animation-spec.md), reduced motion policy [motion-accessibility-policy.md](motion-accessibility-policy.md), tokens/config [ix/motion.js](../../js/choreography/config/ix/motion.js), [tailwind.motion.config.cjs](../../js/choreography/tailwind.motion.config.cjs)
+- **Links:** motion system [choreographer.animation-spec.md](choreographer.animation-spec.md), reduced motion policy [motion-accessibility-policy.md](motion-accessibility-policy.md), tokens/config [ix/motion.js](../../js/choreography/config/ix/motion.js), `tailwind.motion.config.cjs` (removed 2026-10-05)
 
 ## Motion Principles
 
@@ -58,4 +58,4 @@ type: spec
 ## Open Questions
 
 - Should the Organizations section be re-enabled on the landing page?
-- Do we need a dedicated sequence handoff from Hero/Bio to Organizations?
+- Do we need a dedicated sequence handoff from Hero to Organizations?

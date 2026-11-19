@@ -23,9 +23,14 @@ Encapsulates a reusable molecule per the project's atomic design conventions.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param   | Type  | Description                       |
+| ------- | ----- | --------------------------------- |
+| `orgs`  | array | Passed to the organizations list. |
+| `roles` | array | Passed to the roles list.         |
+
+Fixed design: takes no styling params.
 
 ## Relationships
 

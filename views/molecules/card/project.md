@@ -22,11 +22,25 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `Card` — referenced in the template.
-- `project.featuredImage` — mapped to the card's `image` param.
-- `project.featuredVideo` — mapped to the card's `video` param. Optional; when absent the card renders the still. Both are passed through, because the card needs the image as the video's poster.
+| Param         | Type         | Description                                                                                                                                                        |
+| ------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `project`     | object       | Project record: `title`, `featuredImage`, `featuredVideo`, `url`, `abstract`, `organization` (titles joined into the byline), `rolesTitles`, and `activityTitles`. |
+| `title`       | string       | Defaults to `project.title`, then "Untitled project".                                                                                                              |
+| `image`       | Sanity image | Defaults to `project.featuredImage`.                                                                                                                               |
+| `video`       | object       | Defaults to `project.featuredVideo`.                                                                                                                               |
+| `url`         | string       | Defaults to `project.url`.                                                                                                                                         |
+| `description` | string       | Defaults to `project.abstract`.                                                                                                                                    |
+| `roles`       | string       | Read to build a roles string that is never passed to the card. No effect.                                                                                          |
+| `activities`  | string       | Defaults to the joined `project.activityTitles`. Feeds the "Deliverables" meta row.                                                                                |
+| `meta`        | array        | Defaults to one row: `{ key: "Deliverables", value: activities }`.                                                                                                 |
+| `eager`       | boolean      | Passed to the card.                                                                                                                                                |
+| `styles`      | object       | Passed to the card. See the slot table.                                                                                                                            |
+
+| Slot    | Element                                          |
+| ------- | ------------------------------------------------ |
+| `image` | The card's media element (`<img>` or `<video>`). |
 
 ## Relationships
 

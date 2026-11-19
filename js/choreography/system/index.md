@@ -13,7 +13,7 @@ links:
   - "[[ReducedMotionHandler|ReducedMotionHandler]]"
   - "[[ScrollSmootherManager|ScrollSmootherManager]]"
   - "[[GelAnimationManager|GelAnimationManager]]"
-  - "[[GlobalHeaderManager|GlobalHeaderManager]]"
+  - "[[BadgeManager|BadgeManager]]"
   - "[[ScrollEffectsCoordinator|ScrollEffectsCoordinator]]"
   - "[[AbstractSectionAnimations|AbstractSectionAnimations]]"
   - "[[AbstractSectionTriggers|AbstractSectionTriggers]]"

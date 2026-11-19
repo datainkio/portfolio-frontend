@@ -1,10 +1,12 @@
 {% import "atoms/link/link.njk" as Link %}
+{% macro render(params = {}) %}
+{%- set item = params.item -%}
 {% if item.children.length > 0 %}
   <li>
     {#- Native <details>/<summary> disclosure — accessible and keyboard-operable
         with no JS or extra markup. Replaces a prior DaisyUI radio+CSS accordion
         that depended on a library this project never installed. -#}
-    <details open name="{{ accordionName }}" class="group">
+    <details open name="{{ params.accordionName }}" class="group">
       <summary class="text-xl font-medium cursor-pointer list-none flex items-center justify-between">
         {{ item.key }}
         <span class="text-sm transition-transform group-open:rotate-180" aria-hidden="true">▾</span>
@@ -26,3 +28,4 @@
     {{ Link.render({ url: item.url, text: item.key }) }}
   </li>
 {% endif %}
+{% endmacro %}

@@ -24,8 +24,10 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Data and Context
 
-- `params.headings` — required array of `{id, text}` objects from the `extractHeadings` filter.
-- `params.classes` — optional extra CSS classes on the `<nav>`.
+| Param      | Type                           | Description                                                               |
+| ---------- | ------------------------------ | ------------------------------------------------------------------------- |
+| `headings` | array                          | Required array of `{id, text}` objects from the `extractHeadings` filter. |
+| `classes`  | string \| variant map \| array | Optional extra CSS classes on the `<nav>`.                                |
 
 ## Relationships
 

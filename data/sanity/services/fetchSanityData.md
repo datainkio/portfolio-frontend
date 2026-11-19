@@ -7,7 +7,7 @@ tags:
 aliases:
   - fetchSanityData
 links:
-  - "[[README.services]]"
+  - "[[data/sanity/services/README|services]]"
   - "[[sanityService]]"
 ---
 
@@ -20,7 +20,7 @@ error recovery.
 | ------------- | ------------------------------------------------------ |
 | Cache key     | hashed from the query                                  |
 | Cache store   | `AssetCache` read/write                                |
-| Force refresh | honors `SANITY_FORCE_REFRESH`                          |
+| Force refresh | always when `ELEVENTY_RUN_MODE=build`; in dev honors `SANITY_FORCE_REFRESH` (`false` uses the cache; `npm run start:fresh` forces fetches). Logs `using cache` / `fetching from Sanity`. |
 | Failure       | returns a safe fallback rather than breaking the build |
 
 ```js
@@ -31,4 +31,4 @@ export default async function fetchSanityData({ /* query, cache opts */ }) { …
 
 - Path: `data/sanity/services/fetchSanityData.js`
 
-Related: [[README.services]], [[sanityService]]
+Related: [[data/sanity/services/README|services]], [[sanityService]]

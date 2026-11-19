@@ -22,13 +22,13 @@ Encapsulates the byline pattern — a comma-delimited list of organizations — 
 
 ```njk
 {% import "molecules/list/project-orgs.njk" as ProjectOrgs %}
-{{ ProjectOrgs.render({ orgs: orgs, class: "some-class" }) }}
+{{ ProjectOrgs.render({ orgs: orgs, classes: "some-class" }) }}
 ```
 
 | Param   | Type                       | Required | Description                                                          |
 | ------- | -------------------------- | -------- | -------------------------------------------------------------------- |
 | `orgs`  | `Array<{ title: string }>` | No       | List of organization objects. Renders nothing when empty or omitted. |
-| `class` | `string`                   | No       | CSS class string applied to the wrapping `<p>`.                      |
+| `classes` | string \| variant map \| array | No    | Applied to the wrapping `<span>` through the `classes` filter. |
 
 ## Role in the System
 
@@ -37,7 +37,7 @@ Classified as a **macro** at the atomic **molecule** level based on its location
 ## Data and Context
 
 - `params.orgs` — array of organization objects, each with a `title` property. Sourced from `project.organization` via the Sanity project transform.
-- `params.class` — typically the result of the `byline | classes` filter applied in the consuming template.
+- `params.classes` — raw variant map or string; the macro applies `| classes`. See the [Component API spec](../../../specs/views/component-api.views-spec.md).
 
 ## Relationships
 

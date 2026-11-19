@@ -1,54 +1,53 @@
 /**
  * Hero-Motion Molecule
  *
- * Animation variant factories for the hero section, mirroring the award-motion
- * pattern. Each variant provides init (landing), buildIntro, and buildOutro
- * factory functions that return GSAP timelines. HeroAnimations selects the
- * active variant via SECTION_OVERRIDES.hero in config/ix/profiles/profiles.js.
+ * Animation variant factories for the hero section. Each variant provides
+ * buildIntro and buildOutro factory functions that return GSAP timelines.
+ * HeroAnimations.js selects the active variant via SECTION_OVERRIDES.hero
+ * in config/ix/profiles/profiles.js.
  *
- *   reveal  — Tagline word split-reveal (lifecycle landing) + gel transform
- *             driven by the pinned scrub trigger. The full-motion default.
- *   reduced — Low-vestibular: gentle tagline fade only, gel left at its CSS
- *             rest state, no pin / scrub / large transforms. Intro and outro
- *             are empty because the `reduced` profile disables the triggers
- *             that would drive them. Selected by the `reduced` motion profile.
+ *   split  - Gel band at rest, full-bleed (landing); intro wipes the title
+ *            band in behind label + h1, then GSAP SplitText on the header and
+ *            subheader (intro). Requires SplitText plugin and gelManager.
+ *   reduced - Nothing fancy.
+ *   sweep  — Gel wipe (scaleX 0→1) followed by header fade+lift. Requires gelManager.
+ *   fade   — Simple header fade+lift. No gel dependency.
  */
 
-import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
-import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_LANDING, HERO_INTRO } from "../../config/ix/motion.js";
-import { ACCESSIBILITY_SETTINGS } from "../../config/ix/profiles.js";
-import { init, createRaiseShutter, createLowerShutter } from "./shutter.js";
+import { intro as introSplit } from "./split.js";
+import { buildHeadingGelRest } from "./heading-gel.js";
+import { createSweepIn, createSweepOut } from "./sweep.js";
+import { initFade, createFadeIn, createFadeOut } from "./fade.js";
 import {
-  init as initSimple,
-  createIntro as createSimpleIntro,
-  createOutro as createSimpleOutro,
-} from "./simple.js";
-import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
-
-const HERO_EL_ATTR = "data-hero-el";
-
-const selectHeroEl = (view, name) =>
-  view?.querySelector(`[${HERO_EL_ATTR}="${name}"]`) ?? null;
-
-/* ------------------------------------------------------------------ reveal */
-
-/* ----------------------------------------------------------------- reduced */
+  init as initReduced,
+  buildIntro as buildIntroReduced,
+  buildOutro as buildOutroReduced,
+} from "./reduced.js";
 
 export const HERO_VARIANT_FACTORIES = Object.freeze({
-  simple: {
-    init: initSimple,
-    buildIntro: createSimpleIntro,
-    buildOutro: createSimpleOutro,
+  split: {
+    // Landing phase: the gel band parked full-bleed at rest — no entrance.
+    init: buildHeadingGelRest,
+    buildIntro: introSplit,
+    // Outro disabled — omitting buildOutro makes HeroAnimations._buildOutro fall
+    // back to the base class's empty timeline, which HeroTriggers._bindOutroPin
+    // reads as "no motion" and skips the hero-outro-pin entirely (no pin, no
+    // scrub, no heading-gel-sync suspend). split.js `outro()` is left intact.
+    // To re-enable: restore the `outro as outroSplit` import and
+    // `buildOutro: outroSplit,` here.
   },
-  shutter: {
-    init: init,
-    buildIntro: createRaiseShutter,
-    buildOutro: createLowerShutter,
+  sweep: {
+    buildIntro: createSweepIn,
+    buildOutro: createSweepOut,
+  },
+  fade: {
+    init: initFade,
+    buildIntro: createFadeIn,
+    buildOutro: createFadeOut,
   },
   reduced: {
-    init: init,
-    buildIntro: createRaiseShutter,
-    buildOutro: createLowerShutter,
+    init: initReduced,
+    buildIntro: buildIntroReduced,
+    buildOutro: buildOutroReduced,
   },
 });

@@ -12,11 +12,17 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-neutral-100, currentColor);
   }
 
   body {
     @apply overflow-x-hidden;
+  }
+
+  /* A modal <dialog> doesn't stop the page scrolling behind it; lock it while
+     the badge's site map is open (views/organisms/header/badge.njk). */
+  html:has(dialog[data-badge-el][open]) {
+    overflow: hidden;
   }
   h1 {
     @apply font-display text-5xl text-neutral-100 hover:no-underline tracking-tight;

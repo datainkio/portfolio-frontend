@@ -7,5 +7,5 @@ export const organizationsQuery = {
   description:
     "Client and partner organizations (i.e. any orgs that are not award-granting)",
   cacheDuration: process.env.SANITY_CACHE_DURATION || "1d",
-  query: groq`*[_type == "organization" && organizationType != "awarding-body"]${ORGANIZATION_PROJECTION} | order(title asc)`,
+  query: groq`*[_type == "organization" && organizationType != "awarding-body"]${ORGANIZATION_PROJECTION} | order(orderRank asc)`,
 };

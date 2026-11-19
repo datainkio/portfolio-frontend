@@ -7,7 +7,7 @@ tags:
 aliases:
   - Organizations query
 links:
-  - "[[README.queries]]"
+  - "[[data/sanity/queries/README|queries]]"
   - "[[organizationProjection]]"
 ---
 
@@ -21,9 +21,10 @@ collection.
 | `organizationsQuery` | `organizations` |
 
 - Projection: [[organizationProjection]]
+- Order: `orderRank asc`, the editor-set order from Studio's drag-to-order Organizations list (`@sanity/orderable-document-list`). See the content-model contract `documents/system/organization.md`.
 
 ## Source
 
 - Path: `data/sanity/queries/organization/organizations.js`
 
-Related: [[README.queries]], [[queries]]
+Related: [[data/sanity/queries/README|queries]], [[queries]]

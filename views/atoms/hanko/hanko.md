@@ -10,7 +10,7 @@ Defines Nunjucks macro: `render`.
 ## Template
 
 - Source: [[hanko.njk]]
-- Path: `views/atoms/hanko.njk`
+- Path: `views/atoms/hanko/hanko.njk`
 
 ## Purpose
 
@@ -20,9 +20,13 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param     | Type   | Description                                                                                                     |
+| --------- | ------ | --------------------------------------------------------------------------------------------------------------- |
+| `svg`     | string | Inlined SVG markup, output with `safe`.                                                                         |
+| `classes` | string | Applied as-is to the wrapper `<span>`. Defaults to `inline-block w-12 text-secondary-700`. No `classes` filter. |
+| `attrs`   | string | Raw attributes added to the wrapper `<span>`. Defaults to empty.                                                |
 
 ## Relationships
 

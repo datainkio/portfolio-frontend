@@ -1,0 +1,120 @@
+/**
+ * Bundle the choreography runtime into a single ESM file.
+ * Output: assets/js/choreography/bundle.js
+ *
+ * The watched dev flow (`npm run dev:js` / `npm start`) emits a readable,
+ * inline-sourcemapped bundle; the one-off `npm run build:js` minifies for
+ * production. Set NODE_ENV=production to force a minified bundle under --watch.
+ *
+ * Notes:
+ * - This bundle is treated as a build artifact and is intentionally git-ignored.
+ * - Regenerate on demand via:
+ *   - `npm run build:js` (one-off)
+ *   - `npm run dev:js` (watch)
+ * - To disable bundling (use raw ESM via Eleventy passthrough), set `BUNDLE_JS=false`
+ *   or pass `--no-bundle`.
+ */
+import { build, context } from "esbuild";
+import { existsSync, mkdirSync, rmSync } from "fs";
+import { resolve } from "path";
+import { projectRoot } from "../lib/paths.js";
+
+const entryPoint = resolve(projectRoot, "js/choreography/AnimationDirector.js");
+const outDir = resolve(projectRoot, "assets/js/choreography");
+const outFile = resolve(outDir, "bundle.js");
+
+const args = new Set(process.argv.slice(2));
+const watch = args.has("--watch");
+
+// The watched flow (dev:js → `npm start`) produces a readable, source-mapped
+// bundle for debugging; the one-off build (build:js) minifies for production.
+// NODE_ENV=production forces a production bundle even under --watch.
+const isProduction = process.env.NODE_ENV === "production";
+const devBundle = watch && !isProduction;
+
+const normalizeBoolean = (value) => {
+  if (value === undefined) return undefined;
+  const normalized = value.toLowerCase();
+  if (["1", "true", "yes", "on"].includes(normalized)) return true;
+  if (["0", "false", "no", "off"].includes(normalized)) return false;
+  return undefined;
+};
+
+const envBundlePreference = normalizeBoolean(process.env.BUNDLE_JS);
+const cliForcesBundle = args.has("--bundle");
+const cliSkipsBundle = args.has("--no-bundle") || args.has("--skip-bundle");
+
+let shouldBundle = envBundlePreference ?? true;
+if (cliForcesBundle) shouldBundle = true;
+if (cliSkipsBundle) shouldBundle = false;
+
+if (!shouldBundle) {
+  if (existsSync(outFile)) {
+    rmSync(outFile);
+    console.log(
+      `[choreography] bundling disabled → removed existing bundle ${outFile}`,
+    );
+  } else {
+    console.log(
+      "[choreography] bundling disabled → no bundle emitted (using raw ESM via Eleventy passthrough)",
+    );
+  }
+  if (watch) {
+    console.log("[choreography] --watch ignored because bundling is disabled.");
+  }
+  process.exit(0);
+}
+
+mkdirSync(outDir, { recursive: true });
+
+const buildOptions = {
+  entryPoints: [entryPoint],
+  bundle: true,
+  format: "esm",
+  platform: "browser",
+  target: ["es2022"],
+  minify: !devBundle,
+  sourcemap: devBundle ? "inline" : false,
+  outfile: outFile,
+  absWorkingDir: projectRoot,
+  plugins: [
+    {
+      name: "alias-absolute-assets",
+      setup(build) {
+        build.onResolve(
+          { filter: /^\/assets\/js\/utils\/lumberjack\/index\.js$/ },
+          () => {
+            return {
+              path: resolve(
+                projectRoot,
+                "node_modules/@datainkio/lumberjack/dist/index.js",
+              ),
+            };
+          },
+        );
+
+        build.onResolve({ filter: /^\/assets\/js\/vendor\/gsap\// }, (args) => {
+          const rel = args.path.replace(/^\/assets\/js\/vendor\/gsap\//, "");
+          return { path: resolve(projectRoot, "node_modules/gsap", rel) };
+        });
+
+        build.onResolve({ filter: /^\/assets\/js\// }, (args) => {
+          const rel = args.path.replace(/^\/assets\//, ""); // drop leading /assets/
+          return { path: resolve(projectRoot, rel) };
+        });
+      },
+    },
+  ],
+  logLevel: "info",
+};
+
+const mode = devBundle ? "dev (sourcemapped)" : "production (minified)";
+
+if (watch) {
+  const ctx = await context(buildOptions);
+  await ctx.watch();
+  console.log(`[choreography] bundle watching [${mode}] -> ${outFile}`);
+} else {
+  await build(buildOptions);
+  console.log(`[choreography] bundle built [${mode}] -> ${outFile}`);
+}

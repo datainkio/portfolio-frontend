@@ -1,62 +1,194 @@
-/* 
-* .bg-gel provides the blend mode and full positioning 
-* Assume a relative parent container
-*/
-.bg-gel {
-  mix-blend-mode: multiply;
+/*
+ * GEL BACKGROUNDS
+ *
+ * Built like inner-border: the bare `gel` class draws, and small utilities
+ * each set one variable on it.
+ *
+ *   gel                  Draws the gradient, with multiply blending.
+ *                        Assume a relative parent container. Also the hook
+ *                        GelAnimationManager queries, so keep it on every
+ *                        gel element.
+ *   gel-<color>          Base colour: primary, secondary, accent, neutral
+ *                        or neutral-light. Sets the colour the gradient
+ *                        starts from.
+ *   gel-<direction>      Where the gradient goes "to": top (default),
+ *                        bottom, left, right, top-left, top-right,
+ *                        bottom-left, bottom-right.
+ *   gel-fade-<size>      How far the gradient travels before it reaches
+ *                        its end opacity: xs, sm, md, lg, xl or full
+ *                        (default). Past that point the gel holds the end
+ *                        opacity, which is transparent by default.
+ *                        Also takes [length] or [percentage]:
+ *                        gel-fade-[30%], gel-fade-[20rem].
+ *   gel-opacity-<n>      How opaque the gradient is, 0 to 100 (default 100).
+ *                        Also takes [percentage]: gel-opacity-[35%]. It mixes
+ *                        the gradient colours with transparent. It is not the
+ *                        element's opacity: the choreography sets that inline
+ *                        (autoAlpha) and would override a class.
+ *   gel-opacity-end-<n>  How opaque the gradient is where it ends, 0 (default)
+ *                        to 100. Also takes [percentage]:
+ *                        gel-opacity-end-[35%]. Same colour as the start.
+ *
+ *   gel-blend-<mode>     How the gel blends with what is behind it: multiply
+ *                        (default), normal, screen, overlay, darken, lighten,
+ *                        color-dodge, color-burn, hard-light, soft-light,
+ *                        difference, exclusion, hue, saturation, color or
+ *                        luminosity. Use this and not Tailwind's mix-blend-*:
+ *                        both set mix-blend-mode, and which wins is down to
+ *                        stylesheet order. An arrangement's blendMode is set
+ *                        inline by GelAnimationManager and still overrides it.
+ *
+ *   <div class="gel gel-primary gel-top gel-fade-md gel-opacity-60 gel-blend-screen"></div>
+ *
+ * Defined with @utility so variants compose (lg:gel-accent, lg:gel-blend-normal).
+ * Each utility only sets a variable, so they combine in any order. The colour
+ * classes are swapped at runtime by GelVisualState; the names are listed in
+ * Gel.js. Pair a colour with `gel`: a colour class alone draws nothing.
+ */
+
+/* Fade distances. Tune the scale here. */
+@theme {
+  --gel-distance-xs: 8rem;
+  --gel-distance-sm: 16rem;
+  --gel-distance-md: 24rem;
+  --gel-distance-lg: 40rem;
+  --gel-distance-xl: 64rem;
+  --gel-distance-full: 100%;
+}
+
+@utility gel {
+  mix-blend-mode: var(--gel-blend, multiply);
   contain: content;
   will-change: transform; /* own compositor layer → decouple paint from sibling gels */
-}
-
-/* .bg-gel-neutral applies a gradient from neutral-900 to neutral-400 */
-.bg-gel-neutral {
   background-image: linear-gradient(
-    to top,
-    var(--color-neutral-900),
-    var(--color-neutral-400)
+    var(--gel-direction, to top),
+    color-mix(
+      in srgb,
+      var(--gel-from, var(--color-primary-900)) var(--gel-alpha, 100%),
+      transparent
+    ),
+    color-mix(
+        in srgb,
+        var(--gel-from, var(--color-primary-900)) var(--gel-alpha-end, 0%),
+        transparent
+      )
+      var(--gel-end, 100%)
   );
 }
 
-.bg-gel-neutral-light {
-  background-image: linear-gradient(
-    to top,
-    var(--color-neutral-200),
-    var(--color-neutral-100)
-  );
+/* Base colour: the gel's one colour, faded from gel-opacity to gel-opacity-end */
+@utility gel-neutral {
+  --gel-from: var(--color-neutral-900);
 }
 
-/* .bg-gel-primary applies a gradient from primary-900 to primary-400 */
-.bg-gel-primary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-primary-900),
-    var(--color-primary-600)
-  );
+@utility gel-neutral-light {
+  --gel-from: var(--color-neutral-200);
 }
 
-/* .bg-gel-secondary applies a gradient from secondary-900 to secondary-400 */
-.bg-gel-secondary {
-  background-image: linear-gradient(
-    to top,
-    var(--color-secondary-900),
-    var(--color-secondary-600)
-  );
+@utility gel-primary {
+  --gel-from: var(--color-primary-900);
 }
 
-/* .bg-gel-accent applies a gradient from accent-900 to accent-400 */
-.bg-gel-accent {
-  background-image: linear-gradient(
-    to top,
-    var(--color-accent-900),
-    var(--color-accent-600)
-  );
+@utility gel-secondary {
+  --gel-from: var(--color-secondary-900);
 }
 
-/* .bg-gel-success applies a gradient from success-900 to success-400 */
-.bg-gel-success {
-  background-image: linear-gradient(
-    to top,
-    var(--color-success-900),
-    var(--color-success-600)
+@utility gel-accent {
+  --gel-from: var(--color-accent-900);
+}
+
+/* Direction: the "to" value of linear-gradient */
+@utility gel-top {
+  --gel-direction: to top;
+}
+
+@utility gel-bottom {
+  --gel-direction: to bottom;
+}
+
+@utility gel-left {
+  --gel-direction: to left;
+}
+
+@utility gel-right {
+  --gel-direction: to right;
+}
+
+@utility gel-top-left {
+  --gel-direction: to top left;
+}
+
+@utility gel-top-right {
+  --gel-direction: to top right;
+}
+
+@utility gel-bottom-left {
+  --gel-direction: to bottom left;
+}
+
+@utility gel-bottom-right {
+  --gel-direction: to bottom right;
+}
+
+/* Fade distance: named scale from @theme above, or an arbitrary value */
+@utility gel-fade-* {
+  --gel-end: --value(--gel-distance-*, [length], [percentage]);
+}
+
+/*
+ * Debug: marks where the gradient ends (--gel-end) with a black and yellow
+ * line: the point where the gradient reaches its end opacity. Black stays
+ * visible under any blend mode. Follows the gel's
+ * direction, so it works for corners too. Dev only.
+ */
+@utility gel-debug {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(
+      var(--gel-direction, to top),
+      transparent calc(var(--gel-end, 100%) - 8px),
+      #000 calc(var(--gel-end, 100%) - 8px),
+      #000 calc(var(--gel-end, 100%) - 4px),
+      #ff0 calc(var(--gel-end, 100%) - 4px),
+      #ff0 var(--gel-end, 100%),
+      transparent var(--gel-end, 100%)
+    );
+  }
+}
+
+/* Opacity: 50 → 50%; [35%] → as written */
+@utility gel-opacity-* {
+  --gel-alpha: calc(--value(integer) * 1%);
+  --gel-alpha: --value([percentage]);
+}
+
+/* End opacity: same scale, at --gel-end. Default 0 (transparent) */
+@utility gel-opacity-end-* {
+  --gel-alpha-end: calc(--value(integer) * 1%);
+  --gel-alpha-end: --value([percentage]);
+}
+
+/* Blend mode: any CSS mix-blend-mode keyword */
+@utility gel-blend-* {
+  --gel-blend: --value(
+    "normal",
+    "multiply",
+    "screen",
+    "overlay",
+    "darken",
+    "lighten",
+    "color-dodge",
+    "color-burn",
+    "hard-light",
+    "soft-light",
+    "difference",
+    "exclusion",
+    "hue",
+    "saturation",
+    "color",
+    "luminosity"
   );
 }

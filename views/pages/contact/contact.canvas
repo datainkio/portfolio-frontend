@@ -1,0 +1,15 @@
+{
+	"nodes":[
+		{"id":"fa20b0a20ed19915","type":"group","x":-480,"y":-80,"width":440,"height":540,"color":"3","label":"🧱 content"},
+		{"id":"f8990552a1c5c0c9","x":-1020,"y":-220,"width":400,"height":400,"color":"6","type":"file","file":"dataink.io/frontend/views/pages/contact/contact.md"},
+		{"id":"4bc947d94fe8f54a","type":"file","file":"dataink.io/frontend/views/templates/landing/landing.md","x":-1020,"y":-760,"width":400,"height":400,"color":"3"},
+		{"id":"05c3ca77149d614f","type":"text","text":"🧱 mainStyles","x":-485,"y":-240,"width":250,"height":60,"color":"3"},
+		{"id":"a0eb796d94397096","type":"text","text":"super()","x":-460,"y":-60,"width":400,"height":60,"color":"6"},
+		{"id":"ff9fba5bed560371","x":-460,"y":40,"width":400,"height":400,"color":"6","type":"file","file":"dataink.io/frontend/views/organisms/forms/contact-form.md"}
+	],
+	"edges":[
+		{"id":"ec0ecf1fa1d85ed5","fromNode":"f8990552a1c5c0c9","fromSide":"top","toNode":"4bc947d94fe8f54a","toSide":"bottom","color":"6","label":"extends"},
+		{"id":"c41784edac7ed16b","fromNode":"f8990552a1c5c0c9","fromSide":"right","toNode":"fa20b0a20ed19915","toSide":"left"},
+		{"id":"bb5326c8fd106e76","fromNode":"f8990552a1c5c0c9","fromSide":"right","toNode":"05c3ca77149d614f","toSide":"left"}
+	]
+}

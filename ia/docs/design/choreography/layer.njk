@@ -1,0 +1,47 @@
+---
+pagination:
+  data: choreographyDocs.layers
+  size: 1
+  alias: choreographyLayer
+  addAllPagesToCollections: true
+type: index
+eleventyComputed:
+  title: "{{ choreographyLayer.title | safe }}"
+  description: "{{ choreographyLayer.description | safe }}"
+  permalink: "{{ choreographyLayer.url }}"
+---
+{#- One index page per folder under js/choreography/. The intro is the layer's
+    README; the list is every sidecar in the layer with its description. The
+    System page also lists the layers folded into its sidebar section
+    (`foldedLayers`, from the reader). -#}
+{%- if choreographyLayer.body %}
+  {{ choreographyLayer.body | markdownify(true) | safe }}
+{%- endif %}
+
+{%- if choreographyLayer.foldedLayers.length %}
+<section aria-labelledby="layers-heading">
+  <h2 id="layers-heading">Layers</h2>
+  <p>These layers sit in this section of the sidebar. Each has an index page of its own.</p>
+  <dl>
+    {%- for l in choreographyLayer.foldedLayers %}
+      <dt><a href="{{ l.url }}">{{ l.title }}</a> ({{ l.count }})</dt>
+      <dd>{{ l.description }}</dd>
+    {%- endfor %}
+  </dl>
+</section>
+{%- endif %}
+
+<section aria-labelledby="modules-heading">
+  <h2 id="modules-heading">Modules</h2>
+  {%- for group in choreographyLayer.groups %}
+    {%- if group.title %}
+      <h3 id="{{ ('group-' ~ group.title) | slugify }}"><code>{{ group.title }}</code></h3>
+    {%- endif %}
+    <dl>
+      {%- for m in group.modules %}
+        <dt><a href="{{ m.url }}">{{ m.title }}</a></dt>
+        <dd>{{ m.description }}</dd>
+      {%- endfor %}
+    </dl>
+  {%- endfor %}
+</section>

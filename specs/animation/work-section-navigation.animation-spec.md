@@ -20,8 +20,8 @@ For `#work`, children = industries. Index = the drawer/rail jumplinks.
 
 ## Foundational pattern (all breakpoints)
 
-1. **Header** is the drawer/rail — `data-projects-el="header"`, the `fixed left-0` positioned/moving box (background, shadow, boundary geometry). Parent of the `<nav>`.
-2. **In-page nav** — `<nav data-projects-el="jumplinks" id="work-jumplinks" aria-label="Jump to an industry">`, one `<a href="#industry-{slug}" data-projects-el="industry-link">` per child. Unpositioned — it exists inside the header only so the toggle's `aria-controls` has a stable id to point at. Native anchors; works with no JS.
+1. **Drawer/rail** — the `<nav>` itself is the fixed, positioned/moving box (background, shadow, boundary geometry). There is no wrapper element. It renders in `base.njk`'s `sidebarBefore` block, so it precedes `<main>` in source and focus order; its visual position is set entirely by `fixed` utilities.
+2. **In-page nav** — `<nav data-projects-el="jumplinks" id="work-jumplinks" aria-label="Jump to an industry">`, one `<a href="#industry-{slug}" data-projects-el="industry-link">` per child. Its `id` is the toggle's `aria-controls` target. Native anchors; works with no JS.
    - **Bidirectional jump** — activating a link scrolls to the **top** of the target child group, whether it sits above or below the current scroll position. The anchor destination is the group's `industry-heading` `id`; scroll lands the heading at the top (accounting for the sticky header offset). No "forward-only" assumption — backward jumps must work identically.
 3. **Drawer / rail** — `WorkHeaderManager`, responsive drive via `gsap.matchMedia()`, boundary `md`:
    - **Below `md`** — the header rests **off-canvas**, translated fully out of view (`xPercent: -100`) behind a persistent `<button data-projects-el="drawer-toggle" aria-expanded aria-controls="work-jumplinks">`. Tapping the handle toggles open/closed; a click on any `industry-link` closes the drawer (the anchor still navigates); `Escape` closes and returns focus to the handle; a click outside the header closes it. Non-modal — no focus trap, no `inert`.
@@ -35,8 +35,7 @@ Pattern keys on `data-*`, never classes:
 
 | Attr                                  | Role                                                                                  |
 | ------------------------------------- | -------------------------------------------------------------------------------------- |
-| `data-projects-el="header"`           | the drawer/rail — `fixed left-0` positioned/moving box; parent of the `<nav>`          |
-| `data-projects-el="jumplinks"`        | `<nav>` — unpositioned; `id="work-jumplinks"` = `drawer-toggle`'s `aria-controls`      |
+| `data-projects-el="jumplinks"`        | `<nav>` — the fixed drawer/rail; `id="work-jumplinks"` = `drawer-toggle`'s `aria-controls` |
 | `data-projects-el="drawer-toggle"`    | `<button>` handle; `aria-expanded` + `aria-controls="work-jumplinks"`; `md:hidden`     |
 | `data-projects-el="industry-links"`   | `<ul>` — vertical list at every width, no transform, no height animation               |
 | `data-projects-el="industry-link"`    | anchor → child group; carries active state (`aria-current`, set by `WorkNavManager`)   |

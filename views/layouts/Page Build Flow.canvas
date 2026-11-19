@@ -1,0 +1,31 @@
+{
+	"nodes":[
+		{"id":"7c4e7e196e7f8785","type":"group","x":-2640,"y":-2560,"width":4380,"height":1080,"color":"4","label":"Eleventy"},
+		{"id":"3bcec9e1d808077b","type":"group","x":-2640,"y":-760,"width":4120,"height":440,"color":"1","label":"Sanity"},
+		{"id":"eecfaa2087203493","type":"group","x":-2640,"y":-1360,"width":3380,"height":440,"color":"6","label":"Content Model"},
+		{"id":"a92f45cccc96e2a7","type":"group","x":-1960,"y":-2460,"width":2680,"height":440,"color":"4","label":"Data retrieval & transformation"},
+		{"id":"792a6fc86903c884","type":"file","file":"dataink.io/frontend/views/pages/home/home.md","x":1060,"y":-2440,"width":400,"height":400,"color":"4"},
+		{"id":"46c25919a8a72ed4","type":"file","file":"dataink.io/frontend/ia/index.md","x":-2540,"y":-2320,"width":400,"height":580,"color":"4"},
+		{"id":"faec060422fa97af","type":"file","file":"dataink.io/frontend/data/sanity/client/index.md","x":-1880,"y":-740,"width":400,"height":400,"color":"1"},
+		{"id":"4b81c31ccdb1d217","type":"file","file":"dataink.io/backend/schemaTypes/documents/content/singletons/home.md","x":-800,"y":-740,"width":400,"height":400,"color":"1"},
+		{"id":"35bfaa74dc9c0b80","type":"text","text":"The home.ts schema defines the document providing the content that will display on the site's homepage.","x":-1250,"y":-602,"width":250,"height":125,"color":"1"},
+		{"id":"bb541e698ddbbf64","type":"text","text":"Projections reduce query brittleness by making fieldsets easily repeatable.","x":-1140,"y":-2420,"width":250,"height":100,"color":"4"},
+		{"id":"2bfb3880dd7bb623","type":"file","file":"dataink.io/frontend/data/sanity/projections/page/pageProjection.md","x":-860,"y":-2440,"width":400,"height":400,"color":"4"},
+		{"id":"eb2794e3ae5deef8","type":"file","file":"dataink.io/frontend/data/sanity/queries/home.md","x":-300,"y":-2440,"width":400,"height":400,"color":"4"},
+		{"id":"2ed3b63ae927f880","type":"file","file":"dataink.io/frontend/data/sanity/transforms/home.md","x":300,"y":-2440,"width":400,"height":400,"color":"4"},
+		{"id":"3b20ebf4d9101210","type":"file","file":"dataink.io/content-model/documents/singletons/home.md","x":-2620,"y":-1340,"width":400,"height":400,"color":"6"},
+		{"id":"e112e11b719de5fc","type":"text","text":"The content model sets the contract between the frontend and the backend describing the data structure that both agree to adopt for a given object.","x":-2120,"y":-1225,"width":250,"height":170,"color":"6"}
+	],
+	"edges":[
+		{"id":"7805562d6b76e66d","fromNode":"faec060422fa97af","fromSide":"right","toNode":"35bfaa74dc9c0b80","toSide":"left","color":"1"},
+		{"id":"eb92a91b17dc41f3","fromNode":"2bfb3880dd7bb623","fromSide":"right","toNode":"eb2794e3ae5deef8","toSide":"left","label":"Fields"},
+		{"id":"58bde9e6455ae781","fromNode":"eb2794e3ae5deef8","fromSide":"right","toNode":"2ed3b63ae927f880","toSide":"left","label":"Transform"},
+		{"id":"aef5cf8eee291cea","fromNode":"e112e11b719de5fc","fromSide":"top","toNode":"2bfb3880dd7bb623","toSide":"left","color":"6"},
+		{"id":"e70a24ef7de06140","fromNode":"4b81c31ccdb1d217","fromSide":"right","toNode":"eb2794e3ae5deef8","toSide":"bottom","color":"1","label":"Sanity delivers the home page singleton object."},
+		{"id":"ddda2c245d569d27","fromNode":"2ed3b63ae927f880","fromSide":"right","toNode":"792a6fc86903c884","toSide":"left","color":"4","label":"Content"},
+		{"id":"0c3958dd6cabceab","fromNode":"35bfaa74dc9c0b80","fromSide":"right","toNode":"4b81c31ccdb1d217","toSide":"left","color":"1"},
+		{"id":"846027d3849f9c5a","fromNode":"e112e11b719de5fc","fromSide":"bottom","toNode":"4b81c31ccdb1d217","toSide":"left","color":"6"},
+		{"id":"428d27c3bc9dce31","fromNode":"3b20ebf4d9101210","fromSide":"right","toNode":"e112e11b719de5fc","toSide":"left","color":"6"},
+		{"id":"0e0a22ea8c35620c","fromNode":"46c25919a8a72ed4","fromSide":"right","toNode":"a92f45cccc96e2a7","toSide":"left","color":"4","label":"Datasource"}
+	]
+}

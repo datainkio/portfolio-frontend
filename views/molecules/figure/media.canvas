@@ -1,0 +1,186 @@
+{
+  "nodes": [
+    {
+      "type": "file",
+      "id": "5b9e1a52-6d9b-4ffd-9fe7-cb82c9eab8d9",
+      "x": 240,
+      "y": 140,
+      "width": 500,
+      "height": 300,
+      "file": "frontend/views/molecules/figure/media.md"
+    },
+    {
+      "type": "file",
+      "id": "a80650f0-02c8-4589-ac29-d26bc1d5b809",
+      "x": 720,
+      "y": 740,
+      "width": 520,
+      "height": 300,
+      "color": "2",
+      "file": "string:frontend/views/atoms/video/video.md::# Video"
+    },
+    {
+      "type": "text",
+      "id": "bfefbb51-9cdd-4fe9-b255-5bd5714e4d05",
+      "x": 720,
+      "y": 1060,
+      "width": 520,
+      "height": 80,
+      "color": "3",
+      "text": "# Picture"
+    },
+    {
+      "type": "file",
+      "id": "bc7badf5-67dc-4d84-b404-2d5189b6fc1e",
+      "x": 1960,
+      "y": 760,
+      "width": 500,
+      "height": 60,
+      "file": "frontend/views/atoms/button.md"
+    },
+    {
+      "type": "file",
+      "id": "e85402c1-ab3a-4fe6-b090-fa76cecdc7fc",
+      "x": 1960,
+      "y": 860,
+      "width": 500,
+      "height": 300,
+      "file": "frontend/views/molecules/lightbox/lightbox-dialog.md"
+    },
+    {
+      "type": "text",
+      "id": "8bea6bea-453c-462b-b7f2-bb6c5b489d18",
+      "x": 1960,
+      "y": 1200,
+      "width": 500,
+      "height": 80,
+      "text": "# Figcaption"
+    },
+    {
+      "type": "group",
+      "id": "cadf2384-4800-429c-b1b7-61da8eca4eb6",
+      "x": 1940,
+      "y": 720,
+      "width": 540,
+      "height": 580,
+      "color": "6",
+      "label": "FIGURE"
+    },
+    {
+      "type": "text",
+      "id": "39c564bb-8e32-4d44-a8d6-ebdd4cd0bc96",
+      "x": 720,
+      "y": 1160,
+      "width": 520,
+      "height": 80,
+      "color": "5",
+      "text": "# IMG"
+    },
+    {
+      "type": "text",
+      "id": "c22a41cb-0656-49ac-8032-f9c3cb0bae60",
+      "x": 280,
+      "y": 560,
+      "width": 440,
+      "height": 80,
+      "text": "# What kind of media is it?"
+    },
+    {
+      "type": "text",
+      "id": "cad04dba-9d91-49dd-a87a-2ade9865b06c",
+      "x": 1540,
+      "y": 980,
+      "width": 260,
+      "height": 80,
+      "text": "# Clicked"
+    }
+  ],
+  "edges": [
+    {
+      "id": "43c33ea3-ce0c-4197-9c2f-7b8bfca3eb37",
+      "fromNode": "5b9e1a52-6d9b-4ffd-9fe7-cb82c9eab8d9",
+      "fromSide": "bottom",
+      "toNode": "c22a41cb-0656-49ac-8032-f9c3cb0bae60",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "style": "solid",
+      "shape": "curved"
+    },
+    {
+      "id": "852c73f0-9947-47a5-8983-6b984838fc86",
+      "fromNode": "c22a41cb-0656-49ac-8032-f9c3cb0bae60",
+      "fromSide": "bottom",
+      "toNode": "a80650f0-02c8-4589-ac29-d26bc1d5b809",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "2",
+      "style": "solid",
+      "shape": "curved"
+    },
+    {
+      "id": "e9110c86-c9cc-476e-bbd1-d4b728f37a68",
+      "fromNode": "c22a41cb-0656-49ac-8032-f9c3cb0bae60",
+      "fromSide": "bottom",
+      "toNode": "bfefbb51-9cdd-4fe9-b255-5bd5714e4d05",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3",
+      "style": "solid",
+      "shape": "curved"
+    },
+    {
+      "id": "ef62f136-28c2-45dd-b202-2a6215f7463c",
+      "fromNode": "c22a41cb-0656-49ac-8032-f9c3cb0bae60",
+      "fromSide": "bottom",
+      "toNode": "39c564bb-8e32-4d44-a8d6-ebdd4cd0bc96",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5",
+      "style": "solid",
+      "shape": "curved"
+    },
+    {
+      "id": "f053fb1a-3ca0-4478-89f4-64f5f79e2b4a",
+      "fromNode": "a80650f0-02c8-4589-ac29-d26bc1d5b809",
+      "fromSide": "right",
+      "toNode": "cad04dba-9d91-49dd-a87a-2ade9865b06c",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "2",
+      "style": "solid",
+      "shape": "curved"
+    },
+    {
+      "id": "9c011dea-0e49-485f-bc94-303faf7d6656",
+      "fromNode": "bfefbb51-9cdd-4fe9-b255-5bd5714e4d05",
+      "fromSide": "right",
+      "toNode": "cad04dba-9d91-49dd-a87a-2ade9865b06c",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "3",
+      "style": "solid",
+      "shape": "curved"
+    },
+    {
+      "id": "0cf1ebd7-efcd-4e06-90e0-7fe36a607b38",
+      "fromNode": "39c564bb-8e32-4d44-a8d6-ebdd4cd0bc96",
+      "fromSide": "right",
+      "toNode": "cad04dba-9d91-49dd-a87a-2ade9865b06c",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "color": "5",
+      "style": "solid",
+      "shape": "curved"
+    },
+    {
+      "id": "d72589a9-10d7-4282-96ce-e94074691e01",
+      "fromNode": "cad04dba-9d91-49dd-a87a-2ade9865b06c",
+      "fromSide": "right",
+      "toNode": "cadf2384-4800-429c-b1b7-61da8eca4eb6",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "style": "solid",
+      "shape": "curved"
+    }
+  ]
+}

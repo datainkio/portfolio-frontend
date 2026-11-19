@@ -13,21 +13,11 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
-  // Layout
-  header: "global-header",
-  // Home landing header — role state machine hook (queried via querySelector)
-  homeHeader: "[data-home-header]",
-  homeHGroup: "[data-home-header] hgroup",
-  homeNav: "[data-home-header] nav",
-  // Page-nav list items — stagger targets for the menu reveal
-  pageNavItem: "[data-page-nav-el='item']",
-
   // Section IDs
-  hero: "hero",
   organizations: "organizations",
-  bio: "manifesto",
+  hero: "manifesto",
   process: "process",
-  awards: "recognition",
+  awards: "awards",
   work: "work",
   contact: "contact",
 
@@ -37,10 +27,6 @@ export const SELECTORS = {
 
   overlayView: "overlay-view",
   video: "background",
-};
-
-export const HERO_SELECTORS = {
-  tagline: "tagline",
 };
 
 /**
@@ -57,16 +43,35 @@ export const PROJECT_HEADER_SELECTORS = {
   image: "[data-project-header-image]",
 };
 
-export const BIO_SELECTORS = {
-  elementAttribute: "data-bio-el",
+export const HERO_SELECTORS = {
+  elementAttribute: "data-hero-el",
   header: "header",
   title: "heading",
+  // Solid full-bleed plates (molecules/band): one behind the context label +
+  // title, which the intro wipes in from the viewport's left edge, and one per
+  // statement after the first. Each may hold a parallax `bandImage`.
+  band: "band",
+  bandImage: "band-image",
   context: "context",
   missionStatement: "mission-statement",
+  // Inline prepared SVG inside a statement's figure; its top-level <g>s are
+  // revealed in source order as the statement pins (molecules/svg-reveal).
+  statementSvg: "statement-svg",
 };
 
 export const PROCESS_SELECTORS = {
   elementAttribute: "data-process-el",
+};
+
+/**
+ * Badge (organisms/header/badge.njk): the fixed button that opens the
+ * site-map dialog, and the dialog's close button.
+ */
+export const BADGE_SELECTORS = {
+  elementAttribute: "data-badge-el",
+  toggle: "toggle",
+  dialog: "dialog",
+  close: "close",
 };
 
 export const BUILD_INFO_SELECTORS = {

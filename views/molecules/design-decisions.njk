@@ -1,0 +1,20 @@
+{% import "molecules/card/design-decision.njk" as DesignDecision %}
+{% import "molecules/section/section-frame.njk" as SectionFrame %}
+{% macro render(params = {}) %}
+  {% set decisions = params.decisions or [] %}
+  {% if decisions | length %}
+    {%- set listStyles = {
+      "base": "design-decisions__list p-6 pt-0 grid grid-cols-1 gap-6",
+      "sm": "grid-cols-2 gap-4",
+      "lg": "grid-cols-4"
+    } -%}
+    {%- set liStyles = {"base": "design-decisions__item ", "md": "divide-x divide-neutral-700"} -%}
+    {%- call SectionFrame.render({ heading: "Process + Evidence Plates", id: "design-decisions-heading", tone: "neutral-600", classes: ["design-decisions", params.classes] }) %}
+      <ul data-decisions-el="list" class="{{ listStyles | classes }}">
+        {% for item in decisions %}
+          <li data-decisions-el="item" class="{{ liStyles | classes }}">{{ DesignDecision.render({ item: item, index: loop.index }) }}</li>
+        {% endfor %}
+      </ul>
+    {%- endcall %}
+  {% endif %}
+{% endmacro %}

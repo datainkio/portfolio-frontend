@@ -1,0 +1,27 @@
+{#
+  One design decision. Contract: content-model/objects/content/design-decision.md
+  Order per content-model/patterns/project-page.md §8: artifact · decision · result · activities.
+  Unstyled by intent.
+#}
+{% import "molecules/figure/media.njk" as Media %}
+{%- set articleStyles = {"base": "h-full flex flex-col gap-2 m-0 sm:border sm:border-1 sm:border-neutral-700 sm:py-2 sm:px-4"} -%}
+{#- Inner maps are separate variables: a nested literal ending in `}}` closes the tag early. -#}
+{%- set artifactFigureStyles = {"base": "p-2 border-neutral-700", "sm": "border"} -%}
+{%- set artifactCaptionStyles = {"base": "sr-only"} -%}
+{%- set artifactStyles = {"caption": artifactCaptionStyles} -%}
+{%- macro render(params = {}) -%}
+  {%- set item = params.item or {} -%}
+  {%- set count = params.index | default("0") -%}
+  <article data-decisions-el="decision" class="{{ [articleStyles, params.classes] | classes }}">
+    {%- if item.activities | length -%}
+      <ul aria-label="Activities">
+        {%- for activity in item.activities -%}
+          <li class="font-display text-sm text-neutral-400 truncate">Fig 0{{ count }} / {{ activity.title }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    {{ Media.render({ image: item.artifact, loading: "lazy", zoom: true, classes: artifactFigureStyles, styles: artifactStyles }) }}
+    <h3 class="text-base m-0 prose text-neutral-300 leading-normal font-sans"><span class="uppercase pr-1">Decision:</span> {{ item.decision }}</h3>
+    <p class="m-0 prose text-neutral-300 leading-normal whitespace-pre-line font-sans"><span class="uppercase pr-1">Result:</span> {{ item.result }}</p>
+  </article>
+{%- endmacro -%}

@@ -12,8 +12,8 @@
  *             AbstractSection._applyResponsiveLifecycle).
  *
  * NOTE: trigger capability flags (scrub/pin/once) are intentionally NOT defined here.
- * They are owned by each section's base trigger config (e.g. BIO_TRIGGER) and are not
- * breakpoint-varying. If per-breakpoint capability is ever needed, merge profile.trigger
+ * They are owned by each section's base trigger config (e.g. HERO_TRIGGER), which lives in
+ * the organism's *Triggers.js, and are not breakpoint-varying. If per-breakpoint capability is ever needed, merge profile.trigger
  * over _getTriggerDefaults() in AbstractSectionTriggers.bind() and reintroduce them.
  */
 import { getActiveBreakpoint } from "./breakpoints.js";
@@ -25,7 +25,7 @@ export const ACCESSIBILITY_SETTINGS = {
   // reducedMotionStagger: 0.05, // seconds
   // reducedMotionEase: "none", // no easing for reduced motion
 };
-export const MOTION_PROFILES = Object.freeze({
+const MOTION_PROFILES = Object.freeze({
   reduced: {
     timeline: { enabled: false },
     trigger: { enabled: false },
@@ -68,89 +68,77 @@ export const MOTION_PROFILES = Object.freeze({
 // static-reset branch (clearProps:all) for ALL users — not only those with
 // prefers-reduced-motion. Pair with the `?cardVariant=` live override in
 // resolveSectionMotionProfile to flip a real variant on without editing this file.
-const CARD_STATIC = Object.freeze({
+const CARD_STATIC_PROFILE = Object.freeze({
   animation: { variant: "static" },
   timeline: { enabled: false },
   trigger: { enabled: false },
 });
 
-const CARD_STICKY = Object.freeze({
+const CARD_STICKY_PROFILE = Object.freeze({
   animation: { variant: "sticky" },
   timeline: { enabled: true },
   trigger: { enabled: true },
 });
 
-const CARD_PARALLAX = Object.freeze({
+const CARD_PARALLAX_PROFILE = Object.freeze({
   animation: { variant: "parallax" },
   timeline: { enabled: true },
   trigger: { enabled: true },
 });
 
+// Same override at every breakpoint tier (base → xl). `reduced` is not a tier
+// and stays an explicit key where a section sets it.
+const allBreakpoints = (value) => ({
+  base: value,
+  sm: value,
+  md: value,
+  lg: value,
+  xl: value,
+});
+
 export const SECTION_OVERRIDES = Object.freeze({
-  hero: {
-    base: { animation: { variant: "simple" } },
-    sm: { animation: { variant: "simple" } },
-    md: { animation: { variant: "simple" } },
-    lg: { animation: { variant: "simple" } },
-    xl: { animation: { variant: "simple" } },
-    // Reduced motion: run the same `shutter` UX as the breakpoint profiles.
-    // The shutter is driven by the lifecycle landing (timeline) and the gel
-    // scrub trigger (HeroTriggers._gelTrigger), so BOTH channels must be
-    // enabled — the global `reduced` profile disables both. This override
-    // fully replaces those channels via the shallow merge in
-    // resolveSectionMotionProfile. NOTE: this intentionally forgoes a reduced
-    // experience for hero — see the a11y caveat in the handoff.
-    // Issue URL: https://github.com/datainkio/portfolio-frontend/issues/146
-    reduced: {
-      animation: { variant: "shutter" },
-      timeline: { enabled: true },
-      trigger: { enabled: true },
-    },
-  },
   card: {
     // Variant 01 (below lg): figure sticks to the viewport top while the body
     // scrolls over it. See specs/animation/project-card-responsiveness.md.
     // Variant 02 (lg+): body parallax — subtle vertical offset as card scrolls.
     reduced: { animation: { variant: "reduced" } },
-    base: CARD_STICKY,
-    sm: CARD_STICKY,
-    md: CARD_STICKY,
-    lg: CARD_PARALLAX,
-    xl: CARD_PARALLAX,
+    base: CARD_STICKY_PROFILE,
+    sm: CARD_STICKY_PROFILE,
+    md: CARD_STICKY_PROFILE,
+    lg: CARD_PARALLAX_PROFILE,
+    xl: CARD_PARALLAX_PROFILE,
   },
   work: {
     // reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "reduced" } },
-    sm: { animation: { variant: "reduced" } },
-    md: { animation: { variant: "reduced" } },
-    lg: { animation: { variant: "reduced" } },
-    xl: { animation: { variant: "reduced" } },
+    ...allBreakpoints({ animation: { variant: "reduced" } }),
   },
-  bio: {
+  hero: {
     reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "split" } },
-    sm: { animation: { variant: "split" } },
-    md: { animation: { variant: "split" } },
-    lg: { animation: { variant: "split" } },
-    xl: { animation: { variant: "split" } },
+    ...allBreakpoints({ animation: { variant: "split" } }),
   },
   process: {
     reduced: { animation: { variant: "reduced" } },
-    base: { animation: { variant: "ui-components-loop" } },
-    sm: { animation: { variant: "ui-components-loop" } },
-    md: { animation: { variant: "ui-components-loop" } },
-    lg: { animation: { variant: "ui-components-loop" } },
-    xl: { animation: { variant: "ui-components-loop" } },
+    ...allBreakpoints({ animation: { variant: "ui-components-loop" } }),
   },
   awards: {
-    base: { animation: { variant: "reduced" } },
-    sm: { animation: { variant: "reduced" } },
-    md: { animation: { variant: "reduced" } },
-    lg: { animation: { variant: "reduced" } },
-    xl: { animation: { variant: "reduced" } },
+    ...allBreakpoints({ animation: { variant: "reduced" } }),
     reduced: {
       animation: { variant: "reduced" },
     },
+  },
+  video: {
+    // Two-point perspective tilt after the reveal (lg+ only). Below lg —
+    // narrow viewports — the background stays flat for MTP. Gated by width, not
+    // orientation: a portrait viewport 1024px+ wide (lg) still tilts.
+    // No `reduced` key on purpose: reduced motion changes how the tilt arrives
+    // (snapped, not tweened), not whether it applies, so BackgroundVideo
+    // resolves the breakpoint tier's variant with reduced motion set aside.
+    // See specs/animation/background-video-perspective-spec.md.
+    ...allBreakpoints({ animation: { variant: "flat" } }),
+    sm: { animation: { variant: "perspective" } },
+    md: { animation: { variant: "perspective" } },
+    lg: { animation: { variant: "perspective" } },
+    xl: { animation: { variant: "perspective" } },
   },
 });
 
@@ -166,7 +154,7 @@ export const SECTION_OVERRIDES = Object.freeze({
  * @param {Object} conditions - Conditions object from gsap.matchMedia context
  * @returns {string} Profile key: 'reduced' | 'base' | 'sm' | 'md' | 'lg' | 'xl'
  */
-export function getActiveMotionProfileKey(conditions = {}) {
+function getActiveMotionProfileKey(conditions = {}) {
   if (ACCESSIBILITY_SETTINGS.testReducedMotion === true) return "reduced";
   if (conditions.reduceMotion) return "reduced";
   return getActiveBreakpoint(conditions);
@@ -180,7 +168,7 @@ export function getActiveMotionProfileKey(conditions = {}) {
  * top-level channels (timeline, trigger, animation) in the override replace
  * their counterparts in the base profile.
  *
- * @param {string} sectionKey - Section identifier (e.g. 'hero', 'bio', 'card')
+ * @param {string} sectionKey - Section identifier (e.g. 'hero', 'card')
  * @param {Object} conditions  - Conditions object from gsap.matchMedia context
  * @returns {{ timeline: Object, trigger: Object, animation?: Object }} Resolved profile
  */

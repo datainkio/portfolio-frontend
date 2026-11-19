@@ -26,7 +26,7 @@ Classified as a **layout** at the atomic **none** level based on its location un
 ## Data and Context
 
 - `content` — referenced in the template.
-- `sidebar_after` — referenced in the template.
+- `sidebarAfter` — referenced in the template.
 
 ## Relationships
 

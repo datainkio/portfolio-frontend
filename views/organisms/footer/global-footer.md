@@ -29,22 +29,15 @@ Classified as a **component** at the atomic **organism** level based on its
 location under `views/`. As a direct child of the page (not of `<main>`), the
 `<footer>` is the page's `contentinfo` landmark.
 
-## Data and Context
+## Params
 
-- `main_pages` — [main-pages](../../molecules/list/main-pages.md) list molecule,
-  used for the footer navigation.
-- `cms.navigation[0].footerItems` — CMS navigation record (see
-  `data/sanity/transforms/navigation.js`); the macro is imported
-  `with context` so it can resolve `cms` and `site`.
-- `site.year` — from `site.json`; copyright year fallback.
-- `params`:
-  - `classes` — replaces the default footer class string
-    (`global-footer col-span-full py-8 px-4 text-center text-sm text-primary-200 bg-transparent`).
-  - `items` — overrides the CMS `footerItems`.
-  - `year` — overrides `site.year`.
-
-The `<nav aria-label="Footer navigation">` renders only when there are footer
-items. The list is a `grid grid-cols-12` so `main-pages` has a parent grid.
+| Param | Type | Description |
+| --- | --- | --- |
+| `cms` | object | CMS document. `contact[0].socialAccounts` feeds the social links. `navigation[0].headerItems` feeds the primary nav. |
+| `pages` | array | Passed to the primary nav as the eleventyNavigation fallback. |
+| `currentUrl` | string | Passed to the primary nav for `aria-current`. |
+| `year` | number or string | Copyright year. |
+| `classes` | string, variant map, or array | Applied to the `<footer>` through `classes`, after the footer baseline. |
 
 ## Placement — outside `<main>`, outside the ScrollSmoother wrapper
 
@@ -77,9 +70,12 @@ which pins it to the bottom of `<body>` — ScrollSmoother sets `<body>`'s
 height to the content height, so that bottom edge is the end of `<main>`.
 `<main>` reserves the footer's space with `pb-48`; that padding must stay
 **≥ the footer's rendered height** (~172px at desktop with the two-item nav)
-or the footer overlaps the last section. `home.njk` passes these classes via
-`params.classes`, which replaces the macro default string, so the default's
-typography/spacing utilities are repeated there.
+or the footer overlaps the last section.
+
+**Positioning is the caller's job (2026-10-02).** The macro's default classes
+carry no positioning, and `params.classes` is *appended* to them (Component API
+spec), not substituted. Pinned callers pass `"absolute inset-x-0 bottom-0"`;
+in-flow callers pass nothing.
 
 Do not "fix" the footer's position by moving it into `<main>`, and do not
 reintroduce a non-landmark `<div>` as the `content` element.
@@ -87,14 +83,18 @@ reintroduce a non-landmark `<div>` as the `content` element.
 **Current state per caller:**
 
 - [`home.njk`](../../pages/home/home.njk) — follows the shape above.
-- [`base.njk`](../../layouts/base.njk) — same shape: the footer renders after
-  the `#page-main` wrapper (whether or not `smoothScroll` builds it), `<body>`
-  is `relative min-h-dvh`, and `<main>` reserves the footer's height with an
-  `after:h-48` pseudo-element spacer instead of `pb-48`, so it can't conflict
-  with a page's own `mainStyles` padding. `min-h-dvh` puts the footer at the
-  viewport bottom on pages shorter than the viewport.
-  (Before 2026-09-28 the footer sat inside the fixed `#page-main`, so it was
-  pinned to the viewport on every `smoothScroll` page.)
+- [`base.njk`](../../layouts/base.njk) — two shapes, chosen by `footerInFlow`
+  (`not (smoothScroll or pinFooter)`):
+  - **In flow (default):** `<body>` is `flex flex-col min-h-dvh` and `<main>`
+    is `w-full flex-1`. The footer sits directly under the content at any
+    footer height, or at the viewport bottom on short pages. No spacer. Used
+    by project pages, `/about`, and `/user-guide`.
+  - **Pinned:** `smoothScroll` pages (`landing.njk`: `/work`, `/contact`) and
+    grid-`<body>` layouts (`cols-2-before`/`cols-2-after` set `pinFooter`; docs
+    pages) keep the shape above: footer `absolute inset-x-0 bottom-0`, and
+    `<main>` reserves its height with an `after:h-48` spacer.
+  (Before 2026-09-28 the footer sat inside the fixed `#page-main`. Before
+  2026-10-02 every `base.njk` page used the pinned shape.)
 
 ## Relationships
 

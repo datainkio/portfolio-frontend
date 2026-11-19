@@ -28,7 +28,7 @@ export default async function (eleventyConfig) {
       "standard",
     );
     // Runtime flags shared with the JS build. `bundleJs` must mirror the
-    // default in scripts/buildChoreography.js (BUNDLE_JS env, default true) so
+    // default in scripts/build/buildChoreography.js (BUNDLE_JS env, default true) so
     // the choreography-script partial loads the minified bundle.js the bundler
     // emits — rather than the raw ESM import tree — whenever bundling is on.
     const normalizeBoolean = (value) => {
@@ -44,6 +44,12 @@ export default async function (eleventyConfig) {
     // .env and restart the dev server to turn on.
     const debugOutlines = normalizeBoolean(process.env.DEBUG_OUTLINES) ?? false;
     eleventyConfig.addGlobalData("runtime", { bundleJs, debugOutlines });
+    // Documentation (everything under ia/docs/) renders only when DOCS is on:
+    // `npm run document` and `npm run start:docs` set it, and so do the deploy
+    // workflows. Off by default, so `npm start` and `npm run quick` skip about
+    // 240 pages.
+    const docs = normalizeBoolean(process.env.DOCS) ?? false;
+    if (!docs) eleventyConfig.ignores.add("ia/docs/**");
 
     // Passthrough copy for static assets
     logger.trace("Configuring passthrough copy", null, "brief", msgStyle);
@@ -71,8 +77,17 @@ export default async function (eleventyConfig) {
     // eleventyConfig.addPassthroughCopy({ js: 'assets/js' });
     // Copy video files for background video in StageManager
     // eleventyConfig.addPassthroughCopy({ 'assets/video': 'assets/video' });
+    // Dev: serve passthrough files from source instead of copying ~580 files
+    // on every rebuild.
+    eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
+    // JS is bundled by esbuild (dev:js); a JS save must not rebuild pages.
+    // Choreography sidecars are the exception when docs render: they are the
+    // source of the choreography reference (ia/docs/design/choreography/), so a save rebuilds it.
+    eleventyConfig.watchIgnores.add("./js/**/*.js");
+    eleventyConfig.watchIgnores.add("./js/**/*.canvas");
+    if (docs) eleventyConfig.addWatchTarget("./js/choreography/**/*.md");
     eleventyConfig.setServerOptions({
-      watch: ["_site/**/*.css"],
+      watch: ["_site/**/*.css", "assets/js/choreography/bundle.js"],
     });
     // eleventyConfig.addPassthroughCopy("video"); // slows down the build
     // eleventyConfig.addPassthroughCopy("svg");

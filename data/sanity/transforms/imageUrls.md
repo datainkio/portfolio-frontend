@@ -8,7 +8,7 @@ tags:
 aliases:
   - Image URL transform
 links:
-  - "[[README.transforms]]"
+  - "[[data/sanity/transforms/README|transforms]]"
   - "[[sanityService]]"
   - "[[image-asset]]"
 ---

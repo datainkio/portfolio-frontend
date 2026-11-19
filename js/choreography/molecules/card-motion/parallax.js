@@ -23,7 +23,7 @@ import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 import { killST, buildScrollTrigger } from "./card-motion.js";
 import { CARD_FIGURE_PARALLAX_TRIGGER } from "../../organisms/card/CardTriggers.js";
-import { CARD_PARALLAX } from "../../config/ix/motion.js";
+import { CARD_PARALLAX } from "../../config/ix/presets/card.js";
 
 export function createCardParallax({
   figure,

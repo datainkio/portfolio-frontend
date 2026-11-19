@@ -30,6 +30,27 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("findIndexOf", findIndexOf);
   eleventyConfig.addFilter("sortByKey", sortByKey);
   eleventyConfig.addFilter("getByIndexRange", getByIndexRange);
+  eleventyConfig.addFilter("shuffle", shuffle);
+}
+
+/**
+ * Return a randomly ordered copy of an array (Fisher–Yates).
+ * Random per build, not per visit: the order is fixed into the rendered HTML.
+ *
+ * @param {Array} array - Array to shuffle
+ * @returns {Array} New shuffled array (doesn't mutate original)
+ *
+ * EXAMPLE:
+ * {{ collections.organizations | shuffle }}
+ */
+export function shuffle(array) {
+  if (!Array.isArray(array)) return [];
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
 }
 
 /**

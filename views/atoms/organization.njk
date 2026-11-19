@@ -1,22 +1,36 @@
+{#-
+  Organization logo tile for the homepage organizations marquee.
+
+  The Sanity logos are opaque 16:9 brand tiles, shown in their original colour.
+  Alt text is the organization name: that is what the logo communicates, and
+  the Sanity `logo.alt` values are inconsistent ("QVC Company Logo", null, …).
+
+  Falls back to the plain title when an organization has no logo.
+
+Params:
+  title    string  Organization name. Trimmed; used as the alt text.
+  logo     object  Sanity logo: { asset: { url, metadata.dimensions } }.
+  classes  string  Appended to the img classes through the `classes` filter.
+-#}
 {% macro render(params = {}) %}
+  {%- set title = params.title | default('Untitled organization') | trim -%}
+  {%- set asset = params.logo.asset if params.logo else null -%}
+  {%- set dimensions = asset.metadata.dimensions if (asset and asset.metadata) else null -%}
 
-  {%- set sectionId = params.id | default("organizations") -%}
-  {%- set heading = params.copy.heading -%}
-  {%- set body = params.copy.body -%}
-  {%- set headingId = params.headingId | default(sectionId ~ "-heading") -%}
-  {%- set logo = null -%} {#- params.logo.asset.url | default(params.logoUrl) | default(params.logo) -#}
-  {%- set title = params.title | default('Untitled organization') -%}
-  {%- set logoAlt = params.logo.alt | default(params.logoAlt) | default(title ~ ' logo') -%}
+  {%- set styles = {
+    "base": "block w-32 h-auto",
+    "md": "w-40"
+  } -%}
 
-  {%- set styles = {"base": "w-full object-contain"} -%}
-
-  {% if logo %}
-    {# <img src="{{ logo | escape }}"
-         alt="{{ logoAlt | escape }}"
+  {%- if asset and asset.url -%}
+    <img src="{{ asset.url | imageUrl({w: 320, q: 75}) }}"
+         alt="{{ title }}"
+         width="{{ dimensions.width if dimensions else 320 }}"
+         height="{{ dimensions.height if dimensions else 180 }}"
          loading="lazy"
          decoding="async"
-         class="{{ styles | classes }}" /> #}
-  {% else %}
+         class="{{ [styles, params.classes] | classes }}" />
+  {%- else -%}
     {{ title }}
-  {% endif %}
+  {%- endif -%}
 {% endmacro %}

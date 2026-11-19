@@ -1,5 +1,4 @@
 import Hero from "../organisms/hero/Hero.js";
-import Bio from "../organisms/bio/Bio.js";
 import BackgroundVideo from "../organisms/background/BackgroundVideo.js";
 import Awards from "../organisms/awards/Awards.js";
 import Organizations from "../organisms/organizations/Organizations.js";
@@ -7,9 +6,8 @@ import Work from "../organisms/work/Work.js";
 import Process from "../organisms/process/Process.js";
 
 export const SECTION_REGISTRY = {
-  hero: Hero,
   video: BackgroundVideo,
-  bio: Bio,
+  hero: Hero,
   process: Process,
   awards: Awards,
   organizations: Organizations,
@@ -19,9 +17,8 @@ export const SECTION_REGISTRY = {
 /** @param {string} sectionId @returns {string} */
 export function getSectionName(sectionId) {
   const names = {
-    hero: "Hero Section",
     video: "Background Video",
-    bio: "Biography Section",
+    hero: "Hero Section",
     process: "Process Section",
     awards: "Awards Section",
     organizations: "Organizations Section",

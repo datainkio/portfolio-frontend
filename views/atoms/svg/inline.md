@@ -22,12 +22,25 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Data and Context
 
-No obvious data dependencies identified from the template alone.
+| Param                 | Type                           | Description                                                                                                                                                                   |
+| --------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `svg`                 | string                         | Inline SVG markup (or a URL, used as the image source when it isn't SVG).                                                                                                     |
+| `src`                 | string                         | Image URL fallback.                                                                                                                                                           |
+| `alt`                 | string                         | Accessible name; defaults to `"Award logo"`.                                                                                                                                  |
+| `classes`             | string \| variant map \| array | String, variant map, or array; applied through `\| classes` to the `<svg>` or `<img>`.                                                                                        |
+| `svgClasses`          | string                         | Extra classes for the `<svg>` only.                                                                                                                                           |
+| `preserveAspectRatio` | string                         | Value for the `<svg>`'s `preserveAspectRatio` when the markup has none; defaults to `"xMidYMin meet"` (top-aligned). Pass `"xMidYMid meet"` to center the artwork in its box. |
+| `preserveFills`       | boolean                        | Default `false`. When `true`, skips `clearSVGFills` and leaves `fill-current` off the root `<svg>` classes, so multi-colour artwork keeps its own fills.                      |
+| `attrs`               | string                         | Optional, default empty. Injected verbatim onto the root `<svg>` tag (e.g. `data-hero-el="statement-svg"`) so a caller can add a choreography hook.                           |
+
+Reads nothing from ambient scope (the old `organizationRecord` fallback is removed).
 
 ## Relationships
 
 - Likely used by:
-  - Unknown
+  - `molecules/card/award-organization.njk`
+  - `molecules/social-account/social-account.njk`
+  - `molecules/section/section-statement.njk` (`preserveFills: true`, `attrs` for `data-hero-el="statement-svg"`)
 
 ## Notes for Future Maintenance
 

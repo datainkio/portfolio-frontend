@@ -1,4 +1,5 @@
-{% set roles = project.roles %}
+{% macro render(params = {}) %}
+{% set roles = params.roles %}
 {% if roles %}
   <ul class="flex flex-row list-none p-0 m-0">
     {% for role in roles %}
@@ -9,3 +10,4 @@
     {% endfor %}
   </ul>
 {% endif %}
+{% endmacro %}

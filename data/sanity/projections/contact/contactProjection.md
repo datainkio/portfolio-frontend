@@ -7,7 +7,7 @@ tags:
 aliases:
   - Contact projection
 links:
-  - "[[README.projections]]"
+  - "[[data/sanity/projections/README|projections]]"
 ---
 
 # Contact projection
@@ -23,4 +23,4 @@ singleton.
 
 - Path: `data/sanity/projections/contact/contactProjection.js`
 
-Related: [[README.projections]]
+Related: [[data/sanity/projections/README|projections]]

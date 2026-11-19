@@ -16,11 +16,11 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Process section between Bio and Work. Renders a heading, optional body copy,
+Process section between Hero and Work. Renders a heading, optional body copy,
 and two animated visuals: the looping UI-components scene (opt-in via
 `params.uiComponents`, rendered above the paragraphs) and the 12x3 (WxH)
 Blockframes grid (always rendered, placed after the first hardcoded
-paragraph; migrated here from the Bio section). Targeted by the choreography
+paragraph; migrated here from the Hero section). Targeted by the choreography
 system via `data-process-el` attributes; both are built by the composed
 `ui-components-loop` variant in `choreography/molecules/process-motion`.
 
@@ -29,15 +29,16 @@ system via `data-process-el` attributes; both are built by the composed
 Classified as a **component** at the atomic **organism** level based on its
 location under `views/`.
 
-## Data and Context
+## Params
 
-- `params.id` — section id, defaults to `"process"`.
-- `params.copy.heading` — heading text, defaults to `"Process"`.
-- `params.copy.body` — optional body paragraph; omitted entirely if empty.
-- `params.headingId` — id used for `aria-labelledby`, defaults to `sectionId`.
-- `params.uiComponents` — opt-in flag; renders the looping UI-components
-  stage (`uicomponents-stage`) above the paragraphs. Blockframes renders
-  regardless.
+| Param          | Type    | Description                                                                                  |
+| -------------- | ------- | -------------------------------------------------------------------------------------------- |
+| `id`           | string  | Section id. Defaults to `process`.                                                           |
+| `copy`         | object  | `heading` (defaults to "Process") and `body` (optional paragraph, omitted when empty).       |
+| `headingId`    | string  | Id for the heading and `aria-labelledby`. Defaults to the section id.                        |
+| `uiComponents` | boolean | When `true`, renders the UI-components loop stage above the paragraphs. Defaults to `false`. |
+
+Fixed design: takes no styling params.
 
 ## `data-process-el` Hooks
 
@@ -58,7 +59,7 @@ grid-rows-3`, no gap); fills the wrapper 1:1 so each cell is naturally
 ## Relationships
 
 - Imported by: [[home.njk]] (`views/pages/home/home.njk`), rendered between
-  the Bio section (`id="manifesto"`) and the Work section (`id="work"`).
+  the Hero section (`id="manifesto"`) and the Work section (`id="work"`).
 - Choreography controller: [[Process|Process]]
   (`js/choreography/organisms/process/Process.js`).
 

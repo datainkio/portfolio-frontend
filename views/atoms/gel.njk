@@ -10,23 +10,57 @@
   ELEMENT IDS AND CONFIGURATION:
   - Element ID must match arrangement keys used by gel choreography (e.g., id="bg-gel-0")
   - IDs use kebab-case format: bg-gel-0, bg-gel-1, bg-gel-2
-  - .bg-gel class triggers automatic discovery during initialization
-  - Color classes (bg-gel-primary, etc.) are optional styling
+  - .gel class triggers automatic discovery during initialization
+
+  GRADIENT CLASSES (defined in styles/backgrounds/Gel.css, which lists every name):
+  - color, direction, fade, opacity, opacityEnd and blend each only set a variable read by
+    .gel, so they combine in any order. Only color has a default here.
+  - color:     gel-<color>, e.g. gel-primary
+  - direction: gel-<direction>; the stylesheet default is "to top"
+  - fade:      gel-fade-<size> or an arbitrary [value]; the stylesheet default is full
+  - opacity:   gel-opacity-<n> or an arbitrary [percentage]; the stylesheet default is 100.
+               It tints the gradient. Never use an element opacity class here: the
+               choreography sets opacity inline and would override it.
+  - opacityEnd: the same scale, gel-opacity-end-<n>, for where the gradient ends; the
+               stylesheet default is 0 (transparent).
+  - blend:     gel-blend-<mode>; the stylesheet default is multiply. An arrangement's
+               blendMode is set inline and still overrides it. Don't use Tailwind's
+               own blend classes: both set mix-blend-mode and the winner is unclear.
+  - Pass the full class name, never a fragment built in the template. Tailwind
+    finds classes by reading complete strings, so 'gel-' ~ name would be missed by
+    the first dev build, which runs before Eleventy writes _site.
+  - Keep full direction, fade, opacity and blend names out of this comment. Tailwind scans
+    views/ and would ship every class named here to every page.
+  - Gel.js swaps the color class at runtime, so color must be one of its
+    colorClasses
 
   USAGE:
   {% import "atoms/gel.njk" as gelAtom %}
-  {{ gelAtom.render({ color: 'bg-gel-primary', id: 'bg-gel-0' }) }}
+  {{ gelAtom.render({ id: 'bg-gel-0', color: 'gel-primary' }) }}
+  Add direction:, fade:, opacity:, opacityEnd: and blend: with a full class name each.
 
   PARAMETERS:
-  - color: CSS class for color state (default: 'bg-gel-primary')
   - id: Element ID matching gel arrangement entries (required for choreography)
+  - color: Colour class (default: 'gel-primary')
+  - direction: Direction class (optional)
+  - fade: Fade distance class (optional)
+  - opacity: Gradient opacity class (optional)
+  - opacityEnd: Gradient end opacity class (optional)
+  - blend: Blend mode class (optional)
+  - debug: true draws a line where the gradient ends (optional, dev only)
 #}
 {% macro render(params = {}) %}
-  {%- set color = params.color | default('bg-gel-primary') -%}
+  {%- set color = params.color | default('gel-primary') -%}
+  {%- set direction = params.direction | default('gel-top') -%}
+  {%- set fade = params.fade | default('gel-fade-full') -%}
+  {%- set opacity = params.opacity | default('gel-opacity-100') -%}
+  {%- set opacityEnd = params.opacityEnd | default('gel-opacity-end-80') -%}
+  {%- set blend = params.blend | default('gel-blend-multiply') -%}
   {%- set id = params.id | default('gel-default') -%}
+  {%- set debug = params.debug | default(false) -%}
 
   <div id="{{ id }}"
-       class="bg-gel absolute inset-0 {{ color }}"
+       class="gel absolute inset-0 {{ color }}{% if direction %} {{ direction }}{% endif %}{% if fade %} {{ fade }}{% endif %}{% if opacity %} {{ opacity }}{% endif %}{% if opacityEnd %} {{ opacityEnd }}{% endif %}{% if blend %} {{ blend }}{% endif %}{% if debug %} gel-debug{% endif %}"
        aria-hidden="true"></div>
 
 {% endmacro %}

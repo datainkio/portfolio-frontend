@@ -12,3 +12,7 @@ links:
   - "[[blockframes]]"
   - "[[process]]"
 ---
+
+## Reduced motion
+
+`fillBlockframesGrid` never runs under reduced motion. The `reduced` process variant calls no builders, so the Blockframes package and its CDN imports never load for reduced-motion visitors.

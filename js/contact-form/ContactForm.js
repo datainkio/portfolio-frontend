@@ -175,8 +175,8 @@ export class ContactForm {
     this.statusEl.textContent = message;
     this.statusEl.dataset.statusKind = kind || "";
     // Color is advisory only; the aria-live region carries the real signal.
-    this.statusEl.classList.toggle("text-green-400", kind === "success");
-    this.statusEl.classList.toggle("text-red-400", kind === "error");
+    this.statusEl.classList.toggle("text-tertiary-600", kind === "success");
+    this.statusEl.classList.toggle("text-secondary-700", kind === "error");
   }
 
   showSuccess() {

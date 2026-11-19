@@ -1,0 +1,24 @@
+{#-
+  Utility sample (molecule, docs only).
+  One documented utility: heading, note, syntax and source file, and a grid of
+  swatches that each carry one example class list.
+  Import without context:
+    {% import "molecules/sample/utility-sample.njk" as UtilitySample %}
+  Params are documented in utility-sample.md.
+-#}
+{%- macro render(params = {}) -%}
+{%- set h = "h" ~ (params.level or 2) -%}
+<section aria-labelledby="utility-{{ params.id }}" class="not-prose mt-12 space-y-4">
+  <{{ h }} id="utility-{{ params.id }}">{{ params.name }}</{{ h }}>
+  <p class="max-w-3xl text-base text-neutral-300">{{ params.note }}</p>
+  <p class="text-sm text-neutral-400"><code class="text-neutral-200">{{ params.syntax }}</code> · <code>{{ params.file }}</code></p>
+  <ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {%- for cls in params.examples %}
+    <li class="space-y-2">
+      <span aria-hidden="true" class="block h-32 rounded-lg bg-neutral-900 {{ cls }}"></span>
+      <code class="block text-xs text-neutral-200">{{ cls }}</code>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endmacro -%}

@@ -5,18 +5,16 @@
 
   {#- Data guards -#}
   {%- set title = params.title -%}
-  {%- set eyebrow_txt = params.eyebrow -%}
   {%- set headingLevel = params.headingLevel | default(3) -%}
   {%- set description_txt = params.description -%}
   {%- set byline_txt = params.byline -%}
   {%- set meta = params.meta | default([]) -%}
-  {%- set featured = params.featured | default(false) -%}
   {%- set image = params.image -%}
   {%- set width = image and (image.width or image.asset.metadata.dimensions.width) -%}
   {%- set height = image and (image.height or image.asset.metadata.dimensions.height) -%}
   {%- set url = params.url -%}
   {%- set classes = params.classes -%}
-  {%- set imageClasses = params.imageClasses -%}
+  {%- set imageClasses = params.styles.image | classes -%}
   {%- set eager = params.eager | default(false) -%}
   {%- set imageSrc = image and (image.src or image.url or image.asset.url or image) -%}
   {%- set imageAlt = image and image.alt or title -%}
@@ -45,7 +43,10 @@
 
   {%- set eyebrow = {"base": "eyebrow text-xs uppercase tracking-wide col-span-full m-0", "lg": "text-sm"} -%}
 
-  {%- set header = {"base": "header col-span-5 pb-2 pr-2 hover:no-underline border-dotted border-r-3 border-neutral-600"} -%}
+  {%- set header = {
+    "base": "header col-span-5 pb-2 pr-2 hover:no-underline border-dotted border-r-3 border-neutral-600",
+    "lg": "border-0"
+  } -%}
 
   {%- set heading = {
     "base": "text-neutral-950 text-xl leading-6 font-display mt-1",
@@ -56,15 +57,24 @@
 
   {%- set byline = {"base": "byline text-sm font-display"} -%}
 
-  {%- set description = {"base": "sr-only col-span-full"} -%}
+  {%- set description = {"base": "sr-only col-span-full", "lg": "pb-4 not-sr-only"} -%}
 
   {%- set stats = {"base": "col-span-full text-neutral-950 sr-only"} -%}
 
-  {%- set footer = {"base": "my-auto px-4", "md": "px-2"} -%}
+  {%- set footer = {
+    "base": "my-auto px-4",
+    "md": "px-2",
+    "lg": "w-full col-span-full border-dotted border-t-3 border-neutral-600"
+  } -%}
 
-  {%- set linky = {"base": "font-serif text-2xl italic inline-block cta", "sm": "arrow-suffix"} -%}
+  {%- set linky = {
+    "base": "font-serif text-2xl italic inline-block cta",
+    "sm": "arrow-suffix",
+    "lg": "w-full text-center pt-2"
+  } -%}
 
-  <article data-card-el="root" class="{{ root | classes }} {{ classes }}">
+  <article data-card-el="root"
+           class="{{ root | classes }} {{ classes | classes }}">
     {% if hasMedia %}
       <figure data-card-el="figure" class="{{ figure | classes }}">
         {% if videoSrc %}
@@ -109,15 +119,14 @@
         {% if byline_txt %}
           <p class="{{ eyebrow | classes }}">{{ byline_txt }}</p>
         {% endif %}
-        {{ HeadingBlock.render({ level: headingLevel, text: title, class: (heading | classes) }) }}
-
+        {{ HeadingBlock.render({ level: headingLevel, text: title, classes: heading }) }}
       </header>
 
       {% if description_txt %}
         <p class="{{ description | classes }} font-body">{{ description_txt }}</p>
       {% endif %}
       {% if meta | length %}
-        {{ Details.render({ stats: meta, classes: stats | classes }) }}
+        {{ Details.render({ stats: meta, classes: stats | classes, styles: { term: "text-neutral-300" } }) }}
       {% endif %}
 
       <footer class="{{ footer | classes }}">

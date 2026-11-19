@@ -1,17 +1,26 @@
-{% import "organisms/header/global-header.njk" as GlobalHeader with context %}
-{% import "organisms/footer/global-footer.njk" as Footer with context %}
+{% import "organisms/header/badge.njk" as Badge %}
+{% import "organisms/footer/global-footer.njk" as Footer %}
 {% import "organisms/navigation/skip-links-nav.njk" as SkipLinks %}
 
 {%- set brandLogoUrl = cms.siteSettings[0].brand.logo.asset.url if (cms and cms.siteSettings and cms.siteSettings[0] and cms.siteSettings[0].brand and cms.siteSettings[0].brand.logo and cms.siteSettings[0].brand.logo.asset) else "" -%}
 {%- set brandLogoSvg = brandLogoUrl | inlineSvgFromUrl -%}
 
 <!DOCTYPE html>
-<html lang="en" class="{{ 'debug-outlines' if runtime.debugOutlines }}">
+{#- overflow-x-clip on <html>: mobile browsers widen the layout viewport to
+    fit any horizontal overflow, which drops bottom-anchored fixed UI (the
+    industry drawer) below the visible screen. `clip`, unlike `hidden`, makes
+    no scroll container, so sticky and ScrollSmoother are unaffected. It has
+    to be on <html>; on <body> it doesn't stop the viewport widening. -#}
+<html lang="en" class="overflow-x-clip {{ 'debug-outlines' if runtime.debugOutlines }}">
   {% include "templates/partials/dev-note/dev-note.njk" %}
   {% include "templates/partials/head/head.njk" %}
   {% block head %}
   {% endblock head %}
-  <body class="{{ {"base": "relative min-h-dvh bg-slate-950 bg-graphpaper-accent-400", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
+  {#- Footer shape: in flow by default; pinned (absolute against <body>, with
+      a spacer in <main>) where the body can't be a flex column —
+      ScrollSmoother pages and layouts that make <body> a grid. -#}
+  {%- set footerInFlow = not (smoothScroll or pinFooter) -%}
+  <body class="{{ {"base": ["relative min-h-dvh bg-neutral-950 bg-graphpaper-accent-400", "flex flex-col" if footerInFlow], "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
 
     {# GTM #}
     {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
@@ -19,22 +28,28 @@
     {# SKIP LINKS #}
     {{ SkipLinks.render() }}
 
-    {# GLOBAL PAGE HEADER #}
-    {{ GlobalHeader.render({classes: 'font-display', logoSvg: brandLogoSvg}) }}
+    {# BADGE — opens the site map #}
+    {{ Badge.render({ logoSvg: brandLogoSvg, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
 
     {#- SCROLLSMOOTHER WRAPPER (opt-in) — a template sets `smoothScroll = true`
         to get the same #page-main / #page-main-content pair home.njk builds by
-        hand. ScrollSmootherManager only mounts when both ids exist; without
-        them the page runs native scroll and scrub-driven motion (card
+        hand. ScrollSmootherManager only mounts when both ids exist; <main>
+        always carries #page-main-content (it is the skip link's target), so
+        the #page-main wrapper is the opt-in. Without it the page runs native
+        scroll and scrub-driven motion (card
         sticky/parallax) can't be frame-locked to the compositor on mobile.
         Opt-in rather than default because article.njk renders `sticky top-0`
         inside <main>, which breaks inside the smoothed content. Everything
-        that must stay position: fixed (skip links, global header, and any
-        `afterMain` content) sits outside #page-main-content. -#}
+        that must stay position: fixed (skip links, the badge, and any
+        `sidebarBefore` or `afterMain` content) sits outside
+        #page-main-content. -#}
     {% if smoothScroll %}<div id="page-main">{% endif %}
 
-      {#- SIDEBAR BEFORE -#}
-      {% block sidebar_before %}
+      {#- SIDEBAR BEFORE — inside #page-main, outside #page-main-content, and
+        ahead of <main> in source order, so navigation placed here is reached
+        before the content it indexes. Fixed elements are safe here for the
+        same reason they are in `afterMain`. -#}
+      {% block sidebarBefore %}
         <nav class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarBeforeStyles %}{% endblock sidebarBeforeStyles %}"
              data-scroll
              data-scroll-sticky
@@ -42,12 +57,15 @@
           Hi there.
           This is the sidebar content. You can replace this with your own content or remove it if you don't need a sidebar.
         </nav>
-      {% endblock sidebar_before %}
+      {% endblock sidebarBefore %}
 
 
-      {# MAIN CONTENT AREA #}
-      <main {% if smoothScroll %}id="page-main-content"{% endif %}
-            class="{{ {"base": "pt-6 space-y-12 px-6 after:block after:col-span-full after:h-48", "sm": "", "md": "pt-8", "lg": "pt-24", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
+      {#- MAIN CONTENT AREA — the skip link's target. tabindex="-1" lets the
+        ScrollSmoother hash handler (and native fragment navigation) move focus
+        here, so the next Tab continues inside <main>. -#}
+      <main id="page-main-content"
+            tabindex="-1"
+            class="{{ {"base": ["focus:outline-none pt-6 space-y-12 max-w-6xl mx-auto px-6", "w-full flex-1" if footerInFlow else "after:block after:col-span-full after:h-48"], "sm": "", "md": "pt-8", "lg": "pt-24", "xl": ""} | classes }} {% block mainStyles %}{% endblock mainStyles %}">
 
         {% block content %}
           {% if content %}
@@ -66,31 +84,32 @@
       {% endblock afterMain %}
 
       {#- SIDEBAR AFTER -#}
-      {% if sidebar_after %}
+      {% if sidebarAfter %}
         <aside class="{{ {"base": "", "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block sidebarAfterStyles %}{% endblock sidebarAfterStyles %}"
                data-scroll
                data-scroll-sticky
                data-scroll-target="main">
-          {% block sidebar_after %}
+          {% block sidebarAfter %}
             Hi there. This is the sidebar content. You can replace this with your own content or remove it if you don't need a
             sidebar.
-          {% endblock sidebar_after %}
+          {% endblock sidebarAfter %}
         </aside>
       {% endif %}
 
       {% if smoothScroll %}</div>{% endif %}
 
-    {#- GLOBAL PAGE FOOTER — outside #page-main, as on home.njk. The footer is
-        `absolute bottom-0` against <body> (`relative min-h-dvh`), so it lands at
-        the end of the content or the bottom of the viewport, whichever is lower.
-        Inside the fixed #page-main it would pin to the viewport instead. <main>
-        reserves its height with an `after:h-48` spacer (a pseudo-element, so it
-        can't collide with a page's own `mainStyles` padding); keep it >= the
-        footer's rendered height. -#}
-    {{ Footer.render() }}
+    {#- GLOBAL PAGE FOOTER — in normal flow. <body> is a `flex flex-col
+        min-h-dvh` column and <main> is `flex-1`, so the footer sits directly
+        under the content, or at the viewport bottom on short pages, at any
+        footer height.
+        Pinned pages (see footerInFlow) keep the old shape: ScrollSmoother fixes
+        #page-main, and a grid <body> can't push the footer down, so the footer
+        is `absolute bottom-0` against <body> and <main> reserves its height
+        with an `after:h-48` spacer (keep it >= the footer's rendered height). -#}
+    {{ Footer.render({ classes: "" if footerInFlow else "absolute inset-x-0 bottom-0", year: site.year, cms: cms, pages: collections.all, currentUrl: page.url }) }}
 
     {#- SCRIPTS -#}
-    <script type="module" src="/assets/js/layouts/global-header.js"></script>
+    <script type="module" src="/assets/js/layouts/badge.js"></script>
 
     {% block scripts %}
     {% endblock scripts %}

@@ -1,6 +1,6 @@
 /** @format */
 /**
- * @fileoverview Font imports generated from Figma data and formatted for Tailwind CSS.
+ * @fileoverview Font loading, maintained by hand. The Figma sync doesn't write this file; see docs/design-system/adr-0001-figma-owns-design-tokens.md.
  * @source dataink.io
  * @version 2272227297173702108
  * @figma

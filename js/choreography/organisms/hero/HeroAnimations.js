@@ -1,15 +1,23 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
-import { gsap, SplitText } from "/assets/js/choreography/system/gsap.js";
+import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
-import { HERO_VARIANT_FACTORIES } from "../../molecules/hero-motion/hero-motion.js";
+import { HERO_VARIANT_FACTORIES } from "./../../molecules/hero-motion/hero-motion.js";
+import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
+import { buildSvgReveal } from "../../molecules/svg-reveal/svg-reveal.js";
 
-const HERO_EL_ATTR = "data-hero-el";
+// Statement SVGs whose reveal has been requested (played, or shown at rest).
+// Survives rebuilds — a breakpoint crossing re-runs _buildTimeline — so art the
+// reader has already seen is never hidden again.
+const revealedSvgs = new WeakSet();
 
 export default class HeroAnimations extends AbstractSectionAnimations {
   constructor(view, options = {}) {
     super(view);
     this.gelManager = options.gelManager ?? null;
-    this._variant = options.variant ?? "shutter";
+    this._variant = options.variant ?? "sweep";
+    // Statement panel element → buildSvgReveal() handle. HeroTriggers plays each
+    // one from that statement's panel pin.
+    this._statementSvgReveals = new Map();
   }
 
   setVariant(variant) {
@@ -19,18 +27,106 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this._buildTimeline();
   }
 
+  /**
+   * Force a fresh build of every phase timeline, ignoring setVariant's
+   * unchanged-variant short-circuit. Needed after a matchMedia breakpoint
+   * change reverts (and kills) the previous context's tweens: the retained
+   * timeline references are dead, so the caller must rebuild to replace them.
+   */
+  rebuild(variant) {
+    if (variant) this._variant = variant;
+    this._buildTimeline();
+  }
+
+  _buildTimeline() {
+    const timelines = super._buildTimeline();
+    this._buildStatementSvgReveals();
+    return timelines;
+  }
+
+  kill() {
+    this._killStatementSvgReveals();
+    super.kill();
+  }
+
+  /**
+   * Play a statement's SVG reveal, once. Called by HeroTriggers when the
+   * statement panel pins. No-op when the panel has no prepared SVG or its
+   * reveal has already been requested.
+   * @param {Element} panel `[data-hero-el="mission-statement"]`
+   */
+  playStatementSvg(panel) {
+    const reveal = this._statementSvgReveals.get(panel);
+    if (!reveal || revealedSvgs.has(reveal.svg)) return;
+    revealedSvgs.add(reveal.svg);
+    reveal.timeline.play();
+  }
+
+  /**
+   * Show every statement SVG at rest, with no motion. Hero calls this when its
+   * motion profile disables timelines (reduced motion, or the session replay gate).
+   */
+  showStatementSvgs() {
+    this._statementSvgReveals.forEach((reveal) => {
+      revealedSvgs.add(reveal.svg);
+      reveal.timeline.kill();
+      reveal.showAll();
+    });
+    this._statementSvgReveals.clear();
+  }
+
+  // One paused reveal per statement whose figure holds a prepared inline SVG.
+  // Groups are hidden here, behind the preloader overlay (Hero builds before
+  // director:ready); without JS they stay visible.
+  _buildStatementSvgReveals() {
+    this._killStatementSvgReveals();
+    if (!this.view) return;
+
+    const attr = HERO_SELECTORS.elementAttribute;
+    const panels = this.view.querySelectorAll(
+      `[${attr}="${HERO_SELECTORS.missionStatement}"]`,
+    );
+    panels.forEach((panel) => {
+      const svg = panel.querySelector(
+        `[${attr}="${HERO_SELECTORS.statementSvg}"]`,
+      );
+      if (!svg || revealedSvgs.has(svg)) return;
+      const reveal = buildSvgReveal(svg);
+      if (reveal) this._statementSvgReveals.set(panel, { ...reveal, svg });
+    });
+  }
+
+  _killStatementSvgReveals() {
+    this._statementSvgReveals?.forEach((reveal) => {
+      reveal.timeline.kill();
+      // Killed mid-reveal (breakpoint rebuild): it is not rebuilt, so finish it.
+      if (revealedSvgs.has(reveal.svg)) reveal.showAll();
+    });
+    this._statementSvgReveals?.clear();
+  }
+
   _factory() {
     return (
-      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.shutter
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep
     );
   }
 
+  // NOTE: This might be better defined along with the other factory methods in HERO_VARIANT_FACTORIES
   _buildLanding() {
-    return this._factory().init(this.view, this.gelManager);
+    const factory =
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep;
+    // init is variant-specific (reduced-only): it pre-styles the gel resting
+    // state. Variants without it have no landing phase — fall back to the
+    // base class's empty timeline.
+    return factory.init?.(this.view, this.gelManager) ?? super._buildLanding();
   }
 
   _buildIntro() {
-    return this._factory().buildIntro(this.view, this.gelManager);
+    const factory =
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep;
+    return (
+      factory.buildIntro?.(this.view, this.gelManager) ?? super._buildIntro()
+    );
   }
 
   _buildIdle() {
@@ -38,16 +134,10 @@ export default class HeroAnimations extends AbstractSectionAnimations {
   }
 
   _buildOutro() {
-    return this._factory().buildOutro(this.view, this.gelManager);
-  }
-
-  // Variant-independent: HeroTriggers._getTriggerDefaults().end reads this to
-  // size the pinned scrub range to the rendered heading. Measures the heading
-  // element directly, not the SplitText words, so it survives variant swaps.
-  getLastWordBottom() {
-    const el = document.getElementById("hero-heading");
-    const rect = el?.getBoundingClientRect();
-    const bottom = rect?.top;
-    return Number.isFinite(bottom) && bottom > 0 ? bottom : null;
+    const factory =
+      HERO_VARIANT_FACTORIES[this._variant] ?? HERO_VARIANT_FACTORIES.sweep;
+    return (
+      factory.buildOutro?.(this.view, this.gelManager) ?? super._buildOutro()
+    );
   }
 }

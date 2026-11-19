@@ -20,10 +20,14 @@ Displays one industry group: an `<h3>` label followed by a `<ul>` of organizatio
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `industry` — industry label, rendered in the heading.
-- `orgs` — array of organization objects, each rendered via `org.name`.
+| Param      | Type   | Description                                             |
+| ---------- | ------ | ------------------------------------------------------- |
+| `industry` | string | Heading text.                                           |
+| `orgs`     | array  | Organization records. Each `title` becomes a list item. |
+
+Fixed design: takes no styling params.
 
 ## Relationships
 

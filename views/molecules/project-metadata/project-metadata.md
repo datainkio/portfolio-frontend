@@ -17,7 +17,7 @@ Encapsulates the project metadata band as a reusable Nunjucks macro for project/
 
 ## Purpose
 
-Renders a metadata band for a project, displaying awards, roles, industry, and activities as a `<dl>` using the Stats macro. Follows atomic design conventions (organism).
+Renders a metadata band for a project, displaying award organizations (comma-separated titles, one per org via `groupByOrg`), roles, industry, and activities as a `<dl>` using the Stats macro. Follows atomic design conventions (organism).
 
 ## Role in the System
 
@@ -25,15 +25,19 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Macro Contract
 
-- Macro: `render(params = {})`
-  - `params.project` — Project object (required; see data shape below)
-  - `params.classes` — Responsive class object or string (optional)
-  - `params.aria` — ARIA label for the band (optional)
+Macro: `render(params = {})`
+
+| Param     | Type                           | Description                                                      |
+| --------- | ------------------------------ | ---------------------------------------------------------------- |
+| `project` | object                         | Required. The project record; see the data shape below.          |
+| `classes` | string \| variant map \| array | Optional. Passed raw to `stats`.                                 |
+| `styles`  | object                         | Optional. `stats` slots `{ item, term, value }`, passed through. |
+| `aria`    | string                         | Optional. ARIA label for the band.                               |
 
 ## Data and Context
 
 - `project` — Must include:
-  - `awards[]` (array of { title })
+  - `awards[]` (array of { title, organization { title } }) — grouped with `groupByOrg`; only `organization.title` is rendered
   - `roles[]` (array of { title })
   - `industry` (object with `title`)
   - `activities[]` (array of { title })

@@ -61,7 +61,7 @@ None. The partial reads no Nunjucks variables; every URL and family is hard-code
   - [head.njk](../head/head.njk) — `{% include "templates/partials/fonts/fonts.njk" %}`
 - Related:
   - [imports.css](../../../../styles/typography/imports.css) — DraftPaper and IBM Plex Sans `@font-face`; notes that Cormorant was moved out of `@import` and into this partial so it no longer serializes behind `styles.css`
-  - [assets/fonts/](../../../../assets/fonts/README.fonts.md) — the self-hosted files
+  - [assets/fonts/](../../../../assets/fonts/README.md) — the self-hosted files
   - [fontFamilies.css](../../../../styles/typography/fontFamilies.css) — `--font-body` (Plex), `--font-serif` (Cormorant), `--font-display` (DraftPaper)
   - [Preloader.js](../../../../js/preloader/Preloader.md) — `fontsReady()` gate, `fontsReadyTimeoutMs: 2000`
 

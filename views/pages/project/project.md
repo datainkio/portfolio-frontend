@@ -6,6 +6,7 @@ tags:
 links:
   - "[base](../../layouts/base.md)"
   - "[project-header](../../organisms/header/project/project-header.md)"
+  - "[design-decisions](../../molecules/design-decisions.md)"
   - "[choreography-script](choreography-script.md)"
 ---
 
@@ -55,6 +56,7 @@ Classified as a **page** at the atomic **page** level.
 | `activities[]`   | resolved taxonomy                   | yes      |
 | `outcomes[]`     | resolved taxonomy                   | no       |
 | `awards[]`       | resolved awards                     | no       |
+| `decisions[]`    | published `designDecision` items    | no       |
 | `bodyHtml`       | serialized portable text (H2+ only) | yes      |
 | `externalLink`   | string or `{ href, label }`         | no       |
 | `caseStudyUrl`   | string                              | no       |

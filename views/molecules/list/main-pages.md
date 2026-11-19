@@ -23,11 +23,19 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **molecule** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-- `Hanko` — referenced in the template.
-- `entry` — referenced in the template.
-- `nav_link` — referenced in the template.
+| Param        | Type                          | Description                                                                                                                  |
+| ------------ | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `items`      | array                         | Navigation entries (`url` or `href`, plus `title` or `key`). Entries without a link or label are skipped. Defaults to empty. |
+| `currentUrl` | string                        | The matching entry renders as a `<span aria-current="page">` instead of a link.                                              |
+| `classes`    | string, variant map, or array | Applied to the `<ul>` through `classes`.                                                                                     |
+| `styles`     | object                        | Slot map. See the slot table.                                                                                                |
+
+| Slot   | Element                                                                          |
+| ------ | -------------------------------------------------------------------------------- |
+| `item` | Each `<li>`.                                                                     |
+| `link` | The link, or the current-page `<span>`. Passed to the nav link as its `classes`. |
 
 ## Relationships
 

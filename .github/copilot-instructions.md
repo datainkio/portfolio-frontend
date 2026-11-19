@@ -7,9 +7,9 @@ These instructions make AI coding agents immediately productive in this repo by 
 ## Big Picture
 
 - **11ty static site**: Content entry lives in `ia/` (Eleventy `input`); Nunjucks templates live in `views/` (Eleventy `includes`, configured as `../views` relative to `ia/`) and generate `_site/`. Atomic design components live under `views/` (`atoms/`, `molecules/`, `organisms/`, plus `layouts/`, `pages/`, `templates/`). Each `.njk` template has a sibling Obsidian sidecar `.md` for documentation.
-- **Design tokens via Figma**: CSS files in `styles/` are generated from Figma (colors, typography) by `scripts/fetchFigma.js` and services in `figma/services/*` (PaletteService, TypographyService, StyleService, FileService).
+- **Design tokens via Figma**: `styles/colors.css` and `styles/tokens.css` are generated from the Figma design-system library's variables by `scripts/build/fetchFigma.js` and services in `figma/services/*` (VariablesService, PaletteService, TokenService).
 - **Content via Sanity**: Data fetched at build time and exposed as 11ty collections. Defaults live in `site.json` under `cms` (or `sanity`) with queries in `data/sanity/queries.js`.
-- **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
+- **Tailwind v4**: Uses `@tailwindcss/cli` via `scripts/build/buildCSS.js` wrapper. CSS import order in `styles/main.css` is critical for correct token application.
 - **Animation system**: GSAP-based choreography under `js/choreography/` with AnimationDirector, ScrollEffectsCoordinator, AnimationBus, section controllers, and specialized managers.
 - **Logging**: Unified `@datainkio/lumberjack` logger across Node and browser environments for consistent output.
 
@@ -26,7 +26,8 @@ npm run dev                  # Same as npm start
 # Building
 npm run build                # Full build: clean → build:design → build:css → build:11ty
 npm run fresh                # Same as build (full clean build)
-npm run quick                # Fast build: css + 11ty only (skips design sync)
+npm run quick                # Fast build: css + 11ty only (skips design sync and /docs/)
+npm run document             # quick, plus /docs/ (what the deploys run)
 
 # Design System
 npm run build:design         # Sync Figma tokens → CSS (fetchFigma.js → services → CSS files)
@@ -111,16 +112,15 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Design System**
 
-- `scripts/fetchFigma.js` - Main Figma sync orchestrator
+- `scripts/build/fetchFigma.js` - Main Figma sync orchestrator
 - `figma/index.js` - Service exports
 - `figma/services/` - Design token processors
-  - `FileService.js` - Fetch Figma file data
-  - `StyleService.js` - Extract style definitions
-  - `PaletteService.js` - Generate color CSS custom properties → `styles/colors.css`
-  - `TypographyService.js` - Generate font families → `styles/typography/fontFamilies.css`
+  - `VariablesService.js` - Read the library's Tokens page → `figma/exports/variables.local.json`
+  - `PaletteService.js` - Colour variables → `styles/colors.css`
+  - `TokenService.js` - Numeric variables and shadow styles → `styles/tokens.css`
 - `figma/api/` - Figma REST API client
-- `figma/models/` - Data models for design tokens
-- `figma/utils/` - Color conversion and formatting utilities
+- `figma/generators/tokensPage.js` - Plugin API script that builds the library's Tokens page
+- `figma/views/tailwind/` - Writers for the two CSS files
 
 **Styles**
 
@@ -142,7 +142,7 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 - `js/choreography/` - Animation system
   - `AnimationDirector.js` - Master coordinator (initializes sections, bus, and runtime gates)
   - `system/` - Base classes and infrastructure (`AbstractSection.js`, `AnimationBus.js`, `registry.js`, `gsap.js`)
-  - `organisms/` - Section-specific controllers (`hero/`, `background/`, `bio/`, `awards/`, `organizations/`, `work/`, `card/`)
+  - `organisms/` - Section-specific controllers (`hero/`, `background/`, `awards/`, `organizations/`, `work/`, `card/`)
   - `templates/landing/` - Animation choreography (LandingSequence)
   - `managers/` - Specialized managers (ReducedMotionHandler, ScrollSmootherManager, ScrollEffectsCoordinator, GelAnimationManager, SessionManager, RulerIntroManager, GlobalHeaderManager, WorkHeaderManager)
   - `config/` - Choreography config barrel + modules (`index/index.js`, `contracts/events/events.js`, `contracts/selectors/selectors.js`, `ix/*`, `displays/*`)
@@ -154,10 +154,9 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 
 **Build System**
 
-- `scripts/buildCSS.js` - Tailwind CLI wrapper with logging
-- `scripts/clearCache.js` - Cache management
-- `scripts/clearSiteFolder.js` - Clean \_site/ directory
-- `scripts/scaffold.js` - Component/page generator
+- `scripts/build/buildCSS.js` - Tailwind CLI wrapper with logging
+- `scripts/build/clearSiteFolder.js` - Clean \_site/ directory
+- `scripts/generate/scaffold.js` - Component/page generator
 - `package.json` - All npm scripts and dependencies
 
 **Assets**
@@ -196,7 +195,7 @@ Example macro:
 **Section Controllers** (in `js/choreography/organisms/`)
 
 - Each section follows pattern: `<Section>.js`, `<Section>Animations.js`, `<Section>Triggers.js`
-- Active sections: `Hero`, `BackgroundVideo`, `Bio`, `Awards`, `Organizations`, `Work`
+- Active sections: `Hero`, `BackgroundVideo`, `Awards`, `Organizations`, `Work`
 - All sections extend `AbstractSection` base class
 - Sections communicate via AnimationBus events (e.g., `hero:intro:start`, `hero:intro:complete`)
 
@@ -257,7 +256,7 @@ this.bus.on("hero:intro:complete", () => {
 **Build Process**
 
 - Tailwind v4 uses `@tailwindcss/cli` package (not `tailwindcss` binary)
-- Wrapped by `scripts/buildCSS.js` for enhanced logging and analysis
+- Wrapped by `scripts/build/buildCSS.js` for enhanced logging and analysis
 - Never call Tailwind CLI directly - always use npm scripts
 - Watch mode: `npm run dev:css` (continuous building)
 - Production: `npm run build:css` (minified with optimization analysis)
@@ -357,7 +356,7 @@ this.sections.custom = new Custom({
 - ❌ Don't reference Splash or Approach sections unless they are added to `js/choreography/system/registry.js`
 - ❌ Don't edit auto-generated files: `styles/colors.css`, `styles/typography/fontFamilies.css` - They're overwritten by `build:design`
 - ❌ Don't call Tailwind CLI directly - Always use npm scripts (`npm run build:css` or `npm run dev:css`)
-- ❌ Don't name sections "Biography" - The actual implementation is "Bio"
+- ❌ Don't name the landing section "Bio" or "Biography" - it was renamed to "Hero"
 - ❌ Don't skip `build:design` before CSS builds - Tokens must exist first
 - ❌ Don't reference `njk/` as the templates folder - templates moved to `views/` (Eleventy `includes`). Older paths under `njk/` no longer exist.
 

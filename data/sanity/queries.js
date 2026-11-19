@@ -10,6 +10,8 @@ import { homeQuery } from "./queries/home.js";
 import { organizationsQuery } from "./queries/organization/organizations.js";
 import { navigationQuery } from "./queries/navigation/navigation.js";
 import { outcomesQuery } from "./queries/outcome/outcomes.js";
+import { postPagesQuery } from "./queries/post/post-pages.js";
+import { postsLandingQuery } from "./queries/post/posts-landing.js";
 import { postsQuery } from "./queries/post/posts.js";
 import { projectPagesQuery } from "./queries/project/project-pages.js";
 import { projectsLandingQuery } from "./queries/project/projects-landing.js";
@@ -35,5 +37,7 @@ export const CMS_QUERIES = [
   navigationQuery,
   imageAssetsQuery,
   postsQuery,
+  postPagesQuery,
+  postsLandingQuery,
   userGuideQuery,
 ];

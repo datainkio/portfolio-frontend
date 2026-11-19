@@ -14,7 +14,7 @@ links:
   - "[[system/gsap|system/gsap]]"
   - "[[timelines|timelines]]"
   - "[[selectors|selectors]]"
-  - "[[motion|ix/motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|ix/motion]]"
 ---
 
 # ui-components-loop

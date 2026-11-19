@@ -7,7 +7,7 @@ tags:
 aliases:
   - Portable Text transforms
 links:
-  - "[[README.transforms]]"
+  - "[[data/sanity/transforms/README|transforms]]"
 ---
 
 # Portable Text transforms
@@ -31,9 +31,11 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
 - `block.normal` skips empty/whitespace-only blocks (blank lines left in Sanity's
   rich-text editor) so consumers never receive a stray `<p></p>` in the output HTML.
 - `types.image` wraps each inline image in the same `data-lightbox-el` markup
-  contract as `views/molecules/lightbox/lightbox.njk` (hand-built as a string
+  contract as `views/molecules/figure/media.njk` with `zoom: true` (hand-built as a string
   since `@portabletext/to-html` serializers aren't Nunjucks), and loads
-  `js/lightbox/Lightbox.js` inline to wire it up.
+  `js/lightbox/Lightbox.js` inline to wire it up. Its dialog mirrors
+  `views/molecules/lightbox/lightbox-dialog.njk` by hand, caption included —
+  change both together (spec: `specs/views/lightbox.views-spec.md`).
 - The figcaption shown under each lightboxed image reads `asset.description` —
   the shared image asset's Description field (`sanity-plugin-media`, stored on
   `sanity.imageAsset`), not a per-block field. One caption per file, reused
@@ -44,4 +46,4 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
   still defines a block-level `alt` field (kept), but no `caption` field — that
   was removed in favor of the asset-level Description above.
 
-Related: [[README.transforms]]
+Related: [[data/sanity/transforms/README|transforms]]

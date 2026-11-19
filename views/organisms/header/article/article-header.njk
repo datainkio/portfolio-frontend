@@ -1,7 +1,6 @@
 {% import "atoms/hanko/hanko.njk" as Hanko %}
-{% import "organisms/navigation/breadcrumbs-nav.njk" as breadcrumbs with context %}
 
-{% macro render(params) %}
+{% macro render(params = {}) %}
   {%- set hanko = {
     "base": "inline-block mr-0 w-24 text-center text-secondary-700",
     "sm": "w-32",

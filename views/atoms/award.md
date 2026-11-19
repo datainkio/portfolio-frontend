@@ -20,9 +20,11 @@ Encapsulates reusable markup as Nunjucks macros for use by other templates.
 
 Classified as a **component** at the atomic **atom** level based on its location under `views/`.
 
-## Data and Context
+## Params
 
-No obvious data dependencies identified from the template alone.
+| Param   | Type   | Description                                                     |
+| ------- | ------ | --------------------------------------------------------------- |
+| `title` | string | Award name, output as plain text. Defaults to "Untitled award". |
 
 ## Relationships
 

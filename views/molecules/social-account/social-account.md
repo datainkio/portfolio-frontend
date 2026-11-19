@@ -29,11 +29,14 @@ anchor pointing at the profile `url`, always opening externally (`target="_blank
 Classified as a **component** at the atomic **molecule** level, matching the
 content model's `socialAccount` object.
 
-## Data and Context
+## Params
 
-- `params.account` — one `socialAccount` record: `{ title, logo: { url }, url }`,
-  shaped by `CONTACT_PROJECTION` (`data/sanity/projections/contact/contactProjection.js`).
-- `params.classes` — optional additional classes on the anchor.
+| Param     | Type                           | Description                                                                                                                |
+| --------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `account` | object                         | `title`, `logo` (`url`, `alt`, `inline`), and `url`. Renders nothing when `url` is missing.                                |
+| `format`  | string                         | `icon` (default) renders the logo SVG when `logo.url` is set, otherwise the title. Any other value renders the title text. |
+| `size`    | string                         | Logo size class for the icon format. Defaults to `size-10`.                                                                |
+| `classes` | string \| variant map \| array | Appended to the link's baseline through the `classes` filter, at every breakpoint.                                         |
 
 ## Relationships
 
