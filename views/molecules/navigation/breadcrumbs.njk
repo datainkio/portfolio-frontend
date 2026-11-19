@@ -15,22 +15,22 @@ Params:
 #}
 {% import "atoms/link/link.njk" as Link %}
 
-{%- set navBase = "text-sm text-neutral-400" -%}
+{%- set navBase = "text-sm text-accent-400" -%}
 {%- set listBase = "m-0 flex list-none flex-wrap items-center gap-x-2 gap-y-1 p-0" -%}
-{%- set linkBase = "text-primary-300 underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500" -%}
+{%- set linkBase = "mb-0 font-display text-sm uppercase tracking-widest text-accent-400 not-prose focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500" -%}
 
 {%- macro render(params = {}) -%}
   {%- set trail = params.trail or [] -%}
   {%- if trail.length > 1 -%}
-    <nav aria-label="{{ params.label | default('Breadcrumb') }}" class="{{ [navBase, params.classes] | classes }}">
+    <nav aria-label="{{ params.label | default("Breadcrumb") }}"
+         class="{{ [navBase, params.classes] | classes }}">
       <ol class="{{ listBase }}" role="list">
         {%- for crumb in trail %}
           <li class="m-0 flex items-center gap-2 p-0">
             {%- if loop.last -%}
-              <span aria-current="page" class="text-neutral-100">{{ crumb.title }}</span>
             {%- else -%}
               {{ Link.render({ url: crumb.url, text: crumb.title, classes: linkBase }) }}
-              <span aria-hidden="true">/</span>
+              <span aria-hidden="true " class="text-neutral-400">/</span>
             {%- endif -%}
           </li>
         {%- endfor %}
