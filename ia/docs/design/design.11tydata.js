@@ -139,6 +139,7 @@ const GROUPS = {
       pages: [
         "input/nav-item",
         "navigation/pager",
+        "navigation/breadcrumbs",
         "navigation/article-nav-links",
         "list/industry-links",
       ],

@@ -9,10 +9,34 @@
  * the roots it passes in.
  */
 
+import eleventyNavigationPlugin from "@11ty/eleventy-navigation";
+
 export default function (eleventyConfig) {
+  eleventyConfig.addFilter("navigationTrail", navigationTrail);
   eleventyConfig.addFilter("specimenParams", specimenParams);
   eleventyConfig.addFilter("specimenCall", specimenCall);
   eleventyConfig.addFilter("squeezeWhitespace", squeezeWhitespace);
+}
+
+/**
+ * The `{ url, title }` path from the children of `rootKey` down to the page
+ * whose navigation key is `key`, itself included; `[]` when the key isn't
+ * under that root. Walks the tree eleventy-navigation's own `find` builds.
+ * Its `eleventyNavigationBreadcrumb` filter can't serve here: it reads only
+ * trees that start at a true root, and the Design tree hangs off a "Docs"
+ * parent that has no page, on purpose (see ia/docs/design/design.11tydata.js).
+ */
+function navigationTrail(nodes, key, rootKey) {
+  const walk = (entries, path) => {
+    for (const entry of entries) {
+      const next = [...path, { url: entry.url, title: entry.title }];
+      if (entry.key === key) return next;
+      const found = walk(entry.children || [], next);
+      if (found) return found;
+    }
+    return undefined;
+  };
+  return walk(eleventyNavigationPlugin.navigation.find(nodes, rootKey), []) || [];
 }
 
 /**

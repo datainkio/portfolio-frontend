@@ -19,6 +19,7 @@
   cols-3.njk; a non-component page has nothing to put there, so it stays off.
 -#}
 {% import "molecules/list/design-pages.njk" as DesignPages %}
+{% import "molecules/navigation/breadcrumbs.njk" as Breadcrumbs %}
 
 {% block mainStyles %}col-span-full min-w-0 prose prose-invert prose-code:before:content-none prose-code:after:content-none prose-table:text-sm max-w-none lg:col-span-7 lg:col-start-3{% endblock mainStyles %}
 
@@ -217,6 +218,11 @@
 
   <article class="space-y-12 pt-20 pb-24">
     <header class="space-y-4">
+      {#- "Docs" has no page in the nav tree (see design.11tydata.js), so it leads the trail by hand. -#}
+      {%- if eleventyNavigation and eleventyNavigation.key %}
+        {%- set crumbs = [{ url: "/docs/", title: "Docs" }].concat(collections.all | navigationTrail(eleventyNavigation.key, "Docs")) -%}
+        <div class="not-prose">{{ Breadcrumbs.render({ trail: crumbs }) }}</div>
+      {%- endif %}
       {%- if tier %}
         <p class="mb-0 font-display text-sm uppercase tracking-widest text-accent-400 not-prose">{{ tier }}</p>
       {%- endif %}

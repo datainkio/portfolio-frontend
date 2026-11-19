@@ -28,7 +28,7 @@ column.
 | Column                 | Content                                                                                                                         | On                                     |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
 | `sidebarBefore` (left) | [[design-pages.njk]] — the sidebar nav, with the Design root passed as `home` ("Introduction"), whitespace-squeezed (see below) | Every page                             |
-| `content` (centre)     | Header, then Specimens, Params, Notes (component page) or the page's own content                                                | Every page, in `prose prose-invert`    |
+| `content` (centre)     | Header (breadcrumbs from the nav tree via `navigationTrail`, then eyebrow, title, description), then Specimens, Params, Notes (component page) or the page's own content                                                | Every page, in `prose prose-invert`    |
 | `sidebarAfter` (right) | Component, In context, Related, Choreography                                                                                    | Only when the page names a `component` |
 
 The nav macro's raw output holds whitespace runs thousands of characters long

@@ -1,0 +1,40 @@
+{#
+  Breadcrumbs: the path from a root page down to the current one.
+  Presentational: knows nothing about Eleventy; the caller maps its data
+  (e.g. `collections.all | eleventyNavigationBreadcrumb(key, { includeSelf: true })`)
+  to these params.
+
+Params:
+  trail    { url, title }[]  Root first, current page last. Required; fewer than two → renders nothing.
+  label    string            The <nav>'s aria-label. Defaults to "Breadcrumb"; must differ from other navs on the page.
+  classes  string | variant map | array  Appended to the <nav>.
+
+  The last item is the current page: plain text with aria-current="page".
+
+  Spec: specs/views/component-api.views-spec.md
+#}
+{% import "atoms/link/link.njk" as Link %}
+
+{%- set navBase = "text-sm text-neutral-400" -%}
+{%- set listBase = "m-0 flex list-none flex-wrap items-center gap-x-2 gap-y-1 p-0" -%}
+{%- set linkBase = "text-primary-300 underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500" -%}
+
+{%- macro render(params = {}) -%}
+  {%- set trail = params.trail or [] -%}
+  {%- if trail.length > 1 -%}
+    <nav aria-label="{{ params.label | default('Breadcrumb') }}" class="{{ [navBase, params.classes] | classes }}">
+      <ol class="{{ listBase }}" role="list">
+        {%- for crumb in trail %}
+          <li class="m-0 flex items-center gap-2 p-0">
+            {%- if loop.last -%}
+              <span aria-current="page" class="text-neutral-100">{{ crumb.title }}</span>
+            {%- else -%}
+              {{ Link.render({ url: crumb.url, text: crumb.title, classes: linkBase }) }}
+              <span aria-hidden="true">/</span>
+            {%- endif -%}
+          </li>
+        {%- endfor %}
+      </ol>
+    </nav>
+  {%- endif -%}
+{%- endmacro -%}
