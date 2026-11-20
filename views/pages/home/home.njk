@@ -33,18 +33,18 @@
 
 {# Note that content values - include title and other metadata - are set in frontmatter #}
 <!DOCTYPE html>
-{% include "templates/partials/dev-note/dev-note.njk" %}
+{% include "layouts/partials/dev-note/dev-note.njk" %}
 {#- overflow-x-clip: same guard as base.njk — keeps horizontal overflow from
     widening the mobile layout viewport. bg-page-graphpaper: the page
     background (colour and grid) lives on <html> alone, so it covers the
     whole canvas; the preloader uses the same utility. <body> carries none. -#}
 <html lang="en" class="overflow-x-clip bg-page-graphpaper">
-  {% include "templates/partials/head/head.njk" %}
+  {% include "layouts/partials/head/head.njk" %}
   <body class="relative text-neutral-100 isolate">
-    {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
+    {% include "layouts/partials/gtm-noscript/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {{ Preloader.render({ "svg": logo }) }}
-    {% include "templates/partials/session-management-script/session-management-script.njk" %}
+    {% include "layouts/partials/session-management-script/session-management-script.njk" %}
     {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
     {{ Badge.render({ logoSvg: logo, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
     <div id="page-main">
@@ -60,6 +60,6 @@
       </main>
     </div>
     {{ GlobalFooter.render({ classes: "absolute inset-x-0 bottom-0", year: site.year, cms: cms, pages: collections.all, currentUrl: page.url }) }}
-    {% include "templates/partials/choreography-script/choreography-script.njk" %}
+    {% include "layouts/partials/choreography-script/choreography-script.njk" %}
   </body>
 </html>

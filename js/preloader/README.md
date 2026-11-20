@@ -26,7 +26,7 @@ Decides when the homepage splash screen leaves. The visuals are pure CSS in [han
 
 ## How it connects
 
-- Loaded by the [preloader script partial](../../views/templates/partials/preloader-script/preloader-script.njk).
+- Loaded by the [preloader script partial](../../views/layouts/partials/preloader-script/preloader-script.njk).
 - `LandingSequence` in [choreography](../choreography/README.md) starts when `preloader:out` fires.
 
 ## See also

@@ -13,7 +13,7 @@ links:
 
 Bootstraps `BadgeManager` directly for pages that don't load
 `AnimationDirector`. Pages that include
-[`choreography-script.njk`](../../views/templates/partials/choreography-script/choreography-script.md)
+[`choreography-script.njk`](../../views/layouts/partials/choreography-script/choreography-script.md)
 with choreography on (home, work, contact) set `window.__enableChoreography`
 and load the Director, which instantiates the manager itself with a full
 `ReducedMotionHandler`; this module stands down there. Gate on the runtime

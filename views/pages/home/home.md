@@ -12,9 +12,9 @@ links:
   - "[work](../../organisms/section/work.md)"
   - "[organizations](../../organisms/section/organizations.md)"
   - "[contact](../../organisms/section/contact.md)"
-  - "[dev-note](../../templates/partials/dev-note/dev-note.md)"
-  - "[head](../../templates/partials/head/head.md)"
-  - "[gtm-noscript](../../templates/partials/gtm-noscript/gtm-noscript.md)"
+  - "[dev-note](../../layouts/partials/dev-note/dev-note.md)"
+  - "[head](../../layouts/partials/head/head.md)"
+  - "[gtm-noscript](../../layouts/partials/gtm-noscript/gtm-noscript.md)"
   - "[choreography-script](choreography-script.md)"
 ---
 

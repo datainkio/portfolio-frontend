@@ -19,7 +19,7 @@ Owns every network hint and font request in the `<head>`. Included once by `head
 ## Template
 
 - Source: [fonts.njk](fonts.njk)
-- Path: `views/templates/partials/fonts/fonts.njk`
+- Path: `views/layouts/partials/fonts/fonts.njk`
 
 ## Purpose
 
@@ -58,7 +58,7 @@ None. The partial reads no Nunjucks variables; every URL and family is hard-code
 ## Relationships
 
 - Used by:
-  - [head.njk](../head/head.njk) — `{% include "templates/partials/fonts/fonts.njk" %}`
+  - [head.njk](../head/head.njk) — `{% include "layouts/partials/fonts/fonts.njk" %}`
 - Related:
   - [imports.css](../../../../styles/typography/imports.css) — DraftPaper and IBM Plex Sans `@font-face`; notes that Cormorant was moved out of `@import` and into this partial so it no longer serializes behind `styles.css`
   - [assets/fonts/](../../../../assets/fonts/README.md) — the self-hosted files

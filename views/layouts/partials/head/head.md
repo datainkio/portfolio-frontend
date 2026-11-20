@@ -25,7 +25,7 @@ Renders the whole `<head>` for every page. Owns the order in which head assets a
 ## Template
 
 - Source: [head.njk](head.njk)
-- Path: `views/templates/partials/head/head.njk`
+- Path: `views/layouts/partials/head/head.njk`
 
 ## Purpose
 
@@ -40,19 +40,19 @@ One place for document metadata, the critical stylesheet, resource hints, and th
 3. ### cdn.sanity.io preconnect
    `<link rel="preconnect" href="https://cdn.sanity.io" crossorigin>` — Sanity serves every image, poster, and video; warms the connection before the parser reaches the first asset in `<body>`
 4. ### fonts.njk
-   `{% include "templates/partials/fonts/fonts.njk" %}` — `DRAFTPAPER.woff2` preload (hero LCP text; URL matches the `@font-face` in `styles/typography/imports.css`, so the preload is consumed, not double-fetched) and Cormorant from Google Fonts (`media="print"` swap, non-blocking). Plex is self-hosted via `imports.css`. Sits ahead of the `bundle.js` hint so the small LCP-critical font is discovered first
+   `{% include "layouts/partials/fonts/fonts.njk" %}` — `DRAFTPAPER.woff2` preload (hero LCP text; URL matches the `@font-face` in `styles/typography/imports.css`, so the preload is consumed, not double-fetched) and Cormorant from Google Fonts (`media="print"` swap, non-blocking). Plex is self-hosted via `imports.css`. Sits ahead of the `bundle.js` hint so the small LCP-critical font is discovered first
 5. ### bundle.js
    `<link rel="modulepreload" href="/assets/js/choreography/bundle.js">` — **conditional**: only when `enableChoreography and runtime.bundleJs and eleventy.env.runMode == "build"`. Warms the bundle early because `director:ready` gates the hero reveal (LCP). Deliberately off in `serve`/`watch`, where the bundle is a multi-MB sourcemapped artifact — so dev timings show the bundle fetch starting at the body-end `import()`, not here. ^40856c
 6. ### scripts block
    `{{ scripts | safe }}` — page-supplied head scripts, unescaped ^8437d2
 7. ### preloader-script.njk
-   `{% include "templates/partials/preloader-script/preloader-script.njk" %}` — `<script type="module">` that imports `Preloader.js` and calls `initPreloader()` (deferred; runs after parse) ^867de8
+   `{% include "layouts/partials/preloader-script/preloader-script.njk" %}` — `<script type="module">` that imports `Preloader.js` and calls `initPreloader()` (deferred; runs after parse) ^867de8
 8. ### social.njk
-   `{% include "templates/partials/social/social.njk" %}` — meta description/keywords, author, canonical, Open Graph, Twitter ^7f1918
+   `{% include "layouts/partials/social/social.njk" %}` — meta description/keywords, author, canonical, Open Graph, Twitter ^7f1918
 9. ### manifest.njk
-   `{% include "templates/partials/manifest/manifest.njk" %}` — web-app manifest + theme colours ^312247
+   `{% include "layouts/partials/manifest/manifest.njk" %}` — web-app manifest + theme colours ^312247
 10. ### favicon.njk
-    `{% include "templates/partials/favicon/favicon.njk" %}` — icon set from `site.manifest.icons` ^55bf78
+    `{% include "layouts/partials/favicon/favicon.njk" %}` — icon set from `site.manifest.icons` ^55bf78
 
 Items 8–10 sit last per the [capo.js](https://rviscomi.github.io/capo.js/) head order: they neither block render nor feed the critical path, so they follow everything that does.
 
@@ -88,7 +88,7 @@ Consumed by the included partials, not by this file:
   - [fonts.njk](../fonts/fonts.njk)
   - [preloader-script.njk](../preloader-script/preloader-script.njk)
 - Used by:
-  - [base.njk](../../../layouts/base.njk) — `{% include "templates/partials/head/head.njk" %}`
+  - [base.njk](../../../layouts/base.njk) — `{% include "layouts/partials/head/head.njk" %}`
   - [home.njk](../../../pages/home/home.njk) — standalone page, includes it directly
 - Related:
   - [session-management-script.njk](../session-management-script/session-management-script.njk) — pre-paint return-visit check; lives in `home.njk`'s `<body>` after the preloader markup, not here

@@ -1,20 +1,20 @@
 ---
-description: "Reusable partial included by layouts or pages."
+description: Reusable partial included by layouts or pages.
 type: template
 ---
 
-# Manifest
+# Gtm Script
 
 Reusable partial included by layouts or pages.
 
 ## Template
 
-- Source: [[manifest.njk]]
-- Path: `views/templates/partials/manifest/manifest.njk`
+- Source: [[gtm-script.njk]]
+- Path: `views/layouts/partials/gtm-script/gtm-script.njk`
 
 ## Purpose
 
-Emits the web app manifest link and PWA-related meta tags (theme color, light/dark variants, application name, apple-mobile-web-app tags).
+Provides a focused fragment intended to be included by larger templates.
 
 ## Role in the System
 
@@ -22,17 +22,17 @@ Classified as a **partial** at the atomic **template** level based on its locati
 
 ## Data and Context
 
-- `site.manifest.theme_color`, `site.manifest.theme_color_dark` — theme color meta values.
-- `site.manifest.short_name` — application name.
+- `site` — referenced in the template.
 
 ## Relationships
 
 - Likely used by:
-  - [[head.njk|templates/partials/head/head.njk]]
+  - Unknown
 
 ## Notes for Future Maintenance
 
 - Keep this sidecar documentation in sync when the template signature changes.
+- Preserve semantic HTML and accessibility attributes when editing.
 - Run `npm run build` (or `npm start`) after structural changes to validate the Eleventy build.
 
 ## Open Questions
