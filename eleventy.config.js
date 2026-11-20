@@ -10,6 +10,11 @@ import collections from "./eleventy/collections/index.js";
 import plugins from "./eleventy/plugins/plugins.js";
 import filters from "./eleventy/filters/filters.js";
 import shortcodes from "./eleventy/shortcodes/shortcodes.js";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+import { ENTRIES as CSS_ENTRIES } from "./scripts/build/buildCSS.js";
+
+const execFileAsync = promisify(execFile);
 
 /**
  * Custom Logger Styles for 11ty Operations
@@ -88,6 +93,36 @@ export default async function (eleventyConfig) {
     if (docs) eleventyConfig.addWatchTarget("./js/choreography/**/*.md");
     eleventyConfig.setServerOptions({
       watch: ["_site/**/*.css", "assets/js/choreography/bundle.js"],
+    });
+    // Dev CSS: one Tailwind build after each Eleventy build, in place of a
+    // Tailwind --watch process. main.css scans _site/**/*.html, so a watcher
+    // rebuilt once per HTML file written (~50 rebuilds per save). A styles/
+    // save rebuilds pages, then CSS. docs.css builds only when docs render.
+    // `npm run build`/`quick` run build:css themselves, so build mode skips this.
+    eleventyConfig.addWatchTarget("./styles/");
+    eleventyConfig.on("eleventy.after", async ({ runMode }) => {
+      if (runMode === "build") return;
+      const started = Date.now();
+      const entries = docs ? CSS_ENTRIES : CSS_ENTRIES.slice(0, 1);
+      try {
+        await Promise.all(
+          entries.map(({ input, output }) =>
+            execFileAsync("node_modules/.bin/tailwindcss", [
+              "-i",
+              input,
+              "-o",
+              output,
+            ]),
+          ),
+        );
+        console.log(
+          `[css] ${entries.length} stylesheet(s) in ${Date.now() - started}ms`,
+        );
+      } catch (error) {
+        console.error(
+          `[css] Tailwind build failed:\n${error.stderr || error.message}`,
+        );
+      }
     });
     // eleventyConfig.addPassthroughCopy("video"); // slows down the build
     // eleventyConfig.addPassthroughCopy("svg");
