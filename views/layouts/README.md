@@ -14,8 +14,7 @@ Base page shells. Pages pick one with `{% extends %}`.
 ## What's here
 
 - `base.njk` - the default shell
-- `cols-2-before.njk`, `cols-2-after.njk`, `cols-3.njk` - column layouts
-- `storyboards.njk` - storyboard pages
+- `cols-2-before.njk`, `cols-3.njk` - column layouts
 - `.canvas` files - inheritance diagrams for Obsidian
 
 ## How it connects

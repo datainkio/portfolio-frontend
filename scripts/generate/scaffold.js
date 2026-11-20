@@ -63,7 +63,7 @@ const templates = {
   organism: componentTemplate("organism", "section"),
 
   page: (name, componentName) => `---
-layout: templates/base.njk
+layout: layouts/base.njk
 permalink: /${name}/
 title: '${componentName}'
 subtitle: 'Page subtitle'

@@ -48,4 +48,4 @@ Classified as a **page composition** at the atomic **template** level based on i
 ## Open Questions
 
 - Are the inferred data dependencies complete, or are some supplied indirectly (front matter, computed data, Sanity)?
-- Confirm this is the current pattern vs. [[blog.njk|templates/blog/blog.njk]] for article-shaped content — the two overlap in purpose.
+- Confirm this is the current pattern vs. the removed blog template (deleted 2026-11-20) for article-shaped content — the two overlap in purpose.
