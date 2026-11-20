@@ -6,7 +6,7 @@ tags:
   - dev-channel
   - console
 links:
-  - "[home](../../../pages/home/home.md)"
+  - "[home](../../../templates/home/home.md)"
   - "[ADR 0005](../../../../../context/handoffs/2026-06-29-dev-channel-narrative-plan.md)"
 ---
 

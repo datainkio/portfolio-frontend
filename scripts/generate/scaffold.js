@@ -47,7 +47,7 @@ const componentTemplate = (tier, rootTag) => (name, componentName) => `{#-
   Import without context:
     {% import "${tier}s/${name}.njk" as ${componentName.replace(/ /g, "")} %}
   Document every param in the sidecar's Params table, and add a page under
-  ia/docs/design/${tier}s/ (contract: views/layouts/design-doc.md).
+  ia/docs/design/${tier}s/ (contract: views/templates/design-doc/design-doc.md).
 -#}
 {%- macro render(params = {}) -%}
   {%- set baseline = "" -%}
@@ -335,7 +335,7 @@ function generateComponent(type, category, name) {
 
   if (type === "page") {
     template = templates.page(name, componentName);
-    targetDir = resolve(projectRoot, `views/pages/${name}`);
+    targetDir = resolve(projectRoot, `views/templates/${name}`);
     filename = `${name}.njk`;
   } else {
     template = templates[type](name, componentName);
@@ -455,7 +455,7 @@ function main() {
         console.log(chalk.blue("Usage: npm run scaffold:page <name>"));
         return;
       }
-      generateComponent("page", "pages", pageName);
+      generateComponent("page", "templates", pageName);
       break;
 
     case "section":

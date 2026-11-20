@@ -427,7 +427,7 @@
       "width": 400,
       "height": 400,
       "color": "6",
-      "file": "dataink.io/frontend/views/pages/home/home.md"
+      "file": "dataink.io/frontend/views/templates/home/home.md"
     },
     {
       "type": "file",
@@ -437,7 +437,7 @@
       "width": 400,
       "height": 400,
       "color": "6",
-      "file": "dataink.io/frontend/views/pages/contact/contact.md"
+      "file": "dataink.io/frontend/views/templates/contact/contact.md"
     },
     {
       "type": "file",
@@ -447,7 +447,7 @@
       "width": 400,
       "height": 400,
       "color": "6",
-      "file": "dataink.io/frontend/views/pages/projects/projects.md"
+      "file": "dataink.io/frontend/views/templates/projects/projects.md"
     },
     {
       "type": "file",
@@ -457,7 +457,7 @@
       "width": 400,
       "height": 400,
       "color": "6",
-      "file": "dataink.io/frontend/views/pages/project/project.md"
+      "file": "dataink.io/frontend/views/templates/project/project.md"
     }
   ],
   "edges": [

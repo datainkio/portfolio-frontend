@@ -5,11 +5,11 @@ tags:
   - layout
   - design-system
 links:
-  - "[cols-3](cols-3.md)"
-  - "[design-pages](../molecules/list/design-pages.md)"
-  - "[design filters](../../eleventy/filters/design.md)"
-  - "[design system readers](../../eleventy/collections/designSystem.md)"
-  - "[choreography system reader](../../eleventy/collections/choreographySystem.md)"
+  - "[cols-3](../../layouts/cols-3.md)"
+  - "[design-pages](../../molecules/list/design-pages.md)"
+  - "[design filters](../../../eleventy/filters/design.md)"
+  - "[design system readers](../../../eleventy/collections/designSystem.md)"
+  - "[choreography system reader](../../../eleventy/collections/choreographySystem.md)"
 ---
 
 # Design Doc
@@ -21,7 +21,7 @@ column.
 ## Template
 
 - Source: [[design-doc.njk]]
-- Path: `views/layouts/design-doc.njk`
+- Path: `views/templates/design-doc/design-doc.njk`
 
 ## Three columns
 
@@ -61,14 +61,14 @@ The choreography reference uses the same sidebar: its sections are children
 of the `Design` nav root, computed by
 `ia/docs/design/choreography/choreography.11tydata.js`. A page paginated from `choreographyDocs.modules` carries `choreographyModule`; the
 layout renders its `body` (the sidecar's markdown) and its facts, all from
-[choreography system reader](../../eleventy/collections/choreographySystem.md). `eyebrow`,
+[choreography system reader](../../../eleventy/collections/choreographySystem.md). `eyebrow`,
 when set, replaces the tier read from the file path, which a paginated page
 doesn't have.
 
 ### Related
 
 `componentDoc.related` is `{ composedOf, usedIn }` from
-[[designSystem.js|../../eleventy/collections/designSystem.md]]'s import
+[[designSystem.js|../../../eleventy/collections/designSystem.md]]'s import
 graph — what this component's file imports, and every component that
 imports it — each resolved to a reference-page link where one exists. It
 replaces a hand-written "Relationships" list in the component's own
@@ -100,7 +100,7 @@ A module that selects by class, id or tag (`.gel`, `a.sexy-link`, the
 reference page isn't listed. A section controller registered in
 `SECTION_REGISTRY` is linked through the attributes of the modules beside it,
 and leads its attribute's list. How the join is derived:
-[choreography system reader](../../eleventy/collections/choreographySystem.md).
+[choreography system reader](../../../eleventy/collections/choreographySystem.md).
 
 ## Component page frontmatter
 
@@ -124,7 +124,7 @@ inContext:
 
 - `bind` paths start from `cms`, `collections`, `colors`, `designTokens`,
   `buildDate`, `buildVersions`, or `site`. Pick a CMS record by slug, not
-  index: `collections.projects.slug=enquos`. See [design filters](../../eleventy/filters/design.md).
+  index: `collections.projects.slug=enquos`. See [design filters](../../../eleventy/filters/design.md).
 - The markdown body, when present, renders under **Notes**.
 - Each specimen prints the Nunjucks call that renders it, built from the same
   params, so the code can't drift from the output.

@@ -2,8 +2,8 @@
 description: "Provides a reusable page shell used by other templates via {% extends %}."
 type: template
 links:
-  - "[base](../../layouts/base.md)"
-  - "[landing-header](../../organisms/header/landing/landing-header.md)"
+  - "[base](base.md)"
+  - "[landing-header](../organisms/header/landing/landing-header.md)"
 ---
 
 # Landing

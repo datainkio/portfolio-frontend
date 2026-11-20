@@ -7,7 +7,7 @@
 
 @source "../_site/docs/design";
 @source "../_site/docs/design/choreography";
-@source "../views/layouts/design-doc.njk";
+@source "../views/templates/design-doc/design-doc.njk";
 
 /* base.css gives <body> overflow-x: hidden, which makes it a scroll container
    (overflow-y computes to auto), so the sidebar can't stick to the viewport.

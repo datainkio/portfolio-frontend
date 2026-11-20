@@ -93,9 +93,9 @@ npm run diagrams:export:choreography        # Export choreography diagrams
 - `ia/` - Content entrypoints with frontmatter (routes); Eleventy `input` directory
 - `views/` - Templates and components; Eleventy `includes` directory (resolved as `../views` from `ia/`)
   - `atoms/`, `molecules/`, `organisms/` - Atomic design components (each `.njk` paired with a sibling `.md` Obsidian sidecar)
-  - `layouts/` - Page shells consumed via `{% extends %}`
-  - `pages/` - Page-level templates
-  - `templates/partials/` - Shared partials (head, fonts, GTM, choreography script)
+  - `layouts/` - Page shells that own `<html>` and define blocks, consumed via `{% extends %}`
+    - `layouts/partials/` - Shared partials (head, fonts, GTM, choreography script)
+  - `templates/` - One folder per page type, selected by an `ia/` page's `layout:` (home, project, projects, post, posts, contact, article, design-doc)
   - `_registry.njk` - Central component registry
 - `eleventy.config.js` - 11ty config (plugins, collections, filters, shortcodes)
 - `eleventy/` - Modular 11ty configuration

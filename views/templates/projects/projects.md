@@ -2,7 +2,7 @@
 description: Renders a top-level Eleventy page.
 type: template
 links:
-  - "[landing](../../templates/landing/landing.md)"
+  - "[landing](../../layouts/landing.md)"
   - "[project-cards](../../molecules/list/project-cards.md)"
 ---
 
@@ -13,7 +13,7 @@ Renders a top-level Eleventy page.
 ## Template
 
 - Source: [[projects.njk]]
-- Path: `views/pages/projects.njk`
+- Path: `views/templates/projects/projects.njk`
 
 ## Purpose
 

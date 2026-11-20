@@ -1,6 +1,6 @@
 ---
 description: "Route definition for /user-guide/, rendering the Sanity userGuide singleton through the article template."
-layout: templates/article.njk
+layout: templates/article/article.njk
 permalink: "/user-guide/"
 eleventyNavigation:
   key: user-guide

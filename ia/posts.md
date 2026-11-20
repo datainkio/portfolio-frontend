@@ -1,6 +1,6 @@
 ---
 description: "Route definition for the /posts/ inventory: paginated collections.posts, with page copy from the Sanity postsLanding singleton."
-layout: pages/posts/posts.njk
+layout: templates/posts/posts.njk
 pagination:
   data: collections.posts
   size: 10

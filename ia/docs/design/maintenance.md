@@ -21,7 +21,7 @@ type: reference
 - A component page is a Markdown file at
   `ia/docs/design/<path under views/>.md`, with frontmatter naming the
   `component` and listing `specimens`. The contract is in
-  `views/layouts/design-doc.md`.
+  `views/templates/design-doc/design-doc.md`.
 - Give a new component a page when you add it. `npm run scaffold:component`
   generates the component.
 - Add the page to its group in `GROUPS` in

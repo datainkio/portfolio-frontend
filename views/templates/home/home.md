@@ -25,7 +25,7 @@ Renders a top-level Eleventy page. Parses header.data-preloader, first-paints, r
 ## Template
 
 - Source: [[home.njk]]
-- Path: `views/pages/home.njk`
+- Path: `views/templates/home/home.njk`
 
 ## Purpose
 

@@ -154,7 +154,7 @@ that does not exist.
 
 Design-system reference pages under `ia/docs/design/` also carry
 `component · specimens · specimenNote · inContext`, which the
-`design-doc` layout reads. Their contract is in `views/layouts/design-doc.md`.
+`design-doc` layout reads. Their contract is in `views/templates/design-doc/design-doc.md`.
 They are domain keys (`KEEP_DOMAIN` in `scripts/frontmatter/frontmatterSchema.js`),
 legal only there.
 

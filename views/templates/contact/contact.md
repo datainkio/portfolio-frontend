@@ -2,7 +2,7 @@
 description: Renders the contact page — form and social account links.
 type: template
 links:
-  - "[landing](../../templates/landing/landing.md)"
+  - "[landing](../../layouts/landing.md)"
   - "[contact-form](../../organisms/forms/contact-form.md)"
   - "[social-account](../../molecules/social-account/social-account.md)"
 ---
@@ -14,7 +14,7 @@ Renders a top-level Eleventy page.
 ## Template
 
 - Source: [[contact.njk]]
-- Path: `views/pages/contact/contact.njk`
+- Path: `views/templates/contact/contact.njk`
 
 ## Purpose
 

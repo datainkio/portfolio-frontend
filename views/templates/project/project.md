@@ -20,7 +20,7 @@ and routed to `/case-studies/{slug}/`.
 ## Template
 
 - Source: [[project.njk]]
-- Path: `views/pages/project/project.njk`
+- Path: `views/templates/project/project.njk`
 - Layout: `views/layouts/base.njk`
 
 ## Purpose
@@ -64,7 +64,7 @@ Classified as a **page** at the atomic **page** level.
 ## Relationships
 
 - Extends: [[base.njk]]
-- Driven by: [[dataink.io/frontend/views/pages/project/project]] (`frontend/ia/project.md`)
+- Driven by: [[dataink.io/frontend/views/templates/project/project]] (`frontend/ia/project.md`)
 - Spec: [`frontend/specs/views/project-page.views-spec.md`](../../../specs/views/project-page.views-spec.md)
 - Pattern: [`content-model/patterns/project-page.md`](../../../../content-model/patterns/project-page.md)
 

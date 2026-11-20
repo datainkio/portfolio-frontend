@@ -2,9 +2,9 @@
 description: "Standalone article page template, extending the base layout."
 type: template
 links:
-  - "[base](../layouts/base.md)"
-  - "[article-header](../organisms/header/article/article-header.md)"
-  - "[article-nav-links](../molecules/navigation/article-nav-links.md)"
+  - "[base](../../layouts/base.md)"
+  - "[article-header](../../organisms/header/article/article-header.md)"
+  - "[article-nav-links](../../molecules/navigation/article-nav-links.md)"
 ---
 
 # Article
@@ -14,7 +14,7 @@ Standalone article page template, extending the base layout.
 ## Template
 
 - Source: [[article.njk]]
-- Path: `views/templates/article.njk`
+- Path: `views/templates/article/article.njk`
 
 ## Purpose
 

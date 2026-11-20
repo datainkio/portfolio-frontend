@@ -1,6 +1,6 @@
 ---
 description: "Paginated route generating /case-studies/<slug>/ for every entry in collections.projectPages."
-layout: pages/project/project.njk
+layout: templates/project/project.njk
 permalink: "/case-studies/{{ project.slug }}/"
 eleventyComputed:
   # `| safe`: computed strings are rendered by Nunjucks, which escapes them;

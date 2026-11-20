@@ -69,7 +69,7 @@ docs ground (`neutral-950`): neutral links, `neutral-800` hover, a
 ## Relationships
 
 - Used by:
-  - [[design-doc.njk|layouts/design-doc.njk]], as the sidebar of every page under `ia/docs/design/`, fed `collections.all | eleventyNavigation("Design")`
+  - [[design-doc.njk|templates/design-doc/design-doc.njk]], as the sidebar of every page under `ia/docs/design/`, fed `collections.all | eleventyNavigation("Design")`
 - Reads `group` from entries computed by `ia/docs/design/design.11tydata.js`
 
 ## Notes for Future Maintenance

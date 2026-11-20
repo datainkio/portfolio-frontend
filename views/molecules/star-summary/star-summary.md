@@ -29,4 +29,4 @@ Defines Nunjucks macro: `render`. Contract: [project-page pattern § 4](../../..
 
 - Source: [[star-summary.njk]]
 - Path: `views/molecules/star-summary/star-summary.njk`
-- Used by: `views/pages/project/project.njk`, after project metadata.
+- Used by: `views/templates/project/project.njk`, after project metadata.

@@ -7,7 +7,7 @@ tags:
   - landing-header
   - scrolltrigger
 links:
-  - "[landing.njk](../../views/templates/landing/landing.md)"
+  - "[landing.njk](../../views/layouts/landing.md)"
 ---
 
 # landing-header
@@ -20,7 +20,7 @@ as the user scrolls, via a single scrubbed `ScrollTrigger`.
 - Module: [[landing-header.js]]
 - Path: `js/layouts/landing-header.js`
 - Loaded via: `<script type="module">` in
-  [`landing.njk`](../../views/templates/landing/landing.md).
+  [`landing.njk`](../../views/layouts/landing.md).
 - GSAP: imported from the curated vendor barrel
   (`js/choreography/system/gsap.js`) so the same import works bundled and
   unbundled.

@@ -1,6 +1,6 @@
 ---
 description: "Route definition for /about/, rendering the Sanity About singleton through the article template."
-layout: templates/article.njk
+layout: templates/article/article.njk
 permalink: "/about/"
 eleventyNavigation:
   key: about

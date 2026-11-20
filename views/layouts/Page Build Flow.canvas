@@ -4,7 +4,7 @@
 		{"id":"3bcec9e1d808077b","type":"group","x":-2640,"y":-760,"width":4120,"height":440,"color":"1","label":"Sanity"},
 		{"id":"eecfaa2087203493","type":"group","x":-2640,"y":-1360,"width":3380,"height":440,"color":"6","label":"Content Model"},
 		{"id":"a92f45cccc96e2a7","type":"group","x":-1960,"y":-2460,"width":2680,"height":440,"color":"4","label":"Data retrieval & transformation"},
-		{"id":"792a6fc86903c884","type":"file","file":"dataink.io/frontend/views/pages/home/home.md","x":1060,"y":-2440,"width":400,"height":400,"color":"4"},
+		{"id":"792a6fc86903c884","type":"file","file":"dataink.io/frontend/views/templates/home/home.md","x":1060,"y":-2440,"width":400,"height":400,"color":"4"},
 		{"id":"46c25919a8a72ed4","type":"file","file":"dataink.io/frontend/ia/index.md","x":-2540,"y":-2320,"width":400,"height":580,"color":"4"},
 		{"id":"faec060422fa97af","type":"file","file":"dataink.io/frontend/data/sanity/client/index.md","x":-1880,"y":-740,"width":400,"height":400,"color":"1"},
 		{"id":"4b81c31ccdb1d217","type":"file","file":"dataink.io/backend/schemaTypes/documents/content/singletons/home.md","x":-800,"y":-740,"width":400,"height":400,"color":"1"},

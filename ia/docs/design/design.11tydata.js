@@ -260,7 +260,7 @@ const placement = (section, path, title) => {
 };
 
 export default {
-  layout: "layouts/design-doc.njk",
+  layout: "templates/design-doc/design-doc.njk",
   // Site stylesheet plus the reference-only classes; see styles/docs.css.
   stylesheet: "/assets/docs.css",
   eleventyComputed: {

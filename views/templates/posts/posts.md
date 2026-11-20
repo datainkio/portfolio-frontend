@@ -2,7 +2,7 @@
 description: Renders the paginated posts inventory at /posts/.
 type: template
 links:
-  - "[landing](../../templates/landing/landing.md)"
+  - "[landing](../../layouts/landing.md)"
   - "[post-summary](../../molecules/post-summary/post-summary.md)"
   - "[pager](../../molecules/navigation/pager.md)"
 ---
@@ -14,7 +14,7 @@ Renders a top-level Eleventy page: the posts inventory.
 ## Template
 
 - Source: [[posts.njk]]
-- Path: `views/pages/posts/posts.njk`
+- Path: `views/templates/posts/posts.njk`
 
 ## Purpose
 

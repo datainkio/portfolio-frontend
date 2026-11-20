@@ -145,7 +145,7 @@ The project-page tree was brought into conformance on 2026-10-02:
 | `organisms/footer/global-footer.njk` | ✅ (`classes` appended; positioning is the caller's) |
 | `atoms/icon.njk` | ✅ |
 
-Every other component under `views/atoms/`, `views/molecules/`, and `views/organisms/` was brought into conformance on 2026-11-06. No macro imports `with context`, and no macro reads anything outside `params`. `views/layouts/base.njk` and `views/pages/home/home.njk` read page data and pass it down.
+Every other component under `views/atoms/`, `views/molecules/`, and `views/organisms/` was brought into conformance on 2026-11-06. No macro imports `with context`, and no macro reads anything outside `params`. `views/layouts/base.njk` and `views/templates/home/home.njk` read page data and pass it down.
 
 Two inline `style` attributes are named `style`, because `styles` means slots: `atoms/video/video.njk` and `molecules/background/sizzle-background.njk`.
 

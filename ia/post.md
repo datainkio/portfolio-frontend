@@ -1,6 +1,6 @@
 ---
 description: "Paginated route generating /posts/<slug>/ for every entry in collections.postPages."
-layout: pages/post/post.njk
+layout: templates/post/post.njk
 permalink: "/posts/{{ post.slug }}/"
 eleventyComputed:
   # `| safe`: see ia/project.md.

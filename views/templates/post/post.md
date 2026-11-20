@@ -15,7 +15,7 @@ Renders one post: header with details, featured image, body, files and related c
 ## Template
 
 - Source: [[post.njk]]
-- Path: `views/pages/post/post.njk`
+- Path: `views/templates/post/post.njk`
 
 ## Purpose
 

@@ -18,15 +18,15 @@ aliases:
 
 - **Status:** draft
 - **Scope:** The single routed home page at `/` (Sanity `home` singleton + featured collections)
-- **Template:** [home.njk](../../views/pages/home/home.njk) · **Sidecar:** [home.md](../../views/pages/home/home.md)
-- **Routed by:** `ia/index.md` (`layout: pages/home/home.njk`, `permalink: /`)
+- **Template:** [home.njk](../../views/templates/home/home.njk) · **Sidecar:** [home.md](../../views/templates/home/home.md)
+- **Routed by:** `ia/index.md` (`layout: templates/home/home.njk`, `permalink: /`)
 - **Related:** [card.views-spec.md](./card.views-spec.md), [project-page.views-spec.md](./project-page.views-spec.md)
 
 ## Feature
 
 A single Nunjucks template renders the site home page as a **standalone HTML document** — it emits its own `<!DOCTYPE html>`, `<head>`, and `<body>` rather than `extends base.njk`. This is deliberate: the home page owns its critical path for LCP control and preloader/choreography gating, which a shared base layout would obscure.
 
-The routed page is `ia/index.md`. Eleventy's input dir is `ia/` and its includes dir is `../views`; the home page is therefore a thin frontmatter file whose `layout` points at `views/pages/home/home.njk`. Content is not authored in the template — it is projected from the Sanity `home` singleton and mapped into the page via `eleventyComputed`.
+The routed page is `ia/index.md`. Eleventy's input dir is `ia/` and its includes dir is `../views`; the home page is therefore a thin frontmatter file whose `layout` points at `views/templates/home/home.njk`. Content is not authored in the template — it is projected from the Sanity `home` singleton and mapped into the page via `eleventyComputed`.
 
 ### Data flow
 
@@ -43,7 +43,7 @@ Eleventy Sanity collections  (eleventy/collections/sanity.js)
          ▼
 ia/index.md  (eleventyComputed maps cms.home[0] → value / recognition / work / hero / title)
          ▼
-views/pages/home/home.njk  (composes section macros in <main>)
+views/templates/home/home.njk  (composes section macros in <main>)
 ```
 
 `cms.home[0]` (used in `ia/index.md` frontmatter) and `collections.home[0]` (used inside the template) are two access paths to the same Sanity `home` singleton.

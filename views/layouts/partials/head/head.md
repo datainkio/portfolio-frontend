@@ -89,7 +89,7 @@ Consumed by the included partials, not by this file:
   - [preloader-script.njk](../preloader-script/preloader-script.njk)
 - Used by:
   - [base.njk](../../../layouts/base.njk) — `{% include "layouts/partials/head/head.njk" %}`
-  - [home.njk](../../../pages/home/home.njk) — standalone page, includes it directly
+  - [home.njk](../../../templates/home/home.njk) — standalone page, includes it directly
 - Related:
   - [session-management-script.njk](../session-management-script/session-management-script.njk) — pre-paint return-visit check; lives in `home.njk`'s `<body>` after the preloader markup, not here
   - [choreography-script.njk](../choreography-script/choreography-script.njk) — the body-end counterpart that actually evaluates the bundle the `modulepreload` warms

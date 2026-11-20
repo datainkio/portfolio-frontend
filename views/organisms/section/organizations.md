@@ -75,7 +75,7 @@ Classified as a **component** at the atomic **organism** level based on its loca
   - [[organization.njk]]
   - [[button.njk]]
 - Used by:
-  - `views/pages/home/home.njk`
+  - `views/templates/home/home.njk`
 - Motion: [[OrganizationsAnimations]], [[Organizations]], [[OrganizationsTriggers]]
 
 ## Notes for Future Maintenance
