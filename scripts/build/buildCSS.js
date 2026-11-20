@@ -426,15 +426,22 @@ async function main() {
   };
 
   try {
-    // In watch mode both watchers run side by side; otherwise build in turn.
-    const results = options.watch
-      ? await Promise.all(
-          ENTRIES.map((entry) => buildCSS({ ...options, entry })),
-        )
+    // Watch mode watches main.css only; docs.css is built once at launch so
+    // /docs/design/ stays styled. DOCS_CSS=true watches docs.css too.
+    // Without --watch, every entry builds in turn.
+    const watchDocs = process.env.DOCS_CSS === "true";
+    const watched = options.watch
+      ? ENTRIES.filter((entry, i) => i === 0 || watchDocs)
       : [];
-    if (!options.watch)
-      for (const entry of ENTRIES)
-        results.push(await buildCSS({ ...options, entry }));
+    const results = [];
+    for (const entry of ENTRIES.filter((entry) => !watched.includes(entry)))
+      results.push(await buildCSS({ ...options, watch: false, entry }));
+    if (watched.length)
+      results.push(
+        ...(await Promise.all(
+          watched.map((entry) => buildCSS({ ...options, entry })),
+        )),
+      );
 
     if (results.some((result) => !result.success)) {
       process.exit(1);
