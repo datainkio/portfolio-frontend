@@ -67,15 +67,15 @@ showWorkflowSection(
     {
       script: "start",
       description: "Start development server with hot reloading",
-      note: "Runs CSS watch + 11ty dev server in parallel",
+      note: "Runs 11ty dev server + JS bundle watch; CSS builds after each 11ty build",
     },
     {
       script: "dev",
-      description: "Same as start - parallel dev:css and dev:11ty",
+      description: "Same as start - parallel dev:11ty and dev:js",
     },
     {
       script: "dev:css",
-      description: "Watch Tailwind CSS compilation with hot reload",
+      description: "Standalone Tailwind CSS watch (not part of start)",
     },
     {
       script: "dev:11ty",
@@ -222,7 +222,8 @@ console.log(
     chalk.gray(" - Sync Figma tokens"),
 );
 console.log(
-  chalk.yellow("  2. npm run dev:css") + chalk.gray(" - Watch CSS compilation"),
+  chalk.yellow("  2. npm start") +
+    chalk.gray(" - Rebuilds CSS on each styles/ save"),
 );
 console.log();
 
