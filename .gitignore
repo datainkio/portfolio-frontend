@@ -51,10 +51,6 @@ njk/_data/dbSchema.json
 njk/_data/dbSchema.mmd
 
 
-# AI audits (generated / timestamped reports)
-docs/ai/audits/*
-!docs/ai/audits/README.md
-
 
 # MACOS
 

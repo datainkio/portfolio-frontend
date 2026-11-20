@@ -592,7 +592,7 @@ title: Frontmatter authority vs. reality (${label})
 flowchart LR
     subgraph AUTH["Authority"]
         A1["${resolved ? "specs/frontmatter.spec.md<br/><i>single authority</i>" : "docs/ia/frontmatter.md<br/><i>IA Frontmatter Schema</i>"}"]
-${resolved ? '        A2["docs/ia/frontmatter.md<br/><i>stub → spec</i>"]\n        A3["ia/docs/ia/frontmatter.md<br/><i>summary → spec</i>"]' : '        A2["ia/docs/ia/frontmatter.md<br/><i>Frontmatter Rules</i>"]\n        A3["dataink.io/CLAUDE.md<br/><i>Non-Negotiables</i>"]'}
+${resolved ? '        A2["ia/docs/ia/frontmatter.md<br/><i>summary → spec</i>"]' : '        A2["ia/docs/ia/frontmatter.md<br/><i>Frontmatter Rules</i>"]\n        A3["dataink.io/CLAUDE.md<br/><i>Non-Negotiables</i>"]'}
     end
 
     subgraph REALITY["Measured reality"]
@@ -603,12 +603,12 @@ ${nodes}
     A1 --> R1
     A1 --> R2
     A1 --> R3
-${resolved ? "    A2 -.->|defers to| A1\n    A3 -.->|defers to| A1" : '    A1 <-.->|"duplicate, and they differ"| A2\n    A3 -->|"retires aix:"| R2'}
+${resolved ? "    A2 -.->|defers to| A1" : '    A1 <-.->|"duplicate, and they differ"| A2\n    A3 -->|"retires aix:"| R2'}
 
     classDef ok fill:#1b4332,stroke:#40916c,color:#d8f3dc
     classDef bad fill:#4a1c1c,stroke:#9b2226,color:#ffdada
     classDef auth fill:#1d3557,stroke:#457b9d,color:#e8f1f8
-    class A1,A2,A3 auth
+    class ${resolved ? "A1,A2" : "A1,A2,A3"} auth
 ${classes}
 `;
 }
