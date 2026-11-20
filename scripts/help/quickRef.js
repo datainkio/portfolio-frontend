@@ -28,7 +28,8 @@ console.log(
     chalk.gray("     - Sync Figma tokens + rebuild CSS"),
 );
 console.log(
-  chalk.yellow("npm run dev:css") + chalk.gray("    - Watch CSS compilation"),
+  chalk.yellow("npm run dev:css") +
+    chalk.gray("    - Standalone CSS watch (npm start builds CSS itself)"),
 );
 
 console.log(chalk.green.bold("\n📝 Content Updates"));

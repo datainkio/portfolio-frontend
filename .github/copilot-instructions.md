@@ -20,7 +20,7 @@ These instructions make AI coding agents immediately productive in this repo by 
 npm install                  # Required on fresh clone
 
 # Development (most common)
-npm start                    # Runs dev:css + dev:11ty in parallel (Tailwind watch + 11ty serve)
+npm start                    # Runs dev:11ty + dev:js in parallel; 11ty builds CSS once after each build
 npm run dev                  # Same as npm start
 
 # Building
@@ -39,7 +39,7 @@ npm run design               # build:design + build:css (design tokens + CSS com
 # CSS Building
 npm run build:css            # Production build (minified) via buildCSS.js wrapper
 npm run build:css:dev        # Development build (unminified, detailed analysis)
-npm run dev:css              # Watch mode (continuous building)
+npm run dev:css              # Standalone Tailwind watch (not part of npm start)
 
 # Testing
 npm run test                 # Run logger tests
@@ -258,7 +258,7 @@ this.bus.on("hero:intro:complete", () => {
 - Tailwind v4 uses `@tailwindcss/cli` package (not `tailwindcss` binary)
 - Wrapped by `scripts/build/buildCSS.js` for enhanced logging and analysis
 - Never call Tailwind CLI directly - always use npm scripts
-- Watch mode: `npm run dev:css` (continuous building)
+- Dev: `npm start` builds CSS once after each 11ty build (`eleventy.after` hook in `eleventy.config.js`); a `styles/` save triggers it. `npm run dev:css` is a standalone watcher, not part of `npm start`
 - Production: `npm run build:css` (minified with optimization analysis)
 
 **CSS Layers**
@@ -381,7 +381,7 @@ Questions or gaps? If any workflow or directory is unclear, tell me which part a
 - Sanity data missing: Confirm `SANITY_PROJECT_ID`/`SANITY_DATASET` and check `data/sanity/queries.js`.
 - GSAP animations not running: Confirm plugin registration in `js/choreography/system/gsap.js` and that the DOM IDs from `config/contracts/selectors/selectors.js` exist (`#overlay-view`, smoother containers).
 - Background video not visible: Ensure overlay-view molecule renders before choreography; use MP4 under `/assets/video/`.
-- Tailwind classes missing: Use `@tailwindcss/cli` and check `tailwind.config.js`. Restart `npm start` to refresh watch processes.
+- Tailwind classes missing: Use `@tailwindcss/cli` and check `tailwind.config.js`. A class added only in JS reaches the CSS on the next template or style save, or restart `npm start`.
 
 ## Try-It: Add a Molecule
 
