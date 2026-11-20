@@ -24,7 +24,7 @@ rendered via the `social-account` molecule.
 
 ## Role in the System
 
-Classified as a **page** at the atomic **page** level based on its location
+Classified as a **page type** at the atomic **template** level based on its location
 under `views/`.
 
 ## Data and Context

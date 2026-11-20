@@ -59,18 +59,18 @@ views/templates/home/home.njk  (composes section macros in <main>)
 
 The template imports section macros and renders them, in order, inside a single `<main id="page-main-content" aria-busy="true">`, itself wrapped by `<div id="page-main">` (the ScrollSmoother wrapper/content pair — `<main>` is the `content` element directly; there is no intermediate `<div>`). `aria-busy` is set true until choreography boots (`director:ready` → `preloader:out`). Order is authored in `home.njk`, **not** derivable from the stale `skipLinks` frontmatter.
 
-| Order | Region         | Macro / import                                                   | `id`            | Key inputs                                             |
-| ----- | -------------- | ---------------------------------------------------------------- | --------------- | ------------------------------------------------------ |
-| —     | Skip links     | `organisms/navigation/skip-links-nav.njk`                        | —               | (no params)                                            |
-| —     | Section cap    | `molecules/section-cap.njk`                                      | —               | `title: "renderizoring..."` (render-state placeholder) |
-| 1     | Landing/hero   | `organisms/header/home/home-landing.njk`                         | (landing)       | `svg: logo`                                            |
-| 2     | Hero/manifesto | `organisms/section/hero.njk`                                     | `manifesto`     | `copy: value`                                          |
-| 3     | Process        | `organisms/section/process.njk`                                  | `process`       | `uiComponents: true` (ui-components-loop coverflow)    |
-| 4     | Work           | `organisms/section/work.njk`                                     | `work`          | `copy: work`, `projects: projects`                     |
-| 5     | Organizations  | `organisms/section/organizations.njk`                            | `organizations` | `copy: organizationsCopy`, `organizations`             |
-| 6     | Recognition    | `organisms/section/awards.njk`                                   | `awards`        | `copy: recognition`, `awards`                          |
-| 7     | Contact        | `organisms/section/contact.njk`                                  | `contact`       | `copy: contact`, `contact: contactInfo`                |
-| —     | Footer         | `organisms/footer/global-footer.njk`                             | —               | `contact: false` (rendered outside `<main>`)           |
+| Order | Region         | Macro / import                                                 | `id`            | Key inputs                                             |
+| ----- | -------------- | -------------------------------------------------------------- | --------------- | ------------------------------------------------------ |
+| —     | Skip links     | `organisms/navigation/skip-links-nav.njk`                      | —               | (no params)                                            |
+| —     | Section cap    | `molecules/section-cap.njk`                                    | —               | `title: "renderizoring..."` (render-state placeholder) |
+| 1     | Landing/hero   | `organisms/header/home/home-landing.njk`                       | (landing)       | `svg: logo`                                            |
+| 2     | Hero/manifesto | `organisms/section/hero.njk`                                   | `manifesto`     | `copy: value`                                          |
+| 3     | Process        | `organisms/section/process.njk`                                | `process`       | `uiComponents: true` (ui-components-loop coverflow)    |
+| 4     | Work           | `organisms/section/work.njk`                                   | `work`          | `copy: work`, `projects: projects`                     |
+| 5     | Organizations  | `organisms/section/organizations.njk`                          | `organizations` | `copy: organizationsCopy`, `organizations`             |
+| 6     | Recognition    | `organisms/section/awards.njk`                                 | `awards`        | `copy: recognition`, `awards`                          |
+| 7     | Contact        | `organisms/section/contact.njk`                                | `contact`       | `copy: contact`, `contact: contactInfo`                |
+| —     | Footer         | `organisms/footer/global-footer.njk`                           | —               | `contact: false` (rendered outside `<main>`)           |
 | —     | Choreography   | `layouts/partials/choreography-script/choreography-script.njk` | —               | module bundle (gated boot)                             |
 
 Head/body partials included directly: `layouts/partials/dev-note/dev-note.njk`, `head.njk`, `gtm-noscript.njk`.

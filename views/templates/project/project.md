@@ -31,7 +31,7 @@ to H2 and below via the transform. Composition follows
 
 ## Role in the System
 
-Classified as a **page** at the atomic **page** level.
+Classified as a **page type** at the atomic **template** level.
 
 ## Data and Context
 

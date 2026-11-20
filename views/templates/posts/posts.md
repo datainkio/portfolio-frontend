@@ -22,7 +22,7 @@ Extends the landing template with a list of post summaries and a pager. The land
 
 ## Role in the System
 
-Classified as a **page** at the atomic **page** level based on its location under `views/`.
+Classified as a **page type** at the atomic **template** level based on its location under `views/`.
 
 ## Data and Context
 

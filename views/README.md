@@ -18,9 +18,16 @@ The Nunjucks templates behind every page, organized by size: small pieces build 
 - `atoms/` - smallest pieces: button, icon, heading, link, video
 - `molecules/` - atoms combined: cards, forms, lists, lightbox, pager
 - `organisms/` - page sections: header, footer, navigation, homepage sections
-- `templates/` - page bodies (article, blog, case study, landing) and `<head>` partials
-- `layouts/` - base page shells that pages extend
-- `pages/` - the page entry points (home, project, projects, contact)
+- `layouts/` - page shells: they own `<html>`, define the blocks and hold the `<head>` partials
+- `templates/` - page types: one folder each (home, project, projects, post, posts, contact, article, design-doc)
+
+## Two tiers, one rule
+
+Content in `ia/` picks a template with `layout:`. A template extends a layout. Nothing else is a `layout:` target.
+
+- A layout (shell) owns `<html>`, defines blocks and carries no CMS content.
+- A template is a page type. It is selected by an `ia/` page's `layout:`, and fills the blocks of a shell.
+- The real pages are `ia/*.md` plus Sanity; `templates/` holds no pages of its own.
 
 ## How it connects
 
@@ -42,6 +49,5 @@ The Nunjucks templates behind every page, organized by size: small pieces build 
 - [layouts/](layouts/README.md)
 - [molecules/](molecules/README.md)
 - [organisms/](organisms/README.md)
-- [pages/](pages/)
 - [templates/](templates/README.md)
 <!-- readme-index:end -->
