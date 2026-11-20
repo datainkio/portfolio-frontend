@@ -8,7 +8,7 @@ links:
   - "[[TokensFile]]"
   - "[[VariablesService]]"
   - "[[fetchFigma]]"
-  - "[Decision](../../docs/design-system/adr-0001-figma-owns-design-tokens.md)"
+  - "[Decision](../../specs/decisions/adr-0001-figma-owns-design-tokens.md)"
 ---
 
 # TokenService.js

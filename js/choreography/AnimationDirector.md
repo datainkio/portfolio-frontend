@@ -26,3 +26,31 @@ In its role as the master choreography controller, AnimationDirector is the seco
 4. Initialize managers ^b5aa46
 5. Initialize LandingSequence ^f25455
 6. 📍Dispatch EVENTS.system.directorReady ^e44458
+
+## Boot sequence
+
+`AnimationDirector.js` waits for `DOMContentLoaded`, defers to idle (`requestIdleCallback`, 150ms timeout, with a `setTimeout` fallback), then constructs one director and exposes it as `window.director`. The constructor builds everything in this order and ends by dispatching `EVENTS.system.directorReady`. It does not start the landing sequence; `LandingSequence` waits for the preloader handoff (`preloader:out`).
+
+```mermaid
+sequenceDiagram
+    participant Page as DOMContentLoaded
+    participant AD as AnimationDirector
+    participant Bus as AnimationBus
+    participant SEC as ScrollEffectsCoordinator
+    participant CM as CardManager
+    participant Sections as Section controllers
+    participant Mgr as Managers
+    participant LS as LandingSequence
+
+    Page->>AD: idle callback, new AnimationDirector()
+    AD->>Bus: new AnimationBus()
+    AD->>SEC: new ScrollEffectsCoordinator(bus)
+    AD->>CM: new CardManager() (before sections, for pin spacers)
+    AD->>Sections: new SectionClass({ bus, reducedMotionHandler, gelManager }) per SECTION_REGISTRY entry
+    AD->>Mgr: BadgeManager, WorkHeaderManager, WorkNavManager, BuildInfoManager
+    AD->>LS: new LandingSequence(bus, sections, gelAnimation)
+    AD-->>Page: window dispatches director:ready
+    note over AD: window.director = director
+```
+
+Debug access: `window.director.getSections()`, `getSequence()`, `getStage()`, `restart()` and `destroy()` (a destroyed director can't be reused).

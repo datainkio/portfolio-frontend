@@ -9,8 +9,7 @@ tags:
   - figma
   - decision
 links:
-  - "[Figma worklist](figma-worklist.md)"
-  - "[Inventory](inventory.md)"
+  - "[Inventory](../../reports/design-system/inventory.md)"
   - "[TokenService](../../figma/services/TokenService.md)"
 ---
 

@@ -8,7 +8,7 @@ These are the project's own classes for decoration, and each page shows the
 syntax and a live sample. They sit between the tokens and the components:
 they combine tokens into one reusable effect and own no markup. The ones
 defined with `@utility` in `styles/` take responsive and state variants, such
-as `md:inner-border`. The full list is in `docs/design-system/inventory.md`.
+as `md:inner-border`. The full list is in `reports/design-system/inventory.md`.
 
 - **[Gels](background/gels/)**: translucent colour plates.
 - **[Geometric patterns](background/geometric-patterns/)**: halftone,

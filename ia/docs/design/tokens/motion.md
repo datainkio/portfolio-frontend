@@ -19,7 +19,7 @@ the motion, where the eye judges an ease. <code>standard</code> and
 <code>emphasis</code> lose their slow start, because GSAP has no curve shaped
 like it. A new ease token needs a <code>GSAP_EASE</code> entry, and
 <code>npm test</code> fails until it has one. ADR 0004 in
-<code>docs/design-system/</code> records the decision.</p>
+<code>specs/decisions/</code> records the decision.</p>
 <p>The scale has no 200ms step, so moving a transition off Tailwind's
 <code>duration-200</code> changes its timing. Every transition needs a
 reduced-motion path: put it behind <code>motion-safe:</code>, as the demos

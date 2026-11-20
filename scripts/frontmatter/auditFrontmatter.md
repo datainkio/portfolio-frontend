@@ -6,12 +6,12 @@ tags:
   - tooling
 links:
   - "[[frontmatterSchema]]"
-  - "[[dataink.io/frontend/docs/frontmatter-audit/README]]"
+  - "[[dataink.io/frontend/reports/frontmatter-audit/README]]"
 ---
 
 # auditFrontmatter.js
 
-Measures frontmatter structural debt and writes `docs/frontmatter-audit/<label>/`.
+Measures frontmatter structural debt and writes `reports/frontmatter-audit/<label>/`.
 
 The same script produces both the `before` and `after` snapshots, so a delta is
 measured rather than narrated. Classification comes from
@@ -22,7 +22,7 @@ measured rather than narrated. Classification comes from
 ```bash
 node scripts/frontmatter/auditFrontmatter.js --label before
 node scripts/frontmatter/auditFrontmatter.js --label after --compare before
-npm run diagrams:export -- --dir docs/frontmatter-audit
+npm run diagrams:export -- --dir reports/frontmatter-audit
 ```
 
 To regenerate a `before` snapshot after the tree has changed, run it inside a

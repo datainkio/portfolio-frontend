@@ -53,7 +53,7 @@ Each ease also carries what GSAP runs for it. GSAP can't parse a
 0–100 frame. `gsapLinear` is the same samples as a CSS `linear()` timing
 function, so the page can play the GSAP curve beside the designed one. All
 three come from `GSAP_EASE` and GSAP itself, so the page can't drift from
-the choreography. [ADR 0004](../../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)
+the choreography. [ADR 0004](../../specs/decisions/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)
 records why.
 
 ## `readComponentSidecar(component)`

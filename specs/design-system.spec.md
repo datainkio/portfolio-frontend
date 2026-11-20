@@ -10,8 +10,8 @@ tags:
 aliases:
   - Design System Spec
 links:
-  - "[ADR 0001](../docs/design-system/adr-0001-figma-owns-design-tokens.md)"
-  - "[ADR 0004](../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)"
+  - "[ADR 0001](decisions/adr-0001-figma-owns-design-tokens.md)"
+  - "[ADR 0004](decisions/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)"
   - "[Component API spec](views/component-api.views-spec.md)"
   - "[Living reference](../ia/docs/design/README.md)"
   - "[lintPalette](../scripts/lint/lintPalette.md)"
@@ -20,7 +20,7 @@ links:
 # Spec: Design system
 
 - **Scope:** every visual value and every macro component in `frontend/`
-- **Decisions behind it:** [ADR 0001](../docs/design-system/adr-0001-figma-owns-design-tokens.md), who owns each token group; [ADR 0004](../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md), how GSAP runs the ease tokens
+- **Decisions behind it:** [ADR 0001](decisions/adr-0001-figma-owns-design-tokens.md), who owns each token group; [ADR 0004](decisions/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md), how GSAP runs the ease tokens
 - **Component contract:** [Component API spec](views/component-api.views-spec.md)
 - **Rendered at:** `/docs/design/`, from [`ia/docs/design/`](../ia/docs/design/README.md)
 
@@ -71,7 +71,7 @@ through unchanged. Easings don't: GSAP can't parse a `cubic-bezier()`, so
 `motion.ease(name)` returns the nearest GSAP core ease from `GSAP_EASE`. CSS runs
 the exact curve and GSAP runs that approximation. The
 [motion reference page](../ia/docs/design/tokens/motion.md) plots the two
-together. [ADR 0004](../docs/design-system/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)
+together. [ADR 0004](decisions/adr-0004-gsap-runs-motion-eases-as-mapped-core-eases.md)
 has the map and the reasons. Never pass a `motionTokens.ease` string to GSAP.
 
 Relative values (`auto`, `full`, `screen`, fractions, `dvh`, `%`) stay as plain

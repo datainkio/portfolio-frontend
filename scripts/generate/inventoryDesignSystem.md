@@ -13,7 +13,7 @@ links:
 
 # inventoryDesignSystem.js
 
-Writes `docs/design-system/inventory.md` (summary) and `inventory.json`
+Writes `reports/design-system/inventory.md` (summary) and `inventory.json`
 (complete, gitignored because Tailwind scans tracked files). It answers one question: what design system does the code already
 have? Three sources:
 

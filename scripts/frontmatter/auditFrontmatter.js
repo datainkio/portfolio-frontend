@@ -18,7 +18,7 @@
  *   node scripts/frontmatter/auditFrontmatter.js --check   # CI gate: exit 1 on a NEW missing sidecar vs. scripts/frontmatter/sidecar-baseline.json
  *   node scripts/frontmatter/auditFrontmatter.js --check --update-baseline   # accept current missing sidecars as the new baseline
  *
- * OUTPUT (docs/frontmatter-audit/<label>/):
+ * OUTPUT (reports/frontmatter-audit/<label>/):
  *   snapshot.json          all metrics, machine-readable
  *   *.mmd                  Mermaid sources — render via `npm run diagrams:export`
  *   keys-cooccurrence.gexf Gephi graph: keys clustered into schema profiles
@@ -60,7 +60,7 @@ const checkOnly = args.includes("--check");
 const updateBaseline = args.includes("--update-baseline");
 const SIDECAR_BASELINE_PATH = "scripts/frontmatter/sidecar-baseline.json";
 
-const OUT_ROOT = "docs/frontmatter-audit";
+const OUT_ROOT = "reports/frontmatter-audit";
 const OUT_DIR = join(OUT_ROOT, label);
 
 /** git ls-files with NUL separators so paths containing spaces survive. */

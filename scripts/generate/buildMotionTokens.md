@@ -20,7 +20,7 @@ curve, so motion is the one non-colour group the Figma sync doesn't own.
 CSS gets the exact `cubic-bezier()` curves. GSAP doesn't read this file. It takes
 eases through `motion.ease()`, which returns the nearest GSAP core ease from
 `GSAP_EASE` in `js/choreography/config/ix/motion.js`, because GSAP can't parse a
-`cubic-bezier()`. See ADR 0004 in `docs/design-system/`.
+`cubic-bezier()`. See ADR 0004 in `specs/decisions/`.
 
 Nothing uses these utilities yet. Tailwind only emits a theme variable when
 something uses it, so the file doesn't change the compiled CSS. Moving a

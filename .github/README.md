@@ -22,5 +22,5 @@ GitHub automation and README images.
 
 ## See also
 
-- [Deployment](../docs/deployment.md)
+- [Deployment](deployment.md)
 - [Scripts](../scripts/README.md)
