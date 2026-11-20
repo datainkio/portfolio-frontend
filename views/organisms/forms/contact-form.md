@@ -39,7 +39,7 @@ markup — both fields share the same label/control/help/error shape.
 
 Classified as a **component** at the atomic **organism** level. The contact
 page imports it and renders it once:
-[`pages/contact/contact.njk`](../../pages/contact/contact.md).
+[`templates/contact/contact.njk`](../../templates/contact/contact.md).
 
 ## Params
 
@@ -56,13 +56,13 @@ page imports it and renders it once:
 | `docNo`            | string                        | Two-digit parent document number, shown as "Doc {docNo} / Transmission Form" and "DOC {docNo}A". Defaults to `00`. |
 | `docTitle`         | string                        | Form heading. Defaults to `Contact`.                                                                               |
 
-`views/pages/contact/contact.njk` passes the `sanity*` params from the `env` global data. Russ confirmed on 2026-11-06 that the token is write-only and that the exposure is acceptable.
+`views/templates/contact/contact.njk` passes the `sanity*` params from the `env` global data. Russ confirmed on 2026-11-06 that the token is write-only and that the exposure is acceptable.
 
 ## Relationships
 
 - Imports: [[field.njk]] (`molecules/form/field.njk`)
 - Loads: [[ContactForm.js]]
-- Used by: [[contact.njk]] (`views/pages/contact/contact.njk`)
+- Used by: [[contact.njk]] (`views/templates/contact/contact.njk`)
 
 ## Stroke Hierarchy
 

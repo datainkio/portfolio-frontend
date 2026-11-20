@@ -58,7 +58,7 @@ handled — `Preloader.js` hydrates deferred videos and returns.
 ## Relationships
 
 - Imports: [[hanko.njk]] (`atoms/hanko/hanko.njk`) as `Logo`
-- Used by: [[home.njk]] (`views/pages/home/home.njk`), rendered right after `SkipLinksNav`, before the session script, `Background` and `Badge`.
+- Used by: [[home.njk]] (`views/templates/home/home.njk`), rendered right after `SkipLinksNav`, before the session script, `Background` and `Badge`.
 
 ## Structure ^4566c5
 

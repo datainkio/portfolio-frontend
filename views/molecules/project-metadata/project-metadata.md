@@ -47,7 +47,7 @@ Macro: `render(params = {})`
 - Imports:
   - [[molecules/stats/stats.njk]]
 - Used by:
-  - [[views/pages/project/project.njk]]
+  - [[views/templates/project/project.njk]]
 
 ## Notes for Future Maintenance
 

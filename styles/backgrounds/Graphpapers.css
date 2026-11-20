@@ -66,7 +66,7 @@
  *
  * bg-page-graphpaper: the homepage's page background, named once — the
  * neutral-950 paper plus the primary-100 grid. It goes on <html>
- * (views/pages/home/home.njk), where the root background covers the whole
+ * (views/templates/home/home.njk), where the root background covers the whole
  * canvas, and on the preloader overlay (views/organisms/status/preloader.njk),
  * which must match it exactly so lifting the splash is seamless. Both use
  * this utility so the pair can't drift.

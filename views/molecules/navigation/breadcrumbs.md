@@ -7,7 +7,7 @@ tags:
 links:
   - "[Component API spec](../../../specs/views/component-api.views-spec.md)"
   - "[link](../../atoms/link/link.md)"
-  - "[design-doc](../../layouts/design-doc.md)"
+  - "[design-doc](../../templates/design-doc/design-doc.md)"
 ---
 
 # Breadcrumbs
@@ -44,7 +44,7 @@ The path from a root page down to the current one. It's presentational and knows
 
 ## Relationships
 
-- Used by: [[design-doc.njk|layouts/design-doc.njk]], which builds the trail with the `navigationTrail` filter ([[design.md|eleventy/filters/design.md]]).
+- Used by: [[design-doc.njk|templates/design-doc/design-doc.njk]], which builds the trail with the `navigationTrail` filter ([[design.md|eleventy/filters/design.md]]).
 - Imports: [[link.njk|atoms/link/link.njk]]
 
 ## Notes for Future Maintenance

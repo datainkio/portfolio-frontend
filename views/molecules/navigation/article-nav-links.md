@@ -35,7 +35,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
   - [[icon.njk|atoms/icon.njk]]
 - Wired by `assets/js/choreography/molecules/article-nav-toggle.js` (`createArticleNavToggle`) for the mobile toggle behavior.
 - Likely used by:
-  - [[article.njk|templates/article.njk]]
+  - [[article.njk|templates/article/article.njk]]
 
 ## Notes for Future Maintenance
 

@@ -12,8 +12,8 @@
     no scroll container, so sticky and ScrollSmoother are unaffected. It has
     to be on <html>; on <body> it doesn't stop the viewport widening. -#}
 <html lang="en" class="overflow-x-clip {{ 'debug-outlines' if runtime.debugOutlines }}">
-  {% include "templates/partials/dev-note/dev-note.njk" %}
-  {% include "templates/partials/head/head.njk" %}
+  {% include "layouts/partials/dev-note/dev-note.njk" %}
+  {% include "layouts/partials/head/head.njk" %}
   {% block head %}
   {% endblock head %}
   {#- Footer shape: in flow by default; pinned (absolute against <body>, with
@@ -23,7 +23,7 @@
   <body class="{{ {"base": ["relative min-h-dvh bg-neutral-950 bg-graphpaper-accent-400", "flex flex-col" if footerInFlow], "sm": "", "md": "", "lg": "", "xl": ""} | classes }} {% block bodyStyles %}{% endblock bodyStyles %}">
 
     {# GTM #}
-    {% include "templates/partials/gtm-noscript/gtm-noscript.njk" %}
+    {% include "layouts/partials/gtm-noscript/gtm-noscript.njk" %}
 
     {# SKIP LINKS #}
     {{ SkipLinks.render() }}

@@ -37,7 +37,7 @@ export const PRELOADER_IN_VIEW = {
   rootMargin: "50% 0px",
 };
 
-// Set by views/templates/partials/choreography-script/choreography-script.njk before this module
+// Set by views/layouts/partials/choreography-script/choreography-script.njk before this module
 // runs. When false, the director gate resolves immediately.
 export const CHOREOGRAPHY_FLAG = "__enableChoreography";
 

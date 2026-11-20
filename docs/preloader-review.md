@@ -14,6 +14,8 @@ links:
 ---
 
 > Naming note (2026-10-05): HomeHeaderManager has since been deleted.
+>
+> Naming note (2026-11-20): `views/templates/partials/` is now `views/layouts/partials/`.
 
 # Preloader package review
 

@@ -42,7 +42,7 @@ queries.js  (CMS_QUERIES)
 transforms/project.js  (shape for template)
          │
          ▼
-views/pages/project/project.njk  (paginated, one page per project)
+views/templates/project/project.njk  (paginated, one page per project)
 ```
 
 ### Routing
@@ -178,12 +178,12 @@ The page should include a clear CTA at the end of the content. Consider a contac
 | ✅ exists | `backend/schemaTypes/documents/content/project.ts` | Sanity schema for the `project` document. Note any field additions required by the page template; otherwise no change. |
 | 🔎 verify | `backend/schemaTypes/index.ts`                     | Confirm `project` is registered.                                                                                       |
 
-### 3. Frontend template — `frontend/views/pages/project/`
+### 3. Frontend template — `frontend/views/templates/project/`
 
 | Status              | Path                                       | Purpose                                                                                                                                                       |
 | ------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ✅ exists (rewrite) | `frontend/views/pages/project/project.njk` | Nunjucks template for the single-project page. Currently appears placeholder/landing-shaped; repurpose as per-item template (pagination over `projectPages`). |
-| ✅ exists (update)  | `frontend/views/pages/project/project.md`  | Sidecar front-matter doc: template metadata, data dependencies, relationships. Update to reflect per-project page role (not "Projects" landing).              |
+| ✅ exists (rewrite) | `frontend/views/templates/project/project.njk` | Nunjucks template for the single-project page. Currently appears placeholder/landing-shaped; repurpose as per-item template (pagination over `projectPages`). |
+| ✅ exists (update)  | `frontend/views/templates/project/project.md`  | Sidecar front-matter doc: template metadata, data dependencies, relationships. Update to reflect per-project page role (not "Projects" landing).              |
 
 ### 4. Transform — `frontend/data/sanity/transforms/`
 

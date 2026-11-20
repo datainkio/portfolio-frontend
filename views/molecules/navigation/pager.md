@@ -51,7 +51,7 @@ Previous · all · next navigation between sibling pages. It's presentational an
 
 ## Relationships
 
-- Used by: [[project.njk|pages/project/project.njk]], which maps Eleventy's `pagination` with wrap-around.
+- Used by: [[project.njk|templates/project/project.njk]], which maps Eleventy's `pagination` with wrap-around.
 - Imports: [[link.njk|atoms/link/link.njk]], [[icon.njk|atoms/icon.njk]]
 - Replaced `molecules/input/prevnext.njk` and `molecules/input/project-nav.njk` (deleted 2026-10-02). Those had no callers, read variables from the page, and emitted relative hrefs.
 

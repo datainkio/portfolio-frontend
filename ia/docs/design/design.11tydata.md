@@ -12,7 +12,7 @@ listing it in the sidebar.
 
 ## What it sets for every page under `ia/docs/design/`
 
-- `layout: layouts/design-doc.njk`
+- `layout: templates/design-doc/design-doc.njk`
 - `stylesheet: /assets/docs.css`, which `head.njk` links in place of
   `styles.css`. See `styles/docs.css`.
 - `eleventyNavigation`: this folder's README is the `Design` key, whose parent
@@ -40,5 +40,5 @@ entry.
 
 ## See also
 
-- `views/layouts/design-doc.md`, the page contract
+- `views/templates/design-doc/design-doc.md`, the page contract
 - `eleventy/collections/designSystem.md`, the readers

@@ -5,26 +5,24 @@
 
 <!-- /readme-header -->
 
-Page bodies for articles, blog posts, case studies and landing pages, plus shared head partials.
+Page types, one folder each, selected by an `ia/` page's `layout:`.
 
 <!-- @format -->
 
 # Templates
 
-Page bodies built from organisms and molecules, plus the pieces that go in `<head>`.
+Page types, one folder each. An `ia/` page selects one with `layout:`.
 
 ## What's here
 
-- `article.njk` - article page
-- `blog/blog.njk` - blog post
-- `blog/case-study/case-study.njk` - case study
-- `landing/landing.njk` - landing page
-- `partials/` - head, fonts, favicon, manifest, analytics, scripts
+- `home/`, `project/`, `projects/`, `post/`, `posts/`, `contact/` - the site's page types
+- `article/` - article page, used by `/about` and `/user-guide`
+- `design-doc/` - the design and choreography reference pages under `/docs/design/`
 
 ## How it connects
 
-- Pages in `pages/` use these templates; they in turn use organisms and molecules.
-- `partials/head/` is included by the base layout.
+- Each template extends a shell in `layouts/`, then uses organisms and molecules.
+- The pages themselves are `ia/*.md` plus Sanity; `ia/` frontmatter names the template.
 
 ## See also
 
@@ -34,9 +32,12 @@ Page bodies built from organisms and molecules, plus the pieces that go in `<hea
 <!-- readme-index:start -->
 ## Index
 
-- [blog/](blog/)
-- [landing/](landing/)
-- [partials/](partials/)
-- [article.md](article.md)
-- [article.njk](article.njk)
+- [article/](article/)
+- [contact/](contact/)
+- [design-doc/](design-doc/)
+- [home/](home/)
+- [post/](post/)
+- [posts/](posts/)
+- [project/](project/)
+- [projects/](projects/)
 <!-- readme-index:end -->

@@ -136,7 +136,7 @@ naming the GSAP core ease closest to the curve. `npm test` fails until it has on
 4. Add a page at `ia/docs/design/<tier>s/<path>.md` mirroring the component's
    path under `views/`. Set `component` to its path, and give it `specimens`
    with sample params. A component that can't render alone gets `inContext`
-   links instead. [`layouts/design-doc.njk`](../views/layouts/design-doc.md) is
+   links instead. [`templates/design-doc/design-doc.njk`](../views/templates/design-doc/design-doc.md) is
    the contract for these keys. `ia/**/*.md` renders as Nunjucks, so a broken
    import there fails the build.
 5. Run `npm run validate` and `npm run quick`, then read the rendered page in

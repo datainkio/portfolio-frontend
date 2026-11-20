@@ -21,7 +21,7 @@ The homepage sections. Most are one-offs written for the homepage.
 
 ## How it connects
 
-- Included by `pages/home/home.njk`, in the order hero, work, organizations, awards.
+- Included by `templates/home/home.njk`, in the order hero, work, organizations, awards.
 - Animated by the choreography code in `js/choreography/`.
 - Sections with a visible heading link it with `aria-labelledby`.
 

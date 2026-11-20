@@ -76,7 +76,7 @@ flowchart TB
 
     subgraph REF["Living reference — /docs/design/"]
         IA["ia/docs/design/<br/>atoms · molecules · organisms · layouts · templates · tokens"]
-        DOC["layouts/design-doc.njk<br/>specimens · call code · params from sidecar"]
+        DOC["templates/design-doc/design-doc.njk<br/>specimens · call code · params from sidecar"]
         RDR["eleventy/collections/designSystem.js<br/>eleventy/filters/design.js"]
         IA --> DOC
         RDR --> DOC

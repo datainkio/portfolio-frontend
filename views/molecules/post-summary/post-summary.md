@@ -7,7 +7,7 @@ tags:
 links:
   - "[Component API spec](../../../specs/views/component-api.views-spec.md)"
   - "[link](../../atoms/link/link.md)"
-  - "[posts](../../pages/posts/posts.md)"
+  - "[posts](../../templates/posts/posts.md)"
 ---
 
 # Post summary
@@ -42,5 +42,5 @@ The date and reading-time line, and the abstract, are omitted when their data is
 
 ## Relationships
 
-- Used by: [[posts.njk|pages/posts/posts.njk]]
+- Used by: [[posts.njk|templates/posts/posts.njk]]
 - Imports: [[link.njk|atoms/link/link.njk]]

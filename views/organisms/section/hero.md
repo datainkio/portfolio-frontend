@@ -50,7 +50,7 @@ The section is `grid grid-cols-12 px-4`. The header is `h-dvh`, vertically centr
   - [[accession-label.njk|molecules/labels/accession-label.njk]]
   - [[section-statement.njk|molecules/section/section-statement.njk]]
 - Used by:
-  - [[home.njk|views/pages/home/home.njk]]
+  - [[home.njk|views/templates/home/home.njk]]
 
 ## Notes for Future Maintenance
 

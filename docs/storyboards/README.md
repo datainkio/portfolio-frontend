@@ -27,11 +27,13 @@ sequenceDiagram
 ```
 ````
 
+> Note (2026-11-20): the `layouts/storyboards.njk` layout was removed as dead code, so the example above no longer renders.
+
 To export SVGs, see `npm run diagrams:export`.
 
 ## See also
 
-- [Storyboards layout](../../views/layouts/storyboards.njk)
+- Storyboards layout: `views/layouts/storyboards.njk` (removed 2026-11-20; no longer in the repo)
 - [Docs](../README.md)
 
 <!-- readme-index:start -->
