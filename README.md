@@ -63,7 +63,6 @@ Solid lines are imports or reads that affect the build. Dashed boxes mark the tw
 - icons
 - images
 - js
-- storyboards
 - svg
 - tiles
 
@@ -147,12 +146,12 @@ MD files for pages and navigation
 
 - [assets/](dataink.io/frontend/assets/README.md)
 - [data/](data/)
-- [docs/](docs/README.md)
 - [eleventy/](eleventy/README.md)
 - [figma/](figma/README.md)
 - [graphify-out/](graphify-out/)
 - [ia/](ia/)
 - [js/](js/README.md)
+- [reports/](reports/README.md)
 - [responsive-testing/](responsive-testing/README.md)
 - [scripts/](scripts/README.md)
 - [specs/](specs/)

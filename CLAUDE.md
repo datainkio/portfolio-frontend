@@ -60,11 +60,11 @@ npm run scaffold:component  # generate new atomic design component
 
 ## Searching
 
-Generated and historical files swamp repo-wide searches. `assets/**/*.svg` and `docs/frontmatter-audit/` hold huge single-line files that flood output. Start from:
+Generated and historical files swamp repo-wide searches. `assets/**/*.svg` and `reports/frontmatter-audit/` hold huge single-line files that flood output. Start from:
 
 ```bash
 rg -n '<pattern>' -g '!node_modules' -g '!_site' -g '!graphify-out' -g '!.codegraphy' \
-  -g '!docs/frontmatter-audit/**' -g '!responsive-testing/screenshots/**' -g '!*.svg' -g '!package-lock.json' .
+  -g '!reports/frontmatter-audit/**' -g '!responsive-testing/screenshots/**' -g '!*.svg' -g '!package-lock.json' .
 ```
 
 For cross-file questions (impact, how subsystems connect, which docs govern some code), use `graphify query` against `graphify-out/graph.json`. The graph is local only and untracked. A post-commit hook rebuilds code nodes after every commit, with no tokens; it doesn't see uncommitted edits. Doc nodes date from 2026-09-07, and refreshing them takes `/graphify --update`.
@@ -95,7 +95,7 @@ A name lives in more places than the code. Update all of these together:
 - `data/sanity/transforms/` — the serializers emit `data-*-el` attributes
 - `.github/copilot-instructions.md`
 
-Don't rewrite history. Leave `docs/**/*.prompt.md` and specs marked `status: historical` as written, and add a dated naming note at the top instead. Leave `docs/frontmatter-audit/` and `responsive-testing/screenshots/` untouched.
+Don't rewrite history. Leave specs marked `status: historical` as written, and add a dated naming note at the top instead. Leave `reports/frontmatter-audit/` and `responsive-testing/screenshots/` untouched.
 
 ## Definition of done
 

@@ -1,13 +1,13 @@
 # Frontmatter Audit
 
-Visual evidence for [`plan-frontmatter-strategy.md`](../plan-frontmatter-strategy.md).
+Before and after evidence for the [frontmatter spec](../../specs/frontmatter.spec.md).
 
 Everything here is generated. Do not hand-edit — regenerate instead:
 
 ```bash
-node scripts/auditFrontmatter.js --label before
-node scripts/auditFrontmatter.js --label after --compare before
-npm run diagrams:export -- --dir docs/frontmatter-audit
+node scripts/frontmatter/auditFrontmatter.js --label before
+node scripts/frontmatter/auditFrontmatter.js --label after --compare before
+npm run diagrams:export -- --dir reports/frontmatter-audit
 ```
 
 The same script produces both snapshots, so `before` and `after` are measured

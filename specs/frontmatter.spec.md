@@ -1,6 +1,6 @@
 ---
 title: Frontmatter Specification
-description: "The single authority for frontmatter keys, values, and profiles across the frontend repo. Supersedes docs/ia/frontmatter.md and ia/docs/ia/frontmatter.md."
+description: "The single authority for frontmatter keys, values, and profiles across the frontend repo. Supersedes ia/docs/ia/frontmatter.md."
 type: spec
 tags:
   - frontmatter
@@ -13,11 +13,9 @@ aliases:
 # Frontmatter Specification
 
 **This file is the only authority on frontmatter in this repo.** It supersedes
-[`docs/ia/frontmatter.md`](../docs/ia/frontmatter.md) and
-[`ia/docs/ia/frontmatter.md`](../ia/docs/ia/frontmatter.md), which are now stubs.
+[`ia/docs/ia/frontmatter.md`](../ia/docs/ia/frontmatter.md), which is now a summary that defers here.
 
-Enforced by `npm run lint:frontmatter`. Rationale and audit evidence:
-[`docs/plan-frontmatter-strategy.md`](../docs/plan-frontmatter-strategy.md).
+Enforced by `npm run lint:frontmatter`. Audit evidence: [`reports/frontmatter-audit/`](../reports/frontmatter-audit/README.md).
 
 ---
 

@@ -12,15 +12,15 @@ aliases:
 links:
   - "[Design system spec](design-system.spec.md)"
   - "[Component API spec](views/component-api.views-spec.md)"
-  - "[ADR 0002](../docs/design-system/adr-0002-figma-library-variables-are-the-design-tokens.md)"
-  - "[ADR 0003](../docs/design-system/adr-0003-figma-owns-mapped-component-colours.md)"
+  - "[ADR 0002](decisions/adr-0002-figma-library-variables-are-the-design-tokens.md)"
+  - "[ADR 0003](decisions/adr-0003-figma-owns-mapped-component-colours.md)"
   - "[Button sidecar](../views/atoms/button.md)"
 ---
 
 # Spec: Component colour sync
 
 - **Scope:** the colours a component applies, per variant and state, for every component whose sidecar links it to the Figma library. First component: Button, `views/atoms/button.njk`.
-- **Status:** v1 (Button) proposed and implemented 2026-11-08 on `feat-design-system`, proven the same day: a variable rebind on Submit's fill in Figma reached the built site through `npm run sync:components`. v2 (other components) proposed 2026-11-08; the parts marked **v2** below aren't built yet. Waits on [ADR 0003](../docs/design-system/adr-0003-figma-owns-mapped-component-colours.md) (ownership, below), whose scope needs widening from Button to every mapped component when it's accepted.
+- **Status:** v1 (Button) proposed and implemented 2026-11-08 on `feat-design-system`, proven the same day: a variable rebind on Submit's fill in Figma reached the built site through `npm run sync:components`. v2 (other components) proposed 2026-11-08; the parts marked **v2** below aren't built yet. Waits on [ADR 0003](decisions/adr-0003-figma-owns-mapped-component-colours.md) (ownership, below), whose scope needs widening from Button to every mapped component when it's accepted.
 - **Command:** `npm run sync:components`
 - **Direction:** Figma → code. Same as tokens.
 

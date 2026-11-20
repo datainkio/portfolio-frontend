@@ -11,7 +11,7 @@
  * opacity, motion — and flags arbitrary values and off-palette colors, which
  * are the token candidates.
  *
- * Writes docs/design-system/inventory.json (complete) and inventory.md
+ * Writes reports/design-system/inventory.json (complete) and inventory.md
  * (summary). Deterministic: same source → same files.
  *
  * USAGE:
@@ -35,7 +35,7 @@ import {
 } from "../lib/tailwindSource.js";
 
 const ROOT = projectRoot;
-const OUT_DIR = path.join(ROOT, "docs/design-system");
+const OUT_DIR = path.join(ROOT, "reports/design-system");
 const MOTION_TOKENS = path.join(
   ROOT,
   "js/choreography/tokens/motion/motion.js",

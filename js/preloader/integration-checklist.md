@@ -7,13 +7,12 @@ tags:
   - choreography
 links:
   - "[[js/preloader/README|preloader/README.preloader]]"
-  - "[[preloader-review|preloader-review]]"
 ---
 
 # Preloader Integration Checklist
 
 Use this checklist when modifying `js/preloader/`. The package README
-([README.md](../js/preloader/README.md)) is the strategy —
+([README.md](README.md)) is the strategy —
 it carries the Mermaid sequence diagram of the whole boot-to-`preloader:out`
 flow; this is the pre-merge gate.
 

@@ -56,7 +56,7 @@ component page` becomes `#adding-a-component-page`), with `-2`, `-3` on a
 
 ## Decisions
 
-The decision records are in `docs/design-system/`:
+The decision records are in `specs/decisions/`:
 
 - `adr-0001-figma-owns-design-tokens.md`
 - `adr-0002-figma-library-variables-are-the-design-tokens.md`

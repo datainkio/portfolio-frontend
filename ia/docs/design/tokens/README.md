@@ -25,7 +25,7 @@ CSS declares.
 
 Never edit `colors.css`, `tokens.css`, or `motion.css` by hand: the next sync
 overwrites them. The decision record is
-`docs/design-system/adr-0001-figma-owns-design-tokens.md`.
+`specs/decisions/adr-0001-figma-owns-design-tokens.md`.
 
 The current colour file was generated from Figma file
 `{{ designTokens.source.figmaFile }}`, version

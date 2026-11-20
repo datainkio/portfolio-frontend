@@ -9,8 +9,8 @@ Both environments are GitHub Pages sites built from this repo (`datainkio/portfo
 
 | Env | Trigger | Workflow | Serves from | Domain |
 | --- | --- | --- | --- | --- |
-| Staging | push to `staging` | [deploy-staging.yml](../.github/workflows/deploy-staging.yml) | this repo's Pages (Actions artifact) | `staging.dataink.io` |
-| Production | push to `main` | [deploy-production.yml](../.github/workflows/deploy-production.yml) | `datainkio/dataink.io@main` | `dataink.io` |
+| Staging | push to `staging` | [deploy-staging.yml](workflows/deploy-staging.yml) | this repo's Pages (Actions artifact) | `staging.dataink.io` |
+| Production | push to `main` | [deploy-production.yml](workflows/deploy-production.yml) | `datainkio/dataink.io@main` | `dataink.io` |
 
 Both workflows also run on demand: `gh workflow run <workflow>.yml -R datainkio/portfolio-frontend --ref <branch>`.
 

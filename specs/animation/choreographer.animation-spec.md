@@ -43,7 +43,7 @@ type: spec
 
 Implementation guidance:
 
-- GSAP: take timings and eases from `motion` in `config/ix/motion.js`; do not hard-code them. `motion.ease(name)` returns a GSAP core ease name (`GSAP_EASE`), because GSAP can't parse the tokens' `cubic-bezier()` strings. See ADR 0004 in `docs/design-system/`.
+- GSAP: take timings and eases from `motion` in `config/ix/motion.js`; do not hard-code them. `motion.ease(name)` returns a GSAP core ease name (`GSAP_EASE`), because GSAP can't parse the tokens' `cubic-bezier()` strings. See ADR 0004 in `specs/decisions/`.
 - Tailwind: rely on motion-token utilities (the removed `tailwind.motion.config.cjs` never emitted any); avoid ad-hoc durations/eases in templates.
 
 ### Tailwind Utilities (when Tailwind is selected)
