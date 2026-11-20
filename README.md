@@ -63,7 +63,6 @@ Solid lines are imports or reads that affect the build. Dashed boxes mark the tw
 - icons
 - images
 - js
-- storyboards
 - svg
 - tiles
 
