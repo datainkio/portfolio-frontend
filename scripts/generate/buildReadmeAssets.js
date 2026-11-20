@@ -189,7 +189,7 @@ const REPOS = [
     // ia/ is rendered by Eleventy, where a repo-relative image would break.
     skip: [
       /^ia\//,
-      /^docs\/frontmatter-audit\//,
+      /^reports\/frontmatter-audit\//,
       /^responsive-testing\/templates\//,
     ],
     folders: {
@@ -207,7 +207,7 @@ const REPOS = [
       test: ["node"],
       "specs/animation": ["gsap"],
       "responsive-testing": ["node"],
-      docs: ["markdown"],
+      reports: ["markdown"],
     },
   },
   {
