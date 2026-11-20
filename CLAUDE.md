@@ -118,9 +118,13 @@ The harness already lists each skill and what it's for. Only routing that isn't 
 
 - Motion work: load `choreography` first, then the matching `gsap-*` skill for the technique.
 - Sidecar and frontmatter hygiene has no skill: run `npm run lint:frontmatter` and `npm run audit:sidecars`.
-- A skill missing from the harness list isn't linked. Add it with `~/Projects.nosync/skillet/bin/skillet add <skill>`; never copy it in.
+- A skill missing from the harness list isn't linked. Add it with `~/Projects/skillet/bin/skillet add <skill>`; never copy it in.
 
-When delegating with the Agent tool, use `opus` for choreography or page-level planning, `sonnet` for template or Sanity work, and `haiku` for copy, sidecars, or formatting.
+## Delegation
+
+Before any task of about five or more tool calls, load `orchestrate` and hand the execution to its workers: `scout` reads and searches, `scribe` makes edits you can list in full (docs, sidecars, frontmatter), and `builder` implements. Dispatch them by name and don't pass `model`; each is pinned to its own. Once a task is dispatched, wait for the report and don't do the same work yourself. Planning, design decisions, and review stay in the main session.
+
+Browser and Figma work stays in the main session too, so it can't be delegated. Run it on Sonnet: if the session is on Fable or Opus, ask the user to switch with `/model sonnet` before the capture work starts.
 
 ## Choreography Quick Reference
 

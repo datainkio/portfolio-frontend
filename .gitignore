@@ -107,3 +107,4 @@ reports/design-system/inventory.json
 
 # Skillet links: recreated from .skillet with `skillet sync`
 .claude/skills/
+.claude/agents/

@@ -7,12 +7,12 @@
     ]
   },
   "hooks": {
-    "Stop": [
+    "SubagentStop": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-tokens.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-tokens.sh\" || true"
+            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-workers.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-workers.sh\" || true"
           }
         ]
       }
@@ -29,6 +29,7 @@
       }
     ]
   },
+  "effortLevel": "medium",
   "enabledPlugins": {
     "andrej-karpathy-skills@karpathy-skills": false
   }
