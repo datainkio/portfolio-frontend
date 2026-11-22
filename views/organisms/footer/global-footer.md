@@ -33,7 +33,7 @@ location under `views/`. As a direct child of the page (not of `<main>`), the
 
 | Param | Type | Description |
 | --- | --- | --- |
-| `cms` | object | CMS document. `contact[0].socialAccounts` feeds the social links. `navigation[0].headerItems` feeds the primary nav. |
+| `cms` | object | CMS document. `contact[0].socialAccounts` feeds the social links. `navigation[0].footerItems` feeds the primary nav, passed as `items`. |
 | `pages` | array | Passed to the primary nav as the eleventyNavigation fallback. |
 | `currentUrl` | string | Passed to the primary nav for `aria-current`. |
 | `year` | number or string | Copyright year. |
