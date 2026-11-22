@@ -6,7 +6,8 @@
   {% set cms = params.cms %}
   {% set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} %}
   {% set cmsItems = cmsNavigation.headerItems or [] %}
-  {% set items = params.items or (cmsItems.length and cmsItems) or (params.pages | eleventyNavigation) %}
+  {#- An explicit `items` array, even an empty one, is used as-is. -#}
+  {% set items = params.items if params.items is defined else cmsItems %}
 
   {#- STYLES -#}
   {% set ulClasses = {"base": "flex flex-row list-none justify-center content-center divide-x divide-neutral-700"} %}
@@ -16,6 +17,7 @@
   {%- set linkStyles = {"item": liClasses, "link": aClasses} -%}
 
   {#- DISPLAY -#}
+  {%- if items.length %}
   <nav id="primary-nav"
        class="{{ params.classes | classes }}"
        aria-label="Primary navigation">
@@ -26,4 +28,5 @@
         styles: linkStyles
         }) }}
   </nav>
+  {%- endif %}
 {% endmacro %}

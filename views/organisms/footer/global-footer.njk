@@ -31,7 +31,7 @@ Part of layout organism category for consistent page structure.
         `grid-cols-subgrid` has a parent grid outside of #page-main. -#}
   <footer class="{{ [classes, params.classes] | classes }}">
     {#- MAIN NAVIGATION -#}
-    {{ primary_nav.render({ classes: navStyles | classes, items: footerItems, pages: params.pages, currentUrl: params.currentUrl }) }}
+    {{ primary_nav.render({ classes: navStyles | classes, items: footerItems, currentUrl: params.currentUrl }) }}
     {{ social_accounts.render({ accounts: contact.socialAccounts, classes: socialStyles }) }}
     <span class="{{ copyrightStyles | classes }}">© {{ params.year }} DIIO</span>
   </footer>
