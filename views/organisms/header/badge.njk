@@ -57,7 +57,7 @@
       {% endcall %}
     </header>
 
-    {{ Sitemap.render({ pages: params.pages, currentUrl: params.currentUrl, classes: "p-6 md:p-12" }) }}
+    {{ Sitemap.render({ cms: params.cms, pages: params.pages, currentUrl: params.currentUrl, classes: "p-6 md:p-12" }) }}
 
   </dialog>
 {% endmacro %}

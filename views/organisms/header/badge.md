@@ -42,6 +42,7 @@ organisms. Rendered by [[base.njk]] and [[home.njk]], outside
 | Param           | Type   | Description                                                                 |
 | --------------- | ------ | --------------------------------------------------------------------------- |
 | `logoSvg`       | string | Hanko SVG markup for the badge. Without it the badge shows the text "Home". |
+| `cms`           | object | CMS document, passed to the site map for its header items.                  |
 | `pages`         | array  | `collections.all`, passed to the site map.                                  |
 | `currentUrl`    | string | Passed to the site map.                                                     |
 | `buildDate`     | Date   | Passed to the build info.                                                   |

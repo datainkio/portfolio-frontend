@@ -17,13 +17,13 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-Lists the whole site from the `eleventyNavigation` tree, so it never drifts
-from the pages that exist. Two headed groups, each a `<section>` in a two-column
+Lists the site's root pages from the Sanity `navigation` document and the docs
+from the `eleventyNavigation` tree. Two headed groups, each a `<section>` in a two-column
 grid inside one `<nav aria-label="Site map">`:
 
-- **Pages**: root-level entries (`pages | eleventyNavigation`): home, work,
-  posts, about, contact, user guide. Single posts and projects carry no
-  `eleventyNavigation` key, so only their landing pages appear.
+- **Pages**: the CMS `navigation[0].headerItems`, in the document's order.
+  A page missing from the Sanity header (About, User guide) is not listed.
+  The section is omitted when there are no header items.
 - **Docs**: the children of "Docs" (`pages | eleventyNavigation("Docs")`),
   which is one root, Design. Beneath the Design link, an indented, smaller
   list of its top-level entries as plain links, not their pages. An entry with
@@ -35,8 +35,7 @@ grid inside one `<nav aria-label="Site map">`:
   defines (see `ia/docs/design/design.11tydata.js`), so it is a heading here,
   not a nav key.
 
-It does not use the CMS `navigation` header items: those are curated and
-partial.
+The Docs group still reads the `eleventyNavigation` tree.
 
 ## Role in the System
 
@@ -48,7 +47,8 @@ for every list with the same link styles. Rendered inside the badge dialog
 
 | Param        | Type                          | Description                                                    |
 | ------------ | ----------------------------- | -------------------------------------------------------------- |
-| `pages`      | array                         | `collections.all`. Filtered here through `eleventyNavigation`. |
+| `cms`        | object                        | `navigation[0].headerItems` feed the Pages list.               |
+| `pages`      | array                         | `collections.all`. The Docs group filters it through `eleventyNavigation("Docs")`. |
 | `currentUrl` | string                        | The matching entry is marked `aria-current="page"`.            |
 | `classes`    | string, variant map, or array | Applied to the `<nav>` through `classes`.                      |
 
