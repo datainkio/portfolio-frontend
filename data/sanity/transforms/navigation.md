@@ -24,7 +24,7 @@ work GROQ can't do (URL resolution from slug trees, Portable Text → HTML, inli
 
 ## Warnings
 
-Warnings go through the lumberjack logger with a `[navigation]` prefix. An item whose `_type` has no
+Warnings go to `console.warn` with a `[navigation]` prefix, so they print whether or not the lumberjack logger is enabled. An item whose `_type` has no
 URL (unhandled type, or a slug-less `project`) is still dropped, but one warning names its `_type`,
 `_id` and label. A record whose normalized `headerItems` or `footerItems` is empty gets one warning
 naming that group.

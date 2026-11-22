@@ -1,12 +1,11 @@
 /** @format */
 
-import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 import { cleanPostSlug } from "./post.js";
 
-const warnStyle = new LumberjackStyle("#AE2012", "⛔");
-
+// console.warn, not the lumberjack logger: the logger prints only when some
+// other module has enabled it, and a dropped nav item must always be reported.
 function warn(message) {
-  logger.trace(`[navigation] ${message}`, null, "brief", warnStyle);
+  console.warn(`[navigation] ${message}`);
 }
 
 export function resolveNavigationHref(item) {
