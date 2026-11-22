@@ -31,12 +31,12 @@ location under `views/`. As a direct child of the page (not of `<main>`), the
 
 ## Params
 
-| Param | Type | Description |
-| --- | --- | --- |
-| `cms` | object | CMS document. `contact[0].socialAccounts` feeds the social links. `navigation[0].footerItems` feeds the primary nav, passed as `items`. |
-| `currentUrl` | string | Passed to the primary nav for `aria-current`. |
-| `year` | number or string | Copyright year. |
-| `classes` | string, variant map, or array | Applied to the `<footer>` through `classes`, after the footer baseline. |
+| Param        | Type                          | Description                                                                                                                             |
+| ------------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `cms`        | object                        | CMS document. `contact[0].socialAccounts` feeds the social links. `navigation[0].footerItems` feeds the primary nav, passed as `items`. |
+| `currentUrl` | string                        | Passed to the primary nav for `aria-current`.                                                                                           |
+| `year`       | number or string              | Copyright year.                                                                                                                         |
+| `classes`    | string, variant map, or array | Applied to the `<footer>` through `classes`, after the footer baseline.                                                                 |
 
 ## Placement — outside `<main>`, outside the ScrollSmoother wrapper
 
@@ -54,8 +54,10 @@ wrapper, after it:
 
 ```html
 <body class="relative …">
-  <div id="page-main">                 <!-- ScrollSmoother wrapper (fixed) -->
-    <main id="page-main-content" class="… pb-48">…</main>   <!-- content (translated) -->
+  <div id="page-main">
+    <!-- ScrollSmoother wrapper (fixed) -->
+    <main id="page-main-content" class="… pb-48">…</main>
+    <!-- content (translated) -->
   </div>
   <footer class="… absolute inset-x-0 bottom-0">…</footer>
 </body>
@@ -72,7 +74,7 @@ height to the content height, so that bottom edge is the end of `<main>`.
 or the footer overlaps the last section.
 
 **Positioning is the caller's job (2026-10-02).** The macro's default classes
-carry no positioning, and `params.classes` is *appended* to them (Component API
+carry no positioning, and `params.classes` is _appended_ to them (Component API
 spec), not substituted. Pinned callers pass `"absolute inset-x-0 bottom-0"`;
 in-flow callers pass nothing.
 
@@ -92,8 +94,8 @@ reintroduce a non-landmark `<div>` as the `content` element.
     grid-`<body>` layouts (`cols-2-before` sets `pinFooter`; docs
     pages) keep the shape above: footer `absolute inset-x-0 bottom-0`, and
     `<main>` reserves its height with an `after:h-48` spacer.
-  (Before 2026-09-28 the footer sat inside the fixed `#page-main`. Before
-  2026-10-02 every `base.njk` page used the pinned shape.)
+    (Before 2026-09-28 the footer sat inside the fixed `#page-main`. Before
+    2026-10-02 every `base.njk` page used the pinned shape.)
 
 ## Relationships
 

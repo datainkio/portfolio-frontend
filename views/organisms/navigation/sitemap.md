@@ -45,12 +45,12 @@ for every list with the same link styles. Rendered inside the badge dialog
 
 ## Params
 
-| Param        | Type                          | Description                                                    |
-| ------------ | ----------------------------- | -------------------------------------------------------------- |
-| `cms`        | object                        | `navigation[0].headerItems` feed the Pages list.               |
+| Param        | Type                          | Description                                                                        |
+| ------------ | ----------------------------- | ---------------------------------------------------------------------------------- |
+| `cms`        | object                        | `navigation[0].headerItems` feed the Pages list.                                   |
 | `pages`      | array                         | `collections.all`. The Docs group filters it through `eleventyNavigation("Docs")`. |
-| `currentUrl` | string                        | The matching entry is marked `aria-current="page"`.            |
-| `classes`    | string, variant map, or array | Applied to the `<nav>` through `classes`.                      |
+| `currentUrl` | string                        | The matching entry is marked `aria-current="page"`.                                |
+| `classes`    | string, variant map, or array | Applied to the `<nav>` through `classes`.                                          |
 
 ## Notes
 

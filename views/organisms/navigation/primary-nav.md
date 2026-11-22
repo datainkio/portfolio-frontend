@@ -25,12 +25,12 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Params
 
-| Param        | Type                          | Description                                                                   |
-| ------------ | ----------------------------- | ----------------------------------------------------------------------------- |
+| Param        | Type                          | Description                                                                                                     |
+| ------------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | `items`      | array                         | Navigation entries. Takes precedence over `cms`, even when empty. The footer passes the CMS `footerItems` here. |
-| `cms`        | object                        | `navigation[0].headerItems` feed the menu when `items` is not set. No local fallback. |
-| `classes`    | string, variant map, or array | Applied to the `<nav>` through `classes`.                                     |
-| `currentUrl` | string                        | Forwarded to the menu for `aria-current`.                                     |
+| `cms`        | object                        | `navigation[0].headerItems` feed the menu when `items` is not set. No local fallback.                           |
+| `classes`    | string, variant map, or array | Applied to the `<nav>` through `classes`.                                                                       |
+| `currentUrl` | string                        | Forwarded to the menu for `aria-current`.                                                                       |
 
 With no items, no `<nav>` is rendered.
 
