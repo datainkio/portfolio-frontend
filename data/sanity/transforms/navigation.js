@@ -1,6 +1,13 @@
 /** @format */
 
+import logger, { LumberjackStyle } from "@datainkio/lumberjack";
 import { cleanPostSlug } from "./post.js";
+
+const warnStyle = new LumberjackStyle("#AE2012", "⛔");
+
+function warn(message) {
+  logger.trace(`[navigation] ${message}`, null, "brief", warnStyle);
+}
 
 export function resolveNavigationHref(item) {
   if (!item || typeof item !== "object") {
@@ -41,6 +48,9 @@ export function normalizeNavigationItems(items = []) {
     .map((item) => {
       const url = resolveNavigationHref(item);
       if (!url) {
+        warn(
+          `Dropped item with _type "${item?._type}" (_id ${item?._id}, label "${item?.label}"): no URL for this type`,
+        );
         return null;
       }
 
@@ -60,9 +70,17 @@ export function normalizeNavigationRecords(records = []) {
     return [];
   }
 
-  return records.map((record) => ({
-    ...record,
-    headerItems: normalizeNavigationItems(record?.headerItems),
-    footerItems: normalizeNavigationItems(record?.footerItems),
-  }));
+  return records.map((record) => {
+    const headerItems = normalizeNavigationItems(record?.headerItems);
+    const footerItems = normalizeNavigationItems(record?.footerItems);
+
+    if (!headerItems.length) {
+      warn("headerItems is empty after normalization");
+    }
+    if (!footerItems.length) {
+      warn("footerItems is empty after normalization");
+    }
+
+    return { ...record, headerItems, footerItems };
+  });
 }
