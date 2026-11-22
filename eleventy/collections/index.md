@@ -1,5 +1,5 @@
 ---
-description: "Central orchestration point that initializes all Eleventy collections in order (Sanity CMS → Navigation)."
+description: Central orchestration point that initializes all Eleventy collections in order (Sanity CMS → Navigation).
 status: stable
 tags:
   - collection
@@ -7,7 +7,7 @@ aliases:
   - Collections index
 links:
   - "[[eleventy/collections/README|collections]]"
-  - "[[navigation]]"
+  - "[[dataink.io/frontend/eleventy/collections/navigation]]"
   - "[[NavigationBuilder]]"
   - "[[designSystem]]"
   - "[[choreographySystem]]"
@@ -32,7 +32,7 @@ collection can't break the whole build.
 | Collection source | Module             | Produces                                  |
 | ----------------- | ------------------ | ----------------------------------------- |
 | Sanity CMS        | [[cms\|sanity.js]] | content collections from GROQ queries     |
-| Navigation        | [[navigation]]     | `nav_dirs`, `nav_projects`, `nav_primary` |
+| Navigation        | [[dataink.io/frontend/eleventy/collections/navigation]]     | `nav_dirs`, `nav_projects`, `nav_primary` |
 
 Global data set here as well: `site`, `env`, `buildDate`, `colors`,
 `buildVersions`, `designTokens` (every theme token, grouped, from

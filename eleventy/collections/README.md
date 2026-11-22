@@ -36,7 +36,7 @@ Where Eleventy collections get registered.
 - [index.js](index.js)
 - [index.md](index.md)
 - [navigation.js](navigation.js)
-- [navigation.md](navigation.md)
+- [navigation.md](dataink.io/frontend/eleventy/collections/navigation.md)
 - [sanity.js](sanity.js)
 - [sanity.md](sanity.md)
 <!-- readme-index:end -->

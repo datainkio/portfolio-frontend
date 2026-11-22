@@ -37,7 +37,7 @@ Plain functions that take what Sanity returns and reshape it for the templates.
 - [imageUrls.js](imageUrls.js)
 - [imageUrls.md](imageUrls.md)
 - [navigation.js](navigation.js)
-- [navigation.md](navigation.md)
+- [navigation.md](dataink.io/frontend/data/sanity/transforms/navigation.md)
 - [organization.js](organization.js)
 - [organization.md](organization.md)
 - [portableText.js](portableText.js)

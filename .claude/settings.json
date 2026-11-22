@@ -7,16 +7,6 @@
     ]
   },
   "hooks": {
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-workers.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-workers.sh\" || true"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Agent|Task|Skill|Read",
@@ -24,6 +14,16 @@
           {
             "type": "command",
             "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-agent-flow.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-agent-flow.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../../wiki/tools/stale.py\" ] && python3 -I \"$CLAUDE_PROJECT_DIR/../../wiki/tools/stale.py\" --hook 2>/dev/null || true"
           }
         ]
       }
