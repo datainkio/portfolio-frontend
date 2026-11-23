@@ -38,7 +38,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | `playsInline` | boolean                       | Defaults to `true`.                                                                |
 | `preload`     | string                        | Defaults to `metadata`.                                                            |
 
-The video is never deferred (`defer: false`). The template also places the Pixelator, the `gel_hero` and `gel_tagline` gels, and three landing panes inside the container. The panes (`data-video-el="pane"`, `gel-pane` plus a colour utility) are plain `invisible` divs, deliberately not `.gel`, so GelAnimationManager does not discover them. They are transient and intro-only; the intro timeline in BackgroundVideoAnimations shows and contracts them, and they are never part of idle.
+The video is never deferred (`defer: false`). The template also places the Pixelator, the `gel_hero` and `gel_tagline` gels, and three landing panes inside the container. The panes (`data-video-el="pane"`, `gel-pane` plus a colour utility) are plain `invisible` divs, deliberately not `.gel`, so GelAnimationManager does not discover them. They are transient and intro-only; BackgroundVideo stages them before the preloader hides and the intro timeline in BackgroundVideoAnimations contracts them. They are never part of idle. A fourth element, the sheet (`data-video-el="sheet"`, `bg-page-graphpaper fixed inset-0 -z-10 invisible`), is a sibling placed after the root's closing tag: the root is tilted and overscaled on wide tiers, and the sheet must stay flat so its graph paper lines up with the page's. Same z-index as the root and later in the DOM, so it paints above the root and below page content.
 
 ## Relationships
 

@@ -54,8 +54,7 @@ export const BACKGROUND_PERSPECTIVE = {
  * flat tiers there is no tilt, but the fade keeps the same timing so the gel
  * arrives the same way at every width.
  *
- * Derived, not copied: retune the tilt and the fade follows. Give this its own
- * values only if the two should deliberately diverge.
+ * Tune the tilt and the fade follows.
  */
 export const BACKGROUND_HEADING_GEL_REVEAL = {
   duration: BACKGROUND_PERSPECTIVE.duration,
@@ -63,26 +62,27 @@ export const BACKGROUND_HEADING_GEL_REVEAL = {
 };
 
 /**
- * Background Panes — the contracting landing panes
+ * Background Panes — the landing sheet and the contracting panes
  *
- * Three flat colour panes cover the background while the video fades in, then
- * contract toward the LEFT edge one after another (their right edges travel
- * right to left).
+ * Three flat colour panes sit under a top-most graph-paper `sheet`, all in
+ * place before the preloader hides. The sheet is clipped away right to left;
+ * the panes then contract toward the LEFT edge one after another (their right
+ * edges travel right to left).
  *
- * `veil` is the panes fading in, over the `base` token. `contract` is each
- * pane's scaleX 1 → 0 over the `slower` token about `transformOrigin`
- * (the left edge). `stagger` is half of that duration, so the next pane
- * starts when the previous one is half done.
+ * `contract` is each pane's scaleX 1 → 0 over the `slower` token about
+ * `transformOrigin` (the left edge). `stagger` is half of that duration, so the
+ * next pane starts when the previous one is half done. `sheet` is the wipe,
+ * with the same duration and ease as one pane's contraction.
  */
 export const BACKGROUND_PANES = {
-  veil: {
-    duration: toSeconds(motion.duration("base")),
-    ease: motion.ease("enter"),
-  },
   contract: {
     duration: toSeconds(motion.duration("slower")),
     ease: motion.ease("standard"),
     stagger: toSeconds(motion.duration("slower")) / 2,
     transformOrigin: "0% 50%",
+  },
+  sheet: {
+    duration: toSeconds(motion.duration("slower")),
+    ease: motion.ease("standard"),
   },
 };

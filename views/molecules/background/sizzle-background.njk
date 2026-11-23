@@ -44,15 +44,29 @@
     }) }}
 
     {# Landing panes: transient, intro-only, never part of idle. Hidden by default
-       (invisible) so no-JS, reduced motion and replays never show them. Plain
+       (invisible) so no-JS, reduced motion and replays never show them; the
+       controller stages them before the preloader hides. Plain
        divs, not gels, so GelAnimationManager leaves them alone. #}
-    <div data-video-el="pane" class="gel-pane gel-neutral-500 absolute inset-0 invisible" aria-hidden="true"></div>
-    <div data-video-el="pane" class="gel-pane gel-accent-400 absolute inset-0 invisible" aria-hidden="true"></div>
-    <div data-video-el="pane" class="gel-pane gel-secondary-500 absolute inset-0 invisible" aria-hidden="true"></div>
-
+    <div data-video-el="pane"
+         class="gel-pane gel-neutral-500 absolute inset-0 invisible"
+         aria-hidden="true"></div>
+    <div data-video-el="pane"
+         class="gel-pane gel-secondary-500 absolute inset-0 invisible"
+         aria-hidden="true"></div>
+    <div data-video-el="pane"
+         class="gel-pane gel-accent-400 absolute inset-0 invisible"
+         aria-hidden="true"></div>
     {# {{ Gel.render({"id": "gel_subheading", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_process", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_awards_backing", "color": "gel-accent"}) }}
     {{ Gel.render({"id": "gel_awards_tint", "color": "gel-accent"}) }} #}
   </div>
+  {# Landing sheet: a sibling AFTER the root, not inside it. The root is tilted
+     and overscaled on wide tiers; the sheet must stay flat so its graph paper
+     lines up with the page's. Same z-index as the root and later in the DOM, so
+     it paints above the root and below page content. Decorative overlay,
+     invisible until staged. #}
+  <div data-video-el="sheet"
+       class="bg-page-graphpaper fixed inset-0 -z-10 pointer-events-none invisible"
+       aria-hidden="true"></div>
 {% endmacro %}

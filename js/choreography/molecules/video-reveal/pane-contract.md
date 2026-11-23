@@ -1,5 +1,5 @@
 ---
-description: "Composed pattern — the landing panes for the background video: a veil that fades them in and a contraction toward the left edge that leaves them hidden."
+description: "Composed pattern — the landing cover for the background video: a graph-paper sheet clipped away right to left and colour panes contracting toward the left edge, both left hidden."
 status: stable
 tags:
   - choreography
@@ -11,9 +11,9 @@ links:
 
 # pane-contract
 
-Two factories, both returning unstarted GSAP timelines (empty when `panes` is empty). `BackgroundVideoAnimations` composes them around the video fade; options come from `BACKGROUND_PANES`.
+Two factories, both returning unstarted GSAP timelines (empty when there is nothing to animate). `BackgroundVideoAnimations` composes them with the video fade; options come from `BACKGROUND_PANES`. Neither shows the sheet or panes: the caller stages them (`stagePanes()`, and a `set` at position 0 of the intro).
 
-- `buildPaneVeil(panes, { duration, ease, transformOrigin })` — `fromTo` `autoAlpha` 0 → 1 on all panes together, with `scaleX: 1` and the transform origin applied at the start.
+- `buildSheetWipe(sheet, { duration, ease })` — `fromTo` `clipPath` `inset(0% 0% 0% 0%)` → `inset(0% 100% 0% 0%)` with `immediateRender: false` (the right inset grows, so the sheet's right edge travels right to left), then a `set` to `autoAlpha: 0` with `clearProps: "clipPath"`. Clip-path rather than scaleX, which would squash the graph-paper pattern. Empty when `sheet` is null.
 - `buildPaneContract(panes, { duration, ease, stagger, transformOrigin })` — each pane tweens `scaleX` 1 → 0 in DOM order, offset by `stagger`, then a final `set` puts all panes at `autoAlpha: 0` so nothing is left over the playing video. `scaleX` stays at 0.
 
 Reduced motion adds no tween: the gated path jumps the intro timeline to its end, where the panes are hidden.

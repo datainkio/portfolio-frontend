@@ -344,8 +344,31 @@ export default class BackgroundVideo extends AbstractSection {
     );
   }
 
+  /**
+   * Stage the landing sheet and panes while the intro can still play: the
+   * section is enabled, lifecycle motion is on (not reduced motion, not
+   * session-gated), and the intro has not started. Otherwise keep them hidden,
+   * and hide them again if a gated state arrives. A pass during the intro
+   * leaves them to the timeline.
+   * Runs from `_applyResponsiveLifecycle`, so it also runs inside super().
+   */
+  _syncPanes() {
+    if (this.isDisabled || !this.animations) return;
+    const canStage =
+      this._isLifecycleMotionEnabled && this.animations.isIntroPristine();
+    if (canStage) {
+      this.animations.stagePanes();
+    } else if (
+      !this._isLifecycleMotionEnabled &&
+      this.animations.arePanesStaged()
+    ) {
+      this.animations.unstagePanes();
+    }
+  }
+
   _applyResponsiveLifecycle(conditions = {}) {
     super._applyResponsiveLifecycle(conditions);
+    this._syncPanes();
     this._syncPerspective();
     this._syncHeadingGel();
   }

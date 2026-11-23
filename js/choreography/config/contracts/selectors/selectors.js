@@ -37,6 +37,7 @@ export const SELECTORS = {
 export const VIDEO_SELECTORS = {
   media: "video",
   pane: "[data-video-el='pane']",
+  sheet: "[data-video-el='sheet']",
 };
 
 export const PROJECT_HEADER_SELECTORS = {

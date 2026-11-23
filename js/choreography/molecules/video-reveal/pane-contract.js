@@ -1,10 +1,11 @@
 /**
  * Pane-Contract Molecule
  *
- * The landing panes for the background video: a veil that fades them in, and a
- * contraction that shrinks each toward its transform origin (the left edge) and
- * leaves them hidden. Both factories return UNSTARTED timelines for the caller
- * to compose; both return an empty timeline when there are no panes.
+ * The landing cover for the background video: a sheet clipped away right to
+ * left, and colour panes that each shrink toward their transform origin (the
+ * left edge) and are left hidden. Both factories return UNSTARTED timelines for
+ * the caller to compose; both return an empty timeline when there is nothing to
+ * animate. Nothing here shows the sheet or panes: the caller stages them.
  */
 
 import { gsap } from "/assets/js/choreography/system/gsap.js";
@@ -14,29 +15,36 @@ const toTargets = (target) =>
   (Array.isArray(target) ? target : [target]).filter(Boolean);
 
 /**
- * Fade the panes in together, at full width.
+ * Clip the sheet away right to left, then hide it. The right inset grows, so the
+ * visible part shrinks toward the left edge and its right edge travels right to
+ * left. Clip-path, not scaleX: scaling would squash the graph-paper pattern.
+ * `immediateRender: false`, so building never touches the sheet.
  *
- * @param {Element[]} panes
- * @param {{ duration: number, ease: string, transformOrigin?: string }} opts
+ * @param {Element|null} sheet
+ * @param {{ duration: number, ease: string }} opts
  * @returns {gsap.core.Timeline}
  */
-export function buildPaneVeil(panes, { duration, ease, transformOrigin } = {}) {
-  const targets = toTargets(panes);
-  const veil = gsap.timeline();
+export function buildSheetWipe(sheet, { duration, ease } = {}) {
+  const wipe = gsap.timeline();
 
-  if (targets.length) {
-    veil.fromTo(
-      targets,
+  if (sheet) {
+    wipe.fromTo(
+      sheet,
+      { clipPath: "inset(0% 0% 0% 0%)" },
       {
-        autoAlpha: motionTokens.opacity.zero,
-        scaleX: 1,
-        ...(transformOrigin ? { transformOrigin } : {}),
+        clipPath: "inset(0% 100% 0% 0%)",
+        duration,
+        ease,
+        immediateRender: false,
       },
-      { autoAlpha: motionTokens.opacity.full, duration, ease },
     );
+    wipe.set(sheet, {
+      autoAlpha: motionTokens.opacity.zero,
+      clearProps: "clipPath",
+    });
   }
 
-  return veil;
+  return wipe;
 }
 
 /**
