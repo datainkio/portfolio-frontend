@@ -1,5 +1,5 @@
 ---
-description: Background video animations module — builds the hidden landing and fade-in intro timelines for the <video>, the idle timeline that tilts the section root into two-point perspective after the reveal, and the gel_hero fade-in / snap that accompanies it.
+description: Background video animations module — builds the hidden landing and fade-in intro timelines for the <video>, the idle timeline whose progress marks the static two-point perspective rest pose of the section root, and the gel_hero fade-in / snap.
 status: stable
 tags:
   - choreography
@@ -15,12 +15,11 @@ links:
 # BackgroundVideoAnimations
 
 - `landing` / `intro` — the reveal, via [[video-reveal|video-reveal]]. Targets the `<video>` (`this.media`) only.
-- `idle` — the two-point perspective tilt, from `BACKGROUND_PERSPECTIVE`. Targets the section root (`this.view`), so the video, pixelator and gels tilt as one piece. Rotation only: scale is already at its overscale from `primePerspective()`. Perspective is `perspectiveRatio × window.innerWidth`, read when the tween first renders. `immediateRender: false`, so nothing is written at construction. Its `onComplete` re-sets the pose at the current width, then calls `onPerspectiveSettled` (set by BackgroundVideo to release `video:intro:complete`).
-- `primePerspective()` — overscale about the right edge, unturned. Applied on `lg`+ before the video is visible.
-- `snapPerspective()` — finishes the idle timeline and re-sets the rest pose at the current width (gated replay, breakpoint entry, resize).
+- `idle` — the two-point perspective rest pose, from `BACKGROUND_PERSPECTIVE`, on the section root (`this.view`). It is never played: nothing animates into the pose. `snapPerspective()` finishes it, and its progress is the "settled" flag. `immediateRender: false`, so building it writes nothing. Its `onComplete` re-sets the pose at the current width, then calls `onPerspectiveSettled`, which is inert now that nothing holds `video:intro:complete`.
+- `snapPerspective()` — applies the rest pose statically: finishes the idle timeline and re-sets the pose at the current width (construction, breakpoint entry, intro completion, resize).
 - `clearPerspective()` — idle back to 0 and `clearProps` transform/origin (narrow tiers). Transform only; it never touches the heading gel.
 - `isPerspectiveSettled()` — idle progress is 1.
-- `fadeInHeadingGel()` — the played-path reveal of `gel_hero` (`options.headingGel`, resolved by BackgroundVideo): a standalone `autoAlpha` 0 → 1 tween with `BACKGROUND_HEADING_GEL_REVEAL` (the tilt's duration and ease). Standalone rather than inside idle, so it also runs on flat tiers and survives `clearPerspective()`. No-op once shown.
+- `fadeInHeadingGel()` — the played-path reveal of `gel_hero` (`options.headingGel`, resolved by BackgroundVideo): a standalone `autoAlpha` 0 → 1 tween with `BACKGROUND_HEADING_GEL_REVEAL`. Standalone rather than inside idle, so it also runs on flat tiers and survives `clearPerspective()`. No-op once shown.
 - `showHeadingGel()` — snap to `autoAlpha: 1`, finishing a fade in flight. Idempotent.
 - `isHeadingGelShown()` / `isHeadingGelFading()` — the reveal has started or landed / the fade is still running.
 - `kill()` — also kills the gel fade.
@@ -31,4 +30,4 @@ The gel's reveal state lives here, not on the controller, because BackgroundVide
 
 ## Reduced motion
 
-Reduced motion takes the gated path. `BackgroundVideo` calls `snapPerspective()` to set the rest pose at once instead of playing the idle tilt, and `showHeadingGel()` snaps `gel_hero` visible rather than fading it in.
+Reduced motion takes the gated path. The rest pose is static on every path (`snapPerspective()`), and on the gated path `showHeadingGel()` snaps `gel_hero` visible rather than fading it in.

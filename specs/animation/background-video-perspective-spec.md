@@ -4,6 +4,8 @@ description: "The visual design strategy calls for a persistent full-bleed video
 type: spec
 ---
 
+Note 2026-11-23: the tilt no longer animates. The rest pose is applied before the reveal and `video:intro:complete` is not held for it. See the [BackgroundVideo sidecar](../../js/choreography/organisms/background/BackgroundVideo.md).
+
 The role of the homepage initialization sequence is to deliver a seamless, cinematic transition from empty page to a fully populated, animated, designed home page.
 
 The full-bleed background video is a visually dominant element in support of the content strategy, and its persistence contributes to the feeling of cinematic seamlessness as the user explores through the page.

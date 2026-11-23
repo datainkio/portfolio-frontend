@@ -1,5 +1,5 @@
 ---
-description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events, and settles the section into its two-point perspective rest pose after the reveal, revealing gel_hero (whose visibility it owns) with that move to idle; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
+description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events, and holds the section in its static two-point perspective rest pose from before the reveal, revealing gel_hero (whose visibility it owns) after the intro; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
 status: stable
 tags:
   - choreography
@@ -52,7 +52,7 @@ gets an answer, so its timeout stays a failsafe instead of the normal exit on a
 page with no video.
 
 `video:media:ready` is separately emitted by the element's own `canplay` on
-every path, so it means *buffered*, not *settled*. A consumer gating on
+every path, so it means _buffered_, not _settled_. A consumer gating on
 playback must check `lifecycle.isReducedMotion` in the payload before treating
 it as terminal — the preloader does.
 
@@ -64,7 +64,7 @@ The handshake listener binds in the constructor, which runs during Director init
 `AnimationBus` is instance-created by `AnimationDirector` and injected. The
 preloader runs as a deferred module in `<head>`, well before that bus exists,
 and a module-singleton bus is forbidden. So `_emitMedia()` emits on the bus
-*and* dispatches a `CustomEvent` on `window`, following the precedent already
+_and_ dispatches a `CustomEvent` on `window`, following the precedent already
 set by `director:ready` and `preloader:out`. In-system consumers should use the
 bus; the window mirror is the boundary crossing.
 
@@ -82,37 +82,33 @@ Pre-existing behavior, unchanged here.
 
 ## Perspective rest pose
 
-After the reveal, the section root tilts into two-point perspective and stays
-there ([spec](../../../../specs/animation/background-video-perspective-spec.md)).
-On `lg`+ the root is overscaled about its right edge (`primePerspective`)
-before the video is visible, so the tilt itself is rotation only and the right
-edge never appears to move. The cue is the intro finishing — no new event:
+On perspective tiers the section root sits in its two-point perspective rest
+pose ([spec](../../../../specs/animation/background-video-perspective-spec.md))
+before the video is visible, so nothing animates into it. `_syncPerspective`
+applies it with `snapPerspective()`, including once inside `super()` at
+construction. The intro finishing re-asserts it (`_enterPerspective`); no new
+event:
 
-| Path                 | Hook                                                | Result                                             |
-| -------------------- | --------------------------------------------------- | -------------------------------------------------- |
-| First visit          | intro timeline `onComplete` → `_onIntroComplete`    | idle timeline tweens to rest, then emits           |
-| Reduced motion       | `_applyPostIntroState` (intro jumped to progress 1) | snapped to rest, emits at once                     |
-| Session-gated replay | `_applyPostIntroState`                              | snapped to rest, emits at once                     |
-| Below `lg`           | `SECTION_OVERRIDES.video` variant `flat`            | no tilt; transform cleared; emits at once          |
+| Path                 | Hook                                                                 | Result                                    |
+| -------------------- | -------------------------------------------------------------------- | ----------------------------------------- |
+| First visit          | rest pose set before reveal; intro `onComplete` → `_onIntroComplete` | pose re-asserted, emits at once           |
+| Reduced motion       | `_applyPostIntroState` (intro jumped to progress 1)                  | pose already static, emits at once        |
+| Session-gated replay | `_applyPostIntroState`                                               | pose already static, emits at once        |
+| Below `lg`           | `SECTION_OVERRIDES.video` variant `flat`                             | no tilt; transform cleared; emits at once |
 
 The heading gel follows the same paths; see [Heading gel](#heading-gel).
 
-**`video:intro:complete` waits for the tilt.** On the played path,
-`_onIntroComplete` holds the base emit (and the session mark) in
-`_pendingIntroComplete` and releases it from the idle timeline's `onComplete`
-(`animations.onPerspectiveSettled`). LandingSequence cues hero's intro from that
-event, so hero starts on a background at rest — sequenced by event, with
-`HERO_INTRO_HOLD` as the beat after it. Every path that ends a pending tilt
-releases the event: settle, snap (which finishes the timeline), and a clear on
-dropping below `lg`. The hero chain can't stall on it.
+**`video:intro:complete` is not held.** `_onIntroComplete` emits it as soon as
+the intro completes. LandingSequence cues hero's intro from that event, with
+`HERO_INTRO_HOLD` as the beat after it. The idle timeline is never played;
+`snapPerspective()` finishes it, and its progress is the "settled" flag.
+`_pendingIntroComplete` and `_releaseIntroComplete` remain but are inert.
 
 `_isPerspectiveTier()` resolves the active breakpoint's profile with reduced
 motion set aside: the `reduced` profile has no breakpoint, and reduced motion
-only decides tween vs snap. A matchMedia crossing clears the pose below `lg`,
-and at `lg`+ re-applies the full pose once the intro has settled, or only the
-overscale before that. A plain `resize` re-sets the settled pose, since
-perspective is proportional to width; a tilt still mid-tween re-asserts the
-pose at the current width when it completes.
+does not change the pose. A matchMedia crossing clears the pose below `lg` and
+re-applies it on perspective tiers. A plain `resize` re-sets the pose, since
+perspective is proportional to width.
 
 ## Heading gel
 
@@ -124,20 +120,20 @@ with `getHeadingGelEl(gelManager)` before `super()`, because `super()` can alrea
 run the gated path, and hands it to `BackgroundVideoAnimations`, which keeps the
 reveal state.
 
-| Path                                  | Hook                                                  | Gel                                                         |
-| ------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------- |
-| Played, perspective tier              | `_onIntroComplete`, with the tilt                     | fades 0 → 1, same duration and ease as the tilt             |
-| Played, flat tier                     | `_onIntroComplete`                                    | fades 0 → 1 with the same timing; nothing is held           |
-| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`)       | snaps to visible                                            |
-| Held event released                   | `_releaseIntroComplete` (settle, snap or clear)       | snapped to 1 first, so it is fully visible at the release   |
-| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncHeadingGel`       | re-asserted once revealed                                   |
-| Resize                                | `_bindPerspectiveResize` handler                      | re-asserted once revealed, unless the fade is still running |
+| Path                                  | Hook                                            | Gel                                                         |
+| ------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- |
+| Played, perspective tier              | `_onIntroComplete`                              | fades 0 → 1 (`BACKGROUND_HEADING_GEL_REVEAL`)               |
+| Played, flat tier                     | `_onIntroComplete`                              | fades 0 → 1 with the same timing; nothing is held           |
+| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`) | snaps to visible                                            |
+| Held event released (inert)           | `_releaseIntroComplete`                         | snapped to 1 first                                          |
+| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncHeadingGel` | re-asserted once revealed                                   |
+| Resize                                | `_bindPerspectiveResize` handler                | re-asserted once revealed, unless the fade is still running |
 
-**Flat tiers fade.** With no tilt to ride, the gel could simply appear, but a
+**All tiers fade.** The gel could simply appear, but a
 cut right after the video's soft fade-in reads as a pop. It fades with the same
 `BACKGROUND_HEADING_GEL_REVEAL` timing instead, so it arrives the same way at
-every width. `video:intro:complete` is not held for it, so on flat tiers the
-fade finishes during `HERO_INTRO_HOLD` and the start of hero's intro.
+every width. `video:intro:complete` is not held for it, so the fade finishes
+during `HERO_INTRO_HOLD` and the start of hero's intro.
 
 **Once revealed it never re-hides.** The fade is a standalone tween, not a child
 of the idle timeline, so `clearPerspective()` (which rewinds idle) can't hide it.
