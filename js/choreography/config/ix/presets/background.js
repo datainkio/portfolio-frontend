@@ -73,16 +73,20 @@ export const BACKGROUND_HEADING_GEL_REVEAL = {
  * `transformOrigin` (the left edge). `stagger` is half of that duration, so the
  * next pane starts when the previous one is half done. `sheet` is the wipe,
  * with the same duration and ease as one pane's contraction.
+ *
+ * The ease is `exit` (accelerating), not `standard`: a decelerating ease left
+ * each pane's last sliver crawling at sub-pixel speed along the tilted left
+ * edge while the next pane was leaving, which read as stutter.
  */
 export const BACKGROUND_PANES = {
   contract: {
     duration: toSeconds(motion.duration("slower")),
-    ease: motion.ease("standard"),
+    ease: motion.ease("exit"),
     stagger: toSeconds(motion.duration("slower")) / 2,
     transformOrigin: "0% 50%",
   },
   sheet: {
     duration: toSeconds(motion.duration("slower")),
-    ease: motion.ease("standard"),
+    ease: motion.ease("exit"),
   },
 };
