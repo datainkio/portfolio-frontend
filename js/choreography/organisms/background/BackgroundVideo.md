@@ -165,6 +165,13 @@ session-gated) and the intro is still pristine. The preloader therefore exits
 onto a surface identical to the page. When a pass finds a gated state it calls
 `unstagePanes()`; a pass during the intro leaves them to the timeline.
 
+**Playback is held while the panes are up.** `playIntro()` pauses the video when
+the panes are staged, and `_onIntroComplete` starts it again on the played path.
+A playing video under full-viewport multiply layers recomposites every frame,
+and the contraction stuttered. The preloader has already waited for `playing`,
+so the video rests on a decoded still frame under the panes. Without panes,
+`playIntro()` plays the video as before.
+
 The intro is one timeline: the video fades in from 0, the sheet is clipped away
 right to left from 0, and the panes contract toward the left edge one after
 another, the first starting when the sheet is half gone (each starts when the

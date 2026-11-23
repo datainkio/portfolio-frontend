@@ -240,7 +240,17 @@ export default class BackgroundVideo extends AbstractSection {
     // play() is idempotent on an already-playing element, and _onHydrated has
     // normally started it long before this. No readiness await: the reveal must
     // not be able to stall behind a buffer that may never fill.
-    this._playVideo();
+    // With the landing panes up, hold playback until they have gone: a playing
+    // video under full-viewport multiply layers recomposites every frame, and
+    // the contraction stuttered. The video is already buffered (the preloader
+    // waited for `playing`), so it rests on a still frame under the panes and
+    // _onIntroComplete starts it again.
+    if (this.animations?.arePanesStaged?.()) {
+      this._playbackHeld = true;
+      this.videoEl?.pause?.();
+    } else {
+      this._playVideo();
+    }
     return super.playIntro();
   }
 
@@ -384,6 +394,12 @@ export default class BackgroundVideo extends AbstractSection {
   _onIntroComplete() {
     this._enterPerspective();
     if (!this.isDisabled && this._isLifecycleMotionEnabled) {
+      // Played path only: playback held for the panes (see playIntro) resumes
+      // now. Gated paths never held it, and reduced motion keeps it paused.
+      if (this._playbackHeld) {
+        this._playbackHeld = false;
+        this._playVideo();
+      }
       this.animations?.fadeInHeadingGel?.();
     } else {
       this.animations?.showHeadingGel?.();
