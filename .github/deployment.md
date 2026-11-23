@@ -12,7 +12,13 @@ Both environments are GitHub Pages sites built from this repo (`datainkio/portfo
 | Staging | push to `staging` | [deploy-staging.yml](workflows/deploy-staging.yml) | this repo's Pages (Actions artifact) | `staging.dataink.io` |
 | Production | push to `main` | [deploy-production.yml](workflows/deploy-production.yml) | `datainkio/dataink.io@main` | `dataink.io` |
 
-Both workflows also run on demand: `gh workflow run <workflow>.yml -R datainkio/portfolio-frontend --ref <branch>`.
+Both workflows also run on demand: `gh workflow run <workflow>.yml -R datainkio/portfolio-frontend --ref <branch>`. The production job runs only when the ref is `main`; a manual run on any other branch is skipped, so a feature branch can't be published to `dataink.io`.
+
+## Guards against an accidental production deploy
+
+- Merging or pushing to `main` is the only thing that ships production. `development` and feature branches trigger nothing.
+- The production job is pinned to `main` (`if: github.ref == 'refs/heads/main'`).
+- [`.claude/settings.json`](../.claude/settings.json) denies agents `git push` to `main`, `gh workflow run deploy-production.yml` and `gh pr merge`. Agents open pull requests; a person merges them.
 
 ## Why production pushes to another repo
 
