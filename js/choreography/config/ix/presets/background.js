@@ -4,9 +4,16 @@ import { ANIMATION_DEFAULTS, motion, toSeconds } from "../motion.js";
  * BACKGROUND Section Animation Defaults
  *
  * Specific overrides for the BACKGROUND section animations.
+ *
+ * `duration` and `ease.out` drive the video's fade-in (the intro). The video is
+ * brighter than the preloader's graph paper, so the shared `base` fade (0.46s,
+ * `enter`) read as a flash. It now takes 1.5 × the `slower` token on the
+ * `standard` ease, the same timing `gel_hero` fades in with afterwards.
  */
 export const BACKGROUND_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
+  duration: toSeconds(motion.duration("slower") * 1.5),
+  ease: { ...ANIMATION_DEFAULTS.ease, out: motion.ease("standard") },
   // translateY: -motion.distance("lg"),
 };
 
