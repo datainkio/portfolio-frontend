@@ -11,6 +11,10 @@
  *   gel-<color>          Base colour: primary, secondary, accent, neutral
  *                        or neutral-light. Sets the colour the gradient
  *                        starts from.
+ *   gel-neutral-500, gel-accent-400, gel-secondary-500
+ *                        Flat pane colours, for gel-pane only.
+ *   gel-pane             The transient landing pane: a flat, opaque colour,
+ *                        not a gel. See the note at its definition.
  *   gel-<direction>      Where the gradient goes "to": top (default),
  *                        bottom, left, right, top-left, top-right,
  *                        bottom-left, bottom-right.
@@ -95,6 +99,28 @@
 
 @utility gel-accent {
   --gel-from: var(--color-accent-900);
+}
+
+/* Pane colours: mid-scale shades, used by gel-pane */
+@utility gel-neutral-500 {
+  --gel-from: var(--color-neutral-500);
+}
+
+@utility gel-accent-400 {
+  --gel-from: var(--color-accent-400);
+}
+
+@utility gel-secondary-500 {
+  --gel-from: var(--color-secondary-500);
+}
+
+/*
+ * The transient landing pane: flat and opaque, no gradient. Deliberately not
+ * `.gel`, so GelAnimationManager does not discover it.
+ */
+@utility gel-pane {
+  mix-blend-mode: var(--gel-blend, multiply);
+  background-color: var(--gel-from, var(--color-neutral-500));
 }
 
 /* Direction: the "to" value of linear-gradient */

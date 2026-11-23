@@ -245,30 +245,22 @@ export default class BackgroundVideo extends AbstractSection {
   }
 
   /**
-   * Two-point perspective tilt — the rest pose after the reveal (see
+   * Two-point perspective rest pose (see
    * specs/animation/background-video-perspective-spec.md).
    *
-   * On wide tiers the root is overscaled (primed) before the video is visible,
-   * so the tilt is rotation only. The tilt is earned by the intro finishing:
+   * On perspective tiers the pose (overscale and turn) is applied statically
+   * before the video is visible, so nothing animates into it. It is
+   * re-asserted when the intro completes (_enterPerspective) and on resize.
+   * `video:intro:complete` is not held for it. Narrow tiers stay flat
+   * (SECTION_OVERRIDES.video); a matchMedia breakpoint crossing clears or
+   * re-applies the pose in _applyResponsiveLifecycle.
    *
-   * - played: the intro timeline's onComplete calls _onIntroComplete → tween.
-   *   `video:intro:complete` is held until the tilt settles, so hero's intro
-   *   (cued by that event in LandingSequence) starts on a background at rest.
-   * - gated (reduced motion, session-gated replay): AbstractSection jumps the
-   *   intro to progress(1) via _applyPostIntroState → snap, emit at once.
-   *
-   * Either way it then persists; it never un-tilts or replays. Narrow tiers
-   * stay flat (SECTION_OVERRIDES.video), and a matchMedia breakpoint crossing
-   * clears or re-applies the pose in _applyResponsiveLifecycle. Every path that
-   * ends a pending tilt — settle, snap, clear — releases the held event, so
-   * the hero chain can never stall on it.
-   *
-   * `gel_hero` rides the same cue: hidden until the intro completes, then
-   * faded in with the tilt (or snapped on gated paths). See _onIntroComplete.
+   * `gel_hero` is hidden until the intro completes, then faded in (or snapped
+   * on gated paths). See _onIntroComplete.
    */
   _isPerspectiveTier() {
-    // The `reduced` profile carries no breakpoint, but reduced motion only
-    // decides tween vs snap — the breakpoint decides whether to tilt at all.
+    // The `reduced` profile carries no breakpoint, and reduced motion does not
+    // change the pose — the breakpoint decides whether to tilt at all.
     // So resolve the active tier's profile alone, with reduced motion aside.
     const profile = resolveSectionMotionProfile(this.sectionKey, {
       [this._activeBreakpoint]: true,
@@ -276,20 +268,7 @@ export default class BackgroundVideo extends AbstractSection {
     return profile.animation?.variant === "perspective";
   }
 
-  _isIntroSettled() {
-    return this.animations?.getTimeline?.(TIMELINE_IDS.intro)?.progress() === 1;
-  }
-
-  _shouldTweenPerspective() {
-    return (
-      !this.isDisabled &&
-      this._isLifecycleMotionEnabled &&
-      this._isPerspectiveTier() &&
-      !this.animations?.isPerspectiveSettled?.()
-    );
-  }
-
-  /** Gated paths: snap to the rest pose if the tilt is due and not yet done. */
+  /** Re-assert the rest pose at intro completion if it is not yet settled. */
   _enterPerspective() {
     if (this.isDisabled || !this._isPerspectiveTier()) return;
     if (this.animations?.isPerspectiveSettled?.()) return;
@@ -297,9 +276,9 @@ export default class BackgroundVideo extends AbstractSection {
   }
 
   /**
-   * Emit the held `video:intro:complete`, once. A held event means the intro
-   * has completed, so the heading gel has been earned: it is made fully
-   * visible first, whichever path (settle, snap, clear) ended the tilt.
+   * Emit a held `video:intro:complete`, once. Nothing holds it now, so this is
+   * inert; kept for the clear path and `onPerspectiveSettled`. A held event
+   * means the intro completed, so the heading gel is made visible first.
    */
   _releaseIntroComplete() {
     const release = this._pendingIntroComplete;
@@ -332,23 +311,19 @@ export default class BackgroundVideo extends AbstractSection {
     if (this.isDisabled) return;
     if (!this._isPerspectiveTier()) {
       this.animations?.clearPerspective?.();
-      // A tilt cut short by leaving the wide tier still owes its event.
+      // Releases a held event, if any (none is held now).
       this._releaseIntroComplete();
       return;
     }
-    // Entering the wide tier: the full pose once the tilt has been earned
-    // (snap also finishes a tilt in flight, which releases the event);
-    // before that, only the overscale, so the tilt stays rotation only.
-    if (this._isIntroSettled()) this.animations?.snapPerspective?.();
-    else this.animations?.primePerspective?.();
+    // Perspective tier: the full rest pose, applied statically — also before
+    // the video is visible (this runs inside super() on construction).
+    this.animations?.snapPerspective?.();
   }
 
   /**
    * Perspective scales with viewport width, so a plain resize (which fires no
-   * matchMedia change) re-asserts the settled pose at the new width. A tilt
-   * still mid-tween is left alone; its onComplete re-asserts the pose at the
-   * width it lands on. The same pass re-asserts an earned heading gel, leaving
-   * a fade in flight alone for the same reason.
+   * matchMedia change) re-asserts the rest pose at the new width. The same
+   * pass re-asserts an earned heading gel, leaving a fade in flight alone.
    */
   _bindPerspectiveResize() {
     if (this.isDisabled) return;
@@ -376,27 +351,14 @@ export default class BackgroundVideo extends AbstractSection {
   }
 
   /**
-   * The intro (the video fade-in) has completed: the background moves to
-   * idle, and `gel_hero` is revealed with it.
+   * The intro (the video fade-in) has completed: the rest pose is re-asserted
+   * (already applied before the reveal) and `gel_hero` is revealed.
    *
-   * - played, perspective tier: the tilt and the gel fade start together
-   *   (same duration and ease), and `video:intro:complete` is held until the
-   *   tilt settles; the release makes sure the gel is fully visible.
-   * - played, flat tier: no tilt, so nothing is held, but the gel still fades
-   *   in at this point in the chain, with the same timing it has on wide
-   *   tiers. It finishes during HERO_INTRO_HOLD and the start of hero's intro.
+   * - played: the gel fades 0 → 1, and `video:intro:complete` is emitted at once.
    * - gated (reduced motion, session-gated replay — reached here through
    *   _applyPostIntroState's progress(1)): the gel snaps to visible.
    */
   _onIntroComplete() {
-    if (this._shouldTweenPerspective()) {
-      // Hold `video:intro:complete` (and the session mark) until the tilt
-      // settles; BackgroundVideoAnimations calls back via onPerspectiveSettled.
-      this._pendingIntroComplete = () => super._onIntroComplete();
-      this.animations.play(TIMELINE_IDS.idle);
-      this.animations.fadeInHeadingGel();
-      return;
-    }
     this._enterPerspective();
     if (!this.isDisabled && this._isLifecycleMotionEnabled) {
       this.animations?.fadeInHeadingGel?.();

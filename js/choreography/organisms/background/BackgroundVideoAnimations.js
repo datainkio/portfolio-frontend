@@ -1,5 +1,9 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
 import {
+  buildPaneContract,
+  buildPaneVeil,
+} from "../../molecules/video-reveal/pane-contract.js";
+import {
   initVideoReveal,
   buildVideoIntro,
 } from "../../molecules/video-reveal/video-reveal.js";
@@ -7,6 +11,7 @@ import { gsap } from "/assets/js/choreography/system/gsap.js";
 import {
   BACKGROUND_ANIMATION_DEFAULTS,
   BACKGROUND_HEADING_GEL_REVEAL,
+  BACKGROUND_PANES,
   BACKGROUND_PERSPECTIVE,
 } from "../../config/ix/presets/background.js";
 import { VIDEO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
@@ -30,6 +35,12 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     // gels and the pixelator, which have their own lifecycles.
     this.media = this.view?.querySelector(VIDEO_SELECTORS.media) ?? null;
 
+    // The transient landing panes, in DOM order (slate, yellow, orange-red).
+    // Hidden by markup; only the intro timeline shows and contracts them.
+    this.panes = Array.from(
+      this.view?.querySelectorAll(VIDEO_SELECTORS.pane) ?? [],
+    );
+
     // `gel_hero`, resolved by BackgroundVideo through the gel manager. This
     // section is the gel's only visibility owner: GelAnimationManager parks it
     // at autoAlpha 0, and nothing shows it until the video's intro completes.
@@ -48,10 +59,27 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   _buildIntro() {
-    return buildVideoIntro(this.media, {
+    const video = {
       duration: this.options.duration,
       ease: this.options.ease.out,
-    });
+    };
+    if (!this.panes.length) return buildVideoIntro(this.media, video);
+
+    // Veil, heading gel under the veil, video fade, contraction: one after
+    // another. The video's own timeline is nested unnamed so only this outer
+    // timeline carries TIMELINE_IDS.intro.
+    const { veil, contract } = BACKGROUND_PANES;
+    return gsap
+      .timeline({ id: TIMELINE_IDS.intro })
+      .add(
+        buildPaneVeil(this.panes, {
+          ...veil,
+          transformOrigin: contract.transformOrigin,
+        }),
+      )
+      .call(() => this.showHeadingGel())
+      .add(buildVideoIntro(this.media, { ...video, id: null }))
+      .add(buildPaneContract(this.panes, contract));
   }
 
   /**
@@ -75,33 +103,15 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   /**
-   * The pre-tilt pose: overscaled about the right edge but not yet turned.
-   * Applied before the video is visible, so the tilt itself is rotation only —
-   * scaling during the turn made the right edge appear to advance. Scaling
-   * about `100% 50%` keeps the right edge flush with the viewport; the excess
-   * falls off the left, top and bottom.
-   */
-  _primePose() {
-    return { ...this._restPose(), rotationY: 0 };
-  }
-
-  /**
-   * The rest pose after the reveal: the section ROOT (video, pixelator, gels as
-   * one piece) turns into two-point perspective about its right edge. The
-   * overscale that covers the wedge the turn exposes is already in place
-   * (primePerspective). Unlike the reveal, this targets `this.view`, not
-   * `this.media`.
-   *
-   * `immediateRender: false` keeps construction from writing a transform; the
-   * function-based perspective is read when the tween first renders, not at
-   * build time. Origin, scale and perspective sit in both ends so only the
-   * angle moves. Transform only.
+   * Idle timeline for the rest pose on the section ROOT (video, pixelator,
+   * gels as one piece; `this.view`, not `this.media`). It is never played:
+   * snapPerspective() finishes it, and its progress is the "settled" flag.
+   * `immediateRender: false` keeps construction from writing a transform.
+   * Transform only.
    */
   _buildIdle() {
-    // onComplete re-asserts the pose at the current width (the perspective
-    // function is read once, at first render, and the resize handler skips
-    // while the tilt is mid-tween), then tells the section the tilt has
-    // settled — that is what releases `video:intro:complete`.
+    // onComplete re-asserts the pose at the current width, then notifies the
+    // section (fires when snapPerspective() finishes the timeline).
     const idle = gsap.timeline({
       id: TIMELINE_IDS.idle,
       onComplete: () => {
@@ -130,21 +140,15 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     return idle;
   }
 
-  /** True once the tilt has played or been snapped to its rest pose. */
+  /** True once the rest pose has been snapped (idle timeline finished). */
   isPerspectiveSettled() {
     return this.getTimeline(TIMELINE_IDS.idle)?.progress() === 1;
   }
 
-  /** Overscale, unturned — the wide tier's state before the tilt has played. */
-  primePerspective() {
-    if (!this.view) return;
-    gsap.set(this.view, this._primePose());
-  }
-
   /**
-   * Jump straight to the rest pose — reduced motion, gated replay, breakpoint
-   * entry, resize. The timeline is finished first so it reads as settled (and
-   * never replays); the set then re-asserts the pose at the current width.
+   * Apply the rest pose statically — construction, breakpoint entry, intro
+   * completion, resize. The timeline is finished first so it reads as settled;
+   * the set then re-asserts the pose at the current width.
    */
   snapPerspective() {
     if (!this.view) return;
@@ -165,13 +169,9 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   /**
-   * Played path: fade `gel_hero` 0 → 1 with the move to idle. A standalone
+   * Played path: fade `gel_hero` 0 → 1 when the intro completes. A standalone
    * tween rather than a child of the idle timeline, so it also runs on flat
-   * tiers (where idle never plays) and so clearPerspective()'s rewind of idle
-   * cannot take the gel with it. Started on the same tick as the tilt with
-   * the same duration and ease, so the two land together; the controller
-   * still calls showHeadingGel() before it releases `video:intro:complete`,
-   * which guarantees the gel is fully visible by then.
+   * tiers and clearPerspective()'s rewind of idle cannot take the gel with it.
    *
    * Created from a timeline callback, outside any gsap.matchMedia context, so
    * no breakpoint revert can undo it. No-op once the gel has been shown.
@@ -196,8 +196,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
 
   /**
    * Snap `gel_hero` to visible: gated paths (reduced motion, session-gated
-   * replay), breakpoint crossings and resizes after the reveal was earned, and
-   * the release of the held `video:intro:complete`. Finishes a fade in flight.
+   * replay), and breakpoint crossings and resizes after the reveal was earned. Finishes a fade in flight.
    * Idempotent, and nothing in this module ever hides the gel again.
    */
   showHeadingGel() {

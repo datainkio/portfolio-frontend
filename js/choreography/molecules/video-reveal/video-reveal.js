@@ -47,7 +47,8 @@ export function initVideoReveal(target) {
  * Fade into view — the intro phase.
  *
  * @param {Element|Element[]} target
- * @param {{ duration?: number, ease?: string }} [opts]
+ * @param {{ duration?: number, ease?: string, id?: string|null }} [opts]
+ *   `id: null` leaves the timeline unnamed, for nesting inside a composed intro.
  * @returns {gsap.core.Timeline}
  */
 export function buildVideoIntro(target, opts = {}) {
@@ -55,7 +56,9 @@ export function buildVideoIntro(target, opts = {}) {
   const duration = opts.duration ?? motion.duration("base") / 1000;
   const ease = opts.ease ?? motion.ease("enter");
 
-  const intro = gsap.timeline({ id: TIMELINE_IDS.intro });
+  const intro = gsap.timeline(
+    opts.id === null ? {} : { id: opts.id ?? TIMELINE_IDS.intro },
+  );
 
   if (targets.length) {
     intro.fromTo(

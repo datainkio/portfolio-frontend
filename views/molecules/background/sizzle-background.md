@@ -38,7 +38,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | `playsInline` | boolean                       | Defaults to `true`.                                                                |
 | `preload`     | string                        | Defaults to `metadata`.                                                            |
 
-The video is never deferred (`defer: false`). The template also places the Pixelator and the `gel_hero` gel inside the container.
+The video is never deferred (`defer: false`). The template also places the Pixelator, the `gel_hero` and `gel_tagline` gels, and three landing panes inside the container. The panes (`data-video-el="pane"`, `gel-pane` plus a colour utility) are plain `invisible` divs, deliberately not `.gel`, so GelAnimationManager does not discover them. They are transient and intro-only; the intro timeline in BackgroundVideoAnimations shows and contracts them, and they are never part of idle.
 
 ## Relationships
 
