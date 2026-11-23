@@ -43,6 +43,13 @@
       "direction": "gel-right"
     }) }}
 
+    {# Landing panes: transient, intro-only, never part of idle. Hidden by default
+       (invisible) so no-JS, reduced motion and replays never show them. Plain
+       divs, not gels, so GelAnimationManager leaves them alone. #}
+    <div data-video-el="pane" class="gel-pane gel-neutral-500 absolute inset-0 invisible" aria-hidden="true"></div>
+    <div data-video-el="pane" class="gel-pane gel-accent-400 absolute inset-0 invisible" aria-hidden="true"></div>
+    <div data-video-el="pane" class="gel-pane gel-secondary-500 absolute inset-0 invisible" aria-hidden="true"></div>
+
     {# {{ Gel.render({"id": "gel_subheading", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_process", "color": "gel-primary"}) }}
     {{ Gel.render({"id": "gel_awards_backing", "color": "gel-accent"}) }}

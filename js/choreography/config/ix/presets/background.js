@@ -61,3 +61,28 @@ export const BACKGROUND_HEADING_GEL_REVEAL = {
   duration: BACKGROUND_PERSPECTIVE.duration,
   ease: BACKGROUND_PERSPECTIVE.ease,
 };
+
+/**
+ * Background Panes — the contracting landing panes
+ *
+ * Three flat colour panes cover the background while the video fades in, then
+ * contract toward the LEFT edge one after another (their right edges travel
+ * right to left).
+ *
+ * `veil` is the panes fading in, over the `base` token. `contract` is each
+ * pane's scaleX 1 → 0 over the `slower` token about `transformOrigin`
+ * (the left edge). `stagger` is half of that duration, so the next pane
+ * starts when the previous one is half done.
+ */
+export const BACKGROUND_PANES = {
+  veil: {
+    duration: toSeconds(motion.duration("base")),
+    ease: motion.ease("enter"),
+  },
+  contract: {
+    duration: toSeconds(motion.duration("slower")),
+    ease: motion.ease("standard"),
+    stagger: toSeconds(motion.duration("slower")) / 2,
+    transformOrigin: "0% 50%",
+  },
+};

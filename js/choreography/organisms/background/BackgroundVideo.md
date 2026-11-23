@@ -120,16 +120,22 @@ with `getHeadingGelEl(gelManager)` before `super()`, because `super()` can alrea
 run the gated path, and hands it to `BackgroundVideoAnimations`, which keeps the
 reveal state.
 
-| Path                                  | Hook                                            | Gel                                                         |
-| ------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- |
-| Played, perspective tier              | `_onIntroComplete`                              | fades 0 → 1 (`BACKGROUND_HEADING_GEL_REVEAL`)               |
-| Played, flat tier                     | `_onIntroComplete`                              | fades 0 → 1 with the same timing; nothing is held           |
-| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`) | snaps to visible                                            |
-| Held event released (inert)           | `_releaseIntroComplete`                         | snapped to 1 first                                          |
-| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncHeadingGel` | re-asserted once revealed                                   |
-| Resize                                | `_bindPerspectiveResize` handler                | re-asserted once revealed, unless the fade is still running |
+| Path                                  | Hook                                            | Gel                                                                       |
+| ------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------- |
+| Played, perspective tier              | intro timeline, under the veil                  | shown while the panes cover it; `_onIntroComplete`'s fade is then a no-op |
+| Played, flat tier                     | intro timeline, under the veil                  | same; nothing is held                                                     |
+| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`) | snaps to visible                                                          |
+| Held event released (inert)           | `_releaseIntroComplete`                         | snapped to 1 first                                                        |
+| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncHeadingGel` | re-asserted once revealed                                                 |
+| Resize                                | `_bindPerspectiveResize` handler                | re-asserted once revealed, unless the fade is still running               |
 
-**All tiers fade.** The gel could simply appear, but a
+**Played path: shown under the veil.** With the landing panes present, the intro
+timeline calls `showHeadingGel()` once the panes fully cover the background, so
+the gel does not visibly pop; `fadeInHeadingGel()` in `_onIntroComplete` then
+finds the gel already shown and does nothing. The fade described below applies
+only when there are no panes.
+
+**All tiers fade (no panes).** The gel could simply appear, but a
 cut right after the video's soft fade-in reads as a pop. It fades with the same
 `BACKGROUND_HEADING_GEL_REVEAL` timing instead, so it arrives the same way at
 every width. `video:intro:complete` is not held for it, so the fade finishes
@@ -145,6 +151,18 @@ Reduced motion reaches the gated path because `video` has no `reduced` override:
 it resolves to the `reduced` profile, whose timeline channel is disabled, so
 `AbstractSection` calls `_applyPostIntroState` at construction and again from
 `playIntro()`.
+
+## Landing panes
+
+On the played path, three transient colour panes (slate, yellow, orange-red;
+`data-video-el="pane"`, inside the section root, above the gels) sit between the
+background and the viewer. The intro timeline runs: the panes fade in together
+(veil), `gel_hero` is shown under them, the video fades in underneath, then the
+panes contract toward the left edge one after another (each starts when the
+previous is half done) and end hidden. `video:intro:complete` fires when that
+whole timeline completes, after the last pane has gone. Values:
+`BACKGROUND_PANES`. Gated paths (reduced motion, session-gated replay) jump the
+intro to its end, so the panes are hidden and nothing tweens.
 
 Drift: `SECTION_OVERRIDES.video` makes `sm` and wider perspective tiers (since
 commit `1a3a033d`). The `lg` wording above and in the
