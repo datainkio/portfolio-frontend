@@ -49,12 +49,17 @@ export default async function (eleventyConfig) {
     // .env and restart the dev server to turn on.
     const debugOutlines = normalizeBoolean(process.env.DEBUG_OUTLINES) ?? false;
     eleventyConfig.addGlobalData("runtime", { bundleJs, debugOutlines });
-    // Documentation (everything under ia/docs/) renders only when DOCS is on:
-    // `npm run document` and `npm run start:docs` set it, and so do the deploy
-    // workflows. Off by default, so `npm start` and `npm run quick` skip about
-    // 240 pages.
+    // The documentation reference (every folder under ia/docs/, plus its
+    // README) renders only when DOCS is on: `npm run document` and
+    // `npm run start:docs` set it, and so do the deploy workflows. Off by
+    // default, so `npm start` and `npm run quick` skip about 240 pages.
+    // The pages at the top level of ia/docs/ (the Docs landing page and its
+    // Sanity-fed sub-pages) belong to the main site and always build.
     const docs = normalizeBoolean(process.env.DOCS) ?? false;
-    if (!docs) eleventyConfig.ignores.add("ia/docs/**");
+    if (!docs) {
+      eleventyConfig.ignores.add("ia/docs/*/**");
+      eleventyConfig.ignores.add("ia/docs/README.md");
+    }
 
     // Passthrough copy for static assets
     logger.trace("Configuring passthrough copy", null, "brief", msgStyle);

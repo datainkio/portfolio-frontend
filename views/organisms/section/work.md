@@ -36,7 +36,7 @@ There is no separate toggle button (the `directional-toggle` atom was removed). 
 | --------------- | ------- | --------------------------------------------------------------------------------- |
 | `id`            | string  | Section id. Defaults to `work`.                                                   |
 | `classes`       | string  | Read into a variable but never applied to the `<section>`. No effect.             |
-| `copy`          | object  | `heading` (defaults to "Work") is the `h2` text. `body` is read but not rendered. |
+| `copy`          | object  | `heading` (defaults to "Work") is the `h2` text. `body` (HTML, from the Sanity `workBody` field) renders in a prose `<div>` between the header and the project list, in the list's `max-w-3xl` column; an empty body renders nothing (2026-11-24). It is outside the `<header>` so the header pin does not carry it. |
 | `order`         | string  | Read but not used.                                                                |
 | `headingId`     | string  | Id for the heading and `aria-labelledby`. Defaults to the section id.             |
 | `buildDate`     | Date    | Read but not used.                                                                |

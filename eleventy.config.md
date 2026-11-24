@@ -9,7 +9,7 @@ Context sidecar for `eleventy.config.js`.
 
 ## Documentation flag
 
-`DOCS` decides whether `ia/docs/` (the Design, Choreography, IA and content strategy references) renders. It's off by default, so `npm start` and `npm run quick` add `ia/docs/**` to `ignores` and skip about 240 pages. With docs on, the 11ty step writes 277 pages in about 21s; without them, 40 pages in about 2s (measured 2026-11-18).
+`DOCS` decides whether the folders under `ia/docs/` (the Design, Choreography, IA and content strategy references) render. It's off by default, so `npm start` and `npm run quick` add them to `ignores` and skip about 240 pages. With docs on, the 11ty step writes 277 pages in about 21s; without them, 40 pages in about 2s (measured 2026-11-18).
 
 | Command                                       | Docs                                                     |
 | --------------------------------------------- | -------------------------------------------------------- |
@@ -19,6 +19,8 @@ Context sidecar for `eleventy.config.js`.
 | Staging and production deploys                | On: both run `npm run document`                          |
 
 With docs off, links into `/docs/` (the site map in the badge, for one) 404 locally. That's expected.
+
+The pages at the top level of `ia/docs/` are not part of the reference and build every time (since 2026-11-24): `index.md` (the Docs landing page) and `backend.md`, `content-models.md`, `design-strategy.md` and `frontend.md`, whose content will come from Sanity. With docs off, the build ignores `ia/docs/*/**` (every folder) and `ia/docs/README.md`, not the whole of `ia/docs/`. A new page placed at the top level of `ia/docs/` therefore joins the main build.
 
 ## Dev server behaviour
 

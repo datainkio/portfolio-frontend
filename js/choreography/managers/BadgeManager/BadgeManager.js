@@ -52,6 +52,25 @@ export default class BadgeManager {
     this._close?.addEventListener("click", () => this._dialog.close(), {
       signal,
     });
+    // A link to a hash on the page already showing (a Work industry link, from
+    // the site map opened on /work/) doesn't unload it, so the dialog would
+    // stay open over the target. Close it; the native hash navigation follows.
+    this._dialog.addEventListener(
+      "click",
+      (event) => {
+        const link = event.target.closest?.("a[href]");
+        if (!link || !this._dialog.contains(link)) return;
+        const url = new URL(link.href, window.location.href);
+        if (
+          url.origin === window.location.origin &&
+          url.hash &&
+          url.pathname === window.location.pathname
+        ) {
+          this._dialog.close();
+        }
+      },
+      { signal },
+    );
     this._dialog.addEventListener(
       "close",
       () => {

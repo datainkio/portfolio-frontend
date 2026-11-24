@@ -43,6 +43,7 @@ organisms. Rendered by [[base.njk]] and [[home.njk]], outside
 | --------------- | ------ | --------------------------------------------------------------------------- |
 | `logoSvg`       | string | Hanko SVG markup for the badge. Without it the badge shows the text "Home". |
 | `pages`         | array  | `collections.all`, passed to the site map.                                  |
+| `projects`      | array  | `collections.projects`, passed to the site map for the Work industry links. |
 | `currentUrl`    | string | Passed to the site map.                                                     |
 | `buildDate`     | Date   | Passed to the build info.                                                   |
 | `buildVersions` | object | Passed to the build info.                                                   |
@@ -56,7 +57,9 @@ opens the dialog and animates the close button in after a 1s delay.
 `aria-expanded` on the badge tracks the dialog. A CSS rule in
 `styles/base.css` locks page scroll while the dialog is open; on
 ScrollSmoother pages the manager also pauses the smoother so the dialog
-itself can scroll. The dialog is `size-full max-h-none`, so it fills the
+itself can scroll. A click on a link in the dialog to a hash on the current
+pathname (the Work industry links, opened on /work/) closes the dialog, then
+native hash navigation scrolls to the section; other links navigate away. The dialog is `size-full max-h-none`, so it fills the
 viewport and scrolls inside (`overflow-y-auto`).
 
 ## Accessibility

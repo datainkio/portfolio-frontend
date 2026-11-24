@@ -21,6 +21,9 @@ collection.
 | `projectsQuery` | `projects`    |
 
 - Projection: [[projectCardProjection]]
+- Filter: only projects with an `industry` reference. A project without one is left out of every
+  listing built from this collection (the homepage Work section, `/work/`, the site map's industry
+  links). Its detail page still builds, from the project-pages query.
 
 ## Source
 

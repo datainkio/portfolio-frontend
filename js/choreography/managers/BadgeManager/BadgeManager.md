@@ -40,7 +40,7 @@ The same native-dialog pattern as [[Lightbox.js]]: a click on the badge calls
 `showModal()` and sets `aria-expanded="true"`. The platform supplies the focus
 trap, Escape, the top layer and focus return to the badge. The dialog's
 `close` event, which fires on every dismissal path, resets `aria-expanded`.
-The close button calls `dialog.close()`.
+The close button calls `dialog.close()`. A delegated click listener on the dialog also closes it when the clicked link targets a hash on the current pathname (the site map's Work industry links, opened on /work/); native hash navigation then scrolls to the section. Cross-page links need nothing.
 
 On open the close button animates in after a `motion` slower (1s) delay:
 `opacity 0 → 1`, `rotation -90 → 0`, `motion` base/enter. `fromTo` renders

@@ -3,6 +3,7 @@
 import { activitiesQuery } from "./queries/activity/activities.js";
 import { awardsQuery } from "./queries/award/awards.js";
 import { contactQuery } from "./queries/contact.js";
+import { documentationLandingQuery } from "./queries/documentation/documentation-landing.js";
 import { imageAssetsQuery } from "./queries/image/image-assets.js";
 import { industriesQuery } from "./queries/industry/industries.js";
 import { projectsByIndustryQuery } from "./queries/project/projects-by-industry.js";
@@ -17,6 +18,7 @@ import { projectPagesQuery } from "./queries/project/project-pages.js";
 import { projectsLandingQuery } from "./queries/project/projects-landing.js";
 import { projectsQuery } from "./queries/project/projects.js";
 import { rolesQuery } from "./queries/role/roles.js";
+import { sitePagesQuery } from "./queries/sitePage/site-pages.js";
 import { siteSettingsQuery } from "./queries/siteSettings/siteSettings.js";
 import { userGuideQuery } from "./queries/user-guide.js";
 
@@ -39,5 +41,7 @@ export const CMS_QUERIES = [
   postsQuery,
   postPagesQuery,
   postsLandingQuery,
+  documentationLandingQuery,
+  sitePagesQuery,
   userGuideQuery,
 ];

@@ -23,6 +23,13 @@
     "lg": "text-7xl"
   } -%}
 
+  {#- Body copy (serialized Portable Text: one or more <p>). Sits between the header and the
+      project list, in the list's column (max-w-3xl, centred). It is outside the <header>
+      on purpose: WorkTriggers pins the header, and the body should scroll away with the
+      page. The wrapper is a <div> because the body is several sibling paragraphs that need
+      one prose/column box and no sectioning element fits. -#}
+  {%- set bodyStyles = {"base": "max-w-3xl mx-auto px-4 py-8 prose prose-invert prose-p:text-neutral-200"} -%}
+
   {%- set nav = {
     "print": "hidden",
     "base": "w-full sticky top-8 z-10 bg-neutral-950 shadow-[0px_4px_8px_0px_color-mix(in_oklab,var(--color-black)_25%,transparent)]",
@@ -39,6 +46,9 @@
           data-projects-el="heading"
           class="{{ title | classes }}">{{ heading }}</h2>
     </header>
+    {%- if body %}
+      <div class="{{ bodyStyles | classes }}">{{ body | safe }}</div>
+    {%- endif %}
     {{ ProjectCards.render({ projects: params.projects, classes: "w-full" }) }}
   </section>
 {% endmacro %}
