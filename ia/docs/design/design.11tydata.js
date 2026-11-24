@@ -13,7 +13,7 @@
  * choreography reference (choreography/) puts its own sections under the same
  * key.
  * "Design" names a "Docs" parent that doesn't exist, which keeps it out of
- * root-level eleventyNavigation lists such as primary-nav's fallback.
+ * root-level eleventyNavigation lists.
  *
  * Within a section, pages are grouped by role and ordered by composition
  * (base before variants, page order for page sections). GROUPS below is the

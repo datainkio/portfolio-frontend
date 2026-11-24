@@ -29,7 +29,7 @@
     {{ SkipLinks.render() }}
 
     {# BADGE — opens the site map #}
-    {{ Badge.render({ logoSvg: brandLogoSvg, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
+    {{ Badge.render({ logoSvg: brandLogoSvg, cms: cms, pages: collections.all, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
 
     {#- SCROLLSMOOTHER WRAPPER (opt-in) — a template sets `smoothScroll = true`
         to get the same #page-main / #page-main-content pair home.njk builds by

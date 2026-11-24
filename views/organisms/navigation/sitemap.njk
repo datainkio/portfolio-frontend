@@ -29,17 +29,22 @@
 
   {#- DATA GUARDS -#}
   {%- set pages = params.pages or [] -%}
+  {%- set cms = params.cms -%}
+  {%- set cmsNavigation = (cms and cms.navigation and cms.navigation[0]) or {} -%}
+  {%- set headerItems = cmsNavigation.headerItems or [] -%}
 
   <nav class="grid grid-cols-2 gap-6 {{ params.classes | classes }}"
        aria-label="Site map">
 
-    {#- Root-level pages. Posts and projects carry no eleventyNavigation key,
-        so only their landing pages appear. -#}
+    {#- Root-level pages: the Sanity navigation document's headerItems, in
+        its order. Nothing renders when there are none. -#}
     {#- One <section> per column, so each heading stacks with its lists. -#}
+    {%- if headerItems.length %}
     <section>
       <h2 class="{{ headingClasses | classes }}">Pages</h2>
-      {{ MainPages.render({ items: pages | eleventyNavigation, currentUrl: params.currentUrl,  classes: subListClasses, styles: subLinkStyles  }) }}
+      {{ MainPages.render({ items: headerItems, currentUrl: params.currentUrl,  classes: subListClasses, styles: subLinkStyles  }) }}
     </section>
+    {%- endif %}
 
     <section>
       {#- "Docs" is the parent the Design nav root names but no page defines
