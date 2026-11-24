@@ -48,18 +48,21 @@ export const BACKGROUND_PERSPECTIVE = {
  * Grid Reveal — the intro, hiding the cells over the video
  *
  * The video and `gel_video` are fully visible under an opaque 8 x 6 cell grid;
- * the intro fades the cells out right to left. The rightmost column goes first,
- * then each column to its left, `columnStagger` apart; within a column the
- * cells follow top to bottom, `rowStagger` apart. `columns` must match the
- * grid in sizzle-background.njk (cells are row-major).
+ * the intro fades the cells out. Columns go right to left. Within a column the
+ * cells hide in random order, `cellStagger` apart. A column starts once the
+ * column to its right has finished hiding `triggerAfterCells` of its cells, so
+ * the columns overlap. `columns` must match the grid in sizzle-background.njk
+ * (cells are row-major).
  *
- * Total = (columns - 1) x columnStagger + (rows - 1) x rowStagger +
- * cellDuration = 7 x 0.12 + 5 x 0.05 + 0.66 = 1.75s.
+ * Column offset = (triggerAfterCells - 1) x cellStagger + cellDuration
+ * = 0.12 + 0.167 = 0.287s. Total = (columns - 1) x offset +
+ * (rows - 1) x cellStagger + cellDuration = 7 x 0.287 + 5 x 0.12 + 0.167
+ * = 2.78s.
  */
 export const BACKGROUND_GRID_REVEAL = {
   columns: 8,
-  cellDuration: toSeconds(motion.duration("slow")),
-  columnStagger: motion.stagger("loose"),
-  rowStagger: motion.stagger("tight"),
+  cellDuration: toSeconds(motion.duration("instant")),
+  cellStagger: motion.stagger("loose"),
+  triggerAfterCells: 2,
   ease: motion.ease("standard"),
 };

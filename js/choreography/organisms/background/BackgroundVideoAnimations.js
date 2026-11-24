@@ -52,7 +52,9 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   /**
    * Snap the video and `gel_video` visible at time 0 (under the cells,
    * overriding GelAnimationManager's parking at autoAlpha 0), then fade the
-   * cells out right to left. Without a grid the intro is just the snap, so it
+   * cells out: columns right to left, cells in random order within a column,
+   * each column starting once the one before it has hidden its first two
+   * (BACKGROUND_GRID_REVEAL). Without a grid the intro is just the snap, so it
    * still completes. Built at construction, outside any gsap.matchMedia
    * context, so a breakpoint revert cannot undo it.
    */
@@ -62,20 +64,29 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
 
     const cells = this.grid ? Array.from(this.grid.children) : [];
     if (cells.length) {
-      const { columns, cellDuration, columnStagger, rowStagger, ease } =
+      const { columns, cellDuration, cellStagger, triggerAfterCells, ease } =
         BACKGROUND_GRID_REVEAL;
-      intro.to(
-        cells,
-        {
-          autoAlpha: motionTokens.opacity.zero,
-          duration: cellDuration,
-          ease,
-          delay: (i) =>
-            (columns - 1 - (i % columns)) * columnStagger +
-            Math.floor(i / columns) * rowStagger,
-        },
-        0,
-      );
+      // A column starts when the one to its right has finished hiding
+      // `triggerAfterCells` cells.
+      const columnOffset =
+        (triggerAfterCells - 1) * cellStagger + cellDuration;
+      for (let step = 0; step < columns; step += 1) {
+        const col = columns - 1 - step;
+        // Row-major cells: this column, in a random order fixed at build.
+        const column = gsap.utils.shuffle(
+          cells.filter((_, i) => i % columns === col),
+        );
+        intro.to(
+          column,
+          {
+            autoAlpha: motionTokens.opacity.zero,
+            duration: cellDuration,
+            ease,
+            stagger: cellStagger,
+          },
+          step * columnOffset,
+        );
+      }
     }
     intro.call(() => {
       this._gridHidden = true;
