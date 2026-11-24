@@ -25,7 +25,7 @@
 
     {#- BODY (Portable Text → HTML, prepared by transform) -#}
     {%- if sitePage.bodyHtml -%}
-      <div class="{{ bodyStyles | classes }}">{{ sitePage.bodyHtml | safe }}</div>
+      <section class="{{ bodyStyles | classes }}" aria-label="Page content">{{ sitePage.bodyHtml | safe }}</section>
     {%- endif -%}
   </article>
 {% endblock content %}
