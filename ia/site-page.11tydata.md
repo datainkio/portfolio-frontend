@@ -11,4 +11,4 @@ Sidecar for `site-page.11tydata.js`. It sits under `ia/`, so `permalink: false` 
 
 `eleventyComputed.eleventyNavigation` returns `{ key: url, title: navTitle, parent: navParent }` for
 each paginated page (`parent` omitted when undefined). A page under the documentation landing has
-parent `Docs`, which the site map's Docs column reads. A child page's parent is its parent page's URL.
+parent `Docs`, the key of the `/docs/` landing, so the site map nests it under Docs. A child page's parent is its parent page's URL.

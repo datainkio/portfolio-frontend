@@ -12,8 +12,9 @@
  * placed by its name in SECTION_ORDER. The
  * choreography reference (choreography/) puts its own sections under the same
  * key.
- * "Design" names a "Docs" parent that doesn't exist, which keeps it out of
- * root-level eleventyNavigation lists such as primary-nav's fallback.
+ * "Design" sits under "Docs", the key of the /docs/ landing
+ * (ia/docs/index.md), which keeps it out of root-level eleventyNavigation
+ * lists such as primary-nav's fallback.
  *
  * Within a section, pages are grouped by role and ordered by composition
  * (base before variants, page order for page sections). GROUPS below is the

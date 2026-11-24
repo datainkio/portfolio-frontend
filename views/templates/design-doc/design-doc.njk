@@ -218,7 +218,7 @@
 
   <article class="space-y-12 pt-20 pb-24">
     <header class="space-y-4">
-      {#- "Docs" has no page in the nav tree (see design.11tydata.js), so it leads the trail by hand. -#}
+      {#- navigationTrail starts below "Docs", so it leads the trail by hand. -#}
       {%- if eleventyNavigation and eleventyNavigation.key %}
         {%- set crumbs = [{ url: "/docs/", title: "Docs" }].concat(collections.all | navigationTrail(eleventyNavigation.key, "Docs")) -%}
         <div class="not-prose">{{ Breadcrumbs.render({ trail: crumbs }) }}</div>
