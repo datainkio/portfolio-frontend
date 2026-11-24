@@ -3,6 +3,7 @@
 import { activitiesQuery } from "./queries/activity/activities.js";
 import { awardsQuery } from "./queries/award/awards.js";
 import { contactQuery } from "./queries/contact.js";
+import { documentationLandingQuery } from "./queries/documentation/documentation-landing.js";
 import { imageAssetsQuery } from "./queries/image/image-assets.js";
 import { industriesQuery } from "./queries/industry/industries.js";
 import { projectsByIndustryQuery } from "./queries/project/projects-by-industry.js";
@@ -39,5 +40,6 @@ export const CMS_QUERIES = [
   postsQuery,
   postPagesQuery,
   postsLandingQuery,
+  documentationLandingQuery,
   userGuideQuery,
 ];

@@ -40,6 +40,7 @@ Each id below is a query in `queries/`, and a collection of the same name:
 - `organizations`, `industries`, `activities`, `roles`, `outcomes`
 - `projects`, `projectsLanding`, `projectPages`, `projectsByIndustry`
 - `posts`, `postsLanding`, `postPages`
+- `documentationLanding`
 - `awards`, `imageAssets`
 
 ## Configuration
@@ -56,6 +57,7 @@ Environment variables only (loaded from `.env`):
 - `SANITY_FORCE_REFRESH`: any value but `false` fetches fresh; `false` lets dev builds use the cache. Production builds (`ELEVENTY_RUN_MODE=build`) always fetch.
 
 <!-- readme-index:start -->
+
 ## Index
 
 - [client/](client/)

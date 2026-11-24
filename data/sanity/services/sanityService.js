@@ -87,7 +87,11 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
       data = normalizePostPageRecords(data);
     }
 
-    if (definition.id === "postsLanding") {
+    // Both landing singletons share one shape: the transform adds pageBodyHtml.
+    if (
+      definition.id === "postsLanding" ||
+      definition.id === "documentationLanding"
+    ) {
       data = normalizePostsLandingRecords(data);
     }
 
