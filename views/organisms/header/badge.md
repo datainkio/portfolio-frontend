@@ -22,11 +22,13 @@ Defines Nunjucks macro: `render`. Replaced the global header on 2026-11-17.
 
 Site chrome reduced to one control. A `<button>` fixed at the top left shows
 the Hanko mark, styled like the old header's home link. It opens a native
-`<dialog>`, full bleed and opaque, holding:
+`<dialog>`, full bleed over the graph-paper page background, holding:
 
 - a top bar with the build info ([[build-view.njk]], used as-is) and a close
   button (the `close` icon in the `icon` button variant), upper right;
-- the [[sitemap.njk]] below it.
+- the [[sitemap.njk]], centred vertically: the open dialog is a flex column
+  (`open:flex`, so it stays `display: none` when closed) and the site map's
+  `<nav>` takes `my-auto`.
 
 Home is reached from the site map, not from the badge.
 
@@ -79,8 +81,9 @@ footer's primary nav still links every landing page.
 
 ## Stacking
 
-The top bar is `relative z-10` with a `-z-10` backdrop, the arrangement the
-old header used: the build-info drawer (`-z-20`) tucks behind the bar when
+The top bar is `absolute` across the top of the dialog, out of flow so it
+doesn't push the site map off centre. It keeps `z-10` with a `-z-10`
+backdrop (now transparent), the arrangement the old header used: the build-info drawer (`-z-20`) tucks behind the bar when
 closed and slides out over the site map when open.
 
 ## Notes

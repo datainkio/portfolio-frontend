@@ -3,12 +3,13 @@ description: "Route definition for the /docs/ landing page, driven by the Sanity
 layout: "layouts/landing.njk"
 permalink: "/docs/"
 docNo: "3.14"
-# Supplies the header label ("DOC 3.14 / Docs"). Hidden from page lists: the
-# site map already has a Docs column, built from the pages whose parent is "Docs".
+# Supplies the header label ("DOC 3.14 / Docs") and the "Docs" key that the
+# Sanity site pages and Design name as parent, so they nest under it in the
+# site map.
 eleventyNavigation:
-  key: docs-landing
+  key: Docs
   title: Docs
-  hide: true
+  order: 25
 eleventyComputed:
   title: "{{ (cms.documentationLanding[0].seo.title or cms.documentationLanding[0].pageTitle or 'Docs') | safe }}"
   abstract: "{{ cms.documentationLanding[0].pageBodyHtml | safe }}"

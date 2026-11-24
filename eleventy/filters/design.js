@@ -23,8 +23,8 @@ export default function (eleventyConfig) {
  * whose navigation key is `key`, itself included; `[]` when the key isn't
  * under that root. Walks the tree eleventy-navigation's own `find` builds.
  * Its `eleventyNavigationBreadcrumb` filter can't serve here: it reads only
- * trees that start at a true root, and the Design tree hangs off a "Docs"
- * parent that has no page, on purpose (see ia/docs/design/design.11tydata.js).
+ * whole trails from a true root, and the design trail starts below "Docs"
+ * (see ia/docs/design/design.11tydata.js).
  */
 function navigationTrail(nodes, key, rootKey) {
   const walk = (entries, path) => {

@@ -7,7 +7,7 @@ docNo: "03"
 eleventyNavigation:
   key: contact
   title: Contact
-  order: 30
+  order: 10
 eleventyComputed:
   title: "{{ cms.contact[0].pageTitle | safe }}"
   abstract: "{{ cms.contact[0].pageBodyHtml | safe }}"
