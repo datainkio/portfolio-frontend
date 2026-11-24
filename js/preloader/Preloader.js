@@ -6,8 +6,6 @@
  * (S00 -> S03) and idle pulse (S04) start at first paint on their own. This
  * module decides *when* to flip `data-preloader-state="exit"` (the outro,
  * S03 -> S00), hides the root once that lands, and dispatches `preloader:out`.
- * When the Director is ready, the outro also lifts the root's background and
- * dispatches `preloader:exit` so the background intro overlaps it.
  *
  * It does not touch the background video element. It hydrates the deferred
  * `src` (a bandwidth staging concern it owns), then hands off: BackgroundVideo
@@ -25,8 +23,7 @@
  *        │               → hydrate the background video only
  *        │               → cue preloader:video:hydrated, then wait for
  *        │                 BackgroundVideo's video:media:* answer (bounded)
- *        ├─ outro: flip exit state (+ overlap flag and preloader:exit when
- *        │         the Director is ready), await animationend on the logo (bounded),
+ *        ├─ outro: flip exit state, await animationend on the logo (bounded),
  *        │         then `hidden` on the root
  *        │  return visit: root already `hidden` pre-paint by
  *        │                session-management-script.njk — outro skipped
@@ -207,15 +204,8 @@ const backgroundVideoSettled = () => {
  * logo's animations right after the flip forces the style recalc that
  * starts them, so the outro's own fade is what gets awaited.
  */
-const runExit = async (preloader, allowOverlap) => {
+const runExit = async (preloader) => {
   preloader.setAttribute(PRELOADER_STATE.attribute, PRELOADER_STATE.exit);
-  if (allowOverlap) {
-    // Lift the opaque background and cue the background layer: its intro
-    // plays behind the fading children. Only safe once the Director has
-    // written the hidden pre-reveal states.
-    preloader.setAttribute(PRELOADER_STATE.overlapAttribute, "");
-    window.dispatchEvent(new Event(EVENTS.system.preloaderExit));
-  }
   await bounded(
     animationsSettled(preloader.querySelector(PRELOADER_SELECTORS.outroLast)),
     PRELOADER_TIMINGS.outroFallbackMs,
@@ -276,10 +266,7 @@ export const initPreloader = async () => {
       logger.trace("Preloader already hidden; skipping outro");
     } else {
       logger.trace("Running outro");
-      await runExit(
-        preloader,
-        isChoreographyEnabled() && directorIsReady === true,
-      );
+      await runExit(preloader);
     }
 
     window.dispatchEvent(new Event(EVENTS.system.preloaderOut));

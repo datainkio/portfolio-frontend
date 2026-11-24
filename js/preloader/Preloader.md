@@ -35,15 +35,8 @@ else here applies. On the home page it: ^fd773d
    intro already landed. ^e82137
 7. Root visible: flips `data-preloader-state="exit"`, awaits the logo's
    animation `finished` (bounded), sets `hidden`. Root already `hidden`
-   (return visit, pre-paint script): outro skipped. When choreography is
-   enabled and the director gate resolved by `director:ready` or
-   `window.director` (not by timeout), the same flip also sets
-   `data-preloader-overlap` and dispatches `preloader:exit` on `window`, so the
-   background intro plays through the fading splash. Otherwise the root stays
-   opaque and no event fires. ^d26777
-8. 📍Dispatches `preloader:out` on `window` exactly once, after `hidden` lands
-   (the splash has gone; it still gates the foreground, including the hero
-   intro). ^1a429c
+   (return visit, pre-paint script): outro skipped. ^d26777
+8. 📍Dispatches `preloader:out` on `window` exactly once. ^1a429c
 9. 📍`finally`: unlocks scroll, clears `main[aria-busy]`, hydrates the
    remaining deferred videos, and starts observing play-in-view (card) videos,
    which get a `src` and play only as they near the viewport. Cleanup runs

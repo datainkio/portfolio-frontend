@@ -2,12 +2,8 @@
 
 {# STYLES #}
 {#- only Preloader.js removes the overlay; with scripting off it is hidden so it never covers the page -#}
-{#- The background stays opaque until the outro starts: it is the only thing
-    hiding the hero and background video before the Director writes their
-    pre-reveal states. By the time the outro starts the Director has written
-    them, and Preloader.js only lifts the background (data-preloader-overlap,
-    see hanko.css) when the Director is ready; after a gate timeout it stays
-    opaque to the end.
+{#- The background must stay opaque: it is the only thing hiding the hero and
+    background video before the Director writes their pre-reveal states.
     bg-page-graphpaper is the same utility home.njk puts on <html> (the only
     element carrying the page background), so lifting the splash onto the
     still-hidden page is seamless and the two can't drift. -#}

@@ -46,7 +46,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
    * The landing state is the empty clip-path on the grid: nothing of the
    * background section is drawn until the intro pops cells open. Applied here,
    * at construction and outside any gsap.matchMedia context, so a breakpoint
-   * revert cannot undo it. The preloader covers the page until `preloader:exit`,
+   * revert cannot undo it. The preloader covers the page until its outro begins,
    * so this is early enough. Gated paths remove it again (revealAll()).
    */
   _buildLanding() {

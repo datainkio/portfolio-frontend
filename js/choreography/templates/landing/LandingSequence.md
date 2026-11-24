@@ -15,13 +15,12 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 
 ## Methods
 
-- `_onPreloaderOut()` — the `preloader:out` handler: latches `_preloaderOut`, calls `start()` unless a debug hold applies, then tries `_armHeroIntro()`
-- `_onPreloaderExit()` — the `preloader:exit` handler (outro started): `start()`, unless a debug hold applies
+- `_onPreloaderOut()` — the `preloader:out` handler: `start()`, unless a debug hold applies
 - `_isHeld(hold)` — whether `?hold=` names a `LANDING_HOLDS` point; logs how to resume
-- `start()` — idempotent (`_started`); stage the video's landing state, then latch it
+- `start()` — stage the video's landing state, then latch it
 - `_cueVideoIntro()` — join the two latches; run the video intro once
 - `_startVideoIntro()` — fade the background video in
-- `_armHeroIntro()` — once `_videoIntroComplete` and `_preloaderOut` are both set, hold a beat, then play Hero's intro
+- `_armHeroIntro()` — hold a beat, then play Hero's intro
 - `_pauseBackgroundVideo()` / `_resumeBackgroundVideo()` — Hero-scoped playback gate
 - `_registerListeners()` — subscribe to the bus events below
 - `reset()` / `destroy()`
@@ -29,7 +28,7 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 ## Debug hold
 
 `?hold=preloader-out` stops the chain where it would start: the preloader lifts,
-`preloader:out` fires, and `LandingSequence` does not call `start()` (nor on `preloader:exit`). `_preloaderOut` is latched anyway, so the resumed chain still reaches the hero intro. Only the
+`preloader:out` fires, and `LandingSequence` does not call `start()`. Only the
 page background shows. The logger prints the hold and how to resume:
 
 ```js
@@ -47,8 +46,7 @@ add an entry and check it with `_isHeld()` where the chain passes that point.
 
 ## Events
 
-- `preloader:exit` (window) — the preloader's outro starts (Director ready only); cues the background layer
-- `preloader:out` (window) — the preloader completes its outro; releases the hero intro
+- `preloader:out` (window) — the preloader completes its outro
 - `video:media:playing` | `error` | `unavailable` — the background video settles; `video:media:ready` counts only under reduced motion
 - `video:intro:complete` — the background video completes its intro
 - `hero:enter` — the hero section enters the view
@@ -72,7 +70,7 @@ sequenceDiagram
   participant Hero as Hero (sections.hero)
   participant Hdr as BadgeManager
 
-  Note over LS: constructor: listen once for preloader:exit and preloader:out on window,<br/>then subscribe to Bus events (_registerListeners)
+  Note over LS: constructor: listen once for preloader:out on window,<br/>then subscribe to Bus events (_registerListeners)
   Note over U: First visit: the preloader splash (logo and subtitle) fills<br/>the screen and scrolling is locked.<br/>Return visit: no splash, the page paints straight away.
 
   rect rgba(120,120,120,0.08)
@@ -84,9 +82,9 @@ sequenceDiagram
     LS->>LS: _videoMediaSettled = true
     LS->>LS: _cueVideoIntro() (returns early until B is set)
   and Latch B: preloader hands off
-    Note over U: The splash starts its exit; its background lifts and<br/>the page behind shows through (Director ready only).
-    W-)LS: preloader:exit (or preloader:out if exit never fired)
-    LS->>LS: start() once (_started latch), remove the exit listener
+    Note over U: The splash plays its exit and lifts.
+    W-)LS: preloader:out
+    LS->>LS: start(), remove window listener
     LS->>Video: await playLanding() (stage autoAlpha 0)
     Video-->>LS: resolved (errors are logged and swallowed)
     Note over U: Page is up, but the video is held invisible.
@@ -101,7 +99,6 @@ sequenceDiagram
   Video-)Bus: video:intro:complete
   Bus->>LS: introComplete handler
   LS->>LS: _videoIntroComplete = true
-  Note over LS: _armHeroIntro() returns until preloader:out has also<br/>arrived (_preloaderOut); preloader:out retries it
   LS->>G: _armHeroIntro(): delayedCall(hold)<br/>hold = 0 if reduced motion, else HERO_INTRO_HOLD.delay
   Note over U: A short beat: the video plays on its own.
   G-->>LS: hold elapsed, _heroHoldCall = null
@@ -162,23 +159,20 @@ flowchart TD
         DCL["DOMContentLoaded, idle-deferred"] --> AD["AnimationDirector: bus, ScrollEffectsCoordinator,<br/>CardManager, SECTION_REGISTRY, managers, LandingSequence"]
         AD --> DR{{"window: director:ready"}}
         DR --> PRE["Preloader: fonts, director gate (8s timeout),<br/>hydrate video, await video settled, exit animation"]
-        PRE -->|"outro starts, Director ready"| PX{{"window: preloader:exit"}}
         PRE --> PO{{"window: preloader:out"}}
     end
 
     subgraph chain["Serial landing chain"]
         direction TB
         VS{{"bus: video:media:playing / error / unavailable<br/>(ready only under reduced motion)"}} --> LA["latch A: _videoMediaSettled"]
-        PX --> START["LandingSequence.start (once)<br/>await video.playLanding — hidden resting state"]
-        PO -->|"if exit never fired"| START
+        PO --> START["LandingSequence.start<br/>await video.playLanding — hidden resting state"]
         START --> LB["latch B: _videoLandingStaged"]
         LA --> CUE{"_cueVideoIntro<br/>both latches set? not yet cued?"}
         LB --> CUE
         CUE --> VID["_startVideoIntro<br/>video.playIntro — gel_video fade, then video fade"]
         VID --> IDLE["BackgroundVideo move to idle<br/>tilt (perspective tiers), applied statically"]
         IDLE --> VIC{{"bus: video:intro:complete<br/>held until the tilt settles"}}
-        VIC --> BEAT["_armHeroIntro<br/>needs video:intro:complete and preloader:out<br/>gsap.delayedCall HERO_INTRO_HOLD.delay"]
-        PO --> BEAT
+        VIC --> BEAT["_armHeroIntro<br/>gsap.delayedCall HERO_INTRO_HOLD.delay"]
         BEAT --> HERO["hero.playIntro<br/>gel_tagline is its only gel; gel_video already landed with the background"]
         HERO --> BIC{{"bus: hero:intro:complete — chain ends"}}
     end
@@ -205,8 +199,6 @@ flowchart TD
 
 - **The reveal is cued off the video's own media events.** It used to be `home:outro:complete` from HomeHeaderManager. That manager was first dropped from AnimationDirector, then deleted, so nothing emitted the cue and the video sat at autoAlpha 0. The `video:media:*` events always arrive (BackgroundVideo emits exactly one per path, with a 4 s failsafe), and `playing` means frames are moving, so the fade never reveals a still poster.
 - **Two latches, one join.** The video usually settles _before_ `preloader:out` — the preloader holds its splash until the video reports. A timed-out director gate or a late video error can invert that. `_cueVideoIntro` waits for both the settled event and `playLanding()`, whichever comes last, and `_videoIntroCued` makes it run once.
-- **The background intro overlaps the preloader outro.** `preloader:exit` starts the background layer as the outro starts, and the preloader drops its opaque background (`data-preloader-overlap`) so the intro shows through the fading children. `preloader:out` still means the splash has gone and gates the foreground: the hero intro arms only when both `video:intro:complete` and `preloader:out` have arrived, so a fast video cannot start the hero under the splash. The overlap comes from event ordering alone; no timing changed. After a director-gate timeout the preloader skips the event and the chain starts at `preloader:out` as before.
-- **`start()` removes only the exit listener.** `preloader:out` may still be coming and must latch `_preloaderOut`; its listener is `once`.
 - **`playLanding()` is awaited before latch B is set.** Revealing while `playLanding()` is still tweening toward autoAlpha 0 would be undone by it.
 - **The chain ends at `hero:intro:complete`.** BadgeManager listens for it on home and reveals the header as the final beat. Pages without a hero reveal the header immediately.
 - **Every link is an event, not a call.** Cross-section coordination goes through `AnimationBus` with `EVENTS` constants — `LandingSequence` never reaches into an organism's internals beyond its public `play*` methods and `video.videoEl`.

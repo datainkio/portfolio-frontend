@@ -11,7 +11,7 @@ tags:
 
 Exports `EVENTS` and `makeSectionEvents(key)`.
 
-- `EVENTS.system` — `preloaderOut`, `preloaderExit`, `directorReady`, `preloaderVideoHydrated` (window events). `preloaderExit` (`preloader:exit`) fires when the preloader outro starts, only when the Director is ready, and cues the background layer only; `preloaderOut` fires when the splash has gone and still gates the foreground.
+- `EVENTS.system` — `preloaderOut`, `directorReady`, `preloaderVideoHydrated` (window events).
 - Section sets from `makeSectionEvents(key)` — `enter`, `exit`, `onEnterBack`, `onLeaveBack`, `landingStart`, `landingComplete`, `introStart`, `introComplete`, `outroStart`, `outroComplete`. Keys: `video`, `header`, `organizations`, `hero`, `process`, `awards`, `work`.
 - `EVENTS.video.media` — background video playstate (`ready`, `playing`, `pause`, `error`, `unavailable`, …), mirrored to `window` by BackgroundVideo.
 - `EVENTS.workNav.activeChange` — `work:nav:active`, the WorkNavManager scrollspy broadcast.

@@ -26,7 +26,6 @@ stateDiagram-v2
     state "3. Revealing" as revealing
     revealing : Visible — background, preloader, header, footer
     revealing : Preloader is exiting
-    revealing : When the Director is ready, the preloader background lifts and the background video intro plays behind it (preloader:exit)
      
     state "4. Ready" as ready
     ready : Visible — background, header, footer

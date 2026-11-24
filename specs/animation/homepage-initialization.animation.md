@@ -6,7 +6,7 @@ type: spec
 
 Note 2026-11-24: `gel_hero` was replaced by `gel_video`, which fades in before the video rather than after it, and hero no longer animates a full-bleed gel. Steps below that mention `gel_hero` are historical.
 
-Note 2026-11-24: the background intro now starts when the preloader's outro starts (`preloader:exit`) and shows through the fading splash, instead of waiting for `preloader:out`. The hero intro is still gated on `preloader:out`. Steps below that put the background after the preloader exit are historical.
+Note 2026-11-24: an overlap that started the background intro at the preloader's outro start (`preloader:exit`) was tried and removed the same day. The background intro starts on `preloader:out`, as the steps below say.
 
 Note 2026-11-24: the background intro is now a progressive reveal of the video by hiding the cells of an opaque 8 x 6 grid that covers it, right to left, instead of fading `gel_video` and then the video. The video and gel are at full visibility under the cells. Steps below that describe a video or gel fade are historical.
 
