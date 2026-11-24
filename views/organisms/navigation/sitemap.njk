@@ -14,6 +14,27 @@
     "md": "text-xl"
   }
 } -%}
+{#- Pages column: subLinkStyles plus the nested list beneath Work (the
+    industry links), indented one step further and a text step smaller -#}
+{%- set pagesStyles = {
+  "item": {
+    "base": ""
+  },
+  "link": {
+    "base": "text-lg text-primary-300 hover:text-primary-100",
+    "md": "text-xl"
+  },
+  "children": {
+    "list": {"base": "mt-1 ml-1 pl-4 space-y-1 border-l border-neutral-700"},
+    "item": {
+      "base": ""
+    },
+    "link": {
+      "base": "text-base text-primary-300 hover:text-primary-100",
+      "md": "text-lg"
+    }
+  }
+} -%}
 {%- set linkStyles = {
   "item": {
     "base": ""
@@ -30,6 +51,23 @@
   {#- DATA GUARDS -#}
   {%- set pages = params.pages or [] -%}
 
+  {#- Industries grouped exactly as templates/projects/projects.njk does, so
+      each link lands on a real section heading id. -#}
+  {%- set projects = params.projects -%}
+  {%- set industries = (projects | groupBy("industry") | dictsort) if (projects and projects.length) else [] -%}
+  {%- set pageEntries = [] -%}
+  {%- for entry in pages | eleventyNavigation -%}
+    {%- if entry.key == "work" and industries.length -%}
+      {%- set industryLinks = [] -%}
+      {%- for industryTitle, industryProjects in industries -%}
+        {%- set _ = industryLinks.push({ title: industryTitle, url: entry.url ~ "#" ~ (industryTitle | slugify) }) -%}
+      {%- endfor -%}
+      {%- set _ = pageEntries.push({ key: entry.key, title: entry.title, url: entry.url, order: entry.order, hide: entry.hide, pageNavLabel: entry.pageNavLabel, children: industryLinks }) -%}
+    {%- else -%}
+      {%- set _ = pageEntries.push(entry) -%}
+    {%- endif -%}
+  {%- endfor -%}
+
   <nav class="grid grid-cols-2 gap-6 {{ params.classes | classes }}"
        aria-label="Site map">
 
@@ -38,7 +76,7 @@
     {#- One <section> per column, so each heading stacks with its lists. -#}
     <section>
       <h2 class="{{ headingClasses | classes }}">Pages</h2>
-      {{ MainPages.render({ items: pages | eleventyNavigation, currentUrl: params.currentUrl,  classes: subListClasses, styles: subLinkStyles  }) }}
+      {{ MainPages.render({ items: pageEntries, currentUrl: params.currentUrl, classes: subListClasses, styles: pagesStyles }) }}
     </section>
 
     <section>

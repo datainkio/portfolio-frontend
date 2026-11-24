@@ -6,6 +6,9 @@
 
   {#- STYLES -#}
   {%- set styles = params.styles or {} -%}
+  {#- Opt-in nesting: only when `styles.children` is given do entries' own
+      `children` render, as a nested list. -#}
+  {%- set childStyles = styles.children -%}
 
   {#- DISPLAY -#}
   <ul class="{{ params.classes | classes }}" role="list">
@@ -19,9 +22,16 @@
         {%- if isCurrent -%}
           <li class="{{ styles.item | classes }}">
             <span class="{{ styles.link | classes }}" aria-current="page">{{ entry.pageNavLabel or entry.title or entry.key }}</span>
+            {%- if childStyles and entry.children and entry.children.length -%}
+              {{ render({ items: entry.children, currentUrl: params.currentUrl, classes: childStyles.list, styles: childStyles }) }}
+            {%- endif %}
           </li>
         {%- else -%}
-          <li class="{{ styles.item | classes }}">{{ nav_link.render({ entry: entry, classes: styles.link, currentUrl: params.currentUrl }) }}</li>
+          <li class="{{ styles.item | classes }}">{{ nav_link.render({ entry: entry, classes: styles.link, currentUrl: params.currentUrl }) }}
+            {%- if childStyles and entry.children and entry.children.length -%}
+              {{ render({ items: entry.children, currentUrl: params.currentUrl, classes: childStyles.list, styles: childStyles }) }}
+            {%- endif -%}
+          </li>
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}

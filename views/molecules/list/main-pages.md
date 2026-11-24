@@ -32,10 +32,11 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | `classes`    | string, variant map, or array | Applied to the `<ul>` through `classes`.                                                                                                                                                                                                           |
 | `styles`     | object                        | Slot map. See the slot table.                                                                                                                                                                                                                      |
 
-| Slot   | Element                                                                          |
-| ------ | -------------------------------------------------------------------------------- |
-| `item` | Each `<li>`.                                                                     |
-| `link` | The link, or the current-page `<span>`. Passed to the nav link as its `classes`. |
+| Slot       | Element                                                                                                                                                                                                                                                                          |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `item`     | Each `<li>`.                                                                                                                                                                                                                                                                     |
+| `link`     | The link, or the current-page `<span>`. Passed to the nav link as its `classes`.                                                                                                                                                                                                 |
+| `children` | Opt-in. An object with `list`, `item` and `link` class maps. When given, an entry with a non-empty `children` array renders a nested `<ul role="list">` inside its `<li>` (the macro calls itself, so nested entries follow the same rules). Without it, `children` are ignored. |
 
 ## Relationships
 
