@@ -25,7 +25,7 @@ Classified as a **component** at the atomic **atom** level based on its location
 | Param         | Type   | Description                                                                    |
 | ------------- | ------ | ------------------------------------------------------------------------------ |
 | `color`       | string | Colour suffix for the border (`border-{color}`). Defaults to `white`.          |
-| `marginColor` | string | Colour suffix for the inner (margin) box only. Defaults to `color`.            |
+| `bleedColor`  | string | Colour suffix for the outer (bleed) box only. Defaults to `color`.             |
 | `size`        | string | Border width suffix (`border-{size}`). Defaults to `1`.                        |
 | `style`       | string | Border style suffix (`border-{style}`) on the outer box. Defaults to `dashed`. |
 | `bleedInset`  | string | Inset suffix for the outer box (`inset-{bleedInset}`). Defaults to `8`.        |
