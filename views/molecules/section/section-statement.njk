@@ -29,15 +29,15 @@
       there are (column flow, equal columns), and lg keeps that instead of narrowing. -#}
   {%- if statement.image -%}
     {%- set body_styles = {
-      "base": "col-span-full grid grid-cols-1 content-start gap-y-4",
-      "md": "grid-cols-2 gap-x-8",
-      "lg": "col-span-4 col-start-9 grid-cols-1" if isRight else "col-span-4 col-start-1 grid-cols-1"
-      } -%}
+        "base": "col-span-full grid grid-cols-1 content-start gap-y-4 pb-8",
+        "md": "grid-cols-2 gap-x-8",
+        "lg": "col-span-4 col-start-9 grid-cols-1" if isRight else "col-span-4 col-start-1 grid-cols-1"
+        } -%}
   {%- else -%}
     {%- set body_styles = {
-      "base": "col-span-full grid grid-cols-1 content-start gap-y-4",
+      "base": "col-span-full grid grid-cols-1 content-start gap-y-4 pb-12",
       "md": "grid-cols-none grid-flow-col auto-cols-fr gap-x-8"
-      } -%}
+    } -%}
   {%- endif -%}
 
   {#- HEADING-#}
@@ -57,20 +57,20 @@
       toward the centre of the view with a horizontal alpha mask (opaque at the flush edge, transparent
       at the text side), so it recedes behind the text and the text stays legible. -#}
   {%- set figure_styles = {
-    "base": "not-prose relative m-0 h-full max-w-xl bg-page-graphpaper shadow-lg",
+    "base": "not-prose relative h-full max-w-xl bg-page-graphpaper shadow-lg",
     "md": "origin-left [transform:perspective(125vw)_rotateY(15deg)]" if isRight else "origin-right [transform:perspective(125vw)_rotateY(-15deg)]",
     "lg": "opacity-100 row-start-2"
     } -%}
 
-  {%- set image_styles = {"base": "block h-full w-auto max-w-none p-8"} -%}
+  {%- set image_styles = {"base": "block h-full w-auto max-w-none p-4"} -%}
   {#- Inline SVG: the figure gets a definite width (full below md, half from md) and the SVG fills
       that box, so the art scales to fit whole whatever its aspect ratio (preserveAspectRatio "meet"),
       aligned to the edge the figure is flush to. The raster path sizes by height instead, which
       pushes landscape art past the viewport edge. -#}
   {%- set svg_figure_styles = {
-    "base": "not-prose relative col-span-full p-8 bg-page-graphpaper shadow-lg",
-    "md": "m-0 h-full w-full origin-left [transform:perspective(125vw)_rotateY(15deg)] border-l border-neutral-800" if isRight else "m-0 h-full w-full origin-right [transform:perspective(125vw)_rotateY(-15deg)] border-r border-neutral-800",
-    "lg": "col-start-1 col-span-8 opacity-100 row-start-2" if isRight else "col-start-5 col-span-8 opacity-100 row-start-2"
+    "base": "not-prose relative col-span-full bg-page-graphpaper shadow-lg p-6",
+    "md": "p-12 m-0 h-full w-full origin-left [transform:perspective(125vw)_rotateY(15deg)] border-l border-neutral-800" if isRight else "p-12 m-0 h-full w-full origin-right [transform:perspective(125vw)_rotateY(-15deg)] border-r border-neutral-800",
+    "lg": "p-16 col-start-1 col-span-8 opacity-100 row-start-2" if isRight else "p-16 col-start-5 col-span-8 opacity-100 row-start-2"
     } -%}
   {%- set svg_styles = {"base": "block h-full w-full"} -%}
   {%- set svg_aspect = "xMinYMid meet" if isRight else "xMaxYMid meet" -%}

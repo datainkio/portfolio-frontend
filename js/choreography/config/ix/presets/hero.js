@@ -13,7 +13,7 @@ import { ANIMATION_DEFAULTS, motion, toSeconds } from "../motion.js";
  * `gsap.delayedCall` consumes this, so it is in seconds.
  * Reduced motion zeroes it: the chain still runs, just without the pause.
  */
-export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
+export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("instant")) }; // seconds
 
 export const HERO_INTRO = {
   ...ANIMATION_DEFAULTS,

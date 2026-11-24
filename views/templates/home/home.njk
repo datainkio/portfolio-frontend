@@ -36,11 +36,11 @@
 {% include "layouts/partials/dev-note/dev-note.njk" %}
 {#- overflow-x-clip: same guard as base.njk — keeps horizontal overflow from
     widening the mobile layout viewport. bg-page-graphpaper: the page
-    background (colour and grid) lives on <html> alone, so it covers the
-    whole canvas; the preloader uses the same utility. <body> carries none. -#}
-<html lang="en" class="overflow-x-clip bg-page-graphpaper">
+    background (colour and grid) lives on <body> (it was on <html> until
+    2026-11-24); the preloader uses the same utility. <html> carries none. -#}
+<html lang="en" class="overflow-x-clip">
   {% include "layouts/partials/head/head.njk" %}
-  <body class="relative text-neutral-100 isolate">
+  <body class="relative text-neutral-100 isolate bg-page-graphpaper">
     {% include "layouts/partials/gtm-noscript/gtm-noscript.njk" %}
     {{ SkipLinksNav.render() }}
     {{ Preloader.render({ "svg": logo }) }}
