@@ -19,6 +19,7 @@ import { projectsLandingQuery } from "./queries/project/projects-landing.js";
 import { projectsQuery } from "./queries/project/projects.js";
 import { rolesQuery } from "./queries/role/roles.js";
 import { sitePagesQuery } from "./queries/sitePage/site-pages.js";
+import { featuredStatisticsQuery } from "./queries/statistic/featured-statistics.js";
 import { siteSettingsQuery } from "./queries/siteSettings/siteSettings.js";
 import { userGuideQuery } from "./queries/user-guide.js";
 
@@ -34,6 +35,7 @@ export const CMS_QUERIES = [
   projectsQuery,
   projectsLandingQuery,
   projectPagesQuery,
+  featuredStatisticsQuery,
   contactQuery,
   homeQuery,
   navigationQuery,

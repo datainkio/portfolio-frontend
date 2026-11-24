@@ -39,6 +39,7 @@ Each id below is a query in `queries/`, and a collection of the same name:
 - `siteSettings`, `home`, `contact`, `userGuide`, `navigation`
 - `organizations`, `industries`, `activities`, `roles`, `outcomes`
 - `projects`, `projectsLanding`, `projectPages`, `projectsByIndustry`
+- `featuredStatistics`
 - `posts`, `postsLanding`, `postPages`
 - `documentationLanding`, `sitePages`
 - `awards`, `imageAssets`

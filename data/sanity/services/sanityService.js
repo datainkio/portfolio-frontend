@@ -26,6 +26,7 @@ import {
   normalizePostsLandingRecords,
 } from "../transforms/post.js";
 import { normalizeSitePageRecords } from "../transforms/sitePage.js";
+import { normalizeFeaturedStatisticRecords } from "../transforms/statistic.js";
 import { normalizeUserGuideRecords } from "../transforms/user-guide.js";
 import { normalizeImageUrls } from "../transforms/imageUrls.js";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
@@ -94,6 +95,10 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
       definition.id === "documentationLanding"
     ) {
       data = normalizePostsLandingRecords(data);
+    }
+
+    if (definition.id === "featuredStatistics") {
+      data = normalizeFeaturedStatisticRecords(data);
     }
 
     if (definition.id === "sitePages") {
