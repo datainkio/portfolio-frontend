@@ -40,7 +40,7 @@ Each id below is a query in `queries/`, and a collection of the same name:
 - `organizations`, `industries`, `activities`, `roles`, `outcomes`
 - `projects`, `projectsLanding`, `projectPages`, `projectsByIndustry`
 - `posts`, `postsLanding`, `postPages`
-- `documentationLanding`
+- `documentationLanding`, `sitePages`
 - `awards`, `imageAssets`
 
 ## Configuration
