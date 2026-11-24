@@ -14,10 +14,10 @@
 
   {# SECTION STYLES (incl. responsive prose-p classes) -#}
   {%- set section_styles = {
-    "base": "relative isolate min-h-dvh max-w-none grid grid-cols-12 content-center col-span-full gap-y-4 prose prose-invert prose-p:text-xl prose-p:m-0",
+    "base": "relative isolate min-h-dvh max-w-none grid grid-cols-12 content-center col-span-full prose prose-invert prose-p:text-xl prose-p:m-0",
     "md": "prose-p:drop-shadow-md/100",
     "lg": "px-16"
-    } -%}
+  } -%}
 
   {#- BODY -#}
   {#- The paragraphs sit in one wrapper, which is a single grid item, so the figure beside it
@@ -25,18 +25,28 @@
       gap-y-4, so stacked paragraphs are 1rem apart at every breakpoint (their prose margins
       are zeroed on the section). Below md: one column. md: two columns side by side. lg: one
       column again, in the four columns opposite the figure, top-aligned with it. -#}
-  {%- set body_styles = {
-    "base": "col-span-full grid grid-cols-1 content-start gap-y-4",
-    "md": "grid-cols-2 gap-x-8",
-    "lg": "col-span-4 col-start-9 grid-cols-1" if isRight else "col-span-4 col-start-1 grid-cols-1"
-    } -%}
+  {#- No figure: from md the paragraphs share one row across the full width, however many
+      there are (column flow, equal columns), and lg keeps that instead of narrowing. -#}
+  {%- if statement.image -%}
+    {%- set body_styles = {
+      "base": "col-span-full grid grid-cols-1 content-start gap-y-4",
+      "md": "grid-cols-2 gap-x-8",
+      "lg": "col-span-4 col-start-9 grid-cols-1" if isRight else "col-span-4 col-start-1 grid-cols-1"
+      } -%}
+  {%- else -%}
+    {%- set body_styles = {
+      "base": "col-span-full grid grid-cols-1 content-start gap-y-4",
+      "md": "grid-cols-none grid-flow-col auto-cols-fr gap-x-8"
+      } -%}
+  {%- endif -%}
 
   {#- HEADING-#}
   {%- set heading_styles = {
-    "base": "pb-0 font-display text-secondary-500 col-span-full",
+    "base": "pb-0 font-display text-secondary-500 col-span-full drop-shadow-md/100",
     "sm": "text-4xl",
-    "md": "text-5xl col-span-8 col-start-5 drop-shadow-md/100" if isRight else "text-5xl col-span-8 col-start-1 drop-shadow-md/100"
-    } -%}
+    "md": "col-span-10",
+    "lg": "text-5xl"
+  } -%}
 
   {#- MEDIA -#}
   {%- set caption_styles = {"base": "sr-only"} -%}
