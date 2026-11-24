@@ -64,7 +64,9 @@
  * module scripts have run yet. JS (js/preloader/Preloader.js) owns only
  * one transition: it flips `data-preloader-state="exit"` once the page is
  * ready, which runs the outro (S03 -> S00, the intro in reverse), then
- * sets `hidden` on the root once the last child has faded.
+ * sets `hidden` on the root once the last child has faded. When the
+ * Director is ready it also sets `data-preloader-overlap` with the exit state
+ * (see the overlap rule below), which lifts the root's background.
  *
  * Preloader.js listens for `animationend` on the subtitle (last in) and the
  * logo (last out); both are raced against fallbacks in constants.js, which
@@ -134,6 +136,17 @@
 
 [data-preloader][data-preloader-state="exit"] [data-preloader-logo] {
   animation-delay: calc(var(--preloader-step-stagger) * 2);
+}
+
+/* Overlap: when the Director is ready, Preloader.js sets
+ * `data-preloader-overlap` with the exit state and cues the background
+ * intro. The root's opaque background comes off so that intro shows through
+ * the fading children. The page carries the same graph paper, so the swap is
+ * seamless. Without the flag the root stays opaque, hiding a page the
+ * Director has not yet staged. This file is in the `components` layer, which
+ * is declared after `utilities`, so it beats `bg-page-graphpaper`. */
+[data-preloader][data-preloader-state="exit"][data-preloader-overlap] {
+  background: none;
 }
 
 /* Failsafe: a CSS-only escape hatch. Only Preloader.js dismisses the

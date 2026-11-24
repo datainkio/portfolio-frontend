@@ -63,7 +63,14 @@ const VIDEO_MEDIA_EVENTS = {
 
 export const EVENTS = {
   system: {
+    // Dispatched on `window` when the splash has gone (its outro finished).
+    // Gates everything in the foreground: the hero intro waits for it.
     preloaderOut: "preloader:out",
+    // Dispatched on `window` by the preloader when its outro STARTS, and only
+    // when the Director is ready (never after a gate timeout). It cues the
+    // background layer only, so the background intro plays through the
+    // fading splash instead of after it. `preloader:out` still follows.
+    preloaderExit: "preloader:exit",
     directorReady: "director:ready",
     // Dispatched on `window` by the preloader once it has assigned the deferred
     // src to the background video. The preloader owns hydration (a bandwidth

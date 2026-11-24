@@ -27,6 +27,10 @@ export const PRELOADER_SELECTORS = {
 export const PRELOADER_STATE = {
   attribute: "data-preloader-state",
   exit: "exit",
+  // Set with the exit state when the background intro may overlap the outro
+  // (Director ready). hanko.css drops the root's background under it so the
+  // page behind shows through the fading children.
+  overlapAttribute: "data-preloader-overlap",
 };
 
 // Play-in-view videos (card videos) get their src and play once they come

@@ -3,7 +3,9 @@
  *
  * The switchboard for communication between different sections of the site's homepage.
  *
- * Picks up the page choreography from the preloader when it hears EVENTS.system.preloaderOut.
+ * Picks up the page choreography from the preloader: the background layer on
+ * EVENTS.system.preloaderExit (the outro starts) or preloaderOut, whichever
+ * comes first; the hero intro only once preloaderOut has also arrived.
  */
 
 import { Lumberjack } from "/assets/js/utils/lumberjack/index.js";
@@ -76,8 +78,22 @@ export class LandingSequence {
     // Tracks whether the video intro has been cued, to prevent multiple triggers.
     this._videoIntroCued = false;
 
-    // Preloader out handler: triggered when the preloader finishes and is removed from view.
+    // start() latch: preloader:exit and preloader:out both lead to it.
+    this._started = false;
+
+    // The splash has gone (preloader:out arrived, or a held start() resumed).
+    // The hero intro waits for this and for the video intro.
+    this._preloaderOut = false;
+
+    // Preloader handlers. `exit` fires when the outro starts (background only),
+    // `out` when the splash has gone.
+    this.handlePreloaderExit = () => this._onPreloaderExit();
     this.handlePreloaderOut = () => this._onPreloaderOut();
+    window.addEventListener(
+      EVENTS.system.preloaderExit,
+      this.handlePreloaderExit,
+      { once: true },
+    );
     window.addEventListener(
       EVENTS.system.preloaderOut,
       this.handlePreloaderOut,
@@ -93,8 +109,30 @@ export class LandingSequence {
    * asks it to wait. A held sequence resumes when start() is called.
    */
   _onPreloaderOut() {
+    // Latched even when held or already started: the hero intro needs it.
+    this._preloaderOut = true;
+    if (!this._isHeld(LANDING_HOLDS.preloaderOut)) this.start();
+    this._armHeroIntro();
+  }
+
+  /**
+   * `preloader:exit` handler: the outro has started. Same hold check as
+   * `preloader:out`; start() is idempotent so the later event is a no-op.
+   */
+  _onPreloaderExit() {
     if (this._isHeld(LANDING_HOLDS.preloaderOut)) return;
     this.start();
+  }
+
+  _removePreloaderListeners() {
+    window.removeEventListener(
+      EVENTS.system.preloaderExit,
+      this.handlePreloaderExit,
+    );
+    window.removeEventListener(
+      EVENTS.system.preloaderOut,
+      this.handlePreloaderOut,
+    );
   }
 
   /**
@@ -115,10 +153,14 @@ export class LandingSequence {
   }
 
   async start() {
+    if (this._started) return;
+    this._started = true;
     this.logger.trace("Starting landing sequence");
+    // Only the exit listener goes: preloader:out may still be coming and must
+    // latch _preloaderOut (it is `once`, so it removes itself).
     window.removeEventListener(
-      EVENTS.system.preloaderOut,
-      this.handlePreloaderOut,
+      EVENTS.system.preloaderExit,
+      this.handlePreloaderExit,
     );
 
     try {
@@ -152,12 +194,7 @@ export class LandingSequence {
   }
 
   destroy() {
-    if (this.handlePreloaderOut) {
-      window.removeEventListener(
-        EVENTS.system.preloaderOut,
-        this.handlePreloaderOut,
-      );
-    }
+    this._removePreloaderListeners();
 
     this.logger.trace("Destroying sequence", null, "brief", "standard");
 
@@ -168,6 +205,8 @@ export class LandingSequence {
     this._videoMediaSettled = false;
     this._videoLandingStaged = false;
     this._videoIntroCued = false;
+    this._started = false;
+    this._preloaderOut = false;
 
     this._listeners.forEach((unsubscribe) => unsubscribe());
     this._listeners = [];
@@ -227,6 +266,7 @@ export class LandingSequence {
    * jumps the intro to progress(1) and emits), so this chain must stay intact.
    */
   _armHeroIntro() {
+    if (!this._videoIntroComplete || !this._preloaderOut) return;
     if (this._heroHoldCall) return;
 
     const hold = isReducedMotion() ? 0 : HERO_INTRO_HOLD.delay;

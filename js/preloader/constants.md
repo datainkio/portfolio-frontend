@@ -8,6 +8,11 @@ links:
   - "[[hanko|hanko.css]]"
 ---
 
+`PRELOADER_STATE.overlapAttribute` (`data-preloader-overlap`) is set on the
+root together with the exit state when the background intro may overlap the
+outro (director ready, choreography enabled). `hanko.css` removes the root's
+background under it. See [Preloader](Preloader.md).
+
 `PRELOADER_TIMINGS.introFallbackMs` and `outroFallbackMs` are coupled to
 `--preloader-step-duration` and `--preloader-step-stagger` in
 `styles/components/hanko.css` — each must exceed step + 2 × stagger. Change

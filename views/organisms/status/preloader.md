@@ -158,9 +158,13 @@ so the `h-dvh` block leaves the flow, then dispatches `preloader:out`.
 ## Notes for Future Maintenance
 
 - The background is `bg-page-graphpaper`, the same utility `home.njk` puts on
-  `<html>`. It must stay opaque: until the Director writes the hero's and the
-  background video's pre-reveal states, the overlay is the only thing hiding
-  them. Sharing the utility keeps the overlay identical to the page underneath,
+  `<html>`. It stays opaque until the outro starts: until the Director writes
+  the hero's and the background video's pre-reveal states, the overlay is the
+  only thing hiding them. By the time the outro starts the Director has
+  written them, and `Preloader.js` sets `data-preloader-overlap` (only when the
+  Director is ready, never after a gate timeout), which drops the background
+  in `hanko.css` so the background intro shows through the fading children.
+  Sharing the utility keeps the overlay identical to the page underneath,
   so the splash lifts seamlessly.
 - Root is a `<div>` — the element is a transient overlay with no
   document-outline role, so a landmark would mislead assistive tech. Flagged
