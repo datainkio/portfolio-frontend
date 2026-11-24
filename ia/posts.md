@@ -9,6 +9,7 @@ pagination:
 permalink: "/posts/{% if pagination.pageNumber %}page/{{ pagination.pageNumber + 1 }}/{% endif %}"
 docNo: "04"
 eleventyNavigation:
+  hide: true
   key: posts
   title: Posts
   order: 25
