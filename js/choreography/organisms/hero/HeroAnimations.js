@@ -16,7 +16,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
     this.gelManager = options.gelManager ?? null;
     this._variant = options.variant ?? "sweep";
     // Statement panel element → buildSvgReveal() handle. HeroTriggers plays each
-    // one from that statement's panel pin.
+    // one from that statement's ScrollTrigger.
     this._statementSvgReveals = new Map();
   }
 
@@ -51,7 +51,7 @@ export default class HeroAnimations extends AbstractSectionAnimations {
 
   /**
    * Play a statement's SVG reveal, once. Called by HeroTriggers when the
-   * statement panel pins. No-op when the panel has no prepared SVG or its
+   * statement's top reaches the viewport top. No-op when the panel has no prepared SVG or its
    * reveal has already been requested.
    * @param {Element} panel `[data-hero-el="mission-statement"]`
    */

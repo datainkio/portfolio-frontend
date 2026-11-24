@@ -55,21 +55,18 @@ export const HERO_BAND_PARALLAX_TRIGGER = {
   invalidateOnRefresh: true,
 };
 
-// One per statement section (id suffixed with its index): pins the statement
-// at the viewport top and holds it there for 300px of
-// scroll before it moves on.
-export const HERO_PANEL_PIN_TRIGGER = {
+// One per statement section (id suffixed with its index): fires the statement's
+// SVG reveal when the statement's top reaches the viewport top. No pin: the
+// statement scrolls with the page. (It pinned for 300px until 2026-11-24.)
+export const HERO_STATEMENT_TRIGGER = {
   ...SCROLL_DEFAULTS,
-  id: "hero-panel-pin",
+  id: "hero-statement",
   once: false,
   start: "top top",
-  end: "+=300",
-  pin: true,
-  pinSpacing: true,
+  end: "bottom top",
+  pin: false,
+  pinSpacing: false,
   invalidateOnRefresh: true,
-  // Pin spacing pushes down everything below each panel, so measure ahead of
-  // HERO_TRIGGER and the band parallax triggers.
-  refreshPriority: 1,
 };
 
 export default class HeroTriggers extends AbstractSectionTriggers {
@@ -83,7 +80,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._hideTrigger = null;
     this._outroPin = null;
     this._bandParallax = [];
-    this._panelPins = [];
+    this._statementTriggers = [];
   }
 
   _getTriggerDefaults() {
@@ -99,39 +96,39 @@ export default class HeroTriggers extends AbstractSectionTriggers {
       ? this.section?.animations?.getTimeline?.(TIMELINE_IDS.intro)
       : null;
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
-    this._bindPanelPins();
+    this._bindStatementTriggers();
     this._bindOutroPin();
     this._bindBandParallax();
   }
 
-  // Holds each statement section at the viewport top for
-  // HERO_PANEL_PIN_TRIGGER's range. The header is left out.
-  _bindPanelPins() {
-    this._killPanelPins();
+  // One trigger per statement section, to play its SVG reveal. Nothing is
+  // pinned. The header is left out.
+  _bindStatementTriggers() {
+    this._killStatementTriggers();
     if (!this.view) return;
 
     const attr = HERO_SELECTORS.elementAttribute;
     const panels = this.view.querySelectorAll(
       `[${attr}="${HERO_SELECTORS.missionStatement}"]`,
     );
-    this._panelPins = Array.from(panels, (panel, index) =>
+    this._statementTriggers = Array.from(panels, (panel, index) =>
       ScrollTrigger.create({
-        ...HERO_PANEL_PIN_TRIGGER,
-        id: `${HERO_PANEL_PIN_TRIGGER.id}-${index}`,
+        ...HERO_STATEMENT_TRIGGER,
+        id: `${HERO_STATEMENT_TRIGGER.id}-${index}`,
         trigger: panel,
-        // The statement's intro: as it pins, its prepared SVG (if any) reveals
-        // group by group. Plays once; HeroAnimations ignores repeat calls. A
-        // load or fast scroll past the pin still fires onEnter (then onLeave),
-        // so passed art is never left hidden.
+        // The statement's intro: as its top reaches the viewport top, its
+        // prepared SVG (if any) reveals group by group. Plays once;
+        // HeroAnimations ignores repeat calls. A load or fast scroll past the
+        // statement still fires onEnter (then onLeave), so passed art is never
+        // left hidden.
         onEnter: () => this.section?.animations?.playStatementSvg?.(panel),
       }),
     );
   }
 
-  _killPanelPins() {
-    // kill(true) reverts each pin, removing its pin-spacer.
-    this._panelPins.forEach((pin) => pin.kill(true));
-    this._panelPins = [];
+  _killStatementTriggers() {
+    this._statementTriggers.forEach((trigger) => trigger.kill());
+    this._statementTriggers = [];
   }
 
   // Image parallax for every band that holds an image (see band-motion).
@@ -192,7 +189,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
   }
 
   kill() {
-    this._killPanelPins();
+    this._killStatementTriggers();
     this._outroPin?.kill();
     this._outroPin = null;
     this._killBandParallax();

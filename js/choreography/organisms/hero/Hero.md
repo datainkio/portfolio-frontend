@@ -43,9 +43,10 @@ Today the landing flag stays unset: `LandingSequence` no longer calls
 
 ## Statement SVGs
 
-Each statement's inline SVG reveal is played by `HeroTriggers` as its panel pins
+Each statement's inline SVG reveal is played by `HeroTriggers` when the
+statement's top reaches the viewport top. The statements are not pinned
 (see [HeroAnimations](HeroAnimations.md)).
 
 ## Reduced motion
 
-When lifecycle motion is disabled, no pins or timelines play. `_applyResponsiveLifecycle` then calls `animations.showStatementSvgs()` to show all statement SVG groups at rest. Reduced motion is one cause; the session replay gate also disables lifecycle motion and takes the same path.
+When lifecycle motion is disabled, no triggers or timelines play. `_applyResponsiveLifecycle` then calls `animations.showStatementSvgs()` to show all statement SVG groups at rest. Reduced motion is one cause; the session replay gate also disables lifecycle motion and takes the same path.

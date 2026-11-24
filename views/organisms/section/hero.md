@@ -20,7 +20,7 @@ Defines Nunjucks macro: `render`.
 
 ## Purpose
 
-The homepage's opening section (DOM id `manifesto`). A full-viewport `<header>` holds the accession label and the `<h1>`. Below it, each statement renders as its own full-viewport [[section-statement.njk|section-statement]], and the layouts alternate: `left` on odd statements, `right` on even ones (`loop.index % 2`). The choreography binds through `data-hero-el` attributes. `HeroTriggers.js` pins each statement at the viewport top and pins the section root for the outro (`hero-outro-pin`); see `HeroTriggers.md`.
+The homepage's opening section (DOM id `manifesto`). A full-viewport `<header>` holds the accession label and the `<h1>`. Below it, each statement renders as its own full-viewport [[section-statement.njk|section-statement]], and the layouts alternate: `left` on odd statements, `right` on even ones (`loop.index % 2`). The choreography binds through `data-hero-el` attributes. `HeroTriggers.js` gives each statement an unpinned ScrollTrigger that plays its SVG reveal, and pins the section root for the outro (`hero-outro-pin`); see `HeroTriggers.md`.
 
 ## Role in the System
 
