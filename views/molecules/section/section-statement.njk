@@ -14,20 +14,32 @@
 
   {# SECTION STYLES (incl. responsive prose-p classes) -#}
   {%- set section_styles = {
-    "base": "relative isolate min-h-dvh max-w-none content-center col-span-full prose prose-invert prose-p:text-xl prose-p:col-span-full",
-    "md": "grid grid-cols-12 prose-p:drop-shadow-md/100 prose-p:col-span-8 prose-p:col-start-5" if isRight else "grid grid-cols-12 prose-p:drop-shadow-md/100 prose-p:col-span-8 prose-p:col-start-1",
-    "lg": "px-16 prose-p:col-span-4 prose-p:col-start-9 " if isRight else "px-16 prose-p:col-span-4 prose-p:col-start-1 "
+    "base": "relative isolate min-h-dvh max-w-none grid grid-cols-12 content-center col-span-full gap-y-4 prose prose-invert prose-p:text-xl prose-p:m-0",
+    "md": "prose-p:drop-shadow-md/100",
+    "lg": "px-16"
+    } -%}
+
+  {#- BODY -#}
+  {#- The paragraphs sit in one wrapper, which is a single grid item, so the figure beside it
+      (lg) cannot stretch the rows between them. The wrapper is its own grid with the section's
+      gap-y-4, so stacked paragraphs are 1rem apart at every breakpoint (their prose margins
+      are zeroed on the section). Below md: one column. md: two columns side by side. lg: one
+      column again, in the four columns opposite the figure, top-aligned with it. -#}
+  {%- set body_styles = {
+    "base": "col-span-full grid grid-cols-1 content-start gap-y-4",
+    "md": "grid-cols-2 gap-x-8",
+    "lg": "col-span-4 col-start-9 grid-cols-1" if isRight else "col-span-4 col-start-1 grid-cols-1"
     } -%}
 
   {#- HEADING-#}
   {%- set heading_styles = {
     "base": "pb-0 font-display text-secondary-500 col-span-full",
     "sm": "text-4xl",
-    "md": "text-5xl col-span-8 col-start-5 drop-shadow-md/100" if isRight else "text-5xl col-span-8 col-start-1 drop-shadow-md/100",
-    "lg": "col-span-4 col-start-9" if isRight else "col-span-4 col-start-1"
+    "md": "text-5xl col-span-8 col-start-5 drop-shadow-md/100" if isRight else "text-5xl col-span-8 col-start-1 drop-shadow-md/100"
     } -%}
 
   {#- MEDIA -#}
+  {%- set caption_styles = {"base": "sr-only"} -%}
   {#- A portrait background behind the text, flush to the side opposite the text, full statement height.
       Primarily decorative in role. md+ takes the background video's rest pose (BACKGROUND_PERSPECTIVE:
       perspective = 1.25 × viewport width, rotateY(-15deg) about the edge it is flush to; mirrored for
@@ -35,21 +47,20 @@
       toward the centre of the view with a horizontal alpha mask (opaque at the flush edge, transparent
       at the text side), so it recedes behind the text and the text stays legible. -#}
   {%- set figure_styles = {
-    "base": "not-prose relative m-0 h-full max-w-xl",
+    "base": "not-prose relative m-0 h-full max-w-xl bg-page-graphpaper shadow-lg",
     "md": "origin-left [transform:perspective(125vw)_rotateY(15deg)]" if isRight else "origin-right [transform:perspective(125vw)_rotateY(-15deg)]",
-    "lg": "opacity-100"
+    "lg": "opacity-100 row-start-2"
     } -%}
-  {%- set caption_styles = {"base": "sr-only"} -%}
 
-  {%- set image_styles = {"base": "block h-full w-auto max-w-none bg-page-graphpaper p-8"} -%}
+  {%- set image_styles = {"base": "block h-full w-auto max-w-none p-8"} -%}
   {#- Inline SVG: the figure gets a definite width (full below md, half from md) and the SVG fills
       that box, so the art scales to fit whole whatever its aspect ratio (preserveAspectRatio "meet"),
       aligned to the edge the figure is flush to. The raster path sizes by height instead, which
       pushes landscape art past the viewport edge. -#}
   {%- set svg_figure_styles = {
-    "base": "not-prose relative bg-page-graphpaper col-span-full p-8",
+    "base": "not-prose relative col-span-full p-8 bg-page-graphpaper shadow-lg",
     "md": "m-0 h-full w-full origin-left [transform:perspective(125vw)_rotateY(15deg)] border-l border-neutral-800" if isRight else "m-0 h-full w-full origin-right [transform:perspective(125vw)_rotateY(-15deg)] border-r border-neutral-800",
-    "lg": " col-span-8 opacity-100"
+    "lg": "col-start-1 col-span-8 opacity-100 row-start-2" if isRight else "col-start-5 col-span-8 opacity-100 row-start-2"
     } -%}
   {%- set svg_styles = {"base": "block h-full w-full"} -%}
   {%- set svg_aspect = "xMinYMid meet" if isRight else "xMaxYMid meet" -%}
@@ -61,7 +72,7 @@
       figure, whose art sits 4rem in (the figure's p-8 plus the image wrapper's p-8). The
       figure is `relative`, so the marks tilt with it from md. -#}
   {%- set print_marks = Printmarks.render({
-    inset: "2",
+    inset: "4",
     trim: { color: "primary-100", size: "3", inset: "14", weight: "1" },
     marginBleed: { color: "primary-100/60", size: "1", style: "dashed", marginInset: "10", bleedInset: "12" }
     }) -%}
@@ -76,7 +87,7 @@
 
     {#- BODY TEXT (HTML) -#}
     {% if statement.body %}
-      {{ statement.body | safe }}
+      <div class="{{ body_styles | classes }}">{{ statement.body | safe }}</div>
     {% endif %}
 
     {#- IMAGE (SVG or raster) -#}
