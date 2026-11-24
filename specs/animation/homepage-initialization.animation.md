@@ -41,7 +41,7 @@ A pause of one `slow` duration token (`HERO_INTRO_HOLD`) separates the video fad
 
 When the letter cascade completes, the keywords "just", "informed", and "engaged" light up in `secondary-600`.
 
-10: The statements sit one screen height below the viewport. Each scrolls with the page; when its top reaches the top of the viewport, its statement-specific animation (the SVG reveal) plays. Note (2026-11-24): each statement was pinned for 300px of scroll until this date. The pin was removed; the trigger that plays the reveal stays.
+10: The statements sit one screen height below the viewport. Each scrolls with the page; when its top is 60% down the viewport, its statement-specific animation (the SVG reveal) plays. Note (2026-11-24): each statement was pinned for 300px of scroll until this date. The pin was removed; the trigger that plays the reveal stays.
 11: The global header enters. Note: the header is disabled on the homepage (2026-11-09) and may be re-integrated into the design later. Until then, this step does not occur.
 12: Initialization complete.
 

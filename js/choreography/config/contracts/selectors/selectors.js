@@ -60,7 +60,7 @@ export const HERO_SELECTORS = {
   context: "context",
   missionStatement: "mission-statement",
   // Inline prepared SVG inside a statement's figure; its top-level <g>s are
-  // revealed in source order as the statement reaches the viewport top
+  // revealed in source order as the statement scrolls into view
   // (molecules/svg-reveal).
   statementSvg: "statement-svg",
 };

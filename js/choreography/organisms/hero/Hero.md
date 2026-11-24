@@ -44,7 +44,7 @@ Today the landing flag stays unset: `LandingSequence` no longer calls
 ## Statement SVGs
 
 Each statement's inline SVG reveal is played by `HeroTriggers` when the
-statement's top reaches the viewport top. The statements are not pinned
+statement's top is 60% down the viewport. The statements are not pinned
 (see [HeroAnimations](HeroAnimations.md)).
 
 ## Reduced motion

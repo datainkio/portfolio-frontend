@@ -56,13 +56,13 @@ export const HERO_BAND_PARALLAX_TRIGGER = {
 };
 
 // One per statement section (id suffixed with its index): fires the statement's
-// SVG reveal when the statement's top reaches the viewport top. No pin: the
+// SVG reveal when the statement's top is 60% down the viewport. No pin: the
 // statement scrolls with the page. (It pinned for 300px until 2026-11-24.)
 export const HERO_STATEMENT_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: "hero-statement",
   once: false,
-  start: "top top",
+  start: "top 60%",
   end: "bottom top",
   pin: false,
   pinSpacing: false,
@@ -116,7 +116,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
         ...HERO_STATEMENT_TRIGGER,
         id: `${HERO_STATEMENT_TRIGGER.id}-${index}`,
         trigger: panel,
-        // The statement's intro: as its top reaches the viewport top, its
+        // The statement's intro: as its top passes 60% down the viewport, its
         // prepared SVG (if any) reveals group by group. Plays once;
         // HeroAnimations ignores repeat calls. A load or fast scroll past the
         // statement still fires onEnter (then onLeave), so passed art is never
