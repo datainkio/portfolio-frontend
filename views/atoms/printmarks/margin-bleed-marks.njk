@@ -1,5 +1,7 @@
 {% macro render(params = {}) %}
   {%- set color = params.color | default("white") -%}
+  {#- The margin line takes the shared color unless marginColor is given. -#}
+  {%- set marginColor = params.marginColor | default(color) -%}
   {%- set size = params.size | default("1") -%}
   {%- set bleedInset = params.bleedInset | default("8") -%}
   {%- set style = params.style | default("dashed") -%}
@@ -7,5 +9,5 @@
   <div
     aria-hidden="true"
     class="absolute inset-{{ bleedInset }} border border-{{ size }} border-{{ color }} border-{{ style }}"></div>
-  <div aria-hidden="true" class="absolute inset-{{ marginInset }} border border-{{ size }} border-{{ color }}"></div>
+  <div aria-hidden="true" class="absolute inset-{{ marginInset }} border border-{{ size }} border-{{ marginColor }}"></div>
 {% endmacro %}
