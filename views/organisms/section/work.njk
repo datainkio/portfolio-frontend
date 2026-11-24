@@ -27,7 +27,7 @@
   {%- set header = {"base": "content-end grid grid-cols-1 px-6"} -%}
 
   {%- set title = {
-    "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
+    "base": "col-span-full basis-full text-secondary-500 font-display font-light text-5xl",
     "md": "text-6xl",
     "lg": "text-7xl"
   } -%}
@@ -43,32 +43,32 @@
       md. Each item reads value, label, description: flex-col-reverse puts the
       <dd> value above its <dt> label without changing the source order, and
       order-first keeps the description last under that reversal. -#}
-  {%- set statisticsStyles = {"base": "bg-page-graphpaper p-[10%] grid grid-cols-2 gap-x-4 gap-y-8", "md": "grid-cols-4"} -%}
+  {%- set statisticsStyles = {"base": "bg-page-graphpaper p-[5%] grid grid-cols-2 gap-x-4 gap-y-8", "md": "grid-cols-4"} -%}
 
-  {#- Print marks frame the grid, with the settings section-statement.njk uses,
-      minus the ink and registration marks: margin, bleed and trim only.
+  {#- Print marks frame the grid: margin, bleed and trim only, no ink or
+      registration marks.
       They sit on a wrapper because a <dl> may only hold <dt>/<dd> groups; it
       is a <div> since it exists only to position the marks and no sectioning
       element fits. The marks scale with the wrapper's width and reach about
-      9.5% in from each edge, so the <dl> pads by 10% to clear them. -#}
-  {%- set statisticsFrameStyles = {"base": "relative max-w-7xl"} -%}
+      5% in from each edge, so the <dl> pads by 5% to clear them. -#}
+  {%- set statisticsFrameStyles = {"base": "relative max-w-7xl my-8"} -%}
   {%- set statisticsMarks = {
     "inset": "4",
     "ink": false,
     "registration": false,
     "trim": {
-      "color": "primary-100",
+      "color": "neutral-400",
       "size": "3",
-      "inset": "14",
+      "inset": "4",
       "weight": "1"
     },
     "marginBleed": {
       "color": "primary-100/60",
-      "bleedColor": "secondary-400",
+      "bleedColor": "neutral-400",
       "size": "1",
       "style": "dashed",
-      "marginInset": "10",
-      "bleedInset": "12"
+      "marginInset": "0",
+      "bleedInset": "2"
     }
   } -%}
   {%- set statisticsSlots = {
