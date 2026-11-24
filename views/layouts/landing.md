@@ -28,6 +28,8 @@ Classified as a **layout** at the atomic **none** level based on its location un
 - `Hanko` — referenced in the template.
 - `body` — referenced in the template.
 - `content` — referenced in the template.
+- `pageBody` — the CMS Body field as HTML (`pageBodyHtml`), set in the route's frontmatter by `ia/docs/index.md`, `ia/projects.md`, `ia/contact.md` and `ia/posts.md`. Rendered as `<section data-landing-body>` after the header: the first block of main content, ahead of what the page template adds. Until 2026-11-24 these routes passed the body as `abstract`, which put it inside the header.
+- `abstract` — optional short intro, rendered inside the header as `<section data-doc-abstract>`. No route sets it now.
 - `title` — referenced in the template.
 - `docNo`, `eleventyNavigation.title` — forwarded to `landing-header.njk` as `docNo` / `docTitle` for the accession label. Set `docNo` in the route's frontmatter (`ia/projects.md` = `02`, `ia/contact.md` = `03`).
 

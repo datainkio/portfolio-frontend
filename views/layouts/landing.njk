@@ -35,6 +35,10 @@
     "lg": "col-span-6 col-start-1 row-start-2",
     "xl": ""
   } -%}
+  {#- Page body (`pageBody`: the CMS Body field as HTML). Main content, so it
+      sits after the header as the first block in <main>'s grid, ahead of
+      whatever the page template adds. -#}
+  {%- set bodyStyles = {"base": "col-span-full prose text-primary-500 mb-6 pl-2", "lg": "col-span-6"} -%}
 
   {#- HEADER -#}
   <header data-landing-header
@@ -53,6 +57,13 @@
       </section>
     {% endif %}
   </header>
+
+  {#- BODY -#}
+  {% if pageBody and pageBody | length > 0 %}
+    <section data-landing-body class="{{ bodyStyles | classes }}" aria-label="Page content">
+      {{ pageBody | safe }}
+    </section>
+  {% endif %}
 
   {% if content %}
     {{ content | safe }}

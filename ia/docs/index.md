@@ -12,7 +12,7 @@ eleventyNavigation:
   order: 25
 eleventyComputed:
   title: "{{ (cms.documentationLanding[0].seo.title or cms.documentationLanding[0].pageTitle or 'Docs') | safe }}"
-  abstract: "{{ cms.documentationLanding[0].pageBodyHtml | safe }}"
+  pageBody: "{{ cms.documentationLanding[0].pageBodyHtml | safe }}"
   metaDescription: "{{ (cms.documentationLanding[0].seo.description or 'Documentation for dataink.io: design strategy, frontend, backend and content models.') | safe }}"
   noIndex: "{{ 'true' if cms.documentationLanding[0].seo.noIndex else '' }}"
 canonicalUrl: "https://dataink.io/docs/"

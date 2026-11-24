@@ -18,7 +18,7 @@ eleventyComputed:
   # (collections.all | eleventyNavigation) lists "Posts" once, not once per page.
   title: "{{ (cms.postsLanding[0].pageTitle or 'Posts') ~ (' (page ' ~ (pagination.pageNumber + 1) ~ ')' if pagination.pageNumber else '') }}"
   eleventyExcludeFromCollections: "{{ 'true' if pagination.pageNumber else '' }}"
-  abstract: "{{ cms.postsLanding[0].pageBodyHtml | safe }}"
+  pageBody: "{{ cms.postsLanding[0].pageBodyHtml | safe }}"
 metaDescription: "Writing on design, technology and the work behind it."
 canonicalUrl: "https://dataink.io/posts/"
 skipLinks:
