@@ -24,13 +24,13 @@
   {%- endfor -%}
 
   {%- set sectionStyles = {
-    "base": "w-full mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden px-4",
+    "base": "text-neutral-100 relative z-10 col-span-full overflow-hidden px-6 max-w-7xl mx-auto min-h-dvh justify-center content-center",
     "sm": "px-8",
     "md": "px-12",
     "lg": "px-0"
   } -%}
   {%- set header = {
-    "base": "gap-2 py-12 z-10 w-full border-y border-neutral-600 divide-neutral-600 flex flex-row items-center"
+    "base": "gap-2 py-8 z-10 w-full border-y border-neutral-600 divide-neutral-600 flex flex-row items-center"
   } -%}
 
   {%- set title = {
@@ -53,15 +53,14 @@
       <h2 id="{{ headingId }}"
           data-organizations-el="heading"
           class="{{ title | classes }}">{{ heading }}</h2>
-      <p data-organizations-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if organizations | length %}
       {#- Revealed by OrganizationsAnimations only while a marquee runs:
           WCAG 2.2.2 requires a way to pause motion that lasts over 5s. -#}
       {{ Button.render({
         "label": "Pause motion",
-        "variant": "dark",
-        "classes": "ml-auto mt-6 block text-sm",
+        "variant": "transparent",
+        "classes": "ml-auto mt-2 block text-sm text-neutral-400",
         "attrs": "hidden aria-pressed=\"false\" data-organizations-el=\"toggle\""
       }) }}
       {#- <div>s: the rows wrapper and each row's clipping box are layout only;

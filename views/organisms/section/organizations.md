@@ -27,15 +27,15 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Params
 
-| Param           | Type   | Description                                                                                                                    |
-| --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `id`            | string | Section id. Defaults to `organizations`.                                                                                       |
-| `classes`       | string | Read into a variable but never applied to the `<section>`. No effect.                                                          |
-| `copy`          | object | `heading` (`h2`, defaults to "Organizations"), `subheading` (read but not rendered), and `body` (paragraph under the heading). |
-| `order`         | string | Read but not used.                                                                                                             |
-| `headingId`     | string | Id for the heading and `aria-labelledby`. Defaults to the section id.                                                          |
-| `organizations` | array  | Each item is passed as the params of `atoms/organization.njk`. Shows "No organizations found." when empty.                     |
-| `rowCount`      | number | Number of marquee rows. Defaults to 3.                                                                                         |
+| Param           | Type   | Description                                                                                                                                     |
+| --------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`            | string | Section id. Defaults to `organizations`.                                                                                                        |
+| `classes`       | string | Read into a variable but never applied to the `<section>`. No effect.                                                                           |
+| `copy`          | object | `heading` (`h2`, defaults to "Organizations"), `subheading` and `body` (both read but not rendered; the body paragraph was removed 2026-11-24). |
+| `order`         | string | Read but not used.                                                                                                                              |
+| `headingId`     | string | Id for the heading and `aria-labelledby`. Defaults to the section id.                                                                           |
+| `organizations` | array  | Each item is passed as the params of `atoms/organization.njk`. Shows "No organizations found." when empty.                                      |
+| `rowCount`      | number | Number of marquee rows. Defaults to 3.                                                                                                          |
 
 ## Structure
 
@@ -51,8 +51,9 @@ Classified as a **component** at the atomic **organism** level based on its loca
   sets `data-marquee` on a track only when its row overflows. The Tailwind
   `data-marquee:` variants then switch it to a single scrolling line. Without
   JS, under reduced motion, or for a short row, the logos stay a static grid.
-- **Pause control.** `<button data-organizations-el="toggle">` (the `dark` button
-  atom) renders `hidden`. JS reveals it only while a marquee runs, because
+- **Pause control.** `<button data-organizations-el="toggle">` (the button
+  atom with no variant styling, in `neutral-400` text; the `transparent` variant it names is not
+  defined in `button.njk`, so it adds nothing) renders `hidden`. JS reveals it only while a marquee runs, because
   WCAG 2.2.2 requires a way to pause motion lasting over 5 seconds. It uses
   `aria-pressed`, and its label stays "Pause motion".
 - Items carry trailing padding (`pr-3 pb-3`) rather than a flex gap, so the
@@ -60,14 +61,14 @@ Classified as a **component** at the atomic **organism** level based on its loca
 
 ## Element hooks
 
-| `data-organizations-el`     | Element                    |
-| --------------------------- | -------------------------- |
-| `header`, `heading`, `body` | Section header             |
-| `toggle`                    | Pause/play button          |
-| `list`                      | Rows wrapper               |
-| `viewport`                  | Clipping box for the track |
-| `track`                     | The moving list of logos   |
-| `organization`              | One logo item              |
+| `data-organizations-el` | Element                    |
+| ----------------------- | -------------------------- |
+| `header`, `heading`     | Section header             |
+| `toggle`                | Pause/play button          |
+| `list`                  | Rows wrapper               |
+| `viewport`              | Clipping box for the track |
+| `track`                 | The moving list of logos   |
+| `organization`          | One logo item              |
 
 ## Relationships
 
