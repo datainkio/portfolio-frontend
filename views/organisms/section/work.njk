@@ -13,9 +13,9 @@
 
   {%- set groupProjects = params.groupProjects | default(false) -%}
 
-  {%- set sectionStyles = {"base": "[&>p]:prose [&>p]:text-neutral-200"} -%}
+  {%- set sectionStyles = {"base": "mx-auto [&>p]:prose [&>p]:text-neutral-200"} -%}
 
-  {%- set header = {"base": "content-end grid grid-cols-1 px-4", "sm": "px-4"} -%}
+  {%- set header = {"base": "content-end grid grid-cols-1 px-6"} -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
@@ -28,7 +28,7 @@
       on purpose: WorkTriggers pins the header, and the body should scroll away with the
       page. The wrapper is a <div> because the body is several sibling paragraphs that need
       one prose/column box and no sectioning element fits. -#}
-  {%- set bodyStyles = {"base": "max-w-3xl mx-auto px-4 py-8 prose prose-invert prose-p:text-neutral-200"} -%}
+  {%- set bodyStyles = {"base": " max-w-7xl px-6 py-8 prose prose-invert prose-p:text-neutral-200", "lg": "w-1/2"} -%}
 
   {%- set nav = {
     "print": "hidden",

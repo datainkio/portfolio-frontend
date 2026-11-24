@@ -1,5 +1,13 @@
 /** @format */
 
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import EleventyFetch from "@11ty/eleventy-fetch";
+
+// Where localAsset writes inside the output directory, and the URL path it
+// returns. Kept outside /assets/, which is a passthrough copy of the source.
+const LOCAL_ASSET_DIR = "cms";
+
 const svgMarkupCache = new Map();
 
 export default function (eleventyConfig) {
@@ -36,6 +44,35 @@ export default function (eleventyConfig) {
       }
     },
   );
+
+  // Copies a remote file into the build and returns its site-relative URL.
+  // For assets the browser fetches in CORS mode (CSS mask images): the Sanity
+  // CDN only answers the project's listed CORS origins, so a mask loaded from
+  // any other host (a LAN address, www) is blocked and hides the element.
+  // On failure it returns the remote URL, which is the behaviour without it.
+  eleventyConfig.addAsyncFilter("localAsset", async function (url) {
+    if (!url || typeof url !== "string") {
+      return "";
+    }
+
+    try {
+      const fileName = path.basename(new URL(url).pathname);
+      const buffer = await EleventyFetch(url, {
+        duration: "30d",
+        type: "buffer",
+      });
+      const outputDir = path.join(
+        eleventyConfig.directories?.output || "_site",
+        LOCAL_ASSET_DIR,
+      );
+      await mkdir(outputDir, { recursive: true });
+      await writeFile(path.join(outputDir, fileName), buffer);
+      return `/${LOCAL_ASSET_DIR}/${fileName}`;
+    } catch (error) {
+      console.warn(`localAsset failed for ${url}: ${error.message}`);
+      return url;
+    }
+  });
 }
 
 function mergeClasses(existing = "", additional = "") {
