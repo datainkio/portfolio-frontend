@@ -10,7 +10,7 @@ links:
   - "[[managers/GelAnimationManager/GelAnimationManager|GelAnimationManager]]"
 ---
 
-`gel_tagline` is rendered in `#sizzle-background` by `sizzle-background.njk` (`gel-secondary`, `gel-top`, `gel-fade-sm`, `gel-opacity-100`, `gel-blend-multiply`). It is `absolute inset-0` in the fixed background, so it is already full-bleed and needs no `attachHeadingGel`-style sync.
+`gel_tagline` is rendered in `#sizzle-background` by `sizzle-background.njk` (`gel-secondary`, `gel-top`, `gel-fade-sm`, `gel-opacity-100`, `gel-blend-multiply`). It is `absolute inset-0` in the fixed background, so it is already full-bleed and needs no geometry sync.
 
 `addTaglineGelFade(tl, gelManager, position = 0)` appends a `fromTo` of `autoAlpha` 0 to 1 over `HERO_INTRO.taglineDuration`. `autoAlpha`, not `opacity`: `GelAnimationManager` parks every gel at `autoAlpha: 0` (opacity and `visibility: hidden`), so the tween has to clear both. `fromTo` renders its start at build time, so the gel is hidden before the intro plays. It no-ops when the gel is absent.
 
@@ -20,4 +20,4 @@ links:
 
 ## Reduced motion
 
-The `reduced` variant has no tagline beat. Its `init` sets `gel_tagline` to `autoAlpha: 1` at rest, and BackgroundVideo's gated path snaps `gel_hero` visible, so reduced motion lands with both gels visible (see [reduced](reduced.md)).
+The `reduced` variant has no tagline beat. Its `init` sets `gel_tagline` to `autoAlpha: 1` at rest, and BackgroundVideo's gated path snaps `gel_video` visible, so reduced motion lands with both gels visible (see [reduced](reduced.md)).

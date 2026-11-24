@@ -92,10 +92,10 @@ sequenceDiagram
     LS->>LS: _cueVideoIntro()
   end
   Note over LS: Both latches set and _videoIntroCued is false,<br/>so set _videoIntroCued = true
-  LS->>Video: await playIntro() (fade in, play() as safety net)
-  Note over U: The background video fades in, already in motion,<br/>never a frozen poster frame.
-  Note over Video: Move to idle: the tilt (perspective tiers) and the<br/>gel_hero fade-in start together; video:intro:complete<br/>is held until the tilt settles, gel fully visible
-  Note over U: The background turns into perspective as the heading gel<br/>fades in over it (narrow screens: the gel fades in, no tilt).
+  LS->>Video: await playIntro() (gel_video fades in, then the video; play() as safety net)
+  Note over U: The gel_video gel fades in, then the background video<br/>fades in already darkened and in motion, never a frozen poster frame.
+  Note over Video: Move to idle: the tilt (perspective tiers) is applied<br/>statically; video:intro:complete follows, gel fully visible
+  Note over U: The background rests in perspective with the video already<br/>darkened by gel_video (narrow screens: no tilt).
   Video-)Bus: video:intro:complete
   Bus->>LS: introComplete handler
   LS->>LS: _videoIntroComplete = true
@@ -169,11 +169,11 @@ flowchart TD
         START --> LB["latch B: _videoLandingStaged"]
         LA --> CUE{"_cueVideoIntro<br/>both latches set? not yet cued?"}
         LB --> CUE
-        CUE --> VID["_startVideoIntro<br/>video.playIntro — fade in"]
-        VID --> IDLE["BackgroundVideo move to idle<br/>tilt (perspective tiers) + gel_hero fade-in"]
+        CUE --> VID["_startVideoIntro<br/>video.playIntro — gel_video fade, then video fade"]
+        VID --> IDLE["BackgroundVideo move to idle<br/>tilt (perspective tiers), applied statically"]
         IDLE --> VIC{{"bus: video:intro:complete<br/>held until the tilt settles"}}
         VIC --> BEAT["_armHeroIntro<br/>gsap.delayedCall HERO_INTRO_HOLD.delay"]
-        BEAT --> HERO["hero.playIntro<br/>gel band already revealed by the background — no entrance of its own"]
+        BEAT --> HERO["hero.playIntro<br/>gel_tagline is its only gel; gel_video already landed with the background"]
         HERO --> BIC{{"bus: hero:intro:complete — chain ends"}}
     end
 
@@ -206,7 +206,7 @@ flowchart TD
 - **Hero's reveal is disengaged from scroll; its ScrollTrigger gates video playback.** The video plays while Hero is on screen and pauses once you scroll past it. Only play/pause changes — the gels in `#sizzle-background` blend against the video's painted frame, so a paused video holds the composite unchanged.
 - **`exit` is not directional.** `AbstractSection._onLeaveBack` emits `onLeaveBack` and then `exit`. The `onLeaveBack` listener sets `_heroLeftBackwards` so the `exit` that follows skips the pause; scrolling up above Hero is the landing, where the video should keep playing.
 - **No scroll-driven resume before the video intro completes.** Hero's ScrollTrigger fires `enter` at load; resuming on it would start the video underneath its own reveal.
-- **The gel arrives with the background, not with hero.** Hero parks the heading band's geometry full-bleed when its timelines build, but the band stays hidden until BackgroundVideo fades it in with the move to idle — alongside the tilt on perspective tiers, finished before `video:intro:complete` is released. So the chain goes straight from the hold to `hero.playIntro()`. See [heading-gel.md](../../molecules/hero-motion/heading-gel.md) and [BackgroundVideo.md](../../organisms/background/BackgroundVideo.md#heading-gel).
+- **The full-bleed gel arrives with the background, not with hero.** `gel_video` fades in as the first step of BackgroundVideo's intro, before the video does, so the video is already darkened when it appears (it replaced the hero's full-bleed gel on 2026-11-24). Hero keeps only `gel_tagline`. So the chain goes straight from the hold to `hero.playIntro()`. See [BackgroundVideo.md](../../organisms/background/BackgroundVideo.md#video-gel).
 
 ### Known drift
 

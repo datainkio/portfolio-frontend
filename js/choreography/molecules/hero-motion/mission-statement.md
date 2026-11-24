@@ -7,13 +7,12 @@ tags:
   - gel
 links:
   - "[[molecules/hero-motion/overview-gel|molecules/hero-motion/overview-gel]]"
-  - "[[molecules/hero-motion/heading-gel|molecules/hero-motion/heading-gel]]"
   - "[[config/ix/presets/hero|config/ix/presets/hero]]"
 ---
 
 `attachMissionStatement(view, gelManager)` builds the reveal for
 `[data-hero-el="mission-statement"]` and binds the ScrollTrigger that plays it.
-Called from [split.js](split.md)'s `intro()` alongside `attachHeadingGel` — it
+Called from [split.js](split.md)'s `intro()` — it
 replaces the bare `attachOverviewGel` call there and now attaches that band
 itself, as the arrival's first beat.
 
@@ -33,8 +32,8 @@ positioned outside the lifecycle timelines, as standing behaviours.
 ## The three beats
 
 1. **Band wipe** — `gel_subheading` `fromTo` `scaleX: 0 → 1`, `transformOrigin:
-"left center"`. The band leads deliberately: it echoes the full-bleed heading gel
-   ([heading-gel.md](heading-gel.md)) at a smaller scale.
+"left center"`. The band leads deliberately: it echoes the tagline gel's arrival
+   at a smaller scale.
 2. **Overview `<h3>`** — `from` `autoAlpha: 0` + `y: distance`, starting
    `HERO_MISSION_REVEAL.overlap` (0.2) of the wipe's duration before it ends, so
    the heading rides the band's tail rather than queueing behind it. Same overlap
@@ -55,8 +54,7 @@ sets both on every scroll tick — it would stomp the wipe mid-flight. So this
 calls `suspendOverviewGelSync(view)` before building and parks the band at
 `autoAlpha: 0`; the wipe tween's **own** `onComplete` resumes the sync and
 force-refreshes it by id (`OVERVIEW_SYNC_ST_ID`), handing resting geometry back.
-This mirrors `heading-gel.js`'s suspend/resume contract — the suspend
-`WeakSet` and its two exports were added to `overview-gel.js` to match.
+The suspend `WeakSet` and its two exports live in `overview-gel.js`.
 
 ## Rebuilds (viewport resize across a breakpoint)
 

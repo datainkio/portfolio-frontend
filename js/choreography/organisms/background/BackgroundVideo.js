@@ -2,6 +2,7 @@ import AbstractSection from "../../system/AbstractSection.js";
 import {
   SELECTORS,
   VIDEO_SELECTORS,
+  VIDEO_GEL_ID,
   resolveSectionMotionProfile,
 } from "../../config/index/index.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
@@ -12,7 +13,6 @@ import {
   buildBackgroundVideoEvent,
   isBackgroundVideoSettled,
 } from "./BackgroundVideoEvent.js";
-import { getHeadingGelEl } from "../../molecules/hero-motion/heading-gel.js";
 
 /**
  * Native media events forwarded as `video:media:*`. Deliberately short: a
@@ -44,11 +44,11 @@ const PLAYBACK_REPORT_TIMEOUT_MS = 4000;
 export default class BackgroundVideo extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler, gelManager = null } = {}) {
     const view = document.getElementById(SELECTORS.video);
-    // `gel_hero` sits inside this section's root, and this section is the one
-    // owner of its visibility (see _onIntroComplete). Resolved here, before
+    // `gel_video` sits inside this section's root, and this section owns it:
+    // it fades in as the first step of the intro. Resolved here, before
     // super(), because super() can already run the gated reveal.
-    const headingGel = getHeadingGelEl(gelManager);
-    const animations = new BackgroundVideoAnimations(view, { headingGel });
+    const videoGel = gelManager?.getGel?.(VIDEO_GEL_ID)?.view ?? null;
+    const animations = new BackgroundVideoAnimations(view, { videoGel });
     const triggers = new BackgroundVideoTriggers(view);
 
     super({
@@ -255,8 +255,8 @@ export default class BackgroundVideo extends AbstractSection {
    * (SECTION_OVERRIDES.video); a matchMedia breakpoint crossing clears or
    * re-applies the pose in _applyResponsiveLifecycle.
    *
-   * `gel_hero` is hidden until the intro completes, then faded in (or snapped
-   * on gated paths). See _onIntroComplete.
+   * `gel_video` fades in as the first step of the intro, ahead of the video
+   * (or is snapped on gated paths). See BackgroundVideoAnimations._buildIntro.
    */
   _isPerspectiveTier() {
     // The `reduced` profile carries no breakpoint, and reduced motion does not
@@ -278,28 +278,28 @@ export default class BackgroundVideo extends AbstractSection {
   /**
    * Emit a held `video:intro:complete`, once. Nothing holds it now, so this is
    * inert; kept for the clear path and `onPerspectiveSettled`. A held event
-   * means the intro completed, so the heading gel is made visible first.
+   * means the intro completed, so the video gel is made visible first.
    */
   _releaseIntroComplete() {
     const release = this._pendingIntroComplete;
     if (!release) return;
     this._pendingIntroComplete = null;
-    this.animations?.showHeadingGel?.();
+    this.animations?.showVideoGel?.();
     release();
   }
 
   /**
-   * Re-assert the heading gel once it has been revealed. Runs on every
+   * Re-assert the video gel once it has been revealed. Runs on every
    * matchMedia pass (breakpoint crossings, reduced-motion changes). Those
    * passes run inside this section's gsap.matchMedia context, which reverts
    * the previous pass's sets — including a gated snap of the gel — before it
    * re-runs; re-asserting here, in the same synchronous pass, means a revert
    * can never leave an earned gel hidden.
    */
-  _syncHeadingGel() {
+  _syncVideoGel() {
     if (this.isDisabled) return;
-    if (!this.animations?.isHeadingGelShown?.()) return;
-    this.animations.showHeadingGel();
+    if (!this.animations?.isVideoGelShown?.()) return;
+    this.animations.showVideoGel();
   }
 
   /**
@@ -323,17 +323,12 @@ export default class BackgroundVideo extends AbstractSection {
   /**
    * Perspective scales with viewport width, so a plain resize (which fires no
    * matchMedia change) re-asserts the rest pose at the new width. The same
-   * pass re-asserts an earned heading gel, leaving a fade in flight alone.
+   * pass re-asserts a landed video gel; one still fading is not yet shown.
    */
   _bindPerspectiveResize() {
     if (this.isDisabled) return;
     const handler = () => {
-      if (
-        this.animations?.isHeadingGelShown?.() &&
-        !this.animations.isHeadingGelFading()
-      ) {
-        this.animations.showHeadingGel();
-      }
+      this._syncVideoGel();
       if (!this._isPerspectiveTier()) return;
       if (!this.animations?.isPerspectiveSettled?.()) return;
       this.animations.snapPerspective();
@@ -347,23 +342,20 @@ export default class BackgroundVideo extends AbstractSection {
   _applyResponsiveLifecycle(conditions = {}) {
     super._applyResponsiveLifecycle(conditions);
     this._syncPerspective();
-    this._syncHeadingGel();
+    this._syncVideoGel();
   }
 
   /**
-   * The intro (the video fade-in) has completed: the rest pose is re-asserted
-   * (already applied before the reveal) and `gel_hero` is revealed.
-   *
-   * - played: the gel fades 0 → 1, and `video:intro:complete` is emitted at once.
-   * - gated (reduced motion, session-gated replay — reached here through
-   *   _applyPostIntroState's progress(1)): the gel snaps to visible.
+   * The intro (gel fade, then video fade) has completed: the rest pose is
+   * re-asserted (already applied before the reveal). The gel fade is part of
+   * the intro, so the played path has nothing more to reveal; gated paths
+   * (reduced motion, session-gated replay — reached here through
+   * _applyPostIntroState's progress(1)) snap the gel visible.
    */
   _onIntroComplete() {
     this._enterPerspective();
-    if (!this.isDisabled && this._isLifecycleMotionEnabled) {
-      this.animations?.fadeInHeadingGel?.();
-    } else {
-      this.animations?.showHeadingGel?.();
+    if (this.isDisabled || !this._isLifecycleMotionEnabled) {
+      this.animations?.showVideoGel?.();
     }
     super._onIntroComplete();
   }
@@ -376,7 +368,7 @@ export default class BackgroundVideo extends AbstractSection {
   _applyPostIntroState() {
     super._applyPostIntroState();
     this._enterPerspective();
-    this.animations?.showHeadingGel?.();
+    this.animations?.showVideoGel?.();
   }
 
   async playOutro() {

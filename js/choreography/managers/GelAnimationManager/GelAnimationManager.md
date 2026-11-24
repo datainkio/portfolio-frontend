@@ -29,6 +29,6 @@ with no mask-application side effects. `destroy()` calls `Gel.destroy()`, which
 disconnects it.
 
 Because of this, the hand-rolled `lastHeight`-guarded `gel.refresh()` calls in
-`heading-gel`, `overview-gel`, and `process-motion/section-gel` are now
+`overview-gel`, and `process-motion/section-gel` are now
 redundant. They are harmless (refresh is idempotent) and were left in place —
 removing them is optional cleanup, not a fix.

@@ -19,7 +19,7 @@ Built from `ANIMATION_DEFAULTS`, `motion`, and `toSeconds` in [[dataink.io/front
 - `HERO_INTRO_HOLD` — seconds; consumed by `LandingSequence` via `gsap.delayedCall`.
 - `HERO_INTRO` — intro timing for the `hero-motion` variants (split, sweep, fade, reduced). `bandLead` (seconds) is how far the `split` title's letters trail its line bands. `taglineDuration` is the `gel_tagline` fade that opens the `split` intro.
 - `HERO_MISSION_REVEAL` — mission statement's gel-led reveal (`hero-motion/mission-statement`).
-- `HERO_OUTRO` — scrubbed outro; `pinRatio` is also read by `HeroTriggers` for the outro pin length.
+- `HERO_OUTRO` — scrubbed outro (line fade only; the gel-expand beat and `gelDuration` were removed on 2026-11-24); `pinRatio` is also read by `HeroTriggers` for the outro pin length.
 
 ## Reduced motion
 

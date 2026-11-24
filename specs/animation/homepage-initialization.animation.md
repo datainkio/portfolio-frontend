@@ -4,6 +4,8 @@ description: "The homepage's landing sequence from the user's perspective: a pre
 type: spec
 ---
 
+Note 2026-11-24: `gel_hero` was replaced by `gel_video`, which fades in before the video rather than after it, and hero no longer animates a full-bleed gel. Steps below that mention `gel_hero` are historical.
+
 The role of the homepage initialization sequence is to deliver a seamless, cinematic transition from empty page to a fully populated, animated, designed home page.
 
 From a system perspective, the landing experience is defined by loading assets and initializing the choreography for the page. Visual and motion design respond to initialization events by establishing a cinematic flow from one state to another.

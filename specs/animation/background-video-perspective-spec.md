@@ -4,6 +4,8 @@ description: "The visual design strategy calls for a persistent full-bleed video
 type: spec
 ---
 
+Note 2026-11-24: `gel_hero` was replaced by `gel_video`, which fades in before the video rather than after it, and hero no longer animates a full-bleed gel. Steps below that mention `gel_hero` are historical.
+
 Note 2026-11-23: the tilt no longer animates. The rest pose is applied before the reveal and `video:intro:complete` is not held for it. See the [BackgroundVideo sidecar](../../js/choreography/organisms/background/BackgroundVideo.md).
 
 The role of the homepage initialization sequence is to deliver a seamless, cinematic transition from empty page to a fully populated, animated, designed home page.

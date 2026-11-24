@@ -6,9 +6,10 @@ import {
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import {
   BACKGROUND_ANIMATION_DEFAULTS,
-  BACKGROUND_HEADING_GEL_REVEAL,
+  BACKGROUND_VIDEO_GEL_REVEAL,
   BACKGROUND_PERSPECTIVE,
 } from "../../config/ix/presets/background.js";
+import { motionTokens } from "../../config/ix/motion.js";
 import { VIDEO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 
@@ -30,15 +31,13 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     // gels and the pixelator, which have their own lifecycles.
     this.media = this.view?.querySelector(VIDEO_SELECTORS.media) ?? null;
 
-    // `gel_hero`, resolved by BackgroundVideo through the gel manager. This
-    // section is the gel's only visibility owner: GelAnimationManager parks it
-    // at autoAlpha 0, and nothing shows it until the video's intro completes.
-    // Its geometry stays with hero (molecules/hero-motion/heading-gel.js).
+    // `gel_video`, resolved by BackgroundVideo through the gel manager. This
+    // section is the gel's only owner: GelAnimationManager parks it at
+    // autoAlpha 0, and its fade-in is the first step of the intro timeline.
     // State lives here rather than on the controller because the controller's
     // gated paths can run inside its super() call, before its own fields exist.
-    this.headingGel = options.headingGel ?? null;
-    this._headingGelFade = null;
-    this._headingGelShown = false;
+    this.videoGel = options.videoGel ?? null;
+    this._videoGelShown = false;
 
     this._buildTimeline();
   }
@@ -47,11 +46,35 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     return initVideoReveal(this.media);
   }
 
+  /**
+   * Gel fade, then video fade, strictly in sequence: the gel is the intro's
+   * first child, and the video's fade is shifted to start when it has landed.
+   * Built at construction, outside any gsap.matchMedia context, so a
+   * breakpoint revert cannot undo it. The fromTo renders the gel's hidden
+   * start explicitly.
+   */
   _buildIntro() {
-    return buildVideoIntro(this.media, {
+    const intro = buildVideoIntro(this.media, {
       duration: this.options.duration,
       ease: this.options.ease.out,
     });
+    if (!this.videoGel) return intro;
+    const { duration, ease } = BACKGROUND_VIDEO_GEL_REVEAL;
+    intro.shiftChildren(duration);
+    intro.fromTo(
+      this.videoGel,
+      { autoAlpha: motionTokens.opacity.zero },
+      {
+        autoAlpha: motionTokens.opacity.full,
+        duration,
+        ease,
+        onComplete: () => {
+          this._videoGelShown = true;
+        },
+      },
+      0,
+    );
+    return intro;
   }
 
   /**
@@ -130,7 +153,7 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
 
   /**
    * Back to flat, with no inline transform left behind. Transform only: the
-   * heading gel is not in the idle timeline, so rewinding it cannot hide the
+   * video gel is not in the idle timeline, so rewinding it cannot hide the
    * gel.
    */
   clearPerspective() {
@@ -141,59 +164,19 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   /**
-   * Played path: fade `gel_hero` 0 → 1 when the intro completes. A standalone
-   * tween rather than a child of the idle timeline, so it also runs on flat
-   * tiers and clearPerspective()'s rewind of idle cannot take the gel with it.
-   *
-   * Created from a timeline callback, outside any gsap.matchMedia context, so
-   * no breakpoint revert can undo it. No-op once the gel has been shown.
-   */
-  fadeInHeadingGel() {
-    if (!this.headingGel || this._headingGelShown) return;
-    this._headingGelShown = true;
-    const { duration, ease } = BACKGROUND_HEADING_GEL_REVEAL;
-    this._headingGelFade = gsap.fromTo(
-      this.headingGel,
-      { autoAlpha: 0 },
-      {
-        autoAlpha: 1,
-        duration,
-        ease,
-        onComplete: () => {
-          this._headingGelFade = null;
-        },
-      },
-    );
-  }
-
-  /**
-   * Snap `gel_hero` to visible: gated paths (reduced motion, session-gated
-   * replay), and breakpoint crossings and resizes after the reveal was earned. Finishes a fade in flight.
+   * Snap `gel_video` to visible: gated paths (reduced motion, session-gated
+   * replay), and breakpoint crossings and resizes after the reveal landed.
    * Idempotent, and nothing in this module ever hides the gel again.
    */
-  showHeadingGel() {
-    if (!this.headingGel) return;
-    this._headingGelShown = true;
-    const fade = this._headingGelFade;
-    this._headingGelFade = null;
-    fade?.progress(1)?.kill();
-    gsap.set(this.headingGel, { autoAlpha: 1 });
+  showVideoGel() {
+    if (!this.videoGel) return;
+    this._videoGelShown = true;
+    gsap.set(this.videoGel, { autoAlpha: motionTokens.opacity.full });
   }
 
-  /** True once the reveal has started (fade) or landed (snap). */
-  isHeadingGelShown() {
-    return this._headingGelShown;
-  }
-
-  /** True while the played-path fade is still running. */
-  isHeadingGelFading() {
-    return Boolean(this._headingGelFade?.isActive());
-  }
-
-  kill() {
-    this._headingGelFade?.kill();
-    this._headingGelFade = null;
-    super.kill();
+  /** True once the reveal has landed (intro fade) or been snapped. */
+  isVideoGelShown() {
+    return this._videoGelShown;
   }
 
   _buildOutro() {

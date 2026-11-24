@@ -38,6 +38,9 @@ export const VIDEO_SELECTORS = {
   media: "video",
 };
 
+// The gel the background video section owns (see BackgroundVideo).
+export const VIDEO_GEL_ID = "gel_video";
+
 export const PROJECT_HEADER_SELECTORS = {
   header: "[data-project-header]",
   image: "[data-project-header-image]",

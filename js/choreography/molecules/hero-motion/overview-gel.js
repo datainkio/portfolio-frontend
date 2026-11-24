@@ -6,7 +6,7 @@ import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
  *
  * Anchors the `gel_subheading` gel behind the hero section's overview <h2> as a
  * full-bleed band: viewport width, the overview heading's own height, at its
- * viewport y. Mirrors heading-gel.js's strategy for the <h1>.
+ * viewport y.
  *
  * The gel lives in `#sizzle-background` (`fixed inset-0`), so an absolutely
  * positioned child resolves against the viewport — `top` is the overview
@@ -31,7 +31,7 @@ const selectOverview = (view) =>
 
 // The mission-statement reveal owns `scaleX`/`autoAlpha` on the band while it
 // wipes in. `sync()` would reset both on the next scroll tick — suspend it for
-// the duration. Mirrors heading-gel.js's suspend contract, deferral included:
+// the duration. The suspend is deferred:
 // this band stays suspended from intro build until the reader scrolls far
 // enough to trigger the wipe, so any resize in between must be owed rather than
 // dropped or the band keeps its load-time geometry forever.

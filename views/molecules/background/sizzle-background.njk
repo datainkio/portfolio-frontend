@@ -20,20 +20,11 @@
     muted: params.muted | default(true),
     playsInline: params.playsInline | default(true),
     preload: params.preload | default("metadata"),
-    classes: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
+    classes: "bg-page-graphpaper absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
     style: ""
     }) }}
 
     {{ Pixelator.render() }}
-    {{ Gel.render({
-      "id": "gel_hero",
-      "color": "gel-primary",
-      "fade": "gel-fade-full",
-      "opacityEnd": "gel-opacity-end-60",
-      "direction": "gel-right",
-      "opacity": "gel-opacity-100"
-    }) }}
-
     {{ Gel.render({
       "id": "gel_video",
       "color": "gel-primary",

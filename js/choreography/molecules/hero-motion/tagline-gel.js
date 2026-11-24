@@ -4,8 +4,7 @@ import { HERO_INTRO } from "../../config/ix/presets/hero.js";
 /**
  * Hero Tagline Gel
  *
- * `gel_tagline` is a second hero gel, rendered in `#sizzle-background` beside
- * `gel_hero`. It is full-bleed by default (`absolute inset-0`), so it needs no
+ * `gel_tagline` is the hero's only gel, rendered in `#sizzle-background`. It is full-bleed by default (`absolute inset-0`), so it needs no
  * geometry — only an entrance. GelAnimationManager parks every gel at
  * autoAlpha 0, so the fade here is also what makes it visible.
  */

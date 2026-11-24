@@ -1,5 +1,5 @@
 ---
-description: "Split variant for hero-motion — the intro opens with the title band (a solid, inset-shadowed plate in hero.njk) revealed left-to-right (clip-path) into a full-width band behind the header's label + h1 block, then SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view, gelManager): a two-beat scrub timeline (line fade, gel expand) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
+description: "Split variant for hero-motion — the intro opens with the title band (a solid, inset-shadowed plate in hero.njk) revealed left-to-right (clip-path) into a full-width band behind the header's label + h1 block, then SplitText word-splits the manifesto title, matches keyword words, and color-highlights them via a design-token color. The Blockframes reveal has moved to the Process section (choreography/molecules/process-motion) and is no longer driven from here. Also exports outro(view): a one-beat scrub timeline (line fade) consumed by HeroTriggers' scrub-driven outro pin. The mission-statement and aside travel beats, and the standalone aside scroll reveal (buildAsideReveal), have been removed."
 status: stable
 tags:
   - hero-motion
@@ -10,7 +10,6 @@ tags:
   - variant
 links:
   - "[[hero-motion]]"
-  - "[[molecules/hero-motion/heading-gel|molecules/hero-motion/heading-gel]]"
   - "[[molecules/hero-motion/mission-statement|molecules/hero-motion/mission-statement]]"
 ---
 
@@ -30,12 +29,9 @@ The letter cascade starts 0.3s before the context label's fade ends. The per-lin
 
 ## Outro
 
-`outro(view, gelManager)` reads the cached split for `view` and builds two scrub-driven beats, each closed with an `addLabel()` rest point for the pin's `snapTo: "labelsDirectional"` (plus an opening `outro` label):
+`outro(view)` reads the cached split for `view` and builds one scrub-driven beat, closed with an `addLabel()` rest point for the pin's `snapTo: "labelsDirectional"` (plus an opening `outro` label). The `gel-open` beat (the hero gel growing to fill the viewport) was removed on 2026-11-24; `HERO_OUTRO.gelDuration` went with it.
 
 1. `lines-out` — `split.lines` fade to `opacity: 0`, `stagger: { each: HERO_OUTRO.stagger, from: "end" }` (last line first).
-2. `gel-open` — the `gel_hero` element (resolved via `getHeadingGelEl`, see `heading-gel.md`) tweens `scaleY` from its current value to `window.innerHeight / unscaledHeight`, growing from its own vertical center (`transformOrigin: "center center"`, already set by `attachHeadingGel`'s sync) to fill the viewport.
-
-The scale value is function-based (re-evaluated by GSAP on each read), so `invalidateOnRefresh: true` on the pin keeps it correct across resize.
 
 Earlier revisions carried two further beats — `mission-centered` and `aside-centered`, translating `[data-hero-el="mission-statement"]` and `[data-hero-el="aside"]` up to viewport center — along with a standalone `buildAsideReveal`. All are removed; `HERO_OUTRO.travelDuration` went with them.
 

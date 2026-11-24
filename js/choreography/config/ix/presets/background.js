@@ -8,7 +8,8 @@ import { ANIMATION_DEFAULTS, motion, toSeconds } from "../motion.js";
  * `duration` and `ease.out` drive the video's fade-in (the intro). The video is
  * brighter than the preloader's graph paper, so the shared `base` fade (0.46s,
  * `enter`) read as a flash. It now takes 1.5 × the `slower` token on the
- * `standard` ease, the same timing `gel_hero` fades in with afterwards.
+ * `standard` ease. `gel_video` fades in just before it
+ * (BACKGROUND_VIDEO_GEL_REVEAL).
  */
 export const BACKGROUND_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
@@ -52,19 +53,14 @@ export const BACKGROUND_PERSPECTIVE = {
 };
 
 /**
- * Heading Gel Reveal — `gel_hero` fading in with the move to idle
+ * Video Gel Reveal — `gel_video` fading in before the video
  *
- * The background section owns `gel_hero`'s visibility. The gel stays hidden
- * until the video's intro completes, then fades 0 → 1 as the background
- * settles into its rest pose. On perspective tiers that is the tilt, so the
- * fade borrows the tilt's duration and ease and the two read as one move. On
- * flat tiers there is no tilt, but the fade keeps the same timing so the gel
- * arrives the same way at every width.
- *
- * Derived, not copied: retune the tilt and the fade follows. Give this its own
- * values only if the two should deliberately diverge.
+ * The background section owns `gel_video`'s visibility. The gel fades 0 → 1 as
+ * the first step of the video's intro, and only when it has landed does the
+ * video fade in, so the video is already darkened when it appears. It has its
+ * own values: it does not follow the tilt or the video's fade.
  */
-export const BACKGROUND_HEADING_GEL_REVEAL = {
-  duration: BACKGROUND_PERSPECTIVE.duration,
-  ease: BACKGROUND_PERSPECTIVE.ease,
+export const BACKGROUND_VIDEO_GEL_REVEAL = {
+  duration: toSeconds(motion.duration("slow")),
+  ease: motion.ease("standard"),
 };

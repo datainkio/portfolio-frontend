@@ -38,7 +38,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | `playsInline` | boolean                       | Defaults to `true`.                                                                |
 | `preload`     | string                        | Defaults to `metadata`.                                                            |
 
-The video is never deferred (`defer: false`). The template also places the Pixelator and the `gel_hero` gel inside the container.
+The video is never deferred (`defer: false`). The template also places the Pixelator and the `gel_video` and `gel_tagline` gels inside the container. `gel_video` is owned by the background video section and fades in before the video (the hero's full-bleed gel was removed on 2026-11-24).
 
 ## Relationships
 

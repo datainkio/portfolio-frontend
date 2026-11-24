@@ -1,5 +1,5 @@
 ---
-description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events, and holds the section in its static two-point perspective rest pose from before the reveal, revealing gel_hero (whose visibility it owns) after the intro; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
+description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events, and holds the section in its static two-point perspective rest pose from before the reveal, owning gel_video, which fades in as the first step of its intro, before the video; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
 status: stable
 tags:
   - choreography
@@ -12,7 +12,6 @@ links:
   - "[[deferred-videos|preloader/deferred-videos]]"
   - "[[Preloader|preloader/Preloader]]"
   - "[[profiles|profiles]]"
-  - "[[heading-gel|molecules/hero-motion/heading-gel]]"
 ---
 
 # BackgroundVideo
@@ -96,7 +95,7 @@ event:
 | Session-gated replay | `_applyPostIntroState`                                               | pose already static, emits at once        |
 | Below `lg`           | `SECTION_OVERRIDES.video` variant `flat`                             | no tilt; transform cleared; emits at once |
 
-The heading gel follows the same paths; see [Heading gel](#heading-gel).
+The video gel follows the same paths; see [Video gel](#video-gel).
 
 **`video:intro:complete` is not held.** `_onIntroComplete` emits it as soon as
 the intro completes. LandingSequence cues hero's intro from that event, with
@@ -110,36 +109,31 @@ does not change the pose. A matchMedia crossing clears the pose below `lg` and
 re-applies it on perspective tiers. A plain `resize` re-sets the pose, since
 perspective is proportional to width.
 
-## Heading gel
+## Video gel
 
-This section is the single owner of `gel_hero`'s visibility. The gel sits inside
-the section root, `GelAnimationManager` parks it at `autoAlpha: 0`, and nothing
-else shows it. Hero's [heading-gel](../../molecules/hero-motion/heading-gel.md)
-`sync()` positions it but never writes `autoAlpha`. The constructor resolves it
-with `getHeadingGelEl(gelManager)` before `super()`, because `super()` can already
+This section owns `gel_video`. The gel sits inside the section root,
+`GelAnimationManager` parks it at `autoAlpha: 0`, and nothing else shows it. The
+constructor resolves it with `gelManager.getGel(VIDEO_GEL_ID)` (`VIDEO_GEL_ID` is
+in `config/contracts/selectors`) before `super()`, because `super()` can already
 run the gated path, and hands it to `BackgroundVideoAnimations`, which keeps the
-reveal state.
+state. It replaced the hero's full-bleed gel on 2026-11-24 and is not part of the hero sequence.
 
-| Path                                  | Hook                                            | Gel                                                         |
-| ------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- |
-| Played, perspective tier              | `_onIntroComplete`                              | fades 0 → 1 (`BACKGROUND_HEADING_GEL_REVEAL`)               |
-| Played, flat tier                     | `_onIntroComplete`                              | fades 0 → 1 with the same timing; nothing is held           |
-| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`) | snaps to visible                                            |
-| Held event released (inert)           | `_releaseIntroComplete`                         | snapped to 1 first                                          |
-| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncHeadingGel` | re-asserted once revealed                                   |
-| Resize                                | `_bindPerspectiveResize` handler                | re-asserted once revealed, unless the fade is still running |
+| Path                                  | Hook                                            | Gel                                                                  |
+| ------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------- |
+| Played (all tiers)                    | first step of the intro timeline                | fades 0 → 1 (`BACKGROUND_VIDEO_GEL_REVEAL`), then the video fades in |
+| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`) | snaps to visible                                                     |
+| Held event released (inert)           | `_releaseIntroComplete`                         | snapped to 1 first                                                   |
+| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncVideoGel`   | re-asserted once landed                                              |
+| Resize                                | `_bindPerspectiveResize` handler                | re-asserted once landed                                              |
 
-**All tiers fade.** The gel could simply appear, but a
-cut right after the video's soft fade-in reads as a pop. It fades with the same
-`BACKGROUND_HEADING_GEL_REVEAL` timing instead, so it arrives the same way at
-every width. `video:intro:complete` is not held for it, so the fade finishes
-during `HERO_INTRO_HOLD` and the start of hero's intro.
+**Gel first, then video.** The intro is "gel fade, then video fade", strictly
+sequential, so the video is already darkened when it appears. The gel fade is
+part of the intro, so `_onIntroComplete` reveals nothing on the played path.
 
-**Once revealed it never re-hides.** The fade is a standalone tween, not a child
-of the idle timeline, so `clearPerspective()` (which rewinds idle) can't hide it.
-The matchMedia passes run inside this section's `gsap.matchMedia` context, which
-reverts a previous pass's gated snap before re-running; `_syncHeadingGel` runs
-in that same synchronous pass, so the revert never paints.
+**Once landed it never re-hides.** The intro is built at construction, outside
+any `gsap.matchMedia` context. The matchMedia passes run inside this section's
+context, which reverts a previous pass's gated snap before re-running;
+`_syncVideoGel` runs in that same synchronous pass, so the revert never paints.
 
 Reduced motion reaches the gated path because `video` has no `reduced` override:
 it resolves to the `reduced` profile, whose timeline channel is disabled, so

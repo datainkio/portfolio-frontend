@@ -24,7 +24,7 @@ export function init(view, gelManager) {
   // Land at the sequence's completed state: the tagline gel visible at rest.
   // GelAnimationManager parks every gel at autoAlpha 0. The gel is
   // `absolute inset-0` in markup, so it is full-bleed without JS geometry.
-  // `gel_hero` is not shown here: the background section owns its visibility,
+  // `gel_video` is not shown here: the background section owns its visibility,
   // and its gated path (reduced motion resolves `video` to a timeline-disabled
   // profile, so _applyPostIntroState runs) snaps it visible.
   const gel = gelManager?.getGel?.(TAGLINE_GEL_ID) ?? null;
