@@ -19,6 +19,9 @@
 {%- set pageVideo = cms.projectsLanding[0].pageVideo if (cms.projectsLanding and cms.projectsLanding.length) else null -%}
 {%- set pageVideoSrc = pageVideo and (pageVideo.url or pageVideo.videoUrl) -%}
 {%- set pageVideoPoster = pageVideo and pageVideo.poster and pageVideo.poster.url -%}
+{#- The mask is served from this site, not the Sanity CDN: mask images are
+    fetched in CORS mode, and the CDN only allows the project's listed origins. -#}
+{%- set pageVideoMask = (pageVideo.mask | localAsset) if (pageVideo and pageVideo.mask) else null -%}
 
 {#- The figure is the 9:16 frame. Its width cap holds its height to 100dvh
     (height = width × 16/9). It doesn't clip: the video scales past it from
@@ -48,7 +51,7 @@
              height="1280"
              class="{{ videoStyles | classes }}"
              {#- Optional alpha mask (videoAsset.mask): the PNG's alpha channel clips the video, stretched to its box, so it scales with the video. Masks poster and video alike. -#}
-             {% if pageVideo.mask %}style="mask: url('{{ pageVideo.mask }}') center / 100% 100% no-repeat;"{% endif %}
+             {% if pageVideoMask %}style="mask: url('{{ pageVideoMask }}') center / 100% 100% no-repeat;"{% endif %}
              preload="none"
              aria-hidden="true"
              tabindex="-1"
