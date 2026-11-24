@@ -7,10 +7,16 @@
   {%- set inset = params.inset | default("24") -%}
   {%- set marginBleed = params.marginBleed | default({color: "white", size: "1", bleedInset: "12", style: "dashed", marginInset: "6"}) -%}
   {%- set trim = params.trim | default({color: "white", size: "3", inset: "12", weight: "1"}) -%}
-  <div aria-hidden="true" class="absolute inset-{{ inset }} pointer-events-none {{ classes | classes }}">
-    {{ InkMarks.render() }}
-    {{ RegistrationMarks.render() }}
-    {{ TrimMarks.render(trim) }}
-    {{ MarginBleedMarks.render(marginBleed) }}
+  {#- Scaling: the outer box is a size container the width of the element the marks sit on.
+      `printmarks-scale` (styles/decorations.css) redefines the spacing tokens under the inner
+      box as shares of that width, so every inset, size, height and gap below it scales with
+      the container. Border weights stay in px. -#}
+  <div aria-hidden="true" class="absolute inset-0 pointer-events-none [container-type:inline-size] {{ classes | classes }}">
+    <div class="absolute inset-{{ inset }} printmarks-scale">
+      {{ InkMarks.render() }}
+      {{ RegistrationMarks.render() }}
+      {{ TrimMarks.render(trim) }}
+      {{ MarginBleedMarks.render(marginBleed) }}
+    </div>
   </div>
 {% endmacro %}
