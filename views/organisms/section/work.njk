@@ -44,7 +44,8 @@
       <dd> value above its <dt> label without changing the source order, and
       order-first keeps the description last under that reversal. -#}
   {%- set statisticsStyles = {"base": "bg-page-graphpaper p-[10%] grid grid-cols-2 gap-x-4 gap-y-8", "md": "grid-cols-4"} -%}
-  {#- Print marks frame the grid, with the settings section-statement.njk uses.
+  {#- Print marks frame the grid, with the settings section-statement.njk uses,
+      minus the ink and registration marks: margin, bleed and trim only.
       They sit on a wrapper because a <dl> may only hold <dt>/<dd> groups; it
       is a <div> since it exists only to position the marks and no sectioning
       element fits. The marks scale with the wrapper's width and reach about
@@ -52,6 +53,8 @@
   {%- set statisticsFrameStyles = {"base": "relative max-w-7xl"} -%}
   {%- set statisticsMarks = {
     "inset": "4",
+    "ink": false,
+    "registration": false,
     "trim": { "color": "primary-100", "size": "3", "inset": "14", "weight": "1" },
     "marginBleed": { "color": "primary-100/60", "size": "1", "style": "dashed", "marginInset": "10", "bleedInset": "12" }
   } -%}
