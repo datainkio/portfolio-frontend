@@ -4,7 +4,7 @@
 {#- Columns: leaf pages (Home, Contact) stack in the first; each entry with a
     nested list (Work, Docs) spans both rows, so it takes a column of its own.
     Row one is only as tall as Home, which keeps Contact right beneath it. -#}
-{%- set subListClasses = {"base": "grid grid-flow-col grid-rows-[auto_1fr] justify-center gap-x-8 gap-y-2 [&>li:has(ul)]:row-span-2"} -%}
+{%- set subListClasses = {"base": "grid grid-flow-col grid-rows-[auto_1fr] justify-center gap-x-8 gap-y-2 [&>li:has(ul)]:row-span-2 [&>li:not(:has(ul))]:pr-12"} -%}
 {#- The nested lists (Work's industry links, Docs's pages) sit indented one
     step further and a text step smaller -#}
 {%- set pagesStyles = {
