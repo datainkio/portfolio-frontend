@@ -3,7 +3,13 @@
     "deny": [
       "Edit(/styles/colors.css)",
       "Edit(/styles/tokens.css)",
-      "Edit(/styles/motion.css)"
+      "Edit(/styles/motion.css)",
+      "Bash(git push * main)",
+      "Bash(git push * main *)",
+      "Bash(git push *:main)",
+      "Bash(git push *:main *)",
+      "Bash(gh workflow run *deploy-production*)",
+      "Bash(gh pr merge*)"
     ]
   },
   "hooks": {

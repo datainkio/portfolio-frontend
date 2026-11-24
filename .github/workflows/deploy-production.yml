@@ -12,6 +12,9 @@ concurrency:
 
 jobs:
   build-and-deploy:
+    # Production ships from main only. A manual run (workflow_dispatch) on any
+    # other ref is skipped instead of publishing that branch to dataink.io.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
