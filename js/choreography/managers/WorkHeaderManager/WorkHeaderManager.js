@@ -11,10 +11,10 @@ const NAV = `[${WORK_EL_ATTR}="jumplinks"]`;
 const HANDLE = `[${WORK_EL_ATTR}="drawer-handle"]`;
 const TITLE = `[${WORK_EL_ATTR}="drawer-title"]`;
 
-// Drive switches at md. Below md the nav rests fixed to the bottom edge as
+// Drive switches at lg. Below lg the nav rests fixed to the bottom edge as
 // a bottom-sheet drawer: the whole <nav> (handle bar + industry list + footer)
 // slides as one unit, and when closed it sits translated down so only the
-// handle bar peeks above the viewport's bottom edge. At md and up it rests
+// handle bar peeks above the viewport's bottom edge. At lg and up it rests
 // open, fixed flush to the viewport's left edge as a vertical rail.
 //
 // The <nav> is position: fixed via Tailwind and lives OUTSIDE
@@ -22,10 +22,10 @@ const TITLE = `[${WORK_EL_ATTR}="drawer-title"]`;
 // <main>, and a fixed element inside a transformed ancestor is positioned
 // against that ancestor instead of the viewport. Nothing here positions the
 // nav; this manager only slides it.
-const MD_REM = parseFloat(TAILWIND_BREAKPOINTS.md);
+const LG_REM = parseFloat(TAILWIND_BREAKPOINTS.lg);
 const MEDIA = Object.freeze({
-  drawerMode: `(max-width: ${(MD_REM - 0.001).toFixed(3)}rem)`,
-  railMode: `(min-width: ${TAILWIND_BREAKPOINTS.md})`,
+  drawerMode: `(max-width: ${(LG_REM - 0.001).toFixed(3)}rem)`,
+  railMode: `(min-width: ${TAILWIND_BREAKPOINTS.lg})`,
 });
 
 export default class WorkHeaderManager {
@@ -67,9 +67,9 @@ export default class WorkHeaderManager {
     this._bind();
   }
 
-  // Below md the handle doubles as a "you are here" readout: its title span
+  // Below lg the handle doubles as a "you are here" readout: its title span
   // mirrors the industry group WorkNavManager's scrollspy reports as in view,
-  // and empties again when no group is in the viewport (id: null). At md+
+  // and empties again when no group is in the viewport (id: null). At lg+
   // the rail's aria-current already shows this, so the title span stays
   // empty.
   _onActiveChange({ id } = {}) {
@@ -98,7 +98,7 @@ export default class WorkHeaderManager {
       ) ?? null;
     this._mm = gsap.matchMedia();
 
-    // Below md: non-modal drawer. Handle toggles; a link click navigates and
+    // Below lg: non-modal drawer. Handle toggles; a link click navigates and
     // closes the drawer out of the way; Escape closes and returns focus to
     // the handle; a click outside the nav closes it. No focus trap, no
     // inert — this is an index, not a dialog.
@@ -139,7 +139,7 @@ export default class WorkHeaderManager {
       };
     });
 
-    // md and up: rests open, flush to the viewport's left edge; no toggle,
+    // lg and up: rests open, flush to the viewport's left edge; no toggle,
     // no listeners.
     this._mm.add(MEDIA.railMode, () => {
       this._isOpen = true;
@@ -150,7 +150,7 @@ export default class WorkHeaderManager {
       return () => {};
     });
 
-    this.logger.trace("initialized (bottom-sheet <md, rail md+)");
+    this.logger.trace("initialized (bottom-sheet <lg, rail lg+)");
   }
 
   // yPercent: 100 pushes the whole nav below the viewport; y pulls it back up
