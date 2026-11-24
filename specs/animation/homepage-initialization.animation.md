@@ -10,6 +10,8 @@ Note 2026-11-24: the background intro now starts when the preloader's outro star
 
 Note 2026-11-24: the background intro is now a progressive reveal of the video by hiding the cells of an opaque 8 x 6 grid that covers it, right to left, instead of fading `gel_video` and then the video. The video and gel are at full visibility under the cells. Steps below that describe a video or gel fade are historical.
 
+Note 2026-11-24 (later): the cells are no longer opaque elements. The video layer (video, pixelator and gels) sits inside `[data-video-grid]`, which is clipped with a `clip-path` polygon of the revealed cells; where it is not yet revealed nothing of the background is drawn and the `<body>` graph paper shows through. Cells pop in with no fade.
+
 The role of the homepage initialization sequence is to deliver a seamless, cinematic transition from empty page to a fully populated, animated, designed home page.
 
 From a system perspective, the landing experience is defined by loading assets and initializing the choreography for the page. Visual and motion design respond to initialization events by establishing a cinematic flow from one state to another.

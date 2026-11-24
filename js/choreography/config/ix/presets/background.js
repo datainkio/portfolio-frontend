@@ -45,24 +45,24 @@ export const BACKGROUND_PERSPECTIVE = {
 };
 
 /**
- * Grid Reveal — the intro, hiding the cells over the video
+ * Grid Reveal - the intro, popping cells of a clip-path open over the video
  *
- * The video and `gel_video` are fully visible under an opaque 8 x 6 cell grid;
- * the intro fades the cells out. Columns go right to left. Within a column the
- * cells hide in random order, `cellStagger` apart. A column starts once the
- * column to its right has finished hiding `triggerAfterCells` of its cells, so
- * the columns overlap. `columns` must match the grid in sizzle-background.njk
- * (cells are row-major).
+ * The video and `gel_video` are fully visible, clipped to the union of the
+ * revealed cells of an 8 x 6 grid; the rest of the background section draws
+ * nothing, so the page's graph paper shows through. Each cell pops in (no fade,
+ * so no duration or ease). Columns go right to left. Within a column the cells
+ * pop in random order, `cellStagger` apart. A column starts
+ * `triggerAfterCells` x `cellStagger` after the column to its right, so the
+ * columns overlap. `columns` and `rows` must match the grid in
+ * sizzle-background.njk.
  *
- * Column offset = (triggerAfterCells - 1) x cellStagger + cellDuration
- * = 0.12 + 0.167 = 0.287s. Total = (columns - 1) x offset +
- * (rows - 1) x cellStagger + cellDuration = 7 x 0.287 + 5 x 0.12 + 0.167
- * = 2.78s.
+ * Column offset = triggerAfterCells x cellStagger = 2 x 0.12 = 0.24s.
+ * Total = (columns - 1) x offset + (rows - 1) x cellStagger
+ * = 7 x 0.24 + 5 x 0.12 = 2.28s.
  */
 export const BACKGROUND_GRID_REVEAL = {
   columns: 8,
-  cellDuration: toSeconds(motion.duration("instant")),
+  rows: 6,
   cellStagger: motion.stagger("loose"),
   triggerAfterCells: 2,
-  ease: motion.ease("standard"),
 };

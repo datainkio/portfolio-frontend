@@ -32,8 +32,8 @@ export const SELECTORS = {
 /**
  * Background video (`SELECTORS.video` root). The media element is resolved by
  * tag inside that root — the reveal animates the <video> only, never the root,
- * which also holds the gels and the pixelator. `grid` is the opaque cell grid
- * over the video; the intro hides its cells to reveal the video.
+ * which also holds the gels and the pixelator. `grid` is the element clipped by
+ * the intro (a clip-path of revealed cells); it wraps the video, pixelator and gels.
  */
 export const VIDEO_SELECTORS = {
   media: "video",
