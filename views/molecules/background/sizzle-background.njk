@@ -27,16 +27,16 @@
           <div class="absolute left-[calc(100%*5.4/110.9)] top-[calc(100%*0.4/99.89)] w-[calc(100%*100/110.9)] h-[calc(100%*100/99.89)]">
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100cqw] h-[100cqh]">
               {{ videoAtom.render({
-                  src: params.videoSrc,
-                  defer: false,
-                  poster: posterUrl,
-                  autoplay: params.autoPlay | default(true) ,
-                  loop: params.loop | default(true),
-                  muted: params.muted | default(true),
-                  playsInline: params.playsInline | default(true),
-                  preload: params.preload | default("metadata"),
-                  classes: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
-                  style: ""
+                            src: params.videoSrc,
+                            defer: false,
+                            poster: posterUrl,
+                            autoplay: params.autoPlay | default(true) ,
+              loop: params.loop | default(true),
+              muted: params.muted | default(true),
+              playsInline: params.playsInline | default(true),
+              preload: params.preload | default("metadata"),
+              classes: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
+              style: ""
               }) }}
 
               {{ Pixelator.render() }}
@@ -55,7 +55,7 @@
                 "color": "gel-primary",
                 "fade": "gel-fade-xl",
                 "opacity": "gel-opacity-100",
-                "opacityEnd": "gel-opacity-end-0",
+                "opacityEnd": "gel-opacity-end-20",
                 "direction": "gel-right"
               }) }}
             </div>
