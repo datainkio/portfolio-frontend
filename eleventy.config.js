@@ -49,23 +49,16 @@ export default async function (eleventyConfig) {
     // .env and restart the dev server to turn on.
     const debugOutlines = normalizeBoolean(process.env.DEBUG_OUTLINES) ?? false;
     eleventyConfig.addGlobalData("runtime", { bundleJs, debugOutlines });
-    // Documentation (everything under ia/docs/) renders only when DOCS is on:
-    // `npm run document` and `npm run start:docs` set it, and so do the deploy
-    // workflows. Off by default, so `npm start` and `npm run quick` skip about
-    // 240 pages.
+    // The documentation reference (every folder under ia/docs/, plus its
+    // README) renders only when DOCS is on: `npm run document` and
+    // `npm run start:docs` set it, and so do the deploy workflows. Off by
+    // default, so `npm start` and `npm run quick` skip about 240 pages.
+    // The pages at the top level of ia/docs/ (the Docs landing page and its
+    // Sanity-fed sub-pages) belong to the main site and always build.
     const docs = normalizeBoolean(process.env.DOCS) ?? false;
-    if (!docs) eleventyConfig.ignores.add("ia/docs/**");
-    // The Docs landing page and its four sub-pages never build here, with DOCS
-    // on or off. Their content will come from Sanity and they will build
-    // separately, so /docs/ and /docs/<name>/ are not written by this build.
-    for (const stem of [
-      "index",
-      "backend",
-      "content-models",
-      "design-strategy",
-      "frontend",
-    ]) {
-      eleventyConfig.ignores.add(`ia/docs/${stem}.md`);
+    if (!docs) {
+      eleventyConfig.ignores.add("ia/docs/*/**");
+      eleventyConfig.ignores.add("ia/docs/README.md");
     }
 
     // Passthrough copy for static assets
