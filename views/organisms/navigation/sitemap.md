@@ -20,7 +20,10 @@ Defines Nunjucks macro: `render`.
 Lists the whole site from the `eleventyNavigation` tree, so it never drifts
 from the pages that exist. One list inside `<nav aria-label="Site map">`, no
 heading: the root-level entries (`pages | eleventyNavigation`), which are
-home, work, docs and contact. About, Posts and User Guide set `hide: true`
+home, contact, work and docs, in that order (`order` in each page's
+frontmatter). The list is a two-row grid that fills by column: Home and
+Contact stack in the first column, and each entry with a nested list spans
+both rows, so Work and Docs get a column each. About, Posts and User Guide set `hide: true`
 and are skipped. Single posts and projects carry no `eleventyNavigation` key,
 so only their landing pages appear. Two entries carry a nested list:
 
