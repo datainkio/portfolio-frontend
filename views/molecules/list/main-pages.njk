@@ -13,7 +13,9 @@
       {%- set hasHref = entry and (entry.url or entry.href) -%}
       {%- set entryHref = entry.url or entry.href -%}
       {%- set isCurrent = entryHref == params.currentUrl -%}
-      {%- if hasHref and (entry.title or entry.key) -%}
+      {#- `hide` is this project's own eleventyNavigation key: the page still
+          builds, but no list links to it. -#}
+      {%- if hasHref and (entry.title or entry.key) and not entry.hide -%}
         {%- if isCurrent -%}
           <li class="{{ styles.item | classes }}">
             <span class="{{ styles.link | classes }}" aria-current="page">{{ entry.pageNavLabel or entry.title or entry.key }}</span>
