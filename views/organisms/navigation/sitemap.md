@@ -18,12 +18,14 @@ Defines Nunjucks macro: `render`.
 ## Purpose
 
 Lists the whole site from the `eleventyNavigation` tree, so it never drifts
-from the pages that exist. One list inside `<nav aria-label="Site map">`, no
-heading: the root-level entries (`pages | eleventyNavigation`), which are
+from the pages that exist. A `dataink.io` heading and one list inside
+`<nav aria-label="Site map">`: the root-level entries (`pages | eleventyNavigation`), which are
 home, contact, work and docs, in that order (`order` in each page's
-frontmatter). The list is a two-row grid that fills by column: Home and
-Contact stack in the first column, and each entry with a nested list spans
-both rows, so Work and Docs get a column each. About, Posts and User Guide set `hide: true`
+frontmatter). From `lg` up the list is a two-row grid that fills by column:
+Home and Contact stack in the first column, and each entry with a nested
+list spans both rows, so Work and Docs get a column each. Below `lg` the
+entries stack in one column. The `<nav>` sets its own width, padding and
+`my-auto`, which centres it vertically in the badge dialog. About, Posts and User Guide set `hide: true`
 and are skipped. Single posts and projects carry no `eleventyNavigation` key,
 so only their landing pages appear. Two entries carry a nested list:
 
@@ -48,12 +50,11 @@ for every list with the same link styles. Rendered inside the badge dialog
 
 ## Params
 
-| Param        | Type                          | Description                                                                                                                                     |
-| ------------ | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pages`      | array                         | `collections.all`. Filtered here through `eleventyNavigation`.                                                                                  |
-| `projects`   | array                         | `collections.projects`. Grouped by industry as the Work page does; each industry becomes a link to `/work/#<slug>` in a nested list under Work. |
-| `currentUrl` | string                        | The matching entry is marked `aria-current="page"`.                                                                                             |
-| `classes`    | string, variant map, or array | Applied to the `<nav>` through `classes`.                                                                                                       |
+| Param        | Type   | Description                                                                                                                                     |
+| ------------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pages`      | array  | `collections.all`. Filtered here through `eleventyNavigation`.                                                                                  |
+| `projects`   | array  | `collections.projects`. Grouped by industry as the Work page does; each industry becomes a link to `/work/#<slug>` in a nested list under Work. |
+| `currentUrl` | string | The matching entry is marked `aria-current="page"`.                                                                                             |
 
 ## Notes
 

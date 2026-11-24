@@ -18,14 +18,15 @@
 
 {#- full bleed: overrides the UA dialog's inset sizing, margin and padding -#}
 {%- set dialogClasses = {
-  "base": "m-0 size-full max-w-none max-h-none p-0 overflow-y-auto bg-neutral-900 text-neutral-100 font-display"
+  "base": "m-0 size-full max-w-none max-h-none p-0 overflow-y-auto bg-page-graphpaper text-neutral-100 font-display open:flex open:flex-col"
 } -%}
 
-{#- relative z-10 + the -z-10 backdrop reproduce the old header's stacking, so
+{#- absolute, so the bar sits out of flow and the site map centres in the
+    whole dialog. z-10 + the -z-10 backdrop reproduce the old header's stacking, so
     the build-info drawer (build-view.njk, -z-20) tucks behind the bar when
     closed and slides out over the site map when open -#}
-{%- set barClasses = {"base": "relative z-10 flex items-center gap-2 p-2 text-xs text-neutral-500"} -%}
-{%- set barBackdropClasses = {"base": "absolute inset-0 -z-10 bg-neutral-900 pointer-events-none"} -%}
+{%- set barClasses = {"base": "absolute inset-x-0 top-0 z-10 flex items-center gap-2 p-2 text-xs text-neutral-500"} -%}
+{%- set barBackdropClasses = {"base": "absolute inset-0 -z-10 pointer-events-none"} -%}
 
 {%- set closeClasses = {"base": "border-none ml-auto p-2 cursor-pointer text-neutral-100"} -%}
 
@@ -57,7 +58,7 @@
       {% endcall %}
     </header>
 
-    {{ Sitemap.render({ pages: params.pages, projects: params.projects, currentUrl: params.currentUrl, classes: "p-6 md:p-12" }) }}
+    {{ Sitemap.render({ pages: params.pages, projects: params.projects, currentUrl: params.currentUrl}) }}
 
   </dialog>
 {% endmacro %}

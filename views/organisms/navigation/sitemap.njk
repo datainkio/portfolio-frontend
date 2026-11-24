@@ -1,10 +1,14 @@
 {% import "molecules/list/main-pages.njk" as MainPages %}
 
 {#- STYLES -#}
+{% set navClasses = {"base": "max-w-7xl mx-8 my-auto p-6 md:p-12", "lg": "mx-auto"} %}
 {#- Columns: leaf pages (Home, Contact) stack in the first; each entry with a
     nested list (Work, Docs) spans both rows, so it takes a column of its own.
     Row one is only as tall as Home, which keeps Contact right beneath it. -#}
-{%- set subListClasses = {"base": "grid grid-flow-col grid-rows-[auto_1fr] justify-center gap-x-8 gap-y-2 [&>li:has(ul)]:row-span-2 [&>li:not(:has(ul))]:pr-12"} -%}
+{%- set subListClasses = {
+  "base": "mt-4 grid grid-rows-[auto_1fr] gap-x-8 gap-y-2 [&>li:has(ul)]:row-span-2 [&>li:not(:has(ul))]:pr-12",
+  "lg": "grid-flow-col"
+} -%}
 {#- The nested lists (Work's industry links, Docs's pages) sit indented one
     step further and a text step smaller -#}
 {%- set pagesStyles = {
@@ -56,7 +60,10 @@
       (ia/docs/index.md) nests the pages that name it as parent: the Sanity
       site pages, plus Design when DOCS is on. Nesting stops there, so
       Design's own tree stays in the design sidebar. -#}
-  <nav class="{{ params.classes | classes }}" aria-label="Site map">
+  <nav class="{{ navClasses | classes }}" aria-label="Site map">
+    <header>
+      <h2>dataink.io</h2>
+    </header>
     {{ MainPages.render({ items: pageEntries, currentUrl: params.currentUrl, classes: subListClasses, styles: pagesStyles }) }}
   </nav>
 {% endmacro %}
