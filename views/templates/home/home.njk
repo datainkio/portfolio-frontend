@@ -54,7 +54,7 @@
             class="focus:outline-none {{ main | classes }}">
         {%- set homeDoc = cms.home[0] -%}
         {{ HeroSection.render({ "id": "manifesto", "copy": value, "statements": homeDoc.statements, "buildDate": buildDate }) }}
-        {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects }) }}
+        {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects, "statistics": collections.featuredStatistics }) }}
         {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
         {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
       </main>

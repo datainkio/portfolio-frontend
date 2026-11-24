@@ -2,6 +2,7 @@
   {% import "molecules/list/project-cards.njk" as ProjectCards %}
   {% import "molecules/list/industry-links.njk" as Industries %}
   {% import "molecules/section/industry-section.njk" as IndustrySection %}
+  {% import "molecules/stats/stats.njk" as Statistics %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set heading = params.copy.heading | default("Work") -%}
@@ -12,6 +13,13 @@
   {%- set industries = params.projects | groupBy("industry") | default([]) -%}
 
   {%- set groupProjects = params.groupProjects | default(false) -%}
+
+  {#- Featured statistics (cms.featuredStatistics), mapped onto the stats
+      molecule's { key, value, description } items: the label is the term. -#}
+  {%- set statistics = [] -%}
+  {%- for statistic in params.statistics or [] -%}
+    {%- set _ = statistics.push({ key: statistic.label, value: statistic.value, description: statistic.description }) -%}
+  {%- endfor -%}
 
   {%- set sectionStyles = {"base": "mx-auto [&>p]:prose [&>p]:text-neutral-200"} -%}
 
@@ -30,6 +38,18 @@
       one prose/column box and no sectioning element fits. -#}
   {%- set bodyStyles = {"base": " max-w-7xl px-6 py-8 prose prose-invert prose-p:text-neutral-200", "lg": "w-1/2"} -%}
 
+  {#- Statistics grid, between the header and the body: two columns, four from
+      md. Each item reads value, label, description: flex-col-reverse puts the
+      <dd> value above its <dt> label without changing the source order, and
+      order-first keeps the description last under that reversal. -#}
+  {%- set statisticsStyles = {"base": "max-w-7xl px-4 py-8 grid grid-cols-2 gap-x-4 gap-y-8", "md": "grid-cols-4"} -%}
+  {%- set statisticsSlots = {
+    "item": "flex-col-reverse justify-end",
+    "term": "text-sm text-neutral-200",
+    "value": "font-display font-light text-4xl text-primary-200 md:text-5xl",
+    "description": "order-first text-xs text-neutral-400"
+  } -%}
+
   {%- set nav = {
     "print": "hidden",
     "base": "w-full sticky top-8 z-10 bg-neutral-950 shadow-[0px_4px_8px_0px_color-mix(in_oklab,var(--color-black)_25%,transparent)]",
@@ -46,6 +66,9 @@
           data-projects-el="heading"
           class="{{ title | classes }}">{{ heading }}</h2>
     </header>
+    {%- if statistics.length %}
+      {{ Statistics.render({ stats: statistics, classes: statisticsStyles, styles: statisticsSlots, aria: "Impact" }) }}
+    {%- endif %}
     {%- if body %}
       <div class="{{ bodyStyles | classes }}">{{ body | safe }}</div>
     {%- endif %}
