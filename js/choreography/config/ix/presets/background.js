@@ -3,19 +3,11 @@ import { ANIMATION_DEFAULTS, motion, toSeconds } from "../motion.js";
 /**
  * BACKGROUND Section Animation Defaults
  *
- * Specific overrides for the BACKGROUND section animations.
- *
- * `duration` and `ease.out` drive the video's fade-in (the intro). The video is
- * brighter than the preloader's graph paper, so the shared `base` fade (0.46s,
- * `enter`) read as a flash. It now takes 1.5 × the `slower` token on the
- * `standard` ease. `gel_video` fades in just before it
- * (BACKGROUND_VIDEO_GEL_REVEAL).
+ * The shared defaults, unchanged. The intro no longer fades the video (see
+ * BACKGROUND_GRID_REVEAL), so the slow video-fade overrides are gone.
  */
 export const BACKGROUND_ANIMATION_DEFAULTS = {
   ...ANIMATION_DEFAULTS,
-  duration: toSeconds(motion.duration("slower") * 1.5),
-  ease: { ...ANIMATION_DEFAULTS.ease, out: motion.ease("standard") },
-  // translateY: -motion.distance("lg"),
 };
 
 /**
@@ -53,14 +45,21 @@ export const BACKGROUND_PERSPECTIVE = {
 };
 
 /**
- * Video Gel Reveal — `gel_video` fading in before the video
+ * Grid Reveal — the intro, hiding the cells over the video
  *
- * The background section owns `gel_video`'s visibility. The gel fades 0 → 1 as
- * the first step of the video's intro, and only when it has landed does the
- * video fade in, so the video is already darkened when it appears. It has its
- * own values: it does not follow the tilt or the video's fade.
+ * The video and `gel_video` are fully visible under an opaque 8 x 6 cell grid;
+ * the intro fades the cells out right to left. The rightmost column goes first,
+ * then each column to its left, `columnStagger` apart; within a column the
+ * cells follow top to bottom, `rowStagger` apart. `columns` must match the
+ * grid in sizzle-background.njk (cells are row-major).
+ *
+ * Total = (columns - 1) x columnStagger + (rows - 1) x rowStagger +
+ * cellDuration = 7 x 0.12 + 5 x 0.05 + 0.66 = 1.75s.
  */
-export const BACKGROUND_VIDEO_GEL_REVEAL = {
-  duration: toSeconds(motion.duration("slow")),
+export const BACKGROUND_GRID_REVEAL = {
+  columns: 8,
+  cellDuration: toSeconds(motion.duration("slow")),
+  columnStagger: motion.stagger("loose"),
+  rowStagger: motion.stagger("tight"),
   ease: motion.ease("standard"),
 };

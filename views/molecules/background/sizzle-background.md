@@ -38,7 +38,9 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | `playsInline` | boolean                       | Defaults to `true`.                                                                |
 | `preload`     | string                        | Defaults to `metadata`.                                                            |
 
-The video is never deferred (`defer: false`). The template also places the Pixelator and the `gel_video` and `gel_tagline` gels inside the container. `gel_video` is owned by the background video section and fades in before the video (the hero's full-bleed gel was removed on 2026-11-24).
+The video is never deferred (`defer: false`). The template also places the Pixelator and the `gel_video` and `gel_tagline` gels inside the container. `gel_video` is owned by the background video section (the hero's full-bleed gel was removed on 2026-11-24).
+
+The last child of the container is `[data-video-grid]`: 48 opaque `bg-neutral-950` cells, 8 columns by 6 rows, row-major. The grid is measured from the 1920x1068 source video (3:2 cells, wider than the frame, so the outer columns are cropped) and positioned inside a cover-box that repeats the video's `object-cover` rectangle. It covers the video and both gels from first paint, with no JS. The background intro hides the cells right to left to reveal the video (`BACKGROUND_GRID_REVEAL`); gated paths hide the whole grid.
 
 ## Relationships
 

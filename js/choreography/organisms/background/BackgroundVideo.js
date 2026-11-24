@@ -45,7 +45,7 @@ export default class BackgroundVideo extends AbstractSection {
   constructor({ bus = null, reducedMotionHandler, gelManager = null } = {}) {
     const view = document.getElementById(SELECTORS.video);
     // `gel_video` sits inside this section's root, and this section owns it:
-    // it fades in as the first step of the intro. Resolved here, before
+    // the intro snaps it visible under the cell grid. Resolved here, before
     // super(), because super() can already run the gated reveal.
     const videoGel = gelManager?.getGel?.(VIDEO_GEL_ID)?.view ?? null;
     const animations = new BackgroundVideoAnimations(view, { videoGel });
@@ -255,8 +255,9 @@ export default class BackgroundVideo extends AbstractSection {
    * (SECTION_OVERRIDES.video); a matchMedia breakpoint crossing clears or
    * re-applies the pose in _applyResponsiveLifecycle.
    *
-   * `gel_video` fades in as the first step of the intro, ahead of the video
-   * (or is snapped on gated paths). See BackgroundVideoAnimations._buildIntro.
+   * The video and `gel_video` sit at full visibility under an opaque cell grid;
+   * the intro hides the cells right to left (or the grid is snapped hidden on
+   * gated paths). See BackgroundVideoAnimations._buildIntro.
    */
   _isPerspectiveTier() {
     // The `reduced` profile carries no breakpoint, and reduced motion does not
@@ -278,13 +279,13 @@ export default class BackgroundVideo extends AbstractSection {
   /**
    * Emit a held `video:intro:complete`, once. Nothing holds it now, so this is
    * inert; kept for the clear path and `onPerspectiveSettled`. A held event
-   * means the intro completed, so the video gel is made visible first.
+   * means the intro completed, so the grid is hidden first.
    */
   _releaseIntroComplete() {
     const release = this._pendingIntroComplete;
     if (!release) return;
     this._pendingIntroComplete = null;
-    this.animations?.showVideoGel?.();
+    this.animations?.hideGrid?.();
     release();
   }
 
@@ -298,8 +299,8 @@ export default class BackgroundVideo extends AbstractSection {
    */
   _syncVideoGel() {
     if (this.isDisabled) return;
-    if (!this.animations?.isVideoGelShown?.()) return;
-    this.animations.showVideoGel();
+    if (this.animations?.isVideoGelShown?.()) this.animations.showVideoGel();
+    if (this.animations?.isGridHidden?.()) this.animations.hideGrid();
   }
 
   /**
@@ -323,7 +324,7 @@ export default class BackgroundVideo extends AbstractSection {
   /**
    * Perspective scales with viewport width, so a plain resize (which fires no
    * matchMedia change) re-asserts the rest pose at the new width. The same
-   * pass re-asserts a landed video gel; one still fading is not yet shown.
+   * pass re-asserts a visible video gel and a hidden grid; a grid still revealing is left alone.
    */
   _bindPerspectiveResize() {
     if (this.isDisabled) return;
@@ -346,16 +347,16 @@ export default class BackgroundVideo extends AbstractSection {
   }
 
   /**
-   * The intro (gel fade, then video fade) has completed: the rest pose is
-   * re-asserted (already applied before the reveal). The gel fade is part of
-   * the intro, so the played path has nothing more to reveal; gated paths
-   * (reduced motion, session-gated replay — reached here through
-   * _applyPostIntroState's progress(1)) snap the gel visible.
+   * The intro (cell reveal) has completed: the rest pose is re-asserted
+   * (already applied before the reveal). The played path has nothing more to
+   * reveal; gated paths (reduced motion, session-gated replay — reached here
+   * through _applyPostIntroState's progress(1)) snap the grid hidden and the
+   * video and gel visible.
    */
   _onIntroComplete() {
     this._enterPerspective();
     if (this.isDisabled || !this._isLifecycleMotionEnabled) {
-      this.animations?.showVideoGel?.();
+      this.animations?.hideGrid?.();
     }
     super._onIntroComplete();
   }
@@ -363,12 +364,12 @@ export default class BackgroundVideo extends AbstractSection {
   /**
    * Gated paths. The intro is already at progress 1 on a second call (e.g.
    * playIntro() after the construction-time pass), so its onComplete does not
-   * fire again; the gel is snapped here too so every gated call shows it.
+   * fire again; the grid is hidden here too so every gated call shows the video.
    */
   _applyPostIntroState() {
     super._applyPostIntroState();
     this._enterPerspective();
-    this.animations?.showVideoGel?.();
+    this.animations?.hideGrid?.();
   }
 
   async playOutro() {

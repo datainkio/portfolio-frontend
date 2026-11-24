@@ -1,12 +1,8 @@
 import AbstractSectionAnimations from "../../system/AbstractSectionAnimations.js";
-import {
-  initVideoReveal,
-  buildVideoIntro,
-} from "../../molecules/video-reveal/video-reveal.js";
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import {
   BACKGROUND_ANIMATION_DEFAULTS,
-  BACKGROUND_VIDEO_GEL_REVEAL,
+  BACKGROUND_GRID_REVEAL,
   BACKGROUND_PERSPECTIVE,
 } from "../../config/ix/presets/background.js";
 import { motionTokens } from "../../config/ix/motion.js";
@@ -27,13 +23,16 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
       },
     };
 
-    // The reveal animates the <video> only — the section root also holds the
-    // gels and the pixelator, which have their own lifecycles.
+    // The video and its gel are never tweened: they sit at full visibility
+    // under an opaque cell grid, and the intro hides the cells. The section
+    // root also holds the pixelator, which has its own lifecycle.
     this.media = this.view?.querySelector(VIDEO_SELECTORS.media) ?? null;
+    this.grid = this.view?.querySelector(VIDEO_SELECTORS.grid) ?? null;
+    this._gridHidden = false;
 
     // `gel_video`, resolved by BackgroundVideo through the gel manager. This
     // section is the gel's only owner: GelAnimationManager parks it at
-    // autoAlpha 0, and its fade-in is the first step of the intro timeline.
+    // autoAlpha 0, and the intro snaps it visible under the grid.
     // State lives here rather than on the controller because the controller's
     // gated paths can run inside its super() call, before its own fields exist.
     this.videoGel = options.videoGel ?? null;
@@ -42,39 +41,53 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     this._buildTimeline();
   }
 
+  /**
+   * Nothing to hide: the opaque grid (CSS, from first paint) covers the video
+   * and gels, so the landing state is the cells themselves.
+   */
   _buildLanding() {
-    return initVideoReveal(this.media);
+    return gsap.timeline({ id: TIMELINE_IDS.landing });
   }
 
   /**
-   * Gel fade, then video fade, strictly in sequence: the gel is the intro's
-   * first child, and the video's fade is shifted to start when it has landed.
-   * Built at construction, outside any gsap.matchMedia context, so a
-   * breakpoint revert cannot undo it. The fromTo renders the gel's hidden
-   * start explicitly.
+   * Snap the video and `gel_video` visible at time 0 (under the cells,
+   * overriding GelAnimationManager's parking at autoAlpha 0), then fade the
+   * cells out right to left. Without a grid the intro is just the snap, so it
+   * still completes. Built at construction, outside any gsap.matchMedia
+   * context, so a breakpoint revert cannot undo it.
    */
   _buildIntro() {
-    const intro = buildVideoIntro(this.media, {
-      duration: this.options.duration,
-      ease: this.options.ease.out,
-    });
-    if (!this.videoGel) return intro;
-    const { duration, ease } = BACKGROUND_VIDEO_GEL_REVEAL;
-    intro.shiftChildren(duration);
-    intro.fromTo(
-      this.videoGel,
-      { autoAlpha: motionTokens.opacity.zero },
-      {
-        autoAlpha: motionTokens.opacity.full,
-        duration,
-        ease,
-        onComplete: () => {
-          this._videoGelShown = true;
+    const intro = gsap.timeline({ id: TIMELINE_IDS.intro });
+    intro.call(() => this._showMedia(), null, 0);
+
+    const cells = this.grid ? Array.from(this.grid.children) : [];
+    if (cells.length) {
+      const { columns, cellDuration, columnStagger, rowStagger, ease } =
+        BACKGROUND_GRID_REVEAL;
+      intro.to(
+        cells,
+        {
+          autoAlpha: motionTokens.opacity.zero,
+          duration: cellDuration,
+          ease,
+          delay: (i) =>
+            (columns - 1 - (i % columns)) * columnStagger +
+            Math.floor(i / columns) * rowStagger,
         },
-      },
-      0,
-    );
+        0,
+      );
+    }
+    intro.call(() => {
+      this._gridHidden = true;
+    });
     return intro;
+  }
+
+  /** Video and gel to full visibility. Idempotent. */
+  _showMedia() {
+    if (this.media)
+      gsap.set(this.media, { autoAlpha: motionTokens.opacity.full });
+    this.showVideoGel();
   }
 
   /**
@@ -164,8 +177,8 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
   }
 
   /**
-   * Snap `gel_video` to visible: gated paths (reduced motion, session-gated
-   * replay), and breakpoint crossings and resizes after the reveal landed.
+   * Snap `gel_video` to visible: the intro's first step, gated paths (reduced
+   * motion, session-gated replay), and breakpoint crossings and resizes.
    * Idempotent, and nothing in this module ever hides the gel again.
    */
   showVideoGel() {
@@ -174,9 +187,26 @@ export default class BackgroundVideoAnimations extends AbstractSectionAnimations
     gsap.set(this.videoGel, { autoAlpha: motionTokens.opacity.full });
   }
 
-  /** True once the reveal has landed (intro fade) or been snapped. */
+  /** True once the gel has been made visible (intro start or snapped). */
   isVideoGelShown() {
     return this._videoGelShown;
+  }
+
+  /**
+   * Snap the whole grid hidden: gated paths and post-intro re-assertion. The
+   * video and gel are snapped visible with it, so no gated path can leave the
+   * background covered.
+   */
+  hideGrid() {
+    if (this.grid)
+      gsap.set(this.grid, { autoAlpha: motionTokens.opacity.zero });
+    this._gridHidden = true;
+    this._showMedia();
+  }
+
+  /** True once the intro has hidden the cells, or the grid was snapped hidden. */
+  isGridHidden() {
+    return this._gridHidden;
   }
 
   _buildOutro() {

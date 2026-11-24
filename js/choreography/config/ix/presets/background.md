@@ -1,5 +1,5 @@
 ---
-description: Background motion presets — BACKGROUND_ANIMATION_DEFAULTS (video reveal), BACKGROUND_PERSPECTIVE (two-point tilt rest pose) and BACKGROUND_VIDEO_GEL_REVEAL (gel_video fade-in before the video) for the background video section.
+description: Background motion presets — BACKGROUND_ANIMATION_DEFAULTS, BACKGROUND_PERSPECTIVE (two-point tilt rest pose) and BACKGROUND_GRID_REVEAL (the intro's right-to-left cell reveal) for the background video section.
 status: stable
 tags:
   - choreography
@@ -15,6 +15,6 @@ links:
 
 All consumed by `BackgroundVideoAnimations`.
 
-- `BACKGROUND_ANIMATION_DEFAULTS` — spreads `ANIMATION_DEFAULTS` and overrides `duration` (1.5 × `slower`, 1.5s) and `ease.out` (`standard`) so the video fades in slowly; drives the reveal.
+- `BACKGROUND_ANIMATION_DEFAULTS` — the shared `ANIMATION_DEFAULTS`, unchanged. The slow video-fade overrides were removed on 2026-11-24 when the intro became a grid reveal.
 - `BACKGROUND_PERSPECTIVE` — the tilt's rest pose and timing: `rotationY` (deg), `perspectiveRatio` (× viewport width → px), `transformOrigin`, `scale` (overscale that closes the exposed wedge; applied before the reveal, not tweened), `duration` (seconds, 1.5 × `slower`), `ease` (GSAP name).
-- `BACKGROUND_VIDEO_GEL_REVEAL` — `duration` (`slow`) and `ease` (`standard`) of `gel_video`'s fade-in, the first step of the intro, before the video fades in. Its own values (since 2026-11-24; the earlier hero gel reveal was derived from `BACKGROUND_PERSPECTIVE`).
+- `BACKGROUND_GRID_REVEAL` — the intro: `columns` (8, matches the grid in `sizzle-background.njk`), `cellDuration` (`slow`, 0.66s), `columnStagger` (`loose`, 0.12s), `rowStagger` (`tight`, 0.05s), `ease` (`standard`). Total 1.75s. Replaced the video and gel fades (`BACKGROUND_VIDEO_GEL_REVEAL`) on 2026-11-24.

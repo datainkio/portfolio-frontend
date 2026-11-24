@@ -1,5 +1,5 @@
 ---
-description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events, and holds the section in its static two-point perspective rest pose from before the reveal, owning gel_video, which fades in as the first step of its intro, before the video; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
+description: Background video section controller — owns the fullscreen video's playback and broadcasts its playstate as video:media:* events, and holds the section in its static two-point perspective rest pose from before the reveal, owning gel_video, which the intro snaps visible under the opaque cell grid that the intro then hides right to left; the deferred src is assigned by js/preloader/deferred-videos.js, which cues this section via preloader:video:hydrated.
 status: stable
 tags:
   - choreography
@@ -118,19 +118,21 @@ in `config/contracts/selectors`) before `super()`, because `super()` can already
 run the gated path, and hands it to `BackgroundVideoAnimations`, which keeps the
 state. It replaced the hero's full-bleed gel on 2026-11-24 and is not part of the hero sequence.
 
-| Path                                  | Hook                                            | Gel                                                                  |
-| ------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------- |
-| Played (all tiers)                    | first step of the intro timeline                | fades 0 → 1 (`BACKGROUND_VIDEO_GEL_REVEAL`), then the video fades in |
-| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`) | snaps to visible                                                     |
-| Held event released (inert)           | `_releaseIntroComplete`                         | snapped to 1 first                                                   |
-| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncVideoGel`   | re-asserted once landed                                              |
-| Resize                                | `_bindPerspectiveResize` handler                | re-asserted once landed                                              |
+| Path                                  | Hook                                            | Gel                                                             |
+| ------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------- |
+| Played (all tiers)                    | first step of the intro timeline                | snapped visible (with the video) while the cells still cover it |
+| Reduced motion / session-gated replay | `_applyPostIntroState` (and `_onIntroComplete`) | snaps to visible, grid snapped hidden                           |
+| Held event released (inert)           | `_releaseIntroComplete`                         | grid hidden, video and gel snapped visible first                |
+| Breakpoint crossing / reduced change  | `_applyResponsiveLifecycle` → `_syncVideoGel`   | re-asserted (gel visible, grid hidden once the reveal is done)  |
+| Resize                                | `_bindPerspectiveResize` handler                | re-asserted (gel visible, grid hidden once the reveal is done)  |
 
-**Gel first, then video.** The intro is "gel fade, then video fade", strictly
-sequential, so the video is already darkened when it appears. The gel fade is
-part of the intro, so `_onIntroComplete` reveals nothing on the played path.
+**Cells are the only reveal.** The video and gel are never tweened: the intro
+snaps them visible at time 0 under the opaque `[data-video-grid]`, then fades
+the cells out right to left (`BACKGROUND_GRID_REVEAL`). `hideGrid()` snaps the
+whole grid hidden on gated paths, so `_onIntroComplete` reveals nothing on the
+played path.
 
-**Once landed it never re-hides.** The intro is built at construction, outside
+**Once revealed it never re-covers.** The intro is built at construction, outside
 any `gsap.matchMedia` context. The matchMedia passes run inside this section's
 context, which reverts a previous pass's gated snap before re-running;
 `_syncVideoGel` runs in that same synchronous pass, so the revert never paints.
