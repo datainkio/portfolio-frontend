@@ -30,6 +30,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 | Param         | Type   | Description                                                                                                                                                                                      |
 | ------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `classes`     | string | Appended as-is to the root `<div>`. No `classes` filter.                                                                                                                                         |
+| `inset`       | string | Inset suffix for the root (`inset-{inset}`): distance from the positioned parent's edges. Defaults to `24`.                                                                                      |
 | `marginBleed` | object | Passed to the margin bleed marks. Keys: `color`, `size`, `bleedInset`, `style`, `marginInset`. Defaults to `{ color: "white", size: "1", bleedInset: "12", style: "dashed", marginInset: "6" }`. |
 | `trim`        | object | Passed to the trim marks. Keys: `color`, `size`, `inset`, `weight`. Defaults to `{ color: "white", size: "3", inset: "12", weight: "1" }`.                                                       |
 
@@ -41,7 +42,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
   - [[margin-bleed-marks.njk]]
   - [[registration-marks.njk]]
 - Likely used by:
-  - Unknown
+  - [[section-statement.njk]]
 
 ## Notes for Future Maintenance
 

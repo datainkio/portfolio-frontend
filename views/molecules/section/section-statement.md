@@ -46,9 +46,11 @@ At lg the paragraphs take `row-start-2`, under the heading.
 
 The figure is `absolute`, full statement height, `-z-10`, and `opacity-50` until lg. It is flush to the side opposite the text. From md it takes the background video's rest pose (`perspective(125vw)` and a 15° `rotateY`), turned about the edge it is flush to: `origin-right` and `-15deg` for `left`, `origin-left` and `15deg` for `right`. From md it also carries a horizontal alpha mask (`mask-l-from-40% mask-l-to-90%` for `left`, `mask-r-…` for `right`): opaque at the flush edge, fading to transparent toward the text, so the art recedes behind the text. The mask is applied before the transform, so it tilts with the perspective plane. Both `figure_styles` and `svg_figure_styles` carry it. Its caption is `sr-only`.
 
+**Print marks (2026-11-24).** Each figure carries [[printmarks.njk|molecules/printmarks.njk]] through Media's `overlay` slot: ink bars and registration targets in the gutter, then a solid margin box, a dashed bleed box and trim corners stepping in toward the art. The figure is `relative`, so the marks sit on its graph paper and tilt with it from md. Lines are `primary-100` (the graph paper's grid colour; the boxes at 60%) so they read on neutral-950. Insets are set in `print_marks` and measured from the figure's edge: root `inset-2`, margin box `10`, bleed box `12`, trim corners `14`. They are tuned to the inline-SVG figure, whose art sits 4rem in (the figure's `p-8` plus the image wrapper's `p-8`); on the raster path the art sits 2rem in, so the boxes and corners overlap it.
+
 ## Relationships
 
-- Imports: [[media.njk|molecules/figure/media.njk]]
+- Imports: [[media.njk|molecules/figure/media.njk]], [[printmarks.njk|molecules/printmarks.njk]]
 - Used by: [[hero.njk|organisms/section/hero.njk]], once per statement, alternating `left` and `right` from `loop.index`.
 
 ## Notes for Future Maintenance

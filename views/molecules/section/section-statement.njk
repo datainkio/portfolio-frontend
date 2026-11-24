@@ -1,6 +1,7 @@
 {% macro render(params = {}) %}
   {% import "molecules/figure/media.njk" as Media %}
   {% import "atoms/svg/inline.njk" as InlineSvg %}
+  {% import "molecules/printmarks.njk" as Printmarks %}
   {%- set statement = params.statement -%}
   {%- set layout = params.layout | default("left") -%}
 
@@ -34,24 +35,36 @@
       toward the centre of the view with a horizontal alpha mask (opaque at the flush edge, transparent
       at the text side), so it recedes behind the text and the text stays legible. -#}
   {%- set figure_styles = {
-    "base": "not-prose absolute inset-y-0 left-0 -z-10 m-0 h-full max-w-xl" if isRight else "not-prose absolute inset-y-0 right-0 -z-10 m-0 h-full max-w-xl",
-    "md": "origin-left [transform:perspective(125vw)_rotateY(15deg)] mask-r-from-40% mask-r-to-90%" if isRight else "origin-right [transform:perspective(125vw)_rotateY(-15deg)] mask-l-from-40% mask-l-to-90%",
+    "base": "not-prose relative m-0 h-full max-w-xl",
+    "md": "origin-left [transform:perspective(125vw)_rotateY(15deg)]" if isRight else "origin-right [transform:perspective(125vw)_rotateY(-15deg)]",
     "lg": "opacity-100"
     } -%}
   {%- set caption_styles = {"base": "sr-only"} -%}
 
-  {%- set image_styles = {"base": "block h-full w-auto max-w-none drop-shadow-lg/100"} -%}
+  {%- set image_styles = {"base": "block h-full w-auto max-w-none bg-page-graphpaper p-8"} -%}
   {#- Inline SVG: the figure gets a definite width (full below md, half from md) and the SVG fills
       that box, so the art scales to fit whole whatever its aspect ratio (preserveAspectRatio "meet"),
       aligned to the edge the figure is flush to. The raster path sizes by height instead, which
       pushes landscape art past the viewport edge. -#}
   {%- set svg_figure_styles = {
-    "base": "not-prose",
-    "md": "absolute inset-y-0 left-0 -z-10 m-0 h-full w-full origin-left [transform:perspective(125vw)_rotateY(15deg)] mask-r-from-40% mask-r-to-90%" if isRight else "absolute inset-y-0 right-0 -z-10 m-0 h-full w-full origin-right [transform:perspective(125vw)_rotateY(-15deg)] mask-l-from-40% mask-l-to-90%",
-    "lg": "opacity-100"
+    "base": "not-prose relative bg-page-graphpaper col-span-full p-8",
+    "md": "m-0 h-full w-full origin-left [transform:perspective(125vw)_rotateY(15deg)] border-l border-neutral-800" if isRight else "m-0 h-full w-full origin-right [transform:perspective(125vw)_rotateY(-15deg)] border-r border-neutral-800",
+    "lg": " col-span-8 opacity-100"
     } -%}
   {%- set svg_styles = {"base": "block h-full w-full"} -%}
   {%- set svg_aspect = "xMinYMid meet" if isRight else "xMaxYMid meet" -%}
+  {#- PRINT MARKS -#}
+  {#- Press-proof marks laid over the figure's graph paper: ink bars and registration targets
+      in the gutter, then the margin and bleed boxes and the trim corners stepping in toward
+      the art. Light colours (primary-100, the graph paper's grid colour) so they read on
+      neutral-950. Insets are measured from the figure's edge and are tuned to the inline-SVG
+      figure, whose art sits 4rem in (the figure's p-8 plus the image wrapper's p-8). The
+      figure is `relative`, so the marks tilt with it from md. -#}
+  {%- set print_marks = Printmarks.render({
+    inset: "2",
+    trim: { color: "primary-100", size: "3", inset: "14", weight: "1" },
+    marginBleed: { color: "primary-100/60", size: "1", style: "dashed", marginInset: "10", bleedInset: "12" }
+    }) -%}
   <section class="{{ section_styles | classes }}"
            data-hero-el="mission-statement">
 
@@ -73,9 +86,9 @@
           It goes through Media's pre-rendered `picture` slot, keeping the same <figure>,
           sr-only caption, and image styles as the raster path. -#}
       {%- set svgMarkup = InlineSvg.render({ svg: statement.imageInline, alt: statement.image.alt or statement.subheading, classes: svg_styles, preserveAspectRatio: svg_aspect, preserveFills: true, attrs: 'data-hero-el="statement-svg"' }) -%}
-      {{ Media.render({ image: statement.image, picture: svgMarkup, alt: statement.subheading, classes: svg_figure_styles, styles: { "image": image_styles, "caption": caption_styles } }) }}
+      {{ Media.render({ image: statement.image, picture: svgMarkup, alt: statement.subheading, classes: svg_figure_styles, overlay: print_marks, styles: { "image": image_styles, "caption": caption_styles } }) }}
     {% elif statement.image %}
-      {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, styles: { "image": image_styles, "caption": caption_styles } }) }}
+      {{ Media.render({ image: statement.image, alt: statement.subheading, loading: "lazy", classes: figure_styles, overlay: print_marks, styles: { "image": image_styles, "caption": caption_styles } }) }}
     {% endif %}
   </section>
 {% endmacro %}

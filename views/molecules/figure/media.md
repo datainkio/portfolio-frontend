@@ -64,6 +64,7 @@ Classified as a **macro** at the atomic **molecule** level. Sits below `organism
 | `zoom`    | boolean                       | Wraps the media in the lightbox trigger (`data-lightbox-el`) and renders the dialog from `lightbox-dialog.njk`.               |
 | `loading` | string                        | `loading` attribute on the `<img>` only. Defaults to `eager`.                                                                 |
 | `attrs`   | string                        | Raw attributes added to the `<figure>`.                                                                                       |
+| `overlay` | string                        | Pre-rendered decorative HTML (`aria-hidden`, absolutely positioned) output last inside the `<figure>`. The caller positions the figure. |
 
 | Slot      | Element                                                                  |
 | --------- | ------------------------------------------------------------------------ |
