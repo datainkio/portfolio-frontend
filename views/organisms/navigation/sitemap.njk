@@ -99,7 +99,11 @@
             {%- set _ = designEntries.push({ title: entry.part, url: entry.url }) -%}
           {%- endif -%}
         {%- endfor -%}
-        {{ MainPages.render({ items: designEntries, currentUrl: params.currentUrl, classes: subListClasses, styles: subLinkStyles }) }}
+        {#- Only an entry with children (Design) gets the sub-list; a leaf page
+            under Docs would otherwise leave an empty <ul>. -#}
+        {%- if designEntries.length %}
+          {{ MainPages.render({ items: designEntries, currentUrl: params.currentUrl, classes: subListClasses, styles: subLinkStyles }) }}
+        {%- endif %}
       {%- endfor %}
     </section>
 

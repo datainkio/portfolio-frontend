@@ -27,7 +27,9 @@ grid inside one `<nav aria-label="Site map">`:
   a nested list: one link per industry section, `/work/#<slug>`, grouped from
   `projects` the same way `templates/projects/projects.njk` does.
 - **Docs**: the children of "Docs" (`pages | eleventyNavigation("Docs")`),
-  which is one root, Design. Beneath the Design link, an indented, smaller
+  which is Design plus the leaf pages in `ia/docs/` that name `Docs` as their
+  parent (Backend, Content Models, Design Strategy, Frontend). A leaf has no
+  children and gets no sub-list. Beneath the Design link, an indented, smaller
   list of its top-level entries as plain links, not their pages. An entry with
   a `part` (Styling, Choreography) isn't listed itself: the part's name is,
   once, linking to the part's first entry, so a title two parts share
