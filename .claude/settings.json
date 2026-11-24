@@ -23,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../../wiki/tools/stale.py\" ] && python3 -I \"$CLAUDE_PROJECT_DIR/../../wiki/tools/stale.py\" --hook 2>/dev/null || true"
+            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/wiki-notice.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/wiki-notice.sh\" || true"
           }
         ]
       }
