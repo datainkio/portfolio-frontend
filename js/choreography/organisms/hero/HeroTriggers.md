@@ -45,11 +45,11 @@ The now-removed `hero-aside-reveal` ScrollTrigger (previously in `split.js`, fir
 
 ## Statement triggers (`hero-statement-<index>`)
 
-`_bindStatementTriggers()` runs in `bind()`, right after the base trigger and before the outro pin and band parallax. It makes one ScrollTrigger per statement section (`[data-hero-el="mission-statement"]`), in document order. The header is deliberately left out. Each uses `HERO_STATEMENT_TRIGGER`: `start: "top 60%"` (the statement's top, 60% down the viewport; it was `top top` while the statements pinned), `end: "bottom top"`, `pin: false`, `pinSpacing: false`, `once: false`. Nothing is pinned: the statements scroll with the page.
+`_bindStatementTriggers()` runs in `bind()`, right after the base trigger and before the outro pin and band parallax. It makes one ScrollTrigger per statement section (`[data-hero-el="mission-statement"]`) that holds a prepared SVG (`[data-hero-el="statement-svg"]`), in document order. The trigger element is the SVG's `<figure>`, not the section. A statement with no SVG gets no trigger, and the header is deliberately left out. Each uses `HERO_STATEMENT_TRIGGER`: `start: "bottom bottom"` (the figure's bottom at the bottom of the viewport, so the whole figure is in view; a figure taller than the viewport fires once its bottom scrolls in), `end: "bottom top"`, `pin: false`, `pinSpacing: false`, `once: false`. Nothing is pinned: the statements scroll with the page.
 
-- **Statement SVG:** each trigger's `onEnter` calls `playStatementSvg(panel)` on [HeroAnimations](HeroAnimations.md), which plays that statement's SVG reveal once. A load or fast scroll past the statement still fires `onEnter` (then `onLeave`), so passed art is never left hidden. Panels with no SVG are no-ops.
+- **Statement SVG:** each trigger's `onEnter` calls `playStatementSvg(panel)` on [HeroAnimations](HeroAnimations.md), which plays that statement's SVG reveal once. A load or fast scroll past the figure still fires `onEnter` (then `onLeave`), so passed art is never left hidden.
 - **Lifecycle:** `_killStatementTriggers()` kills each trigger. It runs before every rebind and in `kill()`.
-- **History:** until 2026-11-24 these were `hero-panel-pin-<index>` triggers (`HERO_PANEL_PIN_TRIGGER`) that pinned each statement at the viewport top for 300px of scroll, with pin spacing. The pin was removed; only the reveal cue remains.
+- **History:** until 2026-11-24 these were `hero-panel-pin-<index>` triggers (`HERO_PANEL_PIN_TRIGGER`) that pinned each statement at the viewport top for 300px of scroll, with pin spacing. The pin was removed; only the reveal cue remains. Also until 2026-11-24 the trigger element was the statement section, with `start: "top 60%"`.
 
 ## Reduced motion
 

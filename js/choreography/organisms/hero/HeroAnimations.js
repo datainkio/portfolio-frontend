@@ -51,8 +51,8 @@ export default class HeroAnimations extends AbstractSectionAnimations {
 
   /**
    * Play a statement's SVG reveal, once. Called by HeroTriggers when the
-   * statement's top is 60% down the viewport. No-op when the panel has no prepared SVG or its
-   * reveal has already been requested.
+   * statement figure's bottom reaches the bottom of the viewport. No-op when
+   * the panel has no prepared SVG or its reveal has already been requested.
    * @param {Element} panel `[data-hero-el="mission-statement"]`
    */
   playStatementSvg(panel) {

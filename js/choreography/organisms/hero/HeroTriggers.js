@@ -55,14 +55,16 @@ export const HERO_BAND_PARALLAX_TRIGGER = {
   invalidateOnRefresh: true,
 };
 
-// One per statement section (id suffixed with its index): fires the statement's
-// SVG reveal when the statement's top is 60% down the viewport. No pin: the
-// statement scrolls with the page. (It pinned for 300px until 2026-11-24.)
+// One per statement figure (id suffixed with the statement's index): fires the
+// statement's SVG reveal when the figure's bottom reaches the bottom of the
+// viewport, so the whole figure is in view. The trigger element is the figure,
+// not the statement section (it was the section, at `top 60%`, until
+// 2026-11-24). No pin: the statement scrolls with the page.
 export const HERO_STATEMENT_TRIGGER = {
   ...SCROLL_DEFAULTS,
   id: "hero-statement",
   once: false,
-  start: "top 60%",
+  start: "bottom bottom",
   end: "bottom top",
   pin: false,
   pinSpacing: false,
@@ -101,8 +103,9 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._bindBandParallax();
   }
 
-  // One trigger per statement section, to play its SVG reveal. Nothing is
-  // pinned. The header is left out.
+  // One trigger per statement that holds a prepared SVG, to play its reveal.
+  // The trigger element is the SVG's <figure>. Statements without one get no
+  // trigger. Nothing is pinned. The header is left out.
   _bindStatementTriggers() {
     this._killStatementTriggers();
     if (!this.view) return;
@@ -111,19 +114,23 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     const panels = this.view.querySelectorAll(
       `[${attr}="${HERO_SELECTORS.missionStatement}"]`,
     );
-    this._statementTriggers = Array.from(panels, (panel, index) =>
-      ScrollTrigger.create({
+    this._statementTriggers = Array.from(panels, (panel, index) => {
+      const svg = panel.querySelector(
+        `[${attr}="${HERO_SELECTORS.statementSvg}"]`,
+      );
+      if (!svg) return null;
+      return ScrollTrigger.create({
         ...HERO_STATEMENT_TRIGGER,
         id: `${HERO_STATEMENT_TRIGGER.id}-${index}`,
-        trigger: panel,
-        // The statement's intro: as its top passes 60% down the viewport, its
-        // prepared SVG (if any) reveals group by group. Plays once;
+        trigger: svg.closest("figure") ?? svg,
+        // The statement's intro: when the figure's bottom reaches the bottom
+        // of the viewport, its SVG reveals group by group. Plays once;
         // HeroAnimations ignores repeat calls. A load or fast scroll past the
-        // statement still fires onEnter (then onLeave), so passed art is never
+        // figure still fires onEnter (then onLeave), so passed art is never
         // left hidden.
         onEnter: () => this.section?.animations?.playStatementSvg?.(panel),
-      }),
-    );
+      });
+    }).filter(Boolean);
   }
 
   _killStatementTriggers() {
