@@ -55,6 +55,18 @@ export default async function (eleventyConfig) {
     // 240 pages.
     const docs = normalizeBoolean(process.env.DOCS) ?? false;
     if (!docs) eleventyConfig.ignores.add("ia/docs/**");
+    // The Docs landing page and its four sub-pages never build here, with DOCS
+    // on or off. Their content will come from Sanity and they will build
+    // separately, so /docs/ and /docs/<name>/ are not written by this build.
+    for (const stem of [
+      "index",
+      "backend",
+      "content-models",
+      "design-strategy",
+      "frontend",
+    ]) {
+      eleventyConfig.ignores.add(`ia/docs/${stem}.md`);
+    }
 
     // Passthrough copy for static assets
     logger.trace("Configuring passthrough copy", null, "brief", msgStyle);

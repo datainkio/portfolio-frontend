@@ -20,6 +20,8 @@ Context sidecar for `eleventy.config.js`.
 
 With docs off, links into `/docs/` (the site map in the badge, for one) 404 locally. That's expected.
 
+Five files under `ia/docs/` are ignored whatever `DOCS` says (since 2026-11-24): `index.md` (the Docs landing page) and `backend.md`, `content-models.md`, `design-strategy.md` and `frontend.md`. Their content will come from Sanity and they will build separately. Until that build exists, this one writes no `/docs/` index and none of the four sub-pages, so the `/docs/` crumb on Design pages and a CMS navigation item of type `documentation` link to a page that isn't there.
+
 ## Dev server behaviour
 
 - `setServerPassthroughCopyBehavior("passthrough")`: under `--serve`, passthrough files are served from source, not copied each rebuild.

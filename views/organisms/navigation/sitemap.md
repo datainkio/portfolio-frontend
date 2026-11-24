@@ -28,8 +28,9 @@ grid inside one `<nav aria-label="Site map">`:
   `projects` the same way `templates/projects/projects.njk` does.
 - **Docs**: the children of "Docs" (`pages | eleventyNavigation("Docs")`),
   which is Design plus the leaf pages in `ia/docs/` that name `Docs` as their
-  parent (Backend, Content Models, Design Strategy, Frontend). A leaf has no
-  children and gets no sub-list. Beneath the Design link, an indented, smaller
+  parent (Backend, Content Models, Design Strategy, Frontend). Those four are
+  ignored by the build for now (see `eleventy.config.md`), so today the column
+  shows Design alone. A leaf has no children and gets no sub-list. Beneath the Design link, an indented, smaller
   list of its top-level entries as plain links, not their pages. An entry with
   a `part` (Styling, Choreography) isn't listed itself: the part's name is,
   once, linking to the part's first entry, so a title two parts share
