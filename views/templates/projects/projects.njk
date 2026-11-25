@@ -10,8 +10,10 @@
 {% block mainStyles %}
   {#- isolate: contains the page video's -z-10 within <main>, so it slides
       beneath page content but never behind the page background. -#}
-  {{ { "base": "isolate pb-24 my-8 grid grid-cols-12 gap-x-8 max-w-7xl ml-0", "lg": "relative pl-64" } | classes }}
+  {{ { "base": "isolate pb-24 my-8 grid grid-cols-12 gap-x-8 ml-0 pr-12 max-w-[110rem]", "lg": "relative pl-64" } | classes }}
 {% endblock mainStyles %}
+
+
 
 {#- Optional portrait page video (projects.pageVideo → videoAsset). The asset's
     poster is the only fallback this page has, so the video renders only when
