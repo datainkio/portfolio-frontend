@@ -4,25 +4,7 @@
       "path": ".",
     },
     {
-      "path": "../../../skillet",
-    },
-    {
-      "path": "../../goals",
-    },
-    {
       "path": "../content-model",
-    },
-    {
-      "path": "../../visual design/assets",
-    },
-    {
-      "path": "../backend",
-    },
-    {
-      "path": "../../visual design",
-    },
-    {
-      "path": "../../people",
     },
   ],
   "settings": {
@@ -60,7 +42,7 @@
       "titleBar.border": "#07304a",
       "tab.activeBorder": "#0b4e79",
       "window.activeBorder": "#0b4e79",
-      "window.inactiveBorder": "#0b4e79"
+      "window.inactiveBorder": "#0b4e79",
     },
     "peacock.color": "#07304a",
   },

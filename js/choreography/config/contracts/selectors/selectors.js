@@ -13,9 +13,6 @@
  * - Refactoring page structure
  */
 export const SELECTORS = {
-  // Layout
-  header: "global-header",
-
   // Section IDs
   organizations: "organizations",
   hero: "manifesto",
@@ -35,11 +32,16 @@ export const SELECTORS = {
 /**
  * Background video (`SELECTORS.video` root). The media element is resolved by
  * tag inside that root — the reveal animates the <video> only, never the root,
- * which also holds the gels and the pixelator.
+ * which also holds the gels and the pixelator. `grid` is the element clipped by
+ * the intro (a clip-path of revealed cells); it wraps the video, pixelator and gels.
  */
 export const VIDEO_SELECTORS = {
   media: "video",
+  grid: "[data-video-grid]",
 };
+
+// The gel the background video section owns (see BackgroundVideo).
+export const VIDEO_GEL_ID = "gel_video";
 
 export const PROJECT_HEADER_SELECTORS = {
   header: "[data-project-header]",
@@ -57,10 +59,25 @@ export const HERO_SELECTORS = {
   bandImage: "band-image",
   context: "context",
   missionStatement: "mission-statement",
+  // Inline prepared SVG inside a statement's figure; its top-level <g>s are
+  // revealed in source order as the statement scrolls into view
+  // (molecules/svg-reveal).
+  statementSvg: "statement-svg",
 };
 
 export const PROCESS_SELECTORS = {
   elementAttribute: "data-process-el",
+};
+
+/**
+ * Badge (organisms/header/badge.njk): the fixed button that opens the
+ * site-map dialog, and the dialog's close button.
+ */
+export const BADGE_SELECTORS = {
+  elementAttribute: "data-badge-el",
+  toggle: "toggle",
+  dialog: "dialog",
+  close: "close",
 };
 
 export const BUILD_INFO_SELECTORS = {

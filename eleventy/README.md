@@ -29,7 +29,7 @@ Custom code that extends Eleventy, the static site generator behind the site.
 
 ## See also
 
-- [Architecture](../docs/architecture.md)
+- [Frontend CLAUDE.md](../CLAUDE.md)
 
 <!-- readme-index:start -->
 ## Index

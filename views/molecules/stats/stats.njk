@@ -10,6 +10,9 @@
           <dd{% if styles.value %} class="{{ styles.value | classes }}"{% endif %}>
             {{ item.value }}
           </dd>
+          {%- if item.description %}
+            <dd{% if styles.description %} class="{{ styles.description | classes }}"{% endif %}>{{ item.description }}</dd>
+          {%- endif %}
         </div>
       {% endif %}
     {% endfor %}

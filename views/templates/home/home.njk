@@ -1,0 +1,65 @@
+{#- FUNCTIONALITY IMPORTS -#}
+{% import "organisms/status/preloader.njk" as Preloader %}
+{% import "organisms/header/badge.njk" as Badge %}
+{% import "organisms/footer/global-footer.njk" as GlobalFooter %}
+{% import "organisms/navigation/skip-links-nav.njk" as SkipLinksNav %}
+
+{#- CONTENT VIEWS -#}
+{% import "organisms/section/work.njk" as ProjectsSection %}
+{% import "organisms/section/hero.njk" as HeroSection %}
+{% import "organisms/section/awards.njk" as AwardsSection %}
+{% import "organisms/section/organizations.njk" as OrganizationsSection %}
+
+
+{#- CONTENT -#}
+{%- set home = collections.home[0] -%}
+{%- set projects = home.featuredProjects -%}
+{%- set awards = collections.awards -%}
+{%- set organizations = collections.organizations -%}
+{%- set logo = collections.siteSettings[0].brand.logo.asset.url | inlineSvgFromUrl -%}
+{%- set backgroundVideo = home.videoSrc | default('') -%}
+{%- set backgroundPoster = home.videoPoster | default('') -%}
+
+{#- EYE CANDY -#}
+{% import "molecules/background/sizzle-background.njk" as Background %}
+{#- TODO: Address horizontal scroll on mobile -#}
+{#- ScrollSmoother fixes #page-main and translates <main>, so the footer (a
+    sibling of the wrapper) can't follow <main> in normal flow. It is instead
+    pinned to the bottom of <body> — whose height ScrollSmoother sets to the
+    content height — and <main> reserves that space with bottom padding.
+    pb-48 must stay >= the footer's rendered height. -#}
+{%- set main = {"base": "relative flex flex-col col-span-full pb-48"} -%}
+
+
+{# Note that content values - include title and other metadata - are set in frontmatter #}
+<!DOCTYPE html>
+{% include "layouts/partials/dev-note/dev-note.njk" %}
+{#- overflow-x-clip: same guard as base.njk — keeps horizontal overflow from
+    widening the mobile layout viewport. bg-page-graphpaper: the page
+    background (colour and grid) lives on <body> (it was on <html> until
+    2026-11-24); the preloader uses the same utility. <html> carries none. -#}
+<html lang="en" class="overflow-x-clip">
+  {% include "layouts/partials/head/head.njk" %}
+  <body class="relative text-neutral-100 isolate bg-page-graphpaper">
+    {% include "layouts/partials/gtm-noscript/gtm-noscript.njk" %}
+    {{ SkipLinksNav.render() }}
+    {{ Preloader.render({ "svg": logo }) }}
+    {% include "layouts/partials/session-management-script/session-management-script.njk" %}
+    {{ Background.render({ id: "background", videoSrc: backgroundVideo, poster: backgroundPoster }) }}
+    {{ Badge.render({ logoSvg: logo, pages: collections.all, projects: collections.projects, currentUrl: page.url, buildDate: buildDate, buildVersions: buildVersions }) }}
+    <div id="page-main">
+      <main id="page-main-content"
+            tabindex="-1"
+            aria-busy="true"
+            class="focus:outline-none {{ main | classes }}">
+        {%- set homeDoc = cms.home[0] -%}
+        {{ HeroSection.render({ "id": "manifesto", "copy": value, "statements": homeDoc.statements, "buildDate": buildDate }) }}
+        {{ ProjectsSection.render({ "id": "work", "copy": work, "projects": projects, "statistics": collections.featuredStatistics }) }}
+        {{ OrganizationsSection.render({ "id": "organizations", "copy": organizationsCopy, "organizations": organizations }) }}
+        {{ AwardsSection.render({ "id": "awards", "copy": recognition, "awards": awards}) }}
+      </main>
+    </div>
+    {{ GlobalFooter.render({ classes: "absolute inset-x-0 bottom-0", year: site.year, cms: cms, pages: collections.all, currentUrl: page.url }) }}
+    {% include "layouts/partials/choreography-script/choreography-script.njk" %}
+  </body>
+</html>

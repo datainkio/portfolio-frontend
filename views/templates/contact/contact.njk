@@ -1,0 +1,53 @@
+{% extends "layouts/landing.njk" %}
+{% import "organisms/forms/contact-form.njk" as contact_form %}
+{% import "molecules/list/social-accounts-list.njk" as social_accounts %}
+{% import "atoms/svg/email.njk" as email_icon %}
+{% import "atoms/svg/location.njk" as location_icon %}
+{% import "atoms/svg/globe.njk" as social_icon %}
+
+{% set ulStyles = {
+  "base": "content-start col-span-full w-full text-primary-200 font-display grid grid-cols-6 mb-8",
+  "lg": "col-span-6"
+} %}
+{% set liStyles = {"base": "flex items-start col-span-full grid grid-cols-subgrid w-full"} %}
+{% set iconStyles = {"base": "size-10 mx-auto my-4"} %}
+{% set valueStyles = {"base": "col-span-5 text-primary-400 py-2 px-4 not-italic border-l h-full"} %}
+{% set formStyles = {
+  "base": "mx-4 col-span-full grid-cols-subgrid",
+  "lg": "col-span-6 col-start-7 row-start-2 row-span-2 self-center"
+} %}
+{% block mainStyles %}{{ super() }} lg:grid-rows-[auto_auto_1fr]{% endblock mainStyles %}
+{% block content %}
+  {{ super() }}
+  <ul class="{{ ulStyles | classes }}">
+    <li class="{{ liStyles | classes }}">
+      {{ email_icon.render({ classes: iconStyles }) }}
+      <address class="{{ valueStyles | classes }} content-center">
+        <span class="block text-xs text-neutral-400">Email</span>
+        <a class="text-primary-400" href="mailto:{{ mailto }}">{{ mailto }}</a>
+      </address>
+    </li>
+    <li class="{{ liStyles | classes }} border-y">
+      {{ location_icon.render({ classes: iconStyles }) }}
+      <address class="{{ valueStyles | classes }} content-center">
+        <span class="block text-xs text-neutral-400">Based In</span>
+        <span class="text-primary-400">{{ location }}</span>
+      </address>
+    </li>
+    <li class="{{ liStyles | classes }}">
+      {{ social_icon.render({ classes: iconStyles }) }}
+      {{ social_accounts.render({ accounts: cms.contact[0].socialAccounts, classes: [valueStyles, "content-start grid grid-cols-3"] }) }}
+    </li>
+  </ul>
+  {{ contact_form.render({
+    "classes": formStyles,
+    "docNo": docNo,
+    "docTitle": eleventyNavigation.title,
+    "sourcePage": page.url,
+    "sanityProjectId": env.SANITY_PROJECT_ID,
+    "sanityDataset": env.SANITY_DATASET,
+    "sanityApiVersion": env.SANITY_API_VERSION,
+    "sanityWriteToken": env.SANITY_WRITE_TOKEN
+    }) }}
+  {% include "layouts/partials/choreography-script/choreography-script.njk" %}
+{% endblock content %}

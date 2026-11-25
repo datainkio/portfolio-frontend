@@ -16,3 +16,8 @@ While the smoother is active, `enable()` registers a document click handler that
 It only intercepts targets inside the smoothed content. Modified clicks (meta/ctrl/shift/alt), non-primary buttons, and already-prevented events pass through.
 
 Why: a native hash jump scrolls the fixed, `overflow: hidden` wrapper (`#page-main`) instead of the window. The smoother never resets that offset, so the page could no longer scroll back above the target. This broke the work page's industry jump nav.
+
+## Reduced motion
+
+- `enable()` returns `false` while reduced motion is on, so `getSmoother()` returns nothing and no smoother or in-page anchor handler is created.
+- The manager subscribes to the reduced-motion handler. When reduced motion turns on, `disable()` kills the smoother and removes the anchor handler. When it turns off, the smoother is re-enabled if the wrapper and content are present.

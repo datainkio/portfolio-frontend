@@ -1,0 +1,118 @@
+{% extends "layouts/base.njk" %}
+{% import "organisms/header/project/project-header.njk" as ProjectHeader %}
+{% import "molecules/awards.njk" as Awards %}
+{% import "molecules/design-decisions.njk" as DesignDecisions %}
+{% import "molecules/project-metadata/project-metadata.njk" as ProjectMetadata %}
+{% import "molecules/star-summary/star-summary.njk" as StarSummary %}
+{% import "molecules/navigation/pager.njk" as Pager %}
+{#
+  Single project page template.
+  Data: paginated from `collections.projectPages`, aliased as `project`
+  (see ../../../ia/project.md). 
+  Shape produced by `frontend/data/sanity/transforms/project.js` + `projectPageProjection.js`.
+  Spec: frontend/specs/views/project-page.views-spec.md
+  Pattern: content-model/patterns/project-page.md
+#}
+
+{# ─── Styles ──────────────────────────────────────────────────────────────── #}
+{%- set articleStyles = {"base": "project-page col-span-full text-primary-100"} -%}
+{%- set titleStyles = {"base": "project-page__title"} -%}
+{%- set metadataStyles = {"base": "project-page__metadata grid gap-6", "md": "grid-cols-2", "lg": "grid-cols-4"} -%}
+{%- set abstractStyles = {"base": "project-page__abstract text-xl text-neutral-100"} -%}
+{%- set asideStyles = {"base": "col-span-2 project-page__outcome border-l-4 border-primary-500 pl-6 py-2"} -%}
+{%- set bodyStyles = {
+  "base": "prose prose-h2:text-neutral-100 prose-h2:text-4xl col-span-8 project-page__body max-w-[68ch] z-10 text-neutral-100 p-8 mx-auto"
+} -%}
+{%- set projectLinkStyles = {"base": "project-page__external-link underline underline-offset-4"} -%}
+{%- set outcomeHeadingStyles = {"base": "project-page__outcome-heading"} -%}
+{%- set awardStyles = {"base": "project-page__award"} -%}
+{%- set metadataStyles = {
+  "base": "text-neutral-400",
+  "sm": "columns-2xs",
+  "md": "p-4 border border-neutral-700 divide-x divide-neutral-700"
+} -%}
+{#- Matches the Overview section-frame heading (neutral-600 tone → text-neutral-400). -#}
+{%- set metadataSlots = {"term": "text-neutral-400"} -%}
+
+{# ─── Data guards ─────────────────────────────────────────────────────────── #}
+
+{%- set orgs = project.organization or [] -%}
+{%- set hasByline = orgs | length -%}
+{%- set hasOutcomes = project.outcomes and project.outcomes | length -%}
+{%- set hasBody = project.bodyHtml | length > 0 -%}
+{%- set externalLinkHref = (project.externalLink.href if project.externalLink and project.externalLink.href else
+(project.externalLink if project.externalLink is string else "")) -%}
+{%- set externalLinkLabel = (project.externalLink.label if project.externalLink and project.externalLink.label else "Visit live project") -%}
+
+{% block sidebarBefore %}
+  {# page_nav.render({classes: pageNav | classes}) #}
+{% endblock sidebarBefore %}
+
+{% block sidebarAfter %}
+  {% if hasOutcomes %}
+    <aside class="{{ asideStyles | classes }}"
+           aria-labelledby="project-outcome-heading">
+      <h2 id="project-outcome-heading"
+          class="{{ outcomeHeadingStyles | classes }}">Outcome{% if project.outcomes | length > 1 %}s{% endif %}</h2>
+      <ul class="mt-2 space-y-1 text-lg">
+        {% for outcome in project.outcomes %}
+          <li>{{ outcome.title }}</li>
+        {% endfor %}
+      </ul>
+    </aside>
+  {% endif %}
+{% endblock sidebarAfter %}
+
+{% block content %}
+
+  {#- PAGE HEADER -#}
+  {{ ProjectHeader.render({ project: project, logoSvg: brandLogoSvg}) }}
+
+  {#- PROJECT METADATA (e.g. roles, clients, platform, etc.)-#}
+  {{ ProjectMetadata.render({ project: project, classes: metadataStyles, styles: metadataSlots, aria: "Project metadata" }) }}
+
+  {#- OVERVIEW -#}
+  {{ StarSummary.render({ project: project }) }}
+
+  {# DESIGN DECISIONS (published only, array order; omitted when none) #}
+  {{ DesignDecisions.render({ decisions: project.decisions }) }}
+
+  {# AWARDS (published only, array order; omitted when none) #}
+  {{ Awards.render({ awards: project.awards }) }}
+
+  {# BODY COPY (Portable Text → HTML, prepared by transform; H2+, p, and figure only) #}
+  {# {% if hasBody %}
+    <section class="{{ bodyStyles | classes }}" aria-label="Project narrative">
+      {{ project.bodyHtml | safe }}
+    </section>
+  {% endif %} #}
+
+  {# Link to live project (optional) #}
+  {# {% if externalLinkHref %}
+    <a href="{{ externalLinkHref }}"
+       rel="noopener noreferrer"
+       target="_blank"
+       class="{{ projectLinkStyles | classes }}">{{ externalLinkLabel }}</a>
+  {% endif %} #}
+
+  {#- PAGER: previous · all · next. Wraps: the first project's previous is the
+      last, and the last's next is the first. Order comes from the
+      projectPages query. -#}
+  {%- if pagination.pages | length > 1 -%}
+    {%- set prevItem = pagination.page.previous or pagination.page.last -%}
+    {%- set nextItem = pagination.page.next or pagination.page.first -%}
+    {{ Pager.render({
+        label: "Case studies",
+        previous: { href: pagination.href.previous or pagination.href.last, title: prevItem.title, meta: (prevItem.organization or []) | join(", ", "title") },
+    next: { href: pagination.href.next or pagination.href.first, title: nextItem.title, meta: (nextItem.organization or []) | join(", ", "title") },
+    all: projectIndex
+    }) }}
+  {%- endif %}
+{% endblock content %}
+
+{#- Outside <main> so the pager is its last child (no trailing space-y
+    margin), and still before base.njk's module scripts, which the import
+    map in this partial must precede. -#}
+{% block afterMain %}
+  {% include "layouts/partials/choreography-script/choreography-script.njk" %}
+{% endblock afterMain %}

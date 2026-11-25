@@ -22,6 +22,7 @@ mutating the source.
 | `unique(key)`           | de-duplicate by property  |
 | `sortByKey(key)`        | sort by property          |
 | `getByIndexRange(a, b)` | extract a subset          |
+| `shuffle`               | random order, per build   |
 
 > [!note] `findRecord` lives in the barrel
 > The CMS record-join filter (`findRecord`) is registered in [[filters]], not here.

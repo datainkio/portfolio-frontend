@@ -15,7 +15,7 @@ Whole sections of a page, assembled from molecules and atoms.
 
 ## What's here
 
-- `header/` - global header, plus article and project headers
+- `header/` - the badge (site map), plus article and project headers
 - `footer/` - global footer
 - `navigation/` - primary nav, breadcrumbs, page nav, skip links
 - `section/` - the homepage sections ([details](section/README.md))

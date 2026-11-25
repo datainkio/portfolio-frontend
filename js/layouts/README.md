@@ -13,13 +13,13 @@ Scripts that position or animate page-level layout pieces.
 
 ## What's here
 
-- `global-header.js` - header behavior on pages that do not load the Director
+- `badge.js` - header behavior on pages that do not load the Director
 - `landing-header.js` - collapses the landing header as you scroll
 - `projects-alternate-grid.js` - an older project-grid view
 
 ## How it connects
 
-- `global-header.js` is loaded by [base.njk](../../views/layouts/base.njk) and steps aside when choreography is on.
+- `badge.js` is loaded by [base.njk](../../views/layouts/base.njk) and steps aside when choreography is on.
 
 ## See also
 
@@ -28,8 +28,8 @@ Scripts that position or animate page-level layout pieces.
 <!-- readme-index:start -->
 ## Index
 
-- [global-header.js](global-header.js)
-- [global-header.md](global-header.md)
+- [badge.js](badge.js)
+- [badge.md](badge.md)
 - [landing-header.js](landing-header.js)
 - [landing-header.md](landing-header.md)
 - [projects-alternate-grid.js](projects-alternate-grid.js)

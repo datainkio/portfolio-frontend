@@ -31,7 +31,7 @@ Follows the [Component API spec](../../../../specs/views/component-api.views-spe
 
 ## Relationships
 
-- Used by: [[project.njk|pages/project/project.njk]]
+- Used by: [[project.njk|templates/project/project.njk]]
 - Imports: [[media.njk|molecules/figure/media.njk]] (featured image)
 
 Project metadata and the STAR summary render at page level in `project.njk`, not in this header.

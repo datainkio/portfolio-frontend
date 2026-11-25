@@ -4,7 +4,7 @@ type: template
 tags:
   - navigation
 links:
-  - "[home](../../pages/home/home.md)"
+  - "[home](../../templates/home/home.md)"
 ---
 
 # Page Nav

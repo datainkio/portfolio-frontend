@@ -12,6 +12,8 @@ specimens:
         action: Built a single content model behind the gallery and the site.
         result: Visitors kept exploring after they left.
   - title: From a project
+    params:
+      id: specimen-star-summary-heading
     bind:
       project: "collections.projectPages.slug=enquos"
 inContext:

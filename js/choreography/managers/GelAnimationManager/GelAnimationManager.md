@@ -11,7 +11,7 @@ links:
 
 # GelAnimationManager
 
-Registry and lifecycle for `.bg-gel` controller instances. Deliberately does no
+Registry and lifecycle for `.gel` controller instances. Deliberately does no
 scroll-trigger wiring, tween orchestration, or section synchronisation — those
 belong to the molecules that own each gel.
 
@@ -29,6 +29,6 @@ with no mask-application side effects. `destroy()` calls `Gel.destroy()`, which
 disconnects it.
 
 Because of this, the hand-rolled `lastHeight`-guarded `gel.refresh()` calls in
-`heading-gel`, `overview-gel`, and `process-motion/section-gel` are now
+`overview-gel`, and `process-motion/section-gel` are now
 redundant. They are harmless (refresh is idempotent) and were left in place —
 removing them is optional cleanup, not a fix.

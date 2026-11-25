@@ -1,0 +1,69 @@
+{% import "molecules/list/main-pages.njk" as MainPages %}
+
+{#- STYLES -#}
+{% set navClasses = {"base": "max-w-7xl mx-8 my-auto p-6 md:p-12", "lg": "mx-auto"} %}
+{#- Columns: leaf pages (Home, Contact) stack in the first; each entry with a
+    nested list (Work, Docs) spans both rows, so it takes a column of its own.
+    Row one is only as tall as Home, which keeps Contact right beneath it. -#}
+{%- set subListClasses = {
+  "base": "mt-4 grid grid-rows-[auto_1fr] gap-x-8 gap-y-2 [&>li:has(ul)]:row-span-2 [&>li:not(:has(ul))]:pr-12",
+  "lg": "grid-flow-col"
+} -%}
+{#- The nested lists (Work's industry links, Docs's pages) sit indented one
+    step further and a text step smaller -#}
+{%- set pagesStyles = {
+  "item": {
+    "base": ""
+  },
+  "link": {
+    "base": "text-lg text-primary-300 hover:text-primary-100",
+    "md": "text-xl"
+  },
+  "children": {
+    "list": {
+      "base": "mt-1 ml-1 pl-4 space-y-1 border-l border-neutral-700"
+    },
+    "item": {
+      "base": ""
+    },
+    "link": {
+      "base": "text-base text-primary-300 hover:text-primary-100",
+      "md": "text-lg"
+    }
+  }
+} -%}
+{#- DISPLAY -#}
+{% macro render(params = {}) %}
+
+  {#- DATA GUARDS -#}
+  {%- set pages = params.pages or [] -%}
+
+  {#- Industries grouped exactly as templates/projects/projects.njk does, so
+      each link lands on a real section heading id. -#}
+  {%- set projects = params.projects -%}
+  {%- set industries = (projects | groupBy("industry") | dictsort) if (projects and projects.length) else [] -%}
+  {%- set pageEntries = [] -%}
+  {%- for entry in pages | eleventyNavigation -%}
+    {%- if entry.key == "work" and industries.length -%}
+      {%- set industryLinks = [] -%}
+      {%- for industryTitle, industryProjects in industries -%}
+        {%- set _ = industryLinks.push({ title: industryTitle, url: entry.url ~ "#" ~ (industryTitle | slugify) }) -%}
+      {%- endfor -%}
+      {%- set _ = pageEntries.push({ key: entry.key, title: entry.title, url: entry.url, order: entry.order, hide: entry.hide, pageNavLabel: entry.pageNavLabel, children: industryLinks }) -%}
+    {%- else -%}
+      {%- set _ = pageEntries.push(entry) -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {#- Root-level pages, one list. Posts and projects carry no
+      eleventyNavigation key, so only their landing pages appear. Docs
+      (ia/docs/index.md) nests the pages that name it as parent: the Sanity
+      site pages, plus Design when DOCS is on. Nesting stops there, so
+      Design's own tree stays in the design sidebar. -#}
+  <nav class="{{ navClasses | classes }}" aria-label="Site map">
+    <header>
+      <h2>dataink.io</h2>
+    </header>
+    {{ MainPages.render({ items: pageEntries, currentUrl: params.currentUrl, classes: subListClasses, styles: pagesStyles }) }}
+  </nav>
+{% endmacro %}

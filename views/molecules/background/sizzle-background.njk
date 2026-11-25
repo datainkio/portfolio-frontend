@@ -11,25 +11,61 @@
        class="{{ containerClasses }}"
        aria-hidden="true"
        inert>
-    {{ videoAtom.render({
-        src: params.videoSrc,
-        defer: false,
-        poster: posterUrl,
-        autoplay: params.autoPlay | default(true) ,
-    loop: params.loop | default(true),
-    muted: params.muted | default(true),
-    playsInline: params.playsInline | default(true),
-    preload: params.preload | default("metadata"),
-    classes: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
-    style: ""
-    }) }}
+    {# Clip grid. Measured from the 1920x1068 source video: 8 columns by 6
+       rows of 3:2 cells, wider than the frame, so the outer columns are
+       cropped. The cover box repeats the video's object-cover rectangle; the
+       [data-video-grid] box is placed inside it as a share of the cover box.
+       The choreography clips that element to the union of the revealed cells
+       (clip-path, percentages of its own box). Below it, two boxes undo the
+       offsets: the first is the cover box again, the second the viewport-sized
+       area, so the video, pixelator and gels lay out as they would directly in
+       the section root. Without JavaScript nothing is clipped. #}
+    <div class="absolute inset-0 [container-type:size]">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[max(100cqw,calc(100cqh*1920/1068))] h-[max(100cqh,calc(100cqw*1068/1920))]">
+        <div data-video-grid
+             class="absolute left-[-5.4%] top-[-0.4%] w-[110.9%] h-[99.89%]">
+          <div class="absolute left-[calc(100%*5.4/110.9)] top-[calc(100%*0.4/99.89)] w-[calc(100%*100/110.9)] h-[calc(100%*100/99.89)]">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100cqw] h-[100cqh]">
+              {{ videoAtom.render({
+                            src: params.videoSrc,
+                            defer: false,
+                            poster: posterUrl,
+                            autoplay: params.autoPlay | default(true) ,
+              loop: params.loop | default(true),
+              muted: params.muted | default(true),
+              playsInline: params.playsInline | default(true),
+              preload: params.preload | default("metadata"),
+              classes: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none gsap-element gsap-fade",
+              style: ""
+              }) }}
 
-    {{ Pixelator.render() }}
+              {{ Pixelator.render() }}
 
-    {{ Gel.render({"id": "gel_hero", "color": "bg-gel-primary"}) }}
-    {# {{ Gel.render({"id": "gel_subheading", "color": "bg-gel-primary"}) }}
-    {{ Gel.render({"id": "gel_process", "color": "bg-gel-primary"}) }}
-    {{ Gel.render({"id": "gel_awards_backing", "color": "bg-gel-accent"}) }}
-    {{ Gel.render({"id": "gel_awards_tint", "color": "bg-gel-accent"}) }} #}
+              {{ Gel.render({
+                "id": "gel_video",
+                "color": "gel-primary",
+                "fade": "gel-fade-full",
+                "opacityEnd": "gel-opacity-end-60",
+                "direction": "gel-right",
+                "opacity": "gel-opacity-100"
+              }) }}
+
+              {{ Gel.render({
+                "id": "gel_tagline",
+                "color": "gel-primary",
+                "fade": "gel-fade-xl",
+                "opacity": "gel-opacity-100",
+                "opacityEnd": "gel-opacity-end-20",
+                "direction": "gel-right"
+              }) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {# {{ Gel.render({"id": "gel_subheading", "color": "gel-primary"}) }}
+    {{ Gel.render({"id": "gel_process", "color": "gel-primary"}) }}
+    {{ Gel.render({"id": "gel_awards_backing", "color": "gel-accent"}) }}
+    {{ Gel.render({"id": "gel_awards_tint", "color": "gel-accent"}) }} #}
   </div>
 {% endmacro %}

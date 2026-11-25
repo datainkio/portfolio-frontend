@@ -1,6 +1,8 @@
 /**
  * Landing Sequence Template
  *
+ * The switchboard for communication between different sections of the site's homepage.
+ *
  * Picks up the page choreography from the preloader when it hears EVENTS.system.preloaderOut.
  */
 
@@ -14,6 +16,33 @@ import {
 } from "../../organisms/background/BackgroundVideoEvent.js";
 import { isReducedMotion } from "../../managers/ReducedMotionHandler/ReducedMotionHandler.js";
 
+/**
+ * Debug holds: `?hold=<param>` stops the landing chain at a named point so the
+ * page can be inspected in that state. Each entry names its URL value and how
+ * to resume from it. To add a point, add an entry here and check it with
+ * `_isHeld()` where the chain passes that point.
+ */
+const LANDING_HOLDS = Object.freeze({
+  // The preloader has lifted, but the landing has not started: only the page
+  // background shows. The video-settled latch keeps listening during the hold,
+  // so start() picks up a settle that arrived meanwhile.
+  preloaderOut: Object.freeze({
+    param: "preloader-out",
+    resume: "window.director.getSequence().start()",
+  }),
+});
+
+/**
+ * Read the `?hold=` debug parameter from the URL. Returns the raw value
+ * (e.g. 'preloader-out') or null. SSR/build-safe: returns null when there is
+ * no window. Modeled on getCardVariantOverride() in config/ix/profiles.js.
+ */
+function getLandingHold() {
+  if (typeof window === "undefined" || !window.location) return null;
+  const hold = new URLSearchParams(window.location.search).get("hold");
+  return hold ? hold.trim() : null;
+}
+
 export class LandingSequence {
   constructor(bus, sections, gelAnimation) {
     this.logger = Lumberjack.createScoped("LandingSequence", {
@@ -25,31 +54,64 @@ export class LandingSequence {
     this.gelManager = gelAnimation;
 
     this._listeners = [];
+
     // The beat between video:intro:complete and hero.playIntro(). gsap.delayedCall
     // (not setTimeout) so the timer is ticker-synced, pausable and killable.
     this._heroHoldCall = null;
+
     // Gates the scroll-driven resume below. Until the video's own intro has
     // completed, playback belongs to the landing chain and nothing else may
     // start it.
     this._videoIntroComplete = false;
+
     // Set for exactly one `hero:exit`, by the `hero:onLeaveBack` that precedes it.
     // See the exit listener in _registerListeners for why this is needed.
     this._heroLeftBackwards = false;
 
-    // The video reveal needs both halves before it can run, and they do not
+    // The video reveal needs two conditions (aka halves) before it can run, and they do not
     // arrive in a fixed order relative to each other — see _cueVideoIntro.
     this._videoMediaSettled = false;
     this._videoLandingStaged = false;
+
+    // Tracks whether the video intro has been cued, to prevent multiple triggers.
     this._videoIntroCued = false;
 
-    this.handlePreloaderOut = () => this.start();
+    // Preloader out handler: triggered when the preloader finishes and is removed from view.
+    this.handlePreloaderOut = () => this._onPreloaderOut();
     window.addEventListener(
       EVENTS.system.preloaderOut,
       this.handlePreloaderOut,
       { once: true },
     );
 
+    // Listen up, everyone: register all the event listeners needed for the landing sequence.
     this._registerListeners();
+  }
+
+  /**
+   * `preloader:out` handler: start the sequence, unless `?hold=preloader-out`
+   * asks it to wait. A held sequence resumes when start() is called.
+   */
+  _onPreloaderOut() {
+    if (this._isHeld(LANDING_HOLDS.preloaderOut)) return;
+    this.start();
+  }
+
+  /**
+   * True when `?hold=` names this point. Logs the hold and how to resume.
+   *
+   * @param {{ param: string, resume: string }} hold A LANDING_HOLDS entry.
+   * @returns {boolean}
+   */
+  _isHeld(hold) {
+    if (getLandingHold() !== hold.param) return false;
+    this.logger.trace(
+      `Holding at ?hold=${hold.param}. Resume with ${hold.resume}`,
+      null,
+      "brief",
+      "headsup",
+    );
+    return true;
   }
 
   async start() {
@@ -156,9 +218,9 @@ export class LandingSequence {
   /**
    * Hold a beat after the background video's intro, then play Hero's intro.
    *
-   * The gel band has no entrance: it is parked full-bleed at rest when hero's
-   * timelines build (molecules/hero-motion/heading-gel.js), so there is no
-   * landing phase to await here.
+   * The full-bleed gel has no entrance of hero's own: `gel_video` belongs to
+   * BackgroundVideo and fades in as the first step of its intro, before the
+   * video, so there is no landing phase to await here.
    *
    * Reduced motion zeroes the hold rather than skipping the call — the video
    * still emits `video:intro:complete` under a gated profile (AbstractSection
@@ -228,7 +290,8 @@ export class LandingSequence {
     //
     //   video settles (playing, or never will)
     //     -> background video intro
-    //       -> (beat) -> hero intro (gel band already at rest, no entrance)
+    //       -> background idle: tilt (perspective tiers), applied statically
+    //         -> (beat) -> hero intro
     //
     // The cue used to be `home:outro:complete`, emitted by HomeHeaderManager.
     // That manager stopped being constructed (and was later deleted), so

@@ -1,5 +1,5 @@
 ---
-description: "Service that transforms directory + Sanity data into hierarchical navigation structures, testable outside 11ty."
+description: Service that transforms directory + Sanity data into hierarchical navigation structures, testable outside 11ty.
 status: stable
 tags:
   - services
@@ -7,13 +7,13 @@ aliases:
   - NavigationBuilder
 links:
   - "[[eleventy/services/README|services]]"
-  - "[[navigation]]"
+  - "[[wiki/entities/navigation]]"
 ---
 
 # NavigationBuilder
 
 All navigation processing, deliberately decoupled from 11ty collection registration so it
-can be unit-tested outside the build. Consumed by [[navigation]].
+can be unit-tested outside the build. Consumed by [[wiki/entities/navigation]].
 
 ## Responsibilities
 

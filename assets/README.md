@@ -15,7 +15,6 @@ Static files the site serves as-is.
 
 - `fonts/`: self-hosted web fonts
 - `icons/`, `images/`, `svg/`, `tiles/`: graphics
-- `storyboards/`: exported storyboard SVGs
 - `js/`: the built animation bundle (git-ignored, made by `npm run build:js`)
 
 ## See also
@@ -29,7 +28,6 @@ Static files the site serves as-is.
 - [icons/](icons/)
 - [images/](images/)
 - [js/](js/)
-- [storyboards/](storyboards/)
 - [svg/](svg/)
 - [tiles/](tiles/)
 <!-- readme-index:end -->

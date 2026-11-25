@@ -1,5 +1,5 @@
 ---
-description: "Awards animations module — builds section-header intro/outro timelines, a two-gel backing composition with full-page scroll track, and a scroll-threshold reveal group for award items."
+description: Awards animations module — builds section-header intro/outro timelines, a two-gel backing composition with full-page scroll track, and a scroll-threshold reveal group for award items.
 status: stable
 tags:
   - choreography
@@ -8,7 +8,7 @@ links:
   - "[[system/gsap|system/gsap]]"
   - "[[section-header-intro|section-header-intro]]"
   - "[[scroll-reveal-group|scroll-reveal-group]]"
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[timelines|timelines]]"
   - "[[GelAnimationManager|GelAnimationManager]]"
   - "[[awards-gel-intro-outro.animation-spec|awards-gel-intro-outro.animation-spec]]"

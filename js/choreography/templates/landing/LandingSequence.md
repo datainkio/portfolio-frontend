@@ -15,6 +15,8 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 
 ## Methods
 
+- `_onPreloaderOut()` — the `preloader:out` handler: `start()`, unless a debug hold applies
+- `_isHeld(hold)` — whether `?hold=` names a `LANDING_HOLDS` point; logs how to resume
 - `start()` — stage the video's landing state, then latch it
 - `_cueVideoIntro()` — join the two latches; run the video intro once
 - `_startVideoIntro()` — fade the background video in
@@ -22,6 +24,25 @@ Narrative pacing for the homepage. Owns no DOM and no ScrollTrigger — it liste
 - `_pauseBackgroundVideo()` / `_resumeBackgroundVideo()` — Hero-scoped playback gate
 - `_registerListeners()` — subscribe to the bus events below
 - `reset()` / `destroy()`
+
+## Debug hold
+
+`?hold=preloader-out` stops the chain where it would start: the preloader lifts,
+`preloader:out` fires, and `LandingSequence` does not call `start()`. Only the
+page background shows. The logger prints the hold and how to resume:
+
+```js
+window.director.getSequence().start();
+```
+
+That continues the normal chain. The video-settled listener is registered in
+the constructor and keeps listening during the hold, so a settle that arrived
+while held is already latched and `start()` joins it in `_cueVideoIntro`.
+
+Holds are listed in `LANDING_HOLDS` (URL value plus resume hint) and read with
+`getLandingHold()`, modeled on `getCardVariantOverride()` in
+`config/ix/profiles.js` (SSR-safe, `URLSearchParams`). To add another point,
+add an entry and check it with `_isHeld()` where the chain passes that point.
 
 ## Events
 
@@ -47,7 +68,7 @@ sequenceDiagram
   participant Video as BackgroundVideo (sections.video)
   participant G as gsap.delayedCall
   participant Hero as Hero (sections.hero)
-  participant Hdr as GlobalHeaderManager
+  participant Hdr as BadgeManager
 
   Note over LS: constructor: listen once for preloader:out on window,<br/>then subscribe to Bus events (_registerListeners)
   Note over U: First visit: the preloader splash (logo and subtitle) fills<br/>the screen and scrolling is locked.<br/>Return visit: no splash, the page paints straight away.
@@ -71,8 +92,10 @@ sequenceDiagram
     LS->>LS: _cueVideoIntro()
   end
   Note over LS: Both latches set and _videoIntroCued is false,<br/>so set _videoIntroCued = true
-  LS->>Video: await playIntro() (fade in, play() as safety net)
-  Note over U: The background video fades in, already in motion,<br/>never a frozen poster frame.
+  LS->>Video: await playIntro() (gel_video fades in, then the video; play() as safety net)
+  Note over U: The gel_video gel fades in, then the background video<br/>fades in already darkened and in motion, never a frozen poster frame.
+  Note over Video: Move to idle: the tilt (perspective tiers) is applied<br/>statically; video:intro:complete follows, gel fully visible
+  Note over U: The background rests in perspective with the video already<br/>darkened by gel_video (narrow screens: no tilt).
   Video-)Bus: video:intro:complete
   Bus->>LS: introComplete handler
   LS->>LS: _videoIntroComplete = true
@@ -122,6 +145,12 @@ sequenceDiagram
   Note over LS: destroy(): kill _heroHoldCall, reset all flags,<br/>unsubscribe Bus listeners, clear references
 ```
 
+## Reduced motion
+
+- The landing hold is zero: `_armHeroIntro` waits 0 instead of `HERO_INTRO_HOLD.delay`, so the hero intro follows `video:intro:complete` with no beat.
+- A gated profile still emits the `…:intro:complete` events. `AbstractSection` jumps the intro to `progress(1)`, so the chain completes without motion instead of stalling.
+- Under reduced motion `_resumeBackgroundVideo` is a no-op, so Hero's scroll gate never resumes the background video.
+
 ## Motion strategy
 
 ```mermaid
@@ -140,14 +169,15 @@ flowchart TD
         START --> LB["latch B: _videoLandingStaged"]
         LA --> CUE{"_cueVideoIntro<br/>both latches set? not yet cued?"}
         LB --> CUE
-        CUE --> VID["_startVideoIntro<br/>video.playIntro — fade in"]
-        VID --> VIC{{"bus: video:intro:complete"}}
+        CUE --> VID["_startVideoIntro<br/>video.playIntro — gel_video fade, then video fade"]
+        VID --> IDLE["BackgroundVideo move to idle<br/>tilt (perspective tiers), applied statically"]
+        IDLE --> VIC{{"bus: video:intro:complete<br/>held until the tilt settles"}}
         VIC --> BEAT["_armHeroIntro<br/>gsap.delayedCall HERO_INTRO_HOLD.delay"]
-        BEAT --> HERO["hero.playIntro<br/>gel band already at rest, full-bleed — no entrance"]
+        BEAT --> HERO["hero.playIntro<br/>gel_tagline is its only gel; gel_video already landed with the background"]
         HERO --> BIC{{"bus: hero:intro:complete — chain ends"}}
     end
 
-    BIC -.->|"GlobalHeaderManager listens"| HDR["GlobalHeaderManager._reveal<br/>header slides in, scroll auto-hide arms"]
+    BIC -.->|"BadgeManager listens"| HDR["BadgeManager._reveal<br/>header slides in, scroll auto-hide arms"]
 
     subgraph gate["Hero-scoped video playback"]
         direction LR
@@ -170,15 +200,15 @@ flowchart TD
 - **The reveal is cued off the video's own media events.** It used to be `home:outro:complete` from HomeHeaderManager. That manager was first dropped from AnimationDirector, then deleted, so nothing emitted the cue and the video sat at autoAlpha 0. The `video:media:*` events always arrive (BackgroundVideo emits exactly one per path, with a 4 s failsafe), and `playing` means frames are moving, so the fade never reveals a still poster.
 - **Two latches, one join.** The video usually settles _before_ `preloader:out` — the preloader holds its splash until the video reports. A timed-out director gate or a late video error can invert that. `_cueVideoIntro` waits for both the settled event and `playLanding()`, whichever comes last, and `_videoIntroCued` makes it run once.
 - **`playLanding()` is awaited before latch B is set.** Revealing while `playLanding()` is still tweening toward autoAlpha 0 would be undone by it.
-- **The chain ends at `hero:intro:complete`.** GlobalHeaderManager listens for it on home and reveals the header as the final beat. Pages without a hero reveal the header immediately.
+- **The chain ends at `hero:intro:complete`.** BadgeManager listens for it on home and reveals the header as the final beat. Pages without a hero reveal the header immediately.
 - **Every link is an event, not a call.** Cross-section coordination goes through `AnimationBus` with `EVENTS` constants — `LandingSequence` never reaches into an organism's internals beyond its public `play*` methods and `video.videoEl`.
-- **Reduced motion zeroes holds rather than skipping links.** A gated profile still emits `…:intro:complete` (`AbstractSection` jumps the intro to `progress(1)`), so the chain completes without motion instead of stalling.
 - **Timers are `gsap.delayedCall`, never `setTimeout`** — ticker-synced, pausable, killable in `destroy()`.
 - **Hero's reveal is disengaged from scroll; its ScrollTrigger gates video playback.** The video plays while Hero is on screen and pauses once you scroll past it. Only play/pause changes — the gels in `#sizzle-background` blend against the video's painted frame, so a paused video holds the composite unchanged.
 - **`exit` is not directional.** `AbstractSection._onLeaveBack` emits `onLeaveBack` and then `exit`. The `onLeaveBack` listener sets `_heroLeftBackwards` so the `exit` that follows skips the pause; scrolling up above Hero is the landing, where the video should keep playing.
 - **No scroll-driven resume before the video intro completes.** Hero's ScrollTrigger fires `enter` at load; resuming on it would start the video underneath its own reveal.
-- **The gel has no entrance.** The heading band is parked full-bleed at rest when hero's timelines build, so the chain goes straight from the hold to `hero.playIntro()`. See [heading-gel.md](../../molecules/hero-motion/heading-gel.md).
+- **The full-bleed gel arrives with the background, not with hero.** `gel_video` fades in as the first step of BackgroundVideo's intro, before the video does, so the video is already darkened when it appears (it replaced the hero's full-bleed gel on 2026-11-24). Hero keeps only `gel_tagline`. So the chain goes straight from the hold to `hero.playIntro()`. See [BackgroundVideo.md](../../organisms/background/BackgroundVideo.md#video-gel).
 
 ### Known drift
 
 - The constructor comment `DISABLED INITIAL PRELOADER LISTENER FOR STYLING WORK ON PRELOADER VIEW` in `LandingSequence.js` is stale — the `preloader:out` listener is active.
+- The badge replaced the global header on 2026-11-17 and renders on the homepage, so the final beat above (`hero:intro:complete` → `BadgeManager._reveal`) runs there again. See [homepage-initialization](../../../../specs/animation/homepage-initialization.animation.md).

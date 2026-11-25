@@ -7,11 +7,7 @@ import {
 } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 import { createBandParallax } from "../../molecules/band-motion/parallax.js";
-import {
-  suspendHeadingGelSync,
-  resumeHeadingGelSync,
-} from "../../molecules/hero-motion/heading-gel.js";
-import { gsap, ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
+import { ScrollTrigger } from "/assets/js/choreography/system/gsap.js";
 /**
  * Hero Trigger Defaults
  */
@@ -59,6 +55,22 @@ export const HERO_BAND_PARALLAX_TRIGGER = {
   invalidateOnRefresh: true,
 };
 
+// One per statement figure (id suffixed with the statement's index): fires the
+// statement's SVG reveal when the figure's bottom reaches the bottom of the
+// viewport, so the whole figure is in view. The trigger element is the figure,
+// not the statement section (it was the section, at `top 60%`, until
+// 2026-11-24). No pin: the statement scrolls with the page.
+export const HERO_STATEMENT_TRIGGER = {
+  ...SCROLL_DEFAULTS,
+  id: "hero-statement",
+  once: false,
+  start: "bottom bottom",
+  end: "bottom top",
+  pin: false,
+  pinSpacing: false,
+  invalidateOnRefresh: true,
+};
+
 export default class HeroTriggers extends AbstractSectionTriggers {
   constructor(view) {
     super(view);
@@ -70,6 +82,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._hideTrigger = null;
     this._outroPin = null;
     this._bandParallax = [];
+    this._statementTriggers = [];
   }
 
   _getTriggerDefaults() {
@@ -85,8 +98,44 @@ export default class HeroTriggers extends AbstractSectionTriggers {
       ? this.section?.animations?.getTimeline?.(TIMELINE_IDS.intro)
       : null;
     super.bind({ ...options, ...(introTl ? { animation: introTl } : {}) });
+    this._bindStatementTriggers();
     this._bindOutroPin();
     this._bindBandParallax();
+  }
+
+  // One trigger per statement that holds a prepared SVG, to play its reveal.
+  // The trigger element is the SVG's <figure>. Statements without one get no
+  // trigger. Nothing is pinned. The header is left out.
+  _bindStatementTriggers() {
+    this._killStatementTriggers();
+    if (!this.view) return;
+
+    const attr = HERO_SELECTORS.elementAttribute;
+    const panels = this.view.querySelectorAll(
+      `[${attr}="${HERO_SELECTORS.missionStatement}"]`,
+    );
+    this._statementTriggers = Array.from(panels, (panel, index) => {
+      const svg = panel.querySelector(
+        `[${attr}="${HERO_SELECTORS.statementSvg}"]`,
+      );
+      if (!svg) return null;
+      return ScrollTrigger.create({
+        ...HERO_STATEMENT_TRIGGER,
+        id: `${HERO_STATEMENT_TRIGGER.id}-${index}`,
+        trigger: svg.closest("figure") ?? svg,
+        // The statement's intro: when the figure's bottom reaches the bottom
+        // of the viewport, its SVG reveals group by group. Plays once;
+        // HeroAnimations ignores repeat calls. A load or fast scroll past the
+        // figure still fires onEnter (then onLeave), so passed art is never
+        // left hidden.
+        onEnter: () => this.section?.animations?.playStatementSvg?.(panel),
+      });
+    }).filter(Boolean);
+  }
+
+  _killStatementTriggers() {
+    this._statementTriggers.forEach((trigger) => trigger.kill());
+    this._statementTriggers = [];
   }
 
   // Image parallax for every band that holds an image (see band-motion).
@@ -114,8 +163,7 @@ export default class HeroTriggers extends AbstractSectionTriggers {
     this._bandParallax = [];
   }
 
-  // Pins the section root while the outro timeline (H2 lines fade, gel
-  // expands to fill the viewport) scrubs to completion, then releases.
+  // Pins the section root while the outro timeline (H2 lines fade) scrubs to completion, then releases.
   // An empty outro (no lines split yet, or the
   // `reduced` variant) means no motion — skip the pin entirely rather than
   // lock scroll for nothing.
@@ -144,28 +192,14 @@ export default class HeroTriggers extends AbstractSectionTriggers {
         delay: 0.05,
         ease: "power1.inOut",
       },
-      onToggle: (self) => {
-        if (self.isActive) {
-          suspendHeadingGelSync(this.view);
-        } else {
-          resumeHeadingGelSync(this.view);
-          // The band's sync is a resize hook only (it no longer tracks scroll),
-          // so nothing would restore its resting geometry on its own after the
-          // pin released. Force it here so a scroll-up exit doesn't leave the
-          // gel stuck at the scaleY the outro drove it to.
-          ScrollTrigger.getById("hero-heading-gel-sync")?.refresh();
-        }
-      },
     });
   }
 
   kill() {
+    this._killStatementTriggers();
     this._outroPin?.kill();
     this._outroPin = null;
     this._killBandParallax();
-    // Guard against a matchMedia teardown mid-pin leaving the gel sync
-    // permanently suspended (onToggle's inactive branch would never fire).
-    resumeHeadingGelSync(this.view);
     super.kill();
   }
 }

@@ -1,5 +1,5 @@
 ---
-description: "Configuration barrel — re-exports all choreography configuration from contracts, displays, and ix (including ix/presets) for convenience; most modules deep-import the specific file instead."
+description: Configuration barrel — re-exports all choreography configuration from contracts, displays, and ix (including ix/presets) for convenience; most modules deep-import the specific file instead.
 status: stable
 tags:
   - choreography
@@ -11,7 +11,7 @@ links:
   - "[[timelines|timelines]]"
   - "[[ruler|ruler]]"
   - "[[breakpoints|breakpoints]]"
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/ia/docs/design/tokens/motion|motion]]"
   - "[[presets|presets]]"
   - "[[scrolltriggers|scrolltriggers]]"
   - "[[profiles|profiles]]"

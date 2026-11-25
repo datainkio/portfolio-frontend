@@ -1,6 +1,6 @@
 ---
 description: "Route definition for the /work/ landing page, driven by the Sanity projectsLanding singleton."
-layout: pages/projects/projects.njk
+layout: templates/projects/projects.njk
 permalink: "/work/"
 docNo: "02"
 eleventyNavigation:
@@ -9,7 +9,7 @@ eleventyNavigation:
   order: 20
 eleventyComputed:
   title: "{{ cms.projectsLanding[0].pageTitle }}"
-  abstract: "{{ cms.projectsLanding[0].pageBodyHtml | safe }}"
+  pageBody: "{{ cms.projectsLanding[0].pageBodyHtml | safe }}"
 metaDescription: "no metaDescription defined"
 metaKeywords: "user experience, eleventy, sanity, tailwind"
 canonicalUrl: "https://dataink.io/work/"

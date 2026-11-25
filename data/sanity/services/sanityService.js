@@ -8,7 +8,10 @@ import {
 } from "../client/index.js";
 import { CMS_QUERIES } from "../queries.js";
 import { hydrateAwardInlineLogos } from "../transforms/award.js";
-import { normalizeLandingRecords } from "../transforms/home.js";
+import {
+  normalizeLandingRecords,
+  hydrateStatementInlineSvgs,
+} from "../transforms/home.js";
 import { normalizeProjectsLandingRecords } from "../transforms/projectsLanding.js";
 import { normalizeContactRecords } from "../transforms/contact.js";
 import {
@@ -17,6 +20,13 @@ import {
   normalizeProjectPageRecords,
 } from "../transforms/project.js";
 import { normalizeNavigationRecords } from "../transforms/navigation.js";
+import {
+  addPostUrls,
+  normalizePostPageRecords,
+  normalizePostsLandingRecords,
+} from "../transforms/post.js";
+import { normalizeSitePageRecords } from "../transforms/sitePage.js";
+import { normalizeFeaturedStatisticRecords } from "../transforms/statistic.js";
 import { normalizeUserGuideRecords } from "../transforms/user-guide.js";
 import { normalizeImageUrls } from "../transforms/imageUrls.js";
 import logger, { LumberjackStyle } from "@datainkio/lumberjack";
@@ -48,7 +58,7 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
     }
 
     if (definition.id === "home") {
-      data = normalizeLandingRecords(data);
+      data = await hydrateStatementInlineSvgs(normalizeLandingRecords(data));
     }
 
     if (definition.id === "projectsLanding") {
@@ -71,9 +81,32 @@ async function fetchAllQueries({ client, cacheDefault, useParallel }) {
       data = await normalizeProjectPageRecords(data);
     }
 
-    if (definition.id === "navigation") {
-      data = normalizeNavigationRecords(data);
+    if (definition.id === "posts") {
+      data = addPostUrls(data);
     }
+
+    if (definition.id === "postPages") {
+      data = normalizePostPageRecords(data);
+    }
+
+    // Both landing singletons share one shape: the transform adds pageBodyHtml.
+    if (
+      definition.id === "postsLanding" ||
+      definition.id === "documentationLanding"
+    ) {
+      data = normalizePostsLandingRecords(data);
+    }
+
+    if (definition.id === "featuredStatistics") {
+      data = normalizeFeaturedStatisticRecords(data);
+    }
+
+    if (definition.id === "sitePages") {
+      data = normalizeSitePageRecords(data);
+    }
+
+    // Navigation is normalised after every query resolves (see init): sitePage
+    // items need the sitePages URL map.
 
     if (definition.id === "userGuide") {
       data = normalizeUserGuideRecords(data);
@@ -131,11 +164,27 @@ export async function init(eleventyConfig, site) {
 
   const cacheDuration = cmsConfig.cacheDuration || "1d";
   const useParallel = cmsConfig.parallel !== false;
-  const results = await fetchAllQueries({
+  const fetched = await fetchAllQueries({
     client,
     cacheDefault: cacheDuration,
     useParallel,
   });
+
+  // Nav items carry only `_id`, so resolve sitePage hrefs from the built URLs.
+  const sitePageUrls = new Map(
+    (fetched.find(({ id }) => id === "sitePages")?.data || []).map((page) => [
+      page._id,
+      page.url,
+    ]),
+  );
+  const results = fetched.map((result) =>
+    result.id === "navigation"
+      ? {
+          ...result,
+          data: normalizeNavigationRecords(result.data, sitePageUrls),
+        }
+      : result,
+  );
 
   const cmsPayload = results.reduce((payload, { id, data }) => {
     payload[id] = data || [];

@@ -41,7 +41,11 @@ While open, samples frame rate via `requestAnimationFrame` and writes a rounded 
 
 ## Motion
 
-Drawer slide, transform-only, mirrors [[GlobalHeaderManager.js]]'s hide/show shape. `list` is anchored `top-full` under the header ([[build-info.njk]]); closed = `yPercent: -100` (list translated up by its own height so its bottom edge sits flush with the header's bottom edge), open = `yPercent: 0`. `open()` tweens to `0` with `motion.ease("enter")`, `close()` tweens to `-100` with `motion.ease("exit")`, both at `motion.duration("base")`. `reducedMotionHandler` (injected the same way as every other manager) gates a `gsap.set()` jump instead of a tween when reduced motion is active. `kill()` clears tweens via `gsap.killTweensOf`.
+Drawer slide, transform-only, mirrors [[BadgeManager.js]]'s hide/show shape. `list` is anchored `top-full` under the header ([[build-info.njk]]); closed = `yPercent: -100` (list translated up by its own height so its bottom edge sits flush with the header's bottom edge), open = `yPercent: 0`. `open()` tweens to `0` with `motion.ease("enter")`, `close()` tweens to `-100` with `motion.ease("exit")`, both at `motion.duration("base")`. `kill()` clears tweens via `gsap.killTweensOf`.
+
+## Reduced motion
+
+`reducedMotionHandler` (injected the same way as every other manager) gates a `gsap.set()` jump instead of the tween.
 
 ## Lifecycle
 

@@ -9,7 +9,7 @@ links:
   - "[[managers/ReducedMotionHandler/ReducedMotionHandler|managers/ReducedMotionHandler]]"
   - "[[managers/ScrollSmootherManager/ScrollSmootherManager|managers/ScrollSmootherManager]]"
   - "[[managers/GelAnimationManager/GelAnimationManager|managers/GelAnimationManager]]"
-  - "[[managers/GlobalHeaderManager/GlobalHeaderManager|managers/GlobalHeaderManager]]"
+  - "[[managers/BadgeManager/BadgeManager|managers/BadgeManager]]"
   - "[[managers/ScrollEffectsCoordinator/ScrollEffectsCoordinator|managers/ScrollEffectsCoordinator]]"
   - "[[managers/RulerIntroManager/RulerIntroManager|managers/RulerIntroManager]]"
   - "[[managers/ProjectHeaderManager/ProjectHeaderManager|managers/ProjectHeaderManager]]"

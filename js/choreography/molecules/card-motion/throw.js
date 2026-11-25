@@ -66,7 +66,7 @@ function createIntroTimeline(article) {
       path: toViewportPath(VIEWPORT_PATHS.throwIn),
       curviness: 1.25,
     },
-    ease: "power2.out",
+    ease: motion.ease("enter"),
   });
   tl.to(figure, { rotation: 0, duration: motion.duration("slow") }, "<20%");
   tl.to(
@@ -74,7 +74,7 @@ function createIntroTimeline(article) {
     {
       y: 0,
       duration: motion.duration("slow"),
-      ease: "power2.out",
+      ease: motion.ease("enter"),
     },
     "<10%",
   );
@@ -123,7 +123,7 @@ function createOutroTimeline(article) {
       curviness: 1,
       // autoRotate: 90,
     },
-    ease: "power3.in",
+    ease: motion.ease("exit"),
   });
   return tl;
 }

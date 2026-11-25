@@ -13,7 +13,8 @@
  */
 
 /* Graphpaper background - bg-graphpaper-<color>[/<strength>] engineering grid
- * Used by the base layout body and the contact form sheet */
+ * Used by the base layout body and the contact form sheet; bg-page-graphpaper
+ * pairs it with neutral-950 for the homepage <html> and preloader */
 @import "./backgrounds/Graphpapers.css";
 
 /* Geometric patterns - Shapes, tessellations, mathematical constructs
@@ -195,6 +196,37 @@
     --value(--color-*, [color]) --modifier([percentage]),
     transparent
   );
+}
+
+/*
+ * PRINT MARKS SCALE
+ *
+ * Makes the Printmarks molecule scale with the element it sits on. Inside this
+ * utility the spacing tokens up to 24 are redefined as multiples of
+ * --printmarks-unit, a share of the nearest size container's width, so every
+ * spacing-based class (inset-*, size-*, h-*, gap-*) grows and shrinks with
+ * that container. The molecule's outer box is the container.
+ * 0.45cqi equals the usual 0.25rem step at a container about 890px wide.
+ * Border weights are not spacing tokens and stay in px.
+ */
+@utility printmarks-scale {
+  --printmarks-unit: 0.45cqi;
+  --spacing-0_5: calc(var(--printmarks-unit) * 0.5);
+  --spacing-1: calc(var(--printmarks-unit) * 1);
+  --spacing-1_5: calc(var(--printmarks-unit) * 1.5);
+  --spacing-2: calc(var(--printmarks-unit) * 2);
+  --spacing-3: calc(var(--printmarks-unit) * 3);
+  --spacing-4: calc(var(--printmarks-unit) * 4);
+  --spacing-5: calc(var(--printmarks-unit) * 5);
+  --spacing-6: calc(var(--printmarks-unit) * 6);
+  --spacing-8: calc(var(--printmarks-unit) * 8);
+  --spacing-10: calc(var(--printmarks-unit) * 10);
+  --spacing-12: calc(var(--printmarks-unit) * 12);
+  --spacing-14: calc(var(--printmarks-unit) * 14);
+  --spacing-16: calc(var(--printmarks-unit) * 16);
+  --spacing-18: calc(var(--printmarks-unit) * 18);
+  --spacing-20: calc(var(--printmarks-unit) * 20);
+  --spacing-24: calc(var(--printmarks-unit) * 24);
 }
 
 /*

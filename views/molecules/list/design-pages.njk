@@ -8,7 +8,9 @@ Accessible navigation with ARIA labels and semantic structure
 {#- `nav` is pre-filtered eleventyNavigation entries from the caller, e.g.
     `collections.all | eleventyNavigation("Design")`. Each section's children
     carry a `group` (set by ia/docs/design/design.11tydata.js) and arrive
-    sorted, so consecutive runs of one group become one labelled list. -#}
+    sorted, so consecutive runs of one group become one labelled list. A
+    top-level entry may carry a `part`; consecutive runs of one part sit under
+    a label. `home` ({ url, title }) renders first, as a plain link. -#}
 {% macro render(params = {}) %}
 {% set designNav = params.nav or [] %}
 {% set currentUrl = params.currentUrl %}
@@ -19,54 +21,104 @@ Accessible navigation with ARIA labels and semantic structure
   <nav
     class="design-navigation border-l-2 border-neutral-700 pl-4 mb-8"
     role="navigation"
-    aria-label="Design section navigation">
-    <ul class="space-y-2" role="list">
-      {% for item in designNav %}
-        {#- A section with no pages is a dead end; leave it out until it has some. -#}
-        {% if item.children.length %}
+    aria-label="{{ params.label or 'Design section navigation' }}">
+    {#- Bucket the top-level entries into runs of one `part`. -#}
+    {% set parts = [] %}
+    {% for item in designNav %}
+      {% set last = parts[parts.length - 1] if parts.length else null %}
+      {% if last and last.title == item.part and item.part %}
+        {% set _ = last.items.push(item) %}
+      {% else %}
+        {% set _ = parts.push({ title: item.part, items: [item] }) %}
+      {% endif %}
+    {% endfor %}
+
+    <ul class="space-y-4" role="list">
+      {#- The Design root can't be its own child, so the caller passes it as `home`. -#}
+      {% if params.home %}
         <li class="text-sm">
+          {{ Link.render({
+            url: params.home.url,
+            text: params.home.title,
+            ariaCurrent: "page" if params.home.url == currentUrl else "",
+            classes: linkBase + (linkCurrent if params.home.url == currentUrl else " text-neutral-200 hover:text-neutral-50 hover:bg-neutral-800")
+          }) }}
+        </li>
+      {% endif %}
+      {% for part in parts %}
+        {% set partId = ("design-part-" ~ (part.title or loop.index)) | slugify %}
+        <li>
+          {% if part.title %}
+            <span id="{{ partId }}" class="block px-2 pb-1 text-sm font-medium uppercase tracking-widest text-neutral-400">{{ part.title }}</span>
+          {% endif %}
+          <ul class="space-y-2" role="list"{% if part.title %} aria-labelledby="{{ partId }}"{% endif %}>
+      {% for item in part.items %}
+        <li class="text-sm">
+          {% if not item.children.length %}
           {{ Link.render({
             url: item.url,
             text: item.title,
             ariaCurrent: "page" if item.url == currentUrl else "",
             classes: linkBase + (linkCurrent if item.url == currentUrl else " text-neutral-200 hover:text-neutral-50 hover:bg-neutral-800")
           }) }}
-
-          {#- Bucket the sorted children by group. -#}
-          {% set groups = [] %}
+          {% else %}
+          {#- Open when the current page is this section or one of its pages. -#}
+          {% set hits = [] %}
+          {% if item.url == currentUrl %}{% set _ = hits.push(1) %}{% endif %}
           {% for child in item.children %}
-            {% set last = groups[groups.length - 1] if groups.length else null %}
-            {% if last and last.title == child.group %}
-              {% set _ = last.pages.push(child) %}
-            {% else %}
-              {% set _ = groups.push({ title: child.group, pages: [child] }) %}
-            {% endif %}
+            {% if child.url == currentUrl %}{% set _ = hits.push(1) %}{% endif %}
           {% endfor %}
 
-          <ul class="mt-2 ml-4 space-y-3 border-l border-neutral-800 pl-3" role="list">
-            {% for group in groups %}
-              {% set groupId = ("design-" ~ item.title ~ "-" ~ (group.title or loop.index)) | slugify %}
-              <li class="text-xs">
-                {% if group.title %}
-                  <span id="{{ groupId }}" class="block px-2 pt-1 text-xs font-medium uppercase tracking-wider text-neutral-500">{{ group.title }}</span>
-                {% endif %}
-                <ul class="space-y-1" role="list"{% if group.title %} aria-labelledby="{{ groupId }}"{% endif %}>
-                  {% for child in group.pages %}
-                    <li>
-                      {{ Link.render({
-                        url: child.url,
-                        text: child.title,
-                        ariaCurrent: "page" if child.url == currentUrl else "",
-                        classes: linkBase + (linkCurrent if child.url == currentUrl else " text-neutral-300 hover:text-neutral-50 hover:bg-neutral-800")
-                      }) }}
-                    </li>
-                  {% endfor %}
-                </ul>
-              </li>
+          <details{% if hits.length %} open{% endif %}>
+            <summary class="{{ linkBase }} cursor-pointer text-neutral-200 hover:text-neutral-50 hover:bg-neutral-800">{{ item.title }}</summary>
+
+            {#- Bucket the sorted children by group. -#}
+            {% set groups = [] %}
+            {% for child in item.children %}
+              {% set last = groups[groups.length - 1] if groups.length else null %}
+              {% if last and last.title == child.group %}
+                {% set _ = last.pages.push(child) %}
+              {% else %}
+                {% set _ = groups.push({ title: child.group, pages: [child] }) %}
+              {% endif %}
             {% endfor %}
+
+            <ul class="mt-2 ml-4 space-y-3 border-l border-neutral-800 pl-3" role="list">
+              <li class="text-xs">
+                {{ Link.render({
+                  url: item.url,
+                  text: "Overview",
+                  ariaCurrent: "page" if item.url == currentUrl else "",
+                  classes: linkBase + (linkCurrent if item.url == currentUrl else " text-neutral-300 hover:text-neutral-50 hover:bg-neutral-800")
+                }) }}
+              </li>
+              {% for group in groups %}
+                {% set groupId = ("design-" ~ item.part ~ "-" ~ item.title ~ "-" ~ (group.title or loop.index)) | slugify %}
+                <li class="text-xs">
+                  {% if group.title %}
+                    <span id="{{ groupId }}" class="block px-2 pt-1 text-xs font-medium uppercase tracking-wider text-neutral-500">{{ group.title }}</span>
+                  {% endif %}
+                  <ul class="space-y-1" role="list"{% if group.title %} aria-labelledby="{{ groupId }}"{% endif %}>
+                    {% for child in group.pages %}
+                      <li>
+                        {{ Link.render({
+                          url: child.url,
+                          text: child.title,
+                          ariaCurrent: "page" if child.url == currentUrl else "",
+                          classes: linkBase + (linkCurrent if child.url == currentUrl else " text-neutral-300 hover:text-neutral-50 hover:bg-neutral-800")
+                        }) }}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% endfor %}
+            </ul>
+          </details>
+          {% endif %}
+        </li>
+      {% endfor %}
           </ul>
         </li>
-        {% endif %}
       {% endfor %}
     </ul>
   </nav>

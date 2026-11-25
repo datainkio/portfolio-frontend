@@ -24,15 +24,15 @@ Classified as a **component** at the atomic **atom** level based on its location
 
 ## Params
 
-| Param         | Type                          | Description                                                                                                                                                                       |
-| ------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `entry`       | object                        | Navigation entry. Its `url` or `href` is the target, `pageNavLabel` or `key` is the label, `description` is the title, and `class` is a raw class string that replaces `classes`. |
-| `url`         | string                        | Link target, used when `entry` has no URL.                                                                                                                                        |
-| `href`        | string                        | Alias for `url`, used when neither `entry` nor `url` is set.                                                                                                                      |
-| `title`       | string                        | Label, used when `entry` supplies no label.                                                                                                                                       |
-| `classes`     | string, variant map, or array | Applied through `classes`. Ignored when `entry.class` is set.                                                                                                                     |
-| `currentUrl`  | string                        | When it equals the link target, the link gets `aria-current="page"`.                                                                                                              |
-| `description` | string                        | `title` attribute, used when `entry` has no description.                                                                                                                          |
+| Param         | Type                          | Description                                                                                                                                                                                            |
+| ------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `entry`       | object                        | Navigation entry. Its `url` or `href` is the target, `pageNavLabel`, `title` or `key` (first set) is the label, `description` is the title, and `class` is a raw class string that replaces `classes`. |
+| `url`         | string                        | Link target, used when `entry` has no URL.                                                                                                                                                             |
+| `href`        | string                        | Alias for `url`, used when neither `entry` nor `url` is set.                                                                                                                                           |
+| `title`       | string                        | Label, used when `entry` supplies no label.                                                                                                                                                            |
+| `classes`     | string, variant map, or array | Applied through `classes`. Ignored when `entry.class` is set.                                                                                                                                          |
+| `currentUrl`  | string                        | When it equals the link target, the link gets `aria-current="page"`.                                                                                                                                   |
+| `description` | string                        | `title` attribute, used when `entry` has no description.                                                                                                                                               |
 
 ## Relationships
 

@@ -1,8 +1,36 @@
 {#-
-  Organization name as plain text, for the homepage organizations list.
-  Logos were switched off on 2026-08-23 (dc5ff743), so the atom renders the
-  title only.
+  Organization logo tile for the homepage organizations marquee.
+
+  The Sanity logos are opaque 16:9 brand tiles, shown in their original colour.
+  Alt text is the organization name: that is what the logo communicates, and
+  the Sanity `logo.alt` values are inconsistent ("QVC Company Logo", null, …).
+
+  Falls back to the plain title when an organization has no logo.
+
+Params:
+  title    string  Organization name. Trimmed; used as the alt text.
+  logo     object  Sanity logo: { asset: { url, metadata.dimensions } }.
+  classes  string  Appended to the img classes through the `classes` filter.
 -#}
 {% macro render(params = {}) %}
-  {{ params.title | default('Untitled organization') }}
+  {%- set title = params.title | default('Untitled organization') | trim -%}
+  {%- set asset = params.logo.asset if params.logo else null -%}
+  {%- set dimensions = asset.metadata.dimensions if (asset and asset.metadata) else null -%}
+
+  {%- set styles = {
+    "base": "block w-32 h-auto",
+    "md": "w-40"
+  } -%}
+
+  {%- if asset and asset.url -%}
+    <img src="{{ asset.url | imageUrl({w: 320, q: 75}) }}"
+         alt="{{ title }}"
+         width="{{ dimensions.width if dimensions else 320 }}"
+         height="{{ dimensions.height if dimensions else 180 }}"
+         loading="lazy"
+         decoding="async"
+         class="{{ [styles, params.classes] | classes }}" />
+  {%- else -%}
+    {{ title }}
+  {%- endif -%}
 {% endmacro %}

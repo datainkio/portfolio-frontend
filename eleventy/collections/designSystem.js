@@ -11,6 +11,8 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname, basename, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import gsap from "gsap";
+import { GSAP_EASE } from "../../js/choreography/config/ix/motion.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "../..");
@@ -91,6 +93,31 @@ function themeEntries(css) {
 /** Tailwind writes `.` in theme keys as `_`: `--spacing-1_5` is `p-1.5`. */
 const keyToClass = (key) => key.replace(/_/g, ".");
 
+/**
+ * What GSAP actually runs for an ease token. GSAP can't parse the token's
+ * `cubic-bezier()`, so `motion.ease()` hands it a core ease from `GSAP_EASE`
+ * instead. That curve is sampled into an SVG path (in the reference plot's
+ * 0–100 frame, y down) and a CSS `linear()` function, so the page can draw
+ * and play it beside the designed curve.
+ */
+function gsapEase(key) {
+  const name = GSAP_EASE[key];
+  const fn = name && gsap.parseEase(name);
+  if (!fn) return { gsap: "", gsapPath: "", gsapLinear: "" };
+  const steps = 40;
+  const ys = Array.from({ length: steps + 1 }, (_, i) => fn(i / steps));
+  const r = (n) => Math.round(n * 1000) / 1000;
+  return {
+    gsap: name,
+    gsapPath: ys
+      .map(
+        (y, i) => `${i ? "L" : "M"}${r((i / steps) * 100)},${r(100 - y * 100)}`,
+      )
+      .join(" "),
+    gsapLinear: `linear(${ys.map((y, i) => `${r(y)} ${r((i / steps) * 100)}%`).join(", ")})`,
+  };
+}
+
 const PALETTE_ORDER = [
   "primary",
   "secondary",
@@ -158,7 +185,7 @@ export function readDesignTokens() {
       groups.duration.push({ key: m[1], value });
     } else if ((m = name.match(/^ease-(.+)$/))) {
       const nums = value.match(/-?[\d.]+/g)?.map(Number) || [];
-      groups.ease.push({ key: m[1], value, points: nums });
+      groups.ease.push({ key: m[1], value, points: nums, ...gsapEase(m[1]) });
     }
   }
 
@@ -274,12 +301,10 @@ function componentTitle(component) {
 function relatedComponents(component) {
   const { imports, importedBy } = readImportGraph();
   const toLinks = (paths) =>
-    (paths || [])
-      .filter(hasReferencePage)
-      .map((path) => ({
-        title: componentTitle(path),
-        url: referenceUrl(path),
-      }));
+    (paths || []).filter(hasReferencePage).map((path) => ({
+      title: componentTitle(path),
+      url: referenceUrl(path),
+    }));
   return {
     composedOf: toLinks(imports.get(component)),
     usedIn: toLinks(importedBy.get(component)),

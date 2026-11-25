@@ -12,3 +12,7 @@ links:
   - "[[process-motion]]"
   - "[[blockframe-basic]]"
 ---
+
+## Reduced motion
+
+No reduced branch lives in this module. The profile system swaps Process to the `reduced` variant, which does not call `buildBlockframesReveal`. The `gsap.set` that hides the cells runs inside that function, so under reduced motion the cells keep their markup state and no reveal runs.

@@ -3,7 +3,7 @@ description: "Defines Nunjucks macro: render — the site-wide <footer> (content
 type: template
 links:
   - "[main-pages](../../molecules/list/main-pages.md)"
-  - "[home](../../pages/home/home.md)"
+  - "[home](../../templates/home/home.md)"
 ---
 
 # Global Footer
@@ -82,7 +82,7 @@ reintroduce a non-landmark `<div>` as the `content` element.
 
 **Current state per caller:**
 
-- [`home.njk`](../../pages/home/home.njk) — follows the shape above.
+- [`home.njk`](../../templates/home/home.njk) — follows the shape above.
 - [`base.njk`](../../layouts/base.njk) — two shapes, chosen by `footerInFlow`
   (`not (smoothScroll or pinFooter)`):
   - **In flow (default):** `<body>` is `flex flex-col min-h-dvh` and `<main>`
@@ -90,7 +90,7 @@ reintroduce a non-landmark `<div>` as the `content` element.
     footer height, or at the viewport bottom on short pages. No spacer. Used
     by project pages, `/about`, and `/user-guide`.
   - **Pinned:** `smoothScroll` pages (`landing.njk`: `/work`, `/contact`) and
-    grid-`<body>` layouts (`cols-2-before`/`cols-2-after` set `pinFooter`; docs
+    grid-`<body>` layouts (`cols-2-before` sets `pinFooter`; docs
     pages) keep the shape above: footer `absolute inset-x-0 bottom-0`, and
     `<main>` reserves its height with an `after:h-48` spacer.
   (Before 2026-09-28 the footer sat inside the fixed `#page-main`. Before
@@ -102,7 +102,7 @@ reintroduce a non-landmark `<div>` as the `content` element.
   - [[main-pages.njk]]
 - Used by:
   - [`base.njk`](../../layouts/base.njk) (most pages)
-  - [`home.njk`](../../pages/home/home.njk)
+  - [`home.njk`](../../templates/home/home.njk)
 
 ## Notes for Future Maintenance
 

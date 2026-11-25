@@ -6,16 +6,14 @@
  * HeroAnimations.js selects the active variant via SECTION_OVERRIDES.hero
  * in config/ix/profiles/profiles.js.
  *
- *   split  - Gel band at rest, full-bleed (landing); intro wipes the title
- *            band in behind label + h1, then GSAP SplitText on the header and
- *            subheader (intro). Requires SplitText plugin and gelManager.
+ *   split  - Intro fades gel_tagline in, then GSAP SplitText on the header and
+ *            subheader. No landing phase. Requires SplitText plugin and gelManager.
  *   reduced - Nothing fancy.
- *   sweep  — Gel wipe (scaleX 0→1) followed by header fade+lift. Requires gelManager.
+ *   sweep  — Header fade+lift (its gel wipe was retired on 2026-11-24).
  *   fade   — Simple header fade+lift. No gel dependency.
  */
 
 import { intro as introSplit } from "./split.js";
-import { buildHeadingGelRest } from "./heading-gel.js";
 import { createSweepIn, createSweepOut } from "./sweep.js";
 import { initFade, createFadeIn, createFadeOut } from "./fade.js";
 import {
@@ -26,13 +24,11 @@ import {
 
 export const HERO_VARIANT_FACTORIES = Object.freeze({
   split: {
-    // Landing phase: the gel band parked full-bleed at rest — no entrance.
-    init: buildHeadingGelRest,
     buildIntro: introSplit,
     // Outro disabled — omitting buildOutro makes HeroAnimations._buildOutro fall
     // back to the base class's empty timeline, which HeroTriggers._bindOutroPin
     // reads as "no motion" and skips the hero-outro-pin entirely (no pin, no
-    // scrub, no heading-gel-sync suspend). split.js `outro()` is left intact.
+    // scrub). split.js `outro()` is left intact.
     // To re-enable: restore the `outro as outroSplit` import and
     // `buildOutro: outroSplit,` here.
   },

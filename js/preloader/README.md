@@ -21,11 +21,12 @@ Decides when the homepage splash screen leaves. The visuals are pure CSS in [han
 
 - On a return visit in the same session the splash is hidden before first paint.
 - Every wait has a fallback timer (for example 4 seconds for the video), so a slow asset can delay the landing animation but never block the page.
+- If this code never runs at all, a CSS failsafe in `hanko.css` hides the splash after 20 seconds.
 - `preloader:out` is the handoff to the choreography code. It fires once.
 
 ## How it connects
 
-- Loaded by the [preloader script partial](../../views/templates/partials/preloader-script/preloader-script.njk).
+- Loaded by the [preloader script partial](../../views/layouts/partials/preloader-script/preloader-script.njk).
 - `LandingSequence` in [choreography](../choreography/README.md) starts when `preloader:out` fires.
 
 ## See also

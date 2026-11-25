@@ -25,17 +25,18 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Params
 
-| Param        | Type                          | Description                                                                                                                  |
-| ------------ | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `items`      | array                         | Navigation entries (`url` or `href`, plus `title` or `key`). Entries without a link or label are skipped. Defaults to empty. |
-| `currentUrl` | string                        | The matching entry renders as a `<span aria-current="page">` instead of a link.                                              |
-| `classes`    | string, variant map, or array | Applied to the `<ul>` through `classes`.                                                                                     |
-| `styles`     | object                        | Slot map. See the slot table.                                                                                                |
+| Param        | Type                          | Description                                                                                                                                                                                                                                        |
+| ------------ | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `items`      | array                         | Navigation entries (`url` or `href`, plus `title` or `key`). Entries without a link or label are skipped, and so are entries with `hide: true` (set under `eleventyNavigation` in a page's frontmatter; the page still builds). Defaults to empty. |
+| `currentUrl` | string                        | The matching entry renders as a `<span aria-current="page">` instead of a link.                                                                                                                                                                    |
+| `classes`    | string, variant map, or array | Applied to the `<ul>` through `classes`.                                                                                                                                                                                                           |
+| `styles`     | object                        | Slot map. See the slot table.                                                                                                                                                                                                                      |
 
-| Slot   | Element                                                                          |
-| ------ | -------------------------------------------------------------------------------- |
-| `item` | Each `<li>`.                                                                     |
-| `link` | The link, or the current-page `<span>`. Passed to the nav link as its `classes`. |
+| Slot       | Element                                                                                                                                                                                                                                                                          |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `item`     | Each `<li>`.                                                                                                                                                                                                                                                                     |
+| `link`     | The link, or the current-page `<span>`. Passed to the nav link as its `classes`.                                                                                                                                                                                                 |
+| `children` | Opt-in. An object with `list`, `item` and `link` class maps. When given, an entry with a non-empty `children` array renders a nested `<ul role="list">` inside its `<li>` (the macro calls itself, so nested entries follow the same rules). Without it, `children` are ignored. |
 
 ## Relationships
 

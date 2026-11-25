@@ -32,7 +32,7 @@ Classified as a **layout** at the atomic **none** level based on its location un
 - Extends:
   - [[cols-2-before.njk]]
 - Likely used by:
-  - [[design-doc.njk|../layouts/design-doc.md]], for the design-system reference's third column (`sidebarAfter`)
+  - [[design-doc.njk|../templates/design-doc/design-doc.md]], for the design-system reference's third column (`sidebarAfter`)
 
 ## Notes for Future Maintenance
 

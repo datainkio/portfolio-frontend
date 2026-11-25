@@ -35,7 +35,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
   - [[award-organization.njk|molecules/card/award-organization.njk]]
   - [[section-frame.njk|molecules/section/section-frame.njk]] (`tone: "accent-600"`, `id: "awards-heading"`)
 - Used by:
-  - [[project.njk|pages/project/project.njk]]
+  - [[project.njk|templates/project/project.njk]]
 
 ## Notes for Future Maintenance
 

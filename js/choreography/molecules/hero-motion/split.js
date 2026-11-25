@@ -3,7 +3,7 @@ import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { motion } from "../../config/ix/motion.js";
 import { HERO_INTRO, HERO_OUTRO } from "../../config/ix/presets/hero.js";
 import { HERO_SELECTORS } from "../../config/contracts/selectors/selectors.js";
-import { getHeadingGelEl } from "./heading-gel.js";
+import { addTaglineGelFade } from "./tagline-gel.js";
 
 const HERO_EL_ATTR = HERO_SELECTORS.elementAttribute;
 
@@ -66,6 +66,11 @@ export function intro(view, gelManager) {
         });
       });
   });
+  // The tagline gel fades in first; the header (band wipe, then text) follows
+  // once it lands. The "header" label sits at 0 when the gel is missing.
+  addTaglineGelFade(tl, gelManager);
+  tl.addLabel("header");
+
   // Band wipe: the solid plate behind label + h1 is revealed from the
   // viewport's left edge to full width. clip-path rather than scaleX so the
   // band's parallax image is uncovered, not squashed. fromTo renders its start
@@ -81,10 +86,10 @@ export function intro(view, gelManager) {
         duration: HERO_INTRO.bandDuration,
         ease: HERO_INTRO.ease.out,
       },
-      0,
+      "header",
     );
   }
-  // The text starts once the wipe completes (at 0 when there is no band).
+  // The text starts once the wipe completes (once the gel fade completes when there is no band).
   tl.addLabel("text");
 
   // Reading-order cascade: context and title overlap into one continuous
@@ -126,9 +131,8 @@ export function intro(view, gelManager) {
 }
 
 /**
- * Hero outro: two scrub-driven beats while the section is pinned.
+ * Hero outro: one scrub-driven beat while the section is pinned.
  * 1. H2's SplitText lines fade to opacity 0, last line first.
- * 2. The heading gel grows from its own vertical center to fill the viewport.
  *
  * HeroTriggers hands this timeline to a dedicated pin trigger, so playback
  * progress is owned by scroll position, not this function. Positional values
@@ -139,15 +143,12 @@ export function intro(view, gelManager) {
  * "no motion" and skips creating the pin.
  *
  * @param {HTMLElement|null} view
- * @param {object|null} gelManager GelAnimationManager instance.
  * @returns {gsap.core.Timeline}
  */
-export function outro(view, gelManager) {
+export function outro(view) {
   const tl = gsap.timeline({ id: TIMELINE_IDS.outro });
   const split = headingSplits.get(view);
   if (!split?.lines?.length) return tl;
-
-  const gelEl = getHeadingGelEl(gelManager);
 
   tl.addLabel("outro");
 
@@ -159,22 +160,6 @@ export function outro(view, gelManager) {
     stagger: { each: HERO_OUTRO.stagger, from: "end" },
   });
   tl.addLabel("lines-out");
-
-  // 2. gel grows from its own vertical center to fill the viewport.
-  // transformOrigin is already "center center" from attachHeadingGel's sync.
-  if (gelEl) {
-    tl.to(gelEl, {
-      scaleY: () => {
-        const currentScaleY = gsap.getProperty(gelEl, "scaleY") || 1;
-        const unscaledHeight =
-          gelEl.getBoundingClientRect().height / currentScaleY;
-        return window.innerHeight / unscaledHeight;
-      },
-      duration: HERO_OUTRO.gelDuration,
-      ease: HERO_OUTRO.ease.inOut,
-    });
-  }
-  tl.addLabel("gel-open");
 
   return tl;
 }

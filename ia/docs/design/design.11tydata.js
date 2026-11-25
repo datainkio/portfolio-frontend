@@ -7,9 +7,14 @@
  * sidecar, so the reference never restates them.
  *
  * Navigation: this folder's README is the "Design" key; each subfolder's
- * README is a section under it; every other page sits under its section.
- * "Design" names a "Docs" parent that doesn't exist, which keeps it out of
- * root-level eleventyNavigation lists such as primary-nav's fallback.
+ * README is a section under it; every other page sits under its section. A
+ * page directly in this folder (accessibility.md, maintenance.md) is a leaf
+ * placed by its name in SECTION_ORDER. The
+ * choreography reference (choreography/) puts its own sections under the same
+ * key.
+ * "Design" sits under "Docs", the key of the /docs/ landing
+ * (ia/docs/index.md), which keeps it out of root-level eleventyNavigation
+ * lists such as primary-nav's fallback.
  *
  * Within a section, pages are grouped by role and ordered by composition
  * (base before variants, page order for page sections). GROUPS below is the
@@ -18,14 +23,27 @@
  */
 import { readComponentSidecar } from "../../../eleventy/collections/designSystem.js";
 
+/**
+ * Top-level order, times ten. "introduction" is the Design root, which the
+ * sidebar renders first as `home`, so it holds its place without an entry.
+ * Accessibility and Maintenance are top-level pages, placed by name.
+ * "choreography" is the slot the choreography reference fills; see
+ * choreography/choreography.11tydata.js.
+ */
 const SECTION_ORDER = [
+  "introduction",
+  "accessibility",
   "tokens",
+  "decoration",
   "atoms",
   "molecules",
   "organisms",
-  "templates",
-  "layouts",
+  "choreography",
+  "maintenance",
 ];
+
+/** Sections that sit under a sidebar part label. */
+const PARTS = { atoms: "Styling", molecules: "Styling", organisms: "Styling" };
 
 /**
  * Sidebar groups per section. Keys are a page's path under its section
@@ -36,13 +54,23 @@ const SECTION_ORDER = [
 const GROUPS = {
   tokens: [
     {
+      pages: ["colour", "typography", "spacing", "motion"],
+    },
+  ],
+  decoration: [
+    {
+      title: "Background",
       pages: [
-        "colour",
-        "typography",
-        "spacing",
-        "radius-and-shadow",
-        "motion",
-        "utilities",
+        "background/gels",
+        "background/geometric-patterns",
+        "background/graph-paper",
+      ],
+    },
+    {
+      pages: [
+        "radius-shadow-and-border",
+        "registration-marks",
+        "arrows-and-text",
       ],
     },
   ],
@@ -112,6 +140,7 @@ const GROUPS = {
       pages: [
         "input/nav-item",
         "navigation/pager",
+        "navigation/breadcrumbs",
         "navigation/article-nav-links",
         "list/industry-links",
       ],
@@ -120,6 +149,7 @@ const GROUPS = {
       title: "Sections",
       pages: [
         "section/section-frame",
+        "section/section-statement",
         "star-summary/star-summary",
         "design-decisions",
         "section/industry-section",
@@ -149,14 +179,20 @@ const GROUPS = {
     { title: "Forms", pages: ["form/field", "form/honeypot"] },
     {
       title: "Docs and tooling",
-      pages: ["list/design-pages", "list/build-info", "section-playback"],
+      pages: [
+        "list/design-pages",
+        "list/build-info",
+        "section-playback",
+        "sample/utility-sample",
+      ],
     },
   ],
   organisms: [
     {
       title: "Chrome",
       pages: [
-        "header/global-header",
+        "header/badge",
+        "status/build-view/build-view",
         "footer/global-footer",
         "status/preloader",
       ],
@@ -225,7 +261,7 @@ const placement = (section, path, title) => {
 };
 
 export default {
-  layout: "layouts/design-doc.njk",
+  layout: "templates/design-doc/design-doc.njk",
   // Site stylesheet plus the reference-only classes; see styles/docs.css.
   stylesheet: "/assets/docs.css",
   eleventyComputed: {
@@ -248,11 +284,19 @@ export default {
           key: `design/${section}`,
           parent: "Design",
           title,
-          order: order < 0 ? 99 : order,
+          part: PARTS[section],
+          order: order < 0 ? 990 : order * 10,
         };
       }
       if (parts.length === 1) {
-        return { key: stem, parent: "Design", title, order: alphaOrder(title) };
+        // A top-level leaf (Accessibility, Maintenance) takes its slot.
+        const slot = SECTION_ORDER.indexOf(parts[0]);
+        return {
+          key: stem,
+          parent: "Design",
+          title,
+          order: slot < 0 ? alphaOrder(title) : slot * 10,
+        };
       }
       const path = parts.slice(1).join("/");
       return {

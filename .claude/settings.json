@@ -5,5 +5,32 @@
       "Edit(/styles/tokens.css)",
       "Edit(/styles/motion.css)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Agent|Task|Skill|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-agent-flow.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/log-agent-flow.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$CLAUDE_PROJECT_DIR/../.claude/hooks/wiki-notice.sh\" ] && bash \"$CLAUDE_PROJECT_DIR/../.claude/hooks/wiki-notice.sh\" || true"
+          }
+        ]
+      }
+    ]
+  },
+  "effortLevel": "medium",
+  "enabledPlugins": {
+    "andrej-karpathy-skills@karpathy-skills": false
   }
 }

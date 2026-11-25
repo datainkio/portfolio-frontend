@@ -24,8 +24,7 @@ import {
  * attaches alongside the gels in `split.js` — a standing behaviour, not a phase
  * of the header's reveal.
  *
- * The band leads deliberately: it rhymes with the heading gel's arrival
- * (see heading-gel.js) so the two headings read as one gesture at two scales.
+ * The band leads deliberately: it rhymes with the tagline gel's arrival so the two headings read as one gesture at two scales.
  */
 
 const HERO_EL_ATTR = HERO_SELECTORS.elementAttribute;

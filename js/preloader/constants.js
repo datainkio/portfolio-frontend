@@ -37,10 +37,16 @@ export const PRELOADER_IN_VIEW = {
   rootMargin: "50% 0px",
 };
 
-// Set by views/templates/partials/choreography-script/choreography-script.njk before this module
+// Set by views/layouts/partials/choreography-script/choreography-script.njk before this module
 // runs. When false, the director gate resolves immediately.
 export const CHOREOGRAPHY_FLAG = "__enableChoreography";
 
+// The CSS failsafe in styles/components/hanko.css hides the overlay after
+// `--preloader-failsafe-delay` (20s) with no JS, in case this module never
+// runs. That delay must exceed the worst case of the bounds below, which run
+// in series: fonts + director + video + outro = 15s (the intro fallback runs
+// alongside them, not after). Raise one of these and the failsafe may fire
+// during a normal slow load. Change them together.
 export const PRELOADER_TIMINGS = {
   // Upper bound on how long the hero reveal will wait for webfonts.
   // document.fonts.ready is otherwise UNBOUNDED — a slow/failed Google Font

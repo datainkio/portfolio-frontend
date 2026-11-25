@@ -8,7 +8,9 @@ links:
   - "[[config/index/index|config/index]]"
 ---
 
-## Forced-on override
+## Reduced motion
+
+### Forced-on override
 
 `_setup()` treats `ACCESSIBILITY_SETTINGS.testReducedMotion` as a **forced-on**
 flag, not a default seed. When it is `true`, reduced motion stays on regardless of

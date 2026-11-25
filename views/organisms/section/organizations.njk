@@ -1,5 +1,6 @@
 {% macro render(params = {}) %}
   {% import "atoms/organization.njk" as Organization %}
+  {% import "atoms/button.njk" as Button %}
 
   {%- set sectionId = params.id | default("organizations") -%}
   {%- set heading = params.copy.heading | default("Organizations") -%}
@@ -9,20 +10,39 @@
   {%- set headingId = params.headingId | default(sectionId) -%}
 
   {%- set organizations = params.organizations | default([]) -%}
+  {%- set rowCount = params.rowCount | default(3) -%}
+
+  {#- Shuffle once per build, then deal the organizations round-robin across
+      the rows so each row gets a random, even share. -#}
+  {%- set rows = [] -%}
+  {%- for i in range(0, rowCount) -%}
+    {%- set rows = (rows.push([]), rows) -%}
+  {%- endfor -%}
+  {%- for organization in organizations | shuffle -%}
+    {%- set row = rows[loop.index0 % rowCount] -%}
+    {%- set row = (row.push(organization), row) -%}
+  {%- endfor -%}
 
   {%- set sectionStyles = {
-    "base": "w-full max-w-screen-lg mx-auto text-neutral-100 relative z-10 col-span-full overflow-hidden px-4",
+    "base": "text-neutral-100 relative z-10 col-span-full overflow-hidden px-6 max-w-7xl mx-auto min-h-dvh justify-center content-center",
     "sm": "px-8",
     "md": "px-12",
-    "lg": "px-24"
+    "lg": "px-0"
   } -%}
-  {%- set header = {"base": "gap-2 py-12 z-10 w-full border-y border-neutral-600 divide-neutral-600 flex flex-row items-center"} -%}
+  {%- set header = {
+    "base": "gap-2 py-8 z-10 w-full border-y border-neutral-600 divide-neutral-600 flex flex-row items-center"
+  } -%}
 
   {%- set title = {
     "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
     "md": "text-6xl",
     "lg": "text-7xl"
   } -%}
+
+  {#- Static wrapped grid by default (no JS, reduced motion, or a row that
+      already fits). OrganizationsAnimations sets `data-marquee` on a track
+      only when its row overflows, switching it to a single scrolling line. -#}
+  {%- set trackStyles = "flex flex-wrap data-marquee:flex-nowrap data-marquee:w-max data-marquee:will-change-transform" -%}
 
   <section id="{{ sectionId }}"
            class="{{ [sectionStyles, params.classes] | classes }}"
@@ -33,14 +53,32 @@
       <h2 id="{{ headingId }}"
           data-organizations-el="heading"
           class="{{ title | classes }}">{{ heading }}</h2>
-      <p data-organizations-el="body" class="col-span-full">{{ body }}</p>
     </header>
     {% if organizations | length %}
-      <ul data-organizations-el="list" class="col-span-full columns-2 gap-1">
-        {% for organization in organizations %}
-          <li data-organizations-el="organization">{{ Organization.render(organization) }}</li>
+      {#- Revealed by OrganizationsAnimations only while a marquee runs:
+          WCAG 2.2.2 requires a way to pause motion that lasts over 5s. -#}
+      {{ Button.render({
+        "label": "Pause motion",
+        "variant": "transparent",
+        "classes": "ml-auto mt-2 block text-sm text-neutral-400",
+        "attrs": "hidden aria-pressed=\"false\" data-organizations-el=\"toggle\""
+      }) }}
+      {#- <div>s: the rows wrapper and each row's clipping box are layout only;
+          the logos themselves are lists, and no sectioning element fits. -#}
+      <div data-organizations-el="list"
+           class="col-span-full flex flex-col py-12">
+        {% for row in rows %}
+          {% if row | length %}
+            <div data-organizations-el="viewport" class="min-w-0 overflow-hidden">
+              <ul data-organizations-el="track" class="{{ trackStyles }}">
+                {% for organization in row %}
+                  <li data-organizations-el="organization" class="shrink-0 pr-3 pb-3">{{ Organization.render(organization) }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
         {% endfor %}
-      </ul>
+      </div>
     {% else %}
       <p class="col-span-full">No organizations found.</p>
     {% endif %}

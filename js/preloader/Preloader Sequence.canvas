@@ -3,7 +3,7 @@
 		{"id":"7e0c0a0d58a797ab","type":"group","x":-1760,"y":1600,"width":4780,"height":2880,"label":"Diagram"},
 		{"id":"448f957f3c49eb70","type":"group","x":680,"y":1885,"width":1040,"height":2275,"color":"3","label":"Preloader.js"},
 		{"id":"10e5cb77982bcd2a","type":"group","x":700,"y":2895,"width":440,"height":242,"label":"Preload exit gate"},
-		{"id":"750eeff060aeec58","type":"file","file":"dataink.io/frontend/views/pages/home/home.canvas","x":-1600,"y":1898,"width":400,"height":2262,"color":"2"},
+		{"id":"750eeff060aeec58","type":"file","file":"dataink.io/frontend/views/templates/home/home.canvas","x":-1600,"y":1898,"width":400,"height":2262,"color":"2"},
 		{"id":"bb9f0c0cc56b4820","type":"file","file":"dataink.io/frontend/js/choreography/AnimationDirector.canvas","x":-480,"y":1898,"width":400,"height":2262,"color":"6"},
 		{"id":"51513c315ca3afeb","type":"text","text":"##  📢   document.fonts.ready","x":720,"y":2912,"width":400,"height":50,"color":"#5e99d9"},
 		{"id":"3b1db302d721db09","type":"text","text":"## 📢  system.directorReady","x":720,"y":2987,"width":400,"height":50,"color":"6"},

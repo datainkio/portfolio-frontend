@@ -14,5 +14,5 @@ specimens:
       entry: { url: /work/, key: Work }
       currentUrl: /work/
 inContext:
-  - { url: /, label: Global header navigation }
+  - { url: /, label: Site map }
 ---

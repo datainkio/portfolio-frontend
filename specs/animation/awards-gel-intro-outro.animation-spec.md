@@ -36,18 +36,18 @@ From the user's perspective the section reads as a light card that, on entry, ga
 
 ## Primitives & Utilities
 
-- **Gel instances.** Add **two new** `.bg-gel` elements in [sizzle-background.njk](../../views/molecules/background/sizzle-background.njk) dedicated to this section — do **not** reuse `bg-gel-0`…`bg-gel-4`, which other sections animate. Proposed:
-  - `bg-gel-5` → **backing gel**, `bg-gel-neutral`
-  - `bg-gel-6` → **accent gel**, `bg-gel-accent`
-- **Color.** Use the existing gradient color classes: `bg-gel-neutral` (`neutral-900→400`) for the backing gel and `bg-gel-accent` (`accent-900→600`) for the accent gel. No flat-color treatment needed.
+- **Gel instances.** Add **two new** `.gel` elements in [sizzle-background.njk](../../views/molecules/background/sizzle-background.njk) dedicated to this section — do **not** reuse `bg-gel-0`…`bg-gel-4`, which other sections animate. Proposed:
+  - `bg-gel-5` → **backing gel**, `gel-neutral`
+  - `bg-gel-6` → **accent gel**, `gel-accent`
+- **Color.** Use the existing gradient color classes: `gel-neutral` (`neutral-900→400`) for the backing gel and `gel-accent` (`accent-900→600`) for the accent gel. No flat-color treatment needed.
 - **Composition pattern.** Follow the established **Hero precedent**: `HeroAnimations` receives an injected `gelManager` and hands it to its variant factories, which resolve their gel by id (`gelManager.getGel("gel_hero")`). `AwardsAnimations` should accept the same `options.gelManager` and compose the accent gel into `_buildIntro`/`_buildOutro`.
 - **Timing/easing.** Source from a new `AWARDS_GEL_*` block alongside `AWARDS_INTRO` in [ix/presets/awards.js](../../js/choreography/config/ix/presets/awards.js); reuse the section's existing `ease.in` / `ease.out` families for parity with the header intro.
 
 ## Patterns by Component/View
 
 - **Section element** (`#awards`, `[data-scroll-section]`): background becomes transparent. The current `bg-accent-500` utility on the section is **removed** and superseded by the accent gel layer.
-- **Backing gel** (`bg-gel-5`, `bg-gel-neutral`): positioned and sized to the section box; no rotation; lower z-index. Stays locked to the section box as it scrolls. No intro/outro tween of its own beyond geometry tracking.
-- **Accent gel** (`bg-gel-6`, `bg-gel-accent`): `rotate(-5deg)` (default origin) set at init and held constant; z-index one step above the backing gel; offscreen to the bottom-right at init; tweened into section registration on intro and back out on outro. Once registered, it also stays locked to the section box as it scrolls.
+- **Backing gel** (`bg-gel-5`, `gel-neutral`): positioned and sized to the section box; no rotation; lower z-index. Stays locked to the section box as it scrolls. No intro/outro tween of its own beyond geometry tracking.
+- **Accent gel** (`bg-gel-6`, `gel-accent`): `rotate(-5deg)` (default origin) set at init and held constant; z-index one step above the backing gel; offscreen to the bottom-right at init; tweened into section registration on intro and back out on outro. Once registered, it also stays locked to the section box as it scrolls.
 - **Layer order:** backing gel < accent gel < section content. Both gels remain behind the transparent section content. The existing `.bg-pixelator` overlay and other `bg-gel-*` instances must not occlude this composition while Awards is the active arrangement.
 
 ## Event Orchestration
@@ -85,7 +85,7 @@ From the user's perspective the section reads as a light card that, on entry, ga
 - **Compose via injected `gelManager`, not the arrangement map alone.** The viewport-normalized `GEL_ARRANGEMENTS` schema cannot express section-relative geometry, rotation, or scroll-locked tracking. Following the Hero precedent, `AwardsAnimations` takes `options.gelManager` and composes the two gels into its intro/outro timelines and scroll track. The arrangement entry is reduced to the init placement (backing flush, accent offscreen bottom-right).
 - **Section-relative, scroll-locked geometry.** Both gels are placed against the section element's measured box and stay locked to it for the section's full scroll travel, re-measured on refresh/resize — not against viewport fractions.
 - **Rotation is state, not motion.** `-5°` (default transform-origin) is applied at init and held; only translation/scale animates.
-- **Two new dedicated gels.** Add `bg-gel-5` (neutral backing) and `bg-gel-6` (accent) rather than reusing `bg-gel-0`/`bg-gel-1`, so other sections' gel animations are untouched. Colors use the existing `bg-gel-neutral` / `bg-gel-accent` gradient classes.
+- **Two new dedicated gels.** Add `bg-gel-5` (neutral backing) and `bg-gel-6` (accent) rather than reusing `bg-gel-0`/`bg-gel-1`, so other sections' gel animations are untouched. Colors use the existing `gel-neutral` / `gel-accent` gradient classes.
 - **Offscreen entry from bottom-right.** The accent gel's motion-only start is off the bottom-right corner; the intro travels it up-and-left into registration.
 - **Section background removed.** The section's `bg-accent-500` utility is replaced by the accent gel layer so the gel composition is the sole source of the colored backing.
 

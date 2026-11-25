@@ -14,7 +14,7 @@ import lumberjack from "/assets/js/utils/lumberjack/index.js";
  * - ScrollEffectsCoordinator (this.stage): Scroll smoothing, gels, ruler, reduced motion
  * - CardManager: Per-card scroll animations (instantiated before sections)
  * - Section Controllers (SECTION_REGISTRY): BackgroundVideo, Hero, Process, Awards, Organizations, Work — extend AbstractSection
- * - Managers: GlobalHeaderManager, WorkHeaderManager, WorkNavManager, ProjectHeaderManager
+ * - Managers: BadgeManager, WorkHeaderManager, WorkNavManager, ProjectHeaderManager
  * - LandingSequence: Defines animation flow via AnimationBus listeners
  *
  * INITIALIZATION SEQUENCE:
@@ -44,7 +44,7 @@ import { LandingSequence } from "/assets/js/choreography/templates/landing/Landi
 import { SECTION_REGISTRY } from "/assets/js/choreography/system/registry.js";
 import { EVENTS } from "/assets/js/choreography/config/contracts/events/events.js";
 import CardManager from "/assets/js/choreography/organisms/card/CardManager.js";
-import GlobalHeaderManager from "/assets/js/choreography/managers/GlobalHeaderManager/GlobalHeaderManager.js";
+import BadgeManager from "/assets/js/choreography/managers/BadgeManager/BadgeManager.js";
 import WorkHeaderManager from "/assets/js/choreography/managers/WorkHeaderManager/WorkHeaderManager.js";
 import WorkNavManager from "/assets/js/choreography/managers/WorkNavManager/WorkNavManager.js";
 // import ProjectHeaderManager from "/assets/js/choreography/managers/ProjectHeaderManager/ProjectHeaderManager.js";
@@ -114,13 +114,13 @@ export default class AnimationDirector {
       });
     });
 
-    // Initialize global header hide/show on scroll
-    this.headerManager = new GlobalHeaderManager({
+    // Initialize badge hide/show on scroll
+    this.badgeManager = new BadgeManager({
       bus: this.bus,
       reducedMotionHandler: this.stage?.reducedMotion,
     });
 
-    // Initialize the work section industry-nav drawer (below md) / rail (md+).
+    // Initialize the work section industry-nav drawer (below lg) / rail (lg+).
     this.workHeaderManager = new WorkHeaderManager({
       bus: this.bus,
       reducedMotionHandler: this.stage?.reducedMotion,
@@ -214,8 +214,8 @@ export default class AnimationDirector {
     this.cardManager?.kill();
     this.cardManager = null;
 
-    this.headerManager?.kill();
-    this.headerManager = null;
+    this.badgeManager?.kill();
+    this.badgeManager = null;
 
     this.workHeaderManager?.kill();
     this.workHeaderManager = null;

@@ -38,7 +38,15 @@ its inline styles would leave the section stuck. Two paths guard that:
 asserting an intro nobody has asked for yet.
 
 Today the landing flag stays unset: `LandingSequence` no longer calls
-`playLanding()`, and the landing timeline is empty — the heading gel is parked at
-rest when the timelines build (see
-[heading-gel](../../molecules/hero-motion/heading-gel.md)). Only the intro needs
-settling.
+`playLanding()`, and the landing timeline is empty — hero owns no full-bleed gel
+(`gel_video` belongs to BackgroundVideo). Only the intro needs settling.
+
+## Statement SVGs
+
+Each statement's inline SVG reveal is played by `HeroTriggers` when the
+statement figure's bottom reaches the bottom of the viewport. The statements are not pinned
+(see [HeroAnimations](HeroAnimations.md)).
+
+## Reduced motion
+
+When lifecycle motion is disabled, no triggers or timelines play. `_applyResponsiveLifecycle` then calls `animations.showStatementSvgs()` to show all statement SVG groups at rest. Reduced motion is one cause; the session replay gate also disables lifecycle motion and takes the same path.

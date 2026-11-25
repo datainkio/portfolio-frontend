@@ -9,7 +9,7 @@ Fixed-position drawer that links to each industry group in the work section. Ren
 
 The jump-nav `<nav>` is `position: fixed`. It renders in `sidebarBefore`, inside `#page-main` but outside `#page-main-content`, ahead of `<main>` in source order. ScrollSmoother transforms `<main>`, and a fixed element inside a transformed ancestor is positioned against that ancestor, not the viewport. Keep it outside `<main>`.
 
-Used by `views/pages/projects/projects.njk`.
+Used by `views/templates/projects/projects.njk`.
 
 ## Params
 

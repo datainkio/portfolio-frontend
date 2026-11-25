@@ -13,5 +13,5 @@ specimens:
       classes: inline-block w-24 text-primary-400
       svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 8h8v8H8z" fill="#000"/></svg>
 inContext:
-  - { url: /, label: Global header }
+  - { url: /, label: Badge }
 ---

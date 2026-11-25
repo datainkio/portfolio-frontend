@@ -9,9 +9,45 @@
  * the roots it passes in.
  */
 
+import eleventyNavigationPlugin from "@11ty/eleventy-navigation";
+
 export default function (eleventyConfig) {
+  eleventyConfig.addFilter("navigationTrail", navigationTrail);
   eleventyConfig.addFilter("specimenParams", specimenParams);
   eleventyConfig.addFilter("specimenCall", specimenCall);
+  eleventyConfig.addFilter("squeezeWhitespace", squeezeWhitespace);
+}
+
+/**
+ * The `{ url, title }` path from the children of `rootKey` down to the page
+ * whose navigation key is `key`, itself included; `[]` when the key isn't
+ * under that root. Walks the tree eleventy-navigation's own `find` builds.
+ * Its `eleventyNavigationBreadcrumb` filter can't serve here: it reads only
+ * whole trails from a true root, and the design trail starts below "Docs"
+ * (see ia/docs/design/design.11tydata.js).
+ */
+function navigationTrail(nodes, key, rootKey) {
+  const walk = (entries, path) => {
+    for (const entry of entries) {
+      const next = [...path, { url: entry.url, title: entry.title }];
+      if (entry.key === key) return next;
+      const found = walk(entry.children || [], next);
+      if (found) return found;
+    }
+    return undefined;
+  };
+  return walk(eleventyNavigationPlugin.navigation.find(nodes, rootKey), []) || [];
+}
+
+/**
+ * Collapses every whitespace run to one space. The navigation macro leaves
+ * runs thousands of characters long where its tags sit, on every page, and
+ * the HTML minifier's regexes grow with the square of a run's length: about
+ * 40 s of the docs build. Only for markup with no <pre> or <textarea>; the
+ * minified output is the same.
+ */
+function squeezeWhitespace(html) {
+  return String(html ?? "").replace(/\s+/g, " ");
 }
 
 /** A path segment that picks an array item by field: `slug=enquos`. */

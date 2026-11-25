@@ -16,7 +16,6 @@ export const homeQuery = {
     "videoSrc": backgroundVideo.asset->url,
     "videoPoster": backgroundPoster.asset->url,
     valuePropHeading,
-    valuePropSubHeading,
     pageBody[]{
       ...,
       _type == "image" => {
@@ -40,7 +39,6 @@ export const homeQuery = {
         }
       }
     },
-    "valuePropImage": valuePropImage->${FEATURED_IMAGE_PROJECTION},
     statements[]{
       subheading,
       body,

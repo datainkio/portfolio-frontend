@@ -1,15 +1,22 @@
 ---
-title: Docs
-description: Top-level documentation landing page.
-type: index
+description: "Route definition for the /docs/ landing page, driven by the Sanity documentation_landing singleton (cms.documentationLanding)."
+layout: "layouts/landing.njk"
+permalink: "/docs/"
+docNo: "3.14"
+# Supplies the header label ("DOC 3.14 / Docs") and the "Docs" key that the
+# Sanity site pages and Design name as parent, so they nest under it in the
+# site map.
+eleventyNavigation:
+  key: Docs
+  title: Docs
+  order: 25
 eleventyComputed:
-  title: "{{ title }}"
+  title: "{{ (cms.documentationLanding[0].seo.title or cms.documentationLanding[0].pageTitle or 'Docs') | safe }}"
+  pageBody: "{{ cms.documentationLanding[0].pageBodyHtml | safe }}"
+  metaDescription: "{{ (cms.documentationLanding[0].seo.description or 'Documentation for dataink.io: design strategy, frontend, backend and content models.') | safe }}"
+  noIndex: "{{ 'true' if cms.documentationLanding[0].seo.noIndex else '' }}"
+canonicalUrl: "https://dataink.io/docs/"
+skipLinks:
+  - main
+enableChoreography: true
 ---
-
-Documentation entrypoint for public-facing guides and references.
-
-## Scope
-
-- information architecture and sitemap references
-- design-system structure and atomic tiers
-- content strategy and documentation conventions

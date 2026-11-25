@@ -5,22 +5,24 @@
 
 <!-- /readme-header -->
 
-Base page shells that pages extend.
+Page shells that own `<html>` and define blocks.
 
 # Layouts
 
-Base page shells. Pages pick one with `{% extends %}`.
+Page shells. A shell owns `<html>`, defines the blocks and carries no CMS content. Templates pick one with `{% extends %}`.
 
 ## What's here
 
 - `base.njk` - the default shell
-- `cols-2-before.njk`, `cols-2-after.njk`, `cols-3.njk` - column layouts
-- `storyboards.njk` - storyboard pages
+- `landing.njk` - the shell for the landing-style pages
+- `cols-2-before.njk`, `cols-3.njk` - column layouts
+- `partials/` - head, fonts, favicon, manifest, analytics, scripts
 - `.canvas` files - inheritance diagrams for Obsidian
 
 ## How it connects
 
-- Extended by pages and templates.
+- Extended by the page types in `templates/`.
+- `partials/head/` is included by the base layout.
 - Fill in the shell with the blocks it defines.
 
 ## See also
@@ -33,19 +35,15 @@ Base page shells. Pages pick one with `{% extends %}`.
 - [base.canvas](base.canvas)
 - [base.md](base.md)
 - [base.njk](base.njk)
-- [cols-2-after.canvas](cols-2-after.canvas)
-- [cols-2-after.md](cols-2-after.md)
-- [cols-2-after.njk](cols-2-after.njk)
 - [cols-2-before.canvas](cols-2-before.canvas)
 - [cols-2-before.md](cols-2-before.md)
 - [cols-2-before.njk](cols-2-before.njk)
 - [cols-3.canvas](cols-3.canvas)
 - [cols-3.md](cols-3.md)
 - [cols-3.njk](cols-3.njk)
-- [design-doc.md](design-doc.md)
-- [design-doc.njk](design-doc.njk)
+- [landing.canvas](landing.canvas)
+- [landing.md](landing.md)
+- [landing.njk](landing.njk)
 - [Page Build Flow.canvas](Page%20Build%20Flow.canvas)
-- [storyboards.canvas](storyboards.canvas)
-- [storyboards.md](storyboards.md)
-- [storyboards.njk](storyboards.njk)
+- [partials/](partials/)
 <!-- readme-index:end -->

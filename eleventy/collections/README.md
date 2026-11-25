@@ -18,6 +18,7 @@ Where Eleventy collections get registered.
 - `index.js`: runs the setup in order, Sanity first, then navigation
 - `sanity.js`: hands off to the Sanity data layer
 - `navigation.js`: registers navigation collections
+- `designSystem.js`, `choreographySystem.js`: readers for the design and choreography references under `ia/docs/`
 
 ## How it connects
 
@@ -29,12 +30,13 @@ Where Eleventy collections get registered.
 - [Eleventy setup](../README.md)
 
 <!-- readme-index:start -->
+
 ## Index
 
 - [index.js](index.js)
 - [index.md](index.md)
 - [navigation.js](navigation.js)
-- [navigation.md](navigation.md)
+- [navigation.md](dataink.io/frontend/eleventy/collections/navigation.md)
 - [sanity.js](sanity.js)
 - [sanity.md](sanity.md)
 <!-- readme-index:end -->

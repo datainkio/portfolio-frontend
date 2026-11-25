@@ -11,7 +11,7 @@
 		{"id":"2e3953970dc15903","type":"text","text":"📢 EVENTS.system.directorReady (≤8000ms)","x":455,"y":2048,"width":400,"height":56,"color":"6"},
 		{"id":"300f007a53a8fc89","type":"text","text":"","x":-59,"y":2171,"width":250,"height":60},
 		{"id":"e7ab3f6972c93083","type":"text","text":"📍`window.director` assigned — constructor returned (after `director:ready`)","x":-205,"y":2175,"width":400,"height":60,"color":"#584c94"},
-		{"id":"1a5ae21ae372dc0e","x":-840,"y":1091,"width":400,"height":400,"color":"2","type":"file","file":"dataink.io/frontend/views/pages/home/home.md"},
+		{"id":"1a5ae21ae372dc0e","x":-840,"y":1091,"width":400,"height":400,"color":"2","type":"file","file":"dataink.io/frontend/views/templates/home/home.md"},
 		{"id":"27cd281e7e741493","type":"text","text":"#5 · Skip the idle wait (S)\n`requestIdleCallback(initDirector, {timeout:150})` adds up to 150ms while the splash is already up and the page is locked. Call `initDirector` directly once the bundle evaluates.","x":-840,"y":1541,"width":400,"height":130,"color":"1"}
 	],
 	"edges":[

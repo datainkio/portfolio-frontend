@@ -34,7 +34,7 @@ Runs every query during the build, caches the answers, and hands the results to 
 - [index.js](index.js)
 - [index.md](index.md)
 - [navigation.js](navigation.js)
-- [navigation.md](navigation.md)
+- [navigation.md](dataink.io/frontend/data/sanity/services/navigation.md)
 - [posts.js](posts.js)
 - [posts.md](posts.md)
 - [project.js](project.js)

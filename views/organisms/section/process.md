@@ -58,7 +58,7 @@ grid-rows-3`, no gap); fills the wrapper 1:1 so each cell is naturally
 
 ## Relationships
 
-- Imported by: [[home.njk]] (`views/pages/home/home.njk`), rendered between
+- Imported by: [[home.njk]] (`views/templates/home/home.njk`), rendered between
   the Hero section (`id="manifesto"`) and the Work section (`id="work"`).
 - Choreography controller: [[Process|Process]]
   (`js/choreography/organisms/process/Process.js`).

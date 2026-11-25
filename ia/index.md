@@ -1,11 +1,11 @@
 ---
 description: "Route definition for the home page (/), composing the home template from the Sanity home singleton."
-layout: pages/home/home.njk
+layout: templates/home/home.njk
 permalink: /
 docNo: "01"
 eleventyNavigation:
   key: home
-  title: data:ink:io
+  title: Home
 eleventyComputed:
   title: "{{ cms.home[0].pageTitle }}"
   hero:
@@ -14,7 +14,6 @@ eleventyComputed:
     videoPoster: "{{ cms.home[0].videoPoster }}"
   value:
     heading: "{{ cms.home[0].valuePropHeading }}"
-    subheading: "{{ cms.home[0].valuePropSubHeading }}"
     body: "{{ cms.home[0].valuePropBodyHtml | safe }}"
   recognition:
     heading: "{{ cms.home[0].recognitionHeading }}"

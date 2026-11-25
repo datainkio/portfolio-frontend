@@ -1,5 +1,5 @@
 ---
-title: Design system
+title: Design
 description: "The living reference for the site's design system: tokens from Figma, and every Nunjucks component rendered live with the call that produced it."
 type: index
 ---
@@ -12,12 +12,23 @@ changes with it.
 
 ## What's here
 
-- **[Tokens](tokens/)**: colour, type, spacing, radius, shadow, motion, and
-  the project utilities built on them. Figma owns most of these values.
+In the order of the sidebar:
+
+- **[Accessibility](accessibility/)**: the contrast of every colour on the
+  site's grounds, and how the choreography handles reduced motion.
+- **[Tokens](tokens/)**: colour, type, spacing, and motion. Figma owns most
+  of these values.
+- **[Decoration](decoration/)**: the project utilities built on the tokens:
+  gels, patterns and graph paper, radius, shadow and borders, masks,
+  registration marks, and arrows.
 - **[Atoms](atoms/)**, **[Molecules](molecules/)**, and
   **[Organisms](organisms/)**: one page per component under
   `views/atoms/`, `views/molecules/`, and `views/organisms/`, mirroring its
-  path.
+  path. The sidebar groups them under Styling.
+- **[Choreography](choreography/)**: how the site's motion runs, with a page
+  for every module under `js/choreography/`.
+- **[Maintenance](maintenance/)**: how to change this reference, build it,
+  and check it.
 
 ## Using a component
 
@@ -45,10 +56,5 @@ Every component follows the Component API spec
 Each component page lists its params from the component's sidecar (the `.md`
 next to the `.njk`), which stays the authority.
 
-## Adding to the reference
-
-A component page is a Markdown file at
-`ia/docs/design/<path under views/>.md`, with frontmatter naming the
-`component` and listing `specimens`. The contract is in
-`views/layouts/design-doc.md`. New components should get a page when they're
-added.
+Adding a page to the reference is covered in
+[Maintenance](maintenance/#adding-a-component-page).

@@ -2,11 +2,11 @@
 description: "Provides a reusable page shell used by other templates via {% extends %}."
 type: template
 links:
-  - "[global-header](../organisms/header/global-header.md)"
+  - "[badge](../organisms/header/badge.md)"
   - "[global-footer](../organisms/footer/global-footer.md)"
   - "[skip-links-nav](organisms/navigation/skip-links-nav.njk)"
-  - "[head](../templates/partials/head/head.md)"
-  - "[gtm-noscript](../templates/partials/gtm-noscript/gtm-noscript.md)"
+  - "[head](../layouts/partials/head/head.md)"
+  - "[gtm-noscript](../layouts/partials/gtm-noscript/gtm-noscript.md)"
 ---
 
 # Base
@@ -40,7 +40,7 @@ Classified as a **layout** at the atomic **none** level based on its location un
   - [[head.njk]]
   - [[gtm-noscript.njk]]
 - Imports:
-  - [[global-header.njk]]
+  - [[badge.njk]]
   - [[global-footer.njk]]
   - [[skip-links-nav.njk]]
 - Likely used by:

@@ -60,6 +60,10 @@ import { fileURLToPath } from "url";
 import { init as initNavigation } from "./navigation.js";
 import { init as initSanity } from "./sanity.js";
 import { readDesignTokens } from "./designSystem.js";
+import {
+  readChoreographyDocs,
+  resetChoreographyDocs,
+} from "./choreographySystem.js";
 // import { init as initDocumentation } from "./documentation.js";
 
 // ESM __dirname equivalent
@@ -139,10 +143,7 @@ export default async function (eleventyConfig) {
     // stamps into the generated styles/colors.css (no API/token needed).
     const colorsCss = (() => {
       try {
-        return readFileSync(
-          join(__dirname, "../../styles/colors.css"),
-          "utf8",
-        );
+        return readFileSync(join(__dirname, "../../styles/colors.css"), "utf8");
       } catch {
         return "";
       }
@@ -172,6 +173,13 @@ export default async function (eleventyConfig) {
     // Every token the theme files declare, grouped for the living reference
     // under ia/docs/design/tokens/. Parsed from styles/, so it can't drift.
     eleventyConfig.addGlobalData("designTokens", readDesignTokens);
+
+    // The choreography reference under ia/docs/design/choreography/: one entry per choreography
+    // sidecar, the JS import graph, and the contract and tuning values, all
+    // read from js/choreography/. Re-read on every build so a dev-server
+    // rebuild picks up an edited sidecar.
+    eleventyConfig.on("eleventy.before", resetChoreographyDocs);
+    eleventyConfig.addGlobalData("choreographyDocs", readChoreographyDocs);
 
     eleventyConfig.addGlobalData("buildVersions", {
       eleventy: readPkgVersion("@11ty/eleventy"),

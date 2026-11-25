@@ -1,5 +1,5 @@
 ---
-description: "Section-cap scrollspy — tracks which `main > section` is at the current reading position and writes its label into the section-cap title display."
+description: "Section-cap scrollspy — tracks which `main > section` is at the current reading position."
 status: stable
 tags:
   - choreography
@@ -13,8 +13,10 @@ links:
 ## Role
 
 Constructed by [[AnimationDirector|AnimationDirector]] with `{ bus }`. Observes
-every `main > section` inside `#page-main` and reflects the active one onto
-`[data-current-section-title]`.
+every `main > section` inside `#page-main` and tracks the active one in
+`_activeId`. It wrote that label into the global header's
+`[data-current-section-title]` until the header was replaced by the badge;
+nothing displays it now.
 
 Spec: `specs/animation/work-section-navigation.animation-spec.md`.
 
@@ -27,8 +29,8 @@ Spec: `specs/animation/work-section-navigation.animation-spec.md`.
   that band.
 - Visible sections accumulate in a `Set`; the active one is the **last visible
   section in document order**, i.e. the lowest one the reader has reached.
-- The label written is the section's `aria-labelledby` value, so the semantic
-  heading id is the single source of truth for the cap text.
+- The active id is the section's `aria-labelledby` value, so the semantic
+  heading id is the single source of truth.
 
 Disables itself (logs `no sections found; disabled`) when `#page-main` has no
 `main > section` children — non-home pages no-op.
@@ -40,10 +42,6 @@ Disables itself (logs `no sections found; disabled`) when `#page-main` has no
 
 ## Known risks
 
-- `_setActive` writes `this._title.textContent` **without a null guard**. If
-  sections exist but `[data-current-section-title]` is absent from the page, the
-  first intersection throws. The constructor guards on `_sections` but not on
-  `_title`.
 - `EVENTS.sectionCap.activeChange` is commented out — the bus is injected but the
   manager currently broadcasts nothing, so no other surface can react to the
   active section without re-deriving scroll state. The `_bus` field and the

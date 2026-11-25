@@ -1,5 +1,5 @@
 ---
-description: "Barrel — re-exports the ix/ interaction-design tuning modules (breakpoints, motion, presets, scrolltriggers, profiles) as a single import surface."
+description: Barrel — re-exports the ix/ interaction-design tuning modules (breakpoints, motion, presets, scrolltriggers, profiles) as a single import surface.
 status: stable
 tags:
   - choreography
@@ -7,7 +7,7 @@ tags:
   - motion
 links:
   - "[[breakpoints|breakpoints]]"
-  - "[[motion|motion]]"
+  - "[[dataink.io/frontend/js/choreography/config/ix/motion|motion]]"
   - "[[presets|presets]]"
   - "[[scrolltriggers|scrolltriggers]]"
   - "[[profiles|profiles]]"
@@ -23,7 +23,7 @@ re-exports everything here for convenience.
 Re-exports, in order:
 
 - [[breakpoints|breakpoints]] — responsive breakpoint tokens
-- [[motion|motion]] — `motionTokens`, `motion`, `toSeconds`, `ANIMATION_DEFAULTS`
+- [[dataink.io/frontend/js/choreography/config/ix/motion|motion]] — `motionTokens`, `motion`, `toSeconds`, `ANIMATION_DEFAULTS`
 - [[presets|presets]] — per-section motion presets (`presets/*.js`)
 - [[scrolltriggers|scrolltriggers]] — `SCROLL_DEFAULTS` only; section
   `*_TRIGGER` configs live in each organism's `*Triggers.js`

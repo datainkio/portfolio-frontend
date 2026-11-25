@@ -6,11 +6,14 @@ import { ANIMATION_DEFAULTS, motion, toSeconds } from "../motion.js";
  * The beat between the background video's intro completing and Hero playing its
  * own intro. Hero's reveal is chained to `video:intro:complete` (see
  * LandingSequence), not to the home header — the video finishing is the cue.
+ * On lg+ that event waits for the background's perspective tilt to settle
+ * (BackgroundVideo), so this hold is a beat after an event, never the
+ * sequencing itself.
  *
  * `gsap.delayedCall` consumes this, so it is in seconds.
  * Reduced motion zeroes it: the chain still runs, just without the pause.
  */
-export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("slow")) }; // seconds
+export const HERO_INTRO_HOLD = { delay: toSeconds(motion.duration("instant")) }; // seconds
 
 export const HERO_INTRO = {
   ...ANIMATION_DEFAULTS,
@@ -19,6 +22,8 @@ export const HERO_INTRO = {
   translateY: -motion.distance("lg"),
   // The title band's left-to-right wipe, which leads the text.
   bandDuration: toSeconds(motion.duration("base")),
+  // The tagline gel's opacity fade, which leads the header.
+  taglineDuration: toSeconds(motion.duration("base")),
 };
 
 /**
@@ -54,7 +59,7 @@ export const HERO_MISSION_REVEAL = {
   duration: toSeconds(motion.duration("fast")),
   distance: motion.distance("lg"),
   staggerAmount: motion.stagger("loose") * 2, // total spread across all paragraphs
-  ease: "power2.out",
+  ease: motion.ease("enter"),
   // Fraction of the gel wipe the text overlaps into, so the beats read as one
   // gesture rather than three queued ones. Mirrors sweep.js's 0.2 overlap.
   overlap: 0.2,
@@ -64,18 +69,15 @@ export const HERO_MISSION_REVEAL = {
 };
 
 /**
- * Hero Outro — line fade, gel expand
+ * Hero Outro — line fade
  *
- * Scrub-driven exit, two beats while the section is pinned: H1 lines fade
- * last-to-first, then the heading gel grows from its own vertical center to
- * fill the viewport. `pinRatio` sets the scroll (scrub) distance as a
- * fraction of viewport height; `gelDuration` is timeline seconds for the
- * gel beat.
+ * Scrub-driven exit, one beat while the section is pinned: H1 lines fade
+ * last-to-first. `pinRatio` sets the scroll (scrub) distance as a
+ * fraction of viewport height.
  */
 export const HERO_OUTRO = {
   ...ANIMATION_DEFAULTS,
   duration: toSeconds(motion.duration("fast")),
   stagger: motion.stagger("tight"),
   pinRatio: 1, //2.5,
-  gelDuration: toSeconds(motion.duration("fast")),
 };

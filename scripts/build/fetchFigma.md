@@ -28,4 +28,4 @@ named by `FIGMA_FILE_ID`, with `FIGMA_TOKEN`:
 5. `buildCSS.js` rebuilds the site CSS.
 
 Any failure exits with code 1. Fonts and motion aren't synced: see
-`docs/design-system/adr-0001-figma-owns-design-tokens.md`.
+`specs/decisions/adr-0001-figma-owns-design-tokens.md`.

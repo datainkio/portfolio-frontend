@@ -1,6 +1,7 @@
 import { gsap } from "/assets/js/choreography/system/gsap.js";
 import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import { AWARDS_INTRO } from "../../config/ix/presets/awards.js";
+import { motion } from "../../config/index/index.js";
 import { AWARD_SELECTORS } from "../../config/contracts/selectors/selectors.js";
 
 /**
@@ -77,12 +78,12 @@ export function createSlideIn(view, gelManager) {
     // Backing sheet glides in and settles flat (rotation 0).
     tlBacking.to(
       gel_backing.view,
-      { x: -12, y: 0, ease: "power3.out", duration: GEL_DUR },
+      { x: -12, y: 0, ease: motion.ease("enter"), duration: GEL_DUR },
       0,
     );
     tlBacking.to(
       gel_backing.view,
-      { rotation: -3, ease: "power2.out", duration: GEL_DUR },
+      { rotation: -3, ease: motion.ease("enter"), duration: GEL_DUR },
       0,
     );
   }
@@ -94,12 +95,12 @@ export function createSlideIn(view, gelManager) {
     tlTint.to(gel_tint.view, {
       x: -24,
       y: 0,
-      ease: "power3.out",
+      ease: motion.ease("enter"),
       duration: GEL_DUR,
     });
     tlTint.to(
       gel_tint.view,
-      { rotation: -4, ease: "power2.out", duration: GEL_DUR },
+      { rotation: -4, ease: motion.ease("enter"), duration: GEL_DUR },
       0,
     );
   }
@@ -115,7 +116,7 @@ export function createSlideIn(view, gelManager) {
     x: 144,
     y: () => window.innerHeight, // start a full viewport below natural — tune for taste
     rotation: -25,
-    ease: "power3.out",
+    ease: motion.ease("enter"),
     duration: DUR,
   };
 

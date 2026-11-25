@@ -16,4 +16,9 @@ export const ORGANIZATIONS_ANIMATION_DEFAULTS = {
     in: motion.ease("exit"),
     out: motion.ease("enter"),
   },
+  // Logo marquee (idle timeline). Speed is constant per pixel, so rows of
+  // different lengths drift at the same visual pace.
+  marquee: {
+    pixelsPerSecond: 32,
+  },
 };

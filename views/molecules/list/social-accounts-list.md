@@ -33,7 +33,7 @@ available" message; `mailto`/`location` absent omits the `<address>` block entir
 
 ## Relationships
 
-- Used by: `views/pages/contact/contact.njk`
+- Used by: `views/templates/contact/contact.njk`
 - Related document: [`documents/singletons/contact.md`](../../../../content-model/documents/singletons/contact.md)
 
 ## Notes for Future Maintenance

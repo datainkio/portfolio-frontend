@@ -2,6 +2,8 @@
   {% import "molecules/list/project-cards.njk" as ProjectCards %}
   {% import "molecules/list/industry-links.njk" as Industries %}
   {% import "molecules/section/industry-section.njk" as IndustrySection %}
+  {% import "molecules/stats/stats.njk" as Statistics %}
+  {% import "molecules/printmarks.njk" as Printmarks %}
 
   {%- set sectionId = params.id | default("work") -%}
   {%- set heading = params.copy.heading | default("Work") -%}
@@ -13,14 +15,67 @@
 
   {%- set groupProjects = params.groupProjects | default(false) -%}
 
-  {%- set sectionStyles = {"base": "max-w-screen-lg mx-auto [&>p]:prose [&>p]:text-neutral-200"} -%}
+  {#- Featured statistics (cms.featuredStatistics), mapped onto the stats
+      molecule's { key, value, description } items: the label is the term. -#}
+  {%- set statistics = [] -%}
+  {%- for statistic in params.statistics or [] -%}
+    {%- set _ = statistics.push({ key: statistic.label, value: statistic.value, description: statistic.description }) -%}
+  {%- endfor -%}
 
-  {%- set header = {"base": "content-end grid grid-cols-1 px-4", "sm": "px-4"} -%}
+  {%- set sectionStyles = {"base": "mx-auto [&>p]:prose [&>p]:text-neutral-200"} -%}
+
+  {%- set header = {"base": "content-end grid grid-cols-1 px-6"} -%}
 
   {%- set title = {
-    "base": "col-span-full basis-full text-neutral-100 font-display font-light text-5xl",
+    "base": "col-span-full basis-full text-secondary-500 font-display font-light text-5xl",
     "md": "text-6xl",
     "lg": "text-7xl"
+  } -%}
+
+  {#- Body copy (serialized Portable Text: one or more <p>). Sits between the header and the
+      project list, in the list's column (max-w-3xl, centred). It is outside the <header>
+      on purpose: WorkTriggers pins the header, and the body should scroll away with the
+      page. The wrapper is a <div> because the body is several sibling paragraphs that need
+      one prose/column box and no sectioning element fits. -#}
+  {%- set bodyStyles = {"base": " max-w-7xl px-6 py-8 prose prose-invert prose-p:text-neutral-200", "lg": "w-1/2"} -%}
+
+  {#- Statistics grid, between the body and the project list: two columns, four from
+      md. Each item reads value, label, description: flex-col-reverse puts the
+      <dd> value above its <dt> label without changing the source order, and
+      order-first keeps the description last under that reversal. -#}
+  {%- set statisticsStyles = {"base": "bg-page-graphpaper p-[5%] grid grid-cols-2 gap-x-4 gap-y-8", "md": "grid-cols-4"} -%}
+
+  {#- Print marks frame the grid: margin, bleed and trim only, no ink or
+      registration marks.
+      They sit on a wrapper because a <dl> may only hold <dt>/<dd> groups; it
+      is a <div> since it exists only to position the marks and no sectioning
+      element fits. The marks scale with the wrapper's width and reach about
+      5% in from each edge, so the <dl> pads by 5% to clear them. -#}
+  {%- set statisticsFrameStyles = {"base": "relative max-w-7xl my-8"} -%}
+  {%- set statisticsMarks = {
+    "inset": "4",
+    "ink": false,
+    "registration": false,
+    "trim": {
+      "color": "neutral-400",
+      "size": "3",
+      "inset": "4",
+      "weight": "1"
+    },
+    "marginBleed": {
+      "color": "primary-100/60",
+      "bleedColor": "neutral-400",
+      "size": "1",
+      "style": "dashed",
+      "marginInset": "0",
+      "bleedInset": "2"
+    }
+  } -%}
+  {%- set statisticsSlots = {
+    "item": "flex-col-reverse justify-end",
+    "term": "text-sm text-neutral-200",
+    "value": "font-display font-light text-4xl text-primary-200 md:text-5xl",
+    "description": "order-first text-xs text-neutral-400"
   } -%}
 
   {%- set nav = {
@@ -39,6 +94,15 @@
           data-projects-el="heading"
           class="{{ title | classes }}">{{ heading }}</h2>
     </header>
+    {%- if body %}
+      <div class="{{ bodyStyles | classes }}">{{ body | safe }}</div>
+    {%- endif %}
+    {%- if statistics.length %}
+      <div class="{{ statisticsFrameStyles | classes }}">
+        {{ Statistics.render({ stats: statistics, classes: statisticsStyles, styles: statisticsSlots, aria: "Impact" }) }}
+        {{ Printmarks.render(statisticsMarks) }}
+      </div>
+    {%- endif %}
     {{ ProjectCards.render({ projects: params.projects, classes: "w-full" }) }}
   </section>
 {% endmacro %}

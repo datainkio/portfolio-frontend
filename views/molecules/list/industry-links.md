@@ -30,7 +30,7 @@ Classified as a **component** at the atomic **molecule** level based on its loca
 
 ## Relationships
 
-- Used by: [projects.njk](../../pages/projects/projects.njk), inside `<nav data-projects-el="jumplinks">`.
+- Used by: [projects.njk](../../templates/projects/projects.njk), inside `<nav data-projects-el="jumplinks">`.
 - Imported (unused) by: [work.njk](../../organisms/section/work.njk) — homepage never calls it; this nav is projects-page-only.
 
 ## Active-state contract

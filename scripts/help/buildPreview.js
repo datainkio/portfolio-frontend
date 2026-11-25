@@ -85,18 +85,19 @@ function showProductionBuild() {
 function showDevelopmentWorkflow() {
   const devSequence = [
     {
-      name: "dev:css",
-      description: "Start Tailwind CSS watch mode for hot reloading",
-      script: "buildCSS.js --watch",
-      dependencies: ["tailwind.config.js", "styles/main.css"],
-      triggers: ["CSS hot reloading", "Browser refresh"],
+      name: "dev:11ty",
+      description:
+        "Start 11ty development server with live reload; builds CSS after each build",
+      script: "eleventy --serve",
+      dependencies: ["CMS content", "styles/main.css"],
+      triggers: ["HTTP server on localhost:8080", "Template and CSS reloading"],
     },
     {
-      name: "dev:11ty",
-      description: "Start 11ty development server with live reload",
-      script: "eleventy --serve --quiet",
-      dependencies: ["CMS content", "CSS compilation"],
-      triggers: ["HTTP server on localhost:8080", "Template hot reloading"],
+      name: "dev:js",
+      description: "Watch and bundle choreography JS with esbuild",
+      script: "buildChoreography.js --watch",
+      dependencies: ["js/choreography/"],
+      triggers: ["bundle.js rewrite", "Browser refresh"],
     },
   ];
 

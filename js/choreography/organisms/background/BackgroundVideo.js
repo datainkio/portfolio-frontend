@@ -1,6 +1,12 @@
 import AbstractSection from "../../system/AbstractSection.js";
-import { SELECTORS, VIDEO_SELECTORS } from "../../config/index/index.js";
+import {
+  SELECTORS,
+  VIDEO_SELECTORS,
+  VIDEO_GEL_ID,
+  resolveSectionMotionProfile,
+} from "../../config/index/index.js";
 import { EVENTS } from "../../config/contracts/events/events.js";
+import { TIMELINE_IDS } from "../../config/contracts/timelines/timelines.js";
 import BackgroundVideoAnimations from "./BackgroundVideoAnimations.js";
 import BackgroundVideoTriggers from "./BackgroundVideoTriggers.js";
 import {
@@ -36,9 +42,13 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const PLAYBACK_REPORT_TIMEOUT_MS = 4000;
 
 export default class BackgroundVideo extends AbstractSection {
-  constructor({ bus = null, reducedMotionHandler } = {}) {
+  constructor({ bus = null, reducedMotionHandler, gelManager = null } = {}) {
     const view = document.getElementById(SELECTORS.video);
-    const animations = new BackgroundVideoAnimations(view);
+    // `gel_video` sits inside this section's root, and this section owns it:
+    // the intro snaps it visible inside the clip. Resolved here, before
+    // super(), because super() can already run the gated reveal.
+    const videoGel = gelManager?.getGel?.(VIDEO_GEL_ID)?.view ?? null;
+    const animations = new BackgroundVideoAnimations(view, { videoGel });
     const triggers = new BackgroundVideoTriggers(view);
 
     super({
@@ -54,9 +64,14 @@ export default class BackgroundVideo extends AbstractSection {
     this._teardownListeners = [];
     this._mediaSettled = false;
     this._playbackFailsafe = null;
+    this._pendingIntroComplete = null;
+    if (this.animations) {
+      this.animations.onPerspectiveSettled = () => this._releaseIntroComplete();
+    }
 
     this._bindMediaEvents();
     this._bindHydrationHandshake();
+    this._bindPerspectiveResize();
   }
 
   /**
@@ -227,6 +242,134 @@ export default class BackgroundVideo extends AbstractSection {
     // not be able to stall behind a buffer that may never fill.
     this._playVideo();
     return super.playIntro();
+  }
+
+  /**
+   * Two-point perspective rest pose (see
+   * specs/animation/background-video-perspective-spec.md).
+   *
+   * On perspective tiers the pose (overscale and turn) is applied statically
+   * before the video is visible, so nothing animates into it. It is
+   * re-asserted when the intro completes (_enterPerspective) and on resize.
+   * `video:intro:complete` is not held for it. Narrow tiers stay flat
+   * (SECTION_OVERRIDES.video); a matchMedia breakpoint crossing clears or
+   * re-applies the pose in _applyResponsiveLifecycle.
+   *
+   * The video and `gel_video` sit at full visibility inside a clip-path;
+   * the intro pops cells into it right to left (or the clip is removed on
+   * gated paths). See BackgroundVideoAnimations._buildIntro.
+   */
+  _isPerspectiveTier() {
+    // The `reduced` profile carries no breakpoint, and reduced motion does not
+    // change the pose — the breakpoint decides whether to tilt at all.
+    // So resolve the active tier's profile alone, with reduced motion aside.
+    const profile = resolveSectionMotionProfile(this.sectionKey, {
+      [this._activeBreakpoint]: true,
+    });
+    return profile.animation?.variant === "perspective";
+  }
+
+  /** Re-assert the rest pose at intro completion if it is not yet settled. */
+  _enterPerspective() {
+    if (this.isDisabled || !this._isPerspectiveTier()) return;
+    if (this.animations?.isPerspectiveSettled?.()) return;
+    this.animations?.snapPerspective?.();
+  }
+
+  /**
+   * Emit a held `video:intro:complete`, once. Nothing holds it now, so this is
+   * inert; kept for the clear path and `onPerspectiveSettled`. A held event
+   * means the intro completed, so the clip is removed first.
+   */
+  _releaseIntroComplete() {
+    const release = this._pendingIntroComplete;
+    if (!release) return;
+    this._pendingIntroComplete = null;
+    this.animations?.revealAll?.();
+    release();
+  }
+
+  /**
+   * Re-assert the video gel once it has been revealed. Runs on every
+   * matchMedia pass (breakpoint crossings, reduced-motion changes). Those
+   * passes run inside this section's gsap.matchMedia context, which reverts
+   * the previous pass's sets — including a gated snap of the gel — before it
+   * re-runs; re-asserting here, in the same synchronous pass, means a revert
+   * can never leave an earned gel hidden.
+   */
+  _syncVideoGel() {
+    if (this.isDisabled) return;
+    if (this.animations?.isVideoGelShown?.()) this.animations.showVideoGel();
+    if (this.animations?.isRevealed?.()) this.animations.revealAll();
+  }
+
+  /**
+   * Breakpoint crossings and reduced-motion changes. Runs once during
+   * construction too (inside super()), so it must not rely on fields set in
+   * this constructor's body.
+   */
+  _syncPerspective() {
+    if (this.isDisabled) return;
+    if (!this._isPerspectiveTier()) {
+      this.animations?.clearPerspective?.();
+      // Releases a held event, if any (none is held now).
+      this._releaseIntroComplete();
+      return;
+    }
+    // Perspective tier: the full rest pose, applied statically — also before
+    // the video is visible (this runs inside super() on construction).
+    this.animations?.snapPerspective?.();
+  }
+
+  /**
+   * Perspective scales with viewport width, so a plain resize (which fires no
+   * matchMedia change) re-asserts the rest pose at the new width. The same
+   * pass re-asserts a visible video gel and a finished reveal; a clip still revealing is left alone.
+   */
+  _bindPerspectiveResize() {
+    if (this.isDisabled) return;
+    const handler = () => {
+      this._syncVideoGel();
+      if (!this._isPerspectiveTier()) return;
+      if (!this.animations?.isPerspectiveSettled?.()) return;
+      this.animations.snapPerspective();
+    };
+    window.addEventListener("resize", handler);
+    this._teardownListeners.push(() =>
+      window.removeEventListener("resize", handler),
+    );
+  }
+
+  _applyResponsiveLifecycle(conditions = {}) {
+    super._applyResponsiveLifecycle(conditions);
+    this._syncPerspective();
+    this._syncVideoGel();
+  }
+
+  /**
+   * The intro (cell reveal) has completed: the rest pose is re-asserted
+   * (already applied before the reveal). The played path has nothing more to
+   * reveal; gated paths (reduced motion, session-gated replay — reached here
+   * through _applyPostIntroState's progress(1)) remove the clip and snap the
+   * video and gel visible.
+   */
+  _onIntroComplete() {
+    this._enterPerspective();
+    if (this.isDisabled || !this._isLifecycleMotionEnabled) {
+      this.animations?.revealAll?.();
+    }
+    super._onIntroComplete();
+  }
+
+  /**
+   * Gated paths. The intro is already at progress 1 on a second call (e.g.
+   * playIntro() after the construction-time pass), so its onComplete does not
+   * fire again; the clip is removed here too so every gated call shows the video.
+   */
+  _applyPostIntroState() {
+    super._applyPostIntroState();
+    this._enterPerspective();
+    this.animations?.revealAll?.();
   }
 
   async playOutro() {

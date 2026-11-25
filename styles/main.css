@@ -50,6 +50,6 @@
 /* The design reference has its own stylesheet, docs.css, so classes used only
    there don't ship to every page. `@source not` needs the Tailwind CLI 4.1+. */
 @source not "../_site/docs/design";
-@source not "../views/layouts/design-doc.njk";
+@source not "../views/templates/design-doc/design-doc.njk";
 /* Sidecars describe classes in prose; scanning them ships classes no page uses. */
 @source not "../views/**/*.md";
