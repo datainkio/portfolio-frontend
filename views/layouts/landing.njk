@@ -11,7 +11,7 @@
 
 {% block mainStyles %}
   {#- STYLES -#}
-  {{ {"base": "mx-auto my-8 grid grid-cols-12 gap-x-8", "sm": "", "md": "", "lg": "", "xl": ""} | classes }}
+  {{ {"base": "mx-auto my-8 grid grid-cols-12 gap-x-8", "sm": "", "md": "", "lg": "max-w-none gap-y-12", "xl": ""} | classes }}
 {% endblock mainStyles %}
 
 {%- block sidebarBefore -%}
@@ -20,21 +20,20 @@
 {% block content %}
 
   {#- STYLES -#}
-  {%- set headerStyles = {"base": "col-span-full pt-8", "sm": "", "md": "", "lg": "col-span-6 space-y-8", "xl": ""} -%}
+  {%- set headerStyles = {"base": "col-span-full pt-8", "sm": "", "md": "", "lg": "space-y-8", "xl": ""} -%}
   {%- set headerStyleOverrides = params.headerStyles | default({}) -%}
   {%- set headingStyles = {
     "base": "pl-1 font-display text-6xl leading-12 tracking-loose",
     "sm": "text-7xl leading-14",
     "md": "",
-    "xl": "text-8xl leading-20"
+    "lg": "text-6xl leading-12 max-w-1/2",
+    "xl": "text-7xl leading-20 max-w-2/3"
   } -%}
-  {%- set abstractStyles = {
-    "base": "col-span-full prose text-primary-500 content-start h-auto m-0 mb-6 self-start pl-2",
-    "sm": "",
-    "md": "",
-    "lg": "col-span-6 col-start-1 row-start-2",
-    "xl": ""
-  } -%}
+  {%- set abstractStyles = {"base": "text-neutral-200 col-span-full prose prose-invert prose-a:text-primary-400 content-start h-auto m-0 mb-6 self-start pl-2"} -%}
+  {#- Page body (`pageBody`: the CMS Body field as HTML). Main content, so it
+      sits after the header as the first block in <main>'s grid, ahead of
+      whatever the page template adds. -#}
+  {%- set bodyStyles = {"base": "col-span-full prose prose-invert prose-a:text-primary-400 text-neutral-200 mb-6 pl-2", "lg": "col-span-6"} -%}
 
   {#- HEADER -#}
   <header data-landing-header
@@ -42,7 +41,7 @@
     {{ Label.render({
         index: docNo | default("00") ,
     title: params.docTitle | default(eleventyNavigation.title) | default("Untitled"),
-    description: "Russ Lebo / Selected Works Archive",
+    description: "Russ Lebo / Selected Works",
     scope: "2008-" + (buildDate | formatDate("yyyy") )
     }) }}
 
@@ -53,6 +52,15 @@
       </section>
     {% endif %}
   </header>
+
+  {#- BODY -#}
+  {% if pageBody and pageBody | length > 0 %}
+    <section data-landing-body
+             class="{{ bodyStyles | classes }}"
+             aria-label="Page content">
+      {{ pageBody | safe }}
+    </section>
+  {% endif %}
 
   {% if content %}
     {{ content | safe }}

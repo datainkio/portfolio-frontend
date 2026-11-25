@@ -28,7 +28,7 @@ projects the `projects` query lists (those with an industry), keeps each one's s
 `featured == true`, and flattens them into one array. Order: project title, then array position
 within the project.
 
-When the result is empty, the transform substitutes a mock set (see
+The transform adds each statistic's project URL (see
 [[data/sanity/transforms/statistic|statistic transforms]]).
 
 ## Source

@@ -5,15 +5,18 @@
 {% import "atoms/svg/location.njk" as location_icon %}
 {% import "atoms/svg/globe.njk" as social_icon %}
 
-{% set ulStyles = {"base": "col-span-full w-full text-primary-200 font-display grid grid-cols-6 max-w-md mb-8"} %}
-{% set liStyles = {"base": "flex items-start col-span-full grid grid-cols-subgrid"} %}
-{% set iconStyles = {"base": "size-10 m-4"} %}
+{% set ulStyles = {
+  "base": "content-start col-span-full w-full text-primary-200 font-display grid grid-cols-6 mb-8",
+  "lg": "col-span-6"
+} %}
+{% set liStyles = {"base": "flex items-start col-span-full grid grid-cols-subgrid w-full"} %}
+{% set iconStyles = {"base": "size-10 mx-auto my-4"} %}
 {% set valueStyles = {"base": "col-span-5 text-primary-400 py-2 px-4 not-italic border-l h-full"} %}
 {% set formStyles = {
   "base": "mx-4 col-span-full grid-cols-subgrid",
-  "lg": "col-span-6 col-start-7 row-start-1 row-span-3 self-center"
+  "lg": "col-span-6 col-start-7 row-start-2 row-span-2 self-center"
 } %}
-
+{% block mainStyles %}{{ super() }} lg:grid-rows-[auto_auto_1fr]{% endblock mainStyles %}
 {% block content %}
   {{ super() }}
   <ul class="{{ ulStyles | classes }}">
@@ -45,6 +48,6 @@
     "sanityDataset": env.SANITY_DATASET,
     "sanityApiVersion": env.SANITY_API_VERSION,
     "sanityWriteToken": env.SANITY_WRITE_TOKEN
-  }) }}
+    }) }}
   {% include "layouts/partials/choreography-script/choreography-script.njk" %}
 {% endblock content %}
